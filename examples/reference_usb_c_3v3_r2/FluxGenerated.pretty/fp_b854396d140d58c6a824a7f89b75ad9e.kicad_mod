@@ -1,0 +1,469 @@
+(footprint
+"fp_b854396d140d58c6a824a7f89b75ad9e"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"J1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ba85393f-6fa3-5300-8fe5-b727156a7a77")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"USB-C 5V sink"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "eab84003-5d12-5c2f-bec7-b1f11cf77e81")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (pad
+"A9"
+smd
+rect
+    (at -2.4 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "VBUS")
+    (pintype "passive")
+    (uuid 0d4174d8-fc52-56f3-b851-3e198c528b9b)
+  )
+  (pad
+"S1"
+thru_hole
+oval
+    (at 4.32 -1.075 0)
+    (size 1 1.8)
+    (drill oval 0.6 1.4)
+    (layers "*.Cu" "*.Mask")
+    (pinfunction "SHIELD")
+    (pintype "passive")
+    (uuid 18847920-d022-5cdb-9cdb-730fb3271598)
+  )
+  (pad
+"S1"
+thru_hole
+oval
+    (at -4.32 3.105 0)
+    (size 1 2.1)
+    (drill oval 0.6 1.7)
+    (layers "*.Cu" "*.Mask")
+    (pinfunction "SHIELD")
+    (pintype "passive")
+    (uuid 1d57f31b-75be-595b-a5ff-07f5c9ae5d3c)
+  )
+  (pad
+"B6"
+smd
+rect
+    (at -0.75 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "D+")
+    (pintype "no_connect")
+    (uuid 45d91beb-fbc9-5bd1-b258-e5980e73b5ff)
+  )
+  (pad
+"A5"
+smd
+rect
+    (at 1.25 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "CC1")
+    (pintype "passive")
+    (uuid 520ce581-0d23-529a-8488-4a20ddac7ccf)
+  )
+  (pad
+"B12"
+smd
+rect
+    (at 3.2 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "GND")
+    (pintype "passive")
+    (uuid 6101fcad-227a-5e36-8c48-3c6db8e12bf9)
+  )
+  (pad
+""
+np_thru_hole
+circle
+    (at -2.89 2.605 270)
+    (size 0.65 0.65)
+    (drill 0.65)
+    (layers "*.Cu" "*.Mask")
+    (uuid 6a9cbbec-d3a9-5788-bbb1-93f07b9e03a8)
+  )
+  (pad
+"B9"
+smd
+rect
+    (at 2.4 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "VBUS")
+    (pintype "passive")
+    (uuid 8a429295-c585-5362-a213-d74290c99c3c)
+  )
+  (pad
+"B8"
+smd
+rect
+    (at 1.75 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "SBU2")
+    (pintype "no_connect")
+    (uuid 95cbab8c-815b-578b-8867-6bc6dbbf34e6)
+  )
+  (pad
+"S1"
+thru_hole
+oval
+    (at 4.32 3.105 0)
+    (size 1 2.1)
+    (drill oval 0.6 1.7)
+    (layers "*.Cu" "*.Mask")
+    (pinfunction "SHIELD")
+    (pintype "passive")
+    (uuid 968c2786-f66c-5a87-a261-a625a2cb66bc)
+  )
+  (pad
+"A4"
+smd
+rect
+    (at 2.4 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "VBUS")
+    (pintype "power_out")
+    (uuid 9cec7e38-189d-5b03-94c0-3a62e9d2dede)
+  )
+  (pad
+"A12"
+smd
+rect
+    (at -3.2 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "GND")
+    (pintype "passive")
+    (uuid a593a307-43a1-5507-9610-ec4bfd206e6d)
+  )
+  (pad
+"S1"
+thru_hole
+oval
+    (at -4.32 -1.075 0)
+    (size 1 1.8)
+    (drill oval 0.6 1.4)
+    (layers "*.Cu" "*.Mask")
+    (pinfunction "SHIELD")
+    (pintype "passive")
+    (uuid a827959e-1252-51af-9e52-8519a33be907)
+  )
+  (pad
+"B5"
+smd
+rect
+    (at -1.75 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "CC2")
+    (pintype "passive")
+    (uuid aebdd5ec-b63e-5a6f-bfbc-fbb3ae386045)
+  )
+  (pad
+"B1"
+smd
+rect
+    (at -3.2 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "GND")
+    (pintype "passive")
+    (uuid b89bb2ff-0857-52c4-891b-142078a0e559)
+  )
+  (pad
+"A7"
+smd
+rect
+    (at -0.25 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "D-")
+    (pintype "no_connect")
+    (uuid d738659f-be8d-5ecc-be5d-aa1f4ebe4e5f)
+  )
+  (pad
+""
+np_thru_hole
+circle
+    (at 2.89 2.605 270)
+    (size 0.65 0.65)
+    (drill 0.65)
+    (layers "*.Cu" "*.Mask")
+    (uuid e2ac2be4-aa20-5de2-acf5-9f20c0096a91)
+  )
+  (pad
+"A1"
+smd
+rect
+    (at 3.2 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "GND")
+    (pintype "passive")
+    (uuid eea70cce-22a9-5fd6-a479-0c1b03731425)
+  )
+  (pad
+"B7"
+smd
+rect
+    (at 0.75 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "D-")
+    (pintype "no_connect")
+    (uuid ef1a1f59-b25e-5353-a09d-8d74dfbff522)
+  )
+  (pad
+"A8"
+smd
+rect
+    (at -1.25 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "SBU1")
+    (pintype "no_connect")
+    (uuid f2bf54ee-22a6-5282-8d95-0b0c74466fb5)
+  )
+  (pad
+"A6"
+smd
+rect
+    (at 0.25 3.68 0)
+    (size 0.3 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "D+")
+    (pintype "no_connect")
+    (uuid f605d584-dcc4-5742-b438-2fdbeebe4bd4)
+  )
+  (pad
+"B4"
+smd
+rect
+    (at -2.4 3.68 0)
+    (size 0.6 1.15)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "VBUS")
+    (pintype "passive")
+    (uuid f6512dff-b51b-59af-8895-0c5b7df01a6f)
+  )
+  (fp_line
+    (start 4.47 3.675)
+    (end -4.47 3.675)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid c8b3fab5-df81-51d8-b6a8-713b92b94440)
+  )
+  (fp_line
+    (start -4.47 3.675)
+    (end -4.47 -3.675)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid f62fce8c-8216-51c6-af87-0692305ec0da)
+  )
+  (fp_line
+    (start -4.47 -3.675)
+    (end 4.47 -3.675)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 4663ea5e-a37a-5785-89f7-ef408134391b)
+  )
+  (fp_line
+    (start 4.47 -3.675)
+    (end 4.47 3.675)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid ba14dcdf-c36c-5bea-89cd-52df56144f79)
+  )
+  (fp_line
+    (start 5.32 4.76)
+    (end -5.32 4.76)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 5e41692f-8e98-510b-9bd1-a3eb65dade30)
+  )
+  (fp_line
+    (start -5.32 4.76)
+    (end -5.32 -4.18)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 75613f86-942b-503c-a889-37ce94cb3c8e)
+  )
+  (fp_line
+    (start -5.32 -4.18)
+    (end 5.32 -4.18)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 5913147b-56b6-5c5a-9feb-fa94d02672f5)
+  )
+  (fp_line
+    (start 5.32 -4.18)
+    (end 5.32 4.76)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 1c4ae819-6d98-513b-9af3-ea2afa3507da)
+  )
+  (model
+"${KICAD10_3DMODEL_DIR}/Connector_USB.3dshapes/USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.step"
+    (offset
+      (xyz 0 0 0)
+    )
+    (scale
+      (xyz 1 1 1)
+    )
+    (rotate
+      (xyz 0 0 0)
+    )
+  )
+  (property
+"CanonicalComponentId"
+"usb-j1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "d0fb9a05-82c4-5c5b-825b-b05b195fc238")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"d9c2a46d97bf06a2233f6b88ee8dab4d7c5582cefd14daa28d7452dcc8baa413"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "bb981cf9-51e3-54a7-a579-9d7991cabaa1")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:372fe1bc0e0b1b4ce7e18b61514e967c7c2f883f0c7fe1f4586b567785ee9cd2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "fe09326b-28bb-539a-ae5c-32ca79586bbe")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"372fe1bc0e0b1b4ce7e18b61514e967c7c2f883f0c7fe1f4586b567785ee9cd2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "4b6585e5-5726-50a5-9375-30981f35254f")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"USB-C-16P-SMT/PTH; exact MPN USB4105-GF-A"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "d669caf2-0cc6-5c8c-8322-6846267c4bfd")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_b854396d140d58c6a824a7f89b75ad9e"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "c7f70864-7eaf-5da4-99aa-2af0909514a7")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"USB4105-GF-A"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "36297e9a-beb1-5c08-acbb-e41775a66a67")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

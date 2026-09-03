@@ -1,0 +1,788 @@
+{
+  "schema": "flux-clone.reference-source-manifest.v1",
+  "generated_at": "2026-09-02",
+  "retrieval": {
+    "checked_at": "2026-09-02",
+    "method": "HTTPS GET",
+    "status_code": 200,
+    "all_urls_available_at_check": true
+  },
+  "source_evidence_module": "backend/reference_design/specification.py",
+  "source_evidence_count": 20,
+  "retention_policy": {
+    "content_addressing": "Retained blobs are named <sha256>.<source-extension> beneath blobs/.",
+    "verified": "A verified entry has checked-in bytes whose SHA-256 equals expected_sha256 and a source_subject_verified record.",
+    "manifest_only": "A manifest-only entry retains URL, retrieval size/hash, subject facts, and an explicit reason; without bytes it remains unverified and is not release evidence.",
+    "public_pinned_external": "A public-pinned-external entry identifies an openly accessible, commit-pinned source and its independently retrieved size/hash. The upstream bytes are not bundled, so local verification checks the sealed metadata and deterministic geometry tests rather than claiming an on-disk byte rehash.",
+    "license": "Retained bytes are an internal evidence cache. Copyright/confidentiality notices remain binding; no redistribution license is inferred."
+  },
+  "sources": [
+    {
+      "evidence_id": "src-usb-type-c-r25",
+      "title": "USB-IF USB Type-C 2.5 release",
+      "uri": "https://www.usb.org/sites/default/files/USB%20Type-C%202.5%20Release%20202603.zip",
+      "document_revision": "USB-Type-C-R2.5-release-202603",
+      "expected_sha256": "603c2cb0ea356d367fea61f8747a21981f0da9abae4d8ec15556e0063edb81b5",
+      "retrieved_sha256": "603c2cb0ea356d367fea61f8747a21981f0da9abae4d8ec15556e0063edb81b5",
+      "size_bytes": 29756254,
+      "media_type": "application/zip",
+      "observed_document_revision": "Release 2.5 - March 2026",
+      "retention_status": "manifest-only-unverified",
+      "content_path": null,
+      "unverified_reason": "The 29.76 MB USB-IF release archive is copyrighted and governed by USB-IF adopter terms; it is intentionally not checked into this repository.",
+      "license_note": "USB-IF copyrighted specification release; no redistribution permission is asserted here.",
+      "subject": {
+        "authority": "USB-IF",
+        "kind": "standard",
+        "source_identifiers": [
+          "USB Type-C 2.5 Release 202603",
+          "USB Type-C Specification Release 2.5"
+        ],
+        "source_mpn_tokens": [
+          "USB Type-C",
+          "Release 2.5"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "usb-j1",
+            "USB4105-GF-A"
+          ],
+          [
+            "cc-r1",
+            "CRCW06035K10FKEA"
+          ],
+          [
+            "cc-r2",
+            "CRCW06035K10FKEA"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-kicad-footprint-usb4105",
+      "title": "Official KiCad USB4105 connector footprint",
+      "uri": "https://gitlab.com/kicad/libraries/kicad-footprints/-/raw/f6d77c54d79275c888daae4c60e4c9869ffa4aa5/Connector_USB.pretty/USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "document_revision": "kicad-footprints-f6d77c54d79275c888daae4c60e4c9869ffa4aa5",
+      "expected_sha256": "3b8d7da3cae5114ec83022a759a78925113bc2eeec100ea447594f6d8687e4b8",
+      "retrieved_sha256": "3b8d7da3cae5114ec83022a759a78925113bc2eeec100ea447594f6d8687e4b8",
+      "size_bytes": 6860,
+      "media_type": "text/plain",
+      "observed_document_revision": "KiCad footprint version 20260206 at commit f6d77c54d79275c888daae4c60e4c9869ffa4aa5",
+      "retention_status": "public-pinned-external",
+      "content_path": null,
+      "external_verification_note": "The exact public GitLab raw file was independently retrieved over HTTPS on 2026-09-02 and matched the pinned 6860-byte SHA-256. It is not bundled; compiled geometry equality is enforced by deterministic coordinate and provenance tests.",
+      "license_note": "KiCad Libraries / KiCad Developers Team and contributors, CC BY-SA 4.0; see THIRD_PARTY_NOTICES.md and the pinned upstream LICENSE.md.",
+      "subject": {
+        "authority": "KiCad Developers Team and KiCad library contributors",
+        "kind": "library-footprint",
+        "source_identifiers": [
+          "Connector_USB.pretty/USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+          "kicad-footprints@f6d77c54d79275c888daae4c60e4c9869ffa4aa5"
+        ],
+        "source_mpn_tokens": [
+          "USB4105"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "usb-j1",
+            "USB4105-GF-A"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-usb4105-spec",
+      "title": "GCT USB4105 product specification",
+      "uri": "https://gct.co/files/specs/usb4105-spec.pdf",
+      "document_revision": "A3-2023-02-27",
+      "expected_sha256": "372fe1bc0e0b1b4ce7e18b61514e967c7c2f883f0c7fe1f4586b567785ee9cd2",
+      "retrieved_sha256": "372fe1bc0e0b1b4ce7e18b61514e967c7c2f883f0c7fe1f4586b567785ee9cd2",
+      "size_bytes": 358821,
+      "media_type": "application/pdf",
+      "observed_document_revision": "A3-2023-02-27",
+      "retention_status": "verified",
+      "content_path": "blobs/372fe1bc0e0b1b4ce7e18b61514e967c7c2f883f0c7fe1f4586b567785ee9cd2.pdf",
+      "license_note": "GCT copyrighted manufacturer specification; cached for internal evidence verification only, with no redistribution license asserted.",
+      "subject": {
+        "authority": "GCT",
+        "kind": "product-family",
+        "source_identifiers": [
+          "USB4105"
+        ],
+        "source_mpn_tokens": [
+          "USB4105"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "usb-j1",
+            "USB4105-GF-A"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-ti-usb-c-guide",
+      "title": "TI USB Type-C implementation guide",
+      "uri": "https://www.ti.com/lit/pdf/slyy228",
+      "document_revision": "November-2024",
+      "expected_sha256": "628c876e0a9bc49f3605fded91eaef7f8a7b84914861d3a315fa8e8f61efc892",
+      "retrieved_sha256": "628c876e0a9bc49f3605fded91eaef7f8a7b84914861d3a315fa8e8f61efc892",
+      "size_bytes": 3104135,
+      "media_type": "application/pdf",
+      "observed_document_revision": "November 2024",
+      "retention_status": "verified",
+      "content_path": "blobs/628c876e0a9bc49f3605fded91eaef7f8a7b84914861d3a315fa8e8f61efc892.pdf",
+      "license_note": "TI copyrighted application guide; cached for internal evidence verification only under TI resource terms.",
+      "subject": {
+        "authority": "Texas Instruments",
+        "kind": "application-guide",
+        "source_identifiers": [
+          "An Engineer's Guide to USB Type-C"
+        ],
+        "source_mpn_tokens": [
+          "USB Type-C"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "usb-j1",
+            "USB4105-GF-A"
+          ],
+          [
+            "cc-r1",
+            "CRCW06035K10FKEA"
+          ],
+          [
+            "cc-r2",
+            "CRCW06035K10FKEA"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-tps2596",
+      "title": "Texas Instruments TPS2596 datasheet",
+      "uri": "https://www.ti.com/lit/ds/symlink/tps2596.pdf",
+      "document_revision": "SLVSET8A-August-2019",
+      "expected_sha256": "66f6bae4494f7bfe7dfdc314e508f0291d9ca1e87265cca9b6fdfeaa5cb19fe9",
+      "retrieved_sha256": "66f6bae4494f7bfe7dfdc314e508f0291d9ca1e87265cca9b6fdfeaa5cb19fe9",
+      "size_bytes": 4249190,
+      "media_type": "application/pdf",
+      "observed_document_revision": "SLVSET8A Rev A; last updated 10/2025",
+      "retention_status": "verified",
+      "content_path": "blobs/66f6bae4494f7bfe7dfdc314e508f0291d9ca1e87265cca9b6fdfeaa5cb19fe9.pdf",
+      "license_note": "TI copyrighted datasheet; cached for internal evidence verification only under TI resource terms.",
+      "subject": {
+        "authority": "Texas Instruments",
+        "kind": "product-family",
+        "source_identifiers": [
+          "TPS2596",
+          "TPS259620"
+        ],
+        "source_mpn_tokens": [
+          "TPS2596",
+          "TPS259620",
+          "DDA"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "efuse-u1",
+            "TPS259620DDAR"
+          ],
+          [
+            "ilim-r3",
+            "CRCW06033K83FKEA"
+          ],
+          [
+            "ovc-r4",
+            "CRCW0603200KFKEA"
+          ],
+          [
+            "ovc-r5",
+            "CRCW0603200KFKEA"
+          ],
+          [
+            "en-hi-r6",
+            "CRCW0603249KFKEA"
+          ],
+          [
+            "en-lo-r7",
+            "CRCW0603100KFKEA"
+          ],
+          [
+            "dvdt-c4",
+            "C1206C104J3GACTU"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-ti-lp38692-datasheet",
+      "title": "Texas Instruments LP38690/LP38692 datasheet",
+      "uri": "https://www.ti.com/lit/ds/symlink/lp38692.pdf",
+      "document_revision": "SNVS322M-December-2004-Revised-December-2015",
+      "expected_sha256": "37d312bc1c8189f8fe4275ceaf8928d447cb6faaa2796e503d6120a891376352",
+      "retrieved_sha256": "37d312bc1c8189f8fe4275ceaf8928d447cb6faaa2796e503d6120a891376352",
+      "size_bytes": 1652696,
+      "media_type": "application/pdf",
+      "observed_document_revision": "SNVS322M, December 2004, revised December 2015",
+      "retention_status": "verified",
+      "content_path": "blobs/37d312bc1c8189f8fe4275ceaf8928d447cb6faaa2796e503d6120a891376352.pdf",
+      "license_note": "TI copyrighted datasheet; cached for internal evidence verification only under TI resource terms.",
+      "subject": {
+        "authority": "Texas Instruments",
+        "kind": "product-family",
+        "source_identifiers": [
+          "LP38690",
+          "LP38692",
+          "NDC0005A"
+        ],
+        "source_mpn_tokens": [
+          "LP38692MPX-3.3/NOPB",
+          "LP38692",
+          "NDC"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "ldo-u2",
+            "LP38692MPX-3.3/NOPB"
+          ],
+          [
+            "cldo-c2",
+            "C0805C475K3RACTU"
+          ],
+          [
+            "cout-c3",
+            "T598B226M010ATE070"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-ti-lp38692-package-materials",
+      "title": "Texas Instruments LP38690/LP38692 package materials",
+      "uri": "https://www.ti.com/ods/sysadd/pm/symlink/lp38690_pm.pdf",
+      "document_revision": "LP38690-package-materials-retrieved-2026-08-31",
+      "expected_sha256": "66d625b45fbcf490aadf6a7fc21dff541020bfe54c09f0de5a58ed825cce0799",
+      "retrieved_sha256": "66d625b45fbcf490aadf6a7fc21dff541020bfe54c09f0de5a58ed825cce0799",
+      "size_bytes": 60389,
+      "media_type": "application/pdf",
+      "observed_document_revision": "retrieved 2026-08-31",
+      "retention_status": "verified",
+      "content_path": "blobs/66d625b45fbcf490aadf6a7fc21dff541020bfe54c09f0de5a58ed825cce0799.pdf",
+      "license_note": "TI copyrighted package-materials report; cached for internal evidence verification only under TI resource terms.",
+      "subject": {
+        "authority": "Texas Instruments",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "LP38692MPX-3.3/NOPB",
+          "NDC"
+        ],
+        "source_mpn_tokens": [
+          "LP38692MPX-3.3/NOPB",
+          "NDC"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "ldo-u2",
+            "LP38692MPX-3.3/NOPB"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-ti-lp38692-product",
+      "title": "Texas Instruments LP38692MPX-3.3/NOPB product page",
+      "uri": "https://www.ti.com/product/LP38692/part-details/LP38692MPX-3.3/NOPB",
+      "document_revision": "retrieved-2026-08-31",
+      "expected_sha256": "ffd6ccd9379b910b36798c39ab5297c8bddc47dd31c8ec1ec628923220eb745a",
+      "retrieved_sha256": "ffd6ccd9379b910b36798c39ab5297c8bddc47dd31c8ec1ec628923220eb745a",
+      "size_bytes": 87635,
+      "media_type": "text/html",
+      "observed_document_revision": "official product page snapshot retrieved 2026-08-31",
+      "retention_status": "verified",
+      "content_path": "blobs/ffd6ccd9379b910b36798c39ab5297c8bddc47dd31c8ec1ec628923220eb745a.html",
+      "license_note": "TI copyrighted product-page snapshot; cached for internal evidence verification only under TI resource terms.",
+      "subject": {
+        "authority": "Texas Instruments",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "LP38692MPX-3.3/NOPB"
+        ],
+        "source_mpn_tokens": [
+          "LP38692MPX-3.3/NOPB",
+          "ACTIVE",
+          "NDC"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "ldo-u2",
+            "LP38692MPX-3.3/NOPB"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-kemet-t59x",
+      "title": "KEMET T591/T598/T597/T599 polymer tantalum datasheet",
+      "uri": "https://content.kemet.com/datasheets/KEM_T2073_T59X.pdf",
+      "document_revision": "KEM-T2073-T59X-2025-11-05",
+      "expected_sha256": "64cc7925483d23bc88a92c0dde3bba58e60152765bed5602f859c04c0c5db729",
+      "retrieved_sha256": "64cc7925483d23bc88a92c0dde3bba58e60152765bed5602f859c04c0c5db729",
+      "size_bytes": 4609530,
+      "media_type": "application/pdf",
+      "observed_document_revision": "footer dated 2025-11-05",
+      "retention_status": "verified",
+      "content_path": "blobs/64cc7925483d23bc88a92c0dde3bba58e60152765bed5602f859c04c0c5db729.pdf",
+      "license_note": "KEMET/YAGEO copyrighted datasheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "KEMET/YAGEO",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "T598B226M010ATE070",
+          "T598",
+          "B/3528-20"
+        ],
+        "source_mpn_tokens": [
+          "T598B226M010ATE070",
+          "22 uF",
+          "70 mOhm"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "cout-c3",
+            "T598B226M010ATE070"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-vishay-wslp",
+      "title": "Vishay WSLP power metal strip resistor datasheet",
+      "uri": "https://www.vishay.com/docs/30122/wslp.pdf",
+      "document_revision": "30122-Rev-09-Sep-2024",
+      "expected_sha256": "5d20b5572767451d6a38e1e37c6f0f3113eb604e72593a6cd97a0a944458455b",
+      "retrieved_sha256": "5d20b5572767451d6a38e1e37c6f0f3113eb604e72593a6cd97a0a944458455b",
+      "size_bytes": 146445,
+      "media_type": "application/pdf",
+      "observed_document_revision": "document 30122, revision 09-Sep-2024",
+      "retention_status": "verified",
+      "content_path": "blobs/5d20b5572767451d6a38e1e37c6f0f3113eb604e72593a6cd97a0a944458455b.pdf",
+      "license_note": "Vishay copyrighted datasheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "Vishay",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "WSLP0603R0100FEA",
+          "WSLP0603"
+        ],
+        "source_mpn_tokens": [
+          "WSLP0603",
+          "R0100",
+          "FEA"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "cout-esr-r9",
+            "WSLP0603R0100FEA"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-vishay-wslp-product",
+      "title": "Vishay WSLP official product page",
+      "uri": "https://www.vishay.com/en/product/30122/",
+      "document_revision": "retrieved-2026-08-31",
+      "expected_sha256": "c82fdb1a9530a67f215e0d29417d0e47d08d86353783242aad4f93476665ca39",
+      "retrieved_sha256": "c82fdb1a9530a67f215e0d29417d0e47d08d86353783242aad4f93476665ca39",
+      "size_bytes": 780953,
+      "media_type": "text/html",
+      "observed_document_revision": "official product page snapshot retrieved 2026-08-31",
+      "retention_status": "verified",
+      "content_path": "blobs/c82fdb1a9530a67f215e0d29417d0e47d08d86353783242aad4f93476665ca39.html",
+      "license_note": "Vishay copyrighted product-page snapshot; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "Vishay",
+        "kind": "product-family",
+        "source_identifiers": [
+          "WSLP",
+          "product 30122"
+        ],
+        "source_mpn_tokens": [
+          "WSLP",
+          "30122"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "cout-esr-r9",
+            "WSLP0603R0100FEA"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-kemet-c0g-family",
+      "title": "KEMET C0G commercial-grade SMD MLCC datasheet",
+      "uri": "https://content.kemet.com/datasheets/kem_c1003_c0g_smd.pdf",
+      "document_revision": "KEM-C1003-C0G-2025-02-20",
+      "expected_sha256": "02d179914aeb9585eb2229ba8e18ef9d6b01c77c056de2af295d6950a2a5cc0d",
+      "retrieved_sha256": "02d179914aeb9585eb2229ba8e18ef9d6b01c77c056de2af295d6950a2a5cc0d",
+      "size_bytes": 824883,
+      "media_type": "application/pdf",
+      "observed_document_revision": "20 February 2025",
+      "retention_status": "verified",
+      "content_path": "blobs/02d179914aeb9585eb2229ba8e18ef9d6b01c77c056de2af295d6950a2a5cc0d.pdf",
+      "license_note": "KEMET/YAGEO copyrighted family datasheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "KEMET/YAGEO",
+        "kind": "product-family",
+        "source_identifiers": [
+          "C0G SMD commercial grade",
+          "C1206C"
+        ],
+        "source_mpn_tokens": [
+          "C1206C",
+          "C0G",
+          "100 nF"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "dvdt-c4",
+            "C1206C104J3GACTU"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-kemet-c1206c104",
+      "title": "KEMET C1206C104J3GACTU exact-part specification",
+      "uri": "https://search.kemet.com/component-documentation/download/specsheet/C1206C104J3GACTU",
+      "document_revision": "C1206C104J3GACTU-retrieved-2026-08-31",
+      "expected_sha256": "dbafe0002fa3f302ec182bbe37f000f47190256b73ee7c10b8066a55df835609",
+      "retrieved_sha256": "dbafe0002fa3f302ec182bbe37f000f47190256b73ee7c10b8066a55df835609",
+      "size_bytes": 239358,
+      "media_type": "application/pdf",
+      "observed_document_revision": "exact-part specification retrieved 2026-08-31",
+      "retention_status": "verified",
+      "content_path": "blobs/dbafe0002fa3f302ec182bbe37f000f47190256b73ee7c10b8066a55df835609.pdf",
+      "license_note": "KEMET/YAGEO copyrighted exact-part specification; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "KEMET/YAGEO",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "C1206C104J3GACTU",
+          "1206",
+          "C0G"
+        ],
+        "source_mpn_tokens": [
+          "C1206C104J3GACTU",
+          "100 nF",
+          "25 V"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "dvdt-c4",
+            "C1206C104J3GACTU"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-ptvs",
+      "title": "Nexperia PTVS5V5Z1UPC datasheet",
+      "uri": "https://assets.nexperia.com/documents/data-sheet/PTVS5V5Z1UPC.pdf",
+      "document_revision": "v1-2024-10-28",
+      "expected_sha256": "dd54840b481bf99b3a1082dd08cd556e695991a1b36799e98eb43b7e890e00c1",
+      "retrieved_sha256": "dd54840b481bf99b3a1082dd08cd556e695991a1b36799e98eb43b7e890e00c1",
+      "size_bytes": 239055,
+      "media_type": "application/pdf",
+      "observed_document_revision": "28 October 2024",
+      "retention_status": "verified",
+      "content_path": "blobs/dd54840b481bf99b3a1082dd08cd556e695991a1b36799e98eb43b7e890e00c1.pdf",
+      "license_note": "Nexperia copyrighted product data sheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "Nexperia",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "PTVS5V5Z1UPC",
+          "DFN1610-2"
+        ],
+        "source_mpn_tokens": [
+          "PTVS5V5Z1UPC",
+          "DFN1610-2"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "tvs-d1",
+            "PTVS5V5Z1UPC"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-vishay-resistors",
+      "title": "Vishay D/CRCW e3 resistor datasheet",
+      "uri": "https://www.vishay.com/docs/20035/dcrcwe3.pdf",
+      "document_revision": "Rev-2026-04-14",
+      "expected_sha256": "504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84",
+      "retrieved_sha256": "504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84",
+      "size_bytes": 150402,
+      "media_type": "application/pdf",
+      "observed_document_revision": "Document 20035, Revision 14-Apr-2026",
+      "retention_status": "verified",
+      "content_path": "blobs/504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84.pdf",
+      "license_note": "Vishay copyrighted series datasheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "Vishay",
+        "kind": "product-family",
+        "source_identifiers": [
+          "D/CRCW e3",
+          "CRCW0603"
+        ],
+        "source_mpn_tokens": [
+          "D/CRCW e3",
+          "CRCW0603"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "cc-r1",
+            "CRCW06035K10FKEA"
+          ],
+          [
+            "cc-r2",
+            "CRCW06035K10FKEA"
+          ],
+          [
+            "ilim-r3",
+            "CRCW06033K83FKEA"
+          ],
+          [
+            "ovc-r4",
+            "CRCW0603200KFKEA"
+          ],
+          [
+            "ovc-r5",
+            "CRCW0603200KFKEA"
+          ],
+          [
+            "en-hi-r6",
+            "CRCW0603249KFKEA"
+          ],
+          [
+            "en-lo-r7",
+            "CRCW0603100KFKEA"
+          ],
+          [
+            "led-r8",
+            "CRCW06031K00FKEA"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-wurth-cap",
+      "title": "Wuerth Elektronik 885012207051 datasheet",
+      "uri": "https://www.we-online.com/components/products/datasheet/885012207051.pdf",
+      "document_revision": "PSL-002.000-2021-01-03",
+      "expected_sha256": "eff87bfa4247a47581c55478f6785a150e90385c3d6ac9ccae441ed9a5903f18",
+      "retrieved_sha256": "eff87bfa4247a47581c55478f6785a150e90385c3d6ac9ccae441ed9a5903f18",
+      "size_bytes": 455408,
+      "media_type": "application/pdf",
+      "observed_document_revision": "PSL 002.000, 2021-01-03",
+      "retention_status": "verified",
+      "content_path": "blobs/eff87bfa4247a47581c55478f6785a150e90385c3d6ac9ccae441ed9a5903f18.pdf",
+      "license_note": "Wuerth Elektronik copyrighted data sheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "Wuerth Elektronik",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "885012207051",
+          "0805",
+          "X7R"
+        ],
+        "source_mpn_tokens": [
+          "885012207051",
+          "X7R",
+          "0805"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "cin-c1",
+            "885012207051"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-kemet-cap",
+      "title": "KEMET C0805C475K3RACTU specification and K-SIM bias screen",
+      "uri": "https://search.kemet.com/component-documentation/download/specsheet/C0805C475K3RACTU",
+      "document_revision": "C0805C475K3RACTU-reviewed-2026-08-31",
+      "expected_sha256": "cf62230c9eab481767a04c96beb3822aa6328f65277ecd3e59697459c211043c",
+      "retrieved_sha256": "cf62230c9eab481767a04c96beb3822aa6328f65277ecd3e59697459c211043c",
+      "size_bytes": 289634,
+      "media_type": "application/pdf",
+      "observed_document_revision": "Generated 09/01/2026; KEMET/YAGEO SMD Comm X7R",
+      "retention_status": "verified",
+      "content_path": "blobs/cf62230c9eab481767a04c96beb3822aa6328f65277ecd3e59697459c211043c.pdf",
+      "license_note": "KEMET/YAGEO copyrighted product specification; cached for internal evidence verification only.",
+      "related_referenced_hashes": [
+        "08ff1421c1b73de93a93bebee13957da3e53bb2753d5653f3b9d59948542af01",
+        "5384950766c89e2a371687f114f0de8e46f01d6877b6c1c6126b4670ac123230"
+      ],
+      "subject": {
+        "authority": "KEMET/YAGEO",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "C0805C475K3RACTU",
+          "0805",
+          "X7R"
+        ],
+        "source_mpn_tokens": [
+          "C0805C475K3RACTU",
+          "KEMET",
+          "X7R"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "cldo-c2",
+            "C0805C475K3RACTU"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-wurth-led",
+      "title": "Wuerth Elektronik 150060VS75000 datasheet",
+      "uri": "https://www.we-online.com/components/products/datasheet/150060VS75000.pdf",
+      "document_revision": "PLD-002.009-2019-02-26",
+      "expected_sha256": "75685f7ae49ae4fa3c05ea3c6ad7a72d53747ca803320a8b96b8fdf38b368da7",
+      "retrieved_sha256": "75685f7ae49ae4fa3c05ea3c6ad7a72d53747ca803320a8b96b8fdf38b368da7",
+      "size_bytes": 899904,
+      "media_type": "application/pdf",
+      "observed_document_revision": "PLD 002.009, 2019-02-26",
+      "retention_status": "verified",
+      "content_path": "blobs/75685f7ae49ae4fa3c05ea3c6ad7a72d53747ca803320a8b96b8fdf38b368da7.pdf",
+      "license_note": "Wuerth Elektronik copyrighted data sheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "Wuerth Elektronik",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "150060VS75000",
+          "0603",
+          "green LED"
+        ],
+        "source_mpn_tokens": [
+          "150060VS75000",
+          "0603"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "led-d2",
+            "150060VS75000"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-wurth-header",
+      "title": "Wuerth Elektronik 61300211121 datasheet",
+      "uri": "https://www.we-online.com/components/products/datasheet/61300211121.pdf",
+      "document_revision": "CPo-003.000-2023-01-08",
+      "expected_sha256": "a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe",
+      "retrieved_sha256": "a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe",
+      "size_bytes": 383644,
+      "media_type": "application/pdf",
+      "observed_document_revision": "CPo 003.000, 2023-01-08",
+      "retention_status": "verified",
+      "content_path": "blobs/a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe.pdf",
+      "license_note": "Wuerth Elektronik copyrighted data sheet; cached for internal evidence verification only.",
+      "subject": {
+        "authority": "Wuerth Elektronik",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "61300211121",
+          "WR-PHD",
+          "2.54 mm"
+        ],
+        "source_mpn_tokens": [
+          "61300211121",
+          "WR-PHD",
+          "Pins 2"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "out-j2",
+            "61300211121"
+          ]
+        ]
+      }
+    },
+    {
+      "evidence_id": "src-keystone-testpoint",
+      "title": "Keystone SMT test point catalog",
+      "uri": "https://www.keystone-europe.com/wp-content/uploads/2025/08/terminal-test-points.pdf",
+      "document_revision": "M75-S3-complete-R4-2025",
+      "expected_sha256": "00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c",
+      "retrieved_sha256": "00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c",
+      "size_bytes": 12497120,
+      "media_type": "application/pdf",
+      "observed_document_revision": "M75 S3 complete R4, 2025 catalog",
+      "retention_status": "manifest-only-unverified",
+      "content_path": null,
+      "unverified_reason": "The 12.50 MB catalog is copyrighted and larger than needed for this evidence cache; exact bytes are intentionally not checked in.",
+      "license_note": "Keystone Electronics copyrighted catalog; manifest retains retrieval/hash and subject facts only.",
+      "subject": {
+        "authority": "Keystone Electronics",
+        "kind": "exact-product",
+        "source_identifiers": [
+          "5015",
+          "SMT micro-miniature test point"
+        ],
+        "source_mpn_tokens": [
+          "5015",
+          "3.4",
+          "1.8"
+        ],
+        "source_subject_verified": true,
+        "component_mpn_bindings": [
+          [
+            "tp-1",
+            "5015"
+          ],
+          [
+            "tp-2",
+            "5015"
+          ],
+          [
+            "tp-3",
+            "5015"
+          ],
+          [
+            "tp-4",
+            "5015"
+          ]
+        ]
+      }
+    }
+  ]
+}

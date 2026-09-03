@@ -1,0 +1,41 @@
+# Keep text artifacts stable across developer machines and CI runners.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.kicad_pcb text eol=lf
+*.kicad_sch text eol=lf
+*.kicad_pro text eol=lf
+*.kicad_dru text eol=lf
+*.kicad_mod text eol=lf
+*.kicad_sym text eol=lf
+*.kicad_wks text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Generated/visual assets are binary and must not be line-normalized.
+*.pdf -text
+*.png -text
+*.jpg -text
+*.jpeg -text
+*.webp -text
+*.gif -text
+*.glb -text
+*.step -text
+*.stp -text
+*.wrl -text
+*.zip -text
+*.gz -text
+*.7z -text
+
+# Internal state is never part of an exported source archive.
+.flux-clone/** export-ignore
+tmp/** export-ignore
+work/** export-ignore
+outputs/** export-ignore
+release-assets/** export-ignore
+docs/evidence/reference_sources/blobs/** export-ignore
+node_modules/** export-ignore
+**/node_modules/** export-ignore
+build/** export-ignore
+dist/** export-ignore
+**/*.egg-info/** export-ignore

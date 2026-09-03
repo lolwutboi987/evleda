@@ -1,0 +1,22 @@
+{
+  "boards": [],
+  "meta": {
+    "filename": "supported_project.kicad_pro",
+    "version": 3
+  },
+  "schematic": {
+    "top_level_sheets": [
+      {
+        "filename": "supported_project.kicad_sch",
+        "name": "Root",
+        "uuid": "10000000-0000-4000-8000-000000000001"
+      }
+    ]
+  },
+  "sheets": [
+    [
+      "10000000-0000-4000-8000-000000000001",
+      "Root"
+    ]
+  ]
+}

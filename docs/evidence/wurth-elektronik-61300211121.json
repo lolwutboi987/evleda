@@ -1,0 +1,82 @@
+{
+  "schema": "flux-clone.part-evidence.v1",
+  "part": {
+    "manufacturer": "Würth Elektronik",
+    "manufacturer_part_number": "61300211121"
+  },
+  "provenance": {
+    "authority": "manufacturer",
+    "publisher": "Würth Elektronik",
+    "fetched_at": "2026-08-31",
+    "official_product_url": "https://www.we-online.com/en/components/products/BTB_WR_PHD_2_54_MM_PIN_HEADER_SINGLE",
+    "official_datasheet": {
+      "url": "https://www.we-online.com/components/products/datasheet/61300211121.pdf",
+      "sha256": "a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe",
+      "content_addressed_blob": "reference_sources/blobs/a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe.pdf",
+      "size_bytes": 383644,
+      "document_revision": "CPo 003.000, 2023-01-08"
+    }
+  },
+  "official_subject_verification": {
+    "method": "primary-PDF-text-extraction",
+    "status": "verified",
+    "observed_order_code": "61300211121",
+    "observed_description": "WR-PHD Pin Header",
+    "observed_pin_count": 2,
+    "observed_pitch_nm": 2540000
+  },
+  "official_facts": {
+    "pin_count": 2,
+    "orientation": "straight",
+    "mounting_technology": "THT",
+    "pitch_nm": 2540000,
+    "body_length_nm": 5080000,
+    "rated_current_ma": 3000,
+    "rated_voltage_vac": 250,
+    "operating_temperature_c": {
+      "minimum": -40,
+      "maximum": 105
+    },
+    "recommended_hole_pattern": {
+      "nominal_nm": 1100000,
+      "plus_minus_tolerance_nm": 150000,
+      "display": "1.10 ±0.15 mm"
+    }
+  },
+  "canonical_pin_map": {
+    "algorithm": "SHA-256",
+    "canonicalization": "UTF-8 compact JSON with object keys sorted lexicographically",
+    "sha256": "a2a5bafe56b2d0f25e8213f54a95abf500a9089b5c172065bd0beeb6da86d84c",
+    "preimage": {
+      "manufacturer_part_number": "61300211121",
+      "pins": [
+        {
+          "electrical_type": "passive",
+          "name": "3V3",
+          "number": "1",
+          "pad_number": "1",
+          "required": true
+        },
+        {
+          "electrical_type": "passive",
+          "name": "GND",
+          "number": "2",
+          "pad_number": "2",
+          "required": true
+        }
+      ]
+    }
+  },
+  "project_design_decisions": {
+    "pcb_pad": {
+      "classification": "project-design-decision",
+      "is_official_manufacturer_fact": false,
+      "pad_one_shape": "rect",
+      "pad_two_shape": "circle",
+      "copper_size_nm": 1700000,
+      "finished_drill_nm": 1100000,
+      "display": "1.70 mm copper land with 1.10 mm finished drill; pad 1 rectangular and pad 2 circular",
+      "note": "Copper land shapes/sizes and the pin-1 marker follow the reference _header() implementation; the 1.10 mm drill is selected within Würth's recommended 1.10 ±0.15 mm hole pattern."
+    }
+  }
+}

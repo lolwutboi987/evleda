@@ -1,0 +1,96 @@
+# Local product state and internal investigation material. Curated public
+# hardware examples belong in examples/, never in the generated outputs tree.
+/.flux-clone/
+/tmp/
+/work/
+/outputs/
+/release-assets/
+/docs/evidence/reference_sources/blobs/
+/build/
+/*.egg-info/
+/**/**.egg-info/
+
+# JavaScript and Python build/cache state.
+/frontend/
+/backend/api/
+/tests/api/
+/package.json
+/pnpm-lock.yaml
+/node_modules/
+/**/node_modules/
+/frontend/dist/
+/**/dist/
+/.vite/
+/**/.vite/
+/.ruff_cache/
+/.pytest_cache/
+/**/__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.dylib
+*.tsbuildinfo
+.coverage
+coverage/
+htmlcov/
+.mypy_cache/
+.pyright/
+.tox/
+.nox/
+.venv/
+venv/
+
+# Retained local-only plans from the superseded standalone browser/CAD
+# prototype.  EvlEDA's public product is a local stdio MCP + skill for an
+# already-installed KiCad; these files must not be re-added by ``git add -A``.
+/docs/CONFIGURATION.md
+/docs/EVLEDA_COMPARISON_RESEARCH.md
+/docs/EXACT_PREVIEW_CONTRACT.md
+/docs/FEATURE_PARITY.md
+/docs/IMPORT_EXPORT_CONTRACT.md
+/docs/IMPORT_STAGE_INTEGRATION_PLAN.md
+/docs/PARITY_ROADMAP.md
+
+# KiCad runtime state, auto-saves, locks, and local library caches. Design
+# source such as .kicad_pcb, .kicad_sch, and .kicad_pro remains trackable.
+*.kicad_prl
+*.kicad_pro.user
+*.kicad_sch-bak
+*.kicad_pcb-bak
+*.kicad_sch-*
+*.kicad_pcb-*
+*.lck
+*.lock
+fp-info-cache
+sym-lib-table.cache
+/.kicad/
+/backups/
+/**/backups/
+
+# Private evidence, live-worker state, and logs. Public, reviewed receipts
+# must be copied into examples/ deliberately rather than generated in place.
+/.evleda/
+/.evleda-state/
+/private-evidence/
+/evidence-private/
+/runtime-evidence/
+/worker-state/
+*.sqlite
+*.sqlite3
+*.db
+*.log
+
+# Credentials and machine-local configuration. Keep only documented examples.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.token
+*.secrets.json
+/secrets/
+/credentials/

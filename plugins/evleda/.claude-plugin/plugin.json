@@ -1,0 +1,18 @@
+{
+  "name": "evleda",
+  "displayName": "EvlEDA",
+  "version": "0.2.0",
+  "description": "Local stdio MCP and skill for an existing KiCad installation",
+  "author": {
+    "name": "EvlEDA contributors"
+  },
+  "keywords": [
+    "pcb",
+    "kicad",
+    "mcp",
+    "erc",
+    "drc"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

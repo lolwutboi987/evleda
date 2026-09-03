@@ -1,0 +1,272 @@
+(footprint
+"fp_929f98521d3156dda8c73d91d0622a82"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"D1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "6eeb5488-4f04-573f-bf0a-0790f6c2e856")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"5.5V unidirectional TVS"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "0afdb9ae-783d-520f-a507-bab032f4bd76")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"1"
+smd
+rect
+    (at 0.625 0 0)
+    (size 0.7 1.2)
+    (layers "F.Cu")
+    (pinfunction "K")
+    (pintype "passive")
+    (uuid 4fa8169a-8b9a-5084-8d35-8236b2ffb011)
+  )
+  (pad
+"2"
+smd
+rect
+    (at -0.625 0 0)
+    (size 0.7 1.2)
+    (layers "F.Cu")
+    (pinfunction "A")
+    (pintype "passive")
+    (uuid 6fb6b66e-b45a-506f-8ffa-3fea88b259a0)
+  )
+  (pad
+""
+smd
+rect
+    (at 0.625 0 0)
+    (size 0.35 1)
+    (layers "F.Paste")
+    (uuid 9a19654b-bb7d-513b-8d4e-1956989ab185)
+  )
+  (pad
+""
+smd
+rect
+    (at 0.625 0 0)
+    (size 0.6 1.1)
+    (layers "F.Mask")
+    (uuid a9750ce8-3560-58d1-8e31-3364f3ca4c66)
+  )
+  (pad
+""
+smd
+rect
+    (at -0.625 0 0)
+    (size 0.6 1.1)
+    (layers "F.Mask")
+    (uuid cbd0f456-a017-595e-b10f-c4950e04b934)
+  )
+  (pad
+""
+smd
+rect
+    (at -0.625 0 0)
+    (size 0.35 1)
+    (layers "F.Paste")
+    (uuid cfcae410-4f76-5a64-bef0-5dc0023dd0aa)
+  )
+  (fp_line
+    (start 0.8 0.5)
+    (end -0.8 0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 2cb1c219-568c-534d-960c-9f7a9c275db1)
+  )
+  (fp_line
+    (start -0.8 0.5)
+    (end -0.8 -0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid a4fe2dfb-da3c-5940-9a2f-382139c29761)
+  )
+  (fp_line
+    (start -0.8 -0.5)
+    (end 0.8 -0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 86f06203-c4b4-549c-8e56-c442aca2d466)
+  )
+  (fp_line
+    (start 0.8 -0.5)
+    (end 0.8 0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 85da1b9f-b6a5-5492-b474-ba2383800fb6)
+  )
+  (fp_line
+    (start 0.975 0.6)
+    (end -0.975 0.6)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 974386eb-563c-5f11-9719-ef5d1e499685)
+  )
+  (fp_line
+    (start -0.975 0.6)
+    (end -0.975 -0.6)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid d68907b8-5944-5bd0-82d8-4ac8512f25ee)
+  )
+  (fp_line
+    (start -0.975 -0.6)
+    (end 0.975 -0.6)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid ba587d46-8b34-5ca7-8bc8-9fac6ab8bebd)
+  )
+  (fp_line
+    (start 0.975 -0.6)
+    (end 0.975 0.6)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 329cc3ad-6897-588b-99ad-0f2353e2e015)
+  )
+  (property
+"CanonicalComponentId"
+"tvs-d1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ac02fdf5-6930-5de7-aa62-b9c2d17e38bf")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"cb8db08a5de6bb5589115f5eeeef730945d1a4acee0acfe4168adcaca269165a"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "5ea8f761-690c-5638-9633-85a21c7d9269")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:dd54840b481bf99b3a1082dd08cd556e695991a1b36799e98eb43b7e890e00c1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "c2ca78dc-a784-5708-88d5-8eab2a88d14d")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"dd54840b481bf99b3a1082dd08cd556e695991a1b36799e98eb43b7e890e00c1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "65b04002-4ee2-5f77-8182-294a491d5574")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"DFN1610-2; exact MPN PTVS5V5Z1UPC"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "7976b2d4-06bd-5163-831e-982e18e07d18")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_929f98521d3156dda8c73d91d0622a82"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "411238ea-654a-503d-8b3c-034e97621a32")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"PTVS5V5Z1UPC"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "6b116c04-11b2-51ec-a5ec-e840f6fccae4")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

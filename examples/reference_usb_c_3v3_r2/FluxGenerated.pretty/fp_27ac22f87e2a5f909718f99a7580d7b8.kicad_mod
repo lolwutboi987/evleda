@@ -1,0 +1,225 @@
+(footprint
+"fp_27ac22f87e2a5f909718f99a7580d7b8"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"TP1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "1052b22e-69c7-5d3b-96fb-e006942ba727")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"VBUS_RAW"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "44e40d32-150f-5e16-8a0c-cd1ed03229b8")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"1"
+smd
+rect
+    (at 0 0 0)
+    (size 3.4 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "TEST")
+    (pintype "passive")
+    (uuid 8487c436-e3d2-5c0a-9e2b-e93456e31eec)
+  )
+  (fp_line
+    (start -1.35 -0.5)
+    (end 1.35 -0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 147ebd75-55d1-5553-ac0c-aad49d82cf2e)
+  )
+  (fp_line
+    (start 1.35 -0.5)
+    (end 1.35 0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 329aabe4-08d2-5305-8f14-ef5552e109a2)
+  )
+  (fp_line
+    (start 1.35 0.5)
+    (end -1.35 0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid fc3a8315-ae7e-5c63-9b02-6bf758aade86)
+  )
+  (fp_line
+    (start -1.35 0.5)
+    (end -1.35 -0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid c49abc67-3433-5dbc-8a2a-9d5728698e38)
+  )
+  (fp_line
+    (start -2.15 -1.35)
+    (end 2.15 -1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 1c6046f9-52d5-5aed-93ff-dcea0101731f)
+  )
+  (fp_line
+    (start 2.15 -1.35)
+    (end 2.15 1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid cf7606eb-d843-5dfb-a7aa-d7a7b16a88cd)
+  )
+  (fp_line
+    (start 2.15 1.35)
+    (end -2.15 1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 806a9c6e-9133-5ff1-bead-5bddcb0e417b)
+  )
+  (fp_line
+    (start -2.15 1.35)
+    (end -2.15 -1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 245f3c1a-59eb-5098-aabd-9d135c7a2ee8)
+  )
+  (property
+"CanonicalComponentId"
+"tp-1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "4d988549-8487-5f71-a6b3-84668f3aeab2")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"e4cf64386661a9ab385c1ede34bbf63356b8884f056fc32e594a0b2279a090d6"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ebe0efd1-8166-5eda-a8ad-859d77f3ee2f")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "173203a7-779d-5634-a007-658b41858399")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "333a04fe-83e2-50ed-8d9e-47be1362c7c6")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"SMT test point; exact MPN 5015"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ac00c52b-5eb8-5546-9de5-06a3f4079527")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_27ac22f87e2a5f909718f99a7580d7b8"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "6114e13f-d07f-5e95-a13e-c2a57d561d76")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"5015"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ce06b19a-e7e6-548b-9e13-ac306037b002")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

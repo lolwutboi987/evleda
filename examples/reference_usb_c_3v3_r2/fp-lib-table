@@ -1,0 +1,10 @@
+(fp_lib_table
+  (version 7)
+  (lib
+    (name "FluxGenerated")
+    (type "KiCad")
+    (uri "${KIPRJMOD}/FluxGenerated.pretty")
+    (options "")
+    (descr "")
+  )
+)

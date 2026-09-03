@@ -1,0 +1,35 @@
+# Public source distributions are self-contained for normal development and
+# inspection, but never carry restricted vendor source evidence.
+include LICENSE
+include NOTICE
+include THIRD_PARTY_NOTICES.md
+include AGENTS.md
+include docs/CLOUD_RUNBOOK.md
+recursive-include scripts/cloud *.py *.sh
+recursive-include LICENSES *.txt *.md
+recursive-include backend/kicad_compile/human_schematic/sources *.kicad_sym *.json
+recursive-include evleda/evidence/reference_sources *.json *.md
+recursive-include evleda/legal *.txt *.md *.json
+recursive-include plugins *.json *.md
+recursive-include .agents *.json
+recursive-include .claude-plugin *.json
+recursive-include examples *.kicad_pro *.kicad_sch *.kicad_pcb *.kicad_dru *.json *.md *.png *.zip
+
+# Defensive exclusions remain effective even if a developer has populated a
+# local private cache before building an sdist.
+prune docs/evidence/reference_sources/blobs
+prune .evleda
+prune tmp
+prune work
+prune outputs
+prune release-assets
+prune node_modules
+prune frontend
+prune prototypes
+prune backend/api
+prune tests/api
+prune frontend/node_modules
+prune frontend/dist
+prune build
+prune dist
+global-exclude *.py[cod] __pycache__ *.egg-info

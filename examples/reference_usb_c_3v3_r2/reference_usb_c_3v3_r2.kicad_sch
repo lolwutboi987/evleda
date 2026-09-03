@@ -1,0 +1,6233 @@
+(kicad_sch
+  (version 20250114)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (uuid "04ea656b-68fd-58ec-9d7c-b4eaefce5abf")
+  (paper "A4")
+  (title_block
+    (title "USB-C 5 V sink to 3.3 V reference PCB")
+    (rev "REV2")
+    (comment 1 "3V3 OUT 100mA MAX / DO NOT APPLY POWER")
+  )
+  (lib_symbols
+    (symbol
+"FluxGenerated:Conn_01x02"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"J"
+        (at -3.81 -6.35 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"Conn_01x02"
+        (at -3.81 6.35 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"flattened from the exact official KiCad one-by-two connector"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"Conn_01x02_1_1"
+        (rectangle
+          (start -1.27 -2.54)
+          (end 1.27 2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type background)
+          )
+        )
+        (rectangle
+          (start -1.27 -1.397)
+          (end 0 -1.143)
+          (stroke
+            (width 0.1524)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start -1.27 1.143)
+          (end 0 1.397)
+          (stroke
+            (width 0.1524)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol
+"Conn_01x02_1_1"
+        (pin
+passive
+line
+          (at -5.08 -1.27 0)
+          (length 3.81)
+          (name
+"3V3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at -5.08 1.27 0)
+          (length 3.81)
+          (name
+"GND"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:TestPoint"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"TP"
+        (at -2.54 -7.62 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"TestPoint"
+        (at -2.54 1.27 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"flattened from the exact official KiCad TestPoint symbol"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"TestPoint_0_1"
+        (circle
+          (center 0 3.302)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol
+"TestPoint_1_1"
+        (pin
+passive
+line
+          (at 0 0 90)
+          (length 2.54)
+          (name
+"TEST"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:USB4105_GF_A"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"J"
+        (at -10.16 -22.86 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"USB4105_GF_A"
+        (at -10.16 20.32 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"official USB-C 16P graphics flattened; shell SH renamed to logical S1"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"USB4105_GF_A_0_0"
+        (rectangle
+          (start -0.254 17.78)
+          (end 0.254 16.764)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 -15.494)
+          (end 9.144 -14.986)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 -10.414)
+          (end 9.144 -9.906)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 -7.874)
+          (end 9.144 -7.366)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 -2.794)
+          (end 9.144 -2.286)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 -0.254)
+          (end 9.144 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 2.286)
+          (end 9.144 2.794)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 4.826)
+          (end 9.144 5.334)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 12.446)
+          (end 9.144 12.954)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 10.16 14.986)
+          (end 9.144 15.494)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol
+"USB4105_GF_A_0_1"
+        (rectangle
+          (start -10.16 -17.78)
+          (end 10.16 17.78)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type background)
+          )
+        )
+        (polyline
+          (pts
+            (xy -8.89 3.81)
+            (xy -8.89 -3.81)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start -7.62 3.81)
+          (end -6.35 -3.81)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (arc
+          (start -7.62 -3.81)
+          (mid -6.985 -4.4423)
+          (end -6.35 -3.81)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (arc
+          (start -7.62 -3.81)
+          (mid -6.985 -4.4423)
+          (end -6.35 -3.81)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (arc
+          (start -8.89 -3.81)
+          (mid -6.985 -5.7067)
+          (end -5.08 -3.81)
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (arc
+          (start -5.08 3.81)
+          (mid -6.985 5.7067)
+          (end -8.89 3.81)
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (arc
+          (start -6.35 3.81)
+          (mid -6.985 4.4423)
+          (end -7.62 3.81)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (arc
+          (start -6.35 3.81)
+          (mid -6.985 4.4423)
+          (end -7.62 3.81)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (polyline
+          (pts
+            (xy -5.08 -3.81)
+            (xy -5.08 3.81)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -2.54 -1.143)
+          (radius 0.635)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (polyline
+          (pts
+            (xy -1.27 -4.318)
+            (xy 0 -6.858)
+            (xy 1.27 -4.318)
+            (xy -1.27 -4.318)
+          )
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 2.032)
+            (xy 2.54 -0.508)
+            (xy 2.54 -1.778)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 3.302)
+            (xy -2.54 0.762)
+            (xy -2.54 -0.508)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 5.842)
+            (xy 0 -4.318)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 0 5.842)
+          (radius 1.27)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start 1.905 -1.778)
+          (end 3.175 -3.048)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+      )
+      (symbol
+"USB4105_GF_A_1_1"
+        (pin
+passive
+line
+          (at 0 22.86 270)
+          (length 5.08)
+          (name
+"GND"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 22.86 270)
+          (length 5.08)
+          (hide yes)
+          (name
+"GND"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A12"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+power_out
+line
+          (at 15.24 -15.24 180)
+          (length 5.08)
+          (name
+"VBUS"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 15.24 -10.16 180)
+          (length 5.08)
+          (name
+"CC1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 15.24 2.54 180)
+          (length 5.08)
+          (name
+"D+"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 15.24 -2.54 180)
+          (length 5.08)
+          (name
+"D-"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 15.24 12.7 180)
+          (length 5.08)
+          (name
+"SBU1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 15.24 -15.24 180)
+          (length 5.08)
+          (hide yes)
+          (name
+"VBUS"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"A9"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 22.86 270)
+          (length 5.08)
+          (hide yes)
+          (name
+"GND"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 22.86 270)
+          (length 5.08)
+          (hide yes)
+          (name
+"GND"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B12"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 15.24 -15.24 180)
+          (length 5.08)
+          (hide yes)
+          (name
+"VBUS"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 15.24 -7.62 180)
+          (length 5.08)
+          (name
+"CC2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 15.24 5.08 180)
+          (length 5.08)
+          (name
+"D+"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 15.24 0 180)
+          (length 5.08)
+          (name
+"D-"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 15.24 15.24 180)
+          (length 5.08)
+          (name
+"SBU2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 15.24 -15.24 180)
+          (length 5.08)
+          (hide yes)
+          (name
+"VBUS"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"B9"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at -7.62 22.86 270)
+          (length 5.08)
+          (name
+"SHIELD"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"S1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:C"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"C"
+        (at -2.54 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"C"
+        (at -2.54 3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"flattened from the exact official KiCad non-polarized capacitor"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"C_0_1"
+        (polyline
+          (pts
+            (xy -2.032 0.762)
+            (xy 2.032 0.762)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -2.032 -0.762)
+            (xy 2.032 -0.762)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol
+"C_1_1"
+        (pin
+passive
+line
+          (at 0 3.81 270)
+          (length 2.794)
+          (name
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 -3.81 90)
+          (length 2.794)
+          (name
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:C_Polarized_T598"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"C"
+        (at -2.54 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"C_Polarized_T598"
+        (at -2.54 3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"official polarized-capacitor graphics flattened with T598 polarity evidence"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"C_Polarized_T598_0_1"
+        (rectangle
+          (start -2.286 0.508)
+          (end 2.286 1.016)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -1.778 2.286)
+            (xy -0.762 2.286)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -1.27 2.794)
+            (xy -1.27 1.778)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 2.286 -0.508)
+          (end -2.286 -1.016)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+      )
+      (symbol
+"C_Polarized_T598_1_1"
+        (pin
+passive
+line
+          (at 0 3.81 270)
+          (length 2.794)
+          (name
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 -3.81 90)
+          (length 2.794)
+          (name
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:D_TVS"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"D"
+        (at -2.54 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"D_TVS"
+        (at -2.54 3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"exact official TVS graphics flattened into the vertical branch orientation"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"D_TVS_0_1"
+        (polyline
+          (pts
+            (xy 1.27 2.54)
+            (xy -1.27 2.54)
+            (xy 1.27 -2.54)
+            (xy -1.27 -2.54)
+            (xy 1.27 2.54)
+          )
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 1.27 -0.508)
+            (xy 1.27 0)
+            (xy -1.27 0)
+            (xy -1.27 0.508)
+          )
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 -1.27)
+            (xy 0 1.27)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol
+"D_TVS_1_1"
+        (pin
+passive
+line
+          (at 0 3.81 270)
+          (length 2.54)
+          (name
+"K"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 -3.81 90)
+          (length 2.54)
+          (name
+"A"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:LED"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"D"
+        (at -1.27 -5.08 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"LED"
+        (at -1.27 5.08 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"flattened from the exact official KiCad LED symbol"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"LED_0_1"
+        (polyline
+          (pts
+            (xy 3.048 0.762)
+            (xy 4.572 2.286)
+            (xy 3.81 2.286)
+            (xy 4.572 2.286)
+            (xy 4.572 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 1.778 0.762)
+            (xy 3.302 2.286)
+            (xy 2.54 2.286)
+            (xy 3.302 2.286)
+            (xy 3.302 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 1.27 0)
+            (xy -1.27 0)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 1.27 1.27)
+            (xy 1.27 -1.27)
+          )
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -1.27 1.27)
+            (xy -1.27 -1.27)
+            (xy 1.27 0)
+            (xy -1.27 1.27)
+          )
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol
+"LED_1_1"
+        (pin
+passive
+line
+          (at 3.81 0 180)
+          (length 2.54)
+          (name
+"K"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at -3.81 0 0)
+          (length 2.54)
+          (name
+"A"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:R"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"R"
+        (at -2.54 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"R"
+        (at -2.54 3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"flattened from the exact official KiCad resistor symbol"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"R_0_1"
+        (rectangle
+          (start -1.016 -2.54)
+          (end 1.016 2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol
+"R_1_1"
+        (pin
+passive
+line
+          (at 0 3.81 270)
+          (length 1.27)
+          (name
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 -3.81 90)
+          (length 1.27)
+          (name
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:TPS259620DDAR"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"U"
+        (at -7.62 -12.7 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"TPS259620DDAR"
+        (at -7.62 7.62 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"official TPS2596xx functional graphics flattened; logical EP maps to pin 9"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"TPS259620DDAR_0_1"
+        (rectangle
+          (start -7.62 -10.16)
+          (end 7.62 10.16)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type background)
+          )
+        )
+      )
+      (symbol
+"TPS259620DDAR_1_1"
+        (pin
+passive
+line
+          (at 0 12.7 270)
+          (length 2.54)
+          (name
+"GND"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at -10.16 7.62 0)
+          (length 2.54)
+          (name
+"dVdt"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+input
+line
+          (at -10.16 -2.54 0)
+          (length 2.54)
+          (name
+"EN/UVLO"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+power_in
+line
+          (at -10.16 -7.62 0)
+          (length 2.54)
+          (name
+"IN"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+power_out
+line
+          (at 10.16 -7.62 180)
+          (length 2.54)
+          (name
+"OUT"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 10.16 -2.54 180)
+          (length 2.54)
+          (name
+"FLT"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 10.16 7.62 180)
+          (length 2.54)
+          (name
+"ILM"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at -10.16 2.54 0)
+          (length 2.54)
+          (name
+"OVCSEL"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 12.7 270)
+          (length 2.54)
+          (hide yes)
+          (name
+"EXPOSED_PAD"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"9"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+    (symbol
+"FluxGenerated:LP38692MPX_3V3"
+      (pin_names
+        (offset 0.508)
+      )
+      (exclude_from_sim no)
+      (in_bom yes)
+      (on_board yes)
+      (in_pos_files yes)
+      (duplicate_pin_numbers_are_jumpers no)
+      (property
+"Reference"
+"U"
+        (at -7.62 -12.7 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Value"
+"LP38692MPX_3V3"
+        (at -7.62 7.62 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property
+"Footprint"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Datasheet"
+""
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (property
+"Description"
+"self-contained functional symbol derived from the exact TI NDC five-pin pinout"
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (hide yes)
+        )
+      )
+      (symbol
+"LP38692MPX_3V3_0_1"
+        (rectangle
+          (start -7.62 10.16)
+          (end 7.62 -5.08)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type background)
+          )
+        )
+      )
+      (symbol
+"LP38692MPX_3V3_1_1"
+        (pin
+input
+line
+          (at -10.16 -2.54 0)
+          (length 2.54)
+          (name
+"EN"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+no_connect
+line
+          (at 10.16 0 180)
+          (length 2.54)
+          (name
+"NC"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+power_out
+line
+          (at 10.16 -7.62 180)
+          (length 2.54)
+          (name
+"OUT"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+power_in
+line
+          (at -10.16 -7.62 0)
+          (length 2.54)
+          (name
+"IN"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin
+passive
+line
+          (at 0 12.7 270)
+          (length 2.54)
+          (name
+"GND/TAB"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number
+"5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (embedded_fonts no)
+    )
+  )
+  (rectangle
+    (start 219.71 17.78)
+    (end 279.4 149.86)
+    (stroke
+      (width 0.254)
+      (type dash)
+    )
+    (fill
+      (type none)
+    )
+    (uuid "d3ac03bf-4748-59e0-a879-8c4e664fbe6b")
+  )
+  (text
+"3V3 OUTPUT / INDICATION"
+    (exclude_from_sim no)
+    (at 222.25 22.86 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+        (bold yes)
+      )
+      (justify left)
+    )
+    (uuid "925a8b69-b04f-56f2-9f74-13248190e9ca")
+  )
+  (rectangle
+    (start 93.98 17.78)
+    (end 160.02 149.86)
+    (stroke
+      (width 0.254)
+      (type dash)
+    )
+    (fill
+      (type none)
+    )
+    (uuid "d17f6c90-2289-5638-9e04-31cd5502dc86")
+  )
+  (text
+"EFUSE / UVLO / ILM / OVC / dVdt"
+    (exclude_from_sim no)
+    (at 96.52 22.86 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+        (bold yes)
+      )
+      (justify left)
+    )
+    (uuid "cb307aee-f893-5f6a-8246-e5add1da2c3f")
+  )
+  (rectangle
+    (start 162.56 17.78)
+    (end 218.44 149.86)
+    (stroke
+      (width 0.254)
+      (type dash)
+    )
+    (fill
+      (type none)
+    )
+    (uuid "93c9b06e-fb36-5fda-aa2d-4d792b241194")
+  )
+  (text
+"LP38692 / DAMPED OUTPUT CAPACITOR"
+    (exclude_from_sim no)
+    (at 165.1 22.86 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+        (bold yes)
+      )
+      (justify left)
+    )
+    (uuid "5e948c8a-cb97-523f-85d4-ad74d0e80e21")
+  )
+  (rectangle
+    (start 15.24 17.78)
+    (end 91.44 149.86)
+    (stroke
+      (width 0.254)
+      (type dash)
+    )
+    (fill
+      (type none)
+    )
+    (uuid "a87661c2-b283-55df-825e-3ad74e0394fb")
+  )
+  (text
+"USB-C DEFAULT 5 V SINK / TRANSIENT"
+    (exclude_from_sim no)
+    (at 17.78 22.86 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+        (bold yes)
+      )
+      (justify left)
+    )
+    (uuid "58d791ef-7e99-57df-a7c7-7766fe461f57")
+  )
+  (junction
+    (at 219.71 91.44)
+    (diameter 0)
+    (color 0 0 0 0)
+    (uuid "8d40b561-a253-5fd7-a466-7e803f38faa3")
+  )
+  (no_connect
+    (at 129.54 86.36)
+    (uuid "6fca6f9f-6f83-5fa5-8d24-b634615d162a")
+  )
+  (no_connect
+    (at 190.5 83.82)
+    (uuid "ff5a1a15-f0e6-59b0-9930-d06fc69820f1")
+  )
+  (no_connect
+    (at 45.72 73.66)
+    (uuid "2645ea3a-f108-584b-a80e-8fed0e12fdfb")
+  )
+  (no_connect
+    (at 45.72 78.74)
+    (uuid "1328d048-7c90-5b7b-b86f-a289ff1dd331")
+  )
+  (no_connect
+    (at 45.72 63.5)
+    (uuid "4dc399b2-e327-50c0-9139-8c71c8aa7ca4")
+  )
+  (no_connect
+    (at 45.72 71.12)
+    (uuid "0300060b-4b10-5d77-ae20-ebcf23e2dddd")
+  )
+  (no_connect
+    (at 45.72 76.2)
+    (uuid "d1bdd169-c8f1-56f2-b7e1-a56a74668d23")
+  )
+  (no_connect
+    (at 45.72 60.96)
+    (uuid "61da3876-bc2b-5f48-85da-f1b3f80c9b4c")
+  )
+  (wire
+    (pts
+      (xy 203.2 91.44)
+      (xy 190.5 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "7a027db5-e690-58bc-b60a-374842223c63")
+  )
+  (wire
+    (pts
+      (xy 217.17 68.58)
+      (xy 217.17 85.09)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "f5f3741c-510d-58e5-895b-63580e8d608a")
+  )
+  (wire
+    (pts
+      (xy 217.17 85.09)
+      (xy 219.71 85.09)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "c9dafa59-ff28-5885-990e-e8e8b2e8d5e0")
+  )
+  (wire
+    (pts
+      (xy 219.71 85.09)
+      (xy 219.71 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "58cf9bab-a780-56d3-8931-046d1fdb8ef0")
+  )
+  (wire
+    (pts
+      (xy 219.71 91.44)
+      (xy 215.9 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "89aca2cc-410b-5fd4-87cd-76f2ab61286b")
+  )
+  (wire
+    (pts
+      (xy 215.9 91.44)
+      (xy 203.2 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "1b4976d8-c8ec-5a52-be91-ee2aa723f0eb")
+  )
+  (wire
+    (pts
+      (xy 247.65 91.44)
+      (xy 219.71 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "a994428e-c1d0-58ec-931c-a9af9ad6a5b6")
+  )
+  (wire
+    (pts
+      (xy 53.34 120.65)
+      (xy 44.45 120.65)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "907a44af-683b-5126-ac6f-09a08b3838c1")
+  )
+  (wire
+    (pts
+      (xy 44.45 120.65)
+      (xy 44.45 86.36)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "c396dc31-d156-55be-a98a-1effa60302c4")
+  )
+  (wire
+    (pts
+      (xy 44.45 86.36)
+      (xy 45.72 86.36)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "b60f49d1-18b4-5a94-9833-f85dc7cae62e")
+  )
+  (wire
+    (pts
+      (xy 68.58 120.65)
+      (xy 68.58 121.92)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "3960520a-e2c9-5566-a87d-46d03446d658")
+  )
+  (wire
+    (pts
+      (xy 68.58 121.92)
+      (xy 43.18 121.92)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "a0954814-827b-5ecc-956e-e0aeeb6494cd")
+  )
+  (wire
+    (pts
+      (xy 43.18 121.92)
+      (xy 43.18 83.82)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "b405e154-254b-5fe3-89e4-21059085d0df")
+  )
+  (wire
+    (pts
+      (xy 43.18 83.82)
+      (xy 45.72 83.82)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "5e06dd45-874a-53e5-b39e-f9a513b0b54f")
+  )
+  (wire
+    (pts
+      (xy 203.2 113.03)
+      (xy 203.2 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "77304a66-c1f6-5da5-8d20-bcea6a1a805f")
+  )
+  (wire
+    (pts
+      (xy 109.22 76.2)
+      (xy 99.06 76.2)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "81cef90b-6450-5546-a741-3663a7d244e2")
+  )
+  (wire
+    (pts
+      (xy 109.22 86.36)
+      (xy 110.49 86.36)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "8ef12572-7ee4-5698-9921-e7a273aa74f2")
+  )
+  (wire
+    (pts
+      (xy 110.49 86.36)
+      (xy 110.49 95.25)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "770dd10f-0e04-5f0c-99e3-ac5717cbf9fb")
+  )
+  (wire
+    (pts
+      (xy 110.49 95.25)
+      (xy 105.41 95.25)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "abcffb5d-3070-5d93-a613-6638b0ecf38f")
+  )
+  (wire
+    (pts
+      (xy 105.41 95.25)
+      (xy 105.41 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "4315b1ad-a011-512a-afb3-0ae380c2bc47")
+  )
+  (wire
+    (pts
+      (xy 105.41 99.06)
+      (xy 101.6 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "037e17f2-abb6-5124-9335-bf95ff2c39ca")
+  )
+  (wire
+    (pts
+      (xy 137.16 76.2)
+      (xy 129.54 76.2)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "9b2beafb-e43a-5c6a-8f9c-655e923def7f")
+  )
+  (wire
+    (pts
+      (xy 234.95 68.58)
+      (xy 224.79 68.58)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "6687cbf4-5f76-5e70-ab4b-e3e7361c1622")
+  )
+  (wire
+    (pts
+      (xy 134.62 110.49)
+      (xy 128.27 110.49)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "4c614158-b49a-5a07-83d6-e2eb976e24a4")
+  )
+  (wire
+    (pts
+      (xy 128.27 110.49)
+      (xy 128.27 72.39)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "bb40fc0f-401e-5de9-bb2f-12734a2a8d2d")
+  )
+  (wire
+    (pts
+      (xy 128.27 72.39)
+      (xy 110.49 72.39)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "281ce34e-01d6-575f-91ca-82defe22d436")
+  )
+  (wire
+    (pts
+      (xy 110.49 72.39)
+      (xy 110.49 77.47)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "be48c738-e61b-54f0-a04f-64080763e5c2")
+  )
+  (wire
+    (pts
+      (xy 110.49 77.47)
+      (xy 95.25 77.47)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "5acabeed-a2a4-5042-bb24-2f830183825f")
+  )
+  (wire
+    (pts
+      (xy 95.25 77.47)
+      (xy 95.25 81.28)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "2c3e684e-6f7d-5321-861b-2fd8cece70e5")
+  )
+  (wire
+    (pts
+      (xy 95.25 81.28)
+      (xy 109.22 81.28)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "1bdda543-c766-59ef-8486-8c69d1c30d19")
+  )
+  (wire
+    (pts
+      (xy 157.48 91.44)
+      (xy 147.32 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "af6e8ae8-8d50-5813-97b4-25663ae7d3eb")
+  )
+  (wire
+    (pts
+      (xy 147.32 91.44)
+      (xy 129.54 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "8fa1feaa-8f0d-5514-a362-0ab5d8ef1245")
+  )
+  (wire
+    (pts
+      (xy 170.18 91.44)
+      (xy 157.48 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "7d714486-2846-55db-aa31-46cbbc25a580")
+  )
+  (wire
+    (pts
+      (xy 170.18 86.36)
+      (xy 170.18 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "ee9e0123-a00d-5f29-8bd0-7f12f6edf4aa")
+  )
+  (wire
+    (pts
+      (xy 101.6 91.44)
+      (xy 88.9 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "fff36ee0-f8ca-5288-b970-3ac559de0199")
+  )
+  (wire
+    (pts
+      (xy 109.22 91.44)
+      (xy 101.6 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "8718230c-cd44-5b2f-b506-79966c581c1b")
+  )
+  (wire
+    (pts
+      (xy 66.04 91.44)
+      (xy 45.72 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "a979b353-7522-54cc-9c69-ab7afd338090")
+  )
+  (wire
+    (pts
+      (xy 88.9 91.44)
+      (xy 78.74 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "9b2990ba-b50a-5584-b14e-bacfd9bff32d")
+  )
+  (wire
+    (pts
+      (xy 78.74 91.44)
+      (xy 66.04 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+    )
+    (uuid "fcdedabe-d3b8-520a-892e-e77a923edd44")
+  )
+  (label
+"3V3"
+    (at 203.2 91.44 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "19950a1d-803d-5d5b-85a8-ba4ecfecfe99")
+  )
+  (label
+"CC1"
+    (at 53.34 120.65 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "50af4a7f-bad0-5ee8-ad4d-eb8627d29a1c")
+  )
+  (label
+"CC2"
+    (at 68.58 120.65 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "8b03b9d8-37e5-5255-9e1b-a41e8e78373a")
+  )
+  (label
+"COUT_DAMPED"
+    (at 203.2 113.03 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "aeaa91b2-90fa-5aa0-8abe-eae70d1cf3e8")
+  )
+  (label
+"DVDT_SET"
+    (at 109.22 76.2 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "a496b91d-6eaa-5fc9-9091-2052e1cb2e9f")
+  )
+  (label
+"EN_UVLO"
+    (at 109.22 86.36 180)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "40073c6d-a117-53ff-b201-62843bbe08fb")
+  )
+  (label
+"GND"
+    (at 68.58 128.27 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "0c7bb0e7-53ed-5e7d-a35a-d4f4b3aff937")
+  )
+  (label
+"GND"
+    (at 119.38 71.12 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "b678f0cc-d06c-5332-84e8-f94ceb488c1d")
+  )
+  (label
+"GND"
+    (at 53.34 128.27 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "fe2e53b7-5875-5c89-812c-0af8507c937f")
+  )
+  (label
+"GND"
+    (at 203.2 120.65 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "e2798df5-affc-5bf5-b037-3ddf6440d357")
+  )
+  (label
+"GND"
+    (at 247.65 88.9 180)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "2d797de5-3cdb-5d6b-9c38-a2ee6d8c1228")
+  )
+  (label
+"GND"
+    (at 22.86 53.34 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "94734b58-0092-52a0-80a0-0307c21eeb02")
+  )
+  (label
+"GND"
+    (at 30.48 53.34 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "e2dd106c-8f13-5253-b49d-a42c06d9d91f")
+  )
+  (label
+"GND"
+    (at 238.76 88.9 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "251c8107-ae6e-595b-b3c6-1fe8da27d430")
+  )
+  (label
+"GND"
+    (at 137.16 83.82 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "d24635e9-99a9-56e8-a649-f987306c0aad")
+  )
+  (label
+"GND"
+    (at 242.57 68.58 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "6b0bede6-58fc-5634-a19e-25522ba4807b")
+  )
+  (label
+"GND"
+    (at 78.74 99.06 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "a3639b2e-be43-58f5-b28a-d08512a8b7e1")
+  )
+  (label
+"GND"
+    (at 134.62 125.73 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "b8a1eda3-ba29-5541-837f-2fc62c95f1bf")
+  )
+  (label
+"GND"
+    (at 180.34 71.12 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "20cb36a4-9143-501d-99bc-bd2b282f5bd9")
+  )
+  (label
+"GND"
+    (at 147.32 99.06 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "3f148013-80fe-5a4a-ac8a-d3077cd0f0be")
+  )
+  (label
+"GND"
+    (at 66.04 99.06 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "cebec4e1-6635-5d97-944c-5f135a0ec3d5")
+  )
+  (label
+"GND"
+    (at 101.6 106.68 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "45da2fca-ddb1-5b7f-94f6-c988a17878f0")
+  )
+  (label
+"GND"
+    (at 99.06 68.58 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "e9efe8d2-de78-58a0-a488-bf83b410960c")
+  )
+  (label
+"ILM_SET"
+    (at 129.54 76.2 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "d9503a94-9d2b-54cf-addf-5f388368069f")
+  )
+  (label
+"LED_A"
+    (at 234.95 68.58 270)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "8d622ad0-964d-56ce-a216-8c416051a01d")
+  )
+  (label
+"OVC_MID"
+    (at 134.62 118.11 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "9ef853f2-3c30-5a6c-8b34-cb9b4504a9e1")
+  )
+  (label
+"OVCSEL_SET"
+    (at 134.62 110.49 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "d55e257a-6862-5009-9737-af4e9272e201")
+  )
+  (label
+"V5_PROTECTED"
+    (at 147.32 91.44 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "6bd669ff-ca06-58a0-9b59-29de5086b3ca")
+  )
+  (label
+"VBUS_RAW"
+    (at 78.74 91.44 90)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left)
+    )
+    (uuid "96575027-e2dd-5507-a964-61da2360a522")
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 53.34 124.46 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "476bfd03-94b3-5f29-979e-1296e0f40771")
+    (property
+"CanonicalComponentId"
+"cc-r1"
+      (at 53.34 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"1e4c15e5bf37d48e2f8da94b2a4da16732b42ade59698ceea4cf785ac10656e8"
+      (at 53.34 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 53.34 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 53.34 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW06035K10FKEA"
+      (at 53.34 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_c36a820555e9516cab46827f347b914e"
+      (at 53.34 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW06035K10FKEA"
+      (at 53.34 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R1"
+      (at 50.8 128.27 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"5.1k 1%"
+      (at 50.8 130.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "5bef291e-c71b-5a2c-9108-339e1696c3f2")
+    )
+    (pin
+"2"
+      (uuid "814d0c4d-9133-504c-97bc-7021a707d018")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R1")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 68.58 124.46 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "8e6229a5-f474-5db9-a7bf-6c2a4c07f992")
+    (property
+"CanonicalComponentId"
+"cc-r2"
+      (at 68.58 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"4c5d2809d2ce88a1ab97a26aa5e78bc9e4f4e366bc930e211928fdda4428ce5a"
+      (at 68.58 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 68.58 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 68.58 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW06035K10FKEA"
+      (at 68.58 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_61ca670da6f25095bf4bb2528b3dc8c6"
+      (at 68.58 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW06035K10FKEA"
+      (at 68.58 124.46 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R2"
+      (at 66.04 128.27 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"5.1k 1%"
+      (at 66.04 130.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "ae1cb691-b8f5-5e68-a8c9-8bf30624a7ca")
+    )
+    (pin
+"2"
+      (uuid "f49f98b5-4364-50fa-a1c2-0190d1df8f0e")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R2")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:C")
+    (at 78.74 95.25 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "aea00a66-fc26-51a2-9683-f616a811c0ab")
+    (property
+"CanonicalComponentId"
+"cin-c1"
+      (at 78.74 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"d4d6ea5b68587a856b0b0279dc28393df8d0e79690cd1ee4b7c968aee1573108"
+      (at 78.74 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:eff87bfa4247a47581c55478f6785a150e90385c3d6ac9ccae441ed9a5903f18"
+      (at 78.74 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"eff87bfa4247a47581c55478f6785a150e90385c3d6ac9ccae441ed9a5903f18"
+      (at 78.74 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0805; exact MPN 885012207051"
+      (at 78.74 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_28444cc44b245b32932e3c565fab864f"
+      (at 78.74 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"885012207051"
+      (at 78.74 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"C1"
+      (at 83.82 93.98 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"1uF 16V X7R"
+      (at 83.82 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "36a08a40-48e2-5e03-bb6a-fa08207213f7")
+    )
+    (pin
+"2"
+      (uuid "54ed5648-4953-5584-b50a-4eda56cc69d9")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "C1")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:C")
+    (at 147.32 95.25 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "5d42d4b2-f8b4-554d-8d26-7e5e4978aa76")
+    (property
+"CanonicalComponentId"
+"cldo-c2"
+      (at 147.32 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"704a9ea2cbc77cc596fd5d83346a99f8c8dd756e0bb0978ca094036b47441b91"
+      (at 147.32 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:cf62230c9eab481767a04c96beb3822aa6328f65277ecd3e59697459c211043c"
+      (at 147.32 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"cf62230c9eab481767a04c96beb3822aa6328f65277ecd3e59697459c211043c"
+      (at 147.32 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0805; exact MPN C0805C475K3RACTU"
+      (at 147.32 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_94882bf011bc5f1e87e4d85eee6343ee"
+      (at 147.32 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"C0805C475K3RACTU"
+      (at 147.32 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"C2"
+      (at 152.4 93.98 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"4.7uF 25V X7R"
+      (at 152.4 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "d931b5d6-42b0-52f5-bb26-2a859badedae")
+    )
+    (pin
+"2"
+      (uuid "9ba87b49-7da2-5696-9c2c-c7296452841f")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "C2")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:C_Polarized_T598")
+    (at 203.2 116.84 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "d9eb48d4-abf0-5e7b-b2d0-3417b64166d5")
+    (property
+"CanonicalComponentId"
+"cout-c3"
+      (at 203.2 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"7de55d579e9e3de451c35b3f17c005b5ec646ab87c8520ad61034158064fd4aa"
+      (at 203.2 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:64cc7925483d23bc88a92c0dde3bba58e60152765bed5602f859c04c0c5db729"
+      (at 203.2 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"64cc7925483d23bc88a92c0dde3bba58e60152765bed5602f859c04c0c5db729"
+      (at 203.2 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"B/3528-20 polarized; exact MPN T598B226M010ATE070"
+      (at 203.2 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_8e8257a25c905439acc2c3b5f98b1773"
+      (at 203.2 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"T598B226M010ATE070"
+      (at 203.2 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"C3"
+      (at 195.58 115.57 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"22uF 10V polymer +/-20%"
+      (at 180.34 118.11 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "2fe6a5f9-8418-51a3-8564-67f975407de5")
+    )
+    (pin
+"2"
+      (uuid "2f3c9794-eb1f-5684-add0-27e1a7c89523")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "C3")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 203.2 95.25 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "f4fff11d-4af8-5df0-83c8-7d2acbe63936")
+    (property
+"CanonicalComponentId"
+"cout-esr-r9"
+      (at 203.2 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"f56075edf3c2c9e515b9974fca5366d100be4072379456c974e050fee6c1e60b"
+      (at 203.2 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:5d20b5572767451d6a38e1e37c6f0f3113eb604e72593a6cd97a0a944458455b"
+      (at 203.2 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"5d20b5572767451d6a38e1e37c6f0f3113eb604e72593a6cd97a0a944458455b"
+      (at 203.2 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN WSLP0603R0100FEA"
+      (at 203.2 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_a78d751717985e30a9b25a0cb605c4c8"
+      (at 203.2 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"WSLP0603R0100FEA"
+      (at 203.2 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R9"
+      (at 208.28 93.98 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"10mOhm 1%"
+      (at 208.28 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "e0ef1ae1-2a28-581b-ba1f-7b9cdd106278")
+    )
+    (pin
+"2"
+      (uuid "e13e9d35-2e21-5d57-b574-5fd36fd632ee")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R9")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:C")
+    (at 99.06 72.39 180)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "aa8dcca7-e7e3-5300-b4db-6bf708461f42")
+    (property
+"CanonicalComponentId"
+"dvdt-c4"
+      (at 99.06 72.39 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"208ea4f59a0b8db1672c96f398203e553451a618f503b3a85d6f5b538ea4cfc9"
+      (at 99.06 72.39 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:dbafe0002fa3f302ec182bbe37f000f47190256b73ee7c10b8066a55df835609"
+      (at 99.06 72.39 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"dbafe0002fa3f302ec182bbe37f000f47190256b73ee7c10b8066a55df835609"
+      (at 99.06 72.39 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"1206; exact MPN C1206C104J3GACTU"
+      (at 99.06 72.39 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_f05ca65025de54698aa04f889cf47686"
+      (at 99.06 72.39 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"C1206C104J3GACTU"
+      (at 99.06 72.39 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"C4"
+      (at 96.52 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"100nF 25V C0G +/-5%"
+      (at 96.52 78.74 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "6a12b393-919e-53b1-82bc-71dc9bcd1d43")
+    )
+    (pin
+"2"
+      (uuid "971f987e-57dc-5df9-a41f-47fac8c3924d")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "C4")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:TPS259620DDAR")
+    (at 119.38 83.82 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "abdceeea-e99b-5103-8815-c6f5284be42a")
+    (property
+"CanonicalComponentId"
+"efuse-u1"
+      (at 119.38 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"ad5f8d53c75be86825adc99dc308014c25e51991e158535cdce81cb65bfbd22a"
+      (at 119.38 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:66f6bae4494f7bfe7dfdc314e508f0291d9ca1e87265cca9b6fdfeaa5cb19fe9"
+      (at 119.38 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"66f6bae4494f7bfe7dfdc314e508f0291d9ca1e87265cca9b6fdfeaa5cb19fe9"
+      (at 119.38 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"SOIC-8-EP-DDA; exact MPN TPS259620DDAR"
+      (at 119.38 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_5564ef8e90135a4cab1a74819024c718"
+      (at 119.38 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"TPS259620DDAR"
+      (at 119.38 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"U1"
+      (at 111.76 67.31 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"0.247A eFuse/OVC latch-off"
+      (at 111.76 69.85 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "4a1b767c-40e6-5048-b91c-ebc30c1334c6")
+    )
+    (pin
+"2"
+      (uuid "a9da9f7a-4e37-58a1-92f4-7bdcf565176a")
+    )
+    (pin
+"3"
+      (uuid "5f8de952-d62f-5cf8-a219-78dbde0dfac8")
+    )
+    (pin
+"4"
+      (uuid "5e278fcd-8654-598e-8150-11221511d824")
+    )
+    (pin
+"5"
+      (uuid "21f2a5c2-b43f-562c-b145-90eaf02975d1")
+    )
+    (pin
+"6"
+      (uuid "627ecb26-f9e9-5475-ad1c-bf079207cfc0")
+    )
+    (pin
+"7"
+      (uuid "fad203da-1440-5213-8a27-90014cb23c56")
+    )
+    (pin
+"8"
+      (uuid "ff4490d3-c8b8-51d6-9c67-ea64facb706b")
+    )
+    (pin
+"9"
+      (uuid "a9ed8128-200e-5c3d-9064-ad609bdc0b3d")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "U1")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 101.6 95.25 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "4c749874-9503-5c59-92f3-99f32c340dde")
+    (property
+"CanonicalComponentId"
+"en-hi-r6"
+      (at 101.6 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"5b9d901edd75aeffedffc6275d906c453d9f8e334f21488e0499cffacabfd503"
+      (at 101.6 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 101.6 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 101.6 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW0603249KFKEA"
+      (at 101.6 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_0103de7ad7895269a7c4e91d7b1dbdc5"
+      (at 101.6 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW0603249KFKEA"
+      (at 101.6 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R6"
+      (at 106.68 93.98 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"249k 1%"
+      (at 106.68 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "593af753-7e2e-5ef9-85f3-2c529192852b")
+    )
+    (pin
+"2"
+      (uuid "4ff1d6eb-1e4c-5cb7-a736-9e48067fc985")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R6")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 101.6 102.87 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "66a642b1-1ab8-5454-afb9-68fcb752a5d6")
+    (property
+"CanonicalComponentId"
+"en-lo-r7"
+      (at 101.6 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"e0e0b6223662b89603992550c9cae08f772eff0d30de3214ad9bf8eb65807e60"
+      (at 101.6 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 101.6 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 101.6 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW0603100KFKEA"
+      (at 101.6 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_d99751e93f3256fd8c87b489a89e8300"
+      (at 101.6 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW0603100KFKEA"
+      (at 101.6 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R7"
+      (at 106.68 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"100k 1%"
+      (at 106.68 104.14 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "985ed9c8-4e96-51d7-84e8-6722332b4334")
+    )
+    (pin
+"2"
+      (uuid "94343d58-a401-5316-9e02-5d35d35f34e4")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R7")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 137.16 80.01 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "f272b118-6815-5864-8fa1-5d3a82da874c")
+    (property
+"CanonicalComponentId"
+"ilim-r3"
+      (at 137.16 80.01 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"77fd0cb501a1c2409943bf57b8b160e8d41f8ba2140da3dc8a11825a7a307500"
+      (at 137.16 80.01 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 137.16 80.01 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 137.16 80.01 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW06033K83FKEA"
+      (at 137.16 80.01 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_f4348b9e701754f5a067cdbaf9dc46a6"
+      (at 137.16 80.01 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW06033K83FKEA"
+      (at 137.16 80.01 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R3"
+      (at 142.24 78.74 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"3.83k 1%"
+      (at 142.24 81.28 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "bc0af785-2d3c-51fb-a8f6-0e55095f459d")
+    )
+    (pin
+"2"
+      (uuid "519881bc-0294-548c-870b-99e330652def")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R3")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:LP38692MPX_3V3")
+    (at 180.34 83.82 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "39183e59-e67a-52f0-8e0f-d698a4ded4a5")
+    (property
+"CanonicalComponentId"
+"ldo-u2"
+      (at 180.34 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"bad2d800ebb241540ec05a976cbc42d9118d00af9c6cbe220674090c0761e955"
+      (at 180.34 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:37d312bc1c8189f8fe4275ceaf8928d447cb6faaa2796e503d6120a891376352"
+      (at 180.34 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"37d312bc1c8189f8fe4275ceaf8928d447cb6faaa2796e503d6120a891376352"
+      (at 180.34 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"NDC/SOT-223-5; exact MPN LP38692MPX-3.3/NOPB"
+      (at 180.34 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_7794963ceebb5e36b7b6c301eeb69b9b"
+      (at 180.34 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"LP38692MPX-3.3/NOPB"
+      (at 180.34 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"U2"
+      (at 190.5 73.66 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"3.3V 1A LDO"
+      (at 190.5 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "e6425872-1bf3-55c4-9814-f9ae0c915331")
+    )
+    (pin
+"2"
+      (uuid "fe614cd7-89d5-529c-8c5a-81f42066bdc8")
+    )
+    (pin
+"3"
+      (uuid "0b703592-76f1-55a0-af62-b8e57e44c7df")
+    )
+    (pin
+"4"
+      (uuid "4dda5486-f44f-590f-b002-a9baae4060da")
+    )
+    (pin
+"5"
+      (uuid "e24f3c63-960e-5d0d-a98e-6dbce3834e9a")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "U2")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:LED")
+    (at 238.76 68.58 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "f0882179-f194-57e1-9337-dcfe632bfa8e")
+    (property
+"CanonicalComponentId"
+"led-d2"
+      (at 238.76 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"c56e780f2d3ee3de2c009fc4da70ab0802b06b0b2594f7748b63106d497c309c"
+      (at 238.76 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:75685f7ae49ae4fa3c05ea3c6ad7a72d53747ca803320a8b96b8fdf38b368da7"
+      (at 238.76 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"75685f7ae49ae4fa3c05ea3c6ad7a72d53747ca803320a8b96b8fdf38b368da7"
+      (at 238.76 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN 150060VS75000"
+      (at 238.76 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_2e6b5cac73ae53399429af7b381e190a"
+      (at 238.76 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"150060VS75000"
+      (at 238.76 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"D2"
+      (at 237.49 60.96 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"green 0603 LED"
+      (at 237.49 63.5 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "57319fba-ff47-51c7-b1ac-6b37314b6ba9")
+    )
+    (pin
+"2"
+      (uuid "6180217d-7c75-5c8c-895b-71bb7d6b2a4a")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "D2")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 220.98 68.58 90)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "2b9558bc-d875-5551-8765-0d1bc2d23aae")
+    (property
+"CanonicalComponentId"
+"led-r8"
+      (at 220.98 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"862f04b61f3a055c898526183de1ff7e0f79edad91d19c747dd31b6e47ce7b4b"
+      (at 220.98 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 220.98 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 220.98 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW06031K00FKEA"
+      (at 220.98 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_9d00c8daf3f55af19c700b7644697803"
+      (at 220.98 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW06031K00FKEA"
+      (at 220.98 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R8"
+      (at 219.71 60.96 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"1k 1%"
+      (at 219.71 63.5 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "37611413-80ca-5de7-bbf6-bbadaf2543d4")
+    )
+    (pin
+"2"
+      (uuid "c7cdac27-76f0-5670-ad77-e5c08f4cfa60")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R8")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:Conn_01x02")
+    (at 252.73 90.17 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "5e2b8c1c-1c06-520a-a52b-f054f1fcffe3")
+    (property
+"CanonicalComponentId"
+"out-j2"
+      (at 252.73 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"cff5e091e00692c811d2332968dc45f0739c74d028ab2e159378dbbd75f8bd27"
+      (at 252.73 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe"
+      (at 252.73 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe"
+      (at 252.73 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"1x02 P2.54 THT; exact MPN 61300211121"
+      (at 252.73 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_c3c523f49a555f1b812006a8faf7f241"
+      (at 252.73 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"61300211121"
+      (at 252.73 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"J2"
+      (at 248.92 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"3V3 OUT 100mA MAX / DO NOT APPLY POWER"
+      (at 248.92 99.06 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "64e502cd-02e8-566e-bacd-e6c0c07d1655")
+    )
+    (pin
+"2"
+      (uuid "d5c73032-40e9-5711-a4a6-cd22f26f0894")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "J2")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 134.62 114.3 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "b365bd2f-3f53-5549-9ab6-435562d44723")
+    (property
+"CanonicalComponentId"
+"ovc-r4"
+      (at 134.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"b94b1c767f3f3d73c53ea92c0884e528736d259984f103e31f2a9e259909b52f"
+      (at 134.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 134.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 134.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW0603200KFKEA"
+      (at 134.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_d6f66386fa4d59b88b037b6158b253de"
+      (at 134.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW0603200KFKEA"
+      (at 134.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R4"
+      (at 139.7 113.03 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"200k 1%"
+      (at 139.7 115.57 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "313ffbaa-f869-5ea4-9138-e24861bd2a10")
+    )
+    (pin
+"2"
+      (uuid "bf7e205d-8f96-52a0-8d41-bc8b3a6b427d")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R4")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:R")
+    (at 134.62 121.92 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "030077ad-0523-5d1d-90a1-c52a9f5ee381")
+    (property
+"CanonicalComponentId"
+"ovc-r5"
+      (at 134.62 121.92 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"2bc9f051dd03e11689558c5034e11863ebc40871dadb276e32f9663850529b1d"
+      (at 134.62 121.92 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 134.62 121.92 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+      (at 134.62 121.92 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"0603; exact MPN CRCW0603200KFKEA"
+      (at 134.62 121.92 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_3163cbb05ab85a1f898c4cf9d50a1faf"
+      (at 134.62 121.92 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"CRCW0603200KFKEA"
+      (at 134.62 121.92 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"R5"
+      (at 139.7 120.65 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"200k 1%"
+      (at 139.7 123.19 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "b38c62a8-978c-56ad-b853-8a6ac97d9890")
+    )
+    (pin
+"2"
+      (uuid "c095c8b8-e88b-5a28-8a6b-e42abf052291")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "R5")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:TestPoint")
+    (at 88.9 91.44 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "04662964-d574-50b6-97f1-ac0e9ded09da")
+    (property
+"CanonicalComponentId"
+"tp-1"
+      (at 88.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"e4cf64386661a9ab385c1ede34bbf63356b8884f056fc32e594a0b2279a090d6"
+      (at 88.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 88.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 88.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"SMT test point; exact MPN 5015"
+      (at 88.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_27ac22f87e2a5f909718f99a7580d7b8"
+      (at 88.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"5015"
+      (at 88.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"TP1"
+      (at 86.36 81.28 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"VBUS_RAW"
+      (at 86.36 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "97029a4b-58bc-515e-b9b3-1316acdb96ae")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "TP1")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:TestPoint")
+    (at 157.48 91.44 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "1f0e219e-9bd6-56d8-882c-7b6a621cd731")
+    (property
+"CanonicalComponentId"
+"tp-2"
+      (at 157.48 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"1521f82f7831c919f6949f579e4ed313bdfcf7c29dd7197d9b197d3df7f20cb6"
+      (at 157.48 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 157.48 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 157.48 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"SMT test point; exact MPN 5015"
+      (at 157.48 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_9594eee5612e51d184b21d9037a20fdb"
+      (at 157.48 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"5015"
+      (at 157.48 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"TP2"
+      (at 154.94 81.28 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"V5_PROTECTED"
+      (at 154.94 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "edb3d67e-aa1c-55bc-9906-bce467671d95")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "TP2")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:TestPoint")
+    (at 215.9 91.44 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "0d77beff-9d37-5c31-82cf-686ea44fd920")
+    (property
+"CanonicalComponentId"
+"tp-3"
+      (at 215.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"b560f8344cec9c5002bbc7612aa27bf9f23fbfa466445183fcf04071a478d6b1"
+      (at 215.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 215.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 215.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"SMT test point; exact MPN 5015"
+      (at 215.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_9742af839cae5d1ca864cdcc649a4639"
+      (at 215.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"5015"
+      (at 215.9 91.44 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"TP3"
+      (at 213.36 81.28 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"3V3"
+      (at 213.36 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "5ce10b98-25bd-5f9e-b67e-6fca12a46a53")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "TP3")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:TestPoint")
+    (at 238.76 88.9 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "42446e7e-6e15-521b-84e5-0c9e76b3dc07")
+    (property
+"CanonicalComponentId"
+"tp-4"
+      (at 238.76 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"9f3d34006553afd86583e19a3d819486c57f0a0c9a0e19e8ebb221696c5b29d9"
+      (at 238.76 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 238.76 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+      (at 238.76 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"SMT test point; exact MPN 5015"
+      (at 238.76 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_f6ef917635c75d7ead58f80bfe8f17b8"
+      (at 238.76 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"5015"
+      (at 238.76 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"TP4"
+      (at 231.14 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"GND"
+      (at 231.14 86.36 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "1a36b180-ace7-58a2-9b92-6600d084aacd")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "TP4")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:D_TVS")
+    (at 66.04 95.25 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "2a85ef04-fd6e-5615-aaab-7b5e7251d281")
+    (property
+"CanonicalComponentId"
+"tvs-d1"
+      (at 66.04 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"cb8db08a5de6bb5589115f5eeeef730945d1a4acee0acfe4168adcaca269165a"
+      (at 66.04 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:dd54840b481bf99b3a1082dd08cd556e695991a1b36799e98eb43b7e890e00c1"
+      (at 66.04 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"dd54840b481bf99b3a1082dd08cd556e695991a1b36799e98eb43b7e890e00c1"
+      (at 66.04 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"DFN1610-2; exact MPN PTVS5V5Z1UPC"
+      (at 66.04 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_929f98521d3156dda8c73d91d0622a82"
+      (at 66.04 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"PTVS5V5Z1UPC"
+      (at 66.04 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"D1"
+      (at 63.5 99.06 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"5.5V unidirectional TVS"
+      (at 63.5 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"1"
+      (uuid "d9941e29-0f51-5f34-9535-387dc456879b")
+    )
+    (pin
+"2"
+      (uuid "bcc8d66d-48bb-5b7e-90c3-000568b3d9a7")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "D1")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "FluxGenerated:USB4105_GF_A")
+    (at 30.48 76.2 0)
+    (unit 1)
+    (body_style 1)
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (dnp no)
+    (uuid "0cf66398-ded8-5d88-970c-53c85637658b")
+    (property
+"CanonicalComponentId"
+"usb-j1"
+      (at 30.48 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"CanonicalPinMapSha256"
+"d9c2a46d97bf06a2233f6b88ee8dab4d7c5582cefd14daa28d7452dcc8baa413"
+      (at 30.48 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+"urn:sha256:372fe1bc0e0b1b4ce7e18b61514e967c7c2f883f0c7fe1f4586b567785ee9cd2"
+      (at 30.48 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"DatasheetSha256"
+"372fe1bc0e0b1b4ce7e18b61514e967c7c2f883f0c7fe1f4586b567785ee9cd2"
+      (at 30.48 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"USB-C-16P-SMT/PTH; exact MPN USB4105-GF-A"
+      (at 30.48 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Footprint"
+"FluxGenerated:fp_b854396d140d58c6a824a7f89b75ad9e"
+      (at 30.48 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"ManufacturerPartNumber"
+"USB4105-GF-A"
+      (at 30.48 76.2 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Reference"
+"J1"
+      (at 20.32 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property
+"Value"
+"USB-C 5V sink"
+      (at 20.32 99.06 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (pin
+"A1"
+      (uuid "9b7558b6-efff-51eb-bcdb-6cf8ed0336d3")
+    )
+    (pin
+"A12"
+      (uuid "ef2528c6-19e2-563c-9d76-d684153c755a")
+    )
+    (pin
+"A4"
+      (uuid "95d098ac-fc77-599f-b1a7-ed095102ca72")
+    )
+    (pin
+"A5"
+      (uuid "76bf5f23-1804-5289-a1c6-9c75f7b5d2a5")
+    )
+    (pin
+"A6"
+      (uuid "09886153-4444-55f6-b58a-ea31dbdba30b")
+    )
+    (pin
+"A7"
+      (uuid "99fb3a15-e413-5e87-925d-df9d81cab047")
+    )
+    (pin
+"A8"
+      (uuid "539de9f7-9f82-55a2-a853-b51836a6476c")
+    )
+    (pin
+"A9"
+      (uuid "ee98c7d4-7f2f-5e75-9033-6d91cf8ab608")
+    )
+    (pin
+"B1"
+      (uuid "e5f69aac-f125-5ecf-bf00-baadfd1bbdd8")
+    )
+    (pin
+"B12"
+      (uuid "76a4963e-dfad-5473-949b-4b6b88b336f9")
+    )
+    (pin
+"B4"
+      (uuid "de0f47d6-1542-52d9-a96f-bec41260827b")
+    )
+    (pin
+"B5"
+      (uuid "51585cde-5a38-59c3-82ec-eefeb2f59247")
+    )
+    (pin
+"B6"
+      (uuid "e78e90b1-2487-51ef-b261-dcb1c909da48")
+    )
+    (pin
+"B7"
+      (uuid "59eeee7c-c5a5-5608-add4-cf7d66865fc0")
+    )
+    (pin
+"B8"
+      (uuid "c387168d-4bcb-5ccb-93ec-6e93a6e687ac")
+    )
+    (pin
+"B9"
+      (uuid "8fa158f6-11c7-5b08-a462-8f3b99df0bf9")
+    )
+    (pin
+"S1"
+      (uuid "c45c7f77-7f84-59b7-b2f0-61497eceba1c")
+    )
+    (instances
+      (project
+"reference_usb_c_3v3_r2"
+        (path
+"/04ea656b-68fd-58ec-9d7c-b4eaefce5abf"
+          (reference "J1")
+          (unit 1)
+        )
+      )
+    )
+  )
+  (sheet_instances
+    (path
+"/"
+      (page "1")
+    )
+  )
+  (embedded_fonts no)
+)

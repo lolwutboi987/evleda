@@ -1,0 +1,6 @@
+interface:
+  display_name: "EvlEDA"
+  short_description: "Guardrailed local access to installed KiCad"
+  default_prompt: "Use $evleda to inspect and verify my local native KiCad project."
+policy:
+  allow_implicit_invocation: true

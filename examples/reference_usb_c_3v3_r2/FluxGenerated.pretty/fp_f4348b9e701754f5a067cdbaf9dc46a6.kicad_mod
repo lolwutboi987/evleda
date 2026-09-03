@@ -1,0 +1,248 @@
+(footprint
+"fp_f4348b9e701754f5a067cdbaf9dc46a6"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"R3"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "9e5a8165-41dd-5a20-8d8b-f289ff87ae03")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"3.83k 1%"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "be1c1f40-8be2-51bd-8414-59d53da8e82c")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"2"
+smd
+rect
+    (at 0.825 0 0)
+    (size 0.8 0.95)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "2")
+    (pintype "passive")
+    (uuid 5510c10d-89fe-55af-a56f-a248c99d8316)
+  )
+  (pad
+"1"
+smd
+rect
+    (at -0.825 0 0)
+    (size 0.8 0.95)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "1")
+    (pintype "passive")
+    (uuid d6102c42-6b39-5613-8c4a-5d40c0519474)
+  )
+  (fp_line
+    (start -0.8 -0.4125)
+    (end 0.8 -0.4125)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 23415df7-101e-57c4-bfe8-5b1743f34561)
+  )
+  (fp_line
+    (start 0.8 -0.4125)
+    (end 0.8 0.4125)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 7764b173-5b8a-59f9-8430-a6c220282675)
+  )
+  (fp_line
+    (start 0.8 0.4125)
+    (end -0.8 0.4125)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 6b909c20-70fb-551f-82f0-08d1ff8668c3)
+  )
+  (fp_line
+    (start -0.8 0.4125)
+    (end -0.8 -0.4125)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 2b9fdc9e-8b54-5144-9be9-8d13db3f00fb)
+  )
+  (fp_line
+    (start -1.48 -0.73)
+    (end 1.48 -0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid c14aedf4-a66a-5f70-a095-3eb949ba694c)
+  )
+  (fp_line
+    (start 1.48 -0.73)
+    (end 1.48 0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid de1f8055-ceeb-57e3-bff3-f20ce6e27948)
+  )
+  (fp_line
+    (start 1.48 0.73)
+    (end -1.48 0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 28337722-a977-57f8-8c92-16d7a03a8cd8)
+  )
+  (fp_line
+    (start -1.48 0.73)
+    (end -1.48 -0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 48498600-9507-5dda-bad8-8bfcc3d789ec)
+  )
+  (model
+"${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
+    (offset
+      (xyz 0 0 0)
+    )
+    (scale
+      (xyz 1 1 1)
+    )
+    (rotate
+      (xyz 0 0 0)
+    )
+  )
+  (property
+"CanonicalComponentId"
+"ilim-r3"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "1a17660f-8af5-5174-b830-c86fdc6db018")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"77fd0cb501a1c2409943bf57b8b160e8d41f8ba2140da3dc8a11825a7a307500"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "2bea68df-96da-5be0-a5c2-0fc595126afb")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "3309f9a2-9a88-5960-b84b-94d2865a4fa9")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"504e687c8ff86ffc367637421ff0035d9999f663c62d9a8e352a0eab3dd5cd84"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "4e11faed-8c56-5a26-98e6-aaa4d314bb7d")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"0603; exact MPN CRCW06033K83FKEA"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "1fff42d8-d1b2-5efc-8475-df04dba2ba8c")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_f4348b9e701754f5a067cdbaf9dc46a6"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "81a8b4a6-18db-514a-99f7-e3bde263a670")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"CRCW06033K83FKEA"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "c9644055-bf50-52b2-b107-3843b2c4c746")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

@@ -1,0 +1,88 @@
+[project]
+name = "evleda"
+version = "0.2.0"
+description = "Deterministic, least-privilege MCP host for a verified KiCad reference PCB"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.12"
+dependencies = ["cryptography>=50.0.1,<51"]
+license = {file = "LICENSE"}
+authors = [{name = "EvlEDA contributors"}]
+keywords = ["eda", "kicad", "mcp", "pcb", "verification"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+]
+
+[project.optional-dependencies]
+# Keep the contributor/CI toolchain explicit.  End users who only run the MCP
+# do not need these packages; ``pip install .[dev]`` is the reproducible public
+# checkout path.
+dev = [
+    "build>=1.2,<2",
+    "pytest>=8,<10",
+    "ruff>=0.12,<1",
+    "pyright>=1.1.400,<2",
+]
+
+[project.urls]
+Homepage = "https://github.com/lolwutboi987/evleda"
+Documentation = "https://github.com/lolwutboi987/evleda#readme"
+Issues = "https://github.com/lolwutboi987/evleda/issues"
+
+[project.scripts]
+evleda-mcp = "evleda.cli:main"
+evleda-fetch-reference-sources = "evleda.fetch_reference_sources:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["backend*", "evleda*"]
+exclude = ["backend.api", "backend.api.*"]
+
+[tool.setuptools]
+# The distribution deliberately contains Apache-2.0 original code alongside
+# separately noticed CC-BY-SA KiCad symbol snapshots.  Ship every governing
+# notice in both wheel and sdist; do not advertise the whole artifact as
+# Apache-only through a PyPI Trove classifier.
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "LICENSES/*.txt", "LICENSES/*.md"]
+
+[tool.setuptools.package-data]
+"backend.kicad_compile.human_schematic" = ["sources/*.kicad_sym", "sources/*.json"]
+"evleda" = [
+    "evidence/reference_sources/manifest.json",
+    "evidence/reference_sources/README.md",
+    "reference/manifest.json",
+    "reference/reference_usb_c_3v3_r2.zip",
+    "reference/README.md",
+    "legal/*.txt",
+    "legal/*.md",
+    "legal/*.json",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "strict"
+include = ["backend", "tests"]
+
+[tool.pytest.ini_options]
+# Private vendor evidence is intentionally absent from public clones/wheels.
+# Full source-evidence rebuild assertions run only when explicitly selected
+# after a user provisions the private cache (``-m restricted_evidence``).
+addopts = "-ra -m 'not restricted_evidence'"
+markers = [
+    "restricted_evidence: requires the separately provisioned private source-evidence cache",
+]

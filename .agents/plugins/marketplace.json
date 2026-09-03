@@ -1,0 +1,20 @@
+{
+  "name": "evleda",
+  "interface": {
+    "displayName": "EvlEDA"
+  },
+  "plugins": [
+    {
+      "name": "evleda",
+      "source": {
+        "source": "local",
+        "path": "./plugins/evleda"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

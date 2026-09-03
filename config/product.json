@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "coordination": {
+    "strict_user_coordination": true,
+    "require_brief_approval": true,
+    "require_plan_approval": true,
+    "require_exact_patch_approval": true,
+    "require_layout_constraint_approval": true,
+    "require_release_approval": true,
+    "invalidate_dependent_approvals_on_change": true
+  },
+  "orchestration": {
+    "max_concurrent_agents": 8,
+    "wave_size": 8,
+    "total_agent_dispatch_limit": 48,
+    "token_limit": 1000000,
+    "tool_call_limit": 500,
+    "unsafe_resource_override_opt_in": false,
+    "require_independent_critic": true,
+    "max_task_attempts": 3,
+    "max_repair_cycles_per_candidate": 2,
+    "lease_seconds": 300,
+    "heartbeat_seconds": 30
+  },
+  "model_runtime": {
+    "provider": "openai-responses",
+    "default_model": "gpt-5.6-sol",
+    "reasoning_effort": "max",
+    "proposal_only": true,
+    "structured_outputs": true,
+    "store_responses": false,
+    "max_output_tokens": 32768
+  },
+  "verification": {
+    "unknown_is_pass": false,
+    "require_native_engine": true,
+    "require_kicad_engine": true,
+    "engine_disagreement_is_blocking": true,
+    "require_exact_revision": true,
+    "preview_blocks_at": "fatal",
+    "commit_blocks_at": "error",
+    "manufacturing_release_blocks_at": "warning",
+    "require_algorithm_replay_hash": true
+  },
+  "backends": {
+    "canonical_design_store": "native-object-graph",
+    "kicad": {
+      "role": ["import", "export", "independent-verification", "render", "manufacturing"],
+      "minimum_version": "10.0"
+    }
+  }
+}

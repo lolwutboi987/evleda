@@ -1,0 +1,258 @@
+(footprint
+"fp_2e6b5cac73ae53399429af7b381e190a"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"D2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "54434cfe-0e27-5cb0-a49f-b9db17c82514")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"green 0603 LED"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "9b9bd7c0-dbcc-52b3-b59f-c74488f24ace")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"2"
+smd
+rect
+    (at 0.7875 0 0)
+    (size 0.875 0.95)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "A")
+    (pintype "passive")
+    (uuid 69c395f3-534d-5eff-be72-6020104856b2)
+  )
+  (pad
+"1"
+smd
+rect
+    (at -0.7875 0 0)
+    (size 0.875 0.95)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "K")
+    (pintype "passive")
+    (uuid b9f5c6e5-14b8-57fb-962d-87f80b390190)
+  )
+  (fp_line
+    (start -0.8 -0.1)
+    (end -0.8 0.4)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 3d74b92d-3139-567c-87b1-9cd340ecf7a2)
+  )
+  (fp_line
+    (start -0.8 0.4)
+    (end 0.8 0.4)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid c76f3514-9274-5641-8c14-a648802bfc84)
+  )
+  (fp_line
+    (start 0.8 0.4)
+    (end 0.8 -0.4)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid b1cb0aeb-ce65-5232-a36d-9a9efedfc39a)
+  )
+  (fp_line
+    (start 0.8 -0.4)
+    (end -0.5 -0.4)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid f317fee7-504d-5b70-bdb5-71cb33b4643f)
+  )
+  (fp_line
+    (start -0.5 -0.4)
+    (end -0.8 -0.1)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid ab993d7d-d325-5e20-970f-141c002fd185)
+  )
+  (fp_line
+    (start -1.48 -0.73)
+    (end 1.48 -0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 7fe62e38-30ef-5af1-8950-ee4e7289cfba)
+  )
+  (fp_line
+    (start 1.48 -0.73)
+    (end 1.48 0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid b2519417-437a-5495-9c51-d75fcefc8532)
+  )
+  (fp_line
+    (start 1.48 0.73)
+    (end -1.48 0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 54665d92-dcdf-58cf-900e-3657da4aa290)
+  )
+  (fp_line
+    (start -1.48 0.73)
+    (end -1.48 -0.73)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 9af9742f-02ae-5854-b32d-857328f86e4c)
+  )
+  (model
+"${KICAD10_3DMODEL_DIR}/LED_SMD.3dshapes/LED_0603_1608Metric.step"
+    (offset
+      (xyz 0 0 0)
+    )
+    (scale
+      (xyz 1 1 1)
+    )
+    (rotate
+      (xyz 0 0 0)
+    )
+  )
+  (property
+"CanonicalComponentId"
+"led-d2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "0d5f2296-e46a-543a-8c5c-0ff68ffcc2cd")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"c56e780f2d3ee3de2c009fc4da70ab0802b06b0b2594f7748b63106d497c309c"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "c95e78d8-f22b-544e-984c-704e7ffafdcb")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:75685f7ae49ae4fa3c05ea3c6ad7a72d53747ca803320a8b96b8fdf38b368da7"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "a6a04623-8b50-5349-b82f-a1e48583a348")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"75685f7ae49ae4fa3c05ea3c6ad7a72d53747ca803320a8b96b8fdf38b368da7"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "b8e0f7d2-f8b7-5701-bd4b-d540f3f65cb8")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"0603; exact MPN 150060VS75000"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "432e001d-55c4-5171-b652-756d6e83a882")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_2e6b5cac73ae53399429af7b381e190a"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "605c8fc8-2c06-5398-8dcd-ac39760184ac")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"150060VS75000"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "f5babea4-9737-52aa-a1a2-b19367170182")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

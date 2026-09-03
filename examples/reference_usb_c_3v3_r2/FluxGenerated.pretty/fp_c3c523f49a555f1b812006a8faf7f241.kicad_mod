@@ -1,0 +1,260 @@
+(footprint
+"fp_c3c523f49a555f1b812006a8faf7f241"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"J2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "7b33d75b-19ca-5273-be11-a6ad2af4d617")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"3V3 OUT 100mA MAX / DO NOT APPLY POWER"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "9f20375a-88e6-5bf1-8d54-e71f44c4570d")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr through_hole)
+  (pad
+"2"
+thru_hole
+circle
+    (at 0 2.54 0)
+    (size 1.7 1.7)
+    (drill 1.1)
+    (layers "*.Cu" "*.Mask")
+    (pinfunction "GND")
+    (pintype "passive")
+    (uuid 595f1239-83cc-593b-8ba0-6a2c33bbce90)
+  )
+  (pad
+"1"
+thru_hole
+rect
+    (at 0 0 0)
+    (size 1.7 1.7)
+    (drill 1.1)
+    (layers "*.Cu" "*.Mask")
+    (pinfunction "3V3")
+    (pintype "passive")
+    (uuid d477b18d-5170-534d-b637-94bcdcda4efd)
+  )
+  (fp_line
+    (start -1.27 -0.635)
+    (end -0.635 -1.27)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid eceec6ee-2517-546c-89be-c454441c42ae)
+  )
+  (fp_line
+    (start -0.635 -1.27)
+    (end 1.27 -1.27)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 2528b805-29ce-5154-ac28-8095f57d0f1f)
+  )
+  (fp_line
+    (start 1.27 -1.27)
+    (end 1.27 3.81)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid ed515eb4-f345-57c1-a65e-9218dc46691e)
+  )
+  (fp_line
+    (start 1.27 3.81)
+    (end -1.27 3.81)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 0e2f430b-71e0-5ef9-8be1-b03821cb1876)
+  )
+  (fp_line
+    (start -1.27 3.81)
+    (end -1.27 -0.635)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid f706b4e7-bbcb-5e66-8d11-37ead0d87caa)
+  )
+  (fp_line
+    (start -1.77 -1.77)
+    (end 1.77 -1.77)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid a6d37d5d-b8e5-58e2-847f-c63b9746be90)
+  )
+  (fp_line
+    (start 1.77 -1.77)
+    (end 1.77 4.32)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid b1b33db2-fbca-508d-85c6-92db4b6afec5)
+  )
+  (fp_line
+    (start 1.77 4.32)
+    (end -1.77 4.32)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 326c0ff7-6031-55b0-8c46-048292daa8f6)
+  )
+  (fp_line
+    (start -1.77 4.32)
+    (end -1.77 -1.77)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 9a8e5ff6-b204-59bd-b0f4-88c2e789f70d)
+  )
+  (model
+"${KICAD10_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.step"
+    (offset
+      (xyz 0 0 0)
+    )
+    (scale
+      (xyz 1 1 1)
+    )
+    (rotate
+      (xyz 0 0 0)
+    )
+  )
+  (property
+"CanonicalComponentId"
+"out-j2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "2b33c3db-facc-5b2d-806f-54d3e00fcc5b")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"cff5e091e00692c811d2332968dc45f0739c74d028ab2e159378dbbd75f8bd27"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ffdf2f35-96d8-5299-aa3a-399151ccc168")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "7073ef7b-9479-5281-af39-59e67432de5a")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"a054dde42f94b42e1f34117df97a37071aa9e57febcb8375058a3fb7dbae6dbe"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "816610cd-5a33-5355-8191-999a5f643e48")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"1x02 P2.54 THT; exact MPN 61300211121"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "72a9e19c-d027-5631-94cb-43185fe86187")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_c3c523f49a555f1b812006a8faf7f241"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "89fcaa7b-7b09-59d5-b9e5-dc241fb4ced6")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"61300211121"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "91391251-3cd3-53b8-a487-274faba3ee32")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

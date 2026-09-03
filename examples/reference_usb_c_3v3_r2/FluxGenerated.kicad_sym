@@ -1,0 +1,2280 @@
+(kicad_symbol_lib
+  (version 20240529)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (symbol
+"Conn_01x02"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"J"
+      (at -3.81 -6.35 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"Conn_01x02"
+      (at -3.81 6.35 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"flattened from the exact official KiCad one-by-two connector"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"Conn_01x02_1_1"
+      (rectangle
+        (start -1.27 -2.54)
+        (end 1.27 2.54)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type background)
+        )
+      )
+      (rectangle
+        (start -1.27 -1.397)
+        (end 0 -1.143)
+        (stroke
+          (width 0.1524)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start -1.27 1.143)
+        (end 0 1.397)
+        (stroke
+          (width 0.1524)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+    )
+    (symbol
+"Conn_01x02_1_1"
+      (pin
+passive
+line
+        (at -5.08 -1.27 0)
+        (length 3.81)
+        (name
+"3V3"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at -5.08 1.27 0)
+        (length 3.81)
+        (name
+"GND"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"TestPoint"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"TP"
+      (at -2.54 -7.62 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"TestPoint"
+      (at -2.54 1.27 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"flattened from the exact official KiCad TestPoint symbol"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"TestPoint_0_1"
+      (circle
+        (center 0 3.302)
+        (radius 0.762)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+    )
+    (symbol
+"TestPoint_1_1"
+      (pin
+passive
+line
+        (at 0 0 90)
+        (length 2.54)
+        (name
+"TEST"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"USB4105_GF_A"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"J"
+      (at -10.16 -22.86 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"USB4105_GF_A"
+      (at -10.16 20.32 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"official USB-C 16P graphics flattened; shell SH renamed to logical S1"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"USB4105_GF_A_0_0"
+      (rectangle
+        (start -0.254 17.78)
+        (end 0.254 16.764)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 -15.494)
+        (end 9.144 -14.986)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 -10.414)
+        (end 9.144 -9.906)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 -7.874)
+        (end 9.144 -7.366)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 -2.794)
+        (end 9.144 -2.286)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 -0.254)
+        (end 9.144 0.254)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 2.286)
+        (end 9.144 2.794)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 4.826)
+        (end 9.144 5.334)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 12.446)
+        (end 9.144 12.954)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 10.16 14.986)
+        (end 9.144 15.494)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+    )
+    (symbol
+"USB4105_GF_A_0_1"
+      (rectangle
+        (start -10.16 -17.78)
+        (end 10.16 17.78)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type background)
+        )
+      )
+      (polyline
+        (pts
+          (xy -8.89 3.81)
+          (xy -8.89 -3.81)
+        )
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start -7.62 3.81)
+        (end -6.35 -3.81)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+      (arc
+        (start -7.62 -3.81)
+        (mid -6.985 -4.4423)
+        (end -6.35 -3.81)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (arc
+        (start -7.62 -3.81)
+        (mid -6.985 -4.4423)
+        (end -6.35 -3.81)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+      (arc
+        (start -8.89 -3.81)
+        (mid -6.985 -5.7067)
+        (end -5.08 -3.81)
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (arc
+        (start -5.08 3.81)
+        (mid -6.985 5.7067)
+        (end -8.89 3.81)
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (arc
+        (start -6.35 3.81)
+        (mid -6.985 4.4423)
+        (end -7.62 3.81)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (arc
+        (start -6.35 3.81)
+        (mid -6.985 4.4423)
+        (end -7.62 3.81)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+      (polyline
+        (pts
+          (xy -5.08 -3.81)
+          (xy -5.08 3.81)
+        )
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (circle
+        (center -2.54 -1.143)
+        (radius 0.635)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+      (polyline
+        (pts
+          (xy -1.27 -4.318)
+          (xy 0 -6.858)
+          (xy 1.27 -4.318)
+          (xy -1.27 -4.318)
+        )
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+      (polyline
+        (pts
+          (xy 0 2.032)
+          (xy 2.54 -0.508)
+          (xy 2.54 -1.778)
+        )
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy 0 3.302)
+          (xy -2.54 0.762)
+          (xy -2.54 -0.508)
+        )
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy 0 5.842)
+          (xy 0 -4.318)
+        )
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (circle
+        (center 0 5.842)
+        (radius 1.27)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+      (rectangle
+        (start 1.905 -1.778)
+        (end 3.175 -3.048)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+    )
+    (symbol
+"USB4105_GF_A_1_1"
+      (pin
+passive
+line
+        (at 0 22.86 270)
+        (length 5.08)
+        (name
+"GND"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 22.86 270)
+        (length 5.08)
+        (hide yes)
+        (name
+"GND"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A12"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+power_out
+line
+        (at 15.24 -15.24 180)
+        (length 5.08)
+        (name
+"VBUS"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A4"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 15.24 -10.16 180)
+        (length 5.08)
+        (name
+"CC1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A5"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 15.24 2.54 180)
+        (length 5.08)
+        (name
+"D+"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A6"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 15.24 -2.54 180)
+        (length 5.08)
+        (name
+"D-"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A7"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 15.24 12.7 180)
+        (length 5.08)
+        (name
+"SBU1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A8"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 15.24 -15.24 180)
+        (length 5.08)
+        (hide yes)
+        (name
+"VBUS"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"A9"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 22.86 270)
+        (length 5.08)
+        (hide yes)
+        (name
+"GND"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 22.86 270)
+        (length 5.08)
+        (hide yes)
+        (name
+"GND"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B12"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 15.24 -15.24 180)
+        (length 5.08)
+        (hide yes)
+        (name
+"VBUS"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B4"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 15.24 -7.62 180)
+        (length 5.08)
+        (name
+"CC2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B5"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 15.24 5.08 180)
+        (length 5.08)
+        (name
+"D+"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B6"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 15.24 0 180)
+        (length 5.08)
+        (name
+"D-"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B7"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 15.24 15.24 180)
+        (length 5.08)
+        (name
+"SBU2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B8"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 15.24 -15.24 180)
+        (length 5.08)
+        (hide yes)
+        (name
+"VBUS"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"B9"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at -7.62 22.86 270)
+        (length 5.08)
+        (name
+"SHIELD"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"S1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"C"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"C"
+      (at -2.54 -3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"C"
+      (at -2.54 3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"flattened from the exact official KiCad non-polarized capacitor"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"C_0_1"
+      (polyline
+        (pts
+          (xy -2.032 0.762)
+          (xy 2.032 0.762)
+        )
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy -2.032 -0.762)
+          (xy 2.032 -0.762)
+        )
+        (stroke
+          (width 0.508)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+    )
+    (symbol
+"C_1_1"
+      (pin
+passive
+line
+        (at 0 3.81 270)
+        (length 2.794)
+        (name
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 -3.81 90)
+        (length 2.794)
+        (name
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"C_Polarized_T598"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"C"
+      (at -2.54 -3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"C_Polarized_T598"
+      (at -2.54 3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"official polarized-capacitor graphics flattened with T598 polarity evidence"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"C_Polarized_T598_0_1"
+      (rectangle
+        (start -2.286 0.508)
+        (end 2.286 1.016)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy -1.778 2.286)
+          (xy -0.762 2.286)
+        )
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy -1.27 2.794)
+          (xy -1.27 1.778)
+        )
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (rectangle
+        (start 2.286 -0.508)
+        (end -2.286 -1.016)
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type outline)
+        )
+      )
+    )
+    (symbol
+"C_Polarized_T598_1_1"
+      (pin
+passive
+line
+        (at 0 3.81 270)
+        (length 2.794)
+        (name
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 -3.81 90)
+        (length 2.794)
+        (name
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"D_TVS"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"D"
+      (at -2.54 -3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"D_TVS"
+      (at -2.54 3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"exact official TVS graphics flattened into the vertical branch orientation"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"D_TVS_0_1"
+      (polyline
+        (pts
+          (xy 1.27 2.54)
+          (xy -1.27 2.54)
+          (xy 1.27 -2.54)
+          (xy -1.27 -2.54)
+          (xy 1.27 2.54)
+        )
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy 1.27 -0.508)
+          (xy 1.27 0)
+          (xy -1.27 0)
+          (xy -1.27 0.508)
+        )
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy 0 -1.27)
+          (xy 0 1.27)
+        )
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+    )
+    (symbol
+"D_TVS_1_1"
+      (pin
+passive
+line
+        (at 0 3.81 270)
+        (length 2.54)
+        (name
+"K"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 -3.81 90)
+        (length 2.54)
+        (name
+"A"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"LED"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"D"
+      (at -1.27 -5.08 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"LED"
+      (at -1.27 5.08 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"flattened from the exact official KiCad LED symbol"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"LED_0_1"
+      (polyline
+        (pts
+          (xy 3.048 0.762)
+          (xy 4.572 2.286)
+          (xy 3.81 2.286)
+          (xy 4.572 2.286)
+          (xy 4.572 1.524)
+        )
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy 1.778 0.762)
+          (xy 3.302 2.286)
+          (xy 2.54 2.286)
+          (xy 3.302 2.286)
+          (xy 3.302 1.524)
+        )
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy 1.27 0)
+          (xy -1.27 0)
+        )
+        (stroke
+          (width 0)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy 1.27 1.27)
+          (xy 1.27 -1.27)
+        )
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+      (polyline
+        (pts
+          (xy -1.27 1.27)
+          (xy -1.27 -1.27)
+          (xy 1.27 0)
+          (xy -1.27 1.27)
+        )
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+    )
+    (symbol
+"LED_1_1"
+      (pin
+passive
+line
+        (at 3.81 0 180)
+        (length 2.54)
+        (name
+"K"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at -3.81 0 0)
+        (length 2.54)
+        (name
+"A"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"R"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"R"
+      (at -2.54 -3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"R"
+      (at -2.54 3.81 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"flattened from the exact official KiCad resistor symbol"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"R_0_1"
+      (rectangle
+        (start -1.016 -2.54)
+        (end 1.016 2.54)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type none)
+        )
+      )
+    )
+    (symbol
+"R_1_1"
+      (pin
+passive
+line
+        (at 0 3.81 270)
+        (length 1.27)
+        (name
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 -3.81 90)
+        (length 1.27)
+        (name
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"TPS259620DDAR"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"U"
+      (at -7.62 -12.7 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"TPS259620DDAR"
+      (at -7.62 7.62 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"official TPS2596xx functional graphics flattened; logical EP maps to pin 9"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"TPS259620DDAR_0_1"
+      (rectangle
+        (start -7.62 -10.16)
+        (end 7.62 10.16)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type background)
+        )
+      )
+    )
+    (symbol
+"TPS259620DDAR_1_1"
+      (pin
+passive
+line
+        (at 0 12.7 270)
+        (length 2.54)
+        (name
+"GND"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at -10.16 7.62 0)
+        (length 2.54)
+        (name
+"dVdt"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+input
+line
+        (at -10.16 -2.54 0)
+        (length 2.54)
+        (name
+"EN/UVLO"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"3"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+power_in
+line
+        (at -10.16 -7.62 0)
+        (length 2.54)
+        (name
+"IN"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"4"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+power_out
+line
+        (at 10.16 -7.62 180)
+        (length 2.54)
+        (name
+"OUT"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"5"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 10.16 -2.54 180)
+        (length 2.54)
+        (name
+"FLT"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"6"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 10.16 7.62 180)
+        (length 2.54)
+        (name
+"ILM"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"7"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at -10.16 2.54 0)
+        (length 2.54)
+        (name
+"OVCSEL"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"8"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 12.7 270)
+        (length 2.54)
+        (hide yes)
+        (name
+"EXPOSED_PAD"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"9"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+  (symbol
+"LP38692MPX_3V3"
+    (pin_names
+      (offset 0.508)
+    )
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (in_pos_files yes)
+    (duplicate_pin_numbers_are_jumpers no)
+    (property
+"Reference"
+"U"
+      (at -7.62 -12.7 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Value"
+"LP38692MPX_3V3"
+      (at -7.62 7.62 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property
+"Footprint"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Datasheet"
+""
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (property
+"Description"
+"self-contained functional symbol derived from the exact TI NDC five-pin pinout"
+      (at 0 0 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (hide yes)
+      )
+    )
+    (symbol
+"LP38692MPX_3V3_0_1"
+      (rectangle
+        (start -7.62 10.16)
+        (end 7.62 -5.08)
+        (stroke
+          (width 0.254)
+          (type default)
+        )
+        (fill
+          (type background)
+        )
+      )
+    )
+    (symbol
+"LP38692MPX_3V3_1_1"
+      (pin
+input
+line
+        (at -10.16 -2.54 0)
+        (length 2.54)
+        (name
+"EN"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"1"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+no_connect
+line
+        (at 10.16 0 180)
+        (length 2.54)
+        (name
+"NC"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"2"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+power_out
+line
+        (at 10.16 -7.62 180)
+        (length 2.54)
+        (name
+"OUT"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"3"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+power_in
+line
+        (at -10.16 -7.62 0)
+        (length 2.54)
+        (name
+"IN"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"4"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+      (pin
+passive
+line
+        (at 0 12.7 270)
+        (length 2.54)
+        (name
+"GND/TAB"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+        (number
+"5"
+          (effects
+            (font
+              (size 1.27 1.27)
+            )
+          )
+        )
+      )
+    )
+    (embedded_fonts no)
+  )
+)

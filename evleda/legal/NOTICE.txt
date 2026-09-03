@@ -1,0 +1,57 @@
+EvlEDA
+Copyright 2026 EvlEDA contributors
+
+This repository contains more than one kind of work. The applicable licence is
+determined by the path and the work's nature, not by a generated output.
+When this NOTICE is included as `legal/NOTICE.txt` in a standalone hardware
+archive, other `legal/...` paths below name sibling files in that archive.
+
+Software and documentation
+--------------------------
+Unless a file carries a more specific notice, the original software,
+configuration, plugin/skill material, automation, and prose documentation in
+this repository are licensed under Apache License 2.0. The complete text is in
+the repository-root `LICENSE`; standalone hardware archives contain hardware
+example material under the CERN licence described below, not a software
+distribution.
+
+The Apache-2.0 grant expressly excludes these third-party KiCad symbol-source
+snapshots, which are instead licensed under CC-BY-SA-4.0:
+
+- `backend/kicad_compile/human_schematic/sources/c_polarized.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/c.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/conn_01x02.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/d_tvs.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/led.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/r.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/testpoint.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/tps2596xx.kicad_sym`
+- `backend/kicad_compile/human_schematic/sources/usb_c_receptacle_usb2_16p.kicad_sym`
+
+The adapted `CODE_OF_CONDUCT.md` is also CC-BY-SA-4.0 rather than Apache-2.0.
+The complete CC-BY-SA-4.0 text is at repository path
+`LICENSES/CC-BY-SA-4.0.txt` and standalone-archive path
+`legal/CC-BY-SA-4.0.txt`. The KiCad Libraries notice, design-file exception,
+and warranty text is at repository path `LICENSES/KiCad-Libraries-LICENSE.md`
+and standalone-archive path `legal/KiCad-Libraries-LICENSE.md`.
+
+Hardware design examples
+------------------------
+Original hardware-design source and curated, non-release manufacturing example
+material beneath examples/ are licensed under CERN-OHL-P-2.0. This includes
+KiCad schematic, PCB, footprint, board-configuration, fabrication, assembly,
+and mechanical design files that are explicitly included as examples. The
+complete licence text is at repository path `LICENSES/CERN-OHL-P-2.0.txt` and
+standalone-archive path `legal/CERN-OHL-P-2.0.txt`.
+
+The reference USB-C-to-3V3 board and every CAM package distributed by this
+project are non-release engineering examples unless an artifact itself carries
+an independently signed manufacturing-release approval. This NOTICE does not
+grant a safety, compliance, fitness-for-purpose, or manufacturing warranty.
+
+Third-party material
+--------------------
+Third-party code, assets, data, and their required notices are enumerated at
+repository path `THIRD_PARTY_NOTICES.md` and standalone-archive path
+`legal/THIRD_PARTY_NOTICES.md`. Those notices prevail for the identified
+material and include upstream source and licence URLs.

@@ -1,0 +1,269 @@
+(footprint
+"fp_7794963ceebb5e36b7b6c301eeb69b9b"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"U2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "12088712-e8eb-57e0-bf91-bcf609dd373b")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"3.3V 1A LDO"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "8ac885b5-6cc5-5f43-89ea-ad6927143cf5")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"2"
+smd
+rect
+    (at -0.75 0 0)
+    (size 1 1.5)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "NC")
+    (pintype "no_connect")
+    (uuid 25cb6c44-6815-575f-8f34-691898ad7691)
+  )
+  (pad
+"1"
+smd
+rect
+    (at -2.25 0 0)
+    (size 1 1.5)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "EN")
+    (pintype "input")
+    (uuid 4e209419-0deb-5f35-b0dc-e2129104dddc)
+  )
+  (pad
+"4"
+smd
+rect
+    (at 2.25 0 0)
+    (size 1 1.5)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "IN")
+    (pintype "power_in")
+    (uuid 7d12832a-85fb-5a3d-b1b2-fcdd8337f3e4)
+  )
+  (pad
+"5"
+smd
+rect
+    (at 0 6.3 0)
+    (size 3.3 1.5)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "GND/TAB")
+    (pintype "passive")
+    (uuid e36fb587-ce72-535d-a656-90f5aa340593)
+  )
+  (pad
+"3"
+smd
+rect
+    (at 0.75 0 0)
+    (size 1 1.5)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "OUT")
+    (pintype "power_out")
+    (uuid faa718a5-ff5e-589a-be92-bee262140604)
+  )
+  (fp_line
+    (start -3.25 1.7)
+    (end 3.25 1.7)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid d827ce12-8a3b-53c0-a8f0-53e01159a1fa)
+  )
+  (fp_line
+    (start 3.25 1.7)
+    (end 3.25 5.26)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid a0bc2679-5b04-5cfe-9867-7a0510e73f97)
+  )
+  (fp_line
+    (start 3.25 5.26)
+    (end -3.25 5.26)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 1cef9006-6807-5975-ad8a-5d143c2c5d5a)
+  )
+  (fp_line
+    (start -3.25 5.26)
+    (end -3.25 1.7)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 92b886cc-084a-524c-a5fb-0f923b2b54d1)
+  )
+  (fp_line
+    (start -3.25 -0.75)
+    (end 3.25 -0.75)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid f19ea0ee-5a8d-5f84-a6a3-e135fb751ec6)
+  )
+  (fp_line
+    (start 3.25 -0.75)
+    (end 3.25 7.05)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 875410f5-77dc-5c18-9d76-9846ef955f01)
+  )
+  (fp_line
+    (start 3.25 7.05)
+    (end -3.25 7.05)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 278beb6d-5596-5843-ab28-57e9a5a1a7c9)
+  )
+  (fp_line
+    (start -3.25 7.05)
+    (end -3.25 -0.75)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid c5e79e0a-e395-55a5-8c53-523b68ee0ce1)
+  )
+  (property
+"CanonicalComponentId"
+"ldo-u2"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ac35a53e-d55e-5e7c-9fe8-eef95e069076")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"bad2d800ebb241540ec05a976cbc42d9118d00af9c6cbe220674090c0761e955"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "fe7acce5-bea4-5fb0-9313-b9af76c2abd7")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:37d312bc1c8189f8fe4275ceaf8928d447cb6faaa2796e503d6120a891376352"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "f8f1c74e-5128-5705-9872-23eb2169e456")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"37d312bc1c8189f8fe4275ceaf8928d447cb6faaa2796e503d6120a891376352"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "185c2667-a515-54e3-bc88-07c97edc8d4e")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"NDC/SOT-223-5; exact MPN LP38692MPX-3.3/NOPB"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "aa09aaa0-62fa-5659-9b8b-ffe81eda262d")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_7794963ceebb5e36b7b6c301eeb69b9b"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "382e1c98-a99a-568c-b7d0-58a3397f7637")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"LP38692MPX-3.3/NOPB"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "1ac93642-abc7-5adc-afac-c560a12d5711")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

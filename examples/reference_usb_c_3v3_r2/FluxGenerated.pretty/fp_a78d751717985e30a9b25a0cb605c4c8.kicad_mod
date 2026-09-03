@@ -1,0 +1,236 @@
+(footprint
+"fp_a78d751717985e30a9b25a0cb605c4c8"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"R9"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "d761dd35-13fc-5ea8-ae41-375a02bffd02")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"10mOhm 1%"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "b14048ab-41d6-57bc-991a-e3a562eafe2f")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"1"
+smd
+rect
+    (at -0.76 0 0)
+    (size 1.02 1.02)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "1")
+    (pintype "passive")
+    (uuid 29be6f6f-fd11-5a6e-9636-da2856226241)
+  )
+  (pad
+"2"
+smd
+rect
+    (at 0.76 0 0)
+    (size 1.02 1.02)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "2")
+    (pintype "passive")
+    (uuid 45a4d0d0-9a13-5bd3-bb4a-a5058dec4ba1)
+  )
+  (fp_line
+    (start 0.76 0.38)
+    (end -0.76 0.38)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid deecf172-1691-5048-b7b7-278bc5278ba2)
+  )
+  (fp_line
+    (start -0.76 0.38)
+    (end -0.76 -0.38)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 95fe8ff7-3cc3-5e4d-a437-66edc53f9088)
+  )
+  (fp_line
+    (start -0.76 -0.38)
+    (end 0.76 -0.38)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 76bc4272-f85d-5add-a7a9-496949c1d2df)
+  )
+  (fp_line
+    (start 0.76 -0.38)
+    (end 0.76 0.38)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 3d70c6b6-3806-5f92-877a-86a6e46038e5)
+  )
+  (fp_line
+    (start 1.27 0.51)
+    (end -1.27 0.51)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 323f6294-f350-58e4-8471-0f681e7b1e80)
+  )
+  (fp_line
+    (start -1.27 0.51)
+    (end -1.27 -0.51)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid f5f65bb6-93f0-59e6-8a64-9fe7811b8bb7)
+  )
+  (fp_line
+    (start -1.27 -0.51)
+    (end 1.27 -0.51)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 2401c54e-0122-5e65-b545-c8f991b5a408)
+  )
+  (fp_line
+    (start 1.27 -0.51)
+    (end 1.27 0.51)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 1c6f1a30-964e-56b6-bf6c-555613254ee6)
+  )
+  (property
+"CanonicalComponentId"
+"cout-esr-r9"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "e6b97cbc-4095-5778-93a3-655def6202f1")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"f56075edf3c2c9e515b9974fca5366d100be4072379456c974e050fee6c1e60b"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "e9cd708a-529b-5ea3-a98c-d470b10c873f")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:5d20b5572767451d6a38e1e37c6f0f3113eb604e72593a6cd97a0a944458455b"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "2bb6affe-9b78-5b85-87f3-799958914cfd")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"5d20b5572767451d6a38e1e37c6f0f3113eb604e72593a6cd97a0a944458455b"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "e359e6b5-5105-5981-b5fa-8b2cf0e460dd")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"0603; exact MPN WSLP0603R0100FEA"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "706ea7ff-2f81-55b4-b5c4-346c2167445d")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_a78d751717985e30a9b25a0cb605c4c8"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "a3af63b9-237d-5695-acb2-9627e7479b48")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"WSLP0603R0100FEA"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "9789485c-180a-5ca1-a888-a34a513f556a")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

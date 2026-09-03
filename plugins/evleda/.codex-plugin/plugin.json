@@ -1,0 +1,34 @@
+{
+  "name": "evleda",
+  "version": "0.2.0",
+  "description": "Local stdio MCP and skill for an existing KiCad installation",
+  "author": {
+    "name": "EvlEDA contributors"
+  },
+  "keywords": [
+    "pcb",
+    "kicad",
+    "mcp",
+    "erc",
+    "drc"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "EvlEDA",
+    "shortDescription": "Guardrailed local access to installed KiCad",
+    "longDescription": "Let Codex work with local native KiCad projects through a stdio-only MCP, typed capability gates, source-preserving checks, and traceable non-release evidence. KiCad remains the editor and native checker.",
+    "developerName": "EvlEDA contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Inspect my local KiCad project and explain unresolved gates.",
+      "Run source-preserving KiCad verification on this project.",
+      "Prepare a traceable non-release export from this KiCad project."
+    ],
+    "brandColor": "#4B5563"
+  }
+}

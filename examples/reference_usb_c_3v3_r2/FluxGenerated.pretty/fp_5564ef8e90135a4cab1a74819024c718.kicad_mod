@@ -1,0 +1,353 @@
+(footprint
+"fp_5564ef8e90135a4cab1a74819024c718"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"U1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ef9c7408-37ff-5ab5-b672-5ad42b7abdd4")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"0.247A eFuse/OVC latch-off"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "d48a7fec-f2d0-5760-b5fc-387b92ca5829")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"2"
+smd
+rect
+    (at -2.7 -0.635 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "dVdt")
+    (pintype "passive")
+    (uuid 24886a60-507b-59de-b58c-54f73664bdee)
+  )
+  (pad
+"1"
+smd
+rect
+    (at -2.7 -1.905 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "GND")
+    (pintype "passive")
+    (uuid 2ce08daa-6f24-5e8b-94ea-05a5ee239102)
+  )
+  (pad
+""
+smd
+rect
+    (at 0 0 0)
+    (size 2.4 3.1)
+    (layers "F.Mask")
+    (uuid 5a75c8a3-e4a3-5484-b428-a4860973ac9c)
+  )
+  (pad
+"7"
+smd
+rect
+    (at 2.7 -0.635 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "ILM")
+    (pintype "passive")
+    (uuid 5e2f5c8b-8e8c-5434-a999-1ff541c6ee5d)
+  )
+  (pad
+"4"
+smd
+rect
+    (at -2.7 1.905 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "IN")
+    (pintype "power_in")
+    (uuid 88363f30-17ba-575e-a255-55e039a4b25f)
+  )
+  (pad
+"3"
+smd
+rect
+    (at -2.7 0.635 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "EN/UVLO")
+    (pintype "input")
+    (uuid 95ea1dc5-4f9a-5d0e-b17d-dfa866a299a9)
+  )
+  (pad
+"8"
+smd
+rect
+    (at 2.7 -1.905 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "OVCSEL")
+    (pintype "passive")
+    (uuid a9369b59-91c2-52a4-9042-49086fde7be6)
+  )
+  (pad
+"6"
+smd
+rect
+    (at 2.7 0.635 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "FLT")
+    (pintype "no_connect")
+    (uuid b408aa4e-8102-5665-bd5f-46b10887fca5)
+  )
+  (pad
+"9"
+smd
+rect
+    (at 0 0 0)
+    (size 2.95 4.9)
+    (layers "F.Cu")
+    (pinfunction "EXPOSED_PAD")
+    (pintype "passive")
+    (uuid ebdea162-14fb-52ad-87a1-4a962c03e439)
+  )
+  (pad
+"5"
+smd
+rect
+    (at 2.7 1.905 0)
+    (size 1.55 0.6)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "OUT")
+    (pintype "power_out")
+    (uuid f211922b-e3a5-5caa-91fb-1e99dc5b0c27)
+  )
+  (pad
+""
+smd
+rect
+    (at 0 0 0)
+    (size 2.4 3.1)
+    (layers "F.Paste")
+    (uuid fa885929-6409-5586-bfb3-ce6402532cf7)
+  )
+  (fp_line
+    (start -1.95 -1.45)
+    (end -0.95 -2.45)
+    (stroke
+      (width 0.15)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 3c914618-05e4-53e1-83dc-179625da9ecc)
+  )
+  (fp_line
+    (start -0.95 -2.45)
+    (end 1.95 -2.45)
+    (stroke
+      (width 0.15)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 1c801245-43e4-5489-adee-83eda178d5ae)
+  )
+  (fp_line
+    (start 1.95 -2.45)
+    (end 1.95 2.45)
+    (stroke
+      (width 0.15)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid d1177439-275d-57bb-aa4e-336439669bc1)
+  )
+  (fp_line
+    (start 1.95 2.45)
+    (end -1.95 2.45)
+    (stroke
+      (width 0.15)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid 690fb618-d7c5-55d5-8e02-5d2a3588844f)
+  )
+  (fp_line
+    (start -1.95 2.45)
+    (end -1.95 -1.45)
+    (stroke
+      (width 0.15)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid ff42c9a4-e9b3-527b-985c-ff602b820a7e)
+  )
+  (fp_line
+    (start -3.75 -2.75)
+    (end 3.75 -2.75)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid ffa136f0-26ec-5a1e-b4ef-d42a63fe25d5)
+  )
+  (fp_line
+    (start 3.75 -2.75)
+    (end 3.75 2.75)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 3317a922-5e8b-5874-9ad3-761e6be052d7)
+  )
+  (fp_line
+    (start 3.75 2.75)
+    (end -3.75 2.75)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid a6036be6-8f66-5bf1-b5b1-65c4d92048a6)
+  )
+  (fp_line
+    (start -3.75 2.75)
+    (end -3.75 -2.75)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 3280527a-7d94-5fe2-a72b-39a98ff7ac9f)
+  )
+  (model
+"${KICAD10_3DMODEL_DIR}/Package_SO.3dshapes/HTSOP-8-1EP_3.9x4.9mm_P1.27mm.step"
+    (offset
+      (xyz 0 0 0)
+    )
+    (scale
+      (xyz 1 1 1)
+    )
+    (rotate
+      (xyz 0 0 0)
+    )
+  )
+  (property
+"CanonicalComponentId"
+"efuse-u1"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "b039673b-323f-59fd-945b-73b1a2dcd3bd")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"ad5f8d53c75be86825adc99dc308014c25e51991e158535cdce81cb65bfbd22a"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "dfa4d0e3-9658-5b0b-8c38-6d727b0ccb77")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:66f6bae4494f7bfe7dfdc314e508f0291d9ca1e87265cca9b6fdfeaa5cb19fe9"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "c4b592b9-ec61-5d2d-8687-70de0f2eb17b")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"66f6bae4494f7bfe7dfdc314e508f0291d9ca1e87265cca9b6fdfeaa5cb19fe9"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "271ae8f4-1296-5daf-9dd2-bc4868db7f4a")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"SOIC-8-EP-DDA; exact MPN TPS259620DDAR"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "ec722369-1ff6-563f-85f2-024a717fe8e1")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_5564ef8e90135a4cab1a74819024c718"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "a521e63a-42d2-54b0-9a4d-ad3cbb6b3365")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"TPS259620DDAR"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "59424051-01ed-56c5-88e7-0ee4c9f244e3")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

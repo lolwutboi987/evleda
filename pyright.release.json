@@ -1,0 +1,36 @@
+{
+  "include": [
+    "evleda",
+    "backend/design_kernel",
+    "backend/evidence",
+    "backend/kicad_compile",
+    "backend/kicad_io",
+    "backend/kicad_manufacturing_candidate",
+    "backend/kicad_project",
+    "backend/kicad_worker",
+    "backend/mcp_gateway",
+    "backend/mcp_server",
+    "backend/reference_design",
+    "backend/verification",
+    "scripts/build_packaged_reference.py",
+    "scripts/check_release_static.py",
+    "scripts/smoke_wheel.py",
+    "scripts/verify_public_distribution.py",
+    "scripts/cloud",
+    ".github/scripts"
+  ],
+  "exclude": [
+    "prototypes/project_host.py",
+    "**/__pycache__",
+    "build",
+    "dist",
+    "release-assets",
+    "work"
+  ],
+  "pythonVersion": "3.12",
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "error",
+  "reportMissingModuleSource": "error",
+  "reportUndefinedVariable": "error",
+  "reportGeneralTypeIssues": "error"
+}

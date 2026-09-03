@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "evleda": {
+      "command": "evleda-mcp",
+      "args": [
+        "serve",
+        "--require-kicad"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}

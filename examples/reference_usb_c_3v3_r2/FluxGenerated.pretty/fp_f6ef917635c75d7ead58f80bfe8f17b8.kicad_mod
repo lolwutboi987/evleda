@@ -1,0 +1,225 @@
+(footprint
+"fp_f6ef917635c75d7ead58f80bfe8f17b8"
+  (version 20240108)
+  (generator "flux_clone")
+  (generator_version "10.0")
+  (layer "F.Cu")
+  (property
+"Reference"
+"TP4"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "192e4ec2-4a35-5181-b0fc-c65d1e9ef19b")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Value"
+"GND"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "0be519ad-ced9-5ca1-9514-d7b9067ca498")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (attr smd)
+  (pad
+"1"
+smd
+rect
+    (at 0 0 0)
+    (size 3.4 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (pinfunction "TEST")
+    (pintype "passive")
+    (uuid 064337ec-0c8f-5456-b778-f00e6ada4309)
+  )
+  (fp_line
+    (start -1.35 -0.5)
+    (end 1.35 -0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid ccfd4a97-a0e5-5aa5-abfd-a531875abf41)
+  )
+  (fp_line
+    (start 1.35 -0.5)
+    (end 1.35 0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid bf4ad596-1810-5bf7-a4d0-52d920d1d03a)
+  )
+  (fp_line
+    (start 1.35 0.5)
+    (end -1.35 0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid e33feaf5-c69d-5d8f-9e26-58058cde9494)
+  )
+  (fp_line
+    (start -1.35 0.5)
+    (end -1.35 -0.5)
+    (stroke
+      (width 0.1)
+      (type default)
+    )
+    (layer "F.Fab")
+    (uuid cff16109-d5db-5e5b-a4aa-b681ebd29bca)
+  )
+  (fp_line
+    (start -2.15 -1.35)
+    (end 2.15 -1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid d167d0c0-d143-5099-8f69-0199dde19f4c)
+  )
+  (fp_line
+    (start 2.15 -1.35)
+    (end 2.15 1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 6a270369-baa5-53e4-8a53-2ae49ac4652e)
+  )
+  (fp_line
+    (start 2.15 1.35)
+    (end -2.15 1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 06241586-8da6-5078-8927-5b543a789453)
+  )
+  (fp_line
+    (start -2.15 1.35)
+    (end -2.15 -1.35)
+    (stroke
+      (width 0.05)
+      (type default)
+    )
+    (layer "F.CrtYd")
+    (uuid 8e1c32eb-3fd0-5af7-b097-55b31534554f)
+  )
+  (property
+"CanonicalComponentId"
+"tp-4"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "c81d5b40-0983-59f3-b791-e0bd288937d9")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"CanonicalPinMapSha256"
+"9f3d34006553afd86583e19a3d819486c57f0a0c9a0e19e8ebb221696c5b29d9"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "8322b2c3-89fd-58a1-8212-f77794d93251")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Datasheet"
+"urn:sha256:00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "148d5e57-de9f-58e8-ace8-bdeb8628a43a")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"DatasheetSha256"
+"00919bf8da5da41c978fe22717f8b39d443d03bb69bdd0a853ced85479fb237c"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "1ceead3f-d156-58bf-b0b5-dcce940946fa")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Description"
+"SMT test point; exact MPN 5015"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "13084d4c-cf04-52a7-8ec0-5b1bc02d2210")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"Footprint"
+"FluxGenerated:fp_f6ef917635c75d7ead58f80bfe8f17b8"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "7043d43a-29c8-593a-80b6-c124adfc8d2d")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+  (property
+"ManufacturerPartNumber"
+"5015"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "b0e0cbd9-681e-54ce-937e-5e636d9b1691")
+    (effects
+      (font
+        (size 1 1)
+        (thickness 0.15)
+      )
+    )
+  )
+)

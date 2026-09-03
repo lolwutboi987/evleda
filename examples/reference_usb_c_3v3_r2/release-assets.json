@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "project": "reference-usb-c-3v3-r2",
+  "manufacturing_release_eligible": false,
+  "assets": [
+    {
+      "filename": "evleda-reference-usb-c-3v3-r2-cam-candidate.zip",
+      "kind": "non-release-cam-candidate",
+      "byte_length": 137802,
+      "sha256": "511b0b1f752239b7bfd63cdf9b2f790fd933269aaf695521c5164d2178fd79c0"
+    },
+    {
+      "filename": "evleda-reference-usb-c-3v3-r2-source.zip",
+      "kind": "deterministic-kicad-source-package",
+      "byte_length": 219892,
+      "sha256": "d5173c8229d5f8e2a98c415b8f126a4cd4c03758f9100322c516703716b3397b"
+    },
+    {
+      "filename": "preview.png",
+      "kind": "review-preview",
+      "byte_length": 667200,
+      "sha256": "0872c426856aba1eff78526f2b679224a0e32eaf36ea7e99f56769a2c2ac263b"
+    }
+  ]
+}

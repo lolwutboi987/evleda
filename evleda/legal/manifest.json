@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "kind": "evleda-standalone-hardware-legal-payloads",
+  "files": [
+    {
+      "filename": "CC-BY-SA-4.0.txt",
+      "media_type": "text/plain",
+      "byte_length": 20138,
+      "sha256": "28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5"
+    },
+    {
+      "filename": "CERN-OHL-P-2.0.txt",
+      "media_type": "text/plain",
+      "byte_length": 8855,
+      "sha256": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb"
+    },
+    {
+      "filename": "KiCad-Libraries-LICENSE.md",
+      "media_type": "text/markdown",
+      "byte_length": 2101,
+      "sha256": "45d2bce75e5a4208f5afb01b8fb2c406e700371c4fe2b5f5cd5c443d46db4d8f"
+    },
+    {
+      "filename": "NOTICE.txt",
+      "media_type": "text/plain",
+      "byte_length": 3069,
+      "sha256": "44a717c1b84c625a3db460cf9c165ec3390bafbf0ecce0ae50667d584fb6f4cf"
+    },
+    {
+      "filename": "THIRD_PARTY_NOTICES.md",
+      "media_type": "text/markdown",
+      "byte_length": 5055,
+      "sha256": "d79393d351d06f7a907254919a67cc811a495a56a9812e61af6157c4493ffb5b"
+    }
+  ]
+}
