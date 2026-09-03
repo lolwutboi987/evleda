@@ -16,11 +16,11 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: true
-      - name: Verify and publish the exact local Git tree
+      - name: Verify and publish the exact local Git tree without workflow files
         shell: bash
         env:
           ARCHIVE_SHA256: 546323fa3399f0552b46c45430c09b7e38693207031e42b234a2f47731fd626b
-          EXPECTED_TREE: 893a5d8102806574260028749db243d17176d25c
+          EXPECTED_TREE: c23f5d44f2f090cda1d8e44a485ac5854f528674
         run: |
           set -euo pipefail
           archive=evleda-source-5ddc420.tar.gz
@@ -33,7 +33,7 @@ jobs:
           test -f "$source/pyproject.toml"
           test -f "$source/README.md"
           cp -a "$source/." .
-          rm -f evleda-source-5ddc420.tar.gz evleda-0.2.0.tar.gz .github/workflows/bootstrap.yml
+          rm -f evleda-source-5ddc420.tar.gz evleda-0.2.0.tar.gz .github/workflows/bootstrap.yml .github/workflows/ci.yml .github/workflows/release.yml
           git config user.name "Evan Le"
           git config user.email "lolwutboi987@users.noreply.github.com"
           git add -A
