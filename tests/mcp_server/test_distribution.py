@@ -48,7 +48,12 @@ class DistributionTests(unittest.TestCase):
             executable = root / ("kicad-cli.exe" if os.name == "nt" else "kicad-cli")
             executable.write_bytes(b"fixture")
             selected = discover_kicad_cli(executable, environment={})
-            self.assertEqual(selected, (executable.resolve(), "override"))
+            assert selected is not None
+            selected_path, origin = selected
+            self.assertEqual(origin, "override")
+            self.assertTrue(os.path.samefile(selected_path, executable))
+            self.assertTrue(selected_path.is_absolute())
+            self.assertEqual(selected_path.name.casefold(), executable.name.casefold())
             with self.assertRaises(ReferenceHostConfigurationError):
                 discover_kicad_cli(root / "not-kicad", environment={})
 
