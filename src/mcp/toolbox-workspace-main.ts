@@ -14,6 +14,7 @@ import { formatNativeToolboxError } from "./toolbox-native-main.js";
 export const toolboxWorkspaceUsage = `Usage: pnpm mcp:toolbox:workspace --profile <file> --profile-sha256 <sha256> --profile-bytes <bytes> --workspace-root <existing-directory> [--edit]
 
 Connects immediately with guidance, design schema, library inspection and in-chat draft compilation.
+An explicit stock catalog profile also enables bounded library search.
 KiCad opens only after evleda_create_project or evleda_resume_project.
 The host selects the profile/workspace and edit policy once; model calls use opaque project IDs.
 Unresolved drafts return questions in-band without creating native project folders.
@@ -60,6 +61,7 @@ export async function loadKicadToolboxWorkspace(options: NonNullable<ReturnType<
   return createKicadToolboxWorkspace({ profile: options.profile, store, dependencies: design.dependencies,
     deepRuleSelectionOptions: design.deepRuleSelectionOptions, access: options.access,
     ...(transmissionLine === undefined ? {} : { transmissionLine }),
+    ...(design.searchLibrary === undefined ? {} : { searchLibrary: design.searchLibrary }),
     inspectLibrary: (kind, libraryId) => kind === "symbol" ? design.dependencies.libraryResolver.inspectSymbol(libraryId)
       : design.dependencies.libraryResolver.inspectFootprint(libraryId) });
 }

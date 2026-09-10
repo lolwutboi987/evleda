@@ -16,6 +16,7 @@ import {
   validateContentIdentity,
 } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
+import { capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable, type PcbLibrarySourceSelection } from "./pcb-library-source-binding.js";
 import {
   PCB_PRACTICE_ANALYSIS_PROFILE_SCHEMA,
   type PcbPracticeAnalysisProfile,
@@ -582,7 +583,11 @@ const rebuildLibraryBinding = (
 ): PcbLibraryBinding => {
   const symbols: PcbLibraryBinding["symbols"][number][] = [];
   const footprints: PcbLibraryBinding["footprints"][number][] = [];
+  const selected = { symbolIds: [...new Set(contract.components.map(component => component.symbolLibId))],
+    footprintIds: [...new Set(contract.components.map(component => component.footprintLibId))] };
+  let sourceSelection: PcbLibrarySourceSelection | undefined;
   try {
+    sourceSelection = capturePcbLibrarySourceSelection(dependencies.resolver, selected);
     for (const component of contract.components) {
       const rawSymbol = Reflect.apply(dependencies.resolveSymbol, dependencies.resolver, [component.symbolLibId]);
       const rawFootprint = Reflect.apply(dependencies.resolveFootprint, dependencies.resolver, [component.footprintLibId]);
@@ -631,6 +636,7 @@ const rebuildLibraryBinding = (
         pads: [...footprint.pads],
       });
     }
+    assertPcbLibrarySourceSelectionStable(sourceSelection, capturePcbLibrarySourceSelection(dependencies.resolver, selected));
   } catch (error) {
     if (error instanceof PcbDesignCompilationBundleError) throw error;
     return fail("DEPENDENCY_FAILURE", "Trusted library resolver failed during independent reconstruction.");
@@ -645,6 +651,7 @@ const rebuildLibraryBinding = (
     contractIdentity: contract.identity,
     symbols,
     footprints,
+    ...(sourceSelection === undefined ? {} : { sourceSelection }),
   };
   return deepFreeze({
     ...payload,

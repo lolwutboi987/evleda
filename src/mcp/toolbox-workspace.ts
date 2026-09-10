@@ -16,6 +16,7 @@ import { PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, getPcbPlaneDesignIntentModelGuide,
   PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES, PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE } from "../harness/pcb-design-plane-model-guide.js";
 import { PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION } from "../harness/pcb-interface-requirements.js";
 import { validateFreshProjectName } from "../harness/fresh-project.js";
+import type { createKiCad10StockCatalog } from "../harness/kicad-stock-catalog.js";
 import type { KicadMcpPinnedFileInput } from "../integrations/kicad-mcp-session.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import { openFreshNativeToolboxBinding } from "./toolbox-fresh-main.js";
@@ -30,6 +31,7 @@ export interface KicadToolboxWorkspaceOptions {
   readonly access: "read-only" | "edit";
   readonly transmissionLine?: KicadTransmissionLineCalculator;
   readonly inspectLibrary?: (kind: "symbol" | "footprint", libraryId: string) => unknown;
+  readonly searchLibrary?: ReturnType<typeof createKiCad10StockCatalog>["search"];
   /** Host/test dependency; never part of the model's tool arguments. */
   readonly openBinding?: typeof openFreshNativeToolboxBinding;
 }
@@ -236,9 +238,17 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       return { status: "closed", projectId: args.projectId, designAcceptance: "not_implied" };
     })));
   if (options.inspectLibrary !== undefined) toolbox.server.registerTool("evleda_inspect_library", {
-    description: "Inspect an exact symbol or footprint through the host-approved stock-library resolver. Unknown or unapproved items are not replaced with guesses.",
+    description: "Inspect a symbol or footprint ID through the host-approved stock-library resolver. Reports current source identity and supported native geometry; does not qualify a component electrically. Compilation binds selected sources under a stock catalog policy. Unknown or unsupported items are not replaced with guesses.",
     inputSchema: z.object({ kind: z.enum(["symbol", "footprint"]), libraryId: z.string().min(1).max(192) }).strict(), annotations: READ,
   }, async args => respond(() => { const inspection = options.inspectLibrary!(args.kind, args.libraryId); return { found: inspection !== null, inspection }; }));
+  if (options.searchLibrary !== undefined) toolbox.server.registerTool("evleda_search_library", {
+    description: "Search host-approved KiCad 10 stock namespaces without opening CAD. Results are discovery candidates, not inspected or electrically qualified parts. Follow single-use nextCursor until exhausted; restart the search after a lost cursor response. complete also requires no unsupported source coverage. Inspect selected IDs with evleda_inspect_library before drafting. Sources are read separately, not as an atomic installation snapshot.",
+    inputSchema: z.object({ kind: z.enum(["symbol", "footprint"]), query: z.string().trim().max(128).regex(/^[A-Za-z0-9 _.:+@~-]*$/u),
+      library: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_.+@~-]{0,127}$/u).optional(),
+      limit: z.number().int().min(1).max(100).optional(), cursor: z.string().regex(/^[A-Za-z0-9_-]{32}$/u).optional() }).strict(), annotations: { ...READ, idempotentHint: false },
+  }, async args => respond(() => ({ ...options.searchLibrary!({ kind: args.kind, query: args.query,
+    ...(args.library === undefined ? {} : { library: args.library }), ...(args.limit === undefined ? {} : { limit: args.limit }),
+    ...(args.cursor === undefined ? {} : { cursor: args.cursor }) }) })));
 
   return Object.freeze({ server: toolbox.server,
     close: () => closing ??= (async () => {

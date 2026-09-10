@@ -23,6 +23,7 @@ import {
   type FreshNetClassSemanticAuthority, type FreshNetClassPreparationEvidence,
 } from "../harness/fresh-clearance-evidence.js";
 import type { KicadCliAdapter, KicadExecutableIdentity } from "../integrations/kicad-cli.js";
+import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 
 /** All capabilities and paths are supplied by the owning host, never an MCP argument. */
 export interface KicadToolboxFreshPreparationInput {
@@ -60,6 +61,8 @@ export function assertKicadToolboxFreshPreparation(value: unknown): asserts valu
   if (value === null || typeof value !== "object" || !preparations.has(value)) {
     throw new Error("Fresh toolbox connection requires an original host preparation capability.");
   }
+  const preparation = value as KicadToolboxFreshPreparation;
+  assertPcbLibrarySourcesCurrent(preparation.bundle.libraryBinding, preparation.dependencies.libraryResolver);
 }
 
 export type KicadToolboxFreshPreparationResult =
@@ -89,6 +92,7 @@ export async function prepareKicadToolboxFreshProject(input: KicadToolboxFreshPr
       || !expectedIdentity.operationalVersion || !expectedIdentity.operationalCommit) {
     throw new Error("Fresh toolbox preparation requires an exact host-owned KiCad executable identity.");
   }
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   const project = await prepareFreshProject({ outputDir: input.outputDir, name: input.name, resume: false,
     workflowKind: "generic", compilationBundle: bundle, compilationBundleRef: bundleRef });
   const adapter = await input.createKicadCliAdapter({ workspaceRoot: project.outputPath, projectRoot: project.projectPath,
@@ -101,12 +105,14 @@ export async function prepareKicadToolboxFreshProject(input: KicadToolboxFreshPr
     throw new Error("Fresh toolbox KiCad adapter differs from the exact host-owned toolchain identity.");
   }
   const operation = { project, compilationBundle: bundle, kicad: kicadIdentity };
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   const netClassMaterialization = await materializeFreshNetClasses(operation);
   const observed = await readFreshNetClassSemanticAuthority(operation);
   const netClassSemanticAuthority = await verifyFreshNetClassSemanticAuthority(observed, operation);
   const netClassPreparationEvidence = createFreshNetClassPreparationEvidence(netClassMaterialization, netClassSemanticAuthority);
   const preparedSourceAuthority = await captureFreshProjectOpenPreparedSourceAuthority(project);
   const bundlePath = path.join(project.outputPath, "toolbox-design-bundle.json");
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   await writeFile(bundlePath, serializePcbDesignCompilationBundle(bundle), { flag: "wx" });
   const reportPath = path.join(project.outputPath, "pcb-agent-report.json");
   const report = { schemaVersion: "evleda.toolbox-fresh-preparation-report.v1", status: "needs_review",
@@ -186,6 +192,7 @@ export async function resumeKicadToolboxFreshProject(input: KicadToolboxFreshRes
   }
   const projectOptions = { outputDir: outputPath, name: input.name, resume: true as const,
     workflowKind: "generic" as const, compilationBundle: bundle, compilationBundleRef: bundleRef };
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   const project = await prepareFreshProject(projectOptions);
   if (report.projectPath !== project.projectPath
       || canonicalJson(preparedSourceAuthority.projectIdentity) !== canonicalJson(project.projectIdentity)) {
@@ -207,6 +214,7 @@ export async function resumeKicadToolboxFreshProject(input: KicadToolboxFreshRes
   if (currentArtifacts.some((bytes, index) => !bytes.equals([bundleBytes, reportBytes, checkpointBytes][index]!))) {
     throw new Error("Saved toolbox artifacts changed during resume.");
   }
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   await prepareFreshProject(projectOptions);
   const preparation = Object.freeze({ mode: "resumed" as const, project, bundle, bundleRef, bundlePath, dependencies, adapter, kicadIdentity,
     preparedSourceAuthority, netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence, reportPath });

@@ -17,6 +17,7 @@ import { getPcbPlaneDesignIntentModelGuide, PCB_PLANE_DESIGN_INTENT_EXTENDED_MOD
 import { PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION } from "../../src/harness/pcb-interface-requirements.js";
 import { createFreshPlaneRules } from "../../src/harness/fresh-plane-rules.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
+import { createPcbLibrarySourceSelection } from "../../src/harness/pcb-library-source-binding.js";
 import { prepareKicadToolboxPlaneProject, resumeKicadToolboxPlaneProject, assertKicadToolboxPlanePreparation,
   type KicadToolboxPlanePreparation } from "../../src/mcp/toolbox-plane-preparation.js";
 import { createPlaneToolboxCheckpointLifecycle } from "../../src/mcp/toolbox-plane-checkpoint.js";
@@ -37,7 +38,7 @@ afterEach(async () => {
 const body = (response: { structuredContent?: unknown }) => response.structuredContent as Record<string, any>;
 const draftFamilies = [["routed-v1", genericDividerDraft], ["plane-v2", planeDividerDraft]] as const;
 async function fixture(access: "read-only" | "edit" = "edit",
-  compilerOptions: Partial<Pick<KicadToolboxWorkspaceOptions, "dependencies" | "deepRuleSelectionOptions">> = {}) {
+  compilerOptions: Partial<Pick<KicadToolboxWorkspaceOptions, "dependencies" | "deepRuleSelectionOptions" | "searchLibrary">> = {}) {
   const root = await mkdtemp(path.join(tmpdir(), "toolbox-workspace-mcp-")); roots.push(root);
   const workspaceRoot = path.join(root, "workspace"), fixed = path.join(root, "fixed");
   await Promise.all([mkdir(workspaceRoot), mkdir(fixed)]);
@@ -64,6 +65,65 @@ async function fixture(access: "read-only" | "edit" = "edit",
 }
 
 describe("in-chat workspace controller over actual MCP", () => {
+  it("exposes bounded read-only catalog discovery only when the host supplies it", async () => {
+    const searchLibrary = vi.fn<NonNullable<KicadToolboxWorkspaceOptions["searchLibrary"]>>().mockReturnValue({
+      schemaVersion: "evleda.kicad-stock-catalog-search.v1", namespaceAuthority: "host-approved-kicad-10-stock",
+      policyIdentity: canonicalIdentity({ fixture: "stock-policy" }, "evleda.kicad-stock-catalog-policy.v1"),
+      kind: "symbol", query: "resistor", library: "Device", candidates: [], complete: false, exhausted: false,
+      nextCursor: "a".repeat(32), scanned: { sources: 1, candidates: 1, sourceBytes: 32, libraries: 1 },
+      totalScanned: { sources: 1, candidates: 1, sourceBytes: 32, libraries: 1 }, totalUnsupportedSources: 0,
+      unsupported: [], snapshot: "per-source-read-not-atomic",
+    });
+    const f = await fixture("read-only", { searchLibrary });
+    try {
+      const tool = (await f.client.listTools()).tools.find(item => item.name === "evleda_search_library");
+      expect(tool?.annotations?.readOnlyHint).toBe(true);
+      expect(tool?.annotations?.idempotentHint).toBe(false);
+      expect(body(await f.call("evleda_search_library", { kind: "symbol", query: "resistor", library: "Device", limit: 10 })))
+        .toMatchObject({ complete: false, exhausted: false, nextCursor: "a".repeat(32) });
+      expect(searchLibrary).toHaveBeenCalledExactlyOnceWith({ kind: "symbol", query: "resistor", library: "Device", limit: 10 });
+      for (const args of [{ kind: "symbol", query: "r", root: "/other" }, { kind: "symbol", query: "../R" },
+        { kind: "symbol", query: "r", limit: 101 }, { kind: "symbol", query: "r", cursor: "fake" }]) {
+        expect((await f.call("evleda_search_library", args)).isError).toBe(true);
+      }
+      expect(searchLibrary).toHaveBeenCalledTimes(1);
+      expect(f.openBinding).not.toHaveBeenCalled(); expect((await f.store.list()).total).toBe(0);
+    } finally { await f.close(); }
+    const exact = await fixture();
+    try { expect((await exact.client.listTools()).tools.map(item => item.name)).not.toContain("evleda_search_library"); }
+    finally { await exact.close(); }
+  });
+
+  it.each(draftFamilies)("rejects %s catalog source drift since ready submission before allocating a project", async (_family, makeDraft) => {
+    const base = createGenericDividerBundleFixture().dependencies;
+    let sourceRevision = 1;
+    const libraryResolver = { ...base.libraryResolver,
+      captureSourceSelection: (selected: { symbolIds: readonly string[]; footprintIds: readonly string[] }) => createPcbLibrarySourceSelection({
+        policyIdentity: canonicalIdentity({ fixture: "stock-policy" }, "evleda.kicad-stock-catalog-policy.v1"),
+        records: [
+          ...selected.symbolIds.map(libraryId => ({ kind: "symbol" as const, libraryId,
+            sourceIdentity: contentIdentity(Buffer.from(`symbol-source-${sourceRevision}`)),
+            inspectionIdentity: canonicalIdentity({ libraryId }, "evleda.kicad-stock-symbol-inspection.v1") })),
+          ...selected.footprintIds.map(libraryId => ({ kind: "footprint" as const, libraryId,
+            sourceIdentity: contentIdentity(Buffer.from("footprint-source")),
+            inspectionIdentity: canonicalIdentity({ libraryId }, "evleda.kicad-stock-footprint-inspection.v2") })),
+        ],
+      }, selected),
+    };
+    const f = await fixture("edit", { dependencies: { ...base, libraryResolver } });
+    try {
+      const ready = await f.submit("source-bound", makeDraft());
+      expect(ready.status).toBe("ready");
+      expect(ready.compilation.libraryBinding.sourceSelection.records.length).toBeGreaterThan(0);
+      sourceRevision++;
+      const changed = await f.call("evleda_create_project", { draftId: ready.draftId });
+      expect(changed.isError).toBe(true);
+      expect(body(changed).error).toContain("Compilation changed since preview");
+      expect((await f.store.list()).total).toBe(0); expect(f.openBinding).not.toHaveBeenCalled();
+      expect(body(await f.call("evleda_workspace_status")).pendingDrafts).toHaveLength(1);
+    } finally { await f.close(); }
+  });
+
   it("provides idle/schema/library tools without creating files or opening native CAD", async () => {
     const f = await fixture();
     try {

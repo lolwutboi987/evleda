@@ -22,7 +22,12 @@ const repository = fileURLToPath(new URL("../", import.meta.url));
 const output = path.resolve(values["report-dir"], `workspace-proof-${randomUUID()}`); await mkdir(output, { recursive: true });
 const draft = JSON.parse(await readFile(path.resolve(values.fixture), "utf8"));
 const family = draft.schemaVersion === "evleda.pcb-design-intent-draft.v2" ? "plane-v2" : "routed-v1";
-const projectName = family === "plane-v2" ? "workspace-plane-divider" : "workspace-divider";
+const rcFixture = draft.components.map((component: { reference: string }) => component.reference).sort().join() === "C1,J1,R1";
+if (rcFixture) assert.equal(family, "plane-v2", "The RC software fixture requires the published V2 contract.");
+const projectName = rcFixture ? "workspace-catalog-rc-filter" : family === "plane-v2" ? "workspace-plane-divider" : "workspace-divider";
+const originalPrompt = rcFixture
+  ? "Build the reviewed 1k / 100n RC software fixture with input, output and ground header. Exercise catalog-selected Device:C and Capacitor_SMD:C_0603_1608Metric native authoring, synchronization, reads and normal checkpoint resume. Routing and physical qualification remain outside this proof."
+  : "Build the reviewed divider integration fixture.";
 const environment: Record<string, string> = {};
 for (const [key, value] of Object.entries(process.env)) if (value !== undefined && ["SYSTEMROOT", "WINDIR"].includes(key.toUpperCase())) environment[key] = value;
 const transport = new StdioClientTransport({ command: process.execPath, cwd: repository, env: environment, stderr: "pipe",
@@ -30,7 +35,10 @@ const transport = new StdioClientTransport({ command: process.execPath, cwd: rep
 let stderr = ""; transport.stderr?.on("data", chunk => { stderr = (stderr + String(chunk)).slice(-32_000); });
 const client = new Client({ name: "evleda-workspace-stdio-proof", version: "1" }, { versionNegotiation: { mode: "legacy" } });
 const report: Record<string, unknown> = { startedAt: new Date().toISOString(), operations: [], family,
-  scope: "Destination qualification of real STDIO workspace draft discovery/clarification/create/retry, optional native authoring/endpoint inspection and persisted-ID resume. This intentionally unrouted lifecycle fixture does not replace the transferred complete-board proof or establish application installation or design acceptance." };
+  fixture: rcFixture ? "catalog-rc-filter" : "divider",
+  scope: rcFixture
+    ? "Catalog-selected Device:C and Capacitor_SMD:C_0603_1608Metric software proof of V2 native authoring, synchronization, source-bound reads, previews and normal checkpoint resume. The three-net fixture remains unrouted; this does not establish routing, physical qualification, design acceptance or application installation."
+    : "Destination qualification of real STDIO workspace draft discovery/clarification/create/retry, optional native authoring/endpoint inspection and persisted-ID resume. This intentionally unrouted lifecycle fixture does not replace the transferred complete-board proof or establish application installation or design acceptance." };
 let projectId: string | undefined, connected = false;
 const body = (value: CallToolResult): Record<string, unknown> => {
   const outer = value.structuredContent as Record<string, unknown> | undefined;
@@ -55,7 +63,8 @@ async function sourceSnapshot(opened: Record<string, unknown>) {
   const sources = await Promise.all([`${name}.kicad_pcb`, `${name}.kicad_sch`, `${name}.kicad_pro`,
     ...(family === "plane-v2" ? [`${name}.kicad_dru`] : []), "sym-lib-table", "fp-lib-table"]
     .map(async filename => ({ filename, identity: contentIdentity(await readFile(path.join(projectPath, filename))) })));
-  const bundle = JSON.parse(await readFile(path.join(outputPath, "toolbox-design-bundle.json"), "utf8"));
+  const bundleBytes = await readFile(path.join(outputPath, "toolbox-design-bundle.json"));
+  const bundle = JSON.parse(bundleBytes.toString("utf8"));
   if (family === "plane-v2") {
     assert.equal(bundle.schemaVersion, "evleda.pcb-design-compilation-bundle.v2");
     assert.equal(bundle.contract.schemaVersion, "evleda.pcb-design-contract.v2");
@@ -67,7 +76,8 @@ async function sourceSnapshot(opened: Record<string, unknown>) {
     assert.equal(marker.files.dru.sha256, dru.digest);
     assert.equal(checkpoint.files.dru.sha256, dru.digest);
   }
-  return { sources, bundleIdentity: bundle.identity };
+  return { sources, bundleIdentity: bundle.identity, bundleFileIdentity: contentIdentity(bundleBytes),
+    ...(bundle.libraryBinding.sourceSelection === undefined ? {} : { sourceSelection: bundle.libraryBinding.sourceSelection }) };
 }
 async function inspectPlaneEndpoints(opened: Record<string, unknown>, label: string) {
   const endpoint = await call("evleda_check_endpoint_connectivity");
@@ -90,7 +100,7 @@ async function inspectPlaneEndpoints(opened: Record<string, unknown>, label: str
   assert.equal(canonicalJson(contentIdentity(await readFile(path.join(opened.outputPath as string, ".evleda-mcp-output", diagnostic.filename)))), canonicalJson(diagnostic.identity));
   report[label] = endpoint;
 }
-async function capturePreviews() {
+async function capturePreviews(prefix: "fresh" | "restart" = "restart") {
   const previews = [];
   for (const view of ["top", "assembly"] as const) {
     const metadata = await call("evleda_render_board", { view });
@@ -109,11 +119,11 @@ async function capturePreviews() {
     const svgIdentity = contentIdentity(svg.text);
     assert.equal(svgIdentity.digest, (metadata.pcbSvg as { sha256: string }).sha256);
     assert.equal(svgIdentity.size, (metadata.pcbSvg as { sizeBytes: number }).sizeBytes);
-    const pngPath = path.join(output, `restart-${view}.png`), svgPath = path.join(output, `restart-${view}.svg`);
+    const pngPath = path.join(output, `${prefix}-${view}.png`), svgPath = path.join(output, `${prefix}-${view}.svg`);
     await writeFile(pngPath, png, { flag: "wx" }); await writeFile(svgPath, svg.text, { flag: "wx" });
     previews.push({ view, pngPath, svgPath, pngIdentity, svgIdentity });
   }
-  report.previews = previews;
+  report[prefix === "restart" ? "previews" : "freshPreviews"] = previews;
 }
 try {
   const started = performance.now(); await client.connect(transport, { timeout: 30_000 }); connected = true;
@@ -128,7 +138,7 @@ try {
     assert.equal(schema.family, family);
     assert.ok((schema.supportedFamilies as string[]).includes(family));
   }
-  report.library = await call("evleda_inspect_library", { kind: "symbol", libraryId: "Device:R" });
+  report.library = await call("evleda_inspect_library", { kind: "symbol", libraryId: rcFixture ? "Device:C" : "Device:R" });
   if (values["resume-project"] !== undefined) {
     const projects = await call("evleda_list_projects");
     if (!(projects.projects as { projectId: string }[]).some(project => project.projectId === values["resume-project"])) throw new Error("Requested restart project is absent from the persisted catalog.");
@@ -148,17 +158,35 @@ try {
     report.restartResumeCompleted = true;
   } else {
   const incomplete = structuredClone(draft); incomplete.netClasses[0].traceWidthMm = null;
-  const clarification = await call("evleda_submit_design", { name: projectName, originalPrompt: "Build the reviewed divider integration fixture.", draft: incomplete });
+  const clarification = await call("evleda_submit_design", { name: projectName, originalPrompt, draft: incomplete });
   if (clarification.status !== "needs_clarification" || clarification.projectCreated !== false) throw new Error("Missing width did not return in-band clarification.");
   const empty = await call("evleda_list_projects");
   if (empty.total !== 0) throw new Error("This proof requires an empty workspace, and clarification must not allocate a project.");
-  const ready = await call("evleda_submit_design", { name: projectName, originalPrompt: "Build the reviewed divider integration fixture.", draft });
+  const ready = await call("evleda_submit_design", { name: projectName, originalPrompt, draft });
   if (ready.status !== "ready" || typeof ready.draftId !== "string" || ready.projectCreated !== false) throw new Error("Complete draft was not ready without filesystem allocation.");
   report.draftId = ready.draftId;
+  const compilation = ready.compilation as { contract: unknown; libraryBinding: { sourceSelection?: {
+    schemaVersion: string; records: { kind: string; libraryId: string }[] } } };
+  const readySourceSelection = compilation.libraryBinding.sourceSelection;
+  if (readySourceSelection !== undefined) report.readySourceSelection = readySourceSelection;
+  if (rcFixture) {
+    assert.ok(readySourceSelection, "The catalog RC fixture requires selected-source pins.");
+    assert.equal(readySourceSelection.schemaVersion, "evleda.pcb-library-source-selection.v1");
+    assert.deepEqual(readySourceSelection.records.map(record => `${record.kind}:${record.libraryId}`).sort(), [
+      "footprint:Capacitor_SMD:C_0603_1608Metric", "footprint:Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+      "footprint:Resistor_SMD:R_0603_1608Metric", "symbol:Connector_Generic:Conn_01x03", "symbol:Device:C", "symbol:Device:R",
+    ]);
+  }
+  const assertReadyBindings = (snapshot: Awaited<ReturnType<typeof sourceSnapshot>>) => {
+    assert.equal(canonicalJson(snapshot.bundleIdentity), canonicalJson(ready.bundleIdentity));
+    assert.deepEqual(snapshot.sourceSelection, readySourceSelection);
+  };
   if (values["exercise-native"]) {
     projectId = ready.draftId;
     const opened = await call("evleda_create_project", { draftId: projectId });
     if (opened.status !== "opened" || opened.projectId !== projectId) throw new Error("Native project did not open from its in-band draft ID.");
+    const createdSources = await sourceSnapshot(opened); assertReadyBindings(createdSources);
+    report.createdSources = createdSources;
     const repeated = await call("evleda_create_project", { draftId: projectId });
     if (repeated.status !== "already_created" || repeated.active !== true) throw new Error("Creation retry was not idempotent.");
     const attachedTools = await client.listTools(); report.attachedTools = attachedTools;
@@ -167,14 +195,28 @@ try {
     if (family === "plane-v2") {
       assert.equal(context.family, family);
       assert.equal(canonicalJson(context.bundleIdentity), canonicalJson(ready.bundleIdentity));
+      assert.equal(canonicalJson(context.contract), canonicalJson(compilation.contract));
       assert.equal(context.acceptanceEvaluated, false);
       for (const name of ["fresh_apply_contract_plane", "fresh_replace_route_items", "evleda_check_endpoint_connectivity"]) {
         assert.ok(attachedTools.tools.some(tool => tool.name === name), `V2 workspace missing ${name}`);
       }
     }
-    const contract = context.contract as { components: { reference: string; symbolLibId: string; footprintLibId: string; value: string }[] };
-    if (contract.components.map(component => component.reference).sort().join() !== "J1,R1,R2") throw new Error("Authoring proof only handles the reviewed divider fixture.");
-    const positions = { J1: [101.6, 101.6], R1: [127, 101.6], R2: [127, 127] } as const;
+    const contract = context.contract as { schemaVersion: string; nets: { name: string }[];
+      components: { reference: string; symbolLibId: string; footprintLibId: string; value: string }[] };
+    assert.equal(contract.components.map(component => component.reference).sort().join(), rcFixture ? "C1,J1,R1" : "J1,R1,R2",
+      "Authoring proof only handles the reviewed divider and RC software fixtures.");
+    if (family === "plane-v2") {
+      assert.equal(contract.schemaVersion, "evleda.pcb-design-contract.v2");
+      assert.deepEqual(contract.nets.map(net => net.name).sort(), ["GND", "VIN", "VOUT"]);
+    }
+    if (rcFixture) {
+      const capacitor = contract.components.find(component => component.reference === "C1")!;
+      assert.equal(capacitor.symbolLibId, "Device:C");
+      assert.equal(capacitor.footprintLibId, "Capacitor_SMD:C_0603_1608Metric");
+      assert.equal(capacitor.value, "100n");
+      assert.equal(contract.components.find(component => component.reference === "R1")!.value, "1k");
+    }
+    const positions = { J1: [101.6, 101.6], R1: [127, 101.6], R2: [127, 127], C1: [127, 127] } as const;
     for (const component of contract.components) {
       const [library, symbol_name] = component.symbolLibId.split(":"); const at = positions[component.reference as keyof typeof positions];
       await call("sch_add_symbol", { library, symbol_name, reference: component.reference, value: component.value,
@@ -195,26 +237,31 @@ try {
       assert.equal(pads.boardCounts.logicalTerminalCount, 7);
       await call("pcb_set_board_outline", { width_mm: 30, height_mm: 20, origin_x_mm: 0, origin_y_mm: 0 });
       for (const placement of [{ reference: "J1", x_mm: 3, y_mm: 7, rotation_deg: 0 },
-        { reference: "R1", x_mm: 10, y_mm: 7.825, rotation_deg: 270 }, { reference: "R2", x_mm: 18, y_mm: 9.475, rotation_deg: 0 }]) {
+        { reference: "R1", x_mm: 10, y_mm: 7.825, rotation_deg: 270 }, { reference: rcFixture ? "C1" : "R2", x_mm: 18, y_mm: 9.475, rotation_deg: 0 }]) {
         await call("pcb_move_footprint", placement);
       }
       await inspectPlaneEndpoints(opened, "freshEndpointConnectivity");
     }
     const stackup = await call("evleda_read_stackup"); report.stackup = stackup;
     if ((stackup.stackup as { status?: string }).status !== "missing" || stackup.impedanceValidation !== "not_performed") throw new Error("Blank-template stackup was incorrectly inferred or validated.");
+    await capturePreviews("fresh");
     const closed = await call("evleda_close_project", { projectId });
     if (closed.status !== "closed") throw new Error("Workspace close did not confirm its lifecycle.");
     const savedSources = await sourceSnapshot(opened);
-    assert.equal(canonicalJson(savedSources.bundleIdentity), canonicalJson(ready.bundleIdentity));
+    assertReadyBindings(savedSources);
+    assert.deepEqual(savedSources.bundleFileIdentity, createdSources.bundleFileIdentity);
     const inactive = await call("evleda_workspace_status");
     if (inactive.activeProject !== null || inactive.nativeState !== "absent") throw new Error("Closed workspace still holds an active binding.");
     if ((await client.listTools()).tools.some(tool => tool.name === "sch_add_symbol")) throw new Error("Detached CAD tool remains advertised.");
     const resumed = await call("evleda_resume_project", { projectId });
     if (resumed.status !== "opened" || resumed.resumed !== true) throw new Error("Same-connection resume did not reopen its saved bundle.");
+    const reopenedSources = await sourceSnapshot(resumed); assertReadyBindings(reopenedSources);
+    assert.deepEqual(reopenedSources.bundleFileIdentity, savedSources.bundleFileIdentity);
     report.resumedPads = await call("fresh_get_contract_pad_positions");
     if (family === "plane-v2") await inspectPlaneEndpoints(resumed, "resumedEndpointConnectivity");
     await call("evleda_close_project", { projectId }); projectId = undefined;
     const resumedSources = await sourceSnapshot(resumed);
+    assertReadyBindings(resumedSources);
     assert.deepEqual(resumedSources, savedSources);
     report.sourceUnchangedThroughResume = true;
     report.authoredSources = resumedSources;

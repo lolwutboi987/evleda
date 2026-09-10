@@ -13,6 +13,7 @@ import { prepareKicadToolboxFreshProject } from "../../src/mcp/toolbox-fresh-pre
 import type { KicadCliAdapter, KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
 import { genericDividerDraft, genericDividerLibraryResolver } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
+import { sourceAwareLibraryFixture } from "../helpers/pcb-library-source-fixture.js";
 
 const roots: string[] = [];
 afterEach(async () => { await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))); });
@@ -38,6 +39,30 @@ async function prepared(input: KicadToolboxPlanePreparationInput) {
 }
 
 describe("real V2 plane toolbox preparation and resume", () => {
+  it.each(["symbol", "footprint"] as const)("rejects byte-only %s drift since preview before plane project allocation", async kind => {
+    const f = await fixture(); const source = sourceAwareLibraryFixture(genericDividerLibraryResolver);
+    const input = { ...f.input, dependencies: { ...dependencies, libraryResolver: source.resolver } };
+    const compilation = compilePcbPlaneDesignIntentDraft(input.draft, input.dependencies);
+    const preview = createPcbPlaneCompilationBundle({ originalPrompt: input.originalPrompt, compilation }, input.dependencies);
+    source.changeSource(kind);
+    await expect(prepareKicadToolboxPlaneProject({ ...input, expectedBundleIdentity: preview.identity })).rejects.toThrow(/changed since preview/);
+    expect(f.createKicadCliAdapter).not.toHaveBeenCalled();
+    await expect(stat(input.outputDir)).rejects.toMatchObject({ code: "ENOENT" });
+  });
+
+  it.each(["symbol", "footprint"] as const)("rejects %s source drift before plane resume and preparation authentication without writes", async kind => {
+    const f = await fixture(); const source = sourceAwareLibraryFixture(genericDividerLibraryResolver);
+    const pinnedDependencies = { ...dependencies, libraryResolver: source.resolver };
+    const p = await prepared({ ...f.input, dependencies: pinnedDependencies });
+    const files = [p.bundlePath, p.reportPath, p.project.checkpointPath, p.project.pcbPath, p.project.schematicPath, p.project.rulesPath];
+    const before = await Promise.all(files.map(file => readFile(file)));
+    f.createKicadCliAdapter.mockClear(); source.changeSource(kind);
+    expect(() => assertKicadToolboxPlanePreparation(p)).toThrow(/library sources|catalog policy/);
+    await expect(resumeKicadToolboxPlaneProject({ ...f.resumeInput, dependencies: pinnedDependencies })).rejects.toThrow(/library sources|independent reconstruction/);
+    expect(f.createKicadCliAdapter).not.toHaveBeenCalled();
+    expect(await Promise.all(files.map(file => readFile(file)))).toEqual(before);
+  });
+
   it("creates genuine V2 bundle/ref, V3 marker/checkpoint, and exact owned DRU with needs-review report", async () => {
     const f = await fixture(); const p = await prepared(f.input);
     assertKicadToolboxPlanePreparation(p);

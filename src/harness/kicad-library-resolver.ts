@@ -1172,3 +1172,170 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
 export const createKiCad10StockLibraryResolver = (
   options: KiCad10StockLibraryResolverOptions
 ): KiCad10StockLibraryResolver => new KiCad10StockLibraryResolver(options);
+
+/** Metadata is discovery evidence only; exact pin/pad inspection is still required. */
+export interface KiCadStockDiscoveryCandidate {
+  readonly kind: "symbol" | "footprint";
+  readonly libraryId: string;
+  readonly library: string;
+  readonly name: string;
+  readonly sourceIdentity: ContentIdentity;
+  readonly description: string | null;
+  readonly keywords: string | null;
+  readonly datasheet: string | null;
+  readonly defaultFootprint: string | null;
+  readonly footprintFilters: string | null;
+  readonly extends: string | null;
+  readonly status: "uninspected" | "unsupported";
+  readonly unsupportedReason: KiCadStockLibraryResolverErrorCode | null;
+}
+
+export type KiCadStockDiscoveryReaderOptions = Pick<KiCad10StockLibraryResolverOptions,
+  "symbolRoot" | "footprintRoot" | "stockSymbolNicknames" | "stockFootprintNicknames" | "limits">;
+
+/** A guarded read succeeded, but metadata parsing failed; keep its path-free source evidence. */
+export class KiCadStockDiscoveryReadError extends KiCadStockLibraryResolverError {
+  public constructor(error: KiCadStockLibraryResolverError, public readonly sourceIdentity: ContentIdentity) {
+    super(error.code, error.logicalAsset, error.message);
+    this.name = "KiCadStockDiscoveryReadError";
+  }
+}
+
+const discoveryParse = <Value>(loaded: LoadedAsset, parse: () => Value): Value => {
+  try { return parse(); }
+  catch (error) {
+    if (error instanceof KiCadStockLibraryResolverError) throw new KiCadStockDiscoveryReadError(error, loaded.identity);
+    throw error;
+  }
+};
+
+/** A separate, uncached reader: discovery never widens an exact resolver's allowlist. */
+export class KiCad10StockLibraryDiscoveryReader {
+  readonly #symbolRoot: RootBinding;
+  readonly #footprintRoot: RootBinding;
+  readonly #symbols: ReadonlySet<string>;
+  readonly #footprints: ReadonlySet<string>;
+  readonly #limits: KiCadStockLibraryResolverLimits;
+
+  public constructor(options: KiCadStockDiscoveryReaderOptions) {
+    this.#limits = mergeLimits(options.limits);
+    this.#symbolRoot = bindRoot(options.symbolRoot, "symbol root");
+    this.#footprintRoot = bindRoot(options.footprintRoot, "footprint root");
+    this.#symbols = nicknameSet(options.stockSymbolNicknames, this.#limits.maxStockNicknames, "stockSymbolNicknames");
+    this.#footprints = nicknameSet(options.stockFootprintNicknames, this.#limits.maxStockNicknames, "stockFootprintNicknames");
+  }
+
+  public assertRootsStable(): void {
+    assertStableRoot(this.#symbolRoot, "symbol root");
+    assertStableRoot(this.#footprintRoot, "footprint root");
+  }
+
+  public readSymbolLibrary(nickname: string): Readonly<{
+    sourceIdentity: ContentIdentity;
+    candidates: readonly KiCadStockDiscoveryCandidate[];
+    unsupportedEntries: number;
+  }> | null {
+    if (!validateLibraryPart(nickname) || !this.#symbols.has(nickname)) return null;
+    const asset = locateSymbol(this.#symbolRoot, nickname, nickname, this.#limits);
+    if (asset === null) return null;
+    const loaded = loadAsset(asset);
+    const parsed = discoveryParse(loaded, () => parseSymbolLibrary(loaded.bytes, nickname, this.#limits));
+    let unsupportedEntries = 0;
+    const definitions = [...parsed.definitions.entries()].filter(([name]) => {
+      if (parseLibraryId(`${nickname}:${name}`) !== null) return true;
+      unsupportedEntries += 1;
+      return false;
+    });
+    const candidates = definitions.sort(([left], [right]) => compareText(left, right)).map(([name, definition]) => {
+      const libraryId = `${nickname}:${name}`;
+      const base = {
+        kind: "symbol" as const, libraryId, library: nickname, name, sourceIdentity: loaded.identity,
+        description: null, keywords: null, datasheet: null, defaultFootprint: null, footprintFilters: null, extends: null
+      };
+      try {
+        const properties = propertyMap(definition, libraryId, this.#limits);
+        const derived = childrenNamed(definition, "extends").length > 0 || childrenNamed(definition, "alias").length > 0;
+        return {
+          ...base,
+          description: properties.get("Description") ?? null,
+          keywords: properties.get("ki_keywords") ?? null,
+          datasheet: properties.get("Datasheet") ?? null,
+          defaultFootprint: properties.get("Footprint") ?? null,
+          footprintFilters: properties.get("ki_fp_filters") ?? null,
+          extends: scalar(definition, "extends", libraryId, false),
+          status: derived ? "unsupported" as const : "uninspected" as const,
+          unsupportedReason: derived ? "DERIVED_SYMBOL_UNSUPPORTED" as const : null
+        };
+      } catch (error) {
+        if (!(error instanceof KiCadStockLibraryResolverError)) throw error;
+        return { ...base, status: "unsupported" as const, unsupportedReason: error.code };
+      }
+    });
+    return deepFreeze({ sourceIdentity: loaded.identity, candidates, unsupportedEntries });
+  }
+
+  public listFootprintNames(nickname: string): Readonly<{
+    names: readonly string[];
+    identity: CanonicalIdentity;
+    unsupportedEntries: number;
+  }> | null {
+    if (!validateLibraryPart(nickname) || !this.#footprints.has(nickname)) return null;
+    assertStableRoot(this.#footprintRoot, "footprint root");
+    const directory = exactEntry(this.#footprintRoot.canonicalPath, `${nickname}.pretty`, "directory", nickname, this.#limits.maxDirectoryEntries);
+    if (directory === null) return null;
+    try {
+      const before = lstatSync(directory, { bigint: true });
+      const real = realpathSync.native(directory);
+      if (before.isSymbolicLink() || !before.isDirectory() || !samePath(real, directory) || !containedBy(this.#footprintRoot.canonicalPath, real)) {
+        resolverError("PATH_REJECTED", nickname, "Stock footprint directory is not a canonical contained directory.");
+      }
+      const entries = readdirSync(directory, { withFileTypes: true });
+      if (entries.length > this.#limits.maxDirectoryEntries) resolverError("LIMIT_EXCEEDED", nickname, "Stock footprint directory exceeds the entry bound.");
+      const names: string[] = [];
+      let unsupportedEntries = 0;
+      for (const entry of entries) {
+        if (!entry.name.endsWith(".kicad_mod")) {
+          // Never recurse into nested source directories or expand alternate extensions.
+          if (entry.isDirectory() || entry.isSymbolicLink()) unsupportedEntries += 1;
+          continue;
+        }
+        if (entry.isSymbolicLink() || !entry.isFile()) resolverError("PATH_REJECTED", nickname, "Stock footprint entries must be non-link regular files.");
+        const name = entry.name.slice(0, -".kicad_mod".length);
+        if (parseLibraryId(`${nickname}:${name}`) === null) unsupportedEntries += 1;
+        else names.push(name);
+      }
+      const after = lstatSync(directory, { bigint: true });
+      if (after.isSymbolicLink() || !samePhysicalFile(before, after) || before.mtimeNs !== after.mtimeNs || !samePath(realpathSync.native(directory), directory)) {
+        resolverError("PATH_REJECTED", nickname, "Stock footprint directory changed while being enumerated.");
+      }
+      assertStableRoot(this.#footprintRoot, "footprint root");
+      names.sort(compareText);
+      const payload = { names, unsupportedEntries };
+      return deepFreeze({ ...payload, identity: canonicalIdentity(payload, "evleda.kicad-stock-footprint-directory.v1") });
+    } catch (error) {
+      if (error instanceof KiCadStockLibraryResolverError) throw error;
+      return resolverError("PATH_REJECTED", nickname, "Stock footprint directory cannot be safely enumerated.");
+    }
+  }
+
+  public readFootprint(libraryId: string): KiCadStockDiscoveryCandidate | null {
+    const id = parseLibraryId(libraryId);
+    if (id === null || !this.#footprints.has(id[0])) return null;
+    const [nickname, name] = id;
+    const asset = locateFootprint(this.#footprintRoot, nickname, name, libraryId, this.#limits);
+    if (asset === null) return null;
+    const loaded = loadAsset(asset);
+    return discoveryParse(loaded, () => {
+      const parsed = parseFootprintLibrary(loaded.bytes, libraryId, this.#limits);
+      if (parsed.footprint.values[0]!.value !== name) resolverError("MALFORMED_LIBRARY", libraryId, "Stock footprint root does not match its exact filename.");
+      const properties = propertyMap(parsed.footprint, libraryId, this.#limits);
+      return deepFreeze({
+        kind: "footprint" as const, libraryId, library: nickname, name, sourceIdentity: loaded.identity,
+        description: scalar(parsed.footprint, "descr", libraryId, false) ?? properties.get("Description") ?? null,
+        keywords: scalar(parsed.footprint, "tags", libraryId, false),
+        datasheet: properties.get("Datasheet") ?? null, defaultFootprint: null, footprintFilters: null, extends: null,
+        status: "uninspected" as const, unsupportedReason: null
+      });
+    });
+  }
+}

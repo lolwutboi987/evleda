@@ -12,6 +12,7 @@ import { tmpdir } from "node:os";
 import { afterEach, describe, expect, it } from "vitest";
 
 import {
+  KiCad10StockLibraryDiscoveryReader,
   KiCadStockLibraryResolverError,
   createKiCad10StockLibraryResolver,
   type KiCad10StockLibraryResolverOptions
@@ -559,4 +560,18 @@ it("exports a path-redacted typed resolver error", () => {
   const error = new KiCadStockLibraryResolverError("MALFORMED_LIBRARY", "Device:R", "Device:R is malformed");
   expect(error).toMatchObject({ code: "MALFORMED_LIBRARY", logicalAsset: "Device:R" });
   expect(JSON.stringify(error)).not.toContain("path");
+});
+
+it("keeps legacy exact selection unchanged when a separate reader discovers other stock definitions", () => {
+  const fixture = createFixture();
+  const options = resolverOptions(fixture, { exactSymbolIds: ["Device:R"] });
+  const exact = createKiCad10StockLibraryResolver(options);
+  const discovery = new KiCad10StockLibraryDiscoveryReader(options);
+  expect(discovery.readSymbolLibrary("Device")?.candidates.map((candidate) => candidate.libraryId)).toContain("Device:C");
+  expect(exact.inspectSymbol("Device:C")).toBeNull();
+  expect(exact.inspectSymbol("Device:R")).not.toBeNull();
+  expect(discovery.readSymbolLibrary("Project_Custom")).toBeNull();
+  expect(discovery.readSymbolLibrary("Device")?.candidates.find((candidate) => candidate.libraryId === "Device:Alias")).toMatchObject({
+    status: "unsupported", unsupportedReason: "DERIVED_SYMBOL_UNSUPPORTED", extends: "R"
+  });
 });

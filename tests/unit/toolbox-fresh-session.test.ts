@@ -3,6 +3,7 @@ import { KicadMcpTerminationUncertainError } from "../../src/integrations/kicad-
 import { captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { KicadToolboxFreshSessionInput } from "../../src/mcp/toolbox-fresh-session.js";
+import { sourceAwareLibraryFixture } from "../helpers/pcb-library-source-fixture.js";
 
 const seams = vi.hoisted(() => ({ authenticate: vi.fn(), initialize: vi.fn(), initialSave: vi.fn(), checkpoint: vi.fn(), verifyClasses: vi.fn(),
   resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn() }));
@@ -29,7 +30,8 @@ function fixture() {
   const resumed = { ...original, checkpoint: "normalized" };
   const sourceIdentity = { algorithm: "sha256", digest: "a".repeat(64), size: 10 };
   const resolver = { inspectFootprint: vi.fn().mockReturnValue({ libraryId: "Lib:Footprint", sourceIdentity }), inspectSymbolTerminalGeometry: vi.fn() };
-  const bundle = { contract: { components: [{ reference: "R1", footprintLibId: "Lib:Footprint" }] }, practiceProfileBinding: { profile: { reviewed: "practice" } } };
+  const bundle = { libraryBinding: { symbols: [{ libraryId: "Lib:Symbol" }], footprints: [{ libraryId: "Lib:Footprint" }] },
+    contract: { components: [{ reference: "R1", footprintLibId: "Lib:Footprint" }] }, practiceProfileBinding: { profile: { reviewed: "practice" } } };
   const preparation = { mode: "fresh", project: original, bundle, bundleRef: { pinned: "bundle" }, dependencies: { libraryResolver: resolver }, reportPath: "output/report",
     preparedSourceAuthority: { exact: "original-preparation" }, netClassSemanticAuthority: { netClasses: [{ id: "signal" }], contractNetAssignments: [{ net: "SIG" }] },
     kicadIdentity: { path: "host/kicad-cli.exe" } };
@@ -49,7 +51,43 @@ function fixture() {
   return { input, order, session, authority, original, resumed, resolver, bundle, preparation, captures, tools, practices, createCliAdapter, sourceIdentity, lifecycle };
 }
 
+function pinSources(f: ReturnType<typeof fixture>) {
+  const sources = sourceAwareLibraryFixture(f.resolver);
+  Object.assign(f.resolver, { captureSourceSelection: sources.resolver.captureSourceSelection });
+  Object.assign(f.bundle.libraryBinding, { sourceSelection: sources.resolver.captureSourceSelection({ symbolIds: ["Lib:Symbol"], footprintIds: ["Lib:Footprint"] }) });
+  return sources;
+}
+
 describe("fresh toolbox session composition", () => {
+  it.each(["symbol", "footprint"] as const)("rejects persisted %s source drift before native connect", async kind => {
+    const f = fixture(); const sources = pinSources(f); f.preparation.mode = "resumed";
+    sources.changeSource(kind);
+    await expect(openKicadToolboxFreshSession(f.input)).rejects.toThrow(/library sources|catalog policy/);
+    expect(f.authority.connect).not.toHaveBeenCalled(); expect(seams.initialize).not.toHaveBeenCalled();
+    expect(f.authority.disposeUnused).toHaveBeenCalledOnce();
+  });
+
+  it("rejects symbol drift while connecting before initialization or initial save", async () => {
+    const f = fixture(); const sources = pinSources(f);
+    f.authority.connect.mockImplementation(async () => { sources.changeSource("symbol"); return f.session; });
+    await expect(openKicadToolboxFreshSession(f.input)).rejects.toThrow(/library sources|catalog policy/);
+    expect(seams.initialize).not.toHaveBeenCalled(); expect(seams.initialSave).not.toHaveBeenCalled();
+    expect(f.session.close).toHaveBeenCalledOnce();
+  });
+
+  it.each(["symbol", "footprint"] as const)("rejects later %s drift at current-source reads and checkpoint publication", async kind => {
+    const f = fixture(); const sources = pinSources(f); const connected = await openKicadToolboxFreshSession(f.input);
+    expect(seams.tools.mock.calls[0]![1].freshLibraryResolver).toBe(f.resolver);
+    const publish = vi.fn().mockResolvedValue(undefined); f.lifecycle.prepareCheckpoint.mockResolvedValue(publish);
+    const commit = await connected.prepareCheckpoint!();
+    sources.changeSource(kind);
+    await expect(connected.captureSources()).rejects.toThrow(/library sources|catalog policy/);
+    await expect(connected.assertCurrent()).rejects.toThrow(/library sources|catalog policy/);
+    await expect(connected.prepareCheckpoint!()).rejects.toThrow(/library sources|catalog policy/);
+    await expect(commit()).rejects.toThrow(/library sources|catalog policy/);
+    expect(publish).not.toHaveBeenCalled(); expect(seams.fingerprint).not.toHaveBeenCalled();
+  });
+
   it("saves initial settings after live assertion, normalizes with original authority, then wires resumed capabilities", async () => {
     const f = fixture(); const connected = await openKicadToolboxFreshSession(f.input);
     expect(f.order).toEqual(["connect", "initialize", "active", "initial-save", "normalize", "classes", "resume", "active"]);
@@ -77,7 +115,9 @@ describe("fresh toolbox session composition", () => {
     expect(seams.practices).toHaveBeenCalledWith({ pcbPath: f.resumed.pcbPath, profile: f.bundle.practiceProfileBinding.profile });
     expect(connected.analyzePractices).toBe(f.practices);
     expect(seams.lifecycle).toHaveBeenCalledWith({ project: f.resumed, preparation: f.preparation, session: f.session });
-    expect(connected.prepareCheckpoint).toBe(f.lifecycle.prepareCheckpoint);
+    const publish = vi.fn().mockResolvedValue(undefined); f.lifecycle.prepareCheckpoint.mockResolvedValue(publish);
+    await (await connected.prepareCheckpoint!())();
+    expect(f.lifecycle.prepareCheckpoint).toHaveBeenCalledOnce(); expect(publish).toHaveBeenCalledOnce();
     expect(connected.recordRecoveryRequired).toBe(f.lifecycle.recordRecoveryRequired);
     seams.fingerprint.mockResolvedValue("after");
     expect(await options.verifyPersistedMutation("before")).toBe(true);

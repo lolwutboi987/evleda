@@ -9,6 +9,7 @@ import { PCB_DESIGN_INTENT_DRAFT_SCHEMA_VERSION } from "../../src/harness/pcb-de
 import { compilePcbDesignIntentDraft, type PcbReadOnlyLibraryResolver } from "../../src/harness/pcb-design-compiler.js";
 import type { KicadCliAdapter, KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
 import { prepareKicadToolboxFreshProject, resumeKicadToolboxFreshProject, assertKicadToolboxFreshPreparation } from "../../src/mcp/toolbox-fresh-preparation.js";
+import { sourceAwareLibraryFixture } from "../helpers/pcb-library-source-fixture.js";
 
 const owned: string[] = [];
 afterEach(async () => {
@@ -65,6 +66,45 @@ async function input() {
 }
 
 describe("provider-free toolbox fresh preparation", () => {
+  it.each(["symbol", "footprint"] as const)("rejects byte-only %s drift since preview before project allocation", async kind => {
+    const args = await input(); const source = sourceAwareLibraryFixture(resolver);
+    args.dependencies = { ...dependencies, libraryResolver: source.resolver };
+    const compilation = compilePcbDesignIntentDraft(args.draft, args.dependencies);
+    const preview = createPcbDesignCompilationBundle({ originalPrompt: args.originalPrompt, compilation }, args.dependencies);
+    source.changeSource(kind);
+    await expect(prepareKicadToolboxFreshProject({ ...args, expectedBundleIdentity: preview.identity })).rejects.toThrow(/changed since preview/);
+    expect(args.createKicadCliAdapter).not.toHaveBeenCalled();
+    await expect(stat(args.outputDir)).rejects.toMatchObject({ code: "ENOENT" });
+  });
+
+  it("rejects symbol drift during adapter creation before netclass materialization", async () => {
+    const args = await input(); const source = sourceAwareLibraryFixture(resolver);
+    args.dependencies = { ...dependencies, libraryResolver: source.resolver };
+    let settingsPath = "", before: Buffer | undefined;
+    args.createKicadCliAdapter.mockImplementation(async options => {
+      settingsPath = path.join(options.projectRoot, `${args.name}.kicad_pro`); before = await readFile(settingsPath);
+      source.changeSource("symbol"); return { identity } as KicadCliAdapter;
+    });
+    await expect(prepareKicadToolboxFreshProject(args)).rejects.toThrow(/library sources|catalog policy/);
+    expect(await readFile(settingsPath)).toEqual(before);
+    await expect(stat(path.join(args.outputDir, "toolbox-design-bundle.json"))).rejects.toMatchObject({ code: "ENOENT" });
+  });
+
+  it.each(["symbol", "footprint"] as const)("rejects %s source drift before resume and preparation authentication without writes", async kind => {
+    const args = await input(); const source = sourceAwareLibraryFixture(resolver);
+    args.dependencies = { ...dependencies, libraryResolver: source.resolver };
+    const result = await prepareKicadToolboxFreshProject(args);
+    if (result.status !== "prepared") throw new Error("Fixture not ready");
+    const p = result.preparation;
+    const files = [p.bundlePath, p.reportPath, p.project.checkpointPath, p.project.pcbPath, p.project.schematicPath];
+    const before = await Promise.all(files.map(file => readFile(file)));
+    args.createKicadCliAdapter.mockClear(); source.changeSource(kind);
+    expect(() => assertKicadToolboxFreshPreparation(p)).toThrow(/library sources|catalog policy/);
+    await expect(resumeKicadToolboxFreshProject(args)).rejects.toThrow(/library sources|canonical reconstruction/);
+    expect(args.createKicadCliAdapter).not.toHaveBeenCalled();
+    expect(await Promise.all(files.map(file => readFile(file)))).toEqual(before);
+  });
+
   it("accepts an exact host preview bundle identity", async () => {
     const args = await input(); const compilation = compilePcbDesignIntentDraft(args.draft, args.dependencies);
     const preview = createPcbDesignCompilationBundle({ originalPrompt: args.originalPrompt, compilation }, args.dependencies);

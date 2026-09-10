@@ -15,6 +15,7 @@ import { materializeFreshPlaneNetClasses, readFreshPlaneNetClassSemanticAuthorit
   parseFreshPlaneNetClassMaterialization, parseFreshPlaneNetClassSemanticAuthority, createFreshPlaneNetClassPreparationEvidence, parseFreshPlaneNetClassPreparationEvidence } from "../harness/fresh-plane-netclasses.js";
 import type { KicadCliAdapter, KicadExecutableIdentity } from "../integrations/kicad-cli.js";
 import { readResumeFile } from "./toolbox-fresh-preparation.js";
+import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 
 export interface KicadToolboxPlanePreparationInput {
   readonly draft: unknown;
@@ -46,6 +47,8 @@ export interface KicadToolboxPlanePreparation {
 const preparations = new WeakSet<object>();
 export function assertKicadToolboxPlanePreparation(value: unknown): asserts value is KicadToolboxPlanePreparation {
   if (value === null || typeof value !== "object" || !preparations.has(value)) throw new Error("Plane toolbox requires an original authenticated V2 preparation capability.");
+  const preparation = value as KicadToolboxPlanePreparation;
+  assertPcbLibrarySourcesCurrent(preparation.bundle.libraryBinding, preparation.dependencies.libraryResolver);
 }
 
 function expectedExecutable(value: FluxKicadCliBinding): FluxKicadCliBinding {
@@ -89,16 +92,19 @@ export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePr
   const bundle = createPcbPlaneCompilationBundle({ originalPrompt: input.originalPrompt, compilation }, dependencies);
   if (preview !== undefined && canonicalJson(preview) !== canonicalJson(bundle.identity)) throw new Error("Plane compilation changed since preview; review it before project creation.");
   const bundleRef = createPcbPlaneCompilationBundleRef(bundle);
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   const project = await preparePlaneFreshProject({ outputDir: input.outputDir, name: input.name, resume: false, compilationBundle: bundle, compilationBundleRef: bundleRef });
   const adapter = await openAdapter(project, expected, input.createKicadCliAdapter);
   const kicadIdentity = adapter.identity;
   const operation = { project, compilationBundle: bundle, kicad: kicadIdentity };
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   const netClassMaterialization = await materializeFreshPlaneNetClasses(operation);
   const netClassSemanticAuthority = await verifyFreshPlaneNetClassSemanticAuthority(await readFreshPlaneNetClassSemanticAuthority(operation), operation);
   const netClassPreparationEvidence = createFreshPlaneNetClassPreparationEvidence(netClassMaterialization, netClassSemanticAuthority);
   const preparedSourceAuthority = await captureFreshProjectOpenPreparedSourceAuthority(project);
   const bundlePath = path.join(project.outputPath, "toolbox-design-bundle.json");
   const reportPath = path.join(project.outputPath, "pcb-agent-report.json");
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   await writeFile(bundlePath, serializePcbPlaneCompilationBundle(bundle), { flag: "wx" });
   const fields = { project, bundle, bundleRef, bundlePath, reportPath, kicadIdentity, preparedSourceAuthority,
     netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence };
@@ -141,6 +147,7 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
       || canonicalJson(preparedSourceAuthority.pcb) !== canonicalJson(netClassMaterialization.pcbIdentityAtMaterialization)
       || canonicalJson(preparedSourceAuthority.marker) !== canonicalJson(netClassMaterialization.freshMarkerContentIdentity)) throw new Error("Plane preparation authorities disagree.");
   const projectOptions = { outputDir: outputPath, name: input.name, resume: true, compilationBundle: bundle, compilationBundleRef: bundleRef };
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   const project = await preparePlaneFreshProject(projectOptions);
   if (report.projectPath !== project.projectPath || canonicalJson(preparedSourceAuthority.projectIdentity) !== canonicalJson(project.projectIdentity)) throw new Error("Plane preparation belongs to another project.");
   const adapter = await openAdapter(project, expected, input.createKicadCliAdapter), kicadIdentity = adapter.identity;
@@ -148,6 +155,7 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
   await verifyFreshPlaneNetClassSemanticAuthority(netClassSemanticAuthority, { project, compilationBundle: bundle, kicad: kicadIdentity });
   const after = await Promise.all([readResumeFile(bundlePath, bundleBytes.length), readResumeFile(reportPath, reportBytes.length), readResumeFile(checkpointPath, checkpointBytes.length)]);
   if (after.some((bytes, index) => !bytes.equals([bundleBytes, reportBytes, checkpointBytes][index]!))) throw new Error("Saved plane artifacts changed during resume.");
+  assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   await preparePlaneFreshProject(projectOptions);
   const preparation: KicadToolboxPlanePreparation = Object.freeze({ family: "plane-v2", mode: "resumed", project, bundle, bundleRef, bundlePath,
     reportPath, dependencies, adapter, kicadIdentity, preparedSourceAuthority, netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence });

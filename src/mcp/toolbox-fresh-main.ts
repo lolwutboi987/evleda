@@ -12,6 +12,7 @@ import { createKicadToolboxMcpServer, type KicadToolboxMcpServer, type KicadTool
 import type { KicadMcpPinnedFileInput } from "../integrations/kicad-mcp-session.js";
 import { createFreshConnectivityContract } from "../harness/fresh-connectivity-contract.js";
 import { normalizePcbPlaneSelectionPolicy } from "../harness/pcb-design-plane-compiler.js";
+import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 
 export interface FreshNativeToolboxOptions {
   readonly profile: KicadMcpPinnedFileInput;
@@ -106,6 +107,7 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
   const project = preparation.project;
   const prepared = { sourceProjectPath: project.projectPath, isolatedProjectPath: project.projectPath,
     outputPath: project.outputPath, reportPath: preparation.reportPath, freshProject: project };
+  assertPcbLibrarySourcesCurrent(preparation.bundle.libraryBinding, preparation.dependencies.libraryResolver);
   const cad = await openKicadToolboxNativeHost({ runtime: native.bridge, suite: native.editorSuite, prepared,
     pcbPath: project.pcbPath, termination: native.termination, launcher: native.editorLauncher, environment: { ...native.environment, ...design.libraryEnvironment },
     ...("family" in preparation

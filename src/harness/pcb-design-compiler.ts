@@ -1,5 +1,9 @@
 import { canonicalIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
+import {
+  capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable,
+  type PcbLibrarySourceSelection, type PcbLibrarySourceSelectionRequest,
+} from "./pcb-library-source-binding.js";
 import type { DeepRuleCatalog } from "./deep-rule-catalog.js";
 import {
   selectDeepRulesForDesign,
@@ -145,6 +149,8 @@ export interface PcbResolvedFootprint {
 export interface PcbReadOnlyLibraryResolver {
   readonly resolveSymbol: (exactLibraryId: string) => PcbResolvedSymbol | null;
   readonly resolveFootprint: (exactLibraryId: string) => PcbResolvedFootprint | null;
+  /** Optional host catalog capability; legacy exact-ID resolvers omit it. */
+  readonly captureSourceSelection?: (selected: PcbLibrarySourceSelectionRequest) => PcbLibrarySourceSelection;
 }
 
 export interface PcbLibrarySymbolBinding {
@@ -170,6 +176,7 @@ export interface PcbLibraryBinding {
   readonly contractIdentity: CanonicalIdentity;
   readonly symbols: readonly PcbLibrarySymbolBinding[];
   readonly footprints: readonly PcbLibraryFootprintBinding[];
+  readonly sourceSelection?: PcbLibrarySourceSelection;
   readonly identity: CanonicalIdentity;
 }
 
@@ -246,6 +253,7 @@ interface MutableFindingSet {
 interface ResolvedLibraries {
   readonly symbols: PcbLibrarySymbolBinding[];
   readonly footprints: PcbLibraryFootprintBinding[];
+  readonly sourceSelection?: PcbLibrarySourceSelection;
   readonly componentKinds: ReadonlyMap<string, Exclude<PcbLibraryComponentKind, "bga">>;
   readonly unsupported: Map<PcbUnsupportedV1Capability, Set<string>>;
 }
@@ -1147,6 +1155,17 @@ const resolveLibraries = (
   const componentKinds = new Map<string, Exclude<PcbLibraryComponentKind, "bga">>();
   const unsupported = new Map<PcbUnsupportedV1Capability, Set<string>>();
 
+  const selected = {
+    symbolIds: [...new Set(draft.components.flatMap(component => component.symbolLibId === null ? [] : [component.symbolLibId]))],
+    footprintIds: [...new Set(draft.components.flatMap(component => component.footprintLibId === null ? [] : [component.footprintLibId]))],
+  };
+  let sourceSelection: PcbLibrarySourceSelection | undefined;
+  try { sourceSelection = capturePcbLibrarySourceSelection(resolver, selected); }
+  catch {
+    addClarification(findings, "INVALID_LIBRARY_RECORD", "libraryBinding", "The host catalog could not capture the exact selected library sources.");
+    return { symbols, footprints, componentKinds, unsupported };
+  }
+
   for (const component of draft.components) {
     if (component.symbolLibId === null || component.footprintLibId === null) continue;
     const encodedReference = encodePathToken(component.reference);
@@ -1289,7 +1308,11 @@ const resolveLibraries = (
       `Use a bounded exact local library projection no larger than ${PCB_LIBRARY_RESOLVER_OUTPUT_LIMITS.maxBindingProjectionBytes} bytes; received ${projectionBytes} bytes.`
     );
   }
-  return { symbols, footprints, componentKinds, unsupported };
+  try { assertPcbLibrarySourceSelectionStable(sourceSelection, capturePcbLibrarySourceSelection(resolver, selected)); }
+  catch {
+    addClarification(findings, "INVALID_LIBRARY_RECORD", "libraryBinding", "The exact selected library sources or host catalog policy changed during library resolution.");
+  }
+  return { symbols, footprints, componentKinds, unsupported, ...(sourceSelection === undefined ? {} : { sourceSelection }) };
 };
 
 /** Library validation shared with new contract families, without minting a V1 contract or plan. */
@@ -1302,6 +1325,7 @@ export const resolvePcbDesignCommonLibraries = (
   issues: readonly PcbContractIssue[];
   symbols: readonly PcbLibrarySymbolBinding[];
   footprints: readonly PcbLibraryFootprintBinding[];
+  sourceSelection?: PcbLibrarySourceSelection;
 }> => {
   const findings = createFindingSet();
   const resolved = resolveLibraries(draft, resolver, findings);
@@ -1310,7 +1334,8 @@ export const resolvePcbDesignCommonLibraries = (
     : findings.questions.size > 0 || findings.issues.size > 0 ? "needs_clarification" : "ready";
   const diagnostics = finish(disposition, findings);
   return deepFreeze({ disposition, questions: diagnostics.questions, issues: diagnostics.issues,
-    symbols: resolved.symbols, footprints: resolved.footprints });
+    symbols: resolved.symbols, footprints: resolved.footprints,
+    ...(resolved.sourceSelection === undefined ? {} : { sourceSelection: resolved.sourceSelection }) });
 };
 
 const makeLibraryBinding = (
@@ -1321,7 +1346,8 @@ const makeLibraryBinding = (
     schemaVersion: PCB_LIBRARY_BINDING_SCHEMA_VERSION,
     contractIdentity: clonePlain(contract.identity),
     symbols: clonePlain(resolved.symbols),
-    footprints: clonePlain(resolved.footprints)
+    footprints: clonePlain(resolved.footprints),
+    ...(resolved.sourceSelection === undefined ? {} : { sourceSelection: clonePlain(resolved.sourceSelection) })
   };
   return deepFreeze({
     ...payload,

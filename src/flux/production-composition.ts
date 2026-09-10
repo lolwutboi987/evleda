@@ -575,6 +575,17 @@ interface LibraryProfile {
   readonly stockFootprintNicknames: readonly string[];
 }
 
+/** Explicit toolbox-only authority to discover stock parts in approved namespaces. */
+export interface KiCadToolboxStockCatalogPolicy {
+  readonly schemaVersion: "evleda.kicad-stock-catalog-policy.v1";
+  readonly mode: "stock_catalog";
+  readonly kicadMajorVersion: 10;
+  readonly symbolRoot: string;
+  readonly footprintRoot: string;
+  readonly stockSymbolNicknames: readonly string[];
+  readonly stockFootprintNicknames: readonly string[];
+}
+
 interface KicadToolchainExecutableProfile {
   readonly path: string;
   readonly identity: ContentIdentity;
@@ -817,6 +828,24 @@ const boundedInteger = (value: unknown, maximum: number): number => {
     return fail("RULE_CATALOG_UNAVAILABLE");
   }
   return value;
+};
+
+const parseToolboxLibraryProfile = (value: unknown): LibraryProfile | KiCadToolboxStockCatalogPolicy => {
+  if (value === null || typeof value !== "object" || Array.isArray(value)
+    || (value as Record<string, unknown>).mode !== "stock_catalog") return parseLibraryProfile(value);
+  const record = exactRecord(value, ["schemaVersion", "mode", "kicadMajorVersion", "symbolRoot", "footprintRoot",
+    "stockSymbolNicknames", "stockFootprintNicknames"], "KICAD_LIBRARY_UNAVAILABLE");
+  if (record.schemaVersion !== "evleda.kicad-stock-catalog-policy.v1" || record.kicadMajorVersion !== 10) {
+    return fail("KICAD_LIBRARY_UNAVAILABLE");
+  }
+  const nickname = /^[A-Za-z0-9][A-Za-z0-9_.+@~-]{0,127}$/u;
+  return deepFreeze({ schemaVersion: "evleda.kicad-stock-catalog-policy.v1", mode: "stock_catalog", kicadMajorVersion: 10,
+    symbolRoot: canonicalPathText(record.symbolRoot, "KICAD_LIBRARY_UNAVAILABLE"),
+    footprintRoot: canonicalPathText(record.footprintRoot, "KICAD_LIBRARY_UNAVAILABLE"),
+    stockSymbolNicknames: sortedUniqueTextArray(record.stockSymbolNicknames,
+      KICAD_STOCK_LIBRARY_RESOLVER_LIMITS.maxStockNicknames, nickname, "KICAD_LIBRARY_UNAVAILABLE"),
+    stockFootprintNicknames: sortedUniqueTextArray(record.stockFootprintNicknames,
+      KICAD_STOCK_LIBRARY_RESOLVER_LIMITS.maxStockNicknames, nickname, "KICAD_LIBRARY_UNAVAILABLE") });
 };
 
 const parseDeepRuleProfile = (value: unknown): DeepRuleProfile => {
@@ -2076,7 +2105,7 @@ export async function readKicadNativeProfile(input: Readonly<{ path: string; con
 export async function readKicadToolboxDesignProfile(input: Readonly<{ path: string; contentIdentity: ContentIdentity }>) {
   const { file, record } = await readPinnedToolboxProfile(input);
   return Object.freeze({ path: file.path, contentIdentity: file.identity,
-    libraries: parseLibraryProfile(record.libraries), deepRules: parseDeepRuleProfile(record.deepRules) });
+    libraries: parseToolboxLibraryProfile(record.libraries), deepRules: parseDeepRuleProfile(record.deepRules) });
 }
 
 const adapterAndExecutable = async (

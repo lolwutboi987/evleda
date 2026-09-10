@@ -1,6 +1,8 @@
 import type { CallToolResult } from "@modelcontextprotocol/client";
 import { lstat, readFile, realpath } from "node:fs/promises";
 import path from "node:path";
+import type { PcbReadOnlyLibraryResolver } from "./pcb-design-compiler.js";
+import { assertPcbLibrarySourcesCurrent } from "./pcb-library-source-binding.js";
 
 import {
   harnessToolCallSchema,
@@ -289,6 +291,8 @@ export interface KicadHarnessToolsOptions {
   readonly freshCompilationBundle?: PcbDesignCompilationBundle;
   /** Genuine authenticated V2 bundle, never a V1 contract/practice-profile projection. */
   readonly freshPlaneCompilationBundle?: PcbPlaneCompilationBundle;
+  /** Original host resolver, including its optional persisted source-selection capability. */
+  readonly freshLibraryResolver?: PcbReadOnlyLibraryResolver;
   /** Host-only native `kicad-cli sch export netlist` capture, invoked only after verified save. */
   readonly captureFreshNativeNetlist?: () => Promise<string>;
   /** Host-only synchronous exact-pair diagnostics before comparison/rollback. Return values and errors are ignored. */
@@ -2568,6 +2572,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   readonly #freshAuthoringDesignContract: PcbDesignContract | PcbPlaneDesignContract | undefined;
   readonly #freshCompilationBundle: PcbDesignCompilationBundle | undefined;
   readonly #freshPlaneCompilationBundle: PcbPlaneCompilationBundle | undefined;
+  readonly #freshLibraryResolver: PcbReadOnlyLibraryResolver | undefined;
   readonly #captureFreshNativeNetlist: (() => Promise<string>) | undefined;
   readonly #observeFreshSyncBoardComparison: KicadHarnessToolsOptions["observeFreshSyncBoardComparison"];
   readonly #freshSchematicGeometryResolver: FreshSchematicApprovedGeometryResolver | undefined;
@@ -2636,6 +2641,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     this.#freshAuthoringDesignContract=freshPlaneDesignContract??freshDesignContract;
     this.#freshCompilationBundle = options.freshCompilationBundle;
     this.#freshPlaneCompilationBundle=options.freshPlaneCompilationBundle;
+    this.#freshLibraryResolver=options.freshLibraryResolver;
+    this.#assertLibrarySources();
     this.#assessFreshPlaneEvidence=options.assessFreshPlaneEvidence;
     this.#captureFreshNativeNetlist = options.captureFreshNativeNetlist;
     this.#observeFreshSyncBoardComparison = options.observeFreshSyncBoardComparison;
@@ -2666,11 +2673,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #assertFreshCompoundAuthority(): Promise<void> {
+    this.#assertLibrarySources();
     if(this.#freshProject?.workflowKind==="plane"){
       assertPlaneCompilationBinding(this.#freshProject,this.#freshConnectivityContract,this.#freshPlaneDesignContract,this.#freshPlaneCompilationBundle);
       await this.#freshProject.assertMarkerCurrent();
       assertFreshGenericSchematicSource(parseFreshSchematicSource(await readFile(this.#freshProject.schematicPath,"utf8")));
       assertPlaneCompilationBinding(this.#freshProject,this.#freshConnectivityContract,this.#freshPlaneDesignContract,this.#freshPlaneCompilationBundle);
+      this.#assertLibrarySources();
       return;
     }
     if (this.#freshProject?.workflowKind !== "generic") return;
@@ -2688,6 +2697,22 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       this.#freshDesignContract,
       this.#freshCompilationBundle,
     );
+    this.#assertLibrarySources();
+  }
+
+  #assertLibrarySources(): void {
+    const binding = (this.#freshPlaneCompilationBundle ?? this.#freshCompilationBundle)?.libraryBinding;
+    if (binding === undefined) return;
+    if (this.#freshLibraryResolver === undefined) {
+      if (Object.hasOwn(binding, "sourceSelection")) throw new Error("Persisted library source pins require the original host source-aware resolver.");
+      return;
+    }
+    assertPcbLibrarySourcesCurrent(binding, this.#freshLibraryResolver);
+  }
+
+  #callSourceBoundTool(name: string, argumentsValue: Readonly<Record<string, unknown>>): ReturnType<KicadHarnessSession["callTool"]> {
+    this.#assertLibrarySources();
+    return this.#session.callTool(name, argumentsValue);
   }
 
   get freshBoardSaveAudits(): readonly FreshBoardSaveAudit[] {
@@ -2703,6 +2728,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   #assertPhysicalLibrarySources():void {
+    this.#assertLibrarySources();
     if(this.#freshPhysicalFootprintResolver===undefined)return;
     for(const pin of this.#freshPhysicalFootprintSourcePins!){
       const inspected=this.#freshPhysicalFootprintResolver.inspectFootprint(pin.libraryId);
@@ -2717,6 +2743,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const expected=this.#physicalExpected(capture,requestedPrimitiveIds??positions.map(pad=>pad.physical!.id));
     const observation=await collectKicadNativePadObservation({readLivePcbPadSnapshot:ids=>this.#session.readLivePcbPadSnapshot!(ids)},expected);
     const after=await captureFreshPcb(this.#freshProject!);
+    this.#assertPhysicalLibrarySources();
     if(!sameContentIdentity(after.contentIdentity,capture.contentIdentity)||!sameContentIdentity(after.freshMarkerContentIdentity,capture.freshMarkerContentIdentity))throw new Error("PCB source/marker changed during private physical-pad observation.");
     if(observation.inventory===null||observation.inventory.unsupportedPhysicalUuids.length!==0)throw new Error("Native physical-pad inventory has unsupported or incomplete feature/layer evidence.");
     const byId=new Map(observation.inventory.physicalPads.map(pad=>[pad.uuid,pad]));
@@ -2872,7 +2899,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     for (const component of contract.components) {
       if (!schematic.includes(`(symbol "${component.symbolLibId}"`)) throw new Error(`Missing embedded ${component.symbolLibId} definition for ${component.reference}.`);
     }
-    const symbolsResult = await this.#session.callTool("sch_get_symbols", {});
+    const symbolsResult = await this.#callSourceBoundTool("sch_get_symbols", {});
     if (symbolsResult.isError === true) throw new Error("KiCad failed to read the recommendation-bound symbol placements.");
     const allPlacements = parseFreshPlacements(preferredResultText(symbolsResult));
     const expectedReferences = new Set(contract.components.map((component) => component.reference));
@@ -2889,7 +2916,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
       placements.set(component.reference, placement);
     }
-    const boundsResult = await this.#session.callTool("sch_get_bounding_boxes", {});
+    const boundsResult = await this.#callSourceBoundTool("sch_get_bounding_boxes", {});
     if (boundsResult.isError === true) throw new Error("KiCad failed to read recommendation-bound schematic bounding boxes.");
     const allBoxes = parseFreshBoundingBoxes(preferredResultText(boundsResult));
     if (allBoxes.length !== contract.components.length
@@ -2901,7 +2928,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const pins = new Map<string, FreshPoint & { readonly angleDeg: 0 | 90 | 180 | 270 }>();
     for (const [reference, placement] of [...placements].sort(([left], [right]) => left.localeCompare(right, "en-US"))) {
       const localAngles = parseFreshEmbeddedPinAngles(schematic, `${placement.library}:${placement.symbol}`, placement.unit);
-      const result = await this.#session.callTool("sch_get_pin_positions", {
+      const result = await this.#callSourceBoundTool("sch_get_pin_positions", {
         library: placement.library, symbol_name: placement.symbol, x_mm: placement.x, y_mm: placement.y,
         rotation: placement.rotation, unit: placement.unit,
       });
@@ -3179,6 +3206,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
               this.#pendingPersistedMutationBaseline = undefined;
             }
           }
+          if(result.isError!==true)this.#assertLibrarySources();
           if(this.#freshProject?.workflowKind==="plane"&&result.isError!==true)await this.#assertFreshCompoundAuthority();
           return result;
         } catch (error) {
@@ -3257,9 +3285,14 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         ? { ...parsed.arguments, layer: normalizeLayer(parsed.arguments.layer) }
         : parsed.arguments;
       if(parsed.name==="pcb_save"&&this.#pendingFreshBoardPostSave?.kind==="plane-route")await this.#knownBoardMutationState(this.#pendingFreshBoardPostSave.before,this.#pendingFreshBoardPostSave.physicalPcbSource,true);
-      const result = await this.#session.callTool(parsed.name, structuredClone(argumentsValue));
+      const result = await this.#callSourceBoundTool(parsed.name, structuredClone(argumentsValue));
       if(parsed.name==="pcb_save"&&this.#pendingFreshBoardPostSave?.kind==="plane-route"&&!hasQualifiedNativeBoardReply(result,"Board saved."))throw new Error("Native route save lacks its qualified positive acknowledgement.",{cause:nativeReplyCause("pcb_save",result)});
-      if(this.#freshProject?.workflowKind==="plane")await this.#assertFreshCompoundAuthority();
+      // Preserve the native error or missing save acknowledgement as the first
+      // failure when the same awaited call also observes library drift.
+      if(result.isError!==true){
+        this.#assertLibrarySources();
+        if(this.#freshProject?.workflowKind==="plane")await this.#assertFreshCompoundAuthority();
+      }
       if (parsed.name !== "pcb_save" && result.isError === true && this.#pendingFreshPlacementCommit !== undefined) {
         return await this.#rollbackPendingPlacementCommitAfterFailure(new Error(`KiCad ${parsed.name} returned an MCP error.`), `a ${parsed.name} call failed before atomic placement commit completed`);
       }
@@ -3302,7 +3335,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (!freshBoardSerializationsEqual(before.source, liveBefore)) throw new Error("PCB text requires matching saved and live board preimages.");
     this.#pendingFreshBoardPostSave = Object.freeze({ kind: "text", before: before.source, requested });
     try {
-      const result = await this.#session.callTool("pcb_add_text", { ...requested });
+      const result = await this.#callSourceBoundTool("pcb_add_text", { ...requested });
       if (result.isError) throw new Error("Native PCB text insertion failed.");
       const expectedAfter = await freshActiveBoardSource(this.#session, this.#freshProject.pcbPath);
       assertOnlyRequestedPcbTextAdded(before.source, expectedAfter, requested);
@@ -3310,6 +3343,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       if (!freshBoardSerializationsEqual(before.source, diskAfter.source)
           && !freshBoardSerializationsEqual(expectedAfter, diskAfter.source)) throw new Error("PCB disk changed outside the requested text mutation.");
       this.#pendingFreshBoardPostSave = Object.freeze({ kind: "text", before: before.source, requested, expectedAfter });
+      this.#assertLibrarySources();
       return harnessToolResultSchema.parse({ toolCallId: call.id, content: resultContent(result, false, false) });
     } catch (error) {
       const detail = (error instanceof Error ? error.message : String(error)).slice(0, 1024);
@@ -3490,17 +3524,17 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         throw new Error("Live KiCad route source differs from the exact marker-bound disk preimage before mutation.");
       }
       firstOperation="pcb_begin_commit";
-      const begun=await this.#session.callTool("pcb_begin_commit", {});
+      const begun=await this.#callSourceBoundTool("pcb_begin_commit", {});
       if(!hasQualifiedNativeBoardReply(begun,"Transaction group started. Use pcb_push_commit to apply or pcb_drop_commit to discard."))throw new Error("Native begin lacks its qualified positive acknowledgement.",{cause:nativeReplyCause("pcb_begin_commit",begun)});
       transactionStarted = true;
       if(planeDesign===undefined||argumentsValue.deleteItemIds.length>0){firstOperation="pcb_delete_items";assertSuccessfulSidecarMutation(
-        await this.#session.callTool("pcb_delete_items", { item_ids: [...argumentsValue.deleteItemIds] }),
+        await this.#callSourceBoundTool("pcb_delete_items", { item_ids: [...argumentsValue.deleteItemIds] }),
         "pcb_delete_items",
       );}
       for (const [index,track] of argumentsValue.tracks.entries()) {
         firstOperation=`pcb_add_track[${index}]`;
         const native=nativeTracks[index]!;
-        assertSuccessfulSidecarMutation(await this.#session.callTool("pcb_add_track", {
+        assertSuccessfulSidecarMutation(await this.#callSourceBoundTool("pcb_add_track", {
           x1_mm: routeNativeNmToKipyMm(native.x1Nm), y1_mm: routeNativeNmToKipyMm(native.y1Nm), x2_mm: routeNativeNmToKipyMm(native.x2Nm), y2_mm: routeNativeNmToKipyMm(native.y2Nm),
           layer: normalizeLayer(track.layer), width_mm: netClass.traceWidthMm, net_name: net.name,
         }), "pcb_add_track");
@@ -3509,13 +3543,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         firstOperation=`pcb_add_via[${index}]`;
         if (viaPolicy.mode !== "bounded") throw new Error("Internal via-policy narrowing failed.");
         const native=nativeVias[index]!;
-        assertSuccessfulSidecarMutation(await this.#session.callTool("pcb_add_via", {
+        assertSuccessfulSidecarMutation(await this.#callSourceBoundTool("pcb_add_via", {
           x_mm: routeNativeNmToKipyMm(native.xNm), y_mm: routeNativeNmToKipyMm(native.yNm), diameter_mm: viaPolicy.diameterMm, drill_mm: viaPolicy.drillMm,
           net_name: net.name, via_type: "through", from_layer: "", to_layer: "",
         }), "pcb_add_via");
       }
       firstOperation="pcb_push_commit";
-      const pushed=await this.#session.callTool("pcb_push_commit", {});
+      const pushed=await this.#callSourceBoundTool("pcb_push_commit", {});
       if(!hasQualifiedNativeBoardReply(pushed,"Transaction group committed successfully."))throw new Error("Native push lacks its qualified positive acknowledgement.",{cause:nativeReplyCause("pcb_push_commit",pushed)});
       transactionPushed = true;
 
@@ -3663,7 +3697,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (beforeIssues.length > 0) throw new Error(`Field repair requires exact pre-mutation native contract parity: ${beforeIssues.map((issue) => issue.code).join(", ")}.`);
     const baseline = await this.#freshSchematicRollback.capture(beforeSource);
     try {
-      const result = await this.#session.callTool("sch_autoplace_fields", { references, dry_run: false });
+      const result = await this.#callSourceBoundTool("sch_autoplace_fields", { references, dry_run: false });
       assertSuccessfulSidecarMutation(result, "sch_autoplace_fields");
       // One exact positive completion line; prose about a failed/unsupported
       // operation or a dry run cannot authorize a successful field mutation.
@@ -3755,6 +3789,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       ||!sameContentIdentity(capture.freshMarkerContentIdentity,pending.before.freshMarkerContentIdentity)
       ||canonicalJson(capture.projectBindingIdentity)!==canonicalJson(pending.before.projectBindingIdentity)
       ||canonicalJson(this.#physicalExpected(capture,[]).scopeIdentity)!==canonicalJson(pending.sourceScopeIdentity))throw new Error("Plane fill settings or project scope changed across native fill/save.");
+    this.#assertLibrarySources();
     return current;
   }
 
@@ -3876,6 +3911,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       await this.#assertFreshCompoundAuthority();
       if(this.#session.supportsPlaneStage?.()!==true)throw new Error("Private plane stage capability is no longer ready.");
       await this.#assertPlaneFillInputs(fillInputs);
+      this.#assertLibrarySources();
       const receipt=await this.#session.stagePlane(request);
       const candidate=validateFreshPlaneStageObservation(receipt,{request,prepared,padExpected:this.#physicalExpected(before,referencePads.map(pad=>pad.primitiveId))});
       if(!isValidatedFreshPlaneStageObservation(candidate)||!candidate.comparison.valid)throw new Error("Plane stage did not produce validated mutation/source/epoch observations.");
@@ -3907,7 +3943,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       await this.#assertPlaneFillInputs(pending);
       await this.#planeKnownState(pending.before,pending.observation,true);
       if(!this.#session.listTools().some(tool=>tool.name==="pcb_save"))throw new Error("Plane apply requires a successful native pcb_save; a no-save source write is not a substitute.");
-      const raw=await this.#session.callTool("pcb_save",{});
+      const raw=await this.#callSourceBoundTool("pcb_save",{});
       assertSuccessfulSidecarMutation(raw,"pcb_save");
       if(!hasQualifiedNativeBoardReply(raw,"Board saved."))throw new Error("Plane native save lacks the qualified positive Board saved acknowledgement; editor recovery remains required.",{cause:nativeReplyCause("pcb_save",raw)});
       let current=await this.#planeKnownState(pending.before,pending.observation,true);
@@ -3987,7 +4023,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         throw new Error("Live KiCad board differs from the exact marker-bound disk preimage before synchronization.");
       }
       await assertSchematicUnchanged();
-      const raw = await this.#session.callTool("pcb_sync_from_schematic", {
+      const raw = await this.#callSourceBoundTool("pcb_sync_from_schematic", {
         origin_x_mm: 20, origin_y_mm: 20, scale_x: 1, scale_y: 1, grid_mm: 2.54,
         allow_open_board: true, use_net_names: true, replace_mismatched: true, force: false, auto_place: true,
       });
@@ -4149,7 +4185,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         const current = before.placements.get(move.reference);
         if (current === undefined || current.rotation !== move.rotationDeg) throw new Error(`Recommendation target ${move.reference} no longer preserves its exact cardinal rotation.`);
         attemptedMoves += 1;
-        const result = await this.#session.callTool("sch_move_symbol", {
+        const result = await this.#callSourceBoundTool("sch_move_symbol", {
           reference: move.reference, x_mm: move.xMm, y_mm: move.yMm, snap_to_grid: true,
         });
         if (result.isError === true) throw new Error(`KiCad rejected atomic recommendation move ${attemptedMoves}/${pending.recommendedMoves.length} for ${move.reference}.`);
@@ -4252,7 +4288,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         endpoints: [component.reference],
       });
     }
-    const symbolsResult = await this.#session.callTool("sch_get_symbols", {});
+    const symbolsResult = await this.#callSourceBoundTool("sch_get_symbols", {});
     if (symbolsResult.isError === true) throw new Error("KiCad failed to read placed symbols before contract connectivity.");
     const allPlacements = parseFreshPlacements(preferredResultText(symbolsResult));
     const placements = new Map<string, FreshPlacement>();
@@ -4307,7 +4343,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       });
     }
 
-    const boundsResult = await this.#session.callTool("sch_get_bounding_boxes", {});
+    const boundsResult = await this.#callSourceBoundTool("sch_get_bounding_boxes", {});
     if (boundsResult.isError === true) throw new Error("KiCad failed to read schematic bounding boxes before contract connectivity.");
     const allBounds = parseFreshBoundingBoxes(preferredResultText(boundsResult));
     let contractBounds = contract.components.flatMap((component) => allBounds.filter((box) => box.reference === component.reference));
@@ -4323,7 +4359,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const pins = new Map<string, { x: number; y: number; angleDeg: 0 | 90 | 180 | 270 }>();
     for (const [reference, placement] of placements) {
       const localAngles = parseFreshEmbeddedPinAngles(schematic, `${placement.library}:${placement.symbol}`, placement.unit);
-      const result = await this.#session.callTool("sch_get_pin_positions", { library: placement.library, symbol_name: placement.symbol, x_mm: placement.x, y_mm: placement.y, rotation: placement.rotation, unit: placement.unit });
+      const result = await this.#callSourceBoundTool("sch_get_pin_positions", { library: placement.library, symbol_name: placement.symbol, x_mm: placement.x, y_mm: placement.y, rotation: placement.rotation, unit: placement.unit });
       if (result.isError === true) throw new Error(`KiCad failed to resolve pin positions for ${reference}.`);
       const text = preferredResultText(result);
       for (const match of text.matchAll(/- Pin ([^:]+): \((-?[\d.]+),\s*(-?[\d.]+)\) mm/gu)) {
@@ -4478,7 +4514,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     }
     this.#pendingFreshPlacementRecommendation = undefined;
 
-    const beforeReadback = await this.#session.callTool("sch_get_connectivity_graph", {});
+    const beforeReadback = await this.#callSourceBoundTool("sch_get_connectivity_graph", {});
     if (beforeReadback.isError === true) throw new Error("KiCad failed to read connectivity before the contract operation.");
     const beforeGroups = parseFreshConnectivityGroups(preferredResultText(beforeReadback));
     const alreadyExactIssues = exactFreshConnectivityIssues(contract, beforeGroups);
@@ -4494,7 +4530,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         applied: false, mutated: false, idempotent: true,
         issues: [{ code: "CONTRACT_LABEL_INVENTORY_MISMATCH", message: "Persisted schematic label kinds, shapes, names, or anchors differ from the exact host contract inventory.", remediation: "Restore the exact contract-label checkpoint before accepting existing connectivity." }],
       });
-      const erc = await this.#session.callTool("run_erc", {});
+      const erc = await this.#callSourceBoundTool("run_erc", {});
       if (erc.isError === true) throw new Error("KiCad ERC could not run after exact contract-connectivity readback.");
       const ercPayload = JSON.parse(resultContent(erc, true)) as Record<string, unknown>;
       if (!ercIsClean(ercPayload)) return contractResult(call, contract, {
@@ -4578,7 +4614,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     let connectivityBatchAfterContentIdentity: ContentIdentity | undefined;
     let recoveryIssues: readonly FreshConnectivityIssue[] | undefined;
     const mutate = async (name: string, argumentsValue: Readonly<Record<string, unknown>>, failure: string): Promise<void> => {
-      const result = await this.#session.callTool(name, argumentsValue);
+      const result = await this.#callSourceBoundTool(name, argumentsValue);
       if (result.isError === true) throw new Error(failure);
       const semantic = preferredResultText(result).replace(/\s+/gu, " ").trim();
       if (/\bWARNING\b|\b(?:failed|failure|error|aborted|unable)\b|\bcould not\b|\bwas not found\b|\balready overlap\b/iu.test(semantic)) {
@@ -4591,6 +4627,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         const beforeBytes = await readFile(this.#freshProject!.schematicPath);
         if (!beforeBytes.equals(Buffer.from(schematic, "utf8"))) throw new Error("Schematic source changed before the exact batch dispatch.");
         const beforeInventory = parseFreshSchematicConnectivityPrimitiveInventory(schematic);
+        this.#assertLibrarySources();
         const response = await this.#session.applySchematicConnectivityBatch!(batchPlan.value.request);
         completedMutationCalls += 1;
         const afterBytes = await readFile(this.#freshProject!.schematicPath);
@@ -4648,7 +4685,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         throw new Error("Persisted schematic labels do not exactly match the contract kinds, shapes, names, and anchors.");
       }
 
-      const readback = await this.#session.callTool("sch_get_connectivity_graph", {});
+      const readback = await this.#callSourceBoundTool("sch_get_connectivity_graph", {});
       if (readback.isError === true) throw new Error("KiCad failed to read back contract connectivity.");
       groups = parseFreshConnectivityGroups(preferredResultText(readback));
       const postconditionIssues = [...exactFreshConnectivityIssues(contract, groups)];
@@ -4672,7 +4709,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         throw new Error("Contract connectivity postcondition failed.");
       }
 
-      const erc = await this.#session.callTool("run_erc", {});
+      const erc = await this.#callSourceBoundTool("run_erc", {});
       if (erc.isError === true) throw new Error("KiCad ERC could not run after contract connectivity mutation.");
       const ercPayload = JSON.parse(resultContent(erc, true)) as Record<string, unknown>;
       if (!ercIsClean(ercPayload)) {
@@ -4805,6 +4842,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       if (!exactPersistedNoConnects) {
         throw new Error("Persisted no-connect marker count or coordinates do not exactly reproduce the host-bound endpoints after save");
       }
+      this.#assertLibrarySources();
       const source = await this.#captureFreshNativeNetlist();
       if (governedAfterIdentity !== undefined
           && !sameContentIdentity(contentIdentity(await readFile(this.#freshProject!.schematicPath)), governedAfterIdentity)) {
@@ -4812,6 +4850,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
       const issues = freshNativeNetlistParityIssues(pending.contract, source);
       if (issues.length > 0) throw new Error(issues.map((issue) => `${issue.code}: ${issue.message}`).join(" "));
+      this.#assertLibrarySources();
       this.#pendingFreshConnectivity = undefined;
       this.#pendingPersistedMutationBaseline = undefined;
       this.#pendingSchematicFileMutationBatch = undefined;

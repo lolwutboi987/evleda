@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import { capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable } from "./pcb-library-source-binding.js";
 import {
   PCB_PRACTICE_ANALYSIS_PROFILE_SCHEMA,
   PCB_PRACTICE_ANALYZER_SUPPORTED_BOARD_VERSIONS,
@@ -637,6 +638,9 @@ function libraryBindingCheck(
   resolver: PcbReadOnlyLibraryResolver,
 ): Readonly<{ valid: boolean; detail: string }> {
   try {
+    const selected = { symbolIds: [...new Set(contract.components.map(component => component.symbolLibId))],
+      footprintIds: [...new Set(contract.components.map(component => component.footprintLibId))] };
+    const sourceSelection = capturePcbLibrarySourceSelection(resolver, selected);
     const expectedSymbols: PcbLibraryBinding["symbols"][number][] = [];
     const expectedFootprints: PcbLibraryBinding["footprints"][number][] = [];
     for (const component of contract.components) {
@@ -681,6 +685,7 @@ function libraryBindingCheck(
       expectedSymbols.push(expectedSymbol);
       expectedFootprints.push(expectedFootprint);
     }
+    assertPcbLibrarySourceSelectionStable(sourceSelection, capturePcbLibrarySourceSelection(resolver, selected));
     expectedSymbols.sort((left, right) => compareText(left.reference, right.reference));
     expectedFootprints.sort((left, right) => compareText(left.reference, right.reference));
     if (Buffer.byteLength(JSON.stringify({ footprints: expectedFootprints, symbols: expectedSymbols }), "utf8")
@@ -692,6 +697,7 @@ function libraryBindingCheck(
       contractIdentity: structuredClone(contract.identity),
       symbols: expectedSymbols,
       footprints: expectedFootprints,
+      ...(sourceSelection === undefined ? {} : { sourceSelection }),
     };
     const expected: PcbLibraryBinding = {
       ...payload,

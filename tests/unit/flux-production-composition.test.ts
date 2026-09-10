@@ -52,12 +52,14 @@ import {
   FluxProductionCompositionError,
   createFluxSetupRequiredReadiness,
   readKicadNativeProfile,
+  readKicadToolboxDesignProfile,
   loadFluxProductionComposition as loadRealFluxProductionComposition,
   type FluxProductionCompositionDependencies,
   type FluxProductionProvider,
 } from "../../src/flux/production-composition.js";
 import { parsePeVersionInfo } from "../../src/flux/pe-version-info.js";
 import { syntheticKiCadPe } from "../helpers/flux-kicad-toolchain.js";
+import { loadKicadToolboxFreshProfile } from "../../src/mcp/toolbox-fresh-profile.js";
 
 const testDirectory = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(testDirectory, "..", "..");
@@ -419,6 +421,42 @@ const modelFor = (provider: FluxProductionProvider): string =>
   provider === "codex" ? CODEX_CLI_CAPTURED_MODEL : `${provider}-model-exact:2026-09-06`;
 
 describe("native-only pinned profile reader", () => {
+  it("keeps exact toolbox profiles unchanged and enables catalog source pins only under an explicit policy", async () => {
+    const fixture = await createFixture();
+    const exactInput = { path: fixture.profilePath, contentIdentity: contentIdentity(await readFile(fixture.profilePath)) };
+    const exact = await readKicadToolboxDesignProfile(exactInput);
+    expect(exact.libraries).toEqual(fixture.profile.libraries);
+    const exactLoaded = await loadKicadToolboxFreshProfile(exactInput);
+    expect(exactLoaded).not.toHaveProperty("searchLibrary");
+    expect(exactLoaded.dependencies.libraryResolver).not.toHaveProperty("captureSourceSelection");
+    const { exactSymbolIds: _symbols, exactFootprintIds: _footprints, ...roots } = fixture.profile.libraries;
+    fixture.profile.libraries = { ...roots, schemaVersion: "evleda.kicad-stock-catalog-policy.v1", mode: "stock_catalog" };
+    await fixture.rewrite();
+    const input = { path: fixture.profilePath, contentIdentity: contentIdentity(await readFile(fixture.profilePath)) };
+    const loaded = await loadKicadToolboxFreshProfile(input);
+    expect(loaded.searchLibrary).toBeTypeOf("function");
+    expect(loaded.dependencies.libraryResolver).toHaveProperty("captureSourceSelection");
+    expect(loaded.searchLibrary!({ kind: "symbol", query: "resistor", library: "Device" }).candidates)
+      .toEqual(expect.arrayContaining([expect.objectContaining({ libraryId: "Device:R", status: "uninspected" })]));
+    expect((await readKicadNativeProfile(input)).kicadToolchain.kicadCli.operationalVersion).toBe("10.0.3");
+    // A toolbox policy must not broaden the separate, closed Flux profile contract.
+    await expect(loadFluxProductionComposition(fixture.environment)).rejects.toMatchObject({ reasonCode: "KICAD_LIBRARY_UNAVAILABLE" });
+  });
+
+  it.each([
+    { schemaVersion: "evleda.kicad-stock-catalog-policy.v2" }, { kicadMajorVersion: 9 },
+    { exactSymbolIds: ["Device:R"] }, { stockSymbolNicknames: ["Device", "Device"] },
+    { stockSymbolNicknames: ["Z", "A"] }, { stockFootprintNicknames: ["../Resistor_SMD"] },
+    { stockSymbolNicknames: [] }, { mode: "all_files" },
+  ])("rejects malformed or implicitly widened stock catalog policy %j", async patch => {
+    const fixture = await createFixture();
+    const { exactSymbolIds: _symbols, exactFootprintIds: _footprints, ...roots } = fixture.profile.libraries;
+    fixture.profile.libraries = { ...roots, schemaVersion: "evleda.kicad-stock-catalog-policy.v1", mode: "stock_catalog", ...patch };
+    await fixture.rewrite();
+    await expect(readKicadToolboxDesignProfile({ path: fixture.profilePath,
+      contentIdentity: contentIdentity(await readFile(fixture.profilePath)) })).rejects.toMatchObject({ reasonCode: "KICAD_LIBRARY_UNAVAILABLE" });
+  });
+
   it("reads optional reference coverage exact pin without starting a process", async () => {
     const fixture = await createFixture(); const helperPath = path.join(path.dirname(fixture.profilePath), "reference.exe");
     fixture.profile.kicadReferenceCoverage = { path: helperPath, sha256: "b".repeat(64), sizeBytes: 980480 };

@@ -185,7 +185,8 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
   try {
     const contract = closePcbPlaneDesignIntentDraft(draft);
     const libraryPayload = { schemaVersion: PCB_LIBRARY_BINDING_SCHEMA_VERSION, contractIdentity: contract.identity,
-      symbols: libraries.symbols, footprints: libraries.footprints };
+      symbols: libraries.symbols, footprints: libraries.footprints,
+      ...(libraries.sourceSelection === undefined ? {} : { sourceSelection: libraries.sourceSelection }) };
     const libraryBinding: PcbLibraryBinding = freezePcbPlaneArtifact({ ...libraryPayload, identity: canonicalIdentity(libraryPayload, PCB_LIBRARY_BINDING_SCHEMA_VERSION) });
     const selectionPolicy = normalizePcbPlaneSelectionPolicy(options.deepRuleSelectionOptions);
     const catalog = validateDeepRuleCatalog(hardenPortableValue(options.deepRuleCatalog, {

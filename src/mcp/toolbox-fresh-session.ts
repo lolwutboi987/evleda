@@ -15,6 +15,7 @@ import type { ConnectedKicadToolbox } from "./toolbox-session.js";
 import { createFreshToolboxCheckpointLifecycle } from "./toolbox-fresh-checkpoint.js";
 import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js";
 import path from "node:path";
+import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 
 export interface KicadToolboxFreshSessionInput {
   readonly authority: KicadMcpBoundSessionAuthority;
@@ -31,6 +32,8 @@ export async function openKicadToolboxFreshSession(input: KicadToolboxFreshSessi
     const { bundle, bundleRef } = preparation;
     const original = preparation.project;
     const resolver = preparation.dependencies.libraryResolver;
+    const assertSources = () => assertPcbLibrarySourcesCurrent(bundle.libraryBinding, resolver);
+    assertSources();
     if (!("inspectFootprint" in resolver) || typeof resolver.inspectFootprint !== "function"
       || !("inspectSymbolTerminalGeometry" in resolver) || typeof resolver.inspectSymbolTerminalGeometry !== "function") {
       throw new Error("Fresh toolbox requires the approved stock physical-footprint and symbol-geometry resolver.");
@@ -42,14 +45,18 @@ export async function openKicadToolboxFreshSession(input: KicadToolboxFreshSessi
       return Object.freeze({ reference: component.reference, libraryId: component.footprintLibId, sourceIdentity: Object.freeze({ ...footprint.sourceIdentity }) });
     }));
     const outputRoot = path.join(original.outputPath, ".evleda-mcp-output");
+    assertSources();
     session = await authority.connect({ workspaceRoot: original.outputPath, projectRoot: original.projectPath,
       outputRoot, mode: "write", freshProject: true, requiredTools: Object.freeze([...KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES].sort()) });
     if (canonicalJson(session.identity.launch.sessionAuthorityIdentity) !== canonicalJson(authority.identity)) throw new Error("Fresh toolbox session differs from its bound native authority.");
+    assertSources();
     await initializeIsolatedKicadProject(session, { sourceProjectPath: original.projectPath, isolatedProjectPath: original.projectPath,
       outputPath: original.outputPath, reportPath: preparation.reportPath, freshProject: original }, outputRoot);
     await session.assertActivePcb(original.pcbPath);
+    assertSources();
     if (preparation.mode !== "resumed") {
       await saveInitialFreshProjectSettings({ project: original, expectedPreparedSourceAuthority: preparation.preparedSourceAuthority, session });
+      assertSources();
       await checkpointFreshProjectOpenNormalization({ outputDir: original.outputPath, name: original.name,
         expectedPreparedSourceAuthority: preparation.preparedSourceAuthority,
         expectedNetClassProjection: { netClasses: [...preparation.netClassSemanticAuthority.netClasses],
@@ -57,23 +64,37 @@ export async function openKicadToolboxFreshSession(input: KicadToolboxFreshSessi
     }
     await verifyFreshNetClassSemanticAuthority(preparation.netClassSemanticAuthority,
       { project: original, compilationBundle: bundle, kicad: preparation.kicadIdentity });
+    assertSources();
     const project = await prepareFreshProject({ outputDir: original.outputPath, name: original.name, resume: true,
       workflowKind: "generic", compilationBundle: bundle, compilationBundleRef: bundleRef });
     await session.assertActivePcb(project.pcbPath);
+    assertSources();
+    const captureSources = async () => {
+      assertSources();
+      const fingerprint = await nativeProjectFingerprint(project.projectPath);
+      assertSources();
+      return fingerprint;
+    };
     const captures = createFreshNativeCaptures({ project, executablePath: preparation.kicadIdentity.path, createAdapter: input.createCliAdapter });
     if (captures.captureNativeNetlist === undefined || captures.captureNativeSchematicStrokeStyle === undefined) throw new Error("Fresh native capture capabilities are incomplete.");
     const tools = createKicadHarnessTools(session, {
       freshProject: project, freshConnectivityContract: bundle.contract, freshCompilationBundle: bundle,
+      freshLibraryResolver: resolver,
       freshSchematicGeometryResolver: libraries, freshPhysicalFootprintResolver: libraries, freshPhysicalFootprintSourcePins: physicalPins,
       captureFreshNativeNetlist: captures.captureNativeNetlist, captureFreshSchematicStrokeStyle: captures.captureNativeSchematicStrokeStyle,
-      capturePersistedMutationBaseline: () => nativeProjectFingerprint(project.projectPath),
-      verifyPersistedMutation: async baseline => baseline !== undefined && await nativeProjectFingerprint(project.projectPath) !== baseline,
+      capturePersistedMutationBaseline: captureSources,
+      verifyPersistedMutation: async baseline => baseline !== undefined && await captureSources() !== baseline,
     });
     const analyzePractices = await createToolboxPracticeAnalyzer({ pcbPath: project.pcbPath, profile: bundle.practiceProfileBinding.profile });
     const checkpoint = createFreshToolboxCheckpointLifecycle({ project, preparation, session });
     const owned = session; let closing: Promise<void> | undefined;
-    return Object.freeze({ tools, analyzePractices, ...checkpoint, assertCurrent: () => owned.assertActivePcb(project.pcbPath),
-      captureSources: () => nativeProjectFingerprint(project.projectPath), close: () => closing ??= owned.close() });
+    return Object.freeze({ tools, analyzePractices, ...checkpoint,
+      prepareCheckpoint: async () => {
+        assertSources(); const publish = await checkpoint.prepareCheckpoint(); assertSources();
+        return async () => { assertSources(); await publish(); assertSources(); };
+      },
+      assertCurrent: async () => { assertSources(); await owned.assertActivePcb(project.pcbPath); assertSources(); },
+      captureSources, close: () => closing ??= owned.close() });
   } catch (error) {
     const primary = captureKicadStartupFailure(error, "session-connect");
     try { if (session !== undefined) await session.close(); else await input.authority.disposeUnused(); }

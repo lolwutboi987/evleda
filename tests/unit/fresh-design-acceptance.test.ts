@@ -7,6 +7,7 @@ import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js"
 import { createSchematicRenderClearanceEvidence } from "../../src/integrations/schematic-render-clearance.js";
 import { schematicRenderCapture, COLLIDING_SCHEMATIC_SVG } from "../helpers/schematic-render-capture.js";
 import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
+import { createPcbLibrarySourceSelection } from "../../src/harness/pcb-library-source-binding.js";
 import {
   FRESH_DESIGN_ACCEPTANCE_LIMITS,
   FRESH_DESIGN_CLEARANCE_EVIDENCE_SCHEMA_VERSION,
@@ -415,6 +416,54 @@ const cloneArtifacts = (artifacts: FreshDesignAcceptanceArtifacts): FreshDesignA
 });
 
 describe("generic compiler-bound fresh-design acceptance", () => {
+  it("reproduces selected source pins and rejects source-only drift before or during independent acceptance", () => {
+    let rawText = "original raw geometry and text";
+    let onResolve = () => {};
+    const captureOrder: string[] = [];
+    const sourceResolver: PcbReadOnlyLibraryResolver = {
+      resolveSymbol(id) { captureOrder.push("resolve"); onResolve(); return resolver.resolveSymbol(id); },
+      resolveFootprint(id) { captureOrder.push("resolve"); onResolve(); return resolver.resolveFootprint(id); },
+      captureSourceSelection(selected) {
+        captureOrder.push("capture");
+        return createPcbLibrarySourceSelection({
+          policyIdentity: canonicalIdentity({ hostPolicy: "acceptance source fixture" }, "evleda.kicad-stock-catalog-policy.v1"),
+          records: [
+            ...selected.symbolIds.map(libraryId => ({ kind: "symbol" as const, libraryId, sourceIdentity: contentIdentity(`${libraryId}:${rawText}`),
+              inspectionIdentity: canonicalIdentity({ libraryId }, "evleda.kicad-stock-symbol-inspection.v1") })),
+            ...selected.footprintIds.map(libraryId => ({ kind: "footprint" as const, libraryId, sourceIdentity: contentIdentity(`${libraryId}:${rawText}`),
+              inspectionIdentity: canonicalIdentity({ libraryId }, "evleda.kicad-stock-footprint-inspection.v2") })),
+          ],
+        }, selected);
+      },
+    };
+    const artifacts = compile(ledDraft(), sourceResolver);
+    const input = evidence(artifacts, LED_PCB, 0);
+    captureOrder.length = 0;
+    const current = evaluateFreshDesignAcceptance(input, artifacts);
+    expect(current.passed).toBe(true);
+    expect(row(current, "contract:integrity")?.status).toBe("pass");
+    expect(captureOrder[0]).toBe("capture");
+    expect(captureOrder.at(-1)).toBe("capture");
+    expect(captureOrder.filter(entry => entry === "capture")).toHaveLength(2);
+
+    rawText = "changed geometry and text, unchanged pins and pads";
+    expect(row(evaluateFreshDesignAcceptance(input, artifacts), "contract:integrity")?.status).toBe("fail");
+    rawText = "original raw geometry and text";
+    onResolve = () => { rawText = "source changed during acceptance resolution"; };
+    expect(row(evaluateFreshDesignAcceptance(input, artifacts), "contract:integrity")?.status).toBe("fail");
+    onResolve = () => {};
+    rawText = "original raw geometry and text";
+    expect(row(evaluateFreshDesignAcceptance(input, { ...artifacts, libraryResolver: resolver }), "contract:integrity")?.status).toBe("fail");
+    expect(row(evaluateFreshDesignAcceptance(evidence(LED_ARTIFACTS, LED_PCB, 0), { ...LED_ARTIFACTS, libraryResolver: sourceResolver }), "contract:integrity")?.status).toBe("fail");
+
+    const tampered = cloneArtifacts(artifacts);
+    (tampered.libraryBinding.sourceSelection!.records[0]!.sourceIdentity as { digest: string }).digest = "f".repeat(64);
+    reidentify(tampered.libraryBinding.sourceSelection!, tampered.libraryBinding.sourceSelection!.schemaVersion);
+    reidentify(tampered.libraryBinding, PCB_LIBRARY_BINDING_SCHEMA_VERSION);
+    const rehashed = { ...tampered, acceptancePlan: createPcbAcceptancePlan(tampered.contract, tampered.libraryBinding, tampered.deepRuleBinding) };
+    expect(row(evaluateFreshDesignAcceptance(input, rehashed), "contract:integrity")?.status).toBe("fail");
+  });
+
   it("preserves v1 results and requires a fresh host-branded native ink receipt for v2", () => {
     const legacyEvidence = evidence(LED_ARTIFACTS, LED_PCB, 0); const legacy = evaluateFreshDesignAcceptance(legacyEvidence, LED_ARTIFACTS);
     expect(legacy).toMatchObject({ schemaVersion: "evleda.fresh-design-acceptance.v1", passed: true });

@@ -34,13 +34,12 @@ async function fixture() {
   const footprintRoot = path.join(root, "kicad", "share", "kicad", "footprints");
   await Promise.all([binRoot, symbolRoot, footprintRoot].map(directory => mkdir(directory, { recursive: true })));
   const intentPath = path.join(source, "intent.json"); await writeFile(intentPath, '{"draft":"data"}');
-  const dependencies = { hostResolver: true };
+  const { bundle, dependencies } = createGenericDividerBundleFixture();
   const createCliAdapter = vi.fn();
   const expectedKicadCli = { path: "host-pinned" };
-  const { bundle } = createGenericDividerBundleFixture();
   const project = { projectPath: path.join(output, "project"), outputPath: output, pcbPath: path.join(output, "project", "proof.kicad_pcb") };
-  const preparation = { project, reportPath: path.join(output, "report.json"), bundle: {
-    contract: bundle.contract,
+  const preparation = { project, dependencies, reportPath: path.join(output, "report.json"), bundle: {
+    contract: bundle.contract, libraryBinding: bundle.libraryBinding,
     executionPrompt: { text: "compiled guidance", originalPrompt: "original request" }, acceptancePlan: { requirements: ["native-check"] }, identity: { digest: "bundle" },
   } };
   const cad = { close: vi.fn().mockResolvedValue(undefined), tools: { tools: [] as Array<{ name: string }> } };
