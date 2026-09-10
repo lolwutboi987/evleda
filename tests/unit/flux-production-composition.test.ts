@@ -421,6 +421,36 @@ const modelFor = (provider: FluxProductionProvider): string =>
   provider === "codex" ? CODEX_CLI_CAPTURED_MODEL : `${provider}-model-exact:2026-09-06`;
 
 describe("native-only pinned profile reader", () => {
+  it.each([false, true])("preserves the optional connection deadline policy through native parsing and Flux composition: %s", async enabled => {
+    const fixture = await createFixture();
+    if (enabled) fixture.profile.kicadMcpRuntime.runtimePolicy.connectionDeadlinePolicy = "bounded-phases-v1";
+    await fixture.rewrite();
+    const parsed = await readKicadNativeProfile({ path: fixture.profilePath, contentIdentity: contentIdentity(await readFile(fixture.profilePath)) });
+    expect(parsed.kicadMcpRuntime.runtimePolicy).toEqual(fixture.profile.kicadMcpRuntime.runtimePolicy);
+    expect(Object.hasOwn(parsed.kicadMcpRuntime.runtimePolicy, "connectionDeadlinePolicy")).toBe(enabled);
+    let calls = 0;
+    await loadFluxProductionComposition(fixture.environment, { createKicadMcpRuntime: async options => {
+      calls += 1;
+      expect(Object.hasOwn(options, "connectionDeadlinePolicy")).toBe(enabled);
+      if (enabled) expect(options.connectionDeadlinePolicy).toBe("bounded-phases-v1");
+      return await createSyntheticKicadMcpRuntime(options);
+    } });
+    expect(calls).toBe(1);
+  });
+
+  it.each([null, false, 60_000, "", "shared", "bounded-phases-v2", { postBindTimeoutMs: 30_000 }])("rejects an invalid connection deadline policy before composition: %j", async policy => {
+    const fixture = await createFixture();
+    fixture.profile.kicadMcpRuntime.runtimePolicy.connectionDeadlinePolicy = policy;
+    await fixture.rewrite();
+    await expect(readKicadNativeProfile({ path: fixture.profilePath, contentIdentity: contentIdentity(await readFile(fixture.profilePath)) }))
+      .rejects.toMatchObject({ reasonCode: "KICAD_MCP_RUNTIME_UNAVAILABLE" });
+    let calls = 0;
+    await expect(loadFluxProductionComposition(fixture.environment, { processRunner: async options => {
+      calls += 1; return await fakeProcessRunner()(options);
+    } })).rejects.toMatchObject({ reasonCode: "KICAD_MCP_RUNTIME_UNAVAILABLE" });
+    expect(calls).toBe(0);
+  });
+
   it("keeps exact toolbox profiles unchanged and enables catalog source pins only under an explicit policy", async () => {
     const fixture = await createFixture();
     const exactInput = { path: fixture.profilePath, contentIdentity: contentIdentity(await readFile(fixture.profilePath)) };
@@ -1210,6 +1240,8 @@ describe("Flux production composition", () => {
       ["Python traversal", (fixture) => { fixture.profile.kicadMcpRuntime.runtimeBundle.expectedClosure.python.relativePath = "../python.exe"; }],
       ["incomplete mode authority", (fixture) => { fixture.profile.kicadMcpRuntime.runtimeBundle.expectedClosure.protocol.modes = ["readonly"]; }],
       ["reordered mode authority", (fixture) => { fixture.profile.kicadMcpRuntime.runtimeBundle.expectedClosure.protocol.modes = ["write", "readonly"]; }],
+      ["extra connection deadline field", (fixture) => { fixture.profile.kicadMcpRuntime.runtimePolicy.postBindTimeoutMs = 60_000; }],
+      ["missing runtime allocation policy", (fixture) => { delete fixture.profile.kicadMcpRuntime.runtimePolicy.allocation; fixture.profile.kicadMcpRuntime.runtimePolicy.connectionDeadlinePolicy = "bounded-phases-v1"; }],
       ["networked dependency resolution", (fixture) => { fixture.profile.kicadMcpRuntime.runtimePolicy.dependencyNetwork = "enabled"; }],
       ["missing no-bytecode flag", (fixture) => { fixture.profile.kicadMcpRuntime.runtimePolicy.pythonLaunch.flags = ["-I", "-s", "-E"]; }],
       ["launch argument count drift", (fixture) => { fixture.profile.kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentCount = 4; }],

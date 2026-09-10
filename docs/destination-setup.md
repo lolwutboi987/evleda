@@ -4,9 +4,22 @@ The September 9 transfer was restored at `C:\Users\kidch\Documents\EvlEDA-Transf
 
 ## Active destination profile
 
-The qualified workspace runs use `C:\EvlEDA-DOC5-20260910` with private sessions/IPC under `C:\EvlEDA-Native-20260910`. This is an ordinary directory, not an alias. Its profile is `../working-profiles/toolbox-native-doc5-destination-short.json`, SHA-256 `d3a5576455655f563bce4539ccf3779cf9f0ce13e75c158b9af2047895488f09`, **5,294 bytes**. The short-path manifest is `../working-profiles/kicad-inspection-runtime-manifest-doc5-short.json`.
+The current installed global workspace uses [catalog profile02](../../working-profiles/toolbox-native-doc6-stock-catalog-destination-02.json): **16,260 bytes**, SHA-256 `b723a4f5a2a8b2aa5eee9131df22a9e5c2fc1c13eb2e70718ae29ff4acd7cfcc`. It binds `C:\EvlEDA-DOC6-20260910`, the DOC6 manifest and private sessions/IPC under `C:\EvlEDA-Native-20260910`. Its stock policy approves 222 symbol/155 footprint namespaces and opts into the bounded 30/30/60-second connection policy; omitted-policy profiles retain their original behavior. See [catalog policy and native02 evidence](toolbox-stock-catalog.md).
 
-Set the explicit runtime pair when checking this active installation:
+Use the matching explicit runtime pair when checking the current installation:
+
+```powershell
+$env:EVLEDA_KICAD_INSPECTION_RUNTIME_ROOT = 'C:\EvlEDA-DOC6-20260910'
+$env:EVLEDA_KICAD_INSPECTION_RUNTIME_MANIFEST = 'C:\Users\kidch\Documents\EvlEDA-Transfer-2026-09-09\working-profiles\kicad-inspection-runtime-manifest-doc6.json'
+```
+
+Native02 passed 33 public STDIO/native calls for an intentionally unrouted RC fixture, including two closes and same-connection resume. The [global client installation](destination-client-installation.md) separately passed its 15-tool CLI discovery checks; the running desktop still needs activation and dynamic tool-refresh verification. Loader checks validate the catalog policy and roots, not all catalog source files. Earlier DOC5 setup, profiles and failures below remain historical evidence.
+
+## Historical DOC5 destination profile
+
+The earlier qualified workspace runs used `C:\EvlEDA-DOC5-20260910` with private sessions/IPC under `C:\EvlEDA-Native-20260910`. This is an ordinary directory, not an alias. Its profile is `../working-profiles/toolbox-native-doc5-destination-short.json`, SHA-256 `d3a5576455655f563bce4539ccf3779cf9f0ce13e75c158b9af2047895488f09`, **5,294 bytes**. The short-path manifest is `../working-profiles/kicad-inspection-runtime-manifest-doc5-short.json`.
+
+The explicit runtime pair for that historical installation was:
 
 ```powershell
 $env:EVLEDA_KICAD_INSPECTION_RUNTIME_ROOT = 'C:\EvlEDA-DOC5-20260910'
@@ -19,7 +32,7 @@ The Windows session host now creates, binds and rechecks its declared private `A
 
 The V2 workspace create/author/sync/place/checkpoint/resume flow and a fresh-process read-only resume with native previews passed on this configuration. See [destination verification](destination-verification.md) for exact reports, retained failures and remaining limits. The following longer-path records are preserved relocation history.
 
-## Preserved evidence and active artifacts
+## Preserved DOC5 evidence and artifacts
 
 The original `runtime/`, `profiles/`, proof directories, and historical `sidecars/*manifest*.json` remain evidence. The destination copy is under `working-runtime/inspection-runtime-3.33.3-doc5`; its new manifest and installation profiles are under `working-profiles/`. Generated session and IPC directories are siblings of the runtime bundle, outside its immutable closure.
 
@@ -49,7 +62,7 @@ The old package precheck used a hardcoded DOC2 path. `check:kicad-inspection-run
 
 For another approved location, set **both** `EVLEDA_KICAD_INSPECTION_RUNTIME_ROOT` and `EVLEDA_KICAD_INSPECTION_RUNTIME_MANIFEST`, or pass both paths to the verification script. A missing manifest or partial configuration fails. Verification checks the published DOC5 source pins, permits exactly the pyvenv home delta, and invokes the existing full tree/PE/import/.pth/bytecode verifier. Generating a manifest for arbitrary changed runtime files does not satisfy this check. This does not waive the separately pinned profile required for native work.
 
-## Load the profile after building
+## Historical DOC5 profile-loader evidence
 
 `deepRules.resourceRoot` points to `dist/resources/deep-pcb-rule-corpus/v1`. Build first, then run both real production profile loaders:
 
@@ -76,4 +89,4 @@ Both helpers were restored on this destination using the unchanged build scripts
 
 `working-profiles/bind-helpers.mjs` records the exact destination binding procedure, checks the original sidecar lock pin again, and refuses to overwrite its new profile/evidence. `destination-helper-profile.json` records both helper pins and their verification evidence identities. These are installation artifacts outside the source repository and contain machine-specific paths.
 
-This setup does not install a global Codex MCP entry, restore credentials, publish Git changes, qualify a PCB electrically, or authorize manufacturing. Client connection instructions are in [toolbox-client-setup.md](toolbox-client-setup.md).
+The destination setup script itself does not install a global Codex MCP entry, restore credentials, publish Git changes, qualify a PCB electrically, or authorize manufacturing. The later [catalog client installation](destination-client-installation.md) is recorded separately; connection instructions are in [toolbox-client-setup.md](toolbox-client-setup.md).

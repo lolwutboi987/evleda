@@ -32,7 +32,10 @@ try {
   schemaVersion: "evleda.destination-profile-load-verification.v1", status: "passed", startedAt, completedAt: new Date().toISOString(), elapsedMs: Date.now() - startedMs, nodeVersion: process.version,
   profile: { path: pinned.path, sha256: digest, sizeBytes: bytes.length }, sourceRoot, outputRoot,
   profileIdentity: native.profileIdentity, freshProfileIdentity: fresh.profileIdentity,
-  deepRulesResourceRoot: fresh.protectedRoots[2], approvedLibrariesVerified: true, deepRulesVerified: true,
+  runtimeBridgeIdentity: native.bridge.identity,
+  deepRulesResourceRoot: fresh.protectedRoots[2], approvedLibrariesVerified: fresh.searchLibrary === undefined, deepRulesVerified: true,
+  libraryVerificationScope: fresh.searchLibrary === undefined ? "all-profile-exact-ids-inspected" : "catalog-policy-and-roots-only",
+  ...(fresh.searchLibrary === undefined ? {} : { catalogPolicyVerified: true, allCatalogSourcesInspected: false }),
   editorLauncherBound: typeof native.editorLauncher === "function", transmissionLineBound: native.transmissionLine !== undefined, referenceCoverageBound: native.referenceCoverage !== undefined,
   scope: { editorLaunched: false, sidecarLaunched: false, modelRequested: false, serverStarted: false, nativeBoardValidated: false },
   };

@@ -85,6 +85,8 @@ export async function loadKicadToolboxNativeProfile(input: KicadToolboxNativePro
         entrypoint: { relativePath: expected.entrypoint.relativePath, contentIdentity: expected.entrypoint.identity } } },
     runtimeParentRoot: runtime.runtimeParentRoot, ipcSocketParentRoot: runtime.ipcSocketParentRoot,
     verificationTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+    ...(runtime.runtimePolicy.connectionDeadlinePolicy === undefined ? {}
+      : { connectionDeadlinePolicy: runtime.runtimePolicy.connectionDeadlinePolicy }),
     processTreeSupervision: { strategy: KICAD_MCP_WINDOWS_PROCESS_TREE_STRATEGY,
       terminator: { path: termination.executablePath, contentIdentity: termination.executableIdentity },
       timeoutMs: KICAD_MCP_WINDOWS_PROCESS_TREE_TERMINATION_TIMEOUT_MS },

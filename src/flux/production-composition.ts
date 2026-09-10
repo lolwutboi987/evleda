@@ -657,6 +657,7 @@ interface KicadMcpRuntimeProfile {
       readonly bytecodeWrites: "disabled";
     }>;
     readonly verificationTimeoutMs: typeof KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS;
+    readonly connectionDeadlinePolicy?: "bounded-phases-v1";
   }>;
   readonly processTreeSupervision: Readonly<{
     readonly platform: "win32";
@@ -1029,7 +1030,8 @@ const parseKicadMcpRuntimeProfile = (value: unknown): KicadMcpRuntimeProfile => 
   }
   const runtimePolicy = exactRecord(
     record.runtimePolicy,
-    ["allocation", "cleanup", "dependencyNetwork", "packageResolution", "workingDirectory", "projectBinding", "environmentFiles", "pythonLaunch", "verificationTimeoutMs"],
+    ["allocation", "cleanup", "dependencyNetwork", "packageResolution", "workingDirectory", "projectBinding", "environmentFiles", "pythonLaunch", "verificationTimeoutMs",
+      ...(record.runtimePolicy !== null && typeof record.runtimePolicy === "object" && Object.hasOwn(record.runtimePolicy, "connectionDeadlinePolicy") ? ["connectionDeadlinePolicy"] : [])],
     "KICAD_MCP_RUNTIME_UNAVAILABLE",
   );
   const pythonLaunch = exactRecord(
@@ -1049,7 +1051,8 @@ const parseKicadMcpRuntimeProfile = (value: unknown): KicadMcpRuntimeProfile => 
     || typeof pythonLaunch.argumentsSha256 !== "string"
     || !/^[0-9a-f]{64}$/u.test(pythonLaunch.argumentsSha256)
     || pythonLaunch.bytecodeWrites !== "disabled"
-    || runtimePolicy.verificationTimeoutMs !== KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS) {
+    || runtimePolicy.verificationTimeoutMs !== KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS
+    || (Object.hasOwn(runtimePolicy, "connectionDeadlinePolicy") && runtimePolicy.connectionDeadlinePolicy !== "bounded-phases-v1")) {
     return fail("KICAD_MCP_RUNTIME_UNAVAILABLE");
   }
   const processTreeSupervision = exactRecord(
@@ -1192,6 +1195,7 @@ const parseKicadMcpRuntimeProfile = (value: unknown): KicadMcpRuntimeProfile => 
         bytecodeWrites: "disabled",
       },
       verificationTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+      ...(runtimePolicy.connectionDeadlinePolicy === undefined ? {} : { connectionDeadlinePolicy: "bounded-phases-v1" as const }),
     },
     processTreeSupervision: {
       platform: "win32",
@@ -2581,6 +2585,8 @@ export const loadFluxProductionComposition = async (
       runtimeParentRoot: inspectionRuntimeParentRoot,
       ipcSocketParentRoot: inspectionIpcSocketParentRoot,
       verificationTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+      ...(profile.kicadMcpRuntime.runtimePolicy.connectionDeadlinePolicy === undefined ? {}
+        : { connectionDeadlinePolicy: profile.kicadMcpRuntime.runtimePolicy.connectionDeadlinePolicy }),
       processTreeSupervision: {
         strategy: KICAD_MCP_WINDOWS_PROCESS_TREE_STRATEGY,
         terminator: {

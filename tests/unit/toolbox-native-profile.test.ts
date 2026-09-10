@@ -32,6 +32,7 @@ function fixture() {
         expectedClosure: { fileCount: 29, manifestIdentity: pin("f"), treeIdentity: pin("1"), protocol: "protocol",
           python: { relativePath: "python.exe", identity: pin("2") }, entrypoint: { relativePath: "main.py", identity: pin("3") } } },
       runtimeParentRoot: at("private-runtime"), ipcSocketParentRoot: at("sockets"),
+      runtimePolicy: { verificationTimeoutMs: 123 },
       processTreeSupervision: { terminator: { path: at("system", "taskkill.exe"), identity: pin("4") } } },
   };
   const input = { profile: { path: profile.path, contentIdentity: profile.contentIdentity }, sourceRoot: at("source"), outputRoot: at("output"),
@@ -108,6 +109,14 @@ describe("native toolbox profile composition", () => {
     seams.read.mockResolvedValue({ ...f.profile, kicadTransmissionLine: { path: at("output", "helper.exe"), identity: pin("5") } });
     await expect(loadKicadToolboxNativeProfile(f.input)).rejects.toThrow("overlap fixed native resources");
     expect(seams.bridge).not.toHaveBeenCalled(); expect(seams.calculator).not.toHaveBeenCalled();
+  });
+
+  it("forwards the opt-in connection deadline policy exactly", async () => {
+    const f = fixture();
+    seams.read.mockResolvedValue({ ...f.profile, kicadMcpRuntime: { ...f.profile.kicadMcpRuntime,
+      runtimePolicy: { ...f.profile.kicadMcpRuntime.runtimePolicy, connectionDeadlinePolicy: "bounded-phases-v1" } } });
+    await loadKicadToolboxNativeProfile(f.input);
+    expect(seams.bridge.mock.calls[0]![0].connectionDeadlinePolicy).toBe("bounded-phases-v1");
   });
 
   it("preserves parsed executable pins, closure, roots and sanitized environment", async () => {

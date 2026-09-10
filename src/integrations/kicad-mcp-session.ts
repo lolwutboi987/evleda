@@ -2883,6 +2883,7 @@ export interface KicadMcpRuntimeBridgeFactoryOptions {
   readonly runtimeParentRoot: string;
   readonly ipcSocketParentRoot: string;
   readonly verificationTimeoutMs: typeof KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS;
+  readonly connectionDeadlinePolicy?: "bounded-phases-v1";
   readonly kicadCli: KicadMcpPinnedFileInput;
   readonly environment: Readonly<Record<string, string | undefined>>;
   readonly processTreeSupervision: {
@@ -3707,6 +3708,10 @@ async function verifyInspectionRuntimeTree(
 export async function createKicadMcpRuntimeBridge(
   input: KicadMcpRuntimeBridgeFactoryOptions,
 ): Promise<KicadMcpRuntimeBridge> {
+  const connectionDeadlinePolicy = input.connectionDeadlinePolicy;
+  if (connectionDeadlinePolicy !== undefined && connectionDeadlinePolicy !== "bounded-phases-v1") {
+    throw new KicadMcpSessionError("KiCad MCP connection deadline policy is invalid.");
+  }
   const environment = Object.freeze({ ...input.environment });
   const factoryDeadline = createInspectionDeadline(undefined, input.runtimeVerificationHooksForTesting);
   if (!Array.isArray(input.protectedRoots)) throw new KicadMcpSessionError("KiCad MCP protected roots must be an array.");
@@ -3820,6 +3825,14 @@ export async function createKicadMcpRuntimeBridge(
       workspaceBinding: "host-validated-at-startup" as const,
       environmentFiles: "disabled" as const, bytecodeWrites: "disabled" as const,
       verificationTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+      ...(connectionDeadlinePolicy === undefined ? {} : {
+        connectionDeadlinePolicy,
+        connectionDeadlineBounds: {
+          preBindTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+          postBindTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+          totalAdmissionTimeoutMs: 2 * KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+        },
+      }),
       processTreeSupervision: {
         strategy: KICAD_MCP_WINDOWS_PROCESS_TREE_STRATEGY,
         rootProof: "exact-child-process-handle-immediately-before-spawn" as const,
@@ -4604,7 +4617,27 @@ export async function createKicadMcpRuntimeBridge(
     requestedOptions: KicadMcpSessionOptions,
     operation?: KicadMcpRuntimeOperationContext,
   ): Promise<KicadMcpSession> => {
-    const deadline = createInspectionDeadline(operation, input.runtimeVerificationHooksForTesting);
+    // Snapshot the caller cap before queuing; no phase may extend that authority.
+    const connectionOperation = connectionDeadlinePolicy === undefined ? operation : (() => {
+      const deadlineAtMs = operation?.deadlineAtMs;
+      const signal = operation?.signal;
+      return Object.freeze({
+        ...(deadlineAtMs === undefined ? {} : { deadlineAtMs }),
+        ...(signal === undefined ? {} : { signal }),
+      });
+    })();
+    const connectionStartedAtMs = connectionDeadlinePolicy === undefined
+      ? undefined : inspectionNow(input.runtimeVerificationHooksForTesting);
+    const admissionDeadlineAtMs = connectionStartedAtMs === undefined ? undefined : Math.min(
+      connectionStartedAtMs + 2 * KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+      connectionOperation?.deadlineAtMs ?? Number.POSITIVE_INFINITY,
+    );
+    const firstDeadline = createInspectionDeadline(connectionOperation, input.runtimeVerificationHooksForTesting);
+    const deadline = connectionStartedAtMs === undefined ? firstDeadline : Object.freeze({
+      ...firstDeadline,
+      deadlineAtMs: Math.min(firstDeadline.deadlineAtMs,
+        connectionStartedAtMs + KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS, admissionDeadlineAtMs!),
+    });
     return await withSocketStateLock(bindingState, deadline, async () => {
     if (poisoned) throw new KicadMcpTerminationUncertainError("KiCad MCP runtime is poisoned after uncertain verification.");
     if (bindingState.released) throw new KicadMcpAuthorizationError("KiCad IPC socket binding was released before session connection.");
@@ -4769,9 +4802,15 @@ export async function createKicadMcpRuntimeBridge(
         deadline,
         "KiCad MCP deferred project binding",
       );
+      // Deferred binding must finish inside phase one before phase two is admitted.
+      if (connectionDeadlinePolicy !== undefined) assertInspectionDeadline(deadline);
       bindingStage = "bridge-revalidation";
-      await assertCurrentWithin(deadline);
-      await assertIpcSocketWithin(bindingState.binding, bindingState.runBindingIdentity, deadline);
+      const postBindDeadline = admissionDeadlineAtMs === undefined ? deadline : createInspectionDeadline({
+        deadlineAtMs: admissionDeadlineAtMs,
+        ...(deadline.signal === undefined ? {} : { signal: deadline.signal }),
+      }, deadline.hooks);
+      await assertCurrentWithin(postBindDeadline);
+      await assertIpcSocketWithin(bindingState.binding, bindingState.runBindingIdentity, postBindDeadline);
       bindingStage = "bridge-session-identity";
       if (session.identity.mode !== mode
           || canonicalJson(session.identity.launch.sessionAuthorityIdentity) !== canonicalJson(authorityIdentity)
@@ -4784,7 +4823,7 @@ export async function createKicadMcpRuntimeBridge(
           || session.identity.launch.rootProcessIncarnationIdentity.schemaVersion !== "evleda.kicad-mcp-root-process-incarnation.v1") {
         throw new KicadMcpSessionError("KiCad MCP bridge returned an invalid mode/socket/session authority.");
       }
-      await assertMutationAuthority(deadline, "before-session-return");
+      await assertMutationAuthority(postBindDeadline, "before-session-return");
       return session;
     } catch (error) {
       const primary = captureKicadStartupFailure(error, bindingStage);

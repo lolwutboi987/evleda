@@ -1,8 +1,20 @@
 # Destination client installation
 
-The global EvlEDA workspace entry and local skill are installed, and the installed Codex CLI can discover the server's 14 initial tools. **The running desktop's activation and dynamic tool refresh remain unverified.** No CAD project or model turn was created during these installation probes.
+The global EvlEDA workspace entry now uses catalog profile02 and the updated local skill. The installed Codex CLI discovers **15 initial tools, including `evleda_search_library`**. **The running desktop's activation and dynamic tool refresh remain unverified.** No CAD project or model turn was created during these installation probes.
 
-## Installed scope
+## Current catalog profile02 installation
+
+The [catalog installation record](../../destination-verification/stock-catalog-01/client/installation.json) records changes only to the existing entry's profile path, SHA-256 and byte-count arguments. Unrelated raw configuration and parsed settings were preserved, with private configuration/skill backups retained. The [installation audit](../../destination-verification/stock-catalog-01/client/installation-audit.json) passed all 12 scoped checks.
+
+- Profile: `toolbox-native-doc6-stock-catalog-destination-02.json`, 16,260 bytes, SHA-256 `b723a4f5a2a8b2aa5eee9131df22a9e5c2fc1c13eb2e70718ae29ff4acd7cfcc`; 222 approved symbol and 155 footprint namespaces, with the bounded connection policy.
+- Installed skill: validated exact local copy at `C:\Users\kidch\.codex\skills\evleda-pcb\SKILL.md`, SHA-256 `540440fc8d9c32c842f6178a4f419368bd961ebe00e5e21b3cf38149b15ef906`.
+- Workspace: `C:\Users\kidch\Documents\EvlEDA-Workspace`, with no allocations at the audit. Edit access, 30-second MCP startup and 180-second tool timeout remain unchanged.
+
+The [exact installed STDIO command](../../destination-verification/stock-catalog-01/client/workspace-preflight.json) passed four read-only discovery calls with 15 tools and a 660.4752 ms connection. A [fresh installed Codex CLI app-server](../../destination-verification/stock-catalog-01/client/codex-client-catalog-v2.json) independently read the actual global entry, found the same 15 tools and exited with code 0. Other servers/plugins were disabled only within that probe; no task, model turn or native project was created. The current desktop tool catalog still returned no EvlEDA tools. These passes do not establish desktop readiness or notification handling.
+
+The separate [33-call native catalog lifecycle](toolbox-stock-catalog.md#passing-native02-lifecycle) passed authoring, placement, previews, two closes and same-connection resume in an isolated proof workspace. That intentionally unrouted fixture is separate from installation and does not qualify every catalog part.
+
+## Initial profile03 installation (preserved)
 
 The [installation record](../../destination-verification/client-installation-01/installation.json) records the appended `mcp_servers.evleda_workspace` entry in `C:\Users\kidch\.codex\config.toml`, its before/after identities and a private backup path. All preceding configuration bytes and unrelated semantic settings were preserved; the record does not include the backup's contents. The [entry-only TOML](../../destination-verification/client-installation-01/installed-entry.toml) contains the exact installed Node/compiled-STDIO command.
 
@@ -11,11 +23,11 @@ The [installation record](../../destination-verification/client-installation-01/
 - Skill: exact local copy at `C:\Users\kidch\.codex\skills\evleda-pcb\SKILL.md`, byte-verified and validated; SHA-256 `3dabfef65c332af26c86a1c3db6e4831a86e7e25ee84c3f33abc8023466753f6`. No network skill installation was used.
 - Entry policy: edit-capable workspace, 30-second startup and 180-second tool timeout. No fixed `enabled_tools` list, `required: true`, global startup-grace change or HTTP listener was introduced. Existing security settings and disabled repository examples remain unchanged.
 
-The profile controls available parts and native authority. Installation does not expand it into a general part catalog or qualify additional board families.
+That initial profile controlled available parts and native authority. The initial installation did not expand its exact allowlist or qualify additional board families.
 
 The [post-installation audit](../../destination-verification/client-installation-01/installation-audit.json) passed all 12 scoped checks: exact backup/current hashes, original configuration byte prefix, unrelated settings, installed entry, exact skill copy, canonical backup path, CLI catalog, and the doctor's configuration checks. Desktop activation remains explicitly unverified.
 
-## What passed, and what did not
+### Initial verification results
 
 | Evidence | Recorded outcome |
 | --- | --- |

@@ -9,7 +9,8 @@ import livePcbPadProtocol from "../fixtures/kicad-mcp-live-pcb-pad-snapshot-prot
 import schematicBatchProtocol from "../fixtures/kicad-mcp-schematic-connectivity-batch-protocol.json" with { type: "json" };
 import qualifiedFootprintSyncTool from "../fixtures/kicad-mcp-qualified-footprint-sync-tool.json" with { type: "json" };
 
-import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import * as canonical from "../../src/core/canonical.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { bindKicadStartupEvidence, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import type { BoundedProcessRunner } from "../../src/integrations/bounded-process.js";
@@ -38,6 +39,7 @@ import {
   createKicadMcpExpectedExecutableIdentity,
   parseKicadMcpInspectionRuntimeManifestSummary,
   type KicadMcpSessionOptions,
+  type KicadMcpRuntimeBridgeFactoryOptions,
 } from "../../src/integrations/kicad-mcp-session.js";
 
 const FAKE_MCP_SERVER = String.raw`
@@ -644,6 +646,62 @@ async function syntheticInspectionBridgeFixture(additionalRuntimeFiles = 0, scat
   };
 }
 
+async function connectionBudgetFixture(connectionDeadlinePolicy?: "bounded-phases-v1") {
+  const fixture = await syntheticInspectionBridgeFixture(3, true);
+  const state = {
+    now: 1_000, phase: "setup", firstMs: 29_000, postMs: 20_000, postAdvanced: false,
+    preFiles: 0, postFiles: 0,
+    connectorCalls: 0, binds: 0, closes: 0, launchGuard: undefined as (() => void) | undefined,
+    beforeOperation: async (_label: string): Promise<void> => undefined,
+    onConnect: async (): Promise<void> => undefined,
+    onBind: async (): Promise<void> => undefined,
+  };
+  const input: KicadMcpRuntimeBridgeFactoryOptions = {
+    lockFile: fixture.lockFile,
+    runtimeBundle: { root: fixture.bundleRoot, manifestFile: fixture.manifestFile, expectedClosure: fixture.expectedClosure },
+    runtimeParentRoot: fixture.runtimeParentRoot, ipcSocketParentRoot: fixture.ipcSocketParentRoot,
+    verificationTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+    ...(connectionDeadlinePolicy === undefined ? {} : { connectionDeadlinePolicy }),
+    kicadCli: fixture.kicadCliInput, protectedRoots: [fixture.workspace],
+    processTreeSupervision: { strategy: KICAD_MCP_WINDOWS_PROCESS_TREE_STRATEGY,
+      terminator: fixture.processTreeTerminatorInput, timeoutMs: KICAD_MCP_WINDOWS_PROCESS_TREE_TERMINATION_TIMEOUT_MS },
+    environment: { SYSTEMROOT: fixture.systemRoot, WINDIR: fixture.systemRoot },
+    runtimeVerificationHooksForTesting: {
+      now: () => state.now,
+      beforeOperation: async label => {
+        if (state.phase === "post" && !state.postAdvanced && label === "KiCad MCP sidecar lock:open") {
+          state.postAdvanced = true; state.now += state.postMs;
+        }
+        await state.beforeOperation(label);
+        if (label === "KiCad MCP runtime file:open") {
+          if (state.phase === "pre") state.preFiles += 1;
+          if (state.phase === "post") state.postFiles += 1;
+        }
+      },
+    },
+    connectSessionForTesting: async options => {
+      state.connectorCalls += 1; state.launchGuard = options.assertLaunchAuthority;
+      state.now += state.firstMs;
+      await state.onConnect();
+      return {
+        identity: fakeBoundSessionIdentity(options, 9_001),
+        bindDeferredInspectionProject: async () => { state.binds += 1; await state.onBind(); state.phase = "post"; },
+        close: async () => { state.closes += 1; },
+      } as unknown as RawKicadMcpSession;
+    },
+  };
+  const bridge = await createKicadMcpInspectionBridge(input);
+  const runBindingIdentity = canonicalIdentity({ run: "connection-budget" }, "evleda.test-run-binding.v1");
+  const socket = await bridge.allocateIpcSocket({ runBindingIdentity });
+  const authority = await bridge.bindSession({ runBindingIdentity, ipcSocket: socket, mode: "readonly",
+    requiredTools: KICAD_MCP_INSPECTION_TOOL_ALLOWLIST,
+    roots: { workspaceRoot: fixture.workspace, projectRoot: fixture.project, outputRoot: fixture.outputRoot } });
+  const options = { workspaceRoot: fixture.workspace, projectRoot: fixture.project, outputRoot: fixture.outputRoot,
+    mode: "readonly" as const, requiredTools: [...KICAD_MCP_INSPECTION_TOOL_ALLOWLIST].sort() };
+  state.phase = "pre";
+  return { fixture, input, bridge, runBindingIdentity, socket, authority, options, state };
+}
+
 async function runtimeSchedulerFixture(gateTarget: "files" | "directories" = "files") {
   const fixture = await syntheticInspectionBridgeFixture(8, true);
   const expectedDirectoryCount = fixture.additionalFiles.length + 2;
@@ -840,6 +898,184 @@ const fakeBoundSessionIdentity = (options: KicadMcpSessionOptions, pid: number) 
 });
 
 describe("KiCad MCP subprocess session", () => {
+  it.each([null, false, 60_000, "bounded-phases-v2", {}])("rejects invalid connection deadline policy before factory I/O: %j", async policy => {
+    let operations = 0;
+    await expect(createKicadMcpInspectionBridge({ connectionDeadlinePolicy: policy,
+      runtimeVerificationHooksForTesting: { beforeOperation: async () => { operations += 1; } },
+    } as unknown as KicadMcpRuntimeBridgeFactoryOptions)).rejects.toThrow("connection deadline policy is invalid");
+    expect(operations).toBe(0);
+  });
+
+  it("retains the exact legacy runtime payload and adds policy identity only on opt-in", async () => {
+    const identityCalls = vi.spyOn(canonical, "canonicalIdentity");
+    try {
+      const probe = await connectionBudgetFixture();
+      const runtimePayloads = () => identityCalls.mock.calls.filter(call => call[1] === "evleda.kicad-mcp-runtime.v1")
+        .map(call => call[0] as { launch: Record<string, unknown> });
+      const legacy = structuredClone(runtimePayloads()[0]!);
+      expect(Object.keys(legacy.launch).sort()).toEqual(["argumentCount", "argumentsSha256", "bytecodeWrites", "environmentFiles",
+        "ipcSocketPolicy", "processTreeSupervision", "projectBinding", "verificationTimeoutMs", "workingDirectory", "workspaceBinding"].sort());
+      const omitted = await createKicadMcpInspectionBridge(probe.input);
+      expect(omitted.identity).toEqual(probe.bridge.identity);
+      const optedIn = await createKicadMcpInspectionBridge({ ...probe.input, connectionDeadlinePolicy: "bounded-phases-v1" });
+      const optedPayload = runtimePayloads().at(-1)!;
+      expect(optedPayload).toEqual({ ...legacy, launch: { ...legacy.launch, connectionDeadlinePolicy: "bounded-phases-v1",
+        connectionDeadlineBounds: { preBindTimeoutMs: 30_000, postBindTimeoutMs: 30_000, totalAdmissionTimeoutMs: 60_000 } } });
+      expect(optedIn.identity).not.toEqual(omitted.identity);
+      expect(optedIn.inspectionBridgeIdentity).not.toEqual(omitted.inspectionBridgeIdentity);
+      expect(optedIn.executionBridgeIdentity).not.toEqual(omitted.executionBridgeIdentity);
+      expect(probe.state.connectorCalls).toBe(0);
+    } finally { identityCalls.mockRestore(); }
+  });
+
+  it.each([false, true])("keeps the shared legacy budget and grants a complete post-bind pass only on opt-in: %s", async enabled => {
+    const probe = await connectionBudgetFixture(enabled ? "bounded-phases-v1" : undefined);
+    const connecting = probe.authority.connect(probe.options);
+    if (enabled) {
+      const session = await connecting;
+      expect(probe.state.now).toBe(50_000);
+      expect(probe.state.preFiles).toBe(probe.fixture.expectedClosure.fileCount);
+      expect(probe.state.postFiles).toBe(probe.fixture.expectedClosure.fileCount);
+      // The connector's retained spawn guard never acquires the post-bind budget.
+      expect(probe.state.launchGuard).toThrow(KicadMcpRuntimeVerificationDeadlineError);
+      probe.state.phase = "setup"; await session.close();
+      expect(await readdir(probe.fixture.runtimeParentRoot)).toEqual([]);
+    } else {
+      const error = await connecting.catch(value => value);
+      expect(captureKicadStartupFailure(error, "session-connect").failure).toMatchObject({ stage: "bridge-revalidation", cause: { category: "kicad-verification-deadline" } });
+      expect(probe.state.postFiles).toBe(0);
+      expect(await readdir(probe.fixture.runtimeParentRoot)).toHaveLength(1);
+    }
+    expect(probe.state.connectorCalls).toBe(1); expect(probe.state.binds).toBe(1); expect(probe.state.closes).toBe(1);
+  });
+
+  it("snapshots the connection policy before the first factory await and ignores later mutation", async () => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1");
+    let reads = 0;
+    Object.defineProperty(probe.input, "connectionDeadlinePolicy", { configurable: true, get: () => { reads += 1; return "bounded-phases-v1"; } });
+    const building = createKicadMcpInspectionBridge(probe.input);
+    Object.defineProperty(probe.input, "connectionDeadlinePolicy", { value: "invalid-later", configurable: true });
+    await expect(building).resolves.toHaveProperty("identity"); expect(reads).toBe(1);
+    const session = await probe.authority.connect(probe.options);
+    expect(probe.state.postFiles).toBe(probe.fixture.expectedClosure.fileCount);
+    probe.state.phase = "setup"; await session.close();
+  });
+
+  it.each(["post phase", "caller cap", "total cap", "final checkpoint"])("bounds opt-in post-bind admission at the %s and retains poisoned state", async boundary => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1");
+    const operation = boundary === "caller cap" ? { deadlineAtMs: probe.state.now + 40_000 } : undefined;
+    if (boundary === "post phase") probe.state.postMs = 30_000;
+    if (boundary === "total cap") { probe.state.firstMs = 29_999; probe.state.postMs = 30_001; }
+    if (boundary === "final checkpoint") probe.state.beforeOperation = async label => {
+      if (label === "KiCad MCP authority checkpoint:before-session-return") probe.state.now = 60_000;
+    };
+    const error = await probe.authority.connect(probe.options, operation).catch(value => value);
+    expect(captureKicadStartupFailure(error, "session-connect").failure).toMatchObject({
+      stage: boundary === "final checkpoint" ? "bridge-session-identity" : "bridge-revalidation", cause: { category: "kicad-verification-deadline" } });
+    expect(probe.state.connectorCalls).toBe(1); expect(probe.state.binds).toBe(1); expect(probe.state.closes).toBe(1);
+    expect(await readdir(probe.fixture.runtimeParentRoot)).toHaveLength(1);
+    await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+    await expect(probe.authority.connect(probe.options)).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+    expect(probe.state.connectorCalls).toBe(1);
+  });
+
+  it.each(["deadline", "abort"])("keeps the caller's original %s even if its context is mutated during connect", async boundary => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1"), controller = new AbortController();
+    const operation = { deadlineAtMs: probe.state.now + (boundary === "abort" ? 60_000 : 40_000), signal: controller.signal };
+    probe.state.onConnect = async () => { operation.deadlineAtMs += 60_000; operation.signal = new AbortController().signal; };
+    if (boundary === "abort") probe.state.beforeOperation = async label => {
+      if (probe.state.phase === "post" && label === "KiCad MCP sidecar lock:open") controller.abort();
+    };
+    const error = await probe.authority.connect(probe.options, operation).catch(value => value);
+    expect(captureKicadStartupFailure(error, "session-connect").failure).toMatchObject({ stage: "bridge-revalidation", cause: { category: "kicad-verification-deadline" } });
+    expect(probe.state.closes).toBe(1);
+  });
+
+  it("preserves the readonly convenience wrapper's shared 30-second caller cap under opt-in", async () => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1");
+    await probe.authority.disposeUnused();
+    const error = await probe.bridge.connect({ ...probe.options, ipcSocket: probe.socket, runBindingIdentity: probe.runBindingIdentity }).catch(value => value);
+    expect(captureKicadStartupFailure(error, "session-connect").failure).toMatchObject({ stage: "bridge-revalidation", cause: { category: "kicad-verification-deadline" } });
+    expect(probe.state.postFiles).toBe(0); expect(probe.state.closes).toBe(1);
+  });
+
+  it.each(["abort", "hang"])("bounds opt-in post-bind verification on %s without publishing a late result", async reason => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1"), controller = new AbortController();
+    probe.state.firstMs = 0; probe.state.postMs = 0;
+    Object.defineProperty(probe.input.runtimeVerificationHooksForTesting!, "deadlineMsForTesting", { value: 150 });
+    let release!: () => void, hit!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; }), reached = new Promise<void>(resolve => { hit = resolve; });
+    probe.state.beforeOperation = async label => {
+      if (probe.state.phase === "post" && label === "KiCad MCP runtime:readdir") { hit(); await gate; }
+    };
+    let published = false;
+    const outcome = probe.authority.connect(probe.options, { signal: controller.signal }).then(() => { published = true; return undefined; }, error => error);
+    try {
+      await reached; if (reason === "abort") controller.abort();
+      const error = await outcome;
+      expect(captureKicadStartupFailure(error, "session-connect").failure).toMatchObject({ stage: "bridge-revalidation", cause: { category: "kicad-verification-deadline" } });
+      expect(probe.state.closes).toBe(1); expect(published).toBe(false);
+      expect(await readdir(probe.fixture.runtimeParentRoot)).toHaveLength(1);
+    } finally { release(); await outcome; }
+    await new Promise<void>(resolve => setImmediate(resolve));
+    expect(published).toBe(false); expect(probe.state.connectorCalls).toBe(1);
+  });
+
+  it("expires opt-in queue admission without bypassing the earlier socket operation or spawning later", async () => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1");
+    let release!: () => void, hit!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; }), reached = new Promise<void>(resolve => { hit = resolve; });
+    probe.state.beforeOperation = async label => { if (label === "KiCad MCP sidecar lock:open") { hit(); await gate; } };
+    const preceding = probe.authority.disposeUnused().then(() => undefined, error => error);
+    let laterSettled = false;
+    let later: Promise<unknown> | undefined;
+    try {
+      await reached;
+      await expect(probe.authority.connect(probe.options, { deadlineAtMs: probe.state.now + 150 }))
+        .rejects.toBeInstanceOf(KicadMcpRuntimeVerificationDeadlineError);
+      later = probe.authority.disposeUnused({ deadlineAtMs: probe.state.now + 2_000 })
+        .then(() => undefined, error => error).finally(() => { laterSettled = true; });
+      await new Promise<void>(resolve => setTimeout(resolve, 20));
+      expect(laterSettled).toBe(false); expect(probe.state.connectorCalls).toBe(0);
+    } finally { release(); }
+    expect(await preceding).toBeInstanceOf(KicadMcpTerminationUncertainError);
+    expect(await later).toBeInstanceOf(KicadMcpTerminationUncertainError);
+    expect(probe.state.connectorCalls).toBe(0); expect(probe.state.binds).toBe(0);
+    expect(await readdir(probe.fixture.runtimeParentRoot)).toHaveLength(1);
+  });
+
+  it("rejects a deferred result at the first phase boundary before granting post-bind time", async () => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1");
+    probe.state.onBind = async () => { probe.state.now += 1_000; };
+    const error = await probe.authority.connect(probe.options).catch(value => value);
+    expect(captureKicadStartupFailure(error, "session-connect").failure).toMatchObject({
+      stage: "deferred-project-binding", cause: { category: "kicad-verification-deadline" } });
+    expect(probe.state.postFiles).toBe(0); expect(probe.state.postAdvanced).toBe(false);
+    expect(probe.state.closes).toBe(1); expect(await readdir(probe.fixture.runtimeParentRoot)).toHaveLength(1);
+  });
+
+  it.each(["connector", "deferred bind"])("does not renew the first phase for a held %s", async stage => {
+    const probe = await connectionBudgetFixture("bounded-phases-v1");
+    probe.state.firstMs = 0; probe.state.postMs = 0;
+    Object.defineProperty(probe.input.runtimeVerificationHooksForTesting!, "deadlineMsForTesting", { value: 150 });
+    let release!: () => void, hit!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; }), reached = new Promise<void>(resolve => { hit = resolve; });
+    let lateSpawns = 0;
+    if (stage === "connector") probe.state.onConnect = async () => { hit(); await gate; probe.state.launchGuard?.(); lateSpawns += 1; };
+    else probe.state.onBind = async () => { hit(); await gate; };
+    const outcome = probe.authority.connect(probe.options).then(() => undefined, error => error);
+    try {
+      await reached;
+      const error = await outcome;
+      expect(captureKicadStartupFailure(error, "session-connect").failure).toMatchObject({
+        stage: stage === "connector" ? "bridge-connect" : "deferred-project-binding", cause: { category: "kicad-verification-deadline" } });
+      expect(probe.state.postFiles).toBe(0);
+    } finally { release(); await outcome; }
+    await new Promise<void>(resolve => setImmediate(resolve));
+    expect(lateSpawns).toBe(0); expect(probe.state.postFiles).toBe(0);
+    expect(await readdir(probe.fixture.runtimeParentRoot)).toHaveLength(1);
+  });
+
   it("captures the exact session output validation stage before any sidecar spawn", async () => {
     const fixture = await roots();
     const observed: string[] = [];
