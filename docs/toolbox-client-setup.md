@@ -12,7 +12,7 @@ The server initially provides guidance, design schema, approved-library inspecti
 
 The client workflow is:
 
-1. Read `evleda_workspace_status`, `evleda_design_schema` and appropriate `evleda_inspect_library` results. The schema tool includes the existing model guide and valid example.
+1. Read `evleda_workspace_status`, `evleda_design_schema` and appropriate `evleda_inspect_library` results. The schema tool returns `supportedFamilies`, a model guide and an example. Select `family: "plane-v2"` for supported plane designs; omitting `family` retains the `routed-v1` default.
 2. Submit a complete structured draft, design name and original request with `evleda_submit_design`. Missing requirements and unsupported capabilities return in-band questions/issues. No project is allocated for a clarification result. The connected client model performs interpretation; no nested model/provider is started.
 3. Review the ready result, then call `evleda_create_project` with its `draftId`. The host persists the draft internally, creates disjoint input/output directories and uses the existing pinned native preparation. The expected compilation identity is rechecked before native project creation. Reuse the same ID after a timeout; a repeated call never allocates a second project.
 4. Refresh the tool list after attachment. Read `evleda_design_context`, then use the existing authoring, save/readback, check, preview and stackup tools. An open project and a ready contract are not a completed design.
@@ -40,6 +40,24 @@ For a new fresh project, the native command requires:
 - `--edit`: explicitly enables the host's edit access. Omit it for read-only CAD tools.
 
 The structured draft must compile successfully; unresolved requirements produce clarification output rather than invented design values. Existing-project copies instead use `--board <filename.kicad_pcb>` and omit `--new-project`, `--intent`, and `--prompt`. The source project is supplied through `--project-dir`; edits operate on the isolated output copy.
+
+## Optional plane-acceptance dependencies
+
+The host can add `kicadPlaneContacts` to its existing pinned native profile. It has exactly these fields:
+
+| Field | Host-supplied value |
+| --- | --- |
+| `runtimeRoot` | Absolute path to the isolated native contacts runtime with a closed, verified runtime manifest. |
+| `manifest` | Exactly `{path, sha256, sizeBytes}` for that manifest. |
+| `helper` | Exactly `{path, sha256, sizeBytes}` for the reviewed contacts helper. |
+
+Use measured SHA-256/byte counts for the actual files, then regenerate the enclosing profile pin. The isolated runtime binds its Python, native KiCad modules and dependency closure; an executable found on PATH or ambient import search does not supply that authority. Keep the runtime, manifest/helper and their protected directories disjoint from editable project/output roots. No global settings or original frozen profile are changed automatically.
+
+The owning native-profile factory creates the reader for the bound saved PCB and current source identity, with its private output directory and process controls. These are host configuration fields, not MCP arguments. The separate optional `kicadReferenceCoverage` helper remains necessary for dependent geometric reference-coverage facts; the transmission-line calculator does not substitute for it. Missing optional evidence remains unknown.
+
+After V2 attachment, refresh the tool list. When available, call `evleda_check_plane_acceptance` with `{}` only after `fresh_apply_contract_plane` has established a current-session native fill witness and completed mandatory save/readback. Reapply after relevant edits or reopening; saved caches, checkpoints and old diagnostic files cannot renew the witness. A read-only resumed session can inspect endpoints/previews, but cannot establish a new fill witness through this read tool. Its host must enable the appropriate edit workflow if fresh plane assessment is needed; a model cannot promote its access.
+
+The tool returns every verification row and scoped component/area/contact/native-rule/reference fact, with unresolved physical minimum copper and thermal-spoke widths. `acceptanceEvaluated: true` is scoped evaluation; `accepted` and `fabricationAuthorized` remain false. Public reports omit private paths/raw captures, retaining a separate diagnostic filename/hash. See [tool behavior](toolbox.md#source-bound-plane-acceptance-facts) and [destination verification](destination-plane-acceptance.md). The native reader passed, but the integrated public attempt failed at MCP startup before authoring; prior workspace and complete-all-nets results do not establish this new check.
 
 ## Client configuration and timing
 

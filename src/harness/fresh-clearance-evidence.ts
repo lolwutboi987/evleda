@@ -1100,6 +1100,23 @@ const assertClosedLayeredItems = (
   }
 };
 
+/** Reuse only the closed source item/layer inventory for V2 reference coverage.
+ * Zone geometry, clearance rules and V1 acceptance are deliberately not assessed.
+ */
+export function assertFreshPlaneReferenceCopperScope(source: string): void {
+  const forms = parseSExpressions(Buffer.from(source, "utf8"), "KiCad PCB", "UNSUPPORTED_PCB");
+  if (forms.length !== 1 || forms[0]!.name !== "kicad_pcb" || forms[0]!.values.length !== 0) fail("UNSUPPORTED_PCB", "Expected one PCB root for reference copper scope.");
+  const root = forms[0]!;
+  const version = scalarChild(root, "version");
+  if (version === null || !/^\d+$/u.test(version) || !BOARD_VERSIONS.has(Number(version))) fail("UNSUPPORTED_PCB", "Unsupported reference PCB version.");
+  const table = oneChild(root, "layers");
+  if (table === null) fail("UNSUPPORTED_PCB", "Reference copper scope needs one complete layer table.");
+  const layers = declaredLayerNames(table!, Number(version));
+  const copper = [...layers].filter(name => name.endsWith(".Cu"));
+  if (copper.length !== 2 || copper[0] !== "F.Cu" || copper[1] !== "B.Cu") fail("UNSUPPORTED_PCB", "Reference copper scope supports exact F.Cu/B.Cu layers.");
+  assertClosedLayeredItems(root, new Set([...layers, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]), "not-evaluated");
+}
+
 const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "rejected" | "not-evaluated" = "rejected"): PcbFacts => {
   const forms = parseSExpressions(bytes, "KiCad PCB", "UNSUPPORTED_PCB");
   if (forms.length !== 1 || forms[0]!.name !== "kicad_pcb" || forms[0]!.values.length !== 0) {

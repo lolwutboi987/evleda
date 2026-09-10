@@ -109,7 +109,9 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
   const cad = await openKicadToolboxNativeHost({ runtime: native.bridge, suite: native.editorSuite, prepared,
     pcbPath: project.pcbPath, termination: native.termination, launcher: native.editorLauncher, environment: { ...native.environment, ...design.libraryEnvironment },
     ...("family" in preparation
-      ? { planeFresh: { preparation, createCliAdapter: native.createCliAdapter } }
+      ? { planeFresh: { preparation, createCliAdapter: native.createCliAdapter,
+        ...(native.createPlaneContactsReader===undefined?{}:{createPlaneContactsReader:native.createPlaneContactsReader}),
+        ...(native.referenceCoverage===undefined?{}:{referenceCoverage:native.referenceCoverage}) } }
       : { fresh: { preparation, createCliAdapter: native.createCliAdapter } }),
     ...(native.referenceCoverage === undefined ? {} : { referenceCoverage: native.referenceCoverage }) });
   try {

@@ -74,6 +74,8 @@ import { prepareFreshPlaneMutation, compareFreshPlaneMutation, type PreparedFres
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
 import { validateFreshPlaneStageObservation, isValidatedFreshPlaneStageObservation } from "./fresh-plane-stage-observation.js";
 import { prepareFreshPlaneConnectivity, assessFreshPlaneConnectivity, type FreshPlaneConnectivityAssessment } from "./fresh-plane-connectivity.js";
+import { createSavedFreshPlaneEvidence, assertSavedFreshPlaneEvidenceCurrent, type SavedFreshPlaneEvidence } from "./fresh-plane-evidence.js";
+import type { FreshPlaneAcceptanceAssessment, FreshPlaneAcceptanceInput } from "./fresh-plane-acceptance.js";
 import { routeMmToNativeNm, routeNativeNmToMm, routeNativeNmToKipyMm, routeSourceMmToNativeNm, validatedNativePadPositionMm } from "./fresh-route-native-units.js";
 
 /** The deliberately small, reviewed surface exposed to a layout harness. */
@@ -248,6 +250,8 @@ export interface KicadHarnessTools extends HarnessToolPort<KicadHarnessToolName>
   captureFreshPcbPadEvidence(): Promise<Readonly<{ observation: KicadNativePadObservation; expected: KicadNativePadObservationExpected }> | undefined>;
   /** Host-only, current saved V2 endpoint reachability. Never an electrical acceptance verdict. */
   assessPlaneConnectivity?(): Promise<FreshPlaneConnectivityAssessment>;
+  /** Serialized host-only V2 plane facts; model input cannot supply evidence or selectors. */
+  assessPlaneAcceptance?(): Promise<FreshPlaneAcceptanceAssessment>;
   runFinalValidation(): Promise<Readonly<Record<"erc" | "drc" | "boardSummary" | "visualQa", unknown>>>;
 }
 
@@ -260,6 +264,9 @@ export interface FreshSyncBoardComparisonDiagnostic {
 }
 
 export interface KicadHarnessToolsOptions {
+  readonly assessFreshPlaneEvidence?: (input: Pick<FreshPlaneAcceptanceInput,
+    "compilationBundle" | "pcbSource" | "projectSettingsSource" | "rulesSource" | "savedEvidence" | "endpointConnectivity">
+    & { readonly pcbPath: string; readonly projectBindingIdentity: CanonicalIdentity; readonly sourceScopeIdentity: CanonicalIdentity }) => Promise<FreshPlaneAcceptanceAssessment>;
   /** Host-private bounded provenance; callback failures never mask the first native fault. */
   readonly observeFreshRouteMutationDiagnostic?:(diagnostic:FreshRouteMutationDiagnostic)=>void|Promise<void>;
   /** Deterministic host fallback, normally backed by a source-preserving KiCad CLI check. */
@@ -596,6 +603,9 @@ interface PendingFreshPlaneApply {
   readonly before:FreshPcbCapture;
   readonly prepared:PreparedFreshPlaneMutation;
   readonly observation:ReturnType<typeof validateFreshPlaneStageObservation>;
+  readonly projectSettingsIdentity:ContentIdentity;
+  readonly rulesIdentity:ContentIdentity;
+  readonly sourceScopeIdentity:CanonicalIdentity;
 }
 
 const freezeDeep = <Value>(value: Value): Value => {
@@ -2479,6 +2489,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   #pendingFreshPlacementCommit: PendingFreshPlacementCommit | undefined;
   #pendingFreshRouteSelection: AuthoringRouteSelection | undefined;
   #planeRecoveryRequired = false;
+  #savedFreshPlaneEvidence: SavedFreshPlaneEvidence | undefined;
+  readonly #assessFreshPlaneEvidence: KicadHarnessToolsOptions["assessFreshPlaneEvidence"];
   #routeRecoveryRequired = false;
   readonly #observeFreshRouteMutationDiagnostic:KicadHarnessToolsOptions["observeFreshRouteMutationDiagnostic"];
   #freshRouteMutationDiagnostics:FreshRouteMutationDiagnostic[]=[];
@@ -2522,6 +2534,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     this.#freshAuthoringDesignContract=freshPlaneDesignContract??freshDesignContract;
     this.#freshCompilationBundle = options.freshCompilationBundle;
     this.#freshPlaneCompilationBundle=options.freshPlaneCompilationBundle;
+    this.#assessFreshPlaneEvidence=options.assessFreshPlaneEvidence;
     this.#captureFreshNativeNetlist = options.captureFreshNativeNetlist;
     this.#observeFreshSyncBoardComparison = options.observeFreshSyncBoardComparison;
     this.#freshSchematicGeometryResolver = options.freshSchematicGeometryResolver;
@@ -2653,6 +2666,15 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
 
   /** Serialized saved-board read; raw PAD requests and paths remain host-owned. */
   async assessPlaneConnectivity():Promise<FreshPlaneConnectivityAssessment>{
+    return await this.#withCurrentPlaneRead(async context => context.endpointConnectivity);
+  }
+
+  async assessPlaneAcceptance():Promise<FreshPlaneAcceptanceAssessment>{
+    if(this.#assessFreshPlaneEvidence===undefined)throw new Error("The host has no V2 plane evidence assessor configured.");
+    return await this.#withCurrentPlaneRead(this.#assessFreshPlaneEvidence, true);
+  }
+
+  async #withCurrentPlaneRead<T>(operation: (input: Parameters<NonNullable<KicadHarnessToolsOptions["assessFreshPlaneEvidence"]>>[0])=>Promise<T>, requireFillEvidence=false):Promise<T>{
     const run=this.#tail.then(async()=>{
       if(!isVerifiedPlaneFreshProject(this.#freshProject)||this.#freshPlaneCompilationBundle===undefined
           ||this.#freshPhysicalFootprintResolver===undefined||this.#freshPhysicalFootprintSourcePins===undefined
@@ -2669,19 +2691,34 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const liveBefore=await freshActiveBoardSource(this.#session,this.#freshProject.pcbPath);
       if(!freshBoardSerializationsEqual(before.source,liveBefore))throw new Error("Endpoint connectivity refuses unsaved native PCB changes.");
       const physicalExpected=this.#physicalExpected(before,[]);
+      const {projectSettings:settingsBefore,rules:rulesBefore}=await this.#planeRuleSources();
+      const assertFillEvidenceCurrent=()=>{
+        if(requireFillEvidence&&this.#savedFreshPlaneEvidence!==undefined)assertSavedFreshPlaneEvidenceCurrent(this.#savedFreshPlaneEvidence,{
+          bundleIdentity:this.#freshPlaneCompilationBundle!.identity,projectBindingIdentity:before.projectBindingIdentity,
+          sourceScopeIdentity:physicalExpected.scopeIdentity,savedPcbIdentity:before.contentIdentity,
+          projectSettingsIdentity:contentIdentity(settingsBefore),rulesIdentity:contentIdentity(rulesBefore)});
+      };
+      assertFillEvidenceCurrent();
       const input={compilationBundle:this.#freshPlaneCompilationBundle,pcbPath:this.#freshProject.pcbPath,pcbSource:before.source,
         scopeIdentity:physicalExpected.scopeIdentity,physicalFootprints:this.#freshPhysicalFootprintSourcePins,physicalFootprintResolver:this.#freshPhysicalFootprintResolver};
       const prepared=prepareFreshPlaneConnectivity(input);
       const observation=await collectKicadNativePadObservation({readLivePcbPadSnapshot:ids=>this.#session.readLivePcbPadSnapshot!(ids)},prepared.nativePadExpected);
-      const result=assessFreshPlaneConnectivity({...input,nativePads:observation});
+      const endpointConnectivity=assessFreshPlaneConnectivity({...input,nativePads:observation});
+      const result=await operation({compilationBundle:this.#freshPlaneCompilationBundle,pcbPath:this.#freshProject.pcbPath,
+        projectBindingIdentity:before.projectBindingIdentity,sourceScopeIdentity:physicalExpected.scopeIdentity,
+        pcbSource:before.source,projectSettingsSource:new TextDecoder("utf-8",{fatal:true}).decode(settingsBefore),
+        rulesSource:new TextDecoder("utf-8",{fatal:true}).decode(rulesBefore),savedEvidence:this.#savedFreshPlaneEvidence??null,endpointConnectivity});
       const liveAfter=await freshActiveBoardSource(this.#session,this.#freshProject.pcbPath);
       if(!freshBoardSerializationsEqual(before.source,liveAfter))throw new Error("Native PCB changed during endpoint connectivity observation.");
       await this.#assertFreshCompoundAuthority();this.#assertPhysicalLibrarySources();assertSavedRead();
+      const {projectSettings:settingsAfter,rules:rulesAfter}=await this.#planeRuleSources();
+      if(!settingsBefore.equals(settingsAfter)||!rulesBefore.equals(rulesAfter))throw new Error("Project settings or canonical plane rules changed during plane evidence collection.");
       const after=await captureFreshPcb(this.#freshProject);
       if(!sameContentIdentity(before.contentIdentity,after.contentIdentity)||!sameContentIdentity(before.freshMarkerContentIdentity,after.freshMarkerContentIdentity)
           ||canonicalJson(before.projectBindingIdentity)!==canonicalJson(after.projectBindingIdentity)
           ||canonicalJson(this.#physicalExpected(after,[]).scopeIdentity)!==canonicalJson(physicalExpected.scopeIdentity))throw new Error("PCB source, marker, or physical scope changed during endpoint connectivity observation.");
       this.#assertPhysicalLibrarySources();assertSavedRead();
+      assertFillEvidenceCurrent();
       return result;
     });
     this.#tail=run.then(()=>undefined,()=>undefined);
@@ -2919,6 +2956,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #queuedPlaneCallGuard(call:HarnessToolCall):Promise<HarnessToolResult|undefined>{
+    // A source-equivalent edit can still dirty/refill native copper. Invalidate
+    // on dispatch, before native execution; byte equality never restores authority.
+    if(PROVIDER_MUTATION_TOOL_NAMES.has(call.name)||call.name==="pcb_save")this.#savedFreshPlaneEvidence=undefined;
     if(this.#routeRecoveryRequired&&(PROVIDER_MUTATION_TOOL_NAMES.has(call.name)||call.name==="pcb_save"))throw new Error("ROUTE_RECOVERY_REQUIRED: Queued writes/save are refused after a failed native route transaction.");
     if(this.#planeRecoveryRequired&&(PROVIDER_MUTATION_TOOL_NAMES.has(call.name)||call.name==="pcb_save"))throw new Error("PLANE_APPLY_RECOVERY_REQUIRED: Queued writes/save are refused after uncertain plane staging.");
     if(this.#pendingFreshBoardPostSave?.kind==="plane"){
@@ -3571,6 +3611,29 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     return await this.#knownBoardMutationState(before,observation?.nativeSourceStaged,saving);
   }
 
+  async #planeRuleSources(){
+    if(!isVerifiedPlaneFreshProject(this.#freshProject))throw new Error("Plane settings require genuine project authority.");
+    const read=async(file:string)=>{
+      const before=await lstat(file,{bigint:true});
+      if(!before.isFile()||before.isSymbolicLink()||before.nlink!==1n||before.size>4n*1024n*1024n||await realpath(file)!==file)throw new Error("Plane settings must be bounded ordinary project files.");
+      const bytes=await readFile(file),after=await lstat(file,{bigint:true});
+      if(!after.isFile()||after.isSymbolicLink()||after.nlink!==1n||before.dev!==after.dev||before.ino!==after.ino||before.size!==after.size||before.mtimeNs!==after.mtimeNs||BigInt(bytes.length)!==after.size)throw new Error("Plane settings changed during capture.");
+      return bytes;
+    };
+    const [projectSettings,rules]=await Promise.all([read(path.join(this.#freshProject.projectPath,`${this.#freshProject.name}.kicad_pro`)),read(this.#freshProject.rulesPath)]);
+    return {projectSettings,rules,projectSettingsIdentity:contentIdentity(projectSettings),rulesIdentity:contentIdentity(rules)};
+  }
+
+  async #assertPlaneFillInputs(pending:Pick<PendingFreshPlaneApply,"before"|"projectSettingsIdentity"|"rulesIdentity"|"sourceScopeIdentity">,
+    expectedPcbIdentity:ContentIdentity=pending.before.contentIdentity){
+    const current=await this.#planeRuleSources(),capture=await captureFreshPcb(this.#freshProject!);
+    if(!sameContentIdentity(capture.contentIdentity,expectedPcbIdentity)||!sameContentIdentity(current.projectSettingsIdentity,pending.projectSettingsIdentity)||!sameContentIdentity(current.rulesIdentity,pending.rulesIdentity)
+      ||!sameContentIdentity(capture.freshMarkerContentIdentity,pending.before.freshMarkerContentIdentity)
+      ||canonicalJson(capture.projectBindingIdentity)!==canonicalJson(pending.before.projectBindingIdentity)
+      ||canonicalJson(this.#physicalExpected(capture,[]).scopeIdentity)!==canonicalJson(pending.sourceScopeIdentity))throw new Error("Plane fill settings or project scope changed across native fill/save.");
+    return current;
+  }
+
   async #routeMutationFailure(call:HarnessToolCall,net:string,before:FreshPcbCapture,acceptedStaged:string|undefined,firstOperation:string,error:unknown,transactionStarted:boolean,transactionPushed:boolean):Promise<never>{
     const primary:Array<{name:string;message:string;detail?:{jsonPrefix:string;truncated:boolean;contentIdentity:ContentIdentity}}>=[];const seen=new Set<unknown>();let cause:unknown=error;
     for(let depth=0;depth<4&&cause!==undefined&&!seen.has(cause);depth++){
@@ -3633,6 +3696,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #planeApplyFailure(call:HarnessToolCall,before:FreshPcbCapture,observation:ReturnType<typeof validateFreshPlaneStageObservation>|undefined,stage:string,error:unknown):Promise<HarnessToolResult>{
+    this.#savedFreshPlaneEvidence=undefined;
     this.#planeRecoveryRequired=true;
     this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;
     this.#pendingPersistedMutationBaseline=undefined;this.#pendingSchematicFileMutationBatch=undefined;
@@ -3664,6 +3728,10 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const plane=args.planeId===undefined?bundle.contract.planes[0]:bundle.contract.planes.find(p=>p.id===args.planeId);
     if(plane===undefined)throw new Error("Unknown exact contract planeId.");
     const before=await captureFreshPcb(this.#freshProject);
+    const ruleSources=await this.#planeRuleSources();
+    const fillInputs={before,projectSettingsIdentity:ruleSources.projectSettingsIdentity,rulesIdentity:ruleSources.rulesIdentity,
+      sourceScopeIdentity:this.#physicalExpected(before,[]).scopeIdentity};
+    if(!sameContentIdentity(ruleSources.rulesIdentity,createFreshPlaneRules(bundle).identity))throw new Error("Plane fill requires its exact canonical V2 rules.");
     const liveBefore=await freshActiveBoardSource(this.#session,this.#freshProject.pcbPath);
     if(!freshBoardSerializationsEqual(before.source,liveBefore))throw new Error("Plane apply requires matching saved/live preimages.");
     const physical=(await this.#physicalPadState(before,[]))!;
@@ -3683,6 +3751,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       if(!sameContentIdentity(locked.disk.contentIdentity,before.contentIdentity)||locked.live!==liveBefore)throw new Error("Plane preimage changed immediately before native dispatch.");
       await this.#assertFreshCompoundAuthority();
       if(this.#session.supportsPlaneStage?.()!==true)throw new Error("Private plane stage capability is no longer ready.");
+      await this.#assertPlaneFillInputs(fillInputs);
       const receipt=await this.#session.stagePlane(request);
       const candidate=validateFreshPlaneStageObservation(receipt,{request,prepared,padExpected:this.#physicalExpected(before,referencePads.map(pad=>pad.primitiveId))});
       if(!isValidatedFreshPlaneStageObservation(candidate)||!candidate.comparison.valid)throw new Error("Plane stage did not produce validated mutation/source/epoch observations.");
@@ -3692,7 +3761,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       if(observation.nativePads.inventory===null||observation.nativePads.inventory.unsupportedPhysicalUuids.length!==0||observation.nativePads.inventory.terminals.length!==expectedPadNets(this.#freshConnectivityContract!).size||observation.nativePads.inventory.terminals.some(terminal=>!terminal.eligibleForPinMatching))throw new Error("Plane stage has incomplete contract physical/logical pad evidence.");
       const settled=await this.#planeKnownState(before,observation,true);
       if(!sameContentIdentity(settled.disk.contentIdentity,before.contentIdentity)||settled.live!==observation.nativeSourceStaged)throw new Error("Plane stage source drifted or saved unexpectedly before host validation.");
-      this.#pendingFreshBoardPostSave=Object.freeze({kind:"plane",before,prepared,observation});
+      await this.#assertPlaneFillInputs(fillInputs);
+      this.#pendingFreshBoardPostSave=Object.freeze({kind:"plane",...fillInputs,prepared,observation});
       const stagedPcbContentIdentity=contentIdentity(observation.nativeSourceStaged);
       const payload={schemaVersion:FRESH_PLANE_APPLY_RESULT_SCHEMA_VERSION,contractIdentity:this.#freshConnectivityContract!.identity,
         sourceContractIdentity:bundle.contract.identity,planeProjectBindingIdentity:this.#freshProject.planeBinding.identity,freshMarkerContentIdentity:before.freshMarkerContentIdentity,
@@ -3710,6 +3780,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     try{
       if(this.#planeRecoveryRequired||this.#pendingFreshBoardPostSave!==pending||call.name!=="pcb_save"||Object.keys(call.arguments).length!==0)throw new Error("Plane native save has stale pending authority or invalid arguments.");
       await this.#assertFreshCompoundAuthority();
+      await this.#assertPlaneFillInputs(pending);
       await this.#planeKnownState(pending.before,pending.observation,true);
       if(!this.#session.listTools().some(tool=>tool.name==="pcb_save"))throw new Error("Plane apply requires a successful native pcb_save; a no-save source write is not a substitute.");
       const raw=await this.#session.callTool("pcb_save",{});
@@ -3733,10 +3804,16 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       await this.#assertFreshCompoundAuthority();
       const final=await this.#planeKnownState(pending.before,pending.observation,true);
       if(!sameContentIdentity(capture.contentIdentity,final.disk.contentIdentity))throw new Error("Saved plane source changed during final native readback.");
+      if(!isVerifiedPlaneFreshProject(this.#freshProject)||this.#freshPlaneCompilationBundle===undefined)throw new Error("Saved plane evidence lost its V2 project authority.");
+      const {projectSettings,rules}=await this.#assertPlaneFillInputs(pending,capture.contentIdentity);
+      this.#savedFreshPlaneEvidence=createSavedFreshPlaneEvidence({compilationBundle:this.#freshPlaneCompilationBundle,stage:pending.observation,
+        projectBindingIdentity:capture.projectBindingIdentity,sourceScopeIdentity:this.#physicalExpected(capture,[]).scopeIdentity,
+        savedPcbSource:capture.source,projectSettingsIdentity:contentIdentity(projectSettings),rulesIdentity:contentIdentity(rules)});
       this.#pendingFreshBoardPostSave=undefined;this.#pendingPersistedMutationBaseline=undefined;this.#pendingSchematicFileMutationBatch=undefined;
       this.#freshBoardPersistence!.markNormalSaveComplete();
       return harnessToolResultSchema.parse({toolCallId:call.id,content:JSON.stringify({status:"plane-native-saved-and-source-verified",nativeSaveCalled:true,
-        savedPcbContentIdentity:capture.contentIdentity,stageObservationIdentity:pending.observation.identity,acceptanceEvaluated:false})});
+        savedPcbContentIdentity:capture.contentIdentity,stageObservationIdentity:pending.observation.identity,
+        currentSessionFillEvidenceIdentity:this.#savedFreshPlaneEvidence.identity,acceptanceEvaluated:false})});
     }catch(error){return await this.#planeApplyFailure(call,pending.before,pending.observation,"native-save-readback",error);}
   }
 

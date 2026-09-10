@@ -72,6 +72,11 @@ export type ReferenceCoverageResult = Omit<z.infer<typeof responseSchema>, "inpu
   readonly executableIdentity: Readonly<{ sha256: string; sizeBytes: number }>;
 };
 export interface ReferenceCoverageCalculator { calculate(request: unknown): Promise<ReferenceCoverageResult> }
+const calculators = new WeakSet<object>();
+/** Factory provenance for engineering row evaluators; caller-supplied functions are not pinned helpers. */
+export function isReferenceCoverageCalculator(value: unknown): value is ReferenceCoverageCalculator {
+  return value !== null && typeof value === "object" && calculators.has(value);
+}
 
 function serialize(request: ReferenceCoverageRequest): Buffer {
   const lines = ["EVLEDA_REFERENCE_COVERAGE 1", `GROUPS ${request.groups.length}`];
@@ -110,7 +115,7 @@ export async function createReferenceCoverageCalculator(options: ReferenceCovera
         || before.ino !== after.ino || before.dev !== after.dev || before.size !== after.size || before.mtimeMs !== after.mtimeMs) throw new Error("Reference coverage executable pin mismatch or drift.");
   }
   await assertPin();
-  return Object.freeze({ calculate: async (input: unknown): Promise<ReferenceCoverageResult> => {
+  const calculator = Object.freeze({ calculate: async (input: unknown): Promise<ReferenceCoverageResult> => {
     const request = referenceCoverageRequestSchema.parse(input), bytes = serialize(request);
     await assertPin();
     const directory = await mkdtemp(path.join(outputRoot, "reference-coverage-"));
@@ -151,4 +156,6 @@ export async function createReferenceCoverageCalculator(options: ReferenceCovera
     return Object.freeze({ ...geometry, artifacts: Object.freeze({ input: Object.freeze({ path: inputPath, identity: contentIdentity(bytes) }),
       rawOutput: Object.freeze({ path: outputPath, identity: contentIdentity(raw) }) }), executableIdentity: pin });
   } });
+  calculators.add(calculator);
+  return calculator;
 }

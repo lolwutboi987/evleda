@@ -569,6 +569,14 @@ function snapshotAsRecord(
   ));
 }
 
+/** Host-side current source inventory for binding a separate engineering assessor
+ * to the same complete source set protected by runChecks. No native execution.
+ */
+export async function captureKicadNativeSourceHashes(projectRoot: string): Promise<Readonly<Record<string, string>>> {
+  const root = await resolveExistingDirectory(projectRoot, "KiCad source snapshot root");
+  return snapshotAsRecord(await collectNativeSources(root), root);
+}
+
 function invocationEvidence(
   identity: KicadExecutableIdentity,
   result: BoundedProcessResult,

@@ -1,13 +1,14 @@
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const seams = vi.hoisted(() => ({ read: vi.fn(), realpath: vi.fn(), toolchain: vi.fn(), bridge: vi.fn(), suite: vi.fn(), run: vi.fn(), calculator: vi.fn(), reference: vi.fn() }));
+const seams = vi.hoisted(() => ({ read: vi.fn(), realpath: vi.fn(), toolchain: vi.fn(), bridge: vi.fn(), suite: vi.fn(), run: vi.fn(), calculator: vi.fn(), reference: vi.fn(), plane: vi.fn() }));
 vi.mock("node:fs/promises", () => ({ realpath: seams.realpath }));
 vi.mock("../../src/flux/production-composition.js", () => ({ readKicadNativeProfile: seams.read }));
 vi.mock("../../src/flux/kicad-toolchain-binding.js", () => ({ createFluxKicadToolchainBinding: seams.toolchain }));
 vi.mock("../../src/flux/pcb-editor-launcher.js", () => ({ bindFluxPcbEditorSuite: seams.suite }));
 vi.mock("../../src/integrations/kicad-transmission-line.js", () => ({ createKicadTransmissionLineCalculator: seams.calculator }));
 vi.mock("../../src/integrations/kicad-reference-coverage.js", () => ({ createReferenceCoverageCalculator: seams.reference }));
+vi.mock("../../src/integrations/kicad-plane-contacts.js", () => ({ createKicadPlaneContactsReader: seams.plane }));
 vi.mock("../../src/integrations/bounded-process.js", () => ({
   BOUNDED_WINDOWS_PROCESS_TREE_TERMINATION_SCHEMA_VERSION: "termination-schema", runBoundedProcess: seams.run,
 }));
@@ -48,6 +49,26 @@ function fixture() {
 beforeEach(() => vi.resetAllMocks());
 
 describe("native toolbox profile composition", () => {
+  it("binds plane contacts to fixed runtime/helper pins and a host-selected source", async () => {
+    const f=fixture(), reader={read:vi.fn()};
+    const config={runtimeRoot:at("contacts-runtime"),manifest:{path:at("contacts-profile","manifest.json"),identity:pin("7")},helper:{path:at("contacts-helper","read.py"),identity:pin("8")}};
+    seams.read.mockResolvedValue({...f.profile,kicadPlaneContacts:config});seams.plane.mockResolvedValue(reader);
+    const loaded=await loadKicadToolboxNativeProfile(f.input);
+    expect(seams.plane).not.toHaveBeenCalled();
+    expect(await loaded.createPlaneContactsReader!({pcbPath:at("output","project","board.kicad_pcb"),expectedSourceIdentity:pin("9")})).toBe(reader);
+    expect(seams.plane).toHaveBeenCalledWith({pcbPath:at("output","project","board.kicad_pcb"),expectedSourceIdentity:pin("9"),runtimeRoot:config.runtimeRoot,
+      manifest:{path:config.manifest.path,contentIdentity:pin("7")},helper:{path:config.helper.path,contentIdentity:pin("8")},
+      outputRoot:at("output"),environment:{SYSTEMROOT:at("system"),WINDIR:at("system")},windowsProcessTreeTermination:loaded.termination});
+    expect(seams.bridge.mock.calls[0]![0].protectedRoots).toEqual(expect.arrayContaining([config.runtimeRoot,at("contacts-profile"),at("contacts-helper")]));
+  });
+  it.each(["runtimeRoot","manifest","helper"] as const)("rejects a plane %s resource inside editable output before native probes", async field=>{
+    const f=fixture();
+    const config={runtimeRoot:at("contacts-runtime"),manifest:{path:at("contacts-profile","manifest.json"),identity:pin("7")},helper:{path:at("contacts-helper","read.py"),identity:pin("8")}};
+    if(field==="runtimeRoot")config.runtimeRoot=at("output","runtime");else config[field].path=at("output",field,"file");
+    seams.read.mockResolvedValue({...f.profile,kicadPlaneContacts:config});
+    await expect(loadKicadToolboxNativeProfile(f.input)).rejects.toThrow("overlap fixed native resources");
+    expect(seams.bridge).not.toHaveBeenCalled();expect(seams.plane).not.toHaveBeenCalled();
+  });
   it("binds reference coverage to its pin, per-project output and sanitized native authority", async () => {
     const f = fixture(); const calculator = { calculate: vi.fn() };
     seams.read.mockResolvedValue({ ...f.profile, kicadReferenceCoverage: { path: at("reference", "helper.exe"), identity: pin("6") } });

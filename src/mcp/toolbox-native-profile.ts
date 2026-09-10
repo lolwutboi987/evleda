@@ -55,6 +55,9 @@ export async function loadKicadToolboxNativeProfile(input: KicadToolboxNativePro
   const additionalRoots = await Promise.all((input.additionalProtectedRoots ?? []).map(root => realpath(root)));
   if (profile.kicadTransmissionLine !== undefined) additionalRoots.push(await realpath(path.dirname(profile.kicadTransmissionLine.path)));
   if (profile.kicadReferenceCoverage !== undefined) additionalRoots.push(await realpath(path.dirname(profile.kicadReferenceCoverage.path)));
+  if (profile.kicadPlaneContacts !== undefined) additionalRoots.push(
+    await realpath(profile.kicadPlaneContacts.runtimeRoot), await realpath(path.dirname(profile.kicadPlaneContacts.helper.path)),
+    await realpath(path.dirname(profile.kicadPlaneContacts.manifest.path)));
   const protectedRoots = [...new Set([sourceRoot, outputRoot, path.dirname(profile.path), suite.binRoot,
     runtime.runtimeBundle.root, path.dirname(runtime.lock.path), path.dirname(runtime.runtimeBundle.manifest.path),
     ...additionalRoots])];
@@ -115,7 +118,14 @@ export async function loadKicadToolboxNativeProfile(input: KicadToolboxNativePro
       cwd: path.dirname(profile.kicadReferenceCoverage.path), outputRoot, environment: nativeEnvironment,
       windowsProcessTreeTermination: termination,
     });
+  const plane = profile.kicadPlaneContacts;
+  const createPlaneContactsReader = plane === undefined ? undefined
+    : async (board: {readonly pcbPath:string;readonly expectedSourceIdentity:import("../domain/types.js").ContentIdentity}) =>
+      (await import("../integrations/kicad-plane-contacts.js")).createKicadPlaneContactsReader({ ...board, runtimeRoot: plane.runtimeRoot,
+        manifest: {path:plane.manifest.path,contentIdentity:plane.manifest.identity}, helper: {path:plane.helper.path,contentIdentity:plane.helper.identity},
+        outputRoot,environment:nativeEnvironment,windowsProcessTreeTermination:termination });
   return Object.freeze({ bridge, editorSuite, termination, environment: nativeEnvironment,
+    ...(createPlaneContactsReader === undefined ? {} : { createPlaneContactsReader }),
     ...(referenceCoverage === undefined ? {} : { referenceCoverage }),
     ...(transmissionLine === undefined ? {} : { transmissionLine }),
     createCliAdapter, editorLauncher: createOwnedKicadEditorLauncher({

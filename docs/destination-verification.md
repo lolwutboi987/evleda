@@ -58,4 +58,10 @@ The final broader MCP subprocess/bridge regression passed **92 tests, zero failu
 
 One-off initialize/editor diagnostic source files are preserved under `../../destination-verification/diagnostic-sources/` with their surrounding evidence. They are historical diagnostic snapshots, not installed product entrypoints. The reusable workspace smoke script remains in the repository.
 
-GitHub publication awaits the user's owner/repository and visibility choice. General plane contact/thermal/island/reference acceptance, saved-routing interface/impedance checks and representative prompt-driven design remain unfinished. The RP2350/Pico-like board follows the reviewed publication milestone.
+GitHub publication awaits the user's owner/repository and visibility choice. General plane acceptance, saved-routing interface/impedance checks and representative prompt-driven design remain unfinished. The RP2350/Pico-like board follows the reviewed publication milestone.
+
+## V2 plane-evidence implementation verification
+
+[The dated plane-evidence report](destination-plane-acceptance.md) records a later scoped run: **430 passed, two skipped, zero failed across 19 files**, plus passing source/UI/script typechecks and full build. The real production-profile native reader passed against the preserved board with unchanged source and exact isolated runtime pins. Two reader failures caused by an overstrict mandatory OS-DLL list remain recorded separately.
+
+The subsequent public fresh-plane qualification failed at `mcp-catalog` with `kicad-verification-deadline`, before authoring. Native cleanup was initially unconfirmed. The exact leftover test editor was subsequently stopped through a creation/image/command-checked handle after its main window had disappeared; all six source hashes stayed unchanged. This is not a normal-close or acceptance pass. IPC `e-bE8AUS` and failure artifacts remain preserved. The earlier failed full-suite result is unchanged by these scoped passes.

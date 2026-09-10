@@ -247,6 +247,7 @@ export async function openKicadToolboxNativeHost(
       captureSources: () => owned.captureSources(),
       ...(checkReferenceCoverage === undefined ? {} : { checkReferenceCoverage }),
       ...(owned.checkEndpointConnectivity === undefined ? {} : { checkEndpointConnectivity: () => owned.checkEndpointConnectivity!() }),
+      ...(owned.checkPlaneAcceptance === undefined ? {} : { checkPlaneAcceptance: () => owned.checkPlaneAcceptance!() }),
       ...(renderPreview === undefined ? {} : { renderPreview }),
       ...(owned.prepareCheckpoint === undefined ? {} : { prepareCheckpoint: () => owned.prepareCheckpoint!() }),
       ...(owned.recordRecoveryRequired === undefined ? {} : { recordRecoveryRequired: (reason: string) => owned.recordRecoveryRequired!(reason) }),

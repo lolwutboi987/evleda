@@ -10,6 +10,7 @@ import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 type Pin = NonNullable<KicadNativePadObservationExpected["physicalFootprints"]>[number];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/u;
 const same = (a: unknown, b: unknown) => canonicalJson(a) === canonicalJson(b);
+const assessedConnectivity = new WeakSet<object>();
 function requireValue(condition: unknown, message: string): asserts condition { if (!condition) throw new Error(`Plane connectivity: ${message}`); }
 export interface FreshPlaneConnectivityInput {
   readonly compilationBundle: PcbPlaneCompilationBundle;
@@ -163,7 +164,12 @@ export function assessFreshPlaneConnectivity(input: FreshPlaneConnectivityInput 
       crossNetShortAbsence: "not_established-by-native-connectivity-traversal" as const, nativeDrcAndClearance: "not_evaluated" as const,
       highFrequencyValidity: "not_established" as const, componentInternalConnectivity: "not_inferred" as const },
     verificationPlanRowsPassed: [] as readonly string[], acceptanceEvaluated: false, fabricationAuthorized: false };
-  return freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
+  const result = freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
+  assessedConnectivity.add(result); return result;
 }
 
 export type FreshPlaneConnectivityAssessment = ReturnType<typeof assessFreshPlaneConnectivity>;
+/** A serialized/self-rehashed summary is not host-collected native endpoint authority. */
+export function isFreshPlaneConnectivityAssessment(value: unknown): value is FreshPlaneConnectivityAssessment {
+  return value !== null && typeof value === "object" && assessedConnectivity.has(value);
+}

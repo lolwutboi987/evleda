@@ -350,6 +350,20 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
           });
         } catch (error) { return failure(error); }
       });
+      if (cad.checkPlaneAcceptance !== undefined) registerTool("evleda_check_plane_acceptance", {
+        description: "Assess the saved host-bound V2 plane against its actual verification rows: current-session fill, intended component contact, island area, native thermal/clearance evidence and complete routed reference coverage. Reports unresolved physical width and other mandatory requirements explicitly. Reapply/save the contract plane after edits or resume to establish a fresh fill witness. This read does not authorize fabrication. No paths, selectors or evidence are accepted from the model.",
+        inputSchema: EMPTY, annotations: READ_ANNOTATIONS,
+      }, async () => {
+        try {
+          return await enqueueCad(async () => {
+            await cad.assertCurrent(); const before = await cad.captureSources();
+            const result = await cad.checkPlaneAcceptance!();
+            await cad.assertCurrent(); const after = await cad.captureSources();
+            if (before !== after) throw new Error("Project changed during plane acceptance inspection; discard this observation.");
+            return jsonResult({ ...result, sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
+          });
+        } catch (error) { return failure(error); }
+      });
       if (cad.readStackup !== undefined) registerTool("evleda_read_stackup", {
         description: "Read physical stackup records from the current saved PCB, retaining dielectric sublayers, explicit/missing fields and unsupported forms. Does not choose a reference plane, substitute board thickness, average dielectric constants, or validate impedance.",
         inputSchema: EMPTY, annotations: READ_ANNOTATIONS,

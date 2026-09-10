@@ -1,4 +1,4 @@
-/** Prepared complete-board public V2 demonstration. Native launch requires explicit root GO. */
+/** Public V2 fixture driver. Optional acceptance qualification uses a new output directory. */
 import assert from "node:assert/strict";
 import { Client, InMemoryTransport, type CallToolResult } from "@modelcontextprotocol/client";
 import { copyFile, mkdir, readFile, writeFile, readdir, lstat } from "node:fs/promises";
@@ -115,7 +115,7 @@ function assertNativeValidation(value:Record<string,any>) {
   assert.equal(value.sourceUnchanged,true);assert.ok(Array.isArray(value.checks));
   for(const name of ["run_erc","run_drc"] as const){
     const matches:Record<string,any>[]=value.checks.filter((check:any)=>check.name===name);assert.equal(matches.length,1);
-    const result=matches[0].result;assert.ok(!result.isError);const data=JSON.parse(result.content);
+    const result=matches[0]!.result;assert.ok(!result.isError);const data=JSON.parse(result.content);
     assert.equal(data.schema_version,"verdict.v1");assert.equal(data.verdict,"PASS");assert.equal(data.status,"clean");
     assert.equal(data.metadata.available,true);
     if(name==="run_erc")assert.equal(data.metadata.violation_count,0);
@@ -136,9 +136,11 @@ function withoutZones(source:string) {
   let result="",cursor=0;for(const span of parseFreshPcbDirectZoneSourceSpans(source)){result+=source.slice(cursor,span.start);cursor=span.end;}return result+source.slice(cursor);
 }
 
-const options = parseNativeToolboxArgs(process.argv.slice(2));
+const driverArguments=process.argv.slice(2),verifyPlaneAcceptance=driverArguments.includes("--verify-plane-acceptance");
+assert.ok(driverArguments.filter(arg=>arg==="--verify-plane-acceptance").length<=1,"Duplicate driver qualification flag");
+const options = parseNativeToolboxArgs(driverArguments.filter(arg=>arg!=="--verify-plane-acceptance"));
 if (options?.fresh?.intentPath === undefined || options.resume || !options.edit) throw new Error("Use one NEW plane intent with --edit, not resume input.");
-const evidence = path.join(path.dirname(options.outputDir), "evidence-plane-complete-01");
+const evidence = path.join(path.dirname(options.outputDir), verifyPlaneAcceptance?"evidence-plane-acceptance-01":"evidence-plane-complete-01");
 await mkdir(evidence);
 const expected = JSON.parse(await readFile(path.join(options.projectDir, "expected-plane-bundle.json"), "utf8"));
 const fixtureName = options.fresh.name;
@@ -147,17 +149,22 @@ const bundlePath = path.join(options.outputDir, "toolbox-design-bundle.json");
 const markerPath = path.join(options.outputDir, ".evleda-pcb-agent-fresh.json");
 const checkpointPath = path.join(options.outputDir, ".evleda-pcb-agent-checkpoint.json");
 const druPath = path.join(project, `${fixtureName}.kicad_dru`);
-const ipcRoot = "D:/EvlEDA-IPC";
+const driverProfile=JSON.parse(await readFile(options.profile.path,"utf8"));
+const ipcRoot=driverProfile.kicadMcpRuntime.ipcSocketParentRoot as string;
+assert.ok(typeof ipcRoot==="string"&&path.isAbsolute(ipcRoot),"Profile must declare the actual IPC inventory root");
+const powershellPath=path.join(process.env.SYSTEMROOT??process.env.SystemRoot??"C:\\Windows","System32","WindowsPowerShell","v1.0","powershell.exe");
 const execFileAsync = promisify(execFile);
 const report: Record<string, any> = { schemaVersion: "evleda.toolbox-plane-complete-save-resume-smoke.v1", startedAt: new Date().toISOString(),
   hostPid: process.pid, commandArguments: process.argv.slice(2), scope: "Complete-all-nets V2 public-tool demonstration: routes, plane create/refill/save, observed endpoint connectivity, configured ERC/DRC/practices/previews and checkpoint/reopen. Not primary-project, manufacturing or HF approval.",
-  noModel: true, planeCopperCreated: false, routingPerformed: false, minimumSpokesAcceptance: false, fullBoardFinishClaim: false, operations: [], phases: [] };
+  noModel: true, planeCopperCreated: false, routingPerformed: false, minimumSpokesAcceptance: false, fullBoardFinishClaim: false,
+  planeAcceptanceQualification:verifyPlaneAcceptance, operations: [], phases: [] };
+if(verifyPlaneAcceptance)report.scope="Qualify the integrated V2 plane evidence tool after native fill/save, after edit invalidation, and after read-only restart. Reuses the divider as a software fixture; overall acceptance, physical width, HF and fabrication remain unverified.";
 const json = async (file: string) => JSON.parse(await readFile(file, "utf8"));
 const identity = async (file: string) => contentIdentity(await readFile(file));
 async function record(name: string, value: unknown): Promise<void> { await writeFile(path.join(evidence, name), `${JSON.stringify(value, null, 2)}\n`, { flag: "wx" }); }
 async function ipcInventory() { return Promise.all((await readdir(ipcRoot)).sort().map(async name => { const item = await lstat(path.join(ipcRoot, name)); return { name, birthtimeMs: item.birthtimeMs, mtimeMs: item.mtimeMs, directory: item.isDirectory() }; })); }
 async function processes(label: string) {
-  const { stdout } = await execFileAsync("C:/Users/pc/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe",
+  const { stdout } = await execFileAsync(powershellPath,
     ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", `$ownerProbe=${process.pid}; $allProbe=@(Get-CimInstance Win32_Process); $idsProbe=@($ownerProbe); do{$childrenProbe=@($allProbe | Where-Object {$_.ParentProcessId -in $idsProbe -and $_.ProcessId -notin $idsProbe});$idsProbe+=@($childrenProbe.ProcessId)}while($childrenProbe.Count); [ordered]@{ownerPid=$ownerProbe;processes=@($allProbe | Where-Object {$_.ProcessId -in $idsProbe -and $_.ProcessId -ne $PID} | Select-Object ProcessId,ParentProcessId,Name,CreationDate,ExecutablePath,CommandLine)} | ConvertTo-Json -Depth 5`],
     { windowsHide: true, timeout: 15_000, maxBuffer: 2 * 1024 * 1024 });
   const result = JSON.parse(stdout); await record(`${label}-processes.json`, result); return result;
@@ -303,6 +310,13 @@ async function phase(label: "fresh" | "resume") {
       const vout=completeVoutRoute(outcome.placedPads),selected=(await call("fresh_get_route_items")).parsed;
       const completed=await call("fresh_replace_route_items",{selectionIdentity:selected.identity,net:vout.net,deleteItemIds:[],tracks:vout.tracks,vias:vout.vias});
       assert.equal(completed.parsed.applied,true);assert.equal(completed.parsed.addedTrackCount,vout.tracks.length);assert.equal(completed.parsed.addedViaCount,0);assert.ok(completed.outer.persistence);
+      if(verifyPlaneAcceptance){
+        outcome.planeAcceptanceAfterEdit=(await call("evleda_check_plane_acceptance")).outer;
+        assert.equal(outcome.planeAcceptanceAfterEdit.sourceUnchanged,true);
+        assert.equal(outcome.planeAcceptanceAfterEdit.report.accepted,false);
+        assert.equal(outcome.planeAcceptanceAfterEdit.report.savedEvidenceIdentity,null);
+        assert.deepEqual(outcome.planeAcceptanceAfterEdit.report.verificationPlanRowsPassed,[]);
+      }
       const beforeReapply=await readFile(pcbPath,"utf8");
       const updated=await call("fresh_apply_contract_plane",{planeId:plane.id});
       assertPlaneApplyResult(updated.parsed,"update",savedZoneUuid);assert.ok(updated.outer.persistence,"Same-plane UPDATE must still complete mandatory save");
@@ -333,6 +347,25 @@ async function phase(label: "fresh" | "resume") {
     outcome.endpointConnected=(await call("evleda_check_endpoint_connectivity")).outer;
     assertEndpointWrapper(outcome.endpointConnected,true);
     assert.equal(canonicalJson(await identity(path.join(options!.outputDir,".evleda-mcp-output",outcome.endpointConnected.diagnostic.filename))),canonicalJson(outcome.endpointConnected.diagnostic.identity));
+    if(verifyPlaneAcceptance){
+      outcome.planeAcceptance=(await call("evleda_check_plane_acceptance")).outer;
+      const assessment=outcome.planeAcceptance.report;
+      assert.equal(outcome.planeAcceptance.sourceUnchanged,true);assert.equal(assessment.accepted,false);assert.equal(assessment.fabricationAuthorized,false);
+      assert.equal(canonicalJson(await identity(path.join(options!.outputDir,".evleda-mcp-output",outcome.planeAcceptance.diagnostic.filename))),canonicalJson(outcome.planeAcceptance.diagnostic.identity));
+      if(label==="fresh"){
+        assert.ok(assessment.savedEvidenceIdentity);
+        assert.equal(assessment.authority.status,"verified");
+        assert.equal(assessment.planes.length,1);
+        assert.equal(assessment.planes[0].intendedPlaneConnectivity.status,"verified");
+        assert.equal(assessment.planes[0].minimumArea.status,"verified");
+        assert.equal(assessment.planes[0].actualMinimumCopperWidth.status,"unknown");
+        assert.equal(assessment.planes[0].actualThermalWidth.status,"unknown");
+        assert.ok(assessment.mandatoryRowsRemaining.length>0);
+      }else{
+        assert.equal(assessment.savedEvidenceIdentity,null);
+        assert.deepEqual(assessment.verificationPlanRowsPassed,[]);
+      }
+    }
     assert.deepEqual(await identity(druPath),baselineDru);
     outcome.rules = (await call("pcb_get_design_rules")).parsed;
     outcome.previews=[];

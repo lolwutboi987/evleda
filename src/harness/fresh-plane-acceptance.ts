@@ -1,0 +1,291 @@
+import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
+import { isKicadPlaneContactsObservation, type KicadPlaneContactsObservation } from "../integrations/kicad-plane-contacts.js";
+import { isReferenceCoverageCalculator, referenceCoverageRequestSchema, type ReferenceCoverageCalculator } from "../integrations/kicad-reference-coverage.js";
+import { assertFreshPlaneReferenceCopperScope } from "./fresh-clearance-evidence.js";
+import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFreshPcbSource } from "./fresh-kicad-parser.js";
+import { isFreshPlaneConnectivityAssessment, type FreshPlaneConnectivityAssessment } from "./fresh-plane-connectivity.js";
+import { isSavedFreshPlaneEvidence, type SavedFreshPlaneEvidence } from "./fresh-plane-evidence.js";
+import { assessFreshPlaneFilledGeometry } from "./fresh-plane-filled-geometry.js";
+import { isFreshPlaneNativeChecksAssessment, type FreshPlaneNativeChecksAssessment } from "./fresh-plane-native-checks.js";
+import { createFreshPlaneRules } from "./fresh-plane-rules.js";
+import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
+import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
+
+export interface FreshPlaneAcceptanceInput {
+  readonly compilationBundle: PcbPlaneCompilationBundle;
+  readonly pcbSource: string;
+  readonly projectSettingsSource: string;
+  readonly rulesSource: string;
+  /** Current-session authority. Historical saved caches cannot replace this witness. */
+  readonly savedEvidence: SavedFreshPlaneEvidence | null;
+  readonly endpointConnectivity: FreshPlaneConnectivityAssessment;
+  readonly nativeContacts?: KicadPlaneContactsObservation;
+  readonly nativeChecks?: FreshPlaneNativeChecksAssessment;
+  readonly referenceCoverage?: ReferenceCoverageCalculator;
+}
+type Status = "verified" | "failed" | "unknown";
+interface Fact { readonly status: Status; readonly reasons: readonly string[] }
+interface Row { readonly id: string; readonly kind: PcbPlaneCompilationBundle["verificationPlan"]["requirements"][number]["kind"];
+  readonly status: "pass" | "fail" | "unknown"; readonly reasons: readonly string[] }
+const same = (a: unknown, b: unknown) => canonicalJson(a) === canonicalJson(b);
+const fact = (status: Status, ...reasons: string[]): Fact => ({ status, reasons });
+function requireValue(value: unknown, reason: string): asserts value { if (!value) throw new Error(`Plane acceptance: ${reason}`); }
+function names(values: readonly string[]): string[] { return [...values].sort(); }
+function unique(values: readonly string[], label: string) { requireValue(new Set(values).size === values.length, `${label} contains duplicate identities`); }
+function exactIdentity(value: { readonly identity: CanonicalIdentity }, schema: string) {
+  const { identity, ...payload } = value; requireValue(same(identity, canonicalIdentity(payload, schema)), `${schema} identity does not reproduce`);
+}
+/** Exact decimal conversion: no binary-floating tolerance or rounding. */
+function scaledFraction(value: number, places: number): { numerator: bigint; denominator: bigint } {
+  const text = String(value), m = /^(\d+)(?:\.(\d*))?(?:e([+-]?\d+))?$/u.exec(text);
+  requireValue(Number.isFinite(value) && !Object.is(value, -0) && m !== null, "invalid exact decimal contract quantity");
+  const exponent = Number(m[3] ?? 0), power = places + exponent - (m[2]?.length ?? 0);
+  requireValue(Number.isSafeInteger(exponent) && Math.abs(power) <= 100, "contract quantity exponent exceeds bounds");
+  const result = BigInt(m[1]! + (m[2] ?? ""));
+  return power >= 0 ? { numerator: result * 10n ** BigInt(power), denominator: 1n }
+    : { numerator: result, denominator: 10n ** BigInt(-power) };
+}
+function scaledInteger(value: number, places: number): bigint {
+  const { numerator, denominator } = scaledFraction(value, places);
+  requireValue(numerator % denominator === 0n, "contract quantity is not exactly representable"); return numerator / denominator;
+}
+function decimal(numerator: bigint, denominator: bigint): string {
+  const whole = numerator / denominator, remainder = numerator % denominator;
+  return remainder === 0n ? String(whole) : `${whole}.${String(remainder).padStart(String(denominator).length - 1, "0").replace(/0+$/u, "")}`;
+}
+function nativeLayer(name: string) { return `BL_${name.replaceAll(".", "_")}`; }
+function identityFromHelper(value: { readonly sha256: string; readonly sizeBytes: number }): ContentIdentity {
+  return { algorithm: "sha256", digest: value.sha256, size: value.sizeBytes };
+}
+
+/** Pure assessment with an optional host-owned geometric calculation; never opens or mutates CAD. */
+export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceInput) {
+  // Snapshot host input references before the optional awaited calculator. The
+  // branded evidence/bundle objects are immutable, and source inputs are strings.
+  const input = Object.freeze({ ...supplied });
+  const bundle = input.compilationBundle;
+  requireValue(isAuthenticatedPcbPlaneCompilationBundle(bundle), "an authenticated actual V2 compilation bundle is required");
+  const identities = { pcb: contentIdentity(input.pcbSource), project: contentIdentity(input.projectSettingsSource), rules: contentIdentity(input.rulesSource) };
+  requireValue(isFreshPlaneConnectivityAssessment(input.endpointConnectivity), "unbranded endpoint summary is not native connectivity authority");
+  const endpoint = freezePcbPlaneArtifact(structuredClone(input.endpointConnectivity));
+  exactIdentity(endpoint, "evleda.fresh-plane-connectivity.v1");
+  requireValue(same(endpoint.bundleIdentity, bundle.identity) && same(endpoint.contractIdentity, bundle.contract.identity)
+    && same(endpoint.libraryBindingIdentity, bundle.libraryBinding.identity) && same(endpoint.verificationPlanIdentity, bundle.verificationPlan.identity)
+    && same(endpoint.savedSourceIdentity, identities.pcb), "endpoint evidence belongs to different source or V2 authority");
+  const rows: Row[] = bundle.verificationPlan.requirements.map(row => ({ id: row.id, kind: row.kind, status: "unknown",
+    reasons: ["This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."] }));
+  const setRow = (id: string, value: Fact) => {
+    const row = rows.find(row => row.id === id); requireValue(row !== undefined, `unknown V2 verification row ${id}`);
+    rows[rows.indexOf(row)] = { ...row, status: value.status === "verified" ? "pass" : value.status === "failed" ? "fail" : "unknown", reasons: value.reasons };
+  };
+  const missing = "A current-session saved native fill witness is required; reapply and save the contract plane before acceptance.";
+  const planes: Array<{
+    planeId: string; zoneUuid: string; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
+    nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null; componentCount: number;
+    nativePolygonAttribution: Fact; minimumArea: Fact & { requiredAreaTwiceNm2: string; observedAreaTwiceNm2: readonly string[] };
+    intendedPlaneConnectivity: Fact & { directEligiblePadAnchors: readonly string[]; nativeDirectVias: readonly string[] };
+    islandPolicy: Fact; actualMinimumCopperWidth: Fact; thermalPolicy: Fact; actualThermalWidth: Fact;
+  }> = [];
+  const references: Array<{ net: string; planeId: string; status: Status; reasons: readonly string[]; segmentIds: readonly string[];
+    marginNm: number; geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed";
+    referenceTerminals: Fact; calculation: unknown }> = [];
+  let authority = fact("unknown", missing), sourceScope = fact("unknown", missing), nativeInventory = fact("unknown", "Current authenticated native contacts are unavailable.");
+  const finish = () => {
+    const payload = { schemaVersion: "evleda.fresh-plane-acceptance.v1" as const, family: "plane-v2" as const,
+      status: rows.some(row => row.status === "fail") ? "failed" as const : "incomplete" as const,
+      bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity, verificationPlanIdentity: bundle.verificationPlan.identity,
+      sourceIdentities: identities, savedEvidenceIdentity: input.savedEvidence?.identity ?? null,
+      evidence: { savedFill: input.savedEvidence, endpointConnectivity: endpoint,
+        nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null },
+      endpointConnectivityIdentity: endpoint.identity, endpointConnectivity: { status: endpoint.status, nets: endpoint.nets.map(net => ({ net: net.net, status: net.status,
+        everyEligiblePhysicalMemberReachable: net.everyEligiblePhysicalMemberReachable })) },
+      authority, sourceScope, nativeInventory, planes, references, rows,
+      verificationPlanRowsPassed: rows.filter(row => row.status === "pass").map(row => row.id),
+      mandatoryRowsRemaining: rows.filter(row => row.status !== "pass").map(row => row.id),
+      acceptanceEvaluated: true as const, accepted: false as const, fabricationAuthorized: false as const,
+      limitations: { overallAcceptance: "requires-every-mandatory-V2-row-and-independent-general-gates" as const,
+        physicalThermalWidth: "not-measured" as const, actualMinimumCopperWidth: "not-measured" as const,
+        highFrequencyElectricalValidity: "not-established" as const, impedance: "not-evaluated" as const,
+        currentSourceGuards: "required-of-owning-host-before-and-after-assessment" as const } };
+    return freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
+  };
+  if (input.savedEvidence === null) { for (const row of rows) setRow(row.id, fact("unknown", missing)); return finish(); }
+  const saved = input.savedEvidence;
+  requireValue(isSavedFreshPlaneEvidence(saved), "serialized or copied fill evidence has no current-session authority");
+  requireValue(same(saved.bundleIdentity, bundle.identity) && same(saved.contractIdentity, bundle.contract.identity)
+    && same(saved.verificationPlanIdentity, bundle.verificationPlan.identity) && same(saved.savedPcbIdentity, identities.pcb)
+    && same(saved.projectSettingsIdentity, identities.project) && same(saved.rulesIdentity, identities.rules)
+    && same(saved.sourceScopeIdentity, endpoint.hostScopeIdentity), "saved native fill witness is stale for current source, scope or V2 authority");
+  requireValue(same(endpoint.nativeSourceIdentity, identities.pcb) || same(endpoint.nativeSourceIdentity, contentIdentity(saved.stage.nativeSourceStaged)),
+    "endpoint native source is not an admitted authenticated saved/staged serialization");
+  requireValue(input.rulesSource === createFreshPlaneRules(bundle).source, "rules are not the exact bundle-owned canonical DRU");
+  authority = fact("verified", "Authenticated V2 bundle, current saved fill, exact source/rules and physical endpoint scope agree.");
+  setRow("contract:integrity", authority);
+  let board: ReturnType<typeof parseFreshPcbSource>, source: ReturnType<typeof parseFreshPcbReferenceGeometry>;
+  try {
+    board = parseFreshPcbSource(input.pcbSource); source = parseFreshPcbReferenceGeometry(input.pcbSource);
+    assertFreshPlaneReferenceCopperScope(input.pcbSource);
+    const spans = parseFreshPcbRouteSourceSpans(input.pcbSource), viaSpans = spans.filter(span => span.kind === "via");
+    requireValue(source.issues.length === 0 && source.zones.every(zone => zone.status === "supported"), "unsupported source geometry is retained and cannot be discarded");
+    requireValue(source.unsupportedRouteItems.length === viaSpans.length && viaSpans.length === board.vias.length
+      && source.unsupportedRouteItems.every(item => item.kind === "via" && viaSpans.filter(span => input.pcbSource.slice(span.start, span.end) === item.source).length === 1), "unsupported route primitives cannot be filtered into a coverage pass");
+    requireValue(board.footprints.length === bundle.contract.components.length && same(names(board.footprints.map(fp => fp.reference)), names(bundle.contract.components.map(fp => fp.reference))), "source physical component inventory differs from the exact contract");
+    requireValue(same(names(endpoint.nets.map(net => net.net)), names(bundle.contract.nets.map(net => net.name))), "endpoint net inventory differs from the exact V2 contract");
+    for (const net of bundle.contract.nets) {
+      const observed = endpoint.nets.find(candidate => candidate.net === net.name)!;
+      const key = (end: { reference: string; pin: string }) => `${end.reference}:${end.pin}`;
+      requireValue(same(names(observed.endpoints.map(key)), names(net.endpoints.map(key))), "endpoint terminal inventory differs from the exact V2 net");
+      for (const end of observed.endpoints) {
+        const pads = board.footprints.find(fp => fp.reference === end.reference)!.pads.filter(pad => pad.number === end.pin);
+        requireValue(same(names(end.physicalPadUuids), names(pads.map(pad => pad.physical.id!))), "endpoint physical-member inventory differs from the complete saved terminal");
+      }
+    }
+    requireValue(board.segments.every(track => bundle.contract.nets.some(net => net.name === track.netName)) && board.vias.every(via => bundle.contract.nets.some(net => net.name === via.netName)), "uncontracted route copper exists");
+    sourceScope = fact("verified", "Complete supported source route, footprint and layered-copper scope; through-vias retained separately from straight reference ribbons.");
+  } catch (error) {
+    sourceScope = fact("failed", error instanceof Error ? error.message : "Unsupported PCB source scope.");
+    for (const row of rows.filter(row => row.kind.startsWith("plane_") || row.kind === "reference_path")) setRow(row.id, sourceScope);
+    return finish();
+  }
+  const contactObservation = input.nativeContacts;
+  let contacts: KicadPlaneContactsObservation["report"] | undefined;
+  if (contactObservation !== undefined) {
+    requireValue(isKicadPlaneContactsObservation(contactObservation), "unbranded native contact data cannot authorize plane connectivity");
+    requireValue(same(contactObservation.sourceBefore, identities.pcb) && same(contactObservation.sourceAfter, identities.pcb)
+      && same(identityFromHelper(contactObservation.report.source.before), identities.pcb)
+      && same(identityFromHelper(contactObservation.report.source.after), identities.pcb), "native contact source differs from the saved fill witness");
+    contacts = contactObservation.report;
+    try {
+      const sourcePads = board.footprints.flatMap(fp => fp.pads.map(pad => ({ uuid: pad.physical.id, footprintUuid: fp.id, reference: fp.reference, number: pad.number, netName: pad.netName ?? "" })));
+      unique(contacts.allPads.map(pad => pad.uuid), "native pad inventory"); unique(contacts.allTracks.map(track => track.uuid), "native route inventory");
+      unique(contacts.allFootprints.map(fp => fp.uuid), "native footprint inventory"); unique(contacts.zones.map(zone => zone.uuid), "native zone inventory");
+      requireValue(contacts.inventory.padCount === sourcePads.length && contacts.allPads.length === sourcePads.length
+        && contacts.allPads.every(pad => sourcePads.some(savedPad => same(savedPad, { uuid: pad.uuid, footprintUuid: pad.footprintUuid, reference: pad.reference, number: pad.number, netName: pad.netName }))), "native physical pad inventory differs from complete saved source");
+      requireValue(contacts.inventory.footprintCount === board.footprints.length && contacts.allFootprints.length === board.footprints.length
+        && contacts.allFootprints.every(fp => board.footprints.some(savedFp => savedFp.id === fp.uuid && savedFp.reference === fp.reference)), "native footprint ownership differs");
+      const tracks = [...board.segments.map(track => ({ uuid: track.id, nativeClass: "PCB_TRACK", netName: track.netName, layers: [track.layer] })),
+        ...board.vias.map(via => ({ uuid: via.id, nativeClass: "PCB_VIA", netName: via.netName, layers: [...via.layers] }))];
+      requireValue(contacts.inventory.trackCount === tracks.length && contacts.allTracks.length === tracks.length && contacts.allTracks.every(track => tracks.some(savedTrack =>
+        savedTrack.uuid === track.uuid && savedTrack.nativeClass === track.nativeClass && savedTrack.netName === track.netName && same(names(savedTrack.layers), names(track.layers.map(layer => layer.name))))), "native complete route inventory differs from exact saved track/via inventory");
+      requireValue(contacts.inventory.zoneCount === source.zones.length && contacts.zones.length === source.zones.length
+        && same(names(contacts.zones.map(zone => zone.uuid)), names(source.zones.map(zone => zone.uuid!)))
+        && same(names(saved.stage.nativeFilledZones.map(zone => zone.uuid)), names(source.zones.map(zone => zone.uuid!))), "saved, stage and native zone inventories differ");
+      const physical = saved.stage.nativePads.inventory;
+      requireValue(physical !== null && physical.unsupportedPhysicalUuids.length === 0 && physical.physicalPads.length === contacts.allPads.length,
+        "native physical pad inventory is unsupported or differs from the qualified staged observation");
+      const padLayersMatch = contacts.allPads.every(pad => physical.physicalPads.some(known =>
+        known.uuid === pad.uuid && same(names(known.layerMembership), names(pad.layers.map(layer => nativeLayer(layer.name))))));
+      requireValue(padLayersMatch, "native physical pad layer inventory differs from the qualified staged observation");
+      nativeInventory = fact("verified", "All native zone, footprint, pad and route UUIDs/net/layer records match the complete saved source.");
+    } catch (error) { nativeInventory = fact("failed", error instanceof Error ? error.message : "Native inventory mismatch."); }
+  }
+  const nativeChecks = input.nativeChecks;
+  if (nativeChecks !== undefined) {
+    requireValue(isFreshPlaneNativeChecksAssessment(nativeChecks) && same(nativeChecks.bundleIdentity, bundle.identity)
+      && same(nativeChecks.savedEvidenceIdentity, saved.identity) && same(nativeChecks.sourceIdentities, identities), "native validation facts are unbranded or stale");
+    const drc = nativeChecks.checks.drcClearanceShorts;
+    setRow("drc", fact(drc.status === "verified" ? "verified" : drc.status === "failed" ? "failed" : "unknown", ...drc.reasons));
+  }
+  for (const plane of bundle.contract.planes) {
+    const zoneUuid = saved.stage.targetZoneUuid, sourceZone = source.zones.find(zone => zone.uuid === zoneUuid);
+    const stageZone = saved.stage.nativeFilledZones.find(zone => zone.uuid === zoneUuid);
+    const rule = createFreshPlaneRules(bundle).zones.find(zone => zone.planeId === plane.id)!;
+    const configuration = nativeInventory.status !== "failed" && sourceZone !== undefined && stageZone !== undefined && source.zones.length === 1 && sourceZone.kind === "copper"
+      && sourceZone.netName === plane.net && same(sourceZone.layers, [plane.layer])
+      && sourceZone.settings.some(setting => setting.name === "name" && setting.values.length === 1 && setting.values[0]!.value === rule.zoneName)
+      && saved.stage.comparison.mutation.netName === plane.net
+      ? fact("verified", "The sole source/native zone retains the exact authenticated contract mutation and canonical owned name/settings.")
+      : fact("failed", "The source has extra/unbound zones or does not contain the exact contract-owned zone.");
+    const geometry = assessFreshPlaneFilledGeometry({ savedZone: sourceZone!, nativeZone: stageZone?.raw, layer: plane.layer });
+    let nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null = null;
+    let attribution = fact("unknown", "Authenticated matching native contact geometry is required.");
+    const nativeZone = contacts?.zones.find(zone => zone.uuid === zoneUuid);
+    if (nativeInventory.status === "verified" && nativeZone !== undefined && sourceZone !== undefined) {
+      const layer = nativeZone.layers.find(layer => layer.name === plane.layer);
+      const chain = (points: readonly (readonly number[])[]) => ({ closed: true, nodes: points.map(point => ({ point: { x_nm: String(point[0]), y_nm: String(point[1]) } })) });
+      nativeGeometry = assessFreshPlaneFilledGeometry({ savedZone: sourceZone, layer: plane.layer, nativeZone: { id: { value: zoneUuid }, type: "ZT_COPPER",
+        layers: [nativeLayer(plane.layer)], filled: nativeZone.isFilled, filled_polygons: [{ layer: nativeLayer(plane.layer), shapes: { polygons: (layer?.subpolygons ?? []).map(polygon => ({ outline: chain(polygon.outline), holes: polygon.holes.map(chain) })) } }] } });
+      const equalGeometry = geometry.status === "verified" && nativeGeometry.status === "verified" && same(geometry.components, nativeGeometry.components);
+      attribution = nativeZone.netName === plane.net && !nativeZone.isRuleArea && nativeZone.isFilled && !nativeZone.needRefill && nativeZone.layers.length === 1
+        && layer !== undefined && layer.filledSubpolygonCount === 1 && layer.subpolygons.length === 1 && layer.subpolygons[0]!.index === 0
+        && geometry.components.length === 1 && geometry.components[0]!.nativePolygonIndex === 0 && equalGeometry
+        ? fact("verified", "One helper native subpolygon equals one source/stage topology-certified copper component; aggregate direct contacts have an unambiguous scope.")
+        : fact("failed", "Native contact geometry is not exactly one matching attributed filled component.");
+    } else if (nativeInventory.status === "failed") attribution = nativeInventory;
+    const areaThreshold = scaledFraction(plane.islandPolicy.minimumAreaMm2, 12);
+    const requiredAreaTwiceNm2 = decimal(2n * areaThreshold.numerator, areaThreshold.denominator);
+    const minimumArea = { ...(geometry.status !== "verified" ? fact("unknown", "Exact component area is unavailable.")
+      : geometry.components.every(component => BigInt(component.areaTwiceNm2) * areaThreshold.denominator >= 2n * areaThreshold.numerator) ? fact("verified", "Each complete retained component meets the exact area threshold.")
+        : fact("failed", "A retained filled component is smaller than the declared minimum area.")), requiredAreaTwiceNm2,
+      observedAreaTwiceNm2: geometry.components.map(component => component.areaTwiceNm2) };
+    const net = endpoint.nets.find(net => net.net === plane.net), allMembers = net?.endpoints.flatMap(endpoint => endpoint.eligiblePhysicalPadUuids) ?? [];
+    const eligible = new Set(allMembers), anchorIds = attribution.status === "verified" ? (nativeZone?.directPads ?? []).filter(pad => eligible.has(pad.uuid) && pad.netName === plane.net && pad.nativeClass === "PAD").map(pad => pad.uuid) : [];
+    const badContact = nativeZone !== undefined && [...nativeZone.directPads, ...nativeZone.directTracks, ...nativeZone.directVias].some(item => item.netName !== plane.net)
+      || nativeZone?.directPads.some(pad => !eligible.has(pad.uuid));
+    const connected = configuration.status === "failed" || attribution.status === "failed" || badContact || net?.status === "disconnected" || net?.status === "invalid-evidence"
+      ? fact("failed", "The intended plane component, complete endpoint cluster or direct contact inventory does not satisfy the contract.")
+      : attribution.status === "verified" && net?.status === "connected" && net.everyEligiblePhysicalMemberReachable && allMembers.length > 0 && anchorIds.length > 0
+        ? fact("verified", "Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component.")
+        : fact("unknown", "Complete all-member native reachability and a direct eligible PAD anchor are required; a via-only contact has no separately evidenced terminal-to-via anchor.");
+    const intendedPlaneConnectivity = { ...connected, directEligiblePadAnchors: anchorIds, nativeDirectVias: nativeZone?.directVias.map(via => via.uuid) ?? [] };
+    const nativeIsland = nativeZone?.layers.some(layer => layer.subpolygons.some(polygon => polygon.isIsland === true)) === true;
+    const island = geometry.status !== "verified" ? fact("unknown", "Filled topology is unverified.") : geometry.components.length !== 1 || minimumArea.status === "failed" || nativeIsland
+      ? fact("failed", "Single-component or minimum-area island policy is violated.")
+      : attribution.status === "verified" && nativeZone!.layers[0]!.subpolygons.every(polygon => polygon.isIsland === false) && connected.status === "verified"
+        ? fact("verified", "Exactly one sufficiently large retained component has native non-island classification and a direct contracted endpoint anchor.")
+        : fact("unknown", "Native retained-island classification and connected intended-component attribution are required.");
+    const thermal = nativeChecks?.checks.thermalPolicy;
+    const thermalPolicy = thermal === undefined ? fact("unknown", "Effective native thermal policy evidence is unavailable.")
+      : fact(thermal.status === "verified" ? "verified" : thermal.status === "failed" ? "failed" : "unknown", ...thermal.reasons);
+    const actualMinimumCopperWidth = fact("unknown", "Configured native minimum thickness does not measure actual filled copper width.");
+    const actualThermalWidth = plane.padConnection.mode === "solid" ? fact("verified", "Thermal spoke width is not applicable to the declared solid connection.")
+      : fact("unknown", "Actual physical thermal spoke width has not been measured; native configuration/DRC is not a dimension measurement.");
+    planes.push({ planeId: plane.id, zoneUuid, configuration, geometry, nativeGeometry, componentCount: geometry.components.length,
+      nativePolygonAttribution: attribution, minimumArea, intendedPlaneConnectivity, islandPolicy: island, actualMinimumCopperWidth, thermalPolicy, actualThermalWidth });
+    setRow(`plane-config:${plane.id}`, configuration);
+    setRow(`plane-net:${plane.net}`, connected);
+    setRow(`plane-fill:${plane.id}`, geometry.status !== "verified" ? fact("unknown", ...geometry.issues) : actualMinimumCopperWidth);
+    setRow(`plane-policy:${plane.id}`, island.status === "failed" || thermalPolicy.status === "failed" ? fact("failed", ...island.reasons, ...thermalPolicy.reasons)
+      : fact("unknown", ...island.reasons, ...thermalPolicy.reasons, ...actualThermalWidth.reasons, "The complete thermal/solid-contact row remains unevaluated."));
+    const drc = nativeChecks?.checks.drcClearanceShorts;
+    setRow(`plane-clearance:${plane.id}`, drc?.status === "failed" ? fact("failed", ...drc.reasons)
+      : fact("unknown", ...(drc?.reasons ?? []), "Effective zone/edge clearance rule interaction needs its complete plane-specific evaluator."));
+  }
+  for (const route of bundle.contract.routingConstraints.nets) {
+    if (route.topology === "plane" || route.referencePath.mode !== "continuous_plane") continue;
+    const ref = route.referencePath, plane = planes.find(plane => plane.planeId === ref.planeId)!;
+    const marginBig = scaledInteger(ref.coverageMarginMm, 6); requireValue(marginBig <= 50_000_000n, "reference margin exceeds the contract bound");
+    const marginNm = Number(marginBig), segments = source.segments.filter(segment => segment.netName === route.net);
+    const net = endpoint.nets.find(net => net.net === route.net);
+    const planeNet = bundle.contract.planes.find(p => p.id === ref.planeId)!.net, ground = endpoint.nets.find(net => net.net === planeNet);
+    const terminalsOk = net?.status === "connected" && net.everyEligiblePhysicalMemberReachable && plane.intendedPlaneConnectivity.status === "verified"
+      && ref.terminalReferences.every(terminal => net.endpoints.some(endpoint => endpoint.reference === terminal.signalEndpoint.reference && endpoint.pin === terminal.signalEndpoint.pin)
+        && ground?.endpoints.some(endpoint => endpoint.reference === terminal.referenceEndpoint.reference && endpoint.pin === terminal.referenceEndpoint.pin && endpoint.eligiblePhysicalPadUuids.length === endpoint.physicalPadUuids.length));
+    const referenceTerminals = terminalsOk ? fact("verified", "Each explicit signal/reference terminal is current and reaches its required native net/intended plane component.")
+      : fact("unknown", "Every declared signal/reference physical terminal must be eligible, connected and bound to the intended plane.");
+    let result: Fact = fact("unknown", "A host-bound reference coverage calculator is unavailable."), geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed" = "not_assessed", calculation: unknown = null;
+    if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition/via; no primitive was filtered away.");
+    else if (plane.intendedPlaneConnectivity.status !== "verified" || plane.nativePolygonAttribution.status !== "verified" || plane.islandPolicy.status !== "verified") result = fact("unknown", "Reference copper is not yet a fully attributed, connected and eligible intended plane component.");
+    else if (input.referenceCoverage !== undefined) {
+      requireValue(isReferenceCoverageCalculator(input.referenceCoverage), "reference coverage requires the authenticated host factory calculator");
+      const component = plane.geometry.components[0]!;
+      const request = freezePcbPlaneArtifact(referenceCoverageRequestSchema.parse({ groups: [{ rings: [component.outer, ...component.holes].map(ring => ring.map(point => [point.x, point.y])) }],
+        routes: segments.map(segment => ({ x1Nm: segment.startNm.x, y1Nm: segment.startNm.y, x2Nm: segment.endNm.x, y2Nm: segment.endNm.y, widthNm: segment.widthNm, marginNm })) }));
+      const captured = await input.referenceCoverage.calculate(request);
+      requireValue(captured.routes.length === segments.length && captured.coordinateUnit === "nm" && captured.dcConnectivityClaimed === false && captured.hfElectricalValidityClaimed === false, "reference helper omitted routes or changed evidence meaning");
+      captured.routes.forEach((route, index) => requireValue(["covered", "uncovered", "boundary_uncertain"].includes(route.status)
+        && route.routeIndex === index && route.certificate === (route.status === "covered" ? "exact_outer_envelope_containment" : route.status === "uncovered" ? "exact_inner_envelope_outside_witness" : "no_exact_certificate"), "reference helper supplied inconsistent geometric certificates"));
+      geometricStatus = captured.routes.some(route => route.status === "uncovered") ? "uncovered" : captured.routes.some(route => route.status === "boundary_uncertain") ? "boundary_uncertain" : "covered";
+      result = geometricStatus === "uncovered" ? fact("failed", "A complete selected signal ribbon has an exact outside-copper witness.") : geometricStatus === "boundary_uncertain" ? fact("unknown", "Geometric boundary uncertainty cannot pass reference coverage.")
+        : referenceTerminals.status !== "verified" ? referenceTerminals : fact("verified", "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.");
+      calculation = { requestIdentity: canonicalIdentity(request, "evleda.plane-reference-request.v1"), implementationRevision: captured.implementationRevision,
+        executableIdentity: captured.executableIdentity, artifacts: captured.artifacts,
+        routes: captured.routes.map(route => ({ segmentId: segments[route.routeIndex]!.uuid, status: route.status, certificate: route.certificate })) };
+    }
+    references.push({ net: route.net, planeId: ref.planeId, ...result, segmentIds: segments.map(segment => segment.uuid), marginNm, geometricStatus, referenceTerminals, calculation });
+    setRow(`reference:${route.net}`, result);
+  }
+  return finish();
+}
+export type FreshPlaneAcceptanceAssessment = Awaited<ReturnType<typeof assessFreshPlaneAcceptance>>;

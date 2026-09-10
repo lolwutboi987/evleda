@@ -200,7 +200,8 @@ function decodeStage(receiptInput: unknown, expected: FreshPlaneStageObservation
     const query = queries[ordinal]!, call = calls[index]!;
     check(same(call.request, query.request) && same(itemResponse(call).items.map(value => withoutType(value, "Pad")), arr(query.padRecordIndexes, "query indexes").map(value => rawPads[value as number])), "individual source PAD query differs from raw ordered response");
   });
-  return { receipt, request, before, staged, saved, targetZoneUuid, returned, beforeZoneProto, nativePads, refill, expectedIds };
+  return { receipt, request, before, staged, saved, targetZoneUuid, returned, beforeZoneProto, nativePads, refill, expectedIds,
+    nativeFilledZones: filled.map(zone => ({ uuid: zone.uuid, raw: zone.raw })) };
 }
 
 function finish(stage: ReturnType<typeof decodeStage>, comparison: ReturnType<typeof compareFreshPlaneLiteralMutation> | ReturnType<typeof compareFreshPlaneMutation>) {
@@ -209,6 +210,7 @@ function finish(stage: ReturnType<typeof decodeStage>, comparison: ReturnType<ty
     receiptIdentityEncoding: "canonical-json-observation" as const, nativeSourceBefore: stage.before, nativeSourceStaged: stage.staged,
     savedSourceIdentity: contentIdentity(stage.saved), targetZoneUuid: stage.targetZoneUuid, beforeZoneProto: stage.beforeZoneProto, comparison, nativePads: stage.nativePads,
     nativePadsSource: "validated-staged-native-not-saved" as const, zoneUuids: stage.expectedIds, refillSourcePreservation: stage.refill,
+    nativeFilledZones: stage.nativeFilledZones,
     epochStatus: "raw-transcript-observed-unfill-fill" as const, filledPolygonGeometricEquivalence: "not_evaluated" as const,
     savedAuthorityMinted: false, dcConnectivity: "not_evaluated" as const,
     thermalAcceptance: "not_evaluated" as const, highFrequencyValidity: "not_established" as const, acceptanceEvaluated: false };

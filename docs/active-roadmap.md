@@ -1,6 +1,8 @@
 # Active PCB-toolbox roadmap
 
-Updated after **destination V2 workspace verification**, retaining the **2026-09-09 COMPLETE-ALL-NETS handoff** separately. The product direction is **direct MCP CAD tools plus source-backed guidance and a packaged workflow skill**, used by a model from chat. The goal remains editable, reviewable PCB projects close to practical use, with demonstrations proving the toolset.
+Updated after **destination V2 plane-evidence implementation and native reader qualification**, retaining the verified workspace flow and **2026-09-09 COMPLETE-ALL-NETS handoff** separately. The product direction is **direct MCP CAD tools plus source-backed guidance and a packaged workflow skill**, used by a model from chat. The goal remains editable, reviewable PCB projects close to practical use, with demonstrations proving the toolset.
+
+The new [plane-evidence report](destination-plane-acceptance.md) records the public tool, 430 focused passes/two skips, passing typechecks/build and a real production-profile saved-board read. Full native qualification failed at filtered MCP catalog startup before authoring; the owned leftover process was stopped with all six source hashes unchanged. Resolve and measure that connection boundary, then qualify the public plane results. Actual copper/thermal widths, complete plane-access/clearance acceptance, interface/impedance binding, representative prompt-driven design and GitHub publication remain open.
 
 The older Flux application, provider runner, legacy MCP server, UI and infrastructure are **deferred for the active path, not deleted**. Proven native/session, source, library and rule components are reused without requiring the old application lifecycle for each direct operation. See [the toolbox guide](toolbox.md) and [dated status/evidence](current-status-and-roadmap.md).
 

@@ -2049,9 +2049,19 @@ export async function readKicadNativeProfile(input: Readonly<{ path: string; con
     : exactRecord(record.kicadTransmissionLine, ["path", "sha256", "sizeBytes"], "COMPILER_PROFILE_INVALID");
   const referenceCoverage = record.kicadReferenceCoverage === undefined ? undefined
     : exactRecord(record.kicadReferenceCoverage, ["path", "sha256", "sizeBytes"], "COMPILER_PROFILE_INVALID");
+  const planeContacts = record.kicadPlaneContacts === undefined ? undefined
+    : exactRecord(record.kicadPlaneContacts, ["runtimeRoot", "manifest", "helper"], "COMPILER_PROFILE_INVALID");
+  const planeFile = (value: unknown, maximum: number) => {
+    const file = exactRecord(value, ["path", "sha256", "sizeBytes"], "COMPILER_PROFILE_INVALID");
+    return Object.freeze({path:canonicalPathText(file.path,"COMPILER_PROFILE_INVALID"),
+      identity:contentPin(file.sha256,file.sizeBytes,maximum,"COMPILER_PROFILE_INVALID")});
+  };
   return Object.freeze({ path: file.path, contentIdentity: file.identity,
     kicadToolchain: parseKicadToolchainProfile(record.kicadToolchain),
     kicadMcpRuntime: parseKicadMcpRuntimeProfile(record.kicadMcpRuntime),
+    ...(planeContacts === undefined ? {} : { kicadPlaneContacts: Object.freeze({
+      runtimeRoot:canonicalPathText(planeContacts.runtimeRoot,"COMPILER_PROFILE_INVALID"),
+      manifest:planeFile(planeContacts.manifest,8*1024*1024),helper:planeFile(planeContacts.helper,1024*1024)}) }),
     ...(calculator === undefined ? {} : { kicadTransmissionLine: Object.freeze({
       path: canonicalPathText(calculator.path, "COMPILER_PROFILE_INVALID"),
       identity: contentPin(calculator.sha256, calculator.sizeBytes, 128 * 1024 * 1024, "COMPILER_PROFILE_INVALID"),
