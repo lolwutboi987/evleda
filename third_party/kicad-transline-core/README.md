@@ -10,11 +10,11 @@ Source: https://github.com/KiCad/kicad-source-mirror/tree/146a4f2a7585c65bc58042
 
 The twelve source/header files in `upstream/transline_calculations` are byte-identical to the isolated prototype's pinned downloads. `upstream/LICENSE`, `upstream/LICENSE.README`, and `upstream/LICENSE.GPLv3` were fetched from the same upstream commit. `source-hashes.json` records SHA256 values for all fifteen upstream files. Original copyright and license headers are retained. These calculation files permit GPL-2.0-or-later; this wrapper chooses GPL-3.0-or-later, with the full GPLv3 text included. Preserve the applicable notices and corresponding-source obligations when distributing a derived helper.
 
-`main.cpp` protocol-2 wrapper SHA256 is `A0685E4E9865D60183181D5795B76436A948DF7F5224FFEE0B3E79F8E92C2CAB`. No executable, compiler archive or compiler cache is included in this package. The host executable at `D:/EvlEDA-transmission-line-core-v3-20260909/transline-core.exe` is SHA256 `EA24EFD0A7C1582A54928B33DD5710293674170A20A3E10BDE010038EB15BDBB`; this identifies that artifact, not a promise that another compiler or build path produces identical bytes. The previous protocol-1 prototype and its evidence remain unchanged in their original directory.
+`main.cpp` protocol-3 wrapper SHA256 is `9C4BD1A216C26FBBB96A8D4554287F44F9405438093A9A2A4A0D5570EC5B3E5D`. `wrapper-provenance.json` records the explicit uncovered-single-microstrip extension, implementation revision `evleda-uncovered-microstrip-v1`. No upstream calculation source changes were needed for that extension. No executable, compiler archive or compiler cache is included in this package. The historical protocol-2 host executable at `D:/EvlEDA-transmission-line-core-v3-20260909/transline-core.exe` is SHA256 `EA24EFD0A7C1582A54928B33DD5710293674170A20A3E10BDE010038EB15BDBB`; it is not a protocol-3 artifact or a promise of bit-identical output across compilers. Historical helpers and evidence remain unchanged.
 
 ## Audited vendor deviation
 
-Implementation revision: `evleda-stripline-corrections-v1`. `patches.json` records the original and patched file hashes. The build uses `patched/coupled_stripline.cpp` instead of its original counterpart, after verifying its SHA256. Original source bytes and `source-hashes.json` remain unchanged.
+Retained calculation correction set: `evleda-stripline-corrections-v1`. `patches.json` records the original and patched file hashes. The current wrapper retains these corrections. The build uses `patched/coupled_stripline.cpp` instead of its original counterpart, after verifying its SHA256. Original source bytes and `source-hashes.json` remain unchanged.
 
 The first calculation-source change is the STRIPLINE_A assignment inside `COUPLED_STRIPLINE::calcZ0SymmetricStripline`: `H/2` becomes `(H-T)/2`. STRIPLINE_A is upper clearance, so a finite-thickness conductor centered in plane spacing H requires this subtraction. The native single-stripline implementation evaluates distances `2*A+T` and `2*(H-A)-T`; these are equal at `(H-T)/2`, not `H/2`. At T/H=0.07 and S/H=10 the corrected coupled odd/even modes approach 52.90024527996 ohm, the centered single-stripline value. This is a geometry consistency correction, not proof of physical accuracy.
 
@@ -26,7 +26,7 @@ The second change corrects homogeneous-dielectric normalization in the Eq.22 odd
 
 ## Build with a host-selected compiler
 
-`build.ps1` verifies upstream hashes and compiles the wrapper plus five implementation files. Supply the compiler executable, driver family, and an output directory outside this source package. Nothing is downloaded, installed or added to PATH. The compiler may use its own existing cache. An MSVC invocation requires a caller-configured environment with SDK headers and libraries; the script does not modify that environment.
+`build.ps1` verifies wrapper and upstream hashes and compiles the wrapper plus five implementation files. Supply the compiler executable, driver family, and a NEW output directory outside this source package. Do not overwrite a helper bound to an active profile. Nothing is downloaded, installed or added to PATH. The compiler may use its own existing cache. An MSVC invocation requires a caller-configured environment with SDK headers and libraries; the script does not modify that environment.
 
 Example using the already verified isolated Zig compiler:
 
@@ -34,7 +34,7 @@ Example using the already verified isolated Zig compiler:
 pwsh -NoProfile -File ./build.ps1 -Compiler 'D:/EvlEDA-transmission-line-core-20260909/compiler/zig-x86_64-windows-0.16.0/zig.exe' -Driver zig -OutputDirectory 'D:/EvlEDA-transmission-line-core-package-build-20260909'
 ```
 
-Supported driver conventions are `zig` (`zig c++`), `gnu` (GCC or clang-style C++ command), and `msvc` (`cl`). Only the isolated Zig 0.16.0 prototype build has been demonstrated; MSVC2019 was present but its Windows SDK/UCRT headers were missing. The required Windows math constants are supplied through `_USE_MATH_DEFINES`, not a source patch. The compiler must provide C++17 and standard libraries. These instructions reproduce the source build procedure, not bit-identical executable output across toolchains.
+Supported driver conventions are `zig` (`zig c++`), `gnu` (GCC or clang-style C++ command), and `msvc` (`cl`). Protocol-2 builds were demonstrated with Zig 0.16.0 and destination MSVC 19.44 with its Windows SDK. The required Windows math constants are supplied through `_USE_MATH_DEFINES`, not a source patch. The compiler must provide C++17, standard libraries and double-precision positive infinity. These instructions reproduce the source build procedure, not bit-identical executable output across toolchains.
 
 ## Scope and parameters
 
@@ -56,6 +56,16 @@ Dimensions are SI meters, frequency Hz, conductivity SIGMA S/m, angular length A
 
 `--fix width` holds width and synthesizes gap. `--fix spacing` holds gap and synthesizes width. Both width and gap are provided as starting geometry. The coupled target is **odd-mode impedance**: to target frequency-dependent 90 ohm differential impedance, supply Z0_O=45. No physical defaults are inserted. All required inputs are positive except ROUGH, TAND, PHYS_LEN and ANG_L may be zero; EPSILONR must be at least one. This wrapper deliberately rejects zero copper thickness.
 
+### Explicit absent cover for single microstrip
+
+For `microstrip` only, `H_T=absent` (API `parameters.H_T: "absent"`) selects an uncovered conductor instead of a finite metallic enclosure. Finite positive numeric `H_T` retains its previous meaning. Omitted values, `Infinity`, `NaN`, other strings, and absent cover on any other model are rejected. The explicit input is echoed as `H_T: {value:"absent",unit:"1"}`; no nonfinite JSON number or fabricated cover dimension is emitted.
+
+The pinned `MICROSTRIP::delta_q_cover` at `upstream/transline_calculations/microstrip.cpp:216-219` is `tanh(1.043 + 0.121*r - 1.164/r)`, with `r=H_T/H`. Its exact uncovered limit is 1. The wrapper sets positive infinity internally only for the explicit token; the unchanged calculation at lines 304-343 then uses `q=q_inf-q_t`. The defined `delta_Z0_cover` function is not called by this single-microstrip calculation. Finite-thickness, dispersion, loss and native-delay behavior remain unchanged.
+
+This models a uniform bare conductor with air above the substrate. It does not model solder mask, arbitrary dielectric coatings, nearby lateral copper, discontinuous grounds or launches. The adapter returns `MICROSTRIP_UNCOVERED_MODEL` and retains its other applicable warnings. The [Qucs single-microstrip equations](https://qucs.sourceforge.net/tech/node75.html) provide an independent basis for thin-limit comparison; their finite-thickness variant is not an absolute-accuracy oracle for this pinned core.
+
+Absent cover is deliberately unsupported for `coupled_microstrip`: its auxiliary single-line calculation hardcodes `H_T=1e12`, and its separate even-mode finite-cover fit does not have a uniformly vanishing large-height limit over the advertised base-model spacing range. Merely substituting infinity or a larger finite height would not qualify an uncovered coupled model.
+
 Example single-line analysis (explicit prototype inputs, not an approved fabrication stackup):
 
 ```powershell
@@ -64,7 +74,9 @@ Example single-line analysis (explicit prototype inputs, not an approved fabrica
 
 ## Output and synthesis verification
 
-Calculation stdout is one JSON object with `schemaVersion:2`, `implementationRevision:"evleda-stripline-corrections-v1"`, `sourceCommit`, `model`, `operation`, `converged`, `valid`, `inputs` and `results`. Inputs map parameter names to `{value,unit}`; results map names to `{value,status,unit}`. Status is `ok`, `warning` or `error`. Nonfinite results are encoded as null/error. Results include analyzed or synthesized PHYS_WIDTH and coupled PHYS_S. Input exceptions produce only stderr and exit 1.
+Calculation stdout is one JSON object with `schemaVersion:3`, `implementationRevision:"evleda-uncovered-microstrip-v1"`, `sourceCommit`, `model`, `operation`, `converged`, `valid`, `inputs` and `results`. Inputs map parameter names to `{value,unit}`, including the explicit absent marker above; results map names to `{value,status,unit}`. Status is `ok`, `warning` or `error`. Nonfinite results are encoded as null/error. Results include analyzed or synthesized PHYS_WIDTH and coupled PHYS_S. Input exceptions produce only stderr and exit 1.
+
+The adapter continues to accept exactly protocol 2 with revision `evleda-stripline-corrections-v1` for all-numeric requests, preserving existing pinned profiles. Absent cover requires the protocol-3 helper and its new actual executable pin. A protocol-2 profile does not gain that capability merely by updating the TypeScript schema. Prepare and verify a new helper/profile binding separately; do not replace an active helper or silently rewrite a profile.
 
 After native synthesis the wrapper always calls Analyse again: some native synthesis paths restore requested impedance fields, so reporting those directly could confuse the requested target with the achieved result. The actual odd/single impedance residual must be <=1e-4 ohm for a valid synthesized result. Exit 0 means valid; exit 2 means nonconvergence, nonfinite/error result or excessive synthesis residual; exit 1 means input/calculation exception, with diagnostic stderr. Warnings remain visible but do not force exit 2. Analysis reports converged=true because synthesis was not requested.
 

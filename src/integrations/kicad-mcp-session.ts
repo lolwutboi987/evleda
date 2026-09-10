@@ -254,6 +254,10 @@ const SCHEMATIC_CONNECTIVITY_BATCH_ANNOTATIONS = {
 } as const;
 const SCHEMATIC_CONNECTIVITY_BATCH_MAX_SOURCE_BYTES = 8 * 1024 * 1024;
 const NATIVE_COMMIT_META_KEY = "evledaNativeCommitLifecycle";
+const QUALIFIED_FOOTPRINT_SYNC_META_KEY = "evledaQualifiedFootprintIdentitySync";
+const QUALIFIED_FOOTPRINT_SYNC_SCHEMA_VERSION = "evleda.kicad-qualified-footprint-identity-sync.v1";
+// Actual DOC6 KiCadFastMCP Tool, normalized by the pinned Node MCP SDK.
+const QUALIFIED_FOOTPRINT_SYNC_TOOL_SHA256 = "4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3";
 const NATIVE_COMMIT_SCHEMA_VERSION = "evleda.kicad-native-commit-lifecycle.v1";
 const NATIVE_COMMIT_TOOL_NAMES = ["pcb_begin_commit", "pcb_push_commit", "pcb_drop_commit"] as const;
 // Actual KiCadFastMCP DOC5 descriptors as parsed by the pinned Node MCP SDK.
@@ -1467,6 +1471,12 @@ function nativeCommitToolQualified(tool: Tool | undefined): boolean {
     && createHash("sha256").update(canonicalJson(tool), "utf8").digest("hex") === expected;
 }
 
+function footprintIdentitySyncQualified(tool: Tool | undefined): boolean {
+  return tool?.name === "pcb_sync_from_schematic"
+    && canonicalJson(tool._meta ?? null) === canonicalJson({ [QUALIFIED_FOOTPRINT_SYNC_META_KEY]: QUALIFIED_FOOTPRINT_SYNC_SCHEMA_VERSION })
+    && createHash("sha256").update(canonicalJson(tool), "utf8").digest("hex") === QUALIFIED_FOOTPRINT_SYNC_TOOL_SHA256;
+}
+
 function qualifiedNativeCommitReply(result: CallToolResult, expected: string): boolean {
   if (result.isError === true) return false;
   const matches = (value: unknown): boolean => typeof value === "string" ? value.trim() === expected
@@ -2104,6 +2114,10 @@ export class KicadMcpSession {
         assertHealthy: () => stderrCapture.assertWithinLimit(),
       });
       setStartupStage("mcp-contracts");
+      const syncTool=discovered.toolsByName.get("pcb_sync_from_schematic");
+      if(isPlainRecord(syncTool?._meta)&&Object.hasOwn(syncTool._meta,QUALIFIED_FOOTPRINT_SYNC_META_KEY)&&!footprintIdentitySyncQualified(syncTool)){
+        throw new KicadMcpAuthorizationError("KiCad MCP footprint identity sync claims a mismatched qualified tool contract.");
+      }
       const livePadSnapshotTool = discovered.toolsByName.get(LIVE_PCB_PAD_SNAPSHOT_TOOL);
       if (livePadSnapshotTool !== undefined) assertLivePcbPadSnapshotRegistration(livePadSnapshotTool);
       const connectivityBatchTool = discovered.toolsByName.get(SCHEMATIC_CONNECTIVITY_BATCH_TOOL);
@@ -2370,6 +2384,12 @@ export class KicadMcpSession {
     return !this.#closed && this.#mode === "write" && this.#projectBound
       && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
       && NATIVE_COMMIT_TOOL_NAMES.every(name => nativeCommitToolQualified(this.#toolsByName.get(name)));
+  }
+
+  supportsQualifiedFootprintIdentitySync(): boolean {
+    return !this.#closed && this.#mode === "write" && this.#projectBound
+      && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
+      && footprintIdentitySyncQualified(this.#toolsByName.get("pcb_sync_from_schematic"));
   }
 
   /** One-shot host-only project selection for the isolated manifested bridge. */
@@ -2703,6 +2723,9 @@ export class KicadMcpSession {
       throw new KicadMcpSessionError(`Allowed tool '${name}' was not advertised by the sidecar.`);
     }
     const commitOperation = NATIVE_COMMIT_TOOL_NAMES.includes(name as typeof NATIVE_COMMIT_TOOL_NAMES[number]);
+    if(name==="pcb_sync_from_schematic"&&!footprintIdentitySyncQualified(tool)){
+      throw new KicadMcpAuthorizationError("KiCad MCP schematic sync requires the qualified full-footprint-library-identity writer.");
+    }
     if (commitOperation && !NATIVE_COMMIT_TOOL_NAMES.every(entry => nativeCommitToolQualified(this.#toolsByName.get(entry)))) {
       throw new KicadMcpAuthorizationError("KiCad MCP qualified native route transactions are unavailable on this runtime.");
     }
@@ -3580,6 +3603,7 @@ async function verifyInspectionRuntimeTree(
   const physicalDirectories = new Map<string, BoundInspectionDirectory>();
   const actualFiles: InspectionRuntimeFileRecord[] = [];
   const actualDirectories: InspectionRuntimeDirectoryRecord[] = [];
+  const fileJobs: Array<{ candidate: string; relative: string; expected: InspectionRuntimeFileRecord }> = [];
   const pending = [root.path];
   while (pending.length > 0) {
     assertInspectionDeadline(activeDeadline);
@@ -3588,7 +3612,6 @@ async function verifyInspectionRuntimeTree(
       async () => await readdir(directory, { withFileTypes: true }), activeDeadline, "KiCad MCP runtime:readdir",
     );
     assertInspectionDeadline(activeDeadline);
-    const directoryFiles: Array<{ candidate: string; relative: string; expected: InspectionRuntimeFileRecord }> = [];
     for (const entry of entries) {
       const candidate = path.join(directory, entry.name);
       if (entry.isSymbolicLink()) throw new KicadMcpSessionError("KiCad MCP runtime contains a link or reparse point.");
@@ -3609,24 +3632,41 @@ async function verifyInspectionRuntimeTree(
       } else if (entry.isFile()) {
         const expected = filesByPath.get(relative);
         if (expected === undefined) throw new KicadMcpSessionError("KiCad MCP runtime contains an extra file.");
-        directoryFiles.push({ candidate, relative, expected });
+        if (fileJobs.length >= manifest.files.length) throw new KicadMcpSessionError("KiCad MCP runtime file worklist exceeds its manifest bound.");
+        fileJobs.push({ candidate, relative, expected });
       } else throw new KicadMcpSessionError("KiCad MCP runtime contains an unsupported filesystem entry.");
     }
-    // Keep every file's ancestor, descriptor, content, and physical witness
-    // check, while bounding concurrent readers on the shared deadline/signal.
-    for (let offset = 0; offset < directoryFiles.length; offset += 4) {
-      assertInspectionDeadline(activeDeadline);
-      await Promise.all(directoryFiles.slice(offset, offset + 4).map(async ({ candidate, relative, expected }) => {
-        const physical = await captureRegularFileIdentity(candidate, "KiCad MCP runtime file", MAX_PINNED_EXECUTABLE_BYTES, activeDeadline);
+  }
+  // One call-local queue keeps the existing four readers occupied even when
+  // directories contain only one file. No ancestor/content/witness check is cached.
+  const readerAbort = new AbortController();
+  const readerDeadline: InspectionDeadline = Object.freeze({ ...activeDeadline,
+    signal: activeDeadline.signal === undefined ? readerAbort.signal : AbortSignal.any([activeDeadline.signal, readerAbort.signal]) });
+  let nextFile = 0, failed = false;
+  let firstFailure: unknown;
+  const readFiles = async (): Promise<void> => {
+    try {
+      while (!failed) {
+        assertInspectionDeadline(readerDeadline);
+        const job = fileJobs[nextFile++];
+        if (job === undefined) return;
+        const { candidate, relative, expected } = job;
+        const physical = await captureRegularFileIdentity(candidate, "KiCad MCP runtime file", MAX_PINNED_EXECUTABLE_BYTES, readerDeadline);
         const mode = Number(BigInt(physical.filesystem.mode) & 0o777n);
         if (physical.sizeBytes !== expected.sizeBytes || physical.sha256 !== expected.sha256 || mode !== expected.mode) {
           throw new KicadMcpSessionError("KiCad MCP runtime file differs from its manifest.");
         }
         physicalFiles.set(relative, physical);
         actualFiles.push({ path: relative, sizeBytes: physical.sizeBytes, sha256: physical.sha256, mode });
-      }));
+      }
+    } catch (error) {
+      if (!failed) { failed = true; firstFailure = error; readerAbort.abort(); }
     }
-  }
+  };
+  // Every worker settles under the same deadline; existing stream abort and
+  // late-handle disposal remain inside captureRegularFileIdentity.
+  await Promise.allSettled(Array.from({ length: Math.min(4, fileJobs.length) }, readFiles));
+  if (failed) throw firstFailure;
   assertInspectionDeadline(activeDeadline);
   actualFiles.sort((left, right) => left.path.localeCompare(right.path, "en-US"));
   actualDirectories.sort((left, right) => left.path.localeCompare(right.path, "en-US"));

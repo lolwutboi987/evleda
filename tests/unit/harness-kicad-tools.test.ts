@@ -25,6 +25,7 @@ const providerNames = stableNames.filter((name) => !["kicad_set_project", "run_e
 
 function fakeSession(onCall?: (name: string) => Promise<void>): KicadHarnessSession {
   return {
+    supportsQualifiedFootprintIdentitySync: () => true,
     listTools: () => stableNames.map((name) => ({ name, description: `Fake ${name}`, permission: "write" as const, inputSchema: schema })),
     callTool: async (name, argumentsValue = {}) => {
       await onCall?.(name);
@@ -40,6 +41,7 @@ describe("KiCad harness tools", () => {
     finally { await rm(root, { recursive: true, force: true }); }
   };
   const freshSession = (onCall?: (name: string) => Promise<void>): KicadHarnessSession => ({
+    supportsQualifiedFootprintIdentitySync: () => true,
     assertActivePcb: async () => undefined,
     readActivePcbSource: async (expected) => await readFile(expected, "utf8"),
     listTools: () => KICAD_FRESH_HARNESS_TOOL_NAMES.map((name) => ({ name, description: name, permission: "write" as const, inputSchema: schema })),
@@ -138,12 +140,27 @@ describe("KiCad harness tools", () => {
     expect(KICAD_HARNESS_TOOL_NAMES).not.toContain("pcb_set_net_class");
   });
 
+  it.each(["missing", "false"] as const)("hides and refuses raw sync with %s qualified-writer support while retaining reads", async support => {
+    const calls: string[] = [];
+    const session = fakeSession(async name => { calls.push(name); });
+    if (support === "missing") delete session.supportsQualifiedFootprintIdentitySync;
+    else session.supportsQualifiedFootprintIdentitySync = () => false;
+    const bridge = createKicadHarnessTools(session);
+    expect(bridge.tools.map(tool => tool.name)).not.toContain("pcb_sync_from_schematic");
+    expect(bridge.tools.map(tool => tool.name)).toContain("pcb_get_footprints");
+    await expect(bridge.execute({ id: "old-raw-sync", name: "pcb_sync_from_schematic" as never, arguments: {} })).rejects.toThrow(/Unsupported/iu);
+    expect(calls).toEqual([]);
+    await expect(bridge.execute({ id: "old-runtime-read", name: "pcb_get_footprints", arguments: {} })).resolves.toMatchObject({ toolCallId: "old-runtime-read" });
+    expect(calls).toEqual(["pcb_get_footprints"]);
+  });
+
   it("keeps approved inspection and edit tools from a 288-tool-shaped live catalog", () => {
     const catalog = [
       ...stableNames,
       ...Array.from({ length: 288 - stableNames.length }, (_, index) => `unreviewed_tool_${index}`),
     ];
     const definitions = projectKicadHarnessToolDefinitions({
+      supportsQualifiedFootprintIdentitySync: () => true,
       listTools: () => catalog.map((name) => ({ name, permission: "write" as const, description: name, inputSchema: schema })),
     });
     const names = definitions.map((tool) => tool.name);

@@ -5,8 +5,8 @@ import { canonicalJson, contentIdentity } from "../core/canonical.js";
 import { parsePortableJsonBytes } from "../core/portable-artifact.js";
 import { runBoundedProcess, type BoundedProcessRunner, type BoundedWindowsProcessTreeTermination } from "./bounded-process.js";
 
-export const KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION = 2;
-export const KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION = "evleda-stripline-corrections-v1";
+export const KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION = 3;
+export const KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION = "evleda-uncovered-microstrip-v1";
 export const KICAD_TRANSMISSION_LINE_SOURCE_COMMIT = "146a4f2a7585c65bc580427a19b6fe2ec4a3f622";
 const positive = z.number().finite().positive();
 const nonnegative = z.number().finite().nonnegative();
@@ -17,7 +17,9 @@ const base = { EPSILONR: z.number().finite().min(1).describe("Relative dielectri
   SIGMA: positive.describe("Conductor conductivity, S/m"), MURC: positive.describe("Relative conductor permeability") };
 const micro = { H_T: positive.describe("Metallic top enclosure height, metres; this is not a solder-mask layer"),
   ROUGH: nonnegative.describe("Conductor roughness, metres"), TAND: nonnegative.describe("Dielectric loss tangent") };
-const singleMicro = z.object({ ...base, ...micro, MUR: positive.describe("Relative substrate permeability") }).strict();
+const singleMicro = z.object({ ...base, ...micro,
+  H_T: z.union([positive, z.literal("absent")]).describe("Metallic top enclosure height in metres, or 'absent' for the exact uncovered single-microstrip model; does not represent solder mask"),
+  MUR: positive.describe("Relative substrate permeability") }).strict();
 const coupledMicro = z.object({ ...base, ...micro, PHYS_S: positive.describe("Edge-to-edge spacing or synthesis seed, metres") }).strict();
 const singleStrip = z.object({ ...base, STRIPLINE_A: positive.describe("Top dielectric offset, metres"), TAND: nonnegative }).strict();
 const coupledStrip = z.object({ ...base, PHYS_S: positive.describe("Edge-to-edge spacing or synthesis seed, metres") }).strict();
@@ -62,17 +64,28 @@ function unit(name: string): string {
   if (["H", "H_T", "T", "PHYS_WIDTH", "PHYS_S", "PHYS_LEN", "ROUGH", "STRIPLINE_A", "SKIN_DEPTH"].includes(name)) return "m";
   return "1";
 }
-const nativeResponseSchema = z.object({ schemaVersion: z.literal(KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION),
-  implementationRevision: z.literal(KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION),
+const numericNativeInputSchema = z.object({ value: z.number().finite(), unit: z.string() }).strict();
+const nativeResponseFields = {
   sourceCommit: z.literal(KICAD_TRANSMISSION_LINE_SOURCE_COMMIT), model: z.string(), operation: z.string(),
   converged: z.boolean(), valid: z.boolean(),
-  inputs: z.record(z.string(), z.object({ value: z.number().finite(), unit: z.string() }).strict()),
+  inputs: z.record(z.string(), z.union([
+    numericNativeInputSchema,
+    z.object({ value: z.literal("absent"), unit: z.literal("1") }).strict(),
+  ])),
   results: z.record(z.string(), z.object({ value: z.number().finite().nullable(), status: z.enum(["ok", "warning", "error"]), unit: z.string() }).strict()),
-}).strict();
+};
+const nativeResponseSchema = z.discriminatedUnion("schemaVersion", [
+  z.object({ ...nativeResponseFields, schemaVersion: z.literal(KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION),
+    implementationRevision: z.literal(KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION) }).strict(),
+  // Existing pinned protocol-2 helpers remain valid for their original numeric-input contract.
+  z.object({ ...nativeResponseFields, schemaVersion: z.literal(2),
+    implementationRevision: z.literal("evleda-stripline-corrections-v1"),
+    inputs: z.record(z.string(), numericNativeInputSchema) }).strict(),
+]);
 export type KicadTransmissionLineNativeResult = z.infer<typeof nativeResponseSchema>;
 export interface KicadTransmissionLineModelWarning {
   readonly code: "NATIVE_DELAY_APPROXIMATION" | "FINITE_THICKNESS_MODEL_VARIANT" | "COUPLED_MICROSTRIP_MODEL_RANGE"
-    | "MICROSTRIP_METALLIC_COVER" | "COUPLED_STRIPLINE_SOURCE_CORRECTIONS" | "COUPLED_STRIPLINE_PIECEWISE_INVERSE"
+    | "MICROSTRIP_METALLIC_COVER" | "MICROSTRIP_UNCOVERED_MODEL" | "COUPLED_STRIPLINE_SOURCE_CORRECTIONS" | "COUPLED_STRIPLINE_PIECEWISE_INVERSE"
     | "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS";
   readonly message: string;
   readonly affectedResults: readonly string[];
@@ -92,6 +105,11 @@ export interface KicadTransmissionLineResult {
 export interface KicadTransmissionLineCalculator {
   calculate(request: unknown): Promise<KicadTransmissionLineResult>;
 }
+const calculators = new WeakSet<object>();
+/** Factory provenance for engineering row evaluators; caller-supplied functions are not pinned helpers. */
+export function isKicadTransmissionLineCalculator(value: unknown): value is KicadTransmissionLineCalculator {
+  return value !== null && typeof value === "object" && calculators.has(value);
+}
 
 // Evidence: pinned transline_calculation_base.cpp::UnitPropagationDelay and units.h::C0;
 // https://qucs.sourceforge.net/tech/node77.html (coupled model envelope);
@@ -100,7 +118,9 @@ function modelWarnings(request: KicadTransmissionLineRequest, native: KicadTrans
   const warnings: KicadTransmissionLineModelWarning[] = [{ code: "NATIVE_DELAY_APPROXIMATION",
     message: "Native UNIT_PROP_DELAY uses 2.99e8 m/s, while the native phase constant uses 299792458 m/s. For relative permeability 1 the reported native delay is approximately 0.265036% higher than the phase-derived delay. Native values are preserved; they are not phase-exact.",
     affectedResults: Object.keys(native.results).filter(key => key.startsWith("UNIT_PROP_DELAY")) }];
-  if (request.model === "microstrip" || request.model === "coupled_microstrip") {
+  if (request.model === "microstrip" && request.parameters.H_T === "absent") {
+    warnings.push({ code: "MICROSTRIP_UNCOVERED_MODEL", message: "The metallic top cover is absent: the pinned single-microstrip cover filling multiplier uses its exact H_T/H → +infinity limit of 1. This uniform bare-conductor cross-section has air above the substrate; it does not model solder mask, arbitrary dielectric layers, nearby lateral copper, or board discontinuities.", affectedResults: ["Z0", "EPSILON_EFF"] });
+  } else if (request.model === "microstrip" || request.model === "coupled_microstrip") {
     warnings.push({ code: "MICROSTRIP_METALLIC_COVER", message: "H_T represents a metallic cover, not solder mask. This cross-section does not represent arbitrary masked or multilayer dielectric structures.", affectedResults: ["Z0", "Z0_E", "Z0_O", "Z_DIFF"].filter(key => key in native.results) });
   }
   if (request.model === "microstrip") warnings.push({ code: "FINITE_THICKNESS_MODEL_VARIANT",
@@ -146,10 +166,10 @@ export async function createKicadTransmissionLineCalculator(options: KicadTransm
         || before.size !== after.size || !after.isFile() || after.isSymbolicLink()) throw new Error("Transmission-line executable pin mismatch or drift.");
   }
   await assertPin();
-  return Object.freeze({ calculate: async (input: unknown): Promise<KicadTransmissionLineResult> => {
+  const calculator = Object.freeze({ calculate: async (input: unknown): Promise<KicadTransmissionLineResult> => {
     const request = kicadTransmissionLineRequestSchema.parse(input);
     const coupled = request.model.startsWith("coupled_");
-    const parameters: Record<string, number> = { ...request.parameters };
+    const parameters: Record<string, number | "absent"> = { ...request.parameters };
     if (request.operation === "synthesize") parameters[coupled ? "Z0_O" : "Z0"] = request.targetOhm / (coupled ? 2 : 1);
     const args = ["--model", request.model, "--operation", request.operation,
       ...("fixed" in request ? ["--fix", request.fixed] : []),
@@ -160,7 +180,9 @@ export async function createKicadTransmissionLineCalculator(options: KicadTransm
     await assertPin();
     if (process.exitCode !== 0 && process.exitCode !== 2) throw new Error(`Transmission-line helper failed with exit code ${process.exitCode}: ${process.stderr.slice(0, 2000)}`);
     const native = nativeResponseSchema.parse(parsePortableJsonBytes(Buffer.from(process.stdout), { maxBytes: 64 * 1024, maxDepth: 8, maxNodes: 2000 }));
-    const echoed = Object.fromEntries(Object.entries(parameters).map(([name, value]) => [name, { value, unit: unit(name) }]));
+    if (request.model === "microstrip" && request.parameters.H_T === "absent"
+        && native.schemaVersion !== KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION) throw new Error("Absent metallic cover requires the qualified protocol-3 transmission-line helper.");
+    const echoed = Object.fromEntries(Object.entries(parameters).map(([name, value]) => [name, { value, unit: value === "absent" ? "1" : unit(name) }]));
     if (native.model !== request.model || native.operation !== request.operation || canonicalJson(native.inputs) !== canonicalJson(echoed)) throw new Error("Transmission-line helper response does not match the requested inputs.");
     for (const [name, result] of Object.entries(native.results)) {
       if (!(names as readonly string[]).includes(name) || result.unit !== unit(name)
@@ -184,6 +206,8 @@ export async function createKicadTransmissionLineCalculator(options: KicadTransm
         nativeDifferentialOhm: coupled ? native.results.Z_DIFF!.value : null,
         nativeDifferentialBasis: !coupled ? "not-applicable" as const : request.model === "coupled_microstrip" ? "quasistatic" as const : "native-coupled-stripline" as const }),
       targetResidualOhm: residual, executableIdentity: expected, modelWarnings: modelWarnings(request, native),
-      scope: "Pinned KiCad 10.0.3 analytical core with explicit evleda-stripline-corrections-v1 changes, for the supplied uniform cross-section and material inputs; not a field solver, board validation, or independently qualified absolute prediction. Native warnings remain applicable. To assess manufacturing rounding, submit the rounded geometry in a separate analyze request." });
+      scope: `Pinned KiCad 10.0.3 analytical core, implementation ${native.implementationRevision}, with the retained evleda-stripline-corrections-v1 changes${native.schemaVersion === 3 ? " and explicit uncovered single-microstrip support" : ""}, for the supplied uniform cross-section and material inputs; not a field solver, board validation, or independently qualified absolute prediction. Native warnings remain applicable. To assess manufacturing rounding, submit the rounded geometry in a separate analyze request.` });
   } });
+  calculators.add(calculator);
+  return calculator;
 }

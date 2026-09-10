@@ -44,10 +44,26 @@ describe("host-bound MCP transmission-line calculation", () => {
       expect((await f.client.callTool({ name: "evleda_toolbox_status", arguments: {} })).structuredContent).toMatchObject({ recoveryRequired: false });
     } finally { await f.close(); }
   });
+  it.each(["analyze", "synthesize"] as const)("forwards explicit uncovered single-microstrip %s through the public schema", async operation => {
+    const { PHYS_S, ...singleParameters } = request.parameters; void PHYS_S;
+    const uncovered = { model: "microstrip", operation,
+      parameters: { ...singleParameters, H_T: "absent", MUR: 1, ...(operation === "synthesize" ? { ANG_L: 0.4 } : {}) },
+      ...(operation === "synthesize" ? { targetOhm: 50 } : {}) };
+    const calculate = vi.fn(async () => ({ ...result("calculated"), request: uncovered }) as KicadTransmissionLineResult);
+    const f = await fixture({ calculate });
+    try {
+      const output = await f.client.callTool({ name: "evleda_transmission_line", arguments: uncovered });
+      expect(output.isError).not.toBe(true);
+      expect(calculate).toHaveBeenCalledWith(uncovered);
+      expect(output.structuredContent).toMatchObject({ status: "calculated", boardVerificationPerformed: false,
+        request: { parameters: { H_T: "absent" } } });
+    } finally { await f.close(); }
+  });
   it("rejects missing physical inputs and executable injection before calculator dispatch", async () => {
     const calculate = vi.fn(async () => result("calculated")); const f = await fixture({ calculate });
     try {
-      for (const argumentsValue of [{ ...request, executablePath: "other.exe" }, { ...request, parameters: { H: 0.0002 } }]) {
+      for (const argumentsValue of [{ ...request, executablePath: "other.exe" }, { ...request, parameters: { H: 0.0002 } },
+        { ...request, parameters: { ...request.parameters, H_T: "absent" } }]) {
         const output = await f.client.callTool({ name: "evleda_transmission_line", arguments: argumentsValue });
         expect(output.isError).toBe(true);
       }

@@ -8,6 +8,9 @@ import type { FreshPlaneAcceptanceAssessment } from "../harness/fresh-plane-acce
 
 const ASSESSMENT_VERSION = "evleda.fresh-plane-acceptance.v1";
 const MAX_BYTES = 16 * 1024 * 1024;
+// The MCP serializer permits 1 MiB; reserve space for its source fingerprints,
+// recovery state and the private diagnostic's filename/content identity.
+const MAX_PUBLIC_REPORT_BYTES = 1024 * 1024 - 4096;
 const PRIVATE_PATH = /[\\/]|\b[A-Za-z]:/u;
 
 // Reasons can include parser/native-check diagnostics. Preserve every finding,
@@ -22,6 +25,7 @@ const canonical = (value: CanonicalIdentity) => ({ algorithm: value.algorithm, d
 const content = (value: ContentIdentity) => ({ algorithm: value.algorithm, digest: value.digest, size: value.size });
 const geometry = (value: FreshPlaneAcceptanceAssessment["planes"][number]["geometry"]) => ({
   status: value.status, issues: reasons(value.issues), geometryEquivalent: value.geometryEquivalent,
+  areaMeaning: "stored-zone-fill-geometry" as const,
   sourceGeometryIdentity: value.sourceGeometryIdentity === null ? null : canonical(value.sourceGeometryIdentity),
   nativeGeometryIdentity: value.nativeGeometryIdentity === null ? null : canonical(value.nativeGeometryIdentity),
   components: value.components.map(component => ({ nativePolygonIndex: component.nativePolygonIndex,
@@ -29,8 +33,191 @@ const geometry = (value: FreshPlaneAcceptanceAssessment["planes"][number]["geome
     topologyCertificate: component.topologyCertificate })),
 });
 
+type NativeChecks = NonNullable<FreshPlaneAcceptanceAssessment["evidence"]["nativeChecks"]>;
+type NativeItemOwner = { kind: "pad" | "footprint"; reference: string; padNumber: string | null; footprintUuid: string };
+const nativeRecord = (value: unknown): Record<string, unknown> => {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) throw new Error("Native finding projection requires complete object records.");
+  return value as Record<string, unknown>;
+};
+const nativeList = (value: unknown): readonly unknown[] => {
+  if (!Array.isArray(value)) throw new Error("Native finding projection requires complete finding arrays.");
+  return value;
+};
+const nativeText = (value: unknown): string => {
+  if (typeof value !== "string") throw new Error("Native finding projection requires explicit text fields.");
+  return value;
+};
+const publicText = (value: unknown): string => reasons([nativeText(value)])[0]!;
+const publicNumber = (value: unknown): number => {
+  if (typeof value !== "number" || !Number.isFinite(value)) throw new Error("Common source observations require finite numeric fields.");
+  return value;
+};
+const publicBoolean = (value: unknown): boolean => {
+  if (typeof value !== "boolean") throw new Error("Common source observations require explicit boolean fields.");
+  return value;
+};
+
+type CommonChecks = NonNullable<FreshPlaneAcceptanceAssessment["evidence"]["commonChecks"]>;
+function commonObservations(row: CommonChecks["rows"][number]): Record<string, unknown> {
+  const value = nativeRecord(row.observations);
+  if (Object.keys(value).length === 0) return {};
+  if (row.kind === "outline") return {
+    completeAnalyzedOutline: publicBoolean(value.completeAnalyzedOutline), primitiveCount: publicNumber(value.primitiveCount),
+    sourcePrimitiveKinds: nativeList(value.sourcePrimitiveKinds).map(publicText),
+    footprintLocalOutlineContributors: publicBoolean(value.footprintLocalOutlineContributors),
+    widthNm: publicNumber(value.widthNm), heightNm: publicNumber(value.heightNm),
+    ...(value.edgeKeysNm === undefined ? {} : { edgeKeysNm: nativeList(value.edgeKeysNm).map(publicText) }),
+  };
+  if (row.kind === "via_policy") return {
+    net: publicText(value.net), viaCount: publicNumber(value.viaCount), globalViaCount: publicNumber(value.globalViaCount),
+    perNetMaximum: publicNumber(value.perNetMaximum), globalMaximum: publicNumber(value.globalMaximum),
+    footprintDrillsAreNotRoutedVias: publicBoolean(value.footprintDrillsAreNotRoutedVias),
+    dimensions: nativeList(value.dimensions).map(item => {
+      const via = nativeRecord(item);
+      return { uuid: via.uuid === null ? null : publicText(via.uuid), diameterNm: publicNumber(via.diameterNm), drillNm: publicNumber(via.drillNm),
+        annularRingTwiceNm: publicNumber(via.annularRingTwiceNm), xNm: publicNumber(via.xNm), yNm: publicNumber(via.yNm), layers: nativeList(via.layers).map(publicText) };
+    }),
+  };
+  if (row.kind !== "trace_geometry") throw new Error("Common source observations name an unsupported row kind.");
+  return { net: publicText(value.net), trackUuids: nativeList(value.trackUuids).map(publicText),
+    fullRouteInventorySupplied: publicBoolean(value.fullRouteInventorySupplied), padExemptionsSource: publicText(value.padExemptionsSource),
+    numericalToleranceMm: publicNumber(value.numericalToleranceMm) };
+}
+/** Compact common metadata plus a complete observation projection for every
+ * evaluated original row. The full profile/analyzer capture stays private. */
+function commonSourceChecks(assessment: FreshPlaneAcceptanceAssessment) {
+  const common = assessment.evidence.commonChecks;
+  if (assessment.savedEvidenceIdentity === null || common === null || common === undefined) return null;
+  const { identity, ...payload } = common;
+  if (common.schemaVersion !== "evleda.fresh-plane-common-checks.v1" || common.accepted !== false
+      || canonicalJson(identity) !== canonicalJson(canonicalIdentity(payload, common.schemaVersion))
+      || canonicalJson(common.bundleIdentity) !== canonicalJson(assessment.bundleIdentity)
+      || canonicalJson(common.contractIdentity) !== canonicalJson(assessment.contractIdentity)
+      || canonicalJson(common.verificationPlanIdentity) !== canonicalJson(assessment.verificationPlanIdentity)
+      || canonicalJson(common.savedEvidenceIdentity) !== canonicalJson(assessment.savedEvidenceIdentity)
+      || canonicalJson(common.endpointConnectivityIdentity) !== canonicalJson(assessment.endpointConnectivityIdentity)
+      || canonicalJson(common.pcbSourceIdentity) !== canonicalJson(assessment.sourceIdentities.pcb)) {
+    throw new Error("Common source evidence identity or source binding differs from the complete plane assessment.");
+  }
+  const observations = new Map<string, Record<string, unknown>>();
+  for (const row of common.rows) {
+    const originals = assessment.rows.filter(original => original.id === row.id);
+    if (observations.has(row.id) || originals.length !== 1 || originals[0]!.kind !== row.kind || originals[0]!.status !== row.status
+        || canonicalJson(originals[0]!.reasons) !== canonicalJson(row.reasons)) throw new Error("Common source row differs from its original V2 verification row.");
+    observations.set(row.id, commonObservations(row));
+  }
+  return { observations, summary: {
+    assessmentIdentity: canonical(common.identity), schemaVersion: common.schemaVersion, scope: publicText(common.scope),
+    pcbSourceIdentity: content(common.pcbSourceIdentity), savedEvidenceIdentity: canonical(common.savedEvidenceIdentity),
+    sourceInventory: { complete: common.sourceInventory.complete, footprintCount: common.sourceInventory.footprintCount,
+      physicalPadCount: common.sourceInventory.physicalPadCount, trackCount: common.sourceInventory.trackCount,
+      viaCount: common.sourceInventory.viaCount, zoneCount: common.sourceInventory.zoneCount },
+    numericalPolicy: { outlineAndViaDimensions: common.numericalPolicy.outlineAndViaDimensions,
+      traceValidatorToleranceMm: common.numericalPolicy.traceValidatorToleranceMm },
+    evaluatedRowIds: common.rows.map(row => row.id), notEvaluated: common.notEvaluated.map(publicText), accepted: common.accepted,
+  } };
+}
+
+function nativeItemOwners(assessment: FreshPlaneAcceptanceAssessment) {
+  const owners = new Map<string, NativeItemOwner[]>(), contacts = assessment.evidence.nativeContacts;
+  if (contacts === null || contacts === undefined || assessment.nativeInventory.status !== "verified"
+      || canonicalJson(contacts.sourceBefore) !== canonicalJson(assessment.sourceIdentities.pcb)
+      || canonicalJson(contacts.sourceAfter) !== canonicalJson(assessment.sourceIdentities.pcb)) return owners;
+  const add = (uuid: string, owner: NativeItemOwner) => owners.set(uuid, [...(owners.get(uuid) ?? []), owner]);
+  for (const footprint of contacts.report.allFootprints) add(footprint.uuid, {
+    kind: "footprint", reference: publicText(footprint.reference), padNumber: null, footprintUuid: publicText(footprint.uuid),
+  });
+  for (const pad of contacts.report.allPads) add(pad.uuid, {
+    kind: "pad", reference: publicText(pad.reference), padNumber: publicText(pad.number), footprintUuid: publicText(pad.footprintUuid),
+  });
+  return owners;
+}
+
+function nativeFinding(value: unknown, owners: ReadonlyMap<string, readonly NativeItemOwner[]>) {
+  const finding = nativeRecord(value);
+  return {
+    type: publicText(finding.type), severity: publicText(finding.severity), description: publicText(finding.description),
+    items: finding.items === undefined ? [] : nativeList(finding.items).map(value => {
+      const item = nativeRecord(value), uuid = nativeText(item.uuid), pos = nativeRecord(item.pos);
+      if (typeof pos.x !== "number" || !Number.isFinite(pos.x) || typeof pos.y !== "number" || !Number.isFinite(pos.y)) {
+        throw new Error("Native finding projection requires finite item positions.");
+      }
+      const matches = owners.get(uuid) ?? [];
+      return { uuid: publicText(uuid), description: publicText(item.description), position: { x: pos.x, y: pos.y },
+        sourceBinding: matches.length === 1 ? "matched" as const : matches.length === 0 ? "unavailable" as const : "ambiguous" as const,
+        owner: matches.length === 1 ? { ...matches[0]! } : null };
+    }),
+  };
+}
+
+/** Preserve every native finding; raw invocations and report paths remain private. */
+function nativeChecks(assessment: FreshPlaneAcceptanceAssessment) {
+  const checks: NativeChecks | null = assessment.evidence.nativeChecks;
+  if (assessment.savedEvidenceIdentity === null || checks === null || checks === undefined || checks.nativeInput === undefined) return null;
+  const drc = checks.nativeInput.drc, report = nativeRecord(drc.report), owners = nativeItemOwners(assessment);
+  const violations = nativeList(report.violations).map(value => nativeFinding(value, owners));
+  const unconnectedItems = nativeList(report.unconnected_items).map(value => nativeFinding(value, owners));
+  const schematicParity = nativeList(report.schematic_parity).map(value => nativeFinding(value, owners));
+  if (drc.violationCount !== violations.length + unconnectedItems.length + schematicParity.length
+      || drc.schematicParityCount !== schematicParity.length) throw new Error("Native finding counts differ from complete retained collections.");
+  const nativeFact = (value: NativeChecks["checks"]["thermalPolicy"]) => ({ status: value.status, reasons: reasons(value.reasons) });
+  return {
+    assessmentIdentity: canonical(checks.identity), status: checks.status, nativeDrcIdentity: canonical(checks.nativeDrcIdentity),
+    checks: { erc: checks.checks.erc === undefined ? null : nativeFact(checks.checks.erc),
+      drcClearanceShorts: nativeFact(checks.checks.drcClearanceShorts), thermalPolicy: nativeFact(checks.checks.thermalPolicy) },
+    nativeErcIdentity: checks.nativeErcIdentity === null || checks.nativeErcIdentity === undefined ? null : canonical(checks.nativeErcIdentity),
+    ercSourceSetIdentity: checks.ercSourceScope === undefined ? null : canonical(checks.ercSourceScope.sourceSetIdentity),
+    ercCoverage: checks.ercCoverage === undefined ? null : {
+      ignoredChecks: checks.ercCoverage.ignoredChecks.map(check => ({ key: publicText(check.key), description: publicText(check.description) })),
+      projectIgnoredCheckKeys: checks.ercCoverage.projectIgnoredCheckKeys.map(publicText),
+      projectExclusionCount: checks.ercCoverage.projectExclusionCount, reportExcludedViolationCount: checks.ercCoverage.reportExcludedViolationCount,
+      unexcludedViolationCount: checks.ercCoverage.unexcludedViolationCount, sheetCount: checks.ercCoverage.sheetCount,
+      pinMapApplicability: checks.ercCoverage.pinMapApplicability,
+      pinMapIdentity: checks.ercCoverage.pinMapIdentity === null ? null : canonical(checks.ercCoverage.pinMapIdentity),
+    },
+    drc: { status: drc.status, violationCount: drc.violationCount, schematicParityCount: drc.schematicParityCount,
+      coordinateUnits: publicText(report.coordinate_units), includedSeverities: nativeList(report.included_severities).map(publicText),
+      ignoredChecks: nativeList(report.ignored_checks).map(value => {
+        const ignored = nativeRecord(value);
+        return { key: publicText(ignored.key), description: publicText(ignored.description),
+          severity: ignored.severity === undefined ? null : publicText(ignored.severity) };
+      }), violations, unconnectedItems, schematicParity },
+    thermalPads: checks.thermalPads.map(pad => ({ physicalPadUuid: publicText(pad.physicalPadUuid), footprintUuid: publicText(pad.footprintUuid),
+      reference: publicText(pad.reference), number: publicText(pad.number), layer: publicText(pad.layer), zoneUuid: publicText(pad.zoneUuid),
+      applicability: pad.applicability, minimumResolvedSpokes: pad.minimumResolvedSpokes, proof: pad.proof })),
+    minimumResolvedSpokesMeaning: "declared-lower-bound-requires-qualified-proof" as const,
+    ruleApplicability: checks.ruleApplicability, drcScope: checks.drcScope, nativeProviderCompletion: checks.nativeProviderCompletion,
+    physicalSpokeCount: checks.physicalSpokeCount, physicalThermalWidth: checks.physicalThermalWidth,
+    actualMinimumPlaneCopperWidth: checks.actualMinimumPlaneCopperWidth,
+  };
+}
+
+const drillTopology = (value: FreshPlaneAcceptanceAssessment["planes"][number]["drillTopology"]) => ({
+  schemaVersion: value.schemaVersion, identity: canonical(value.identity), status: value.status, issues: reasons(value.issues),
+  savedEvidenceIdentity: value.savedEvidenceIdentity === null ? null : canonical(value.savedEvidenceIdentity),
+  savedPcbIdentity: value.savedPcbIdentity === null ? null : content(value.savedPcbIdentity),
+  cachedGeometryIdentity: value.cachedGeometryIdentity === null ? null : canonical(value.cachedGeometryIdentity),
+  zoneUuid: value.zoneUuid === null ? null : publicText(value.zoneUuid), layer: value.layer,
+  planarInteriorConnected: value.planarInteriorConnected,
+  cachedAreaTwiceNm2: value.cachedAreaTwiceNm2, conservativeAreaLowerBoundTwiceNm2: value.conservativeAreaLowerBoundTwiceNm2,
+  areaMeaning: value.areaMeaning,
+  bores: value.bores.map(bore => ({ uuid: publicText(bore.uuid), kind: bore.kind,
+    netName: bore.netName === null ? null : publicText(bore.netName),
+    centerNm: { x: bore.centerNm.x, y: bore.centerNm.y }, diameterNm: bore.diameterNm,
+    enclosureNm: { minX: bore.enclosureNm.minX, minY: bore.enclosureNm.minY,
+      maxX: bore.enclosureNm.maxX, maxY: bore.enclosureNm.maxY },
+    classification: bore.classification, classificationBasis: bore.classificationBasis, geometrySource: bore.geometrySource })),
+  inventory: { sourcePadCount: value.inventory.sourcePadCount, nativePadCount: value.inventory.nativePadCount,
+    sourceViaCount: value.inventory.sourceViaCount, boreCount: value.inventory.boreCount, complete: value.inventory.complete },
+  physicalConnectivity: value.physicalConnectivity, actualMinimumCopperWidth: value.actualMinimumCopperWidth,
+  terminalContactContinuity: value.terminalContactContinuity,
+  bounds: { predicateOperations: value.bounds.predicateOperations, maximumBores: value.bounds.maximumBores,
+    maximumPredicateOperations: value.bounds.maximumPredicateOperations },
+});
+
 /** Closed public projection: raw captures, paths and contour arrays stay private. */
 export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessment) {
+  const common = commonSourceChecks(assessment);
   return {
     schemaVersion: "evleda.toolbox-plane-acceptance.v1" as const,
     assessmentSchemaVersion: assessment.schemaVersion, assessmentIdentity: canonical(assessment.identity),
@@ -45,21 +232,27 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
       nets: assessment.endpointConnectivity.nets.map(net => ({ net: net.net, status: net.status,
         everyEligiblePhysicalMemberReachable: net.everyEligiblePhysicalMemberReachable })) },
     authority: fact(assessment.authority), sourceScope: fact(assessment.sourceScope), nativeInventory: fact(assessment.nativeInventory),
+    nativeChecks: nativeChecks(assessment),
+    commonChecks: common?.summary ?? null,
     planes: assessment.planes.map(plane => ({ planeId: plane.planeId, zoneUuid: plane.zoneUuid,
       configuration: fact(plane.configuration), geometry: geometry(plane.geometry),
       nativeGeometry: plane.nativeGeometry === null ? null : geometry(plane.nativeGeometry), componentCount: plane.componentCount,
+      drillTopology: drillTopology(plane.drillTopology),
       nativePolygonAttribution: fact(plane.nativePolygonAttribution),
       minimumArea: { ...fact(plane.minimumArea), requiredAreaTwiceNm2: plane.minimumArea.requiredAreaTwiceNm2,
-        observedAreaTwiceNm2: [...plane.minimumArea.observedAreaTwiceNm2] },
-      intendedPlaneConnectivity: { ...fact(plane.intendedPlaneConnectivity),
+        observedAreaTwiceNm2: [...plane.minimumArea.observedAreaTwiceNm2], observedAreaMeaning: "stored-zone-fill-components" as const,
+        conservativeAreaLowerBoundTwiceNm2: plane.minimumArea.conservativeAreaLowerBoundTwiceNm2 },
+      intendedPlaneConnectivity: { ...fact(plane.intendedPlaneConnectivity), scope: plane.intendedPlaneConnectivity.scope,
         directEligiblePadAnchors: [...plane.intendedPlaneConnectivity.directEligiblePadAnchors],
         nativeDirectVias: [...plane.intendedPlaneConnectivity.nativeDirectVias] },
       islandPolicy: fact(plane.islandPolicy), actualMinimumCopperWidth: fact(plane.actualMinimumCopperWidth),
       thermalPolicy: fact(plane.thermalPolicy), actualThermalWidth: fact(plane.actualThermalWidth) })),
     references: assessment.references.map(reference => ({ net: reference.net, planeId: reference.planeId,
       ...fact(reference), segmentIds: [...reference.segmentIds], marginNm: reference.marginNm,
-      geometricStatus: reference.geometricStatus, referenceTerminals: fact(reference.referenceTerminals) })),
-    rows: assessment.rows.map(row => ({ id: row.id, kind: row.kind, status: row.status, reasons: reasons(row.reasons) })),
+      geometricStatus: reference.geometricStatus, referenceTerminals: fact(reference.referenceTerminals),
+      intersectingBoreUuids: reference.intersectingBoreUuids.map(publicText),tangentBoreUuids:reference.tangentBoreUuids.map(publicText) })),
+    rows: assessment.rows.map(row => ({ id: row.id, kind: row.kind, status: row.status, reasons: reasons(row.reasons),
+      ...(common?.observations.has(row.id) ? { observations: common.observations.get(row.id)! } : {}) })),
     verificationPlanRowsPassed: [...assessment.verificationPlanRowsPassed],
     mandatoryRowsRemaining: [...assessment.mandatoryRowsRemaining],
     acceptanceEvaluated: assessment.acceptanceEvaluated, accepted: assessment.accepted,
@@ -67,6 +260,7 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
     limitations: { overallAcceptance: assessment.limitations.overallAcceptance,
       physicalThermalWidth: assessment.limitations.physicalThermalWidth,
       actualMinimumCopperWidth: assessment.limitations.actualMinimumCopperWidth,
+      terminalContactContinuity: assessment.limitations.terminalContactContinuity,
       highFrequencyElectricalValidity: assessment.limitations.highFrequencyElectricalValidity,
       impedance: assessment.limitations.impedance, currentSourceGuards: assessment.limitations.currentSourceGuards },
   };
@@ -94,6 +288,9 @@ export async function captureToolboxPlaneAcceptance(outputRoot: string, assessme
   const bytes = Buffer.from(`${canonicalJson(captured)}\n`, "utf8");
   if (bytes.length > MAX_BYTES) throw new Error("Complete plane acceptance evidence exceeds its private artifact bound; no findings were truncated.");
   const report = summarizePlaneAcceptance(captured);
+  if (Buffer.byteLength(JSON.stringify(report), "utf8") > MAX_PUBLIC_REPORT_BYTES) {
+    throw new Error("Complete plane acceptance findings exceed the public response limit; no findings were truncated. The host must inspect the complete assessment.");
+  }
   try {
     const root = path.resolve(outputRoot);
     if (!path.isAbsolute(outputRoot)) throw new Error("Plane acceptance output requires the exact host-owned directory.");

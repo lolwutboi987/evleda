@@ -1,4 +1,5 @@
 import { chmod, copyFile, lstat, mkdir, mkdtemp, readFile, readdir, realpath, rename, rm, rmdir, symlink, writeFile } from "node:fs/promises";
+import type { FileHandle } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { getEventListeners } from "node:events";
 import { tmpdir } from "node:os";
@@ -6,6 +7,7 @@ import path from "node:path";
 import { performance } from "node:perf_hooks";
 import livePcbPadProtocol from "../fixtures/kicad-mcp-live-pcb-pad-snapshot-protocol.json" with { type: "json" };
 import schematicBatchProtocol from "../fixtures/kicad-mcp-schematic-connectivity-batch-protocol.json" with { type: "json" };
+import qualifiedFootprintSyncTool from "../fixtures/kicad-mcp-qualified-footprint-sync-tool.json" with { type: "json" };
 
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
@@ -133,6 +135,7 @@ rl.on("line", (line) => {
         ...(liveFixture.advertise === false ? [] : [{ name: "evleda_get_live_pcb_document", inputSchema: { type: "object", properties: {}, additionalProperties: false } }]),
         ...(liveFixture.padTool === undefined ? [] : [liveFixture.padTool]),
         ...(liveFixture.batchTool === undefined ? [] : [liveFixture.batchTool]),
+        ...(liveFixture.syncTool === undefined ? [] : [liveFixture.syncTool]),
       ];
       send({ jsonrpc: "2.0", id: message.id, result: { tools: liveTools } });
       return;
@@ -209,6 +212,11 @@ rl.on("line", (line) => {
       }
       if (message.params.name === "pcb_get_board_as_string") {
         send({ jsonrpc: "2.0", id: message.id, result: { content: [{ type: "text", text: liveFixture.publicSource ?? "configured board source is not live authority" }] } });
+        return;
+      }
+      if (message.params.name === "pcb_sync_from_schematic") {
+        const payload = { result: "fake qualified footprint sync accepted" };
+        send({ jsonrpc: "2.0", id: message.id, result: { content: [{ type: "text", text: payload.result }], structuredContent: payload, isError: false } });
         return;
       }
       if (message.params.name === "kicad_get_project_info") {
@@ -407,6 +415,7 @@ const livePcbFixture = async (project: string, results: readonly unknown[], opti
   batchResults?: readonly unknown[];
   batchAfterSource?: string;
   batchProjectAfter?: string;
+  syncTool?: Readonly<Record<string, unknown>>;
 } = {}) => {
   const fixturePath = path.join(project, "live-pcb-fixture.json");
   await writeFile(fixturePath, JSON.stringify({ results, ...options }), "utf8");
@@ -469,7 +478,7 @@ async function lockedFile(filePath: string, coreMetadataSha256?: string) {
   };
 }
 
-async function syntheticInspectionBridgeFixture(additionalRuntimeFiles = 0) {
+async function syntheticInspectionBridgeFixture(additionalRuntimeFiles = 0, scattered = false) {
   const { workspace, project } = await roots();
   const authority = await mkdtemp(path.join(suiteRoot, "ka-"));
   ownedWorkspaces.add(authority);
@@ -560,8 +569,12 @@ async function syntheticInspectionBridgeFixture(additionalRuntimeFiles = 0) {
   const bundleEntrypoint = path.join(bundleRoot, "kicad-inspection-launcher.py");
   const taskkill = path.join(bundleRoot, "process-tree-terminator.exe");
   const zeroFile = path.join(bundleRoot, "environment", "zero-data.txt");
+  const additionalDirectories = scattered
+    ? Array.from({ length: additionalRuntimeFiles }, (_unused, index) => path.join(bundleRoot, `runtime-directory-${index}`))
+    : [];
+  await Promise.all(additionalDirectories.map(async (directory) => await mkdir(directory)));
   const additionalFiles = Array.from({ length: additionalRuntimeFiles }, (_unused, index) =>
-    path.join(bundleRoot, `runtime-data-${index}.txt`));
+    path.join(additionalDirectories[index] ?? bundleRoot, `runtime-data-${index}.txt`));
   await Promise.all([
     writeSyntheticExecutable(bundlePython, "bundle-python"),
     writeFile(bundleEntrypoint, "# synthetic closed entrypoint\n", "utf8"),
@@ -578,9 +591,10 @@ async function syntheticInspectionBridgeFixture(additionalRuntimeFiles = 0) {
     const metadata = await lstat(directory, { bigint: true });
     return { path: path.relative(bundleRoot, directory).split(path.sep).join("/"), mode: Number(metadata.mode & 0o777n) };
   };
-  const files = (await Promise.all([bundlePython, bundleEntrypoint, taskkill, zeroFile, ...additionalFiles].map(fileRecord))).sort((left, right) => left.path.localeCompare(right.path, "en-US"));
+  const runtimeFiles = [bundlePython, bundleEntrypoint, taskkill, zeroFile, ...additionalFiles];
+  const files = (await Promise.all(runtimeFiles.map(fileRecord))).sort((left, right) => left.path.localeCompare(right.path, "en-US"));
   const directories = (await Promise.all([
-    path.join(bundleRoot, "environment"), bundleScripts,
+    path.join(bundleRoot, "environment"), bundleScripts, ...additionalDirectories,
   ].map(directoryRecord))).sort((left, right) => left.path.localeCompare(right.path, "en-US"));
   const treePayload = { directories, files };
   const treeIdentity = canonicalIdentity(treePayload, KICAD_MCP_INSPECTION_RUNTIME_TREE_SCHEMA_VERSION);
@@ -621,13 +635,96 @@ async function syntheticInspectionBridgeFixture(additionalRuntimeFiles = 0) {
   await Promise.all([mkdir(runtimeParentRoot), mkdir(ipcSocketParentRoot)]);
   return {
     workspace, project, outputRoot, authority, uv, uvx, python, wheel, kicadCli, taskkill, systemRoot, lockPath,
-    runtimeHome, uvCache, hostTemp, bundleRoot, bundlePython, bundleEntrypoint, zeroFile,
+    runtimeHome, uvCache, hostTemp, bundleRoot, bundlePython, bundleEntrypoint, zeroFile, additionalFiles, runtimeFiles,
     runtimeParentRoot, ipcSocketParentRoot, expectedClosure,
     lockFile: { path: lockPath, contentIdentity: contentIdentity(await readFile(lockPath)) },
     manifestFile: { path: manifestPath, contentIdentity: contentIdentity(await readFile(manifestPath)) },
     kicadCliInput: { path: kicadCli, contentIdentity: contentIdentity(await readFile(kicadCli)) },
     processTreeTerminatorInput: { path: taskkill, contentIdentity: contentIdentity(await readFile(taskkill)) },
   };
+}
+
+async function runtimeSchedulerFixture() {
+  const fixture = await syntheticInspectionBridgeFixture(8, true);
+  const gates = Array.from({ length: 4 }, () => {
+    let release!: () => void;
+    const promise = new Promise<void>((resolve) => { release = resolve; });
+    return { promise, release };
+  });
+  const state = {
+    armed: false, deadlineMs: 5_000, opens: 0, reads: 0, completedReads: 0, settledReads: 0, closeHooks: 0,
+    activeHandles: 0, peakHandles: 0, launches: 0, firstReadError: undefined as Error | undefined,
+  };
+  const handles: { identity: string; closeCalls: number; closeSettled: boolean }[] = [];
+  const expectedIdentities = (await Promise.all(fixture.runtimeFiles.map(async (filePath) => {
+    const metadata = await lstat(filePath, { bigint: true });
+    return `${metadata.dev}:${metadata.ino}`;
+  }))).sort();
+  const bridge = await createKicadMcpInspectionBridge({
+    lockFile: fixture.lockFile,
+    runtimeBundle: { root: fixture.bundleRoot, manifestFile: fixture.manifestFile, expectedClosure: fixture.expectedClosure },
+    runtimeParentRoot: fixture.runtimeParentRoot,
+    ipcSocketParentRoot: fixture.ipcSocketParentRoot,
+    verificationTimeoutMs: KICAD_MCP_INSPECTION_VERIFICATION_TIMEOUT_MS,
+    kicadCli: fixture.kicadCliInput,
+    protectedRoots: [fixture.workspace],
+    processTreeSupervision: {
+      strategy: KICAD_MCP_WINDOWS_PROCESS_TREE_STRATEGY,
+      terminator: fixture.processTreeTerminatorInput,
+      timeoutMs: KICAD_MCP_WINDOWS_PROCESS_TREE_TERMINATION_TIMEOUT_MS,
+    },
+    environment: { SYSTEMROOT: fixture.systemRoot, WINDIR: fixture.systemRoot },
+    runtimeVerificationHooksForTesting: {
+      get deadlineMsForTesting() { return state.deadlineMs; },
+      operationForTesting: async (label, operation) => {
+        if (!state.armed) return await operation();
+        if (label === "KiCad MCP runtime file:open") {
+          state.opens += 1;
+          const handle = await operation() as FileHandle;
+          const record = { identity: "", closeCalls: 0, closeSettled: false };
+          handles.push(record);
+          state.activeHandles += 1;
+          state.peakHandles = Math.max(state.peakHandles, state.activeHandles);
+          const close = handle.close.bind(handle);
+          // Observe the actual descriptor cleanup: cancellation can skip the
+          // bounded :close hook after capture has already called handle.close().
+          handle.close = () => {
+            const firstClose = record.closeCalls === 0;
+            record.closeCalls += 1;
+            const closing = close();
+            if (firstClose) {
+              // Re-entrant stream closes may resolve before the first native
+              // close; only its original promise proves descriptor cleanup.
+              void closing.then(() => {
+                record.closeSettled = true;
+                state.activeHandles -= 1;
+              }, () => undefined);
+            }
+            return closing;
+          };
+          const metadata = await handle.stat({ bigint: true });
+          record.identity = `${metadata.dev}:${metadata.ino}`;
+          return handle;
+        }
+        if (label === "KiCad MCP runtime file:stream-read") {
+          const readIndex = state.reads++;
+          try {
+            await gates[readIndex]?.promise;
+            if (readIndex === 0 && state.firstReadError !== undefined) throw state.firstReadError;
+            const result = await operation();
+            state.completedReads += 1;
+            return result;
+          } finally {
+            state.settledReads += 1;
+          }
+        }
+        if (label === "KiCad MCP runtime file:close") state.closeHooks += 1;
+        return await operation();
+      },
+    },
+    connectSessionForTesting: async () => { state.launches += 1; throw new Error("must not launch"); },
+  });
+  return { fixture, bridge, state, handles, expectedIdentities, gates, releaseAll: () => gates.forEach((gate) => gate.release()) };
 }
 
 async function productionSizedProtectedRoots(workspace: string, count: number): Promise<string[]> {
@@ -893,6 +990,132 @@ describe("KiCad MCP subprocess session", () => {
     expect(await readdir(fixture.runtimeParentRoot)).toEqual([]);
     await bridge.releaseIpcSocket(ipcSocket, runBindingIdentity);
     expect(await readdir(fixture.ipcSocketParentRoot)).toEqual([]);
+  });
+
+  it("uses four global runtime file workers across sparse directories and reads each manifest file once", async () => {
+    const probe = await runtimeSchedulerFixture();
+    probe.state.armed = true;
+    const checking = probe.bridge.assertCurrent({ deadlineAtMs: performance.now() + 5_000 });
+    // Handle rejection immediately even if a broken scheduler never reaches the barrier.
+    const outcome = checking.then(() => ({ error: undefined }), (error: unknown) => ({ error }));
+    try {
+      expect(await waitForCondition(() => probe.state.reads === 4, 1_000)).toBe(true);
+      expect(probe.state.opens).toBe(4);
+      expect(probe.state.activeHandles).toBe(4);
+      expect(probe.state.completedReads).toBe(0);
+      // The old directory-at-a-time walk cannot fill this barrier: the root
+      // contains only two files. Releasing one worker must replenish globally.
+      probe.gates[0]!.release();
+      expect(await waitForCondition(() => probe.state.reads > 4, 1_000)).toBe(true);
+      expect(probe.state.peakHandles).toBe(4);
+      probe.releaseAll();
+      expect((await outcome).error).toBeUndefined();
+      const expectedCount = probe.fixture.expectedClosure.fileCount;
+      expect(probe.state.opens).toBe(expectedCount);
+      expect(probe.state.reads).toBe(expectedCount);
+      expect(probe.state.completedReads).toBe(expectedCount);
+      expect(probe.handles.map((handle) => handle.identity).sort()).toEqual(probe.expectedIdentities);
+      expect(probe.state.closeHooks).toBe(expectedCount);
+      // Node's stream teardown can re-enter handle.close(); each distinct
+      // opened descriptor must have a settled close, regardless of re-entry.
+      expect(probe.handles.every((handle) => handle.closeCalls >= 1 && handle.closeSettled)).toBe(true);
+      expect(probe.state.activeHandles).toBe(0);
+      expect(probe.state.peakHandles).toBe(4);
+      expect(probe.state.launches).toBe(0);
+    } finally {
+      probe.releaseAll();
+      await outcome;
+    }
+  });
+
+  it("cancels other global runtime workers on the first stream failure without admitting queued files", async () => {
+    const probe = await runtimeSchedulerFixture();
+    const firstError = new Error("first runtime stream failure");
+    probe.state.firstReadError = firstError;
+    probe.state.armed = true;
+    let settled = false;
+    let lateReadsSettled = false;
+    const checking = probe.bridge.assertCurrent({ deadlineAtMs: performance.now() + 5_000 });
+    const outcome = checking.then(() => ({ error: undefined }), (error: unknown) => ({ error }))
+      .finally(() => { settled = true; });
+    try {
+      expect(await waitForCondition(() => probe.state.reads === 4, 1_000)).toBe(true);
+      const failedAt = performance.now();
+      probe.gates[0]!.release();
+      expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+      expect((await outcome).error).toBe(firstError);
+      expect(performance.now() - failedAt).toBeLessThan(1_000);
+      // The other three hook gates remain held while actual handles close.
+      expect(await waitForCondition(() => probe.handles.every((handle) => handle.closeSettled), 500)).toBe(true);
+      expect(probe.state.settledReads).toBe(1);
+      expect(probe.state.opens).toBe(4);
+      expect(probe.state.reads).toBe(4);
+      expect(probe.handles).toHaveLength(4);
+      expect(probe.handles.every((handle) => handle.closeCalls >= 1)).toBe(true);
+      expect(probe.state.activeHandles).toBe(0);
+      await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+      expect(probe.state.launches).toBe(0);
+    } finally {
+      probe.releaseAll();
+      await outcome;
+      lateReadsSettled = await waitForCondition(() => probe.state.settledReads === probe.state.reads, 1_000);
+    }
+    expect(lateReadsSettled).toBe(true);
+    expect(probe.state.opens).toBe(4);
+    expect(probe.state.reads).toBe(4);
+    expect(probe.state.launches).toBe(0);
+  });
+
+  it.each(["external abort", "absolute deadline"] as const)("bounds four held global runtime streams on %s without admitting queued files", async (cancellation) => {
+    const probe = await runtimeSchedulerFixture();
+    const controller = new AbortController();
+    probe.state.armed = true;
+    probe.state.deadlineMs = cancellation === "absolute deadline" ? 500 : 5_000;
+    let settled = false;
+    let lateReadsSettled = false;
+    const started = performance.now();
+    const checking = probe.bridge.assertCurrent({ signal: controller.signal, deadlineAtMs: started + probe.state.deadlineMs });
+    const outcome = checking.then(() => ({ error: undefined }), (error: unknown) => ({ error }))
+      .finally(() => { settled = true; });
+    try {
+      expect(await waitForCondition(() => probe.state.reads === 4, 1_000)).toBe(true);
+      if (cancellation === "external abort") controller.abort();
+      expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+      expect((await outcome).error).toMatchObject({
+        name: "KicadMcpRuntimeVerificationDeadlineError",
+        reason: cancellation === "external abort" ? "aborted" : "deadline",
+      });
+      expect(performance.now() - started).toBeLessThan(1_500);
+      expect(await waitForCondition(() => probe.handles.every((handle) => handle.closeSettled), 500)).toBe(true);
+      expect(probe.handles).toHaveLength(4);
+      expect(probe.state.opens).toBe(4);
+      expect(probe.state.reads).toBe(4);
+      expect(probe.state.settledReads).toBe(0);
+      expect(probe.state.activeHandles).toBe(0);
+      await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+      expect(probe.state.launches).toBe(0);
+    } finally {
+      probe.releaseAll();
+      await outcome;
+      lateReadsSettled = await waitForCondition(() => probe.state.settledReads === probe.state.reads, 1_000);
+    }
+    expect(lateReadsSettled).toBe(true);
+    expect(probe.state.opens).toBe(4);
+    expect(probe.state.reads).toBe(4);
+    expect(probe.state.launches).toBe(0);
+  });
+
+  it("rejects a same-size scattered runtime file change against the actual manifest hash", async () => {
+    const probe = await runtimeSchedulerFixture();
+    const changedFile = probe.fixture.additionalFiles.at(-1)!;
+    const before = await readFile(changedFile);
+    const changed = Buffer.from(before);
+    changed[0] = changed[0]! ^ 1;
+    await writeFile(changedFile, changed);
+    expect((await lstat(changedFile)).size).toBe(before.length);
+    await expect(probe.bridge.assertCurrent()).rejects.toThrow(/runtime file.*manifest/iu);
+    await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+    expect(probe.state.launches).toBe(0);
   });
 
   it.each([9, 32])("bounds shared abort listeners with %i protected roots and still detects directory replacement", async (rootCount) => {
@@ -2927,6 +3150,106 @@ describe("KiCad MCP subprocess session", () => {
     } finally {
       await session.close();
     }
+  });
+
+  it("admits the captured qualified footprint sync descriptor and dispatches its exact arguments", async () => {
+    // Captured with the actual FastMCP registration and Node MCP client decoder;
+    // the fixture preserves the complete Tool descriptor, including description whitespace.
+    expect(createHash("sha256").update(canonicalJson(qualifiedFootprintSyncTool), "utf8").digest("hex"))
+      .toBe("4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3");
+    const { workspace, project, canonical } = await roots();
+    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintSyncTool });
+    const session = await KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, mode: "write",
+      isolatedWorkingCopy: { canonicalProjectRoot: canonical }, command: fixture.command,
+      requiredTools: [qualifiedFootprintSyncTool.name],
+    });
+    const args = { auto_place: false, replace_mismatched: true };
+    try {
+      expect(session.supportsQualifiedFootprintIdentitySync()).toBe(true);
+      await expect(session.callTool(qualifiedFootprintSyncTool.name, args)).resolves.toEqual({
+        content: [{ type: "text", text: JSON.stringify({ schemaVersion: "evleda.kicad-mcp-result.v1", category: "validated_structured_evidence" }) }],
+        structuredContent: { result: "fake qualified footprint sync accepted" },
+      });
+      expect((await readFile(fixture.callsPath, "utf8")).trim().split("\n").map(line => JSON.parse(line)))
+        .toEqual([{ name: qualifiedFootprintSyncTool.name, arguments: args }]);
+      expect(session.supportsQualifiedFootprintIdentitySync()).toBe(true);
+    } finally { await session.close(); }
+    expect(session.supportsQualifiedFootprintIdentitySync()).toBe(false);
+  });
+
+  it.each([
+    ["marker version", { _meta: { evledaQualifiedFootprintIdentitySync: "evleda.kicad-qualified-footprint-identity-sync.v0" } }],
+    ["extra metadata", { _meta: { ...qualifiedFootprintSyncTool._meta, extra: true } }],
+    ["input schema", { inputSchema: { ...qualifiedFootprintSyncTool.inputSchema, additionalProperties: false } }],
+    ["output schema", { outputSchema: { ...qualifiedFootprintSyncTool.outputSchema, additionalProperties: false } }],
+    ["idempotent annotation", { annotations: { idempotentHint: true } }],
+    ["extra read-only annotation", { annotations: { ...qualifiedFootprintSyncTool.annotations, readOnlyHint: false } }],
+    ["description", { description: "changed qualified footprint sync description" }],
+    ["description trailing newline", { description: `${qualifiedFootprintSyncTool.description}\n` }],
+  ] as const)("rejects qualified footprint sync %s tampering before any tool dispatch", async (_label, override) => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { syncTool: { ...qualifiedFootprintSyncTool, ...override } });
+    for (const mode of ["readonly", "write"] as const) {
+      await expect(KicadMcpSession.connect({
+        workspaceRoot: workspace, projectRoot: project, mode,
+        ...(mode === "write" ? { freshProject: true } : {}), command: fixture.command,
+      })).rejects.toThrow(/footprint identity sync claims a mismatched qualified tool contract/iu);
+      await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
+    }
+  });
+
+  it.each(["readonly", "write"] as const)("keeps an unmarked old runtime readable in %s mode while footprint sync remains unsupported", async (mode) => {
+    const { workspace, project } = await roots();
+    const { _meta: _qualification, ...unqualifiedTool } = qualifiedFootprintSyncTool;
+    const fixture = await livePcbFixture(project, [], { syncTool: unqualifiedTool });
+    const session = await KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, mode, command: fixture.command,
+      ...(mode === "write" ? { freshProject: true, requiredTools: [qualifiedFootprintSyncTool.name] } : {}),
+    });
+    try {
+      expect(session.supportsQualifiedFootprintIdentitySync()).toBe(false);
+      await expect(session.callTool(qualifiedFootprintSyncTool.name, { replace_mismatched: true })).rejects.toThrow(
+        mode === "write" ? /requires the qualified full-footprint-library-identity writer/iu : /not allowed in readonly mode/iu,
+      );
+      await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
+      await expect(session.callTool("pcb_get_board_as_string")).resolves.toMatchObject({
+        structuredContent: { result: "configured board source is not live authority" },
+      });
+      expect((await readFile(fixture.callsPath, "utf8")).trim().split("\n").map(line => JSON.parse(line)))
+        .toEqual([{ name: "pcb_get_board_as_string", arguments: {} }]);
+      expect(session.supportsQualifiedFootprintIdentitySync()).toBe(false);
+    } finally { await session.close(); }
+  });
+
+  it("keeps the qualified footprint sync writer behind readonly and deferred project-binding gates", async () => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintSyncTool });
+    await expect(KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, command: fixture.command,
+      requiredTools: [qualifiedFootprintSyncTool.name],
+    })).rejects.toThrow(/capability\/allowlist mismatch/iu);
+    await expect(KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, command: fixture.command,
+      readToolAllowlist: [qualifiedFootprintSyncTool.name],
+    })).rejects.toThrow(/cannot add unreviewed tool/iu);
+    const readonly = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, command: fixture.command });
+    try {
+      expect(readonly.supportsQualifiedFootprintIdentitySync()).toBe(false);
+      await expect(readonly.callTool(qualifiedFootprintSyncTool.name)).rejects.toThrow(/not allowed in readonly mode/iu);
+    } finally { await readonly.close(); }
+    const launchCwd = await mkdtemp(path.join(suiteRoot, "evleda-sync-deferred-"));
+    ownedWorkspaces.add(launchCwd);
+    const unbound = await KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, mode: "write", freshProject: true,
+      launchCwd, deferProjectBinding: true, command: fixture.command,
+      requiredTools: [qualifiedFootprintSyncTool.name],
+    });
+    try {
+      expect(unbound.supportsQualifiedFootprintIdentitySync()).toBe(false);
+      await expect(unbound.callTool(qualifiedFootprintSyncTool.name)).rejects.toThrow(/must be host-bound before tool calls/iu);
+    } finally { await unbound.close(); }
+    await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
   });
 
   it("reserves profile, mode, and project selection for the controller", async () => {

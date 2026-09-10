@@ -100,6 +100,7 @@ async function fixture(source:string,options:Options={},physical?:Awaited<Return
   const calls:string[]=[];
   const session:KicadHarnessSession={
     supportsNativeRouteTransactions:()=>true,
+    supportsQualifiedFootprintIdentitySync:()=>true,
     listTools:()=>KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES.filter(name=>!name.startsWith('evleda_get_live')).map(name=>({name,permission:'write' as const,inputSchema:{type:'object',additionalProperties:true}})),
     assertActivePcb:async expected=>{if(expected!==project.pcbPath)throw new Error('wrong active path');},
     readActivePcbSource:async()=>live,
@@ -155,7 +156,9 @@ describe('qualified physical PCB authoring and mandatory save',()=>{
     expect(result.upstreamMetrics.noNetPads).toBe(11);expect(result).not.toHaveProperty('padCount');
     const reads=current.nativeReads();expect((await current.bridge.internal.saveAfterMutation(saveCall)).isError).not.toBe(true);
     expect(current.nativeReads()).toBe(reads+1);expect(current.netlistReads()).toBe(3);
-    expect(parseFreshPcbSource(await readFile(current.project.pcbPath,'utf8')).footprints.flatMap(fp=>fp.pads)).toHaveLength(result.physicalPadCount);
+    const saved=parseFreshPcbSource(await readFile(current.project.pcbPath,'utf8'));
+    expect(saved.footprints.flatMap(fp=>fp.pads)).toHaveLength(result.physicalPadCount);
+    expect(Object.fromEntries(saved.footprints.map(fp=>[fp.reference,fp.libraryId]))).toEqual(Object.fromEntries(current.bundle.contract.components.map(component=>[component.reference,component.footprintLibId])));
   });
   it('keeps legacy DEGRADED rejection and exact rollback unchanged',async()=>{
     const current=await fixture(routeSource(),{legacy:true});

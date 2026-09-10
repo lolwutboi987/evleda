@@ -18,6 +18,7 @@ import { bindKicadStartupEvidence, captureKicadStartupFailure, withKicadStartupC
 import { createToolboxPracticeAnalyzer } from "./toolbox-practices.js";
 import type { ToolboxPreview } from "./toolbox-preview.js";
 import type { KicadStackupReadResult } from "../integrations/kicad-stackup.js";
+import type { ToolboxSavedMicrostrip } from "./toolbox-saved-microstrip.js";
 import type { ToolboxReferenceCoverage } from "./toolbox-reference-coverage.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import type { ToolboxEndpointConnectivityResult } from "./toolbox-endpoint-connectivity.js";
@@ -39,6 +40,8 @@ export interface ConnectedKicadToolbox {
   analyzePractices?: () => Promise<unknown>;
   renderPreview?: ToolboxPreview;
   readStackup?: () => Promise<KicadStackupReadResult>;
+  /** Exact saved-route assessment; optional calculator is supplied only by the owning host. */
+  checkMicrostripRoute?: ToolboxSavedMicrostrip;
   checkReferenceCoverage?: ToolboxReferenceCoverage;
   /** Saved-state V2 native copper reachability; not whole-board electrical acceptance. */
   checkEndpointConnectivity?: () => Promise<ToolboxEndpointConnectivityResult>;

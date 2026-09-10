@@ -33,7 +33,8 @@ async function fixture() {
   const order: string[] = [];
   let finish!: () => void;
   const exited = new Promise<{ code: number; signal: null }>(resolve => { finish = () => resolve({ code: 0, signal: null }); });
-  const launcher = vi.fn().mockResolvedValue({ pid: 9876, exited });
+  const waitUntilReady = vi.fn().mockResolvedValue(undefined);
+  const launcher = vi.fn().mockResolvedValue({ pid: 9876, exited, waitUntilReady });
   const terminate = vi.fn().mockImplementation(async (_pid: number, _binding: unknown, observed: () => boolean) => {
     expect(observed()).toBe(false); order.push("terminate"); finish(); await exited; return true;
   });
@@ -62,10 +63,41 @@ async function fixture() {
   const input = { runtime, suite: {}, prepared: { sourceProjectPath: sourceRoot, isolatedProjectPath: projectRoot,
     outputPath: outputRoot, reportPath: path.join(outputRoot, "report.json") }, pcbPath, termination: {}, environment: {} } as unknown as KicadToolboxNativeHostInput;
   const dependencies = { launcher, terminate };
-  return { input, dependencies, runtime, connected, order, finish, disposeUnused, socket, locks };
+  return { input, dependencies, runtime, connected, order, finish, disposeUnused, socket, locks, waitUntilReady };
 }
 
 describe("native toolbox host composition", () => {
+  it("awaits captured editor readiness before allocating or connecting MCP authority", async () => {
+    const f = await fixture(); let ready!: () => void;
+    f.waitUntilReady.mockImplementation(() => new Promise<void>(resolve => { ready = resolve; }));
+    const opening = openKicadToolboxNativeHost(f.input, f.dependencies);
+    await vi.waitFor(() => expect(f.waitUntilReady).toHaveBeenCalledOnce());
+    expect(f.dependencies.launcher).toHaveBeenCalledOnce(); expect(f.runtime.bindSession).not.toHaveBeenCalled(); expect(seams.open).not.toHaveBeenCalled();
+    ready(); const host = await opening;
+    expect(f.runtime.bindSession).toHaveBeenCalledOnce(); expect(seams.open).toHaveBeenCalledOnce(); await host.close();
+  });
+  it("preserves readiness failure evidence and closes only the captured owner without connecting MCP", async () => {
+    const f = await fixture();
+    const details = { code: "DEADLINE" as const, stage: "version" as const, attempts: 3, elapsedMs: 30000, nativeCode: 4,
+      firstFailure: { code: "NOT_READY" as const, stage: "version" as const, attempt: 1, nativeCode: 4 } };
+    f.waitUntilReady.mockRejectedValue(bindKicadStartupEvidence(new Error("private readiness error"), {
+      failure: { stage: "editor-readiness", cause: { category: "native-error", code: 4, editorReadiness: details }, stderr: null }, cleanup: [] }));
+    const launched = await f.dependencies.launcher({ executablePath: "host-owned", boardPath: f.input.pcbPath, environment: {} });
+    const requestClose = vi.fn(async () => { f.finish(); });
+    f.dependencies.launcher.mockResolvedValue({ ...launched, requestClose, detach: vi.fn() });
+    const error = await openKicadToolboxNativeHost(f.input, f.dependencies).catch(value => value);
+    expect(error.cause.failure).toMatchObject({ stage: "editor-readiness", cause: { code: 4, editorReadiness: details } });
+    expect(f.runtime.bindSession).not.toHaveBeenCalled(); expect(seams.open).not.toHaveBeenCalled(); expect(requestClose).toHaveBeenCalledOnce();
+    expect(f.dependencies.terminate).not.toHaveBeenCalled(); expect(f.runtime.releaseIpcSocket).toHaveBeenCalledOnce();
+  });
+  it("refuses launchers without an explicit owned readiness witness", async () => {
+    const f = await fixture();
+    const launched = await f.dependencies.launcher({ executablePath: "host-owned", boardPath: f.input.pcbPath, environment: {} });
+    f.dependencies.launcher.mockResolvedValue({ ...launched, waitUntilReady: undefined });
+    const error = await openKicadToolboxNativeHost(f.input, f.dependencies).catch(value => value);
+    expect(error.cause.failure.stage).toBe("editor-readiness");
+    expect(f.runtime.bindSession).not.toHaveBeenCalled(); expect(seams.open).not.toHaveBeenCalled();
+  });
   it("writes the first startup cause before cleanup and retains it when cleanup fails", async () => {
     const f = await fixture();
     const primary = captureKicadStartupFailure(Object.assign(new Error("sk-primary-token"), { code: "ECONNREFUSED" }), "mcp-handshake", { category: "present", truncated: false, seenBytes: 149 });

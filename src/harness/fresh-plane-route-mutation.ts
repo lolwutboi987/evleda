@@ -3,6 +3,7 @@ import type { PcbPlaneDesignContract } from "./pcb-design-plane-contract.js";
 import type { FreshContractPadPosition, FreshRouteSelectionItem } from "./kicad-tools.js";
 import { parseFreshPcbRouteSourceSpans } from "./fresh-kicad-parser.js";
 import { freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
+import { routeSourceMmToNativeNm } from "./fresh-route-native-units.js";
 
 export const FRESH_PLANE_ROUTE_SELECTION_SCHEMA_VERSION = "evleda.fresh-plane-route-selection.v1" as const;
 export const FRESH_PLANE_ROUTE_MUTATION_SCHEMA_VERSION = "evleda.fresh-plane-route-mutation-result.v1" as const;
@@ -56,6 +57,18 @@ const on = (p: Point, a: Point, b: Point) => Math.abs(orient(a, b, p)) <= EPS
   && p.xMm >= Math.min(a.xMm, b.xMm) - EPS && p.xMm <= Math.max(a.xMm, b.xMm) + EPS
   && p.yMm >= Math.min(a.yMm, b.yMm) - EPS && p.yMm <= Math.max(a.yMm, b.yMm) + EPS;
 const length = (t: Track) => Math.hypot(t.end.xMm - t.start.xMm, t.end.yMm - t.start.yMm);
+type NativePoint = Readonly<{ x: number; y: number }>;
+type NativeSegment = Readonly<{ start: NativePoint; end: NativePoint }>;
+const nativePoint = (point: Point): NativePoint => ({ x: routeSourceMmToNativeNm(point.xMm), y: routeSourceMmToNativeNm(point.yMm) });
+function hasPositiveCollinearOverlap(a: NativeSegment, b: NativeSegment): boolean {
+  const collinear = (point: NativePoint) => BigInt(a.end.x - a.start.x) * BigInt(point.y - a.start.y)
+    === BigInt(a.end.y - a.start.y) * BigInt(point.x - a.start.x);
+  if (!collinear(b.start) || !collinear(b.end)) return false;
+  const axis = a.start.x !== a.end.x ? "x" : "y";
+  const intersectionStart = Math.max(Math.min(a.start[axis], a.end[axis]), Math.min(b.start[axis], b.end[axis]));
+  const intersectionEnd = Math.min(Math.max(a.start[axis], a.end[axis]), Math.max(b.start[axis], b.end[axis]));
+  return intersectionStart < intersectionEnd;
+}
 
 export function planeRouteBinding(contract: PcbPlaneDesignContract, netName: string) {
   const net = contract.nets.find(value => value.name === netName);
@@ -122,14 +135,16 @@ export function assertPlaneIncrementalRouteGeometry(contract: PcbPlaneDesignCont
         && (physical.drill.offsetMm === null || physical.drill.offsetMm.x === 0 && physical.drill.offsetMm.y === 0);
     });
   if (access.routeLength.mode === "bounded" && tracks.reduce((sum, t) => sum + length(t), 0) > access.routeLength.maximumMm + EPS) throw new Error("Plane incremental route exceeds its maximum routed length.");
+  // Source/readback coordinates must already be exact native nm. Never round
+  // them into collinearity or let a pad/via point exempt an overlap interval.
+  const nativeSegments = tracks.map(t => ({ start: nativePoint(t.start), end: nativePoint(t.end) }));
   for (let i = 0; i < tracks.length; i++) for (let j = i + 1; j < tracks.length; j++) {
     const a = tracks[i]!, b = tracks[j]!;
     if (a.layer !== b.layer) continue;
     const shared = [a.start, a.end].some(p => equal(p, b.start) || equal(p, b.end));
     const o1 = orient(a.start, a.end, b.start), o2 = orient(a.start, a.end, b.end), o3 = orient(b.start, b.end, a.start), o4 = orient(b.start, b.end, a.end);
     const proper = o1 * o2 < -EPS * EPS && o3 * o4 < -EPS * EPS;
-    const overlap = Math.abs(o1) <= EPS && Math.abs(o2) <= EPS
-      && [b.start, b.end].filter(p => on(p, a.start, a.end)).length + [a.start, a.end].filter(p => on(p, b.start, b.end)).length > 2;
+    const overlap = hasPositiveCollinearOverlap(nativeSegments[i]!, nativeSegments[j]!);
     const interiorContacts = [...[b.start, b.end].filter(p => on(p, a.start, a.end)), ...[a.start, a.end].filter(p => on(p, b.start, b.end))];
     if (proper || overlap || !shared && interiorContacts.some(p => !contact(p, a.layer))) {
       throw new Error("Plane incremental route contains a self-intersection, overlap, or backtracking segment.");

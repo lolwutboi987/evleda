@@ -239,7 +239,7 @@ describe("current-session saved plane evidence and acceptance read guards", () =
     expect(f.calls.filter(name => name === "pcb_save")).toHaveLength(1); expect(f.calls).not.toContain("pcb_revert");
   });
 
-  it.each(["source", "live", "settings", "rules", "marker"] as const)("rejects %s changed by the assessor before publishing its result", async kind => {
+  it.each(["source", "live", "settings", "rules", "marker", "schematic", "symbols", "footprints", "added-source"] as const)("rejects %s changed by the assessor before publishing its result", async kind => {
     const f = await fixture(); await applyAndSave(f);
     f.setAssessmentHook(async input => {
       expect(isSavedFreshPlaneEvidence(input.savedEvidence)).toBe(true);
@@ -248,8 +248,14 @@ describe("current-session saved plane evidence and acceptance read guards", () =
       if (kind === "settings") await writeFile(f.settingsPath, `${input.projectSettingsSource}\n`, "utf8");
       if (kind === "rules") await writeFile(f.project.rulesPath, `${input.rulesSource}\n`, "utf8");
       if (kind === "marker") await writeFile(f.project.markerPath, `${await readFile(f.project.markerPath, "utf8")}\n`, "utf8");
+      if (kind === "schematic") await writeFile(f.project.schematicPath, `${await readFile(f.project.schematicPath, "utf8")}\n`, "utf8");
+      if (kind === "symbols" || kind === "footprints") {
+        const table = path.join(f.project.projectPath, kind === "symbols" ? "sym-lib-table" : "fp-lib-table");
+        await writeFile(table, `${await readFile(table, "utf8")}\n`, "utf8");
+      }
+      if (kind === "added-source") await writeFile(path.join(f.project.projectPath, "extra.kicad_sch"), "(kicad_sch)\n", "utf8");
     });
-    await expect(f.tools.assessPlaneAcceptance!()).rejects.toThrow(/changed|source|marker|rules|identity/i);
+    await expect(f.tools.assessPlaneAcceptance!()).rejects.toThrow(/changed|source|marker|rules|identit|library/i);
     expect(f.assessments).toHaveLength(1); expect(f.calls).toContain("assess-end");
     expect(f.calls.filter(name => name === "pcb_save")).toHaveLength(1); expect(f.calls).not.toContain("pcb_revert");
   });

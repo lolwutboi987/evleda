@@ -5,6 +5,8 @@ param(
 )
 $ErrorActionPreference='Stop'
 $compilerPath=(Resolve-Path -LiteralPath $Compiler).Path
+$wrapper=Get-Content (Join-Path $PSScriptRoot 'wrapper-provenance.json') -Raw | ConvertFrom-Json
+if((Get-FileHash (Join-Path $PSScriptRoot 'main.cpp') -Algorithm SHA256).Hash -ne $wrapper.wrapperSha256){throw 'Wrapper source hash mismatch'}
 $manifest=Get-Content (Join-Path $PSScriptRoot 'source-hashes.json') -Raw | ConvertFrom-Json
 foreach($entry in $manifest){
  $actual=(Get-FileHash (Join-Path $PSScriptRoot $entry.path) -Algorithm SHA256).Hash

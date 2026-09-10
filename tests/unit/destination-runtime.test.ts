@@ -1,7 +1,32 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { EventEmitter } from "node:events";
+import { mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
-import { assertDoc5Relocation, pyvenvText, readDoc5Source, resolveRuntimeCheckPaths, sha256 } from "../../scripts/verify-kicad-inspection-runtime.mjs";
+import { assertDoc5Relocation, pyvenvText, readDoc5Source, resolveRuntimeCheckPaths, sha256, verifyRuntime } from "../../scripts/verify-kicad-inspection-runtime.mjs";
 import type { Doc5Manifest } from "../../scripts/verify-kicad-inspection-runtime.mjs";
+
+// Unit tests exercise publication/delta policy. A separate real helper invocation
+// verifies the installed closure; these tests never alter published source files.
+const control = vi.hoisted(() => ({ tamper: "", helperExitCode: 0, spawn: vi.fn() }));
+vi.mock("node:child_process", () => ({ spawn: control.spawn }));
+vi.mock("node:fs/promises", async importOriginal => {
+  const actual = await importOriginal<typeof import("node:fs/promises")>();
+  return { ...actual, readFile: async (...args: Parameters<typeof actual.readFile>) => {
+    const bytes = await actual.readFile(...args);
+    return control.tamper !== "" && String(args[0]).replaceAll("\\", "/").endsWith(control.tamper)
+      ? Buffer.from("modified publication bytes") : bytes;
+  } };
+});
+const temporaryRoots: string[] = [];
+afterEach(async () => {
+  control.tamper = ""; control.helperExitCode = 0; control.spawn.mockReset();
+  for (const root of temporaryRoots.splice(0)) {
+    const target = await realpath(root), parent = await realpath(tmpdir());
+    if (path.dirname(target) !== parent || !path.basename(target).startsWith("evleda-runtime-policy-")) throw new Error("Runtime policy test cleanup escaped its owned temporary root");
+    await rm(target, { recursive: true, force: true });
+  }
+});
 
 describe("destination DOC5 runtime verification", () => {
   let original: Doc5Manifest;
@@ -55,5 +80,69 @@ describe("destination DOC5 runtime verification", () => {
     expect(() => assertDoc5Relocation(original, value, root)).toThrow(/protocol differs/);
     const python = relocated(); python.python.version = "3.14";
     expect(() => assertDoc5Relocation(original, python, root)).toThrow(/python differs/);
+  });
+});
+
+describe("published DOC6 runtime verification", () => {
+  let original: Doc5Manifest;
+  const pcbPath = "environment/Lib/site-packages/kicad_mcp/tools/pcb.py";
+  beforeAll(async () => { original = await readDoc5Source(); });
+  async function fixture(doc6 = true) {
+    const directory = await mkdtemp(path.join(tmpdir(), "evleda-runtime-policy-")); temporaryRoots.push(directory);
+    const root = path.join(directory, "runtime"), manifest = path.join(directory, "manifest.json");
+    const candidate = structuredClone(original);
+    const cfg = candidate.files.find(file => file.path === "environment/pyvenv.cfg")!, cfgBytes = Buffer.from(pyvenvText(root));
+    candidate.totalBytes += cfgBytes.length - cfg.sizeBytes;
+    Object.assign(cfg, { sha256: sha256(cfgBytes), sizeBytes: cfgBytes.length });
+    if (doc6) {
+      const pcb = candidate.files.find(file => file.path === pcbPath)!;
+      candidate.totalBytes += 187502 - pcb.sizeBytes;
+      Object.assign(pcb, { sha256: "cebed5c9e87abd799c4c6baab9ddb60224c9dface1e0e44b0eea91f56fb6a2e0", sizeBytes: 187502 });
+    }
+    control.spawn.mockImplementation(() => {
+      const child = Object.assign(new EventEmitter(), { stdout: new EventEmitter(), stderr: new EventEmitter() });
+      queueMicrotask(() => {
+        if (control.helperExitCode === 0) child.stdout.emit("data", JSON.stringify({ fileCount: candidate.files.length, totalBytes: candidate.totalBytes }));
+        else child.stderr.emit("data", "Runtime tree does not reproduce the pinned manifest");
+        child.emit("close", control.helperExitCode);
+      });
+      return child;
+    });
+    await writeFile(manifest, JSON.stringify(candidate));
+    return { root, manifest, candidate, save: () => writeFile(manifest, JSON.stringify(candidate)) };
+  }
+  it("authenticates the DOC6 source/patch publication and reports only its two allowed changes", async () => {
+    const f = await fixture();
+    await expect(verifyRuntime(f)).resolves.toMatchObject({ generation: "DOC6", doc5SourcePinsVerified: true, doc6SourcePinsVerified: true,
+      doc6ProvenanceSha256: "fc41d63217b04bcd2bd70bf3b6311abe3970bcc331629ea6c0f5f1983a9f585d",
+      allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only", `${pcbPath}: published DOC6 qualified-footprint-identity overlay only`] });
+    expect(control.spawn).toHaveBeenCalledOnce();
+    expect(control.spawn.mock.calls[0]![1]).toEqual([expect.stringContaining("build-kicad-inspection-runtime-manifest.mjs"), "verify", f.root, f.manifest, f.root]);
+  });
+  it("keeps DOC5 generation and default policy unchanged", async () => {
+    const f = await fixture(false);
+    await expect(verifyRuntime(f)).resolves.toMatchObject({ generation: "DOC5", doc5SourcePinsVerified: true, allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only"] });
+  });
+  it.each(["provenance.json", "kicad_mcp/tools/pcb.py", "qualified-footprint-identity-sync.patch"])("rejects DOC6 publication drift in %s before tree verification", async leaf => {
+    const f = await fixture(); control.tamper = `sidecars/patches/doc6/${leaf}`;
+    await expect(verifyRuntime(f)).rejects.toThrow(/DOC6.*published pin/);
+    expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it.each(["extra-edit", "unknown-pcb", "protocol", "directory", "python-home"])("rejects an additional DOC6 %s change even with new manifest identities", async kind => {
+    const f = await fixture();
+    if (kind === "extra-edit") f.candidate.files.find(file => file.path.endsWith("pcb/transaction_lifecycle.py"))!.sha256 = "a".repeat(64);
+    if (kind === "unknown-pcb") f.candidate.files.find(file => file.path === pcbPath)!.sha256 = "b".repeat(64);
+    if (kind === "protocol") f.candidate.protocol.serverVersion = "changed";
+    if (kind === "directory") f.candidate.directories[0]!.mode = 0;
+    if (kind === "python-home") f.candidate.files.find(file => file.path === "environment/pyvenv.cfg")!.sha256 = "c".repeat(64);
+    f.candidate.treeIdentity.digest = "d".repeat(64); await f.save();
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime/);
+    expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("requires the full existing closure verifier to pass after publication checks", async () => {
+    const f = await fixture(); control.helperExitCode = 1;
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+    expect(control.spawn).toHaveBeenCalledOnce();
+    expect(JSON.parse(await readFile(f.manifest, "utf8"))).toEqual(f.candidate);
   });
 });

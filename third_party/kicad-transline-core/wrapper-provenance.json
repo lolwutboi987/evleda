@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "protocolVersion": 3,
+  "implementationRevision": "evleda-uncovered-microstrip-v1",
+  "sourceCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+  "wrapper": "main.cpp",
+  "wrapperSha256": "9C4BD1A216C26FBBB96A8D4554287F44F9405438093A9A2A4A0D5570EC5B3E5D",
+  "retainedCalculationPatches": "patches.json",
+  "change": {
+    "id": "explicit-uncovered-single-microstrip",
+    "externalInput": "H_T=absent",
+    "supportedModel": "microstrip",
+    "inputEcho": { "value": "absent", "unit": "1" },
+    "internalParameter": "H_T = positive infinity, only for the explicit absent token",
+    "sourceLocation": "upstream/transline_calculations/microstrip.cpp:216-219,304-343",
+    "limit": "tanh(1.043 + 0.121*r - 1.164/r) tends to 1 as r=H_T/H tends to positive infinity",
+    "upstreamSourcesChanged": false,
+    "finiteCoverExpressionsChanged": false,
+    "coupledAbsentCoverSupported": false,
+    "scope": "Explicit uncovered topology for the existing uniform single-microstrip model; no new field solver, solder-mask model or board-impedance qualification"
+  }
+}

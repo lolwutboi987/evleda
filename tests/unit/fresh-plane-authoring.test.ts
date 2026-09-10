@@ -44,6 +44,7 @@ async function fixture(options:{initial?:string;physicalSource?:string;routeRead
   const nativeCoordinate=(value:unknown,deltaNm=0)=>(Math.trunc(Number(value)*1e6)+deltaNm)/1e6;
   const session:KicadHarnessSession={
     supportsNativeRouteTransactions:()=>true,
+    supportsQualifiedFootprintIdentitySync:()=>true,
     listTools:()=>KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES.map(name=>({name,permission:'write' as const,description:name,inputSchema:{type:'object',additionalProperties:true}})),
     assertActivePcb:async expected=>{if(expected!==project.pcbPath)throw new Error('wrong PCB');},readActivePcbSource:async()=>live,
     readLivePcbPadSnapshot:async ids=>{
@@ -344,6 +345,30 @@ describe('true plane-project authoring seam',()=>{
     expect(read.pads.filter((pad:any)=>pad.net==='GND')).toHaveLength(2);expect(f.physicalReads()).toBe(3);
     expect(f.bundle.contract.routingConstraints.nets.find(route=>route.net==='GND')!.topology).toBe('plane');
     expect(f.calls).not.toContain('pcb_add_zone');expect(f.calls).not.toContain('pcb_add_track');
+  });
+  it.each(['sync','save'] as const)('restores the exact plane preimage when the qualified writer drops a footprint nickname during %s',async phase=>{
+    const f=await fixture(),base=f.session.callTool;
+    f.session.callTool=async(name,args)=>{
+      const result=await base(name,args);
+      if(name===(phase==='sync'?'pcb_sync_from_schematic':'pcb_save')){
+        const changed=(await readFile(f.project.pcbPath,'utf8')).replace('(footprint "Resistor_SMD:R_0603_1608Metric"','(footprint "R_0603_1608Metric"');
+        await f.replaceOwnedSource(changed);
+      }
+      return result;
+    };
+    const call={id:'qualified-plane-sync',name:'fresh_sync_from_schematic' as const,arguments:{}};
+    if(phase==='sync'){
+      await expect(f.bridge.execute(call)).rejects.toThrow(/FRESH_SYNC_ROLLED_BACK_TERMINAL: Synced PCB footprint library IDs do not exactly match the complete qualified schematic assignments/);
+      expect(f.calls).toEqual(['pcb_sync_from_schematic','pcb_revert']);
+      expect(f.physicalReads()).toBe(0);
+    }else{
+      expect(JSON.parse((await f.bridge.execute(call)).content)).toMatchObject({applied:true,mutated:true});
+      expect(await f.bridge.internal.saveAfterMutation({id:'bare-plane-save',name:'pcb_save',arguments:{}})).toMatchObject({isError:true,content:expect.stringContaining('complete qualified schematic assignments')});
+      expect(f.calls).toEqual(['pcb_sync_from_schematic','pcb_save','pcb_revert']);
+      expect(f.physicalReads()).toBe(1);
+    }
+    expect(await readFile(f.project.pcbPath,'utf8')).toBe(empty);
+    expect(await f.session.readActivePcbSource!(f.project.pcbPath)).toBe(empty);
   });
   it('rejects a native netlist which drops plane GND instead of treating it as a V1 trace omission',async()=>{
     const f=await fixture({omitGround:true});await expect(f.bridge.execute({id:'sync',name:'fresh_sync_from_schematic',arguments:{}})).rejects.toThrow(/native netlist differs/);

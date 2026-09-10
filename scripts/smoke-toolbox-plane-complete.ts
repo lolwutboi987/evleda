@@ -137,8 +137,11 @@ function withoutZones(source:string) {
 }
 
 const driverArguments=process.argv.slice(2),verifyPlaneAcceptance=driverArguments.includes("--verify-plane-acceptance");
+const verifyQualifiedFootprints=driverArguments.includes("--verify-qualified-footprints");
 assert.ok(driverArguments.filter(arg=>arg==="--verify-plane-acceptance").length<=1,"Duplicate driver qualification flag");
-const options = parseNativeToolboxArgs(driverArguments.filter(arg=>arg!=="--verify-plane-acceptance"));
+assert.ok(driverArguments.filter(arg=>arg==="--verify-qualified-footprints").length<=1,"Duplicate qualified-footprint flag");
+assert.ok(!verifyQualifiedFootprints||verifyPlaneAcceptance,"Qualified-footprint qualification includes the plane checks");
+const options = parseNativeToolboxArgs(driverArguments.filter(arg=>!["--verify-plane-acceptance","--verify-qualified-footprints"].includes(arg)));
 if (options?.fresh?.intentPath === undefined || options.resume || !options.edit) throw new Error("Use one NEW plane intent with --edit, not resume input.");
 const evidence = path.join(path.dirname(options.outputDir), verifyPlaneAcceptance?"evidence-plane-acceptance-01":"evidence-plane-complete-01");
 await mkdir(evidence);
@@ -157,7 +160,7 @@ const execFileAsync = promisify(execFile);
 const report: Record<string, any> = { schemaVersion: "evleda.toolbox-plane-complete-save-resume-smoke.v1", startedAt: new Date().toISOString(),
   hostPid: process.pid, commandArguments: process.argv.slice(2), scope: "Complete-all-nets V2 public-tool demonstration: routes, plane create/refill/save, observed endpoint connectivity, configured ERC/DRC/practices/previews and checkpoint/reopen. Not primary-project, manufacturing or HF approval.",
   noModel: true, planeCopperCreated: false, routingPerformed: false, minimumSpokesAcceptance: false, fullBoardFinishClaim: false,
-  planeAcceptanceQualification:verifyPlaneAcceptance, operations: [], phases: [] };
+  planeAcceptanceQualification:verifyPlaneAcceptance,qualifiedFootprintQualification:verifyQualifiedFootprints,operations: [], phases: [] };
 if(verifyPlaneAcceptance)report.scope="Qualify the integrated V2 plane evidence tool after native fill/save, after edit invalidation, and after read-only restart. Reuses the divider as a software fixture; overall acceptance, physical width, HF and fabrication remain unverified.";
 const json = async (file: string) => JSON.parse(await readFile(file, "utf8"));
 const identity = async (file: string) => contentIdentity(await readFile(file));
@@ -328,6 +331,7 @@ async function phase(label: "fresh" | "resume") {
     const savedPcbSource=await readFile(pcbPath,"utf8"),savedPcb=parseFreshPcbSource(savedPcbSource),geometry=parseFreshPcbReferenceGeometry(savedPcbSource);
     assert.equal(savedPcb.outlineSupported,true);assert.deepEqual(savedPcb.outlineBounds,{minX:0,minY:0,maxX:30,maxY:20});
     assert.equal(savedPcb.segments.length,8);assert.equal(savedPcb.vias.length,1);
+    if(verifyQualifiedFootprints)assert.ok(savedPcb.footprints.every(fp=>contract.components.some(component=>component.reference===fp.reference&&component.footprintLibId===fp.libraryId)),"Native saved footprint identities must include the exact library nickname");
     assert.deepEqual(savedPcb.segments.map(segment=>segment.netName).sort(),["GND","GND","VIN","VOUT","VOUT","VOUT","VOUT","VOUT"]);
     const actualGround=savedPcb.segments.filter(segment=>segment.netName==="GND").map(segment=>({x1Mm:segment.start.x,y1Mm:segment.start.y,x2Mm:segment.end.x,y2Mm:segment.end.y,layer:segment.layer}));
     outcome.savedGroundTurnDeg=assertGround45Turn(actualGround);
@@ -360,6 +364,13 @@ async function phase(label: "fresh" | "resume") {
         assert.equal(assessment.planes[0].minimumArea.status,"verified");
         assert.equal(assessment.planes[0].actualMinimumCopperWidth.status,"unknown");
         assert.equal(assessment.planes[0].actualThermalWidth.status,"unknown");
+        if(verifyQualifiedFootprints){
+          assert.deepEqual(assessment.nativeChecks.drc.schematicParity,[]);
+          assert.deepEqual(assessment.nativeChecks.drc.violations,[]);
+          assert.deepEqual(assessment.nativeChecks.drc.unconnectedItems,[]);
+          assert.equal(assessment.planes[0].thermalPolicy.status,"verified");
+          assert.equal(assessment.planes[0].drillTopology.status,"verified");
+        }
         assert.ok(assessment.mandatoryRowsRemaining.length>0);
       }else{
         assert.equal(assessment.savedEvidenceIdentity,null);

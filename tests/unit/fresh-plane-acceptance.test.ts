@@ -20,6 +20,10 @@ import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { nativePadObservationFixture } from "../helpers/native-pad-observation-fixture.js";
 import { planeStageObservationFixture } from "../helpers/plane-stage-observation-fixture.js";
 import { createPlaneContactsFixture } from "../helpers/kicad-plane-contacts-fixture.js";
+import { isFreshPlaneCommonChecksAssessment } from "../../src/harness/fresh-plane-common-checks.js";
+import { summarizePlaneAcceptance } from "../../src/mcp/toolbox-plane-acceptance.js";
+import { assessFreshPlaneNativeChecks, FRESH_PLANE_NATIVE_CHECK_PROFILE } from "../../src/harness/fresh-plane-native-checks.js";
+import type { KicadCheckResult, KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
 
 // Synthetic bounded-process ports run through the real pinned reader/factory.
 // No authenticity predicate is mocked, and no native executable is launched.
@@ -32,18 +36,42 @@ async function assessFreshPlaneAcceptance(input: FreshPlaneAcceptanceInput) {
 }
 type Raw = Record<string, any>;
 const U = (n: number) => `66666666-6666-4666-8666-${String(n).padStart(12, "0")}`;
-function board(options: { viaNet?: string; copperGraphic?: boolean } = {}) {
+type NmPoint = readonly [number, number];
+interface BoardOptions {
+  viaNet?: string;
+  copperGraphic?: boolean;
+  surfaceSignalPads?: boolean;
+  routeNm?: { start: NmPoint; end: NmPoint };
+  probeBoreNm?: NmPoint;
+  outline?: string;
+  routeWidthNm?: number;
+  viaDrillNm?: number;
+}
+const mm = (value: number) => {
+  const integer = BigInt(value), magnitude = integer < 0n ? -integer : integer;
+  return `${integer < 0n ? "-" : ""}${magnitude / 1_000_000n}.${String(magnitude % 1_000_000n).padStart(6, "0")}`;
+};
+function board(options: BoardOptions = {}) {
   const draft = planeDividerDraft();
+  const route: { start: NmPoint; end: NmPoint } = options.routeNm ?? { start: [3_000_000, 3_000_000], end: [8_000_000, 3_000_000] };
+  const origin = (index: number): NmPoint => index === 0 ? route.start : index === 1 ? route.end : [13_000_000, 3_000_000];
   return `(kicad_pcb (version 20260206) (generator "pcbnew") (generator_version "10.0")
     (general (thickness 1.6)) (layers (0 "F.Cu" signal) (2 "B.Cu" signal) (1 "F.Mask" user) (3 "B.Mask" user) (25 "Edge.Cuts" user))
-    ${draft.components.map((component, i) => `(footprint ${JSON.stringify(component.footprintLibId)} (uuid "${U(10 + i)}") (layer "F.Cu") (at ${3 + 5 * i} 3)
+    ${draft.components.map((component, i) => `(footprint ${JSON.stringify(component.footprintLibId)} (uuid "${U(10 + i)}") (layer "F.Cu") (at ${origin(i).map(mm).join(" ")})
       (property "Reference" ${JSON.stringify(component.reference)}) (property "Value" ${JSON.stringify(component.value)})
       ${options.copperGraphic && i === 0 ? `(fp_line (start 0 0) (end 1 1) (stroke (width 0.2) (type default)) (layer "F.Cu"))` : ""}
       ${component.pins.map((pin, j) => { const net = pin.assignment.kind === "net" ? pin.assignment.net : "";
-        return `(pad ${JSON.stringify(pin.pin)} thru_hole circle (uuid "${U(100 + i * 10 + j)}") (at 0 ${2 * j}) (size 1 1)
-          (drill 0.4) (layers "*.Cu" "F.Mask" "B.Mask") (net ${JSON.stringify(net)}))`; }).join("\n")})`).join("\n")}
-    (segment (start 3 3) (end 8 3) (width 0.5) (layer "F.Cu") (net "VIN") (uuid "${U(1)}"))
-    ${options.viaNet ? `(via (at 13 5) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "${options.viaNet}") (uuid "${U(2)}"))` : ""})\n`;
+        const surface = options.surfaceSignalPads && !(component.reference === "J1" && pin.pin === "3");
+        // Keep the one plated ground anchor at (3,7) mm while moving signal
+        // terminals with the exact test route; its bore cannot mask probe cases.
+        const at = options.routeNm && component.reference === "J1" && pin.pin === "3"
+          ? [mm(3_000_000 - origin(i)[0]), mm(7_000_000 - origin(i)[1])].join(" ") : `0 ${2 * j}`;
+        return `(pad ${JSON.stringify(pin.pin)} ${surface ? "smd rect" : "thru_hole circle"} (uuid "${U(100 + i * 10 + j)}") (at ${at}) (size 1 1)
+          ${surface ? `(layers "F.Cu")` : `(drill 0.4) (layers "*.Cu" "F.Mask" "B.Mask")`} (net ${JSON.stringify(net)}))`; }).join("\n")})`).join("\n")}
+    ${options.outline ?? `(gr_rect (start 0 0) (end 30 20) (stroke (width 0.05) (type default)) (fill none) (layer "Edge.Cuts") (uuid "${U(9)}"))`}
+    (segment (start ${route.start.map(mm).join(" ")}) (end ${route.end.map(mm).join(" ")}) (width ${mm(options.routeWidthNm ?? 500_000)}) (layer "F.Cu") (net "VIN") (uuid "${U(1)}"))
+    ${options.viaNet ? `(via (at 13 5) (size 0.6) (drill ${mm(options.viaDrillNm ?? 300_000)}) (layers "F.Cu" "B.Cu") (net "${options.viaNet}") (uuid "${U(2)}"))` : ""}
+    ${options.probeBoreNm ? `(via (at ${options.probeBoreNm.map(mm).join(" ")}) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${U(3)}"))` : ""})\n`;
 }
 function bundle(minimumAreaMm2 = 0) {
   const dependencies = { libraryResolver: genericDividerLibraryResolver, deepRuleCatalog: loadDeepRuleCatalog() };
@@ -52,7 +80,7 @@ function bundle(minimumAreaMm2 = 0) {
   if (compilation.disposition !== "ready") throw new Error(JSON.stringify(compilation.issues));
   return createPcbPlaneCompilationBundle({ compilation, originalPrompt: "Offline pure acceptance test fixture." }, dependencies);
 }
-async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?: number; disconnectedGround?: boolean; filledWidthMm?: number } = {}) {
+async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?: number; disconnectedGround?: boolean; filledWidthMm?: number; projectSettingsSource?: string } = {}) {
   const compilationBundle = bundle(options.minimumAreaMm2), before = board(options);
   const prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, operation: "create" });
   const stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
@@ -84,7 +112,7 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
     return { isError: false, structuredContent: payload, content: [{ type: "text", text: JSON.stringify(payload) }] };
   } }, endpointRequest.nativePadExpected);
   const endpointConnectivity = assessFreshPlaneConnectivity({ ...endpointInput, nativePads: captured });
-  const projectSettingsSource = "{}\n";
+  const projectSettingsSource = options.projectSettingsSource ?? "{}\n";
   // Rules are derived by the actual V2 preparation and remain exact bytes.
   const { createFreshPlaneRules } = await import("../../src/harness/fresh-plane-rules.js");
   const canonicalRules = createFreshPlaneRules(compilationBundle).source;
@@ -105,7 +133,7 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
       padConnection: 1, minimumThicknessNm: 500000,
       layers: [{ id: 2, name: "B.Cu", hasFilledPolys: true, fillFlag: 1, filledGeometrySha256: "0".repeat(64), filledSubpolygonCount: 1,
         subpolygons: [{ index: 0, sha256: "0".repeat(64), isIsland: false, outline: points(polygon.outline), holes: [] }] }],
-      directPads: allPads.filter(pad => pad.netName === "GND").map(contact), directTracks: [], directVias: [] }], allPads,
+      directPads: allPads.filter(pad => pad.netName === "GND" && pad.layers.some(layer => layer.name === "B.Cu")).map(contact), directTracks: [], directVias: [] }], allPads,
     allFootprints: parsed.footprints.map(fp => ({ uuid: fp.id!, reference: fp.reference, localZoneConnection: -1, resolvedZoneConnectionOverride: -1 })),
     allTracks: [...parsed.segments.map(track => ({ uuid: track.id, nativeClass: "PCB_TRACK", nativeType: 13, netCode: 1, netName: track.netName, layers: [{ id: 0, name: track.layer }] })),
       ...parsed.vias.map(via => ({ uuid: via.id, nativeClass: "PCB_VIA", nativeType: 14, netCode: 1, netName: via.netName, layers: via.layers.map((name, id) => ({ id, name })) }))],
@@ -123,6 +151,45 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
   });
   const input: FreshPlaneAcceptanceInput = { compilationBundle, pcbSource, projectSettingsSource, rulesSource: canonicalRules, savedEvidence, endpointConnectivity, nativeContacts: observation };
   return { input, report, stageFixture, endpointInput, collect: collectors.get(observation)! };
+}
+
+/** Complete synthetic CLI port result, validated by the actual branded native
+ * checks assessor. No native process or authentication predicate is replaced. */
+async function ercFixture(kind: "clean" | "violation" | "ignored" | "missing") {
+  const project = { board: { design_settings: { rule_severities: {
+    ...Object.fromEntries(FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredClearanceShortChecks.map(key => [key, "error"])), starved_thermal: "error" },
+    rules: { min_resolved_spokes: 2, max_error: 0.005 }, drc_exclusions: [] } },
+    erc: { rule_severities: { single_global_label: "error", footprint_filter: "error", simulation_model_issue: "error", four_way_junction: "error" } } };
+  if (kind === "ignored") project.erc.rule_severities.single_global_label = "ignore";
+  const f = await fixture({ surfaceSignalPads: true, projectSettingsSource: JSON.stringify(project) });
+  const projectRoot = "D:\\evleda-offline-pad-fixture", pcbPath = `${projectRoot}\\fixture.kicad_pcb`, schematicPath = `${projectRoot}\\fixture.kicad_sch`;
+  const executable: KicadExecutableIdentity = { kind: "kicad-cli", path: "C:\\offline-pinned\\kicad-cli.exe", version: "10.0.3",
+    commit: "146a4f2a7585c65bc580427a19b6fe2ec4a3f622", sha256: "1".repeat(64), sizeBytes: 1234,
+    capabilityHelpSha256: "2".repeat(64), confirmedCapabilities: ["pcb drc", "sch erc"] };
+  const sourceHashes = { "fixture.kicad_pcb": contentIdentity(f.input.pcbSource).digest, "fixture.kicad_pro": contentIdentity(f.input.projectSettingsSource).digest,
+    "fixture.kicad_dru": contentIdentity(f.input.rulesSource).digest, "fixture.kicad_sch": contentIdentity("synthetic schematic").digest,
+    "sym-lib-table": contentIdentity("synthetic symbol table").digest, "fp-lib-table": contentIdentity("synthetic footprint table").digest };
+  const invocation = (args: string[], exitCode = 0) => ({ executable, command: executable.path, cwd: projectRoot, exitCode,
+    stdout: "Synthetic completed native check", stderr: "", durationMs: 1, startedAt: "2026-09-10T00:00:00Z", args });
+  const drcPath = "D:\\offline-checks\\drc.json", ercPath = "D:\\offline-checks\\erc.json", count = kind === "violation" ? 1 : 0;
+  const native: Raw = { classification: "candidate-validation", releaseAuthorized: false, executable, sourceHashes, clean: count === 0,
+    drc: { kind: "drc", status: "clean", reportPath: drcPath, violationCount: 0, schematicParityCount: 0,
+      invocation: invocation(["pcb", "drc", "--output", drcPath, "--format", "json", "--units", "mm", "--severity-all", "--exit-code-violations", "--schematic-parity", pcbPath]),
+      report: { $schema: "https://schemas.kicad.org/drc.v1.json", coordinate_units: "mm", kicad_version: "10.0.3", source: "fixture.kicad_pcb",
+        included_severities: ["error", "warning", "exclusion"], ignored_checks: [], violations: [], unconnected_items: [], schematic_parity: [] } },
+    erc: { kind: "erc", status: count ? "violations" : "clean", reportPath: ercPath, violationCount: count, schematicParityCount: 0,
+      invocation: invocation(["sch", "erc", "--output", ercPath, "--format", "json", "--units", "mm", "--severity-all", "--exit-code-violations", schematicPath], count ? 5 : 0),
+      report: { $schema: "https://schemas.kicad.org/erc.v1.json", coordinate_units: "mm", kicad_version: "10.0.3", source: "fixture.kicad_sch",
+        included_severities: ["error", "warning", "exclusion"], ignored_checks: kind === "ignored" ? [{ key: "single_global_label", description: "Ignored explicit fixture rule" }] : [],
+        sheets: [{ path: "/", uuid_path: "/", violations: count ? [{ type: "pin_not_connected", severity: "error", description: "Synthetic unconnected pin", excluded: false }] : [] }] } } };
+  if (kind === "missing") delete native.erc;
+  const saved = f.input.savedEvidence!;
+  const nativeChecks = assessFreshPlaneNativeChecks({ compilationBundle: f.input.compilationBundle, savedEvidence: saved,
+    current: { projectBindingIdentity: saved.projectBindingIdentity, sourceScopeIdentity: saved.sourceScopeIdentity },
+    sources: { projectRoot, pcbPath, pcbSource: f.input.pcbSource, projectPath: `${projectRoot}\\fixture.kicad_pro`, projectSource: f.input.projectSettingsSource,
+      rulesPath: `${projectRoot}\\fixture.kicad_dru`, rulesSource: f.input.rulesSource }, expectedSourceHashes: sourceHashes,
+    expectedExecutable: executable, nativeChecks: native as KicadCheckResult });
+  return { ...f, nativeChecks };
 }
 function row(result: Awaited<ReturnType<typeof assessFreshPlaneAcceptance>>, id: string) { return result.rows.find(row => row.id === id)!; }
 async function calculator(status: "covered" | "uncovered" | "boundary_uncertain", requests: ReferenceCoverageRequest[] = []): Promise<ReferenceCoverageCalculator> {
@@ -148,18 +215,73 @@ async function calculator(status: "covered" | "uncovered" | "boundary_uncertain"
     } });
 }
 
+const horizontal = { start: [5_000_000, 12_000_000], end: [10_000_000, 12_000_000] } as const;
+const vertical = { start: [7_500_000, 9_500_000], end: [7_500_000, 14_500_000] } as const;
+// A 3-4-5 direction gives exact integer-nm perpendicular distances. These
+// cases test the reference-ribbon predicate, not the separate miter_45 row.
+const diagonal = { start: [5_000_000, 10_500_000], end: [9_000_000, 13_500_000] } as const;
+const boreCases: Array<{ name: string; route: { start: NmPoint; end: NmPoint }; center: NmPoint; intersects: boolean;tangent?:true }> = [
+  { name: "horizontal body 1 nm overlap", route: horizontal, center: [7_500_000, 12_949_999], intersects: true },
+  { name: "horizontal body exact tangent", route: horizontal, center: [7_500_000, 12_950_000], intersects: false,tangent:true },
+  { name: "horizontal body 1 nm outside", route: horizontal, center: [7_500_000, 12_950_001], intersects: false },
+  { name: "start cap 1 nm overlap", route: horizontal, center: [4_050_001, 12_000_000], intersects: true },
+  { name: "start cap exact tangent", route: horizontal, center: [4_050_000, 12_000_000], intersects: false,tangent:true },
+  { name: "start cap 1 nm outside", route: horizontal, center: [4_049_999, 12_000_000], intersects: false },
+  { name: "end cap 1 nm overlap", route: horizontal, center: [10_949_999, 12_000_000], intersects: true },
+  { name: "end cap exact tangent", route: horizontal, center: [10_950_000, 12_000_000], intersects: false,tangent:true },
+  { name: "end cap 1 nm outside", route: horizontal, center: [10_950_001, 12_000_000], intersects: false },
+  { name: "vertical body 1 nm overlap", route: vertical, center: [8_449_999, 12_000_000], intersects: true },
+  { name: "vertical body exact tangent", route: vertical, center: [8_450_000, 12_000_000], intersects: false,tangent:true },
+  { name: "vertical body 1 nm outside", route: vertical, center: [8_450_001, 12_000_000], intersects: false },
+  { name: "3-4-5 diagonal body 1 nm overlap", route: diagonal, center: [6_429_999, 12_759_998], intersects: true },
+  { name: "3-4-5 diagonal body exact tangent", route: diagonal, center: [6_430_000, 12_760_000], intersects: false,tangent:true },
+  { name: "3-4-5 diagonal body 1 nm outside", route: diagonal, center: [6_430_001, 12_760_002], intersects: false },
+  { name: "projection exactly at start, tangent", route: horizontal, center: [5_000_000, 12_950_000], intersects: false,tangent:true },
+  { name: "projection exactly at end, tangent", route: horizontal, center: [10_000_000, 12_950_000], intersects: false,tangent:true },
+  { name: "diagonal projection exactly at start, tangent", route: diagonal, center: [4_430_000, 11_260_000], intersects: false,tangent:true },
+  { name: "diagonal projection exactly at end, tangent", route: diagonal, center: [8_430_000, 14_260_000], intersects: false,tangent:true },
+];
+
 describe("pure current-source V2 plane acceptance", () => {
-  it("assesses exact intended-plane contact and complete reference ribbons without promoting unmeasured requirements", async () => {
-    const f = await fixture(), requests: ReferenceCoverageRequest[] = [];
+  it.each(["clean", "violation", "ignored", "missing"] as const)("merges %s ERC through its genuine source-bound native assessment while preserving DRC and common rows", async kind => {
+    const f = await ercFixture(kind), result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks });
+    expect(row(result, "erc").status).toBe(kind === "clean" ? "pass" : kind === "violation" ? "fail" : "unknown");
+    expect(row(result, "drc").status).toBe("pass"); expect(row(result, "board:outline").status).toBe("pass");
+    expect(result.evidence.nativeChecks).toBe(f.nativeChecks); expect(result.accepted).toBe(false);
+    const report = summarizePlaneAcceptance(result);
+    expect(report.nativeChecks!.checks.erc!.status).toBe(kind === "clean" ? "verified" : kind === "violation" ? "failed" : "unsupported");
+    expect(report.nativeChecks!.ercSourceSetIdentity).toEqual(f.nativeChecks.ercSourceScope.sourceSetIdentity);
+    expect(report.nativeChecks!.nativeErcIdentity).toEqual(f.nativeChecks.nativeErcIdentity);
+    expect(JSON.stringify(report)).not.toContain("offline-checks");
+  });
+  it("retains native-only contacts and bore-aware ribbon facts without passing whole connectivity rows", async () => {
+    const f = await fixture({ surfaceSignalPads: true }), requests: ReferenceCoverageRequest[] = [];
     const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });
     expect(result.authority.status).toBe("verified"); expect(result.nativeInventory.status).toBe("verified");
-    expect(row(result, "plane-config:GND_PLANE").status).toBe("pass"); expect(row(result, "plane-net:GND").status).toBe("pass");
-    expect(row(result, "reference:VIN").status).toBe("pass");
+    expect(row(result, "plane-config:GND_PLANE").status).toBe("pass"); expect(row(result, "plane-net:GND").status).toBe("unknown");
+    expect(row(result, "reference:VIN").status).toBe("unknown");
+    expect(result.planes[0]!.intendedPlaneConnectivity).toMatchObject({ status: "verified", scope: "native-pad-reachability-to-stored-zone-component" });
+    expect(result.planes[0]!.drillTopology).toMatchObject({ status: "verified", physicalConnectivity: "not_assessed", terminalContactContinuity: "not_assessed",
+      cachedAreaTwiceNm2: "1102000000000000", conservativeAreaLowerBoundTwiceNm2: "1101680000000000" });
+    expect(result.references[0]).toMatchObject({ status: "verified", geometricStatus: "covered", intersectingBoreUuids: [] });
     expect(result.planes[0]!.componentCount).toBe(1); expect(result.planes[0]!.minimumArea.status).toBe("verified");
     expect(requests[0]!.routes).toEqual([{ x1Nm: 3_000_000, y1Nm: 3_000_000, x2Nm: 8_000_000, y2Nm: 3_000_000, widthNm: 500_000, marginNm: 500_000 }]);
     expect(row(result, "plane-fill:GND_PLANE").status).toBe("unknown"); expect(row(result, "plane-policy:GND_PLANE").status).toBe("unknown");
     expect(result.accepted).toBe(false); expect(result.status).toBe("incomplete"); expect(result.mandatoryRowsRemaining).toContain("visual");
     expect(result.rows).toHaveLength(f.input.compilationBundle.verificationPlan.requirements.length);
+    const common = result.evidence.commonChecks;
+    expect(isFreshPlaneCommonChecksAssessment(common)).toBe(true);
+    expect(common!.endpointConnectivityIdentity).toEqual(f.input.endpointConnectivity.identity);
+    for (const check of common!.rows) expect(row(result, check.id)).toMatchObject({ kind: check.kind, status: check.status, reasons: check.reasons });
+    expect(row(result, "board:outline").status).toBe("pass");
+    expect(row(result, "vias:GND").status).toBe("pass"); expect(row(result, "trace-geometry:VIN").status).toBe("pass");
+    expect(result.verificationPlanRowsPassed).toEqual(result.rows.filter(row => row.status === "pass").map(row => row.id));
+    expect(result.mandatoryRowsRemaining).toEqual(result.rows.filter(row => row.status !== "pass").map(row => row.id));
+    const publicReport = summarizePlaneAcceptance(result);
+    expect(publicReport.commonChecks!.assessmentIdentity).toEqual(common!.identity);
+    expect(publicReport.rows.find(row => row.id === "vias:GND")!.observations).toMatchObject({ viaCount: 0, globalViaCount: 0 });
+    expect(publicReport.rows.find(row => row.id === "trace-geometry:VIN")!.observations).toMatchObject({ trackUuids: [U(1)], fullRouteInventorySupplied: true });
+    expect(publicReport).not.toHaveProperty("evidence"); expect(publicReport.commonChecks).not.toHaveProperty("profile");
     expect(result.evidence.savedFill).toBe(f.input.savedEvidence); expect(isKicadPlaneContactsObservation(result.evidence.nativeContacts)).toBe(true);
     expect(Object.isFrozen(result)).toBe(true);
   });
@@ -167,6 +289,8 @@ describe("pure current-source V2 plane acceptance", () => {
   it("requires current-session fill authority after resume and rejects copied branded evidence", async () => {
     const f = await fixture(); const result = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
     expect(result.verificationPlanRowsPassed).toEqual([]); expect(result.authority.reasons.join(" ")).toMatch(/reapply/i);
+    expect(result.evidence.commonChecks).toBeNull(); expect(result.rows.every(row => row.status === "unknown")).toBe(true);
+    expect(summarizePlaneAcceptance(result).commonChecks).toBeNull();
     await expect(assessFreshPlaneAcceptance({ ...f.input, savedEvidence: structuredClone(f.input.savedEvidence) })).rejects.toThrow(/current-session authority/);
     await expect(assessFreshPlaneAcceptance({ ...f.input, nativeContacts: structuredClone(await f.collect()) })).rejects.toThrow(/unbranded/);
     await expect(assessFreshPlaneAcceptance({ ...f.input, compilationBundle: structuredClone(f.input.compilationBundle) })).rejects.toThrow(/authenticated actual V2/);
@@ -193,7 +317,7 @@ describe("pure current-source V2 plane acceptance", () => {
   });
 
   it("rejects a callable reference calculator that has not passed the host factory pin checks", async () => {
-    const f = await fixture(); let called = false;
+    const f = await fixture({ surfaceSignalPads: true }); let called = false;
     const untrusted: ReferenceCoverageCalculator = { async calculate() { called = true; throw new Error("Must not run"); } };
     await expect(assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: untrusted })).rejects.toThrow(/authenticated host factory/);
     expect(called).toBe(false);
@@ -207,9 +331,10 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(row(result, "plane-net:GND").status).toBe("unknown"); expect(result.planes[0]!.intendedPlaneConnectivity.reasons.join(" ")).toMatch(/via-only/);
   });
 
-  it("allows one direct physical PAD anchor only when every endpoint physical member shares its complete native cluster", async () => {
+  it("keeps a connected native PAD anchor below whole-plane acceptance and still fails native disconnection", async () => {
     const f = await fixture({ viaNet: "GND" }); f.report.zones[0].directPads = f.report.zones[0].directPads.slice(0, 1);
-    const result = await assessFreshPlaneAcceptance(f.input); expect(row(result, "plane-net:GND").status).toBe("pass");
+    const result = await assessFreshPlaneAcceptance(f.input); expect(row(result, "plane-net:GND").status).toBe("unknown");
+    expect(result.planes[0]!.intendedPlaneConnectivity).toMatchObject({ status: "verified", scope: "native-pad-reachability-to-stored-zone-component" });
     const disconnected = await fixture({ disconnectedGround: true }); expect(row(await assessFreshPlaneAcceptance(disconnected.input), "plane-net:GND").status).toBe("fail");
   });
 
@@ -234,7 +359,7 @@ describe("pure current-source V2 plane acceptance", () => {
   });
 
   it.each(["uncovered", "boundary_uncertain"] as const)("keeps %s reference calculation non-passing", async status => {
-    const f = await fixture(); const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator(status) });
+    const f = await fixture({ surfaceSignalPads: true }); const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator(status) });
     expect(row(result, "reference:VIN").status).toBe(status === "uncovered" ? "fail" : "unknown");
   });
 
@@ -265,5 +390,55 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(result.planes[0]!.geometry.status).toBe("verified"); expect(result.planes[0]!.componentCount).toBe(1);
     expect(result.planes[0]!.minimumArea).toMatchObject({ status: "failed", requiredAreaTwiceNm2: "600000000000000", observedAreaTwiceNm2: ["380000000000000"] });
     expect(row(result, "plane-policy:GND_PLANE").status).toBe("fail"); expect(row(result, "reference:VIN").status).not.toBe("pass");
+  });
+
+  it("does not mistake a conservative drill-area lower bound below the threshold for a proven physical area failure", async () => {
+    const f = await fixture({ minimumAreaMm2: 550 }); const result = await assessFreshPlaneAcceptance(f.input);
+    expect(result.planes[0]!.drillTopology.status).toBe("verified");
+    expect(result.planes[0]!.minimumArea).toMatchObject({ status: "unknown", requiredAreaTwiceNm2: "1100000000000000",
+      observedAreaTwiceNm2: ["1102000000000000"], conservativeAreaLowerBoundTwiceNm2: "1099760000000000" });
+    expect(row(result, "plane-policy:GND_PLANE").status).toBe("unknown");
+  });
+
+  it("rejects reference ribbons through plated endpoint bores even when the stored polygon helper would report covered", async () => {
+    const f = await fixture(), requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });
+    expect(result.planes[0]!.geometry).toMatchObject({ status: "verified", geometryEquivalent: true });
+    expect(result.planes[0]!.drillTopology).toMatchObject({ status: "verified", inventory: { boreCount: 7, complete: true } });
+    expect(result.references[0]).toMatchObject({ status: "failed", geometricStatus: "uncovered", intersectingBoreUuids: [U(100), U(110)], calculation: null });
+    expect(row(result, "reference:VIN").status).toBe("fail"); expect(requests).toHaveLength(0);
+  });
+
+  it.each([
+    ["missing outline", { outline: "" }, "board:outline"],
+    ["one nm narrow saved trace", { routeWidthNm: 499_999 }, "trace-geometry:VIN"],
+    ["half-nm small via annular ring", { viaNet: "GND", viaDrillNm: 300_001 }, "vias:GND"],
+  ] as const)("merges the genuine common-source failure for %s into its original V2 row", async (_name, options, id) => {
+    const f = await fixture({ surfaceSignalPads: true, ...options }), result = await assessFreshPlaneAcceptance(f.input);
+    expect(isFreshPlaneCommonChecksAssessment(result.evidence.commonChecks)).toBe(true);
+    expect(row(result, id).status).toBe("fail"); expect(result.status).toBe("failed"); expect(result.accepted).toBe(false);
+    expect(summarizePlaneAcceptance(result).rows.find(row => row.id === id)!.status).toBe("fail");
+    expect(result.rows.map(row => row.id)).toEqual(f.input.compilationBundle.verificationPlan.requirements.map(row => row.id));
+  });
+
+  it.each(boreCases)("checks exact source/native bore against the reference capsule: $name", async testCase => {
+    const f = await fixture({ surfaceSignalPads: true, routeNm: testCase.route, probeBoreNm: testCase.center });
+    const requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });
+    const topology = result.planes[0]!.drillTopology, reference = result.references[0]!;
+    expect(topology.status, topology.issues.join(" ")).toBe("verified");
+    expect(topology.bores.find(bore => bore.uuid === U(3))).toMatchObject({ kind: "via", centerNm: { x: testCase.center[0], y: testCase.center[1] },
+      diameterNm: 400_000, classification: "new_interior_void", geometrySource: "exact-saved-through-via" });
+    expect(reference.intersectingBoreUuids).toEqual(testCase.intersects ? [U(3)] : []);
+    expect(reference.tangentBoreUuids).toEqual(testCase.tangent?[U(3)]:[]);
+    expect(row(result, "reference:VIN").status).toBe(testCase.intersects ? "fail" : "unknown");
+    expect(reference.geometricStatus).toBe(testCase.intersects ? "uncovered" :testCase.tangent?"boundary_uncertain": "covered");
+    expect(requests).toHaveLength(testCase.intersects||testCase.tangent ? 0 : 1);
+    if (!testCase.intersects&&!testCase.tangent) {
+      expect(requests[0]!.routes).toEqual([{ x1Nm: testCase.route.start[0], y1Nm: testCase.route.start[1], x2Nm: testCase.route.end[0],
+        y2Nm: testCase.route.end[1], widthNm: 500_000, marginNm: 500_000 }]);
+      expect(row(result, "reference:VIN").reasons.join(" ")).toMatch(/drill-aware.*continuity/);
+    }
+    expect(row(result, "plane-net:GND").status).toBe("unknown"); expect(result.accepted).toBe(false);
   });
 });

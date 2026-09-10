@@ -159,6 +159,7 @@ const appendBoardItem = (source: string, item: string): string => {
 };
 
 interface MockOptions {
+  readonly qualifiedSync?: boolean | "missing";
   readonly syncBoard?: string;
   readonly syncText?: string;
   readonly syncResult?: CallToolResult;
@@ -166,6 +167,7 @@ interface MockOptions {
   readonly noOpDelete?: boolean;
   readonly liveTransform?: (source: string) => string;
   readonly diskTransform?: (source: string) => string;
+  readonly saveTransform?: (source: string) => string;
   readonly nativeSource?: (capture: number, schematicPath: string) => string | Promise<string>;
   readonly observeFreshSyncBoardComparison?: (diagnostic: FreshSyncBoardComparisonDiagnostic) => void;
 }
@@ -188,6 +190,7 @@ function mockSession(pcbPath: string, initial: string, options: MockOptions = {}
   const privateCalls: { readonly name: string; readonly expectedPath: string }[] = [];
   const session: KicadHarnessSession = {
     supportsNativeRouteTransactions:()=>true,
+    supportsQualifiedFootprintIdentitySync:()=>true,
     assertActivePcb: async (expectedPath) => {
       privateCalls.push({ name: "assertActivePcb", expectedPath });
       if (expectedPath !== pcbPath) throw new Error("Active PCB path mismatch.");
@@ -237,6 +240,7 @@ function mockSession(pcbPath: string, initial: string, options: MockOptions = {}
         result = options.syncText ?? syncSuccessText;
         if (options.syncResult !== undefined) return structuredClone(options.syncResult);
       } else if (name === "pcb_save") {
+        live = options.saveTransform?.(live) ?? live;
         await writeFile(pcbPath, toDisk(live), "utf8");
         result = "Board saved.";
       } else if (name === "pcb_revert") {
@@ -247,6 +251,8 @@ function mockSession(pcbPath: string, initial: string, options: MockOptions = {}
       return { content: [], structuredContent: { result } };
     },
   };
+  if (options.qualifiedSync === "missing") delete session.supportsQualifiedFootprintIdentitySync;
+  else if (options.qualifiedSync === false) session.supportsQualifiedFootprintIdentitySync = () => false;
   return { session, calls, privateCalls, live: () => live };
 }
 
@@ -278,6 +284,39 @@ async function authoringFixture(
 }
 
 describe("fresh generic board authoring compounds", () => {
+  it.each([false, "missing"] as const)("hides and refuses fresh sync before sidecar writes when qualified identity support is %s", async (qualifiedSync) => {
+    const current = await authoringFixture(emptyBoard(), { qualifiedSync, syncBoard: populatedBoard([]) });
+    expect(current.bridge.tools.map((tool) => tool.name)).not.toContain("fresh_sync_from_schematic");
+    await expect(current.bridge.execute({ id: "unqualified-sync", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/Unsupported KiCad harness tool/iu);
+    expect(current.calls).toEqual([]);
+    expect(current.privateCalls).toEqual([]);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+    expect(current.live()).toBe(emptyBoard());
+  });
+
+  it("rechecks qualified identity support revoked after tool discovery before dispatch", async () => {
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]) });
+    expect(current.bridge.tools.map((tool) => tool.name)).toContain("fresh_sync_from_schematic");
+    current.session.supportsQualifiedFootprintIdentitySync = () => false;
+    await expect(current.bridge.execute({ id: "revoked-sync", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/qualified writer/iu);
+    expect(current.calls).toEqual([]);
+    expect(current.privateCalls).toEqual([]);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+    expect(current.live()).toBe(emptyBoard());
+  });
+
+  it("still reads uniquely bound historical bare footprint IDs without the qualified sync capability", async () => {
+    const historical = populatedBoard([], true);
+    const current = await authoringFixture(historical, { qualifiedSync: "missing" });
+    const result = JSON.parse((await current.bridge.execute({ id: "historical-pads", name: "fresh_get_contract_pad_positions", arguments: {} })).content);
+    expect(result.pads).toHaveLength(7);
+    expect(result.pcbContentIdentity).toEqual(contentIdentity(historical));
+    expect(parseFreshPcbSource(await readFile(current.project.pcbPath, "utf8")).footprints.map((entry) => entry.libraryId)).toEqual([
+      "PinHeader_1x03_P2.54mm_Vertical", "R_0603_1608Metric", "R_0603_1608Metric",
+    ]);
+    expect(current.calls).toEqual([]);
+  });
+
   it("returns exact source-bound contract pad positions without sidecar rounding", async () => {
     const current = await authoringFixture();
     expect(current.bundle.contract.netClasses).toEqual([
@@ -346,7 +385,7 @@ describe("fresh generic board authoring compounds", () => {
   });
 
   it("forces compound sync, verifies 3 footprints/7 pads/zero unresolved mappings, reloads, and saves", async () => {
-    const synced = populatedBoard([], true);
+    const synced = populatedBoard([]);
     const current = await authoringFixture(emptyBoard(), { syncBoard: synced });
     const result = await current.bridge.execute({ id: "sync", name: "fresh_sync_from_schematic", arguments: {} });
     expect(JSON.parse(result.content)).toMatchObject({
@@ -362,9 +401,35 @@ describe("fresh generic board authoring compounds", () => {
     expect(parseFreshPcbSource(await readFile(current.project.pcbPath, "utf8")).footprints).toHaveLength(3);
   });
 
+  it("terminally rolls back a claimed qualified writer that emits a bare footprint leaf", async () => {
+    const before = emptyBoard();
+    const bare = populatedBoard([]).replace('(footprint "Resistor_SMD:R_0603_1608Metric"', '(footprint "R_0603_1608Metric"');
+    const current = await authoringFixture(before, { syncBoard: bare });
+    expect(current.session.supportsQualifiedFootprintIdentitySync?.()).toBe(true);
+    await expect(current.bridge.execute({ id: "lying-qualified-sync", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/FRESH_SYNC_ROLLED_BACK_TERMINAL: Synced PCB footprint library IDs do not exactly match the complete qualified schematic assignments/iu);
+    expect(current.calls.map((entry) => entry.name)).toEqual(["pcb_sync_from_schematic", "pcb_revert"]);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(before);
+    expect(current.live()).toBe(before);
+  });
+
+  it("rolls back when mandatory save drops a previously verified footprint library nickname", async () => {
+    const before = emptyBoard();
+    const current = await authoringFixture(before, {
+      syncBoard: populatedBoard([]),
+      saveTransform: (source) => source.replace('(footprint "Resistor_SMD:R_0603_1608Metric"', '(footprint "R_0603_1608Metric"'),
+    });
+    const synced = JSON.parse((await current.bridge.execute({ id: "qualified-before-save", name: "fresh_sync_from_schematic", arguments: {} })).content);
+    expect(synced).toMatchObject({ applied: true, mutated: true });
+    const saved = await current.bridge.internal.saveAfterMutation({ id: "bare-after-save", name: "pcb_save", arguments: {} });
+    expect(saved).toMatchObject({ isError: true, content: expect.stringContaining("complete qualified schematic assignments") });
+    expect(current.calls.map((entry) => entry.name)).toEqual(["pcb_sync_from_schematic", "pcb_save", "pcb_revert"]);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(before);
+    expect(current.live()).toBe(before);
+  });
+
   it("passes the actual sync producer result through the harness consumer, mandatory save, and independent completion gate", async () => {
     const current = await authoringFixture(emptyBoard(), {
-      syncBoard: populatedBoard([], true), syncResult: capturedSync.receivedResult,
+      syncBoard: populatedBoard([]), syncResult: capturedSync.receivedResult,
       nativeSource: (capture) => capture === 1 ? capturedNativeBefore : capturedNativeBefore.replace(`(date "${capturedTimestamp.beforeDate}")`, `(date "${capturedTimestamp.afterDate}")`),
     });
     const produced: HarnessToolResult[] = [];
@@ -438,7 +503,7 @@ describe("fresh generic board authoring compounds", () => {
   });
 
   it("reports the exact frozen post-sync disk/live pair before mismatch rollback without exposing it to providers", async () => {
-    const liveSource = populatedBoard([], true);
+    const liveSource = populatedBoard([]);
     const diskSource = `${liveSource.replaceAll("\n", "\r\n")} `;
     const observed: FreshSyncBoardComparisonDiagnostic[] = [];
     const attemptedMutations: boolean[] = [];
@@ -474,7 +539,7 @@ describe("fresh generic board authoring compounds", () => {
   it.each([false, true])("keeps the source mismatch and exact rollback unchanged with throwing observer=%s", async (throwingObserver) => {
     let observerCalls = 0;
     const current = await authoringFixture(emptyBoard(), {
-      syncBoard: populatedBoard([], true), diskTransform: (source) => `${source} `,
+      syncBoard: populatedBoard([]), diskTransform: (source) => `${source} `,
       ...(throwingObserver ? { observeFreshSyncBoardComparison: () => { observerCalls += 1; throw new Error("diagnostic sink failure"); } } : {}),
     });
     let failure: unknown;
@@ -490,7 +555,7 @@ describe("fresh generic board authoring compounds", () => {
   it("ignores synchronous diagnostic errors when the original source comparison succeeds", async () => {
     let observerCalls = 0;
     const current = await authoringFixture(emptyBoard(), {
-      syncBoard: populatedBoard([], true),
+      syncBoard: populatedBoard([]),
       observeFreshSyncBoardComparison: () => { observerCalls += 1; throw new Error("diagnostic sink failure"); },
     });
     const result = JSON.parse((await current.bridge.execute({ id: "observer-success", name: "fresh_sync_from_schematic", arguments: {} })).content);
@@ -506,7 +571,7 @@ describe("fresh generic board authoring compounds", () => {
     // The old cross-message expression spans the zero no-net count and the
     // later successful auto-placement sentence; this is not a refusal.
     expect(/no .* (?:added|replaced|sync)/iu.test(capturedSyncText.replace(/\s+/gu, " "))).toBe(true);
-    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([], true), syncResult: capturedSync.receivedResult });
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]), syncResult: capturedSync.receivedResult });
     const result = JSON.parse((await current.bridge.execute({ id: "captured-full-sync", name: "fresh_sync_from_schematic", arguments: {} })).content);
     expect(result).toMatchObject({ applied: true, mutated: true, componentCount: 3, padCount: 7, namedPadCount: 7, unresolvedMappingCount: 0 });
     expect(result.receivedSidecarResponseIdentity).toEqual(contentIdentity(capturedSyncText));
@@ -534,25 +599,25 @@ describe("fresh generic board authoring compounds", () => {
     ["manual reload", capturedSyncText.replace("The PCB file was updated and KiCad was asked to reload it.", "The PCB file was updated. Reload it manually in KiCad if needed.")],
     ["forced gate override", capturedSyncText.replace("Force-directed auto-placement", "Pre-sync gate was overridden by force=True.\nForce-directed auto-placement")],
   ] as const)("retains terminal rollback for true %s", async (_name, syncText) => {
-    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([], true), syncText });
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]), syncText });
     await expect(current.bridge.execute({ id: "sync-semantic-negative", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/FRESH_SYNC_ROLLED_BACK_TERMINAL/iu);
     expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
     expect(current.live()).toBe(emptyBoard());
   });
 
   it("does not let the captured clean response override unchanged PCB bytes or incorrect saved pads", async () => {
-    const unchangedSource = populatedBoard([], true);
+    const unchangedSource = populatedBoard([]);
     const unchanged = await authoringFixture(unchangedSource, { syncBoard: unchangedSource, syncResult: capturedSync.receivedResult });
     await expect(unchanged.bridge.execute({ id: "false-changed-response", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/authoritative PCB content unchanged/iu);
     expect(await readFile(unchanged.project.pcbPath, "utf8")).toBe(unchangedSource);
-    const incorrect = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([], true).replace('(net "VIN")', '(net "GND")'), syncResult: capturedSync.receivedResult });
+    const incorrect = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]).replace('(net "VIN")', '(net "GND")'), syncResult: capturedSync.receivedResult });
     await expect(incorrect.bridge.execute({ id: "false-pad-response", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/FRESH_SYNC_ROLLED_BACK_TERMINAL/iu);
     expect(await readFile(incorrect.project.pcbPath, "utf8")).toBe(emptyBoard());
   });
 
   it("does not let the captured clean response override exact saved schematic source drift", async () => {
     const current = await authoringFixture(emptyBoard(), {
-      syncBoard: populatedBoard([], true), syncResult: capturedSync.receivedResult,
+      syncBoard: populatedBoard([]), syncResult: capturedSync.receivedResult,
       nativeSource: async (capture, schematicPath) => {
         if (capture === 2) await writeFile(schematicPath, `${await readFile(schematicPath, "utf8")} `);
         return nativeNetlist();
@@ -566,7 +631,7 @@ describe("fresh generic board authoring compounds", () => {
     const current = await authoringFixture(Buffer.from(capturedBoard.diskUtf8Base64, "base64").toString("utf8"), {
       liveTransform: (source) => source.replaceAll("\r\n", "\n"),
       diskTransform: (source) => source.replaceAll("\n", "\r\n"),
-      syncBoard: populatedBoard([], true),
+      syncBoard: populatedBoard([]),
       nativeSource: (capture) => capture === 1 ? capturedNativeBefore : capturedNativeBefore.replace(`(date "${capturedTimestamp.beforeDate}")`, `(date "${capturedTimestamp.afterDate}")`),
     });
     const schematicBefore = await readFile(current.project.schematicPath);
@@ -594,14 +659,14 @@ describe("fresh generic board authoring compounds", () => {
   ] as const)("rejects native %s drift that projected parity alone does not expose", async (_name, mutate) => {
     const changed = mutate(capturedNativeBefore);
     expect(changed).not.toBe(capturedNativeBefore);
-    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([], true), nativeSource: (capture) => capture === 1 ? capturedNativeBefore : changed });
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]), nativeSource: (capture) => capture === 1 ? capturedNativeBefore : changed });
     await expect(current.bridge.execute({ id: "native-drift", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/ROLLED_BACK_TERMINAL.*native netlist changed/iu);
     expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
   });
 
   it.each([1, 2])("rejects exact saved schematic byte drift during native capture %s", async (faultCapture) => {
     const current = await authoringFixture(emptyBoard(), {
-      syncBoard: populatedBoard([], true),
+      syncBoard: populatedBoard([]),
       nativeSource: async (capture, schematicPath) => {
         if (capture === faultCapture) await writeFile(schematicPath, `${await readFile(schematicPath, "utf8")} `);
         return nativeNetlist();
@@ -614,7 +679,7 @@ describe("fresh generic board authoring compounds", () => {
 
   it("does not erase a disk BOM to make the live sync preimage match", async () => {
     const before = `\uFEFF${emptyBoard()}`;
-    const current = await authoringFixture(before, { liveTransform: (source) => source.replace(/^\uFEFF/u, ""), syncBoard: populatedBoard([], true) });
+    const current = await authoringFixture(before, { liveTransform: (source) => source.replace(/^\uFEFF/u, ""), syncBoard: populatedBoard([]) });
     await expect(current.bridge.execute({ id: "bom-sync", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/FRESH_SYNC_ROLLBACK_FAILED_TERMINAL/iu);
     expect(current.calls.map((call) => call.name)).not.toContain("pcb_sync_from_schematic");
     expect(await readFile(current.project.pcbPath, "utf8")).toBe(before);
@@ -622,7 +687,7 @@ describe("fresh generic board authoring compounds", () => {
 
   it("reads a large source with literal paths privately without the public text cap or redaction", async () => {
     const note = `(property "Source" "C:/Private/board/${"A".repeat(70_000)}")`;
-    const current = await authoringFixture(appendBoardItem(emptyBoard(), note), { syncBoard: appendBoardItem(populatedBoard([], true), note) });
+    const current = await authoringFixture(appendBoardItem(emptyBoard(), note), { syncBoard: appendBoardItem(populatedBoard([]), note) });
     await expect(current.bridge.execute({ id: "large-private-sync", name: "fresh_sync_from_schematic", arguments: {} })).resolves.not.toMatchObject({ isError: true });
     await expect(current.bridge.internal.saveAfterMutation({ id: "large-private-save", name: "pcb_save", arguments: {} })).resolves.not.toMatchObject({ isError: true });
     expect(await readFile(current.project.pcbPath, "utf8")).toContain(note);
@@ -640,7 +705,7 @@ describe("fresh generic board authoring compounds", () => {
     ["netclass_flag", (source: string) => source.replace('(generator "fixture")', '(generator "fixture") (netclass_flag "" (at 0 0 0) (length 2.54) (shape dot) (property "Netclass" "OtherClass"))')],
     ["native rule_area", (source: string) => source.replace('(generator "fixture")', '(generator "fixture") (rule_area (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (polyline (pts (xy 0 0) (xy 10 0) (xy 10 10) (xy 0 0)) (stroke (width 0.15) (type default)) (fill (type none))))')],
   ] as const)("refuses sync with %s before touching the PCB", async (_name, mutate) => {
-    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([], true) });
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]) });
     await writeFile(current.project.schematicPath, mutate(schematicSource()), "utf8");
     await expect(current.bridge.execute({ id: "sync-label-mismatch", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/passive global label|unsupported class sources/iu);
     expect(current.calls).toEqual([]);
@@ -649,7 +714,7 @@ describe("fresh generic board authoring compounds", () => {
 
   it("rolls back sync when unsupported schematic class metadata appears before the saved readback", async () => {
     const preimage = emptyBoard();
-    const current = await authoringFixture(preimage, { syncBoard: populatedBoard([], true) });
+    const current = await authoringFixture(preimage, { syncBoard: populatedBoard([]) });
     await current.bridge.execute({ id: "sync-before-class-drift", name: "fresh_sync_from_schematic", arguments: {} });
     await writeFile(current.project.schematicPath, schematicSource().replace('(global_label "VIN"', '(global_label "VIN" (property private "Netclass" "OtherClass" (at 0 0 0))'), "utf8");
     expect(await current.bridge.internal.saveAfterMutation({ id: "sync-save-class-drift", name: "pcb_save", arguments: {} })).toMatchObject({ isError: true, content: expect.stringContaining("unsupported class sources") });
@@ -657,7 +722,7 @@ describe("fresh generic board authoring compounds", () => {
   });
 
   it("retains the exact schematic-byte binding through the mandatory PCB save", async () => {
-    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([], true) });
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]) });
     await current.bridge.execute({ id: "sync-source-bound", name: "fresh_sync_from_schematic", arguments: {} });
     await writeFile(current.project.schematicPath, `${await readFile(current.project.schematicPath, "utf8")} `);
     expect(await current.bridge.internal.saveAfterMutation({ id: "save-source-drift", name: "pcb_save", arguments: {} })).toMatchObject({ isError: true, content: expect.stringContaining("Exact saved schematic bytes changed") });
@@ -671,7 +736,7 @@ describe("fresh generic board authoring compounds", () => {
     await expect(readFile(noChange.project.pcbPath, "utf8")).resolves.toBe(preimage);
     expect(noChange.calls.map((entry) => entry.name)).toContain("pcb_revert");
 
-    const wrong = populatedBoard([], true).replace('(net "VIN")', '(net "GND")');
+    const wrong = populatedBoard([]).replace('(net "VIN")', '(net "GND")');
     const mismatch = await authoringFixture(preimage, { syncBoard: wrong });
     await expect(mismatch.bridge.execute({ id: "sync-wrong", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/ROLLED_BACK_TERMINAL/iu);
     await expect(readFile(mismatch.project.pcbPath, "utf8")).resolves.toBe(preimage);

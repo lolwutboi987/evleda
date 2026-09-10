@@ -1,0 +1,57 @@
+--- a/kicad_mcp/tools/pcb.py
++++ b/kicad_mcp/tools/pcb.py
+@@ -98,7 +98,7 @@
+     force_directed_placement,
+     generate_bga_fanout_plan,
+ )
+-from ..utils.sexpr import _extract_block, _sexpr_string
++from ..utils.sexpr import _extract_block, _sexpr_string, _unescape_sexpr_string
+ from ..utils.units import _coord_nm, mm_to_nm, nm_to_mm
+ from . import (
+     pcb_basic_inspection,
+@@ -1455,7 +1455,7 @@
+                         width_mm, height_mm = _bbox_from_block(block)
+                         layer_match = re.search(r'\(layer\s+"([^"]+)"\)', block)
+                         footprints[ref_match.group(1)] = {
+-                            "name": name_match.group(1),
++                            "name": _unescape_sexpr_string(name_match.group(1)),
+                             "block": block,
+                             "start": cursor,
+                             "end": cursor + length,
+@@ -2185,6 +2185,12 @@
+     if not path.exists():
+         raise FileNotFoundError(f"Footprint '{footprint_assignment}' was not found.")
+     block = path.read_text(encoding="utf-8", errors="ignore").strip()
++    root_name = re.match(rf"(\(footprint\s+){STRING_PATTERN}(?=\s|\))", block)
++    if root_name is None:
++        raise ValueError(f"Footprint '{footprint_assignment}' has no quoted root name.")
++    block = (
++        f"{root_name.group(1)}{_sexpr_string(footprint_assignment)}{block[root_name.end():]}"
++    )
+     block = _replace_property_value(block, "Reference", reference)
+     block = _replace_property_value(block, "Value", value)
+     block = _assign_pad_nets(block, pad_nets)
+@@ -3361,7 +3367,11 @@
+ def _register_schematic_sync_tools(mcp: FastMCP) -> None:
+     """Register schematic-to-PCB synchronization tools."""
+ 
+-    @mcp.tool()
++    @mcp.tool(
++        meta={
++            "evledaQualifiedFootprintIdentitySync": "evleda.kicad-qualified-footprint-identity-sync.v1"
++        }
++    )
+     @headless_compatible
+     def pcb_sync_from_schematic(
+         origin_x_mm: float = 20.0,
+@@ -3435,7 +3445,9 @@
+         }
+ 
+         expected_names = {
+-            str(component["reference"]): _split_footprint_assignment(str(component["footprint"]))[1]
++            str(component["reference"]): ":".join(
++                _split_footprint_assignment(str(component["footprint"]))
++            )
+             for component in components
+         }
+         mismatched_references = [

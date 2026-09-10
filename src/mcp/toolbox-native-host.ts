@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { lstat, readdir, realpath } from "node:fs/promises";
 import path from "node:path";
 import { createKicadStackupReader } from "../integrations/kicad-stackup.js";
+import { createToolboxSavedMicrostrip } from "./toolbox-saved-microstrip.js";
 import { canonicalIdentity } from "../core/canonical.js";
 import { nativeProjectFingerprint, type PreparedProject } from "../cli/pcb-agent.js";
 import { defaultFluxPcbEditorLauncher, launchFluxPcbEditor, type FluxPcbEditorLauncher,
@@ -134,7 +135,7 @@ export async function openKicadToolboxNativeHost(
     sources: baseline, runtime: input.runtime.identity }, "evleda.toolbox-native-run.v1");
   let socket: KicadMcpInspectionIpcSocketBinding | undefined;
   let authority: KicadMcpBoundSessionAuthority | undefined;
-  let editor: (FluxPcbEditorLaunchResult & { requestClose?: () => Promise<void>; detach?: () => void }) | undefined;
+  let editor: (FluxPcbEditorLaunchResult & { waitUntilReady?: () => Promise<void>; requestClose?: () => Promise<void>; detach?: () => void }) | undefined;
   let editorExited = false;
   let editorTeardownConfirmed = false;
   let ownedLocks: OwnedEditorLocks | undefined;
@@ -208,8 +209,11 @@ export async function openKicadToolboxNativeHost(
       ownedLocks = await preflightOwnedEditorLocks({ outputRoot: prepared.outputPath, projectRoot, pcbPath,
         isEditorTeardownConfirmed: () => editorTeardownConfirmed });
     }, input.environment);
-    // The Windows IPC endpoint is not a filesystem socket. The bound session's
-    // actual live PCB assertion establishes readiness and document identity.
+    // Native readiness has its own existing editor-start bound; it must finish
+    // before allocating the separate MCP connection/deadline budget.
+    startupStage = "editor-readiness";
+    if (editor?.waitUntilReady === undefined) throw new Error("Owned editor launcher did not provide its readiness witness.");
+    await editor.waitUntilReady();
     if (editorExited) throw new Error("Toolbox PCB editor exited before session binding.");
     startupStage = "session-authority";
     authority = await input.runtime.bindSession({ runBindingIdentity, ipcSocket: socket, mode: "write",
@@ -239,10 +243,11 @@ export async function openKicadToolboxNativeHost(
     }
     startupStage = "stackup-binding";
     const readStackup = await createKicadStackupReader({ pcbPath });
+    const checkMicrostripRoute = await createToolboxSavedMicrostrip({ pcbPath });
     startupStage = "reference-binding";
     const checkReferenceCoverage = input.referenceCoverage === undefined ? undefined
       : await createToolboxReferenceCoverage({ pcbPath, calculator: input.referenceCoverage });
-    return Object.freeze({ tools: owned.tools, assertCurrent: () => owned.assertCurrent(), readStackup,
+    return Object.freeze({ tools: owned.tools, assertCurrent: () => owned.assertCurrent(), readStackup, checkMicrostripRoute,
       ...(owned.planeAuthoringContext === undefined ? {} : { planeAuthoringContext: owned.planeAuthoringContext }),
       captureSources: () => owned.captureSources(),
       ...(checkReferenceCoverage === undefined ? {} : { checkReferenceCoverage }),

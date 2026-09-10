@@ -76,6 +76,76 @@ describe('incremental plane route geometry, not completed-route acceptance',()=>
   });
 });
 
+describe('positive collinear overlap is not exempted by characterized centers',()=>{
+  // The ordinary GND fixture's 10 mm length cap would mask several overlap failures.
+  const overlapContract={...contract,routingConstraints:{...contract.routingConstraints,
+    nets:contract.routingConstraints.nets.map(route=>route.net==='GND'&&route.topology==='plane'
+      ? {...route,accessRouting:{...route.accessRouting,routeLength:{mode:'bounded' as const,maximumMm:100}}}
+      : route),
+  }};
+  const overlapRun=(items:readonly FreshRouteSelectionItem[],pads:readonly FreshContractPadPosition[]=[])=>assertPlaneIncrementalRouteGeometry(overlapContract,'GND',items,pads);
+  const padAt=(xMm:number,yMm:number,index:number):FreshContractPadPosition=>({...pad,pad:String(index+1),xMm,yMm,
+    physical:{...pad.physical!,id:`overlap-pad-${index}`}});
+
+  describe.each(['no characterized contacts','pad centers','via centers'] as const)('%s',contacts=>{
+    it.each([
+      ['partial',[2,3,8,3],[3,3,9,3],[[3,3],[8,3]]],
+      ['contained',[2,3,8,3],[3,3,7,3],[[3,3],[7,3]]],
+      ['reversed partial',[8,3,2,3],[9,3,3,3],[[3,3],[8,3]]],
+      ['oppositely directed partial',[2,3,8,3],[9,3,3,3],[[3,3],[8,3]]],
+      ['identical',[2,3,8,3],[2,3,8,3],[[2,3],[8,3]]],
+      ['reversed identical',[2,3,8,3],[8,3,2,3],[[2,3],[8,3]]],
+      ['vertical',[3,2,3,8],[3,3,3,9],[[3,3],[3,8]]],
+      ['rising 45-degree',[2,2,8,8],[3,3,9,9],[[3,3],[8,8]]],
+      ['falling 45-degree',[2,9,8,3],[3,8,9,2],[[3,8],[8,3]]],
+    ] as const)('rejects %s positive collinear overlap',(_name,a,b,boundaries)=>{
+      const tracks=[track('a',a[0],a[1],a[2],a[3]),track('b',b[0],b[1],b[2],b[3])];
+      const pads=contacts==='pad centers'?boundaries.map(([x,y],index)=>padAt(x,y,index)):[];
+      const vias=contacts==='via centers'?boundaries.map(([x,y],index)=>via(`v${index}`,x,y)):[];
+      expect(()=>overlapRun([...tracks,...vias],pads)).toThrow(/overlap/);
+    });
+  });
+
+  it.each([false,true])('rejects a one-nanometre positive overlap with characterized pad centers: %s',withPads=>{
+    const items=[track('a',2,3,6,3),track('b',5.999999,3,9,3)];
+    const pads=withPads?[padAt(5.999999,3,0),padAt(6,3,1)]:[];
+    expect(()=>overlapRun(items,pads)).toThrow(/overlap/);
+  });
+
+  it.each([
+    ['horizontal',[2,3,6,3],[6,3,9,3]],
+    ['reversed horizontal',[6,3,2,3],[9,3,6,3]],
+    ['vertical',[3,2,3,6],[3,6,3,9]],
+    ['rising 45-degree',[2,2,6,6],[6,6,9,9]],
+    ['falling 45-degree',[2,9,6,5],[6,5,9,2]],
+  ] as const)('permits %s segments touching at one shared endpoint',(_name,a,b)=>{
+    expect(()=>overlapRun([track('a',a[0],a[1],a[2],a[3]),track('b',b[0],b[1],b[2],b[3])])).not.toThrow();
+  });
+
+  it('keeps coincident copper on distinct layers outside the overlap comparison',()=>{
+    const signalNet=contract.nets.find(net=>net.name==='VOUT')!;
+    const signalClass=contract.netClasses.find(netClass=>netClass.id===signalNet.netClassId)!;
+    const eitherLayerContract={...contract,
+      netClasses:contract.netClasses.map(netClass=>netClass.id===signalClass.id
+        ? {...netClass,allowedLayers:['F.Cu','B.Cu'] as const}
+        : netClass),
+      routingConstraints:{...contract.routingConstraints,
+        nets:contract.routingConstraints.nets.map(route=>route.net===signalNet.name&&route.topology!=='plane'
+          ? {...route,preferredLayer:'either' as const,referencePath:{mode:'none' as const}}
+          : route),
+      },
+    };
+    expect(()=>assertPlaneIncrementalRouteGeometry(eitherLayerContract,signalNet.name,[
+      track('a',2,3,8,3,{net:signalNet.name,widthMm:signalClass.traceWidthMm}),
+      track('b',2,3,8,3,{net:signalNet.name,widthMm:signalClass.traceWidthMm,layer:'B.Cu'}),
+    ])).not.toThrow();
+  });
+
+  it('compares only tracks belonging to the selected net',()=>{
+    expect(()=>overlapRun([track('a',2,3,8,3),track('b',2,3,8,3,{net:'VIN'})])).not.toThrow();
+  });
+});
+
 describe('exact plane incremental route source preservation',()=>{
   const oldId='11111111-1111-4111-8111-111111111111',newId='22222222-2222-4222-8222-222222222222';
   const route=(id:string,x=10)=>`(segment (start 5 10) (end ${x} 10) (width 0.5) (layer "F.Cu") (net "GND") (uuid "${id}"))`;

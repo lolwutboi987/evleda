@@ -15,6 +15,7 @@ import { loadDeepRuleResource, selectDeepRules, type DeepRuleSelector } from "..
 import type { ConnectedKicadToolbox } from "./toolbox-session.js";
 import { kicadTransmissionLineRequestSchema, type KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import { toolboxReferenceCoverageQuerySchema } from "./toolbox-reference-coverage.js";
+import { snapshotToolboxSavedMicrostripRequest, toolboxSavedMicrostripErrorMessage, toolboxSavedMicrostripQuerySchema } from "./toolbox-saved-microstrip.js";
 import { readToolboxReferenceArtifact, type ToolboxReferenceArtifact } from "./toolbox-reference-resource.js";
 import { planeCompoundMutationState } from "./toolbox-plane-results.js";
 
@@ -102,6 +103,7 @@ function nativeInputSchema(schema: Record<string, unknown>): StandardSchemaWithJ
  * a provider, application lifecycle, native session, or fresh-project authority.
  */
 export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions = {}): KicadToolboxMcpServer {
+  const transmissionLine = options.transmissionLine;
   let tail: Promise<void> = Promise.resolve();
   let connectionClosed = false;
   let closing: Promise<void> | undefined;
@@ -377,6 +379,21 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
             return jsonResult({ ...observation, sourceBefore: before, sourceAfter: after, sourceUnchanged: true });
           });
         } catch (error) { return failure(error); }
+      });
+      if (cad.checkMicrostripRoute !== undefined) registerTool("evleda_check_microstrip_route", {
+        description: "Check one selected saved single-ended microstrip route against an explicit numerical target using its actual saved widths, terminals and stackup. Supply the current sourceIdentity from evleda_read_stackup plus net/reference selectors and caller-stated construction evidence. Returns separate route, construction, model and numerical assessments. Reference fill freshness and electrical eligibility remain unverified; board/interface acceptance is always false. No paths, raw PCB, runtime or requirement changes are accepted.",
+        inputSchema: toolboxSavedMicrostripQuerySchema, annotations: READ_ANNOTATIONS,
+      }, async args => {
+        try {
+          const request = snapshotToolboxSavedMicrostripRequest(args);
+          return await enqueueCad(async () => {
+            await cad.assertCurrent(); const before = await cad.captureSources();
+            const result = await cad.checkMicrostripRoute!(request, transmissionLine);
+            await cad.assertCurrent(); const after = await cad.captureSources();
+            if (before !== after) throw new Error("Project changed during microstrip inspection.");
+            return jsonResult({ ...result, sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
+          });
+        } catch (error) { return jsonResult({ error: toolboxSavedMicrostripErrorMessage(error) }, true); }
       });
       if (options.designContext !== undefined) registerTool("evleda_design_context", {
         description: "Read this project's approved design contract, execution guidance and required acceptance rows. These describe requirements, not completed work.",

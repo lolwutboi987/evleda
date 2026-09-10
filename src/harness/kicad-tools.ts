@@ -15,6 +15,7 @@ import {
 } from "./contracts.js";
 import { KicadMcpSession, type KicadMcpSessionOptions, type KicadMcpToolDescriptor } from "../integrations/kicad-mcp-session.js";
 import { analyzeKicadPcbPractices, type PcbPracticeAnalysisProfile } from "../integrations/pcb-practice-analyzer.js";
+import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
 import {
   FRESH_INCREMENTAL_INPUT_SCHEMAS,
   assertFreshProjectDirectoryChain,
@@ -226,6 +227,7 @@ export interface KicadHarnessSession {
   supportsPlaneStage?(): boolean;
   stagePlane?(argumentsValue: KicadPlaneStageInput): Promise<KicadPlaneStageReceipt>;
   supportsNativeRouteTransactions?():boolean;
+  supportsQualifiedFootprintIdentitySync?():boolean;
   finishNativeRouteTransaction?():void;
   quarantineNativeRouteTransaction?(cause?:unknown):void;
 }
@@ -478,6 +480,16 @@ interface FreshPcbCapture {
   readonly projectBindingIdentity: CanonicalIdentity;
   readonly freshMarkerContentIdentity: ContentIdentity;
   readonly parsed: FreshParsedPcb;
+}
+
+/** New synchronization must preserve native library nicknames. Historical
+ * uniquely bound bare IDs remain readable by the separate inspection path.
+ */
+function assertFullSyncedFootprintIds(contract:FreshConnectivityContract,board:FreshParsedPcb):void{
+  if(board.footprints.length!==contract.components.length||contract.components.some(component=>{
+    const matches=board.footprints.filter(fp=>fp.reference===component.reference);
+    return matches.length!==1||matches[0]!.libraryId!==component.footprintLibId;
+  }))throw new Error("Synced PCB footprint library IDs do not exactly match the complete qualified schematic assignments.");
 }
 
 export interface FreshContractPadPosition {
@@ -2368,7 +2380,7 @@ function assertFreshGenericSchematicSource(schematic: ReturnType<typeof parseFre
  * This intentionally omits any sidecar capability not in the frozen reviewed name list.
  */
 export function projectKicadHarnessToolDefinitions(
-  session: Pick<KicadHarnessSession, "listTools"|"supportsPlaneStage"|"stagePlane"|"supportsNativeRouteTransactions">,
+  session: Pick<KicadHarnessSession, "listTools"|"supportsPlaneStage"|"stagePlane"|"supportsNativeRouteTransactions"|"supportsQualifiedFootprintIdentitySync">,
   freshProject?: FreshProject,
   freshConnectivityContract?: FreshConnectivityContractSource,
 ): readonly HarnessToolDefinition[] {
@@ -2377,6 +2389,7 @@ export function projectKicadHarnessToolDefinitions(
   const names = isVerifiedFreshProject(freshProject) ? KICAD_FRESH_HARNESS_TOOL_NAMES : KICAD_HARNESS_TOOL_NAMES;
   for (const name of names) {
     const tool = found.get(name);
+    if((name==="fresh_sync_from_schematic"||name==="pcb_sync_from_schematic")&&session.supportsQualifiedFootprintIdentitySync?.()!==true)continue;
     if(name==="fresh_replace_route_items"&&session.supportsNativeRouteTransactions?.()!==true)continue;
     if(name==="fresh_apply_contract_plane"&&(!isVerifiedPlaneFreshProject(freshProject)||session.supportsPlaneStage?.()!==true||typeof session.stagePlane!=="function"))continue;
     if(freshProject?.workflowKind==="plane"&&(!isVerifiedPlaneFreshProject(freshProject)||PLANE_UNAVAILABLE_TOOL_NAMES.has(name)))continue;
@@ -2687,11 +2700,25 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         }
       };
       assertSavedRead();await this.#assertFreshCompoundAuthority();this.#assertPhysicalLibrarySources();
+      // The acceptance callback also consumes native ERC/DRC and library-table
+      // evidence. Keep their complete native source set inside this same read
+      // operation, including changes after those subprocesses finish.
+      const nativeSourcesBefore=await captureKicadNativeSourceHashes(this.#freshProject.projectPath);
       const before=await captureFreshPcb(this.#freshProject);
       const liveBefore=await freshActiveBoardSource(this.#session,this.#freshProject.pcbPath);
       if(!freshBoardSerializationsEqual(before.source,liveBefore))throw new Error("Endpoint connectivity refuses unsaved native PCB changes.");
       const physicalExpected=this.#physicalExpected(before,[]);
       const {projectSettings:settingsBefore,rules:rulesBefore}=await this.#planeRuleSources();
+      const requiredSources=[this.#freshProject.pcbPath,this.#freshProject.schematicPath,this.#freshProject.rulesPath,
+        path.join(this.#freshProject.projectPath,`${this.#freshProject.name}.kicad_pro`),
+        path.join(this.#freshProject.projectPath,"sym-lib-table"),path.join(this.#freshProject.projectPath,"fp-lib-table")];
+      const sourceKey=(file:string)=>path.relative(this.#freshProject!.projectPath,file).split(path.sep).join("/");
+      if(requiredSources.some(file=>nativeSourcesBefore[sourceKey(file)]===undefined)
+          ||nativeSourcesBefore[sourceKey(this.#freshProject.pcbPath)]!==before.contentIdentity.digest
+          ||nativeSourcesBefore[`${this.#freshProject.name}.kicad_pro`]!==contentIdentity(settingsBefore).digest
+          ||nativeSourcesBefore[sourceKey(this.#freshProject.rulesPath)]!==contentIdentity(rulesBefore).digest){
+        throw new Error("Complete native project source inventory changed or is missing before plane evidence collection.");
+      }
       const assertFillEvidenceCurrent=()=>{
         if(requireFillEvidence&&this.#savedFreshPlaneEvidence!==undefined)assertSavedFreshPlaneEvidenceCurrent(this.#savedFreshPlaneEvidence,{
           bundleIdentity:this.#freshPlaneCompilationBundle!.identity,projectBindingIdentity:before.projectBindingIdentity,
@@ -2713,10 +2740,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       await this.#assertFreshCompoundAuthority();this.#assertPhysicalLibrarySources();assertSavedRead();
       const {projectSettings:settingsAfter,rules:rulesAfter}=await this.#planeRuleSources();
       if(!settingsBefore.equals(settingsAfter)||!rulesBefore.equals(rulesAfter))throw new Error("Project settings or canonical plane rules changed during plane evidence collection.");
+      const nativeSourcesAfter=await captureKicadNativeSourceHashes(this.#freshProject.projectPath);
       const after=await captureFreshPcb(this.#freshProject);
       if(!sameContentIdentity(before.contentIdentity,after.contentIdentity)||!sameContentIdentity(before.freshMarkerContentIdentity,after.freshMarkerContentIdentity)
           ||canonicalJson(before.projectBindingIdentity)!==canonicalJson(after.projectBindingIdentity)
           ||canonicalJson(this.#physicalExpected(after,[]).scopeIdentity)!==canonicalJson(physicalExpected.scopeIdentity))throw new Error("PCB source, marker, or physical scope changed during endpoint connectivity observation.");
+      if(canonicalJson(nativeSourcesBefore)!==canonicalJson(nativeSourcesAfter))throw new Error("Complete native project source inventory changed during plane evidence collection.");
       this.#assertPhysicalLibrarySources();assertSavedRead();
       assertFillEvidenceCurrent();
       return result;
@@ -3818,6 +3847,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #freshSyncFromSchematic(call: HarnessToolCall): Promise<HarnessToolResult> {
+    if(this.#session.supportsQualifiedFootprintIdentitySync?.()!==true)throw new Error("Fresh sync requires the qualified writer that preserves full footprint library IDs.");
     parseFreshIncrementalArguments(call.name, call.arguments);
     const contract = this.#freshConnectivityContract!;
     const physicalMode=this.#freshPhysicalFootprintResolver!==undefined;
@@ -3904,6 +3934,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
       const after = await captureFreshPcb(this.#freshProject!);
       if (freshBoardSerializationsEqual(before.source, after.source)) throw new Error("Fresh sync left authoritative PCB content unchanged.");
+      assertFullSyncedFootprintIds(contract,after.parsed);
       const pads = exactContractPadPositions(this.#freshProject!, contract, after.parsed,physicalMode);
       const liveSource = await freshActiveBoardSource(this.#session, this.#freshProject!.pcbPath);
       if (this.#observeFreshSyncBoardComparison !== undefined) {
@@ -3922,6 +3953,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         throw new Error("Reloaded live board bytes differ from the authoritative synced PCB source.");
       }
       const livePads = exactContractPadPositions(this.#freshProject!, contract, parseFreshPcbSource(liveSource),physicalMode);
+      assertFullSyncedFootprintIds(contract,parseFreshPcbSource(liveSource));
       if (canonicalJson(livePads) !== canonicalJson(pads)) throw new Error("Reloaded live pad inventory differs from synced source readback.");
       const physicalState=await this.#physicalPadState(after,[]);
       const physicalCounts=physicalState===undefined?undefined:physicalPadCounts(contract,after.parsed);
@@ -4724,6 +4756,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       return;
     }
     const physicalMode=this.#freshPhysicalFootprintResolver!==undefined;
+    if(pending.kind==="sync")assertFullSyncedFootprintIds(pending.contract,capture.parsed);
     const sourcePads=exactContractPadPositions(this.#freshProject!,pending.contract,capture.parsed,physicalMode);
     if(physicalMode&&(pending.physicalPcbSource===undefined||!freshBoardSerializationsEqual(pending.physicalPcbSource,capture.source)))throw new Error("Mandatory PCB save changed the exact verified physical board source.");
     const physicalState=await this.#physicalPadState(capture,physicalMode&&(pending.kind==="route"||pending.kind==="plane-route")?sourcePads.filter(pad=>pad.net===pending.net).map(pad=>pad.physical!.id):[]);

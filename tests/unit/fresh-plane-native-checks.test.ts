@@ -34,7 +34,10 @@ const boardSource = (padFields = "", footprintFields = "", extraPad = "") => wit
   (footprint "Test:R2" (layer "F.Cu") (at 5 5) (property "Reference" "R2") (property "Value" "TEST")
     (pad "2" smd rect (at 0 0) (size 1 1) (layers "F.Cu") (net "GND"))))\n`);
 function projectSettings() {
-  return { board: { file: "fixture.kicad_pcb", design_settings: {
+  return { erc: { erc_exclusions: [], rule_severities: {
+    single_global_label: "error", footprint_filter: "error", simulation_model_issue: "error", four_way_junction: "error",
+  } } as { erc_exclusions: unknown[]; rule_severities: Record<string, string>; pin_map?: number[][] },
+  board: { file: "fixture.kicad_pcb", design_settings: {
     rule_severities: { clearance: "error", hole_clearance: "error", copper_edge_clearance: "error", shorting_items: "error", tracks_crossing: "error", zones_intersect: "error", unconnected_items: "error", starved_thermal: "error" },
     rules: { min_resolved_spokes: 2, max_error: 0.005 }, drc_exclusions: [] as unknown[],
   } } };
@@ -77,8 +80,15 @@ async function fixture(options: { padFields?: string; footprintFields?: string; 
     source: "fixture.kicad_pcb", date: "2026-09-10T00:00:00.000Z", included_severities: ["error", "warning", "exclusion"],
     ignored_checks: [], violations: [], unconnected_items: [], schematic_parity: [] };
   const drc = { kind: "drc" as const, status: "clean" as const, reportPath, violationCount: 0, schematicParityCount: 0, invocation, report };
+  const ercPath = "D:\\evleda-offline-check-output\\erc.json", schematicPath = `${projectRoot}\\fixture.kicad_sch`;
+  const erc = { kind: "erc" as const, status: "clean" as const, reportPath: ercPath, violationCount: 0, schematicParityCount: 0,
+    invocation: { ...invocation, stdout: "Found 0 ERC violations\n", args: ["sch", "erc", "--output", ercPath, "--format", "json", "--units", "mm",
+      "--severity-all", "--exit-code-violations", schematicPath] },
+    report: { $schema: "https://schemas.kicad.org/erc.v1.json", coordinate_units: "mm", kicad_version: executable.version,
+      source: "fixture.kicad_sch", date: report.date, included_severities: ["error", "warning", "exclusion"], ignored_checks: [],
+      sheets: [{ path: "/", uuid_path: "/11111111-1111-4111-8111-111111111111/", violations: [] }] } };
   const nativeChecks: KicadCheckResult = { classification: "candidate-validation", releaseAuthorized: false, executable,
-    sourceHashes: expectedSourceHashes, drc, erc: { ...drc, kind: "erc" }, clean: true };
+    sourceHashes: expectedSourceHashes, drc, erc, clean: true };
   return { compilationBundle, savedEvidence, current, sources, expectedSourceHashes, expectedExecutable: executable, nativeChecks };
 }
 function changeNative(input: FreshPlaneNativeChecksInput, change: (native: any) => void): FreshPlaneNativeChecksInput {
@@ -112,6 +122,136 @@ async function withContacts(input: FreshPlaneNativeChecksInput, change: (report:
   finally { await f.cleanup(); }
 }
 const contactTest = it.runIf(process.platform === "win32");
+
+describe("original V2 ERC native evidence", () => {
+  it("binds the actual ERC invocation/report and complete schematic/library source scope", async () => {
+    const input = await fixture(), result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.erc).toEqual({ status: "verified", reasons: [] });
+    expect(result.nativeErcIdentity).toEqual(canonicalIdentity(input.nativeChecks.erc, "evleda.fresh-plane-native-erc-input.v1"));
+    expect(result.ercSourceScope).toEqual({ schematic: { relativePath: "fixture.kicad_sch", sha256: "3".repeat(64) },
+      symbolLibraryTable: { relativePath: "sym-lib-table", sha256: "5".repeat(64) },
+      footprintLibraryTable: { relativePath: "fp-lib-table", sha256: "4".repeat(64) },
+      sourceSetIdentity: canonicalIdentity(input.expectedSourceHashes, "evleda.fresh-plane-native-source-set.v1") });
+    expect(result.ercCoverage).toMatchObject({ ignoredChecks: [], projectIgnoredCheckKeys: [], projectExclusionCount: 0,
+      reportExcludedViolationCount: 0, unexcludedViolationCount: 0, sheetCount: 1, pinMapApplicability: "native-default-absent" });
+    expect(Object.isFrozen(result.ercCoverage)).toBe(true);
+    expect(result.nativeInput.erc).toEqual(input.nativeChecks.erc);
+    expect(isFreshPlaneNativeChecksAssessment(structuredClone(result))).toBe(false);
+  });
+  it.each(["fixture.kicad_sch", "sym-lib-table", "fp-lib-table"])("rejects stale %s before ERC can be promoted", async key => {
+    const input = changeNative(await fixture(), native => { native.sourceHashes[key] = "a".repeat(64); });
+    expect(() => assessFreshPlaneNativeChecks(input)).toThrow("sourceHashes");
+  });
+  it.each([
+    ["missing ERC", (native: any) => { delete native.erc; }],
+    ["wrong kind", (native: any) => { native.erc.kind = "drc"; }],
+    ["wrong executable", (native: any) => { native.erc.invocation.executable = { ...native.erc.invocation.executable, sha256: "f".repeat(64) }; }],
+    ["another schematic path", (native: any) => { native.erc.invocation.args[native.erc.invocation.args.length - 1] = "D:\\another.kicad_sch"; }],
+    ["extra selector", (native: any) => { native.erc.invocation.args.push("--severity-error"); }],
+    ["missing all-severity flag", (native: any) => { native.erc.invocation.args = native.erc.invocation.args.filter((value: string) => value !== "--severity-all"); }],
+    ["wrong report source", (native: any) => { native.erc.report.source = "another.kicad_sch"; }],
+    ["wrong report schema", (native: any) => { native.erc.report.$schema = "https://schemas.kicad.org/drc.v1.json"; }],
+    ["wrong report units", (native: any) => { native.erc.report.coordinate_units = "in"; }],
+    ["wrong report version", (native: any) => { native.erc.report.kicad_version = "10.0.2"; }],
+    ["filtered report", (native: any) => { native.erc.report.included_severities = ["error"]; }],
+    ["missing ignored-check inventory", (native: any) => { delete native.erc.report.ignored_checks; }],
+    ["missing sheets", (native: any) => { delete native.erc.report.sheets; }],
+    ["empty sheets", (native: any) => { native.erc.report.sheets = []; }],
+    ["missing root sheet", (native: any) => { native.erc.report.sheets[0].path = "/child"; }],
+    ["duplicate sheets", (native: any) => { native.erc.report.sheets.push(structuredClone(native.erc.report.sheets[0])); }],
+    ["missing sheet violation inventory", (native: any) => { delete native.erc.report.sheets[0].violations; }],
+    ["exit mismatch", (native: any) => { native.erc.invocation.exitCode = 5; }],
+    ["count mismatch", (native: any) => { native.erc.violationCount = 1; }],
+  ] as const)("keeps %s ERC evidence unknown without changing the DRC/thermal facts", async (_name, mutate) => {
+    const input = await fixture(), before = assessFreshPlaneNativeChecks(input), result = assessFreshPlaneNativeChecks(changeNative(input, mutate));
+    expect(result.checks.erc.status).toBe("unsupported");
+    expect(result.checks.drcClearanceShorts).toEqual(before.checks.drcClearanceShorts);
+    expect(result.checks.thermalPolicy).toEqual(before.checks.thermalPolicy);
+  });
+  it("reports an actual unexcluded ERC violation as failed", async () => {
+    const input = changeNative(await fixture(), native => {
+      native.erc.report.sheets[0].violations = [{ type: "pin_not_connected", severity: "error", description: "Unconnected pin" }];
+      native.erc.violationCount = 1; native.erc.status = "violations"; native.erc.invocation.exitCode = 5; native.clean = false;
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.erc).toEqual({ status: "failed", reasons: ["native-erc-has-violations"] });
+    expect(result.ercCoverage.unexcludedViolationCount).toBe(1);
+    expect(result.checks.drcClearanceShorts.status).toBe("verified");
+  });
+  it("counts warning findings on child sheets as actual ERC violations", async () => {
+    const input = changeNative(await fixture(), native => {
+      native.erc.report.sheets.push({ path: "/child", uuid_path: "/11111111-1111-4111-8111-111111111111/22222222-2222-4222-8222-222222222222/",
+        violations: [{ type: "pin_to_pin", severity: "warning", description: "Pin conflict" }] });
+      native.erc.violationCount = 1; native.erc.status = "violations"; native.erc.invocation.exitCode = 5;
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.erc.status).toBe("failed");
+    expect(result.ercCoverage).toMatchObject({ sheetCount: 2, unexcludedViolationCount: 1 });
+  });
+  it("keeps excluded ERC findings visible and unresolved", async () => {
+    const input = changeNative(await fixture(), native => {
+      native.erc.report.sheets[0].violations = [{ type: "pin_not_connected", severity: "error", excluded: true, description: "Excluded pin" }];
+      native.erc.violationCount = 1; native.erc.status = "violations"; native.erc.invocation.exitCode = 5; native.clean = false;
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.erc.status).toBe("unsupported");
+    expect(result.ercCoverage).toMatchObject({ reportExcludedViolationCount: 1, unexcludedViolationCount: 0 });
+  });
+  it("does not waive KiCad's four default ignored ERC checks", async () => {
+    const project = projectSettings(); project.erc.rule_severities = {};
+    const keys = ["single_global_label", "footprint_filter", "simulation_model_issue", "four_way_junction"];
+    const input = changeNative(await fixture({ project }), native => { native.erc.report.ignored_checks = keys.map(key => ({ key, description: key })); });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.erc.status).toBe("unsupported");
+    expect(result.ercCoverage.ignoredChecks.map(entry => entry.key)).toEqual(keys);
+    expect(result.ercCoverage.projectIgnoredCheckKeys).toEqual([...keys].sort());
+    expect(result.checks.erc.reasons).not.toContain("erc-report-project-ignored-checks-mismatch");
+  });
+  it("detects ignored-check disagreement between the exact project and report", async () => {
+    const project = projectSettings(); project.erc.rule_severities.pin_to_pin = "ignore";
+    const result = assessFreshPlaneNativeChecks(await fixture({ project }));
+    expect(result.checks.erc.status).toBe("unsupported");
+    expect(result.ercCoverage.projectIgnoredCheckKeys).toEqual(["pin_to_pin"]);
+    expect(result.checks.erc.reasons).toContain("erc-report-project-ignored-checks-mismatch");
+  });
+  it("rejects project ERC exclusions without changing any project bytes", async () => {
+    const project = projectSettings(); project.erc.erc_exclusions = [["native-marker", "comment"]];
+    const input = await fixture({ project }), before = input.sources.projectSource;
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.erc.status).toBe("unsupported");
+    expect(result.ercCoverage.projectExclusionCount).toBe(1);
+    expect(input.sources.projectSource).toBe(before);
+  });
+  it("does not accept an arbitrary pin-conflict matrix even when ignored_checks is empty", async () => {
+    const project = projectSettings(); project.erc.pin_map = Array.from({ length: 12 }, () => Array(12).fill(0) as number[]);
+    const result = assessFreshPlaneNativeChecks(await fixture({ project }));
+    expect(result.checks.erc.status).toBe("unsupported");
+    expect(result.ercCoverage.pinMapApplicability).toBe("non-default");
+    expect(result.ercCoverage.pinMapIdentity).not.toBeNull();
+  });
+  it("recognizes the exact KiCad 10 default pin map when explicitly serialized", async () => {
+    const project = projectSettings();
+    // Independent interoperability fixture from pinned ERC_SETTINGS::m_defaultPinMap.
+    project.erc.pin_map = ["000000100002", "020100102222", "000000101012", "010000112112",
+      "000000100002", "000000000002", "111110111112", "000100100002",
+      "021200102222", "020100102002", "021100102002", "222222222222"].map(row => [...row].map(Number));
+    const implicit = assessFreshPlaneNativeChecks(await fixture()), explicit = assessFreshPlaneNativeChecks(await fixture({ project }));
+    expect(explicit.checks.erc.status).toBe("verified");
+    expect(explicit.ercCoverage.pinMapApplicability).toBe("native-default-explicit");
+    expect(explicit.ercCoverage.pinMapIdentity).toEqual(implicit.ercCoverage.pinMapIdentity);
+  });
+  it("keeps malformed pin-map policy unknown", async () => {
+    const project = projectSettings(); project.erc.pin_map = [[0]];
+    const result = assessFreshPlaneNativeChecks(await fixture({ project }));
+    expect(result.checks.erc.status).toBe("unsupported");
+    expect(result.ercCoverage.pinMapApplicability).toBe("unavailable");
+  });
+  it("keeps unexplained ERC stderr unresolved", async () => {
+    const input = changeNative(await fixture(), native => { native.erc.invocation.stderr = "Schematic read warning"; });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.erc).toEqual({ status: "unsupported", reasons: ["native-erc-stderr-needs-review"] });
+  });
+});
 
 describe("source-bound native plane policy evidence", () => {
   it("verifies scoped native DRC while missing direct contacts cannot pass thermal policy", async () => {

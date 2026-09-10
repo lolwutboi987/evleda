@@ -5,8 +5,10 @@ import { isReferenceCoverageCalculator, referenceCoverageRequestSchema, type Ref
 import { assertFreshPlaneReferenceCopperScope } from "./fresh-clearance-evidence.js";
 import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFreshPcbSource } from "./fresh-kicad-parser.js";
 import { isFreshPlaneConnectivityAssessment, type FreshPlaneConnectivityAssessment } from "./fresh-plane-connectivity.js";
+import { assessFreshPlaneCommonChecks, type FreshPlaneCommonChecksAssessment } from "./fresh-plane-common-checks.js";
 import { isSavedFreshPlaneEvidence, type SavedFreshPlaneEvidence } from "./fresh-plane-evidence.js";
 import { assessFreshPlaneFilledGeometry } from "./fresh-plane-filled-geometry.js";
+import { assessFreshPlaneDrillTopology } from "./fresh-plane-drill-topology.js";
 import { isFreshPlaneNativeChecksAssessment, type FreshPlaneNativeChecksAssessment } from "./fresh-plane-native-checks.js";
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
@@ -59,6 +61,19 @@ function identityFromHelper(value: { readonly sha256: string; readonly sizeBytes
   return { algorithm: "sha256", digest: value.sha256, size: value.sizeBytes };
 }
 
+/** Strict circle/capsule overlap proves a drill void enters the required ribbon.
+ * Equality alone remains uncertain: this predicate never rounds tangency inward.
+ */
+function boreRibbonRelation(bore:{centerNm:{x:number;y:number};diameterNm:number},segment:{startNm:{x:number;y:number};endNm:{x:number;y:number};widthNm:number},marginNm:number):"overlap"|"tangent"|"separate"{
+  const ax=BigInt(segment.startNm.x),ay=BigInt(segment.startNm.y),dx=BigInt(segment.endNm.x)-ax,dy=BigInt(segment.endNm.y)-ay;
+  const px=BigInt(bore.centerNm.x)-ax,py=BigInt(bore.centerNm.y)-ay,length2=dx*dx+dy*dy,dot=px*dx+py*dy;
+  const radius2=BigInt(segment.widthNm)+2n*BigInt(marginNm)+BigInt(bore.diameterNm),limit=radius2*radius2;
+  const compare=(a:bigint,b:bigint)=>a<b?"overlap" as const:a===b?"tangent" as const:"separate" as const;
+  if(length2===0n||dot<=0n)return compare(4n*(px*px+py*py),limit);
+  if(dot>=length2){const ex=px-dx,ey=py-dy;return compare(4n*(ex*ex+ey*ey),limit);}
+  const cross=dx*py-dy*px;return compare(4n*cross*cross,limit*length2);
+}
+
 /** Pure assessment with an optional host-owned geometric calculation; never opens or mutates CAD. */
 export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceInput) {
   // Snapshot host input references before the optional awaited calculator. The
@@ -83,21 +98,23 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
   const planes: Array<{
     planeId: string; zoneUuid: string; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
     nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null; componentCount: number;
-    nativePolygonAttribution: Fact; minimumArea: Fact & { requiredAreaTwiceNm2: string; observedAreaTwiceNm2: readonly string[] };
-    intendedPlaneConnectivity: Fact & { directEligiblePadAnchors: readonly string[]; nativeDirectVias: readonly string[] };
+    drillTopology:ReturnType<typeof assessFreshPlaneDrillTopology>;
+    nativePolygonAttribution: Fact; minimumArea: Fact & { requiredAreaTwiceNm2: string; observedAreaTwiceNm2: readonly string[];conservativeAreaLowerBoundTwiceNm2:string|null };
+    intendedPlaneConnectivity: Fact & { scope:"native-pad-reachability-to-stored-zone-component";directEligiblePadAnchors: readonly string[]; nativeDirectVias: readonly string[] };
     islandPolicy: Fact; actualMinimumCopperWidth: Fact; thermalPolicy: Fact; actualThermalWidth: Fact;
   }> = [];
   const references: Array<{ net: string; planeId: string; status: Status; reasons: readonly string[]; segmentIds: readonly string[];
     marginNm: number; geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed";
-    referenceTerminals: Fact; calculation: unknown }> = [];
+    referenceTerminals: Fact; intersectingBoreUuids:readonly string[];tangentBoreUuids:readonly string[];calculation: unknown }> = [];
   let authority = fact("unknown", missing), sourceScope = fact("unknown", missing), nativeInventory = fact("unknown", "Current authenticated native contacts are unavailable.");
+  let commonChecks: FreshPlaneCommonChecksAssessment | null = null;
   const finish = () => {
     const payload = { schemaVersion: "evleda.fresh-plane-acceptance.v1" as const, family: "plane-v2" as const,
       status: rows.some(row => row.status === "fail") ? "failed" as const : "incomplete" as const,
       bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity, verificationPlanIdentity: bundle.verificationPlan.identity,
       sourceIdentities: identities, savedEvidenceIdentity: input.savedEvidence?.identity ?? null,
       evidence: { savedFill: input.savedEvidence, endpointConnectivity: endpoint,
-        nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null },
+        nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null, commonChecks },
       endpointConnectivityIdentity: endpoint.identity, endpointConnectivity: { status: endpoint.status, nets: endpoint.nets.map(net => ({ net: net.net, status: net.status,
         everyEligiblePhysicalMemberReachable: net.everyEligiblePhysicalMemberReachable })) },
       authority, sourceScope, nativeInventory, planes, references, rows,
@@ -106,6 +123,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       acceptanceEvaluated: true as const, accepted: false as const, fabricationAuthorized: false as const,
       limitations: { overallAcceptance: "requires-every-mandatory-V2-row-and-independent-general-gates" as const,
         physicalThermalWidth: "not-measured" as const, actualMinimumCopperWidth: "not-measured" as const,
+        terminalContactContinuity:"native-model-only-not-drill-clipped-global-copper" as const,
         highFrequencyElectricalValidity: "not-established" as const, impedance: "not-evaluated" as const,
         currentSourceGuards: "required-of-owning-host-before-and-after-assessment" as const } };
     return freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
@@ -118,9 +136,9 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     && same(saved.projectSettingsIdentity, identities.project) && same(saved.rulesIdentity, identities.rules)
     && same(saved.sourceScopeIdentity, endpoint.hostScopeIdentity), "saved native fill witness is stale for current source, scope or V2 authority");
   requireValue(same(endpoint.nativeSourceIdentity, identities.pcb) || same(endpoint.nativeSourceIdentity, contentIdentity(saved.stage.nativeSourceStaged)),
-    "endpoint native source is not an admitted authenticated saved/staged serialization");
+    "endpoint native source is not an admitted authenticated saved or staged serialization");
   requireValue(input.rulesSource === createFreshPlaneRules(bundle).source, "rules are not the exact bundle-owned canonical DRU");
-  authority = fact("verified", "Authenticated V2 bundle, current saved fill, exact source/rules and physical endpoint scope agree.");
+  authority = fact("verified", "Authenticated V2 bundle, current saved fill, exact source and rules, and physical endpoint scope agree.");
   setRow("contract:integrity", authority);
   let board: ReturnType<typeof parseFreshPcbSource>, source: ReturnType<typeof parseFreshPcbReferenceGeometry>;
   try {
@@ -148,6 +166,15 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     for (const row of rows.filter(row => row.kind.startsWith("plane_") || row.kind === "reference_path")) setRow(row.id, sourceScope);
     return finish();
   }
+  // The common assessor requires the original in-process endpoint authority,
+  // not the detached snapshot retained in this result's diagnostic evidence.
+  commonChecks = assessFreshPlaneCommonChecks({ compilationBundle: bundle, savedEvidence: saved,
+    pcbSource: input.pcbSource, endpointConnectivity: input.endpointConnectivity });
+  for (const check of commonChecks.rows) {
+    const index = rows.findIndex(row => row.id === check.id);
+    requireValue(index >= 0 && rows[index]!.kind === check.kind, "common source check does not match an original V2 verification row");
+    rows[index] = { ...rows[index]!, status: check.status, reasons: check.reasons };
+  }
   const contactObservation = input.nativeContacts;
   let contacts: KicadPlaneContactsObservation["report"] | undefined;
   if (contactObservation !== undefined) {
@@ -167,7 +194,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       const tracks = [...board.segments.map(track => ({ uuid: track.id, nativeClass: "PCB_TRACK", netName: track.netName, layers: [track.layer] })),
         ...board.vias.map(via => ({ uuid: via.id, nativeClass: "PCB_VIA", netName: via.netName, layers: [...via.layers] }))];
       requireValue(contacts.inventory.trackCount === tracks.length && contacts.allTracks.length === tracks.length && contacts.allTracks.every(track => tracks.some(savedTrack =>
-        savedTrack.uuid === track.uuid && savedTrack.nativeClass === track.nativeClass && savedTrack.netName === track.netName && same(names(savedTrack.layers), names(track.layers.map(layer => layer.name))))), "native complete route inventory differs from exact saved track/via inventory");
+        savedTrack.uuid === track.uuid && savedTrack.nativeClass === track.nativeClass && savedTrack.netName === track.netName && same(names(savedTrack.layers), names(track.layers.map(layer => layer.name))))), "native complete route inventory differs from exact saved tracks and vias");
       requireValue(contacts.inventory.zoneCount === source.zones.length && contacts.zones.length === source.zones.length
         && same(names(contacts.zones.map(zone => zone.uuid)), names(source.zones.map(zone => zone.uuid!)))
         && same(names(saved.stage.nativeFilledZones.map(zone => zone.uuid)), names(source.zones.map(zone => zone.uuid!))), "saved, stage and native zone inventories differ");
@@ -177,7 +204,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       const padLayersMatch = contacts.allPads.every(pad => physical.physicalPads.some(known =>
         known.uuid === pad.uuid && same(names(known.layerMembership), names(pad.layers.map(layer => nativeLayer(layer.name))))));
       requireValue(padLayersMatch, "native physical pad layer inventory differs from the qualified staged observation");
-      nativeInventory = fact("verified", "All native zone, footprint, pad and route UUIDs/net/layer records match the complete saved source.");
+      nativeInventory = fact("verified", "All native zone, footprint, pad and route UUIDs, nets and layers match the complete saved source.");
     } catch (error) { nativeInventory = fact("failed", error instanceof Error ? error.message : "Native inventory mismatch."); }
   }
   const nativeChecks = input.nativeChecks;
@@ -186,6 +213,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       && same(nativeChecks.savedEvidenceIdentity, saved.identity) && same(nativeChecks.sourceIdentities, identities), "native validation facts are unbranded or stale");
     const drc = nativeChecks.checks.drcClearanceShorts;
     setRow("drc", fact(drc.status === "verified" ? "verified" : drc.status === "failed" ? "failed" : "unknown", ...drc.reasons));
+    const erc = nativeChecks.checks.erc;
+    setRow("erc", fact(erc.status === "verified" ? "verified" : erc.status === "failed" ? "failed" : "unknown", ...erc.reasons));
   }
   for (const plane of bundle.contract.planes) {
     const zoneUuid = saved.stage.targetZoneUuid, sourceZone = source.zones.find(zone => zone.uuid === zoneUuid);
@@ -195,8 +224,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       && sourceZone.netName === plane.net && same(sourceZone.layers, [plane.layer])
       && sourceZone.settings.some(setting => setting.name === "name" && setting.values.length === 1 && setting.values[0]!.value === rule.zoneName)
       && saved.stage.comparison.mutation.netName === plane.net
-      ? fact("verified", "The sole source/native zone retains the exact authenticated contract mutation and canonical owned name/settings.")
-      : fact("failed", "The source has extra/unbound zones or does not contain the exact contract-owned zone.");
+      ? fact("verified", "The sole saved and native zone retains the exact authenticated contract mutation, owned name and settings.")
+      : fact("failed", "The source has extra or unbound zones or does not contain the exact contract-owned zone.");
     const geometry = assessFreshPlaneFilledGeometry({ savedZone: sourceZone!, nativeZone: stageZone?.raw, layer: plane.layer });
     let nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null = null;
     let attribution = fact("unknown", "Authenticated matching native contact geometry is required.");
@@ -210,15 +239,20 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       attribution = nativeZone.netName === plane.net && !nativeZone.isRuleArea && nativeZone.isFilled && !nativeZone.needRefill && nativeZone.layers.length === 1
         && layer !== undefined && layer.filledSubpolygonCount === 1 && layer.subpolygons.length === 1 && layer.subpolygons[0]!.index === 0
         && geometry.components.length === 1 && geometry.components[0]!.nativePolygonIndex === 0 && equalGeometry
-        ? fact("verified", "One helper native subpolygon equals one source/stage topology-certified copper component; aggregate direct contacts have an unambiguous scope.")
+        ? fact("verified", "One native subpolygon matches one connected copper component in the saved and staged geometry; direct contacts have an unambiguous scope.")
         : fact("failed", "Native contact geometry is not exactly one matching attributed filled component.");
     } else if (nativeInventory.status === "failed") attribution = nativeInventory;
+    const drillTopology=assessFreshPlaneDrillTopology({savedEvidence:saved,pcbSource:input.pcbSource,layer:plane.layer});
     const areaThreshold = scaledFraction(plane.islandPolicy.minimumAreaMm2, 12);
     const requiredAreaTwiceNm2 = decimal(2n * areaThreshold.numerator, areaThreshold.denominator);
-    const minimumArea = { ...(geometry.status !== "verified" ? fact("unknown", "Exact component area is unavailable.")
-      : geometry.components.every(component => BigInt(component.areaTwiceNm2) * areaThreshold.denominator >= 2n * areaThreshold.numerator) ? fact("verified", "Each complete retained component meets the exact area threshold.")
-        : fact("failed", "A retained filled component is smaller than the declared minimum area.")), requiredAreaTwiceNm2,
-      observedAreaTwiceNm2: geometry.components.map(component => component.areaTwiceNm2) };
+    const minimumArea = { ...(geometry.status==="verified"&&geometry.components.some(component=>BigInt(component.areaTwiceNm2)*areaThreshold.denominator<2n*areaThreshold.numerator)
+      ?fact("failed","Even the stored plane area before drill subtraction is below the exact minimum threshold.")
+      :drillTopology.status!=="verified"||drillTopology.conservativeAreaLowerBoundTwiceNm2===null
+      ? fact("unknown","A complete bore-aware retained-area certificate is unavailable.")
+      : BigInt(drillTopology.conservativeAreaLowerBoundTwiceNm2)*areaThreshold.denominator>=2n*areaThreshold.numerator
+        ? fact("verified","The conservative retained area after supported drill subtraction meets the exact threshold.")
+        : fact("unknown","The conservative area lower bound is below the threshold; enclosure loss alone does not prove a physical area failure.")),requiredAreaTwiceNm2,
+      observedAreaTwiceNm2:geometry.components.map(component=>component.areaTwiceNm2),conservativeAreaLowerBoundTwiceNm2:drillTopology.conservativeAreaLowerBoundTwiceNm2};
     const net = endpoint.nets.find(net => net.net === plane.net), allMembers = net?.endpoints.flatMap(endpoint => endpoint.eligiblePhysicalPadUuids) ?? [];
     const eligible = new Set(allMembers), anchorIds = attribution.status === "verified" ? (nativeZone?.directPads ?? []).filter(pad => eligible.has(pad.uuid) && pad.netName === plane.net && pad.nativeClass === "PAD").map(pad => pad.uuid) : [];
     const badContact = nativeZone !== undefined && [...nativeZone.directPads, ...nativeZone.directTracks, ...nativeZone.directVias].some(item => item.netName !== plane.net)
@@ -228,29 +262,30 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       : attribution.status === "verified" && net?.status === "connected" && net.everyEligiblePhysicalMemberReachable && allMembers.length > 0 && anchorIds.length > 0
         ? fact("verified", "Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component.")
         : fact("unknown", "Complete all-member native reachability and a direct eligible PAD anchor are required; a via-only contact has no separately evidenced terminal-to-via anchor.");
-    const intendedPlaneConnectivity = { ...connected, directEligiblePadAnchors: anchorIds, nativeDirectVias: nativeZone?.directVias.map(via => via.uuid) ?? [] };
+    const intendedPlaneConnectivity = { ...connected,scope:"native-pad-reachability-to-stored-zone-component" as const,directEligiblePadAnchors: anchorIds, nativeDirectVias: nativeZone?.directVias.map(via => via.uuid) ?? [] };
     const nativeIsland = nativeZone?.layers.some(layer => layer.subpolygons.some(polygon => polygon.isIsland === true)) === true;
     const island = geometry.status !== "verified" ? fact("unknown", "Filled topology is unverified.") : geometry.components.length !== 1 || minimumArea.status === "failed" || nativeIsland
       ? fact("failed", "Single-component or minimum-area island policy is violated.")
-      : attribution.status === "verified" && nativeZone!.layers[0]!.subpolygons.every(polygon => polygon.isIsland === false) && connected.status === "verified"
-        ? fact("verified", "Exactly one sufficiently large retained component has native non-island classification and a direct contracted endpoint anchor.")
+      : attribution.status === "verified" &&drillTopology.status==="verified"&&minimumArea.status==="verified"&&nativeZone!.layers[0]!.subpolygons.every(polygon => polygon.isIsland === false) && connected.status === "verified"
+        ? fact("verified", "The zone retains one sufficiently large planar interior after supported drill subtraction, native non-island classification and a native endpoint anchor.")
         : fact("unknown", "Native retained-island classification and connected intended-component attribution are required.");
     const thermal = nativeChecks?.checks.thermalPolicy;
     const thermalPolicy = thermal === undefined ? fact("unknown", "Effective native thermal policy evidence is unavailable.")
       : fact(thermal.status === "verified" ? "verified" : thermal.status === "failed" ? "failed" : "unknown", ...thermal.reasons);
     const actualMinimumCopperWidth = fact("unknown", "Configured native minimum thickness does not measure actual filled copper width.");
     const actualThermalWidth = plane.padConnection.mode === "solid" ? fact("verified", "Thermal spoke width is not applicable to the declared solid connection.")
-      : fact("unknown", "Actual physical thermal spoke width has not been measured; native configuration/DRC is not a dimension measurement.");
-    planes.push({ planeId: plane.id, zoneUuid, configuration, geometry, nativeGeometry, componentCount: geometry.components.length,
+      : fact("unknown", "Actual physical thermal spoke width has not been measured; native configuration and DRC do not measure this dimension.");
+    planes.push({ planeId: plane.id, zoneUuid, configuration, geometry, nativeGeometry,drillTopology,componentCount: geometry.components.length,
       nativePolygonAttribution: attribution, minimumArea, intendedPlaneConnectivity, islandPolicy: island, actualMinimumCopperWidth, thermalPolicy, actualThermalWidth });
     setRow(`plane-config:${plane.id}`, configuration);
-    setRow(`plane-net:${plane.net}`, connected);
+    setRow(`plane-net:${plane.net}`,connected.status==="failed"?connected:fact("unknown",...connected.reasons,
+      "Native endpoint reachability and planar interior topology do not yet prove every terminal contact through drill-clipped pad, track and barrel copper."));
     setRow(`plane-fill:${plane.id}`, geometry.status !== "verified" ? fact("unknown", ...geometry.issues) : actualMinimumCopperWidth);
     setRow(`plane-policy:${plane.id}`, island.status === "failed" || thermalPolicy.status === "failed" ? fact("failed", ...island.reasons, ...thermalPolicy.reasons)
-      : fact("unknown", ...island.reasons, ...thermalPolicy.reasons, ...actualThermalWidth.reasons, "The complete thermal/solid-contact row remains unevaluated."));
+      : fact("unknown", ...island.reasons, ...thermalPolicy.reasons, ...actualThermalWidth.reasons, "The complete thermal or solid contact row remains unevaluated."));
     const drc = nativeChecks?.checks.drcClearanceShorts;
     setRow(`plane-clearance:${plane.id}`, drc?.status === "failed" ? fact("failed", ...drc.reasons)
-      : fact("unknown", ...(drc?.reasons ?? []), "Effective zone/edge clearance rule interaction needs its complete plane-specific evaluator."));
+      : fact("unknown", ...(drc?.reasons ?? []), "Effective zone and edge clearance rule interaction needs its complete plane-specific evaluator."));
   }
   for (const route of bundle.contract.routingConstraints.nets) {
     if (route.topology === "plane" || route.referencePath.mode !== "continuous_plane") continue;
@@ -262,11 +297,15 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const terminalsOk = net?.status === "connected" && net.everyEligiblePhysicalMemberReachable && plane.intendedPlaneConnectivity.status === "verified"
       && ref.terminalReferences.every(terminal => net.endpoints.some(endpoint => endpoint.reference === terminal.signalEndpoint.reference && endpoint.pin === terminal.signalEndpoint.pin)
         && ground?.endpoints.some(endpoint => endpoint.reference === terminal.referenceEndpoint.reference && endpoint.pin === terminal.referenceEndpoint.pin && endpoint.eligiblePhysicalPadUuids.length === endpoint.physicalPadUuids.length));
-    const referenceTerminals = terminalsOk ? fact("verified", "Each explicit signal/reference terminal is current and reaches its required native net/intended plane component.")
-      : fact("unknown", "Every declared signal/reference physical terminal must be eligible, connected and bound to the intended plane.");
+    const referenceTerminals = terminalsOk ? fact("verified", "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component.")
+      : fact("unknown", "Every declared signal and reference physical terminal must be eligible, connected and bound to the intended plane.");
+    const intersectingBoreUuids=plane.drillTopology.status==="verified"?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="overlap")).map(bore=>bore.uuid):[];
+    const tangentBoreUuids=plane.drillTopology.status==="verified"?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="tangent")).map(bore=>bore.uuid):[];
     let result: Fact = fact("unknown", "A host-bound reference coverage calculator is unavailable."), geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed" = "not_assessed", calculation: unknown = null;
-    if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition/via; no primitive was filtered away.");
-    else if (plane.intendedPlaneConnectivity.status !== "verified" || plane.nativePolygonAttribution.status !== "verified" || plane.islandPolicy.status !== "verified") result = fact("unknown", "Reference copper is not yet a fully attributed, connected and eligible intended plane component.");
+    if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition or via; no primitive was filtered away.");
+    else if(intersectingBoreUuids.length>0){result=fact("failed","The required reference ribbon intersects a source-verified round drill bore.");geometricStatus="uncovered";}
+    else if(tangentBoreUuids.length>0){result=fact("unknown","The required reference ribbon is exactly tangent to a drill bore; boundary contact cannot establish a copper coverage certificate.");geometricStatus="boundary_uncertain";}
+    else if (plane.intendedPlaneConnectivity.status !== "verified" || plane.nativePolygonAttribution.status !== "verified" || plane.islandPolicy.status !== "verified"||plane.drillTopology.status!=="verified") result = fact("unknown", "Reference copper is not yet a fully attributed, bore-aware connected and eligible intended plane interior.");
     else if (input.referenceCoverage !== undefined) {
       requireValue(isReferenceCoverageCalculator(input.referenceCoverage), "reference coverage requires the authenticated host factory calculator");
       const component = plane.geometry.components[0]!;
@@ -277,14 +316,15 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       captured.routes.forEach((route, index) => requireValue(["covered", "uncovered", "boundary_uncertain"].includes(route.status)
         && route.routeIndex === index && route.certificate === (route.status === "covered" ? "exact_outer_envelope_containment" : route.status === "uncovered" ? "exact_inner_envelope_outside_witness" : "no_exact_certificate"), "reference helper supplied inconsistent geometric certificates"));
       geometricStatus = captured.routes.some(route => route.status === "uncovered") ? "uncovered" : captured.routes.some(route => route.status === "boundary_uncertain") ? "boundary_uncertain" : "covered";
-      result = geometricStatus === "uncovered" ? fact("failed", "A complete selected signal ribbon has an exact outside-copper witness.") : geometricStatus === "boundary_uncertain" ? fact("unknown", "Geometric boundary uncertainty cannot pass reference coverage.")
+      result = geometricStatus === "uncovered" ? fact("failed", "A complete selected signal ribbon has an exact witness outside the declared stored plane fill.") : geometricStatus === "boundary_uncertain" ? fact("unknown", "Geometric boundary uncertainty cannot pass reference coverage.")
         : referenceTerminals.status !== "verified" ? referenceTerminals : fact("verified", "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.");
       calculation = { requestIdentity: canonicalIdentity(request, "evleda.plane-reference-request.v1"), implementationRevision: captured.implementationRevision,
         executableIdentity: captured.executableIdentity, artifacts: captured.artifacts,
         routes: captured.routes.map(route => ({ segmentId: segments[route.routeIndex]!.uuid, status: route.status, certificate: route.certificate })) };
     }
-    references.push({ net: route.net, planeId: ref.planeId, ...result, segmentIds: segments.map(segment => segment.uuid), marginNm, geometricStatus, referenceTerminals, calculation });
-    setRow(`reference:${route.net}`, result);
+    references.push({ net: route.net, planeId: ref.planeId, ...result, segmentIds: segments.map(segment => segment.uuid), marginNm, geometricStatus, referenceTerminals,intersectingBoreUuids,tangentBoreUuids,calculation });
+    setRow(`reference:${route.net}`,result.status==="verified"?fact("unknown",...result.reasons,
+      "The geometric ribbon is covered, but complete drill-aware reference-terminal contact continuity remains unverified."):result);
   }
   return finish();
 }

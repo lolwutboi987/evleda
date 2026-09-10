@@ -7,16 +7,27 @@ export type KicadStartupStage =
   | "mcp-handshake" | "mcp-server-identity" | "mcp-catalog" | "mcp-contracts" | "launcher-recheck" | "required-capabilities"
   | "bridge-connect" | "deferred-project-binding" | "bridge-revalidation" | "bridge-session-identity"
   | "session-cleanup" | "bridge-cleanup" | "toolbox-session-cleanup"
-  | "ipc-allocation" | "editor-context" | "editor-preflight" | "editor-launch" | "session-authority"
+  | "ipc-allocation" | "editor-context" | "editor-preflight" | "editor-launch" | "editor-readiness" | "session-authority"
   | "session-connect" | "session-recheck" | "lock-capture" | "preview-binding" | "stackup-binding" | "reference-binding"
   | "host-cleanup" | "diagnostic-write";
 export type KicadStartupCategory = "kicad-session" | "kicad-authorization" | "kicad-output" | "kicad-output-limit"
   | "kicad-termination-uncertain" | "kicad-verification-deadline";
+export type KicadEditorReadinessStage = "connection" | "version" | "ping" | "document";
+export type KicadEditorReadinessCode = "DEADLINE" | "EDITOR_EXITED" | "WRONG_DOCUMENT" | "NATIVE_FAILURE" | "INVALID_ENDPOINT" | "VERSION_MISMATCH" | "CANCELLED";
+export interface KicadEditorReadinessFailure {
+  readonly code: KicadEditorReadinessCode;
+  readonly stage: KicadEditorReadinessStage;
+  readonly attempts: number;
+  readonly elapsedMs: number;
+  readonly nativeCode: number | null;
+  readonly firstFailure: Readonly<{ stage: KicadEditorReadinessStage; code: KicadEditorReadinessCode | "NOT_READY" | "CONNECTION_NOT_READY"; nativeCode: number | null; attempt: number }> | null;
+}
 export interface KicadStartupCause {
   readonly category: KicadStartupCategory | "native-error" | "foreign-value";
   readonly code?: string | number;
   readonly errno?: number;
   readonly exitCode?: number;
+  readonly editorReadiness?: KicadEditorReadinessFailure;
 }
 export interface KicadStartupStderr {
   readonly category: "empty" | "present" | "limit_exceeded";
