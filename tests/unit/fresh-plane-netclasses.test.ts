@@ -6,16 +6,19 @@ import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js"
 import type { KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
 import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
 import { compilePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-compiler.js";
-import { createPcbPlaneCompilationBundle, createPcbPlaneCompilationBundleRef } from "../../src/harness/pcb-design-plane-bundle.js";
+import { createPcbPlaneCompilationBundle, createPcbPlaneCompilationBundleRef, type PcbPlaneCompilationBundle } from "../../src/harness/pcb-design-plane-bundle.js";
 import { preparePlaneFreshProject } from "../../src/harness/fresh-project.js";
 import { createFreshPlaneRules } from "../../src/harness/fresh-plane-rules.js";
 import { FRESH_NETCLASS_ASSIGNMENT_MODEL } from "../../src/harness/fresh-netclass-assignment.js";
-import { materializeFreshNetClasses, parseFreshNetClassSemanticAuthority, parseFreshNetClassPreparationEvidence, readFreshClearanceEvidence } from "../../src/harness/fresh-clearance-evidence.js";
+import { materializeFreshNetClasses, parseFreshNetClassSemanticAuthority, parseFreshNetClassPreparationEvidence, readFreshClearanceEvidence,
+  assertFreshPlaneReferenceCopperScope } from "../../src/harness/fresh-clearance-evidence.js";
 import { materializeFreshPlaneNetClasses, readFreshPlaneNetClassSemanticAuthority, verifyFreshPlaneNetClassSemanticAuthority,
   parseFreshPlaneNetClassMaterialization, parseFreshPlaneNetClassSemanticAuthority, createFreshPlaneNetClassPreparationEvidence,
   parseFreshPlaneNetClassPreparationEvidence } from "../../src/harness/fresh-plane-netclasses.js";
 import { genericDividerLibraryResolver } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
+import { interfaceConstructionBundle } from "../helpers/interface-construction-bundle.js";
+import { parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
 
 const roots: string[] = [];
 afterEach(async () => { vi.unstubAllEnvs(); await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))); });
@@ -29,9 +32,9 @@ function bundle(prompt = "Synthetic V2 plane net-class preparation.", solid = fa
   if (compilation.disposition !== "ready") throw new Error(JSON.stringify(compilation.issues));
   return createPcbPlaneCompilationBundle({ originalPrompt: prompt, compilation }, dependencies);
 }
-async function fixture(solid = false) {
+async function fixture(solid = false, constructionBundle?: PcbPlaneCompilationBundle) {
   const root = await mkdtemp(path.join(tmpdir(), "evleda-plane-classes-")); roots.push(root);
-  const compilationBundle = bundle(undefined, solid);
+  const compilationBundle = constructionBundle ?? bundle(undefined, solid);
   const project = await preparePlaneFreshProject({ outputDir: root, name: "plane-test", resume: false, compilationBundle,
     compilationBundleRef: createPcbPlaneCompilationBundleRef(compilationBundle) });
   const proPath = path.join(project.projectPath, `${project.name}.kicad_pro`);
@@ -47,6 +50,64 @@ async function editProject(file: string, edit: (value: any) => void) {
 }
 
 describe("actual V2 plane net-class preparation", () => {
+  it("materializes and reads canonical constructed boards without changing stackup, source binding or rules", async () => {
+    const f = await fixture(false, interfaceConstructionBundle());
+    const paths = [f.project.pcbPath, f.project.markerPath, f.druPath];
+    const before = await Promise.all(paths.map(file => readFile(file)));
+    expect(() => assertFreshPlaneReferenceCopperScope(before[0]!.toString("utf8"))).not.toThrow();
+    const materialization = await materializeFreshPlaneNetClasses(f.options);
+    expect(materialization.changed).toBe(true);
+    expect(materialization.pcbIdentityAtMaterialization).toEqual(contentIdentity(before[0]!));
+    const authority = await readFreshPlaneNetClassSemanticAuthority(f.options);
+    expect(authority.contractNetAssignments.map(item => item.netName).sort()).toEqual(["DN", "DP", "GND"]);
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(authority, f.options)).toEqual(authority);
+    expect((await materializeFreshPlaneNetClasses(f.options)).changed).toBe(false);
+    expect(await Promise.all(paths.map(file => readFile(file)))).toEqual(before);
+    expect(parseFreshPcbStackup(before[0]!.toString("utf8"))).toMatchObject({ status: "explicit", observationsComplete: true });
+  });
+
+  it("rejects malformed stackup, nested copper and rogue layer selectors through both construction consumers", async () => {
+    const f = await fixture(false, interfaceConstructionBundle());
+    await materializeFreshPlaneNetClasses(f.options);
+    const original = await readFreshPlaneNetClassSemanticAuthority(f.options);
+    const source = await readFile(f.project.pcbPath, "utf8"), newline = source.includes("\r\n") ? "\r\n" : "\n";
+    const stack = parseFreshPcbStackup(source).stackupSource!;
+    const addStack = (form: string) => source.replace(`(stackup${newline}`, `(stackup${newline}${form}${newline}`);
+    const addSetup = (form: string) => source.replace(`(setup${newline}`, `(setup${newline}${form}${newline}`);
+    const appendRoot = (form: string) => source.replace(/\)\s*$/u, `${form}${newline})${newline}`);
+    const track = '(segment (start 1 1) (end 2 1) (width 0.5) (layer "F.Cu") (net "DP"))';
+    const cases = [
+      ["unknown stackup form", addStack('(future_stackup_setting 1)')],
+      ["nested copper track", addStack(track)],
+      ["nested zone", addStack('(zone (net "GND") (layer "B.Cu"))')],
+      ["nested copper field", source.replace('(material "fixture laminate")', `(material "fixture laminate" ${track})`)],
+      ["rogue stackup layer selector", source.replace('(type "core")', '(type "core") (layer "F.Cu")')],
+      ["unknown physical layer", source.replace('(layer "dielectric 1"', '(layer "Mystery.Layer"')],
+      ["duplicate stackup", addSetup('(stackup)')],
+      ["duplicate setup", appendRoot('(setup)')],
+      ["nested setup", addSetup('(setup)')],
+      ["stackup outside setup", source.replace(stack, "").replace(/\)\s*$/u, `(property "note" "value" ${stack})${newline})${newline}`)],
+      ["setup copper track", addSetup(track)],
+      ["setup zone", addSetup('(zone (net "GND") (layer "B.Cu"))')],
+      ["setup rogue selector", addSetup('(layer "B.Cu")')],
+      ["nested setup rogue selector", addSetup('(note (layers "F.Cu" "B.Cu"))')],
+      ["root copper graphic", appendRoot('(gr_line (start 1 1) (end 2 1) (layer "F.Cu"))')],
+      ["root ambiguous track layer", appendRoot(track.replace('(layer "F.Cu")', '(layer "F.Cu") (layers "B.Cu")'))],
+      ["root rogue pad layer", appendRoot('(pad "1" smd rect (layers "In1.Cu"))')],
+    ] as const;
+    const retained = await Promise.all([f.proPath, f.project.markerPath, f.druPath].map(file => readFile(file)));
+    for (const [name, changed] of cases) {
+      expect(changed, name).not.toBe(source);
+      expect(() => assertFreshPlaneReferenceCopperScope(changed), name).toThrow();
+      await writeFile(f.project.pcbPath, changed);
+      await expect(materializeFreshPlaneNetClasses(f.options), name).rejects.toMatchObject({ code: "UNSUPPORTED_PCB" });
+      await expect(readFreshPlaneNetClassSemanticAuthority(f.options), name).rejects.toMatchObject({ code: "UNSUPPORTED_PCB" });
+      await expect(verifyFreshPlaneNetClassSemanticAuthority(original, f.options), name).rejects.toMatchObject({ code: "UNSUPPORTED_PCB" });
+      expect(await readFile(f.project.pcbPath, "utf8"), name).toBe(changed);
+      expect(await Promise.all([f.proPath, f.project.markerPath, f.druPath].map(file => readFile(file))), name).toEqual(retained);
+    }
+  });
+
   it.each([false, true])("materializes authentic V2 classes and verifies original %s-solid rule bytes without a V1 clearance claim", async solid => {
     const f = await fixture(solid);
     const before = await Promise.all([readFile(f.project.pcbPath), readFile(f.project.markerPath), readFile(f.druPath)]);

@@ -25,6 +25,8 @@ import { writeToolboxRouteDiagnostic } from "./toolbox-route-diagnostics.js";
 import { captureToolboxEndpointConnectivity } from "./toolbox-endpoint-connectivity.js";
 import { captureToolboxPlaneAcceptance } from "./toolbox-plane-acceptance.js";
 import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js";
+import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
+import { captureToolboxInterface } from "./toolbox-interface-report.js";
 
 export interface KicadToolboxPlaneSessionInput {
   readonly authority: KicadMcpBoundSessionAuthority;
@@ -103,10 +105,13 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
     const checkpoint = createPlaneToolboxCheckpointLifecycle({ project, preparation, session });
     if (tools.assessPlaneConnectivity === undefined) throw new Error("Plane harness has no saved-native endpoint assessment capability.");
     const checkEndpointConnectivity = async () => captureToolboxEndpointConnectivity(outputRoot, await tools.assessPlaneConnectivity!());
-    const checkPlaneAcceptance = async () => captureToolboxPlaneAcceptance(outputRoot, await tools.assessPlaneAcceptance!());
+    const checkPlaneAcceptance = async (calculator?: KicadTransmissionLineCalculator) => captureToolboxPlaneAcceptance(outputRoot, await tools.assessPlaneAcceptance!(calculator));
+    const checkInterface = bundle.contract.interfaceRequirements === undefined ? undefined
+      : async (interfaceId: string, calculator?: KicadTransmissionLineCalculator) => captureToolboxInterface(outputRoot, await tools.assessInterface!(interfaceId, calculator));
     const owned = session;
     let closing: Promise<void> | undefined;
     return Object.freeze({ tools, analyzePractices, checkEndpointConnectivity, checkPlaneAcceptance, ...checkpoint,
+      ...(checkInterface === undefined ? {} : { checkInterface }),
       planeAuthoringContext: Object.freeze({ projectBindingIdentity: project.planeBinding.identity, sourceContractIdentity: bundle.contract.identity }),
       assertCurrent: () => owned.assertActivePcb(project.pcbPath), captureSources: () => nativeProjectFingerprint(project.projectPath),
       close: () => closing ??= owned.close() });

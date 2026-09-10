@@ -5,6 +5,8 @@ import { parsePcbDesignContract, parsePcbDesignIntentDraft } from "../../src/har
 import { parsePcbDesignCompilationBundle, serializePcbDesignCompilationBundle } from "../../src/harness/pcb-design-compilation-bundle.js";
 import { createGenericDividerBundleFixture, genericDividerDraft, genericDividerLibraryResolver } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
+import { createFreshPlaneRules } from "../../src/harness/fresh-plane-rules.js";
+import { PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE, PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE } from "../../src/harness/pcb-design-plane-model-guide.js";
 import {
   PCB_PLANE_CONTRACT_SCHEMA_VERSION, PCB_PLANE_DRAFT_SCHEMA_VERSION,
   closePcbPlaneDesignIntentDraft, parsePcbPlaneDesignContract, parsePcbPlaneDesignIntentDraft,
@@ -31,6 +33,21 @@ const signal = (draft: Record<string, any>) => draft.routingConstraints.nets.fin
 const bundle = () => createPcbPlaneCompilationBundle({ originalPrompt: "Synthetic ground-plane contract with explicit return terminals.", compilation: ready() }, dependencies);
 
 describe("direct-toolbox V2 plane contract foundation", () => {
+  it("preserves the captured omitted-interface V2 compiler, artifacts, guide, bundle bytes and canonical DRU", () => {
+    const compilation = ready();
+    const value = bundle();
+    expect(compilation.contract).not.toHaveProperty("interfaceRequirements");
+    expect(compilation.draft).not.toHaveProperty("interfaceRequirements");
+    expect(contentIdentity(canonicalJson(compilation))).toEqual({ algorithm: "sha256", digest: "3b1c69afe0d80801d845745a6e364c61dd4d36f890d738b6e50ac60a7390b540", size: 59292 });
+    expect(compilation.contract.identity.digest).toBe("302b8db0af86f5f3cf8f5e0f12d4c947672dca9ad163323475d8f11f8ab81637");
+    expect(value.compilerId).toBe("evleda.pcb-plane-compiler.v1");
+    expect(value.identity.digest).toBe("4071a930d10468bc67ea7167f4bd73e30b373ef86a72a82bdd39406971608e91");
+    expect(createPcbPlaneCompilationBundleRef(value).identity.digest).toBe("ac8c8cd6d62459fccdfac2b7f2c329131e0b8f0be18556dc699716a329ce867f");
+    expect(contentIdentity(serializePcbPlaneCompilationBundle(value))).toEqual({ algorithm: "sha256", digest: "3711883cdffb8e354f9ca3a7ffd0f6803273b3e6c09ec40deb18b13af1a44fe7", size: 60602 });
+    expect(createFreshPlaneRules(value).identity).toEqual({ algorithm: "sha256", digest: "efa1e786021e9799722a21986f1818e21e3a9f51e3c08e6460d845824fe1ee2e", size: 329 });
+    expect(contentIdentity(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE)).toEqual({ algorithm: "sha256", digest: "3e0f31578f6eadefddde31b971797ddceeb2e8b8d90ab787535241472733f9e5", size: 10251 });
+    expect(contentIdentity(canonicalJson(PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE))).toEqual({ algorithm: "sha256", digest: "d46af532e582cc923165128c1a48cfa38ffb893b6ac39b5ff9731e6b04b4ea52", size: 2720 });
+  });
   it("closes real plane routing and reference intent without changing schematic connectivity", () => {
     const input = planeDividerDraft();
     const before = canonicalJson(input);

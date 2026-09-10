@@ -23,6 +23,9 @@ import { createExactContractNetClassPatterns } from "../../src/harness/fresh-net
 import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { createGenericDividerBundleFixture, genericDividerLibraryResolver } from "../helpers/generic-divider-bundle.js";
+import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
+import { createNativeEmptyBoardSeed } from "../../src/harness/native-empty-board-seed.js";
+import { interfaceConstructionBundle, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
 
 const dependencies = { libraryResolver: genericDividerLibraryResolver, deepRuleCatalog: loadDeepRuleCatalog() };
 const compilation = compilePcbPlaneDesignIntentDraft(planeDividerDraft(), dependencies);
@@ -76,6 +79,54 @@ async function initialOpenFixture() {
 }
 
 describe("explicit V2 plane fresh-project preparation", () => {
+  it("writes declared construction before the immutable marker and prepared-source authority", async () => {
+    const constructionBundle = interfaceConstructionBundle();
+    const input = { outputDir: await directory(), name: "construction", resume: false, compilationBundle: constructionBundle,
+      compilationBundleRef: createPcbPlaneCompilationBundleRef(constructionBundle) };
+    const project = await preparePlaneFreshProject(input);
+    const bytes = await readFile(project.pcbPath), identity = contentIdentity(bytes);
+    expect(bytes.toString("utf8")).toBe(createInterfaceConstructionBoardSeed(constructionBundle));
+    const markerBytes = await readFile(project.markerPath), marker = JSON.parse(markerBytes.toString("utf8"));
+    expect(marker.files.pcb).toEqual({ path: project.pcbPath, sha256: identity.digest });
+    expect((await captureFreshProjectOpenPreparedSourceAuthority(project)).pcb).toEqual(identity);
+    await preparePlaneFreshProject({ ...input, resume: true });
+    expect(await readFile(project.pcbPath)).toEqual(bytes);
+    expect(await readFile(project.markerPath)).toEqual(markerBytes);
+
+    const authored = insertBoardForm(bytes.toString("utf8"), '(zone (net "GND") (layer "B.Cu"))');
+    await writeFile(project.pcbPath, authored);
+    const reportPath = await report(project), guard = await captureFreshProjectCheckpointGuard(project);
+    await project.checkpointAfterReport(reportPath, "needs_review", { sourceGuard: guard });
+    const checkpointBytes = await readFile(project.checkpointPath);
+    await preparePlaneFreshProject({ ...input, resume: true });
+    expect(await readFile(project.pcbPath, "utf8")).toBe(authored);
+    expect(await readFile(project.markerPath)).toEqual(markerBytes);
+    expect(await readFile(project.checkpointPath)).toEqual(checkpointBytes);
+  });
+
+  it("keeps an interface with explicit construction none on the original native empty seed", async () => {
+    const draft = interfaceConstructionDraft(); draft.interfaceRequirements.construction = { mode: "none" };
+    const noneBundle = interfaceConstructionBundle(draft);
+    const project = await preparePlaneFreshProject({ outputDir: await directory(), name: "construction-none", resume: false,
+      compilationBundle: noneBundle, compilationBundleRef: createPcbPlaneCompilationBundleRef(noneBundle) });
+    expect(await readFile(project.pcbPath, "utf8")).toBe(createNativeEmptyBoardSeed());
+  });
+
+  it("captures one authenticated construction bundle for both binding and seed across preparation awaits", async () => {
+    const first = interfaceConstructionBundle(), secondDraft = interfaceConstructionDraft();
+    secondDraft.interfaceRequirements.construction.boardThicknessMm = 1.59;
+    secondDraft.interfaceRequirements.construction.dielectric.thicknessMm = 1.52;
+    const second = interfaceConstructionBundle(secondDraft);
+    let reads = 0;
+    const project = await prepareFreshProject({ outputDir: await directory(), name: "captured-construction", resume: false,
+      workflowKind: "plane", get compilationBundle() { return ++reads === 1 ? first : second; },
+      compilationBundleRef: createPcbPlaneCompilationBundleRef(first) });
+    expect(reads).toBe(1);
+    expect(await readFile(project.pcbPath, "utf8")).toBe(createInterfaceConstructionBoardSeed(first));
+    const marker = JSON.parse(await readFile(project.markerPath, "utf8"));
+    expect(marker.planeBinding.bundleRef).toEqual(createPcbPlaneCompilationBundleRef(first));
+  });
+
   it("binds actual authenticated plane children and owned rules without invented V1 fields", () => {
     const value = createPlaneFreshProjectBinding(bundle, bundleRef);
     expect(value.binding).toMatchObject({ schemaVersion: "evleda.pcb-agent-plane-fresh-binding.v1", family: "plane-v2",

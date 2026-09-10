@@ -28,6 +28,7 @@ import {
 } from "./pcb-design-plane-bundle.js";
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
 import { createNativeEmptyBoardSeed } from "./native-empty-board-seed.js";
+import { createInterfaceConstructionBoardSeed } from "./interface-construction-seed.js";
 
 /** Strict, local contracts for the audited incremental sidecar calls. */
 const coordinate = z.number().finite().min(-2_000).max(2_000);
@@ -426,8 +427,8 @@ const fileNames = (name: string) => ({
 function emptySchematic(name: string, uuid: string): string {
   return `(kicad_sch\n  (version 20250316)\n  (generator "KiCad Studio Fixture Corpus")\n  (uuid "${uuid}")\n  (paper "A4")\n  (title_block (title "${name}"))\n\t(lib_symbols)\n\t(sheet_instances\n\t\t(path "/" (page "1"))\n\t)\n\t(embedded_fonts no)\n)\n`;
 }
-function emptyBoard(): string {
-  return createNativeEmptyBoardSeed();
+function emptyBoard(planeBundle?: PcbPlaneCompilationBundle): string {
+  return planeBundle === undefined ? createNativeEmptyBoardSeed() : createInterfaceConstructionBoardSeed(planeBundle);
 }
 
 /** Strictly accepts one axis-aligned Edge.Cuts rectangle at the requested size. */
@@ -1313,9 +1314,9 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
   const generic = options.workflowKind === "generic"
     ? createGenericFreshProjectBinding(options.compilationBundle, options.compilationBundleRef)
     : undefined;
-  const plane = options.workflowKind === "plane"
-    ? createPlaneFreshProjectBinding(options.compilationBundle, options.compilationBundleRef)
-    : undefined;
+  const planeInput = options.workflowKind === "plane"
+    ? { bundle: options.compilationBundle, bundleRef: options.compilationBundleRef } : undefined;
+  const plane = planeInput === undefined ? undefined : createPlaneFreshProjectBinding(planeInput.bundle, planeInput.bundleRef);
   const workflowKind = plane !== undefined ? "plane" as const : generic === undefined ? "led_compatibility_fixture" as const : "generic" as const;
   const expectedBinding = plane?.binding ?? generic?.binding;
   const requestedOutput = path.resolve(options.outputDir);
@@ -1343,12 +1344,13 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
     else await reconcileCheckpointReportMetadata(marker, markerPath, path.join(outputPath, FRESH_PROJECT_CHECKPOINT_NAME), checkpoint);
   } else {
     if ((await readdir(outputPath)).length !== 0) throw new Error("--output-dir must be empty before --prepare --new-project.");
+    const boardSource = emptyBoard(planeInput?.bundle);
     await mkdir(projectPath);
     const names = plane === undefined ? fileNames(name) : { ...fileNames(name), dru: `${name}.kicad_dru` };
     await Promise.all([
       writeFile(path.join(projectPath, names.pro), emptyProject(name), { encoding: "utf8", flag: "wx" }),
       writeFile(path.join(projectPath, names.sch), emptySchematic(name, randomUUID()), { encoding: "utf8", flag: "wx" }),
-      writeFile(path.join(projectPath, names.pcb), emptyBoard(), { encoding: "utf8", flag: "wx" }),
+      writeFile(path.join(projectPath, names.pcb), boardSource, { encoding: "utf8", flag: "wx" }),
       writeFile(path.join(projectPath, names.symLibTable), plane?.symbolTable ?? generic?.symbolTable ?? freshSymbolLibraryTable(), { encoding: "utf8", flag: "wx" }),
       writeFile(path.join(projectPath, names.fpLibTable), plane?.footprintTable ?? generic?.footprintTable ?? freshFootprintLibraryTable(), { encoding: "utf8", flag: "wx" }),
       ...(plane === undefined ? [] : [writeFile(path.join(projectPath, `${name}.kicad_dru`), plane.rulesSource, { encoding: "utf8", flag: "wx" })]),

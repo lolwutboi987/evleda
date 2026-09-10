@@ -77,6 +77,8 @@ import { validateFreshPlaneStageObservation, isValidatedFreshPlaneStageObservati
 import { prepareFreshPlaneConnectivity, assessFreshPlaneConnectivity, type FreshPlaneConnectivityAssessment } from "./fresh-plane-connectivity.js";
 import { createSavedFreshPlaneEvidence, assertSavedFreshPlaneEvidenceCurrent, type SavedFreshPlaneEvidence } from "./fresh-plane-evidence.js";
 import type { FreshPlaneAcceptanceAssessment, FreshPlaneAcceptanceInput } from "./fresh-plane-acceptance.js";
+import { assessSavedInterface, type SavedInterfaceAssessment } from "./saved-interface-assessment.js";
+import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import { routeMmToNativeNm, routeNativeNmToMm, routeNativeNmToKipyMm, routeSourceMmToNativeNm, validatedNativePadPositionMm } from "./fresh-route-native-units.js";
 
 /** The deliberately small, reviewed surface exposed to a layout harness. */
@@ -253,7 +255,9 @@ export interface KicadHarnessTools extends HarnessToolPort<KicadHarnessToolName>
   /** Host-only, current saved V2 endpoint reachability. Never an electrical acceptance verdict. */
   assessPlaneConnectivity?(): Promise<FreshPlaneConnectivityAssessment>;
   /** Serialized host-only V2 plane facts; model input cannot supply evidence or selectors. */
-  assessPlaneAcceptance?(): Promise<FreshPlaneAcceptanceAssessment>;
+  assessPlaneAcceptance?(calculator?: KicadTransmissionLineCalculator): Promise<FreshPlaneAcceptanceAssessment>;
+  /** Bound interface requirements and exact current saved source; host calculator only. */
+  assessInterface?(interfaceId: string, calculator?: KicadTransmissionLineCalculator): Promise<SavedInterfaceAssessment>;
   runFinalValidation(): Promise<Readonly<Record<"erc" | "drc" | "boardSummary" | "visualQa", unknown>>>;
 }
 
@@ -267,7 +271,7 @@ export interface FreshSyncBoardComparisonDiagnostic {
 
 export interface KicadHarnessToolsOptions {
   readonly assessFreshPlaneEvidence?: (input: Pick<FreshPlaneAcceptanceInput,
-    "compilationBundle" | "pcbSource" | "projectSettingsSource" | "rulesSource" | "savedEvidence" | "endpointConnectivity">
+    "compilationBundle" | "pcbSource" | "projectSettingsSource" | "rulesSource" | "savedEvidence" | "endpointConnectivity" | "transmissionLine">
     & { readonly pcbPath: string; readonly projectBindingIdentity: CanonicalIdentity; readonly sourceScopeIdentity: CanonicalIdentity }) => Promise<FreshPlaneAcceptanceAssessment>;
   /** Host-private bounded provenance; callback failures never mask the first native fault. */
   readonly observeFreshRouteMutationDiagnostic?:(diagnostic:FreshRouteMutationDiagnostic)=>void|Promise<void>;
@@ -2682,9 +2686,16 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     return await this.#withCurrentPlaneRead(async context => context.endpointConnectivity);
   }
 
-  async assessPlaneAcceptance():Promise<FreshPlaneAcceptanceAssessment>{
+  async assessPlaneAcceptance(calculator?:KicadTransmissionLineCalculator):Promise<FreshPlaneAcceptanceAssessment>{
     if(this.#assessFreshPlaneEvidence===undefined)throw new Error("The host has no V2 plane evidence assessor configured.");
-    return await this.#withCurrentPlaneRead(this.#assessFreshPlaneEvidence, true);
+    return await this.#withCurrentPlaneRead(context=>this.#assessFreshPlaneEvidence!({...context,
+      ...(calculator===undefined?{}:{transmissionLine:calculator})}), true);
+  }
+
+  async assessInterface(interfaceId:string,calculator?:KicadTransmissionLineCalculator):Promise<SavedInterfaceAssessment>{
+    return await this.#withCurrentPlaneRead(context=>assessSavedInterface({
+      savedPcbBytes:Buffer.from(context.pcbSource,"utf8"),compilationBundle:context.compilationBundle,interfaceId,
+      ...(calculator===undefined?{}:{calculator})}));
   }
 
   async #withCurrentPlaneRead<T>(operation: (input: Parameters<NonNullable<KicadHarnessToolsOptions["assessFreshPlaneEvidence"]>>[0])=>Promise<T>, requireFillEvidence=false):Promise<T>{

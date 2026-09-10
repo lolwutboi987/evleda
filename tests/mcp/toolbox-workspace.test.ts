@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { canonicalIdentity, canonicalJson } from "../../src/core/canonical.js";
+import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { createToolboxWorkspaceStore } from "../../src/mcp/toolbox-workspace-store.js";
 import { createKicadToolboxWorkspace, type KicadToolboxWorkspaceOptions } from "../../src/mcp/toolbox-workspace.js";
 import type { openFreshNativeToolboxBinding } from "../../src/mcp/toolbox-fresh-main.js";
@@ -11,9 +11,20 @@ import type { ConnectedKicadToolbox } from "../../src/mcp/toolbox-session.js";
 import { compilePcbDesignIntentDraft } from "../../src/harness/pcb-design-compiler.js";
 import { createPcbDesignCompilationBundle, createPcbDesignCompilerProfile } from "../../src/harness/pcb-design-compilation-bundle.js";
 import { compilePcbPlaneDesignIntentDraft, normalizePcbPlaneSelectionPolicy } from "../../src/harness/pcb-design-plane-compiler.js";
-import { createPcbPlaneCompilationBundle } from "../../src/harness/pcb-design-plane-bundle.js";
+import { createPcbPlaneCompilationBundle, isAuthenticatedPcbPlaneCompilationBundle,
+  parsePcbPlaneCompilationBundle, serializePcbPlaneCompilationBundle } from "../../src/harness/pcb-design-plane-bundle.js";
+import { getPcbPlaneDesignIntentModelGuide, PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES } from "../../src/harness/pcb-design-plane-model-guide.js";
+import { PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION } from "../../src/harness/pcb-interface-requirements.js";
+import { createFreshPlaneRules } from "../../src/harness/fresh-plane-rules.js";
+import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
+import { prepareKicadToolboxPlaneProject, resumeKicadToolboxPlaneProject, assertKicadToolboxPlanePreparation,
+  type KicadToolboxPlanePreparation } from "../../src/mcp/toolbox-plane-preparation.js";
+import { createPlaneToolboxCheckpointLifecycle } from "../../src/mcp/toolbox-plane-checkpoint.js";
+import type { KicadCliAdapter, KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
+import type { KicadMcpSession } from "../../src/integrations/kicad-mcp-session.js";
 import { createGenericDividerBundleFixture, genericDividerDraft } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
+import { constructionAssertion, constructionDependencies, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
 
 const roots: string[] = [];
 const testOwnedLeases: Array<{ release(): Promise<void> }> = [];
@@ -62,10 +73,19 @@ describe("in-chat workspace controller over actual MCP", () => {
         schema: { properties: { schemaVersion: { const: "evleda.pcb-design-intent-draft.v1" } } },
         guide: expect.any(String), example: { schemaVersion: "evleda.pcb-design-intent-draft.v1" }, instruction: expect.any(String) });
       expect(body(await f.call("evleda_design_schema", { family: "routed-v1" }))).toEqual(defaultSchema);
-      expect(body(await f.call("evleda_design_schema", { family: "plane-v2" }))).toMatchObject({ family: "plane-v2",
+      const planeSchema = body(await f.call("evleda_design_schema", { family: "plane-v2" }));
+      expect(planeSchema).toMatchObject({ family: "plane-v2",
         supportedFamilies: ["routed-v1", "plane-v2"],
-        schema: { properties: { schemaVersion: { const: "evleda.pcb-design-intent-draft.v2" }, planes: expect.any(Object) } },
-        guide: expect.any(String), example: { schemaVersion: "evleda.pcb-design-intent-draft.v2" }, instruction: expect.any(String) });
+        schema: { properties: { schemaVersion: { const: "evleda.pcb-design-intent-draft.v2" }, planes: expect.any(Object), interfaceRequirements: expect.any(Object) } },
+        guide: getPcbPlaneDesignIntentModelGuide(true), guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
+        optionalRequirements: { interfaceRequirements: { schemaVersion: PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION,
+          kinds: ["differential_pair"], sourceAuthority: "caller_asserted_intent", physicalVerification: "not_performed" } },
+        example: { schemaVersion: "evleda.pcb-design-intent-draft.v2" }, instruction: expect.any(String) });
+      expect(Buffer.byteLength(planeSchema.guide, "utf8")).toBeLessThanOrEqual(20 * 1024);
+      expect(planeSchema.schema.required).not.toContain("interfaceRequirements");
+      expect(planeSchema.example).not.toHaveProperty("interfaceRequirements");
+      expect(defaultSchema).not.toHaveProperty("optionalRequirements");
+      expect((await f.client.listTools()).tools.find(tool => tool.name === "evleda_design_schema")!.description).toContain("interfaceRequirements");
       expect((await f.call("evleda_design_schema", { family: "plane-v3" })).isError).toBe(true);
       expect(body(await f.call("evleda_inspect_library", { kind: "symbol", libraryId: "Device:R" })).found).toBe(true);
       expect(f.inspectLibrary).toHaveBeenCalledWith("symbol", "Device:R");
@@ -100,6 +120,109 @@ describe("in-chat workspace controller over actual MCP", () => {
       expect(body(await f.call("evleda_workspace_status")).pendingDrafts).toEqual([]);
       expect((await f.store.list()).total).toBe(0); expect(f.openBinding).not.toHaveBeenCalled();
     } finally { await f.close(); }
+  });
+
+  it("returns a keyed interface clarification in chat without issuing a ready ID or opening CAD", async () => {
+    const f = await fixture();
+    try {
+      const draft = interfaceConstructionDraft(); draft.interfaceRequirements.interfaces[0].geometry.maxEtchSkewMm = null;
+      const result = await f.submit("pair", draft);
+      expect(result).toMatchObject({ status: "needs_clarification", projectCreated: false,
+        compilation: { schemaVersion: "evleda.pcb-design-compilation.v2", contract: null,
+          questions: expect.arrayContaining([expect.objectContaining({ path: "/interfaceRequirements/interfaces/LINK/geometry/maxEtchSkewMm" })]) } });
+      expect(result.draftId).toBeUndefined(); expect(result.bundleIdentity).toBeUndefined();
+      expect(body(await f.call("evleda_workspace_status")).pendingDrafts).toEqual([]);
+      expect((await f.store.list()).total).toBe(0); expect(f.openBinding).not.toHaveBeenCalled();
+    } finally { await f.close(); }
+  });
+
+  it("keeps a closed interface through ready ID, real preparation/checkpoint and authenticated saved-bundle resume", async () => {
+    const f = await fixture("edit", { dependencies: constructionDependencies });
+    const identity: KicadExecutableIdentity = { kind: "kicad-cli", path: path.join(f.root, "fixture-kicad-cli.exe"), version: "10.0.3",
+      commit: "146a4f2a7585c65bc580427a19b6fe2ec4a3f622", sha256: "a".repeat(64), sizeBytes: 100,
+      capabilityHelpSha256: "b".repeat(64), confirmedCapabilities: ["pcb drc"] };
+    const expectedKicadCli = { path: identity.path, contentIdentity: { algorithm: "sha256" as const, digest: identity.sha256, size: identity.sizeBytes },
+      operationalVersion: identity.version, operationalCommit: identity.commit, peFileVersion: "10.0.3", peProductVersion: "10.0.3",
+      identity: canonicalIdentity({ fixture: true }, "evleda.flux-kicad-cli-binding.v1") };
+    // Synthetic libraries, the executable probe, and native binding/context adapter
+    // are test dependencies. Compilation, allocation, native-file preparation,
+    // checkpointing and authenticated saved-bundle resume use production code.
+    const createKicadCliAdapter = vi.fn<typeof KicadCliAdapter.create>().mockResolvedValue({ identity } as KicadCliAdapter);
+    const preparations: KicadToolboxPlanePreparation[] = [];
+    f.openBinding.mockImplementation(async options => {
+      const input = { outputDir: options.outputDir, name: options.fresh.name, dependencies: constructionDependencies,
+        expectedKicadCli, createKicadCliAdapter };
+      const prepared = options.resume ? { status: "prepared" as const, preparation: await resumeKicadToolboxPlaneProject(input) }
+        : await prepareKicadToolboxPlaneProject({ ...input, draft: options.fresh.draft, originalPrompt: options.fresh.originalPrompt!,
+          expectedBundleIdentity: options.fresh.expectedBundleIdentity! });
+      if (prepared.status !== "prepared") throw new Error(`Interface preparation failed: ${JSON.stringify(prepared)}`);
+      const preparation = prepared.preparation; assertKicadToolboxPlanePreparation(preparation); preparations.push(preparation);
+      const lifecycle = createPlaneToolboxCheckpointLifecycle({ project: preparation.project, preparation,
+        session: { readActivePcbSource: async () => readFile(preparation.project.pcbPath, "utf8") } as unknown as KicadMcpSession });
+      return { ...f.binding, cad: { ...f.native, ...lifecycle },
+        compoundContractIdentity: createFreshConnectivityContract(preparation.bundle.contract).identity,
+        designContext: () => ({ family: "plane-v2", contract: preparation.bundle.contract, verificationPlan: preparation.bundle.verificationPlan,
+          bundleIdentity: preparation.bundle.identity, resumedFromSavedBundle: options.resume === true, acceptanceEvaluated: false }) };
+    });
+    let completed = false;
+    try {
+      const draft = interfaceConstructionDraft();
+      draft.interfaceRequirements.interfaces[0].impedance = { mode: "differential", targetOhms: 100, toleranceOhms: 10,
+        frequencyHz: 100_000_000, constructionId: "STACK", source: constructionAssertion() };
+      const originalDraft = structuredClone(draft), originalPrompt = "Create exactly these supplied differential interface requirements.";
+      const ready = body(await f.call("evleda_submit_design", { name: "pair", originalPrompt, draft }));
+      const duplicate = body(await f.call("evleda_submit_design", { name: "pair", originalPrompt, draft }));
+      expect(ready).toMatchObject({ status: "ready", projectCreated: false,
+        compilation: { schemaVersion: "evleda.pcb-design-compilation.v2", contract: { interfaceRequirements: originalDraft.interfaceRequirements },
+          acceptanceEvaluated: false, nativeAuthoringPerformed: false } });
+      expect(duplicate.draftId).toBe(ready.draftId);
+      expect(ready.compilation.verificationPlan.requirements.filter((row: any) => row.kind.startsWith("interface_"))).toHaveLength(5);
+      const expectedBundle = createPcbPlaneCompilationBundle({ originalPrompt,
+        compilation: compilePcbPlaneDesignIntentDraft(originalDraft, constructionDependencies) }, constructionDependencies);
+      expect(ready.bundleIdentity).toEqual(expectedBundle.identity);
+      expect((await f.store.list()).total).toBe(0);
+      // The ready ID owns the submitted snapshot, not this caller's mutable object.
+      draft.interfaceRequirements.interfaces[0].geometry.maxEtchSkewMm = 1;
+      expect(body(await f.call("evleda_create_project", { draftId: ready.draftId }))).toMatchObject({ status: "opened", resumed: false });
+      const original = preparations[0]!; assertKicadToolboxPlanePreparation(original);
+      expect(original.bundle.identity).toEqual(ready.bundleIdentity);
+      expect(isAuthenticatedPcbPlaneCompilationBundle(original.bundle)).toBe(true);
+      expect(original.bundle.contract.interfaceRequirements).toEqual(originalDraft.interfaceRequirements);
+      const stored = (await f.store.lookup(ready.draftId))!;
+      expect(await readFile(path.join(stored.inputDir, "draft.json"), "utf8")).toBe(canonicalJson(originalDraft));
+      const originalBundleBytes = await readFile(original.bundlePath), originalRulesBytes = await readFile(original.project.rulesPath);
+      expect(originalBundleBytes).toEqual(serializePcbPlaneCompilationBundle(expectedBundle));
+      const expectedRules = createFreshPlaneRules(expectedBundle);
+      expect(originalRulesBytes.toString("utf8")).toBe(expectedRules.source);
+      expect(contentIdentity(originalRulesBytes)).toEqual(expectedRules.identity);
+      expect(body(await f.call("evleda_design_context"))).toMatchObject({ contract: { interfaceRequirements: originalDraft.interfaceRequirements },
+        bundleIdentity: expectedBundle.identity, resumedFromSavedBundle: false });
+      const initialCheckpoint = JSON.parse(await readFile(original.project.checkpointPath, "utf8"));
+      expect((await f.call("evleda_finish_session")).isError).not.toBe(true);
+      const closedCheckpoint = JSON.parse(await readFile(original.project.checkpointPath, "utf8"));
+      expect(closedCheckpoint.attempt).toBe(initialCheckpoint.attempt + 1);
+      expect(closedCheckpoint).toMatchObject({ schemaVersion: "evleda.pcb-agent-fresh-project-checkpoint.v3", reportStatus: "needs_review" });
+      expect((await f.call("evleda_resume_project", { projectId: ready.draftId, draft })).isError).toBe(true);
+      expect(body(await f.call("evleda_resume_project", { projectId: ready.draftId }))).toMatchObject({ status: "opened", resumed: true });
+      expect(f.openBinding).toHaveBeenCalledTimes(2);
+      expect(f.openBinding.mock.calls[1]![0].fresh).toEqual({ name: "pair" });
+      const resumed = preparations[1]!; expect(resumed).not.toBe(original); assertKicadToolboxPlanePreparation(resumed);
+      expect(() => assertKicadToolboxPlanePreparation({ ...resumed })).toThrow(/authenticated V2/);
+      expect(resumed.mode).toBe("resumed"); expect(isAuthenticatedPcbPlaneCompilationBundle(resumed.bundle)).toBe(true);
+      expect(resumed.bundle.identity).toEqual(expectedBundle.identity);
+      expect(resumed.bundle.contract.interfaceRequirements).toEqual(originalDraft.interfaceRequirements);
+      expect(resumed.bundle.verificationPlan).toEqual(expectedBundle.verificationPlan);
+      expect(await readFile(resumed.bundlePath)).toEqual(originalBundleBytes);
+      expect(await readFile(resumed.project.rulesPath)).toEqual(originalRulesBytes);
+      expect(parsePcbPlaneCompilationBundle(await readFile(resumed.bundlePath), constructionDependencies).identity).toEqual(expectedBundle.identity);
+      expect(body(await f.call("evleda_design_context"))).toMatchObject({ contract: { interfaceRequirements: originalDraft.interfaceRequirements },
+        bundleIdentity: expectedBundle.identity, resumedFromSavedBundle: true, acceptanceEvaluated: false });
+      completed = true;
+    } finally {
+      const cleanup = f.close();
+      // A retained-lease cleanup error must not hide the failing persistence assertion.
+      if (completed) await cleanup; else await cleanup.catch(() => {});
+    }
   });
 
   it.each([undefined, null, "evleda.pcb-design-intent-draft.v3", "plane-v2"])("rejects unsupported or missing draft schema %s before issuing a ready ID", async schemaVersion => {

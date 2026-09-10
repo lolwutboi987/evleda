@@ -1,23 +1,51 @@
 {
-  "schemaVersion": 2,
-  "implementationRevision": "evleda-stripline-corrections-v1",
+  "schemaVersion": 3,
+  "implementationRevision": "evleda-uncovered-coupled-microstrip-v1",
   "sourceCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
-  "patches": [{
-    "id": "center-coupled-stripline-reference",
-    "original": "upstream/transline_calculations/coupled_stripline.cpp",
-    "originalSha256": "A35C802BDD7289792828D11DE32339AC9F149BBE2AA6E601566DA3613C773745",
-    "intermediateSha256": "633D22D8284B24A94868010B699E4839E538C0CB3086D144CD0978C0BA78507B",
-    "beforeExpression": "GetParameter( TCP::H ) / 2.0",
-    "afterExpression": "( GetParameter( TCP::H ) - GetParameter( TCP::T ) ) / 2.0",
-    "location": "COUPLED_STRIPLINE::calcZ0SymmetricStripline STRIPLINE_A assignment",
-    "rationale": "STRIPLINE_A is upper clearance; centering finite copper thickness T inside plane separation H requires (H-T)/2. Original source bytes are preserved."
-  }, {
-    "id": "homogeneous-dielectric-odd-mode-normalization",
-    "beforeSha256": "633D22D8284B24A94868010B699E4839E538C0CB3086D144CD0978C0BA78507B",
-    "patched": "patched/coupled_stripline.cpp",
-    "patchedSha256": "683FA25D85758C1335EABFCEB2B4F181A8E491E8BF04D26D8480C74F12F9DF9C",
-    "location": "COUPLED_STRIPLINE::calcZ0OddMode Eq22 Z_o_2",
-    "changes": ["Read local er from EPSILONR", "Divide fringe term by ZF0*sqrt(er)", "Multiply gap-term numerator by sqrt(er)"],
-    "rationale": "For homogeneous nonmagnetic dielectric, every admittance term scales sqrt(er); er=1 preserves original air formula. Independent peer code/algebra/scaling review approved this narrow change. Piecewise branch behavior otherwise unchanged."
-  }]
+  "patches": [
+    {
+      "id": "center-coupled-stripline-reference",
+      "original": "upstream/transline_calculations/coupled_stripline.cpp",
+      "originalSha256": "A35C802BDD7289792828D11DE32339AC9F149BBE2AA6E601566DA3613C773745",
+      "intermediateSha256": "633D22D8284B24A94868010B699E4839E538C0CB3086D144CD0978C0BA78507B",
+      "beforeExpression": "GetParameter( TCP::H ) / 2.0",
+      "afterExpression": "( GetParameter( TCP::H ) - GetParameter( TCP::T ) ) / 2.0",
+      "location": "COUPLED_STRIPLINE::calcZ0SymmetricStripline STRIPLINE_A assignment",
+      "rationale": "STRIPLINE_A is upper clearance; centering finite copper thickness T inside plane separation H requires (H-T)/2. Original source bytes are preserved."
+    },
+    {
+      "id": "homogeneous-dielectric-odd-mode-normalization",
+      "beforeSha256": "633D22D8284B24A94868010B699E4839E538C0CB3086D144CD0978C0BA78507B",
+      "patched": "patched/coupled_stripline.cpp",
+      "patchedSha256": "683FA25D85758C1335EABFCEB2B4F181A8E491E8BF04D26D8480C74F12F9DF9C",
+      "location": "COUPLED_STRIPLINE::calcZ0OddMode Eq22 Z_o_2",
+      "changes": [
+        "Read local er from EPSILONR",
+        "Divide fringe term by ZF0*sqrt(er)",
+        "Multiply gap-term numerator by sqrt(er)"
+      ],
+      "rationale": "For homogeneous nonmagnetic dielectric, every admittance term scales sqrt(er); er=1 preserves original air formula. Independent peer code/algebra/scaling review approved this narrow change. Piecewise branch behavior otherwise unchanged."
+    },
+    {
+      "id": "explicit-uncovered-coupled-microstrip",
+      "original": "upstream/transline_calculations/coupled_microstrip.cpp",
+      "originalSha256": "68E377F0B373C7DA48A48E9113FF82A000FEFC534DFB413B1134D1C8C21E69D2",
+      "patched": "patched/coupled_microstrip.cpp",
+      "patchedSha256": "D1B1A8C8ADDA90E37A1614EE2D88E834912B682A041608D2AC792146429C41CB",
+      "locations": [
+        "compute_single_line H_T assignment",
+        "er_eff_static even and odd q_c assignments",
+        "Z0_even_odd even and odd delta_Z0 assignments"
+      ],
+      "changes": [
+        "Branch on infinite H_T parameter, never on the possibly overflowed finite H_T/H ratio",
+        "Use exact uncovered auxiliary single line for explicit absent token",
+        "Bypass both cover filling-factor functions with 1",
+        "Bypass both cover impedance-correction functions with 0"
+      ],
+      "primaryReference": "https://qucs.sourceforge.net/tech/node77.html",
+      "rationale": "Removing the top metallic cover removes its empirical correction terms. Evaluating the even finite-cover fit at infinite height instead would leave a nonzero correction for some S/H within the advertised base-model range. Finite numeric input retains original expressions and auxiliary reference."
+    }
+  ],
+  "retainedCorrectionRevision": "evleda-stripline-corrections-v1"
 }

@@ -178,8 +178,9 @@ function sourceId(form: Form): string {
   requireSupported(/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/u.test(value), "PAD_ID_UNSUPPORTED", "Source UUID must be canonical.");
   return value;
 }
-function assertPhysicalFormParents(source: string): void {
+function assertPhysicalFormParents(source: string, allowDirectZoneFilledPolygons = false): void {
   const root = readForm(source), footprints = new Set(root.children.filter(child => child.name === "footprint"));
+  const directZones = new Set(root.children.filter(child => child.name === "zone"));
   const setups = root.children.filter(child => child.name === "setup");
   const stackups = setups.length === 1 ? setups[0]!.children.filter(child => child.name === "stackup") : [];
   const physicalStackup = stackups.length === 1 ? stackups[0] : undefined;
@@ -197,7 +198,8 @@ function assertPhysicalFormParents(source: string): void {
     // Only the exact root/setup/stackup container contains physical layer
     // declarations rather than item layer selectors. Its grammar is checked
     // separately by the shared stackup parser; descendants still traverse here.
-    requireSupported(form === physicalStackup || !layers.some(layer => layer.endsWith(".Cu") || layer.includes("*")) || ["footprint", "pad", "segment", "via", "arc", "zone"].includes(form.name),
+    requireSupported(form === physicalStackup || !layers.some(layer => layer.endsWith(".Cu") || layer.includes("*")) || ["footprint", "pad", "segment", "via", "arc", "zone"].includes(form.name)
+      || allowDirectZoneFilledPolygons && form.name === "filled_polygon" && directZones.has(parent),
       "ROUTE_INVENTORY_UNSUPPORTED", "Unmodeled copper-layer-bearing forms cannot establish a complete source-route inventory.");
     form.children.forEach(child => pending.push({ form: child, parent: form }));
   }
@@ -527,3 +529,13 @@ export async function assessSavedMicrostrip(input: SavedMicrostripAssessmentInpu
   return freeze({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
 }
 export type SavedMicrostripAssessment = Awaited<ReturnType<typeof assessSavedMicrostrip>>;
+
+// Shared strict readers for source-bound assessors. These are numerical/parser
+// utilities, not authenticated native or library evidence. The single-route
+// assessment above keeps its original extraction and acceptance behaviour.
+export { readForm as readSavedPcbSourceForm, field as savedPcbSourceField, scalar as savedPcbSourceScalar,
+  exactDecimal as exactSavedPcbSourceDecimal, sourcePoint as savedPcbSourcePoint, rotation as savedPcbSourceRotation,
+  sourceId as savedPcbSourceUuid, boundedNm as boundedSavedPcbNm, assertPhysicalFormParents as assertSavedPcbPhysicalFormParents,
+  deriveConstruction as deriveSavedBareMicrostripConstruction, thickness as savedPcbStackupThickness,
+  explicit as explicitSavedPcbStackupField, failure as savedPcbSourceFailure };
+export function isSupportedSavedPcbSmdPadField(name: string): boolean { return PAD_FIELDS.has(name); }

@@ -21,9 +21,13 @@ import { nativePadObservationFixture } from "../helpers/native-pad-observation-f
 import { planeStageObservationFixture } from "../helpers/plane-stage-observation-fixture.js";
 import { createPlaneContactsFixture } from "../helpers/kicad-plane-contacts-fixture.js";
 import { isFreshPlaneCommonChecksAssessment } from "../../src/harness/fresh-plane-common-checks.js";
-import { summarizePlaneAcceptance } from "../../src/mcp/toolbox-plane-acceptance.js";
+import { captureToolboxPlaneAcceptance, summarizePlaneAcceptance } from "../../src/mcp/toolbox-plane-acceptance.js";
 import { assessFreshPlaneNativeChecks, FRESH_PLANE_NATIVE_CHECK_PROFILE } from "../../src/harness/fresh-plane-native-checks.js";
 import type { KicadCheckResult, KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
+import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
+import { interfaceConstructionBundle, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
+import { createKicadTransmissionLineCalculator, KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION,
+  KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION, KICAD_TRANSMISSION_LINE_SOURCE_COMMIT } from "../../src/integrations/kicad-transmission-line.js";
 
 // Synthetic bounded-process ports run through the real pinned reader/factory.
 // No authenticity predicate is mocked, and no native executable is launched.
@@ -80,8 +84,22 @@ function bundle(minimumAreaMm2 = 0) {
   if (compilation.disposition !== "ready") throw new Error(JSON.stringify(compilation.issues));
   return createPcbPlaneCompilationBundle({ compilation, originalPrompt: "Offline pure acceptance test fixture." }, dependencies);
 }
-async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?: number; disconnectedGround?: boolean; filledWidthMm?: number; projectSettingsSource?: string } = {}) {
-  const compilationBundle = bundle(options.minimumAreaMm2), before = board(options);
+function interfaceBoard(compilationBundle: FreshPlaneAcceptanceInput["compilationBundle"], widthMm = 0.5) {
+  const seed = createInterfaceConstructionBoardSeed(compilationBundle).trimEnd();
+  const footprints = compilationBundle.contract.components.map((component, index) => `(footprint ${JSON.stringify(component.footprintLibId)}
+    (uuid "${U(10 + index)}") (layer "F.Cu") (at ${3 + 5 * index} 3)
+    (property "Reference" "${component.reference}") (property "Value" ${JSON.stringify(component.value)})
+    ${component.pins.map((pin, pad) => { const net = pin.assignment.kind === "net" ? pin.assignment.net : ""; return `(pad "${pin.pin}" ${pad === 2 ? "thru_hole circle" : "smd rect"}
+      (uuid "${U(100 + 10 * index + pad)}") (at 0 ${pad === 2 ? 4 : pad}) (size 0.5 0.5)
+      ${pad === 2 ? '(drill 0.2) (layers "*.Cu" "F.Mask" "B.Mask")' : '(layers "F.Cu")'} (net "${net}"))`; }).join("\n")})`);
+  return `${seed.slice(0, -1)}\n${footprints.join("\n")}
+    (gr_rect (start 0 0) (end 30 20) (stroke (width 0.05) (type default)) (fill none) (layer "Edge.Cuts") (uuid "${U(9)}"))
+    (segment (start 3 3) (end 8 3) (width ${widthMm}) (layer "F.Cu") (net "DP") (uuid "${U(1)}"))
+    (segment (start 3 4) (end 8 4) (width ${widthMm}) (layer "F.Cu") (net "DN") (uuid "${U(2)}")))\n`;
+}
+async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?: number; disconnectedGround?: boolean; filledWidthMm?: number; projectSettingsSource?: string;
+  compilationBundle?: FreshPlaneAcceptanceInput["compilationBundle"]; pcbSource?: string } = {}) {
+  const compilationBundle = options.compilationBundle ?? bundle(options.minimumAreaMm2), before = options.pcbSource ?? board(options);
   const prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, operation: "create" });
   const stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
   if (options.filledWidthMm !== undefined) {
@@ -192,7 +210,8 @@ async function ercFixture(kind: "clean" | "violation" | "ignored" | "missing") {
   return { ...f, nativeChecks };
 }
 function row(result: Awaited<ReturnType<typeof assessFreshPlaneAcceptance>>, id: string) { return result.rows.find(row => row.id === id)!; }
-async function calculator(status: "covered" | "uncovered" | "boundary_uncertain", requests: ReferenceCoverageRequest[] = []): Promise<ReferenceCoverageCalculator> {
+type ReferenceResult = "covered" | "uncovered" | "boundary_uncertain";
+async function calculator(status: ReferenceResult | readonly ReferenceResult[], requests: ReferenceCoverageRequest[] = []): Promise<ReferenceCoverageCalculator> {
   const temporary = await realpath(tmpdir()), root = await realpath(await mkdtemp(path.join(temporary, "evleda-plane-reference-test-")));
   cleanups.push(async () => { const info = await lstat(root); if (path.dirname(root) !== temporary || await realpath(root) !== root || !info.isDirectory() || info.isSymbolicLink()) throw new Error("Unsafe fixture cleanup"); await rm(root, { recursive: true, force: true }); });
   const executablePath = path.join(root, "synthetic.exe"), bytes = Buffer.from("Synthetic helper file; never executed."); await writeFile(executablePath, bytes);
@@ -203,15 +222,42 @@ async function calculator(status: "covered" | "uncovered" | "boundary_uncertain"
         const [x1Nm, y1Nm, x2Nm, y2Nm, widthNm, marginNm] = line.slice(6).split(" ").map(Number);
         return { x1Nm: x1Nm!, y1Nm: y1Nm!, x2Nm: x2Nm!, y2Nm: y2Nm!, widthNm: widthNm!, marginNm: marginNm! };
       });
+      const observedStatus = typeof status === "string" ? status : status[requests.length] ?? "boundary_uncertain";
       requests.push({ groups: [], routes });
       const envelope = [[[0, 0], [1, 0], [1, 1], [0, 1]]];
       const output = { schemaVersion: 1, coordinateUnit: "nm", dcConnectivityClaimed: false, hfElectricalValidityClaimed: false,
         inputBase64: input.toString("base64"), implementationRevision: "evleda-reference-coverage-v1", sourceCommit: "146a4f2a7585c65bc580427a19b6fe2ec4a3f622", clipperVersion: "1.3.0",
         normalizedCopper: envelope, diagnosticGeometry: "clipper_integer_quantized_not_a_continuous_geometry_proof", envelopeModel: "inner_L1_diamond_floor_radius_outer_Linf_square_ceil_radius",
-        coverageMeaning: "closed_Euclidean_segment_ribbon_radius_width_over_two_plus_margin", routes: routes.map((_, routeIndex) => ({ routeIndex, status,
-          certificate: status === "covered" ? "exact_outer_envelope_containment" : status === "uncovered" ? "exact_inner_envelope_outside_witness" : "no_exact_certificate",
-          innerEnvelope: envelope, outerEnvelope: envelope, uncoveredOuterEnvelope: [], ...(status === "uncovered" ? { outsideWitnessDoubledNm: [0, 0] } : {}) })) };
+        coverageMeaning: "closed_Euclidean_segment_ribbon_radius_width_over_two_plus_margin", routes: routes.map((_, routeIndex) => ({ routeIndex, status: observedStatus,
+          certificate: observedStatus === "covered" ? "exact_outer_envelope_containment" : observedStatus === "uncovered" ? "exact_inner_envelope_outside_witness" : "no_exact_certificate",
+          innerEnvelope: envelope, outerEnvelope: envelope, uncoveredOuterEnvelope: [], ...(observedStatus === "uncovered" ? { outsideWitnessDoubledNm: [0, 0] } : {}) })) };
       return { command: options.command, args: options.args, cwd: options.cwd, exitCode: 0, stdout: JSON.stringify(output), stderr: "", durationMs: 1, startedAt: "2026-09-10T00:00:00Z" };
+    } });
+}
+
+/** Synthetic bounded process response through the genuine pinned calculator
+ * factory. This verifies plumbing and evidence handling, not native physics. */
+async function transmissionLineCalculator(differentialOhm: number) {
+  const root = await mkdtemp(path.join(tmpdir(), "evleda-interface-transline-"));
+  cleanups.push(() => rm(root, { recursive: true, force: true }));
+  const executablePath = path.join(root, "synthetic.exe"), bytes = Buffer.from("Factory identity fixture; never executed.");
+  await writeFile(executablePath, bytes);
+  const units = (name: string) => ["H", "T", "PHYS_WIDTH", "PHYS_LEN", "H_T", "ROUGH", "PHYS_S", "STRIPLINE_A"].includes(name) ? "m"
+    : name === "FREQUENCY" ? "Hz" : name === "SIGMA" ? "S/m" : name === "ANG_L" ? "rad" : name.startsWith("Z0") ? "ohm" : "1";
+  return createKicadTransmissionLineCalculator({ executablePath, cwd: root, environment: {},
+    expectedExecutableIdentity: { sha256: contentIdentity(bytes).digest, sizeBytes: bytes.length },
+    runner: async options => {
+      const inputs = Object.fromEntries(options.args.filter(arg => arg.includes("=")).map(arg => {
+        const [name, value] = arg.split("=");
+        return [name!, value === "absent" ? { value: "absent", unit: "1" } : { value: Number(value), unit: units(name!) }];
+      }));
+      const result = (value: number, unit: string) => ({ value, unit, status: "ok" });
+      const output = { schemaVersion: KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION, implementationRevision: KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION,
+        sourceCommit: KICAD_TRANSMISSION_LINE_SOURCE_COMMIT, model: options.args[1], operation: options.args[3], converged: true, valid: true, inputs,
+        results: { PHYS_WIDTH: result(Number(inputs.PHYS_WIDTH!.value), "m"), PHYS_LEN: result(Number(inputs.PHYS_LEN!.value), "m"),
+          PHYS_S: result(Number(inputs.PHYS_S!.value), "m"), Z0_O: result(differentialOhm / 2, "ohm"), Z0_E: result(70, "ohm"), Z_DIFF: result(differentialOhm, "ohm") } };
+      return { command: options.command, args: options.args, cwd: options.cwd, exitCode: 0,
+        stdout: JSON.stringify(output), stderr: "", durationMs: 1, startedAt: "2026-09-10T00:00:00Z" };
     } });
 }
 
@@ -243,6 +289,198 @@ const boreCases: Array<{ name: string; route: { start: NmPoint; end: NmPoint }; 
 ];
 
 describe("pure current-source V2 plane acceptance", () => {
+  it("preserves the legacy assessment and public shape when no interfaces are declared", async () => {
+    const f = await fixture(), result = await assessFreshPlaneAcceptance(f.input);
+    expect(result).not.toHaveProperty("interfaces"); expect(result.evidence).not.toHaveProperty("interfaces");
+    expect(summarizePlaneAcceptance(result)).not.toHaveProperty("interfaces");
+    expect(result.rows.map(check => ({ id: check.id, kind: check.kind }))).toEqual(
+      f.input.compilationBundle.verificationPlan.requirements.map(check => ({ id: check.id, kind: check.kind })));
+  });
+
+  it("retains a known saved pair width failure without issuing current-fill authority", async () => {
+    const compilationBundle = interfaceConstructionBundle(), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle, 0.7) });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
+    expect(result.authority.status).toBe("unknown"); expect(result.evidence.commonChecks).toBeNull();
+    expect(result.references).toEqual([]); expect(result.status).toBe("failed");
+    expect(row(result, "interface-geometry:LINK").status).toBe("fail");
+    expect(result.rows.filter(check => !check.kind.startsWith("interface_")).every(check => check.status === "unknown")).toBe(true);
+    expect(result.interfaces![0]!.referenceCoverage.status).toBe("unknown");
+    expect(result.evidence.interfaces![0]!.sourceIdentity).toEqual(contentIdentity(f.input.pcbSource));
+    expect(result.evidence.interfaces![0]!.bundleIdentity).toEqual(compilationBundle.identity);
+    expect(result.accepted).toBe(false); expect(result.fabricationAuthorized).toBe(false);
+    const projected = summarizePlaneAcceptance(result);
+    expect(projected.interfaces![0]!.acceptance.pairGeometry.status).toBe("failed");
+    expect(projected.rows).toHaveLength(result.rows.length);
+    expect(JSON.stringify(projected)).not.toContain("(kicad_pcb");
+  });
+
+  it("retains a saved construction mismatch independently of missing fill and model evidence", async () => {
+    const compilationBundle = interfaceConstructionBundle();
+    const pcbSource = interfaceBoard(compilationBundle).replace("(thickness 1.57)", "(thickness 1.58)");
+    const f = await fixture({ compilationBundle, pcbSource });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
+    expect(row(result, "interface-construction").status).toBe("fail");
+    expect(result.evidence.interfaces![0]!.construction.status).toBe("failed_saved_declaration");
+    expect(result.interfaces![0]!.referenceCoverage.status).toBe("unknown");
+    expect(result.status).toBe("failed"); expect(result.authority.status).toBe("unknown");
+    expect(summarizePlaneAcceptance(result).rows.find(check => check.id === "interface-construction")!.status).toBe("fail");
+  });
+
+  it("requires both current reference ribbons before the complete interface geometry row can pass", async () => {
+    const compilationBundle = interfaceConstructionBundle(), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
+    const missingFill = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
+    expect(row(missingFill, "interface-geometry:LINK").status).toBe("unknown");
+    const missingCalculator = await assessFreshPlaneAcceptance(f.input);
+    expect(row(missingCalculator, "interface-geometry:LINK").status).toBe("unknown");
+    const requests: ReferenceCoverageRequest[] = [];
+    const covered = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });
+    expect(covered.evidence.interfaces![0]!.sourceInventory.reasons).toEqual([]);
+    expect(covered.references).toHaveLength(2); expect(requests).toHaveLength(2);
+    expect(covered.references.every(reference => reference.status === "verified" && reference.geometricStatus === "covered")).toBe(true);
+    expect(row(covered, "interface-topology:LINK").status).toBe("pass");
+    expect(row(covered, "interface-geometry:LINK").status).toBe("pass");
+    expect(row(covered, "interface-termination:LINK").status).toBe("pass");
+    expect(covered.rows.map(check => check.id)).toEqual(compilationBundle.verificationPlan.requirements.map(check => check.id));
+    expect(row(covered, "plane-net:GND").status).toBe("unknown");
+    expect(row(covered, "reference:DP").status).toBe("unknown");
+    expect(covered.accepted).toBe(false); expect(covered.fabricationAuthorized).toBe(false);
+    const uncovered = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("uncovered") });
+    expect(row(uncovered, "interface-geometry:LINK").status).toBe("fail");
+  });
+
+  it("keeps a declared differential model unknown when its host calculator is unavailable", async () => {
+    const draft = interfaceConstructionDraft(), pair = draft.interfaceRequirements.interfaces[0];
+    draft.interfaceRequirements.construction.surfaceFinish = "bare copper";
+    pair.impedance = { mode: "differential", targetOhms: 100, toleranceOhms: 10, frequencyHz: 100_000_000,
+      constructionId: "STACK", source: pair.source };
+    const compilationBundle = interfaceConstructionBundle(draft), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+    expect(row(result, "interface-impedance:LINK").status).toBe("unknown");
+    expect(result.mandatoryRowsRemaining).toContain("interface-impedance:LINK");
+    expect(result.evidence.interfaces![0]!.impedance.status).toBe("unassessed");
+  });
+
+  it("uses declared source and receiver roles for integrated termination source facts", async () => {
+    const draft = interfaceConstructionDraft(), pair = draft.interfaceRequirements.interfaces[0];
+    for (const [side, componentReference] of [["source", "J1"], ["receiver", "J2"]] as const)
+      pair.terminations[side] = { kind: "integrated", componentReference, positivePin: "1", negativePin: "2", source: pair.source };
+    const compilationBundle = interfaceConstructionBundle(draft), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+    expect(result.evidence.interfaces![0]!.geometry!.terminationAnchors).toEqual([]);
+    expect(row(result, "interface-topology:LINK").status).toBe("pass");
+    expect(row(result, "interface-termination:LINK").status).toBe("pass");
+    expect(row(result, "interface-geometry:LINK").status).toBe("pass");
+    expect(result.evidence.interfaces![0]!.terminations.deviceInternalTermination).toBe("not_verified");
+    expect(result.accepted).toBe(false);
+  });
+
+  it.each([{ terminationXmm: 7.9, expected: "unknown" }, { terminationXmm: 5, expected: "fail" }])(
+    "separates external resistance assertions from observed termination facts at x=$terminationXmm", async ({ terminationXmm, expected }) => {
+      const draft = interfaceConstructionDraft(), pair = draft.interfaceRequirements.interfaces[0];
+      const resistor = { ...planeDividerDraft().components.find(component => component.reference === "R1")!, value: "100",
+        pins: ["DP", "DN"].map((net, index) => ({ pin: String(index + 1), assignment: { kind: "net", net } })) };
+      draft.components.push(resistor); draft.placementConstraints.push({ ...draft.placementConstraints[0], reference: "R1", edgePreference: "none" });
+      for (const [index, name] of ["DP", "DN"].entries()) {
+        const endpoint = { reference: "R1", pin: String(index + 1) };
+        draft.nets.find((net: Raw) => net.name === name).endpoints.push(endpoint);
+        const route = draft.routingConstraints.nets.find((route: Raw) => route.net === name); route.topology = "tree";
+        route.referencePath.terminalReferences.push({ signalEndpoint: endpoint, referenceEndpoint: { reference: "J2", pin: "3" } });
+      }
+      pair.terminations.receiver = { kind: "parallel", componentReference: "R1", positivePin: "1", negativePin: "2",
+        resistanceOhms: 100, maximumDistanceToEndpointMm: 0.5, source: pair.source };
+      const compilationBundle = interfaceConstructionBundle(draft);
+      const pcbSource = interfaceBoard(compilationBundle).replace("(at 13 3)", `(at ${terminationXmm} 3)`);
+      const f = await fixture({ compilationBundle, pcbSource });
+      const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+      const saved = result.evidence.interfaces![0]!, projected = summarizePlaneAcceptance(result);
+      expect(saved.terminations.resistanceVerification).toBe("caller_assertion_only");
+      expect(saved.terminations.assertedResistanceOhms).toEqual([{ side: "receiver", value: 100 }]);
+      expect(saved.terminations.pins).toHaveLength(2);
+      expect(saved.terminations.pins.every(pin => pin.matchingPadUuids.length === 1 && pin.distanceSquaredNm2 !== null)).toBe(true);
+      expect(row(result, "interface-termination:LINK").status).toBe(expected);
+      expect(projected.interfaces![0]!.acceptance.termination.status).toBe(expected === "fail" ? "failed" : "unknown");
+      expect(projected.interfaces![0]!.acceptance.termination.reasons.join(" ")).toContain("planar pad-center separation");
+      if (expected === "unknown") {
+        expect(saved.terminations.status).toBe("matched_source_facts");
+        expect(saved.terminations.pins.map(pin => pin.distanceSquaredNm2)).toEqual(["10000000000", "10000000000"]);
+        expect(row(result, "interface-topology:LINK").status).toBe("pass");
+        expect(row(result, "interface-geometry:LINK").status).toBe("pass");
+        expect(projected.interfaces![0]!.acceptance.termination.reasons.join(" ")).toContain("caller-asserted");
+      } else expect(saved.terminations.pins.every(pin => pin.reasons.some(reason => reason.code === "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED"))).toBe(true);
+      expect(result.accepted).toBe(false); expect(result.fabricationAuthorized).toBe(false);
+    });
+
+  it.each([{ differentialOhm: 100, expected: "unknown" }, { differentialOhm: 150, expected: "fail" }])(
+    "retains a $differentialOhm ohm numerical model result independently of missing fill and unresolved applicability", async ({ differentialOhm, expected }) => {
+      const draft = interfaceConstructionDraft(), pair = draft.interfaceRequirements.interfaces[0];
+      draft.interfaceRequirements.construction.surfaceFinish = "bare copper";
+      pair.impedance = { mode: "differential", targetOhms: 100, toleranceOhms: 10, frequencyHz: 100_000_000,
+        constructionId: "STACK", source: pair.source };
+      const compilationBundle = interfaceConstructionBundle(draft), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
+      const result = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null, transmissionLine: await transmissionLineCalculator(differentialOhm) });
+      expect(result.authority.status).toBe("unknown"); expect(result.interfaces![0]!.referenceCoverage.status).toBe("unknown");
+      expect(result.evidence.interfaces![0]!.impedance.intervals[0]?.calculatedDifferentialOhm,
+        JSON.stringify(result.evidence.interfaces![0]!.impedance.intervals[0]?.reasons)).toBe(differentialOhm);
+      expect(row(result, "interface-impedance:LINK").status).toBe(expected);
+      expect(result.evidence.interfaces![0]!.impedance.intervals).toHaveLength(1);
+      expect(result.evidence.interfaces![0]!.impedance.intervals[0]!.calculatedDifferentialOhm).toBe(differentialOhm);
+      expect(result.evidence.interfaces![0]!.impedance.intervals[0]!.calculation!.impedance.differentialAtFrequencyOhm).toBe(differentialOhm);
+      expect(result.accepted).toBe(false); expect(result.fabricationAuthorized).toBe(false);
+    });
+
+  it.each([
+    { statuses: ["covered", "boundary_uncertain"] as const, expected: "unknown" },
+    { statuses: ["boundary_uncertain", "covered"] as const, expected: "unknown" },
+    { statuses: ["covered", "uncovered"] as const, expected: "fail" },
+    { statuses: ["uncovered", "covered"] as const, expected: "fail" },
+  ])("requires both member reference results independently: $statuses", async ({ statuses, expected }) => {
+    const compilationBundle = interfaceConstructionBundle(), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator(statuses) });
+    expect(result.references.map(reference => reference.geometricStatus)).toEqual(statuses);
+    expect(row(result, "interface-geometry:LINK").status).toBe(expected);
+    expect(row(result, "interface-topology:LINK").status).toBe("pass");
+    expect(summarizePlaneAcceptance(result).interfaces![0]!.acceptance.referenceCoverage.status).toBe(expected === "fail" ? "failed" : "unknown");
+  });
+
+  it.each([{ widthMm: 0.5, expectedGeometry: "unknown" }, { widthMm: 0.7, expectedGeometry: "fail" }])(
+    "retains independent $widthMm mm width facts with unsupported selected pads and covered reference ribbons", async ({ widthMm, expectedGeometry }) => {
+    const compilationBundle = interfaceConstructionBundle();
+    // Native pad/source fixtures retain the same explicit non-cardinal pad
+    // rotation on both footprints. The bounded saved-pair projection cannot
+    // silently drop these selected physical members into a complete pair.
+    const pcbSource = interfaceBoard(compilationBundle, widthMm).replaceAll("(at 0 0) (size 0.5 0.5)", "(at 0 0 45) (size 0.5 0.5)");
+    const f = await fixture({ compilationBundle, pcbSource });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+    expect(result.references.every(reference => reference.status === "verified" && reference.geometricStatus === "covered")).toBe(true);
+    expect(result.references).toHaveLength(2);
+    expect(result.evidence.interfaces![0]!.sourceInventory.status).toBe("unsupported");
+    expect(row(result, "interface-topology:LINK").status).toBe("unknown");
+    expect(row(result, "interface-geometry:LINK").status).toBe(expectedGeometry);
+  });
+
+  it("retains complete saved interface evidence privately and rejects stale public bindings", async () => {
+    const compilationBundle = interfaceConstructionBundle(), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
+    const outputRoot = await mkdtemp(path.join(tmpdir(), "evleda-interface-plane-acceptance-"));
+    cleanups.push(() => rm(outputRoot, { recursive: true, force: true }));
+    const captured = await captureToolboxPlaneAcceptance(outputRoot, result);
+    const stored = JSON.parse(await readFile(path.join(outputRoot, captured.diagnostic.filename), "utf8"));
+    expect(stored.evidence.interfaces).toEqual(result.evidence.interfaces);
+    expect(captured.report.interfaces![0]!.assessmentIdentity).toEqual(result.evidence.interfaces![0]!.identity);
+    expect(captured.report.rows.map(check => check.id)).toEqual(result.rows.map(check => check.id));
+    for (const key of ["sourceIdentity", "bundleIdentity", "contractIdentity", "verificationPlanIdentity"] as const) {
+      const detached: Raw = structuredClone(result), inner = detached.evidence.interfaces[0];
+      inner[key] = key === "sourceIdentity" ? contentIdentity("stale source") : canonicalIdentity({ stale: key }, "evleda.stale-fixture.v1");
+      const { identity: _old, ...payload } = inner;
+      inner.identity = canonicalIdentity(payload, inner.schemaVersion); detached.interfaces[0].assessmentIdentity = inner.identity;
+      expect(() => summarizePlaneAcceptance(detached as Awaited<ReturnType<typeof assessFreshPlaneAcceptance>>)).toThrow(/source binding/);
+    }
+    const mismatched: Raw = structuredClone(result);
+    mismatched.rows.find((check: Raw) => check.id === "interface-topology:LINK").status = "fail";
+    expect(() => summarizePlaneAcceptance(mismatched as Awaited<ReturnType<typeof assessFreshPlaneAcceptance>>)).toThrow(/original V2 verification row/);
+    expect(JSON.stringify(captured.report)).not.toMatch(/kicad_pcb|D:\\\\evleda|rawSnapshot|physical\.source/u);
+  });
+
   it.each(["clean", "violation", "ignored", "missing"] as const)("merges %s ERC through its genuine source-bound native assessment while preserving DRC and common rows", async kind => {
     const f = await ercFixture(kind), result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks });
     expect(row(result, "erc").status).toBe(kind === "clean" ? "pass" : kind === "violation" ? "fail" : "unknown");

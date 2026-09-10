@@ -47,7 +47,7 @@ int main(int argc,char** argv){try{
  if(model=="microstrip")c=std::make_unique<MICROSTRIP>();else if(model=="coupled_microstrip")c=std::make_unique<COUPLED_MICROSTRIP>();
  else if(model=="stripline")c=std::make_unique<STRIPLINE>();else if(model=="coupled_stripline")c=std::make_unique<COUPLED_STRIPLINE>();else throw std::runtime_error("Unsupported model");
  if(operation!="analyze"&&operation!="synthesize")throw std::runtime_error("Unsupported operation");
- if(absentCover&&model!="microstrip")throw std::runtime_error("Absent metallic cover is supported only for single microstrip");
+ if(absentCover&&!micro)throw std::runtime_error("Absent metallic cover is supported only for microstrip models");
  std::set<std::string> required={"EPSILONR","H","T","PHYS_WIDTH","PHYS_LEN","FREQUENCY","SIGMA","MURC"};
  if(coupled)required.insert("PHYS_S");
  if(micro){required.insert("H_T");required.insert("ROUGH");required.insert("TAND");}
@@ -66,9 +66,9 @@ int main(int argc,char** argv){try{
   c->SetParameter(static_cast<P>(index),kv.second);
  }
  if(absentCover){
-  // MICROSTRIP::delta_q_cover(r)=tanh(1.043+0.121*r-1.164/r) -> 1 as r -> +infinity.
-  // The explicit token stays in the protocol; this internal limit is never serialized as a number.
-  // Coupled microstrip's separate cover fit is deliberately excluded above.
+  // The explicit token stays in the protocol; the internal sentinel is never serialized as a number.
+  // Single microstrip uses its exact filling-factor limit of 1. The patched coupled model
+  // explicitly bypasses its cover fits; their infinite-height limit is not uniformly uncovered.
   static_assert(std::numeric_limits<double>::has_infinity,"Exact uncovered limit requires infinity");
   c->SetParameter(P::H_T,std::numeric_limits<double>::infinity());
  }
@@ -83,7 +83,7 @@ int main(int argc,char** argv){try{
   auto target=coupled?P::Z0_O:P::Z0;double actual=c->GetParameter(target);
   if(!std::isfinite(actual)||std::abs(actual-inputs.at(coupled?"Z0_O":"Z0"))>1e-4)valid=false;
  }
- std::cout<<"{\"schemaVersion\":3,\"implementationRevision\":\"evleda-uncovered-microstrip-v1\",\"sourceCommit\":\"146a4f2a7585c65bc580427a19b6fe2ec4a3f622\",\"model\":\""<<model<<"\",\"operation\":\""<<operation<<"\",\"converged\":"<<(converged?"true":"false")<<",\"valid\":"<<(valid?"true":"false")<<",\"inputs\":{";
+ std::cout<<"{\"schemaVersion\":4,\"implementationRevision\":\"evleda-uncovered-coupled-microstrip-v1\",\"sourceCommit\":\"146a4f2a7585c65bc580427a19b6fe2ec4a3f622\",\"model\":\""<<model<<"\",\"operation\":\""<<operation<<"\",\"converged\":"<<(converged?"true":"false")<<",\"valid\":"<<(valid?"true":"false")<<",\"inputs\":{";
  bool first=true;for(const auto& kv:inputs){if(!first)std::cout<<',';first=false;std::cout<<'"'<<kv.first<<"\":{\"value\":";number(kv.second);std::cout<<",\"unit\":\""<<unit(kv.first)<<"\"}";}
  if(absentCover){if(!first)std::cout<<',';std::cout<<"\"H_T\":{\"value\":\"absent\",\"unit\":\"1\"}";}
  std::cout<<"},\"results\":{";first=true;

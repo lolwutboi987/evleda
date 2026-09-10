@@ -2,6 +2,7 @@ import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canon
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { isKicadPlaneContactsObservation, type KicadPlaneContactsObservation } from "../integrations/kicad-plane-contacts.js";
 import { isReferenceCoverageCalculator, referenceCoverageRequestSchema, type ReferenceCoverageCalculator } from "../integrations/kicad-reference-coverage.js";
+import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import { assertFreshPlaneReferenceCopperScope } from "./fresh-clearance-evidence.js";
 import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFreshPcbSource } from "./fresh-kicad-parser.js";
 import { isFreshPlaneConnectivityAssessment, type FreshPlaneConnectivityAssessment } from "./fresh-plane-connectivity.js";
@@ -13,6 +14,7 @@ import { isFreshPlaneNativeChecksAssessment, type FreshPlaneNativeChecksAssessme
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
+import { assessSavedInterface, SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION, type SavedInterfaceAssessment } from "./saved-interface-assessment.js";
 
 export interface FreshPlaneAcceptanceInput {
   readonly compilationBundle: PcbPlaneCompilationBundle;
@@ -25,6 +27,8 @@ export interface FreshPlaneAcceptanceInput {
   readonly nativeContacts?: KicadPlaneContactsObservation;
   readonly nativeChecks?: FreshPlaneNativeChecksAssessment;
   readonly referenceCoverage?: ReferenceCoverageCalculator;
+  /** Host factory capability only; the saved-interface assessor authenticates it. */
+  readonly transmissionLine?: KicadTransmissionLineCalculator;
 }
 type Status = "verified" | "failed" | "unknown";
 interface Fact { readonly status: Status; readonly reasons: readonly string[] }
@@ -32,6 +36,23 @@ interface Row { readonly id: string; readonly kind: PcbPlaneCompilationBundle["v
   readonly status: "pass" | "fail" | "unknown"; readonly reasons: readonly string[] }
 const same = (a: unknown, b: unknown) => canonicalJson(a) === canonicalJson(b);
 const fact = (status: Status, ...reasons: string[]): Fact => ({ status, reasons });
+// A supported counterexample remains a failure even when another prerequisite
+// cannot be evaluated. Unknown evidence can never be promoted to a pass.
+const allFacts = (values: readonly Fact[]): Fact => fact(values.some(value => value.status === "failed") ? "failed"
+  : values.length > 0 && values.every(value => value.status === "verified") ? "verified" : "unknown", ...values.flatMap(value => value.reasons));
+const interfaceFact = (status: string, pass: readonly string[], fail: readonly string[], reasons: readonly (string | { readonly code: string; readonly message: string })[]): Fact =>
+  fact(fail.includes(status) ? "failed" : pass.includes(status) ? "verified" : "unknown",
+    ...reasons.map(reason => typeof reason === "string" ? reason : `${reason.code}: ${reason.message}`));
+export interface FreshPlaneInterfaceAcceptance {
+  readonly interfaceId: string;
+  readonly assessmentIdentity: CanonicalIdentity;
+  readonly construction: Fact;
+  readonly topology: Fact;
+  readonly pairGeometry: Fact;
+  readonly termination: Fact;
+  readonly impedance: Fact;
+  readonly referenceCoverage: Fact & { readonly planeId: string; readonly memberNets: readonly string[]; readonly referenceRowIds: readonly string[] };
+}
 function requireValue(value: unknown, reason: string): asserts value { if (!value) throw new Error(`Plane acceptance: ${reason}`); }
 function names(values: readonly string[]): string[] { return [...values].sort(); }
 function unique(values: readonly string[], label: string) { requireValue(new Set(values).size === values.length, `${label} contains duplicate identities`); }
@@ -94,6 +115,25 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const row = rows.find(row => row.id === id); requireValue(row !== undefined, `unknown V2 verification row ${id}`);
     rows[rows.indexOf(row)] = { ...row, status: value.status === "verified" ? "pass" : value.status === "failed" ? "fail" : "unknown", reasons: value.reasons };
   };
+  const setInterfaceRow = (id: string, kind: Row["kind"], value: Fact) => {
+    requireValue(rows.filter(row => row.id === id && row.kind === kind).length === 1, "interface evidence does not match an original V2 verification row");
+    setRow(id, value);
+  };
+  const interfaceEvidence: SavedInterfaceAssessment[] = [];
+  // Saved construction and route counterexamples have their own source-bound
+  // scope. They do not depend on, or replace, current-session fill authority.
+  for (const pair of bundle.contract.interfaceRequirements?.interfaces ?? []) {
+    const assessment = await assessSavedInterface({ savedPcbBytes: Buffer.from(input.pcbSource, "utf8"), compilationBundle: bundle, interfaceId: pair.id,
+      ...(input.transmissionLine === undefined ? {} : { calculator: input.transmissionLine }) });
+    requireValue(assessment.schemaVersion === SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION && assessment.boardAccepted === false
+      && assessment.interfaceAccepted === false && assessment.fabricationAuthorized === false, "saved interface evidence has unsupported schema or acceptance claims");
+    exactIdentity(assessment, SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION);
+    requireValue(assessment.interfaceId === pair.id && same(assessment.sourceIdentity, identities.pcb)
+      && same(assessment.bundleIdentity, bundle.identity) && same(assessment.contractIdentity, bundle.contract.identity)
+      && same(assessment.verificationPlanIdentity, bundle.verificationPlan.identity)
+      && same(assessment.requirementIdentity, canonicalIdentity(pair, "evleda.saved-interface-requirement.v1")), "saved interface evidence belongs to different source or V2 authority");
+    interfaceEvidence.push(assessment);
+  }
   const missing = "A current-session saved native fill witness is required; reapply and save the contract plane before acceptance.";
   const planes: Array<{
     planeId: string; zoneUuid: string; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
@@ -108,23 +148,92 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     referenceTerminals: Fact; intersectingBoreUuids:readonly string[];tangentBoreUuids:readonly string[];calculation: unknown }> = [];
   let authority = fact("unknown", missing), sourceScope = fact("unknown", missing), nativeInventory = fact("unknown", "Current authenticated native contacts are unavailable.");
   let commonChecks: FreshPlaneCommonChecksAssessment | null = null;
+  const interfaceRows = (): FreshPlaneInterfaceAcceptance[] => {
+    const checks = interfaceEvidence.map(assessment => {
+      const pair = bundle.contract.interfaceRequirements!.interfaces.find(pair => pair.id === assessment.interfaceId)!;
+      const construction = interfaceFact(assessment.construction.status, ["matched_saved_declaration"], ["failed_saved_declaration"], assessment.construction.reasons);
+      const externalResistance = [pair.terminations.source, pair.terminations.receiver].some(value => value.kind === "parallel" || value.kind === "source_series");
+      const measuredTermination = interfaceFact(assessment.terminations.status, ["matched_source_facts"], ["failed_source_facts"], assessment.terminations.reasons);
+      const terminationSourceFacts = fact(measuredTermination.status, ...measuredTermination.reasons,
+        ...(externalResistance ? ["Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated."] : []));
+      // Exact pin/route/distance observations cannot establish the separate
+      // resistor-value requirement. Keep those source facts usable by topology.
+      const termination = !externalResistance || terminationSourceFacts.status === "failed" ? terminationSourceFacts
+        : fact("unknown", ...terminationSourceFacts.reasons,
+          "Declared external termination resistance remains caller-asserted; no observed component resistance or saved resistance-value assessment is available.");
+      const selectedGeometry = assessment.geometry;
+      const inventory = interfaceFact(assessment.sourceInventory.status, ["complete"], [], assessment.sourceInventory.reasons);
+      const source = allFacts([inventory, assessment.sourceInventory.projectionComplete && selectedGeometry?.inventoryComplete === true
+        ? fact("verified", "Every selected saved-source primitive is retained in the complete pair assessment.")
+        : fact("unknown", "The saved primitive projection and complete geometry inventory must both be established.")]);
+      const geometryCheck = (key: keyof NonNullable<SavedInterfaceAssessment["geometry"]>["checks"]): Fact => {
+        const value = selectedGeometry?.checks[key];
+        return value === undefined ? fact("unknown", "Complete supported saved pair geometry is unavailable.")
+          : interfaceFact(value.status, ["pass"], ["fail"], value.reasons);
+      };
+      const anchors = allFacts(([pair.terminations.source, pair.terminations.receiver] as const).flatMap(termination => {
+        if (termination.kind === "none") return [fact("verified", "No termination anchor is declared on this interface side.")];
+        if (termination.kind === "source_series") return [fact("unknown", "Complete split-net source-series termination anchors are unsupported.")];
+        return [termination.positivePin, termination.negativePin].map(pin => {
+          // Integrated termination pins are the declared source or receiver
+          // roles; external parallel terminations have separate route anchors.
+          const candidates = termination.kind === "integrated" ? selectedGeometry?.sourceRoles : selectedGeometry?.terminationAnchors;
+          const observed = candidates?.filter(anchor => anchor.selector.reference === termination.componentReference && anchor.selector.pad === pin) ?? [];
+          return observed.length !== 1 ? fact("unknown", "Every declared termination pin requires one complete source route-anchor assessment.")
+            : interfaceFact(observed[0]!.status, ["pass"], ["fail"], [`Declared termination anchor ${termination.componentReference}:${pin} must contact its unique member route.`]);
+        });
+      }));
+      const topology = allFacts([source, ...(["sourcePolarity", "topology", "stubs", "transitions"] as const).map(geometryCheck), terminationSourceFacts, anchors]);
+      const memberNets = [pair.nets.positive, pair.nets.negative], referenceRowIds: string[] = [];
+      const referenceCoverage = { ...allFacts(memberNets.map(net => {
+        const observed = references.filter(reference => reference.net === net && reference.planeId === pair.routing.referencePlaneId);
+        if (observed.length !== 1) return fact("unknown", `Current saved-fill reference coverage is unavailable for interface member ${net}.`);
+        const reference = observed[0]!; referenceRowIds.push(`reference:${net}`);
+        if (reference.status === "failed" || reference.geometricStatus === "uncovered") return fact("failed", ...reference.reasons);
+        return reference.status === "verified" && reference.geometricStatus === "covered" && authority.status === "verified"
+          ? fact("verified", ...reference.reasons) : fact("unknown", ...reference.reasons);
+      })), planeId: pair.routing.referencePlaneId, memberNets, referenceRowIds };
+      const sourceGeometry = allFacts([topology, ...(["width", "minimumGap", "coupledGap", "length", "skew", "uncoupled"] as const).map(geometryCheck)]);
+      const pairGeometry = allFacts([sourceGeometry, referenceCoverage]);
+      const model = interfaceFact(assessment.impedance.status, ["within_tolerance"], ["outside_tolerance"], assessment.impedance.reasons);
+      const impedance = model.status === "failed" || assessment.impedance.status === "not_requested" ? model
+        : fact(model.status === "verified" && construction.status === "verified" && sourceGeometry.status === "verified"
+          && assessment.impedance.completeRouteModelCoverage ? "verified" : "unknown",
+        ...model.reasons, ...construction.reasons, ...sourceGeometry.reasons,
+        assessment.impedance.completeRouteModelCoverage
+          ? "The analytical target row assumes continuous reference copper; current saved-fill reference coverage is evaluated separately."
+          : "Every required route interval must have complete applicable model coverage.");
+      setInterfaceRow(`interface-topology:${pair.id}`, "interface_topology", topology);
+      setInterfaceRow(`interface-geometry:${pair.id}`, "interface_pair_geometry", pairGeometry);
+      setInterfaceRow(`interface-termination:${pair.id}`, "interface_termination", termination);
+      if (pair.impedance.mode === "differential") setInterfaceRow(`interface-impedance:${pair.id}`, "interface_impedance", impedance);
+      return { interfaceId: pair.id, assessmentIdentity: assessment.identity, construction, topology, pairGeometry, termination, impedance, referenceCoverage };
+    });
+    if (bundle.contract.interfaceRequirements?.construction.mode === "two_layer")
+      setInterfaceRow("interface-construction", "interface_construction", allFacts(checks.map(check => check.construction)));
+    return checks;
+  };
   const finish = () => {
+    const interfaces = interfaceRows();
     const payload = { schemaVersion: "evleda.fresh-plane-acceptance.v1" as const, family: "plane-v2" as const,
       status: rows.some(row => row.status === "fail") ? "failed" as const : "incomplete" as const,
       bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity, verificationPlanIdentity: bundle.verificationPlan.identity,
       sourceIdentities: identities, savedEvidenceIdentity: input.savedEvidence?.identity ?? null,
       evidence: { savedFill: input.savedEvidence, endpointConnectivity: endpoint,
-        nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null, commonChecks },
+        nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null, commonChecks,
+        ...(bundle.contract.interfaceRequirements === undefined ? {} : { interfaces: interfaceEvidence }) },
       endpointConnectivityIdentity: endpoint.identity, endpointConnectivity: { status: endpoint.status, nets: endpoint.nets.map(net => ({ net: net.net, status: net.status,
         everyEligiblePhysicalMemberReachable: net.everyEligiblePhysicalMemberReachable })) },
       authority, sourceScope, nativeInventory, planes, references, rows,
+      ...(bundle.contract.interfaceRequirements === undefined ? {} : { interfaces }),
       verificationPlanRowsPassed: rows.filter(row => row.status === "pass").map(row => row.id),
       mandatoryRowsRemaining: rows.filter(row => row.status !== "pass").map(row => row.id),
       acceptanceEvaluated: true as const, accepted: false as const, fabricationAuthorized: false as const,
       limitations: { overallAcceptance: "requires-every-mandatory-V2-row-and-independent-general-gates" as const,
         physicalThermalWidth: "not-measured" as const, actualMinimumCopperWidth: "not-measured" as const,
         terminalContactContinuity:"native-model-only-not-drill-clipped-global-copper" as const,
-        highFrequencyElectricalValidity: "not-established" as const, impedance: "not-evaluated" as const,
+        highFrequencyElectricalValidity: "not-established" as const,
+        impedance: bundle.contract.interfaceRequirements === undefined ? "not-evaluated" as const : "interface-analytical-model-only-not-measured" as const,
         currentSourceGuards: "required-of-owning-host-before-and-after-assessment" as const } };
     return freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
   };

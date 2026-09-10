@@ -1,22 +1,47 @@
 {
-  "schemaVersion": 1,
-  "protocolVersion": 3,
-  "implementationRevision": "evleda-uncovered-microstrip-v1",
+  "schemaVersion": 2,
+  "protocolVersion": 4,
+  "implementationRevision": "evleda-uncovered-coupled-microstrip-v1",
   "sourceCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
   "wrapper": "main.cpp",
-  "wrapperSha256": "9C4BD1A216C26FBBB96A8D4554287F44F9405438093A9A2A4A0D5570EC5B3E5D",
+  "wrapperSha256": "B9C63898E2BE7449B717908A46AD3285E03390623DE37D90792882879A1DE6C9",
   "retainedCalculationPatches": "patches.json",
-  "change": {
-    "id": "explicit-uncovered-single-microstrip",
-    "externalInput": "H_T=absent",
-    "supportedModel": "microstrip",
-    "inputEcho": { "value": "absent", "unit": "1" },
-    "internalParameter": "H_T = positive infinity, only for the explicit absent token",
-    "sourceLocation": "upstream/transline_calculations/microstrip.cpp:216-219,304-343",
-    "limit": "tanh(1.043 + 0.121*r - 1.164/r) tends to 1 as r=H_T/H tends to positive infinity",
-    "upstreamSourcesChanged": false,
-    "finiteCoverExpressionsChanged": false,
-    "coupledAbsentCoverSupported": false,
-    "scope": "Explicit uncovered topology for the existing uniform single-microstrip model; no new field solver, solder-mask model or board-impedance qualification"
-  }
+  "changes": [
+    {
+      "id": "explicit-uncovered-single-microstrip",
+      "externalInput": "H_T=absent",
+      "supportedModel": "microstrip",
+      "inputEcho": {
+        "value": "absent",
+        "unit": "1"
+      },
+      "internalParameter": "H_T = positive infinity, only for the explicit absent token",
+      "sourceLocation": "upstream/transline_calculations/microstrip.cpp:216-219,304-343",
+      "limit": "tanh(1.043 + 0.121*r - 1.164/r) tends to 1 as r=H_T/H tends to positive infinity",
+      "upstreamSourcesChanged": false,
+      "finiteCoverExpressionsChanged": false,
+      "scope": "Explicit uncovered topology for the existing uniform single-microstrip model; no new field solver, solder-mask model or board-impedance qualification"
+    },
+    {
+      "id": "explicit-uncovered-coupled-microstrip",
+      "externalInput": "H_T=absent",
+      "supportedModel": "coupled_microstrip",
+      "inputEcho": {
+        "unit": "1",
+        "value": "absent"
+      },
+      "internalParameter": "H_T = positive infinity as an internal topology sentinel only for the explicit absent token; the coupled finite-cover fits are not evaluated at infinity",
+      "patchedSource": "patched/coupled_microstrip.cpp",
+      "patchManifest": "patches.json",
+      "behavior": [
+        "Auxiliary zero-thickness single reference uses exact uncovered limit only for explicit absent cover; finite input retains H_T=1e12",
+        "Even and odd cover filling multipliers are 1",
+        "Even and odd cover impedance corrections are 0"
+      ],
+      "rationale": "The even finite-cover fit does not have a uniformly vanishing large-height limit across the base coupled-model spacing range",
+      "upstreamSourcesChanged": false,
+      "finiteCoverExpressionsChanged": false,
+      "scope": "Existing uniform coupled-microstrip model with bare conductors and air above the substrate; no solder-mask defaults, new field solver, board qualification or manufacturing tolerance claim"
+    }
+  ]
 }

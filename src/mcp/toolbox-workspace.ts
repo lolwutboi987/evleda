@@ -12,8 +12,9 @@ import { PCB_DESIGN_INTENT_MODEL_GUIDE, PCB_DESIGN_INTENT_VALID_EXAMPLE } from "
 import { PCB_PLANE_DRAFT_SCHEMA_VERSION } from "../harness/pcb-design-plane-contract.js";
 import { compilePcbPlaneDesignIntentDraft, normalizePcbPlaneSelectionPolicy } from "../harness/pcb-design-plane-compiler.js";
 import { createPcbPlaneCompilationBundle } from "../harness/pcb-design-plane-bundle.js";
-import { PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE,
-  PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE } from "../harness/pcb-design-plane-model-guide.js";
+import { PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, getPcbPlaneDesignIntentModelGuide,
+  PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES, PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE } from "../harness/pcb-design-plane-model-guide.js";
+import { PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION } from "../harness/pcb-interface-requirements.js";
 import { validateFreshProjectName } from "../harness/fresh-project.js";
 import type { KicadMcpPinnedFileInput } from "../integrations/kicad-mcp-session.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
@@ -163,13 +164,18 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     async () => respond(() => { reconcileNativeState(); return { access, nativeState: toolbox.getCadState(), activeProject: active === undefined ? null
       : { projectId: active.projectId, phase: active.phase, error: active.error ?? null },
       pendingDrafts: [...pending.values()].map(draft => ({ draftId: draft.projectId, name: draft.name })), stopping }; }));
-  toolbox.server.registerTool("evleda_design_schema", { description: "Get a complete design-intent schema, model guide and valid example. routed-v1 is the default; plane-v2 supports one bounded rectangular ground plane. Discover supportedFamilies here. Unknown requirements remain null for clarification.",
+  toolbox.server.registerTool("evleda_design_schema", { description: "Get a complete design-intent schema, model guide and valid example. routed-v1 is the default; plane-v2 supports one bounded rectangular ground plane and optional explicit differential-pair interfaceRequirements. Discover supportedFamilies here. Unknown requirements remain null for clarification.",
     inputSchema: z.object({ family: z.enum(DESIGN_FAMILIES).optional() }).strict(), annotations: READ },
     async args => respond(() => {
       const family = args.family ?? "routed-v1";
       return { family, supportedFamilies: [...DESIGN_FAMILIES],
         schema: structuredClone(family === "plane-v2" ? PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA : PCB_DESIGN_INTENT_TOOL.inputSchema),
-        guide: family === "plane-v2" ? PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE : PCB_DESIGN_INTENT_MODEL_GUIDE,
+        guide: family === "plane-v2" ? getPcbPlaneDesignIntentModelGuide(true) : PCB_DESIGN_INTENT_MODEL_GUIDE,
+        ...(family === "plane-v2" ? {
+          guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
+          optionalRequirements: { interfaceRequirements: { schemaVersion: PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION,
+            kinds: ["differential_pair"], sourceAuthority: "caller_asserted_intent", physicalVerification: "not_performed" } },
+        } : {}),
         example: structuredClone(family === "plane-v2" ? PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE : PCB_DESIGN_INTENT_VALID_EXAMPLE),
         instruction: "Use evleda_submit_design with the complete draft, name and original request; no local draft file is needed." };
     }));

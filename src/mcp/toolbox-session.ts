@@ -23,6 +23,8 @@ import type { ToolboxReferenceCoverage } from "./toolbox-reference-coverage.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import type { ToolboxEndpointConnectivityResult } from "./toolbox-endpoint-connectivity.js";
 import type { ToolboxPlaneAcceptanceResult } from "./toolbox-plane-acceptance.js";
+import type { ToolboxInterfaceCheck } from "./toolbox-interface.js";
+import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 
 /** Host capabilities only. This object is never parsed from an MCP request. */
 export interface KicadToolboxSessionInput {
@@ -42,10 +44,11 @@ export interface ConnectedKicadToolbox {
   readStackup?: () => Promise<KicadStackupReadResult>;
   /** Exact saved-route assessment; optional calculator is supplied only by the owning host. */
   checkMicrostripRoute?: ToolboxSavedMicrostrip;
+  checkInterface?: ToolboxInterfaceCheck;
   checkReferenceCoverage?: ToolboxReferenceCoverage;
   /** Saved-state V2 native copper reachability; not whole-board electrical acceptance. */
   checkEndpointConnectivity?: () => Promise<ToolboxEndpointConnectivityResult>;
-  checkPlaneAcceptance?: () => Promise<ToolboxPlaneAcceptanceResult>;
+  checkPlaneAcceptance?: (calculator?: KicadTransmissionLineCalculator) => Promise<ToolboxPlaneAcceptanceResult>;
   readonly planeAuthoringContext?: Readonly<{ projectBindingIdentity: CanonicalIdentity; sourceContractIdentity: CanonicalIdentity }>;
   /** Capture a verified saved-state guard now; publish only after owned teardown. */
   prepareCheckpoint?: () => Promise<() => Promise<void>>;

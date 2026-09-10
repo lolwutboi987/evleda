@@ -5,18 +5,16 @@ import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canon
 import { hardenPortableValue } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import type { FreshPlaneAcceptanceAssessment } from "../harness/fresh-plane-acceptance.js";
+import { sanitizePcbDiagnosticText, summarizeSavedInterface } from "./toolbox-interface-report.js";
 
 const ASSESSMENT_VERSION = "evleda.fresh-plane-acceptance.v1";
 const MAX_BYTES = 16 * 1024 * 1024;
 // The MCP serializer permits 1 MiB; reserve space for its source fingerprints,
 // recovery state and the private diagnostic's filename/content identity.
 const MAX_PUBLIC_REPORT_BYTES = 1024 * 1024 - 4096;
-const PRIVATE_PATH = /[\\/]|\b[A-Za-z]:/u;
-
 // Reasons can include parser/native-check diagnostics. Preserve every finding,
 // but leave path-bearing details in the hash-bound private assessment.
-const reasons = (values: readonly string[]) => values.map(value => PRIVATE_PATH.test(value)
-  ? "Private diagnostic detail retained in the complete assessment." : value);
+const reasons = (values: readonly string[]) => values.map(sanitizePcbDiagnosticText);
 const fact = (value: { readonly status: "verified" | "failed" | "unknown"; readonly reasons: readonly string[] }) => ({
   status: value.status, reasons: reasons(value.reasons),
 });
@@ -216,9 +214,73 @@ const drillTopology = (value: FreshPlaneAcceptanceAssessment["planes"][number]["
     maximumPredicateOperations: value.bounds.maximumPredicateOperations },
 });
 
+/** Interface source evidence remains useful without a current native fill.
+ * Its separate coverage fact records whether a current fill was available. */
+function interfaceReports(assessment: FreshPlaneAcceptanceAssessment) {
+  const checks = assessment.interfaces, evidence = assessment.evidence.interfaces;
+  if (checks === undefined && evidence === undefined) return undefined;
+  if (checks === undefined || evidence === undefined || checks.length !== evidence.length
+      || new Set(checks.map(check => check.interfaceId)).size !== checks.length
+      || new Set(evidence.map(item => item.interfaceId)).size !== evidence.length) {
+    throw new Error("Interface evidence requires complete matching assessment collections.");
+  }
+  const constructionRows = assessment.rows.filter(row => row.kind === "interface_construction");
+  if (constructionRows.length > 0) {
+    const status = checks.some(check => check.construction.status === "failed") ? "fail"
+      : checks.length > 0 && checks.every(check => check.construction.status === "verified") ? "pass" : "unknown";
+    if (constructionRows.length !== 1 || constructionRows[0]!.id !== "interface-construction"
+        || constructionRows[0]!.status !== status
+        || canonicalJson(constructionRows[0]!.reasons) !== canonicalJson(checks.flatMap(check => check.construction.reasons))) {
+      throw new Error("Interface construction row differs from its original V2 verification row.");
+    }
+  }
+  return checks.map(check => {
+    const saved = evidence.find(item => item.interfaceId === check.interfaceId);
+    if (saved === undefined || canonicalJson(saved.identity) !== canonicalJson(check.assessmentIdentity)
+        || canonicalJson(saved.sourceIdentity) !== canonicalJson(assessment.sourceIdentities.pcb)
+        || canonicalJson(saved.bundleIdentity) !== canonicalJson(assessment.bundleIdentity)
+        || canonicalJson(saved.contractIdentity) !== canonicalJson(assessment.contractIdentity)
+        || canonicalJson(saved.verificationPlanIdentity) !== canonicalJson(assessment.verificationPlanIdentity)) {
+      throw new Error("Interface evidence identity or source binding differs from the complete plane assessment.");
+    }
+    const reference = check.referenceCoverage, requirements = saved.referenceRequirements;
+    const currentReferences = requirements.memberNets.map(net => assessment.references.filter(item => item.net === net && item.planeId === requirements.planeId));
+    const referenceStatus = currentReferences.some(items => items.length === 1 && (items[0]!.status === "failed" || items[0]!.geometricStatus === "uncovered")) ? "failed"
+      : assessment.savedEvidenceIdentity !== null && assessment.authority.status === "verified" && currentReferences.length > 0
+        && currentReferences.every(items => items.length === 1 && items[0]!.status === "verified" && items[0]!.geometricStatus === "covered") ? "verified" : "unknown";
+    if (reference.planeId !== requirements.planeId || canonicalJson(reference.memberNets) !== canonicalJson(requirements.memberNets)
+        || reference.status !== referenceStatus || canonicalJson(reference.referenceRowIds)
+          !== canonicalJson(currentReferences.flatMap(items => items.length === 1 ? [`reference:${items[0]!.net}`] : []))) {
+      throw new Error("Interface reference coverage differs from the current plane assessment.");
+    }
+    const expectedRows: Array<readonly [string, string, typeof check.topology]> = [
+      ["interface-topology", "interface_topology", check.topology],
+      ["interface-geometry", "interface_pair_geometry", check.pairGeometry],
+      ["interface-termination", "interface_termination", check.termination],
+    ];
+    if (saved.impedance.status !== "not_requested") expectedRows.push(["interface-impedance", "interface_impedance", check.impedance]);
+    for (const [prefix, kind, value] of expectedRows) {
+      const id = `${prefix}:${check.interfaceId}`, originals = assessment.rows.filter(row => row.id === id);
+      if (originals.length !== 1 || originals[0]!.kind !== kind
+          || originals[0]!.status !== (value.status === "verified" ? "pass" : value.status === "failed" ? "fail" : "unknown")
+          || canonicalJson(originals[0]!.reasons) !== canonicalJson(value.reasons)) {
+        throw new Error("Interface source row differs from its original V2 verification row.");
+      }
+    }
+    return { ...summarizeSavedInterface(saved), acceptance: {
+      construction: fact(check.construction), topology: fact(check.topology), pairGeometry: fact(check.pairGeometry),
+      termination: fact(check.termination), impedance: fact(check.impedance), referenceCoverage: {
+        ...fact(check.referenceCoverage), planeId: publicText(check.referenceCoverage.planeId),
+        memberNets: check.referenceCoverage.memberNets.map(publicText), referenceRowIds: check.referenceCoverage.referenceRowIds.map(publicText),
+      },
+    } };
+  });
+}
+
 /** Closed public projection: raw captures, paths and contour arrays stay private. */
 export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessment) {
   const common = commonSourceChecks(assessment);
+  const interfaces = interfaceReports(assessment);
   return {
     schemaVersion: "evleda.toolbox-plane-acceptance.v1" as const,
     assessmentSchemaVersion: assessment.schemaVersion, assessmentIdentity: canonical(assessment.identity),
@@ -235,6 +297,7 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
     authority: fact(assessment.authority), sourceScope: fact(assessment.sourceScope), nativeInventory: fact(assessment.nativeInventory),
     nativeChecks: nativeChecks(assessment),
     commonChecks: common?.summary ?? null,
+    ...(interfaces === undefined ? {} : { interfaces }),
     planes: assessment.planes.map(plane => ({ planeId: plane.planeId, zoneUuid: plane.zoneUuid,
       configuration: fact(plane.configuration), geometry: geometry(plane.geometry),
       nativeGeometry: plane.nativeGeometry === null ? null : geometry(plane.nativeGeometry), componentCount: plane.componentCount,

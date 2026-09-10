@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "evleda.native-two-layer-construction-fixture.v1",
+  "classification": "synthetic-software-fixture-headless-native-serialization-observation",
+  "nativeVersion": "10.0.3",
+  "nativeCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+  "capture": {
+    "path": "native-two-layer-construction.kicad_pcb",
+    "representation": "LF derived from byte-identical Windows CRLF native LoadBoard/SaveBoard capture",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "6f5200f82c9d50bb5d97a6a1fc1e700f9702142d1a5eb1a25680595177e12e0d",
+      "size": 2245
+    },
+    "nativeCrlfIdentity": {
+      "sha256": "dae23cc7a43504019689665db678d7f8d07e8b1831e827613b3a430f8f33e628",
+      "sizeBytes": 2353
+    }
+  },
+  "nativeProbe": {
+    "reportPath": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/destination-construction-seed-probe-01/report.json",
+    "reportIdentity": {
+      "algorithm": "sha256",
+      "digest": "189230ce56a966ffa4fa1b41bb2197ef3f5d3d9d750f52579a6c98b9208a30e9",
+      "size": 2199
+    },
+    "runtimeManifest": {
+      "sha256": "11663765550eb62fdedfe43ceeacd45708c316d85fa21f9302125a38909b527c",
+      "sizeBytes": 35294
+    },
+    "runtimeFiles": 117,
+    "observations": [
+      {
+        "name": "generated-zero",
+        "status": 0,
+        "before": {
+          "sha256": "dae23cc7a43504019689665db678d7f8d07e8b1831e827613b3a430f8f33e628",
+          "sizeBytes": 2353
+        },
+        "after": {
+          "sha256": "dae23cc7a43504019689665db678d7f8d07e8b1831e827613b3a430f8f33e628",
+          "sizeBytes": 2353
+        },
+        "inputUnchanged": true,
+        "nativeByteEqual": true,
+        "runtimePinsUnchanged": true
+      },
+      {
+        "name": "generated-present",
+        "status": 0,
+        "before": {
+          "sha256": "ee4bac944a3b95b5497876be09574a93a2e85a7787b934c7262be41054509369",
+          "sizeBytes": 2572
+        },
+        "after": {
+          "sha256": "ee4bac944a3b95b5497876be09574a93a2e85a7787b934c7262be41054509369",
+          "sizeBytes": 2572
+        },
+        "inputUnchanged": true,
+        "nativeByteEqual": true,
+        "runtimePinsUnchanged": true
+      },
+      {
+        "name": "generated-min",
+        "status": 0,
+        "before": {
+          "sha256": "23b8c7936a0fde546dd8e7228409acbdc740653fdb8c371d85cb006c719c9ce3",
+          "sizeBytes": 2368
+        },
+        "after": {
+          "sha256": "23b8c7936a0fde546dd8e7228409acbdc740653fdb8c371d85cb006c719c9ce3",
+          "sizeBytes": 2368
+        },
+        "inputUnchanged": true,
+        "nativeByteEqual": true,
+        "runtimePinsUnchanged": true
+      },
+      {
+        "name": "generated-max",
+        "status": 0,
+        "before": {
+          "sha256": "d125387bfc840032899cc60adb646ac4bb63d5a59873aa386a6193c792f63ae3",
+          "sizeBytes": 2374
+        },
+        "after": {
+          "sha256": "d125387bfc840032899cc60adb646ac4bb63d5a59873aa386a6193c792f63ae3",
+          "sizeBytes": 2374
+        },
+        "inputUnchanged": true,
+        "nativeByteEqual": true,
+        "runtimePinsUnchanged": true
+      }
+    ]
+  },
+  "sources": [
+    "https://github.com/KiCad/kicad-source-mirror/blob/146a4f2a7585c65bc580427a19b6fe2ec4a3f622/pcbnew/board_stackup_manager/board_stackup.cpp#L736-L818",
+    "https://github.com/KiCad/kicad-source-mirror/blob/146a4f2a7585c65bc580427a19b6fe2ec4a3f622/common/string_utils.cpp#L1446-L1473",
+    "https://github.com/KiCad/kicad-source-mirror/blob/146a4f2a7585c65bc580427a19b6fe2ec4a3f622/common/eda_units.cpp#L194-L245"
+  ],
+  "limits": [
+    "This is owned new-file SWIG LoadBoard/SaveBoard evidence, not a native GUI Open/Save/MCP receipt or a live IPC stackup setter.",
+    "Frequency, roughness, conductivity, permeability, material provenance and fabricated construction remain caller assertions.",
+    "Zero mask thickness is an explicit declaration; no absent material constants were invented.",
+    "General thickness equals the explicit copper, homogeneous dielectric and mask sum; no physical measurements were made.",
+    "First isolated probe import failed before board load; its script and failure output are preserved beside the successful probe. No runtime pin was weakened or runtime file edited."
+  ]
+}

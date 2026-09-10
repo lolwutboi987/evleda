@@ -16,6 +16,7 @@ import type { ConnectedKicadToolbox } from "./toolbox-session.js";
 import { kicadTransmissionLineRequestSchema, type KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import { toolboxReferenceCoverageQuerySchema } from "./toolbox-reference-coverage.js";
 import { snapshotToolboxSavedMicrostripRequest, toolboxSavedMicrostripErrorMessage, toolboxSavedMicrostripQuerySchema } from "./toolbox-saved-microstrip.js";
+import { snapshotToolboxInterfaceQuery, TOOLBOX_INTERFACE_ERROR, toolboxInterfaceQuerySchema } from "./toolbox-interface.js";
 import { readToolboxReferenceArtifact, type ToolboxReferenceArtifact } from "./toolbox-reference-resource.js";
 import { planeCompoundMutationState } from "./toolbox-plane-results.js";
 
@@ -359,7 +360,7 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
         try {
           return await enqueueCad(async () => {
             await cad.assertCurrent(); const before = await cad.captureSources();
-            const result = await cad.checkPlaneAcceptance!();
+            const result = transmissionLine === undefined ? await cad.checkPlaneAcceptance!() : await cad.checkPlaneAcceptance!(transmissionLine);
             await cad.assertCurrent(); const after = await cad.captureSources();
             if (before !== after) throw new Error("Project changed during plane acceptance inspection; discard this observation.");
             return jsonResult({ ...result, sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
@@ -394,6 +395,22 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
             return jsonResult({ ...result, sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
           });
         } catch (error) { return jsonResult({ error: toolboxSavedMicrostripErrorMessage(error) }, true); }
+      });
+      if (cad.checkInterface !== undefined) registerTool("evleda_check_interface", {
+        description: "Assess one declared differential interface in the current saved native project. Select its interfaceId from evleda_design_context. All endpoint roles, geometry limits, construction, terminations and impedance targets come from the authenticated V2 contract. Reports complete saved route geometry and conditional analytical impedance separately from reference-path and physical qualifications. This read cannot change requirements or authorize fabrication.",
+        inputSchema: toolboxInterfaceQuerySchema, annotations: READ_ANNOTATIONS,
+      }, async args => {
+        try {
+          const request = snapshotToolboxInterfaceQuery(args);
+          return await enqueueCad(async () => {
+            await cad.assertCurrent(); const before = await cad.captureSources();
+            const result = await cad.checkInterface!(request.interfaceId, transmissionLine);
+            await cad.assertCurrent(); const after = await cad.captureSources();
+            if (before !== after) throw new Error("Project changed during interface assessment.");
+            if (result.report.interfaceId !== request.interfaceId) throw new Error("Assessment selected a different interface.");
+            return jsonResult({ ...result, sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
+          });
+        } catch { return jsonResult({ error: TOOLBOX_INTERFACE_ERROR }, true); }
       });
       if (options.designContext !== undefined) registerTool("evleda_design_context", {
         description: "Read this project's approved design contract, execution guidance and required acceptance rows. These describe requirements, not completed work.",

@@ -80,9 +80,9 @@ describe("pinned KiCad transmission-line calculator", () => {
     expect(isKicadTransmissionLineCalculator(calculator)).toBe(true);
     expect(runner).not.toHaveBeenCalled();
   });
-  it("pins the explicit uncovered-microstrip response contract", () => {
-    expect(KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION).toBe(3);
-    expect(KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION).toBe("evleda-uncovered-microstrip-v1");
+  it("pins the explicit uncovered coupled-microstrip response contract", () => {
+    expect(KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION).toBe(4);
+    expect(KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION).toBe("evleda-uncovered-coupled-microstrip-v1");
   });
   it("returns native analysis and supplies only the host's fixed process boundary", async () => {
     const { calculator, runner, options } = await fixture();
@@ -93,8 +93,8 @@ describe("pinned KiCad transmission-line calculator", () => {
       cwd: options.cwd, env: { ONLY_HOST_VALUE: "fixed" }, timeoutMs: 15000, maxOutputBytes: 65536 }));
   });
   it.each((["microstrip", "coupled_microstrip", "stripline", "coupled_stripline"] as const).flatMap(model =>
-    (["analyze", "synthesize"] as const).map(operation => ({ model, operation }))))(
-    "accepts the pinned protocol-2 numeric response for $model $operation", async ({ model, operation }) => {
+    (["analyze", "synthesize"] as const).flatMap(operation => ([2, 3] as const).map(protocol => ({ model, operation, protocol })))))(
+    "accepts the pinned protocol-$protocol numeric response for $model $operation", async ({ model, operation, protocol }) => {
       const { MUR, H_T, ROUGH, TAND, ...baseParameters } = parameters; void MUR;
       const modelParameters = {
         microstrip: parameters,
@@ -108,16 +108,16 @@ describe("pinned KiCad transmission-line calculator", () => {
         ...(operation === "synthesize" ? { targetOhm: coupled ? 90 : 56.5,
           ...(coupled ? { fixed: "width" } : {}) } : {}) };
       const { calculator, runner } = await fixture(output => {
-        output.schemaVersion = 2;
-        output.implementationRevision = "evleda-stripline-corrections-v1";
+        output.schemaVersion = protocol;
+        output.implementationRevision = protocol === 2 ? "evleda-stripline-corrections-v1" : "evleda-uncovered-microstrip-v1";
       });
       const result = await calculator.calculate(input);
       expect(result.status).toBe("calculated");
-      expect(result.native.schemaVersion).toBe(2);
-      expect(result.native.implementationRevision).toBe("evleda-stripline-corrections-v1");
+      expect(result.native.schemaVersion).toBe(protocol);
+      expect(result.native.implementationRevision).toBe(protocol === 2 ? "evleda-stripline-corrections-v1" : "evleda-uncovered-microstrip-v1");
       expect(Object.values(result.native.inputs).every(input => typeof input.value === "number" && Number.isFinite(input.value))).toBe(true);
       expect(result.scope).toContain("evleda-stripline-corrections-v1");
-      expect(result.scope).not.toContain("evleda-uncovered-microstrip-v1");
+      expect(result.scope).not.toContain("evleda-uncovered-coupled-microstrip-v1");
       expect(runner).toHaveBeenCalledTimes(1);
     });
   it.each([
@@ -125,6 +125,9 @@ describe("pinned KiCad transmission-line calculator", () => {
     { schemaVersion: 2, implementationRevision: "unapproved" },
     { schemaVersion: 3, implementationRevision: "evleda-stripline-corrections-v1" },
     { schemaVersion: 3, implementationRevision: "unapproved" },
+    { schemaVersion: 3, implementationRevision: "evleda-uncovered-coupled-microstrip-v1" },
+    { schemaVersion: 4, implementationRevision: "evleda-uncovered-microstrip-v1" },
+    { schemaVersion: 4, implementationRevision: "unapproved" },
   ])("rejects protocol $schemaVersion with incompatible revision $implementationRevision", async identity => {
     const { calculator } = await fixture(output => { Object.assign(output, identity); });
     await expect(calculator.calculate(request)).rejects.toThrow();
@@ -202,18 +205,62 @@ describe("pinned KiCad transmission-line calculator", () => {
     expect(result.modelWarnings.map(warning => warning.code)).toContain("MICROSTRIP_METALLIC_COVER");
     expect(result.modelWarnings.map(warning => warning.code)).not.toContain("MICROSTRIP_UNCOVERED_MODEL");
   });
-  it.each(["analyze", "synthesize"] as const)("rejects absent coupled-microstrip cover before %s dispatch", async operation => {
+  it.each([
+    { operation: "analyze" as const, fixed: undefined },
+    { operation: "synthesize" as const, fixed: "width" as const },
+    { operation: "synthesize" as const, fixed: "spacing" as const },
+  ])("accepts absent coupled-microstrip cover for $operation fixed=$fixed and preserves the topology warning", async ({ operation, fixed }) => {
     const { MUR, ...coupledParameters } = parameters; void MUR;
     const input = { model: "coupled_microstrip", operation, parameters: { ...coupledParameters, H_T: "absent", PHYS_S: 0.0002 },
-      ...(operation === "synthesize" ? { targetOhm: 90, fixed: "width" } : {}) };
-    expect(kicadTransmissionLineRequestSchema.safeParse(input).success).toBe(false);
+      ...(operation === "synthesize" ? { targetOhm: 90, fixed } : {}) };
+    expect(kicadTransmissionLineRequestSchema.parse(input)).toEqual(input);
     const { calculator, runner } = await fixture();
-    await expect(calculator.calculate(input)).rejects.toThrow();
-    expect(runner).not.toHaveBeenCalled();
+    const result = await calculator.calculate(input);
+    expect(result.status).toBe("calculated");
+    expect(result.native.inputs.H_T).toEqual({ value: "absent", unit: "1" });
+    expect(runner.mock.calls[0]![0].args.filter(arg => arg.startsWith("H_T="))).toEqual(["H_T=absent"]);
+    expect(result.modelWarnings.map(warning => warning.code)).toContain("COUPLED_MICROSTRIP_UNCOVERED_MODEL");
+    expect(result.modelWarnings.map(warning => warning.code)).not.toContain("MICROSTRIP_METALLIC_COVER");
+    expect(result.impedance.nativeDifferentialBasis).toBe("quasistatic");
+    expect(result.impedance.differentialAtFrequencyOhm).toBe(90.0000001);
+    if (fixed !== undefined) {
+      expect(runner.mock.calls[0]![0].args).toEqual(expect.arrayContaining(["--fix", fixed, "Z0_O=45"]));
+      expect(result.targetResidualOhm).toBeCloseTo(0.0000001, 12);
+    }
   });
-  it.each(["none", "infinite", "Infinity", "Absent", " absent", "1", "", null, undefined, {}, NaN, Infinity, -Infinity, 0, -1])(
-    "rejects unsupported or nonfinite H_T %s before execution", async H_T => {
-      const input = { ...request, parameters: { ...parameters, H_T } };
+  it.each(["analyze", "synthesize"] as const)("retains protocol-3 single absent-cover %s compatibility", async operation => {
+    const { calculator } = await fixture(output => {
+      output.schemaVersion = 3;
+      output.implementationRevision = "evleda-uncovered-microstrip-v1";
+    });
+    const result = await calculator.calculate({ ...request, operation,
+      parameters: { ...parameters, H_T: "absent", ...(operation === "synthesize" ? { ANG_L: 0.3 } : {}) },
+      ...(operation === "synthesize" ? { targetOhm: 56.5 } : {}) });
+    expect(result.native.schemaVersion).toBe(3);
+    expect(result.native.inputs.H_T).toEqual({ value: "absent", unit: "1" });
+    expect(result.status).toBe("calculated");
+    expect(result.scope).toContain("explicit uncovered single-microstrip support");
+    expect(result.scope).not.toContain("single/coupled-microstrip support");
+  });
+  it.each(([2, 3] as const).flatMap(protocol => (["analyze", "synthesize"] as const).flatMap(operation =>
+    (["numeric", "crafted-absent"] as const).map(echo => ({ protocol, operation, echo })))))(
+    "rejects protocol-$protocol coupled absent-cover $operation with $echo echo", async ({ protocol, operation, echo }) => {
+      const { MUR, ...coupledParameters } = parameters; void MUR;
+      const { calculator, runner } = await fixture(output => {
+        output.schemaVersion = protocol;
+        output.implementationRevision = protocol === 2 ? "evleda-stripline-corrections-v1" : "evleda-uncovered-microstrip-v1";
+        if (echo === "numeric") output.inputs.H_T = { value: 1, unit: "m" };
+      });
+      await expect(calculator.calculate({ model: "coupled_microstrip", operation,
+        parameters: { ...coupledParameters, H_T: "absent", PHYS_S: 0.0002 },
+        ...(operation === "synthesize" ? { targetOhm: 90, fixed: "width" } : {}) })).rejects.toThrow();
+      expect(runner.mock.calls[0]![0].args).toContain("H_T=absent");
+  });
+  it.each(["none", "infinite", "Infinity", "Absent", " absent", "1", "", null, undefined, {}, NaN, Infinity, -Infinity, 0, -1]
+    .flatMap(H_T => (["microstrip", "coupled_microstrip"] as const).map(model => ({ H_T, model }))))(
+    "rejects unsupported or nonfinite H_T=$H_T for $model before execution", async ({ H_T, model }) => {
+      const { MUR, ...coupledParameters } = parameters; void MUR;
+      const input = { ...request, model, parameters: { ...(model === "microstrip" ? parameters : { ...coupledParameters, PHYS_S: 0.0002 }), H_T } };
       expect(kicadTransmissionLineRequestSchema.safeParse(input).success).toBe(false);
       const { calculator, runner } = await fixture();
       await expect(calculator.calculate(input)).rejects.toThrow();

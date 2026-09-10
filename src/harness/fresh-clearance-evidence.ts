@@ -43,6 +43,7 @@ import {
   isVerifiedFreshProject,
   type FreshProject,
 } from "./fresh-project.js";
+import { parseFreshPcbStackup } from "./fresh-kicad-parser.js";
 
 /**
  * Host-owned materialization and readback of the narrow KiCad-10 clearance
@@ -1028,9 +1029,35 @@ const exactLayerSet = (
   return names;
 };
 
+/** Stackup layer rows are metadata, never copper-item selectors. Validate their exact source before excluding them. */
+const closedStackupMetadata = (root: SExpressionNode, source: string): ReadonlySet<SExpressionNode> => {
+  const all = descendants(root);
+  const stacks = all.filter(item => item.name === "stackup");
+  if (stacks.length === 0) return new Set();
+  const setups = directChildren(root, "setup");
+  if (stacks.length !== 1 || setups.length !== 1 || all.filter(item => item.name === "setup").length !== 1
+      || setups[0]!.values.length !== 0 || directChildren(setups[0]!, "stackup")[0] !== stacks[0]) {
+    return fail("UNSUPPORTED_PCB", "Physical stackup must be the single direct child of one root setup form.");
+  }
+  const observed = parseFreshPcbStackup(source);
+  if (observed.status !== "explicit" || !observed.observationsComplete || observed.issues.length !== 0) {
+    return fail("UNSUPPORTED_PCB", "Physical stackup contains unsupported, ambiguous or incomplete source metadata.");
+  }
+  const metadata = new Set([stacks[0]!, ...descendants(stacks[0]!)]);
+  // Do not let the metadata distinction hide copper objects or rogue selectors anywhere in setup.
+  const itemKinds = new Set([...SINGLE_LAYER_FORMS, "arc", "segment", "pad", "via", "zone", "module", "net", "net_class"]);
+  for (const item of descendants(setups[0]!)) {
+    if (!metadata.has(item) && (itemKinds.has(item.name) || item.name === "layer" || item.name === "layers")) {
+      return fail("UNSUPPORTED_PCB", "PCB setup metadata contains a nested board item or unexpected layer selector.");
+    }
+  }
+  return metadata;
+};
+
 const assertClosedLayeredItems = (
   root: SExpressionNode,
   layerNames: ReadonlySet<string>,
+  source: string,
   zones: "rejected" | "not-evaluated" = "rejected",
 ): void => {
   for (const child of root.children) {
@@ -1044,7 +1071,9 @@ const assertClosedLayeredItems = (
   if (descendants(root, zones === "not-evaluated").some((item) => item.name === "module")) {
     fail("UNSUPPORTED_PCB", "Legacy module records are outside the audited KiCad-10 clearance object model.");
   }
+  const stackupMetadata = closedStackupMetadata(root, source);
   for (const item of descendants(root, zones === "not-evaluated")) {
+    if (stackupMetadata.has(item)) continue;
     // Zone settings and descendants are not promoted into V1 clearance evidence.
     // The plane family reports them as not evaluated and needs its own later gate.
     if (zones === "not-evaluated" && item.name === "zone") continue;
@@ -1114,7 +1143,7 @@ export function assertFreshPlaneReferenceCopperScope(source: string): void {
   const layers = declaredLayerNames(table!, Number(version));
   const copper = [...layers].filter(name => name.endsWith(".Cu"));
   if (copper.length !== 2 || copper[0] !== "F.Cu" || copper[1] !== "B.Cu") fail("UNSUPPORTED_PCB", "Reference copper scope supports exact F.Cu/B.Cu layers.");
-  assertClosedLayeredItems(root, new Set([...layers, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]), "not-evaluated");
+  assertClosedLayeredItems(root, new Set([...layers, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]), source, "not-evaluated");
 }
 
 const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "rejected" | "not-evaluated" = "rejected"): PcbFacts => {
@@ -1153,7 +1182,7 @@ const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "
     }
   }
   const itemLayerNames = new Set<string>([...layerNames, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]);
-  assertClosedLayeredItems(root, itemLayerNames, zones);
+  assertClosedLayeredItems(root, itemLayerNames, bytes.toString("utf8"), zones);
 
   const numericNets = new Map<string, string>();
   const tableNames = new Set<string>();

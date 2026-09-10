@@ -3,9 +3,10 @@ import { KicadMcpTerminationUncertainError } from "../../src/integrations/kicad-
 import { captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { KicadToolboxPlaneSessionInput } from "../../src/mcp/toolbox-plane-session.js";
+import type { KicadTransmissionLineCalculator } from "../../src/integrations/kicad-transmission-line.js";
 
 const seams = vi.hoisted(() => ({ authenticate: vi.fn(), initialize: vi.fn(), initialSave: vi.fn(), checkpoint: vi.fn(), verifyClasses: vi.fn(),
-  resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn(), routeDiagnostic: vi.fn(), endpointCapture: vi.fn() }));
+  resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn(), routeDiagnostic: vi.fn(), endpointCapture: vi.fn(), interfaceCapture: vi.fn() }));
 vi.mock("../../src/mcp/toolbox-plane-checkpoint.js", () => ({ createPlaneToolboxCheckpointLifecycle: seams.lifecycle }));
 vi.mock("../../src/mcp/toolbox-fresh-initial-save.js", () => ({ saveInitialFreshProjectSettings: seams.initialSave }));
 vi.mock("../../src/cli/pcb-agent.js", () => ({ createFreshNativeCaptures: seams.captures,
@@ -18,6 +19,7 @@ vi.mock("../../src/mcp/toolbox-plane-preparation.js", () => ({ assertKicadToolbo
 vi.mock("../../src/mcp/toolbox-practices.js", () => ({ createToolboxPracticeAnalyzer: seams.practices }));
 vi.mock("../../src/mcp/toolbox-route-diagnostics.js", () => ({ writeToolboxRouteDiagnostic: seams.routeDiagnostic }));
 vi.mock("../../src/mcp/toolbox-endpoint-connectivity.js", () => ({ captureToolboxEndpointConnectivity: seams.endpointCapture }));
+vi.mock("../../src/mcp/toolbox-interface-report.js", () => ({ captureToolboxInterface: seams.interfaceCapture }));
 import { openKicadToolboxPlaneSession } from "../../src/mcp/toolbox-plane-session.js";
 
 beforeEach(() => vi.resetAllMocks());
@@ -86,6 +88,7 @@ describe("plane toolbox session composition", () => {
     expect(seams.lifecycle).toHaveBeenCalledWith({ project: f.resumed, preparation: f.preparation, session: f.session });
     expect(connected.prepareCheckpoint).toBe(f.lifecycle.prepareCheckpoint);
     expect(connected.recordRecoveryRequired).toBe(f.lifecycle.recordRecoveryRequired);
+    expect(connected.checkInterface).toBeUndefined();
     f.tools.assessPlaneConnectivity.mockResolvedValue({ status: "partially-connected" });
     seams.endpointCapture.mockResolvedValue({ report: { status: "partially-connected" } });
     expect(await connected.checkEndpointConnectivity!()).toEqual({ report: { status: "partially-connected" } });
@@ -97,6 +100,21 @@ describe("plane toolbox session composition", () => {
     await connected.assertCurrent(); expect(f.session.assertActivePcb).toHaveBeenLastCalledWith(f.resumed.pcbPath);
     await Promise.all([connected.close(), connected.close()]); expect(f.session.close).toHaveBeenCalledOnce();
     expect(f.createCliAdapter).not.toHaveBeenCalled();
+  });
+
+  it.each(["fresh", "resumed"])("wires interface reads to the bound harness and private evidence in %s mode", async mode => {
+    const f = fixture(); f.preparation.mode = mode;
+    Object.assign(f.bundle.contract, { interfaceRequirements: { interfaces: [{ id: "PAIR" }] } });
+    const assessment = { exact: "saved-assessment" }, result = { report: { interfaceId: "PAIR" }, diagnostic: { filename: "captured.json" } };
+    const assessInterface = vi.fn().mockResolvedValue(assessment); Object.assign(f.tools, { assessInterface });
+    seams.interfaceCapture.mockResolvedValue(result);
+    const connected = await openKicadToolboxPlaneSession(f.input);
+    const calculator = Object.freeze({ testHost: true }) as unknown as KicadTransmissionLineCalculator;
+    expect(await connected.checkInterface!("PAIR", calculator)).toBe(result);
+    expect(assessInterface).toHaveBeenCalledExactlyOnceWith("PAIR", calculator);
+    expect(seams.interfaceCapture).toHaveBeenCalledExactlyOnceWith(path.join(f.original.outputPath, ".evleda-mcp-output"), assessment);
+    if (mode === "resumed") expect(seams.initialSave).not.toHaveBeenCalled();
+    await connected.close();
   });
 
   it("never saves or runs blank Open normalization on authored resume but revalidates netclasses and checkpoint", async () => {

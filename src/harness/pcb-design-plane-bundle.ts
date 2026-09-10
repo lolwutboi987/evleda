@@ -6,6 +6,7 @@ import {
   type PcbPlaneCompilerOptions, type PcbPlaneDesignCompilation, type PcbPlaneReadyCompilation,
 } from "./pcb-design-plane-compiler.js";
 import { freezePcbPlaneArtifact, snapshotPcbPlaneValue } from "./pcb-design-plane-contract.js";
+import { PCB_INTERFACE_EXECUTION_GUIDANCE } from "./pcb-interface-requirements.js";
 
 export const PCB_PLANE_BUNDLE_SCHEMA_VERSION = "evleda.pcb-design-compilation-bundle.v2" as const;
 export const PCB_PLANE_BUNDLE_REF_SCHEMA_VERSION = "evleda.pcb-design-compilation-bundle-ref.v2" as const;
@@ -74,7 +75,8 @@ function build(originalPrompt: unknown, compilation: PcbPlaneReadyCompilation): 
   const payload = { schemaVersion: PCB_PLANE_BUNDLE_SCHEMA_VERSION, classification: "candidate-only" as const,
     foundationOnly: true as const, nativeAuthoringPerformed: false as const, acceptanceEvaluated: false as const,
     fabricationAuthorized: false as const, qualificationEstablished: false as const, releaseAuthorized: false as const,
-    compilerId: PCB_PLANE_COMPILER_ID, originalPrompt, originalPromptContentIdentity: contentIdentity(originalPrompt), executionGuidance: guidance,
+    compilerId: PCB_PLANE_COMPILER_ID, originalPrompt, originalPromptContentIdentity: contentIdentity(originalPrompt),
+    executionGuidance: guidance + (compilation.contract.interfaceRequirements === undefined ? "" : ` ${PCB_INTERFACE_EXECUTION_GUIDANCE}`),
     draft: compilation.draft, draftIdentity: compilation.draftIdentity, selectionPolicy: compilation.selectionPolicy,
     contract: compilation.contract, libraryBinding: compilation.libraryBinding, deepRuleBinding: compilation.deepRuleBinding,
     verificationPlan: compilation.verificationPlan };

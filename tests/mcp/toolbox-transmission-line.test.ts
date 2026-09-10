@@ -59,11 +59,25 @@ describe("host-bound MCP transmission-line calculation", () => {
         request: { parameters: { H_T: "absent" } } });
     } finally { await f.close(); }
   });
+  it.each(["analyze", "synthesize"] as const)("forwards explicit uncovered coupled-microstrip %s through the public schema", async operation => {
+    const uncovered = { model: "coupled_microstrip", operation,
+      parameters: { ...request.parameters, H_T: "absent" },
+      ...(operation === "synthesize" ? { targetOhm: 90, fixed: "width" } : {}) };
+    const calculate = vi.fn(async () => ({ ...result("calculated"), request: uncovered }) as KicadTransmissionLineResult);
+    const f = await fixture({ calculate });
+    try {
+      const output = await f.client.callTool({ name: "evleda_transmission_line", arguments: uncovered });
+      expect(output.isError).not.toBe(true);
+      expect(calculate).toHaveBeenCalledWith(uncovered);
+      expect(output.structuredContent).toMatchObject({ status: "calculated", boardVerificationPerformed: false,
+        request: { parameters: { H_T: "absent" } } });
+    } finally { await f.close(); }
+  });
   it("rejects missing physical inputs and executable injection before calculator dispatch", async () => {
     const calculate = vi.fn(async () => result("calculated")); const f = await fixture({ calculate });
     try {
       for (const argumentsValue of [{ ...request, executablePath: "other.exe" }, { ...request, parameters: { H: 0.0002 } },
-        { ...request, parameters: { ...request.parameters, H_T: "absent" } }]) {
+        { ...request, parameters: { ...request.parameters, H_T: "none" } }]) {
         const output = await f.client.callTool({ name: "evleda_transmission_line", arguments: argumentsValue });
         expect(output.isError).toBe(true);
       }

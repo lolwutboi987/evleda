@@ -4,6 +4,7 @@ import { hardenPortableValue } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { validateDeepRuleCatalog, type DeepRuleCatalog } from "./deep-rule-catalog.js";
 import { selectDeepRulesForDesign, type DeepRuleSelectionOptions } from "./deep-rule-selector.js";
+import { unsupportedPcbInterfaceRequirements } from "./pcb-interface-requirements.js";
 import {
   deriveDeepRuleFeaturesFromContract, resolvePcbDesignCommonLibraries,
   PCB_LIBRARY_BINDING_SCHEMA_VERSION, PCB_DEEP_RULE_BINDING_SCHEMA_VERSION,
@@ -35,6 +36,7 @@ export interface PcbPlaneVerificationRequirement {
   readonly kind: "contract" | "library" | "schematic" | "pcb_component" | "placement" | "outline" | "netclass_configuration"
     | "trace_connectivity" | "trace_geometry" | "via_policy" | "plane_configuration" | "plane_fill"
     | "plane_connectivity" | "plane_access" | "plane_clearance" | "plane_thermal_islands" | "reference_path"
+    | "interface_topology" | "interface_pair_geometry" | "interface_termination" | "interface_impedance" | "interface_construction"
     | "erc" | "drc" | "schematic_ink" | "visual";
   readonly contractPath: string;
   readonly mandatory: true;
@@ -142,6 +144,21 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
     add(`plane-clearance:${plane.id}`, "plane_clearance", path, "Verify the explicit zone clearance and its native effective rule interaction, copper separation and edge clearance.");
     add(`plane-policy:${plane.id}`, "plane_thermal_islands", path, "Verify pad thermal/solid contacts, required spokes, island removal and one connected plane component.");
   }
+  if (contract.interfaceRequirements !== undefined) {
+    if (contract.interfaceRequirements.construction.mode === "two_layer") add("interface-construction", "interface_construction", "/interfaceRequirements/construction",
+      "Verify saved native two-layer construction against all explicit thickness, material, mask, exterior and finish declarations. Caller sources are intent, not verified physical authority; no fabricated-material qualification is established.");
+    for (const pair of contract.interfaceRequirements.interfaces) {
+      const path = `/interfaceRequirements/interfaces/${token(pair.id)}`;
+      add(`interface-topology:${pair.id}`, "interface_topology", path,
+        "Verify exactly two member nets, all four source/receiver roles and explicit polarity mapping, complete unique source-to-receiver paths and all declared termination anchors; reject undeclared taps, stubs, transitions or ambiguous branches.");
+      add(`interface-geometry:${pair.id}`, "interface_pair_geometry", `${path}/geometry`,
+        "Verify both complete routes including bends, launches and termination access: width/gap intervals, etch length, etch skew, uncoupled length and reference coverage. An isolated straight segment cannot satisfy this requirement.");
+      add(`interface-termination:${pair.id}`, "interface_termination", `${path}/terminations`,
+        "Verify exact source/receiver termination component pins, member-net polarity, declared resistance and external endpoint-distance bounds. Device internals and source citations remain caller-asserted intent, not device qualification.");
+      if (pair.impedance.mode === "differential") add(`interface-impedance:${pair.id}`, "interface_impedance", `${path}/impedance`,
+        "Assess declared differential impedance target/tolerance at its explicit frequency using source-bound saved construction and complete supported pair geometry. Analytical model evidence is not measured impedance or physical material qualification; unsupported sections remain unknown.");
+    }
+  }
   for (const kind of ["erc", "drc", "schematic_ink", "visual"] as const) add(kind, kind, "/", `Require independent current-source ${kind} evidence; compilation is not a passed check.`);
   const payload = { schemaVersion: PCB_PLANE_VERIFICATION_PLAN_SCHEMA_VERSION, contractIdentity: contract.identity,
     libraryBindingIdentity: library.identity, deepRuleBindingIdentity: deep.identity, requirements, acceptanceEvaluated: false as const };
@@ -154,6 +171,9 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
   let snapshot: unknown;
   try { snapshot = snapshotPcbPlaneValue(input); draft = parsePcbPlaneDesignIntentDraft(snapshot); }
   catch (error) { return diagnostics("needs_clarification", null, validationIssues(error, snapshot)); }
+  const unsupportedInterfaces = unsupportedPcbInterfaceRequirements(draft.interfaceRequirements);
+  if (unsupportedInterfaces.length > 0) return diagnostics("unsupported", draft,
+    unsupportedInterfaces.map(issue => ({ code: "UNSUPPORTED_INTERFACE_TOPOLOGY", ...issue })));
   const { unresolved: _unresolved, ...common } = draft;
   const candidate = { ...common, schemaVersion: PCB_PLANE_CONTRACT_SCHEMA_VERSION, kind: "pcb_design_contract" };
   const closure = pcbPlaneDesignContractPayloadSchema.safeParse(candidate);
@@ -173,6 +193,8 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
       maxOwnKeys: 1024, maxStringBytes: 256 * 1024,
     }));
     const features = { ...deriveDeepRuleFeaturesFromContract(contract, libraryBinding),
+      ...(contract.interfaceRequirements !== undefined ? { differentialPairs: true as const, signalSpeedInterfaces: true as const,
+        ...(contract.interfaceRequirements.interfaces.some(pair => pair.impedance.mode === "differential") ? { stackupImpedance: true as const } : {}) } : {}),
       ...(contract.routingConstraints.nets.some(route => route.topology !== "plane" && route.referencePath.mode === "continuous_plane") ? { emi: true as const } : {}) };
     const selection = selectDeepRulesForDesign(catalog, features, selectionPolicy);
     if (selection.disposition !== "ready-for-prompt") throw new Error("Plane compiler requires complete deterministic guidance coverage");

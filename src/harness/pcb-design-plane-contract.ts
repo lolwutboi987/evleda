@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { canonicalIdentity, canonicalJson } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
+import { pcbInterfaceRequirementsDraftSchema, pcbInterfaceRequirementsSchema,
+  validatePcbInterfaceRelationships, canonicalizePcbInterfaceRequirements } from "./pcb-interface-requirements.js";
 import {
   pcbDesignContractPayloadSchema,
   pcbDesignIntentDraftSchema,
@@ -77,9 +79,11 @@ const routing = closed.routingConstraints.extend({ nets: z.array(z.discriminated
 const routingDraft = draft.routingConstraints.extend({ nets: z.array(z.discriminatedUnion("topology", [routedDraft, planeRouteDraft])).max(128) }).strict();
 
 const draftBase = z.object({ ...draft, schemaVersion: z.literal(PCB_PLANE_DRAFT_SCHEMA_VERSION),
-  routingConstraints: routingDraft, planes: z.array(planeDraft).max(1) }).strict();
+  routingConstraints: routingDraft, planes: z.array(planeDraft).max(1),
+  interfaceRequirements: pcbInterfaceRequirementsDraftSchema.nullable().optional() }).strict();
 const payloadBase = z.object({ ...closed, schemaVersion: z.literal(PCB_PLANE_CONTRACT_SCHEMA_VERSION),
-  routingConstraints: routing, planes: z.array(plane).length(1) }).strict();
+  routingConstraints: routing, planes: z.array(plane).length(1),
+  interfaceRequirements: pcbInterfaceRequirementsSchema.optional() }).strict();
 type DraftValue = z.infer<typeof draftBase>;
 type PayloadValue = z.infer<typeof payloadBase>;
 export type PcbPlaneDesignIntentDraft = ReadonlyTree<DraftValue>;
@@ -92,7 +96,7 @@ const pointerToken = (value: string) => value.replaceAll("~", "~0").replaceAll("
 const record = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === "object" && !Array.isArray(value);
 const arrayEntryKey = (collection: string, entry: unknown): string | null => {
   if (!record(entry)) return null;
-  const field = collection === "planes" || collection === "netClasses" ? "id"
+  const field = collection === "planes" || collection === "netClasses" || collection === "interfaces" ? "id"
     : collection === "components" || collection === "placementConstraints" ? "reference"
       : collection === "pins" ? "pin" : collection === "nets" ? ("net" in entry ? "net" : "name") : null;
   if (field !== null && typeof entry[field] === "string") return entry[field];
@@ -129,6 +133,7 @@ export function normalizePcbPlaneUnresolvedPath(document: unknown, pointer: stri
 
 function relationships(document: DraftValue | PayloadValue, context: z.RefinementCtx, closedContract: boolean): void {
   validatePcbDesignCommonRelationships(document, context, closedContract);
+  validatePcbInterfaceRelationships(document, context, closedContract);
   const issue = (path: PropertyKey[], message: string) => context.addIssue({ code: "custom", path, message });
   const unique = <T>(values: readonly T[], getKey: (value: T) => string, path: PropertyKey[]) => {
     const seen = new Set<string>();
@@ -237,6 +242,7 @@ function canonicalize<T extends DraftValue | PayloadValue>(input: T): T {
   value.placementConstraints.sort((a, b) => compare(a.reference, b.reference));
   for (const placement of value.placementConstraints) placement.allowedRotationsDeg?.sort((a, b) => a - b);
   value.planes.sort((a, b) => compare(a.id, b.id));
+  canonicalizePcbInterfaceRequirements(value.interfaceRequirements);
   value.routingConstraints.nets.sort((a, b) => compare(a.net, b.net));
   for (const route of value.routingConstraints.nets) if (route.topology !== "plane" && route.referencePath?.mode === "continuous_plane") {
     route.referencePath.terminalReferences?.sort((a, b) => compare(key(a.signalEndpoint), key(b.signalEndpoint)));

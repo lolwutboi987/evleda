@@ -411,6 +411,13 @@ describe("public plane acceptance projection and private evidence", () => {
     expect(report.sourceScope.reasons).toEqual(["Private diagnostic detail retained in the complete assessment."]);
   });
 
+  it.each(["(kicad_pcb raw-fixture-only)", "Cannot model (segment (start 1 2) (end 3 4))", "Native item (zone (net 1))"])(
+    "withholds saved syntax embedded in diagnostic reasons: %s", reason => {
+      const raw = assessment({ sourceScope: { status: "failed", reasons: [reason] } }), report = summarizePlaneAcceptance(raw);
+      expect(report.sourceScope.reasons).toEqual(["Private diagnostic detail retained in the complete assessment."]);
+      expect(raw.sourceScope.reasons).toEqual([reason]);
+    });
+
   it("rejects stale identity before creating any file", async () => {
     const root = await outputRoot(), raw = assessment();
     await expect(captureToolboxPlaneAcceptance(root, { ...raw, status: "incomplete" })).rejects.toThrow(/identity/);

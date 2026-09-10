@@ -16,6 +16,9 @@ import {
   PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE_MAX_UTF8_BYTES,
   PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE_VERSION,
   PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE,
+  PCB_PLANE_INTERFACE_REQUIREMENTS_MODEL_GUIDE,
+  PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
+  getPcbPlaneDesignIntentModelGuide,
 } from "../../src/harness/pcb-design-plane-model-guide.js";
 
 const visitObjects = (value: unknown, visit: (object: Record<string, unknown>) => void): void => {
@@ -42,13 +45,24 @@ describe("V2 PCB plane design-intent model guide", () => {
       if (object.type !== "object") return;
       objectSchemas += 1;
       expect(object.additionalProperties).toBe(false);
-      expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).sort());
+      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements"] : [];
+      expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).filter(key => !optional.includes(key)).sort());
     });
     expect(objectSchemas).toBeGreaterThan(20);
     expectDeepFrozen(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA);
     expect(Reflect.set(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, "additionalProperties", true)).toBe(false);
     expect(Reflect.set(generated, "additionalProperties", true)).toBe(true);
     expect(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA.additionalProperties).toBe(false);
+  });
+
+  it("advertises optional interface intent without changing the omitted-field guide", () => {
+    expect(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA.required).not.toContain("interfaceRequirements");
+    expect(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA.properties).toHaveProperty("interfaceRequirements");
+    expect(getPcbPlaneDesignIntentModelGuide()).toBe(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE);
+    expect(getPcbPlaneDesignIntentModelGuide(true)).toBe(`${PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE}\n${PCB_PLANE_INTERFACE_REQUIREMENTS_MODEL_GUIDE}`);
+    expect(Buffer.byteLength(getPcbPlaneDesignIntentModelGuide(true), "utf8")).toBeLessThanOrEqual(PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES);
+    for (const term of ["caller_assertion", "receiverMapping", "source_series", "explicit unsupported", "bends, launches", "not measured impedance", "unknown until"])
+      expect(PCB_PLANE_INTERFACE_REQUIREMENTS_MODEL_GUIDE).toContain(term);
   });
 
   it("keeps the complete guidance bounded, provider-neutral and explicit about authority", () => {
