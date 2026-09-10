@@ -133,7 +133,7 @@ function viaRow(bundle: PcbPlaneCompilationBundle, netName: string, board: Retur
   const observed = analysis.extracted.vias.filter(via => via.netName === netName);
   requireValue(observed.length === vias.length && observed.every(via => via.type === "through" && vias.some(source => source.id === via.uuid)), "native-source analyzer omitted or retyped a via");
   return { id: `vias:${netName}`, kind: "via_policy", status: issues.length ? "fail" : "pass",
-    reasons: issues.length ? [...new Set(issues)] : ["Every exact saved through-via satisfies the declared per-net/global budgets, dimensions, layer span and edge bound."],
+    reasons: issues.length ? [...new Set(issues)] : ["Every exact saved through-via satisfies the declared per-net and global budgets, dimensions, layer span and edge bound."],
     observations: { net: netName, viaCount: vias.length, globalViaCount: board.vias.length, perNetMaximum: access.maxVias, globalMaximum: policy.maxTotal,
       footprintDrillsAreNotRoutedVias: true, dimensions } };
 }
@@ -147,7 +147,7 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
     && same(saved.savedPcbIdentity, sourceIdentity) && same(endpoint.savedSourceIdentity, sourceIdentity) && same(endpoint.bundleIdentity, bundle.identity)
     && same(endpoint.contractIdentity, bundle.contract.identity) && same(endpoint.verificationPlanIdentity, bundle.verificationPlan.identity)
     && same(endpoint.hostScopeIdentity, saved.sourceScopeIdentity), "the current source or V2 evidence identities disagree");
-  requireValue(same(endpoint.nativeSourceIdentity, sourceIdentity) || same(endpoint.nativeSourceIdentity, contentIdentity(saved.stage.nativeSourceStaged)), "native endpoint source is not an authenticated saved/staged serialization");
+  requireValue(same(endpoint.nativeSourceIdentity, sourceIdentity) || same(endpoint.nativeSourceIdentity, contentIdentity(saved.stage.nativeSourceStaged)), "native endpoint source is not an authenticated saved or staged serialization");
   const profile = extractionProfile(bundle), rows: FreshPlaneCommonRow[] = bundle.verificationPlan.requirements.filter(row => row.kind === "outline" || row.kind === "via_policy" || row.kind === "trace_geometry")
     .map(row => ({ id: row.id, kind: row.kind as FreshPlaneCommonRow["kind"], status: "unknown", reasons: ["Complete common source evidence is unavailable."], observations: {} }));
   let analysis: PcbPracticeAnalysis | null = null, sourceInventory = { complete: false, footprintCount: 0, physicalPadCount: 0, trackCount: 0, viaCount: 0, zoneCount: 0 };
@@ -170,15 +170,15 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
     const pads = board.footprints.flatMap(fp => fp.pads), native = saved.stage.nativePads.inventory;
     sourceInventory = { complete: false, footprintCount: board.footprints.length, physicalPadCount: pads.length, trackCount: board.segments.length, viaCount: board.vias.length, zoneCount: reference.zones.length };
     requireValue(board.segments.length <= FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumSegments && board.vias.length <= FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumVias && pads.length <= FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumPhysicalPads, "source inventory exceeds common-check work bounds; no items were truncated");
-    requireValue(reference.issues.length === 0 && reference.zones.every(zone => zone.status === "supported" && zone.kind === "copper"), "unknown or unsupported copper/rule geometry cannot be omitted");
+    requireValue(reference.issues.length === 0 && reference.zones.every(zone => zone.status === "supported" && zone.kind === "copper"), "unknown or unsupported copper or rule geometry cannot be omitted");
     const viaSpans = spans.filter(span => span.kind === "via");
     requireValue(reference.unsupportedRouteItems.length === viaSpans.length && viaSpans.length === board.vias.length
       && reference.unsupportedRouteItems.every(item => item.kind === "via" && viaSpans.filter(span => pcbSource.slice(span.start, span.end) === item.source).length === 1), "unsupported route geometry has no exact characterized source span");
-    requireValue(same(sorted(reference.zones.map(zone => zone.uuid!)), sorted(saved.stage.nativeFilledZones.map(zone => zone.uuid))), "source/stage zone inventories differ");
+    requireValue(same(sorted(reference.zones.map(zone => zone.uuid!)), sorted(saved.stage.nativeFilledZones.map(zone => zone.uuid))), "source and staged zone inventories differ");
     requireValue(same(sorted(board.footprints.map(fp => fp.reference)), sorted(bundle.contract.components.map(component => component.reference)))
-      && board.footprints.every(fp => bundle.contract.components.some(component => component.reference === fp.reference && component.footprintLibId === fp.libraryId)), "source component/qualified-library inventory differs from V2");
+      && board.footprints.every(fp => bundle.contract.components.some(component => component.reference === fp.reference && component.footprintLibId === fp.libraryId)), "source component and qualified-library inventory differs from V2");
     requireValue(native !== null && native.unsupportedPhysicalUuids.length === 0 && same(sorted(native.physicalPads.map(pad => pad.uuid)), sorted(pads.map(pad => pad.physical.id!)))
-      && same(saved.stage.nativePads.physicalLibraryBindings, endpoint.physicalLibraryBindings), "complete supported source/native PAD and library evidence is required");
+      && same(saved.stage.nativePads.physicalLibraryBindings, endpoint.physicalLibraryBindings), "complete supported source and native PAD and library evidence is required");
     const netNames = new Set(bundle.contract.nets.map(net => net.name));
     requireValue([...board.segments, ...board.vias].every(item => item.netName !== null && netNames.has(item.netName)), "uncontracted routed copper is present");
     analysis = analyzeKicadPcbPractices(pcbSource, profile, { sourcePath: "<current-v2-pcb>" });
@@ -240,7 +240,7 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
             "source leg is below the exact minimum straight length before a turn");
         }
         assertPlaneIncrementalRouteGeometry(bundle.contract, route.net, items, positions);
-        status = "pass"; reasons = ["Complete saved tracks satisfy the existing V2 numerical width/layer/length/turn/intersection checks; connectivity and drill-clipped contacts are separate."];
+        status = "pass"; reasons = ["Complete saved tracks satisfy the existing V2 numerical width, layer, length, turn and intersection checks; connectivity and drill-clipped contacts are separate."];
       } catch (error) { const reason = errorText(error); status = /unsupported|uncharacterized/iu.test(reason) ? "unknown" : "fail"; reasons = [reason]; }
       put({ id: `trace-geometry:${route.net}`, kind: "trace_geometry", status, reasons,
         observations: { net: route.net, trackUuids: tracks.map(track => track.id), fullRouteInventorySupplied: true, padExemptionsSource: "current-source-and-qualified-native-pad-inventory", numericalToleranceMm: 0.000001 } });

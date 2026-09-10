@@ -299,8 +299,13 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         && ground?.endpoints.some(endpoint => endpoint.reference === terminal.referenceEndpoint.reference && endpoint.pin === terminal.referenceEndpoint.pin && endpoint.eligiblePhysicalPadUuids.length === endpoint.physicalPadUuids.length));
     const referenceTerminals = terminalsOk ? fact("verified", "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component.")
       : fact("unknown", "Every declared signal and reference physical terminal must be eligible, connected and bound to the intended plane.");
-    const intersectingBoreUuids=plane.drillTopology.status==="verified"?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="overlap")).map(bore=>bore.uuid):[];
-    const tangentBoreUuids=plane.drillTopology.status==="verified"?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="tangent")).map(bore=>bore.uuid):[];
+    // A complete source/native bore inventory can prove a local missing-copper
+    // counterexample even when global hole merging or retained area is unknown.
+    // It cannot authorize a positive whole-route coverage claim.
+    const boreInventoryComplete=plane.drillTopology.inventory.complete
+      &&plane.drillTopology.bores.length===plane.drillTopology.inventory.boreCount;
+    const intersectingBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="overlap")).map(bore=>bore.uuid):[];
+    const tangentBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="tangent")).map(bore=>bore.uuid):[];
     let result: Fact = fact("unknown", "A host-bound reference coverage calculator is unavailable."), geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed" = "not_assessed", calculation: unknown = null;
     if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition or via; no primitive was filtered away.");
     else if(intersectingBoreUuids.length>0){result=fact("failed","The required reference ribbon intersects a source-verified round drill bore.");geometricStatus="uncovered";}

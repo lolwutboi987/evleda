@@ -16,19 +16,19 @@ function drillFixture() {
   const id = canonicalIdentity({ drillFixture: true }, "fixture.v1");
   const body = { schemaVersion: "evleda.fresh-plane-drill-topology.v1", status: "verified", issues: [],
     savedEvidenceIdentity: id, savedPcbIdentity: contentIdentity("saved source"), cachedGeometryIdentity: id,
-    zoneUuid: "zone", layer: "B.Cu", planarInteriorConnected: true,
+    zoneUuid: "zone", layer: "B.Cu", planarInteriorConnected: true, classificationComplete: true,
     cachedAreaTwiceNm2: "2000000000000000", conservativeAreaLowerBoundTwiceNm2: "1999280000000000",
     areaMeaning: "stored-zone-fill-and-conservative-drill-subtracted-lower-bound",
     bores: [{ uuid: "pad-bore", kind: "pad", netName: "GND", centerNm: { x: 1_000_000, y: 2_000_000 }, diameterNm: 600_000,
       enclosureNm: { minX: 700_000, minY: 1_700_000, maxX: 1_300_000, maxY: 2_300_000 },
-      classification: "new_interior_void", classificationBasis: "strict_outward_enclosure", geometrySource: "exact-source-and-native-pad",
+      classification: "new_interior_void", classificationBasis: "strict_outward_enclosure", issues: [], geometrySource: "exact-source-and-native-pad",
       privatePath: "C:/private/bore-source" },
     { uuid: "via-bore", kind: "via", netName: "VIN", centerNm: { x: 3_000_000, y: 2_000_000 }, diameterNm: 300_000,
       enclosureNm: { minX: 2_850_000, minY: 1_850_000, maxX: 3_150_000, maxY: 2_150_000 },
-      classification: "inside_cached_hole", classificationBasis: "exact_circle_inside_cached_hole", geometrySource: "exact-saved-through-via" },
+      classification: "inside_cached_hole", classificationBasis: "exact_circle_inside_cached_hole", issues: [], geometrySource: "exact-saved-through-via" },
     { uuid: "outside-bore", kind: "pad", netName: null, centerNm: { x: 20_000_000, y: 2_000_000 }, diameterNm: 600_000,
       enclosureNm: { minX: 19_700_000, minY: 1_700_000, maxX: 20_300_000, maxY: 2_300_000 },
-      classification: "outside_component", classificationBasis: "strict_outward_enclosure", geometrySource: "exact-source-and-native-pad" }],
+      classification: "outside_component", classificationBasis: "strict_outward_enclosure", issues: [], geometrySource: "exact-source-and-native-pad" }],
     inventory: { sourcePadCount: 7, nativePadCount: 7, sourceViaCount: 1, boreCount: 3, complete: true, privatePath: "C:/private/inventory" },
     physicalConnectivity: "not_assessed", actualMinimumCopperWidth: "not_assessed", terminalContactContinuity: "not_assessed",
     bounds: { predicateOperations: 123, maximumBores: 4096, maximumPredicateOperations: 4_000_000 },
@@ -241,7 +241,7 @@ describe("public plane acceptance projection and private evidence", () => {
 
   it("keeps unsupported drill topology unknown with no invented lower bound and preserves definite reference bore failures", () => {
     const initial = assessment(), { identity: _identity, ...body } = drillFixture();
-    const unknownDrill = { ...body, status: "unknown", issues: ["Unsupported slot geometry in [/private/board]"],
+    const unknownDrill = { ...body, status: "unknown", classificationComplete: false, issues: ["Unsupported slot geometry in [/private/board]"],
       planarInteriorConnected: null, conservativeAreaLowerBoundTwiceNm2: null, bores: [], inventory: { ...body.inventory, complete: false } };
     const raw = assessment({ status: "incomplete", planes: [{ ...initial.planes[0]!,
       drillTopology: { ...unknownDrill, identity: canonicalIdentity(unknownDrill, body.schemaVersion) },
@@ -260,6 +260,24 @@ describe("public plane acceptance projection and private evidence", () => {
       verificationPlanRowsPassed: [], mandatoryRowsRemaining: ["reference:VIN"] }));
     expect(failed.references[0]).toMatchObject({ status: "failed", geometricStatus: "uncovered", intersectingBoreUuids: ["pad-bore", "via-bore"] });
     expect(failed.rows[0]!.status).toBe("fail"); expect(failed.accepted).toBe(false);
+  });
+
+  it("shows complete bore geometry and readable per-bore uncertainty without inventing an enclosure", () => {
+    const initial = assessment(), { identity: _identity, ...body } = drillFixture();
+    const incomplete = { ...body, status: "unknown", classificationComplete: false, planarInteriorConnected: null,
+      conservativeAreaLowerBoundTwiceNm2: null,
+      issues: ["Bore enclosure intersects or touches a cached boundary or hole"],
+      bores: body.bores.map((bore, index) => index === 0 ? { ...bore, enclosureNm: null, classification: "unknown",
+        classificationBasis: "not_certified", issues: ["The enclosure is outside the supported coordinate bounds."] } : bore) };
+    const raw = assessment({ planes: [{ ...initial.planes[0]!, drillTopology: { ...incomplete,
+      identity: canonicalIdentity(incomplete, body.schemaVersion) } }] });
+    const projected = summarizePlaneAcceptance(raw).planes[0]!.drillTopology;
+    expect(projected).toMatchObject({ status: "unknown", classificationComplete: false, inventory: { boreCount: 3, complete: true },
+      issues: ["Bore enclosure intersects or touches a cached boundary or hole"] });
+    expect(projected.bores).toHaveLength(3);
+    expect(projected.bores[0]).toMatchObject({ centerNm: { x: 1_000_000, y: 2_000_000 }, diameterNm: 600_000,
+      enclosureNm: null, classification: "unknown", issues: ["The enclosure is outside the supported coordinate bounds."] });
+    expect(JSON.stringify(projected)).not.toContain("C:/private");
   });
 
   it("retains complete actionable native findings and source-bound owners without exposing CLI internals", () => {

@@ -409,6 +409,20 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(row(result, "reference:VIN").status).toBe("fail"); expect(requests).toHaveLength(0);
   });
 
+  it("retains a definite bore-ribbon failure when another bore makes global plane topology unknown", async () => {
+    // The extra bore straddles the cached outer boundary, away from VIN. That
+    // prevents a global topology certificate but cannot hide VIN's own holes.
+    const f = await fixture({ probeBoreNm: [500_000, 3_000_000] });
+    const requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });
+    expect(result.planes[0]!.drillTopology).toMatchObject({ status: "unknown", inventory: { boreCount: 8, complete: true } });
+    expect(result.planes[0]!.drillTopology.bores).toHaveLength(8);
+    expect(result.planes[0]!.minimumArea.status).toBe("unknown");
+    expect(result.references[0]).toMatchObject({ status: "failed", geometricStatus: "uncovered", intersectingBoreUuids: [U(100), U(110)], calculation: null });
+    expect(row(result, "reference:VIN").status).toBe("fail"); expect(requests).toHaveLength(0);
+    expect(result.accepted).toBe(false);
+  });
+
   it.each([
     ["missing outline", { outline: "" }, "board:outline"],
     ["one nm narrow saved trace", { routeWidthNm: 499_999 }, "trace-geometry:VIN"],

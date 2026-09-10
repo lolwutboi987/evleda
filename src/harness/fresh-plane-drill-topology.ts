@@ -13,9 +13,10 @@ interface Box { minX: number; minY: number; maxX: number; maxY: number }
 interface Bore { uuid: string; kind: "pad" | "via"; netName: string | null; centerNm: Point; diameterNm: number }
 export interface FreshPlaneDrillBore extends Bore {
   /** An outward circle enclosure; containment is NOT asserted for the exact-circle basis. */
-  readonly enclosureNm: Readonly<Box>;
-  readonly classification: "outside_component" | "inside_cached_hole" | "new_interior_void";
-  readonly classificationBasis: "strict_outward_enclosure" | "exact_circle_inside_cached_hole";
+  readonly enclosureNm: Readonly<Box> | null;
+  readonly classification: "outside_component" | "inside_cached_hole" | "new_interior_void" | "unknown" | "not_classified";
+  readonly classificationBasis: "strict_outward_enclosure" | "exact_circle_inside_cached_hole" | "not_certified";
+  readonly issues: readonly string[];
   readonly geometrySource: "exact-source-and-native-pad" | "exact-saved-through-via";
 }
 export interface FreshPlaneDrillTopologyAssessment {
@@ -32,6 +33,8 @@ export interface FreshPlaneDrillTopologyAssessment {
   readonly conservativeAreaLowerBoundTwiceNm2: string | null;
   readonly areaMeaning: "stored-zone-fill-and-conservative-drill-subtracted-lower-bound";
   readonly bores: readonly FreshPlaneDrillBore[];
+  /** Every inventoried bore has a certified spatial relation; separate from raw inventory completeness. */
+  readonly classificationComplete: boolean;
   readonly inventory: Readonly<{ sourcePadCount: number; nativePadCount: number; sourceViaCount: number; boreCount: number; complete: boolean }>;
   readonly physicalConnectivity: "not_assessed";
   readonly actualMinimumCopperWidth: "not_assessed";
@@ -216,10 +219,10 @@ function classify(bore: Bore, box: Box, component: FreshPlaneFilledComponent, st
   if (component.holes.some(hole => circleInsideHole(bore, hole, step))) return { classification: "inside_cached_hole", classificationBasis: "exact_circle_inside_cached_hole" };
   const rectangle = boxPoints(box), boundaries = [component.outer, ...component.holes];
   for (const ring of boundaries) {
-    for (const a of edges(rectangle)) for (const b of edges(ring)) { step(); check(!intersects(a.a, a.b, b.a, b.b), "Bore enclosure intersects/touches a cached boundary or hole"); }
+    for (const a of edges(rectangle)) for (const b of edges(ring)) { step(); check(!intersects(a.a, a.b, b.a, b.b), "Bore enclosure intersects or touches a cached boundary or hole"); }
     // No intersections alone cannot distinguish disjoint from enclosure of an
     // entire cached component/hole. Such topology changes remain unknown.
-    check(!inside(ring[0]!, rectangle, step), "Bore enclosure surrounds a cached boundary/hole");
+    check(!inside(ring[0]!, rectangle, step), "Bore enclosure surrounds a cached boundary or hole");
   }
   const classification = !inside(rectangle[0]!, component.outer, step) ? "outside_component"
     : component.holes.some(hole => inside(rectangle[0]!, hole, step)) ? "inside_cached_hole" : "new_interior_void";
@@ -233,14 +236,22 @@ function classify(bore: Bore, box: Box, component: FreshPlaneFilledComponent, st
 export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: SavedFreshPlaneEvidence; readonly pcbSource: string; readonly layer: "F.Cu" | "B.Cu" }): FreshPlaneDrillTopologyAssessment {
   const { savedEvidence, pcbSource, layer } = input;
   let witness: CanonicalIdentity | null = null, sourceIdentity: ContentIdentity | null = null, geometryIdentity: CanonicalIdentity | null = null, zoneUuid: string | null = null;
-  let cachedArea: string | null = null, lower: string | null = null, operations = 0;
+  let cachedArea: string | null = null, lower: string | null = null, operations = 0, classificationComplete = false;
   let inventory = { sourcePadCount: 0, nativePadCount: 0, sourceViaCount: 0, boreCount: 0, complete: false };
   const bores: FreshPlaneDrillBore[] = [];
-  const finish = (issues: string[]): FreshPlaneDrillTopologyAssessment => {
+  const issues: string[] = [];
+  const recordIssue = (index: number, issue: string, classification: "unknown" | "not_classified" = "unknown") => {
+    const bore = bores[index]!;
+    if (bore.issues.includes(issue)) return;
+    bores[index] = { ...bore, classification, classificationBasis: "not_certified", issues: [...bore.issues, issue] };
+    issues.push(`Bore ${bore.uuid}: ${issue}`);
+  };
+  const finish = (): FreshPlaneDrillTopologyAssessment => {
     const body = { schemaVersion: "evleda.fresh-plane-drill-topology.v1" as const, status: issues.length ? "unknown" as const : "verified" as const,
-      issues, savedEvidenceIdentity: witness, savedPcbIdentity: sourceIdentity, cachedGeometryIdentity: geometryIdentity, zoneUuid, layer,
+      issues: [...new Set(issues)], savedEvidenceIdentity: witness, savedPcbIdentity: sourceIdentity, cachedGeometryIdentity: geometryIdentity, zoneUuid, layer,
       planarInteriorConnected: issues.length ? null : true as const, cachedAreaTwiceNm2: cachedArea, conservativeAreaLowerBoundTwiceNm2: issues.length ? null : lower,
       areaMeaning: "stored-zone-fill-and-conservative-drill-subtracted-lower-bound" as const, bores, inventory,
+      classificationComplete,
       physicalConnectivity: "not_assessed" as const, actualMinimumCopperWidth: "not_assessed" as const, terminalContactContinuity: "not_assessed" as const,
       bounds: { predicateOperations: operations, maximumBores: 4096 as const, maximumPredicateOperations: 4000000 as const } };
     return freezePcbPlaneArtifact({ ...body, identity: canonicalIdentity(body, body.schemaVersion) });
@@ -252,6 +263,20 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
     check(typeof pcbSource === "string" && Buffer.byteLength(pcbSource) <= 8 * 1024 * 1024, "PCB source bound exceeded");
     sourceIdentity = contentIdentity(pcbSource); check(same(sourceIdentity, saved.savedPcbIdentity), "Exact saved PCB source differs from the witness");
     check(layer === "F.Cu" || layer === "B.Cu", "Unsupported selected plane layer");
+    // Retain the complete independently validated bore inventory before any
+    // component/classification gate. A known bore can provide a separate route
+    // counterexample even while the whole plane's topology stays unverified.
+    const captured = collectBores(pcbSource, saved);
+    inventory = { sourcePadCount: captured.sourcePadCount, nativePadCount: captured.nativePadCount, sourceViaCount: captured.sourceViaCount, boreCount: captured.bores.length, complete: true };
+    for (const bore of captured.bores) {
+      bores.push({ ...bore, enclosureNm: null, classification: "not_classified", classificationBasis: "not_certified", issues: [],
+        geometrySource: bore.kind === "pad" ? "exact-source-and-native-pad" : "exact-saved-through-via" });
+      try {
+        const radius = Math.ceil(bore.diameterNm / 2), p = bore.centerNm;
+        const enclosureNm = { minX: coordinate(p.x - radius), minY: coordinate(p.y - radius), maxX: coordinate(p.x + radius), maxY: coordinate(p.y + radius) };
+        bores[bores.length - 1] = { ...bores.at(-1)!, enclosureNm };
+      } catch (error) { recordIssue(bores.length - 1, error instanceof Error ? error.message : "Bore enclosure is unavailable"); }
+    }
     zoneUuid = saved.stage.targetZoneUuid;
     const zones = parseFreshPcbReferenceGeometry(pcbSource).zones.filter(zone => zone.uuid === zoneUuid), natives = saved.stage.nativeFilledZones.filter(zone => zone.uuid === zoneUuid);
     check(zones.length === 1 && natives.length === 1, "Target source/native zone inventory is ambiguous");
@@ -259,23 +284,37 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
     geometryIdentity = geometry.sourceGeometryIdentity;
     check(geometry.status === "verified" && geometry.geometryEquivalent && geometry.components.length === 1, "One exact normalized source/native filled component is required");
     const component = geometry.components[0]!; cachedArea = component.areaTwiceNm2;
-    const captured = collectBores(pcbSource, saved);
-    inventory = { sourcePadCount: captured.sourcePadCount, nativePadCount: captured.nativePadCount, sourceViaCount: captured.sourceViaCount, boreCount: captured.bores.length, complete: true };
-    const newVoids: Box[] = []; let removedArea = 0n;
-    for (const bore of captured.bores) {
-      const radius = Math.ceil(bore.diameterNm / 2), p = bore.centerNm;
-      const enclosureNm = { minX: coordinate(p.x - radius), minY: coordinate(p.y - radius), maxX: coordinate(p.x + radius), maxY: coordinate(p.y + radius) };
-      const { classification, classificationBasis } = classify(bore, enclosureNm, component, step);
-      if (classification === "new_interior_void") {
-        for (const prior of newVoids) { step(); check(enclosureNm.maxX < prior.minX || prior.maxX < enclosureNm.minX || enclosureNm.maxY < prior.minY || prior.maxY < enclosureNm.minY, "New bore enclosures touch, overlap, or merge"); }
-        newVoids.push(enclosureNm); removedArea += 2n * BigInt(enclosureNm.maxX - enclosureNm.minX) * BigInt(enclosureNm.maxY - enclosureNm.minY);
-      }
-      bores.push({ ...bore, enclosureNm, classification, classificationBasis, geometrySource: bore.kind === "pad" ? "exact-source-and-native-pad" : "exact-saved-through-via" });
+    for (let index = 0; index < bores.length; index++) {
+      const bore = bores[index]!;
+      if (bore.enclosureNm === null) continue;
+      if (operations > MAX_WORK) { recordIssue(index, "Drill topology predicate work bound exhausted", "not_classified"); continue; }
+      try { bores[index] = { ...bore, ...classify(bore, bore.enclosureNm, component, step) }; }
+      catch (error) { recordIssue(index, error instanceof Error ? error.message : "Unsupported bore classification"); }
     }
+    const newVoids = bores.flatMap((bore, index) => bore.classification === "new_interior_void" ? [{ index, box: bore.enclosureNm! }] : []);
+    if (operations > MAX_WORK) return finish();
+    for (let i = 0; i < newVoids.length; i++) for (let j = 0; j < i; j++) {
+      const a = newVoids[i]!, b = newVoids[j]!;
+      step();
+      if (!(a.box.maxX < b.box.minX || b.box.maxX < a.box.minX || a.box.maxY < b.box.minY || b.box.maxY < a.box.minY)) {
+        // Preserve an explicit issue for every involved bore, without emitting
+        // a quadratic list of equivalent pairwise diagnostic strings.
+        recordIssue(a.index, "New bore enclosures touch, overlap, or merge");
+        recordIssue(b.index, "New bore enclosures touch, overlap, or merge");
+      }
+    }
+    classificationComplete = bores.every(bore => bore.classification !== "unknown" && bore.classification !== "not_classified");
+    if (issues.length) return finish();
+    const removedArea = newVoids.reduce((sum, { box }) => sum + 2n * BigInt(box.maxX - box.minX) * BigInt(box.maxY - box.minY), 0n);
     const lowerArea = BigInt(cachedArea) - removedArea; check(lowerArea > 0n, "Conservative retained area is nonpositive"); lower = String(lowerArea);
     // Strictly interior disjoint boxes contain every newly removed disk. Each
     // actual bore is therefore a disjoint interior hole; subtraction preserves
     // the simple outer-minus-holes component's connected open interior.
-    return finish([]);
-  } catch (error) { return finish([error instanceof Error ? error.message : "Unsupported drill geometry"]); }
+    return finish();
+  } catch (error) {
+    const issue = error instanceof Error ? error.message : "Unsupported drill geometry";
+    issues.push(issue);
+    for (let index = 0; index < bores.length; index++) if (bores[index]!.classification === "not_classified") recordIssue(index, issue, "not_classified");
+    return finish();
+  }
 }

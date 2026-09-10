@@ -361,7 +361,16 @@ async function phase(label: "fresh" | "resume") {
         assert.equal(assessment.authority.status,"verified");
         assert.equal(assessment.planes.length,1);
         assert.equal(assessment.planes[0].intendedPlaneConnectivity.status,"verified");
-        assert.equal(assessment.planes[0].minimumArea.status,"verified");
+        const drill=assessment.planes[0].drillTopology;
+        assert.equal(drill.inventory.complete,true);assert.equal(drill.inventory.boreCount,4);assert.equal(drill.bores.length,4);
+        // Native circle/cache intersections can legitimately remain outside the
+        // bounded topology certificate. The API workflow must retain that gap.
+        assert.ok(drill.status==="verified"||drill.status==="unknown");
+        assert.equal(assessment.planes[0].minimumArea.status,drill.status==="verified"?"verified":"unknown");
+        if(drill.status==="unknown"){assert.equal(drill.classificationComplete,false);assert.ok(drill.issues.length>0);}
+        const vinReference=assessment.references.find((reference:any)=>reference.net==="VIN");
+        assert.equal(vinReference?.status,"failed");assert.equal(vinReference?.geometricStatus,"uncovered");
+        assert.ok(vinReference.intersectingBoreUuids.some((id:string)=>drill.bores.some((bore:any)=>bore.uuid===id&&bore.netName==="VIN")));
         assert.equal(assessment.planes[0].actualMinimumCopperWidth.status,"unknown");
         assert.equal(assessment.planes[0].actualThermalWidth.status,"unknown");
         if(verifyQualifiedFootprints){
@@ -369,7 +378,6 @@ async function phase(label: "fresh" | "resume") {
           assert.deepEqual(assessment.nativeChecks.drc.violations,[]);
           assert.deepEqual(assessment.nativeChecks.drc.unconnectedItems,[]);
           assert.equal(assessment.planes[0].thermalPolicy.status,"verified");
-          assert.equal(assessment.planes[0].drillTopology.status,"verified");
         }
         assert.ok(assessment.mandatoryRowsRemaining.length>0);
       }else{
