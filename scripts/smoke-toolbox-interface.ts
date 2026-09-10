@@ -15,12 +15,12 @@ import { compilePcbPlaneDesignIntentDraft, normalizePcbPlaneSelectionPolicy } fr
 import { createPcbPlaneCompilationBundle } from "../src/harness/pcb-design-plane-bundle.js";
 import { parseFreshPcbSource, parseFreshPcbReferenceGeometry } from "../src/harness/fresh-kicad-parser.js";
 import { INTERFACE_FIXTURE_FOOTPRINT, INTERFACE_FIXTURE_ID, INTERFACE_FIXTURE_MATERIAL, INTERFACE_FIXTURE_NAME,
-  INTERFACE_FIXTURE_PROMPT, INTERFACE_FIXTURE_SYMBOL, assertInterfaceGeometry, assertInterfacePads,
+  INTERFACE_FIXTURE_PROMPT, INTERFACE_FIXTURE_SOURCE_SYMBOL, INTERFACE_FIXTURE_RECEIVER_SYMBOL, assertInterfaceGeometry, assertInterfacePads,
   assertInterfacePhysicalCounts, exactFixtureNm, interfaceFixtureDraft, interfaceFixtureRoutes } from "./smoke-toolbox-interface-fixture.js";
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PINNED_PROFILE = Object.freeze({ path: path.resolve(repo, "../working-profiles/toolbox-native-doc6-interface-destination-02.json"),
-  contentIdentity: { algorithm: "sha256" as const, digest: "d9ea4bd6e1450a143ec7585a26844cbf79d8ab4c6f729d9755277b79f10f2946", size: 7452 } });
+const PINNED_PROFILE = Object.freeze({ path: path.resolve(repo, "../working-profiles/toolbox-native-doc6-interface-destination-03.json"),
+  contentIdentity: { algorithm: "sha256" as const, digest: "19733a1995b09cc788b2138031d834199d2193a1dffa47ac8366c38149be5bd3", size: 7505 } });
 const readJson = async (file: string) => JSON.parse(await readFile(file, "utf8"));
 const identity = async (file: string) => contentIdentity(await readFile(file));
 const execFileAsync = promisify(execFile);
@@ -54,7 +54,7 @@ async function implementationManifest() {
 
 async function main() {
   const { values } = parseArgs({ strict: true, allowPositionals: false, options: { "run-root": { type: "string" }, help: { type: "boolean" } } });
-  if (values.help) { process.stdout.write("Usage: pnpm exec tsx scripts/smoke-toolbox-interface.ts --run-root <new-absolute-directory>\nThis starts owned native KiCad sessions. Uses the exact reviewed profile02 pin; never reuse a proof directory.\n"); return; }
+  if (values.help) { process.stdout.write("Usage: pnpm exec tsx scripts/smoke-toolbox-interface.ts --run-root <new-absolute-directory>\nThis starts owned native KiCad sessions. Uses the exact reviewed profile03 pin; never reuse a proof directory.\n"); return; }
   assert.ok(values["run-root"] && path.isAbsolute(values["run-root"]), "Supply one new absolute --run-root");
   const runRoot = path.resolve(values["run-root"]);
   assert.ok(runRoot !== path.parse(runRoot).root && !repo.toLowerCase().startsWith(`${runRoot.toLowerCase()}${path.sep}`) && runRoot.toLowerCase() !== repo.toLowerCase());
@@ -371,9 +371,10 @@ async function main() {
     assert.ok(typeof ipcRoot === "string" && path.isAbsolute(ipcRoot)); ipcBefore = await ipcInventory(); report.ipcBefore = ipcBefore;
     const design = await loadKicadToolboxFreshProfile(PINNED_PROFILE);
     const dependencies = { ...design.dependencies, deepRuleSelectionOptions: normalizePcbPlaneSelectionPolicy(design.deepRuleSelectionOptions) };
-    const pairInspection = dependencies.libraryResolver.inspectPair!(INTERFACE_FIXTURE_SYMBOL, INTERFACE_FIXTURE_FOOTPRINT);
-    assert.ok(pairInspection?.exactPinPadMatch, "Actual approved stock resolver must establish exact pin/pad matching");
-    await record("stock-pair-inspection.json", pairInspection);
+    const pairInspections = [INTERFACE_FIXTURE_SOURCE_SYMBOL, INTERFACE_FIXTURE_RECEIVER_SYMBOL].map(symbol => ({
+      symbol, inspection: dependencies.libraryResolver.inspectPair!(symbol, INTERFACE_FIXTURE_FOOTPRINT) }));
+    for (const pair of pairInspections) assert.ok(pair.inspection?.exactPinPadMatch, "Actual approved stock resolver must establish exact pin/pad matching");
+    await record("stock-pair-inspection.json", pairInspections);
     const draft = interfaceFixtureDraft(), compilation = compilePcbPlaneDesignIntentDraft(draft, dependencies);
     await record("compilation.json", compilation); assert.equal(compilation.disposition, "ready", "Synthetic fixture must compile without weakening requirements");
     expected = createPcbPlaneCompilationBundle({ originalPrompt: INTERFACE_FIXTURE_PROMPT, compilation }, dependencies);

@@ -8,7 +8,8 @@ import {
   interfaceFixtureRoutes,
   INTERFACE_FIXTURE_FOOTPRINT,
   INTERFACE_FIXTURE_ID,
-  INTERFACE_FIXTURE_SYMBOL,
+  INTERFACE_FIXTURE_SOURCE_SYMBOL,
+  INTERFACE_FIXTURE_RECEIVER_SYMBOL,
 } from "../../scripts/smoke-toolbox-interface-fixture.js";
 import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
 import { compareDifferentialPairLengths } from "../../src/harness/differential-pair-geometry.js";
@@ -45,7 +46,7 @@ type MockPublicPads = ReturnType<typeof mockPublicPads>;
 
 /** Mock only: declares the three stock pin/pad numbers without reading native libraries. */
 const mockThreePadStockResolver: PcbReadOnlyLibraryResolver = {
-  resolveSymbol: libraryId => libraryId !== INTERFACE_FIXTURE_SYMBOL ? null : {
+  resolveSymbol: libraryId => ![INTERFACE_FIXTURE_SOURCE_SYMBOL, INTERFACE_FIXTURE_RECEIVER_SYMBOL].includes(libraryId) ? null : {
     libraryId, source: "kicad-stock", unitCount: 1, componentKind: "connector", polarized: false,
     pins: ["1", "2", "3"].map(number => ({ number, function: `Pin ${number}` })),
   },

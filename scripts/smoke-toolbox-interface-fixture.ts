@@ -5,7 +5,8 @@ import { assessDifferentialPairGeometry, type DifferentialPairGeometryAssessment
 
 export const INTERFACE_FIXTURE_NAME = "interface-pair-software-fixture";
 export const INTERFACE_FIXTURE_ID = "SYNTHETIC_PAIR";
-export const INTERFACE_FIXTURE_SYMBOL = "Connector_Generic:Conn_01x03";
+export const INTERFACE_FIXTURE_SOURCE_SYMBOL = "Connector:Conn_01x03_Pin";
+export const INTERFACE_FIXTURE_RECEIVER_SYMBOL = "Connector_Generic:Conn_01x03";
 export const INTERFACE_FIXTURE_FOOTPRINT = "Connector_PinHeader_1.00mm:PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Left";
 export const INTERFACE_FIXTURE_PROMPT = "Create a synthetic software-test differential interface between two stock three-pad SMD connectors. "
   + "The caller asserts all construction and electrical numbers solely to exercise saved geometry, native integration and a conditional analytical model. "
@@ -20,7 +21,8 @@ export function interfaceFixtureDraft() {
     current: { nominalA: 0.001, maximumContinuousA: 0.001, peakA: 0.001, peakDurationMs: 1_000 },
     speed: ground ? { kind: "dc", maximumFrequencyMHz: 0, minimumEdgeTimeNs: null }
       : { kind: "signal", maximumFrequencyMHz: 100, minimumEdgeTimeNs: 2 } });
-  const component = (reference: string) => ({ reference, symbolLibId: INTERFACE_FIXTURE_SYMBOL, footprintLibId: INTERFACE_FIXTURE_FOOTPRINT,
+  const component = (reference: string) => ({ reference,
+    symbolLibId: reference === "J1" ? INTERFACE_FIXTURE_SOURCE_SYMBOL : INTERFACE_FIXTURE_RECEIVER_SYMBOL, footprintLibId: INTERFACE_FIXTURE_FOOTPRINT,
     value: reference === "J1" ? "PAIR_SOURCE" : "PAIR_RX", unit: 1,
     pins: ["DP", "DN", "GND"].map((net, index) => ({ pin: String(index + 1), assignment: { kind: "net", net } })) });
   const route = (net: string, pin: string) => ({ net, topology: "point_to_point", preferredLayer: "F.Cu", maxVias: 0,

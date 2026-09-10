@@ -1784,6 +1784,8 @@ function planWirePath(
   work: FreshPlanningWork,
   labels: readonly FreshPlannedGlobalLabel[] = [],
   partition?: FreshSchematicTerminalPartition,
+  obstacleChannels = false,
+  reservedTerminalWires: readonly PlannedWire[] = [],
 ): readonly PlannedWire[] | null {
   const start = pins.get(endpointId(startEndpoint))!;
   const end = pins.get(endpointId(endEndpoint))!;
@@ -1815,6 +1817,31 @@ function planWirePath(
       );
     }
   }
+  if (obstacleChannels) {
+    // The outer-union lanes cannot use gaps between staggered label envelopes.
+    // Retry with at most the existing channel count per axis, on the same native
+    // grid. All candidates still pass the exact same collision checks below.
+    const channels = (axis: "x" | "y"): readonly number[] => {
+      const low = axis === "x" ? "minX" : "minY";
+      const high = axis === "x" ? "maxX" : "maxY";
+      const values = routingBounds.flatMap((box) => [
+        outwardRouteGridCoordinate(box[low] - BOUNDING_BOX_ROUNDING_MARGIN_MM, -1),
+        outwardRouteGridCoordinate(box[high] + BOUNDING_BOX_ROUNDING_MARGIN_MM, 1),
+      ]);
+      const distance = (value: number): number => Math.abs(value - startEscape[axis]) + Math.abs(value - endEscape[axis]);
+      return [...new Set(values)].sort((left, right) => distance(left) - distance(right) || left - right).slice(0, ROUTE_SEARCH_CHANNELS);
+    };
+    const channelXs = channels("x");
+    const channelYs = channels("y");
+    for (const channelY of channelYs) candidates.push(candidate([{ x: startEscape.x, y: channelY }, { x: endEscape.x, y: channelY }]));
+    for (const channelX of channelXs) candidates.push(candidate([{ x: channelX, y: startEscape.y }, { x: channelX, y: endEscape.y }]));
+    for (const channelX of channelXs) for (const channelY of channelYs) {
+      candidates.push(
+        candidate([{ x: channelX, y: startEscape.y }, { x: channelX, y: channelY }, { x: endEscape.x, y: channelY }]),
+        candidate([{ x: startEscape.x, y: channelY }, { x: channelX, y: channelY }, { x: channelX, y: endEscape.y }]),
+      );
+    }
+  }
   const allowedPins = new Set([...terminalMembers(endpointId(startEndpoint), partition), ...terminalMembers(endpointId(endEndpoint), partition)]);
   const endpointReferences = new Set([startEndpoint.reference, endEndpoint.reference]);
   const valid = candidates.flatMap((points) => {
@@ -1823,6 +1850,8 @@ function planWirePath(
       if (!consumeSegmentCheck(work)) return true;
       return wireEntersBox(wire, { reference: label.endpointId, ...label.bounds });
     }))) return [];
+    if (wires.some((wire) => reservedTerminalWires.some((reserved) => reserved.net !== net
+      && (!consumeSegmentCheck(work) || wireConflicts(wire, reserved))))) return [];
     if (wires.length === 0 || wires.some((wire, wireIndex) => boxes.some((box) => {
       if (!consumeSegmentCheck(work)) return true;
       if ((wireIndex === 0 && box.reference === startEndpoint.reference) || (wireIndex === wires.length - 1 && box.reference === endEndpoint.reference)) return false;
@@ -1853,10 +1882,19 @@ function planContractWires(
   work = createFreshSchematicPlanningWork(),
   labels: readonly FreshPlannedGlobalLabel[] = [],
   partition?: FreshSchematicTerminalPartition,
+  obstacleChannels = false,
 ): { readonly wires: readonly PlannedWire[]; readonly routes: readonly string[]; readonly issues: readonly FreshConnectivityIssue[] } {
   const wires: PlannedWire[] = [];
   const routes: string[] = [];
   const issues: FreshConnectivityIssue[] = [];
+  const reservedTerminalWires: PlannedWire[] = [];
+  if (obstacleChannels) for (const net of contract.nets) for (const endpoint of collapsedNetEndpoints(net.endpoints, partition)) {
+    const id = endpointId(endpoint);
+    const pin = pins.get(id)!;
+    const box = boxes.find((candidate) => candidate.reference === endpoint.reference);
+    const escape = labels.find((label) => label.endpointId === id)?.at ?? (box === undefined ? null : freshEndpointEscape(pin, box));
+    if (escape !== null) reservedTerminalWires.push(...pathWires([pin, escape], net.name, [endpoint]));
+  }
   for (const net of contract.nets) {
     const endpoints = collapsedNetEndpoints(net.endpoints, partition);
     const edges = netTree(endpoints, pins, work);
@@ -1870,8 +1908,8 @@ function planContractWires(
       if (label !== undefined && !samePoint(pin, label.at)) wires.push(...pathWires([pin, label.at], net.name, endpoints));
     }
     for (const [left, right] of edges) {
-    const planned = planWirePath(left, right, net.name, pins, boxes, wires, work, labels, partition);
-    if (planned === null) {
+    const planned = planWirePath(left, right, net.name, pins, boxes, wires, work, labels, partition, obstacleChannels, reservedTerminalWires);
+    if (planned === null || work.exhausted) {
       issues.push({
         code: work.exhausted ? "PLANNING_WORK_LIMIT" : "NO_PROVEN_COLLISION_FREE_WIRE_PLAN",
         message: work.exhausted
@@ -1890,6 +1928,56 @@ function planContractWires(
   return { wires, routes, issues };
 }
 
+/** Complete label reservations and the original contract tree share one budget. */
+function planFreshContractGeometry(
+  contract: FreshConnectivityContract,
+  pins: ReadonlyMap<string, FreshPoint & { readonly angleDeg: 0 | 90 | 180 | 270 }>,
+  boxes: readonly FreshBoundingBox[],
+  work = createFreshSchematicPlanningWork(),
+  globalLabels = false,
+  partition?: FreshSchematicTerminalPartition,
+): ReturnType<typeof planContractWires> & { readonly labels: readonly FreshPlannedGlobalLabel[] } {
+  const attempt = (labelContract: FreshConnectivityContract, obstacleChannels: boolean) => {
+    const labelPlan = globalLabels ? planFreshGlobalLabelTerminals(labelContract, pins, boxes, work, partition) : { labels: [], issues: [] };
+    const plan = labelPlan.issues.length === 0 ? planContractWires(contract, pins, boxes, work, labelPlan.labels, partition, obstacleChannels)
+      : { wires: [], routes: [], issues: labelPlan.issues };
+    return { ...plan, labels: labelPlan.labels };
+  };
+  const initial = attempt(contract, false);
+  if (initial.issues.length === 0 || !globalLabels || work.exhausted) return initial;
+  // Preserve successful legacy plans. One local-channel retry respects every
+  // reserved terminal stub, including terminals of nets not routed yet.
+  const local = initial.labels.length === contract.nets.length
+    ? { ...planContractWires(contract, pins, boxes, work, initial.labels, partition, true), labels: initial.labels } : initial;
+  if (local.issues.length === 0 || work.exhausted) return local;
+  // On one symbol face, reserve outer pins first so the middle label can sit
+  // beyond their stubs instead of being enclosed by them. This changes only
+  // reservation order: the original net tree and endpoint identities stay fixed.
+  const groups = new Map<string, typeof contract.nets[number][]>();
+  for (const net of contract.nets) {
+    const endpoint = net.endpoints[0]!;
+    const pin = pins.get(endpointId(endpoint));
+    if (pin === undefined) return initial;
+    const key = `${endpoint.reference}:${pin.angleDeg}`;
+    const group = groups.get(key) ?? [];
+    group.push(net);
+    groups.set(key, group);
+  }
+  const nets = [...groups.values()].flatMap((group) => {
+    const transverse = (net: typeof contract.nets[number]): number => {
+      const pin = pins.get(endpointId(net.endpoints[0]!))!;
+      return pin.angleDeg === 0 || pin.angleDeg === 180 ? pin.y : pin.x;
+    };
+    const values = group.map(transverse);
+    const middle = (Math.min(...values) + Math.max(...values)) / 2;
+    return [...group].sort((left, right) => Math.abs(transverse(right) - middle) - Math.abs(transverse(left) - middle)
+      || left.name.localeCompare(right.name, "en-US"));
+  });
+  if (nets.every((net, index) => net === contract.nets[index])) return initial;
+  const retry = attempt({ ...contract, nets }, true);
+  return retry.issues.length === 0 || work.exhausted ? retry : initial;
+}
+
 export function inspectFreshConnectivityWirePlan(
   contract: FreshConnectivityContract,
   pins: ReadonlyMap<string, FreshPoint & { readonly angleDeg: 0 | 90 | 180 | 270 }>,
@@ -1897,15 +1985,15 @@ export function inspectFreshConnectivityWirePlan(
   globalLabels = false,
   partition?: FreshSchematicTerminalPartition,
   budget = new FreshSchematicWorkBudget(),
-): Readonly<{ readonly routes: readonly string[]; readonly wireCount: number; readonly wireLengthMm: number; readonly wires: readonly PlannedWire[]; readonly issues: readonly FreshConnectivityIssue[] }> {
+): Readonly<{ readonly routes: readonly string[]; readonly wireCount: number; readonly wireLengthMm: number; readonly wires: readonly PlannedWire[]; readonly labels: readonly FreshPlannedGlobalLabel[]; readonly issues: readonly FreshConnectivityIssue[] }> {
   const work = createFreshSchematicPlanningWork(budget);
-  const labelPlan = globalLabels ? planFreshGlobalLabelTerminals(contract, pins, boxes, work, partition) : { labels: [], issues: [] };
-  const plan = labelPlan.issues.length === 0 ? planContractWires(contract, pins, boxes, work, labelPlan.labels, partition) : { wires: [], routes: [], issues: [] };
+  const plan = planFreshContractGeometry(contract, pins, boxes, work, globalLabels, partition);
   return Object.freeze({
     routes: Object.freeze([...plan.routes]), wireCount: plan.wires.length,
+    labels: Object.freeze(plan.labels.map((label) => Object.freeze({ ...label, at: Object.freeze({ ...label.at }), bounds: Object.freeze({ ...label.bounds }) }))),
     wires: Object.freeze(plan.wires.map((wire) => Object.freeze({ ...wire, edgeEndpoints: Object.freeze([...wire.edgeEndpoints]) }))),
     wireLengthMm: plan.wires.reduce((total, wire) => total + Math.abs(wire.endX - wire.x) + Math.abs(wire.endY - wire.y), 0),
-    issues: Object.freeze([...labelPlan.issues, ...plan.issues].sort(issueOrder)),
+    issues: Object.freeze([...plan.issues].sort(issueOrder)),
   });
 }
 
@@ -2129,10 +2217,7 @@ export function searchFreshConnectivityPlacement(
       const candidatePlacements = new Map([...assigned].map(([reference, value]) => [reference, value.placement]));
       const candidateBoxes = [...assigned.values()].map((value) => value.box);
       const candidatePins = new Map([...assigned.values()].flatMap((value) => [...value.pins]));
-      const labelPlan = globalLabels ? planFreshGlobalLabelTerminals(contract, candidatePins, candidateBoxes, planningWork, partition) : { labels: [], issues: [] };
-      const wirePlan = labelPlan.issues.length === 0
-        ? planContractWires(contract, candidatePins, candidateBoxes, planningWork, labelPlan.labels, partition)
-        : { wires: [], routes: [], issues: labelPlan.issues };
+      const wirePlan = planFreshContractGeometry(contract, candidatePins, candidateBoxes, planningWork, globalLabels, partition);
       for (const issue of wirePlan.issues) {
         const endpoints = issue.endpoints;
         if (endpoints?.length === 2) {
@@ -2987,9 +3072,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       throw new Error("Saved atomic placement contains non-pristine schematic geometry absent from its recommendation.");
     }
     const partition = snapshot.sourceTerminals?.result.status === "complete" ? snapshot.sourceTerminals.result.value : undefined;
-    const labels = contractAuthoringProject(this.#freshProject) ? planFreshGlobalLabelTerminals(pending.contract, snapshot.pins, snapshot.boxes, work, partition) : { labels: [], issues: [] };
-    const plan = planContractWires(pending.contract, snapshot.pins, snapshot.boxes, work, labels.labels, partition);
-    if (work.exhausted || labels.issues.length > 0 || plan.issues.length > 0) throw new Error("Saved atomic placement no longer admits the complete deterministic contract wire plan.");
+    const plan = planFreshContractGeometry(pending.contract, snapshot.pins, snapshot.boxes, work, contractAuthoringProject(this.#freshProject), partition);
+    if (work.exhausted || plan.issues.length > 0) throw new Error("Saved atomic placement no longer admits the complete deterministic contract wire plan.");
     this.#pendingFreshPlacementCommit = undefined;
     this.#pendingPersistedMutationBaseline = undefined;
     this.#pendingSchematicFileMutationBatch = undefined;
@@ -3556,7 +3640,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const beforeParsed = parseFreshSchematicSource(beforeSource);
     assertFreshGenericSchematicSource(beforeParsed);
     const fieldPartition = snapshot.sourceTerminals?.result.status === "complete" ? snapshot.sourceTerminals.result.value : undefined;
-    const labelPlan = planFreshGlobalLabelTerminals(contract, snapshot.pins, snapshot.boxes, fieldPlanningWork, fieldPartition);
+    const labelPlan = planFreshContractGeometry(contract, snapshot.pins, snapshot.boxes, fieldPlanningWork, true, fieldPartition);
     if (labelPlan.issues.length !== 0 || !exactFreshContractLabelsMatch(beforeSource, labelPlan.labels, true)) {
       throw new Error("Field-only repair requires the exact previously authored passive-global terminal inventory; it cannot repair terminal placement.");
     }
@@ -4090,9 +4174,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         throw new Error("Atomic placement readback contains non-pristine schematic geometry absent from the recommendation plan.");
       }
       const partition = after.sourceTerminals?.result.status === "complete" ? after.sourceTerminals.result.value : undefined;
-      const labels = contractAuthoringProject(this.#freshProject) ? planFreshGlobalLabelTerminals(pending.contract, after.pins, after.boxes, work, partition) : { labels: [], issues: [] };
-      const plan = planContractWires(pending.contract, after.pins, after.boxes, work, labels.labels, partition);
-      if (work.exhausted || labels.issues.length > 0 || plan.issues.length > 0) throw new Error("Atomic placement readback no longer admits the complete deterministic contract wire plan.");
+      const plan = planFreshContractGeometry(pending.contract, after.pins, after.boxes, work, contractAuthoringProject(this.#freshProject), partition);
+      if (work.exhausted || plan.issues.length > 0) throw new Error("Atomic placement readback no longer admits the complete deterministic contract wire plan.");
       this.#pendingFreshPlacementCommit = {
         contract: pending.contract,
         recommendationIdentity: pending.recommendationIdentity,
@@ -4341,12 +4424,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       && canonicalJson(this.#pendingFreshPlacementRecommendation.startingPlacementIdentity) !== canonicalJson(currentPlacementIdentity)) {
       this.#pendingFreshPlacementRecommendation = undefined;
     }
-    const labelPlan = globalLabels && allGeometryInputsResolved
-      ? planFreshGlobalLabelTerminals(contract, pins, contractBounds, planningWork, terminalPartition) : { labels: [], issues: [] };
     const currentGeometryPlan = allGeometryInputsResolved
-      ? labelPlan.issues.length === 0 ? planContractWires(contract, pins, contractBounds, planningWork, labelPlan.labels, terminalPartition)
-        : { wires: [], routes: [], issues: labelPlan.issues }
-      : null;
+      ? planFreshContractGeometry(contract, pins, contractBounds, planningWork, globalLabels, terminalPartition) : null;
     const convergenceIssues = [...preflightIssues, ...(currentGeometryPlan?.issues ?? [])];
     if (convergenceIssues.length > 0) {
       const searchEligible = allGeometryInputsResolved
@@ -4403,7 +4482,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (beforeReadback.isError === true) throw new Error("KiCad failed to read connectivity before the contract operation.");
     const beforeGroups = parseFreshConnectivityGroups(preferredResultText(beforeReadback));
     const alreadyExactIssues = exactFreshConnectivityIssues(contract, beforeGroups);
-    const expectedLabels: readonly FreshContractLabelAnchor[] = globalLabels ? labelPlan.labels
+    const expectedLabels: readonly FreshContractLabelAnchor[] = globalLabels ? currentGeometryPlan!.labels
       : contract.nets.map((net) => ({ name: net.name, at: pins.get(endpointId(net.endpoints[0]!))! }));
     const noConnectLocations = parsedSchematic.noConnects;
     const exactNoConnects = noConnectLocations.length === contract.noConnects.length && contract.noConnects.every((endpoint) => {
@@ -4481,7 +4560,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       try {
         batchPlan = prepareFreshSchematicConnectivityBatch({ projectFile: path.join(this.#freshProject!.projectPath, `${this.#freshProject!.name}.kicad_pro`), schematicFile: this.#freshProject!.schematicPath, beforeSource: schematic,
           wires: geometryPlan.wires.map((wire) => ({ start: wireStart(wire), end: wireEnd(wire) })),
-          labels: labelPlan.labels.map((label) => ({ name: label.name, x_mm: label.at.x, y_mm: label.at.y, rotation: label.rotationDeg, shape: "passive", justify: label.justify })),
+          labels: currentGeometryPlan!.labels.map((label) => ({ name: label.name, x_mm: label.at.x, y_mm: label.at.y, rotation: label.rotationDeg, shape: "passive", justify: label.justify })),
           noConnects: contract.noConnects.map((endpoint) => pins.get(endpointId(endpoint))!),
         }, planningWork.budget);
       } catch (error) { return contractResult(call, contract, { applied: false, mutated: false, idempotent: false, issues: [{
@@ -4538,7 +4617,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       if (globalLabels) {
         await mutate(
           "sch_add_labels",
-          { labels: labelPlan.labels.map((label) => ({ name: label.name, x_mm: label.at.x, y_mm: label.at.y, kind: "global", shape: "passive", rotation: label.rotationDeg, snap_to_grid: true, justify: label.justify })) },
+          { labels: currentGeometryPlan!.labels.map((label) => ({ name: label.name, x_mm: label.at.x, y_mm: label.at.y, kind: "global", shape: "passive", rotation: label.rotationDeg, snap_to_grid: true, justify: label.justify })) },
           "KiCad failed to place the passive global contract labels at their reserved on-grid outward terminals.",
         );
       } else {
