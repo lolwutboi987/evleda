@@ -2,6 +2,8 @@
 
 The recommended [workspace configuration example](../examples/toolbox-workspace.config.toml) connects once and lets the client submit drafts, answer clarifications, create and resume projects over MCP. The older [explicit-project example](../examples/toolbox-mcp.config.toml) remains available. Both are disabled examples, not installed client settings. Replace placeholders with host-approved values before enabling the intended configuration.
 
+On this destination, a separate global `evleda_workspace` entry and the exact local `evleda-pcb` skill are now installed. The exact STDIO command passed three read-only discovery calls, and a fresh Codex CLI app-server loaded all 14 initial tools from the real installed entry. **Activation in the running desktop and dynamic tool refresh remain unverified.** The pinned profile currently permits three symbols and three footprints for the software fixtures. See [installation evidence and remaining activation step](destination-client-installation.md); this does not enable the repository examples or provide an unrestricted part catalog.
+
 Local STDIO MCP is supported by the ChatGPT desktop app, Codex CLI, and Codex IDE extension. These clients can start the toolbox process on the same host as its approved KiCad installation. ChatGPT web uses remote MCP tools supplied through plugins and does not read this local configuration; this repository example does not deploy a remote service. See the [official MCP documentation](https://learn.chatgpt.com/docs/extend/mcp?surface=cli).
 
 ## Workspace startup and in-chat design
@@ -62,6 +64,8 @@ The tool returns every verification row and scoped component/area/contact/native
 ## Client configuration and timing
 
 The example uses the documented `mcp_servers` table with `command`, `args`, and `cwd`. Select the intended client configuration scope; the file in `examples/` is not automatically loaded. The desktop's documented setup also offers Settings → MCP servers → Add server → STDIO, followed by a restart. Check the client's connected-server view after setup. See [official MCP setup](https://learn.chatgpt.com/docs/extend/mcp?surface=cli).
+
+For the installed destination entry, restart the desktop and verify `evleda_workspace` in its connected-server view and a newly loaded task's actual tool catalog before claiming activation. Skill discovery alone is insufficient. The separate CLI app-server catalog check did not exercise desktop `notifications/tools/list_changed` behavior; attach/detach refresh still needs that client's own observation. The documented app-server `config/mcpServer/reload` API queues a refresh for loaded tasks, but it was not verified against the running desktop here. See the [official app-server API](https://learn.chatgpt.com/docs/app-server).
 
 The workspace example allows 30 seconds for connection and 180 seconds for tools: the long native startup now occurs inside create/resume, not the initial handshake. The older explicit-project example still allows 180 seconds for both. Official defaults are 10 seconds for startup and 60 seconds for tools. Optional servers share a 1,000 ms initial-catalog grace period; changing the server startup timeout does not change it. The documented top-level `mcp_optional_startup_grace_ms = 0` instead waits according to server timeouts. It affects optional servers generally and is deliberately not changed here. See the [configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference).
 
