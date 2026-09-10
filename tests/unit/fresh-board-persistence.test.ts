@@ -15,7 +15,13 @@ import {
 const owned = new Set<string>();
 afterEach(async () => { await Promise.all([...owned].map(async (directory) => { await rm(directory, { recursive: true, force: true }); owned.delete(directory); })); });
 
-const changedBoard = (source: string): string => source.replace("(general)", "(general)\n  (gr_rect (start 0 0) (end 30 20) (layer \"Edge.Cuts\"))");
+const insertBoardForm = (source: string, form: string): string => {
+  const changed = source.replace(/^\(kicad_pcb(\r?\n)/u, (_match, newline: string) => `(kicad_pcb${newline}\t${form}${newline}`);
+  expect(changed).not.toBe(source);
+  expect(changed).toContain(form);
+  return changed;
+};
+const changedBoard = (source: string): string => insertBoardForm(source, '(gr_rect (start 0 0) (end 30 20) (layer "Edge.Cuts"))');
 const captured = JSON.parse(await readFile(new URL("../fixtures/fresh-project/authored-netclass-board-serialization.json", import.meta.url), "utf8")) as {
   liveUtf8Base64: string; diskUtf8Base64: string; configuredProjectEnvelope: unknown;
 };
@@ -99,7 +105,7 @@ describe("fresh durable board persistence", () => {
   it("persists large private raw source without public truncation or path redaction", async () => {
     const fresh = await freshBoard("large-raw");
     const before = await readFile(fresh.pcbPath, "utf8");
-    const raw = changedBoard(before).replace("(general)", `(general) (property "Source" "C:/Private/board/${"A".repeat(70_000)}")`);
+    const raw = insertBoardForm(changedBoard(before), `(property "Source" "C:/Private/board/${"A".repeat(70_000)}")`);
     const persistence = new FreshBoardPersistence(fresh);
     const session = internalSession(fresh, raw);
     await persistence.capturePreMutation(session);

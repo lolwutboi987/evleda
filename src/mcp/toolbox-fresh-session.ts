@@ -13,6 +13,7 @@ import { assertKicadToolboxFreshPreparation, type KicadToolboxFreshPreparation }
 import { createToolboxPracticeAnalyzer } from "./toolbox-practices.js";
 import type { ConnectedKicadToolbox } from "./toolbox-session.js";
 import { createFreshToolboxCheckpointLifecycle } from "./toolbox-fresh-checkpoint.js";
+import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js";
 import path from "node:path";
 
 export interface KicadToolboxFreshSessionInput {
@@ -48,6 +49,7 @@ export async function openKicadToolboxFreshSession(input: KicadToolboxFreshSessi
       outputPath: original.outputPath, reportPath: preparation.reportPath, freshProject: original }, outputRoot);
     await session.assertActivePcb(original.pcbPath);
     if (preparation.mode !== "resumed") {
+      await saveInitialFreshProjectSettings({ project: original, expectedPreparedSourceAuthority: preparation.preparedSourceAuthority, session });
       await checkpointFreshProjectOpenNormalization({ outputDir: original.outputPath, name: original.name,
         expectedPreparedSourceAuthority: preparation.preparedSourceAuthority,
         expectedNetClassProjection: { netClasses: [...preparation.netClassSemanticAuthority.netClasses],

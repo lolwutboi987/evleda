@@ -30,6 +30,12 @@ if (compilation.disposition !== "ready") throw new Error(JSON.stringify(compilat
 const bundle = createPcbPlaneCompilationBundle({ originalPrompt: "Synthetic plane preparation fixture.", compilation }, dependencies);
 const bundleRef = createPcbPlaneCompilationBundleRef(bundle);
 const rules = createFreshPlaneRules(bundle);
+const insertBoardForm = (source: string, form: string): string => {
+  const changed = source.replace(/^\(kicad_pcb(\r?\n)/u, (_match, newline: string) => `(kicad_pcb${newline}\t${form}${newline}`);
+  expect(changed).not.toBe(source);
+  expect(changed).toContain(form);
+  return changed;
+};
 const owned = new Set<string>();
 afterEach(async () => {
   for (const directory of owned) {
@@ -125,7 +131,7 @@ describe("explicit V2 plane fresh-project preparation", () => {
     const input = options(await directory());
     const project = await preparePlaneFreshProject(input);
     const marker = await readFile(project.markerPath);
-    const pcb = (await readFile(project.pcbPath, "utf8")).replace("(general)", '(general) (zone (net "GND") (layer "B.Cu"))');
+    const pcb = insertBoardForm(await readFile(project.pcbPath, "utf8"), '(zone (net "GND") (layer "B.Cu"))');
     await writeFile(project.pcbPath, pcb);
     const reportPath = await report(project);
     const guard = await captureFreshProjectCheckpointGuard(project);
@@ -235,7 +241,7 @@ describe("explicit V2 plane fresh-project preparation", () => {
 
   it("does not promote authored-plane checkpoints through initial Open normalization", async () => {
     const { project, proPath, pro, projection, prepared } = await initialOpenFixture();
-    const pcb = (await readFile(project.pcbPath, "utf8")).replace("(general)", '(general) (zone (net "GND") (layer "B.Cu"))');
+    const pcb = insertBoardForm(await readFile(project.pcbPath, "utf8"), '(zone (net "GND") (layer "B.Cu"))');
     await writeFile(project.pcbPath, pcb); await project.checkpointAfterReport(await report(project), "needs_review");
     await writeFile(proPath, JSON.stringify(pro));
     await expect(checkpointPlaneFreshProjectOpenNormalization({ project, expectedNetClassProjection: projection,

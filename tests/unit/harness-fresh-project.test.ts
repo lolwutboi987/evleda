@@ -45,6 +45,13 @@ import { normalizeFakeSchematicWriterSource } from "../helpers/normalizing-schem
 const owned = new Set<string>();
 afterEach(async () => { await Promise.all([...owned].map(async (directory) => { await rm(directory, { recursive: true, force: true }); owned.delete(directory); })); });
 
+const insertBoardForm = (source: string, form: string): string => {
+  const changed = source.replace(/^\(kicad_pcb(\r?\n)/u, (_match, newline: string) => `(kicad_pcb${newline}\t${form}${newline}`);
+  expect(changed).not.toBe(source);
+  expect(changed).toContain(form);
+  return changed;
+};
+
 const fakePrivatePorts = {
   assertActivePcb: async (_expected: string): Promise<void> => undefined,
   readActivePcbSource: async (expected: string): Promise<string> => await readFile(expected, "utf8"),
@@ -323,10 +330,10 @@ describe("fresh KiCad project authoring", () => {
     await expect(checkpointFreshProjectOpenNormalization({ outputDir: output, name, expectedNetClassProjection: projection, expectedPreparedSourceAuthority: preparedSourceAuthority })).resolves.toMatchObject({ changed: false });
 
     const boardBaseline = await readFile(fresh.pcbPath, "utf8");
-    await writeFile(fresh.pcbPath, boardBaseline.replace("(general)", "(general)\n  (zone (net 0) (net_name \"\") (layer \"F.Cu\"))"));
+    await writeFile(fresh.pcbPath, insertBoardForm(boardBaseline, '(zone (net 0) (net_name "") (layer "F.Cu"))'));
     await fresh.checkpointAfterReport(reportPath, "blocked");
     await expect(checkpointFreshProjectOpenNormalization({ outputDir: output, name, expectedNetClassProjection: projection, expectedPreparedSourceAuthority: preparedSourceAuthority })).rejects.toThrow(/lifecycle-owned prepared-source authority|copper zone/i);
-    await writeFile(fresh.pcbPath, boardBaseline.replace("(general)", "(general)\n  (footprint \"Test:Local\" (layer \"F.Cu\") (clearance 0.01))"));
+    await writeFile(fresh.pcbPath, insertBoardForm(boardBaseline, '(footprint "Test:Local" (layer "F.Cu") (clearance 0.01))'));
     await fresh.checkpointAfterReport(reportPath, "blocked");
     await expect(checkpointFreshProjectOpenNormalization({ outputDir: output, name, expectedNetClassProjection: projection, expectedPreparedSourceAuthority: preparedSourceAuthority })).rejects.toThrow(/lifecycle-owned prepared-source authority|local copper-clearance override/i);
   });

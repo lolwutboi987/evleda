@@ -27,6 +27,7 @@ import {
   type PcbPlaneCompilationBundleRef,
 } from "./pcb-design-plane-bundle.js";
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
+import { createNativeEmptyBoardSeed } from "./native-empty-board-seed.js";
 
 /** Strict, local contracts for the audited incremental sidecar calls. */
 const coordinate = z.number().finite().min(-2_000).max(2_000);
@@ -426,12 +427,7 @@ function emptySchematic(name: string, uuid: string): string {
   return `(kicad_sch\n  (version 20250316)\n  (generator "KiCad Studio Fixture Corpus")\n  (uuid "${uuid}")\n  (paper "A4")\n  (title_block (title "${name}"))\n\t(lib_symbols)\n\t(sheet_instances\n\t\t(path "/" (page "1"))\n\t)\n\t(embedded_fonts no)\n)\n`;
 }
 function emptyBoard(): string {
-  // New projects target the pinned KiCad 10.0.3 board format. Exact native
-  // layer IDs come from that commit's include/layer_ids.h. Enable standard
-  // mask/paste/presentation layers; footprint child geometry does not enable
-  // them for native CreateItems or layer selection. This creates no artwork
-  // and adds no copper layers. Historical projects retain their saved marker.
-  return `(kicad_pcb\n  (version 20260206)\n  (generator "KiCad Studio Fixture Corpus")\n  (general)\n  (paper "A4")\n  (layers\n    (0 "F.Cu" signal)\n    (2 "B.Cu" signal)\n    (1 "F.Mask" user)\n    (3 "B.Mask" user)\n    (5 "F.SilkS" user)\n    (7 "B.SilkS" user)\n    (13 "F.Paste" user)\n    (15 "B.Paste" user)\n    (25 "Edge.Cuts" user)\n    (33 "B.Fab" user)\n    (35 "F.Fab" user)\n  )\n)\n`;
+  return createNativeEmptyBoardSeed();
 }
 
 /** Strictly accepts one axis-aligned Edge.Cuts rectangle at the requested size. */

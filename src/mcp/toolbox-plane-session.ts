@@ -24,6 +24,7 @@ import { createPlaneToolboxCheckpointLifecycle } from "./toolbox-plane-checkpoin
 import { writeToolboxRouteDiagnostic } from "./toolbox-route-diagnostics.js";
 import { captureToolboxEndpointConnectivity } from "./toolbox-endpoint-connectivity.js";
 import { captureToolboxPlaneAcceptance } from "./toolbox-plane-acceptance.js";
+import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js";
 
 export interface KicadToolboxPlaneSessionInput {
   readonly authority: KicadMcpBoundSessionAuthority;
@@ -57,10 +58,13 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
     await initializeIsolatedKicadProject(session, { sourceProjectPath: original.projectPath, isolatedProjectPath: original.projectPath,
       outputPath: original.outputPath, reportPath: preparation.reportPath, freshProject: original }, outputRoot);
     await session.assertActivePcb(original.pcbPath);
-    if (preparation.mode !== "resumed") await checkpointPlaneFreshProjectOpenNormalization({ project: original,
-      expectedPreparedSourceAuthority: preparation.preparedSourceAuthority,
-      expectedNetClassProjection: { netClasses: [...preparation.netClassSemanticAuthority.netClasses],
-        contractNetAssignments: [...preparation.netClassSemanticAuthority.contractNetAssignments] } });
+    if (preparation.mode !== "resumed") {
+      await saveInitialFreshProjectSettings({ project: original, expectedPreparedSourceAuthority: preparation.preparedSourceAuthority, session });
+      await checkpointPlaneFreshProjectOpenNormalization({ project: original,
+        expectedPreparedSourceAuthority: preparation.preparedSourceAuthority,
+        expectedNetClassProjection: { netClasses: [...preparation.netClassSemanticAuthority.netClasses],
+          contractNetAssignments: [...preparation.netClassSemanticAuthority.contractNetAssignments] } });
+    }
     await verifyFreshPlaneNetClassSemanticAuthority(preparation.netClassSemanticAuthority, { project: original, compilationBundle: bundle, kicad: preparation.kicadIdentity });
     const project = await preparePlaneFreshProject({ outputDir: original.outputPath, name: original.name, resume: true, compilationBundle: bundle, compilationBundleRef: bundleRef });
     await session.assertActivePcb(project.pcbPath);

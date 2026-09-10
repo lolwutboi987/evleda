@@ -20,9 +20,10 @@ describe("new fresh project presentation layers", () => {
     const { project } = await fixture(); const source = await readFile(project.pcbPath, "utf8");
     expect(source).toContain("(version 20260206)");
     expect(source).toContain('(0 "F.Cu" signal)'); expect(source).toContain('(2 "B.Cu" signal)');
-    expect(source).toContain('(5 "F.SilkS" user)'); expect(source).toContain('(25 "Edge.Cuts" user)');
+    expect(source).toContain('(5 "F.SilkS" user "F.Silkscreen")'); expect(source).toContain('(25 "Edge.Cuts" user)');
+    expect(source).toContain('(7 "B.SilkS" user "B.Silkscreen")');
     expect(source).toContain('(35 "F.Fab" user)');
-    for (const [ordinal, name] of [[1, "F.Mask"], [3, "B.Mask"], [7, "B.SilkS"], [13, "F.Paste"], [15, "B.Paste"], [33, "B.Fab"]] as const) {
+    for (const [ordinal, name] of [[1, "F.Mask"], [3, "B.Mask"], [13, "F.Paste"], [15, "B.Paste"], [33, "B.Fab"]] as const) {
       expect(source).toContain(`(${ordinal} "${name}" user)`);
     }
     expect([...source.matchAll(/\(\d+ "([^"]+\.Cu)" signal\)/gu)].map(match => match[1])).toEqual(["F.Cu", "B.Cu"]);

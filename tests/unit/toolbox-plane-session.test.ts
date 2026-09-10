@@ -4,9 +4,10 @@ import { captureKicadStartupFailure } from "../../src/integrations/kicad-startup
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { KicadToolboxPlaneSessionInput } from "../../src/mcp/toolbox-plane-session.js";
 
-const seams = vi.hoisted(() => ({ authenticate: vi.fn(), initialize: vi.fn(), checkpoint: vi.fn(), verifyClasses: vi.fn(),
+const seams = vi.hoisted(() => ({ authenticate: vi.fn(), initialize: vi.fn(), initialSave: vi.fn(), checkpoint: vi.fn(), verifyClasses: vi.fn(),
   resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn(), routeDiagnostic: vi.fn(), endpointCapture: vi.fn() }));
 vi.mock("../../src/mcp/toolbox-plane-checkpoint.js", () => ({ createPlaneToolboxCheckpointLifecycle: seams.lifecycle }));
+vi.mock("../../src/mcp/toolbox-fresh-initial-save.js", () => ({ saveInitialFreshProjectSettings: seams.initialSave }));
 vi.mock("../../src/cli/pcb-agent.js", () => ({ createFreshNativeCaptures: seams.captures,
   initializeIsolatedKicadProject: seams.initialize, nativeProjectFingerprint: seams.fingerprint }));
 vi.mock("../../src/harness/fresh-project.js", () => ({ checkpointPlaneFreshProjectOpenNormalization: seams.checkpoint, preparePlaneFreshProject: seams.resume }));
@@ -23,7 +24,7 @@ beforeEach(() => vi.resetAllMocks());
 function fixture() {
   const order: string[] = [];
   const identity = { authority: "host" };
-  const session = { identity: { launch: { sessionAuthorityIdentity: identity } }, close: vi.fn().mockResolvedValue(undefined),
+  const session = { identity: { launch: { sessionAuthorityIdentity: identity } }, close: vi.fn().mockResolvedValue(undefined), callTool: vi.fn(),
     assertActivePcb: vi.fn().mockImplementation(async () => { order.push("active"); }) };
   const authority = { identity, connect: vi.fn().mockImplementation(async () => { order.push("connect"); return session; }), disposeUnused: vi.fn() };
   const original = { outputPath: "output", projectPath: "output/project", pcbPath: "output/project/board.kicad_pcb", name: "board", planeBinding: { identity: { exact: "plane-binding" } } };
@@ -36,6 +37,7 @@ function fixture() {
     kicadIdentity: { path: "host/kicad-cli.exe" } };
   seams.authenticate.mockImplementation(value => { if (value !== preparation) throw new Error("Unauthenticated preparation"); });
   seams.initialize.mockImplementation(async () => { order.push("initialize"); });
+  seams.initialSave.mockImplementation(async () => { order.push("initial-save"); });
   seams.checkpoint.mockImplementation(async () => { order.push("normalize"); });
   seams.verifyClasses.mockImplementation(async () => { order.push("classes"); });
   seams.resume.mockImplementation(async () => { order.push("resume"); return resumed; });
@@ -50,13 +52,15 @@ function fixture() {
 }
 
 describe("plane toolbox session composition", () => {
-  it("initializes before live assertion, normalizes with original authority, then wires resumed capabilities", async () => {
+  it("saves initial settings after live assertion, normalizes with original authority, then wires resumed capabilities", async () => {
     const f = fixture(); const connected = await openKicadToolboxPlaneSession(f.input);
-    expect(f.order).toEqual(["connect", "initialize", "active", "normalize", "classes", "resume", "active"]);
+    expect(f.order).toEqual(["connect", "initialize", "active", "initial-save", "normalize", "classes", "resume", "active"]);
     expect(f.authority.connect).toHaveBeenCalledWith({ workspaceRoot: f.original.outputPath, projectRoot: f.original.projectPath,
       outputRoot: path.join(f.original.outputPath, ".evleda-mcp-output"), mode: "write", freshProject: true,
       requiredTools: ["evleda_get_live_pcb_document", "kicad_set_project", "pcb_save", "sch_add_labels"] });
     expect(seams.initialize.mock.calls[0]![1].freshProject).toBe(f.original);
+    expect(seams.initialSave).toHaveBeenCalledExactlyOnceWith({ project: f.original,
+      expectedPreparedSourceAuthority: f.preparation.preparedSourceAuthority, session: f.session });
     expect(seams.checkpoint).toHaveBeenCalledWith({ project: f.original,
       expectedPreparedSourceAuthority: f.preparation.preparedSourceAuthority,
       expectedNetClassProjection: { netClasses: f.preparation.netClassSemanticAuthority.netClasses, contractNetAssignments: f.preparation.netClassSemanticAuthority.contractNetAssignments } });
@@ -95,9 +99,11 @@ describe("plane toolbox session composition", () => {
     expect(f.createCliAdapter).not.toHaveBeenCalled();
   });
 
-  it("skips blank Open normalization on authored resume but revalidates netclasses and checkpoint", async () => {
+  it("never saves or runs blank Open normalization on authored resume but revalidates netclasses and checkpoint", async () => {
     const f = fixture(); f.preparation.mode = "resumed";
     await openKicadToolboxPlaneSession(f.input);
+    expect(seams.initialSave).not.toHaveBeenCalled();
+    expect(f.session.callTool).not.toHaveBeenCalled();
     expect(seams.checkpoint).not.toHaveBeenCalled();
     expect(f.order).toEqual(["connect", "initialize", "active", "classes", "resume", "active"]);
     expect(seams.lifecycle).toHaveBeenCalledWith({ project: f.resumed, preparation: f.preparation, session: f.session });
@@ -121,14 +127,19 @@ describe("plane toolbox session composition", () => {
     expect(seams.initialize).not.toHaveBeenCalled(); expect(f.session.close).toHaveBeenCalledOnce();
   });
 
-  it.each(["initialize", "normalize", "classes", "resume", "practices"])("closes native session after %s failure without reporting readiness", async stage => {
+  it.each(["initialize", "initial-save", "normalize", "classes", "resume", "practices"])("closes native session after %s failure without reporting readiness", async stage => {
     const f = fixture();
-    const failed = stage === "initialize" ? seams.initialize : stage === "normalize" ? seams.checkpoint
+    const failed = stage === "initialize" ? seams.initialize : stage === "initial-save" ? seams.initialSave : stage === "normalize" ? seams.checkpoint
       : stage === "classes" ? seams.verifyClasses : stage === "resume" ? seams.resume : seams.practices;
     failed.mockRejectedValue(new Error(`${stage} failed`));
     await expect(openKicadToolboxPlaneSession(f.input)).rejects.toThrow(`${stage} failed`);
     expect(f.session.close).toHaveBeenCalledOnce(); expect(f.authority.disposeUnused).not.toHaveBeenCalled();
+    expect(seams.lifecycle).not.toHaveBeenCalled();
     if (stage === "initialize") expect(f.session.assertActivePcb).not.toHaveBeenCalled();
+    if (stage === "initial-save") {
+      expect(seams.checkpoint).not.toHaveBeenCalled(); expect(seams.verifyClasses).not.toHaveBeenCalled();
+      expect(seams.resume).not.toHaveBeenCalled(); expect(seams.tools).not.toHaveBeenCalled();
+    }
     if (stage === "classes") expect(seams.resume).not.toHaveBeenCalled();
   });
 
