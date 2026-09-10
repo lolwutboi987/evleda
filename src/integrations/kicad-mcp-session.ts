@@ -3604,14 +3604,33 @@ async function verifyInspectionRuntimeTree(
   const actualFiles: InspectionRuntimeFileRecord[] = [];
   const actualDirectories: InspectionRuntimeDirectoryRecord[] = [];
   const fileJobs: Array<{ candidate: string; relative: string; expected: InspectionRuntimeFileRecord }> = [];
-  const pending = [root.path];
-  while (pending.length > 0) {
-    assertInspectionDeadline(activeDeadline);
-    const directory = pending.pop()!;
+  const walkAbort = new AbortController();
+  const walkDeadline: InspectionDeadline = Object.freeze({ ...activeDeadline,
+    signal: activeDeadline.signal === undefined ? walkAbort.signal : AbortSignal.any([activeDeadline.signal, walkAbort.signal]) });
+  let failed = false;
+  let firstFailure: unknown;
+  const failWalk = (error: unknown): void => { if (!failed) { failed = true; firstFailure = error; walkAbort.abort(); } };
+  type DirectoryJob = { candidate: string; relative?: string; expected?: InspectionRuntimeDirectoryRecord };
+  const pending: DirectoryJob[] = [{ candidate: root.path }];
+  let scheduledDirectories = 0;
+  const inspectDirectory = async (job: DirectoryJob): Promise<void> => {
+    try {
+    assertInspectionDeadline(walkDeadline);
+    const directory = job.candidate;
+    if (job.expected !== undefined && job.relative !== undefined) {
+      const physical = await bindInspectionDirectory(directory, "KiCad MCP runtime directory", walkDeadline);
+      const directoryMetadata = await withinInspectionDeadline(
+        async () => await lstat(directory, { bigint: true }), walkDeadline, "KiCad MCP runtime directory:mode-stat",
+      );
+      const mode = Number(BigInt(directoryMetadata.mode) & 0o777n);
+      if (mode !== job.expected.mode) throw new KicadMcpSessionError("KiCad MCP runtime directory mode differs from its manifest.");
+      physicalDirectories.set(job.relative, physical);
+      actualDirectories.push({ path: job.relative, mode });
+    }
     const entries = await withinInspectionDeadline(
-      async () => await readdir(directory, { withFileTypes: true }), activeDeadline, "KiCad MCP runtime:readdir",
+      async () => await readdir(directory, { withFileTypes: true }), walkDeadline, "KiCad MCP runtime:readdir",
     );
-    assertInspectionDeadline(activeDeadline);
+    assertInspectionDeadline(walkDeadline);
     for (const entry of entries) {
       const candidate = path.join(directory, entry.name);
       if (entry.isSymbolicLink()) throw new KicadMcpSessionError("KiCad MCP runtime contains a link or reparse point.");
@@ -3620,15 +3639,8 @@ async function verifyInspectionRuntimeTree(
       if (entry.isDirectory()) {
         const expected = directoriesByPath.get(relative);
         if (expected === undefined) throw new KicadMcpSessionError("KiCad MCP runtime contains an extra directory.");
-        const physical = await bindInspectionDirectory(candidate, "KiCad MCP runtime directory", activeDeadline);
-        const directoryMetadata = await withinInspectionDeadline(
-          async () => await lstat(candidate, { bigint: true }), activeDeadline, "KiCad MCP runtime directory:mode-stat",
-        );
-        const mode = Number(BigInt(directoryMetadata.mode) & 0o777n);
-        if (mode !== expected.mode) throw new KicadMcpSessionError("KiCad MCP runtime directory mode differs from its manifest.");
-        physicalDirectories.set(relative, physical);
-        actualDirectories.push({ path: relative, mode });
-        pending.push(candidate);
+        if (++scheduledDirectories > manifest.directories.length) throw new KicadMcpSessionError("KiCad MCP runtime directory worklist exceeds its manifest bound.");
+        pending.push({ candidate, relative, expected });
       } else if (entry.isFile()) {
         const expected = filesByPath.get(relative);
         if (expected === undefined) throw new KicadMcpSessionError("KiCad MCP runtime contains an extra file.");
@@ -3636,22 +3648,26 @@ async function verifyInspectionRuntimeTree(
         fileJobs.push({ candidate, relative, expected });
       } else throw new KicadMcpSessionError("KiCad MCP runtime contains an unsupported filesystem entry.");
     }
+    } catch (error) { failWalk(error); }
+  };
+  // Validate at most four independent directories at once. Each job still
+  // performs its complete ancestor/binding/mode/readdir sequence before children.
+  while (pending.length > 0 && !failed) {
+    assertInspectionDeadline(walkDeadline);
+    await Promise.allSettled(pending.splice(-4).map(inspectDirectory));
   }
+  if (failed) throw firstFailure;
   // One call-local queue keeps the existing four readers occupied even when
   // directories contain only one file. No ancestor/content/witness check is cached.
-  const readerAbort = new AbortController();
-  const readerDeadline: InspectionDeadline = Object.freeze({ ...activeDeadline,
-    signal: activeDeadline.signal === undefined ? readerAbort.signal : AbortSignal.any([activeDeadline.signal, readerAbort.signal]) });
-  let nextFile = 0, failed = false;
-  let firstFailure: unknown;
+  let nextFile = 0;
   const readFiles = async (): Promise<void> => {
     try {
       while (!failed) {
-        assertInspectionDeadline(readerDeadline);
+        assertInspectionDeadline(walkDeadline);
         const job = fileJobs[nextFile++];
         if (job === undefined) return;
         const { candidate, relative, expected } = job;
-        const physical = await captureRegularFileIdentity(candidate, "KiCad MCP runtime file", MAX_PINNED_EXECUTABLE_BYTES, readerDeadline);
+        const physical = await captureRegularFileIdentity(candidate, "KiCad MCP runtime file", MAX_PINNED_EXECUTABLE_BYTES, walkDeadline);
         const mode = Number(BigInt(physical.filesystem.mode) & 0o777n);
         if (physical.sizeBytes !== expected.sizeBytes || physical.sha256 !== expected.sha256 || mode !== expected.mode) {
           throw new KicadMcpSessionError("KiCad MCP runtime file differs from its manifest.");
@@ -3660,7 +3676,7 @@ async function verifyInspectionRuntimeTree(
         actualFiles.push({ path: relative, sizeBytes: physical.sizeBytes, sha256: physical.sha256, mode });
       }
     } catch (error) {
-      if (!failed) { failed = true; firstFailure = error; readerAbort.abort(); }
+      failWalk(error);
     }
   };
   // Every worker settles under the same deadline; existing stream abort and

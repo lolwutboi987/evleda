@@ -644,8 +644,9 @@ async function syntheticInspectionBridgeFixture(additionalRuntimeFiles = 0, scat
   };
 }
 
-async function runtimeSchedulerFixture() {
+async function runtimeSchedulerFixture(gateTarget: "files" | "directories" = "files") {
   const fixture = await syntheticInspectionBridgeFixture(8, true);
+  const expectedDirectoryCount = fixture.additionalFiles.length + 2;
   const gates = Array.from({ length: 4 }, () => {
     let release!: () => void;
     const promise = new Promise<void>((resolve) => { release = resolve; });
@@ -654,6 +655,8 @@ async function runtimeSchedulerFixture() {
   const state = {
     armed: false, deadlineMs: 5_000, opens: 0, reads: 0, completedReads: 0, settledReads: 0, closeHooks: 0,
     activeHandles: 0, peakHandles: 0, launches: 0, firstReadError: undefined as Error | undefined,
+    directoryStarts: 0, directoryCompleted: 0, directorySettled: 0, directoryActive: 0, directoryPeak: 0,
+    firstDirectoryError: undefined as Error | undefined,
   };
   const handles: { identity: string; closeCalls: number; closeSettled: boolean }[] = [];
   const expectedIdentities = (await Promise.all(fixture.runtimeFiles.map(async (filePath) => {
@@ -678,7 +681,17 @@ async function runtimeSchedulerFixture() {
       get deadlineMsForTesting() { return state.deadlineMs; },
       operationForTesting: async (label, operation) => {
         if (!state.armed) return await operation();
+        if (label === "KiCad MCP runtime directory:mode-stat") {
+          const directoryIndex = state.directoryStarts++;
+          state.directoryActive += 1; state.directoryPeak = Math.max(state.directoryPeak, state.directoryActive);
+          try {
+            if (gateTarget === "directories") await gates[directoryIndex]?.promise;
+            if (directoryIndex === 0 && state.firstDirectoryError !== undefined) throw state.firstDirectoryError;
+            const result = await operation(); state.directoryCompleted += 1; return result;
+          } finally { state.directoryActive -= 1; state.directorySettled += 1; }
+        }
         if (label === "KiCad MCP runtime file:open") {
+          if (gateTarget === "directories") expect(state.directoryCompleted).toBe(expectedDirectoryCount);
           state.opens += 1;
           const handle = await operation() as FileHandle;
           const record = { identity: "", closeCalls: 0, closeSettled: false };
@@ -709,7 +722,7 @@ async function runtimeSchedulerFixture() {
         if (label === "KiCad MCP runtime file:stream-read") {
           const readIndex = state.reads++;
           try {
-            await gates[readIndex]?.promise;
+            if (gateTarget === "files") await gates[readIndex]?.promise;
             if (readIndex === 0 && state.firstReadError !== undefined) throw state.firstReadError;
             const result = await operation();
             state.completedReads += 1;
@@ -1026,6 +1039,68 @@ describe("KiCad MCP subprocess session", () => {
       probe.releaseAll();
       await outcome;
     }
+  });
+
+  it("validates four runtime directories concurrently before hashing every manifest file", async () => {
+    const probe = await runtimeSchedulerFixture("directories"); probe.state.armed = true;
+    const outcome = probe.bridge.assertCurrent().then(() => ({ error: undefined }), (error: unknown) => ({ error }));
+    try {
+      expect(await waitForCondition(() => probe.state.directoryStarts === 4, 1_000)).toBe(true);
+      expect(probe.state.directoryPeak).toBe(4); expect(probe.state.directoryCompleted).toBe(0); expect(probe.state.opens).toBe(0);
+      probe.releaseAll(); expect((await outcome).error).toBeUndefined();
+      expect(probe.state.directoryStarts).toBe(10); expect(probe.state.directoryCompleted).toBe(10);
+      expect(probe.state.directorySettled).toBe(10); expect(probe.state.directoryActive).toBe(0); expect(probe.state.directoryPeak).toBe(4);
+      expect(probe.state.opens).toBe(probe.fixture.expectedClosure.fileCount);
+      expect(probe.state.completedReads).toBe(probe.fixture.expectedClosure.fileCount);
+      expect(probe.handles.every(handle => handle.closeSettled)).toBe(true); expect(probe.state.launches).toBe(0);
+    } finally { probe.releaseAll(); await outcome; }
+  });
+
+  it("preserves the first runtime directory failure and never admits file hashing", async () => {
+    const probe = await runtimeSchedulerFixture("directories"); const first = new Error("first directory mode read failure");
+    probe.state.firstDirectoryError = first; probe.state.armed = true; let settled = false;
+    const outcome = probe.bridge.assertCurrent().then(() => ({ error: undefined }), (error: unknown) => ({ error })).finally(() => { settled = true; });
+    try {
+      expect(await waitForCondition(() => probe.state.directoryStarts === 4, 1_000)).toBe(true);
+      probe.gates[0]!.release(); expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+      expect((await outcome).error).toBe(first); expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0);
+      await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+      expect(probe.state.launches).toBe(0);
+    } finally {
+      probe.releaseAll(); await outcome;
+      expect(await waitForCondition(() => probe.state.directorySettled === 4, 1_000)).toBe(true);
+    }
+    expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0);
+  });
+
+  it.each(["external abort", "absolute deadline"] as const)("bounds four held runtime directories on %s", async cancellation => {
+    const probe = await runtimeSchedulerFixture("directories"), controller = new AbortController();
+    probe.state.armed = true; probe.state.deadlineMs = cancellation === "absolute deadline" ? 500 : 5_000;
+    let settled = false; const started = performance.now();
+    const outcome = probe.bridge.assertCurrent({ signal: controller.signal }).then(() => ({ error: undefined }), (error: unknown) => ({ error })).finally(() => { settled = true; });
+    try {
+      expect(await waitForCondition(() => probe.state.directoryStarts === 4, 1_000)).toBe(true);
+      if (cancellation === "external abort") controller.abort();
+      expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+      expect((await outcome).error).toMatchObject({ name: "KicadMcpRuntimeVerificationDeadlineError", reason: cancellation === "external abort" ? "aborted" : "deadline" });
+      expect(performance.now() - started).toBeLessThan(1_500);
+      expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0); expect(probe.state.launches).toBe(0);
+    } finally {
+      probe.releaseAll(); await outcome;
+      expect(await waitForCondition(() => probe.state.directorySettled === 4, 1_000)).toBe(true);
+    }
+    expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0);
+  });
+
+  it.each(["extra directory", "directory link"] as const)("rejects a runtime %s before any file worker starts", async kind => {
+    const probe = await runtimeSchedulerFixture("directories"); probe.state.armed = true;
+    const added = path.join(probe.fixture.bundleRoot, "unapproved-directory");
+    if (kind === "extra directory") await mkdir(added);
+    else await symlink(probe.fixture.project, added, "junction");
+    try {
+      await expect(probe.bridge.assertCurrent()).rejects.toThrow(kind === "extra directory" ? /extra directory/ : /link or reparse/);
+      expect(probe.state.opens).toBe(0); expect(probe.state.launches).toBe(0);
+    } finally { probe.releaseAll(); }
   });
 
   it("cancels other global runtime workers on the first stream failure without admitting queued files", async () => {

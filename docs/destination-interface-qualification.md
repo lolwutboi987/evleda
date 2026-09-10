@@ -16,8 +16,14 @@ Bridge and host cleanup were recorded **unconfirmed**. The failed allocation, pr
 
 The [source audit](../../destination-interface-native-01/evidence/source-audit.json) found `.pro` changed from **2,527 to 11,396 bytes** relative to preparation; the other five tracked sources were unchanged. The PCB remained **2,373 bytes**, SHA-256 `d269d2395b7cdcec2868f7bb32ec424d2d286bee2d4ec3ffd87222a3de564f61`, and the canonical DRU remained **329 bytes**, SHA-256 `ced868d3f65dc2a8dca55d1724ee4bac13fd017832f0d02436016a782cef132f`. Profile, intent and implementation checks were unchanged. This post-exit observation is not a successful initialization or checkpoint/resume validation.
 
+## Bounded directory scheduling
+
+The runtime walker now validates at most four directories concurrently before the existing four file readers start. Both complete scans still bracket native connection/project binding within the original 30-second budget. Ancestor, mode, directory inventory, file hash, physical witness and aggregate identity checks remain intact.
+
+The [runtime-only comparison](../../destination-verification/runtime-directory-scheduler-01/comparison.json) observed factory time 8.884 to 7.306 seconds and revalidation 8.417 to 6.858 seconds. Every pass retained 20,861 directory operations and 192,705 file operations with the same bridge identity. These sequential, instrumented measurements can include cache effects; they are not native workflow qualification. The [complete runtime integration file](../../destination-verification/interface-runtime-integration-02.json) passed 115 tests. [Source/UI typechecking](../../destination-verification/interface-product-typecheck-02.log) and the [full rebuild](../../destination-verification/interface-product-build-02.log) also passed after this change.
+
 ## Remaining work
 
-Current work measures serial directory traversal during two full runtime scans within one 30-second connection budget. A possible bounded directory-worker optimization must retain the deadline and every hash, alias and ownership check; no waiver is made. A new native attempt02 is pending, with the original failure preserved.
+A new native attempt02 is pending, with the original failure preserved.
 
 This is a local software milestone, not completion of the chat PCB-toolbox goal, GitHub publication or the requested RP2350 board. Physical material/termination evidence, return-path/model applicability and whole-board acceptance remain separate.
