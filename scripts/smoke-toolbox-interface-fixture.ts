@@ -96,7 +96,9 @@ export function assertInterfacePads(value: Record<string, any>, placed: boolean)
   for (const [reference, pad, net, xNm, yNm] of EXPECTED_INTERFACE_PADS) {
     const rows = value.pads.filter((row: any) => row.reference === reference && row.pad === pad);
     assert.equal(rows.length, 1); const row = rows[0]!; assert.equal(row.net, net);
-    assert.deepEqual([...row.layers].sort(), ["F.Cu", "F.Mask", "F.Paste"]);
+    // The authoring API exposes usable copper layers. Technical mask/paste
+    // layers belong to the separately checked complete saved pad definition.
+    assert.deepEqual([...row.layers].sort(), ["F.Cu"]);
     assert.equal(row.physical?.padType, "smd"); assert.equal(row.physical?.shape, "rect");
     assert.equal(row.physical?.drill, null); assert.deepEqual(row.physical?.sizeMm, { x: 1.75, y: 0.6 });
     assert.equal(typeof row.physical?.id, "string"); assert.equal(typeof row.physical?.footprintId, "string");

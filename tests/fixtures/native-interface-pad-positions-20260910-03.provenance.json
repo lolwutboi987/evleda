@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "evleda.native-interface-pad-projection-fixture.v1",
+  "sourceOperation": "destination-interface-native-03/evidence/operation-009.json",
+  "sourceOperationSha256": "aa1136b1689937cf77a72230875ddd23c9657d1f7277c1bdc35f50d8cc9d5841",
+  "sourceCommit": "170db9f",
+  "derivation": "Exact decoded structuredContent.result.content JSON bytes; no field or coordinate changes.",
+  "fixtureSha256": "c8bb51f440f39335f5d7f9023354685f0990fc405603ed1449e835108d78e1cc",
+  "scope": "Native usable-copper pad projection before PCB placement. Original driver failed by expecting technical mask/paste layers in this copper-only field; original failure is preserved."
+}

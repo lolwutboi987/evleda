@@ -244,7 +244,10 @@ async function main() {
       const geometry = parseFreshPcbReferenceGeometry(savedSource);
       assert.equal(board.outlineSupported, true); assert.deepEqual(board.outlineBounds, { minX: 0, minY: 0, maxX: 30, maxY: 20 });
       assert.equal(board.footprints.length, 2); assert.equal(board.segments.length, 12); assert.equal(board.vias.length, 2);
-      for (const footprint of board.footprints) assert.equal(footprint.libraryId, INTERFACE_FIXTURE_FOOTPRINT);
+      for (const footprint of board.footprints) {
+        assert.equal(footprint.libraryId, INTERFACE_FIXTURE_FOOTPRINT);
+        for (const pad of footprint.pads) assert.deepEqual([...pad.layers].sort(), ["F.Cu", "F.Mask", "F.Paste"]);
+      }
       const trackKey = (net: string, layer: string, widthMm: number, a: number[], b: number[]) => canonicalJson({ net, layer,
         widthNm: exactFixtureNm(widthMm), ends: [a.map(exactFixtureNm), b.map(exactFixtureNm)].sort() });
       assert.deepEqual(board.segments.map(segment => trackKey(segment.netName!, segment.layer, segment.widthMm, [segment.start.x, segment.start.y], [segment.end.x, segment.end.y])).sort(),

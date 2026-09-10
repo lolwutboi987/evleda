@@ -15,6 +15,7 @@ import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
 import { compareDifferentialPairLengths } from "../../src/harness/differential-pair-geometry.js";
 import type { PcbReadOnlyLibraryResolver } from "../../src/harness/pcb-design-compiler.js";
 import { compilePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-compiler.js";
+import capturedNativePads from "../fixtures/native-interface-pad-positions-20260910-03.json" with { type: "json" };
 
 /** Hand-declared public rows for offline tests; these are not observations from KiCad. */
 const mockPublicPads = () => {
@@ -34,7 +35,7 @@ const mockPublicPads = () => {
     terminals: rows.map(([reference, pad, net]) => ({ reference, pad, net })),
     pads: rows.map(([reference, pad, net, xMm, yMm]) => ({
       reference: String(reference), pad: String(pad), net: String(net), xMm: Number(xMm), yMm: Number(yMm),
-      layers: ["F.Cu", "F.Paste", "F.Mask"],
+      layers: ["F.Cu"],
       physical: {
         id: `mock-${reference}-${pad}`, footprintId: `mock-${reference}`, padType: "smd", shape: "rect",
         drill: null, sizeMm: { x: 1.75, y: 0.6 },
@@ -56,6 +57,11 @@ const mockThreePadStockResolver: PcbReadOnlyLibraryResolver = {
 };
 
 describe("offline interface fixture endpoint gate", () => {
+  it("accepts the real native03 usable-copper projection before placement", () => {
+    expect(() => assertInterfacePads(capturedNativePads, false)).not.toThrow();
+    expect(capturedNativePads.pads.every(pad => pad.layers.length === 1 && pad.layers[0] === "F.Cu")).toBe(true);
+    expect(() => assertInterfacePads(capturedNativePads, true)).toThrow(/Unexpected actual pad position/);
+  });
   it("accepts exact integer nanometres without treating floating multiplication residue as a tolerance", () => {
     expect(exactFixtureNm(4.125)).toBe(4_125_000);
     expect(exactFixtureNm(8.15)).toBe(8_150_000);
