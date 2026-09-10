@@ -1,6 +1,31 @@
 # Destination interface qualification
 
-The declared-interface implementation passes its focused software suite, source/UI typecheck and full build. The first native pair-workflow attempt remains **failed before public operations**; it does not qualify native pair authoring, assessment or resume.
+The toolbox now has a completed native differential-interface fixture: authoring, saved-source checks, conditional section-impedance calculation, normal checkpoint/close and read-only reopen. Native attempt04 passed 46 recorded public operations. The earlier startup, planner and driver-assertion failures remain preserved; this result does not complete board/interface acceptance or the broader product goal.
+
+## Native attempt04: authored pair and read-only reopen
+
+The [original passing result](../../destination-interface-native-04/evidence/result.json), SHA-256 `b22f62194f86368117ad9d4e9084ff8c3906b425b3f073a1f78663bd3097891a`, used **scripted public MCP calls over linked InMemoryTransport with a real native STDIO sidecar**. It exercised 46 public operations, with 42 tools exposed during the fresh phase and 28 during read-only reopen. Both phases reported normal native close, checkpoint publication and no recovery requirement. This is a scripted capability demonstration, not global app installation or a fully autonomous prompt-to-board result.
+
+The [native project](../../destination-interface-native-04/output/project/interface-pair-software-fixture.kicad_pro) has two footprints, six SMD pads, 12 tracks, two GND vias and one B.Cu plane. Its [PCB](../../destination-interface-native-04/output/project/interface-pair-software-fixture.kicad_pcb) is **18,516 bytes**, SHA-256 `565048e57bd021d1b05cc54b8bfeb6b6d865d5ee4dbb2356f94880e9ee8c3151`.
+
+| Saved-source measurement | Result |
+| --- | --- |
+| Pair width / central edge gap | 0.4 mm / 0.3 mm |
+| Central paired interval | 13.7 mm |
+| Each complete route | `19.7 + 0.3√2` mm, approximately 20.1242640687 mm |
+| Etch-length skew | Exactly zero; no delay-skew claim |
+| Uncoupled length per member | `6 + 0.3√2` mm, approximately 6.4242640687 mm, within the declared 7 mm budget |
+| Paired-interval model | 89.54317399767152 Ω at 100 MHz, within the synthetic 90 ± 10 Ω target |
+
+Overall impedance remains **unassessed**: the section model does not cover bends, launches, uncoupled portions, physical reference continuity or the finite-thickness applicability condition. Material and termination assertions remain unverified physical inputs. `boardAccepted`, `interfaceAccepted` and `fabricationAuthorized` remain false.
+
+Native endpoint checks reported DP, DN and GND connected. Configured native ERC/DRC collections were clean and DRC parity had zero findings; the reports retain their ignored-check lists. Complete ERC coverage remains unsupported because four default checks were ignored, and the plane check reported no direct thermal-pad witness. The fresh plane/interface assessment retained **12 passed / 27 unknown rows**; read-only reopen retained **3 passed / 36 unknown**, with no reconstructed fresh-fill witness.
+
+The six saved source files, PCB identity, requirements, bundle, canonical DRU, profile, implementation and IPC inventory matched across reopen; interface geometry/results were retained. This does not claim that `.history`, checkpoints or all output files were unchanged. The [fresh top preview](../../destination-interface-native-04/evidence/fresh-top.png) and [assembly preview](../../destination-interface-native-04/evidence/fresh-assembly.png) were inspected. The top view does not display the B.Cu plane.
+
+The [corrected independent artifact audit](../../destination-interface-native-04/evidence/audit.corrected.md) passes **68/68 required checks**; its [JSON record](../../destination-interface-native-04/evidence/audit.corrected.json) is SHA-256 `954469a9020b543d025fc81720c00f15fa6c696128bdc90a55f9ba6d10b2ea70`. The original 68/70 audit is preserved: two extra SVG byte-equality checks differed only in generated title timestamps. Both PNG pairs and every other SVG byte matched. The raw unequal SVG hashes remain recorded; no artifact was normalized or original native result rewritten.
+
+A separate post-close, read-only CLI [schematic export](../../destination-interface-native-04/evidence/schematic-review/interface-pair-software-fixture.svg) shows three distinct labeled connections and separated reference/value text, with no obvious crossing or text collision in the recorded visual review. Its [source-preservation record](../../destination-interface-native-04/evidence/visual-review.json) is separate from the 46 MCP operations and grants no additional acceptance.
 
 ## Completed software milestone
 
@@ -22,7 +47,7 @@ The runtime walker now validates at most four directories concurrently before th
 
 The [runtime-only comparison](../../destination-verification/runtime-directory-scheduler-01/comparison.json) observed factory time 8.884 to 7.306 seconds and revalidation 8.417 to 6.858 seconds. Every pass retained 20,861 directory operations and 192,705 file operations with the same bridge identity. These sequential, instrumented measurements can include cache effects; they are not native workflow qualification. The [complete runtime integration file](../../destination-verification/interface-runtime-integration-02.json) passed 115 tests. [Source/UI typechecking](../../destination-verification/interface-product-typecheck-02.log) and the [full rebuild](../../destination-verification/interface-product-build-02.log) also passed after this change.
 
-## Remaining work
+## Preserved attempts02/03 and planner/driver repairs
 
 Native attempt02 passed startup and initial native Save, then authored both connector symbols. Its [original result](../../destination-interface-native-02/evidence/result.json), SHA-256 `90a150a6bfb5da86fbc6d8aa532727d10c10263bff73cd2c4e0f7cd3233d25ed`, remains failed: the connectivity planner returned a nonmutating refusal and exhausted its existing placement-search budget. No pair routing or interface assessment followed. The six recorded public operations include normal failure finalization: editor close and checkpoint publication succeeded, recovery was not required, and the pre/post IPC inventory matched.
 
@@ -32,6 +57,6 @@ Pure replay isolated an interaction between outward global-label reservations an
 
 Native attempt03 completed connectivity authoring, native save, field repair and qualified synchronization of both footprints. Its [original result](../../destination-interface-native-03/evidence/result.json), SHA-256 `5ea7b7c32bd4cb10cf694a39ff429a2659c98f8da50e51fb9ed137a83ef2a831`, remains failed at a driver assertion: `fresh_get_contract_pad_positions` correctly exposes usable copper layers (`F.Cu`), while the driver expected technical mask/paste layers in that field. The ten recorded operations include normal failure finalization with checkpoint publication, no recovery requirement, and unchanged IPC inventory. It did not reach PCB placement or routing.
 
-The script now checks `F.Cu` on the public authoring projection and separately verifies `F.Cu/F.Mask/F.Paste` in complete saved pad definitions. The [captured native projection](../tests/fixtures/native-interface-pad-positions-20260910-03.json) is regression-tested; [27 driver tests](../../destination-verification/interface-driver-copper-layers-04.json) and the script-specific TypeScript check passed. This correction changes no production tool or board requirement. Native attempt04 remains pending.
+The script now checks `F.Cu` on the public authoring projection and separately verifies `F.Cu/F.Mask/F.Paste` in complete saved pad definitions. The [captured native projection](../tests/fixtures/native-interface-pad-positions-20260910-03.json) is regression-tested; [27 driver tests](../../destination-verification/interface-driver-copper-layers-04.json) and the script-specific TypeScript check passed. This correction changes no production tool or board requirement. The separate attempt04 above completes the native workflow without relabeling attempt03.
 
 This is a local software milestone, not completion of the chat PCB-toolbox goal, GitHub publication or the requested RP2350 board. Physical material/termination evidence, return-path/model applicability and whole-board acceptance remain separate.
