@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "evleda.recorded-runtime-overlay.v1",
+  "patchId": "0002-schematic-field-layout-revision3",
+  "distribution": {
+    "name": "kicad-mcp-pro",
+    "version": "3.33.3",
+    "publishedWheelAndMetadataUnchanged": true
+  },
+  "baseRuntime": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc1",
+  "resultingRuntime": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc2",
+  "patch": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/0002-schematic-field-layout-revision3.patch",
+    "sha256": "719de8711ab277bb75e2cdbcae302d4b9ac74ef48ab6f18a4fc911b374fde52a",
+    "sizeBytes": 30421
+  },
+  "baseManifest": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest-doc1.json",
+    "sha256": "d1004ff51b8d7001f220409f39a008439c3b2da65abc37e312c3d3a589fbaa0a",
+    "sizeBytes": 1573530
+  },
+  "manifest": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest-doc2.json",
+    "sha256": "3dd83cd7b2b6ba0d2c0cb92261275ac030e582ddaed6a208d2c7d198b280af2e",
+    "sizeBytes": 1573708
+  },
+  "manifestIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "776012d6c9fd4b50d875297b66e7317a57d90beb67fe7953a944092788042e0a",
+    "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+  },
+  "treeIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "2882a7f1ce9edf328db4ac413d68447ed103dcf6e2e64cb1c512c8c86fbe33dd",
+    "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+  },
+  "fileCount": 8460,
+  "directoryCount": 1158,
+  "totalBytes": 150304434,
+  "runtimeDelta": [
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "before": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+        "sha256": "b427bcf0de3091eab6586bc8338535903fc1f23566e8069555780bf3b63cf66b",
+        "sizeBytes": 232924
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+        "sha256": "c3fd448670a77ee817a78acba1512ebbea9f329f1fb3bed5ad9694f3e667b806",
+        "sizeBytes": 236358
+      }
+    },
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+        "sha256": "6164828e26cc9a614abe012d543b7b4d44b3d0cbcba19c3cad0a127906c9ffe1",
+        "sizeBytes": 20421
+      }
+    },
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "53c31fa012643ca278e7e02e20b6354b3d97eb9ace5893ae2d8fabfae28a6954",
+        "sizeBytes": 200
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "9ed6d9583b4fa790fb1172cbbc4090a52c752eed782e498c5385c64c3c1b5ac4",
+        "sizeBytes": 200
+      }
+    }
+  ],
+  "removedRuntimeFiles": [],
+  "unchangedCriticalFiles": [
+    {
+      "relativePath": "kicad-inspection-launcher.py",
+      "sha256": "6e14445317f1e4b6eed1df1f908437b9469fa6218861bc3a098d5c3582adcfed",
+      "sizeBytes": 4240
+    },
+    {
+      "relativePath": "evleda_live_pcb_document.py",
+      "sha256": "c824eac600fef0b21166d77c991397006a90415adff42df4b5c8b5e171bf8db4",
+      "sizeBytes": 8870
+    },
+    {
+      "relativePath": "process-tree-terminator.exe",
+      "sha256": "1249717315fc8f4d2df17d5db9da0444795fdb9fb83dfb1f763c3f39282244f7",
+      "sizeBytes": 118784
+    },
+    {
+      "relativePath": "environment/Scripts/python.exe",
+      "sha256": "2d8d20ef6e119ce9f129aaa63f81d7249b0853576e186725d93ca78614cd5f19",
+      "sizeBytes": 241152
+    },
+    {
+      "relativePath": "environment/Lib/site-packages/kicad_mcp_pro-3.33.3.dist-info/METADATA",
+      "sha256": "6bd08b36cb18b43b2584e37d2c6b344254d16b72472ed9e7b5ee7993865184f2",
+      "sizeBytes": 18349
+    },
+    {
+      "relativePath": "environment/Lib/site-packages/kicad_mcp_pro-3.33.3.dist-info/RECORD",
+      "sha256": "8fbb56ec0b42734d88f8fea6e489d3f4c4af57ca779df6d66a1a0e23988a7135",
+      "sizeBytes": 31101
+    }
+  ],
+  "stagedProvenance": {
+    "path": "D:/EvlEDA-field-layout-stage-20260909/evidence/provenance.json",
+    "sha256": "5baeb8e3fb1cd8155c806c4fc8c38b7a1810c6f49bcb8209098d70a9b116fc82",
+    "sizeBytes": 5097
+  },
+  "independentSourceReview": {
+    "revision": 3,
+    "status": "PASS",
+    "nativeExecutionPerformed": false
+  },
+  "installedOfflineTests": {
+    "testsRun": 26,
+    "failures": 0,
+    "errors": 0,
+    "success": true,
+    "nativeCalls": 0,
+    "sourceSha256Unchanged": "285e5f5e8d6cc9be864c17d86ffdab765b20a0d5454445709ac0848ea05ef1be",
+    "runtimeSchematicSha256Unchanged": "c3fd448670a77ee817a78acba1512ebbea9f329f1fb3bed5ad9694f3e667b806",
+    "python": "3.13.12 (main, Mar 24 2026, 22:56:40) [MSC v.1944 64 bit (AMD64)]",
+    "record": {
+      "path": "D:/EvlEDA-doc2-runtime-build-20260909/offline-suite/evidence/test-result.json",
+      "sha256": "c9842a084c80339be92d1f58959f28639cd64470cc89a3193bcf868f22a9645f",
+      "sizeBytes": 381
+    },
+    "script": {
+      "path": "D:/EvlEDA-doc2-runtime-build-20260909/offline-suite/tests/test_field_layout.py",
+      "sha256": "0cf8b84f6d4e14af12220dffbef5fa057afc31df38305ca49f93ac226dcf30ca",
+      "sizeBytes": 28368
+    }
+  },
+  "runtimeVerification": {
+    "path": "D:/EvlEDA-doc2-runtime-build-20260909/manifest-builder-verifications.json",
+    "sha256": "914173ce84342534f7b33b010a09d12ebbb8e27559ebcadc5d93d9db7863a19a",
+    "sizeBytes": 2136
+  },
+  "originalManifest": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest.json",
+    "sha256": "12e6c17842da2e3801f6f5f8457343447298e748507f3b5d529bf8857dc858e8",
+    "sizeBytes": 1573387
+  },
+  "oldRuntimeAndManifestPreserved": true,
+  "doc1RuntimeAndManifestPreserved": true,
+  "activeProfileOrAppChanged": false,
+  "publicAbiChanged": false,
+  "nativeReadabilityStatus": "NOT_RUN",
+  "guiOrModelOrNativeCalls": 0
+}

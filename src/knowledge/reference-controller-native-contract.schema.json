@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evleda.local/schemas/reference-controller-native-contract.v1.schema.json",
+  "title": "EvlEDA Rev-A native semantics contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profileId",
+    "boardRevision",
+    "scope",
+    "componentDesignators",
+    "requiredNativeNets",
+    "signalAliases",
+    "architectureNetAliases",
+    "schematicIntentRequiredSemanticNets",
+    "supplementalNativeNets",
+    "mcuPinFunctionOverrides",
+    "interfaceEndpointFingerprints",
+    "sourceBindings",
+    "referenceSetPolicy",
+    "identity"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "evleda.reference-controller-native-contract.v1"},
+    "profileId": {"const": "robotics-controller-v0"},
+    "boardRevision": {"const": "EVL-RC-G0-REV-A"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "qualification", "releaseAuthorized"],
+      "properties": {
+        "authority": {"const": "reviewed_native_candidate_semantics"},
+        "qualification": {"const": "candidate_only"},
+        "releaseAuthorized": {"const": false}
+      }
+    },
+    "componentDesignators": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mcu", "motor_driver", "buck_5v", "ldo_3v3", "can_transceiver", "usb_esd", "encoder_buffer", "sensor_power_switch"],
+      "properties": {
+        "mcu": {"$ref": "#/$defs/singleDesignator"},
+        "motor_driver": {"$ref": "#/$defs/doubleDesignator"},
+        "buck_5v": {"$ref": "#/$defs/singleDesignator"},
+        "ldo_3v3": {"$ref": "#/$defs/singleDesignator"},
+        "can_transceiver": {"$ref": "#/$defs/singleDesignator"},
+        "usb_esd": {"$ref": "#/$defs/singleDesignator"},
+        "encoder_buffer": {"$ref": "#/$defs/doubleDesignator"},
+        "sensor_power_switch": {"$ref": "#/$defs/singleDesignator"}
+      }
+    },
+    "requiredNativeNets": {
+      "type": "array",
+      "minItems": 48,
+      "maxItems": 48,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nativeNet"}
+    },
+    "signalAliases": {
+      "type": "object",
+      "minProperties": 37,
+      "maxProperties": 37,
+      "propertyNames": {"$ref": "#/$defs/semanticNet"},
+      "additionalProperties": {"$ref": "#/$defs/nativeNet"}
+    },
+    "architectureNetAliases": {
+      "type": "object",
+      "minProperties": 16,
+      "maxProperties": 16,
+      "propertyNames": {"$ref": "#/$defs/semanticNet"},
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 2,
+        "uniqueItems": true,
+        "items": {"$ref": "#/$defs/nativeNet"}
+      }
+    },
+    "schematicIntentRequiredSemanticNets": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/semanticNet"}
+    },
+    "supplementalNativeNets": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nativeNet"}
+    },
+    "mcuPinFunctionOverrides": {
+      "type": "object",
+      "minProperties": 4,
+      "maxProperties": 4,
+      "propertyNames": {"pattern": "^[1-9][0-9]?$"},
+      "additionalProperties": {"type": "string", "pattern": "^[A-Z0-9_/]+$", "maxLength": 80}
+    },
+    "interfaceEndpointFingerprints": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/interfaceFingerprint"}
+    },
+    "sourceBindings": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/sourceBinding"}
+    },
+    "referenceSetPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalPhysicalComponentSetSource", "positionExportPolicy", "requireExactPhysicalAgreementWith", "schematicNodeReferenceExclusions", "schematicSourceOnlyExclusions"],
+      "properties": {
+        "canonicalPhysicalComponentSetSource": {"const": "schematic_netlist_components"},
+        "positionExportPolicy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["boardSides", "excludeDnp", "honorPcbExcludeFromPositionFiles", "reviewedReferenceExclusions"],
+          "properties": {
+            "boardSides": {"const": ["top", "bottom"]},
+            "excludeDnp": {"const": true},
+            "honorPcbExcludeFromPositionFiles": {"const": true},
+            "reviewedReferenceExclusions": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/classifiedReference"}
+            }
+          }
+        },
+        "requireExactPhysicalAgreementWith": {
+          "const": ["exported_bom", "native_pcb", "positions"]
+        },
+        "schematicNodeReferenceExclusions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/classifiedReference"}
+        },
+        "schematicSourceOnlyExclusions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/classifiedReference"}
+        }
+      }
+    },
+    "identity": {"$ref": "#/$defs/canonicalIdentity"}
+  },
+  "$defs": {
+    "singleDesignator": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/reference"}
+    },
+    "doubleDesignator": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/reference"}
+    },
+    "reference": {"type": "string", "pattern": "^(?:#[A-Z]+|[A-Z]+)[0-9]+$", "maxLength": 32},
+    "nativeNet": {"type": "string", "minLength": 1, "maxLength": 100, "pattern": "^[+A-Z0-9_()-]+$"},
+    "semanticNet": {"type": "string", "minLength": 1, "maxLength": 100, "pattern": "^[A-Z0-9_]+$"},
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference", "pin"],
+      "properties": {
+        "reference": {"$ref": "#/$defs/reference"},
+        "pin": {"type": "string", "minLength": 1, "maxLength": 16, "pattern": "^[A-Z0-9]+$"}
+      }
+    },
+    "signalFingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nativeNet", "endpoints"],
+      "properties": {
+        "nativeNet": {"$ref": "#/$defs/nativeNet"},
+        "endpoints": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/endpoint"}
+        }
+      }
+    },
+    "interfaceFingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface", "signals"],
+      "properties": {
+        "interface": {"enum": ["USB", "CAN", "UART", "I2C", "SPI", "SWD", "ENCODER"]},
+        "signals": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/signalFingerprint"}
+        }
+      }
+    },
+    "contentIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest", "size"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size": {"type": "integer", "minimum": 1, "maximum": 16777216}
+      }
+    },
+    "sourceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "identity"],
+      "properties": {
+        "role": {"enum": ["exported_bom", "schematic_netlist", "engineering_bom", "native_pcb", "native_schematic", "positions"]},
+        "path": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[a-zA-Z0-9._/-]+$"},
+        "identity": {"$ref": "#/$defs/contentIdentity"}
+      }
+    },
+    "classifiedReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference", "classification"],
+      "properties": {
+        "reference": {"$ref": "#/$defs/reference"},
+        "classification": {"enum": ["mechanical_no_electrical_pins", "erc_power_flag_no_physical_component", "reviewed_position_export_exclusion"]}
+      }
+    },
+    "canonicalIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest", "schemaVersion", "canonicalizationVersion"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"const": "82044fa6dd7467e5c08eae734fe51d33e2bd04a854eb4b0b7a167c6fe8c47789"},
+        "schemaVersion": {"const": "evleda.reference-controller-native-contract.v1"},
+        "canonicalizationVersion": {"const": "evleda-c14n-json-v1"}
+      }
+    }
+  }
+}

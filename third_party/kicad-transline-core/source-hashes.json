@@ -1,0 +1,62 @@
+[
+  {
+    "path": "upstream\\LICENSE",
+    "sha256": "3972DC9744F6499F0F9B2DBF76696F2AE7AD8AF9B23DDE66D6AF86C9DFB36986"
+  },
+  {
+    "path": "upstream\\LICENSE.GPLv3",
+    "sha256": "3972DC9744F6499F0F9B2DBF76696F2AE7AD8AF9B23DDE66D6AF86C9DFB36986"
+  },
+  {
+    "path": "upstream\\LICENSE.README",
+    "sha256": "837B45BA5235FD506F60F906B2F68820CCB16A154568EAC19F5D3615CB9EE05D"
+  },
+  {
+    "path": "upstream\\transline_calculations\\coupled_microstrip.cpp",
+    "sha256": "68E377F0B373C7DA48A48E9113FF82A000FEFC534DFB413B1134D1C8C21E69D2"
+  },
+  {
+    "path": "upstream\\transline_calculations\\coupled_microstrip.h",
+    "sha256": "86F42F122935B234761442D9291E3A933C221D74360E7B6DBC48B95E71A10A8D"
+  },
+  {
+    "path": "upstream\\transline_calculations\\coupled_stripline.cpp",
+    "sha256": "A35C802BDD7289792828D11DE32339AC9F149BBE2AA6E601566DA3613C773745"
+  },
+  {
+    "path": "upstream\\transline_calculations\\coupled_stripline.h",
+    "sha256": "193ADC735C44A97AE2C3AC573C53CF91DE99BDEA58194E987FE35A0BE0049322"
+  },
+  {
+    "path": "upstream\\transline_calculations\\microstrip.cpp",
+    "sha256": "BBC553DD9F74217B868D3025E10A418DF2B9BD898E9AD20BC8FC421E86A2A277"
+  },
+  {
+    "path": "upstream\\transline_calculations\\microstrip.h",
+    "sha256": "65FFE756C50C0A8991981414115696D47A7B2B45DCA0BA2140935F7ABC729C6A"
+  },
+  {
+    "path": "upstream\\transline_calculations\\stripline.cpp",
+    "sha256": "EF1529115ACF7C9DC3E20736B3731B03F80FA73045FBF7B23077F6F1874E70C7"
+  },
+  {
+    "path": "upstream\\transline_calculations\\stripline.h",
+    "sha256": "7B0E772B578857E360AEF40FB1C5F743D11200709A87A3E0BAF9C0DDA54E3F90"
+  },
+  {
+    "path": "upstream\\transline_calculations\\transline_calculation_base.cpp",
+    "sha256": "9A21F6653653559AB0BBE4719AAB6F38DB2AAC1487FD068042E5FD3102D2D56A"
+  },
+  {
+    "path": "upstream\\transline_calculations\\transline_calculation_base.h",
+    "sha256": "DC0D65CF136E117DD05F8D97640B286E9A50BC1863BD4FA4378A1FC78EB9EDDA"
+  },
+  {
+    "path": "upstream\\transline_calculations\\units_scales.h",
+    "sha256": "923DD5D30EDAC22CD0B083E486176B02FAD0BAB44C072161C47150476080DF7B"
+  },
+  {
+    "path": "upstream\\transline_calculations\\units.h",
+    "sha256": "E1C16D0ADA9B5691BDD128875205C3D7D45FACD4C30BD5D330EF82FD059E4899"
+  }
+]

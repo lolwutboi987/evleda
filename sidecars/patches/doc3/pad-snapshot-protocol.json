@@ -1,0 +1,250 @@
+{
+  "toolName": "evleda_get_live_pcb_pad_snapshot",
+  "schemaVersion": "evleda.kicad-live-pcb-pad-snapshot.v1",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "requested_primitive_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "minItems": 0,
+        "maxItems": 512,
+        "uniqueItems": true
+      }
+    },
+    "required": [
+      "requested_primitive_ids"
+    ],
+    "additionalProperties": false
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "schemaVersion": {
+        "type": "string",
+        "const": "evleda.kicad-live-pcb-pad-snapshot.v1"
+      },
+      "documentBefore": {
+        "type": "object"
+      },
+      "documentAfter": {
+        "type": "object"
+      },
+      "boardSourceBefore": {
+        "type": "string",
+        "minLength": 1
+      },
+      "boardSourceAfter": {
+        "type": "string",
+        "minLength": 1
+      },
+      "enabledCopperLayers": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "maxItems": 32,
+        "uniqueItems": true
+      },
+      "enabledLayers": {
+        "type": "object",
+        "properties": {
+          "requestType": {
+            "type": "string"
+          },
+          "request": {
+            "type": "object"
+          },
+          "responseType": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "requestType",
+          "request",
+          "responseType",
+          "response"
+        ],
+        "additionalProperties": false
+      },
+      "padRecords": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "maxItems": 4096
+      },
+      "boardPadRecordIndexes": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxItems": 4096
+      },
+      "footprintInventory": {
+        "type": "object",
+        "properties": {
+          "requestType": {
+            "type": "string"
+          },
+          "request": {
+            "type": "object"
+          },
+          "responseType": {
+            "type": "string"
+          },
+          "responseMetadata": {
+            "type": "object"
+          },
+          "footprints": {
+            "type": "array",
+            "maxItems": 1024,
+            "items": {
+              "type": "object",
+              "properties": {
+                "footprintId": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "reference": {
+                  "type": "string"
+                },
+                "padRecordIndexes": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "maxItems": 4096
+                }
+              },
+              "required": [
+                "footprintId",
+                "reference",
+                "padRecordIndexes"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "requestType",
+          "request",
+          "responseType",
+          "responseMetadata",
+          "footprints"
+        ],
+        "additionalProperties": false
+      },
+      "padstackPresence": {
+        "type": "object",
+        "properties": {
+          "requestType": {
+            "type": "string"
+          },
+          "request": {
+            "type": "object"
+          },
+          "responseType": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "requestType",
+          "request",
+          "responseType",
+          "response"
+        ],
+        "additionalProperties": false
+      },
+      "connectivity": {
+        "type": "array",
+        "maxItems": 512,
+        "items": {
+          "type": "object",
+          "properties": {
+            "sourcePrimitiveId": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            "requestType": {
+              "type": "string"
+            },
+            "request": {
+              "type": "object"
+            },
+            "responseType": {
+              "type": "string"
+            },
+            "responseMetadata": {
+              "type": "object"
+            },
+            "padRecordIndexes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "maxItems": 4096
+            }
+          },
+          "required": [
+            "sourcePrimitiveId",
+            "requestType",
+            "request",
+            "responseType",
+            "responseMetadata",
+            "padRecordIndexes"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "schemaVersion",
+      "documentBefore",
+      "documentAfter",
+      "boardSourceBefore",
+      "boardSourceAfter",
+      "enabledCopperLayers",
+      "enabledLayers",
+      "padRecords",
+      "boardPadRecordIndexes",
+      "footprintInventory",
+      "padstackPresence",
+      "connectivity"
+    ],
+    "additionalProperties": false
+  },
+  "annotations": {
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "idempotentHint": true,
+    "openWorldHint": false
+  },
+  "outputSchemaCanonicalSha256": "8dba3fcbc787eee3c32a244e6c26095678b77c0bb33e3ad5082692976a4c4260",
+  "meta": null,
+  "wrapper": "one text JSON root plus exact structuredContent mirror and isError:false",
+  "limits": {
+    "maxRequested": 512,
+    "maxPads": 4096,
+    "maxFootprints": 1024,
+    "maxBoardSourceBytes": 1048576,
+    "maxResultBytes": 2093056,
+    "timeoutSeconds": 10.0
+  },
+  "protobufJson": "preserving_proto_field_name; standard omitted-default semantics except native presence response explicitly emits default-valued enums",
+  "interning": "complete raw PAD records interned by exact canonical JSON equality; changed same-UUID data causes entire capture failure; ordered response indexes preserve duplicates",
+  "emptySelection": "inventory only; no connectivity coverage implied"
+}

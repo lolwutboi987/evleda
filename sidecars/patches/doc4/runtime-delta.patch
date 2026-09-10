@@ -1,0 +1,821 @@
+--- a/kicad-inspection-launcher.py
++++ b/kicad-inspection-launcher.py
+@@ -142,6 +142,18 @@
+     batch_spec.loader.exec_module(batch_addon)
+     batch_addon.install(upstream_server)
+ 
++    plane_package = os.path.join(os.path.dirname(os.path.realpath(__file__)), "evleda_plane_stage")
++    plane_spec = importlib.util.spec_from_file_location(
++        "evleda_plane_stage", os.path.join(plane_package, "__init__.py"),
++        submodule_search_locations=[plane_package],
++    )
++    if plane_spec is None or plane_spec.loader is None:
++        _fail()
++    plane_addon = importlib.util.module_from_spec(plane_spec)
++    sys.modules[plane_spec.name] = plane_addon
++    plane_spec.loader.exec_module(plane_addon)
++    plane_addon.install(upstream_server)
++
+     upstream_server._run_server_from_options(
+         transport="stdio",
+         project_dir=None,
+--- a/environment/pyvenv.cfg
++++ b/environment/pyvenv.cfg
+@@ -1,4 +1,4 @@
+-home = D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc3\python
++home = D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc4\python
+ implementation = CPython
+ uv = 0.11.31
+ version_info = 3.13.12
+--- /dev/null
++++ b/evleda_plane_stage/__init__.py
+@@ -0,0 +1,274 @@
++"""Host-private WRITE plane stage with a full hash-bound artifact receipt.
++
++The frozen stage never saves/reverts. This adapter observes it synchronously;
++there is no cancellable background native worker or duplicated large MCP payload.
++"""
++from __future__ import annotations
++
++import copy
++import hashlib
++import json
++import os
++from pathlib import Path
++import stat
++import sys
++import threading
++import uuid
++from functools import wraps
++from typing import Any, Literal
++
++from jsonschema import Draft202012Validator
++from kicad_mcp.config import get_config
++from mcp.server.fastmcp.exceptions import ToolError
++from mcp.server.fastmcp.utilities.func_metadata import ArgModelBase, FuncMetadata
++from mcp.types import CallToolResult, TextContent, ToolAnnotations
++from pydantic import BaseModel, ConfigDict, StrictStr, model_validator
++
++from .native_ports import canonical_directory, identity, read_source
++from .plane_stage import bind_plane_stage
++from .typed_zone import TypedNativePlanePorts
++
++PACKAGE_ROOT = Path(__file__).resolve().parent
++PROTOCOL = json.loads((PACKAGE_ROOT / "protocol.json").read_text(encoding="utf-8"))
++TOOL_NAME = PROTOCOL["toolName"]
++INPUT_SCHEMA = PROTOCOL["inputSchema"]
++OUTPUT_SCHEMA = PROTOCOL["outputSchema"]
++ANNOTATIONS = PROTOCOL["annotations"]
++MAX_ARTIFACT_BYTES = PROTOCOL["maxArtifactBytes"]
++ARTIFACT_SCHEMA = "evleda.native-plane-stage-artifact.v1"
++_input_validator = Draft202012Validator(INPUT_SCHEMA)
++_output_validator = Draft202012Validator(OUTPUT_SCHEMA)
++_operation_lock = threading.Lock()
++
++
++def _validate_input(value: Any) -> dict[str, Any]:
++    if type(value) is not dict:
++        raise ValueError("Plane stage input must be an exact object")
++    _input_validator.validate(value)
++    # Snapshot caller-owned collections before any native request.
++    captured = json.loads(json.dumps(value, allow_nan=False))
++    if len(set(captured["zone_ids"])) != len(captured["zone_ids"]):
++        raise ValueError("Duplicate zone inventory")
++    ids = [pad["primitiveId"] for pad in captured["reference_pads"]]
++    if len(set(ids)) != len(ids):
++        raise ValueError("Duplicate physical reference pad")
++    return captured
++
++
++class _Arguments(ArgModelBase):
++    model_config = ConfigDict(extra="forbid", strict=True)
++    board_file: StrictStr
++    zone_ids: list[StrictStr]
++    reference_pads: list[dict[str, Any]]
++    request: dict[str, Any]
++
++    @model_validator(mode="before")
++    @classmethod
++    def exact(cls, value: Any) -> dict[str, Any]:
++        return _validate_input(value)
++
++
++class _Identity(BaseModel):
++    model_config = ConfigDict(extra="forbid", strict=True)
++    algorithm: Literal["sha256"]
++    digest: str
++    size: int
++
++
++class _Artifact(BaseModel):
++    model_config = ConfigDict(extra="forbid", strict=True)
++    schemaVersion: Literal["evleda.native-plane-stage-artifact.v1"]
++    filename: str
++    identity: _Identity
++
++
++class _ExactMetadata(FuncMetadata):
++    def pre_parse_json(self, data: dict[str, Any]) -> dict[str, Any]:
++        return dict(data)
++
++
++def _absolute(value: Any, label: str) -> str:
++    path = os.fspath(value) if isinstance(value, os.PathLike) else value
++    if type(path) is not str or not path or not os.path.isabs(path) or "\0" in path:
++        raise ValueError(f"Missing exact configured {label}")
++    absolute = os.path.abspath(path)
++    if os.path.normcase(os.path.normpath(path)) != os.path.normcase(absolute):
++        raise ValueError(f"Noncanonical configured {label}")
++    return absolute
++
++
++def _ordinary_file(path: str) -> tuple[int, int, int]:
++    info = os.lstat(path)
++    if (not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode) or info.st_nlink != 1
++            or getattr(info, "st_file_attributes", 0) & 0x400
++            or os.path.normcase(os.path.realpath(path, strict=True)) != os.path.normcase(path)):
++        raise ValueError("Configured project/board is not an ordinary single-link file")
++    return info.st_dev, info.st_ino, info.st_mode
++
++
++def _binding(board_file: str) -> dict[str, Any]:
++    cfg = get_config()
++    if cfg.operating_mode != "write":
++        raise ValueError("Plane staging requires write mode")
++    workspace = _absolute(cfg.workspace_root, "workspace root")
++    project = _absolute(cfg.project_dir, "project root")
++    project_file = _absolute(cfg.project_file, "project file")
++    board = _absolute(cfg.pcb_file, "PCB file")
++    output = _absolute(cfg.output_dir, "output root")
++    requested = _absolute(board_file, "requested PCB")
++    same = lambda a, b: os.path.normcase(a) == os.path.normcase(b)
++    if (not same(requested, board) or not same(os.path.dirname(board), project)
++            or not same(os.path.dirname(project_file), project)
++            or not board.casefold().endswith(".kicad_pcb") or not project_file.casefold().endswith(".kicad_pro")
++            or not same(os.path.commonpath([workspace, project]), workspace) or same(workspace, project)
++            or not same(os.path.commonpath([workspace, output]), workspace) or same(workspace, output)):
++        raise ValueError("Plane stage paths differ from the exact configured project/workspace")
++    roots = {name: canonical_directory(path) for name, path in (("workspace", workspace), ("project", project), ("output", output))}
++    return {"workspace": workspace, "project": project, "projectFile": project_file,
++            "board": board, "output": output, "rootWitnesses": roots,
++            "boardWitness": _ordinary_file(board), "projectWitness": _ordinary_file(project_file)}
++
++
++def _pad_bindings():
++    # Launcher loads this exact manifested sibling first. Do not discover an
++    # import path from input, ambient sys.path, .env or configured project data.
++    module = sys.modules.get("evleda_live_pcb_pad_snapshot")
++    expected = PACKAGE_ROOT.parent / "evleda_live_pcb_pad_snapshot.py"
++    if module is None or Path(getattr(module, "__file__", "")).resolve() != expected:
++        raise RuntimeError("Existing pinned PAD collector was not loaded from this runtime")
++    return module._owned_client, module.read_live_pcb_pad_snapshot
++
++
++def _artifact_witness(info: os.stat_result) -> tuple:
++    return info.st_dev, info.st_ino, info.st_mode, info.st_nlink, info.st_size, info.st_mtime_ns
++
++
++def _publish(fd: int, filename: str, binding: dict[str, Any], arguments: dict[str, Any], receipt: Any) -> dict[str, Any]:
++    if type(receipt) is not dict or receipt.get("schemaVersion") != "evleda.native-plane-stage.v1":
++        raise ValueError("Fixed stage did not return a complete receipt object")
++    if receipt.get("request") != arguments["request"] or type(receipt.get("complete")) is not bool or receipt.get("nativeSaveCalled") is not False:
++        raise ValueError("Fixed stage receipt contradicts the exact request/no-save boundary")
++    dispatched, recovery = receipt.get("mutationDispatched"), receipt.get("recoveryRequired")
++    if type(dispatched) is not bool or type(recovery) is not bool or receipt["complete"] and (not dispatched or recovery) or not receipt["complete"] and dispatched and not recovery:
++        raise ValueError("Fixed stage receipt has inconsistent completion/recovery flags")
++    data = json.dumps(receipt, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode("utf-8")
++    if not 0 < len(data) <= MAX_ARTIFACT_BYTES:
++        raise ValueError("Full stage receipt exceeds the artifact bound; never truncate")
++    if _binding(arguments["board_file"]) != binding:
++        raise ValueError("Configured roots/files changed before artifact publication")
++    target = os.path.join(binding["output"], filename)
++    opened = os.fstat(fd)
++    if (not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1 or opened.st_size != 0
++            or _artifact_witness(opened) != _artifact_witness(os.lstat(target))):
++        raise ValueError("Reserved artifact no longer has its exclusive ordinary identity")
++    written = 0
++    while written < len(data):
++        count = os.write(fd, data[written:])
++        if count <= 0:
++            raise OSError("Incomplete stage receipt write")
++        written += count
++    os.fsync(fd)
++    saved = os.fstat(fd)
++    if saved.st_size != len(data) or saved.st_nlink != 1 or saved.st_dev != opened.st_dev or saved.st_ino != opened.st_ino:
++        raise ValueError("Artifact physical identity changed during write")
++    if _artifact_witness(os.lstat(target)) != _artifact_witness(saved) or _binding(arguments["board_file"]) != binding:
++        raise ValueError("Artifact/path binding changed during publication")
++    with open(target, "rb") as handle:
++        before = os.fstat(handle.fileno())
++        if _artifact_witness(before) != _artifact_witness(saved):
++            raise ValueError("Artifact changed before exact readback")
++        observed = handle.read(MAX_ARTIFACT_BYTES + 1)
++        if observed != data or _artifact_witness(os.fstat(handle.fileno())) != _artifact_witness(before):
++            raise ValueError("Full artifact readback differs")
++    if _artifact_witness(os.lstat(target)) != _artifact_witness(saved):
++        raise ValueError("Artifact path changed after exact readback")
++    result = {"schemaVersion": ARTIFACT_SCHEMA, "filename": filename, "identity": identity(data)}
++    _output_validator.validate(result)
++    return result
++
++
++def stage_plane(arguments: Any) -> CallToolResult:
++    arguments = _validate_input(arguments)
++    if not _operation_lock.acquire(blocking=False):
++        raise ToolError("PLANE_STAGE_BUSY: another observed plane operation is in progress")
++    fd = None
++    stage_entered = False
++    filename = None
++    try:
++        binding = _binding(arguments["board_file"])
++        # Verify readability before any native work; source identity itself is
++        # checked again by the fixed stage against the host's exact observation.
++        read_source(binding["board"])
++        filename = f"evleda-plane-stage-{uuid.uuid4()}.json"
++        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
++        fd = os.open(os.path.join(binding["output"], filename), flags, 0o600)
++        if _binding(arguments["board_file"]) != binding:
++            raise ValueError("Configured binding changed while reserving artifact")
++        client_getter, pad_capture = _pad_bindings()
++        ports = TypedNativePlanePorts(client_getter, pad_capture)
++        stage = bind_plane_stage({"outputRoot": binding["workspace"], "projectRoot": binding["project"],
++            "boardPath": binding["board"], "zoneIds": arguments["zone_ids"], "referencePads": arguments["reference_pads"]}, ports)
++        stage_entered = True
++        # Synchronous and fully observed: no wait_for/to_thread cancellation.
++        receipt = stage(arguments["request"])
++        reference = _publish(fd, filename, binding, arguments, receipt)
++        os.close(fd); fd = None
++        text = json.dumps(reference, ensure_ascii=False, separators=(",", ":"))
++        return CallToolResult(content=[TextContent(type="text", text=text)], structuredContent=reference, isError=False)
++    except Exception as error:
++        phase = "UNCERTAIN_RECOVERY_REQUIRED" if stage_entered else "REJECTED_BEFORE_STAGE"
++        # Once the stage was entered, even artifact failure must never claim
++        # no mutation. Keep any exclusive partial artifact as diagnostic evidence.
++        raise ToolError(f"PLANE_STAGE_{phase}: {str(error)[:1000]}; reservedArtifact={filename or 'none'}") from error
++    finally:
++        try:
++            if fd is not None:
++                try:
++                    os.close(fd)
++                except OSError:
++                    # The explicit publication close above is classified. A
++                    # secondary close failure must not replace that primary
++                    # uncertain-stage error with an unclassified exception.
++                    pass
++        finally:
++            _operation_lock.release()
++
++
++def register(server: Any) -> None:
++    if get_config().operating_mode != "write":
++        return
++    from kicad_mcp.capabilities import AccessTier, CapabilityRecord, RuntimeRequirement, ToolMaturity
++    from kicad_mcp.capabilities import get as get_capability, register as register_capability
++    record = CapabilityRecord(name=TOOL_NAME, profiles=frozenset({"full"}), tier=AccessTier.WRITE,
++        category="pcb", runtime=RuntimeRequirement.KICAD_IPC, writes_files=True,
++        writes_kicad_gui_state=True, supports_dry_run=False, supports_rollback=False,
++        description="Host-private bounded unsaved native plane stage; returns only a full-receipt artifact reference, never saves or reverts.",
++        verification_level="fixed-stage-source-and-offline-artifact-adapter-regressions",
++        maturity=ToolMaturity.EXPERIMENTAL, tested_kicad_versions=())
++    existing = get_capability(TOOL_NAME)
++    if existing is not None and existing != record:
++        raise RuntimeError("Private plane stage capability differs from its fixed definition")
++    register_capability(record)
++    def evleda_stage_plane(board_file: str, zone_ids: list[str], reference_pads: list[dict[str, Any]], request: dict[str, Any]) -> CallToolResult:
++        return stage_plane({"board_file": board_file, "zone_ids": zone_ids, "reference_pads": reference_pads, "request": request})
++    server.add_tool(evleda_stage_plane, name=TOOL_NAME, description=record.description,
++        annotations=ToolAnnotations(**ANNOTATIONS), structured_output=False)
++    tool = server._tool_manager.get_tool(TOOL_NAME)
++    if tool is None or tool.fn is not evleda_stage_plane:
++        raise RuntimeError("Private plane stage did not register exactly")
++    tool.parameters = copy.deepcopy(INPUT_SCHEMA)
++    tool.fn_metadata = _ExactMetadata(arg_model=_Arguments, output_model=_Artifact,
++        output_schema=copy.deepcopy(OUTPUT_SCHEMA), wrap_output=False)
++    if getattr(server, "allowed_tool_names", None) is not None:
++        server.allowed_tool_names.add(TOOL_NAME)
++
++
++def install(server_module: Any) -> None:
++    original = server_module.build_server
++    if getattr(original, "_evleda_plane_stage_installed", False):
++        raise RuntimeError("Private plane stage addon already installed")
++    @wraps(original)
++    def build_server(*args: Any, **kwargs: Any) -> Any:
++        server = original(*args, **kwargs); register(server); return server
++    build_server._evleda_plane_stage_installed = True
++    server_module.build_server = build_server
+--- /dev/null
++++ b/evleda_plane_stage/native_ports.py
+@@ -0,0 +1,199 @@
++"""Isolated fixed native adapter; extracted from verified attempt3. No launch or CLI."""
++import copy
++import hashlib
++import json
++import os
++import re
++import stat
++import time
++
++SCHEMA = "evleda.native-plane-fill-capture.v1"
++UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
++MAX_SOURCE = 1024 * 1024  # Matches the existing DOC3 PAD collector.
++MAX_PAYLOAD = 8 * 1024 * 1024
++MAX_ZONES = 32
++MAX_REFERENCES = 128
++TOTAL_SECONDS = 60.0
++
++def rpc_timeout_ms(request, remaining):
++    if remaining <= 0: raise PlaneCaptureError('Plane RPC aggregate deadline exhausted')
++    cap=1000
++    if request.DESCRIPTOR.full_name=='kiapi.common.commands.RunAction':
++        if request.action not in ('pcbnew.ZoneFiller.zoneUnfillAll','pcbnew.ZoneFiller.zoneFillAll'):
++            raise PlaneCaptureError('Only fixed plane actions permitted')
++        cap=25000
++    # kipy applies one timeout to send and receive; reserve both under deadline.
++    return max(1,min(cap,int(remaining*1000/2)))
++
++
++class PlaneCaptureError(RuntimeError):
++    def __init__(self, message, refill_dispatched=False):
++        super().__init__(message)
++        self.refill_dispatched = refill_dispatched
++        self.recovery_required = refill_dispatched
++
++
++def identity(data):
++    if isinstance(data, str):
++        data = data.encode("utf-8")
++    return {"algorithm": "sha256", "digest": hashlib.sha256(data).hexdigest(), "size": len(data)}
++
++
++def canonical_directory(directory):
++    absolute = os.path.abspath(directory)
++    if os.path.normcase(os.path.realpath(absolute, strict=True)) != os.path.normcase(absolute):
++        raise PlaneCaptureError("Plane project contains an alias")
++    cursor = absolute
++    while True:
++        metadata = os.lstat(cursor)
++        if not stat.S_ISDIR(metadata.st_mode) or stat.S_ISLNK(metadata.st_mode) or getattr(metadata, "st_file_attributes", 0) & 0x400:
++            raise PlaneCaptureError("Plane project contains a link/reparse point")
++        parent = os.path.dirname(cursor)
++        if parent == cursor:
++            break
++        cursor = parent
++    metadata = os.stat(absolute)
++    return (metadata.st_dev, metadata.st_ino, metadata.st_mode)
++
++
++def read_source(filename):
++    before = os.lstat(filename)
++    if not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode) or before.st_nlink != 1 or before.st_size > MAX_SOURCE:
++        raise PlaneCaptureError("Saved plane source is not an ordinary bounded single-link file")
++    witness = lambda value: (value.st_dev, value.st_ino, value.st_mode, value.st_nlink, value.st_size, value.st_mtime_ns, value.st_ctime_ns)
++    # Python on Windows can expose creation/change time differently through
++    # path lstat and descriptor fstat. Keep each channel's full witness stable;
++    # compare their common physical/file fields across channels, not ctime.
++    common = lambda value: witness(value)[:-1]
++    with open(filename, "rb") as handle:
++        opened = os.fstat(handle.fileno())
++        if common(opened) != common(before):
++            raise PlaneCaptureError("Saved plane source changed while opening")
++        data = handle.read(MAX_SOURCE + 1)
++        if witness(os.fstat(handle.fileno())) != witness(opened):
++            raise PlaneCaptureError("Saved plane source changed while reading")
++    if len(data) != before.st_size or witness(os.lstat(filename)) != witness(before):
++        raise PlaneCaptureError("Saved plane source changed during capture")
++    return data.decode("utf-8", errors="strict")
++
++
++class NativePlanePorts:
++    """Fixed adapter for later DOC4 composition; imports no paths from requests.
++
++    Pass DOC3's read_live_pcb_pad_snapshot as pad_capture. That existing helper
++    validates complete raw item metadata, ownership, per-pad requests and caps.
++    """
++    def __init__(self, client_getter, pad_capture):
++        self.client = client_getter()
++        self.board = self.client.get_board()
++        self.pad_capture = pad_capture
++        self.calls = []
++
++    def begin(self, deadline):
++        from google.protobuf.json_format import MessageToDict
++        self.original_send = self.client._client.send
++        self.original_timeout = self.client._client._timeout_ms
++        self.calls = []
++        def send(request, response_type):
++            remaining = deadline - time.monotonic()
++            if remaining <= 0 or len(self.calls) >= 1024:
++                raise PlaneCaptureError("Plane RPC deadline/count bound exceeded", True)
++            # Bound each send+receive pair by remaining aggregate time.
++            timeout = rpc_timeout_ms(request,remaining)
++            transport = self.client._client
++            transport._timeout_ms = timeout
++            if transport.connected:
++                transport._conn.send_timeout = timeout
++                transport._conn.recv_timeout = timeout
++            item = {"requestType": request.DESCRIPTOR.full_name, "request": MessageToDict(request, preserving_proto_field_name=True)}
++            self.calls.append(item)
++            try:
++                response = self.original_send(request, response_type)
++            except Exception as error:
++                item["error"] = {"type": type(error).__name__, "code": getattr(error, "code", None), "message": str(error)}
++                raise
++            item.update(responseType=response.DESCRIPTOR.full_name, response=MessageToDict(response, preserving_proto_field_name=True))
++            return response
++        self.client._client.send = send
++
++    def end(self):
++        if hasattr(self, "original_send"):
++            self.client._client.send = self.original_send
++            self.client._client._timeout_ms = self.original_timeout
++            if self.client._client.connected:
++                self.client._client._conn.send_timeout = self.original_timeout
++                self.client._client._conn.recv_timeout = self.original_timeout
++
++    def document(self):
++        from google.protobuf.json_format import MessageToDict
++        from kipy.proto.common.types import DocumentType
++        docs = list(self.client.get_open_documents(DocumentType.DOCTYPE_PCB))
++        if len(docs) != 1 or self.board.document != docs[0]:
++            raise PlaneCaptureError("Expected one unchanged native PCB document")
++        return MessageToDict(docs[0], preserving_proto_field_name=True)
++
++    def source(self):
++        source = self.board.get_as_string()
++        if not source or len(source.encode("utf-8")) > MAX_SOURCE:
++            raise PlaneCaptureError("Complete native source exceeds bounded PAD capture support", True)
++        return source
++
++    def zones(self):
++        from google.protobuf.json_format import MessageToDict
++        from kipy.proto.board.board_types_pb2 import BoardLayer
++        start = len(self.calls)
++        zones = list(self.board.get_zones())
++        if len(zones) > MAX_ZONES:
++            raise PlaneCaptureError("Too many native zones; no truncated capture", True)
++        calls = self.calls[start:]
++        if len(calls) != 1:
++            raise PlaneCaptureError("Unexpected native zone request sequence", True)
++        call = calls[0]
++        response = call.get("response", {})
++        header = response.get("header", {})
++        document = MessageToDict(self.board.document, preserving_proto_field_name=True)
++        if call["requestType"] != "kiapi.common.commands.GetItems" or call["request"].get("types") != ["KOT_PCB_ZONE"] or call["request"].get("header", {}).get("document") != document:
++            raise PlaneCaptureError("Zone inventory request is not exact and document-bound", True)
++        if call.get("responseType") != "kiapi.common.commands.GetItemsResponse" or response.get("status") != "IRS_OK" or len(response.get("items", [])) != len(zones):
++            raise PlaneCaptureError("Native zone response is not a complete successful inventory", True)
++        if header.get("document", document) != document or header.get("container", {}).get("value") or header.get("field_mask"):
++            raise PlaneCaptureError("Native zone inventory is partial or belongs to another document", True)
++        result = []
++        for zone in zones:
++            raw_layers = [entry.layer for entry in zone.proto.filled_polygons]
++            if len(raw_layers) != len(set(raw_layers)):
++                raise PlaneCaptureError("Native zone repeats a fill layer; no overwritten capture", True)
++            polygons = {BoardLayer.Name(layer): [MessageToDict(p.proto, preserving_proto_field_name=True) for p in values]
++                        for layer, values in zone.filled_polygons.items()}
++            all_polygons = [polygon for values in polygons.values() for polygon in values]
++            result.append({"uuid": zone.id.value, "filled": zone.filled,
++                "raw": MessageToDict(zone.proto, preserving_proto_field_name=True), "filledPolygons": polygons,
++                "fillCounts": {"layerCount": len(polygons), "polygonCount": len(all_polygons),
++                    "typedHoleCount": sum(len(p.get("holes", [])) for p in all_polygons),
++                    "outlineNodeCount": sum(len(p.get("outline", {}).get("nodes", [])) for p in all_polygons)}})
++        return result
++
++    def unfill_immediate(self):
++        from kipy.proto.common.commands.editor_commands_pb2 import RunActionStatus
++        response = self.client.run_action("pcbnew.ZoneFiller.zoneUnfillAll")
++        if response.status != RunActionStatus.RAS_OK:
++            raise PlaneCaptureError("Fixed native unfill action was not acknowledged", True)
++    def refill_immediate(self):
++        from kipy.proto.common.commands.editor_commands_pb2 import RunActionStatus
++        response = self.client.run_action("pcbnew.ZoneFiller.zoneFillAll")
++        if response.status != RunActionStatus.RAS_OK:
++            raise PlaneCaptureError("Fixed native fill action was not acknowledged", True)
++    def save(self): self.board.save()
++    def receipts(self): return copy.deepcopy(self.calls)
++    def pad_snapshot(self, ids):
++        result = self.pad_capture(ids, client_getter=lambda: self.client)
++        if result.isError or result.structuredContent is None:
++            raise PlaneCaptureError("Existing complete native PAD capture failed", True)
++        return result.structuredContent
++    @staticmethod
++    def is_busy(error):
++        from kipy.errors import ApiError
++        from kipy.proto.common import ApiStatusCode
++        return isinstance(error, ApiError) and error.code == ApiStatusCode.AS_BUSY
++
++
+--- /dev/null
++++ b/evleda_plane_stage/plane_stage.py
+@@ -0,0 +1,179 @@
++"""Host-private unsaved plane stage. No process launch, save, token or model API.
++
++The host must establish saved/live equivalence before passing their independent
++exact identities, keep its operation queue locked, validate this full receipt,
++then use its EXISTING persistence/save/readback guard. A receipt is not acceptance.
++"""
++import copy
++import json
++import os
++import threading
++import time
++from .native_ports import (PlaneCaptureError, identity, read_source, canonical_directory,
++                          UUID, MAX_ZONES, MAX_REFERENCES, MAX_PAYLOAD, TOTAL_SECONDS)
++
++
++def _identity(value):
++    if not isinstance(value, dict) or set(value) != {'algorithm', 'digest', 'size'}:
++        raise ValueError('Expected exact content identity')
++    if value['algorithm'] != 'sha256' or not isinstance(value['digest'], str) or len(value['digest']) != 64 or any(c not in '0123456789abcdef' for c in value['digest']):
++        raise ValueError('Invalid SHA256 identity')
++    if type(value['size']) is not int or not 0 < value['size'] <= 1024*1024:
++        raise ValueError('Invalid source byte count')
++
++
++def _settings(zones):
++    result = {}
++    for zone in zones:
++        raw = copy.deepcopy(zone['raw'])
++        # Exactly the two pinned Zone descriptor cache fields; not recursive.
++        raw.pop('filled', None)
++        raw.pop('filled_polygons', None)
++        result[zone['uuid']] = raw
++    return result
++
++
++def bind_plane_stage(binding, ports, *, monotonic=time.monotonic, sleep=time.sleep):
++    binding = json.loads(json.dumps(binding, allow_nan=False))
++    if set(binding) != {'outputRoot','projectRoot','boardPath','zoneIds','referencePads'}:
++        raise ValueError('Unexpected host binding fields')
++    output, project, board = (binding[k] for k in ('outputRoot','projectRoot','boardPath'))
++    if not all(isinstance(p,str) and os.path.isabs(p) for p in (output,project,board)):
++        raise ValueError('Absolute host paths required')
++    if os.path.commonpath([output,project]) != output or output == project or os.path.dirname(board) != project or not board.endswith('.kicad_pcb'):
++        raise ValueError('Board must be inside exact owned project under output')
++    roots = (canonical_directory(output),canonical_directory(project))
++    ids = binding['zoneIds']
++    if not isinstance(ids,list) or not 0 <= len(ids) <= MAX_ZONES or any(not isinstance(i,str) or not UUID.fullmatch(i) for i in ids) or len(set(ids)) != len(ids):
++        raise ValueError('Invalid complete initial zone inventory')
++    refs=binding['referencePads']
++    if not isinstance(refs,list) or not 1 <= len(refs) <= MAX_REFERENCES:
++        raise ValueError('Physical reference pads required')
++    for p in refs:
++        if not isinstance(p,dict) or set(p) != {'reference','pad','primitiveId'} or not isinstance(p['primitiveId'],str) or not UUID.fullmatch(p['primitiveId']) or any(not isinstance(p[k],str) or not 1 <= len(p[k]) <= 64 for k in ('reference','pad')):
++            raise ValueError('Invalid physical pad binding')
++    pad_ids=[p['primitiveId'] for p in refs]
++    if len(set(pad_ids)) != len(pad_ids): raise ValueError('Duplicate physical pad')
++    lock=threading.Lock()
++
++    def stage(request):
++        request=json.loads(json.dumps(request,allow_nan=False))
++        if set(request) not in ({'expectedSavedIdentity','expectedLiveIdentity'}, {'expectedSavedIdentity','expectedLiveIdentity','mutation'}):
++            raise ValueError('Unexpected stage request fields')
++        for key in ('expectedSavedIdentity','expectedLiveIdentity'): _identity(request[key])
++        if not lock.acquire(blocking=False): raise ValueError('Concurrent stage forbidden')
++        deadline=monotonic()+TOTAL_SECONDS
++        receipt={'schemaVersion':'evleda.native-plane-stage.v1','complete':False,'nativeSaveCalled':False,
++                 'mutationDispatched':False,'recoveryRequired':False,'request':request,
++                 'assurance':{'accepted':False,'minimumSpokes':'not_configured_by_zone_api','highFrequencyValidity':'not_established'}}
++        def fence():
++            if monotonic() >= deadline: raise PlaneCaptureError('Aggregate stage deadline exceeded')
++            if (canonical_directory(output),canonical_directory(project)) != roots: raise PlaneCaptureError('Owned roots changed')
++        def document():
++            fence(); doc=ports.document()
++            actual=os.path.join(doc['project']['path'],doc['board_filename'])
++            if os.path.normcase(actual) != os.path.normcase(board): raise PlaneCaptureError('Wrong exact native document')
++            return doc
++        def zones(expected):
++            fence(); zs=ports.zones()
++            if len(zs)!=len(expected) or len(zs)>MAX_ZONES or {z['uuid'] for z in zs} != set(expected): raise PlaneCaptureError('Changed complete zone inventory')
++            return zs
++        def unchanged_disk():
++            if read_source(board)!=receipt['savedSourceBefore']: raise PlaneCaptureError('Saved preimage changed during unsaved stage')
++        try:
++            ports.begin(deadline)
++            receipt['document']=document()
++            saved=read_source(board); live=ports.source()
++            receipt.update(savedSourceBefore=saved,nativeSourceBefore=live)
++            if identity(saved)!=request['expectedSavedIdentity'] or identity(live)!=request['expectedLiveIdentity']:
++                raise PlaneCaptureError('Host-observed saved/live preimage identity changed')
++            before=zones(ids); receipt['zonesBefore']=before
++            # Validate mutation completely without dispatch, including native net/layer.
++            candidate=ports.prepare_mutation(request['mutation'],before) if 'mutation' in request else None
++            fence()
++            if document()!=receipt['document'] or read_source(board)!=saved or ports.source()!=live:
++                raise PlaneCaptureError('Preimage changed immediately before dispatch')
++            target_ids=list(ids)
++            expected_baseline={z['uuid']:copy.deepcopy(z['raw']) for z in before}
++            if candidate is not None:
++                receipt['mutationDispatched']=True
++                changed=ports.apply_mutation(candidate)
++                receipt['zoneMutation']=changed
++                new_id=changed['zoneId']
++                if not isinstance(new_id,str) or not UUID.fullmatch(new_id): raise PlaneCaptureError('Mutation returned noncanonical zone UUID')
++                if changed['operation']=='create':
++                    if new_id in target_ids: raise PlaneCaptureError('Creation returned preexisting zone UUID')
++                    target_ids.append(new_id)
++                elif changed['operation']!='update' or new_id!=request['mutation']['zoneId']:
++                    raise PlaneCaptureError('Update returned another zone UUID')
++                expected_baseline[changed['zoneId']]=copy.deepcopy(changed['returnedProto'])
++            baseline=zones(target_ids)
++            if not baseline: raise PlaneCaptureError('No copper zones to refill')
++            receipt['zonesBeforeUnfill']=baseline
++            if {z['uuid']:z['raw'] for z in baseline} != expected_baseline:
++                raise PlaneCaptureError('Postmutation inventory differs from exact returned target and untouched prior zones')
++            # The preceding inventory RPC is read-only; fence sources again for
++            # refill-only stages immediately before their first real mutation.
++            if candidate is None and (document()!=receipt['document'] or read_source(board)!=saved or ports.source()!=live):
++                raise PlaneCaptureError('Preimage changed immediately before unfill dispatch')
++            receipt['mutationDispatched']=True
++            ports.unfill_immediate()
++            unfilled=zones(target_ids); receipt['zonesUnfilled']=unfilled
++            receipt['nativeSourceUnfilled']=ports.source()
++            if any(z['filled'] or any(z['filledPolygons'].values()) for z in unfilled): raise PlaneCaptureError('Unfill did not establish empty caches')
++            if _settings(baseline)!=_settings(unfilled): raise PlaneCaptureError('Unfill changed non-cache zone fields')
++            unchanged_disk()
++            if document()!=receipt['document']: raise PlaneCaptureError('Document changed after unfill')
++            ports.refill_immediate()
++            busy=0
++            while True:
++                try: filled=zones(target_ids); break
++                except Exception as error:
++                    if not ports.is_busy(error): raise
++                    fence(); busy+=1; sleep(min(.1,max(0,deadline-monotonic())))
++            receipt['zonesStaged']=filled
++            if any(not z['filled'] or not any(z['filledPolygons'].values()) for z in filled): raise PlaneCaptureError('Fill failed to advance empty caches to filled state')
++            if _settings(baseline)!=_settings(filled): raise PlaneCaptureError('Fill changed non-cache zone fields')
++            receipt['epoch']={'unfillAction':'pcbnew.ZoneFiller.zoneUnfillAll','fillAction':'pcbnew.ZoneFiller.zoneFillAll','unfilledObserved':True,'filledObserved':True,'busyPollCount':busy}
++            native=ports.source(); snapshot=ports.pad_snapshot(pad_ids)
++            receipt.update(nativeSourceStaged=native,padSnapshot=snapshot)
++            queries=snapshot['connectivity']; records=snapshot['padRecords']
++            if [q['sourcePrimitiveId'] for q in queries]!=pad_ids: raise PlaneCaptureError('Incomplete individual-pad query inventory')
++            owners={}
++            for fp in snapshot['footprintInventory']['footprints']:
++                for index in fp['padRecordIndexes']:
++                    p=records[index]; key=p['id']['value']
++                    if key in owners: raise PlaneCaptureError('Duplicate physical-pad ownership')
++                    owners[key]=(fp['reference'],p.get('number',''))
++            for ref,q in zip(refs,queries):
++                if owners.get(ref['primitiveId'])!=(ref['reference'],ref['pad']) or q['request']['items']!=[{'value':ref['primitiveId']}] or q['request']['types']!=['KOT_PCB_PAD']:
++                    raise PlaneCaptureError('PAD query is not exact individually owned source')
++            if snapshot['boardSourceBefore']!=native or snapshot['boardSourceAfter']!=native or ports.source()!=native: raise PlaneCaptureError('Source drift during PAD capture')
++            unchanged_disk()
++            if document()!=receipt['document']: raise PlaneCaptureError('Final document changed')
++            receipt['savedSourceStaged']=read_source(board)
++            if receipt['savedSourceStaged']!=saved: raise PlaneCaptureError('Final saved source differs from preimage')
++            receipt['identities']={k:identity(receipt[k]) for k in ('savedSourceBefore','nativeSourceBefore','nativeSourceUnfilled','savedSourceStaged','nativeSourceStaged')}
++            receipt['counts']={'physicalPads':len(records),'individualQueries':len(queries),'returnedPadsPerQuery':[len(q['padRecordIndexes']) for q in queries]}
++            receipt['complete']=True
++        except Exception as error:
++            receipt.update(error={'type':type(error).__name__,'message':str(error)},recoveryRequired=receipt['mutationDispatched'])
++            if hasattr(error,'mutation_receipt'): receipt['zoneMutation']=error.mutation_receipt
++            # No blind revert: a GUI edit might explain the failure. Host owns rollback.
++            for key,read in [('currentSavedSource',lambda:read_source(board)),('currentNativeSource',ports.source)]:
++                try: fence(); receipt[key]=read(); receipt[key+'Identity']=identity(receipt[key])
++                except Exception as observation_error: receipt[key+'Error']=str(observation_error)
++        finally:
++            try:
++                try: receipt['rpc']=ports.receipts()
++                except Exception as error: receipt.update(complete=False,recoveryRequired=receipt['mutationDispatched'],rpcReceiptError=str(error),rpc=[])
++            finally:
++                try:
++                    try: ports.end()
++                    except Exception as error: receipt.update(complete=False,recoveryRequired=receipt['mutationDispatched'],transportRestorationError=str(error))
++                finally: lock.release()
++        if len(json.dumps(receipt,allow_nan=False).encode('utf-8'))>MAX_PAYLOAD:
++            # Never emit a truncated positive/partial geometry receipt.
++            raise PlaneCaptureError('Complete stage receipt exceeds payload cap; host must retain recovery state',receipt['mutationDispatched'])
++        return receipt
++    return stage
+--- /dev/null
++++ b/evleda_plane_stage/typed_zone.py
+@@ -0,0 +1,124 @@
++"""Closed host-only rectangle mutation adapter for pinned KiCad10/kipy.
++
++minimumSpokes is retained as an external DRC requirement, NOT a Zone setter.
++No action names, code, runtime paths, or arbitrary protobufs accepted as input.
++"""
++import copy
++import re
++from .native_ports import NativePlanePorts, PlaneCaptureError, UUID
++
++
++def validate_mutation(value):
++    required={'operation','netName','layer','rectangleNm','clearanceNm','minWidthNm','connection','islandPolicy','priority','name'}
++    if not isinstance(value,dict) or value.get('operation') not in ('create','update'):
++        raise ValueError('Expected typed create/update rectangle mutation')
++    if value.get('connection')=='thermal': required|={'thermalGapNm','thermalSpokeWidthNm','minimumSpokes'}
++    if value.get('islandPolicy')=='area': required.add('minIslandAreaNm2')
++    if set(value)!=(required|({'zoneId'} if value['operation']=='update' else set())):
++        raise ValueError('Unexpected rectangle mutation fields')
++    if 'zoneId' in value and (not isinstance(value['zoneId'],str) or not UUID.fullmatch(value['zoneId'])): raise ValueError('Invalid zone UUID')
++    for key in ('netName','name'):
++        if not isinstance(value[key],str) or not 1<=len(value[key])<=128 or any(ord(c)<32 for c in value[key]): raise ValueError('Invalid zone label')
++    if value['layer'] not in ('F.Cu','B.Cu'): raise ValueError('Initial typed stage supports outer copper layers only')
++    rectangle=value['rectangleNm']
++    if not isinstance(rectangle,dict) or set(rectangle)!={'x1','y1','x2','y2'} or any(type(v)is not int or abs(v)>2_000_000_000 for v in rectangle.values()): raise ValueError('Invalid integer-nm rectangle')
++    if rectangle['x1']>=rectangle['x2'] or rectangle['y1']>=rectangle['y2']: raise ValueError('Rectangle must have positive area')
++    for key in ('clearanceNm','minWidthNm')+(('thermalGapNm','thermalSpokeWidthNm') if value['connection']=='thermal' else ()):
++        if type(value[key])is not int or not 1<=value[key]<=50_000_000: raise ValueError('Invalid positive bounded zone dimension')
++    if value['connection'] not in ('thermal','full') or value['islandPolicy'] not in ('always','never','area'): raise ValueError('Unsupported zone policy')
++    if value['connection']=='thermal' and (type(value['minimumSpokes'])is not int or not 1<=value['minimumSpokes']<=4): raise ValueError('Invalid external minimum-spokes requirement')
++    if value['islandPolicy']=='area':
++        area=value['minIslandAreaNm2']
++        # Wire is uint64, but pinned ZONE stores this as signed long long.
++        if not isinstance(area,str) or not re.fullmatch(r'0|[1-9][0-9]{0,18}',area) or int(area)>2**63-1: raise ValueError('Island area must be a canonical nonnegative signed64-range decimal integer string')
++    if type(value['priority'])is not int or not 0<=value['priority']<=100: raise ValueError('Invalid priority')
++    return copy.deepcopy(value)
++
++
++class TypedNativePlanePorts(NativePlanePorts):
++    def prepare_mutation(self,value,before):
++        from google.protobuf.json_format import ParseDict
++        from kipy.board_types import Zone
++        from kipy.geometry import PolygonWithHoles, PolyLine, PolyLineNode, Vector2
++        from kipy.proto.board import board_types_pb2 as p
++        value=validate_mutation(value)
++        layer={'F.Cu':p.BL_F_Cu,'B.Cu':p.BL_B_Cu}[value['layer']]
++        if layer not in self.board.get_enabled_layers(): raise PlaneCaptureError('Requested copper layer is not enabled')
++        nets=[n for n in self.board.get_nets() if n.name==value['netName']]
++        if len(nets)!=1: raise PlaneCaptureError('Requested existing net is missing or ambiguous')
++        zone=Zone()
++        if value['operation']=='update':
++            old=[z for z in before if z['uuid']==value['zoneId']]
++            if len(old)!=1: raise PlaneCaptureError('Update zone missing from complete inventory')
++            zone.proto.Clear()  # ParseDict merges; never inherit kipy defaults over omitted native zeros.
++            ParseDict(old[0]['raw'],zone.proto,ignore_unknown_fields=False)
++            if zone.type!=p.ZT_COPPER: raise PlaneCaptureError('Cannot mutate rule/graphical area')
++        zone.type=p.ZT_COPPER; zone.net=nets[0]; zone.layers=[layer]
++        # Pinned BOARD_CONNECTED_ITEM::UnpackNet resolves by name; PackNet emits
++        # name only. The existing unique-net check above prevents silent creation.
++        zone.proto.copper_settings.net.ClearField('code')
++        zone.name=value['name']; zone.priority=value['priority']
++        r=value['rectangleNm']; outline=PolyLine()
++        for x,y in ((r['x1'],r['y1']),(r['x2'],r['y1']),(r['x2'],r['y2']),(r['x1'],r['y2'])):
++            point=Vector2(); point.x=x; point.y=y
++            outline.append(PolyLineNode.from_point(point))
++        outline.closed=True; polygon=PolygonWithHoles(); polygon.outline=outline; zone.outline=polygon
++        zone.clearance=value['clearanceNm']; zone.min_thickness=value['minWidthNm']
++        zone.island_mode={'always':p.IRM_ALWAYS,'never':p.IRM_NEVER,'area':p.IRM_AREA}[value['islandPolicy']]
++        if value['islandPolicy']=='area': zone.min_island_area=int(value['minIslandAreaNm2'])
++        elif value['operation']=='create': zone.min_island_area=0
++        zone.proto.copper_settings.fill_mode=p.ZFM_SOLID
++        connection=zone.proto.copper_settings.connection
++        connection.zone_connection=p.ZCS_THERMAL if value['connection']=='thermal' else p.ZCS_FULL
++        if value['connection']=='thermal':
++            connection.thermal_spokes.gap.value_nm=value['thermalGapNm']
++            connection.thermal_spokes.width.value_nm=value['thermalSpokeWidthNm']
++        elif value['operation']=='create':
++            # Inactive native zero-valued messages, not invented thermal policy.
++            connection.thermal_spokes.gap.SetInParent()
++            connection.thermal_spokes.width.SetInParent()
++        if value['operation']=='create':
++            hatch=zone.proto.copper_settings.hatch_settings
++            hatch.thickness.SetInParent();hatch.gap.SetInParent();hatch.orientation.SetInParent()
++            hatch.border_mode=p.ZHFBM_USE_MIN_ZONE_THICKNESS
++            zone.proto.copper_settings.teardrop.type=p.TDT_NONE
++        # ZONE::SetLayerSet creates one empty filled-poly container per layer,
++        # including in API UPDATE's new temporary ZONE before CopyFrom.
++        zone.proto.filled=False; zone.proto.ClearField('filled_polygons')
++        empty=zone.proto.filled_polygons.add();empty.layer=layer;empty.shapes.SetInParent()
++        return (value,zone)
++
++    def apply_mutation(self,candidate):
++        from google.protobuf.json_format import MessageToDict
++        value,zone=candidate; start=len(self.calls)
++        results=self.board.create_items([zone]) if value['operation']=='create' else self.board.update_items([zone])
++        calls=self.calls[start:]
++        if len(calls)!=1 or len(results)!=1: raise PlaneCaptureError('Mutation did not return exactly one native result',True)
++        call=calls[0]; response=call.get('response',{})
++        kind='created_items' if value['operation']=='create' else 'updated_items'
++        result=response.get(kind,[])
++        if response.get('status')!='IRS_OK' or len(result)!=1 or result[0].get('status',{}).get('code')!='ISC_OK' or result[0].get('status',{}).get('error_message'):
++            raise PlaneCaptureError('Native mutation status is not exact success',True)
++        doc=MessageToDict(self.board.document,preserving_proto_field_name=True)
++        header=response.get('header',{})
++        if ('document' in header and header['document']!=doc) or header.get('container',{}).get('value') or header.get('field_mask'):
++            raise PlaneCaptureError('Mutation response header contradicts complete bound document',True)
++        expected='kiapi.common.commands.'+('CreateItems' if value['operation']=='create' else 'UpdateItems')
++        if call['requestType']!=expected or call['request'].get('header',{}).get('document')!=doc: raise PlaneCaptureError('Mutation request document differs',True)
++        observed=results[0]
++        if not UUID.fullmatch(observed.id.value): raise PlaneCaptureError('Native mutation returned noncanonical UUID',True)
++        if observed.proto.DESCRIPTOR.full_name!=zone.proto.DESCRIPTOR.full_name: raise PlaneCaptureError('Mutation returned wrong native item type',True)
++        requested=MessageToDict(zone.proto,preserving_proto_field_name=True)
++        actual=MessageToDict(observed.proto,preserving_proto_field_name=True)
++        if value['operation']=='create': requested.pop('id',None); comparable=copy.deepcopy(actual); comparable.pop('id',None)
++        else: comparable=actual
++        receipt={'operation':value['operation'],'zoneId':observed.id.value,'request':value,'requestedProto':requested,'returnedProto':actual,
++                'nativeIdentity':{'requestedId':zone.id.value,'returnedId':observed.id.value,'requestedName':zone.name,'returnedName':observed.name,
++                                  'uuidAssignedByNative':value['operation']=='create' and zone.id.value!=observed.id.value,'nameNormalized':zone.name!=observed.name},
++                'minimumSpokes':({'required':value['minimumSpokes'],'configured':False,'enforcement':'requires_external_owned_DRC_rule_and_resolved_spoke_validation'} if value['connection']=='thermal' else {'applicable':False,'reason':'solid_connection'}),
++                'islandMinimumArea':({'requiredNm2':value['minIslandAreaNm2'],'active':True} if value['islandPolicy']=='area' else {'active':False,'sourceRepresentation':'not_serialized','enforced':False,'nativeProtoNm2':str(observed.proto.copper_settings.min_island_area)})}
++        if requested!=comparable:
++            error=PlaneCaptureError('Native mutation changed requested/default zone fields',True)
++            error.mutation_receipt=receipt
++            raise error
++        return receipt
+--- /dev/null
++++ b/evleda_plane_stage/protocol.json
+@@ -0,0 +1 @@
++{"annotations":{"destructiveHint":true,"idempotentHint":false,"openWorldHint":false,"readOnlyHint":false},"hostTimeoutMs":90000,"inputSchema":{"$schema":"https://json-schema.org/draft/2020-12/schema","additionalProperties":false,"properties":{"board_file":{"maxLength":4096,"minLength":1,"type":"string"},"reference_pads":{"items":{"additionalProperties":false,"properties":{"pad":{"maxLength":64,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"primitiveId":{"pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$","type":"string"},"reference":{"maxLength":64,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"}},"required":["reference","pad","primitiveId"],"type":"object"},"maxItems":128,"minItems":1,"type":"array"},"request":{"additionalProperties":false,"properties":{"expectedLiveIdentity":{"additionalProperties":false,"properties":{"algorithm":{"const":"sha256","type":"string"},"digest":{"pattern":"^[a-f0-9]{64}$","type":"string"},"size":{"maximum":1048576,"minimum":1,"type":"integer"}},"required":["algorithm","digest","size"],"type":"object"},"expectedSavedIdentity":{"additionalProperties":false,"properties":{"algorithm":{"const":"sha256","type":"string"},"digest":{"pattern":"^[a-f0-9]{64}$","type":"string"},"size":{"maximum":1048576,"minimum":1,"type":"integer"}},"required":["algorithm","digest","size"],"type":"object"},"mutation":{"anyOf":[{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"thermal","type":"string"},"islandPolicy":{"const":"area","type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minIslandAreaNm2":{"pattern":"^(?:0|[1-9][0-9]{0,18})$","type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"minimumSpokes":{"maximum":4,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"create","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"},"thermalGapNm":{"maximum":50000000,"minimum":1,"type":"integer"},"thermalSpokeWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","connection","thermalGapNm","thermalSpokeWidthNm","minimumSpokes","islandPolicy","minIslandAreaNm2"],"type":"object"},{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"thermal","type":"string"},"islandPolicy":{"enum":["always","never"],"type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"minimumSpokes":{"maximum":4,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"create","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"},"thermalGapNm":{"maximum":50000000,"minimum":1,"type":"integer"},"thermalSpokeWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","connection","thermalGapNm","thermalSpokeWidthNm","minimumSpokes","islandPolicy"],"type":"object"},{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"full","type":"string"},"islandPolicy":{"const":"area","type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minIslandAreaNm2":{"pattern":"^(?:0|[1-9][0-9]{0,18})$","type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"create","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","connection","islandPolicy","minIslandAreaNm2"],"type":"object"},{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"full","type":"string"},"islandPolicy":{"enum":["always","never"],"type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"create","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","connection","islandPolicy"],"type":"object"},{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"thermal","type":"string"},"islandPolicy":{"const":"area","type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minIslandAreaNm2":{"pattern":"^(?:0|[1-9][0-9]{0,18})$","type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"minimumSpokes":{"maximum":4,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"update","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"},"thermalGapNm":{"maximum":50000000,"minimum":1,"type":"integer"},"thermalSpokeWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"zoneId":{"pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$","type":"string"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","zoneId","connection","thermalGapNm","thermalSpokeWidthNm","minimumSpokes","islandPolicy","minIslandAreaNm2"],"type":"object"},{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"thermal","type":"string"},"islandPolicy":{"enum":["always","never"],"type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"minimumSpokes":{"maximum":4,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"update","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"},"thermalGapNm":{"maximum":50000000,"minimum":1,"type":"integer"},"thermalSpokeWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"zoneId":{"pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$","type":"string"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","zoneId","connection","thermalGapNm","thermalSpokeWidthNm","minimumSpokes","islandPolicy"],"type":"object"},{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"full","type":"string"},"islandPolicy":{"const":"area","type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minIslandAreaNm2":{"pattern":"^(?:0|[1-9][0-9]{0,18})$","type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"update","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"},"zoneId":{"pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$","type":"string"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","zoneId","connection","islandPolicy","minIslandAreaNm2"],"type":"object"},{"additionalProperties":false,"properties":{"clearanceNm":{"maximum":50000000,"minimum":1,"type":"integer"},"connection":{"const":"full","type":"string"},"islandPolicy":{"enum":["always","never"],"type":"string"},"layer":{"enum":["F.Cu","B.Cu"],"type":"string"},"minWidthNm":{"maximum":50000000,"minimum":1,"type":"integer"},"name":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"netName":{"maxLength":128,"minLength":1,"pattern":"^[^\\x00-\\x1f]+$","type":"string"},"operation":{"const":"update","type":"string"},"priority":{"maximum":100,"minimum":0,"type":"integer"},"rectangleNm":{"additionalProperties":false,"properties":{"x1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"x2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y1":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"},"y2":{"maximum":2000000000,"minimum":-2000000000,"type":"integer"}},"required":["x1","y1","x2","y2"],"type":"object"},"zoneId":{"pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$","type":"string"}},"required":["netName","layer","rectangleNm","clearanceNm","minWidthNm","priority","name","operation","zoneId","connection","islandPolicy"],"type":"object"}]}},"required":["expectedSavedIdentity","expectedLiveIdentity"],"type":"object"},"zone_ids":{"items":{"pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$","type":"string"},"maxItems":32,"type":"array"}},"required":["board_file","zone_ids","reference_pads","request"],"type":"object"},"maxArtifactBytes":8388608,"outputSchema":{"$schema":"https://json-schema.org/draft/2020-12/schema","additionalProperties":false,"properties":{"filename":{"pattern":"^evleda-plane-stage-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.json$","type":"string"},"identity":{"additionalProperties":false,"properties":{"algorithm":{"const":"sha256","type":"string"},"digest":{"pattern":"^[a-f0-9]{64}$","type":"string"},"size":{"maximum":8388608,"minimum":1,"type":"integer"}},"required":["algorithm","digest","size"],"type":"object"},"schemaVersion":{"const":"evleda.native-plane-stage-artifact.v1","type":"string"}},"required":["schemaVersion","filename","identity"],"type":"object"},"toolName":"evleda_stage_plane"}

@@ -1,0 +1,2157 @@
+{
+  "schemaVersion": "evleda.pinned-python-schematic-normalization-oracle.v1",
+  "createdAt": "2026-09-09T02:38:05.891591+00:00",
+  "method": "Exact function AST bodies from manifested pinned schematic.py, executed with standard library only; no kicad_mcp imports or top-level module execution.",
+  "scope": "Independent pure-helper compatibility oracle. No live sidecar/GUI/CLI/model/Flux run and no edits to captured schematic.",
+  "inputProvenance": "Deterministic reconstruction from host planner, captured post-placement schematic/contract, and pinned sidecar pin/bounding-box rules. Not a retained host call trace. First nine segments exactly match retained pre-write-10 snapshot; write 10 predicts the exact retained visual-diff change.",
+  "inputPlan": {
+    "schemaVersion": "evleda.attempt10-reconstructed-wire-plan.v1",
+    "sourceRunId": "run_12333092-4075-4225-a197-e10637d070ff",
+    "provenance": "Deterministic reconstruction from host planner, captured post-placement schematic/contract, and pinned sidecar pin/bounding-box rules. Not a retained host call trace. First nine segments exactly match retained pre-write-10 snapshot; write 10 predicts the exact retained visual-diff change.",
+    "nets": [
+      {
+        "name": "GND",
+        "endpoints": [
+          {
+            "reference": "J1",
+            "pin": "3"
+          },
+          {
+            "reference": "R2",
+            "pin": "2"
+          }
+        ]
+      },
+      {
+        "name": "VIN",
+        "endpoints": [
+          {
+            "reference": "J1",
+            "pin": "1"
+          },
+          {
+            "reference": "R1",
+            "pin": "1"
+          }
+        ]
+      },
+      {
+        "name": "VOUT",
+        "endpoints": [
+          {
+            "reference": "J1",
+            "pin": "2"
+          },
+          {
+            "reference": "R1",
+            "pin": "2"
+          },
+          {
+            "reference": "R2",
+            "pin": "1"
+          }
+        ]
+      }
+    ],
+    "pins": [
+      [
+        "J1:1",
+        {
+          "x": 45.72,
+          "y": 48.26,
+          "angleDeg": 0
+        }
+      ],
+      [
+        "J1:2",
+        {
+          "x": 45.72,
+          "y": 50.8,
+          "angleDeg": 0
+        }
+      ],
+      [
+        "J1:3",
+        {
+          "x": 45.72,
+          "y": 53.34,
+          "angleDeg": 0
+        }
+      ],
+      [
+        "R1:1",
+        {
+          "x": 76.2,
+          "y": 46.99,
+          "angleDeg": 270
+        }
+      ],
+      [
+        "R1:2",
+        {
+          "x": 76.2,
+          "y": 54.61,
+          "angleDeg": 90
+        }
+      ],
+      [
+        "R2:1",
+        {
+          "x": 50.8,
+          "y": 148.59,
+          "angleDeg": 270
+        }
+      ],
+      [
+        "R2:2",
+        {
+          "x": 50.8,
+          "y": 156.21,
+          "angleDeg": 90
+        }
+      ]
+    ],
+    "boxes": [
+      {
+        "reference": "J1",
+        "minX": 40.64,
+        "minY": 43.18,
+        "maxX": 60.96,
+        "maxY": 58.42
+      },
+      {
+        "reference": "R1",
+        "minX": 66.04,
+        "minY": 43.18,
+        "maxX": 86.36,
+        "maxY": 58.42
+      },
+      {
+        "reference": "R2",
+        "minX": 40.64,
+        "minY": 144.78,
+        "maxX": 60.96,
+        "maxY": 160.02
+      }
+    ],
+    "routes": [
+      "J1:3-R2:2",
+      "J1:1-R1:1",
+      "J1:2-R1:2",
+      "R1:2-R2:1"
+    ],
+    "wires": [
+      {
+        "index": 1,
+        "x": 45.72,
+        "y": 53.34,
+        "endX": 40.62,
+        "endY": 53.34,
+        "net": "GND",
+        "edgeEndpoints": [
+          "J1:3",
+          "R2:2",
+          "45.7200,53.3400",
+          "50.8000,156.2100"
+        ]
+      },
+      {
+        "index": 2,
+        "x": 40.62,
+        "y": 53.34,
+        "endX": 40.62,
+        "endY": 160.04000000000002,
+        "net": "GND",
+        "edgeEndpoints": [
+          "J1:3",
+          "R2:2",
+          "45.7200,53.3400",
+          "50.8000,156.2100"
+        ]
+      },
+      {
+        "index": 3,
+        "x": 40.62,
+        "y": 160.04000000000002,
+        "endX": 50.8,
+        "endY": 160.04000000000002,
+        "net": "GND",
+        "edgeEndpoints": [
+          "J1:3",
+          "R2:2",
+          "45.7200,53.3400",
+          "50.8000,156.2100"
+        ]
+      },
+      {
+        "index": 4,
+        "x": 50.8,
+        "y": 160.04000000000002,
+        "endX": 50.8,
+        "endY": 156.21,
+        "net": "GND",
+        "edgeEndpoints": [
+          "J1:3",
+          "R2:2",
+          "45.7200,53.3400",
+          "50.8000,156.2100"
+        ]
+      },
+      {
+        "index": 5,
+        "x": 45.72,
+        "y": 48.26,
+        "endX": 40.62,
+        "endY": 48.26,
+        "net": "VIN",
+        "edgeEndpoints": [
+          "J1:1",
+          "R1:1",
+          "45.7200,48.2600",
+          "76.2000,46.9900"
+        ]
+      },
+      {
+        "index": 6,
+        "x": 40.62,
+        "y": 48.26,
+        "endX": 40.62,
+        "endY": 43.16,
+        "net": "VIN",
+        "edgeEndpoints": [
+          "J1:1",
+          "R1:1",
+          "45.7200,48.2600",
+          "76.2000,46.9900"
+        ]
+      },
+      {
+        "index": 7,
+        "x": 40.62,
+        "y": 43.16,
+        "endX": 76.2,
+        "endY": 43.16,
+        "net": "VIN",
+        "edgeEndpoints": [
+          "J1:1",
+          "R1:1",
+          "45.7200,48.2600",
+          "76.2000,46.9900"
+        ]
+      },
+      {
+        "index": 8,
+        "x": 76.2,
+        "y": 43.16,
+        "endX": 76.2,
+        "endY": 46.99,
+        "net": "VIN",
+        "edgeEndpoints": [
+          "J1:1",
+          "R1:1",
+          "45.7200,48.2600",
+          "76.2000,46.9900"
+        ]
+      },
+      {
+        "index": 9,
+        "x": 45.72,
+        "y": 50.8,
+        "endX": 40.62,
+        "endY": 50.8,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "J1:2",
+          "R1:2",
+          "45.7200,50.8000",
+          "76.2000,54.6100"
+        ]
+      },
+      {
+        "index": 10,
+        "x": 40.62,
+        "y": 50.8,
+        "endX": 39.349999999999994,
+        "endY": 50.8,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "J1:2",
+          "R1:2",
+          "45.7200,50.8000",
+          "76.2000,54.6100"
+        ]
+      },
+      {
+        "index": 11,
+        "x": 39.349999999999994,
+        "y": 50.8,
+        "endX": 39.349999999999994,
+        "endY": 161.29000000000002,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "J1:2",
+          "R1:2",
+          "45.7200,50.8000",
+          "76.2000,54.6100"
+        ]
+      },
+      {
+        "index": 12,
+        "x": 39.349999999999994,
+        "y": 161.29000000000002,
+        "endX": 76.2,
+        "endY": 161.29000000000002,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "J1:2",
+          "R1:2",
+          "45.7200,50.8000",
+          "76.2000,54.6100"
+        ]
+      },
+      {
+        "index": 13,
+        "x": 76.2,
+        "y": 161.29000000000002,
+        "endX": 76.2,
+        "endY": 58.440000000000005,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "J1:2",
+          "R1:2",
+          "45.7200,50.8000",
+          "76.2000,54.6100"
+        ]
+      },
+      {
+        "index": 14,
+        "x": 76.2,
+        "y": 58.440000000000005,
+        "endX": 76.2,
+        "endY": 54.61,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "J1:2",
+          "R1:2",
+          "45.7200,50.8000",
+          "76.2000,54.6100"
+        ]
+      },
+      {
+        "index": 15,
+        "x": 76.2,
+        "y": 58.440000000000005,
+        "endX": 50.8,
+        "endY": 58.440000000000005,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "R1:2",
+          "R2:1",
+          "76.2000,54.6100",
+          "50.8000,148.5900"
+        ]
+      },
+      {
+        "index": 16,
+        "x": 50.8,
+        "y": 58.440000000000005,
+        "endX": 50.8,
+        "endY": 144.76,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "R1:2",
+          "R2:1",
+          "76.2000,54.6100",
+          "50.8000,148.5900"
+        ]
+      },
+      {
+        "index": 17,
+        "x": 50.8,
+        "y": 144.76,
+        "endX": 50.8,
+        "endY": 148.59,
+        "net": "VOUT",
+        "edgeEndpoints": [
+          "R1:2",
+          "R2:1",
+          "76.2000,54.6100",
+          "50.8000,148.5900"
+        ]
+      }
+    ]
+  },
+  "python": {
+    "path": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\inspection-runtime-3.33.3\\environment\\Scripts\\python.exe",
+    "sizeBytes": 241152,
+    "sha256": "2d8d20ef6e119ce9f129aaa63f81d7249b0853576e186725d93ca78614cd5f19",
+    "version": "3.13.12 (main, Mar 24 2026, 22:56:40) [MSC v.1944 64 bit (AMD64)]",
+    "flags": {
+      "isolated": 1,
+      "noUserSite": 1,
+      "ignoreEnvironment": 1,
+      "dontWriteBytecode": true
+    }
+  },
+  "helperSource": {
+    "path": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\inspection-runtime-3.33.3\\environment\\Lib\\site-packages\\kicad_mcp\\tools\\schematic.py",
+    "functions": [
+      {
+        "name": "_fmt_mm",
+        "line": 767,
+        "endLine": 772
+      },
+      {
+        "name": "_coord_pair_key",
+        "line": 2262,
+        "endLine": 2263
+      },
+      {
+        "name": "_segment_key",
+        "line": 3471,
+        "endLine": 3476
+      },
+      {
+        "name": "_point_on_segment_midpoint",
+        "line": 3479,
+        "endLine": 3498
+      },
+      {
+        "name": "_detect_t_intersections",
+        "line": 3501,
+        "endLine": 3514
+      },
+      {
+        "name": "_deduplicate_segments",
+        "line": 3517,
+        "endLine": 3575
+      },
+      {
+        "name": "wire_block",
+        "line": 4625,
+        "endLine": 4636
+      }
+    ],
+    "snapToleranceMm": 1e-06
+  },
+  "sourceHashes": [
+    {
+      "path": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\inspection-runtime-3.33.3\\environment\\Lib\\site-packages\\kicad_mcp\\tools\\schematic.py",
+      "sizeBytes": 232449,
+      "sha256": "799e49c73eb80c273259f19a4f52d921da4c979876fe7d6e7cc56a88b04eea3d"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\inspection-runtime-3.33.3\\environment\\Lib\\site-packages\\kicad_mcp\\tools\\schematic_constants.py",
+      "sizeBytes": 4914,
+      "sha256": "aa272624c68d17e70752bf839efedb9a59adafa2b92c89797eb705c0422fb502"
+    },
+    {
+      "path": "C:\\Users\\pc\\Downloads\\EvlEDA-Handoff-2026-09-03\\EvlEDA-Handoff-2026-09-03-ready\\evleda\\sidecars\\kicad-inspection-runtime-manifest.json",
+      "sizeBytes": 1573387,
+      "sha256": "e13ec94ed67341bf6ba8649c86117dab5773f5f108a3e8bfd4531a515ac89d72"
+    },
+    {
+      "path": "D:\\EvlEDA-connectivity-normalization-oracle-20260908\\reconstructed-plan.json",
+      "sizeBytes": 6804,
+      "sha256": "901ccce0385a5ed8da932f87316233344729c7a86e7a77b61c441ea1c1065a7a"
+    },
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt10-20260908-191442799\\evidence\\terminal-native-copy\\compilations\\345b50e4541acc868722c182a5651080db8be6af02d461c433e2b7ee3aedf733\\project\\.kicad-mcp\\visual-diff-d99eeafbf626c17d-before.kicad_sch",
+      "sizeBytes": 9252,
+      "sha256": "999ff4b12c6d35631caf64c1760981851a15cb80d99ae1478c5a8dd4a54e85ae"
+    },
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt10-20260908-191442799\\evidence\\terminal-native-copy\\compilations\\345b50e4541acc868722c182a5651080db8be6af02d461c433e2b7ee3aedf733\\project\\.kicad-mcp\\visual-diff-d99eeafbf626c17d.json",
+      "sizeBytes": 1474,
+      "sha256": "691eff4c2cccad03a63efb22e4551ca8b77b4c6c27f966588ad8fb09ef05a640"
+    },
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt10-20260908-191442799\\evidence\\terminal-native-copy\\compilations\\345b50e4541acc868722c182a5651080db8be6af02d461c433e2b7ee3aedf733\\project\\flux-1233309240754225a197e10637d070ff.kicad_sch",
+      "sizeBytes": 7869,
+      "sha256": "af8e7a84b64de2c8a5ca494df1cc540c801564ddfd40565995c0419d5dc831ca"
+    },
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt10-20260908-191442799\\evidence\\source-freeze.json",
+      "sizeBytes": 59148,
+      "sha256": "ddcc3cf2fca54f3787a73da589b7cab5c15454077cfa7cf72bbb211ae2d8d807"
+    },
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt10-20260908-191442799\\evidence\\expected-design-contract.json",
+      "sizeBytes": 6725,
+      "sha256": "899f2cb2dec6c40707c613c45e134572576395c910d3e8659a854aefafb4d171"
+    }
+  ],
+  "diagnosticScript": {
+    "path": "D:\\EvlEDA-connectivity-normalization-oracle-20260908\\build_oracle.py",
+    "sizeBytes": 10723,
+    "sha256": "c4e1f63805685acebad12eadbaf64c29bf1da806cb3747da6c6ab7c5aa8c8bad"
+  },
+  "prefixes": [
+    {
+      "prefix": 0,
+      "wires": [],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 1,
+      "requestedWire": [
+        45.72,
+        53.34,
+        40.62,
+        53.34
+      ],
+      "serializedRequestedWire": [
+        45.72,
+        53.34,
+        40.62,
+        53.34
+      ],
+      "wires": [
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 2,
+      "requestedWire": [
+        40.62,
+        53.34,
+        40.62,
+        160.04000000000002
+      ],
+      "serializedRequestedWire": [
+        40.62,
+        53.34,
+        40.62,
+        160.04
+      ],
+      "wires": [
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 3,
+      "requestedWire": [
+        40.62,
+        160.04000000000002,
+        50.8,
+        160.04000000000002
+      ],
+      "serializedRequestedWire": [
+        40.62,
+        160.04,
+        50.8,
+        160.04
+      ],
+      "wires": [
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 4,
+      "requestedWire": [
+        50.8,
+        160.04000000000002,
+        50.8,
+        156.21
+      ],
+      "serializedRequestedWire": [
+        50.8,
+        160.04,
+        50.8,
+        156.21
+      ],
+      "wires": [
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 5,
+      "requestedWire": [
+        45.72,
+        48.26,
+        40.62,
+        48.26
+      ],
+      "serializedRequestedWire": [
+        45.72,
+        48.26,
+        40.62,
+        48.26
+      ],
+      "wires": [
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 6,
+      "requestedWire": [
+        40.62,
+        48.26,
+        40.62,
+        43.16
+      ],
+      "serializedRequestedWire": [
+        40.62,
+        48.26,
+        40.62,
+        43.16
+      ],
+      "wires": [
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 7,
+      "requestedWire": [
+        40.62,
+        43.16,
+        76.2,
+        43.16
+      ],
+      "serializedRequestedWire": [
+        40.62,
+        43.16,
+        76.2,
+        43.16
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 8,
+      "requestedWire": [
+        76.2,
+        43.16,
+        76.2,
+        46.99
+      ],
+      "serializedRequestedWire": [
+        76.2,
+        43.16,
+        76.2,
+        46.99
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 9,
+      "requestedWire": [
+        45.72,
+        50.8,
+        40.62,
+        50.8
+      ],
+      "serializedRequestedWire": [
+        45.72,
+        50.8,
+        40.62,
+        50.8
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          40.62,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 10,
+      "requestedWire": [
+        40.62,
+        50.8,
+        39.349999999999994,
+        50.8
+      ],
+      "serializedRequestedWire": [
+        40.62,
+        50.8,
+        39.35,
+        50.8
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 11,
+      "requestedWire": [
+        39.349999999999994,
+        50.8,
+        39.349999999999994,
+        161.29000000000002
+      ],
+      "serializedRequestedWire": [
+        39.35,
+        50.8,
+        39.35,
+        161.29
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          39.35,
+          50.8,
+          39.35,
+          161.29
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 12,
+      "requestedWire": [
+        39.349999999999994,
+        161.29000000000002,
+        76.2,
+        161.29000000000002
+      ],
+      "serializedRequestedWire": [
+        39.35,
+        161.29,
+        76.2,
+        161.29
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          39.35,
+          161.29,
+          76.2,
+          161.29
+        ],
+        [
+          39.35,
+          50.8,
+          39.35,
+          161.29
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 13,
+      "requestedWire": [
+        76.2,
+        161.29000000000002,
+        76.2,
+        58.440000000000005
+      ],
+      "serializedRequestedWire": [
+        76.2,
+        161.29,
+        76.2,
+        58.44
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          39.35,
+          161.29,
+          76.2,
+          161.29
+        ],
+        [
+          39.35,
+          50.8,
+          39.35,
+          161.29
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ],
+        [
+          76.2,
+          58.44,
+          76.2,
+          161.29
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 14,
+      "requestedWire": [
+        76.2,
+        58.440000000000005,
+        76.2,
+        54.61
+      ],
+      "serializedRequestedWire": [
+        76.2,
+        58.44,
+        76.2,
+        54.61
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          39.35,
+          161.29,
+          76.2,
+          161.29
+        ],
+        [
+          39.35,
+          50.8,
+          39.35,
+          161.29
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ],
+        [
+          76.2,
+          54.61,
+          76.2,
+          161.29
+        ]
+      ],
+      "junctions": [],
+      "detectedJunctions": []
+    },
+    {
+      "prefix": 15,
+      "requestedWire": [
+        76.2,
+        58.440000000000005,
+        50.8,
+        58.440000000000005
+      ],
+      "serializedRequestedWire": [
+        76.2,
+        58.44,
+        50.8,
+        58.44
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          50.8,
+          58.44,
+          76.2,
+          58.44
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          39.35,
+          161.29,
+          76.2,
+          161.29
+        ],
+        [
+          39.35,
+          50.8,
+          39.35,
+          161.29
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ],
+        [
+          76.2,
+          54.61,
+          76.2,
+          161.29
+        ]
+      ],
+      "junctions": [
+        [
+          76.2,
+          58.44
+        ]
+      ],
+      "detectedJunctions": [
+        [
+          76.2,
+          58.44
+        ]
+      ]
+    },
+    {
+      "prefix": 16,
+      "requestedWire": [
+        50.8,
+        58.440000000000005,
+        50.8,
+        144.76
+      ],
+      "serializedRequestedWire": [
+        50.8,
+        58.44,
+        50.8,
+        144.76
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          50.8,
+          58.44,
+          76.2,
+          58.44
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          39.35,
+          161.29,
+          76.2,
+          161.29
+        ],
+        [
+          39.35,
+          50.8,
+          39.35,
+          161.29
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          58.44,
+          50.8,
+          144.76
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ],
+        [
+          76.2,
+          54.61,
+          76.2,
+          161.29
+        ]
+      ],
+      "junctions": [
+        [
+          76.2,
+          58.44
+        ]
+      ],
+      "detectedJunctions": [
+        [
+          76.2,
+          58.44
+        ]
+      ]
+    },
+    {
+      "prefix": 17,
+      "requestedWire": [
+        50.8,
+        144.76,
+        50.8,
+        148.59
+      ],
+      "serializedRequestedWire": [
+        50.8,
+        144.76,
+        50.8,
+        148.59
+      ],
+      "wires": [
+        [
+          40.62,
+          43.16,
+          76.2,
+          43.16
+        ],
+        [
+          40.62,
+          48.26,
+          45.72,
+          48.26
+        ],
+        [
+          39.35,
+          50.8,
+          45.72,
+          50.8
+        ],
+        [
+          40.62,
+          53.34,
+          45.72,
+          53.34
+        ],
+        [
+          50.8,
+          58.44,
+          76.2,
+          58.44
+        ],
+        [
+          40.62,
+          160.04,
+          50.8,
+          160.04
+        ],
+        [
+          39.35,
+          161.29,
+          76.2,
+          161.29
+        ],
+        [
+          39.35,
+          50.8,
+          39.35,
+          161.29
+        ],
+        [
+          40.62,
+          43.16,
+          40.62,
+          48.26
+        ],
+        [
+          40.62,
+          53.34,
+          40.62,
+          160.04
+        ],
+        [
+          50.8,
+          58.44,
+          50.8,
+          148.59
+        ],
+        [
+          50.8,
+          156.21,
+          50.8,
+          160.04
+        ],
+        [
+          76.2,
+          43.16,
+          76.2,
+          46.99
+        ],
+        [
+          76.2,
+          54.61,
+          76.2,
+          161.29
+        ]
+      ],
+      "junctions": [
+        [
+          76.2,
+          58.44
+        ]
+      ],
+      "detectedJunctions": [
+        [
+          76.2,
+          58.44
+        ]
+      ]
+    }
+  ],
+  "capturedEvidenceChecks": {
+    "firstNineEqualRetainedSnapshot": true,
+    "tenthWriteDeltaEqualsRetainedVisualDiff": true,
+    "beforeSnapshotLfSha256": "d30ba3d83e70aabe8d96b91b9aff7659190926ca42f1289b87847384cc178b94",
+    "recordedTenthWriteDelta": {
+      "added": [
+        [
+          [
+            39.35,
+            50.8
+          ],
+          [
+            45.72,
+            50.8
+          ]
+        ]
+      ],
+      "removed": [
+        [
+          [
+            40.62,
+            50.8
+          ],
+          [
+            45.72,
+            50.8
+          ]
+        ]
+      ]
+    },
+    "rawRequestedSegmentCount": 17,
+    "finalNormalizedSegmentCount": 14,
+    "finalJunctions": [
+      [
+        76.2,
+        58.44
+      ]
+    ]
+  },
+  "roundingCases": [
+    {
+      "input": 0.03125,
+      "formatted": "0.0312",
+      "serializedCoordinate": 0.0312
+    },
+    {
+      "input": 0.09375,
+      "formatted": "0.0938",
+      "serializedCoordinate": 0.0938
+    },
+    {
+      "input": -0.03125,
+      "formatted": "-0.0312",
+      "serializedCoordinate": -0.0312
+    },
+    {
+      "input": -0.09375,
+      "formatted": "-0.0938",
+      "serializedCoordinate": -0.0938
+    },
+    {
+      "input": 5e-05,
+      "formatted": "0.0001",
+      "serializedCoordinate": 0.0001
+    },
+    {
+      "input": -5e-05,
+      "formatted": "-0.0001",
+      "serializedCoordinate": -0.0001
+    },
+    {
+      "input": 4.9999e-05,
+      "formatted": "0",
+      "serializedCoordinate": 0.0
+    },
+    {
+      "input": -4.9999e-05,
+      "formatted": "0",
+      "serializedCoordinate": 0.0
+    },
+    {
+      "input": 39.349999999999994,
+      "formatted": "39.35",
+      "serializedCoordinate": 39.35
+    },
+    {
+      "input": 58.440000000000005,
+      "formatted": "58.44",
+      "serializedCoordinate": 58.44
+    },
+    {
+      "input": 160.04000000000002,
+      "formatted": "160.04",
+      "serializedCoordinate": 160.04
+    },
+    {
+      "input": 161.29000000000002,
+      "formatted": "161.29",
+      "serializedCoordinate": 161.29
+    }
+  ],
+  "additionalPrefixOracles": {
+    "junctionSurvivesLaterFourWayInteriorCrossing": [
+      {
+        "prefix": 0,
+        "wires": [],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 1,
+        "requestedWire": [
+          0,
+          0,
+          2,
+          0
+        ],
+        "serializedRequestedWire": [
+          0.0,
+          0.0,
+          2.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            2.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 2,
+        "requestedWire": [
+          1,
+          0,
+          1,
+          1
+        ],
+        "serializedRequestedWire": [
+          1.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            2.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0,
+            1.0
+          ]
+        ],
+        "junctions": [
+          [
+            1.0,
+            0.0
+          ]
+        ],
+        "detectedJunctions": [
+          [
+            1.0,
+            0.0
+          ]
+        ]
+      },
+      {
+        "prefix": 3,
+        "requestedWire": [
+          1,
+          -1,
+          1,
+          0
+        ],
+        "serializedRequestedWire": [
+          1.0,
+          -1.0,
+          1.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            2.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0,
+            1.0
+          ]
+        ],
+        "junctions": [
+          [
+            1.0,
+            0.0
+          ]
+        ],
+        "detectedJunctions": []
+      }
+    ],
+    "duplicateAndReversedSegment": [
+      {
+        "prefix": 0,
+        "wires": [],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 1,
+        "requestedWire": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "serializedRequestedWire": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 2,
+        "requestedWire": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "serializedRequestedWire": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      }
+    ],
+    "crossingWithoutEndpointDoesNotAddJunction": [
+      {
+        "prefix": 0,
+        "wires": [],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 1,
+        "requestedWire": [
+          0,
+          0,
+          2,
+          0
+        ],
+        "serializedRequestedWire": [
+          0.0,
+          0.0,
+          2.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            2.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 2,
+        "requestedWire": [
+          1,
+          -1,
+          1,
+          1
+        ],
+        "serializedRequestedWire": [
+          1.0,
+          -1.0,
+          1.0,
+          1.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            2.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0,
+            1.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      }
+    ],
+    "collinearGapSurvivesSerialization": [
+      {
+        "prefix": 0,
+        "wires": [],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 1,
+        "requestedWire": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "serializedRequestedWire": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 2,
+        "requestedWire": [
+          1.0001,
+          0,
+          2,
+          0
+        ],
+        "serializedRequestedWire": [
+          1.0001,
+          0.0,
+          2.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            1.0001,
+            0.0,
+            2.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      }
+    ],
+    "collinearSubprecisionGapClosesDuringSerialization": [
+      {
+        "prefix": 0,
+        "wires": [],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 1,
+        "requestedWire": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "serializedRequestedWire": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      },
+      {
+        "prefix": 2,
+        "requestedWire": [
+          1.00001,
+          0,
+          2,
+          0
+        ],
+        "serializedRequestedWire": [
+          1.0,
+          0.0,
+          2.0,
+          0.0
+        ],
+        "wires": [
+          [
+            0.0,
+            0.0,
+            2.0,
+            0.0
+          ]
+        ],
+        "junctions": [],
+        "detectedJunctions": []
+      }
+    ]
+  },
+  "integrity": {
+    "runtimeManifestFileCountVerifiedBeforeAndAfter": 8458,
+    "runtimeFilesUnchanged": true,
+    "protectedSourcesUnchanged": true,
+    "runtimePycacheCount": 0,
+    "scratchPycacheCount": 0,
+    "packageImported": false,
+    "dotenvLoaded": false,
+    "telemetryInitialized": false
+  }
+}

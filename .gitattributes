@@ -1,0 +1,3 @@
+# Runtime, research, and fixture identities bind exact bytes. Preserve those
+# bytes on checkout even when a Windows client enables core.autocrlf globally.
+* -text

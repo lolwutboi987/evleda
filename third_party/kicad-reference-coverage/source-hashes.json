@@ -1,0 +1,42 @@
+[
+  {
+    "path": "upstream/include/clipper2/clipper.core.h",
+    "sha256": "C2F9066B4CF631021CD53237101D714C91CAF0FA72891806DF21A7D1D4FB0E6E"
+  },
+  {
+    "path": "upstream/include/clipper2/clipper.engine.h",
+    "sha256": "9B4C71B4F7D2693DEF454FCF80C2275649ABF479CC1785724B4170FA3371EF52"
+  },
+  {
+    "path": "upstream/include/clipper2/clipper.export.h",
+    "sha256": "F4943B22B9EF11F18482454BB56447B28CEAE404DCDDC3387725679EBFC4DE9F"
+  },
+  {
+    "path": "upstream/include/clipper2/clipper.h",
+    "sha256": "5A2A08EE424572873B28F768E9B3108DEA4FDD99CADAA815A181A23A734C50EB"
+  },
+  {
+    "path": "upstream/include/clipper2/clipper.minkowski.h",
+    "sha256": "45C580B63B7BAAB0F7E8FA188AA79B8B5C0E98931C932CD2CA3AF04DF182BC0E"
+  },
+  {
+    "path": "upstream/include/clipper2/clipper.offset.h",
+    "sha256": "7752DC0F619DEFBCC38A2BDDD7468EE98B8F73174D14A921BAFE8D169C72550A"
+  },
+  {
+    "path": "upstream/include/clipper2/clipper.rectclip.h",
+    "sha256": "0401E7DB5ECE52C5BBA603BE64B16F2F511CB22E3418A329583162D616125401"
+  },
+  {
+    "path": "upstream/include/clipper2/clipper.version.h",
+    "sha256": "C86132F2DD70066AF08DEA695F261ED946568A59D305956313A478BCC635F20F"
+  },
+  {
+    "path": "upstream/LICENSE",
+    "sha256": "C9BFF75738922193E67FA726FA225535870D2AA1059F91452C411736284AD566"
+  },
+  {
+    "path": "upstream/src/clipper.engine.cpp",
+    "sha256": "F554BEF0AEE0B23682C6E9DDBC4866755E7DD3F9E2CE686BF533110185D030CF"
+  }
+]

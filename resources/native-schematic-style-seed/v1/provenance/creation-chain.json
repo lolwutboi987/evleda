@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "evleda.native-schematic-style-seed-creation-chain.v1",
+  "app6InitialConfigFiles": 1,
+  "app6InitialSeedBytes": 89,
+  "app6InitialSeedSha256": "924d6c7aee14d7ee684484da06e85559d94b151a3f1113de212aaf873fdc7d20",
+  "nativeGeneratedFiles": 8,
+  "copyChainByteChecks": 24,
+  "sourceUnchanged": true,
+  "legacyNativeExitCode": 0,
+  "completeRepeatExitCode": 0,
+  "configDirectoryNames": [
+    "",
+    "10.0",
+    "10.0/colors"
+  ],
+  "cacheDirectoryNames": [
+    "",
+    "KiCad",
+    "KiCad/10.0"
+  ],
+  "evidence": [
+    {
+      "name": "native-probe-manifest.json",
+      "bytes": 210840,
+      "sha256": "49395d95fd0799923e7024033e044fbab5b9d5e8e6bbfec7cefb8afdd488c255"
+    },
+    {
+      "name": "stable-seed-manifest.json",
+      "bytes": 12750,
+      "sha256": "55bcba422ea2146900b2aa046f77c9930bb33b7d11bd6761fe95394008fd2873"
+    },
+    {
+      "name": "file-identity-manifest.json",
+      "bytes": 18046,
+      "sha256": "19195ea73d04536df2fbd73dcb69e9bdbc8a809142c4f87b4de7d2c4003d3726"
+    },
+    {
+      "name": "complete-seed-file-identity-manifest.json",
+      "bytes": 18739,
+      "sha256": "398e5c02c3ef9b9c77db541e58969d2d9c2c4c2e6bc1f832c1f90b03259e950a"
+    },
+    {
+      "name": "run-probe.ps1",
+      "bytes": 9007,
+      "sha256": "bef91f413d239b54d7d1dd182565ccda51074e876749a6d4561c65d13b2e84c4"
+    },
+    {
+      "name": "verify-stable-seed.ps1",
+      "bytes": 4257,
+      "sha256": "dd519fc3a1bf3082d62a90f36844ddd4d3b58d1db874b61052ba310fae53386a"
+    },
+    {
+      "name": "verify-file-identities.cjs",
+      "bytes": 5574,
+      "sha256": "b3602e2dcf878b8e758db2b61acffba44f94dd5ff386c47d0d3884397d20c5d0"
+    },
+    {
+      "name": "results.md",
+      "bytes": 11412,
+      "sha256": "5f5284cd44420f0cbfea30d8191d4d2b84b34a6d1460e0651b929d53babfaae7"
+    }
+  ],
+  "interpretation": "The one-file synthetic application seed was expanded by the native CLI; all eight resulting file hashes match the three recorded copy-chain stages. Two generated host-specific paths were found and only those two values were blanked in the pending candidate. Inherited environment independence was not established by the legacy runs; the candidate requires its separate authorized repeat.",
+  "fileIdentityScope": "The historical repeat records before/after dev/ino on its original Windows filesystem. Repository copies have different file IDs; only bytes and declared directory topology are carried by this resource."
+}

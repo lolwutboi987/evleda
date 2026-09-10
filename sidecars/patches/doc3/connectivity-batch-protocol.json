@@ -1,0 +1,612 @@
+{
+  "status": "staged-offline-not-installed",
+  "toolName": "sch_apply_connectivity_batch_v1",
+  "schemaVersion": "evleda.kicad-schematic-connectivity-batch.v1",
+  "normalizationVersion": "doc2-complete-plan-v1",
+  "hostPrivate": true,
+  "capability": {
+    "tier": "write",
+    "runtime": "none",
+    "profiles": [
+      "full"
+    ],
+    "writes_files": true,
+    "writes_kicad_gui_state": false,
+    "supports_dry_run": false,
+    "supports_rollback": false,
+    "advertisedOperatingModes": [
+      "write"
+    ]
+  },
+  "annotations": {
+    "readOnlyHint": false,
+    "destructiveHint": true,
+    "idempotentHint": false,
+    "openWorldHint": false
+  },
+  "inputSchema": {
+    "$defs": {
+      "GlobalLabel": {
+        "additionalProperties": false,
+        "properties": {
+          "x_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X Mm",
+            "type": "number"
+          },
+          "y_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y Mm",
+            "type": "number"
+          },
+          "name": {
+            "maxLength": 240,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "rotation": {
+            "enum": [
+              0,
+              90,
+              180,
+              270
+            ],
+            "title": "Rotation",
+            "type": "integer"
+          },
+          "shape": {
+            "const": "passive",
+            "title": "Shape",
+            "type": "string"
+          },
+          "justify": {
+            "enum": [
+              "left",
+              "right",
+              "top",
+              "bottom",
+              "left top",
+              "left bottom",
+              "right top",
+              "right bottom",
+              "none"
+            ],
+            "title": "Justify",
+            "type": "string"
+          }
+        },
+        "required": [
+          "x_mm",
+          "y_mm",
+          "name",
+          "rotation",
+          "shape",
+          "justify"
+        ],
+        "title": "GlobalLabel",
+        "type": "object"
+      },
+      "Point": {
+        "additionalProperties": false,
+        "properties": {
+          "x_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X Mm",
+            "type": "number"
+          },
+          "y_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y Mm",
+            "type": "number"
+          }
+        },
+        "required": [
+          "x_mm",
+          "y_mm"
+        ],
+        "title": "Point",
+        "type": "object"
+      },
+      "Wire": {
+        "additionalProperties": false,
+        "properties": {
+          "x1_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X1 Mm",
+            "type": "number"
+          },
+          "y1_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y1 Mm",
+            "type": "number"
+          },
+          "x2_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X2 Mm",
+            "type": "number"
+          },
+          "y2_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y2 Mm",
+            "type": "number"
+          }
+        },
+        "required": [
+          "x1_mm",
+          "y1_mm",
+          "x2_mm",
+          "y2_mm"
+        ],
+        "title": "Wire",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "normalization_version": {
+        "const": "doc2-complete-plan-v1",
+        "title": "Normalization Version",
+        "type": "string"
+      },
+      "project_file": {
+        "maxLength": 32768,
+        "minLength": 1,
+        "title": "Project File",
+        "type": "string"
+      },
+      "schematic_file": {
+        "maxLength": 32768,
+        "minLength": 1,
+        "title": "Schematic File",
+        "type": "string"
+      },
+      "expected_before_sha256": {
+        "pattern": "^[a-f0-9]{64}$",
+        "title": "Expected Before Sha256",
+        "type": "string"
+      },
+      "expected_before_size_bytes": {
+        "maximum": 8388608,
+        "minimum": 1,
+        "title": "Expected Before Size Bytes",
+        "type": "integer"
+      },
+      "wires": {
+        "items": {
+          "$ref": "#/$defs/Wire"
+        },
+        "maxItems": 4096,
+        "title": "Wires",
+        "type": "array"
+      },
+      "global_labels": {
+        "items": {
+          "$ref": "#/$defs/GlobalLabel"
+        },
+        "maxItems": 4096,
+        "title": "Global Labels",
+        "type": "array"
+      },
+      "no_connects": {
+        "items": {
+          "$ref": "#/$defs/Point"
+        },
+        "maxItems": 4096,
+        "title": "No Connects",
+        "type": "array"
+      },
+      "junctions": {
+        "items": {
+          "$ref": "#/$defs/Point"
+        },
+        "maxItems": 4096,
+        "title": "Junctions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "normalization_version",
+      "project_file",
+      "schematic_file",
+      "expected_before_sha256",
+      "expected_before_size_bytes",
+      "wires",
+      "global_labels",
+      "no_connects",
+      "junctions"
+    ],
+    "title": "Arguments",
+    "type": "object"
+  },
+  "outputSchema": {
+    "$defs": {
+      "Counts": {
+        "additionalProperties": false,
+        "properties": {
+          "wires": {
+            "maximum": 4096,
+            "minimum": 0,
+            "title": "Wires",
+            "type": "integer"
+          },
+          "global_labels": {
+            "maximum": 4096,
+            "minimum": 0,
+            "title": "Global Labels",
+            "type": "integer"
+          },
+          "no_connects": {
+            "maximum": 4096,
+            "minimum": 0,
+            "title": "No Connects",
+            "type": "integer"
+          },
+          "junctions": {
+            "maximum": 4096,
+            "minimum": 0,
+            "title": "Junctions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "wires",
+          "global_labels",
+          "no_connects",
+          "junctions"
+        ],
+        "title": "Counts",
+        "type": "object"
+      },
+      "Identity": {
+        "additionalProperties": false,
+        "properties": {
+          "algorithm": {
+            "const": "sha256",
+            "title": "Algorithm",
+            "type": "string"
+          },
+          "digest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Digest",
+            "type": "string"
+          },
+          "size": {
+            "maximum": 8388608,
+            "minimum": 1,
+            "title": "Size",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "algorithm",
+          "digest",
+          "size"
+        ],
+        "title": "Identity",
+        "type": "object"
+      },
+      "Inventory": {
+        "additionalProperties": false,
+        "properties": {
+          "wires": {
+            "items": {
+              "$ref": "#/$defs/WrittenWire"
+            },
+            "title": "Wires",
+            "type": "array"
+          },
+          "global_labels": {
+            "items": {
+              "$ref": "#/$defs/WrittenLabel"
+            },
+            "title": "Global Labels",
+            "type": "array"
+          },
+          "no_connects": {
+            "items": {
+              "$ref": "#/$defs/WrittenPoint"
+            },
+            "title": "No Connects",
+            "type": "array"
+          },
+          "junctions": {
+            "items": {
+              "$ref": "#/$defs/WrittenPoint"
+            },
+            "title": "Junctions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "wires",
+          "global_labels",
+          "no_connects",
+          "junctions"
+        ],
+        "title": "Inventory",
+        "type": "object"
+      },
+      "Operation": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "wires",
+              "global_labels",
+              "no_connects",
+              "junctions"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "index": {
+            "exclusiveMaximum": 4096,
+            "minimum": 0,
+            "title": "Index",
+            "type": "integer"
+          },
+          "status": {
+            "const": "applied",
+            "title": "Status",
+            "type": "string"
+          },
+          "resultingPrimitiveIndices": {
+            "items": {
+              "type": "integer"
+            },
+            "maxItems": 4096,
+            "minItems": 1,
+            "title": "Resultingprimitiveindices",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kind",
+          "index",
+          "status",
+          "resultingPrimitiveIndices"
+        ],
+        "title": "Operation",
+        "type": "object"
+      },
+      "Reload": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "const": "not_requested",
+            "title": "Status",
+            "type": "string"
+          },
+          "confirmed": {
+            "const": false,
+            "title": "Confirmed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "status",
+          "confirmed"
+        ],
+        "title": "Reload",
+        "type": "object"
+      },
+      "WrittenLabel": {
+        "additionalProperties": false,
+        "properties": {
+          "x_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X Mm",
+            "type": "number"
+          },
+          "y_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y Mm",
+            "type": "number"
+          },
+          "name": {
+            "maxLength": 240,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "rotation": {
+            "enum": [
+              0,
+              90,
+              180,
+              270
+            ],
+            "title": "Rotation",
+            "type": "integer"
+          },
+          "shape": {
+            "const": "passive",
+            "title": "Shape",
+            "type": "string"
+          },
+          "justify": {
+            "enum": [
+              "left",
+              "right",
+              "top",
+              "bottom",
+              "left top",
+              "left bottom",
+              "right top",
+              "right bottom",
+              "none"
+            ],
+            "title": "Justify",
+            "type": "string"
+          },
+          "uuid": {
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+            "title": "Uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "x_mm",
+          "y_mm",
+          "name",
+          "rotation",
+          "shape",
+          "justify",
+          "uuid"
+        ],
+        "title": "WrittenLabel",
+        "type": "object"
+      },
+      "WrittenPoint": {
+        "additionalProperties": false,
+        "properties": {
+          "x_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X Mm",
+            "type": "number"
+          },
+          "y_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y Mm",
+            "type": "number"
+          },
+          "uuid": {
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+            "title": "Uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "x_mm",
+          "y_mm",
+          "uuid"
+        ],
+        "title": "WrittenPoint",
+        "type": "object"
+      },
+      "WrittenWire": {
+        "additionalProperties": false,
+        "properties": {
+          "x1_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X1 Mm",
+            "type": "number"
+          },
+          "y1_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y1 Mm",
+            "type": "number"
+          },
+          "x2_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "X2 Mm",
+            "type": "number"
+          },
+          "y2_mm": {
+            "maximum": 2000,
+            "minimum": -2000,
+            "title": "Y2 Mm",
+            "type": "number"
+          },
+          "uuid": {
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+            "title": "Uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "x1_mm",
+          "y1_mm",
+          "x2_mm",
+          "y2_mm",
+          "uuid"
+        ],
+        "title": "WrittenWire",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "schemaVersion": {
+        "const": "evleda.kicad-schematic-connectivity-batch.v1",
+        "title": "Schemaversion",
+        "type": "string"
+      },
+      "normalizationVersion": {
+        "const": "doc2-complete-plan-v1",
+        "title": "Normalizationversion",
+        "type": "string"
+      },
+      "applied": {
+        "const": true,
+        "title": "Applied",
+        "type": "boolean"
+      },
+      "projectFile": {
+        "title": "Projectfile",
+        "type": "string"
+      },
+      "schematicFile": {
+        "title": "Schematicfile",
+        "type": "string"
+      },
+      "before": {
+        "$ref": "#/$defs/Identity"
+      },
+      "after": {
+        "$ref": "#/$defs/Identity"
+      },
+      "submittedCounts": {
+        "$ref": "#/$defs/Counts"
+      },
+      "appliedCounts": {
+        "$ref": "#/$defs/Counts"
+      },
+      "inventory": {
+        "$ref": "#/$defs/Inventory"
+      },
+      "operationReceipt": {
+        "items": {
+          "$ref": "#/$defs/Operation"
+        },
+        "title": "Operationreceipt",
+        "type": "array"
+      },
+      "reload": {
+        "$ref": "#/$defs/Reload"
+      }
+    },
+    "required": [
+      "schemaVersion",
+      "normalizationVersion",
+      "applied",
+      "projectFile",
+      "schematicFile",
+      "before",
+      "after",
+      "submittedCounts",
+      "appliedCounts",
+      "inventory",
+      "operationReceipt",
+      "reload"
+    ],
+    "title": "Receipt",
+    "type": "object"
+  }
+}

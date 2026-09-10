@@ -1,0 +1,1310 @@
+{
+  "schemaVersion": "evleda.native-pcb-coordinate-oracle.v1",
+  "nativeExecutionByTests": false,
+  "originalOracle": {
+    "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\oracle.json",
+    "sizeBytes": 65196,
+    "sha256": "caad9f6d9b5c7ee6ecb93a1705c5a7e2ab7451443606676d7863a3f5d2726343"
+  },
+  "nativeSourceFacts": [
+    {
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.3/libs/kimath/src/trigo.cpp",
+      "symbol": "RotatePoint",
+      "fact": "Positive PCB rotation uses x*cos+y*sin and y*cos-x*sin; cardinal90=(y,-x),270=(-y,x)."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.3/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp",
+      "symbol": "PCB_IO_KICAD_SEXPR::format(const PAD*)",
+      "fact": "Pad at uses GetFPRelativePosition and absolute GetOrientation, not footprint-relative orientation."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.3/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr_parser.cpp",
+      "symbol": "parsePAD T_at",
+      "fact": "Reads position with SetFPRelativePosition and stored angle with SetOrientation directly."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.3/pcbnew/pad.cpp",
+      "symbol": "PAD::ShapePos",
+      "fact": "Shape offset is rotated by absolute pad orientation and added to pad position; electrical anchor remains GetPosition."
+    }
+  ],
+  "createdAt": "2026-09-09T08:12:33.681470+00:00",
+  "method": "Headless pinned pcbnew.LoadBoard/GetPosition/GetFPRelativePosition/GetOrientationDegrees/ShapePos queries and SaveBoard/reload on four newly authored isolated fixtures; no TypeScript transform supplies expected values.",
+  "nativeVersion": "10.0.3",
+  "pythonVersion": "3.11.5 (main, Jan 23 2026, 07:39:48) [MSC v.1944 64 bit (AMD64)]",
+  "nativeModule": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\Lib\\site-packages\\_pcbnew.pyd",
+  "runtimePins": {
+    "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\runtime-pins.json",
+    "sizeBytes": 1528,
+    "sha256": "3083a5cfad22e859692e9c47a61519cfdccefa7f558d2aec87e29b30bff145e6"
+  },
+  "runtimeFiles": [
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\python.exe",
+      "sizeBytes": 103776,
+      "sha256": "f9e290b5d6d3bd0371ec842ac83f451d72d2b3e173ad745e221f7d839a66e953"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\python311.dll",
+      "sizeBytes": 6029664,
+      "sha256": "d0a454775467adb1ba8be2339de33e0ecf28d484533953d3031f8b0f47f79b88"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\python3.dll",
+      "sizeBytes": 67424,
+      "sha256": "b9a65dee4aeb8d517b2f769ecdf6df449ebfd9e065bdcbc7ff868a317470800b"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\_pcbnew.dll",
+      "sizeBytes": 31095136,
+      "sha256": "eccf7af944c36896d463239af304eb8e414cd4778b82d86d33e46c6838ae348e"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\Lib\\site-packages\\_pcbnew.pyd",
+      "sizeBytes": 31095136,
+      "sha256": "3ea2d4d26d928addfe1439698d355655a89fa1a17054cfba54805470052f6b83"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\Lib\\site-packages\\pcbnew.py",
+      "sizeBytes": 1022246,
+      "sha256": "6b3f567f926bc219709c164c9286acce9c35d72e61e0172d59582fa8493471d1"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\pcbnew.exe",
+      "sizeBytes": 996192,
+      "sha256": "dd82d65ab09c293d1778b643b2f0b529e161e0dfc50445f1a0dd70c26efbb20f"
+    },
+    {
+      "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\kicad-cli.exe",
+      "sizeBytes": 2696544,
+      "sha256": "4e1910666330fa8f2321d4e616957dacab218a0d835c343c869a87757481c2f4"
+    }
+  ],
+  "script": {
+    "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\capture_native.py",
+    "sizeBytes": 7315,
+    "sha256": "1e9b6ce4c98c67c8e9c81462ee3addbb0d7cc7f52d58735d7087edead6bda9e4"
+  },
+  "preservedFailedEvidence": [
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt13-20260909-000540154\\evidence\\terminal-native-copy\\compilations\\345b50e4541acc868722c182a5651080db8be6af02d461c433e2b7ee3aedf733\\project\\flux-fe77bd6cbe2f435fbe79916acccb9d67.kicad_pcb",
+      "sizeBytes": 13120,
+      "sha256": "bf03b9d97255c31ea5993ca6673394770dea0c5a327bd2df3834aa38787c2bff"
+    },
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt13-20260909-000540154\\evidence\\terminal-native-copy\\compilations\\345b50e4541acc868722c182a5651080db8be6af02d461c433e2b7ee3aedf733\\.evleda-mcp-output\\drc_report.json",
+      "sizeBytes": 11896,
+      "sha256": "fecdbc6adeac3100fdcf425137b98d33937f20ffbc810fe783cbdb063dcac751"
+    },
+    {
+      "path": "D:\\EvlEDA-live-proof-v8-attempt13-20260909-000540154\\evidence\\terminal-native-copy\\compilations\\345b50e4541acc868722c182a5651080db8be6af02d461c433e2b7ee3aedf733\\pcb-agent-report.json",
+      "sizeBytes": 176645,
+      "sha256": "f2869e8aa401dfaa2c89d5a647ce1b611a3f56330bcbde45ec95e7f5d1e89537"
+    }
+  ],
+  "cases": [
+    {
+      "input": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\inputs\\rotation-0.kicad_pcb",
+        "sizeBytes": 1628,
+        "sha256": "6b7c7ac3f6d9194e3c43dec6ee2fff6196babdfb5453611406a57ecbfc7bc6fd"
+      },
+      "inputSource": "(kicad_pcb\n  (version 20260206)\n  (generator \"pcbnew\")\n  (generator_version \"10.0\")\n  (general (thickness 1.6))\n  (paper \"A4\")\n  (layers (0 \"F.Cu\" signal) (2 \"B.Cu\" signal) (25 \"Edge.Cuts\" user) (27 \"Margin\" user) (31 \"F.CrtYd\" user \"F.Courtyard\") (29 \"B.CrtYd\" user \"B.Courtyard\"))\n  (setup (pad_to_mask_clearance 0))\n  (footprint \"Oracle:Asymmetric\"\n    (layer \"F.Cu\")\n    (uuid \"10000000-0000-4000-8000-000000000000\")\n    (at 20 30 0)\n    (property \"Reference\" \"U1\" (at 0 -3 0) (layer \"F.SilkS\") (effects (font (size 1 1) (thickness 0.15))))\n    (property \"Value\" \"NATIVE_GEOMETRY_ORACLE\" (at 0 4 0) (layer \"F.Fab\") (effects (font (size 1 1) (thickness 0.15))))\n    (attr smd)\n    (fp_rect (start -2 -1) (end 5 3) (stroke (width 0.05) (type solid)) (fill none) (layer \"F.CrtYd\") (uuid \"20000000-0000-4000-8000-000000000000\"))\n    (fp_rect (start -1.5 -0.5) (end 3.5 2) (stroke (width 0.1) (type solid)) (fill none) (layer \"F.Fab\") (uuid \"30000000-0000-4000-8000-000000000000\"))\n    (pad \"1\" smd rect (at 0.7 1.3 37) (size 1.4 0.6) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"123\") (uuid \"40000000-0000-4000-8000-000000000000\"))\n    (pad \"2\" smd rect (at -2.1 0.4 90) (size 0.5 1.2) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"0\") (uuid \"50000000-0000-4000-8000-000000000000\"))\n    (pad \"3\" thru_hole rect (at 1.1 -0.6 123) (size 1.8 1.1) (drill 0.4 (offset 0.1 0.2)) (layers \"*.Cu\" \"*.Mask\") (net \"OFFSET\") (uuid \"60000000-0000-4000-8000-000000000000\"))\n  )\n  (gr_rect (start 0 0) (end 50 60) (stroke (width 0.05) (type solid)) (fill none) (layer \"Edge.Cuts\") (uuid \"70000000-0000-4000-8000-000000000000\"))\n  (embedded_fonts no)\n)\n",
+      "native": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000000",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": 0,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000000",
+              "netName": "123",
+              "position": {
+                "xNm": 20700000,
+                "yNm": 31300000,
+                "xMm": 20.7,
+                "yMm": 31.3
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": 37,
+              "shapePosition": {
+                "xNm": 20700000,
+                "yNm": 31300000,
+                "xMm": 20.7,
+                "yMm": 31.3
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19.960411,
+                "minYmm": 30.639139,
+                "maxXmm": 21.439589,
+                "maxYmm": 31.960861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000000",
+              "netName": "0",
+              "position": {
+                "xNm": 17900000,
+                "yNm": 30400000,
+                "xMm": 17.9,
+                "yMm": 30.4
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": 90,
+              "shapePosition": {
+                "xNm": 17900000,
+                "yNm": 30400000,
+                "xMm": 17.9,
+                "yMm": 30.4
+              },
+              "shapeBoundingBox": {
+                "minXmm": 17.3,
+                "minYmm": 30.15,
+                "maxXmm": 18.5,
+                "maxYmm": 30.65
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000000",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 21100000,
+                "yNm": 29400000,
+                "xMm": 21.1,
+                "yMm": 29.4
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": 123,
+              "shapePosition": {
+                "xNm": 21213270,
+                "yNm": 29207205,
+                "xMm": 21.21327,
+                "yMm": 29.207205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 20.261826,
+                "minYmm": 28.15285,
+                "maxXmm": 22.164714,
+                "maxYmm": 30.26156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000000",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 18000000,
+                "yNm": 29000000,
+                "xMm": 18,
+                "yMm": 29
+              },
+              "end": {
+                "xNm": 25000000,
+                "yNm": 33000000,
+                "xMm": 25,
+                "yMm": 33
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000000",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 18500000,
+                "yNm": 29500000,
+                "xMm": 18.5,
+                "yMm": 29.5
+              },
+              "end": {
+                "xNm": 23500000,
+                "yNm": 32000000,
+                "xMm": 23.5,
+                "yMm": 32
+              }
+            }
+          ]
+        }
+      ],
+      "saved": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\native-saved\\rotation-0.kicad_pcb",
+        "sizeBytes": 3752,
+        "sha256": "44d7ca0561204dac98fdc00e8a3d12483ec56e284d967c7a5d496b86efceef9d"
+      },
+      "savedSource": "(kicad_pcb\r\n\t(version 20260206)\r\n\t(generator \"pcbnew\")\r\n\t(generator_version \"10.0\")\r\n\t(general\r\n\t\t(thickness 1.6)\r\n\t\t(legacy_teardrops no)\r\n\t)\r\n\t(paper \"A4\")\r\n\t(layers\r\n\t\t(0 \"F.Cu\" signal)\r\n\t\t(2 \"B.Cu\" signal)\r\n\t\t(25 \"Edge.Cuts\" user)\r\n\t\t(27 \"Margin\" user)\r\n\t\t(31 \"F.CrtYd\" user \"F.Courtyard\")\r\n\t\t(29 \"B.CrtYd\" user \"B.Courtyard\")\r\n\t)\r\n\t(setup\r\n\t\t(pad_to_mask_clearance 0)\r\n\t\t(allow_soldermask_bridges_in_footprints no)\r\n\t\t(tenting\r\n\t\t\t(front yes)\r\n\t\t\t(back yes)\r\n\t\t)\r\n\t\t(covering\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(plugging\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(capping no)\r\n\t\t(filling no)\r\n\t\t(pcbplotparams\r\n\t\t\t(layerselection 0x00000000_00000000_55555555_5755f5ff)\r\n\t\t\t(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)\r\n\t\t\t(disableapertmacros no)\r\n\t\t\t(usegerberextensions no)\r\n\t\t\t(usegerberattributes yes)\r\n\t\t\t(usegerberadvancedattributes yes)\r\n\t\t\t(creategerberjobfile yes)\r\n\t\t\t(dashed_line_dash_ratio 12)\r\n\t\t\t(dashed_line_gap_ratio 3)\r\n\t\t\t(svgprecision 4)\r\n\t\t\t(plotframeref no)\r\n\t\t\t(mode 1)\r\n\t\t\t(useauxorigin no)\r\n\t\t\t(pdf_front_fp_property_popups yes)\r\n\t\t\t(pdf_back_fp_property_popups yes)\r\n\t\t\t(pdf_metadata yes)\r\n\t\t\t(pdf_single_document no)\r\n\t\t\t(dxfpolygonmode yes)\r\n\t\t\t(dxfimperialunits yes)\r\n\t\t\t(dxfusepcbnewfont yes)\r\n\t\t\t(psnegative no)\r\n\t\t\t(psa4output no)\r\n\t\t\t(plot_black_and_white yes)\r\n\t\t\t(sketchpadsonfab no)\r\n\t\t\t(plotpadnumbers no)\r\n\t\t\t(hidednponfab no)\r\n\t\t\t(sketchdnponfab yes)\r\n\t\t\t(crossoutdnponfab yes)\r\n\t\t\t(subtractmaskfromsilk no)\r\n\t\t\t(outputformat 1)\r\n\t\t\t(mirror no)\r\n\t\t\t(drillshape 1)\r\n\t\t\t(scaleselection 1)\r\n\t\t\t(outputdirectory \"\")\r\n\t\t)\r\n\t)\r\n\t(footprint \"Oracle:Asymmetric\"\r\n\t\t(layer \"F.Cu\")\r\n\t\t(uuid \"10000000-0000-4000-8000-000000000000\")\r\n\t\t(at 20 30)\r\n\t\t(property \"Reference\" \"U1\"\r\n\t\t\t(at 0 -3 0)\r\n\t\t\t(layer \"F.SilkS\")\r\n\t\t\t(uuid \"f942e4a5-c022-4bb8-b9a9-e4a6f7bffb64\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Value\" \"NATIVE_GEOMETRY_ORACLE\"\r\n\t\t\t(at 0 4 0)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"dc4cda74-0954-46f5-9aed-e790265a65ff\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Datasheet\" \"\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"4dcef8b1-ae04-45d7-8fad-e0cb470283f5\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Description\" \"\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"9311465f-9828-4a62-bbaf-5184efbe9280\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(attr smd)\r\n\t\t(duplicate_pad_numbers_are_jumpers no)\r\n\t\t(fp_rect\r\n\t\t\t(start -2 -1)\r\n\t\t\t(end 5 3)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.05)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.CrtYd\")\r\n\t\t\t(uuid \"20000000-0000-4000-8000-000000000000\")\r\n\t\t)\r\n\t\t(fp_rect\r\n\t\t\t(start -1.5 -0.5)\r\n\t\t\t(end 3.5 2)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.1)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"30000000-0000-4000-8000-000000000000\")\r\n\t\t)\r\n\t\t(pad \"1\" smd rect\r\n\t\t\t(at 0.7 1.3 37)\r\n\t\t\t(size 1.4 0.6)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"123\")\r\n\t\t\t(uuid \"40000000-0000-4000-8000-000000000000\")\r\n\t\t)\r\n\t\t(pad \"2\" smd rect\r\n\t\t\t(at -2.1 0.4 90)\r\n\t\t\t(size 0.5 1.2)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"0\")\r\n\t\t\t(uuid \"50000000-0000-4000-8000-000000000000\")\r\n\t\t)\r\n\t\t(pad \"3\" thru_hole rect\r\n\t\t\t(at 1.1 -0.6 123)\r\n\t\t\t(size 1.8 1.1)\r\n\t\t\t(drill 0.4\r\n\t\t\t\t(offset 0.1 0.2)\r\n\t\t\t)\r\n\t\t\t(layers \"*.Cu\" \"*.Mask\")\r\n\t\t\t(remove_unused_layers no)\r\n\t\t\t(net \"OFFSET\")\r\n\t\t\t(uuid \"60000000-0000-4000-8000-000000000000\")\r\n\t\t)\r\n\t\t(embedded_fonts no)\r\n\t)\r\n\t(gr_rect\r\n\t\t(start 0 0)\r\n\t\t(end 50 60)\r\n\t\t(stroke\r\n\t\t\t(width 0.05)\r\n\t\t\t(type solid)\r\n\t\t)\r\n\t\t(fill no)\r\n\t\t(layer \"Edge.Cuts\")\r\n\t\t(uuid \"70000000-0000-4000-8000-000000000000\")\r\n\t)\r\n\t(embedded_fonts no)\r\n)\r\n",
+      "nativeReload": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000000",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": 0,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000000",
+              "netName": "123",
+              "position": {
+                "xNm": 20700000,
+                "yNm": 31300000,
+                "xMm": 20.7,
+                "yMm": 31.3
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": 37,
+              "shapePosition": {
+                "xNm": 20700000,
+                "yNm": 31300000,
+                "xMm": 20.7,
+                "yMm": 31.3
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19.960411,
+                "minYmm": 30.639139,
+                "maxXmm": 21.439589,
+                "maxYmm": 31.960861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000000",
+              "netName": "0",
+              "position": {
+                "xNm": 17900000,
+                "yNm": 30400000,
+                "xMm": 17.9,
+                "yMm": 30.4
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": 90,
+              "shapePosition": {
+                "xNm": 17900000,
+                "yNm": 30400000,
+                "xMm": 17.9,
+                "yMm": 30.4
+              },
+              "shapeBoundingBox": {
+                "minXmm": 17.3,
+                "minYmm": 30.15,
+                "maxXmm": 18.5,
+                "maxYmm": 30.65
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000000",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 21100000,
+                "yNm": 29400000,
+                "xMm": 21.1,
+                "yMm": 29.4
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": 123,
+              "shapePosition": {
+                "xNm": 21213270,
+                "yNm": 29207205,
+                "xMm": 21.21327,
+                "yMm": 29.207205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 20.261826,
+                "minYmm": 28.15285,
+                "maxXmm": 22.164714,
+                "maxYmm": 30.26156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000000",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 18000000,
+                "yNm": 29000000,
+                "xMm": 18,
+                "yMm": 29
+              },
+              "end": {
+                "xNm": 25000000,
+                "yNm": 33000000,
+                "xMm": 25,
+                "yMm": 33
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000000",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 18500000,
+                "yNm": 29500000,
+                "xMm": 18.5,
+                "yMm": 29.5
+              },
+              "end": {
+                "xNm": 23500000,
+                "yNm": 32000000,
+                "xMm": 23.5,
+                "yMm": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "input": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\inputs\\rotation-90.kicad_pcb",
+        "sizeBytes": 1631,
+        "sha256": "5d1877ce8738262928dbf962a61187d52c72655e17e23f4ef308891674c01afa"
+      },
+      "inputSource": "(kicad_pcb\n  (version 20260206)\n  (generator \"pcbnew\")\n  (generator_version \"10.0\")\n  (general (thickness 1.6))\n  (paper \"A4\")\n  (layers (0 \"F.Cu\" signal) (2 \"B.Cu\" signal) (25 \"Edge.Cuts\" user) (27 \"Margin\" user) (31 \"F.CrtYd\" user \"F.Courtyard\") (29 \"B.CrtYd\" user \"B.Courtyard\"))\n  (setup (pad_to_mask_clearance 0))\n  (footprint \"Oracle:Asymmetric\"\n    (layer \"F.Cu\")\n    (uuid \"10000000-0000-4000-8000-000000000001\")\n    (at 20 30 90)\n    (property \"Reference\" \"U1\" (at 0 -3 90) (layer \"F.SilkS\") (effects (font (size 1 1) (thickness 0.15))))\n    (property \"Value\" \"NATIVE_GEOMETRY_ORACLE\" (at 0 4 90) (layer \"F.Fab\") (effects (font (size 1 1) (thickness 0.15))))\n    (attr smd)\n    (fp_rect (start -2 -1) (end 5 3) (stroke (width 0.05) (type solid)) (fill none) (layer \"F.CrtYd\") (uuid \"20000000-0000-4000-8000-000000000001\"))\n    (fp_rect (start -1.5 -0.5) (end 3.5 2) (stroke (width 0.1) (type solid)) (fill none) (layer \"F.Fab\") (uuid \"30000000-0000-4000-8000-000000000001\"))\n    (pad \"1\" smd rect (at 0.7 1.3 37) (size 1.4 0.6) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"123\") (uuid \"40000000-0000-4000-8000-000000000001\"))\n    (pad \"2\" smd rect (at -2.1 0.4 90) (size 0.5 1.2) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"0\") (uuid \"50000000-0000-4000-8000-000000000001\"))\n    (pad \"3\" thru_hole rect (at 1.1 -0.6 123) (size 1.8 1.1) (drill 0.4 (offset 0.1 0.2)) (layers \"*.Cu\" \"*.Mask\") (net \"OFFSET\") (uuid \"60000000-0000-4000-8000-000000000001\"))\n  )\n  (gr_rect (start 0 0) (end 50 60) (stroke (width 0.05) (type solid)) (fill none) (layer \"Edge.Cuts\") (uuid \"70000000-0000-4000-8000-000000000001\"))\n  (embedded_fonts no)\n)\n",
+      "native": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000001",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": 90,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000001",
+              "netName": "123",
+              "position": {
+                "xNm": 21300000,
+                "yNm": 29300000,
+                "xMm": 21.3,
+                "yMm": 29.3
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": -53,
+              "shapePosition": {
+                "xNm": 21300000,
+                "yNm": 29300000,
+                "xMm": 21.3,
+                "yMm": 29.3
+              },
+              "shapeBoundingBox": {
+                "minXmm": 20.560411,
+                "minYmm": 28.639139,
+                "maxXmm": 22.039589,
+                "maxYmm": 29.960861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000001",
+              "netName": "0",
+              "position": {
+                "xNm": 20400000,
+                "yNm": 32100000,
+                "xMm": 20.4,
+                "yMm": 32.1
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": 0,
+              "shapePosition": {
+                "xNm": 20400000,
+                "yNm": 32100000,
+                "xMm": 20.4,
+                "yMm": 32.1
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19.8,
+                "minYmm": 31.85,
+                "maxXmm": 21,
+                "maxYmm": 32.35
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000001",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 19400000,
+                "yNm": 28900000,
+                "xMm": 19.4,
+                "yMm": 28.9
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": 33,
+              "shapePosition": {
+                "xNm": 19513270,
+                "yNm": 28707205,
+                "xMm": 19.51327,
+                "yMm": 28.707205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 18.561826,
+                "minYmm": 27.65285,
+                "maxXmm": 20.464714,
+                "maxYmm": 29.76156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000001",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 19000000,
+                "yNm": 32000000,
+                "xMm": 19,
+                "yMm": 32
+              },
+              "end": {
+                "xNm": 23000000,
+                "yNm": 25000000,
+                "xMm": 23,
+                "yMm": 25
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000001",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 19500000,
+                "yNm": 31500000,
+                "xMm": 19.5,
+                "yMm": 31.5
+              },
+              "end": {
+                "xNm": 22000000,
+                "yNm": 26500000,
+                "xMm": 22,
+                "yMm": 26.5
+              }
+            }
+          ]
+        }
+      ],
+      "saved": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\native-saved\\rotation-90.kicad_pcb",
+        "sizeBytes": 3759,
+        "sha256": "244b022a533b481ad6cabb24ad600489a833b9ac5d070f07fdec7121f9a80ee1"
+      },
+      "savedSource": "(kicad_pcb\r\n\t(version 20260206)\r\n\t(generator \"pcbnew\")\r\n\t(generator_version \"10.0\")\r\n\t(general\r\n\t\t(thickness 1.6)\r\n\t\t(legacy_teardrops no)\r\n\t)\r\n\t(paper \"A4\")\r\n\t(layers\r\n\t\t(0 \"F.Cu\" signal)\r\n\t\t(2 \"B.Cu\" signal)\r\n\t\t(25 \"Edge.Cuts\" user)\r\n\t\t(27 \"Margin\" user)\r\n\t\t(31 \"F.CrtYd\" user \"F.Courtyard\")\r\n\t\t(29 \"B.CrtYd\" user \"B.Courtyard\")\r\n\t)\r\n\t(setup\r\n\t\t(pad_to_mask_clearance 0)\r\n\t\t(allow_soldermask_bridges_in_footprints no)\r\n\t\t(tenting\r\n\t\t\t(front yes)\r\n\t\t\t(back yes)\r\n\t\t)\r\n\t\t(covering\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(plugging\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(capping no)\r\n\t\t(filling no)\r\n\t\t(pcbplotparams\r\n\t\t\t(layerselection 0x00000000_00000000_55555555_5755f5ff)\r\n\t\t\t(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)\r\n\t\t\t(disableapertmacros no)\r\n\t\t\t(usegerberextensions no)\r\n\t\t\t(usegerberattributes yes)\r\n\t\t\t(usegerberadvancedattributes yes)\r\n\t\t\t(creategerberjobfile yes)\r\n\t\t\t(dashed_line_dash_ratio 12)\r\n\t\t\t(dashed_line_gap_ratio 3)\r\n\t\t\t(svgprecision 4)\r\n\t\t\t(plotframeref no)\r\n\t\t\t(mode 1)\r\n\t\t\t(useauxorigin no)\r\n\t\t\t(pdf_front_fp_property_popups yes)\r\n\t\t\t(pdf_back_fp_property_popups yes)\r\n\t\t\t(pdf_metadata yes)\r\n\t\t\t(pdf_single_document no)\r\n\t\t\t(dxfpolygonmode yes)\r\n\t\t\t(dxfimperialunits yes)\r\n\t\t\t(dxfusepcbnewfont yes)\r\n\t\t\t(psnegative no)\r\n\t\t\t(psa4output no)\r\n\t\t\t(plot_black_and_white yes)\r\n\t\t\t(sketchpadsonfab no)\r\n\t\t\t(plotpadnumbers no)\r\n\t\t\t(hidednponfab no)\r\n\t\t\t(sketchdnponfab yes)\r\n\t\t\t(crossoutdnponfab yes)\r\n\t\t\t(subtractmaskfromsilk no)\r\n\t\t\t(outputformat 1)\r\n\t\t\t(mirror no)\r\n\t\t\t(drillshape 1)\r\n\t\t\t(scaleselection 1)\r\n\t\t\t(outputdirectory \"\")\r\n\t\t)\r\n\t)\r\n\t(footprint \"Oracle:Asymmetric\"\r\n\t\t(layer \"F.Cu\")\r\n\t\t(uuid \"10000000-0000-4000-8000-000000000001\")\r\n\t\t(at 20 30 90)\r\n\t\t(property \"Reference\" \"U1\"\r\n\t\t\t(at 0 -3 90)\r\n\t\t\t(layer \"F.SilkS\")\r\n\t\t\t(uuid \"100b4a88-0eb9-43e4-a01f-1e39020f9ae7\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Value\" \"NATIVE_GEOMETRY_ORACLE\"\r\n\t\t\t(at 0 4 90)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"ed376682-8e0c-4f9e-98d7-7073937b8707\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Datasheet\" \"\"\r\n\t\t\t(at 0 0 90)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"66fe1e64-1e3a-4b28-93ba-b6415306b01c\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Description\" \"\"\r\n\t\t\t(at 0 0 90)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"42a21fbe-34d2-4991-a4a1-5d335c3d7e69\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(attr smd)\r\n\t\t(duplicate_pad_numbers_are_jumpers no)\r\n\t\t(fp_rect\r\n\t\t\t(start -2 -1)\r\n\t\t\t(end 5 3)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.05)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.CrtYd\")\r\n\t\t\t(uuid \"20000000-0000-4000-8000-000000000001\")\r\n\t\t)\r\n\t\t(fp_rect\r\n\t\t\t(start -1.5 -0.5)\r\n\t\t\t(end 3.5 2)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.1)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"30000000-0000-4000-8000-000000000001\")\r\n\t\t)\r\n\t\t(pad \"1\" smd rect\r\n\t\t\t(at 0.7 1.3 37)\r\n\t\t\t(size 1.4 0.6)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"123\")\r\n\t\t\t(uuid \"40000000-0000-4000-8000-000000000001\")\r\n\t\t)\r\n\t\t(pad \"2\" smd rect\r\n\t\t\t(at -2.1 0.4 90)\r\n\t\t\t(size 0.5 1.2)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"0\")\r\n\t\t\t(uuid \"50000000-0000-4000-8000-000000000001\")\r\n\t\t)\r\n\t\t(pad \"3\" thru_hole rect\r\n\t\t\t(at 1.1 -0.6 123)\r\n\t\t\t(size 1.8 1.1)\r\n\t\t\t(drill 0.4\r\n\t\t\t\t(offset 0.1 0.2)\r\n\t\t\t)\r\n\t\t\t(layers \"*.Cu\" \"*.Mask\")\r\n\t\t\t(remove_unused_layers no)\r\n\t\t\t(net \"OFFSET\")\r\n\t\t\t(uuid \"60000000-0000-4000-8000-000000000001\")\r\n\t\t)\r\n\t\t(embedded_fonts no)\r\n\t)\r\n\t(gr_rect\r\n\t\t(start 0 0)\r\n\t\t(end 50 60)\r\n\t\t(stroke\r\n\t\t\t(width 0.05)\r\n\t\t\t(type solid)\r\n\t\t)\r\n\t\t(fill no)\r\n\t\t(layer \"Edge.Cuts\")\r\n\t\t(uuid \"70000000-0000-4000-8000-000000000001\")\r\n\t)\r\n\t(embedded_fonts no)\r\n)\r\n",
+      "nativeReload": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000001",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": 90,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000001",
+              "netName": "123",
+              "position": {
+                "xNm": 21300000,
+                "yNm": 29300000,
+                "xMm": 21.3,
+                "yMm": 29.3
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": -53,
+              "shapePosition": {
+                "xNm": 21300000,
+                "yNm": 29300000,
+                "xMm": 21.3,
+                "yMm": 29.3
+              },
+              "shapeBoundingBox": {
+                "minXmm": 20.560411,
+                "minYmm": 28.639139,
+                "maxXmm": 22.039589,
+                "maxYmm": 29.960861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000001",
+              "netName": "0",
+              "position": {
+                "xNm": 20400000,
+                "yNm": 32100000,
+                "xMm": 20.4,
+                "yMm": 32.1
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": 0,
+              "shapePosition": {
+                "xNm": 20400000,
+                "yNm": 32100000,
+                "xMm": 20.4,
+                "yMm": 32.1
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19.8,
+                "minYmm": 31.85,
+                "maxXmm": 21,
+                "maxYmm": 32.35
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000001",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 19400000,
+                "yNm": 28900000,
+                "xMm": 19.4,
+                "yMm": 28.9
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": 33,
+              "shapePosition": {
+                "xNm": 19513270,
+                "yNm": 28707205,
+                "xMm": 19.51327,
+                "yMm": 28.707205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 18.561826,
+                "minYmm": 27.65285,
+                "maxXmm": 20.464714,
+                "maxYmm": 29.76156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000001",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 19000000,
+                "yNm": 32000000,
+                "xMm": 19,
+                "yMm": 32
+              },
+              "end": {
+                "xNm": 23000000,
+                "yNm": 25000000,
+                "xMm": 23,
+                "yMm": 25
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000001",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 19500000,
+                "yNm": 31500000,
+                "xMm": 19.5,
+                "yMm": 31.5
+              },
+              "end": {
+                "xNm": 22000000,
+                "yNm": 26500000,
+                "xMm": 22,
+                "yMm": 26.5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "input": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\inputs\\rotation-180.kicad_pcb",
+        "sizeBytes": 1634,
+        "sha256": "9090617a1e546cf66dd543d8775140cd806bc7b0bc016762e3188d06222aef2b"
+      },
+      "inputSource": "(kicad_pcb\n  (version 20260206)\n  (generator \"pcbnew\")\n  (generator_version \"10.0\")\n  (general (thickness 1.6))\n  (paper \"A4\")\n  (layers (0 \"F.Cu\" signal) (2 \"B.Cu\" signal) (25 \"Edge.Cuts\" user) (27 \"Margin\" user) (31 \"F.CrtYd\" user \"F.Courtyard\") (29 \"B.CrtYd\" user \"B.Courtyard\"))\n  (setup (pad_to_mask_clearance 0))\n  (footprint \"Oracle:Asymmetric\"\n    (layer \"F.Cu\")\n    (uuid \"10000000-0000-4000-8000-000000000002\")\n    (at 20 30 180)\n    (property \"Reference\" \"U1\" (at 0 -3 180) (layer \"F.SilkS\") (effects (font (size 1 1) (thickness 0.15))))\n    (property \"Value\" \"NATIVE_GEOMETRY_ORACLE\" (at 0 4 180) (layer \"F.Fab\") (effects (font (size 1 1) (thickness 0.15))))\n    (attr smd)\n    (fp_rect (start -2 -1) (end 5 3) (stroke (width 0.05) (type solid)) (fill none) (layer \"F.CrtYd\") (uuid \"20000000-0000-4000-8000-000000000002\"))\n    (fp_rect (start -1.5 -0.5) (end 3.5 2) (stroke (width 0.1) (type solid)) (fill none) (layer \"F.Fab\") (uuid \"30000000-0000-4000-8000-000000000002\"))\n    (pad \"1\" smd rect (at 0.7 1.3 37) (size 1.4 0.6) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"123\") (uuid \"40000000-0000-4000-8000-000000000002\"))\n    (pad \"2\" smd rect (at -2.1 0.4 90) (size 0.5 1.2) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"0\") (uuid \"50000000-0000-4000-8000-000000000002\"))\n    (pad \"3\" thru_hole rect (at 1.1 -0.6 123) (size 1.8 1.1) (drill 0.4 (offset 0.1 0.2)) (layers \"*.Cu\" \"*.Mask\") (net \"OFFSET\") (uuid \"60000000-0000-4000-8000-000000000002\"))\n  )\n  (gr_rect (start 0 0) (end 50 60) (stroke (width 0.05) (type solid)) (fill none) (layer \"Edge.Cuts\") (uuid \"70000000-0000-4000-8000-000000000002\"))\n  (embedded_fonts no)\n)\n",
+      "native": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000002",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": 180,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000002",
+              "netName": "123",
+              "position": {
+                "xNm": 19300000,
+                "yNm": 28700000,
+                "xMm": 19.3,
+                "yMm": 28.7
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": -143,
+              "shapePosition": {
+                "xNm": 19300000,
+                "yNm": 28700000,
+                "xMm": 19.3,
+                "yMm": 28.7
+              },
+              "shapeBoundingBox": {
+                "minXmm": 18.560411,
+                "minYmm": 28.039139,
+                "maxXmm": 20.039589,
+                "maxYmm": 29.360861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000002",
+              "netName": "0",
+              "position": {
+                "xNm": 22100000,
+                "yNm": 29600000,
+                "xMm": 22.1,
+                "yMm": 29.6
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": -90,
+              "shapePosition": {
+                "xNm": 22100000,
+                "yNm": 29600000,
+                "xMm": 22.1,
+                "yMm": 29.6
+              },
+              "shapeBoundingBox": {
+                "minXmm": 21.5,
+                "minYmm": 29.35,
+                "maxXmm": 22.7,
+                "maxYmm": 29.85
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000002",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 18900000,
+                "yNm": 30600000,
+                "xMm": 18.9,
+                "yMm": 30.6
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": -57,
+              "shapePosition": {
+                "xNm": 19013270,
+                "yNm": 30407205,
+                "xMm": 19.01327,
+                "yMm": 30.407205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 18.061826,
+                "minYmm": 29.35285,
+                "maxXmm": 19.964714,
+                "maxYmm": 31.46156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000002",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 22000000,
+                "yNm": 31000000,
+                "xMm": 22,
+                "yMm": 31
+              },
+              "end": {
+                "xNm": 15000000,
+                "yNm": 27000000,
+                "xMm": 15,
+                "yMm": 27
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000002",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 21500000,
+                "yNm": 30500000,
+                "xMm": 21.5,
+                "yMm": 30.5
+              },
+              "end": {
+                "xNm": 16500000,
+                "yNm": 28000000,
+                "xMm": 16.5,
+                "yMm": 28
+              }
+            }
+          ]
+        }
+      ],
+      "saved": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\native-saved\\rotation-180.kicad_pcb",
+        "sizeBytes": 3764,
+        "sha256": "fe772c4a4cecf7e277bb65e3d2511c5644460028bc6fa8e92c22a2a109d0d365"
+      },
+      "savedSource": "(kicad_pcb\r\n\t(version 20260206)\r\n\t(generator \"pcbnew\")\r\n\t(generator_version \"10.0\")\r\n\t(general\r\n\t\t(thickness 1.6)\r\n\t\t(legacy_teardrops no)\r\n\t)\r\n\t(paper \"A4\")\r\n\t(layers\r\n\t\t(0 \"F.Cu\" signal)\r\n\t\t(2 \"B.Cu\" signal)\r\n\t\t(25 \"Edge.Cuts\" user)\r\n\t\t(27 \"Margin\" user)\r\n\t\t(31 \"F.CrtYd\" user \"F.Courtyard\")\r\n\t\t(29 \"B.CrtYd\" user \"B.Courtyard\")\r\n\t)\r\n\t(setup\r\n\t\t(pad_to_mask_clearance 0)\r\n\t\t(allow_soldermask_bridges_in_footprints no)\r\n\t\t(tenting\r\n\t\t\t(front yes)\r\n\t\t\t(back yes)\r\n\t\t)\r\n\t\t(covering\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(plugging\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(capping no)\r\n\t\t(filling no)\r\n\t\t(pcbplotparams\r\n\t\t\t(layerselection 0x00000000_00000000_55555555_5755f5ff)\r\n\t\t\t(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)\r\n\t\t\t(disableapertmacros no)\r\n\t\t\t(usegerberextensions no)\r\n\t\t\t(usegerberattributes yes)\r\n\t\t\t(usegerberadvancedattributes yes)\r\n\t\t\t(creategerberjobfile yes)\r\n\t\t\t(dashed_line_dash_ratio 12)\r\n\t\t\t(dashed_line_gap_ratio 3)\r\n\t\t\t(svgprecision 4)\r\n\t\t\t(plotframeref no)\r\n\t\t\t(mode 1)\r\n\t\t\t(useauxorigin no)\r\n\t\t\t(pdf_front_fp_property_popups yes)\r\n\t\t\t(pdf_back_fp_property_popups yes)\r\n\t\t\t(pdf_metadata yes)\r\n\t\t\t(pdf_single_document no)\r\n\t\t\t(dxfpolygonmode yes)\r\n\t\t\t(dxfimperialunits yes)\r\n\t\t\t(dxfusepcbnewfont yes)\r\n\t\t\t(psnegative no)\r\n\t\t\t(psa4output no)\r\n\t\t\t(plot_black_and_white yes)\r\n\t\t\t(sketchpadsonfab no)\r\n\t\t\t(plotpadnumbers no)\r\n\t\t\t(hidednponfab no)\r\n\t\t\t(sketchdnponfab yes)\r\n\t\t\t(crossoutdnponfab yes)\r\n\t\t\t(subtractmaskfromsilk no)\r\n\t\t\t(outputformat 1)\r\n\t\t\t(mirror no)\r\n\t\t\t(drillshape 1)\r\n\t\t\t(scaleselection 1)\r\n\t\t\t(outputdirectory \"\")\r\n\t\t)\r\n\t)\r\n\t(footprint \"Oracle:Asymmetric\"\r\n\t\t(layer \"F.Cu\")\r\n\t\t(uuid \"10000000-0000-4000-8000-000000000002\")\r\n\t\t(at 20 30 180)\r\n\t\t(property \"Reference\" \"U1\"\r\n\t\t\t(at 0 -3 180)\r\n\t\t\t(layer \"F.SilkS\")\r\n\t\t\t(uuid \"b9c210c8-a6fa-4b1f-816f-97e436b1055e\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Value\" \"NATIVE_GEOMETRY_ORACLE\"\r\n\t\t\t(at 0 4 180)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"4a604378-12cc-4753-b797-18821b90443a\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Datasheet\" \"\"\r\n\t\t\t(at 0 0 180)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"b4a43ba3-59fb-4cf6-95fd-ee05ec819b7c\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Description\" \"\"\r\n\t\t\t(at 0 0 180)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"bc850fff-8bd2-4cce-b945-6942990b5e29\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(attr smd)\r\n\t\t(duplicate_pad_numbers_are_jumpers no)\r\n\t\t(fp_rect\r\n\t\t\t(start -2 -1)\r\n\t\t\t(end 5 3)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.05)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.CrtYd\")\r\n\t\t\t(uuid \"20000000-0000-4000-8000-000000000002\")\r\n\t\t)\r\n\t\t(fp_rect\r\n\t\t\t(start -1.5 -0.5)\r\n\t\t\t(end 3.5 2)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.1)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"30000000-0000-4000-8000-000000000002\")\r\n\t\t)\r\n\t\t(pad \"1\" smd rect\r\n\t\t\t(at 0.7 1.3 37)\r\n\t\t\t(size 1.4 0.6)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"123\")\r\n\t\t\t(uuid \"40000000-0000-4000-8000-000000000002\")\r\n\t\t)\r\n\t\t(pad \"2\" smd rect\r\n\t\t\t(at -2.1 0.4 90)\r\n\t\t\t(size 0.5 1.2)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"0\")\r\n\t\t\t(uuid \"50000000-0000-4000-8000-000000000002\")\r\n\t\t)\r\n\t\t(pad \"3\" thru_hole rect\r\n\t\t\t(at 1.1 -0.6 123)\r\n\t\t\t(size 1.8 1.1)\r\n\t\t\t(drill 0.4\r\n\t\t\t\t(offset 0.1 0.2)\r\n\t\t\t)\r\n\t\t\t(layers \"*.Cu\" \"*.Mask\")\r\n\t\t\t(remove_unused_layers no)\r\n\t\t\t(net \"OFFSET\")\r\n\t\t\t(uuid \"60000000-0000-4000-8000-000000000002\")\r\n\t\t)\r\n\t\t(embedded_fonts no)\r\n\t)\r\n\t(gr_rect\r\n\t\t(start 0 0)\r\n\t\t(end 50 60)\r\n\t\t(stroke\r\n\t\t\t(width 0.05)\r\n\t\t\t(type solid)\r\n\t\t)\r\n\t\t(fill no)\r\n\t\t(layer \"Edge.Cuts\")\r\n\t\t(uuid \"70000000-0000-4000-8000-000000000002\")\r\n\t)\r\n\t(embedded_fonts no)\r\n)\r\n",
+      "nativeReload": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000002",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": 180,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000002",
+              "netName": "123",
+              "position": {
+                "xNm": 19300000,
+                "yNm": 28700000,
+                "xMm": 19.3,
+                "yMm": 28.7
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": -143,
+              "shapePosition": {
+                "xNm": 19300000,
+                "yNm": 28700000,
+                "xMm": 19.3,
+                "yMm": 28.7
+              },
+              "shapeBoundingBox": {
+                "minXmm": 18.560411,
+                "minYmm": 28.039139,
+                "maxXmm": 20.039589,
+                "maxYmm": 29.360861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000002",
+              "netName": "0",
+              "position": {
+                "xNm": 22100000,
+                "yNm": 29600000,
+                "xMm": 22.1,
+                "yMm": 29.6
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": -90,
+              "shapePosition": {
+                "xNm": 22100000,
+                "yNm": 29600000,
+                "xMm": 22.1,
+                "yMm": 29.6
+              },
+              "shapeBoundingBox": {
+                "minXmm": 21.5,
+                "minYmm": 29.35,
+                "maxXmm": 22.7,
+                "maxYmm": 29.85
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000002",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 18900000,
+                "yNm": 30600000,
+                "xMm": 18.9,
+                "yMm": 30.6
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": -57,
+              "shapePosition": {
+                "xNm": 19013270,
+                "yNm": 30407205,
+                "xMm": 19.01327,
+                "yMm": 30.407205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 18.061826,
+                "minYmm": 29.35285,
+                "maxXmm": 19.964714,
+                "maxYmm": 31.46156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000002",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 22000000,
+                "yNm": 31000000,
+                "xMm": 22,
+                "yMm": 31
+              },
+              "end": {
+                "xNm": 15000000,
+                "yNm": 27000000,
+                "xMm": 15,
+                "yMm": 27
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000002",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 21500000,
+                "yNm": 30500000,
+                "xMm": 21.5,
+                "yMm": 30.5
+              },
+              "end": {
+                "xNm": 16500000,
+                "yNm": 28000000,
+                "xMm": 16.5,
+                "yMm": 28
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "input": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\inputs\\rotation-270.kicad_pcb",
+        "sizeBytes": 1634,
+        "sha256": "1c1c29cba30ae291e8d633bdd72e0a26f29e070ae538ba858e9fe85bdc89afa8"
+      },
+      "inputSource": "(kicad_pcb\n  (version 20260206)\n  (generator \"pcbnew\")\n  (generator_version \"10.0\")\n  (general (thickness 1.6))\n  (paper \"A4\")\n  (layers (0 \"F.Cu\" signal) (2 \"B.Cu\" signal) (25 \"Edge.Cuts\" user) (27 \"Margin\" user) (31 \"F.CrtYd\" user \"F.Courtyard\") (29 \"B.CrtYd\" user \"B.Courtyard\"))\n  (setup (pad_to_mask_clearance 0))\n  (footprint \"Oracle:Asymmetric\"\n    (layer \"F.Cu\")\n    (uuid \"10000000-0000-4000-8000-000000000003\")\n    (at 20 30 270)\n    (property \"Reference\" \"U1\" (at 0 -3 270) (layer \"F.SilkS\") (effects (font (size 1 1) (thickness 0.15))))\n    (property \"Value\" \"NATIVE_GEOMETRY_ORACLE\" (at 0 4 270) (layer \"F.Fab\") (effects (font (size 1 1) (thickness 0.15))))\n    (attr smd)\n    (fp_rect (start -2 -1) (end 5 3) (stroke (width 0.05) (type solid)) (fill none) (layer \"F.CrtYd\") (uuid \"20000000-0000-4000-8000-000000000003\"))\n    (fp_rect (start -1.5 -0.5) (end 3.5 2) (stroke (width 0.1) (type solid)) (fill none) (layer \"F.Fab\") (uuid \"30000000-0000-4000-8000-000000000003\"))\n    (pad \"1\" smd rect (at 0.7 1.3 37) (size 1.4 0.6) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"123\") (uuid \"40000000-0000-4000-8000-000000000003\"))\n    (pad \"2\" smd rect (at -2.1 0.4 90) (size 0.5 1.2) (layers \"F.Cu\" \"F.Paste\" \"F.Mask\") (net \"0\") (uuid \"50000000-0000-4000-8000-000000000003\"))\n    (pad \"3\" thru_hole rect (at 1.1 -0.6 123) (size 1.8 1.1) (drill 0.4 (offset 0.1 0.2)) (layers \"*.Cu\" \"*.Mask\") (net \"OFFSET\") (uuid \"60000000-0000-4000-8000-000000000003\"))\n  )\n  (gr_rect (start 0 0) (end 50 60) (stroke (width 0.05) (type solid)) (fill none) (layer \"Edge.Cuts\") (uuid \"70000000-0000-4000-8000-000000000003\"))\n  (embedded_fonts no)\n)\n",
+      "native": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000003",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": -90,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000003",
+              "netName": "123",
+              "position": {
+                "xNm": 18700000,
+                "yNm": 30700000,
+                "xMm": 18.7,
+                "yMm": 30.7
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": 127,
+              "shapePosition": {
+                "xNm": 18700000,
+                "yNm": 30700000,
+                "xMm": 18.7,
+                "yMm": 30.7
+              },
+              "shapeBoundingBox": {
+                "minXmm": 17.960411,
+                "minYmm": 30.039139,
+                "maxXmm": 19.439589,
+                "maxYmm": 31.360861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000003",
+              "netName": "0",
+              "position": {
+                "xNm": 19600000,
+                "yNm": 27900000,
+                "xMm": 19.6,
+                "yMm": 27.9
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": 180,
+              "shapePosition": {
+                "xNm": 19600000,
+                "yNm": 27900000,
+                "xMm": 19.6,
+                "yMm": 27.9
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19,
+                "minYmm": 27.65,
+                "maxXmm": 20.2,
+                "maxYmm": 28.15
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000003",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 20600000,
+                "yNm": 31100000,
+                "xMm": 20.6,
+                "yMm": 31.1
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": 213,
+              "shapePosition": {
+                "xNm": 20713270,
+                "yNm": 30907205,
+                "xMm": 20.71327,
+                "yMm": 30.907205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19.761826,
+                "minYmm": 29.85285,
+                "maxXmm": 21.664714,
+                "maxYmm": 31.96156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000003",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 21000000,
+                "yNm": 28000000,
+                "xMm": 21,
+                "yMm": 28
+              },
+              "end": {
+                "xNm": 17000000,
+                "yNm": 35000000,
+                "xMm": 17,
+                "yMm": 35
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000003",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 20500000,
+                "yNm": 28500000,
+                "xMm": 20.5,
+                "yMm": 28.5
+              },
+              "end": {
+                "xNm": 18000000,
+                "yNm": 33500000,
+                "xMm": 18,
+                "yMm": 33.5
+              }
+            }
+          ]
+        }
+      ],
+      "saved": {
+        "path": "D:\\EvlEDA-pcb-coordinate-oracle-20260909\\native-saved\\rotation-270.kicad_pcb",
+        "sizeBytes": 3764,
+        "sha256": "9df61adaef96713ec842e0fe0d14121b9fb6fcddf4cab7044e4f6faf80f4195f"
+      },
+      "savedSource": "(kicad_pcb\r\n\t(version 20260206)\r\n\t(generator \"pcbnew\")\r\n\t(generator_version \"10.0\")\r\n\t(general\r\n\t\t(thickness 1.6)\r\n\t\t(legacy_teardrops no)\r\n\t)\r\n\t(paper \"A4\")\r\n\t(layers\r\n\t\t(0 \"F.Cu\" signal)\r\n\t\t(2 \"B.Cu\" signal)\r\n\t\t(25 \"Edge.Cuts\" user)\r\n\t\t(27 \"Margin\" user)\r\n\t\t(31 \"F.CrtYd\" user \"F.Courtyard\")\r\n\t\t(29 \"B.CrtYd\" user \"B.Courtyard\")\r\n\t)\r\n\t(setup\r\n\t\t(pad_to_mask_clearance 0)\r\n\t\t(allow_soldermask_bridges_in_footprints no)\r\n\t\t(tenting\r\n\t\t\t(front yes)\r\n\t\t\t(back yes)\r\n\t\t)\r\n\t\t(covering\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(plugging\r\n\t\t\t(front no)\r\n\t\t\t(back no)\r\n\t\t)\r\n\t\t(capping no)\r\n\t\t(filling no)\r\n\t\t(pcbplotparams\r\n\t\t\t(layerselection 0x00000000_00000000_55555555_5755f5ff)\r\n\t\t\t(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)\r\n\t\t\t(disableapertmacros no)\r\n\t\t\t(usegerberextensions no)\r\n\t\t\t(usegerberattributes yes)\r\n\t\t\t(usegerberadvancedattributes yes)\r\n\t\t\t(creategerberjobfile yes)\r\n\t\t\t(dashed_line_dash_ratio 12)\r\n\t\t\t(dashed_line_gap_ratio 3)\r\n\t\t\t(svgprecision 4)\r\n\t\t\t(plotframeref no)\r\n\t\t\t(mode 1)\r\n\t\t\t(useauxorigin no)\r\n\t\t\t(pdf_front_fp_property_popups yes)\r\n\t\t\t(pdf_back_fp_property_popups yes)\r\n\t\t\t(pdf_metadata yes)\r\n\t\t\t(pdf_single_document no)\r\n\t\t\t(dxfpolygonmode yes)\r\n\t\t\t(dxfimperialunits yes)\r\n\t\t\t(dxfusepcbnewfont yes)\r\n\t\t\t(psnegative no)\r\n\t\t\t(psa4output no)\r\n\t\t\t(plot_black_and_white yes)\r\n\t\t\t(sketchpadsonfab no)\r\n\t\t\t(plotpadnumbers no)\r\n\t\t\t(hidednponfab no)\r\n\t\t\t(sketchdnponfab yes)\r\n\t\t\t(crossoutdnponfab yes)\r\n\t\t\t(subtractmaskfromsilk no)\r\n\t\t\t(outputformat 1)\r\n\t\t\t(mirror no)\r\n\t\t\t(drillshape 1)\r\n\t\t\t(scaleselection 1)\r\n\t\t\t(outputdirectory \"\")\r\n\t\t)\r\n\t)\r\n\t(footprint \"Oracle:Asymmetric\"\r\n\t\t(layer \"F.Cu\")\r\n\t\t(uuid \"10000000-0000-4000-8000-000000000003\")\r\n\t\t(at 20 30 -90)\r\n\t\t(property \"Reference\" \"U1\"\r\n\t\t\t(at 0 -3 270)\r\n\t\t\t(layer \"F.SilkS\")\r\n\t\t\t(uuid \"7d77fd72-ed18-4b65-a5ff-2c152792f1ce\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Value\" \"NATIVE_GEOMETRY_ORACLE\"\r\n\t\t\t(at 0 4 270)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"969092e9-3088-4722-9710-85143e42932e\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1 1)\r\n\t\t\t\t\t(thickness 0.15)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Datasheet\" \"\"\r\n\t\t\t(at 0 0 270)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"e9da0e3a-8c93-4dec-9690-4372c090721e\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Description\" \"\"\r\n\t\t\t(at 0 0 270)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(hide yes)\r\n\t\t\t(uuid \"35ea7cb1-c016-4187-bd20-6a18eb96d0d2\")\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(attr smd)\r\n\t\t(duplicate_pad_numbers_are_jumpers no)\r\n\t\t(fp_rect\r\n\t\t\t(start -2 -1)\r\n\t\t\t(end 5 3)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.05)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.CrtYd\")\r\n\t\t\t(uuid \"20000000-0000-4000-8000-000000000003\")\r\n\t\t)\r\n\t\t(fp_rect\r\n\t\t\t(start -1.5 -0.5)\r\n\t\t\t(end 3.5 2)\r\n\t\t\t(stroke\r\n\t\t\t\t(width 0.1)\r\n\t\t\t\t(type solid)\r\n\t\t\t)\r\n\t\t\t(fill no)\r\n\t\t\t(layer \"F.Fab\")\r\n\t\t\t(uuid \"30000000-0000-4000-8000-000000000003\")\r\n\t\t)\r\n\t\t(pad \"1\" smd rect\r\n\t\t\t(at 0.7 1.3 37)\r\n\t\t\t(size 1.4 0.6)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"123\")\r\n\t\t\t(uuid \"40000000-0000-4000-8000-000000000003\")\r\n\t\t)\r\n\t\t(pad \"2\" smd rect\r\n\t\t\t(at -2.1 0.4 90)\r\n\t\t\t(size 0.5 1.2)\r\n\t\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\r\n\t\t\t(net \"0\")\r\n\t\t\t(uuid \"50000000-0000-4000-8000-000000000003\")\r\n\t\t)\r\n\t\t(pad \"3\" thru_hole rect\r\n\t\t\t(at 1.1 -0.6 123)\r\n\t\t\t(size 1.8 1.1)\r\n\t\t\t(drill 0.4\r\n\t\t\t\t(offset 0.1 0.2)\r\n\t\t\t)\r\n\t\t\t(layers \"*.Cu\" \"*.Mask\")\r\n\t\t\t(remove_unused_layers no)\r\n\t\t\t(net \"OFFSET\")\r\n\t\t\t(uuid \"60000000-0000-4000-8000-000000000003\")\r\n\t\t)\r\n\t\t(embedded_fonts no)\r\n\t)\r\n\t(gr_rect\r\n\t\t(start 0 0)\r\n\t\t(end 50 60)\r\n\t\t(stroke\r\n\t\t\t(width 0.05)\r\n\t\t\t(type solid)\r\n\t\t)\r\n\t\t(fill no)\r\n\t\t(layer \"Edge.Cuts\")\r\n\t\t(uuid \"70000000-0000-4000-8000-000000000003\")\r\n\t)\r\n\t(embedded_fonts no)\r\n)\r\n",
+      "nativeReload": [
+        {
+          "reference": "U1",
+          "uuid": "10000000-0000-4000-8000-000000000003",
+          "position": {
+            "xNm": 20000000,
+            "yNm": 30000000,
+            "xMm": 20,
+            "yMm": 30
+          },
+          "angleDeg": -90,
+          "pads": [
+            {
+              "number": "1",
+              "uuid": "40000000-0000-4000-8000-000000000003",
+              "netName": "123",
+              "position": {
+                "xNm": 18700000,
+                "yNm": 30700000,
+                "xMm": 18.7,
+                "yMm": 30.7
+              },
+              "footprintRelativePosition": {
+                "xNm": 700000,
+                "yNm": 1300000,
+                "xMm": 0.7,
+                "yMm": 1.3
+              },
+              "absoluteAngleDeg": 37,
+              "footprintRelativeAngleDeg": 127,
+              "shapePosition": {
+                "xNm": 18700000,
+                "yNm": 30700000,
+                "xMm": 18.7,
+                "yMm": 30.7
+              },
+              "shapeBoundingBox": {
+                "minXmm": 17.960411,
+                "minYmm": 30.039139,
+                "maxXmm": 19.439589,
+                "maxYmm": 31.360861
+              }
+            },
+            {
+              "number": "2",
+              "uuid": "50000000-0000-4000-8000-000000000003",
+              "netName": "0",
+              "position": {
+                "xNm": 19600000,
+                "yNm": 27900000,
+                "xMm": 19.6,
+                "yMm": 27.9
+              },
+              "footprintRelativePosition": {
+                "xNm": -2100000,
+                "yNm": 400000,
+                "xMm": -2.1,
+                "yMm": 0.4
+              },
+              "absoluteAngleDeg": 90,
+              "footprintRelativeAngleDeg": 180,
+              "shapePosition": {
+                "xNm": 19600000,
+                "yNm": 27900000,
+                "xMm": 19.6,
+                "yMm": 27.9
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19,
+                "minYmm": 27.65,
+                "maxXmm": 20.2,
+                "maxYmm": 28.15
+              }
+            },
+            {
+              "number": "3",
+              "uuid": "60000000-0000-4000-8000-000000000003",
+              "netName": "OFFSET",
+              "position": {
+                "xNm": 20600000,
+                "yNm": 31100000,
+                "xMm": 20.6,
+                "yMm": 31.1
+              },
+              "footprintRelativePosition": {
+                "xNm": 1100000,
+                "yNm": -600000,
+                "xMm": 1.1,
+                "yMm": -0.6
+              },
+              "absoluteAngleDeg": 123,
+              "footprintRelativeAngleDeg": 213,
+              "shapePosition": {
+                "xNm": 20713270,
+                "yNm": 30907205,
+                "xMm": 20.71327,
+                "yMm": 30.907205
+              },
+              "shapeBoundingBox": {
+                "minXmm": 19.761826,
+                "minYmm": 29.85285,
+                "maxXmm": 21.664714,
+                "maxYmm": 31.96156
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "uuid": "20000000-0000-4000-8000-000000000003",
+              "layer": "F.Courtyard",
+              "start": {
+                "xNm": 21000000,
+                "yNm": 28000000,
+                "xMm": 21,
+                "yMm": 28
+              },
+              "end": {
+                "xNm": 17000000,
+                "yNm": 35000000,
+                "xMm": 17,
+                "yMm": 35
+              }
+            },
+            {
+              "uuid": "30000000-0000-4000-8000-000000000003",
+              "layer": "F.Fab",
+              "start": {
+                "xNm": 20500000,
+                "yNm": 28500000,
+                "xMm": 20.5,
+                "yMm": 28.5
+              },
+              "end": {
+                "xNm": 18000000,
+                "yNm": 33500000,
+                "xMm": 18,
+                "yMm": 33.5
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "integrity": {
+    "runtimePinsUnchanged": true,
+    "runtimePycacheUnchanged": true,
+    "runtimePycacheEntries": 1729,
+    "scratchPycacheEntries": 0,
+    "inputSourcesUnchanged": true,
+    "failedEvidenceUnchanged": true
+  },
+  "noGui": true,
+  "noModel": true,
+  "noOriginalBoardEdits": true
+}

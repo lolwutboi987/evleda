@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "evleda.native-schematic-style-seed-manifest.v1",
+  "configDirectories": [
+    "10.0",
+    "10.0/colors"
+  ],
+  "cacheDirectories": [
+    "KiCad",
+    "KiCad/10.0"
+  ],
+  "files": [
+    {
+      "relativePath": "10.0/3d_viewer.json",
+      "sizeBytes": 9083,
+      "sha256": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3"
+    },
+    {
+      "relativePath": "10.0/cvpcb.json",
+      "sizeBytes": 8413,
+      "sha256": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272"
+    },
+    {
+      "relativePath": "10.0/eeschema.json",
+      "sizeBytes": 12152,
+      "sha256": "380b16f032e527e9dbb104fa3fe473fecdf3ac5877df78935b9f4b174ae7775b"
+    },
+    {
+      "relativePath": "10.0/fpedit.json",
+      "sizeBytes": 7200,
+      "sha256": "9e940a9a57528403a4e62739f3bd0813a6226c20528540ce0a7843dc5f86d947"
+    },
+    {
+      "relativePath": "10.0/kicad.json",
+      "sizeBytes": 5672,
+      "sha256": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015"
+    },
+    {
+      "relativePath": "10.0/kicad_common.json",
+      "sizeBytes": 2447,
+      "sha256": "cbc9a6e0a1209f834ef516cc3cce5d00bbeeabe033d5846f53cc1d7772691d83"
+    },
+    {
+      "relativePath": "10.0/pcbnew.json",
+      "sizeBytes": 13700,
+      "sha256": "a4bae5cdfd880f98b6772b4992f589511ce21518584f9bbeb012f307bbd183f4"
+    },
+    {
+      "relativePath": "10.0/symbol_editor.json",
+      "sizeBytes": 4251,
+      "sha256": "96002a56c0827f71c82e74cfc24091095ba9fdfc1ffa1995eb6479f4bad576d7"
+    }
+  ],
+  "provenance": {
+    "status": "candidate-awaiting-authorized-native-repeat",
+    "derivedFrom": "Native KiCad 10.0.3 configuration generated from a synthetic app6 seed; two path fields changed afterward.",
+    "nativeGeneratedSeedManifestSha256": "398e5c02c3ef9b9c77db541e58969d2d9c2c4c2e6bc1f832c1f90b03259e950a",
+    "nativeGeneratedSeedBytes": 63018,
+    "candidateBytes": 62918,
+    "changedFile": "10.0/kicad_common.json",
+    "changes": [
+      {
+        "jsonPointer": "/api/interpreter_path",
+        "replacement": ""
+      },
+      {
+        "jsonPointer": "/system/working_dir",
+        "replacement": ""
+      }
+    ],
+    "otherSevenFilesByteIdentical": true,
+    "notYetNativeVerified": true
+  }
+}

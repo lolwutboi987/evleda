@@ -1,0 +1,23 @@
+# Recommended in-chat workflow example; not installed or enabled automatically.
+# Replace placeholders with the owning host's approved paths and profile pin.
+[mcp_servers.evleda_workspace]
+enabled = false
+command = 'C:\<NODE_INSTALLATION>\node.exe'
+cwd = 'C:\<EVLEDA_REPOSITORY>'
+env_vars = ['SYSTEMROOT', 'WINDIR']
+args = [
+  'C:\<EVLEDA_REPOSITORY>\dist\src\mcp\toolbox-workspace-main.js',
+  '--profile', 'C:\<HOST_PROFILE_DIRECTORY>\native-profile.json',
+  '--profile-sha256', '<EXACT_APPROVED_PROFILE_SHA256>',
+  '--profile-bytes', '<EXACT_APPROVED_PROFILE_BYTE_COUNT>',
+  '--workspace-root', 'D:\<EXISTING_APPROVED_WORKSPACE>',
+  '--edit',
+]
+startup_timeout_sec = 30
+tool_timeout_sec = 180
+
+# Configuration stays the same for later projects and resumes.
+# The model submits drafts and receives clarification/project IDs over MCP.
+# Omit '--edit' for inspection and read-only resume; creation is then disabled.
+# Finish with evleda_close_project before disconnecting. Do not clear lease files.
+# Clients must refresh their tool list after project attachment/detachment.

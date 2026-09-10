@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "evleda.kicad-mcp-local-runtime-patches.v1",
+  "upstream": {
+    "distribution": "kicad-mcp-pro",
+    "version": "3.33.3",
+    "repository": "https://github.com/oaslananka/kicad-mcp-pro",
+    "recordedAuditedCommit": "817969d7e302ad470c2cac3d7c20961419400c47",
+    "publishedWheel": {
+      "filename": "kicad_mcp_pro-3.33.3-py3-none-any.whl",
+      "sizeBytes": 905627,
+      "sha256": "c26f4dc6e2360375330056864490aab96f30f1d3f1c7d51bc57e42d4f9e4c26f"
+    },
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 Osman Aslan"
+  },
+  "patches": [
+    {
+      "id": "0001-explicit-junction-connectivity",
+      "diff": "0001-explicit-junction-connectivity.patch",
+      "diffSha256": "f5000ee14392f2fe16582e9524e5dad1ef8eb39b76a120a7eddd9bca32310f28",
+      "packagePath": "kicad_mcp/tools/schematic.py",
+      "runtimePath": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "function": "_build_connectivity_groups",
+      "original": {
+        "sizeBytes": 232449,
+        "sha256": "799e49c73eb80c273259f19a4f52d921da4c979876fe7d6e7cc56a88b04eea3d",
+        "verifiedEqualToPublishedWheelMember": true
+      },
+      "patched": {
+        "sizeBytes": 232924,
+        "sha256": "b427bcf0de3091eab6586bc8338535903fc1f23566e8069555780bf3b63cf66b"
+      },
+      "fixture": {
+        "path": "tests/fixtures/kicad-mcp-connectivity/attempt11-vout-junction.kicad_sch",
+        "sha256": "b5253e3df46a0e0e59ab24e0791da781c399470dbed760e87720482cdbe68d06",
+        "origin": "Retained attempt11 final text; LF-normalized exact authenticated content",
+        "nativeNetlistSha256": "6a98f577fa627747637410264f0fdebeb0a3e08ce099041309f8df048993a2d2"
+      },
+      "publishedArchiveOrMetadataModified": false,
+      "writerNormalizationModified": false,
+      "hostOrNativeValidationModified": false
+    }
+  ]
+}

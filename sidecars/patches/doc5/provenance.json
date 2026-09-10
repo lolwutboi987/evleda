@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "evleda.doc5-commit-runtime-publication.v1",
+  "status": "PUBLISHED_OFFLINE_VERIFIED_NATIVE_HELD",
+  "runtimeRoot": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc5",
+  "manifest": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest-doc5.json",
+    "sha256": "9912ec88f42d4a4fe57692eb95b1653c8b8fbb3df391688a4647b8d56efa8425",
+    "sizeBytes": 1574798
+  },
+  "manifestIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "911de5c91305be05e59f4fe19b290e1cad86c2f32bc5bb3229b0ff990b999a6b",
+    "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+  },
+  "treeIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "f8cfea3c7f372efae39106b56b01ca793cb2d45fe7326a0fb89d395621913a63",
+    "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+  },
+  "fileCount": 8467,
+  "directoryCount": 1159,
+  "totalBytes": 150420817,
+  "python": {
+    "contentIdentity": {
+      "algorithm": "sha256",
+      "digest": "2d8d20ef6e119ce9f129aaa63f81d7249b0853576e186725d93ca78614cd5f19",
+      "size": 241152
+    },
+    "relativePath": "environment/Scripts/python.exe",
+    "version": "3.13.12"
+  },
+  "entrypoint": {
+    "callable": "kicad_mcp.server:_run_server_from_options",
+    "contentIdentity": {
+      "algorithm": "sha256",
+      "digest": "a4ebc41a5df81813f358c287958dc03e348415a24c5e0ed306af01e32f26c5a4",
+      "size": 5773
+    },
+    "relativePath": "kicad-inspection-launcher.py"
+  },
+  "runtimeDelta": [
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/pcb/transaction_lifecycle.py",
+      "before": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/pcb/transaction_lifecycle.py",
+        "sha256": "12361653bfb4ab0c7edff35d40c80cedd37076cacbf9cb56f30ad33c10ca4caa",
+        "sizeBytes": 3264
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/pcb/transaction_lifecycle.py",
+        "sha256": "3043c7def1f13a2c3db00edf7c8f07cb54fe03ab037ebac8a28369d591e57944",
+        "sizeBytes": 10922
+      }
+    },
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/tools/pcb_transaction_lifecycle.py",
+      "before": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/pcb_transaction_lifecycle.py",
+        "sha256": "fa73252765beb3008f1fe787f935e201a81cf566746515d54d6bcf91a84056e1",
+        "sizeBytes": 2392
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/pcb_transaction_lifecycle.py",
+        "sha256": "3ec85ead543c57045188cf8ce5ebe10da3cfe0a1ab3cc525398ca5e1aef7779f",
+        "sizeBytes": 2605
+      }
+    },
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "97c8410d3a6f7c03498d9f9679821e6a5ab9cb4578593c5b020c104cdd7d9dbe",
+        "sizeBytes": 200
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "de5f0c1f457fa25506d3bf08487b6a5859e3f40b58013653dcb70cb17c5036f0",
+        "sizeBytes": 200
+      }
+    }
+  ],
+  "sourceRestoreMapping": [
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc5/kicad_mcp/pcb/transaction_lifecycle.py",
+        "sha256": "3043c7def1f13a2c3db00edf7c8f07cb54fe03ab037ebac8a28369d591e57944",
+        "sizeBytes": 10922
+      },
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/pcb/transaction_lifecycle.py"
+    },
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc5/kicad_mcp/tools/pcb_transaction_lifecycle.py",
+        "sha256": "3ec85ead543c57045188cf8ce5ebe10da3cfe0a1ab3cc525398ca5e1aef7779f",
+        "sizeBytes": 2605
+      },
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/tools/pcb_transaction_lifecycle.py"
+    }
+  ],
+  "patch": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc5/transaction-lifecycle.patch",
+    "sha256": "5aa35a9173f9423a9fd5f81e7001b8fbf42deb27b227e139b372b6331c9b4948",
+    "sizeBytes": 15193
+  },
+  "notes": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/doc5-runtime.md",
+    "sha256": "d40e927ab37265ff838555a0ca7c28e78a7f03bee48dd422d25086561f8370b5",
+    "sizeBytes": 2388
+  },
+  "candidateVerification": {
+    "path": "D:/EvlEDA-doc5-transaction-runtime-build-20260909/evidence/candidate-verification.json",
+    "sha256": "5c7b537821459fb28a4698d714e4f2ad59297a72bb877594eb18b6f035ae5623",
+    "sizeBytes": 3488
+  },
+  "sourceEvidence": {
+    "path": "D:/EvlEDA-doc5-transaction-runtime-build-20260909/evidence/source-evidence.json",
+    "sha256": "3714b5da72de46b279cde77b5f9d7aadb27485c5a7dd7ffd0c48d90192ceed00",
+    "sizeBytes": 2683
+  },
+  "registeredDescriptors": {
+    "path": "D:/EvlEDA-doc5-transaction-runtime-build-20260909/evidence/registered-descriptors.json",
+    "sha256": "50009a72f2fc168d1dbbebd2dbb8890fe2d01a74af43d2491f974b451f878b80",
+    "sizeBytes": 5364
+  },
+  "qualificationMarker": {
+    "evledaNativeCommitLifecycle": "evleda.kicad-native-commit-lifecycle.v1"
+  },
+  "independentReview": "RELEASE: token redaction and actual empty-token/TTL cases passed",
+  "typedOfflineTests": 21,
+  "originalPublicProofPrimaryCauseProven": false,
+  "nativeEditorModelCalls": 0,
+  "defaultProfileChanged": false,
+  "verificationScope": "Published bytes matched frozen verified candidate and installed changed leaves; no repeated historical-tree audit"
+}

@@ -1,0 +1,14 @@
+{
+  "source": "Preserved attempt14 KiCad 10.0.3 schematic SVG, exported 2026-09-09T02:47:01",
+  "sourceRole": "Later native diagnostic export, not the earlier production preview",
+  "originalSvgPath": "D:/EvlEDA-attempt14-visual-review-20260909/native-svg/schematic/flux-5aa94d08e6e24a95a1527684f0bf887e.svg",
+  "originalLineEndings": "CRLF",
+  "repositoryLineEndings": "LF",
+  "rawSvgSha256": "e6fea2c7a10bb5811ac2504d1888c60db310f134e08bc430eb27980823797e57",
+  "rawSvgBytes": 20392,
+  "schematicSha256": "285e5f5e8d6cc9be864c17d86ffdab765b20a0d5454445709ac0848ea05ef1be",
+  "pcbSha256": "358c6d2f38f5e92e98ea41183cbb303f1b7902bc6cd1fcf776cd3c7d31ec2858",
+  "projectSettingsSha256": "1dc39ead06fc677cbcf9082c8bfb98d5f6e7fcb34a56b67970ecfca3ad470084",
+  "kicadExecutableSha256": "4e1910666330fa8f2321d4e616957dacab218a0d835c343c869a87757481c2f4",
+  "note": "Restore CRLF before checking the original raw-byte identity. Geometry, XML attributes, and text are unchanged. No new native export was run."
+}

@@ -1,0 +1,2164 @@
+{
+  "schemaVersion": "evleda.stock-rp2350-schematic-pin-fixture.v1",
+  "capturedAt": "2026-09-09",
+  "provenance": {
+    "sourcePath": "D:\\Codex-Recovery\\KiCad\\10.0\\share\\kicad\\symbols\\MCU_RaspberryPi.kicad_sym",
+    "sourceIdentity": {
+      "algorithm": "sha256",
+      "digest": "c9f0fe21e8a46d7503537322833345ba4299a2e6d0e7c018a8a4a4457f563191",
+      "size": 64675
+    },
+    "extraction": "Read-only exact RP2350A/B top-level source blocks, pin at/name/number and owning unit/body representation; no symbol rewriting or native execution.",
+    "nativeExecution": false,
+    "liveGeometryIncluded": false,
+    "purpose": "Frozen actual stock pin metadata for candidate-group unit tests; generated test placements are not native observations."
+  },
+  "symbols": [
+    {
+      "libraryId": "MCU_RaspberryPi:RP2350A",
+      "unit": 1,
+      "sourceStartLine": 1159,
+      "sourceEndLine": 2387,
+      "pins": [
+        {
+          "number": "1",
+          "name": "IOVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1389
+        },
+        {
+          "number": "2",
+          "name": "GPIO0",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 38.1
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1407
+        },
+        {
+          "number": "3",
+          "name": "GPIO1",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 35.56
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1425
+        },
+        {
+          "number": "4",
+          "name": "GPIO2",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 33.02
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1443
+        },
+        {
+          "number": "5",
+          "name": "GPIO3",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 30.48
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1461
+        },
+        {
+          "number": "6",
+          "name": "DVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 12.7,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 1278
+        },
+        {
+          "number": "7",
+          "name": "GPIO4",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 27.94
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1479
+        },
+        {
+          "number": "8",
+          "name": "GPIO5",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 25.4
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1497
+        },
+        {
+          "number": "9",
+          "name": "GPIO6",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 22.86
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1515
+        },
+        {
+          "number": "10",
+          "name": "GPIO7",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 20.32
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1533
+        },
+        {
+          "number": "11",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 1551
+        },
+        {
+          "number": "12",
+          "name": "GPIO8",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 17.78
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1570
+        },
+        {
+          "number": "13",
+          "name": "GPIO9",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 15.24
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1588
+        },
+        {
+          "number": "14",
+          "name": "GPIO10",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 12.7
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1606
+        },
+        {
+          "number": "15",
+          "name": "GPIO11",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 10.16
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1624
+        },
+        {
+          "number": "16",
+          "name": "GPIO12",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 7.62
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1642
+        },
+        {
+          "number": "17",
+          "name": "GPIO13",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 5.08
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1660
+        },
+        {
+          "number": "18",
+          "name": "GPIO14",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 2.54
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1678
+        },
+        {
+          "number": "19",
+          "name": "GPIO15",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 0
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1696
+        },
+        {
+          "number": "20",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 1714
+        },
+        {
+          "number": "21",
+          "name": "XIN",
+          "electricalType": "input",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -15.24
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1733
+        },
+        {
+          "number": "22",
+          "name": "XOUT",
+          "electricalType": "output",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -25.4
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1751
+        },
+        {
+          "number": "23",
+          "name": "DVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 12.7,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 1769
+        },
+        {
+          "number": "24",
+          "name": "SWCLK",
+          "electricalType": "input",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -33.02
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1788
+        },
+        {
+          "number": "25",
+          "name": "SWDIO",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -35.56
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1806
+        },
+        {
+          "number": "26",
+          "name": "RUN",
+          "electricalType": "input",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 22.86
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1824
+        },
+        {
+          "number": "27",
+          "name": "GPIO16",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -2.54
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1842
+        },
+        {
+          "number": "28",
+          "name": "GPIO17",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -5.08
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1860
+        },
+        {
+          "number": "29",
+          "name": "GPIO18",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -7.62
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1878
+        },
+        {
+          "number": "30",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 1896
+        },
+        {
+          "number": "31",
+          "name": "GPIO19",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -10.16
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1915
+        },
+        {
+          "number": "32",
+          "name": "GPIO20",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -12.7
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1933
+        },
+        {
+          "number": "33",
+          "name": "GPIO21",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -15.24
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1951
+        },
+        {
+          "number": "34",
+          "name": "GPIO22",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -17.78
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1969
+        },
+        {
+          "number": "35",
+          "name": "GPIO23",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -20.32
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 1987
+        },
+        {
+          "number": "36",
+          "name": "GPIO24",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -22.86
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2005
+        },
+        {
+          "number": "37",
+          "name": "GPIO25",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -25.4
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2023
+        },
+        {
+          "number": "38",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 2041
+        },
+        {
+          "number": "39",
+          "name": "DVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 12.7,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": true,
+          "sourceLine": 1296
+        },
+        {
+          "number": "40",
+          "name": "GPIO26/ADC0",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -30.48
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2060
+        },
+        {
+          "number": "41",
+          "name": "GPIO27/ADC1",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -33.02
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2078
+        },
+        {
+          "number": "42",
+          "name": "GPIO28/ADC2",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -35.56
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2096
+        },
+        {
+          "number": "43",
+          "name": "GPIO29/ADC3",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -38.1
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2114
+        },
+        {
+          "number": "44",
+          "name": "ADC_AVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -10.16,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2132
+        },
+        {
+          "number": "45",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 2150
+        },
+        {
+          "number": "46",
+          "name": "VREG_AVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -17.78,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 1315
+        },
+        {
+          "number": "47",
+          "name": "VREG_PGND",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": -45.72
+          },
+          "angleDeg": 90,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 1333
+        },
+        {
+          "number": "48",
+          "name": "VREG_LX",
+          "electricalType": "power_out",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 5.08,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2169
+        },
+        {
+          "number": "49",
+          "name": "VREG_VIN",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 2.54,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2187
+        },
+        {
+          "number": "50",
+          "name": "VREG_FB",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 7.62,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2205
+        },
+        {
+          "number": "51",
+          "name": "USB_DM",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 15.24
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2223
+        },
+        {
+          "number": "52",
+          "name": "USB_DP",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 12.7
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2241
+        },
+        {
+          "number": "53",
+          "name": "USB_OTP_VDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -12.7,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 1351
+        },
+        {
+          "number": "54",
+          "name": "QSPI_IOVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -5.08,
+            "yMm": 45.72
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 1369
+        },
+        {
+          "number": "55",
+          "name": "QSPI_SD3",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -7.62
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2259
+        },
+        {
+          "number": "56",
+          "name": "QSPI_SCLK",
+          "electricalType": "output",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 2.54
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2277
+        },
+        {
+          "number": "57",
+          "name": "QSPI_SD0",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 0
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2295
+        },
+        {
+          "number": "58",
+          "name": "QSPI_SD2",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -5.08
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2313
+        },
+        {
+          "number": "59",
+          "name": "QSPI_SD1",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -2.54
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2331
+        },
+        {
+          "number": "60",
+          "name": "~{QSPI_SS}",
+          "electricalType": "output",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 5.08
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2349
+        },
+        {
+          "number": "61",
+          "name": "GND",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 0,
+            "yMm": -45.72
+          },
+          "angleDeg": 90,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2367
+        }
+      ]
+    },
+    {
+      "libraryId": "MCU_RaspberryPi:RP2350B",
+      "unit": 1,
+      "sourceStartLine": 2388,
+      "sourceEndLine": 3978,
+      "pins": [
+        {
+          "number": "1",
+          "name": "GPIO4",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 38.1
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 2999
+        },
+        {
+          "number": "2",
+          "name": "GPIO5",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 35.56
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3017
+        },
+        {
+          "number": "3",
+          "name": "GPIO6",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 33.02
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3035
+        },
+        {
+          "number": "4",
+          "name": "GPIO7",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 30.48
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3053
+        },
+        {
+          "number": "5",
+          "name": "IOVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3071
+        },
+        {
+          "number": "6",
+          "name": "GPIO8",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 27.94
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3089
+        },
+        {
+          "number": "7",
+          "name": "GPIO9",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 25.4
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3107
+        },
+        {
+          "number": "8",
+          "name": "GPIO10",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 22.86
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3125
+        },
+        {
+          "number": "9",
+          "name": "GPIO11",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 20.32
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3143
+        },
+        {
+          "number": "10",
+          "name": "DVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 12.7,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2507
+        },
+        {
+          "number": "11",
+          "name": "GPIO12",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 17.78
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3161
+        },
+        {
+          "number": "12",
+          "name": "GPIO13",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 15.24
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3179
+        },
+        {
+          "number": "13",
+          "name": "GPIO14",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 12.7
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3197
+        },
+        {
+          "number": "14",
+          "name": "GPIO15",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 10.16
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3215
+        },
+        {
+          "number": "15",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 3233
+        },
+        {
+          "number": "16",
+          "name": "GPIO16",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 7.62
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3252
+        },
+        {
+          "number": "17",
+          "name": "GPIO17",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 5.08
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3270
+        },
+        {
+          "number": "18",
+          "name": "GPIO18",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 2.54
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3288
+        },
+        {
+          "number": "19",
+          "name": "GPIO19",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 0
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3306
+        },
+        {
+          "number": "20",
+          "name": "GPIO20",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -2.54
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3324
+        },
+        {
+          "number": "21",
+          "name": "GPIO21",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -5.08
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3342
+        },
+        {
+          "number": "22",
+          "name": "GPIO22",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -7.62
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3360
+        },
+        {
+          "number": "23",
+          "name": "GPIO23",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -10.16
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3378
+        },
+        {
+          "number": "24",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 3396
+        },
+        {
+          "number": "25",
+          "name": "GPIO24",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -12.7
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3415
+        },
+        {
+          "number": "26",
+          "name": "GPIO25",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -15.24
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3433
+        },
+        {
+          "number": "27",
+          "name": "GPIO26",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -17.78
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3451
+        },
+        {
+          "number": "28",
+          "name": "GPIO27",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -20.32
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3469
+        },
+        {
+          "number": "29",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 3487
+        },
+        {
+          "number": "30",
+          "name": "XIN",
+          "electricalType": "input",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -5.08
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3506
+        },
+        {
+          "number": "31",
+          "name": "XOUT",
+          "electricalType": "output",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -15.24
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3524
+        },
+        {
+          "number": "32",
+          "name": "DVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 12.7,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 3542
+        },
+        {
+          "number": "33",
+          "name": "SWCLK",
+          "electricalType": "input",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -22.86
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3561
+        },
+        {
+          "number": "34",
+          "name": "SWDIO",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -25.4
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3579
+        },
+        {
+          "number": "35",
+          "name": "RUN",
+          "electricalType": "input",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 33.02
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3597
+        },
+        {
+          "number": "36",
+          "name": "GPIO28",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -22.86
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3615
+        },
+        {
+          "number": "37",
+          "name": "GPIO29",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -25.4
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3633
+        },
+        {
+          "number": "38",
+          "name": "GPIO30",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -27.94
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2525
+        },
+        {
+          "number": "39",
+          "name": "GPIO31",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -30.48
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2543
+        },
+        {
+          "number": "40",
+          "name": "GPIO32",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -33.02
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2561
+        },
+        {
+          "number": "41",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": true,
+          "sourceLine": 3651
+        },
+        {
+          "number": "42",
+          "name": "GPIO33",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -35.56
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2579
+        },
+        {
+          "number": "43",
+          "name": "GPIO34",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -38.1
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2597
+        },
+        {
+          "number": "44",
+          "name": "GPIO35",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -40.64
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2615
+        },
+        {
+          "number": "45",
+          "name": "GPIO36",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -43.18
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2633
+        },
+        {
+          "number": "46",
+          "name": "GPIO37",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -45.72
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2651
+        },
+        {
+          "number": "47",
+          "name": "GPIO38",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -48.26
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2669
+        },
+        {
+          "number": "48",
+          "name": "GPIO39",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": -50.8
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2687
+        },
+        {
+          "number": "49",
+          "name": "GPIO40/ADC0",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -33.02
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2705
+        },
+        {
+          "number": "50",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": true,
+          "sourceLine": 2723
+        },
+        {
+          "number": "51",
+          "name": "DVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 12.7,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": true,
+          "sourceLine": 2742
+        },
+        {
+          "number": "52",
+          "name": "GPIO41/ADC1",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -35.56
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2761
+        },
+        {
+          "number": "53",
+          "name": "GPIO42/ADC2",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -38.1
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2779
+        },
+        {
+          "number": "54",
+          "name": "GPIO43/ADC3",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -40.64
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2797
+        },
+        {
+          "number": "55",
+          "name": "GPIO44/ADC4",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -43.18
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2815
+        },
+        {
+          "number": "56",
+          "name": "GPIO45/ADC5",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -45.72
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2833
+        },
+        {
+          "number": "57",
+          "name": "GPIO46/ADC6",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -48.26
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2851
+        },
+        {
+          "number": "58",
+          "name": "GPIO47/ADC7",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": -50.8
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2869
+        },
+        {
+          "number": "59",
+          "name": "ADC_AVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -10.16,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3670
+        },
+        {
+          "number": "60",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": true,
+          "sourceLine": 2887
+        },
+        {
+          "number": "61",
+          "name": "VREG_AVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -17.78,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2906
+        },
+        {
+          "number": "62",
+          "name": "VREG_PGND",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": -58.42
+          },
+          "angleDeg": 90,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2924
+        },
+        {
+          "number": "63",
+          "name": "VREG_LX",
+          "electricalType": "power_out",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 5.08,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3688
+        },
+        {
+          "number": "64",
+          "name": "VREG_VIN",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3706
+        },
+        {
+          "number": "65",
+          "name": "VREG_FB",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 7.62,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3724
+        },
+        {
+          "number": "66",
+          "name": "USB_DM",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 25.4
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3742
+        },
+        {
+          "number": "67",
+          "name": "USB_DP",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 22.86
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3760
+        },
+        {
+          "number": "68",
+          "name": "USB_OTP_VDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -12.7,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2942
+        },
+        {
+          "number": "69",
+          "name": "QSPI_IOVDD",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -5.08,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": false,
+          "sourceLine": 2960
+        },
+        {
+          "number": "70",
+          "name": "QSPI_SD3",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 2.54
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3778
+        },
+        {
+          "number": "71",
+          "name": "QSPI_SCLK",
+          "electricalType": "output",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 12.7
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3796
+        },
+        {
+          "number": "72",
+          "name": "QSPI_SD0",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 10.16
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3814
+        },
+        {
+          "number": "73",
+          "name": "QSPI_SD2",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 5.08
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3832
+        },
+        {
+          "number": "74",
+          "name": "QSPI_SD1",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 7.62
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3850
+        },
+        {
+          "number": "75",
+          "name": "~{QSPI_SS}",
+          "electricalType": "output",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -25.4,
+            "yMm": 15.24
+          },
+          "angleDeg": 0,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3868
+        },
+        {
+          "number": "76",
+          "name": "IOVDD",
+          "electricalType": "passive",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": -2.54,
+            "yMm": 55.88
+          },
+          "angleDeg": 270,
+          "unit": 1,
+          "bodyStyle": 0,
+          "hidden": true,
+          "sourceLine": 2978
+        },
+        {
+          "number": "77",
+          "name": "GPIO0",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 48.26
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3886
+        },
+        {
+          "number": "78",
+          "name": "GPIO1",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 45.72
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3904
+        },
+        {
+          "number": "79",
+          "name": "GPIO2",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 43.18
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3922
+        },
+        {
+          "number": "80",
+          "name": "GPIO3",
+          "electricalType": "bidirectional",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 25.4,
+            "yMm": 40.64
+          },
+          "angleDeg": 180,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3940
+        },
+        {
+          "number": "81",
+          "name": "GND",
+          "electricalType": "power_in",
+          "graphicalShape": "line",
+          "at": {
+            "xMm": 0,
+            "yMm": -58.42
+          },
+          "angleDeg": 90,
+          "unit": 1,
+          "bodyStyle": 1,
+          "hidden": false,
+          "sourceLine": 3958
+        }
+      ]
+    }
+  ]
+}

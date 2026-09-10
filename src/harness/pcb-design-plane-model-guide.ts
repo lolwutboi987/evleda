@@ -1,0 +1,130 @@
+import { z } from "zod";
+
+import {
+  PCB_PLANE_DRAFT_SCHEMA_VERSION,
+  freezePcbPlaneArtifact,
+  pcbPlaneDesignIntentDraftSchema,
+  type PcbPlaneDesignIntentDraft,
+} from "./pcb-design-plane-contract.js";
+
+export const PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE_VERSION =
+  "evleda.pcb-plane-design-intent-model-guide.v1" as const;
+export const PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE_MAX_UTF8_BYTES = 12 * 1024;
+
+/** Exact detached schema; provider adapters do not own or mutate its definition. */
+export const PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA = freezePcbPlaneArtifact(structuredClone(
+  z.toJSONSchema(pcbPlaneDesignIntentDraftSchema, { target: "draft-2020-12" }),
+));
+
+/** Provider-neutral data only: no provider, filesystem, or native mutation seam. */
+export const PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE = [
+  `PCB PLANE DESIGN INTENT MODEL GUIDE ${PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE_VERSION}`,
+  `Emit one complete ${PCB_PLANE_DRAFT_SCHEMA_VERSION} object as the draft argument. The draft itself has no wrapper, prose, Markdown, identity, or extra keys. Follow the canonical JSON Schema and host parser; JSON Schema alone does not express every cross-field relationship.`,
+  "Every property required by the selected object or union branch must be present; keys belonging only to an unselected branch must be absent. Nullable means use an explicit null for an unknown decision, never omit its key. Arrays are present; [] is permitted only where the draft schema permits an empty array. Do not invent values to make the compiler return ready.",
+  "Required root keys: schemaVersion, kind, scope, components, nets, netClasses, placementConstraints, routingConstraints, planes, unresolved. Fixed V2 literals: schemaVersion=evleda.pcb-design-intent-draft.v2; kind=pcb_design_intent_draft; scope.sheetCount=1; scope.componentUnitPolicy=single_unit; scope.board.shape=rectangle; scope.board.layerCount=2; every component unit=1.",
+  "scope.board requires shape, widthMm, heightMm, layerCount, copperLayers. Unknown dimensions are null. copperLayers is exactly [\"F.Cu\",\"B.Cu\"] once each, even for single-layer traces. The rectangle runs from (0,0) to (widthMm,heightMm); all placement and plane coordinates share that frame. There is no outline-origin field.",
+  "Each component requires reference, symbolLibId, value, footprintLibId, unit, pins. Each pin requires pin and assignment. Assignment is exactly {kind:\"net\",net}, {kind:\"no_connect\"}, or {kind:\"unresolved\",question}. Unknown symbolLibId, value, or footprintLibId is null. Never invent library IDs, package choices, pin numbers or pin mappings. The illustrative example's components and pins are fictional shape examples, not a pinout to reuse.",
+  "Each net requires name, role, endpoints, electrical, netClassId. Each endpoint requires reference and pin. Connectivity is bidirectionally exact even in a draft: every net-assigned pin appears exactly once in its declared net's endpoints, and every endpoint names a declared pin assigned to that same net. No-connect or unresolved pins appear on no net. References, pin numbers within each component, net names and net-class IDs are unique; every non-null netClassId names a declared class.",
+  "A non-null electrical object requires voltage={minimumV,nominalV,maximumV}, current={nominalA,maximumContinuousA,peakA,peakDurationMs}, and speed. Require minimumV <= nominalV <= maximumV and nominalA <= maximumContinuousA <= peakA; ground nominalV is 0. Speed is exactly {kind:\"dc\",maximumFrequencyMHz:0,minimumEdgeTimeNs:null} or {kind:\"signal\",maximumFrequencyMHz,minimumEdgeTimeNs}. Use electrical:null rather than fabricate any voltage, current, duration, frequency, or edge time.",
+  "Each net class requires id, traceWidthMm, clearanceMm, copperToEdgeMm, allowedLayers; the four rule fields may be null. Non-null allowedLayers contains no duplicates. A plane layer and its access-routing preferred layer must both be allowed by that net's class. A single-layer class requires maxVias=0. Numerical trace, clearance and via rules require supplied engineering decisions; neither the example nor passing the schema establishes electrical sizing.",
+  "Each placement requires reference, side, regionMm, allowedRotationsDeg, minimumEdgeClearanceMm, minimumCourtyardClearanceMm, edgePreference. The reference is unique and names a component; other fields may be null. An exact footprint-reference anchor (x,y) is regionMm={minXmm:x,maxXmm:x,minYmm:y,maxYmm:y}. Regions are ordered, inside known board dimensions and consistent with edge clearance. Rotations are unique members of 0,90,180,270. Closed V2 placements are front-only; do not silently flip a requested back-side component.",
+  "Preserve supplied anchors, rotations, footprint choices, clearances and edge preferences. Do not move a connector, translate the outline, rotate a part, clear an edge preference or relax a tolerance to force readiness. Flag contradictory requirements at an existing unresolved field, and let the host validate exact bound library geometry. The shared placement evaluator measures the nearest transformed courtyard edge, not merely the footprint anchor; this does not establish connector mating access. Library resolution also requires connectors to specify an edge and one rotation.",
+  "routingConstraints requires cornerStyle, maximumTurnAngleDeg, minimumStraightBeforeTurnMm, allowRightAngleCorners, allowAcuteInteriorCorners, allowBacktracking, allowSelfIntersections, viaPolicy, nets. For the required 45-degree PCB trace-turn policy use cornerStyle=\"miter_45\", maximumTurnAngleDeg=45 and false for all four allow* fields; straight continuation is allowed. Preserve a supplied stricter maximum instead of relaxing it to 45; an unresolved maximum may be null. Keep an unknown minimumStraightBeforeTurnMm null. The trace-turn rule applies to plane access tracks too; it does not prohibit rectangular outlines, plane boundaries or orthogonal schematic wires.",
+  "This bounded V2 family supports exactly one rectangular ground plane at closure. planes may be [] while unresolved, never more than one entry. Each plane requires id, net, layer, boundary, clearanceMm, minimumCopperWidthMm, copperFill, padConnection, islandPolicy. All except id may be null in a draft. Its resolved net is declared with role=\"ground\". Its resolved layer is F.Cu or B.Cu and copperFill is \"solid\". Do not substitute a trace tree for a plane.",
+  "A non-null boundary is exactly {kind:\"rectangle\",minXmm,maxXmm,minYmm,maxYmm}, with positive area inside the board and its net-class copperToEdgeMm inset. Plane clearanceMm cannot weaken net-class clearanceMm. padConnection is null, {mode:\"solid\"}, or {mode:\"thermal\",gapMm,spokeWidthMm,minimumConnectedSpokes}; the three thermal values may be null while unresolved. Resolved minimumConnectedSpokes is 1..4 and spokeWidthMm must meet minimumCopperWidthMm. islandPolicy is null or {removeUnconnected:true,minimumAreaMm2,requireSingleConnectedComponent:true}; minimumAreaMm2 may be null, and when known cannot exceed the plane boundary area. Every setting is explicit; no guessed dimensions or thermal defaults.",
+  "Each plane-topology route has exactly net, topology:\"plane\", planeId, accessRouting. It has no top-level preferredLayer, maxVias, routeLength or referencePath. planeId and accessRouting may be null; a non-null accessRouting requires preferredLayer, maxVias, routeLength, each nullable. Access preferredLayer is one exact F.Cu or B.Cu, never \"either\". At closure each plane has exactly one owner whose net and planeId match it. These access constraints describe tracks/vias that reach the plane, not the plane interior.",
+  "Each trace route has exactly net, topology, preferredLayer, maxVias, routeLength, referencePath. topology is null, \"point_to_point\" or \"tree\". At closure point_to_point requires exactly two endpoints, and tree connects at least two; an incomplete draft may retain permitted empty endpoint arrays. A known plane net must use plane topology. preferredLayer is null, F.Cu, B.Cu or \"either\" and must fit its net class. In either route branch, routeLength is null, {mode:\"unbounded\"}, or {mode:\"bounded\",maximumMm}.",
+  "A trace referencePath is null, {mode:\"none\"}, or {mode:\"continuous_plane\",planeId,signalLayer,coverageMarginMm,layerTransitions:\"forbidden\",terminalReferences}. The continuous-plane fields planeId, signalLayer, coverageMarginMm and terminalReferences may be null while unresolved. When resolved, the referenced plane exists on the opposite copper layer; signalLayer equals the route's one exact preferredLayer, never \"either\"; route maxVias=0 and layer transitions are forbidden. Each terminal reference has exactly signalEndpoint and referenceEndpoint, both {reference,pin}. Every signal endpoint requires exactly one explicit mapping to a terminal on the referenced ground net. Do not invent internal component ties or infer a return terminal from proximity.",
+  "viaPolicy is null, {mode:\"forbidden\",maxTotal:0}, or {mode:\"bounded\",maxTotal,diameterMm,drillMm,minimumAnnularRingMm}. A forbidden policy requires zero vias for every trace and plane-access route. The sum of all trace and plane-access maxVias values stays within bounded maxTotal. Require drillMm + 2*minimumAnnularRingMm <= diameterMm. Leave the policy null when its necessary decisions are unknown.",
+  "Ready closure requires all mandatory choices resolved, exactly one plane, one placement per component, one route per net, no unused net classes, at least two unique endpoints per net, and no unresolved pin assignments. Empty unresolved alone does not establish readiness. Compilation binds exact supported stock symbol and footprint pin/pad inventories, and deterministic design-rule guidance must resolve. This inventory binding does not verify physical geometry; source-bound geometry checks remain required before relevant native authoring and acceptance.",
+  "unresolved is required and may be []. Keep nullable unknowns as null; the compiler asks for them. Use unresolved for additional named ambiguities, with exactly path and question. Prefer stable keyed RFC6901 pointers to existing fields, such as /planes/GND_PLANE/clearanceMm or /routingConstraints/nets/N1/referencePath. Escape ~ as ~0 and / as ~1 in keys. Do not use compiler dot paths, root /, or duplicate equivalent paths. If padConnection is null, target /planes/GND_PLANE/padConnection, not a nonexistent child gapMm; for an empty collection target that collection.",
+  "The example demonstrates strict structure and both route branches only; its layer choices, terminal mappings and settings are illustrative, not supplied design facts. It is deliberately incomplete and not an electrically approved or ready design. Read evleda_design_context for actual native support capabilities. Draft submission and even a ready compilation do not perform native authoring, evaluate acceptance, authorize manufacturing, or permit changing user-supplied constraints. Fresh source-bound plane contact, fill, clearance, thermal/island, reference-path, ERC/DRC and visual evidence remain separate; continuous-plane intent is not impedance or EMC qualification.",
+].join("\n");
+
+const validExample = {
+  schemaVersion: PCB_PLANE_DRAFT_SCHEMA_VERSION,
+  kind: "pcb_design_intent_draft",
+  scope: {
+    sheetCount: 1,
+    componentUnitPolicy: "single_unit",
+    board: { shape: "rectangle", widthMm: null, heightMm: null, layerCount: 2, copperLayers: ["F.Cu", "B.Cu"] },
+  },
+  components: [
+    {
+      reference: "J1", symbolLibId: null, value: null, footprintLibId: null, unit: 1,
+      pins: [
+        { pin: "1", assignment: { kind: "net", net: "N1" } },
+        { pin: "2", assignment: { kind: "net", net: "GND" } },
+      ],
+    },
+    {
+      reference: "J2", symbolLibId: null, value: null, footprintLibId: null, unit: 1,
+      pins: [
+        { pin: "1", assignment: { kind: "net", net: "N1" } },
+        { pin: "2", assignment: { kind: "net", net: "GND" } },
+      ],
+    },
+  ],
+  nets: [
+    {
+      name: "GND", role: "ground", electrical: null, netClassId: "GROUND",
+      endpoints: [{ reference: "J1", pin: "2" }, { reference: "J2", pin: "2" }],
+    },
+    {
+      name: "N1", role: null, electrical: null, netClassId: "SIGNAL",
+      endpoints: [{ reference: "J1", pin: "1" }, { reference: "J2", pin: "1" }],
+    },
+  ],
+  netClasses: [
+    { id: "GROUND", traceWidthMm: null, clearanceMm: null, copperToEdgeMm: null, allowedLayers: ["F.Cu", "B.Cu"] },
+    { id: "SIGNAL", traceWidthMm: null, clearanceMm: null, copperToEdgeMm: null, allowedLayers: ["F.Cu"] },
+  ],
+  placementConstraints: [
+    {
+      reference: "J1", side: null, regionMm: null, allowedRotationsDeg: null,
+      minimumEdgeClearanceMm: null, minimumCourtyardClearanceMm: null, edgePreference: null,
+    },
+    {
+      reference: "J2", side: null, regionMm: null, allowedRotationsDeg: null,
+      minimumEdgeClearanceMm: null, minimumCourtyardClearanceMm: null, edgePreference: null,
+    },
+  ],
+  routingConstraints: {
+    cornerStyle: "miter_45",
+    maximumTurnAngleDeg: 45,
+    minimumStraightBeforeTurnMm: null,
+    allowRightAngleCorners: false,
+    allowAcuteInteriorCorners: false,
+    allowBacktracking: false,
+    allowSelfIntersections: false,
+    viaPolicy: null,
+    nets: [
+      {
+        net: "GND", topology: "plane", planeId: "GND_PLANE",
+        accessRouting: { preferredLayer: "B.Cu", maxVias: null, routeLength: null },
+      },
+      {
+        net: "N1", topology: "point_to_point", preferredLayer: "F.Cu", maxVias: 0, routeLength: null,
+        referencePath: {
+          mode: "continuous_plane", planeId: "GND_PLANE", signalLayer: "F.Cu",
+          coverageMarginMm: null, layerTransitions: "forbidden",
+          terminalReferences: [
+            { signalEndpoint: { reference: "J1", pin: "1" }, referenceEndpoint: { reference: "J1", pin: "2" } },
+            { signalEndpoint: { reference: "J2", pin: "1" }, referenceEndpoint: { reference: "J2", pin: "2" } },
+          ],
+        },
+      },
+    ],
+  },
+  planes: [{
+    id: "GND_PLANE", net: "GND", layer: "B.Cu", boundary: null,
+    clearanceMm: null, minimumCopperWidthMm: null, copperFill: "solid",
+    padConnection: { mode: "thermal", gapMm: null, spokeWidthMm: null, minimumConnectedSpokes: null },
+    islandPolicy: { removeUnconnected: true, minimumAreaMm2: null, requireSingleConnectedComponent: true },
+  }],
+  unresolved: [],
+} as const satisfies PcbPlaneDesignIntentDraft;
+
+/** Parser-valid shape fixture with deliberately unresolved engineering decisions. */
+export const PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE: PcbPlaneDesignIntentDraft =
+  freezePcbPlaneArtifact(structuredClone(validExample));

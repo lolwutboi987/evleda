@@ -1,0 +1,12 @@
+{
+  "harness": {
+    "operations": [
+      {
+        "name": "sch_get_symbols",
+        "result": {
+          "content": "{\"result\":\"Symbols (4 total):\\n- J1 Conn_01x02 Connector_Generic:Conn_01x02 @ (30.48, 50.80) rot=0 unit=1 footprint=Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical\\n- R1 1k Device:R @ (45.72, 45.72) rot=0 unit=1 footprint=Resistor_SMD:R_0603_1608Metric\\n- D1 LED Device:LED @ (60.96, 45.72) rot=0 unit=1 footprint=LED_SMD:LED_0603_1608Metric\\n- C1 100nF Device:C @ (45.72, 55.88) rot=0 unit=1 footprint=Capacitor_SMD:C_0603_1608Metric\"}"
+        }
+      }
+    ]
+  }
+}

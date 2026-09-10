@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evleda.native-pcb-text-fixture.v1",
+  "origin": "D:/EvlEDA-pcb-text-presentation-20260909/captured-before-revert.json",
+  "kicadVersion": "10.0.3",
+  "nativeTextSource": "(gr_text \"VIN\"\n\t\t(at 5 6.1 0)\n\t\t(layer \"F.SilkS\")\n\t\t(uuid \"7327818e-aa47-4f98-aff0-228d8e5ee0c3\")\n\t\t(effects\n\t\t\t(font (size 0.8 0.8) (line_spacing 0))\n\t\t\t(justify left bottom)\n\t\t)\n\t)",
+  "request": {
+    "text": "VIN",
+    "x_mm": 5,
+    "y_mm": 6.1,
+    "layer": "F_SilkS",
+    "size_mm": 0.8,
+    "rotation_deg": 0,
+    "bold": false,
+    "italic": false
+  },
+  "liveBeforeIdentity": {
+    "algorithm": "sha256",
+    "digest": "470dc7146bbe5290e285aef15d262ae0d47a4c4a89bafb3f71219c77f9f8f934",
+    "size": 12450
+  },
+  "liveAfterIdentity": {
+    "algorithm": "sha256",
+    "digest": "457d39df1070558eb5eac5bece8ee50c58fe7d8d6049f2da8c11e2cdc15a83e4",
+    "size": 12634
+  }
+}

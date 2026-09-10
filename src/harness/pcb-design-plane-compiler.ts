@@ -1,0 +1,188 @@
+import { z } from "zod";
+import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import { hardenPortableValue } from "../core/portable-artifact.js";
+import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
+import { validateDeepRuleCatalog, type DeepRuleCatalog } from "./deep-rule-catalog.js";
+import { selectDeepRulesForDesign, type DeepRuleSelectionOptions } from "./deep-rule-selector.js";
+import {
+  deriveDeepRuleFeaturesFromContract, resolvePcbDesignCommonLibraries,
+  PCB_LIBRARY_BINDING_SCHEMA_VERSION, PCB_DEEP_RULE_BINDING_SCHEMA_VERSION,
+  type PcbReadOnlyLibraryResolver, type PcbLibraryBinding, type PcbDeepRuleBinding,
+} from "./pcb-design-compiler.js";
+import {
+  PCB_PLANE_CONTRACT_SCHEMA_VERSION,
+  closePcbPlaneDesignIntentDraft, parsePcbPlaneDesignIntentDraft, pcbPlaneDesignContractPayloadSchema,
+  normalizePcbPlaneUnresolvedPath, snapshotPcbPlaneValue, freezePcbPlaneArtifact,
+  type PcbPlaneDesignContract, type PcbPlaneDesignIntentDraft,
+} from "./pcb-design-plane-contract.js";
+
+export const PCB_PLANE_COMPILATION_SCHEMA_VERSION = "evleda.pcb-design-compilation.v2" as const;
+export const PCB_PLANE_VERIFICATION_PLAN_SCHEMA_VERSION = "evleda.pcb-plane-verification-plan.v1" as const;
+export const PCB_PLANE_COMPILER_ID = "evleda.pcb-plane-compiler.v1" as const;
+const selectionPolicySchema = z.object({ maxRules: z.number().int().min(1).max(40),
+  maxPromptBytes: z.number().int().min(1).max(16_384), maxPromptTokens: z.number().int().min(1).max(16_384),
+  featureCoveragePolicy: z.literal("require-all") }).strict();
+export type PcbPlaneSelectionPolicy = z.infer<typeof selectionPolicySchema>;
+export interface PcbPlaneCompilerOptions {
+  readonly libraryResolver: PcbReadOnlyLibraryResolver;
+  readonly deepRuleCatalog: DeepRuleCatalog;
+  readonly deepRuleSelectionOptions?: Omit<DeepRuleSelectionOptions, "tokenCounter">;
+}
+export interface PcbPlaneClarification { readonly id: string; readonly path: string; readonly question: string }
+export interface PcbPlaneIssue { readonly code: string; readonly path: string; readonly message: string }
+export interface PcbPlaneVerificationRequirement {
+  readonly id: string;
+  readonly kind: "contract" | "library" | "schematic" | "pcb_component" | "placement" | "outline" | "netclass_configuration"
+    | "trace_connectivity" | "trace_geometry" | "via_policy" | "plane_configuration" | "plane_fill"
+    | "plane_connectivity" | "plane_access" | "plane_clearance" | "plane_thermal_islands" | "reference_path"
+    | "erc" | "drc" | "schematic_ink" | "visual";
+  readonly contractPath: string;
+  readonly mandatory: true;
+  readonly description: string;
+}
+export interface PcbPlaneVerificationPlan {
+  readonly schemaVersion: typeof PCB_PLANE_VERIFICATION_PLAN_SCHEMA_VERSION;
+  readonly contractIdentity: CanonicalIdentity;
+  readonly libraryBindingIdentity: CanonicalIdentity;
+  readonly deepRuleBindingIdentity: CanonicalIdentity;
+  readonly requirements: readonly PcbPlaneVerificationRequirement[];
+  readonly acceptanceEvaluated: false;
+  readonly identity: CanonicalIdentity;
+}
+interface CompilationCommon {
+  readonly schemaVersion: typeof PCB_PLANE_COMPILATION_SCHEMA_VERSION;
+  readonly foundationOnly: true;
+  readonly nativeAuthoringPerformed: false;
+  readonly acceptanceEvaluated: false;
+  readonly questions: readonly PcbPlaneClarification[];
+  readonly issues: readonly PcbPlaneIssue[];
+}
+export interface PcbPlaneReadyCompilation extends CompilationCommon {
+  readonly disposition: "ready";
+  readonly draft: PcbPlaneDesignIntentDraft;
+  readonly draftIdentity: ContentIdentity;
+  readonly selectionPolicy: PcbPlaneSelectionPolicy;
+  readonly contract: PcbPlaneDesignContract;
+  readonly libraryBinding: PcbLibraryBinding;
+  readonly deepRuleBinding: PcbDeepRuleBinding;
+  readonly verificationPlan: PcbPlaneVerificationPlan;
+}
+export type PcbPlaneDesignCompilation = PcbPlaneReadyCompilation | (CompilationCommon & {
+  readonly disposition: "needs_clarification" | "unsupported";
+  readonly draft: PcbPlaneDesignIntentDraft | null;
+  readonly draftIdentity: null;
+  readonly selectionPolicy: null;
+  readonly contract: null;
+  readonly libraryBinding: null;
+  readonly deepRuleBinding: null;
+  readonly verificationPlan: null;
+});
+
+export function normalizePcbPlaneSelectionPolicy(value: unknown = {}): PcbPlaneSelectionPolicy {
+  const input = snapshotPcbPlaneValue(value);
+  if (input === null || typeof input !== "object" || Array.isArray(input)) throw new Error("Plane compiler policy must be a closed object");
+  return freezePcbPlaneArtifact(selectionPolicySchema.parse({ maxRules: 40, maxPromptBytes: 16_384,
+    maxPromptTokens: 16_384, featureCoveragePolicy: "require-all", ...input }));
+}
+const base = { schemaVersion: PCB_PLANE_COMPILATION_SCHEMA_VERSION, foundationOnly: true,
+  nativeAuthoringPerformed: false, acceptanceEvaluated: false } as const;
+const token = (value: string) => value.replaceAll("~", "~0").replaceAll("/", "~1");
+
+function diagnostics(disposition: "needs_clarification" | "unsupported", draft: PcbPlaneDesignIntentDraft | null,
+  issues: readonly PcbPlaneIssue[], questions?: readonly PcbPlaneClarification[]): PcbPlaneDesignCompilation {
+  const unique = new Map<string, PcbPlaneClarification>();
+  for (const question of questions ?? issues.map(issue => ({ id: issue.path, path: issue.path, question: issue.message }))) {
+    const old = unique.get(question.path);
+    unique.set(question.path, old === undefined ? question : { ...old, question: [...new Set([old.question, question.question])].sort().join(" ") });
+  }
+  return freezePcbPlaneArtifact({ ...base, disposition, draft, draftIdentity: null, selectionPolicy: null,
+    questions: [...unique.values()].sort((a, b) => a.path.localeCompare(b.path, "en-US")), issues: [...issues],
+    contract: null, libraryBinding: null, deepRuleBinding: null, verificationPlan: null });
+}
+function validationIssues(error: unknown, document: unknown): PcbPlaneIssue[] {
+  if (!(error instanceof z.ZodError)) return [{ code: "INVALID_DRAFT", path: "/", message: error instanceof Error ? error.message : "Submit bounded plain V2 JSON" }];
+  return error.issues.slice(0, 1024).map(issue => {
+    const pointer = `/${issue.path.map(String).map(token).join("/")}`;
+    return { code: "INVALID_DRAFT", path: normalizePcbPlaneUnresolvedPath(document, pointer) ?? pointer,
+      message: `${issue.message}. Provide the explicit value required at ${pointer}.` };
+  });
+}
+
+function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryBinding, deep: PcbDeepRuleBinding): PcbPlaneVerificationPlan {
+  const requirements: PcbPlaneVerificationRequirement[] = [];
+  const add = (id: string, kind: PcbPlaneVerificationRequirement["kind"], contractPath: string, description: string) =>
+    requirements.push({ id, kind, contractPath, mandatory: true, description });
+  add("contract:integrity", "contract", "/", "Reproduce the complete V2 contract and all exact child identities.");
+  for (const component of contract.components) {
+    const path = `/components/${token(component.reference)}`;
+    add(`library:${component.reference}`, "library", path, "Verify exact stock symbol, footprint, pin/pad inventory and physical geometry.");
+    add(`schematic:${component.reference}`, "schematic", path, "Verify exact component, values, pin dispositions and source-bound schematic connectivity.");
+    add(`pcb:${component.reference}`, "pcb_component", path, "Verify the exact PCB footprint and physical pads.");
+    add(`placement:${component.reference}`, "placement", `/placementConstraints/${token(component.reference)}`, "Verify all side, rotation, region, edge and courtyard constraints.");
+  }
+  for (const net of contract.nets) add(`schematic-net:${net.name}`, "schematic", `/nets/${token(net.name)}`, "Verify every exact net endpoint and no unintended endpoints; plane routing changes no schematic assignments.");
+  add("board:outline", "outline", "/scope/board", "Verify the exact rectangular outline and two-layer board.");
+  for (const netClass of contract.netClasses) add(`netclass:${netClass.id}`, "netclass_configuration", `/netClasses/${token(netClass.id)}`, "Verify exact authored class assignment, trace-width preference and effective configured clearance; no ampacity claim.");
+  for (const route of contract.routingConstraints.nets) {
+    const path = `/routingConstraints/nets/${token(route.net)}`;
+    add(`vias:${route.net}`, "via_policy", path, "Verify this net's actual vias and the combined trace/plane-access budget and physical via geometry.");
+    if (route.topology === "plane") {
+      add(`plane-net:${route.net}`, "plane_connectivity", path, "Verify every exact physical terminal reaches the declared filled plane component, without unintended terminals. A trace tree is not plane evidence.");
+      add(`plane-access:${route.net}`, "plane_access", `${path}/accessRouting`, "Verify access-track width, turns, length, layer and actual pad/via-to-plane contacts independently of plane interior geometry.");
+    } else {
+      add(`trace-net:${route.net}`, "trace_connectivity", path, `Verify exact physical ${route.topology} trace connectivity independently of plane copper.`);
+      add(`trace-geometry:${route.net}`, "trace_geometry", path, "Verify trace widths, mitered turns, lengths, layers, no duplicates, self-intersections or backtracking.");
+      if (route.referencePath.mode === "continuous_plane") add(`reference:${route.net}`, "reference_path", `${path}/referencePath`, "Bind fresh plane fill and exact signal copper sweep plus margin; verify void-free geometric coverage and explicit reference terminals. No impedance or EMC qualification is established.");
+    }
+  }
+  for (const plane of contract.planes) {
+    const path = `/planes/${token(plane.id)}`;
+    add(`plane-config:${plane.id}`, "plane_configuration", path, "Verify exactly one authored zone with this plane's exact net, layer, boundary and all declared settings; reject unbound zones or rule areas.");
+    add(`plane-fill:${plane.id}`, "plane_fill", path, "Verify current-source native fill freshness, complete filled contours including holes, and actual minimum copper width.");
+    add(`plane-clearance:${plane.id}`, "plane_clearance", path, "Verify the explicit zone clearance and its native effective rule interaction, copper separation and edge clearance.");
+    add(`plane-policy:${plane.id}`, "plane_thermal_islands", path, "Verify pad thermal/solid contacts, required spokes, island removal and one connected plane component.");
+  }
+  for (const kind of ["erc", "drc", "schematic_ink", "visual"] as const) add(kind, kind, "/", `Require independent current-source ${kind} evidence; compilation is not a passed check.`);
+  const payload = { schemaVersion: PCB_PLANE_VERIFICATION_PLAN_SCHEMA_VERSION, contractIdentity: contract.identity,
+    libraryBindingIdentity: library.identity, deepRuleBindingIdentity: deep.identity, requirements, acceptanceEvaluated: false as const };
+  return freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, PCB_PLANE_VERIFICATION_PLAN_SCHEMA_VERSION) });
+}
+
+/** Compile V2 directly. Common validators/resolvers never receive a manufactured V1 routing contract. */
+export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPlaneCompilerOptions): PcbPlaneDesignCompilation {
+  let draft: PcbPlaneDesignIntentDraft;
+  let snapshot: unknown;
+  try { snapshot = snapshotPcbPlaneValue(input); draft = parsePcbPlaneDesignIntentDraft(snapshot); }
+  catch (error) { return diagnostics("needs_clarification", null, validationIssues(error, snapshot)); }
+  const { unresolved: _unresolved, ...common } = draft;
+  const candidate = { ...common, schemaVersion: PCB_PLANE_CONTRACT_SCHEMA_VERSION, kind: "pcb_design_contract" };
+  const closure = pcbPlaneDesignContractPayloadSchema.safeParse(candidate);
+  const unresolvedIssues: PcbPlaneIssue[] = draft.unresolved.map(entry => ({ code: "UNRESOLVED_FIELD", path: entry.path, message: entry.question }));
+  if (!closure.success) unresolvedIssues.push(...validationIssues(closure.error, draft));
+  if (unresolvedIssues.length > 0) return diagnostics("needs_clarification", draft, unresolvedIssues);
+  const libraries = resolvePcbDesignCommonLibraries(draft, options.libraryResolver);
+  if (libraries.disposition !== "ready") return diagnostics(libraries.disposition, draft, libraries.issues, libraries.questions);
+  try {
+    const contract = closePcbPlaneDesignIntentDraft(draft);
+    const libraryPayload = { schemaVersion: PCB_LIBRARY_BINDING_SCHEMA_VERSION, contractIdentity: contract.identity,
+      symbols: libraries.symbols, footprints: libraries.footprints };
+    const libraryBinding: PcbLibraryBinding = freezePcbPlaneArtifact({ ...libraryPayload, identity: canonicalIdentity(libraryPayload, PCB_LIBRARY_BINDING_SCHEMA_VERSION) });
+    const selectionPolicy = normalizePcbPlaneSelectionPolicy(options.deepRuleSelectionOptions);
+    const catalog = validateDeepRuleCatalog(hardenPortableValue(options.deepRuleCatalog, {
+      maxBytes: 8 * 1024 * 1024, maxDepth: 64, maxNodes: 500_000, maxArrayLength: 100_000,
+      maxOwnKeys: 1024, maxStringBytes: 256 * 1024,
+    }));
+    const features = { ...deriveDeepRuleFeaturesFromContract(contract, libraryBinding),
+      ...(contract.routingConstraints.nets.some(route => route.topology !== "plane" && route.referencePath.mode === "continuous_plane") ? { emi: true as const } : {}) };
+    const selection = selectDeepRulesForDesign(catalog, features, selectionPolicy);
+    if (selection.disposition !== "ready-for-prompt") throw new Error("Plane compiler requires complete deterministic guidance coverage");
+    const deepPayload = { schemaVersion: PCB_DEEP_RULE_BINDING_SCHEMA_VERSION, contractIdentity: contract.identity,
+      catalogIdentity: canonicalIdentity(catalog, "evleda.deep-rule-catalog.v1"), features, selection };
+    const deepRuleBinding: PcbDeepRuleBinding = freezePcbPlaneArtifact({ ...deepPayload, identity: canonicalIdentity(deepPayload, PCB_DEEP_RULE_BINDING_SCHEMA_VERSION) });
+    return freezePcbPlaneArtifact({ ...base, disposition: "ready", draft, draftIdentity: contentIdentity(canonicalJson(draft)),
+      selectionPolicy, questions: [], issues: [], contract, libraryBinding, deepRuleBinding,
+      verificationPlan: verificationPlan(contract, libraryBinding, deepRuleBinding) });
+  } catch (error) {
+    return diagnostics("needs_clarification", draft, [{ code: "COMPILER_DEPENDENCY", path: "/", message: error instanceof Error ? error.message : "Compiler dependency is unavailable" }]);
+  }
+}

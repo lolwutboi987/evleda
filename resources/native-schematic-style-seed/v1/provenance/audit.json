@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "evleda.native-schematic-style-seed-audit.v1",
+  "allEightJsonFilesReviewed": true,
+  "originalBytesMatchedManifest": true,
+  "originalSeedBytes": 63018,
+  "candidateBytes": 62918,
+  "hostSpecificFields": [
+    {
+      "file": "10.0/kicad_common.json",
+      "jsonPointer": "/api/interpreter_path",
+      "classification": "Absolute installation-specific executable path"
+    },
+    {
+      "file": "10.0/kicad_common.json",
+      "jsonPointer": "/system/working_dir",
+      "classification": "Absolute inherited workspace path"
+    }
+  ],
+  "nonEmptyUserHistoryEntriesFound": 0,
+  "populatedAuthorIdentityFieldsFound": 0,
+  "secretsDetected": false,
+  "historyAndPluginFindings": "History/find/replace/open-project/template/pinned-library/action-plugin lists are empty or null; author name/email are empty. The KiCad official repository URL, stock relative BOM filenames, KIPRJMOD/REFERENCE macros, and generic Windows Explorer command are native defaults, not user locations.",
+  "legacyGeneration": {
+    "initialConfig": "Only eeschema.json with meta.version 3 and drawing.default_line_thickness 6",
+    "initialConfigFileCount": 1,
+    "generatedConfigFileCount": 8,
+    "copyChain": [
+      "app6 config-after",
+      "stable-fileid-repeat/config",
+      "complete-seed-fileid-repeat/config"
+    ],
+    "environmentIsolationVerified": [
+      "KICAD_CONFIG_HOME",
+      "KICAD_CACHE_HOME"
+    ],
+    "broaderEnvironmentInherited": true,
+    "broaderUserEnvironmentIndependenceNotProven": true,
+    "projectPrecondition": "The complete-seed repeat preseeded native-created probe.kicad_prl; config seed alone does not attest project-local PRL creation behavior."
+  },
+  "minimalCandidate": {
+    "changedFile": "10.0/kicad_common.json",
+    "originalSizeBytes": 2547,
+    "originalSha256": "4ae19a0ccc7618111311c47a7a50e9d6fb19e51691b7184fc45784514b31f89e",
+    "candidateSizeBytes": 2447,
+    "candidateSha256": "cbc9a6e0a1209f834ef516cc3cce5d00bbeeabe033d5846f53cc1d7772691d83",
+    "onlySemanticChanges": [
+      "/api/interpreter_path -> empty string",
+      "/system/working_dir -> empty string"
+    ],
+    "allOtherSerializedBytesPreserved": true,
+    "nativeStatus": "NOT_YET_VERIFIED"
+  },
+  "sourceEvidence": [
+    {
+      "name": "native-probe-manifest.json",
+      "sizeBytes": 210840,
+      "sha256": "49395d95fd0799923e7024033e044fbab5b9d5e8e6bbfec7cefb8afdd488c255"
+    },
+    {
+      "name": "stable-seed-manifest.json",
+      "sizeBytes": 12750,
+      "sha256": "55bcba422ea2146900b2aa046f77c9930bb33b7d11bd6761fe95394008fd2873"
+    },
+    {
+      "name": "file-identity-manifest.json",
+      "sizeBytes": 18046,
+      "sha256": "19195ea73d04536df2fbd73dcb69e9bdbc8a809142c4f87b4de7d2c4003d3726"
+    },
+    {
+      "name": "complete-seed-file-identity-manifest.json",
+      "sizeBytes": 18739,
+      "sha256": "398e5c02c3ef9b9c77db541e58969d2d9c2c4c2e6bc1f832c1f90b03259e950a"
+    },
+    {
+      "name": "run-probe.ps1",
+      "sizeBytes": 9007,
+      "sha256": "bef91f413d239b54d7d1dd182565ccda51074e876749a6d4561c65d13b2e84c4"
+    },
+    {
+      "name": "verify-stable-seed.ps1",
+      "sizeBytes": 4257,
+      "sha256": "dd519fc3a1bf3082d62a90f36844ddd4d3b58d1db874b61052ba310fae53386a"
+    },
+    {
+      "name": "verify-file-identities.cjs",
+      "sizeBytes": 5574,
+      "sha256": "b3602e2dcf878b8e758db2b61acffba44f94dd5ff386c47d0d3884397d20c5d0"
+    },
+    {
+      "name": "results.md",
+      "sizeBytes": 11412,
+      "sha256": "5f5284cd44420f0cbfea30d8191d4d2b84b34a6d1460e0651b929d53babfaae7"
+    }
+  ]
+}

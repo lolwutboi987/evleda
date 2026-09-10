@@ -1,0 +1,307 @@
+import { Client, InMemoryTransport } from "@modelcontextprotocol/client";
+import { describe, expect, it, vi } from "vitest";
+import { createKicadHarnessTools, type KicadHarnessSession } from "../../src/harness/kicad-tools.js";
+import { createKicadToolboxMcpServer } from "../../src/mcp/toolbox-server.js";
+import { canonicalIdentity } from "../../src/core/canonical.js";
+
+const payload = (result: unknown): Record<string, unknown> => (result as { structuredContent: Record<string, unknown> }).structuredContent;
+
+async function connect(options: Parameters<typeof createKicadToolboxMcpServer>[0] = {}) {
+  const toolbox = createKicadToolboxMcpServer(options);
+  const client = new Client({ name: "toolbox-test", version: "1.0.0" });
+  const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+  await toolbox.server.connect(serverTransport);
+  await client.connect(clientTransport);
+  return { client, toolbox, close: async () => { await client.close(); await toolbox.close(); } };
+}
+
+function makeCad() {
+  const calls: string[] = [];
+  let revision = 0;
+  const close = vi.fn(async () => {});
+  const callTool = vi.fn(async (name: string) => {
+    calls.push(name);
+    if (name === "pcb_add_track") revision += 1;
+    return { content: [{ type: "text" as const, text: JSON.stringify({ status: "ok", operation: name }) }],
+      structuredContent: { status: "ok", operation: name } };
+  });
+  const schema = { type: "object", properties: { width: { type: "number", minimum: 0.1 } }, required: ["width"], additionalProperties: false };
+  const session: KicadHarnessSession = {
+    listTools: () => [
+      { name: "pcb_get_tracks", permission: "read", description: "Read tracks", inputSchema: { type: "object", properties: {}, additionalProperties: false } },
+      { name: "pcb_add_track", permission: "write", description: "Add track", inputSchema: schema },
+      ...["pcb_save", "run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa", "evleda_get_live_pcb_pad_snapshot", "kicad_set_project"].map(name => ({ name, permission: "read" as const, inputSchema: { type: "object", properties: {} } })),
+    ],
+    callTool,
+  };
+  const tools = createKicadHarnessTools(session, {
+    capturePersistedMutationBaseline: async () => String(revision),
+    verifyPersistedMutation: async baseline => baseline !== String(revision),
+  });
+  return { calls, callTool, cad: { tools, assertCurrent: vi.fn(async () => {}), captureSources: async () => String(revision), close } };
+}
+
+describe("direct KiCad toolbox MCP", () => {
+  it("finishes native state over MCP before the client disconnects, without certifying the design", async () => {
+    const fixture = makeCad(); const publish = vi.fn(); const prepareCheckpoint = vi.fn().mockResolvedValue(publish);
+    const connection = await connect({ cad: { ...fixture.cad, prepareCheckpoint }, access: "edit" });
+    try {
+      const result = await connection.client.callTool({ name: "evleda_finish_session", arguments: {} });
+      expect(result.structuredContent).toMatchObject({ nativeSessionClosed: true, checkpointPublished: true, recoveryRequired: false });
+      expect(publish).toHaveBeenCalledOnce(); expect(fixture.cad.close).toHaveBeenCalledOnce();
+      const late = await connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } });
+      expect(late.isError).toBe(true); expect(fixture.callTool).not.toHaveBeenCalled();
+      await connection.client.callTool({ name: "evleda_finish_session", arguments: {} });
+      expect(prepareCheckpoint).toHaveBeenCalledOnce();
+      expect((await connection.client.callTool({ name: "evleda_rule_topics", arguments: {} })).isError).not.toBe(true);
+    } finally { await connection.close(); }
+    expect(fixture.cad.close).toHaveBeenCalledOnce();
+  });
+
+  it("publishes a captured checkpoint only after clean owned teardown", async () => {
+    const fixture = makeCad(); const order: string[] = [];
+    const cad = { ...fixture.cad, prepareCheckpoint: async () => { order.push("capture"); return async () => { order.push("publish"); }; },
+      close: async () => { order.push("close"); } };
+    const connection = await connect({ cad }); await connection.close();
+    expect(order).toEqual(["capture", "close", "publish"]);
+  });
+
+  it("does not publish a checkpoint after uncertain teardown", async () => {
+    const fixture = makeCad(); const publish = vi.fn(); const recordRecoveryRequired = vi.fn();
+    const connection = await connect({ cad: { ...fixture.cad, prepareCheckpoint: async () => publish,
+      close: async () => { throw new Error("teardown uncertain"); }, recordRecoveryRequired } });
+    await expect(connection.close()).rejects.toThrow("teardown uncertain");
+    expect(publish).not.toHaveBeenCalled(); expect(recordRecoveryRequired).toHaveBeenCalledOnce();
+  });
+
+  it("poisons recovery instead of checkpointing a failed mutation", async () => {
+    const fixture = makeCad(); fixture.callTool.mockRejectedValue(new Error("mutation uncertain"));
+    const prepareCheckpoint = vi.fn(); const recordRecoveryRequired = vi.fn();
+    const connection = await connect({ access: "edit", cad: { ...fixture.cad, prepareCheckpoint, recordRecoveryRequired } });
+    const result = await connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } });
+    expect(result.isError).toBe(true); await connection.close();
+    expect(prepareCheckpoint).not.toHaveBeenCalled(); expect(recordRecoveryRequired).toHaveBeenCalledOnce();
+  });
+
+  it("exposes only host-bound practice analysis and includes it with native validation", async () => {
+    const fixture = makeCad();
+    const report = { turnPolicy: { violations: [{ directionChangeDeg: 90 }] }, checks: { electricalSuitability: "unverified" } };
+    const analyzePractices = vi.fn().mockResolvedValue(report);
+    const connection = await connect({ cad: { ...fixture.cad, analyzePractices } });
+    try {
+      const result = await connection.client.callTool({ name: "evleda_check_board_practices", arguments: {} });
+      expect(result.structuredContent).toMatchObject({ sourceUnchanged: true, report });
+      expect(analyzePractices).toHaveBeenCalledWith();
+      const invalid = await connection.client.callTool({ name: "evleda_check_board_practices", arguments: { pcbPath: "another.kicad_pcb" } });
+      expect(invalid.isError).toBe(true);
+      expect(analyzePractices).toHaveBeenCalledTimes(1);
+      const validation = await connection.client.callTool({ name: "evleda_validate_design", arguments: {} });
+      expect(validation.structuredContent).toMatchObject({ practices: { available: true, result: report } });
+      expect(analyzePractices).toHaveBeenCalledTimes(2);
+    } finally { await connection.close(); }
+  });
+
+  it("does not associate practice findings with changed project sources", async () => {
+    const fixture = makeCad(); let revision = 0;
+    const connection = await connect({ cad: { ...fixture.cad, captureSources: async () => String(revision),
+      analyzePractices: async () => { revision += 1; return { geometry: "stale" }; } } });
+    try {
+      const result = await connection.client.callTool({ name: "evleda_check_board_practices", arguments: {} });
+      expect(result.isError).toBe(true);
+      expect(result.structuredContent).toMatchObject({ sourceUnchanged: false });
+    } finally { await connection.close(); }
+  });
+
+  it("runs verified guidance without pretending a CAD session exists", async () => {
+    const connection = await connect();
+    try {
+      const listed = await connection.client.listTools();
+      expect(listed.tools.map(tool => tool.name)).toEqual([
+        "evleda_toolbox_status", "evleda_rule_topics", "evleda_find_rules", "evleda_read_guide",
+      ]);
+      const status = await connection.client.callTool({ name: "evleda_toolbox_status", arguments: {} });
+      expect(status.structuredContent).toMatchObject({ cadConnected: false, access: "guidance-only", cadTools: [] });
+      const topics = await connection.client.callTool({ name: "evleda_rule_topics", arguments: {} });
+      expect(topics.structuredContent).toMatchObject({ ruleCount: 1773 });
+      expect((payload(topics).topics as unknown[]).length).toBe(17);
+      expect((await connection.client.listResources()).resources).toHaveLength(17);
+    } finally { await connection.close(); }
+  });
+
+  it("preserves full rule fields and guide resources", async () => {
+    const connection = await connect();
+    try {
+      const resources = await connection.client.listResources();
+      const topic = decodeURIComponent(new URL(resources.resources[0]!.uri).pathname.split("/").at(-1)!);
+      const first = await connection.client.callTool({ name: "evleda_find_rules", arguments: { topics: [topic], limit: 1 } });
+      const rule = (payload(first).rules as Record<string, unknown>[])[0]!;
+      expect(rule).toHaveProperty("instruction");
+      expect(rule).toHaveProperty("requiredInputs");
+      expect(rule).toHaveProperty("primarySourceUrls");
+      expect(payload(first).returnedRuleCount).toBe(1);
+      expect(payload(first).nextOffset).toBe(1);
+      const read = await connection.client.readResource({ uri: resources.resources[0]!.uri });
+      const guide = await connection.client.callTool({ name: "evleda_read_guide", arguments: { topic } });
+      expect(payload(guide).text).toBe((read.contents[0] as { text: string }).text);
+      const invalid = await connection.client.callTool({ name: "evleda_find_rules", arguments: { limit: 1 } });
+      expect(invalid.isError).toBe(true);
+    } finally { await connection.close(); }
+  });
+
+  it("does not expose private/internal tools or enable edits through arguments", async () => {
+    const fixture = makeCad();
+    const connection = await connect({ cad: fixture.cad });
+    try {
+      const names = (await connection.client.listTools()).tools.map(tool => tool.name);
+      expect(names).toContain("pcb_get_tracks");
+      expect(names).toContain("evleda_validate_design");
+      expect(names).not.toContain("pcb_add_track");
+      expect(names).not.toContain("pcb_save");
+      expect(names).not.toContain("kicad_set_project");
+      expect(names).not.toContain("evleda_get_live_pcb_pad_snapshot");
+      await expect(connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } })).rejects.toThrow("not found");
+      expect(fixture.calls).toEqual([]);
+    } finally { await connection.close(); }
+  });
+
+  it("validates actual advertised schema before dispatch and uses existing mandatory save", async () => {
+    const fixture = makeCad();
+    const connection = await connect({ cad: fixture.cad, access: "edit" });
+    try {
+      const invalid = await connection.client.callTool({ name: "pcb_add_track", arguments: { width: "0.5" } });
+      expect(invalid.isError).toBe(true);
+      expect(fixture.calls).toEqual([]);
+      const result = await connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } });
+      expect(result.isError).not.toBe(true);
+      expect(fixture.calls).toEqual(["pcb_add_track", "pcb_save"]);
+      expect(result.structuredContent).toMatchObject({ operation: "pcb_add_track", persistence: { toolCallId: expect.any(String) }, noGovernedEffect: false });
+    } finally { await connection.close(); }
+  });
+
+  it("serializes whole edit/save intervals", async () => {
+    const fixture = makeCad();
+    const connection = await connect({ cad: fixture.cad, access: "edit" });
+    try {
+      await Promise.all([1, 2].map(() => connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } })));
+      expect(fixture.calls).toEqual(["pcb_add_track", "pcb_save", "pcb_add_track", "pcb_save"]);
+    } finally { await connection.close(); }
+  });
+
+  it("retains uncertain mutation state rather than admitting more edits", async () => {
+    const fixture = makeCad();
+    const original = fixture.callTool.getMockImplementation()!;
+    fixture.callTool.mockImplementation(async name => {
+      if (name === "pcb_save") { fixture.calls.push(name); throw new Error("Native save unavailable"); }
+      return await original(name);
+    });
+    const connection = await connect({ cad: fixture.cad, access: "edit" });
+    try {
+      expect((await connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } })).isError).toBe(true);
+      expect((await connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } })).isError).toBe(true);
+      expect(fixture.calls).toEqual(["pcb_add_track", "pcb_save"]);
+      const status = await connection.client.callTool({ name: "evleda_toolbox_status", arguments: {} });
+      expect(payload(status).recoveryRequired).toBe(true);
+    } finally { await connection.close(); }
+  });
+
+  it("reports native results with source association without manufacturing a pass", async () => {
+    const fixture = makeCad();
+    const connection = await connect({ cad: fixture.cad });
+    try {
+      const result = await connection.client.callTool({ name: "evleda_validate_design", arguments: {} });
+      expect(fixture.calls).toEqual(["run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa"]);
+      expect(result.structuredContent).toMatchObject({ sourceBefore: "0", sourceAfter: "0", sourceUnchanged: true });
+      expect(result.structuredContent).not.toHaveProperty("passed");
+    } finally { await connection.close(); }
+    expect(fixture.cad.close).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not associate changed sources with a clean validation collection", async () => {
+    const fixture = makeCad();
+    const captureSources = vi.fn().mockResolvedValueOnce("before").mockResolvedValueOnce("after");
+    const connection = await connect({ cad: { ...fixture.cad, captureSources } });
+    try {
+      const result = await connection.client.callTool({ name: "evleda_validate_design", arguments: {} });
+      expect(result.isError).toBe(true);
+      expect(result.structuredContent).toMatchObject({ sourceUnchanged: false, sourceBefore: "before", sourceAfter: "after" });
+      expect(result.structuredContent).not.toHaveProperty("passed");
+    } finally { await connection.close(); }
+  });
+
+  it("rejects changed active-document binding before a mutation and reports unavailable CAD", async () => {
+    const fixture = makeCad();
+    fixture.cad.assertCurrent.mockRejectedValue(new Error("Active PCB differs from the bound document"));
+    const connection = await connect({ cad: fixture.cad, access: "edit" });
+    try {
+      const result = await connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } });
+      expect(result.isError).toBe(true);
+      expect(fixture.calls).toEqual([]);
+      expect(payload(await connection.client.callTool({ name: "evleda_toolbox_status", arguments: {} })))
+        .toMatchObject({ cadBound: true, cadConnected: false, connectionProblem: expect.stringContaining("Active PCB") });
+    } finally { await connection.close(); }
+  });
+
+  it("does not save another active document when binding changes during the edit", async () => {
+    const fixture = makeCad();
+    let current = true;
+    fixture.cad.assertCurrent.mockImplementation(async () => { if (!current) throw new Error("Active document changed"); });
+    const original = fixture.callTool.getMockImplementation()!;
+    fixture.callTool.mockImplementation(async name => {
+      const result = await original(name);
+      if (name === "pcb_add_track") current = false;
+      return result;
+    });
+    const connection = await connect({ cad: fixture.cad, access: "edit" });
+    try {
+      const result = await connection.client.callTool({ name: "pcb_add_track", arguments: { width: 0.5 } });
+      expect(result.isError).toBe(true);
+      expect(fixture.calls).toEqual(["pcb_add_track"]);
+      expect(payload(await connection.client.callTool({ name: "evleda_toolbox_status", arguments: {} })).recoveryRequired).toBe(true);
+    } finally { await connection.close(); }
+  });
+
+  it("surfaces uncertain teardown instead of reporting successful close", async () => {
+    const fixture = makeCad();
+    fixture.cad.close.mockRejectedValue(new Error("Native teardown unconfirmed"));
+    const connection = await connect({ cad: fixture.cad });
+    await connection.client.close();
+    await expect(connection.toolbox.close()).rejects.toThrow("teardown unconfirmed");
+    await expect(connection.toolbox.close()).rejects.toThrow("teardown unconfirmed");
+    expect(fixture.cad.close).toHaveBeenCalledTimes(1);
+  });
+
+  it("requires host contract identity for compound exposure and rejects invalid compound evidence", async () => {
+    const fixture = makeCad();
+    const tools = { ...fixture.cad.tools,
+      tools: [{ name: "fresh_sync_from_schematic", description: "Bound sync", inputSchema: { type: "object", properties: {}, additionalProperties: false } }],
+      execute: vi.fn(async (call: { id: string }) => ({ toolCallId: call.id, content: "{}" })),
+      internal: fixture.cad.tools.internal,
+      freshBoardSaveAudits: [],
+      captureFreshPcbPadEvidence: fixture.cad.tools.captureFreshPcbPadEvidence.bind(fixture.cad.tools),
+      runFinalValidation: fixture.cad.tools.runFinalValidation.bind(fixture.cad.tools),
+    };
+    const unbound = await connect({ cad: { ...fixture.cad, tools }, access: "edit" });
+    try {
+      expect((await unbound.client.listTools()).tools.map(tool => tool.name)).not.toContain("fresh_sync_from_schematic");
+    } finally { await unbound.close(); }
+    const bound = await connect({ cad: { ...fixture.cad, tools }, access: "edit",
+      compoundContractIdentity: canonicalIdentity({ test: "contract" }, "evleda.pcb-design-contract.v1") });
+    try {
+      const result = await bound.client.callTool({ name: "fresh_sync_from_schematic", arguments: {} });
+      expect(result.isError).toBe(true);
+      expect(fixture.calls).toEqual([]);
+      expect(payload(await bound.client.callTool({ name: "evleda_toolbox_status", arguments: {} })).recoveryRequired).toBe(true);
+    } finally { await bound.close(); }
+  });
+
+  it("paginates beyond the existing selector's250-record cap without losing records", async () => {
+    const connection = await connect();
+    try {
+      const result = await connection.client.callTool({ name: "evleda_find_rules", arguments: {
+        severities: ["advisory", "warning", "error", "critical"], offset: 250, limit: 10,
+      } });
+      expect(payload(result)).toMatchObject({ matchingRuleCount: 1773, offset: 250, returnedRuleCount: 10, nextOffset: 260 });
+      expect(new Set((payload(result).rules as { id: string }[]).map(rule => rule.id)).size).toBe(10);
+    } finally { await connection.close(); }
+  });
+});

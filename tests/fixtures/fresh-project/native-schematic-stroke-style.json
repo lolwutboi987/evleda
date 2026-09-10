@@ -1,0 +1,2455 @@
+{
+  "schemaVersion": "evleda.native-schematic-stroke-fixture.v1",
+  "evidenceRoot": "D:\\EvlEDA-native-schematic-stroke-probe-20260909",
+  "manifestIdentity": {
+    "algorithm": "sha256",
+    "digest": "49395d95fd0799923e7024033e044fbab5b9d5e8e6bbfec7cefb8afdd488c255",
+    "size": 210840
+  },
+  "cli": {
+    "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\kicad-cli.exe",
+    "bytes": 2696544,
+    "sha256": "4e1910666330fa8f2321d4e616957dacab218a0d835c343c869a87757481c2f4"
+  },
+  "engine": {
+    "path": "D:\\Codex-Recovery\\KiCad\\10.0\\bin\\_eeschema.dll",
+    "bytes": 18593120,
+    "sha256": "acb3d91c3610f5c951977f06dea7d16e586846ee1c08e94e40d14fbdfd6e3a71"
+  },
+  "stockSourceCaptureIdentity": {
+    "algorithm": "sha256",
+    "digest": "5a638870bfd2717fbb32d66d5987abe078c44f07769c5891aec2eb37b8b1e49b",
+    "size": 8217
+  },
+  "stocks": [
+    {
+      "file": "D:/Codex-Recovery/KiCad/10.0/share/kicad/symbols/Device.kicad_sym",
+      "name": "R",
+      "sourceFileSha256": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+      "symbolSha256": "c0f832c663d55fe05d6b9614e91c99e88d0c6a45e0582a21023b0647ed550b58",
+      "symbol": "(symbol \"R\"\r\n\t\t(pin_numbers\r\n\t\t\t(hide yes)\r\n\t\t)\r\n\t\t(pin_names\r\n\t\t\t(offset 0)\r\n\t\t)\r\n\t\t(exclude_from_sim no)\r\n\t\t(in_bom yes)\r\n\t\t(on_board yes)\r\n\t\t(in_pos_files yes)\r\n\t\t(duplicate_pin_numbers_are_jumpers no)\r\n\t\t(property \"Reference\" \"R\"\r\n\t\t\t(at 2.032 0 90)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Value\" \"R\"\r\n\t\t\t(at 0 0 90)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Footprint\" \"\"\r\n\t\t\t(at -1.778 0 90)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Datasheet\" \"\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Description\" \"Resistor\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"ki_keywords\" \"R res resistor\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"ki_fp_filters\" \"R_*\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(symbol \"R_0_1\"\r\n\t\t\t(rectangle\r\n\t\t\t\t(start -1.016 -2.54)\r\n\t\t\t\t(end 1.016 2.54)\r\n\t\t\t\t(stroke\r\n\t\t\t\t\t(width 0.254)\r\n\t\t\t\t\t(type default)\r\n\t\t\t\t)\r\n\t\t\t\t(fill\r\n\t\t\t\t\t(type none)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(symbol \"R_1_1\"\r\n\t\t\t(pin passive line\r\n\t\t\t\t(at 0 3.81 270)\r\n\t\t\t\t(length 1.27)\r\n\t\t\t\t(name \"\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t\t(number \"1\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t\t(pin passive line\r\n\t\t\t\t(at 0 -3.81 90)\r\n\t\t\t\t(length 1.27)\r\n\t\t\t\t(name \"\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t\t(number \"2\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(embedded_fonts no)\r\n\t)"
+    },
+    {
+      "file": "D:/Codex-Recovery/KiCad/10.0/share/kicad/symbols/Connector_Generic.kicad_sym",
+      "name": "Conn_01x03",
+      "sourceFileSha256": "1ae3b346fe1c4e874fecb72abc7df4e94a253780db183439dbfefc4e2ff3a0be",
+      "symbolSha256": "5fe447e28c48bc6e52784cc7d2c1aee1ffb3723d191591c9c6ff099e3d12d947",
+      "symbol": "(symbol \"Conn_01x03\"\r\n\t\t(pin_names\r\n\t\t\t(offset 1.016)\r\n\t\t\t(hide yes)\r\n\t\t)\r\n\t\t(exclude_from_sim no)\r\n\t\t(in_bom yes)\r\n\t\t(on_board yes)\r\n\t\t(in_pos_files yes)\r\n\t\t(duplicate_pin_numbers_are_jumpers no)\r\n\t\t(property \"Reference\" \"J\"\r\n\t\t\t(at 0 5.08 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Value\" \"Conn_01x03\"\r\n\t\t\t(at 0 -5.08 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Footprint\" \"\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Datasheet\" \"\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"Description\" \"Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"ki_keywords\" \"connector\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(property \"ki_fp_filters\" \"Connector*:*_1x??_*\"\r\n\t\t\t(at 0 0 0)\r\n\t\t\t(show_name no)\r\n\t\t\t(do_not_autoplace no)\r\n\t\t\t(hide yes)\r\n\t\t\t(effects\r\n\t\t\t\t(font\r\n\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(symbol \"Conn_01x03_1_1\"\r\n\t\t\t(rectangle\r\n\t\t\t\t(start -1.27 3.81)\r\n\t\t\t\t(end 1.27 -3.81)\r\n\t\t\t\t(stroke\r\n\t\t\t\t\t(width 0.254)\r\n\t\t\t\t\t(type default)\r\n\t\t\t\t)\r\n\t\t\t\t(fill\r\n\t\t\t\t\t(type background)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t\t(rectangle\r\n\t\t\t\t(start -1.27 2.667)\r\n\t\t\t\t(end 0 2.413)\r\n\t\t\t\t(stroke\r\n\t\t\t\t\t(width 0.1524)\r\n\t\t\t\t\t(type default)\r\n\t\t\t\t)\r\n\t\t\t\t(fill\r\n\t\t\t\t\t(type none)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t\t(rectangle\r\n\t\t\t\t(start -1.27 0.127)\r\n\t\t\t\t(end 0 -0.127)\r\n\t\t\t\t(stroke\r\n\t\t\t\t\t(width 0.1524)\r\n\t\t\t\t\t(type default)\r\n\t\t\t\t)\r\n\t\t\t\t(fill\r\n\t\t\t\t\t(type none)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t\t(rectangle\r\n\t\t\t\t(start -1.27 -2.413)\r\n\t\t\t\t(end 0 -2.667)\r\n\t\t\t\t(stroke\r\n\t\t\t\t\t(width 0.1524)\r\n\t\t\t\t\t(type default)\r\n\t\t\t\t)\r\n\t\t\t\t(fill\r\n\t\t\t\t\t(type none)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t\t(pin passive line\r\n\t\t\t\t(at -5.08 2.54 0)\r\n\t\t\t\t(length 3.81)\r\n\t\t\t\t(name \"Pin_1\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t\t(number \"1\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t\t(pin passive line\r\n\t\t\t\t(at -5.08 0 0)\r\n\t\t\t\t(length 3.81)\r\n\t\t\t\t(name \"Pin_2\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t\t(number \"2\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t\t(pin passive line\r\n\t\t\t\t(at -5.08 -2.54 0)\r\n\t\t\t\t(length 3.81)\r\n\t\t\t\t(name \"Pin_3\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t\t(number \"3\"\r\n\t\t\t\t\t(effects\r\n\t\t\t\t\t\t(font\r\n\t\t\t\t\t\t\t(size 1.27 1.27)\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\t(embedded_fonts no)\r\n\t)"
+    }
+  ],
+  "cases": [
+    {
+      "id": "default_config",
+      "appMils": null,
+      "projectMils": null,
+      "exitCode": 0,
+      "svgIdentity": {
+        "path": "D:\\EvlEDA-native-schematic-stroke-probe-20260909\\runs\\default_config\\native-svg\\probe.svg",
+        "bytes": 6946,
+        "sha256": "6e157e9db0a9add516b4f2f77c30d0c0290480837f31c6eefab5fbd48b837f8e"
+      },
+      "measurements": [
+        {
+          "id": "zero",
+          "sourceWidthMm": 0,
+          "sourceStroke": "(stroke (width 0) (type default))",
+          "libraryBody": [
+            {
+              "index": 1,
+              "x": 17,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 14,
+              "x": 17,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "width_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "(stroke (type default))",
+          "libraryBody": [
+            {
+              "index": 2,
+              "x": 37,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 15,
+              "x": 37,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stroke_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "",
+          "libraryBody": [
+            {
+              "index": 7,
+              "x": 57,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 16,
+              "x": 57,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w001",
+          "sourceWidthMm": 0.01,
+          "sourceStroke": "(stroke (width 0.01) (type default))",
+          "libraryBody": [
+            {
+              "index": 9,
+              "x": 77,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 19,
+              "x": 77,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w005",
+          "sourceWidthMm": 0.05,
+          "sourceStroke": "(stroke (width 0.05) (type default))",
+          "libraryBody": [
+            {
+              "index": 8,
+              "x": 97,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 18,
+              "x": 97,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00846",
+          "sourceWidthMm": 0.0846,
+          "sourceStroke": "(stroke (width 0.0846) (type default))",
+          "libraryBody": [
+            {
+              "index": 10,
+              "x": 117,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 17,
+              "x": 117,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00847",
+          "sourceWidthMm": 0.0847,
+          "sourceStroke": "(stroke (width 0.0847) (type default))",
+          "libraryBody": [
+            {
+              "index": 11,
+              "x": 137,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 20,
+              "x": 137,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00848",
+          "sourceWidthMm": 0.0848,
+          "sourceStroke": "(stroke (width 0.0848) (type default))",
+          "libraryBody": [
+            {
+              "index": 12,
+              "x": 157,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 21,
+              "x": 157,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w03",
+          "sourceWidthMm": 0.3,
+          "sourceStroke": "(stroke (width 0.3) (type default))",
+          "libraryBody": [
+            {
+              "index": 13,
+              "x": 177,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 22,
+              "x": 177,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ],
+      "stockMeasurements": [
+        {
+          "id": "stock_R_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 0,
+              "x": 28.984,
+              "y": 77.46,
+              "width": 2.032,
+              "height": 5.08,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"28.984000\" y=\"77.460000\" width=\"2.032000\" height=\"5.080000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 3,
+              "x": 48.73,
+              "y": 76.19,
+              "width": 2.54,
+              "height": 7.62,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"76.190000\" width=\"2.540000\" height=\"7.620000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact1",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 4,
+              "x": 48.73,
+              "y": 77.333,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"77.333000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact2",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 5,
+              "x": 48.73,
+              "y": 79.873,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"79.873000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact3",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 6,
+              "x": 48.73,
+              "y": 82.413,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"82.413000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "app6",
+      "appMils": 6,
+      "projectMils": null,
+      "exitCode": 0,
+      "svgIdentity": {
+        "path": "D:\\EvlEDA-native-schematic-stroke-probe-20260909\\runs\\app6\\native-svg\\probe.svg",
+        "bytes": 6946,
+        "sha256": "6e157e9db0a9add516b4f2f77c30d0c0290480837f31c6eefab5fbd48b837f8e"
+      },
+      "measurements": [
+        {
+          "id": "zero",
+          "sourceWidthMm": 0,
+          "sourceStroke": "(stroke (width 0) (type default))",
+          "libraryBody": [
+            {
+              "index": 1,
+              "x": 17,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 14,
+              "x": 17,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "width_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "(stroke (type default))",
+          "libraryBody": [
+            {
+              "index": 2,
+              "x": 37,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 15,
+              "x": 37,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stroke_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "",
+          "libraryBody": [
+            {
+              "index": 7,
+              "x": 57,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 16,
+              "x": 57,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w001",
+          "sourceWidthMm": 0.01,
+          "sourceStroke": "(stroke (width 0.01) (type default))",
+          "libraryBody": [
+            {
+              "index": 9,
+              "x": 77,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 19,
+              "x": 77,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w005",
+          "sourceWidthMm": 0.05,
+          "sourceStroke": "(stroke (width 0.05) (type default))",
+          "libraryBody": [
+            {
+              "index": 8,
+              "x": 97,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 18,
+              "x": 97,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00846",
+          "sourceWidthMm": 0.0846,
+          "sourceStroke": "(stroke (width 0.0846) (type default))",
+          "libraryBody": [
+            {
+              "index": 10,
+              "x": 117,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 17,
+              "x": 117,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00847",
+          "sourceWidthMm": 0.0847,
+          "sourceStroke": "(stroke (width 0.0847) (type default))",
+          "libraryBody": [
+            {
+              "index": 11,
+              "x": 137,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 20,
+              "x": 137,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00848",
+          "sourceWidthMm": 0.0848,
+          "sourceStroke": "(stroke (width 0.0848) (type default))",
+          "libraryBody": [
+            {
+              "index": 12,
+              "x": 157,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 21,
+              "x": 157,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w03",
+          "sourceWidthMm": 0.3,
+          "sourceStroke": "(stroke (width 0.3) (type default))",
+          "libraryBody": [
+            {
+              "index": 13,
+              "x": 177,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 22,
+              "x": 177,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ],
+      "stockMeasurements": [
+        {
+          "id": "stock_R_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 0,
+              "x": 28.984,
+              "y": 77.46,
+              "width": 2.032,
+              "height": 5.08,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"28.984000\" y=\"77.460000\" width=\"2.032000\" height=\"5.080000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 3,
+              "x": 48.73,
+              "y": 76.19,
+              "width": 2.54,
+              "height": 7.62,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"76.190000\" width=\"2.540000\" height=\"7.620000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact1",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 4,
+              "x": 48.73,
+              "y": 77.333,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"77.333000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact2",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 5,
+              "x": 48.73,
+              "y": 79.873,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"79.873000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact3",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 6,
+              "x": 48.73,
+              "y": 82.413,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"82.413000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "app20",
+      "appMils": 20,
+      "projectMils": null,
+      "exitCode": 0,
+      "svgIdentity": {
+        "path": "D:\\EvlEDA-native-schematic-stroke-probe-20260909\\runs\\app20\\native-svg\\probe.svg",
+        "bytes": 8286,
+        "sha256": "ba313516ea3bae14bc9b86ba256fac4c4c7ca3caf08b98793ddd2046299ff7f6"
+      },
+      "measurements": [
+        {
+          "id": "zero",
+          "sourceWidthMm": 0,
+          "sourceStroke": "(stroke (width 0) (type default))",
+          "libraryBody": [
+            {
+              "index": 1,
+              "x": 17,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 14,
+              "x": 17,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.5080",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.5080; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "width_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "(stroke (type default))",
+          "libraryBody": [
+            {
+              "index": 2,
+              "x": 37,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 15,
+              "x": 37,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stroke_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "",
+          "libraryBody": [
+            {
+              "index": 7,
+              "x": 57,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 16,
+              "x": 57,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.5080",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.5080; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w001",
+          "sourceWidthMm": 0.01,
+          "sourceStroke": "(stroke (width 0.01) (type default))",
+          "libraryBody": [
+            {
+              "index": 9,
+              "x": 77,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 19,
+              "x": 77,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w005",
+          "sourceWidthMm": 0.05,
+          "sourceStroke": "(stroke (width 0.05) (type default))",
+          "libraryBody": [
+            {
+              "index": 8,
+              "x": 97,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 18,
+              "x": 97,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00846",
+          "sourceWidthMm": 0.0846,
+          "sourceStroke": "(stroke (width 0.0846) (type default))",
+          "libraryBody": [
+            {
+              "index": 10,
+              "x": 117,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 17,
+              "x": 117,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00847",
+          "sourceWidthMm": 0.0847,
+          "sourceStroke": "(stroke (width 0.0847) (type default))",
+          "libraryBody": [
+            {
+              "index": 11,
+              "x": 137,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 20,
+              "x": 137,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00848",
+          "sourceWidthMm": 0.0848,
+          "sourceStroke": "(stroke (width 0.0848) (type default))",
+          "libraryBody": [
+            {
+              "index": 12,
+              "x": 157,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 21,
+              "x": 157,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w03",
+          "sourceWidthMm": 0.3,
+          "sourceStroke": "(stroke (width 0.3) (type default))",
+          "libraryBody": [
+            {
+              "index": 13,
+              "x": 177,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 22,
+              "x": 177,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ],
+      "stockMeasurements": [
+        {
+          "id": "stock_R_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 0,
+              "x": 28.984,
+              "y": 77.46,
+              "width": 2.032,
+              "height": 5.08,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"28.984000\" y=\"77.460000\" width=\"2.032000\" height=\"5.080000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 3,
+              "x": 48.73,
+              "y": 76.19,
+              "width": 2.54,
+              "height": 7.62,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"76.190000\" width=\"2.540000\" height=\"7.620000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact1",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 4,
+              "x": 48.73,
+              "y": 77.333,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"77.333000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact2",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 5,
+              "x": 48.73,
+              "y": 79.873,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"79.873000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact3",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 6,
+              "x": 48.73,
+              "y": 82.413,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"82.413000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "app20_project12",
+      "appMils": 20,
+      "projectMils": 12,
+      "exitCode": 0,
+      "svgIdentity": {
+        "path": "D:\\EvlEDA-native-schematic-stroke-probe-20260909\\runs\\app20_project12\\native-svg\\probe.svg",
+        "bytes": 8286,
+        "sha256": "07f264f56a2011d6dafda61e8fad40a2e24ac1c7e2c398ae1da2c032c76112ba"
+      },
+      "measurements": [
+        {
+          "id": "zero",
+          "sourceWidthMm": 0,
+          "sourceStroke": "(stroke (width 0) (type default))",
+          "libraryBody": [
+            {
+              "index": 1,
+              "x": 17,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 14,
+              "x": 17,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3048",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3048; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "width_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "(stroke (type default))",
+          "libraryBody": [
+            {
+              "index": 2,
+              "x": 37,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 15,
+              "x": 37,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stroke_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "",
+          "libraryBody": [
+            {
+              "index": 7,
+              "x": 57,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 16,
+              "x": 57,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3048",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3048; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w001",
+          "sourceWidthMm": 0.01,
+          "sourceStroke": "(stroke (width 0.01) (type default))",
+          "libraryBody": [
+            {
+              "index": 9,
+              "x": 77,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 19,
+              "x": 77,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w005",
+          "sourceWidthMm": 0.05,
+          "sourceStroke": "(stroke (width 0.05) (type default))",
+          "libraryBody": [
+            {
+              "index": 8,
+              "x": 97,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 18,
+              "x": 97,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00846",
+          "sourceWidthMm": 0.0846,
+          "sourceStroke": "(stroke (width 0.0846) (type default))",
+          "libraryBody": [
+            {
+              "index": 10,
+              "x": 117,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 17,
+              "x": 117,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00847",
+          "sourceWidthMm": 0.0847,
+          "sourceStroke": "(stroke (width 0.0847) (type default))",
+          "libraryBody": [
+            {
+              "index": 11,
+              "x": 137,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 20,
+              "x": 137,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00848",
+          "sourceWidthMm": 0.0848,
+          "sourceStroke": "(stroke (width 0.0848) (type default))",
+          "libraryBody": [
+            {
+              "index": 12,
+              "x": 157,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 21,
+              "x": 157,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w03",
+          "sourceWidthMm": 0.3,
+          "sourceStroke": "(stroke (width 0.3) (type default))",
+          "libraryBody": [
+            {
+              "index": 13,
+              "x": 177,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 22,
+              "x": 177,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ],
+      "stockMeasurements": [
+        {
+          "id": "stock_R_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 0,
+              "x": 28.984,
+              "y": 77.46,
+              "width": 2.032,
+              "height": 5.08,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"28.984000\" y=\"77.460000\" width=\"2.032000\" height=\"5.080000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 3,
+              "x": 48.73,
+              "y": 76.19,
+              "width": 2.54,
+              "height": 7.62,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"76.190000\" width=\"2.540000\" height=\"7.620000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact1",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 4,
+              "x": 48.73,
+              "y": 77.333,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"77.333000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact2",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 5,
+              "x": 48.73,
+              "y": 79.873,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"79.873000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact3",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 6,
+              "x": 48.73,
+              "y": 82.413,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"82.413000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "app1_project20",
+      "appMils": 1,
+      "projectMils": 20,
+      "exitCode": 0,
+      "svgIdentity": {
+        "path": "D:\\EvlEDA-native-schematic-stroke-probe-20260909\\runs\\app1_project20\\native-svg\\probe.svg",
+        "bytes": 8286,
+        "sha256": "ba313516ea3bae14bc9b86ba256fac4c4c7ca3caf08b98793ddd2046299ff7f6"
+      },
+      "measurements": [
+        {
+          "id": "zero",
+          "sourceWidthMm": 0,
+          "sourceStroke": "(stroke (width 0) (type default))",
+          "libraryBody": [
+            {
+              "index": 1,
+              "x": 17,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 14,
+              "x": 17,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.5080",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.5080; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "width_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "(stroke (type default))",
+          "libraryBody": [
+            {
+              "index": 2,
+              "x": 37,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 15,
+              "x": 37,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stroke_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "",
+          "libraryBody": [
+            {
+              "index": 7,
+              "x": 57,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 16,
+              "x": 57,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.5080",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.5080; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w001",
+          "sourceWidthMm": 0.01,
+          "sourceStroke": "(stroke (width 0.01) (type default))",
+          "libraryBody": [
+            {
+              "index": 9,
+              "x": 77,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 19,
+              "x": 77,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w005",
+          "sourceWidthMm": 0.05,
+          "sourceStroke": "(stroke (width 0.05) (type default))",
+          "libraryBody": [
+            {
+              "index": 8,
+              "x": 97,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 18,
+              "x": 97,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00846",
+          "sourceWidthMm": 0.0846,
+          "sourceStroke": "(stroke (width 0.0846) (type default))",
+          "libraryBody": [
+            {
+              "index": 10,
+              "x": 117,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 17,
+              "x": 117,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00847",
+          "sourceWidthMm": 0.0847,
+          "sourceStroke": "(stroke (width 0.0847) (type default))",
+          "libraryBody": [
+            {
+              "index": 11,
+              "x": 137,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 20,
+              "x": 137,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00848",
+          "sourceWidthMm": 0.0848,
+          "sourceStroke": "(stroke (width 0.0848) (type default))",
+          "libraryBody": [
+            {
+              "index": 12,
+              "x": 157,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 21,
+              "x": 157,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w03",
+          "sourceWidthMm": 0.3,
+          "sourceStroke": "(stroke (width 0.3) (type default))",
+          "libraryBody": [
+            {
+              "index": 13,
+              "x": 177,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 22,
+              "x": 177,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ],
+      "stockMeasurements": [
+        {
+          "id": "stock_R_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 0,
+              "x": 28.984,
+              "y": 77.46,
+              "width": 2.032,
+              "height": 5.08,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"28.984000\" y=\"77.460000\" width=\"2.032000\" height=\"5.080000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 3,
+              "x": 48.73,
+              "y": 76.19,
+              "width": 2.54,
+              "height": 7.62,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"76.190000\" width=\"2.540000\" height=\"7.620000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact1",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 4,
+              "x": 48.73,
+              "y": 77.333,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"77.333000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact2",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 5,
+              "x": 48.73,
+              "y": 79.873,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"79.873000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact3",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 6,
+              "x": 48.73,
+              "y": 82.413,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"82.413000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "app20_project1",
+      "appMils": 20,
+      "projectMils": 1,
+      "exitCode": 0,
+      "svgIdentity": {
+        "path": "D:\\EvlEDA-native-schematic-stroke-probe-20260909\\runs\\app20_project1\\native-svg\\probe.svg",
+        "bytes": 8286,
+        "sha256": "d7331e9af416234b0d8da03530736798b6aeba3d2643075c5990df53f1d74bec"
+      },
+      "measurements": [
+        {
+          "id": "zero",
+          "sourceWidthMm": 0,
+          "sourceStroke": "(stroke (width 0) (type default))",
+          "libraryBody": [
+            {
+              "index": 1,
+              "x": 17,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 14,
+              "x": 17,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.5080",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"17.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.5080; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "width_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "(stroke (type default))",
+          "libraryBody": [
+            {
+              "index": 2,
+              "x": 37,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 15,
+              "x": 37,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"37.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stroke_omitted",
+          "sourceWidthMm": null,
+          "sourceStroke": "",
+          "libraryBody": [
+            {
+              "index": 7,
+              "x": 57,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 16,
+              "x": 57,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.5080",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"57.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.5080; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w001",
+          "sourceWidthMm": 0.01,
+          "sourceStroke": "(stroke (width 0.01) (type default))",
+          "libraryBody": [
+            {
+              "index": 9,
+              "x": 77,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 19,
+              "x": 77,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"77.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w005",
+          "sourceWidthMm": 0.05,
+          "sourceStroke": "(stroke (width 0.05) (type default))",
+          "libraryBody": [
+            {
+              "index": 8,
+              "x": 97,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 18,
+              "x": 97,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"97.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00846",
+          "sourceWidthMm": 0.0846,
+          "sourceStroke": "(stroke (width 0.0846) (type default))",
+          "libraryBody": [
+            {
+              "index": 10,
+              "x": 117,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 17,
+              "x": 117,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"117.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00847",
+          "sourceWidthMm": 0.0847,
+          "sourceStroke": "(stroke (width 0.0847) (type default))",
+          "libraryBody": [
+            {
+              "index": 11,
+              "x": 137,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 20,
+              "x": 137,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0847",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"137.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0847; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w00848",
+          "sourceWidthMm": 0.0848,
+          "sourceStroke": "(stroke (width 0.0848) (type default))",
+          "libraryBody": [
+            {
+              "index": 12,
+              "x": 157,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 21,
+              "x": 157,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.0848",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"157.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.0848; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "w03",
+          "sourceWidthMm": 0.3,
+          "sourceStroke": "(stroke (width 0.3) (type default))",
+          "libraryBody": [
+            {
+              "index": 13,
+              "x": 177,
+              "y": 23,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"23.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ],
+          "documentBody": [
+            {
+              "index": 22,
+              "x": 177,
+              "y": 48,
+              "width": 6,
+              "height": 4,
+              "strokeWidth": "0.3000",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"177.000000\" y=\"48.000000\" width=\"6.000000\" height=\"4.000000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.3000; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ],
+      "stockMeasurements": [
+        {
+          "id": "stock_R_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 0,
+              "x": 28.984,
+              "y": 77.46,
+              "width": 2.032,
+              "height": 5.08,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"28.984000\" y=\"77.460000\" width=\"2.032000\" height=\"5.080000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_main",
+          "sourceWidthMm": 0.254,
+          "body": [
+            {
+              "index": 3,
+              "x": 48.73,
+              "y": 76.19,
+              "width": 2.54,
+              "height": 7.62,
+              "strokeWidth": "0.2540",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"76.190000\" width=\"2.540000\" height=\"7.620000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.2540; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact1",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 4,
+              "x": 48.73,
+              "y": 77.333,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"77.333000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact2",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 5,
+              "x": 48.73,
+              "y": 79.873,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"79.873000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        },
+        {
+          "id": "stock_Conn_contact3",
+          "sourceWidthMm": 0.1524,
+          "body": [
+            {
+              "index": 6,
+              "x": 48.73,
+              "y": 82.413,
+              "width": 1.27,
+              "height": 0.254,
+              "strokeWidth": "0.1524",
+              "stroke": "#000000",
+              "fill": "none",
+              "element": "<rect x=\"48.730000\" y=\"82.413000\" width=\"1.270000\" height=\"0.254000\" rx=\"0.000000\" xmlns=\"http://www.w3.org/2000/svg\" />",
+              "parentStyle": "fill:none; \r\nstroke:#000000; stroke-width:0.1524; stroke-opacity:1; \r\nstroke-linecap:round; stroke-linejoin:round;"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Native observations from the independent root-authorized isolated CLI measurement, not a design proof. Source geometry fixtures remain original stock bytes."
+}

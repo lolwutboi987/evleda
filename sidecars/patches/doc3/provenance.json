@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "evleda.doc3-combined-runtime-overlay.v1",
+  "status": "INSTALLED_OFFLINE_VERIFIED_NOT_NATIVE_QUALIFIED",
+  "baseRuntime": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc2",
+  "newRuntime": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3",
+  "manifest": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest-doc3.json",
+    "sha256": "5c6efc6d0e29711832b39f85c5ce0c5c0b31f241553a90c42fe5060583bfdd43",
+    "sizeBytes": 1574011
+  },
+  "manifestIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "65e0d3c5366b00adb080f0d021174d5eee1ae31d760de2c45f98d5d93e593701",
+    "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+  },
+  "treeIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "b4fab80821ee5d7553cf4f2ca1d85aaf98fd11602913bd6a0753a67bd765bd98",
+    "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+  },
+  "fileCount": 8462,
+  "directoryCount": 1158,
+  "totalBytes": 150352077,
+  "runtimeDelta": [
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "9ed6d9583b4fa790fb1172cbbc4090a52c752eed782e498c5385c64c3c1b5ac4",
+        "sizeBytes": 200
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "440f2bef8da14dc602799824083d47da398b89c29359ee04972d4e4807f0dc26",
+        "sizeBytes": 200
+      }
+    },
+    {
+      "path": "evleda_live_pcb_pad_snapshot.py",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "evleda_live_pcb_pad_snapshot.py",
+        "sha256": "706d682a368449dd8a0423d7c4a4cb56d5458a440e3641caabe4b6251ab917cc",
+        "sizeBytes": 21333
+      }
+    },
+    {
+      "path": "evleda_schematic_connectivity_batch.py",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "evleda_schematic_connectivity_batch.py",
+        "sha256": "97b1e2accb5b44eefff436c8c5ab8853dc5f9c649bce488cd7d5f29b732dec6b",
+        "sizeBytes": 25336
+      }
+    },
+    {
+      "path": "kicad-inspection-launcher.py",
+      "before": {
+        "mode": 438,
+        "path": "kicad-inspection-launcher.py",
+        "sha256": "6e14445317f1e4b6eed1df1f908437b9469fa6218861bc3a098d5c3582adcfed",
+        "sizeBytes": 4240
+      },
+      "after": {
+        "mode": 438,
+        "path": "kicad-inspection-launcher.py",
+        "sha256": "c6ade030dbea21dd089f3346d334291cf851368ff23fd5557c3a0b755311cdfd",
+        "sizeBytes": 5214
+      }
+    }
+  ],
+  "removedFiles": [],
+  "oldManifestsUnchanged": [
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest.json",
+      "sha256": "12e6c17842da2e3801f6f5f8457343447298e748507f3b5d529bf8857dc858e8",
+      "sizeBytes": 1573387
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest-doc1.json",
+      "sha256": "d1004ff51b8d7001f220409f39a008439c3b2da65abc37e312c3d3a589fbaa0a",
+      "sizeBytes": 1573530
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest-doc2.json",
+      "sha256": "3dd83cd7b2b6ba0d2c0cb92261275ac030e582ddaed6a208d2c7d198b280af2e",
+      "sizeBytes": 1573708
+    }
+  ],
+  "packageUnchanged": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/package.json",
+    "sha256": "eb324c81e00a8b495d6ed9aeadb79be81d228334319c6734b63b6f0d9ac317c0",
+    "sizeBytes": 3108
+  },
+  "profile12Unchanged": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/flux-generic-divider-production-profile-20260909-12.json",
+    "sha256": "930a0aa793dd9441c13c1b24aee999cd6ed86fed60c6258af374ad18b144c4b6",
+    "sizeBytes": 5294
+  },
+  "unchangedCriticalRuntimeFiles": [
+    {
+      "relativePath": "evleda_live_pcb_document.py",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/evleda_live_pcb_document.py",
+      "sha256": "c824eac600fef0b21166d77c991397006a90415adff42df4b5c8b5e171bf8db4",
+      "sizeBytes": 8870
+    },
+    {
+      "relativePath": "environment/Scripts/python.exe",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/environment/Scripts/python.exe",
+      "sha256": "2d8d20ef6e119ce9f129aaa63f81d7249b0853576e186725d93ca78614cd5f19",
+      "sizeBytes": 241152
+    },
+    {
+      "relativePath": "process-tree-terminator.exe",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/process-tree-terminator.exe",
+      "sha256": "1249717315fc8f4d2df17d5db9da0444795fdb9fb83dfb1f763c3f39282244f7",
+      "sizeBytes": 118784
+    },
+    {
+      "relativePath": "environment/Lib/site-packages/kicad_mcp/tools/pcb.py",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/environment/Lib/site-packages/kicad_mcp/tools/pcb.py",
+      "sha256": "411c47974851c8291c0485e89416f5ecd72472c4ddb77377db3d594173c27f74",
+      "sizeBytes": 186975
+    },
+    {
+      "relativePath": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "sha256": "c3fd448670a77ee817a78acba1512ebbea9f329f1fb3bed5ad9694f3e667b806",
+      "sizeBytes": 236358
+    },
+    {
+      "relativePath": "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+      "sha256": "6164828e26cc9a614abe012d543b7b4d44b3d0cbcba19c3cad0a127906c9ffe1",
+      "sizeBytes": 20421
+    },
+    {
+      "relativePath": "environment/Lib/site-packages/kicad_mcp_pro-3.33.3.dist-info/METADATA",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/environment/Lib/site-packages/kicad_mcp_pro-3.33.3.dist-info/METADATA",
+      "sha256": "6bd08b36cb18b43b2584e37d2c6b344254d16b72472ed9e7b5ee7993865184f2",
+      "sizeBytes": 18349
+    },
+    {
+      "relativePath": "environment/Lib/site-packages/kicad_mcp_pro-3.33.3.dist-info/RECORD",
+      "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc3/environment/Lib/site-packages/kicad_mcp_pro-3.33.3.dist-info/RECORD",
+      "sha256": "8fbb56ec0b42734d88f8fea6e489d3f4c4af57ca779df6d66a1a0e23988a7135",
+      "sizeBytes": 31101
+    }
+  ],
+  "installedTests": {
+    "snapshot": 21,
+    "batch": 33,
+    "nativeCalls": 0,
+    "record": {
+      "path": "D:/EvlEDA-doc3-runtime-build-20260909/installed-test-results.json",
+      "sha256": "5f9204e1f0f20e5b46678ba3d63f894baf21d22f0fb86805a742308ffd187046",
+      "sizeBytes": 8025
+    }
+  },
+  "combinedRegistration": {
+    "record": {
+      "path": "D:/EvlEDA-doc3-runtime-build-20260909/combined-registration.json",
+      "sha256": "8a8d5cc0d67c970deece2777c162c01f8f7692d1e7843a48a65fa1d16a259926",
+      "sizeBytes": 39937
+    },
+    "readonlyMutationAbsent": true,
+    "hostProtocolFixturesMatched": true,
+    "reviewedTestBodiesUnchanged": true
+  },
+  "fullRuntimeVerification": {
+    "path": "D:/EvlEDA-doc3-runtime-build-20260909/manifest-builder-verifications.json",
+    "sha256": "e740946790a29bc6354b7001f14ab3fac7d6f4eda0d75ff3a3a0c924b399296e",
+    "sizeBytes": 2844
+  },
+  "runtimeSourceArtifacts": [
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-launcher-doc3.py",
+      "sha256": "c6ade030dbea21dd089f3346d334291cf851368ff23fd5557c3a0b755311cdfd",
+      "sizeBytes": 5214
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc3/evleda_live_pcb_pad_snapshot.py",
+      "sha256": "706d682a368449dd8a0423d7c4a4cb56d5458a440e3641caabe4b6251ab917cc",
+      "sizeBytes": 21333
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc3/evleda_schematic_connectivity_batch.py",
+      "sha256": "97b1e2accb5b44eefff436c8c5ab8853dc5f9c649bce488cd7d5f29b732dec6b",
+      "sizeBytes": 25336
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc3/pad-snapshot-protocol.json",
+      "sha256": "9311639aae4332e12d7cba95eabaca8da314a46bb3ef2ef3e6722ce1b5d9ded9",
+      "sizeBytes": 6770
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc3/connectivity-batch-protocol.json",
+      "sha256": "aee9ad59039ee512a13b8d7f3994841e0200eacabfd58bc2b2f2f793a7ede8c9",
+      "sizeBytes": 14538
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc3/runtime-delta.patch",
+      "sha256": "cdccf8b8d7c188717c1bd16ba0c6c3daf4c31da4101a8ba94175b6de7cba9a4d",
+      "sizeBytes": 49257
+    },
+    {
+      "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/doc3-runtime.md",
+      "sha256": "9f810a88c69cb49a6a0bba65225a4615b2e81601fcdc5da02caa1becba46234a",
+      "sizeBytes": 4225
+    }
+  ],
+  "independentProducerReviews": {
+    "snapshot": "PASS",
+    "connectivityBatch": "PASS"
+  },
+  "publishedWheelMetadataRewritten": false,
+  "testedKiCadVersions": [],
+  "noTestFixturesOrCachesShipped": true,
+  "nativeGuiModelCalls": 0,
+  "activeProfileOrDefaultScriptChanged": false,
+  "nativeEnablement": "HELD pending host integration/review and separate root authority"
+}

@@ -1,0 +1,2 @@
+Create a low-voltage two-channel brushed motor controller at 0.5 A RMS per channel with CAN, USB, two encoders, and SWD.
+

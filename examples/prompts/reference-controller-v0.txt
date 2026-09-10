@@ -1,0 +1,22 @@
+Create a local-only candidate for a non-safety-rated prototype robotics controller.
+
+Power and loads:
+- 7-16.8 V DC battery input.
+- Input current budget: 3 A.
+- Two brushed-DC motor channels at 0.5 A RMS per channel with a 1 A hardware current-chop target.
+- Shared protected 5 V sensor output limited to 0.5 A.
+
+Interfaces:
+- USB-C full-speed device for configuration; VBUS sense only and no back-powering.
+- Classical CAN at 500 kbit/s with a jumperable 120 ohm termination and a ground conductor.
+- Two single-ended NPN/open-collector quadrature encoder inputs, each A/B, for cables up to 1 m and up to 100k edges/s/channel pending physical validation.
+- One 3.3 V UART, one 3.3 V I2C bus, and one 3.3 V SPI bus for short board-to-board links.
+- SWD and reset access.
+
+Behavior and constraints:
+- Motor bridges remain asleep during reset and until firmware validates board identity, rail state, driver faults, watchdog operation, and a zero command.
+- Communications timeout, brownout, invalid configuration, sensor-power fault, watchdog reset, or motor-driver fault disables both motor bridges and latches a reported fault.
+- Include two board-revision straps, MCU unique-ID support, power/run/fault indicators, keyed power/motor connectors, input fuse/reverse-polarity protection, and connector-side ESD protection.
+- Use the robotics-controller-v0 six-layer 1+4+1 HDI 60 mm x 45 mm reference profile.
+
+This is a candidate-generation request only. Do not describe the result as safe, certified, qualified, production-ready, or released.

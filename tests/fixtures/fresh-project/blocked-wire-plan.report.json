@@ -1,0 +1,12 @@
+{
+  "harness": {
+    "operations": [
+      {
+        "name": "fresh_apply_contract_connectivity",
+        "result": {
+          "content": "{\"schemaVersion\":\"evleda.fresh-contract-connectivity-result.v1\",\"contractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"cf2a3c85767ce0bc2bd4cbac931f4fb37603c40bc0176b45223bc6bf698ce038\",\"schemaVersion\":\"evleda.fresh-connectivity-contract.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"applied\":false,\"mutated\":false,\"idempotent\":false,\"issues\":[{\"code\":\"NO_PROVEN_COLLISION_FREE_WIRE_PLAN\",\"message\":\"No bounded orthogonal route for GND D1:1-J1:2 avoids symbol bodies, unrelated pins, prior wires, overlaps, and non-junction crossings.\",\"remediation\":\"Move or spread the named schematic symbols, inspect bounding boxes, then retry before any connectivity mutation.\",\"endpoints\":[\"D1:1\",\"J1:2\"]}]}"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+diff --git a/kicad_mcp/tools/schematic.py b/kicad_mcp/tools/schematic.py
+--- a/kicad_mcp/tools/schematic.py
++++ b/kicad_mcp/tools/schematic.py
+@@ -4428,9 +4428,12 @@ def _parse_no_connect_block(block: str) -> dict[str, Any] | None:
+ def _build_connectivity_groups(sch_file: Path) -> list[dict[str, Any]]:
+     data = parse_schematic_file(sch_file)
+     try:
+-        no_connect_points = _extract_no_connects(sch_file.read_text(encoding="utf-8"))
++        content = sch_file.read_text(encoding="utf-8")
++        no_connect_points = _extract_no_connects(content)
++        junction_points = _existing_junction_points(content)
+     except OSError:
+         no_connect_points = set()
++        junction_points = set()
+     parent: dict[tuple[float, float], tuple[float, float]] = {}
+ 
+     def find(point: tuple[float, float]) -> tuple[float, float]:
+@@ -4451,6 +4454,13 @@ def _build_connectivity_groups(sch_file: Path) -> list[dict[str, Any]]:
+         end = _point_key(wire["x2"], wire["y2"])
+         union(start, end)
+ 
++    # Explicit dots connect every incident segment, including a through-wire
++    # whose interior meets a branch endpoint. Undotted crossings stay separate.
++    for junction in sorted(junction_points):
++        for wire in data["wires"]:
++            if _point_on_segment(junction, wire):
++                union(junction, _point_key(wire["x1"], wire["y1"]))
++
+     def attach(point: tuple[float, float]) -> tuple[float, float]:
+         key = _point_key(*point)
+         if key in parent:

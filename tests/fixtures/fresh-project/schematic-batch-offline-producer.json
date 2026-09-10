@@ -1,0 +1,443 @@
+{
+  "schemaVersion": "evleda.schematic-batch-offline-producer-fixtures.v1",
+  "provenance": {
+    "captureRoot": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01",
+    "captureManifestSha256": "50cf97b643aeaa06d63b13bd0ddfca953368d5adec39a84422b18b3514f50469",
+    "producerProtocolSha256": "aee9ad59039ee512a13b8d7f3994841e0200eacabfd58bc2b2f2f793a7ede8c9",
+    "nativeCalls": 0,
+    "subprocessCalls": 0,
+    "reloadCalls": 0,
+    "actualDoc2WriterCallsPerCase": 1,
+    "description": "Actual staged offline producer CallToolResult and raw source captures, not native KiCad or hand-authored receipts."
+  },
+  "cases": [
+    {
+      "name": "collinear-t",
+      "request": {
+        "normalization_version": "doc2-complete-plan-v1",
+        "project_file": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\collinear-t\\fixture.kicad_pro",
+        "schematic_file": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\collinear-t\\fixture.kicad_sch",
+        "expected_before_sha256": "d264724fec84b56238c04595addf46b30948c294dfe7fa9cc0c37b3abc5d22e0",
+        "expected_before_size_bytes": 655,
+        "wires": [
+          {
+            "x1_mm": 0,
+            "y1_mm": 0,
+            "x2_mm": 1,
+            "y2_mm": 0
+          },
+          {
+            "x1_mm": 1,
+            "y1_mm": 0,
+            "x2_mm": 2,
+            "y2_mm": 0
+          },
+          {
+            "x1_mm": 1,
+            "y1_mm": 0,
+            "x2_mm": 1,
+            "y2_mm": 1
+          }
+        ],
+        "global_labels": [
+          {
+            "name": "SIG \"A\" \\ terminal",
+            "x_mm": 2,
+            "y_mm": 0,
+            "rotation": 180,
+            "shape": "passive",
+            "justify": "right"
+          },
+          {
+            "name": "SIG \"A\" \\ terminal",
+            "x_mm": 1,
+            "y_mm": 1,
+            "rotation": 90,
+            "shape": "passive",
+            "justify": "bottom"
+          }
+        ],
+        "no_connects": [
+          {
+            "x_mm": 8.25,
+            "y_mm": 9.125
+          }
+        ],
+        "junctions": [
+          {
+            "x_mm": 1,
+            "y_mm": 0
+          }
+        ]
+      },
+      "reply": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"schemaVersion\":\"evleda.kicad-schematic-connectivity-batch.v1\",\"normalizationVersion\":\"doc2-complete-plan-v1\",\"applied\":true,\"projectFile\":\"D:\\\\EvlEDA-connectivity-batch-stage-20260909\\\\evidence\\\\host-fixture-capture-20260909-01\\\\collinear-t\\\\fixture.kicad_pro\",\"schematicFile\":\"D:\\\\EvlEDA-connectivity-batch-stage-20260909\\\\evidence\\\\host-fixture-capture-20260909-01\\\\collinear-t\\\\fixture.kicad_sch\",\"before\":{\"algorithm\":\"sha256\",\"digest\":\"d264724fec84b56238c04595addf46b30948c294dfe7fa9cc0c37b3abc5d22e0\",\"size\":655},\"after\":{\"algorithm\":\"sha256\",\"digest\":\"37e1c72dae902986c8a365ae483145651466934bca87eafcfd3e758b45b2a5e7\",\"size\":1444},\"submittedCounts\":{\"wires\":3,\"global_labels\":2,\"no_connects\":1,\"junctions\":1},\"appliedCounts\":{\"wires\":2,\"global_labels\":2,\"no_connects\":1,\"junctions\":1},\"inventory\":{\"wires\":[{\"x1_mm\":0.0,\"y1_mm\":0.0,\"x2_mm\":2.0,\"y2_mm\":0.0,\"uuid\":\"973a18ed-8a85-46b6-9f87-9c281197ba8c\"},{\"x1_mm\":1.0,\"y1_mm\":0.0,\"x2_mm\":1.0,\"y2_mm\":1.0,\"uuid\":\"0784b749-7d05-47c6-a2b5-125a9e2a4913\"}],\"global_labels\":[{\"x_mm\":1.0,\"y_mm\":1.0,\"uuid\":\"818c1ca4-edf8-4a26-986c-c4ca5726ea04\",\"name\":\"SIG \\\"A\\\" \\\\ terminal\",\"rotation\":90,\"shape\":\"passive\",\"justify\":\"bottom\"},{\"x_mm\":2.0,\"y_mm\":0.0,\"uuid\":\"1089e8fb-bd49-42d4-a9fd-c54ca6044d45\",\"name\":\"SIG \\\"A\\\" \\\\ terminal\",\"rotation\":180,\"shape\":\"passive\",\"justify\":\"right\"}],\"no_connects\":[{\"x_mm\":8.25,\"y_mm\":9.125,\"uuid\":\"c933033e-9221-4248-9856-194e2e323522\"}],\"junctions\":[{\"x_mm\":1.0,\"y_mm\":0.0,\"uuid\":\"754d5b77-0dc1-470b-a796-c05005e61629\"}]},\"operationReceipt\":[{\"kind\":\"wires\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]},{\"kind\":\"wires\",\"index\":1,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]},{\"kind\":\"wires\",\"index\":2,\"status\":\"applied\",\"resultingPrimitiveIndices\":[1]},{\"kind\":\"global_labels\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[1]},{\"kind\":\"global_labels\",\"index\":1,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]},{\"kind\":\"no_connects\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]},{\"kind\":\"junctions\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]}],\"reload\":{\"status\":\"not_requested\",\"confirmed\":false}}"
+          }
+        ],
+        "structuredContent": {
+          "schemaVersion": "evleda.kicad-schematic-connectivity-batch.v1",
+          "normalizationVersion": "doc2-complete-plan-v1",
+          "applied": true,
+          "projectFile": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\collinear-t\\fixture.kicad_pro",
+          "schematicFile": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\collinear-t\\fixture.kicad_sch",
+          "before": {
+            "algorithm": "sha256",
+            "digest": "d264724fec84b56238c04595addf46b30948c294dfe7fa9cc0c37b3abc5d22e0",
+            "size": 655
+          },
+          "after": {
+            "algorithm": "sha256",
+            "digest": "37e1c72dae902986c8a365ae483145651466934bca87eafcfd3e758b45b2a5e7",
+            "size": 1444
+          },
+          "submittedCounts": {
+            "wires": 3,
+            "global_labels": 2,
+            "no_connects": 1,
+            "junctions": 1
+          },
+          "appliedCounts": {
+            "wires": 2,
+            "global_labels": 2,
+            "no_connects": 1,
+            "junctions": 1
+          },
+          "inventory": {
+            "wires": [
+              {
+                "x1_mm": 0,
+                "y1_mm": 0,
+                "x2_mm": 2,
+                "y2_mm": 0,
+                "uuid": "973a18ed-8a85-46b6-9f87-9c281197ba8c"
+              },
+              {
+                "x1_mm": 1,
+                "y1_mm": 0,
+                "x2_mm": 1,
+                "y2_mm": 1,
+                "uuid": "0784b749-7d05-47c6-a2b5-125a9e2a4913"
+              }
+            ],
+            "global_labels": [
+              {
+                "x_mm": 1,
+                "y_mm": 1,
+                "uuid": "818c1ca4-edf8-4a26-986c-c4ca5726ea04",
+                "name": "SIG \"A\" \\ terminal",
+                "rotation": 90,
+                "shape": "passive",
+                "justify": "bottom"
+              },
+              {
+                "x_mm": 2,
+                "y_mm": 0,
+                "uuid": "1089e8fb-bd49-42d4-a9fd-c54ca6044d45",
+                "name": "SIG \"A\" \\ terminal",
+                "rotation": 180,
+                "shape": "passive",
+                "justify": "right"
+              }
+            ],
+            "no_connects": [
+              {
+                "x_mm": 8.25,
+                "y_mm": 9.125,
+                "uuid": "c933033e-9221-4248-9856-194e2e323522"
+              }
+            ],
+            "junctions": [
+              {
+                "x_mm": 1,
+                "y_mm": 0,
+                "uuid": "754d5b77-0dc1-470b-a796-c05005e61629"
+              }
+            ]
+          },
+          "operationReceipt": [
+            {
+              "kind": "wires",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            },
+            {
+              "kind": "wires",
+              "index": 1,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            },
+            {
+              "kind": "wires",
+              "index": 2,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                1
+              ]
+            },
+            {
+              "kind": "global_labels",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                1
+              ]
+            },
+            {
+              "kind": "global_labels",
+              "index": 1,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            },
+            {
+              "kind": "no_connects",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            },
+            {
+              "kind": "junctions",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            }
+          ],
+          "reload": {
+            "status": "not_requested",
+            "confirmed": false
+          }
+        },
+        "isError": false
+      },
+      "beforeSource": "(kicad_sch\r\n    (version 20250114)\r\n    (generator \"test\")\r\n    (uuid \"10000000-0000-0000-0000-000000000001\")\r\n    (paper \"A4\")\r\n    (title_block (title \"Original \\\"title\\\"\"))\r\n    (lib_symbols\r\n        (symbol \"Device:R\" (property \"Reference\" \"R\") (symbol \"R_1_1\"))\r\n    )\r\n    (symbol (lib_id \"Device:R\") (at 40 40 0) (unit 1)\r\n        (uuid \"20000000-0000-0000-0000-000000000002\")\r\n        (property \"Reference\" \"R1\" (at 40 40 0))\r\n        (property \"Value\" \"1k (exact)\" (at 40 42 0))\r\n        (instances (project \"example\" (path \"/10000000-0000-0000-0000-000000000001\" (reference \"R1\") (unit 1))))\r\n    )\r\n\t(sheet_instances (path \"/\" (page \"1\")))\r\n)\r\n",
+      "afterSource": "(kicad_sch\r\n    (version 20250114)\r\n    (generator \"test\")\r\n    (uuid \"10000000-0000-0000-0000-000000000001\")\r\n    (paper \"A4\")\r\n    (title_block (title \"Original \\\"title\\\"\"))\r\n    (lib_symbols\r\n        (symbol \"Device:R\" (property \"Reference\" \"R\") (symbol \"R_1_1\"))\r\n    )\r\n    (symbol (lib_id \"Device:R\") (at 40 40 0) (unit 1)\r\n        (uuid \"20000000-0000-0000-0000-000000000002\")\r\n        (property \"Reference\" \"R1\" (at 40 40 0))\r\n        (property \"Value\" \"1k (exact)\" (at 40 42 0))\r\n        (instances (project \"example\" (path \"/10000000-0000-0000-0000-000000000001\" (reference \"R1\") (unit 1))))\r\n    )\r\n\t\t\r\n\t\r\n\t(global_label \"SIG \\\"A\\\" \\\\ terminal\"\r\n\t\t(shape passive)\r\n\t\t(at 2 0 180)\r\n\t\t(effects (font (size 1.524 1.524)) (justify right))\r\n\t\t(uuid \"1089e8fb-bd49-42d4-a9fd-c54ca6044d45\")\r\n\t)\r\n\t(global_label \"SIG \\\"A\\\" \\\\ terminal\"\r\n\t\t(shape passive)\r\n\t\t(at 1 1 90)\r\n\t\t(effects (font (size 1.524 1.524)) (justify bottom))\r\n\t\t(uuid \"818c1ca4-edf8-4a26-986c-c4ca5726ea04\")\r\n\t)\r\n\t(no_connect (at 8.25 9.125) (uuid \"c933033e-9221-4248-9856-194e2e323522\"))\r\n\t(junction (at 1 0)\r\n\t\t(diameter 0)\r\n\t\t(uuid \"754d5b77-0dc1-470b-a796-c05005e61629\")\r\n\t)\r\n(sheet_instances (path \"/\" (page \"1\")))\r\n\r\n\t(wire\r\n\t\t(pts (xy 0 0) (xy 2 0))\r\n\t\t(stroke (width 0) (type solid))\r\n\t\t(uuid \"973a18ed-8a85-46b6-9f87-9c281197ba8c\")\r\n\t)\r\n\r\n\t(wire\r\n\t\t(pts (xy 1 0) (xy 1 1))\r\n\t\t(stroke (width 0) (type solid))\r\n\t\t(uuid \"0784b749-7d05-47c6-a2b5-125a9e2a4913\")\r\n\t)\r\n)\r\n"
+    },
+    {
+      "name": "explicit-four-way",
+      "request": {
+        "normalization_version": "doc2-complete-plan-v1",
+        "project_file": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\explicit-four-way\\fixture.kicad_pro",
+        "schematic_file": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\explicit-four-way\\fixture.kicad_sch",
+        "expected_before_sha256": "d264724fec84b56238c04595addf46b30948c294dfe7fa9cc0c37b3abc5d22e0",
+        "expected_before_size_bytes": 655,
+        "wires": [
+          {
+            "x1_mm": 0,
+            "y1_mm": 0,
+            "x2_mm": 2,
+            "y2_mm": 0
+          },
+          {
+            "x1_mm": 1,
+            "y1_mm": 0,
+            "x2_mm": 1,
+            "y2_mm": 1
+          },
+          {
+            "x1_mm": 1,
+            "y1_mm": -1,
+            "x2_mm": 1,
+            "y2_mm": 0
+          }
+        ],
+        "global_labels": [
+          {
+            "name": "CROSSING",
+            "x_mm": 2,
+            "y_mm": 0,
+            "rotation": 180,
+            "shape": "passive",
+            "justify": "right bottom"
+          },
+          {
+            "name": "CROSSING",
+            "x_mm": 1,
+            "y_mm": -1,
+            "rotation": 270,
+            "shape": "passive",
+            "justify": "top"
+          }
+        ],
+        "no_connects": [
+          {
+            "x_mm": 8.25,
+            "y_mm": 9.125
+          }
+        ],
+        "junctions": [
+          {
+            "x_mm": 1,
+            "y_mm": 0
+          }
+        ]
+      },
+      "reply": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"schemaVersion\":\"evleda.kicad-schematic-connectivity-batch.v1\",\"normalizationVersion\":\"doc2-complete-plan-v1\",\"applied\":true,\"projectFile\":\"D:\\\\EvlEDA-connectivity-batch-stage-20260909\\\\evidence\\\\host-fixture-capture-20260909-01\\\\explicit-four-way\\\\fixture.kicad_pro\",\"schematicFile\":\"D:\\\\EvlEDA-connectivity-batch-stage-20260909\\\\evidence\\\\host-fixture-capture-20260909-01\\\\explicit-four-way\\\\fixture.kicad_sch\",\"before\":{\"algorithm\":\"sha256\",\"digest\":\"d264724fec84b56238c04595addf46b30948c294dfe7fa9cc0c37b3abc5d22e0\",\"size\":655},\"after\":{\"algorithm\":\"sha256\",\"digest\":\"3eb1260147ec06bc808d00daf20d924f5d201f6aa3a5c7a738a6b0fa5975e11e\",\"size\":1425},\"submittedCounts\":{\"wires\":3,\"global_labels\":2,\"no_connects\":1,\"junctions\":1},\"appliedCounts\":{\"wires\":2,\"global_labels\":2,\"no_connects\":1,\"junctions\":1},\"inventory\":{\"wires\":[{\"x1_mm\":0.0,\"y1_mm\":0.0,\"x2_mm\":2.0,\"y2_mm\":0.0,\"uuid\":\"e40b33d5-9d6b-4813-bdb7-6a99a3544cce\"},{\"x1_mm\":1.0,\"y1_mm\":-1.0,\"x2_mm\":1.0,\"y2_mm\":1.0,\"uuid\":\"ab9c7a05-94cd-41cd-824e-29467a362dde\"}],\"global_labels\":[{\"x_mm\":2.0,\"y_mm\":0.0,\"uuid\":\"8a3a55f5-855a-439d-92d1-e0fd57c2ff3b\",\"name\":\"CROSSING\",\"rotation\":180,\"shape\":\"passive\",\"justify\":\"right bottom\"},{\"x_mm\":1.0,\"y_mm\":-1.0,\"uuid\":\"88a2372b-5a63-4930-9cfb-1ee343afb94d\",\"name\":\"CROSSING\",\"rotation\":270,\"shape\":\"passive\",\"justify\":\"top\"}],\"no_connects\":[{\"x_mm\":8.25,\"y_mm\":9.125,\"uuid\":\"6765bfef-c7ea-4629-b78d-d5eb559532de\"}],\"junctions\":[{\"x_mm\":1.0,\"y_mm\":0.0,\"uuid\":\"3b3261b2-b9bc-42dd-888a-c50cf3e5f0a6\"}]},\"operationReceipt\":[{\"kind\":\"wires\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]},{\"kind\":\"wires\",\"index\":1,\"status\":\"applied\",\"resultingPrimitiveIndices\":[1]},{\"kind\":\"wires\",\"index\":2,\"status\":\"applied\",\"resultingPrimitiveIndices\":[1]},{\"kind\":\"global_labels\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]},{\"kind\":\"global_labels\",\"index\":1,\"status\":\"applied\",\"resultingPrimitiveIndices\":[1]},{\"kind\":\"no_connects\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]},{\"kind\":\"junctions\",\"index\":0,\"status\":\"applied\",\"resultingPrimitiveIndices\":[0]}],\"reload\":{\"status\":\"not_requested\",\"confirmed\":false}}"
+          }
+        ],
+        "structuredContent": {
+          "schemaVersion": "evleda.kicad-schematic-connectivity-batch.v1",
+          "normalizationVersion": "doc2-complete-plan-v1",
+          "applied": true,
+          "projectFile": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\explicit-four-way\\fixture.kicad_pro",
+          "schematicFile": "D:\\EvlEDA-connectivity-batch-stage-20260909\\evidence\\host-fixture-capture-20260909-01\\explicit-four-way\\fixture.kicad_sch",
+          "before": {
+            "algorithm": "sha256",
+            "digest": "d264724fec84b56238c04595addf46b30948c294dfe7fa9cc0c37b3abc5d22e0",
+            "size": 655
+          },
+          "after": {
+            "algorithm": "sha256",
+            "digest": "3eb1260147ec06bc808d00daf20d924f5d201f6aa3a5c7a738a6b0fa5975e11e",
+            "size": 1425
+          },
+          "submittedCounts": {
+            "wires": 3,
+            "global_labels": 2,
+            "no_connects": 1,
+            "junctions": 1
+          },
+          "appliedCounts": {
+            "wires": 2,
+            "global_labels": 2,
+            "no_connects": 1,
+            "junctions": 1
+          },
+          "inventory": {
+            "wires": [
+              {
+                "x1_mm": 0,
+                "y1_mm": 0,
+                "x2_mm": 2,
+                "y2_mm": 0,
+                "uuid": "e40b33d5-9d6b-4813-bdb7-6a99a3544cce"
+              },
+              {
+                "x1_mm": 1,
+                "y1_mm": -1,
+                "x2_mm": 1,
+                "y2_mm": 1,
+                "uuid": "ab9c7a05-94cd-41cd-824e-29467a362dde"
+              }
+            ],
+            "global_labels": [
+              {
+                "x_mm": 2,
+                "y_mm": 0,
+                "uuid": "8a3a55f5-855a-439d-92d1-e0fd57c2ff3b",
+                "name": "CROSSING",
+                "rotation": 180,
+                "shape": "passive",
+                "justify": "right bottom"
+              },
+              {
+                "x_mm": 1,
+                "y_mm": -1,
+                "uuid": "88a2372b-5a63-4930-9cfb-1ee343afb94d",
+                "name": "CROSSING",
+                "rotation": 270,
+                "shape": "passive",
+                "justify": "top"
+              }
+            ],
+            "no_connects": [
+              {
+                "x_mm": 8.25,
+                "y_mm": 9.125,
+                "uuid": "6765bfef-c7ea-4629-b78d-d5eb559532de"
+              }
+            ],
+            "junctions": [
+              {
+                "x_mm": 1,
+                "y_mm": 0,
+                "uuid": "3b3261b2-b9bc-42dd-888a-c50cf3e5f0a6"
+              }
+            ]
+          },
+          "operationReceipt": [
+            {
+              "kind": "wires",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            },
+            {
+              "kind": "wires",
+              "index": 1,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                1
+              ]
+            },
+            {
+              "kind": "wires",
+              "index": 2,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                1
+              ]
+            },
+            {
+              "kind": "global_labels",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            },
+            {
+              "kind": "global_labels",
+              "index": 1,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                1
+              ]
+            },
+            {
+              "kind": "no_connects",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            },
+            {
+              "kind": "junctions",
+              "index": 0,
+              "status": "applied",
+              "resultingPrimitiveIndices": [
+                0
+              ]
+            }
+          ],
+          "reload": {
+            "status": "not_requested",
+            "confirmed": false
+          }
+        },
+        "isError": false
+      },
+      "beforeSource": "(kicad_sch\r\n    (version 20250114)\r\n    (generator \"test\")\r\n    (uuid \"10000000-0000-0000-0000-000000000001\")\r\n    (paper \"A4\")\r\n    (title_block (title \"Original \\\"title\\\"\"))\r\n    (lib_symbols\r\n        (symbol \"Device:R\" (property \"Reference\" \"R\") (symbol \"R_1_1\"))\r\n    )\r\n    (symbol (lib_id \"Device:R\") (at 40 40 0) (unit 1)\r\n        (uuid \"20000000-0000-0000-0000-000000000002\")\r\n        (property \"Reference\" \"R1\" (at 40 40 0))\r\n        (property \"Value\" \"1k (exact)\" (at 40 42 0))\r\n        (instances (project \"example\" (path \"/10000000-0000-0000-0000-000000000001\" (reference \"R1\") (unit 1))))\r\n    )\r\n\t(sheet_instances (path \"/\" (page \"1\")))\r\n)\r\n",
+      "afterSource": "(kicad_sch\r\n    (version 20250114)\r\n    (generator \"test\")\r\n    (uuid \"10000000-0000-0000-0000-000000000001\")\r\n    (paper \"A4\")\r\n    (title_block (title \"Original \\\"title\\\"\"))\r\n    (lib_symbols\r\n        (symbol \"Device:R\" (property \"Reference\" \"R\") (symbol \"R_1_1\"))\r\n    )\r\n    (symbol (lib_id \"Device:R\") (at 40 40 0) (unit 1)\r\n        (uuid \"20000000-0000-0000-0000-000000000002\")\r\n        (property \"Reference\" \"R1\" (at 40 40 0))\r\n        (property \"Value\" \"1k (exact)\" (at 40 42 0))\r\n        (instances (project \"example\" (path \"/10000000-0000-0000-0000-000000000001\" (reference \"R1\") (unit 1))))\r\n    )\r\n\t\t\r\n\t\r\n\t(global_label \"CROSSING\"\r\n\t\t(shape passive)\r\n\t\t(at 2 0 180)\r\n\t\t(effects (font (size 1.524 1.524)) (justify right bottom))\r\n\t\t(uuid \"8a3a55f5-855a-439d-92d1-e0fd57c2ff3b\")\r\n\t)\r\n\t(global_label \"CROSSING\"\r\n\t\t(shape passive)\r\n\t\t(at 1 -1 270)\r\n\t\t(effects (font (size 1.524 1.524)) (justify top))\r\n\t\t(uuid \"88a2372b-5a63-4930-9cfb-1ee343afb94d\")\r\n\t)\r\n\t(no_connect (at 8.25 9.125) (uuid \"6765bfef-c7ea-4629-b78d-d5eb559532de\"))\r\n\t(junction (at 1 0)\r\n\t\t(diameter 0)\r\n\t\t(uuid \"3b3261b2-b9bc-42dd-888a-c50cf3e5f0a6\")\r\n\t)\r\n(sheet_instances (path \"/\" (page \"1\")))\r\n\r\n\t(wire\r\n\t\t(pts (xy 0 0) (xy 2 0))\r\n\t\t(stroke (width 0) (type solid))\r\n\t\t(uuid \"e40b33d5-9d6b-4813-bdb7-6a99a3544cce\")\r\n\t)\r\n\r\n\t(wire\r\n\t\t(pts (xy 1 -1) (xy 1 1))\r\n\t\t(stroke (width 0) (type solid))\r\n\t\t(uuid \"ab9c7a05-94cd-41cd-824e-29467a362dde\")\r\n\t)\r\n)\r\n"
+    }
+  ]
+}

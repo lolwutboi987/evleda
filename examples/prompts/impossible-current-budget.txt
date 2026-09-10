@@ -1,0 +1,1 @@
+Create a two-channel brushed motor controller from a 12 V input. The input current limit is 0.5 A while each motor requires 0.5 A RMS. Include CAN, USB, two encoders, and SWD.

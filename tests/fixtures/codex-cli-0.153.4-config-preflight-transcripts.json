@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "evleda.codex-cli-config-preflight-transcript-evidence.v1",
+  "captureDate": "2026-09-07",
+  "executable": {
+    "algorithm": "sha256",
+    "digest": "a1cf6360ca71918d5466bc3a32d9f18b7044c9128756d1949e715d277b88c9b6",
+    "size": 295408944,
+    "version": "codex-cli 0.153.4"
+  },
+  "model": "gpt-5.6-sol",
+  "toolProfileEvidenceIdentity": {
+    "algorithm": "sha256",
+    "digest": "95c5e74b5bf8744d5145c28fc0338517da65c0ca84aa0cd27e9f2b3bf370ae7a",
+    "size": 3968
+  },
+  "outputSchemaIdentity": {
+    "algorithm": "sha256",
+    "digest": "dc8e5ef46c5eb7e6b62ea72d9fa6221e7532feb8d7064d854371a2dd4083e1be",
+    "schemaVersion": "evleda.harness-cli-turn-envelope.v3",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "requirements": {
+    "exitCode": 1,
+    "terminationSignal": null,
+    "stdoutIdentity": {
+      "algorithm": "sha256",
+      "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "outputFile": "absent",
+    "schemaAfterProbe": "exact",
+    "stdin": "closed-without-prompt",
+    "externalModelRequestCompleted": false
+  },
+  "argumentShape": [
+    "exec",
+    "<pinned-isolation-arguments>",
+    "--output-schema",
+    "<isolated-schema-path>",
+    "--output-last-message",
+    "<isolated-output-path>",
+    "-"
+  ],
+  "allowedStderr": [
+    {
+      "kind": "no_prompt",
+      "text": "No prompt provided via stdin.\n",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "9d207bb1613f71b10fdfdc9e0bcc9c191d8f6d7084780e5d21c86e2e7af396d4",
+        "size": 30
+      },
+      "captureBoundary": "runBoundedProcess-closed-stdin-no-model",
+      "sourceReproductionIdentity": {
+        "algorithm": "sha256",
+        "digest": "64a52741f40fe43130caf19c43e2658e26ee250de0cb3984fde2b0c3e6d809f0",
+        "size": 178
+      }
+    },
+    {
+      "kind": "reading_then_no_prompt",
+      "text": "Reading prompt from stdin...\nNo prompt provided via stdin.\n",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "26d2eca3250a63e4eb08ad2afcc7b09fc2f5976a2ed7a09875d7d6079b6363a3",
+        "size": 59
+      },
+      "captureBoundary": "spawnSync-closed-stdin-no-model",
+      "sourceReproductionIdentity": null
+    }
+  ]
+}

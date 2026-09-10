@@ -1,0 +1,258 @@
+{
+  "schemaVersion": "evleda.doc4-native-plane-stage-runtime.v1",
+  "status": "PUBLISHED_OFFLINE_VERIFIED_NATIVE_LAUNCH_HELD",
+  "runtimeRoot": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc4",
+  "manifest": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-runtime-manifest-doc4.json",
+    "sha256": "3df2b22edf901789c9e745f842faaa3cac892a80da0fe2f20582834845e65fef",
+    "sizeBytes": 1574797
+  },
+  "manifestIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "eb48be3b2104959fb5f9b47ce828748877799c89e4195dbdf77c6bef5da6e730",
+    "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+  },
+  "treeIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "99221d02abd8286625db06a5b28572814551689abacf95b105498397619bae76",
+    "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+  },
+  "fileCount": 8467,
+  "directoryCount": 1159,
+  "totalBytes": 150412946,
+  "python": {
+    "contentIdentity": {
+      "algorithm": "sha256",
+      "digest": "2d8d20ef6e119ce9f129aaa63f81d7249b0853576e186725d93ca78614cd5f19",
+      "size": 241152
+    },
+    "relativePath": "environment/Scripts/python.exe",
+    "version": "3.13.12"
+  },
+  "entrypoint": {
+    "callable": "kicad_mcp.server:_run_server_from_options",
+    "contentIdentity": {
+      "algorithm": "sha256",
+      "digest": "a4ebc41a5df81813f358c287958dc03e348415a24c5e0ed306af01e32f26c5a4",
+      "size": 5773
+    },
+    "relativePath": "kicad-inspection-launcher.py"
+  },
+  "sourceRestoreMapping": [
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc4/evleda_plane_stage/__init__.py",
+        "sha256": "64214fb427349f76340bec667783f0a7de59d62d97ef11532f5443d1f6a493a7",
+        "sizeBytes": 14317
+      },
+      "runtimeRelativePath": "evleda_plane_stage/__init__.py"
+    },
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc4/evleda_plane_stage/native_ports.py",
+        "sha256": "bea762bddb4b2b2fab967ca3a4cb0757bd85b8a0c7f66ce5d363ae5c499df44c",
+        "sizeBytes": 10394
+      },
+      "runtimeRelativePath": "evleda_plane_stage/native_ports.py"
+    },
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc4/evleda_plane_stage/plane_stage.py",
+        "sha256": "96d14de0befe74b5fe4a26664a3580ab824de82b0cf48a515073ef1f22c699d1",
+        "sizeBytes": 12499
+      },
+      "runtimeRelativePath": "evleda_plane_stage/plane_stage.py"
+    },
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc4/evleda_plane_stage/typed_zone.py",
+        "sha256": "b63ec04171bdede7749e55b868c70752b8694d6062f88fce2ed443accfe37dae",
+        "sizeBytes": 9876
+      },
+      "runtimeRelativePath": "evleda_plane_stage/typed_zone.py"
+    },
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc4/evleda_plane_stage/protocol.json",
+        "sha256": "13cd7bca5fc84a6de2ac368fcccb8eb4b2487325ba0152f55a56b18c5208e364",
+        "sizeBytes": 13224
+      },
+      "runtimeRelativePath": "evleda_plane_stage/protocol.json"
+    },
+    {
+      "source": {
+        "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/kicad-inspection-launcher-doc4.py",
+        "sha256": "a4ebc41a5df81813f358c287958dc03e348415a24c5e0ed306af01e32f26c5a4",
+        "sizeBytes": 5773
+      },
+      "runtimeRelativePath": "kicad-inspection-launcher.py"
+    }
+  ],
+  "patch": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/patches/doc4/runtime-delta.patch",
+    "sha256": "1014208430e73aa4bc2c4c5352acd374effb33d08c1b19e789a075617837ca87",
+    "sizeBytes": 62601
+  },
+  "runtimeNotes": {
+    "path": "C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/EvlEDA-Handoff-2026-09-03-ready/evleda/sidecars/doc4-runtime.md",
+    "sha256": "e7d84ad58c84da71ee28376c097c5ca992114037cb5cfc1dbc7f8271c660c522",
+    "sizeBytes": 3418
+  },
+  "closureVerification": {
+    "path": "D:/EvlEDA-doc4-plane-runtime-build-20260909/evidence/candidate-verification-r2.json",
+    "sha256": "7055bd09ad5498da502400dd3dab3c6e7f966e2d7a909232a9bcd2a891c4fe15",
+    "sizeBytes": 10722
+  },
+  "runtimeDelta": [
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "440f2bef8da14dc602799824083d47da398b89c29359ee04972d4e4807f0dc26",
+        "sizeBytes": 200
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "97c8410d3a6f7c03498d9f9679821e6a5ab9cb4578593c5b020c104cdd7d9dbe",
+        "sizeBytes": 200
+      }
+    },
+    {
+      "path": "evleda_plane_stage/__init__.py",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "evleda_plane_stage/__init__.py",
+        "sha256": "64214fb427349f76340bec667783f0a7de59d62d97ef11532f5443d1f6a493a7",
+        "sizeBytes": 14317
+      }
+    },
+    {
+      "path": "evleda_plane_stage/native_ports.py",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "evleda_plane_stage/native_ports.py",
+        "sha256": "bea762bddb4b2b2fab967ca3a4cb0757bd85b8a0c7f66ce5d363ae5c499df44c",
+        "sizeBytes": 10394
+      }
+    },
+    {
+      "path": "evleda_plane_stage/plane_stage.py",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "evleda_plane_stage/plane_stage.py",
+        "sha256": "96d14de0befe74b5fe4a26664a3580ab824de82b0cf48a515073ef1f22c699d1",
+        "sizeBytes": 12499
+      }
+    },
+    {
+      "path": "evleda_plane_stage/protocol.json",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "evleda_plane_stage/protocol.json",
+        "sha256": "13cd7bca5fc84a6de2ac368fcccb8eb4b2487325ba0152f55a56b18c5208e364",
+        "sizeBytes": 13224
+      }
+    },
+    {
+      "path": "evleda_plane_stage/typed_zone.py",
+      "before": null,
+      "after": {
+        "mode": 438,
+        "path": "evleda_plane_stage/typed_zone.py",
+        "sha256": "b63ec04171bdede7749e55b868c70752b8694d6062f88fce2ed443accfe37dae",
+        "sizeBytes": 9876
+      }
+    },
+    {
+      "path": "kicad-inspection-launcher.py",
+      "before": {
+        "mode": 438,
+        "path": "kicad-inspection-launcher.py",
+        "sha256": "c6ade030dbea21dd089f3346d334291cf851368ff23fd5557c3a0b755311cdfd",
+        "sizeBytes": 5214
+      },
+      "after": {
+        "mode": 438,
+        "path": "kicad-inspection-launcher.py",
+        "sha256": "a4ebc41a5df81813f358c287958dc03e348415a24c5e0ed306af01e32f26c5a4",
+        "sizeBytes": 5773
+      }
+    }
+  ],
+  "stage03": [
+    {
+      "path": "D:/EvlEDA-plane-runtime-stage-20260909-03/plane_stage.py",
+      "sha256": "73b7bd4f28de6e5ec0876467e43255afcef26d2d13a0ca74e9a48e064f80a9c8",
+      "sizeBytes": 12499
+    },
+    {
+      "path": "D:/EvlEDA-plane-runtime-stage-20260909-03/native_ports.py",
+      "sha256": "bea762bddb4b2b2fab967ca3a4cb0757bd85b8a0c7f66ce5d363ae5c499df44c",
+      "sizeBytes": 10394
+    },
+    {
+      "path": "D:/EvlEDA-plane-runtime-stage-20260909-03/typed_zone.py",
+      "sha256": "6b95e4ebb97601861f639068387a843e04cdd5af7a28651bb4bbea194ac4e3c7",
+      "sizeBytes": 9875
+    }
+  ],
+  "retainedStage02": {
+    "path": "D:/EvlEDA-plane-runtime-stage-20260909-02/plane_stage.py",
+    "sha256": "aa28acb5539f2609c054ade2125d744947815d9d22c53ff8b74104d9576e54b6",
+    "sizeBytes": 12493
+  },
+  "retainedFirstCandidate": {
+    "path": "D:/EvlEDA-doc4-plane-runtime-build-20260909/candidate-manifest.json",
+    "sha256": "dc8b092a1633a09fa6387d5ea24f2d367fd2f215a952c30b7387fc399865a08d",
+    "sizeBytes": 1574797
+  },
+  "regressionBefore": {
+    "path": "D:/EvlEDA-plane-runtime-stage-20260909-03/evidence/number-default-before.json",
+    "sha256": "8a3c6a1ee421bb761be7a2d0f024068de64f2ebe59cc9721d67a0e26345dd2a2",
+    "sizeBytes": 983
+  },
+  "regressionAfter": {
+    "path": "D:/EvlEDA-plane-runtime-stage-20260909-03/evidence/number-default-after.json",
+    "sha256": "6d565d49fdc0f74569efc5c7bbfeae2a1ec2bc345f566cc2880f3267f2c4e15a",
+    "sizeBytes": 145
+  },
+  "tests": {
+    "fixedStage": 28,
+    "artifactAdapter": 13,
+    "installedLauncherPackage": "PASS_OFFLINE",
+    "hostLargeArtifactReader": "PASS_OFFLINE"
+  },
+  "protocol": {
+    "path": "D:/Codex-Recovery/tools/kicad-mcp-pro/inspection-runtime-3.33.3-doc4/evleda_plane_stage/protocol.json",
+    "sha256": "13cd7bca5fc84a6de2ac368fcccb8eb4b2487325ba0152f55a56b18c5208e364",
+    "sizeBytes": 13224
+  },
+  "privateTool": "evleda_stage_plane",
+  "outputSchemaVersion": "evleda.native-plane-stage-artifact.v1",
+  "registeredMetadata": {
+    "path": "D:/EvlEDA-doc4-plane-runtime-build-20260909/evidence/registered-tool.json",
+    "sha256": "2d7262c2a08013ed0dca4f4d956d884e5836789ab08aea9d1c692d9b19e4922e",
+    "sizeBytes": 35330
+  },
+  "nativeLogicDeltaFromStage02": "ownership lookup p.get('number','') preserves proto3 empty-string default; selected numbered ownership unchanged",
+  "nativeLogicPackagingDelta": "two package-relative imports only",
+  "review": "Root-approved independent adapter/launcher review and stage03 correction",
+  "noPackageOrProfileDefaultChange": true,
+  "priorRuntimesAndManifestsPreserved": true,
+  "nativeGuiModelCalls": 0,
+  "limits": {
+    "artifactBytes": 8388608,
+    "stageDeadlineSeconds": 60,
+    "hostTransportSeconds": 90
+  },
+  "noNativeSaveOrRevert": true,
+  "assurance": "Stage/artifact success is not final contract/native save/reopen/HF acceptance; native launch held"
+}

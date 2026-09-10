@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "evleda.native-schematic-style-seed-native-verification.v1",
+  "status": "published-portable-template-with-native-verified-materialization",
+  "template": {
+    "fileCount": 8,
+    "sizeBytes": 62918,
+    "commonSizeBytes": 2447,
+    "commonSha256": "cbc9a6e0a1209f834ef516cc3cce5d00bbeeabe033d5846f53cc1d7772691d83",
+    "nativeByteStable": false
+  },
+  "blankTemplateRepeat": {
+    "exitCode": 0,
+    "changedFiles": [
+      "10.0/kicad_common.json"
+    ],
+    "changedJsonPointers": [
+      "/api/interpreter_path",
+      "/system/working_dir"
+    ],
+    "interpretation": "Successful export rewrote both blank fields; this run does not attest template byte stability."
+  },
+  "materializedRepeat": {
+    "exitCode": 0,
+    "commonSizeBytes": 2588,
+    "commonSha256": "51b8d6671f67650152327c45e5846cea1ccee40f6de5d75e00312008f6b2b657",
+    "onlyTemplateChanges": [
+      "/api/interpreter_path",
+      "/system/working_dir"
+    ],
+    "configEntrySetUnchanged": true,
+    "configComparedFields": [
+      "kind",
+      "bytes",
+      "sha256",
+      "dev",
+      "ino"
+    ],
+    "configDifferences": [],
+    "existingProjectFilesUnchanged": true,
+    "recordedCliAndEngineIdentitiesUnchanged": true,
+    "bodyMeasurementCount": 23,
+    "allBodyMeasurementsMatch": true,
+    "svgSha256": "d6638467630f5e0f89a69c7c832e9c6b467ee262eb6daea434e43be7d288937c",
+    "warnings": "Fontconfig SHGetFolderPathA failures and font configuration load warning remained.",
+    "sideEffects": "Private project/user-library directories and fontconfig cache entries were added and retained.",
+    "limits": "One recorded approved Windows runtime and owned project with preseeded project preferences and private environment; not a complete adapter workflow or arbitrary-host guarantee."
+  },
+  "contentAudit": {
+    "jsonFilesReviewed": 8,
+    "portableAbsoluteMachinePathsFound": 0,
+    "nonEmptyUserHistoriesFound": 0,
+    "populatedAuthorFieldsFound": 0,
+    "populatedUserEnvironmentOverridesFound": 0,
+    "secretLikeContentDetected": false,
+    "otherSevenFilesByteIdenticalToNativeEvidence": true,
+    "retainedNativeDefaults": [
+      "Stock relative BOM plugin filenames",
+      "KIPRJMOD and REFERENCE macros",
+      "KiCad official repository URL",
+      "Windows Explorer command"
+    ],
+    "limit": "Content inspection and recorded private repeat do not prove broader legacy-generation environment independence."
+  },
+  "evidence": [
+    {
+      "name": "portable-env-repeat/portable-environment-manifest.json",
+      "sizeBytes": 55952,
+      "sha256": "8fcf016b360a16ec11a744544524a7e078cc6bf187167f6639cf49f5a4ec5b34"
+    },
+    {
+      "name": "portable-env-materialized-repeat/portable-environment-manifest.json",
+      "sizeBytes": 56881,
+      "sha256": "47891ccae3ed54b87fcc8e1fb9669e2581b09328f00370a43933f1869bba8f3a"
+    },
+    {
+      "name": "portable-env-materialized-repeat/body-measurements.json",
+      "sizeBytes": 15278,
+      "sha256": "da392d2b52b33ee68045c7b772584d67da34cf71c8be42157ef9f703d55d4d4b"
+    }
+  ]
+}

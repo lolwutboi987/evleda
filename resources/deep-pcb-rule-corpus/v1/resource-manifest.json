@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "evleda.deep-pcb-rule-resource-manifest.v1",
+  "corpusId": "evleda.deep-pcb-rule-corpus.2026-09-06",
+  "catalog": {
+    "path": "docs/pcb-design-guides/rule-catalog.json",
+    "sha256": "351a484ddd0914dc1cc7672a9804ad18c1402ec81345df7cab308822ba3b76b9",
+    "byteLength": 4728711,
+    "schemaVersion": 1,
+    "ruleCount": 1773,
+    "sourceDossierCount": 17
+  },
+  "files": [
+    {
+      "path": "RESOURCE-NOTICE.md",
+      "role": "resource-notice",
+      "sha256": "9f5d383fb38443f6bc5dd26577981b224f6ad20061897d1197f6813eb43c293d",
+      "byteLength": 1417
+    },
+    {
+      "path": "docs/pcb-design-guides/README.md",
+      "role": "source-index",
+      "sha256": "fd74a4c278186ce1818774924dab9b2767448465921ccfce0200ae60ebf7bf1e",
+      "byteLength": 22184
+    },
+    {
+      "path": "docs/pcb-design-guides/agent-rule-library.md",
+      "role": "retrieval-library",
+      "sha256": "40bfeb2e97f0c681e24cdce4f69f1ff9bef9ff0c3009adfb94c2ee04bab5dd32",
+      "byteLength": 2452739
+    },
+    {
+      "path": "docs/pcb-design-guides/research/01-high-quality-schematic.md",
+      "role": "source-dossier",
+      "sha256": "cf1d8f19a4415a581374634839096c28c695b12d72a39359c720c52d640a093a",
+      "byteLength": 39845
+    },
+    {
+      "path": "docs/pcb-design-guides/research/02-trace-width-current.md",
+      "role": "source-dossier",
+      "sha256": "5404c95dfdd17a075ce7736a245b8ca7254da5a4525c9f98fc86fc47bffbe54e",
+      "byteLength": 51695
+    },
+    {
+      "path": "docs/pcb-design-guides/research/03-ultimate-pcb-layout.md",
+      "role": "source-dossier",
+      "sha256": "7b1a87d795a6a726ffe46333c112e27f774f39cfca7e9b073092722ed2d6a86a",
+      "byteLength": 32853
+    },
+    {
+      "path": "docs/pcb-design-guides/research/04-layer-stackup-controlled-impedance.md",
+      "role": "source-dossier",
+      "sha256": "3694f904d80a8442379001bf5be93b7e0c10619063ae6581524b84d4f67cf312",
+      "byteLength": 80914
+    },
+    {
+      "path": "docs/pcb-design-guides/research/05-signal-integrity.md",
+      "role": "source-dossier",
+      "sha256": "02f357a2d508a55f2c7bffad5da6ebb5e8a16eb9c77251c94ebd2d672071dfa1",
+      "byteLength": 61332
+    },
+    {
+      "path": "docs/pcb-design-guides/research/06-impedance-matching.md",
+      "role": "source-dossier",
+      "sha256": "6057afc381db0a5f95d3f995a08232d89b341ed1ea35a9012026a002b191a805",
+      "byteLength": 63278
+    },
+    {
+      "path": "docs/pcb-design-guides/research/07-differential-pairs.md",
+      "role": "source-dossier",
+      "sha256": "0df7fa768224fc64806e395f3692446470d595426e1b0227dc39b8d0b4b28d97",
+      "byteLength": 47022
+    },
+    {
+      "path": "docs/pcb-design-guides/research/08-power-integrity.md",
+      "role": "source-dossier",
+      "sha256": "3d0f50c927873451bf84fea014d772f49742c9aee76c21902cae8c2284a56e34",
+      "byteLength": 52866
+    },
+    {
+      "path": "docs/pcb-design-guides/research/09-emi-vs-emc.md",
+      "role": "source-dossier",
+      "sha256": "8752edb560b459c7e1ea529cc6cd376e5727acf384f9297bf481c51357ce3323",
+      "byteLength": 62600
+    },
+    {
+      "path": "docs/pcb-design-guides/research/10-hf-emi-emc-si.md",
+      "role": "source-dossier",
+      "sha256": "3e467f12118545c8da582f1091f9d82b69d5644db37f4e48dfe6439bb3aa9394",
+      "byteLength": 62232
+    },
+    {
+      "path": "docs/pcb-design-guides/research/11-dfm-guidelines.md",
+      "role": "source-dossier",
+      "sha256": "da7b6c74dc311120f54cd13ec33bc44c5923d61badeecc257cf46df0158929af",
+      "byteLength": 33378
+    },
+    {
+      "path": "docs/pcb-design-guides/research/12-pcb-assembly-guidelines.md",
+      "role": "source-dossier",
+      "sha256": "a2d0bf4f65db6fd9b2695266d86c53136955d39cb921f45f40922079455d5420",
+      "byteLength": 47258
+    },
+    {
+      "path": "docs/pcb-design-guides/research/13-layout-process.md",
+      "role": "source-dossier",
+      "sha256": "42c285dfce78167eb797937c78e5a0bc620fb18c632d3a962910dc6b16feb189",
+      "byteLength": 52735
+    },
+    {
+      "path": "docs/pcb-design-guides/research/14-gpio-pinout-basics.md",
+      "role": "source-dossier",
+      "sha256": "040520400f407cec8b21d600dc21772cdf3b737384316bfc2e05ce02ed09ec06",
+      "byteLength": 42475
+    },
+    {
+      "path": "docs/pcb-design-guides/research/15-how-to-design-pcb.md",
+      "role": "source-dossier",
+      "sha256": "5880001df77cd95652f1eeee3bb3442d6043cb8b32047f2f354da0303d9ba6a4",
+      "byteLength": 36658
+    },
+    {
+      "path": "docs/pcb-design-guides/research/16-component-placement.md",
+      "role": "source-dossier",
+      "sha256": "0daad653e8c48eac2ffc3a9f08b96520212145db7bdd5efc88516b73b17475a4",
+      "byteLength": 56463
+    },
+    {
+      "path": "docs/pcb-design-guides/research/17-bga-layout-routing.md",
+      "role": "source-dossier",
+      "sha256": "3a507c13244c23a5fd6e7e24610e34ebd336d47b157e15ffcd53c78ded58d9c9",
+      "byteLength": 65655
+    },
+    {
+      "path": "docs/pcb-design-guides/rule-catalog.json",
+      "role": "rule-catalog",
+      "sha256": "351a484ddd0914dc1cc7672a9804ad18c1402ec81345df7cab308822ba3b76b9",
+      "byteLength": 4728711
+    },
+    {
+      "path": "generation/generate-deep-rule-assets.mjs",
+      "role": "catalog-generator",
+      "sha256": "ea2a2a2b928623d675b2dfd3814f3b579f65f51e8d074fdadd1175beba52eb5d",
+      "byteLength": 46689
+    }
+  ],
+  "identityAlgorithm": "sha256 of RFC-8785-compatible canonical JSON for {catalog,corpusId,files,schemaVersion}",
+  "resourceIdentity": "sha256:e3c7e2b0653c61d56125ce2d8aa7967a77a9446c941a86c8ca4b87d0d9c6698b"
+}

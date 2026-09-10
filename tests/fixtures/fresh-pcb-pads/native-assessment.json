@@ -1,0 +1,3574 @@
+{
+  "schemaVersion": "evleda.qfn-pad-semantics-assessment.v1",
+  "assessedAt": "2026-09-09T10:25:15.285Z",
+  "checks": [
+    {
+      "name": "Native layer-presence protocol covers every requested pad/layer exactly once",
+      "passed": true,
+      "detail": {
+        "padCount": 357,
+        "entryCount": 1071,
+        "unknowns": []
+      }
+    },
+    {
+      "name": "S60 exact stock physical/logical inventory",
+      "passed": true,
+      "detail": {
+        "reference": "S60",
+        "kind": "stock",
+        "physicalPads": 70,
+        "numberedTerminals": 61,
+        "pasteOnlyApertures": 9,
+        "exposedPadPrimitiveCount": 1,
+        "exposedPadNativeTypes": [
+          "PT_SMD"
+        ],
+        "exposedPadPositionsAndGeometry": [
+          {
+            "uuid": "ace35ebd-560d-4a20-aced-ece5746d850b",
+            "number": "61",
+            "attribute": 1,
+            "layers": [
+              "F.Cu",
+              "F.Mask"
+            ],
+            "positionMm": [
+              15,
+              15
+            ],
+            "sizeMm": [
+              3.4,
+              3.4
+            ],
+            "drillMm": [
+              0,
+              0
+            ]
+          }
+        ],
+        "singleSourceQueries": [
+          {
+            "source": "ace35ebd-560d-4a20-aced-ece5746d850b",
+            "returned": [
+              "ace35ebd-560d-4a20-aced-ece5746d850b"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "S60 complete native pad UUID preservation",
+      "passed": true,
+      "detail": {
+        "expectedPhysicalPads": 70
+      }
+    },
+    {
+      "name": "S60 paste apertures are no-net PT_SMD and absent from both copper layers",
+      "passed": true,
+      "detail": {
+        "count": 9,
+        "shapeTemplateStillUsesFCu": true
+      }
+    },
+    {
+      "name": "S60 every individual EP primitive sees the entire EP copper cluster",
+      "passed": true,
+      "detail": {
+        "queries": 1,
+        "expectedClusterSize": 1
+      }
+    },
+    {
+      "name": "S60 paste aperture connectivity query returns no copper items",
+      "passed": true
+    },
+    {
+      "name": "S80 exact stock physical/logical inventory",
+      "passed": true,
+      "detail": {
+        "reference": "S80",
+        "kind": "stock",
+        "physicalPads": 90,
+        "numberedTerminals": 81,
+        "pasteOnlyApertures": 9,
+        "exposedPadPrimitiveCount": 1,
+        "exposedPadNativeTypes": [
+          "PT_SMD"
+        ],
+        "exposedPadPositionsAndGeometry": [
+          {
+            "uuid": "7842866e-f8aa-42af-983a-82c004822f64",
+            "number": "81",
+            "attribute": 1,
+            "layers": [
+              "F.Cu",
+              "F.Mask"
+            ],
+            "positionMm": [
+              35,
+              15
+            ],
+            "sizeMm": [
+              3.4,
+              3.4
+            ],
+            "drillMm": [
+              0,
+              0
+            ]
+          }
+        ],
+        "singleSourceQueries": [
+          {
+            "source": "7842866e-f8aa-42af-983a-82c004822f64",
+            "returned": [
+              "7842866e-f8aa-42af-983a-82c004822f64"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "S80 complete native pad UUID preservation",
+      "passed": true,
+      "detail": {
+        "expectedPhysicalPads": 90
+      }
+    },
+    {
+      "name": "S80 paste apertures are no-net PT_SMD and absent from both copper layers",
+      "passed": true,
+      "detail": {
+        "count": 9,
+        "shapeTemplateStillUsesFCu": true
+      }
+    },
+    {
+      "name": "S80 every individual EP primitive sees the entire EP copper cluster",
+      "passed": true,
+      "detail": {
+        "queries": 1,
+        "expectedClusterSize": 1
+      }
+    },
+    {
+      "name": "S80 paste aperture connectivity query returns no copper items",
+      "passed": true
+    },
+    {
+      "name": "T60 exact stock physical/logical inventory",
+      "passed": true,
+      "detail": {
+        "reference": "T60",
+        "kind": "stock",
+        "physicalPads": 75,
+        "numberedTerminals": 61,
+        "pasteOnlyApertures": 4,
+        "exposedPadPrimitiveCount": 11,
+        "exposedPadNativeTypes": [
+          "PT_PTH",
+          "PT_SMD"
+        ],
+        "exposedPadPositionsAndGeometry": [
+          {
+            "uuid": "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              13.55,
+              33.55
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              13.55,
+              35
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              13.55,
+              36.45
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              15,
+              33.55
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              15,
+              35
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "fd40926d-2389-4bfc-a292-948430496d31",
+            "number": "61",
+            "attribute": 1,
+            "layers": [
+              "F.Cu",
+              "F.Mask"
+            ],
+            "positionMm": [
+              15,
+              35
+            ],
+            "sizeMm": [
+              3.4,
+              3.4
+            ],
+            "drillMm": [
+              0,
+              0
+            ]
+          },
+          {
+            "uuid": "75e68a3d-b892-4459-9b63-85e295504415",
+            "number": "61",
+            "attribute": 1,
+            "layers": [
+              "B.Cu"
+            ],
+            "positionMm": [
+              15,
+              35
+            ],
+            "sizeMm": [
+              3.4,
+              3.4
+            ],
+            "drillMm": [
+              0,
+              0
+            ]
+          },
+          {
+            "uuid": "02ef2239-2a22-41de-9a2b-46632451ee5c",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              15,
+              36.45
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              16.45,
+              33.55
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "0320255b-1cda-4f26-a03a-5828962e7150",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              16.45,
+              35
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "number": "61",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              16.45,
+              36.45
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          }
+        ],
+        "singleSourceQueries": [
+          {
+            "source": "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "fd40926d-2389-4bfc-a292-948430496d31",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "75e68a3d-b892-4459-9b63-85e295504415",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "02ef2239-2a22-41de-9a2b-46632451ee5c",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "0320255b-1cda-4f26-a03a-5828962e7150",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          },
+          {
+            "source": "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "returned": [
+              "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+              "fd40926d-2389-4bfc-a292-948430496d31",
+              "75e68a3d-b892-4459-9b63-85e295504415",
+              "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+              "78f77209-8332-425c-9a87-f3cc7d5b8412",
+              "8cd700f4-193e-4372-9976-af5a5fa51975",
+              "ee22f20c-2fba-4107-bd25-577b6e6628de",
+              "0320255b-1cda-4f26-a03a-5828962e7150",
+              "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+              "e92cef5d-cc02-42b7-9622-f1731d851265",
+              "02ef2239-2a22-41de-9a2b-46632451ee5c"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "T60 complete native pad UUID preservation",
+      "passed": true,
+      "detail": {
+        "expectedPhysicalPads": 75
+      }
+    },
+    {
+      "name": "T60 paste apertures are no-net PT_SMD and absent from both copper layers",
+      "passed": true,
+      "detail": {
+        "count": 4,
+        "shapeTemplateStillUsesFCu": true
+      }
+    },
+    {
+      "name": "T60 every individual EP primitive sees the entire EP copper cluster",
+      "passed": true,
+      "detail": {
+        "queries": 11,
+        "expectedClusterSize": 11
+      }
+    },
+    {
+      "name": "T60 paste aperture connectivity query returns no copper items",
+      "passed": true
+    },
+    {
+      "name": "T60 EP is nine PTH primitives and two opposite-side SMD primitives",
+      "passed": true
+    },
+    {
+      "name": "T80 exact stock physical/logical inventory",
+      "passed": true,
+      "detail": {
+        "reference": "T80",
+        "kind": "stock",
+        "physicalPads": 116,
+        "numberedTerminals": 81,
+        "pasteOnlyApertures": 25,
+        "exposedPadPrimitiveCount": 11,
+        "exposedPadNativeTypes": [
+          "PT_PTH",
+          "PT_SMD"
+        ],
+        "exposedPadPositionsAndGeometry": [
+          {
+            "uuid": "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              33.55,
+              33.55
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              33.55,
+              35
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              33.55,
+              36.45
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              35,
+              33.55
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "1c0fd59f-0688-45ec-901b-6d6460efd416",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              35,
+              35
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "number": "81",
+            "attribute": 1,
+            "layers": [
+              "F.Cu",
+              "F.Mask"
+            ],
+            "positionMm": [
+              35,
+              35
+            ],
+            "sizeMm": [
+              3.4,
+              3.4
+            ],
+            "drillMm": [
+              0,
+              0
+            ]
+          },
+          {
+            "uuid": "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "number": "81",
+            "attribute": 1,
+            "layers": [
+              "B.Cu"
+            ],
+            "positionMm": [
+              35,
+              35
+            ],
+            "sizeMm": [
+              3.4,
+              3.4
+            ],
+            "drillMm": [
+              0,
+              0
+            ]
+          },
+          {
+            "uuid": "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              35,
+              36.45
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              36.45,
+              33.55
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              36.45,
+              35
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "uuid": "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "number": "81",
+            "attribute": 0,
+            "layers": [
+              "F.Cu",
+              "B.Cu",
+              "In1.Cu",
+              "In2.Cu",
+              "In3.Cu",
+              "In4.Cu",
+              "In5.Cu",
+              "In6.Cu",
+              "In7.Cu",
+              "In8.Cu",
+              "In9.Cu",
+              "In10.Cu",
+              "In11.Cu",
+              "In12.Cu",
+              "In13.Cu",
+              "In14.Cu",
+              "In15.Cu",
+              "In16.Cu",
+              "In17.Cu",
+              "In18.Cu",
+              "In19.Cu",
+              "In20.Cu",
+              "In21.Cu",
+              "In22.Cu",
+              "In23.Cu",
+              "In24.Cu",
+              "In25.Cu",
+              "In26.Cu",
+              "In27.Cu",
+              "In28.Cu",
+              "In29.Cu",
+              "In30.Cu"
+            ],
+            "positionMm": [
+              36.45,
+              36.45
+            ],
+            "sizeMm": [
+              0.5,
+              0.5
+            ],
+            "drillMm": [
+              0.2,
+              0.2
+            ]
+          }
+        ],
+        "singleSourceQueries": [
+          {
+            "source": "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "1c0fd59f-0688-45ec-901b-6d6460efd416",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          },
+          {
+            "source": "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "returned": [
+              "cb08ce80-d459-4d6c-9069-bf8065492d72",
+              "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+              "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+              "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+              "a642f6c1-266f-4ced-8775-5abf5880649e",
+              "fb600a63-2d6a-4291-ba16-8489ca10b428",
+              "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+              "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+              "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+              "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+              "1c0fd59f-0688-45ec-901b-6d6460efd416"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "T80 complete native pad UUID preservation",
+      "passed": true,
+      "detail": {
+        "expectedPhysicalPads": 116
+      }
+    },
+    {
+      "name": "T80 paste apertures are no-net PT_SMD and absent from both copper layers",
+      "passed": true,
+      "detail": {
+        "count": 25,
+        "shapeTemplateStillUsesFCu": true
+      }
+    },
+    {
+      "name": "T80 every individual EP primitive sees the entire EP copper cluster",
+      "passed": true,
+      "detail": {
+        "queries": 11,
+        "expectedClusterSize": 11
+      }
+    },
+    {
+      "name": "T80 paste aperture connectivity query returns no copper items",
+      "passed": true
+    },
+    {
+      "name": "T80 EP is nine PTH primitives and two opposite-side SMD primitives",
+      "passed": true
+    },
+    {
+      "name": "NSEP disconnected single-source negative is distinguished",
+      "passed": true,
+      "detail": [
+        {
+          "source": "a6bf10a4-a711-4cdd-a559-c62686100a77",
+          "returned": [
+            "a6bf10a4-a711-4cdd-a559-c62686100a77"
+          ]
+        },
+        {
+          "source": "2bd5fe0c-cb6c-424f-bb0d-b348491ee30e",
+          "returned": [
+            "2bd5fe0c-cb6c-424f-bb0d-b348491ee30e"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NSEP multi-source union is not a connectivity proof",
+      "passed": true,
+      "detail": {
+        "sources": [
+          "a6bf10a4-a711-4cdd-a559-c62686100a77",
+          "2bd5fe0c-cb6c-424f-bb0d-b348491ee30e"
+        ],
+        "returned": [
+          "a6bf10a4-a711-4cdd-a559-c62686100a77",
+          "2bd5fe0c-cb6c-424f-bb0d-b348491ee30e"
+        ]
+      }
+    },
+    {
+      "name": "NLAYER disconnected single-source negative is distinguished",
+      "passed": true,
+      "detail": [
+        {
+          "source": "124098c0-9dad-4861-8875-e58baf3902c5",
+          "returned": [
+            "124098c0-9dad-4861-8875-e58baf3902c5"
+          ]
+        },
+        {
+          "source": "e744da19-17ac-4215-8158-0fb8073e193d",
+          "returned": [
+            "e744da19-17ac-4215-8158-0fb8073e193d"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NLAYER multi-source union is not a connectivity proof",
+      "passed": true,
+      "detail": {
+        "sources": [
+          "124098c0-9dad-4861-8875-e58baf3902c5",
+          "e744da19-17ac-4215-8158-0fb8073e193d"
+        ],
+        "returned": [
+          "124098c0-9dad-4861-8875-e58baf3902c5",
+          "e744da19-17ac-4215-8158-0fb8073e193d"
+        ]
+      }
+    },
+    {
+      "name": "NDIST disconnected single-source negative is distinguished",
+      "passed": true,
+      "detail": [
+        {
+          "source": "07c5357a-51cb-4016-a78d-9b7622e9064b",
+          "returned": [
+            "07c5357a-51cb-4016-a78d-9b7622e9064b"
+          ]
+        },
+        {
+          "source": "eacfae3a-5108-4533-86bd-9e277521d5b2",
+          "returned": [
+            "eacfae3a-5108-4533-86bd-9e277521d5b2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NDIST multi-source union is not a connectivity proof",
+      "passed": true,
+      "detail": {
+        "sources": [
+          "07c5357a-51cb-4016-a78d-9b7622e9064b",
+          "eacfae3a-5108-4533-86bd-9e277521d5b2"
+        ],
+        "returned": [
+          "07c5357a-51cb-4016-a78d-9b7622e9064b",
+          "eacfae3a-5108-4533-86bd-9e277521d5b2"
+        ]
+      }
+    },
+    {
+      "name": "No mutating native commands were issued",
+      "passed": true,
+      "detail": [
+        "kiapi.common.commands.Ping",
+        "kiapi.common.commands.GetOpenDocuments",
+        "kiapi.common.commands.SaveDocumentToString",
+        "kiapi.common.commands.GetItems",
+        "kiapi.board.commands.CheckPadstackPresenceOnLayers",
+        "kiapi.board.commands.GetConnectedItems"
+      ]
+    },
+    {
+      "name": "Native and saved sources independently unchanged during read-only query interval",
+      "passed": true,
+      "detail": {
+        "saved": {
+          "sha256": "2668f9a598d28de0faffbb5f8707eade4824f53c15693f7ef199d31cc9466b4c",
+          "sizeBytes": 109691
+        },
+        "native": {
+          "sha256": "69886df0b93990a53e0db50fb71b1d14aefe993acbb8540db4e84255a713f276",
+          "sizeBytes": 103569
+        }
+      }
+    },
+    {
+      "name": "Native source files match captured native query hashes",
+      "passed": true
+    },
+    {
+      "name": "Saved board still exactly matches prepared bytes",
+      "passed": true
+    },
+    {
+      "name": "Stock inputs still exactly match captured bytes",
+      "passed": true
+    },
+    {
+      "name": "Full pinned IPC runtime, source capture dependencies, profile and ownership cleanup passed",
+      "passed": true,
+      "detail": {
+        "runtime": {
+          "files": 8459,
+          "directories": 1158,
+          "totalBytes": 150280579,
+          "manifest": {
+            "sha256": "d1004ff51b8d7001f220409f39a008439c3b2da65abc37e312c3d3a589fbaa0a",
+            "sizeBytes": 1573530
+          },
+          "pycache": 0
+        },
+        "editor": {
+          "pid": 23044,
+          "normalCloseSent": true,
+          "exitObserved": true
+        },
+        "socketRelease": "released"
+      }
+    },
+    {
+      "name": "Post-close owned process and IPC allocation absence",
+      "passed": true,
+      "detail": {
+        "observedAt": "2026-09-09T10:25:15.1417905Z",
+        "matchingProcesses": [
+          {
+            "ProcessId": 35404,
+            "ParentProcessId": 10296,
+            "Name": "pwsh.exe",
+            "CommandLine": "C:/Users/pc/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe -NoProfile -Command \"$probeOwned=Get-CimInstance Win32_Process | Where-Object { $_.ProcessId -in @(23044,44972) -or ($_.CommandLine -and $_.CommandLine.Contains('D:\\EvlEDA-qfn-pad-semantics-20260909\\inspect-pads.py')) }; [ordered]@{observedAt=[DateTime]::UtcNow.ToString('o'); matchingProcesses=@($probeOwned | Select-Object ProcessId,ParentProcessId,Name,CommandLine); allocationExists=(Test-Path -LiteralPath 'D:\\EvlEDA-IPC\\e-ya61fb')} | ConvertTo-Json -Depth 6\""
+          }
+        ],
+        "allocationExists": false,
+        "matchingOwnedProcesses": []
+      }
+    }
+  ],
+  "failedChecks": [],
+  "summaries": [
+    {
+      "reference": "S60",
+      "kind": "stock",
+      "physicalPads": 70,
+      "numberedTerminals": 61,
+      "pasteOnlyApertures": 9,
+      "exposedPadPrimitiveCount": 1,
+      "exposedPadNativeTypes": [
+        "PT_SMD"
+      ],
+      "exposedPadPositionsAndGeometry": [
+        {
+          "uuid": "ace35ebd-560d-4a20-aced-ece5746d850b",
+          "number": "61",
+          "attribute": 1,
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "positionMm": [
+            15,
+            15
+          ],
+          "sizeMm": [
+            3.4,
+            3.4
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        }
+      ],
+      "singleSourceQueries": [
+        {
+          "source": "ace35ebd-560d-4a20-aced-ece5746d850b",
+          "returned": [
+            "ace35ebd-560d-4a20-aced-ece5746d850b"
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "S80",
+      "kind": "stock",
+      "physicalPads": 90,
+      "numberedTerminals": 81,
+      "pasteOnlyApertures": 9,
+      "exposedPadPrimitiveCount": 1,
+      "exposedPadNativeTypes": [
+        "PT_SMD"
+      ],
+      "exposedPadPositionsAndGeometry": [
+        {
+          "uuid": "7842866e-f8aa-42af-983a-82c004822f64",
+          "number": "81",
+          "attribute": 1,
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "positionMm": [
+            35,
+            15
+          ],
+          "sizeMm": [
+            3.4,
+            3.4
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        }
+      ],
+      "singleSourceQueries": [
+        {
+          "source": "7842866e-f8aa-42af-983a-82c004822f64",
+          "returned": [
+            "7842866e-f8aa-42af-983a-82c004822f64"
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "T60",
+      "kind": "stock",
+      "physicalPads": 75,
+      "numberedTerminals": 61,
+      "pasteOnlyApertures": 4,
+      "exposedPadPrimitiveCount": 11,
+      "exposedPadNativeTypes": [
+        "PT_PTH",
+        "PT_SMD"
+      ],
+      "exposedPadPositionsAndGeometry": [
+        {
+          "uuid": "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            13.55,
+            33.55
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            13.55,
+            35
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "8cd700f4-193e-4372-9976-af5a5fa51975",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            13.55,
+            36.45
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "78f77209-8332-425c-9a87-f3cc7d5b8412",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            15,
+            33.55
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "ee22f20c-2fba-4107-bd25-577b6e6628de",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            15,
+            35
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "fd40926d-2389-4bfc-a292-948430496d31",
+          "number": "61",
+          "attribute": 1,
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "positionMm": [
+            15,
+            35
+          ],
+          "sizeMm": [
+            3.4,
+            3.4
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        },
+        {
+          "uuid": "75e68a3d-b892-4459-9b63-85e295504415",
+          "number": "61",
+          "attribute": 1,
+          "layers": [
+            "B.Cu"
+          ],
+          "positionMm": [
+            15,
+            35
+          ],
+          "sizeMm": [
+            3.4,
+            3.4
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        },
+        {
+          "uuid": "02ef2239-2a22-41de-9a2b-46632451ee5c",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            15,
+            36.45
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            16.45,
+            33.55
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "0320255b-1cda-4f26-a03a-5828962e7150",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            16.45,
+            35
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "e92cef5d-cc02-42b7-9622-f1731d851265",
+          "number": "61",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            16.45,
+            36.45
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        }
+      ],
+      "singleSourceQueries": [
+        {
+          "source": "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "8cd700f4-193e-4372-9976-af5a5fa51975",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "78f77209-8332-425c-9a87-f3cc7d5b8412",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "ee22f20c-2fba-4107-bd25-577b6e6628de",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "fd40926d-2389-4bfc-a292-948430496d31",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "75e68a3d-b892-4459-9b63-85e295504415",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "02ef2239-2a22-41de-9a2b-46632451ee5c",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "0320255b-1cda-4f26-a03a-5828962e7150",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        },
+        {
+          "source": "e92cef5d-cc02-42b7-9622-f1731d851265",
+          "returned": [
+            "ccfc3b16-f0ea-434f-9959-bc517c79920e",
+            "fd40926d-2389-4bfc-a292-948430496d31",
+            "75e68a3d-b892-4459-9b63-85e295504415",
+            "b43e5996-00b9-451a-99c1-1f75e7bc1b7d",
+            "78f77209-8332-425c-9a87-f3cc7d5b8412",
+            "8cd700f4-193e-4372-9976-af5a5fa51975",
+            "ee22f20c-2fba-4107-bd25-577b6e6628de",
+            "0320255b-1cda-4f26-a03a-5828962e7150",
+            "c938a543-a45e-4c84-b31e-d847b34e8e9a",
+            "e92cef5d-cc02-42b7-9622-f1731d851265",
+            "02ef2239-2a22-41de-9a2b-46632451ee5c"
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "T80",
+      "kind": "stock",
+      "physicalPads": 116,
+      "numberedTerminals": 81,
+      "pasteOnlyApertures": 25,
+      "exposedPadPrimitiveCount": 11,
+      "exposedPadNativeTypes": [
+        "PT_PTH",
+        "PT_SMD"
+      ],
+      "exposedPadPositionsAndGeometry": [
+        {
+          "uuid": "a642f6c1-266f-4ced-8775-5abf5880649e",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            33.55,
+            33.55
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            33.55,
+            35
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            33.55,
+            36.45
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "fb600a63-2d6a-4291-ba16-8489ca10b428",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            35,
+            33.55
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "1c0fd59f-0688-45ec-901b-6d6460efd416",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            35,
+            35
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+          "number": "81",
+          "attribute": 1,
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "positionMm": [
+            35,
+            35
+          ],
+          "sizeMm": [
+            3.4,
+            3.4
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        },
+        {
+          "uuid": "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+          "number": "81",
+          "attribute": 1,
+          "layers": [
+            "B.Cu"
+          ],
+          "positionMm": [
+            35,
+            35
+          ],
+          "sizeMm": [
+            3.4,
+            3.4
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        },
+        {
+          "uuid": "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            35,
+            36.45
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "cb08ce80-d459-4d6c-9069-bf8065492d72",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            36.45,
+            33.55
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            36.45,
+            35
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "uuid": "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+          "number": "81",
+          "attribute": 0,
+          "layers": [
+            "F.Cu",
+            "B.Cu",
+            "In1.Cu",
+            "In2.Cu",
+            "In3.Cu",
+            "In4.Cu",
+            "In5.Cu",
+            "In6.Cu",
+            "In7.Cu",
+            "In8.Cu",
+            "In9.Cu",
+            "In10.Cu",
+            "In11.Cu",
+            "In12.Cu",
+            "In13.Cu",
+            "In14.Cu",
+            "In15.Cu",
+            "In16.Cu",
+            "In17.Cu",
+            "In18.Cu",
+            "In19.Cu",
+            "In20.Cu",
+            "In21.Cu",
+            "In22.Cu",
+            "In23.Cu",
+            "In24.Cu",
+            "In25.Cu",
+            "In26.Cu",
+            "In27.Cu",
+            "In28.Cu",
+            "In29.Cu",
+            "In30.Cu"
+          ],
+          "positionMm": [
+            36.45,
+            36.45
+          ],
+          "sizeMm": [
+            0.5,
+            0.5
+          ],
+          "drillMm": [
+            0.2,
+            0.2
+          ]
+        }
+      ],
+      "singleSourceQueries": [
+        {
+          "source": "a642f6c1-266f-4ced-8775-5abf5880649e",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "fb600a63-2d6a-4291-ba16-8489ca10b428",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "1c0fd59f-0688-45ec-901b-6d6460efd416",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "cb08ce80-d459-4d6c-9069-bf8065492d72",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        },
+        {
+          "source": "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+          "returned": [
+            "cb08ce80-d459-4d6c-9069-bf8065492d72",
+            "0dcc736b-6f22-414d-9a7b-af3ba9ddc890",
+            "e303e725-6bc1-4161-9fd9-a51454bfeab4",
+            "200b5164-7517-4bfc-8a8b-27ee5b8a5b65",
+            "a642f6c1-266f-4ced-8775-5abf5880649e",
+            "fb600a63-2d6a-4291-ba16-8489ca10b428",
+            "fbc5a4e5-e875-415f-8914-a84aaa2f4265",
+            "723cda6c-a3b9-4a54-8c7e-b921702a00b5",
+            "398529cc-a0cb-4c83-9a38-b3f2808deeed",
+            "8f7c0123-e53e-4ed0-a170-2ee3bc82fb93",
+            "1c0fd59f-0688-45ec-901b-6d6460efd416"
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "NSEP",
+      "kind": "same-number-separated-F.Cu",
+      "physicalPads": 2,
+      "numberedTerminals": 1,
+      "pasteOnlyApertures": 0,
+      "exposedPadPrimitiveCount": 2,
+      "exposedPadNativeTypes": [
+        "PT_SMD"
+      ],
+      "exposedPadPositionsAndGeometry": [
+        {
+          "uuid": "a6bf10a4-a711-4cdd-a559-c62686100a77",
+          "number": "1",
+          "attribute": 1,
+          "layers": [
+            "F.Cu"
+          ],
+          "positionMm": [
+            55,
+            15
+          ],
+          "sizeMm": [
+            1,
+            1
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        },
+        {
+          "uuid": "2bd5fe0c-cb6c-424f-bb0d-b348491ee30e",
+          "number": "1",
+          "attribute": 1,
+          "layers": [
+            "F.Cu"
+          ],
+          "positionMm": [
+            60,
+            15
+          ],
+          "sizeMm": [
+            1,
+            1
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        }
+      ],
+      "singleSourceQueries": [
+        {
+          "source": "a6bf10a4-a711-4cdd-a559-c62686100a77",
+          "returned": [
+            "a6bf10a4-a711-4cdd-a559-c62686100a77"
+          ]
+        },
+        {
+          "source": "2bd5fe0c-cb6c-424f-bb0d-b348491ee30e",
+          "returned": [
+            "2bd5fe0c-cb6c-424f-bb0d-b348491ee30e"
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "NLAYER",
+      "kind": "same-number-coincident-opposite-copper-without-hole",
+      "physicalPads": 2,
+      "numberedTerminals": 1,
+      "pasteOnlyApertures": 0,
+      "exposedPadPrimitiveCount": 2,
+      "exposedPadNativeTypes": [
+        "PT_SMD"
+      ],
+      "exposedPadPositionsAndGeometry": [
+        {
+          "uuid": "124098c0-9dad-4861-8875-e58baf3902c5",
+          "number": "1",
+          "attribute": 1,
+          "layers": [
+            "F.Cu"
+          ],
+          "positionMm": [
+            55,
+            25
+          ],
+          "sizeMm": [
+            1,
+            1
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        },
+        {
+          "uuid": "e744da19-17ac-4215-8158-0fb8073e193d",
+          "number": "1",
+          "attribute": 1,
+          "layers": [
+            "B.Cu"
+          ],
+          "positionMm": [
+            55,
+            25
+          ],
+          "sizeMm": [
+            1,
+            1
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        }
+      ],
+      "singleSourceQueries": [
+        {
+          "source": "124098c0-9dad-4861-8875-e58baf3902c5",
+          "returned": [
+            "124098c0-9dad-4861-8875-e58baf3902c5"
+          ]
+        },
+        {
+          "source": "e744da19-17ac-4215-8158-0fb8073e193d",
+          "returned": [
+            "e744da19-17ac-4215-8158-0fb8073e193d"
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "NDIST",
+      "kind": "different-number-separated-same-net-control",
+      "physicalPads": 2,
+      "numberedTerminals": 2,
+      "pasteOnlyApertures": 0,
+      "exposedPadPrimitiveCount": 1,
+      "exposedPadNativeTypes": [
+        "PT_SMD"
+      ],
+      "exposedPadPositionsAndGeometry": [
+        {
+          "uuid": "07c5357a-51cb-4016-a78d-9b7622e9064b",
+          "number": "1",
+          "attribute": 1,
+          "layers": [
+            "F.Cu"
+          ],
+          "positionMm": [
+            55,
+            35
+          ],
+          "sizeMm": [
+            1,
+            1
+          ],
+          "drillMm": [
+            0,
+            0
+          ]
+        }
+      ],
+      "singleSourceQueries": [
+        {
+          "source": "07c5357a-51cb-4016-a78d-9b7622e9064b",
+          "returned": [
+            "07c5357a-51cb-4016-a78d-9b7622e9064b"
+          ]
+        },
+        {
+          "source": "eacfae3a-5108-4533-86bd-9e277521d5b2",
+          "returned": [
+            "eacfae3a-5108-4533-86bd-9e277521d5b2"
+          ]
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\fixture-v2\\fixture.json",
+      "sha256": "18c42b7f4da6f5e9337659658751e2b5476f81bfe0ae0dc1ebee5092106004dd",
+      "sizeBytes": 975255
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\fixture-v2\\project\\pad-semantics.kicad_pcb",
+      "sha256": "2668f9a598d28de0faffbb5f8707eade4824f53c15693f7ef199d31cc9466b4c",
+      "sizeBytes": 109691
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\native-evidence.json",
+      "sha256": "2e34b007baeed418ca5f288cd0ff2a50689dd5a5aace471f3073a2275665802d",
+      "sizeBytes": 5057970
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\native-before-queries.kicad_pcb",
+      "sha256": "69886df0b93990a53e0db50fb71b1d14aefe993acbb8540db4e84255a713f276",
+      "sizeBytes": 103569
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\native-after-queries.kicad_pcb",
+      "sha256": "69886df0b93990a53e0db50fb71b1d14aefe993acbb8540db4e84255a713f276",
+      "sizeBytes": 103569
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\result.json",
+      "sha256": "32f8d5b7e8676485ba2cab31598870d168b643ad9ef38ebc567126a9a14f6d74",
+      "sizeBytes": 1014962
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\prepared.json",
+      "sha256": "9d7f2b2967985c1e64d61a68783e0464389fd3e8e1a79cc47a57359ec27a254b",
+      "sizeBytes": 4847
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\create-fixture.invocation.json",
+      "sha256": "5c88ddc55685dbcfa150d61327e18a14ce8b9be0243d2bbc5902e5030694b166",
+      "sizeBytes": 2125
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\create-fixture-v2.invocation.json",
+      "sha256": "8a0c5f2efb78f407c5a9f8fa233e90223f3032e7f5088549045b75bbbf434adc",
+      "sizeBytes": 2799
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\native-pads.invocation.json",
+      "sha256": "1bc03b21eb4a7e1a69fa4ee0af9d8dbc1e25edc47a07c3fe9b58af8457d456a5",
+      "sizeBytes": 2587
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\create-fixture.py",
+      "sha256": "04401ce5f66b2be32e72610305f2ebae4ee10718f3b255c4a1c7b2bb5988fc75",
+      "sizeBytes": 6509
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\inspect-pads.py",
+      "sha256": "340ed2516515626eaef0b7c7826808eb72e7243a451f4747d3fd14656dc783f3",
+      "sizeBytes": 7601
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\probe.mjs",
+      "sha256": "f8fb6a8660f441e236afcc3cd7783564c879c61a094b6e6e202bdc517db9ee0a",
+      "sizeBytes": 13850
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\editor-observer.ps1",
+      "sha256": "72b06da89d8212b38f4099937f840998d463f2f584573c54838159c66beead36",
+      "sizeBytes": 1881
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\create-fixture-v1.py",
+      "sha256": "94db224308fb1c5dce08be905473db278ac4d01c974fc646d6361aed30b65f9b",
+      "sizeBytes": 5724
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\probe-v1.mjs",
+      "sha256": "3744638eaf8f43df0f988b61738cdc551716aee939141a0e344bc0ae4bea5dc4",
+      "sizeBytes": 13838
+    },
+    {
+      "path": "D:\\EvlEDA-qfn-pad-semantics-20260909\\assess-evidence.mjs",
+      "sha256": "de40237d33044db8278637a80e3195c94b763d5f1912cd75ef254172a89dfecb",
+      "sizeBytes": 9862
+    }
+  ],
+  "nativeModulesObservedAfterCapture": [
+    {
+      "path": "D:/Codex-Recovery/KiCad/10.0/bin/python.exe",
+      "sha256": "f9e290b5d6d3bd0371ec842ac83f451d72d2b3e173ad745e221f7d839a66e953",
+      "sizeBytes": 103776
+    },
+    {
+      "path": "D:/Codex-Recovery/KiCad/10.0/bin/pcbnew.exe",
+      "sha256": "dd82d65ab09c293d1778b643b2f0b529e161e0dfc50445f1a0dd70c26efbb20f",
+      "sizeBytes": 996192
+    },
+    {
+      "path": "D:/Codex-Recovery/KiCad/10.0/bin/_pcbnew.dll",
+      "sha256": "eccf7af944c36896d463239af304eb8e414cd4778b82d86d33e46c6838ae348e",
+      "sizeBytes": 31095136
+    },
+    {
+      "path": "D:/Codex-Recovery/KiCad/10.0/bin/Lib/site-packages/_pcbnew.pyd",
+      "sha256": "3ea2d4d26d928addfe1439698d355655a89fa1a17054cfba54805470052f6b83",
+      "sizeBytes": 31095136
+    },
+    {
+      "path": "D:/Codex-Recovery/KiCad/10.0/bin/Lib/site-packages/pcbnew.py",
+      "sha256": "6b3f567f926bc219709c164c9286acce9c35d72e61e0172d59582fa8493471d1",
+      "sizeBytes": 1022246
+    }
+  ],
+  "cleanup": {
+    "observedAt": "2026-09-09T10:25:15.1417905Z",
+    "matchingProcesses": [
+      {
+        "ProcessId": 35404,
+        "ParentProcessId": 10296,
+        "Name": "pwsh.exe",
+        "CommandLine": "C:/Users/pc/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe -NoProfile -Command \"$probeOwned=Get-CimInstance Win32_Process | Where-Object { $_.ProcessId -in @(23044,44972) -or ($_.CommandLine -and $_.CommandLine.Contains('D:\\EvlEDA-qfn-pad-semantics-20260909\\inspect-pads.py')) }; [ordered]@{observedAt=[DateTime]::UtcNow.ToString('o'); matchingProcesses=@($probeOwned | Select-Object ProcessId,ParentProcessId,Name,CommandLine); allocationExists=(Test-Path -LiteralPath 'D:\\EvlEDA-IPC\\e-ya61fb')} | ConvertTo-Json -Depth 6\""
+      }
+    ],
+    "allocationExists": false,
+    "matchingOwnedProcesses": []
+  },
+  "notes": [
+    "Initial --import Windows path failed before the probe module ran; corrected to file URI.",
+    "Initial headless v1 preparation rejected raw pad-list equality because native reload renumbers net codes and may reorder pads. Its board/scripts/invocation are retained. No editor opened for v1.",
+    "New v2 preparation separately retains complete before/reloaded native pad records, requires exact UUID-keyed geometry and net names, and records volatile net codes without treating them as portable identity.",
+    "Native get_connected_items queries establish copper clusters of these physical primitives, not signal integrity, thermal capacity, ampacity, or PCB readiness.",
+    "This is an isolated fixture only. No integration, model call, MCU circuit, manufacturing output, or production code change is claimed."
+  ]
+}

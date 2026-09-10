@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evleda.stm32g0-cmsis-snapshot.v1",
+  "device": {
+    "repository": "https://github.com/STMicroelectronics/cmsis-device-g0.git",
+    "tag": "v1.4.5",
+    "commit": "f576c24e123edf3332988ecd49512c0f35f85186"
+  },
+  "core": {
+    "repository": "https://github.com/ARM-software/CMSIS_5.git",
+    "tag": "5.6.0",
+    "commit": "b5f0603d6a584d1724d952fd8b0737458b90d62b"
+  },
+  "files": [
+    { "path": "CORE-LICENSE.txt", "size": 11558, "sha256": "e03ba41d7fab20700769fe4118bab50d800cb74f990353a05d2f5fff1c228363" },
+    { "path": "core/include/cmsis_compiler.h", "size": 9764, "sha256": "869640702d811c4c63abb52206715c891a93fd03be954df5ad40d378355af3d6" },
+    { "path": "core/include/cmsis_gcc.h", "size": 64795, "sha256": "0837f98e834d6a529854c8c86336e9d99eb8e379bf1deb964858d7863950f862" },
+    { "path": "core/include/cmsis_version.h", "size": 1715, "sha256": "dd03af200b23bdd8d091ffa7beb3d1a2c4fc5611557567bd57ec613205f6df1f" },
+    { "path": "core/include/core_cm0plus.h", "size": 50609, "sha256": "4b79d5bf9f9165ddae727c9f035f82fb0ea85ceee2587b503d5d7bcd172d2df9" },
+    { "path": "core/include/mpu_armv7.h", "size": 11962, "sha256": "e504a7d47dfdb3d61dfae3cf08d27ba9bc69aa4b2b81ca568efdafd65d6abdcc" },
+    { "path": "DEVICE-LICENSE.md", "size": 11558, "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6" },
+    { "path": "device/include/stm32g0b1xx.h", "size": 876558, "sha256": "32bc66b235b282bd03cbf4aa7e94ae79a5505a9c41915db59b011a15b7de5f8e" },
+    { "path": "device/include/stm32g0xx.h", "size": 8164, "sha256": "bf310501a0feb3cd9abce4c5df723475f205cffc4380d42281c2ab7c95b69f1e" },
+    { "path": "device/include/system_stm32g0xx.h", "size": 2330, "sha256": "7b7c61c56ee6d594b19fd8a2c8e1c973e8a50197633159c93f2dc238e6d252f7" },
+    { "path": "device/templates/system_stm32g0xx.c", "size": 11559, "sha256": "275dc0d5b4cb606e9514359e6d685dcb45da45cb6354e1bf6489b4723ff651b5" }
+  ]
+}

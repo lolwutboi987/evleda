@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "evleda.codex-cli-no-model-tool-profile-evidence.v3",
+  "captureDate": "2026-09-09",
+  "captureBoundary": "local-fake-responses-request-before-model-io",
+  "executable": {
+    "algorithm": "sha256",
+    "digest": "a1cf6360ca71918d5466bc3a32d9f18b7044c9128756d1949e715d277b88c9b6",
+    "size": 295408944,
+    "version": "codex-cli 0.153.4"
+  },
+  "model": "gpt-6-astra",
+  "environmentPolicy": {
+    "source": "production-child-allowlist",
+    "apiCredentialPresent": false,
+    "externalModelRequestCompleted": false,
+    "captureEndpoint": "loopback-fake-responses",
+    "configRoot": "fresh-empty-private",
+    "proxyVariablesPresent": false
+  },
+  "isolationArguments": [
+    "-c",
+    "shell_environment_policy.inherit=\"none\"",
+    "-c",
+    "shell_environment_policy.ignore_default_excludes=false",
+    "-c",
+    "features.view_image=false",
+    "-c",
+    "web_search=\"disabled\"",
+    "-c",
+    "mcp_servers={}",
+    "-c",
+    "features.plugins=false",
+    "-c",
+    "features.apps=false",
+    "-c",
+    "features.remote_plugin=false",
+    "-c",
+    "features.plugin_sharing=false",
+    "-c",
+    "features.tool_suggest=false",
+    "-c",
+    "features.skill_search=false",
+    "-c",
+    "features.skill_mcp_dependency_install=false",
+    "-c",
+    "features.image_generation=false",
+    "-c",
+    "features.browser_use=false",
+    "-c",
+    "features.browser_use_external=false",
+    "-c",
+    "features.browser_use_full_cdp_access=false",
+    "-c",
+    "features.computer_use=false",
+    "-c",
+    "features.workspace_dependencies=false",
+    "-c",
+    "features.goals=false",
+    "-c",
+    "features.multi_agent=false",
+    "-c",
+    "features.multi_agent_v2=false",
+    "-c",
+    "agents.enabled=false",
+    "-c",
+    "tools.experimental_request_user_input.enabled=false",
+    "-c",
+    "tools.update_plan.enabled=false",
+    "-c",
+    "features.shell_tool=false",
+    "-c",
+    "features.unified_exec=false",
+    "-c",
+    "orchestrator.skills.enabled=false",
+    "--sandbox",
+    "read-only",
+    "--skip-git-repo-check",
+    "--ephemeral",
+    "--ignore-user-config",
+    "--ignore-rules",
+    "--strict-config",
+    "--color",
+    "never"
+  ],
+  "toolInventoryLocation": "request.input[type=additional_tools].tools",
+  "inventoryCanonicalJson": "{\"model\":\"gpt-6-astra\",\"responsesRequestToolsFieldPresent\":false,\"responsesRequestAdditionalToolsFieldPresent\":true,\"toolChoice\":\"auto\",\"namespaces\":[{\"name\":\"functions\",\"type\":\"namespace\",\"tools\":[{\"name\":\"exec\",\"type\":\"custom\"},{\"name\":\"wait\",\"type\":\"function\"},{\"name\":\"request_user_input_async\",\"type\":\"function\"}]},{\"name\":\"clock\",\"type\":\"namespace\",\"tools\":[{\"name\":\"sleep\",\"type\":\"function\"}]}],\"nestedHeadings\":[\"apply_patch\",\"clock__curr_time\"]}",
+  "inventory": {
+    "model": "gpt-6-astra",
+    "responsesRequestToolsFieldPresent": false,
+    "responsesRequestAdditionalToolsFieldPresent": true,
+    "toolChoice": "auto",
+    "namespaces": [
+      {
+        "name": "functions",
+        "type": "namespace",
+        "tools": [
+          {
+            "name": "exec",
+            "type": "custom"
+          },
+          {
+            "name": "wait",
+            "type": "function"
+          },
+          {
+            "name": "request_user_input_async",
+            "type": "function"
+          }
+        ]
+      },
+      {
+        "name": "clock",
+        "type": "namespace",
+        "tools": [
+          {
+            "name": "sleep",
+            "type": "function"
+          }
+        ]
+      }
+    ],
+    "nestedHeadings": [
+      "apply_patch",
+      "clock__curr_time"
+    ]
+  },
+  "inventorySha256": "50b441dad797ab840c90c3185d680d0a029fadad930f195c6e368b3a985def0d",
+  "derivedCapabilityProfile": {
+    "responsesRequestToolsFieldPresent": false,
+    "responsesRequestAdditionalToolsFieldPresent": true,
+    "namespacedTools": [
+      "functions.exec",
+      "wait",
+      "request_user_input_async",
+      "sleep"
+    ],
+    "nestedExecTools": [
+      "apply_patch",
+      "clock__curr_time"
+    ],
+    "viewImage": false,
+    "webSearch": false,
+    "mcpResources": false,
+    "pluginInstall": false,
+    "collaboration": false,
+    "requestUserInput": true,
+    "writeSandbox": "read-only",
+    "fullyQualifiedTools": [
+      "functions.exec",
+      "functions.wait",
+      "functions.request_user_input_async",
+      "clock.sleep"
+    ],
+    "clockSleep": true,
+    "clockCurrentTime": true
+  },
+  "outputSchemaIdentity": {
+    "algorithm": "sha256",
+    "digest": "dc8e5ef46c5eb7e6b62ea72d9fa6221e7532feb8d7064d854371a2dd4083e1be",
+    "size": 594,
+    "schemaVersion": "evleda.harness-cli-turn-envelope.v3",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "observedRequestSettings": {
+    "reasoningFieldPresent": true,
+    "reasoning": {
+      "effort": "low",
+      "context": "all_turns"
+    },
+    "textVerbosity": "low",
+    "strictOutputSchema": true,
+    "schemaName": "codex_output_schema",
+    "toolChoice": "auto",
+    "parallelToolCalls": false,
+    "store": false,
+    "stream": true,
+    "include": [
+      "reasoning.encrypted_content"
+    ],
+    "unsupportedSamplingFieldsPresent": [],
+    "serviceTierFieldPresent": false
+  },
+  "captureOnlyArgumentOverrides": [
+    "-c",
+    "model_provider=\"evleda_local_capture\"",
+    "-c",
+    "model_providers.evleda_local_capture={name=\"EvlEDA local capture\",base_url=\"<loopback-fake-responses-url>\",wire_api=\"responses\",requires_openai_auth=false}"
+  ],
+  "provenance": {
+    "method": "New narrow capture helper uses imported production child environment, exact pinned isolation vector, exact pinned CLI binary, exact canonical output schema, and a no-authentication loopback fake Responses endpoint that returns HTTP 400 without invoking a model.",
+    "helperIdentity": {
+      "algorithm": "sha256",
+      "digest": "c5dd4750a6001b953e281ffae053357c8ddce574e91764a4bab9c544f0ab6e3f",
+      "size": 13283
+    },
+    "derivationHelperIdentity": {
+      "algorithm": "sha256",
+      "digest": "67709aea30500b158c0975da3ad9926ef77b2259a8bed87666d5301aebf440f0",
+      "size": 7487
+    },
+    "rawCaptureIdentity": {
+      "algorithm": "sha256",
+      "digest": "e0e5cd57cd41299bab07b8b25eed428ddad787b9c07703e7d2de97c1a62bff14",
+      "size": 41451
+    },
+    "rawRequestIdentity": {
+      "algorithm": "sha256",
+      "digest": "e535ad13985af344ff497a1ac273ee7dd66b75df47a06f01a3278dc5151eccc5",
+      "size": 36819
+    },
+    "correctedObservationIdentity": {
+      "algorithm": "sha256",
+      "digest": "810f85c0ba10b62534c389c6acfce516beca59144fbec13d0be9146c8e445e91",
+      "size": 5022
+    },
+    "historicalSolEvidenceIdentity": {
+      "algorithm": "sha256",
+      "digest": "95c5e74b5bf8744d5145c28fc0338517da65c0ca84aa0cd27e9f2b3bf370ae7a",
+      "size": 3968
+    },
+    "solControlInventorySha256": "72e35cf8ba0499e9868c26b19bdfbcbc75241e0c47b019dce15b70d1ca90a926",
+    "solControlReproducesHistoricalInventoryExactly": true,
+    "noExplicitReasoningEffortArgument": true,
+    "noUserConfigurationFallback": true,
+    "noGlobalConfigurationChange": true,
+    "accountModelAccessProven": false,
+    "sourceLocations": {
+      "isolationArguments": "src/harness/cli-providers.ts CODEX_CLI_ISOLATION_ARGUMENTS",
+      "childEnvironment": "src/harness/cli-providers.ts createCliProviderChildEnvironment",
+      "outputSchema": "src/harness/cli-providers.ts CODEX_CLI_TURN_ENVELOPE_JSON_SCHEMA"
+    },
+    "interpretationNotes": [
+      "additional_tools is an input item, not a top-level request key. The property responsesRequestAdditionalToolsFieldPresent refers to this input item, matching the historical Sol inventory projection.",
+      "The initial local summary inspected the wrong top-level key. It is superseded by the corrected observation; original raw request bytes remain unchanged.",
+      "The CLI stderr banner printed reasoning effort none. Actual request.reasoning.effort was low and is the recorded request fact.",
+      "Generic closed-stdin configuration probes contain no model argument and do not prove model or account access. Both captured probes observed the existing exact 30-byte no-prompt transcript.",
+      "A captured residual tool list does not prove the model invoked any listed tool or that a remote model accepts the request."
+    ]
+  }
+}

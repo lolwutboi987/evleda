@@ -1,0 +1,322 @@
+# Current status and roadmap
+
+Evidence snapshot: **10 September 2026 destination workspace verification**, retaining the 9 September COMPLETE-ALL-NETS proof separately. The active direction is **direct MCP CAD tools plus packaged engineering guidance/skills**, with a one-time-configured workspace and direct V2 plane-family path. The destination now proves V2 workspace create/author/close/resume and fresh-process read-only restart over real STDIO. The transferred routed board remains the complete-all-nets demonstration; broader electrical acceptance remains open.
+
+## The short answer
+
+**The toolbox now supports a destination-verified V2 workspace flow: discover and clarify a plane draft in chat, create by ready ID, author/synchronize/place it, close it, and resume it on the same connection or in a new read-only process.** The new 29-operation and 11-operation native reports establish that lifecycle; earlier 1.04/1.22-second source-machine connection timings remain separate historical evidence.
+
+The destination workspace board is **intentionally unrouted: three placed components, seven physical/logical terminals, and zero tracks, vias or zones**. All three nets correctly report disconnected. It proves workspace lifecycle, saved-state inspection and previews; the transferred eight-track/one-via COMPLETE-ALL-NETS board remains separate. The saved-stackup reader continues to report missing construction rather than inventing dielectric values.
+
+The analytical four-model transmission-line calculator remains usable. The public saved-reference tool has exercised three native copied-board cases: **SIG_CLEAR covered, SIG_VOID uncovered, SIG_TANGENT boundary_uncertain**, through linked InMemoryTransport, not STDIO or app installation. Isolated native attempt3 separately proved clear-cache/refill/capture controls. The latest DOC5 proof combines source-bound plane mutation/refill/save/reopen with public native endpoint reachability; **intended-plane contact, thermal, island, reference eligibility, HF, pair and board-impedance acceptance remain open**.
+
+The next gates are the chosen application's actual installation/tool-refresh behavior, reference-plane/pair/stackup engineering binding, representative QFN native coverage, and GitHub handoff. The requested RP2350 Pico-like, Orpheus-inspired board remains **after the reviewed baseline push**. No overall ETA, completion percentage, manufacturing claim, or Astra head-to-head superiority claim is made.
+
+**The direct V2 plane workflow has a passing [COMPLETE-ALL-NETS demonstration](../../proof/EvlEDA-toolbox-plane-complete-20260909-01/final-assessment.json) on DOC5/profile07.** It authored/synchronized three components, routed eight tracks and one via, and verified VIN, GND and VOUT physical-pad reachability before and after read-only reopen. Configured ERC/DRC and measured turn checks were clean. The earlier three-track proof deliberately left VOUT unrouted; that historical limitation no longer describes the latest fixture. This remains a small tool demonstration, not general PCB or manufacturing approval.
+
+The historical [full software verification03](D:/EvlEDA-verification-plane-apply-20260909-03/report.md) passed **4,425 tests / 52 skipped / zero failed**, before final public endpoint wiring. The [first destination full suite](../../destination-verification/full-suite-01.json) remains **failed: 4,356 passed / 68 failed / 53 skipped**, plus two unhandled deadline errors. Later focused repairs and the 92-test MCP run passed separately; source/UI typechecks and full build passed. No clean current full-suite result is claimed. See [destination verification](destination-verification.md) for the retained failures and exact scopes.
+
+## What the toolbox provides now
+
+| Surface | Implemented/tested boundary | Remaining limitation |
+| --- | --- | --- |
+| Guidance-only MCP | The mcp:toolbox entrypoint serves status, topics, complete paginated rule records, complete guides and 17 guide resources from the verified corpus. | It does not open KiCad, select a project or enable editing. |
+| Packaged workflow skill | [The repository skill](../skills/evleda-pcb/SKILL.md) and **1,773 guidance records / 17 dossiers** support the engineering workflow. | The skill is not automatically installed into global settings. Guidance records are not 1,773 executable or completed checks. |
+| Native MCP | The separate mcp:toolbox:native entrypoint binds explicit host profile/project authority, copied or fresh preparation, native CAD operations and guarded resume/finish. | Real stdio operation is tested; deployment in the user's chosen chat application is still a separate gate. Host configuration—not a model tool call—enables editing. |
+| In-chat workspace mode | One-time host configuration, V1/V2 schema selection, V2 ready-ID/create/retry, three-component author/sync/place, close, same-connection resume and fresh-process read-only restart are verified over real STDIO. Six source files remain identical. | The new fixture has no tracks/vias/zones and correctly disconnected nets. One native project is active per connection; a chosen app's installation/tool refresh remains unverified. |
+| Direct V2 plane family | Actual V2 provenance, V3 six-file checkpoints, author/sync, eight tracks/one via, contract-plane refill/save, all-net endpoint reachability and same-bundle read-only reopen passed on DOC5/profile07. Earlier proof03 separately covers source-equivalent CREATE/UPDATE saves. | Intended-plane contact, thermal/island/reference/HF and whole-board acceptance remain open; no arbitrary changed-plane update guarantee. Workspace V2 create/author/close/resume and read-only restart are now verified natively on the destination, using a separate intentionally unrouted fixture. |
+| Native endpoint connectivity | `evleda_check_endpoint_connectivity` queries each physical terminal member from the bound saved V2 project; the complete proof observes VOUT disconnected before routing, then all nets connected in fresh and resumed sessions. | A compact public report and immutable private diagnostic preserve evidence separately. Reachability does not establish intended-plane contact, fill freshness, absence of cross-net shorts, thermal behavior or HF suitability. |
+| Literal PCB text | Three fresh11 VIN/VOUT/GND front-silkscreen insertions passed mandatory native save/readback and exact source-preservation checks. | This is a bounded literal-text operation, not arbitrary PCB source editing or automatic full-text-clearance/layout approval. |
+| Native visual feedback | Final fresh11 real-stdio top/assembly PNGs and native SVG resource bytes matched their returned identities. The board remained unchanged during collection. | Images are source-bound engineering snapshots, not an aggregate acceptance result. Remaining presentation defects are visible rather than cropped away. |
+| Analytical line calculation | Four uniform transmission-line models, analyze/synthesize, explicit units/material inputs, retained warnings and pinned helper identity; six real public-MCP calls passed. | Not a field solver, fabricator stackup, board extraction/checker, differential-pair router or manufactured impedance qualification. |
+| Saved physical stackup | The bound saved-board reader retains ordered layers/sublayers, explicit and missing material/thickness/permittivity/loss fields, unknown forms, source identity and observation limits. | General thickness is not dielectric height; copper-layer presence is not a reference plane. Native missing-stackup output is truthful, and impedance validation is not performed. |
+| Saved reference-copper coverage | The public tool completed native copied-host cases: SIG_CLEAR covered, SIG_VOID uncovered, SIG_TANGENT boundary_uncertain, with verified raw-resource hashes. | Linked InMemoryTransport—not STDIO/app setup. The standalone saved-geometry result is not fill freshness, DC/HF/reference/margin or impedance approval; the separate DOC5 authoring proof does not convert it into electrical acceptance. |
+| Checks and recovery | Native ERC/DRC, board summary, visual QA, practice coverage, serialized mutation/save/readback and explicit native finish/checkpoint. | Individual findings and missing inputs remain authoritative. The toolbox does not invent a global manufacture-ready verdict. |
+
+The older Flux application, UI, CLI runner and infrastructure are **deferred for the active path, not deleted**. Proven native/session/library/source/rule components are reused without initializing the older application/provider lifecycle. Private source/snapshot/commit plumbing and arbitrary rebinding are not exposed to model requests.
+
+## Destination V2 workspace milestone
+
+The [29-operation native report](../../destination-verification/workspace-v2-05/workspace-proof-33a3a1cc-b2ae-4b86-b1e3-3747953df78f/report.json) verifies V2 discovery/clarification, ready-ID create and retry, three-symbol authoring, seven-terminal sync, outline/placement, disconnected endpoint inspection, close/checkpoint and same-connection resume. The [11-operation fresh-process read-only report](../../destination-verification/workspace-v2-readonly-restart/workspace-proof-3ab24175-324f-44cd-98d2-9a0831cf399d/report.json) resumes the persisted ID, reads endpoints/stackup, captures native PNG/SVG previews and closes cleanly. Their SHA-256 identities are **15e5051048166d5ebf76a06c2dd77d4685e66655efaa266bdc7ff1f52012c8c4** and **b13e0495886c97f29bd23d34223ebabd6af8316c408d227144fa637c8afb46e7**.
+
+The [native project](../../destination-workspace-v2-05/projects/4b225d42-538a-4b84-b332-4fc3a61d0e4d/output/project/workspace-plane-divider.kicad_pro) retains all six authored source identities across both reports and disk. Three closes completed without a remaining successful-project lease, lock or editor. The [top](../../destination-verification/workspace-v2-readonly-restart/workspace-proof-3ab24175-324f-44cd-98d2-9a0831cf399d/restart-top.png) and [assembly](../../destination-verification/workspace-v2-readonly-restart/workspace-proof-3ab24175-324f-44cd-98d2-9a0831cf399d/restart-assembly.png) previews were visually inspected. **Zero tracks/vias/zones and disconnected nets are intentional here**; neither clean lifecycle nor visual transport is circuit acceptance.
+
+[Destination setup](destination-setup.md) records the Windows AppData initialization repair and short pinned DOC5 working runtime. Ownership, hash checks, warning checks and production deadlines remain enforced. All four failed native attempts and their retained state remain distinct in [destination verification](destination-verification.md#open-verification-issues); the successful fifth run does not rewrite them.
+
+## New workspace onboarding and restart evidence
+
+The [workspace mode](toolbox.md#in-chat-workspace-mode) no longer requires per-board paths, draft filenames or prompts in the startup command. The host supplies one approved profile/pin and disjoint workspace. The model submits the complete structured draft, name and original request over MCP; unresolved or unsupported requirements are returned before project allocation. A ready submission receives an opaque identity, and creation rechecks it. Retries return the existing allocation rather than creating duplicates.
+
+Workspace discovery now exposes both `routed-v1` and `plane-v2` through `evleda_design_schema`. Its optional `family` defaults to `routed-v1`; the result returns the selected `family`, `supportedFamilies`, complete schema, model guide and example. A `plane-v2` request describes the bounded rectangular ground-plane family. `evleda_submit_design` dispatches by the draft's exact schema version, and ready V2 IDs follow the normal create/retry/resume lifecycle with the authenticated V2 bundle and six-file rules. **32 workspace and V1/V2 model-guide tests plus source TypeScript checking passed**, with clean independent source review. The destination native reports below now verify V2 workspace execution; the older source-machine reports retain their original scope.
+
+- [Idle proof](D:/EvlEDA-workspace-onboarding-proof-20260909/workspace-proof-bf795c02-f9bb-4db9-aae6-405e5b3ca058/report.json): 1.04-second connection, schema and approved-library inspection, missing-width clarification and ready submission, **no KiCad/editor and no project allocation**. That timing is idle connection, not native project creation time.
+- [Native workspace proof](D:/EvlEDA-workspace-onboarding-proof-20260909/workspace-proof-0b63406c-16a6-4cc9-96bf-0236c2660d25/report.json): create, creation retry, refreshed CAD discovery, three symbols, connectivity, field placement, PCB sync, pad/stackup reads, close/checkpoint/detach, then resume and close on the same connection. Exactly one allocation remains: **57d18615-fb17-4871-a71b-5e37acd9a413** under D:/EvlEDA-workspace-onboarding-20260909-01/projects.
+- [New-server restart proof](D:/EvlEDA-workspace-onboarding-proof-20260909/workspace-proof-2feed16c-f0f2-4fd0-9fca-27309121dd0e/report.json): 1.22-second connection, list the persisted ID, resume without another draft, read pads/stackup and close. Owned project lease files and the PCB editor were absent afterward.
+
+These results establish onboarding and authored resume, **not a new routed board or complete-board acceptance**. Native11's older routed/labeled proof is not silently attributed to this project. Listing a project is also not checkpoint validation: resume retains source/bundle/native checks, and uncertain allocations remain subject to host review.
+
+The SDK and real-stdio tests rediscovered tools after attachment/detachment; a particular desktop application still needs its own test. [Client setup](toolbox-client-setup.md) and the [workspace configuration example](../examples/toolbox-workspace.config.toml) are supplied, but the example remains explicitly disabled and no global installation is claimed. Guidance, calculator access and immutable historical preview resources remain independent of the current CAD binding; stale callbacks must not switch to another project.
+
+## Latest direct-native V2 complete-all-nets milestone
+
+The included [final assessment](../../proof/EvlEDA-toolbox-plane-complete-20260909-01/final-assessment.json) and [public-tool result](../../proof/EvlEDA-toolbox-plane-complete-20260909-01/evidence-plane-complete-01/result.json) supersede the partial-routing status below. Public MCP calls used linked InMemoryTransport with a real DOC5 native sidecar over STDIO. After author/sync, placement, VIN/GND routing and plane application, the endpoint tool reported VOUT disconnected. Routing VOUT and reapplying the plane produced **eight tracks / one via** and connected VIN/GND/VOUT, with every eligible physical member reachable. Fresh and read-only resumed phases both returned configured **ERC 0 / DRC 0 / unconnected 0 / courtyard issues 0**, no measured turn violations or unresolved turn findings, and normal finish/checkpoint without recovery.
+
+All six authored sources stayed unchanged through reopen. The final PCB is **19,201 bytes**, SHA-256 **062804a7545278eef20b38cf09eb79c96d39f38f7dbab7d0452840aa225bce9e**. The result is **997,778 bytes**, SHA-256 **923217ce4b3deb1cefc94534ad731a7e2fe6d5c79510728c6fbdd516a48dac91**. Source/result/PCB and eight preview hashes were checked after transfer; the original native execution occurred on the source computer. The recorded visual review found R2's reference clear of the ground route. Top previews omit B.Cu and do not show the bottom plane fill.
+
+The public [endpoint tool](toolbox.md#saved-native-endpoint-connectivity) accepts an empty request. The host binds saved/live source, marker, scope, library and individual PAD observations, refusing pending or uncertain mutations. Its report uses `evleda.toolbox-endpoint-connectivity.v1`, with assessment schema `evleda.fresh-plane-connectivity.v1`; raw native request envelopes and paths remain in an immutable host-private diagnostic. No verification-plan row is promoted by this report.
+
+The V2 practice analyzer remains profile-free (`analysis` and `reviewedProfileIdentity` are null); general width/via/profile checks remain unverified. The route writer separately enforces bound numerical geometry. Endpoint reachability and configured native checks do not establish intended-plane contact, fill freshness, single-plane-component/island policy, thermal applicability/spokes, absence of cross-net shorts, HF/impedance behavior, ampacity or manufacturing approval. Workspace V2 discovery and the destination native lifecycle are verified on a separate intentionally unrouted fixture.
+
+### Historical V2 author/sync milestone
+
+[The completed assessment](D:/EvlEDA-toolbox-plane-authoring-20260909/evidence-final/summary.json) records actual public-MCP schematic authoring, field repair, physical synchronization, save, normal close, then read-only resume of the **same authenticated V2 bundle** and normal close. All seven physical/logical terminals remained exact, including J1:3:GND and R2:2:GND. No ground endpoint was dropped because the PCB contract uses plane topology.
+
+The plane FreshProject uses **V3 marker/checkpoint** semantics and tracks the canonical bundle-owned **.kicad_dru as a sixth file**. The existing five-file LED/routed formats remain unchanged. Netclass preparation keeps exact assignments and configuration; Open, source guards, checkpoints, close and resume enforce the owned rule identity. Resume also binds the current normalized host guidance-selection policy and rejects a changed policy before opening KiCad; it accepts no replacement draft/prompt.
+
+The first driver retained a failed obsolete **padCount assertion after actual successful sync and clean finish**. That diagnostic and executed script remain intact. A separate assessment plus resume-only proof verifies the existing saved result—there was no new fresh-authoring rerun to hide the failure. The later driver correction passed **32 offline actual-payload/negative cases and focused script typechecking**; [its README](D:/EvlEDA-toolbox-plane-authoring-20260909/README.md) explicitly records that the corrected whole driver was not rerun natively. Owned processes/locks/recovery markers were absent after completion; older retained IPC allocations were unchanged.
+
+Native read-only DRC parsed the canonical thermal DRU without a setup/parse error but reported **two layout violations (overlap/absent outline) and four unconnected items**. No zone exists in this fixture. Parsing rules for deterministic zone selection, minimum resolved spokes, gap and spoke width is not proof of applicability, override precedence, actual spokes, DC continuity or thermal/board acceptance. The saved checkpoint remains **needs_review**.
+
+That earlier proof exposed copper authoring as unavailable. Current source instead reports session-specific **copperAuthoring.incrementalRoutes** and **copperAuthoring.contractPlane** booleans alongside advertised tools. These describe supported edit capabilities, not successful native operations or acceptance. Older runtimes may support routes without plane APPLY; arbitrary raw copper edits and V1 topology substitution are not authorized. Workspace V2 create/author/close/resume and read-only restart are now verified natively on the destination, using a separate intentionally unrouted fixture.
+
+[The earlier stage](D:/EvlEDA-plane-runtime-stage-20260909/README.md) and its 23 offline tests remain historical. [DOC4](../sidecars/doc4-runtime.md) is now published as a new immutable runtime, with the stage03 omitted-number/paste-aperture correction covered by **28 tests**. The host incremental-route/APPLY/source/epoch/save/recovery implementation has **196 focused tests and 41 scoped review cases**, not native approval. Minimum spokes remains an external DRU/resolved-spoke requirement rather than an invented Zone field.
+
+### Historical partial DOC5 plane-APPLY/save/reopen milestone
+
+[Native proof03](D:/EvlEDA-toolbox-plane-apply-20260909-03/evidence-plane-apply-01/result.json) and its [final assessment](D:/EvlEDA-toolbox-plane-apply-20260909-03/final-assessment.json) record **a full pass within the partial-fixture scope**. Transport was actual public linked InMemory MCP with the actual native sidecar over STDIO, not a chosen-app installation or a model-driven PCB design.
+
+- Authored/synchronized the V2 project, placed three footprints and created **three tracks / one via**: straight VIN and GND access with a **45-degree bend**.
+- Created the contract plane, validated the source/copper/refill epoch and performed mandatory native save/readback; applied the same plane again and saved again. The update's saved bytes were actually identical. This verifies same-plane update handling, not arbitrary changed-geometry updates or permission to omit a save.
+- Finished with native close and a published checkpoint; reopened the same authenticated bundle read-only, checked **all six owned source files plus zone/routes**, then finished cleanly again.
+- Saved PCB: **18,458 bytes**, SHA-256 **0ed02745a5c1c47f3e8e94518d4a8e25c9a99dd35c35e1ee98dd934bba62c749**. Reopen preserved the saved identities. Both phases reported recoveryRequired = false; owned editors/locks and unsafe markers were absent, and six older IPC allocations were unchanged.
+
+**VOUT was deliberately left unrouted.** No DC, thermal/minimum-spoke, island, high-frequency or whole-board acceptance was performed. Checkpoint publication means a recoverable saved candidate, not an accepted circuit. Raw stage-artifact hashes and canonical receipt identities remain distinct in the assessment.
+
+[DOC5](../sidecars/doc5-runtime.md) and [profile07](C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/toolbox-native-doc5-transactions-profile-20260909-07.json) are published/frozen. DOC5 preserves the native Commit handle across begin/push/drop; host diagnostics retain primary failures separately from recovery failures. Profile07 is **5,333 bytes**, SHA-256 **f3707e553a860b1a4ec54ca4b82fa3a7bc9329b9a33afc0cabde5ea3e6127e93**.
+
+The host-only [native-unit adapter](../src/harness/fresh-route-native-units.ts) explicitly materializes integer nanometres and sends values that the actual KiPy coordinate conversion returns exactly. Its [actual-KiPy integration test](../tests/integration/kicad-route-native-units.test.ts) exercised **4,107 values**. This fixed the second proof's one-nanometre truncation without relaxing source tolerances, patching runtime units or changing the driver coordinates to avoid the defect.
+
+The [V2 endpoint connectivity module](../src/harness/fresh-plane-connectivity.ts) was still unwired at this partial-proof milestone; its nine focused / 33 combined earlier tests were included in verification03. It is now connected to the public tool and the complete demonstration above, with current host-collected native evidence. The later wiring is outside verification03's full-suite scope.
+
+### Preserved failed native attempts01 and02
+
+[Profile06](C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/toolbox-native-doc4-plane-profile-20260909-06.json) is 5,333 bytes, SHA-256 **b6b7a59b7867b6c23742896e6d1aeccad1b2e4d74580b2167a734e00ccf9ee73**. DOC4 packaging/verification and its private bounded receipt transport are documented in [the runtime note](../sidecars/doc4-runtime.md). Packaging and software checks do not qualify live APPLY.
+
+The [native01 result](D:/EvlEDA-toolbox-plane-apply-20260909/evidence-plane-apply-01/result.json) remains a failure at **operation018, first VIN fresh_replace_route_items**, after setup/author/sync/outline/three placements/pad inspection. [The operation record](D:/EvlEDA-toolbox-plane-apply-20260909/evidence-plane-apply-01/operation-018.json) retains the terminal session/rollback error. The raw first add-versus-push error was lost, so its exact initiating suboperation is not reconstructed. A Commit-handle incompatibility was separately confirmed and later repaired in DOC5; proof03 does not rewrite the original failure.
+
+**No plane APPLY occurred.** Later [exact read-only inspection](D:/EvlEDA-toolbox-plane-apply-20260909/readonly-recovery-assessment-exact.json) found matching saved/live source semantics with zero tracks/vias; no zone was created. The [final recovery](D:/EvlEDA-toolbox-plane-apply-20260909/normal-close-recovery.json) normal-closed the exact owned editor without save/revert/discard/kill. The saved PCB stayed **12,317 bytes**, SHA-256 **056c39113de6d08365ad105b45e3a6feb6f913135d5e8cf8a28db08b6d9fa39e**. Orphan allocation **e-nn7oDm is retained**, not released. This is safe closure of a failed attempt, not a native plane creation, update, persistence or reopen pass.
+
+[Native02](D:/EvlEDA-toolbox-plane-apply-20260909-02/evidence-plane-apply-01/result.json) then failed an exact GND route comparison because native coordinate conversion truncated by one nanometre; no plane was created and resume did not start. Its [guarded revert/close recovery](D:/EvlEDA-toolbox-plane-apply-20260909-02/guarded-revert-close-recovery.json) restored the exact preimage and normally closed the exact owned editor. This authorized recovery and the unchanged older allocations remain separate from native03's successful clean finishes.
+
+## Earlier native11 routed/labeled evidence
+
+The [final real-stdio report](D:/EvlEDA-toolbox-fresh-smoke-20260909-11/stdio-proof-8489c53f-9955-4bfb-809b-4f3792d5c5be/report.json) records a completed read-only fresh resume with:
+
+- Host-bound calculator access using an explicitly unrelated synthetic cross-section.
+- Top and assembly native PNG previews and hash-checked SVG resource reads.
+- Source-bound practice analysis and configured native **ERC 0 / DRC 0 / unconnected 0**.
+- Explicit finish with **nativeSessionClosed = true, checkpointPublished = true, recoveryRequired = false**.
+- Exact PCB identity before and after: **14,137 bytes**, SHA-256 **9030abe5a7c18dfd7553a31653341b21b6d37517e22992e71d7136ccd7bfe7ca**.
+
+The calculator example is explicitly **not the divider's stackup or impedance evidence**. Its success proves access to the analytical tool, not a controlled-impedance PCB.
+
+The board's earlier phases created/authored the project, closed and resumed it, placed/routed the divider, and wrote the labels. Fresh11 uses a corrected new-project table with the required mask, paste and presentation layers. The final read-only run does not pretend to repeat those mutations.
+
+### Why the first fresh11 test report failed
+
+[Independent text-preservation audit](D:/EvlEDA-toolbox-text-final-audit-20260909/findings.md) recovered the exact pre-operation PCB in memory from local history and matched its independently recorded hash: **c41c7a9a19cbaec04d1a2eaba7f48fa18b247eaa2a63b87891515a37172e4d80**, 13,511 bytes. No reconstructed board was installed as authority.
+
+The saved result contains exactly three distinct text items:
+
+- VIN at (5, 6.1) mm.
+- VOUT at (5, 8.8) mm.
+- GND at (5, 11.4) mm.
+
+All have the reviewed front-silkscreen presentation. The raw parsed-JSON differences outside text were equivalent resistor-pad angle spellings, -90 versus 270, and their corresponding retained raw strings. Removing exactly the three added text spans makes the **already-reviewed whole-source comparator** match the exact preimage. Production preservation checks were not weakened.
+
+All three text calls succeeded. The initial script's cleanup already had a clean checkpoint and no recovery requirement; its failure was the script's excessive raw-JSON equality assertion. Keep that failed report, the exact audit, and the later completed read-only run as distinct evidence.
+
+### What the images actually show
+
+[Received top image](D:/EvlEDA-toolbox-fresh-smoke-20260909-11/stdio-proof-8489c53f-9955-4bfb-809b-4f3792d5c5be/received-top.png) and [received assembly image](D:/EvlEDA-toolbox-fresh-smoke-20260909-11/stdio-proof-8489c53f-9955-4bfb-809b-4f3792d5c5be/received-assembly.png) were inspected.
+
+VIN/VOUT/GND are visible beside the connector, the upper square pad identifies pin 1, and the routed jogs are 45 degrees. The assembly DIVIDER_IO value still extends beyond the left outline and footprint graphics remain cramped. The complete native page viewport now shows this defect **unclipped**; transport/framing success is not presentation approval. Schematic compactness remains unchanged from the earlier spacious layout.
+
+Native page autoscaling and bounded raster density resolved the preview pixel-limit problem. Its earlier failure remains preserved, and the final renderer has a dedicated follow-up regression. Orthogonal schematic wires are conventional and are not violations of the user's 45-degree **PCB trace** requirement.
+
+## New stackup observation and reference-coverage foundations
+
+The [saved-stackup reader](toolbox.md#saved-physical-stackup-observation) observes the bound saved PCB with current-document and before/after source checks. It retains ordered copper/technical layers, dielectric sublayers, explicit material/thickness/permittivity/loss data, absent values and unsupported fields. Adjacent copper separation is summed only from explicit intervening dielectric thicknesses; heterogeneous materials are not averaged and reference nets are not selected automatically.
+
+The workspace native case reported physical stackup **missing** despite an explicit **1.6 mm general board thickness**. It did not turn that general thickness into a signal-reference dielectric height or invent permittivity. The source-bound result states **impedanceValidation: not_performed**. Fifteen focused reader tests, MCP coverage and this native empty-stackup case are evidence of truthful observation, not fabricator confirmation or solved board impedance.
+
+The [isolated reference-coverage prototype](D:/EvlEDA-reference-coverage-prototype-20260909/README.md) passed [18 fixed-fixture checks](D:/EvlEDA-reference-coverage-prototype-20260909/results.json) using KiCad-pinned **Clipper2 1.3.0** and prior native Unfracture oracle data. Synthetic route-width/margin ribbons were compared against captured native fill; tests distinguish holes, fracture-encoding bridges, disconnected-island gaps, duplicate/winding behavior and centerline-only false assurance.
+
+That isolated prototype is not itself production integration or a DC/HF solver. The later public saved-source tool below adds real host wiring; native fill freshness, connectivity eligibility and electrical/profile applicability remain separate. A DC path around a hole may fail local coverage, while coverage over an isolated island does not establish a usable return path.
+
+### Latest reference-coverage integration update
+
+[Saved reference-copper coverage](toolbox.md#saved-reference-copper-coverage) is now exposed as optional **evleda_check_reference_coverage** through the existing host profile/startup path. It selects saved segments and fill geometry from the bound source, returns exact helper certificates and compact per-route findings, and retains large raw diagnostics as immutable hash-bound resources. Missing/unsupported input and uncertain boundaries are not truncated into a pass. This read-only tool does **not** refill, establish fill freshness or DC connectivity, approve the reference plane/margin, solve layer adjacency, or grant HF/impedance approval.
+
+Reported focused verification is **not additive**: 77/77 reference cases with the real helper; 132 profile/startup cases; the V2 plane foundation's 50 tests and 189 combined regressions with scoped independent approval; and 157 refill-preservation cases. After the 77-case run, the public margin range was corrected to the plane contract's full **0–50 mm**, followed by a new boundary case and **44/44 wrapper/MCP rerun**. None of these totals replaces the historical full-suite count.
+
+[Profile05](C:/Users/pc/Downloads/EvlEDA-Handoff-2026-09-03/toolbox-native-doc3-coverage-profile-20260909-05.json), 5,333 bytes, SHA-256 **74ec2d3688909f271f84d3cfbc4cc9e13e9cf660184be0d059f170b9ee4e98e0**, first passed read-only parsing and was subsequently used by the copied-native public-MCP proof below. The rejected noncanonical-path profile04 diagnostic is preserved.
+
+Native overlay attempt2 exposed an asynchronous refill race: the native call queued work and returned immediately, and Ping was not a completion barrier. The recorded difference was the disappearance of the fill flag, not changed polygon geometry. The diagnostic copy was safely reverted and its exact owned editor closed after the matched dialog Cancel; the original source stayed unchanged. Allocation **e-CUPRBH remains retained** because its original release capability was lost—do not describe it as released or claim production refill success.
+
+**Isolated native attempt3 completed both controls and normal owned cleanup.** The [assessment](D:/EvlEDA-plane-capture-validation-20260909/attempt-3-assessment.json) and [capture notes](D:/EvlEDA-plane-capture-validation-20260909/README.md) record fixed native unfill, verification that every expected zone is unfilled with empty caches, immediate fill, and busy-gated filled/nonempty verification before save/capture. Individual PAD query counts were positive **[2,2]** (each finds both endpoints) and negative **[1,1]** (each finds only itself). Original PCB hashes remained unchanged; attempt3's editor/supervisor/locks were absent afterward, while older allocations were untouched.
+
+This is an **isolated capture prototype**, not a DOC4 installation or production native-plane acceptance. The deterministic controls used strict whole-source equality; changed-fill admission and general electrical validity are not established by that proof. Attempt2 remains failed and its retained e-CUPRBH allocation is not retroactively released.
+
+The separate [native copied-host/public-MCP smoke](D:/EvlEDA-reference-toolbox-native-20260909/native-run/reference-coverage-smoke.json) and [post-assessment](D:/EvlEDA-reference-toolbox-native-20260909/post-assessment.json) are now complete. Through linked **InMemoryTransport**, the public tool classified SIG_CLEAR as covered, SIG_VOID as uncovered with an exact witness, and SIG_TANGENT as boundary_uncertain, retaining the same explicit **0.1 mm margin beyond the trace edge** in all three cases. Every raw diagnostic-resource hash was verified. This is not a STDIO or app-install test, and that fixture margin is not a universal electrical rule.
+
+The copied synthetic fixture remained **5,834 bytes**, SHA-256 **8fe91e84a57b48c424d7fdb7edb354bc5efb08884183dec45dc462319a22e368**, through graceful close. The original source remained **b80cd79dcb08380c0ee504b085a97da5af8963db1f6f210e37d17c04a70ac809**; no new owned editor, locks or IPC allocation remained. Existing saved fill was retained, not freshly refilled in this public-tool test. Its deliberately unconnected SIG tracks do not form a qualified circuit or establish DC/HF/impedance correctness. [The repeatable script](../scripts/smoke-toolbox-reference-coverage.ts) executed at SHA-256 **5fa4359f658609651d280ac818b333d54b75a6ddf6a4b64b32be93906ff8dd9d**.
+
+## Analytical calculator: useful now, scoped honestly
+
+The [toolbox calculator section](toolbox.md#transmission-line-calculation) and [source package](../third_party/kicad-transline-core/README.md) describe four models: **microstrip, coupled microstrip, stripline and coupled stripline**. The optional kicadTransmissionLine section of the existing host profile pins the helper path, SHA-256 and byte count. It does not let a tool call choose an executable or board path; calculator availability is reported separately and does not require CAD edit access.
+
+The source package retains pinned KiCad 10.0.3 code, original licenses/bytes and two explicit reviewed coupled-stripline corrections: finite-thickness centering and homogeneous-dielectric scaling. This is an analytical core with documented deviations, not a new field solver or a blanket validation of every formula.
+
+The [six-call public-MCP proof](D:/EvlEDA-transmission-line-core-v3-20260909/mcp-proof.json) completed four analyses and two coupled syntheses. The [independent numerical matrix](D:/EvlEDA-transmission-line-independent-20260909/corrected-v3-results.json) preserves the review and negative inverse-roundtrip cases; it is not represented as wholly passing or as physical manufacturing evidence.
+
+Operational limits remain explicit:
+
+- Dimensions/material values and frequency are supplied with defined units; the tool does not invent the actual board construction.
+- Coupled public targets are differential impedance. Quasistatic native coupled-microstrip differential output is distinct from twice the frequency-dependent odd-mode value; they are not interchangeable.
+- Synthesis reanalyzes the candidate geometry and reports its residual. A converged result is not a unique inverse or a physical-accuracy guarantee; rounded manufacturable geometry needs a new analysis.
+- Native delay/model approximations and finite-thickness/applicability limits remain visible. The coupled-stripline branch boundary at spacing/thickness = 5 can produce discontinuities or different inverse geometries.
+- Results explicitly say **boardVerificationPerformed: false**. No saved-board width/gap/skew, real return copper, interface termination, or fabricator tolerance was verified.
+
+The generic compiler still explicitly rejects differential-pair, controlled-impedance and multilayer requests outside its supported envelope. A calculator answer does not bypass those limitations. The next step is engineering integration, not calling impedance-matching board support finished.
+
+## Current software evidence and preserved verification history
+
+The complete-board handoff records separate endpoint wiring/driver tests and the source-machine native demonstration; its historical full-suite run predates that wiring. Destination checks include 77 endpoint tests and 32 workspace/V1/V2-guide tests, then separate focused path/generation and startup-diagnostic repairs. The [92-test MCP integration run](../../destination-verification/mcp-integration-final.json) passed with zero failures or skips; source/UI typechecks and full build passed. The [first destination full run](../../destination-verification/full-suite-01.json) remains **4,356 passed / 68 failed / 53 skipped**, with two unhandled deadline errors. Focused counts are not combined into a full-suite pass. Details and the four failed native attempts remain in [destination verification](destination-verification.md).
+
+[Historical pre-endpoint plane-APPLY verification03](D:/EvlEDA-verification-plane-apply-20260909-03/report.md) passed the full unfiltered four-worker suite: **4,425 passed / 52 skipped / zero failed** (4,477 tests), **207 files passed / 2 skipped**, in **274.58 seconds**. Source/UI typecheck, package prechecks, exact DOC5 verification and full build passed. All **1,550 Git-visible protected input files** retained identical content/recorded identity through the final snapshot at **2026-09-10T03:07:06.813Z**; these subsequent documentation edits are outside that interval. DOC5 verification reproduced **8,467 files / 1,159 directories / 150,420,817 bytes**. The command was composed prechecks plus pnpm exec vitest run --maxWorkers=4, not literal pnpm test; package defaults stayed unchanged. The approved pinned console geometry helper was enabled, with no editor/model/proof driver launched by the verifier.
+
+[Pre-quantization plane-APPLY verification02](D:/EvlEDA-verification-plane-apply-20260909-02/report.md) had separately passed **4,404 tests / 52 skipped / zero failed**, types and build. It predates the final host-unit fix and is not the current-source total.
+
+[Plane-APPLY verification01](D:/EvlEDA-verification-plane-apply-20260909-01/report.md) remains **not green: 4,342 passed / 19 failed / 52 skipped**, 201 files passed/one failed/two skipped (204 total), in **264.39 seconds**. Source/UI typecheck, normal prechecks, additional exact DOC4 verification and full build passed. Captured source/test/package/profile inventory had zero observed drift; DOC4 verification reproduced **8,467 files / 1,159 directories / 150,412,946 bytes**.
+
+All 19 verification01 failures were in physical-evidence-release tests: fixed September 3 sessions became older than the unchanged production seven-day submission window when UTC crossed into September 10. The later [test-only clock repair](D:/EvlEDA-physical-clock-fixture-20260910-013946978/fixture-delta.json) uses the existing instance-clock seam, preserves explicit expiry overrides and assertions, and changes no global clock, production policy or fixture timestamps. Its **24/24 targeted cases and source TypeScript check passed**. That targeted result, green pre-quantization02 and final03 are separate records; none relabels or adds tests to failed01.
+
+[Plane-authoring verification01](D:/EvlEDA-verification-plane-authoring-20260909-01/report.md) passed source/UI typecheck, normal prechecks and the full unfiltered four-worker suite: **4,114 passed / 52 skipped / zero failed**, **193 files passed / 2 skipped**, in **257.07 seconds**. Its full build then failed with **TS4058 declaration emit**; that original result is not rewritten.
+
+[Post-fix verification02](D:/EvlEDA-verification-plane-authoring-20260909-02/report.md) verified the sole source change as type-only, passed source/UI typecheck, **24 targeted preparation/checkpoint tests**, and the full package build. The affected runtime JavaScript was byte-identical before/after, and src/tests had zero drift during this verification. **02 is targeted follow-up plus a build, not a second full-suite run; do not add 24 to 4,114.** The previous runtime-test evidence and exact type-only/unchanged-JavaScript evidence remain distinct.
+
+[Historical reference verification02](D:/EvlEDA-verification-reference-20260909-02/report.md) passed **3,977 tests / 52 skipped / zero failed**, with **183 files passed / 2 skipped**, in **249.12 seconds**. Typecheck/prechecks/build passed and src/tests had zero drift. It predates the new plane-authoring work; the package's one-worker default remains unchanged.
+
+For that historical reference-verification pair, the only 01→02 source/test difference was **tests/unit/cli-providers.test.ts**; production code was identical. The [cleanup diagnosis and repair](D:/EvlEDA-provider-test-cleanup-20260909/README.md) records verified teardown before directory removal, retaining and strengthening the failure/poisoning assertions. That test-only cleanup change is distinct from the later plane-authoring type-only declaration fix. Documentation, skills and smoke scripts are outside the src/tests inventory.
+
+[Historical workspace verification](D:/EvlEDA-verification-workspace-20260909-01/report.md), preceding the new reference-coverage changes, records:
+
+- Unfiltered four-worker run: **3,759 passed / 52 skipped / zero failed**, with **175 test files passed / 2 skipped**, in **256.56 seconds**.
+- Source/UI typecheck, the normal source/corpus/runtime prechecks, and full package build passed.
+- Compiled-source inventories before tests, after tests and after build were identical: **zero source-hash delta**. Documentation/example/smoke-script work was outside that compiled-source inventory.
+
+The four-worker setting was an explicit command override; **package.json's default one-worker script is unchanged**. No filters, new skips or real-CAD opt-ins were introduced. This test timing is an observation, not a full-project ETA or model-performance comparison. The non-failing retained UI chunk-size warning remains documented.
+
+The [earlier 3,692-test verification](D:/EvlEDA-verification-current-20260909-1310/report.md), separate 35-test renderer follow-up and their snapshot qualification remain historical evidence. They are not added to the new count or relabeled as one run. Software verification is also separate from the real native onboarding reports above.
+
+The [preserved reference verification01](D:/EvlEDA-verification-reference-20260909-01/report.md) remains its original **non-green** result: **3,976 passed / 1 failed / 52 skipped** across 185 files (182 passed / 1 failed / 2 skipped), in **274.21 seconds**. Typecheck/prechecks/build passed and src/tests had zero drift in that run. The real reference helper was enabled, not a KiCad editor. Verification02 is separate evidence, not a relabeling of 01.
+
+Verification01's sole failure was Windows **EBUSY directory cleanup** in the CLI-provider resistant-descendant test. Its diagnosis, original log and earlier reproductions are preserved. The test-only repair and completed verification02 now close that software-verification blocker; neither changes the failed historical result or converts native prototypes into production electrical acceptance. The historical 3,759-test pass remains separate.
+
+The earlier [verified source archive](D:/Codex-Recovery/evleda-checkpoints/toolbox-calculators-source-20260909-01/README.md) was captured at **20:12:12 UTC**: **630 files / 88 directories**, 38,218,064 file bytes and **39,484,416 archive bytes**. [Capture manifest](D:/Codex-Recovery/evleda-checkpoints/toolbox-calculators-source-20260909-01/capture-manifest.json) and [verification result](D:/Codex-Recovery/evleda-checkpoints/toolbox-calculators-source-20260909-01/verification.json) record payload/directory checks. The [tar archive](D:/Codex-Recovery/evleda-checkpoints/toolbox-calculators-source-20260909-01.tar) includes the final renderer code but predates these later roadmap/documentation edits.
+
+That is an older snapshot. Verified [reference source](D:/Codex-Recovery/evleda-checkpoints/reference-coverage-source-20260909-01/README.md) and [reference evidence](D:/Codex-Recovery/evleda-checkpoints/reference-coverage-evidence-20260909-01/README.md) archives remain intact. The later [plane-authoring source archive](D:/Codex-Recovery/evleda-checkpoints/plane-authoring-source-20260909-01/README.md) preserves 693 files/94 directories in 40,502,272 bytes; its [evidence archive](D:/Codex-Recovery/evleda-checkpoints/plane-authoring-evidence-20260909-01/README.md) preserves 318 files/184 directories in 7,116,800 bytes. These precede the plane-APPLY failures, DOC5/host-unit repairs and successful proof03. The current transfer separately contains the newer source snapshot and complete-all-nets proof described in [HANDOFF.md](../../HANDOFF.md); verified transfer is not GitHub publication.
+
+## Current roadmap
+
+The native lifecycle, label/image/calculator milestone, workspace submit/create/close/resume/restart flows and direct V2 complete-all-nets demonstration are established **within their respective fixture scopes**. The historical workspace board is not routed; the latest complete board used the direct V2 path. Remaining work is not expressed as a percentage or a firm ETA.
+
+| Gate | Current state | Required next evidence |
+| --- | --- | --- |
+| Direct native CAD lifecycle | Native08 demonstrated create/author/close/resume/outline/place/route/check/finish; native11 adds labeled-board and combined stdio collection evidence. | Expand representative use only with actual saved-source/native evidence. No arbitrary-board guarantee. |
+| Direct V2 plane family | The complete-all-nets DOC5/profile07 proof passed eight tracks/one via, plane refill/save, per-member endpoint reachability, configured ERC/DRC, six-file checkpoint and read-only reopen. | Integrate intended-plane contact, thermal/island/reference acceptance and broader changed-plane/failure coverage. Workspace V2 discovery and the destination native lifecycle are verified on a separate intentionally unrouted fixture. |
+| In-chat workspace onboarding | Destination V2 ready-ID create/retry, author/sync/place, disconnected endpoint checks, close/resume and new-process read-only resume with native previews passed over real STDIO. | Actual chosen-app installation and tool refresh; broader project workflows. Preserve the distinction between this unrouted fixture and the transferred complete-all-nets board. |
+| Analytical transmission-line tool | Four-model tool exists; real MCP analyses/syntheses and reviewed corrections are documented. | Actual stackup/fabricator inputs, pair authoring, board extraction, width/gap/skew/return-path/termination checks and applicability-bound evidence. |
+| Client/application setup | Packaged skill, workspace/native commands, dynamic attachment tests and [local setup guide](toolbox-client-setup.md) exist; the workspace example is disabled. | Install/configure the intended app/client and verify tool-list refresh, native-operation timeouts and recovery. Fast idle connection is not instant KiCad startup or an app deployment. |
+| Plane/pair/stackup engineering | Source-bound stackup observation, native plane/calculator primitives and the isolated 18-check coverage prototype are useful foundations. | Bind actual reference-plane eligibility, explicit construction/material/profile inputs and real routes/pairs into production authoring/checks. Missing stackup stays missing. |
+| QFN, stacked pins and realistic capacity | Native feasibility and focused code work exist; the divider is not a thermal-array MCU-board proof. | Representative physical-pad/no-connect/stacked-pin/capacity cases through the intended production toolbox path with complete pin/source parity. |
+| Save and GitHub handoff | The transferred source and latest complete-board proof are hash-verified; older archives remain historical. Code remains local. | Confirm destination/visibility/authorship/authentication, publish the reviewed source when authorized, and verify the remote commit. |
+| RP2350 demonstration | Not started; follows the requested baseline push. | Design the selected Pico-like/Orpheus-inspired project with its actual required electrical, library, stackup and interface capabilities. |
+
+The product remains tools and guidance that a model can use from chat. The old UI, Flux application, provider runner and infrastructure are **deferred, not deleted**. Reuse proven native/library/source components without requiring the whole older application to mediate every direct operation.
+
+## Engineering limitations that remain
+
+- **Planes and return paths:** [The native plane handoff](plans/native-plane-capability.md) separates proven DOC5 CREATE/UPDATE/refill/save/reopen and all-net endpoint reachability from electrical acceptance. Zone-origin or multiple-source unions do not prove connection across islands; geometric coverage is not integrated return-path acceptance. Intended-plane contact, resolved thermal spokes and rule applicability, single-plane-component/island policy, reference eligibility and HF conditions still need integration and native evidence; broaden changed-plane and failure/interruption coverage without relaxing preservation.
+- **Pairs, impedance matching and stackup:** Calculator models do not create or inspect a differential pair. The new reader preserves saved stackup declarations but does not choose a reference plane, fabricate Er/height, average heterogeneous dielectric values or prove manufacturing construction. Exact membership/polarity, gap/width/skew, launches/stubs, termination and reference-copper checks still need integration.
+- **Power integrity and EMI/EMC:** The research dossiers and available calculations are not an integrated PDN/SI/EMI compliance result. Bind device-specific decoupling, power/return paths, spectral/edge conditions and relevant models/measurements. ERC/DRC and bend geometry alone do not prove PI or EMC.
+- **Ampacity and via suitability:** Bind current waveforms, copper construction, dimensions/tolerances, allowable drop/heating, environment, protection and bottlenecks. A checked geometric width or an impedance calculation is not thermal/fault qualification.
+- **Physical pads, QFN and intentional no-connects:** Preserve complete physical primitives, paste apertures, logical terminals, layers/geometry and per-member continuity. [QFN native evidence](D:/EvlEDA-qfn-pad-semantics-20260909/README.md) and software cases do not qualify the complete requested MCU circuit.
+- **Stacks, capacity and local organization:** Preserve every pin, source-proven stack membership and bounded planning. [Earlier capacity planning](D:/EvlEDA-schematic-capacity-plan-20260909/plan.md) is context, not a measured universal capacity guarantee. Improve local readable structure without dropping checks or replacing electrical evidence with convenient labels.
+- **Visual/usability finish:** Connector signal labels are now demonstrated. Assembly text beyond the outline, crowded footprint graphics and oversized schematic layout remain visible quality targets.
+- **Deployment and portability:** Real-stdio workspace create/list/close/resume and server restart are now tested. Verify the actual app's installation and dynamic tool refresh, native-operation timeouts and failure behavior. The disabled configuration example and functioning subprocess are not an automatic global app install.
+
+The corpus remains **1,773 guidance records / 17 detailed dossiers**, not 1,773 executable checks. Native source, measurements, calculations, research and independent review establish different things; none should be silently substituted for another.
+
+## Preserved history, not rewritten failures
+
+- Native08 remains the successful direct lifecycle fixture. [Its report](D:/EvlEDA-toolbox-fresh-smoke-20260909-08/resume-layout-proof-57c53ba8-1bea-4b72-9f97-6f6262620fe2.json) is separate from newer text/calculator/preview features.
+- Native09's first phases passed, but its text phase failed because expected board text was absent despite the native command's success response. Exact rollback/recovery evidence and the unsafe marker remain preserved; this was not a successful label proof.
+- Fresh11's original stdio report failed only its raw-JSON angle comparison after three successful text writes and clean checkpoint/closure. The exact-preimage audit establishes why; the report itself stays a failure.
+- Earlier preview warnings, viewport/pixel-limit failures, numerical inverse cases, and unsuccessful preimage searches remain retained alongside the successful later evidence.
+- Historical application [attempt 14](D:/EvlEDA-live-proof-v8-attempt14-20260909-015249281/evidence/terminal-result-summary.json) passed 43 v1 checks but failed independent annotation review. [Attempt 15](D:/EvlEDA-live-proof-v8-attempt15-20260909-043024233/evidence/terminal-result-summary.json) passed 44 v2 checks and scoped ink coverage. These are not automatically the direct toolbox's completion verdict.
+- Earlier [V2 recovery](D:/Codex-Recovery/evleda-checkpoints/source-v2-local-20260909-050015346/README.md) and [closed15/visual supplement](D:/Codex-Recovery/evleda-checkpoints/closed-attempt15-visual-supplement-20260909-053237914/README.md) retain their original source/test/proof boundaries.
+
+The direct validation tool collects native findings and source/practice coverage. It does not manufacture an umbrella passed or manufacture-ready label from transport success or the older application's check count.
+
+## GitHub, RP2350 order, and comparison claims
+
+The source-machine handoff recorded **no HEAD, no remote, and no authenticated GitHub CLI session**. Those authentication/configuration observations must be refreshed on the destination before publication. Destination owner/repository, visibility and author identity were unresolved. A verified local transfer is not a push, and no reference repository is assumed to be the destination.
+
+The requested **RP2350 Pico-like, Orpheus-inspired board starts after the reviewed baseline push**. Reusable capability preparation can continue independently, but must not be represented as already designing that board.
+
+No head-to-head benchmark against direct Astra computer use has been run. The demonstrated direct MCP operations and the older Astra-driven workflow do not establish superior speed, fewer corrections or better board quality. Any future comparison needs equal requirements/resources and independent saved-result checks. There is no arbitrary percentage or firm overall ETA.
+
+## Scope and final completion
+
+The goal remains a useful reusable prompt-to-PCB engineering toolset with readable/editable artifacts, required electrical/layout evidence and the requested demonstrations. A small native fixture, a calculator result, or a server that starts does not satisfy the whole goal.
+
+Separate UI work and expanded infrastructure are deferred, not removed. Firmware development, ordering, manufacturing-process/release campaigns and physical qualification remain outside the current campaign. Applicable design-for-manufacture constraints and truthful handoff limitations remain in scope.
+
+## Exact evidence anchors
+
+- [Destination V2 workspace lifecycle](../../destination-verification/workspace-v2-05/workspace-proof-33a3a1cc-b2ae-4b86-b1e3-3747953df78f/report.json): **15e5051048166d5ebf76a06c2dd77d4685e66655efaa266bdc7ff1f52012c8c4**, 29 operations; intentionally unrouted.
+- [Destination fresh-process read-only restart](../../destination-verification/workspace-v2-readonly-restart/workspace-proof-3ab24175-324f-44cd-98d2-9a0831cf399d/report.json): **b13e0495886c97f29bd23d34223ebabd6af8316c408d227144fa637c8afb46e7**, 11 operations; six sources unchanged and native previews captured.
+
+- [Latest complete-all-nets assessment](../../proof/EvlEDA-toolbox-plane-complete-20260909-01/final-assessment.json) and [result](../../proof/EvlEDA-toolbox-plane-complete-20260909-01/evidence-plane-complete-01/result.json): result SHA-256 **923217ce4b3deb1cefc94534ad731a7e2fe6d5c79510728c6fbdd516a48dac91**, 997,778 bytes; eight tracks/one via, all-net endpoint reachability, configured ERC/DRC, six-file reopen and normal close. No intended-plane/thermal/island/HF/ampacity or manufacturing approval.
+- Latest complete PCB: **062804a7545278eef20b38cf09eb79c96d39f38f7dbab7d0452840aa225bce9e**, 19,201 bytes.
+
+- [Passing native plane APPLY/save/reopen proof03](D:/EvlEDA-toolbox-plane-apply-20260909-03/evidence-plane-apply-01/result.json): **78e7ae79512d24627789ff20485c7a481032eba1471519616f51a5bbdb8fa93a**; partial routing, no DC/thermal/island/HF/full-board acceptance.
+- [Historical pre-endpoint green software verification03](D:/EvlEDA-verification-plane-apply-20260909-03/report.md): **ebfd4ef87ab322dbe9ca4bac5a6b56d3607359275e0ee4dbb8fc74cf37e26e58**; 4,425 passed / 52 skipped / zero failed.
+- [Failed native02 coordinate conversion](D:/EvlEDA-toolbox-plane-apply-20260909-02/evidence-plane-apply-01/result.json): **78a85d1d8df2d3fd5071a487e7ebcec0f8515cab627ec7de9eb35b2443e0edc7**.
+- [Native02 guarded revert/close recovery](D:/EvlEDA-toolbox-plane-apply-20260909-02/guarded-revert-close-recovery.json): **5d53c270a1bf60cb4c7292ad9ca76f6c72285911b2ae886b33e583fcaa625fd5**.
+
+- [Plane-APPLY failed native result](D:/EvlEDA-toolbox-plane-apply-20260909/evidence-plane-apply-01/result.json): **3d08907c4132747a33ca70b70ba422373671f7ebc601c720fdecdcd380f81453**; failed first VIN route, before APPLY.
+- [Exact-handle normal-close recovery](D:/EvlEDA-toolbox-plane-apply-20260909/normal-close-recovery.json): **7e05eee627e82f92adc92f0e92afd33413d027bb4fb55133b47b0b02cb0d6afc**; e-nn7oDm retained.
+- [Non-green plane-APPLY verification01](D:/EvlEDA-verification-plane-apply-20260909-01/report.md): **8b51ad73a54f2dd4a3a94bcd3eb8d8a35666e7a841bbaf68f2d65131378edaa2**.
+- [Separate 24-case test-clock repair](D:/EvlEDA-physical-clock-fixture-20260910-013946978/fixture-delta.json): **18bc59b12cc779c5fa81fd55d16c178042b4285235d52fc6e00fd988be808c15**; targeted follow-up, not a full suite.
+- [V2 plane-family native assessment](D:/EvlEDA-toolbox-plane-authoring-20260909/evidence-final/summary.json): **93e1a609fa0e2de1c466c69c29032dd21e167ea018bfe52cced3ec1684e6bb2b**; author/sync/resume and native DRU parsing, not plane copper or board/thermal acceptance.
+- [Plane-authoring full tests plus original declaration-build failure](D:/EvlEDA-verification-plane-authoring-20260909-01/report.md): **2ba136d6fb8b4eeddfcf931debc092f555ba405166371b1056d7c2eb10535b1f**.
+- [Type-only post-fix targeted/typecheck/build verification](D:/EvlEDA-verification-plane-authoring-20260909-02/report.md): **589941615a9c01c9396fb94981da2563a2623d015b355e5ac232f94b6006bd4b**; not a new full suite.
+- [Workspace native create/author/sync/close/resume proof](D:/EvlEDA-workspace-onboarding-proof-20260909/workspace-proof-0b63406c-16a6-4cc9-96bf-0236c2660d25/report.json): **3cc14522678b1cfa1fe382c8b28935427ad6fd962afa3249c40a8b682aaf91b3**. This project is not routed.
+- [New-server workspace resume proof](D:/EvlEDA-workspace-onboarding-proof-20260909/workspace-proof-2feed16c-f0f2-4fd0-9fca-27309121dd0e/report.json): **7aca44fe2f4a0c33e7c926503d68ee2f72a406ab82d6c71e6cde3617edf4b9c9**.
+- [Idle no-allocation clarification proof](D:/EvlEDA-workspace-onboarding-proof-20260909/workspace-proof-bf795c02-f9bb-4db9-aae6-405e5b3ca058/report.json): **85834b852309c5aadf1fbc17f5cbf98b70d149ffde7e9deb3590ccf3e57f308b**.
+- [Historical 3,759-test workspace verification](D:/EvlEDA-verification-workspace-20260909-01/report.md): **b93d3401f9c572a34f4441128f4344fb4c9478c12a560d48fe21c0733dd01677**; separate from the later failed reference-coverage run.
+- [Historical green reference verification02](D:/EvlEDA-verification-reference-20260909-02/report.md): **7ffd632b1419e2cf3b54cba07db184bdf867cbab8ef06bc026bfa3639eb723bc**.
+- [Preserved reference verification01, one failure](D:/EvlEDA-verification-reference-20260909-01/report.md): **9da42f3222fd305ec5eb4c98a762e3d49af77ce9517f68636e9950547e66e69f**.
+- [Isolated native attempt3 capture assessment](D:/EvlEDA-plane-capture-validation-20260909/attempt-3-assessment.json): **10e64ba731f305412658f14ace910d2f8ac4b25e3fca7f0e368f429a7e05a4bc**; no production/native-plane or impedance acceptance claim.
+- [Isolated reference-coverage results](D:/EvlEDA-reference-coverage-prototype-20260909/results.json): **ff1a7574f8ede9c5ab831b21db2559e317a4991608f9afc5e3b8596bc3e8026e**; synthetic route fixtures, no production integration.
+- [Final native11 stdio report](D:/EvlEDA-toolbox-fresh-smoke-20260909-11/stdio-proof-8489c53f-9955-4bfb-809b-4f3792d5c5be/report.json), completed 2026-09-09 13:11:49 Pacific: **3d2ca099e48648882a2c99e14bb5a9ca5b3e946644a43c71fcdd735bcc7b9bfb**.
+- [Fresh11 text audit](D:/EvlEDA-toolbox-text-final-audit-20260909/findings.md): **d1b296437ce276d508b78c008a4ec541837aa9b93ec03c3a58f3754148ccf721**.
+- Final labeled PCB: **9030abe5a7c18dfd7553a31653341b21b6d37517e22992e71d7136ccd7bfe7ca**, 14,137 bytes; unchanged during the final read-only check.
+- [Six-call calculator MCP proof](D:/EvlEDA-transmission-line-core-v3-20260909/mcp-proof.json): **fe50b0a3c550a73ea43fc5f5ecf1ef657d071f2ab373064003804942916a5257**.
+- [Historical toolbox verification, 3,692-test run](D:/EvlEDA-verification-current-20260909-1310/report.md): **78fe771b17165ad2fff90f9c8f1ccdf9c5a26b62fa4f950f7d6a1882738a652a**.
+- [20:12 UTC source archive](D:/Codex-Recovery/evleda-checkpoints/toolbox-calculators-source-20260909-01.tar): **f7740a7fa40b94e222cf78e92a836a7df4d872ecb28052fa184179d527235aff**. These later roadmap edits are outside that capture.
+
+Absolute C:/ and D:/ links identify historical source-machine evidence and may be unavailable on this destination. The latest proof links resolve within the transfer package; none is proof of publication. Source/documentation links are repository-relative.

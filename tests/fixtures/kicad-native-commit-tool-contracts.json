@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "evleda.doc5-native-commit-registration.v1",
+  "before": [
+    {
+      "name": "pcb_begin_commit",
+      "description": "Begin a transaction group for atomic board modifications.\n\nAll subsequent mutations (add, remove, update operations) will be grouped\ninto a single undo step in KiCad. Call pcb_push_commit to apply or\npcb_drop_commit to discard.\n\nReturns:\n    Confirmation message with commit status.",
+      "inputSchema": {
+        "properties": {},
+        "title": "pcb_begin_commitArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "pcb_begin_commitOutput",
+        "type": "object"
+      },
+      "annotations": {
+        "idempotentHint": false,
+        "requiresKiCadRunning": true
+      }
+    },
+    {
+      "name": "pcb_push_commit",
+      "description": "Push (commit) the current transaction group to the board.\n\nAll mutations since pcb_begin_commit will be applied as a single undo step.\n\nReturns:\n    Confirmation message with commit status.",
+      "inputSchema": {
+        "properties": {},
+        "title": "pcb_push_commitArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "pcb_push_commitOutput",
+        "type": "object"
+      },
+      "annotations": {
+        "idempotentHint": false,
+        "requiresKiCadRunning": true
+      }
+    },
+    {
+      "name": "pcb_drop_commit",
+      "description": "Drop (discard) the current transaction group without applying changes.\n\nAll mutations since pcb_begin_commit will be discarded.\n\nReturns:\n    Confirmation message with drop status.",
+      "inputSchema": {
+        "properties": {},
+        "title": "pcb_drop_commitArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "pcb_drop_commitOutput",
+        "type": "object"
+      },
+      "annotations": {
+        "idempotentHint": false,
+        "requiresKiCadRunning": true
+      }
+    }
+  ],
+  "after": [
+    {
+      "name": "pcb_begin_commit",
+      "description": "Begin a transaction group for atomic board modifications.\n\nAll subsequent mutations (add, remove, update operations) will be grouped\ninto a single undo step in KiCad. Call pcb_push_commit to apply or\npcb_drop_commit to discard.\n\nReturns:\n    Confirmation message with commit status.",
+      "inputSchema": {
+        "properties": {},
+        "title": "pcb_begin_commitArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "pcb_begin_commitOutput",
+        "type": "object"
+      },
+      "annotations": {
+        "idempotentHint": false,
+        "requiresKiCadRunning": true
+      },
+      "_meta": {
+        "evledaNativeCommitLifecycle": "evleda.kicad-native-commit-lifecycle.v1"
+      }
+    },
+    {
+      "name": "pcb_push_commit",
+      "description": "Push (commit) the current transaction group to the board.\n\nAll mutations since pcb_begin_commit will be applied as a single undo step.\n\nReturns:\n    Confirmation message with commit status.",
+      "inputSchema": {
+        "properties": {},
+        "title": "pcb_push_commitArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "pcb_push_commitOutput",
+        "type": "object"
+      },
+      "annotations": {
+        "idempotentHint": false,
+        "requiresKiCadRunning": true
+      },
+      "_meta": {
+        "evledaNativeCommitLifecycle": "evleda.kicad-native-commit-lifecycle.v1"
+      }
+    },
+    {
+      "name": "pcb_drop_commit",
+      "description": "Drop (discard) the current transaction group without applying changes.\n\nAll mutations since pcb_begin_commit will be discarded.\n\nReturns:\n    Confirmation message with drop status.",
+      "inputSchema": {
+        "properties": {},
+        "title": "pcb_drop_commitArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "pcb_drop_commitOutput",
+        "type": "object"
+      },
+      "annotations": {
+        "idempotentHint": false,
+        "requiresKiCadRunning": true
+      },
+      "_meta": {
+        "evledaNativeCommitLifecycle": "evleda.kicad-native-commit-lifecycle.v1"
+      }
+    }
+  ],
+  "onlyMetaChanged": true,
+  "nativeCalls": 0,
+  "toolInvocations": 0,
+  "actualKiCadFastMCPRegistration": true
+}

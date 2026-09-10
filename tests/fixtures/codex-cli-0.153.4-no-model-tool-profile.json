@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "evleda.codex-cli-no-model-tool-profile-evidence.v2",
+  "captureDate": "2026-09-07",
+  "captureBoundary": "local-fake-responses-request-before-model-io",
+  "executable": {
+    "algorithm": "sha256",
+    "digest": "a1cf6360ca71918d5466bc3a32d9f18b7044c9128756d1949e715d277b88c9b6",
+    "size": 295408944,
+    "version": "codex-cli 0.153.4"
+  },
+  "model": "gpt-5.6-sol",
+  "environmentPolicy": {
+    "source": "production-child-allowlist",
+    "apiCredentialPresent": false,
+    "externalModelRequestCompleted": false,
+    "captureEndpoint": "loopback-fake-responses"
+  },
+  "isolationArguments": [
+    "-c",
+    "shell_environment_policy.inherit=\"none\"",
+    "-c",
+    "shell_environment_policy.ignore_default_excludes=false",
+    "-c",
+    "features.view_image=false",
+    "-c",
+    "web_search=\"disabled\"",
+    "-c",
+    "mcp_servers={}",
+    "-c",
+    "features.plugins=false",
+    "-c",
+    "features.apps=false",
+    "-c",
+    "features.remote_plugin=false",
+    "-c",
+    "features.plugin_sharing=false",
+    "-c",
+    "features.tool_suggest=false",
+    "-c",
+    "features.skill_search=false",
+    "-c",
+    "features.skill_mcp_dependency_install=false",
+    "-c",
+    "features.image_generation=false",
+    "-c",
+    "features.browser_use=false",
+    "-c",
+    "features.browser_use_external=false",
+    "-c",
+    "features.browser_use_full_cdp_access=false",
+    "-c",
+    "features.computer_use=false",
+    "-c",
+    "features.workspace_dependencies=false",
+    "-c",
+    "features.goals=false",
+    "-c",
+    "features.multi_agent=false",
+    "-c",
+    "features.multi_agent_v2=false",
+    "-c",
+    "agents.enabled=false",
+    "-c",
+    "tools.experimental_request_user_input.enabled=false",
+    "-c",
+    "tools.update_plan.enabled=false",
+    "-c",
+    "features.shell_tool=false",
+    "-c",
+    "features.unified_exec=false",
+    "-c",
+    "orchestrator.skills.enabled=false",
+    "--sandbox",
+    "read-only",
+    "--skip-git-repo-check",
+    "--ephemeral",
+    "--ignore-user-config",
+    "--ignore-rules",
+    "--strict-config",
+    "--color",
+    "never"
+  ],
+  "originalInventoryCanonicalJson": "{\"model\":\"gpt-5.6-sol\",\"topLevelToolsPresent\":false,\"toolChoice\":\"auto\",\"namespaces\":[{\"name\":\"functions\",\"type\":\"namespace\",\"tools\":[{\"name\":\"exec\",\"type\":\"custom\"},{\"name\":\"wait\",\"type\":\"function\"}]}],\"nestedHeadings\":[\"apply_patch\"]}",
+  "originalInventorySha256": "e05f4d1a88a9b58adca4e475fe2c5a2cadabe15a354d5712d5a98a12f1c60b62",
+  "inventoryCanonicalJson": "{\"model\":\"gpt-5.6-sol\",\"responsesRequestToolsFieldPresent\":false,\"responsesRequestAdditionalToolsFieldPresent\":true,\"toolChoice\":\"auto\",\"namespaces\":[{\"name\":\"functions\",\"type\":\"namespace\",\"tools\":[{\"name\":\"exec\",\"type\":\"custom\"},{\"name\":\"wait\",\"type\":\"function\"}]}],\"nestedHeadings\":[\"apply_patch\"]}",
+  "inventory": {
+    "model": "gpt-5.6-sol",
+    "responsesRequestToolsFieldPresent": false,
+    "responsesRequestAdditionalToolsFieldPresent": true,
+    "toolChoice": "auto",
+    "namespaces": [
+      {
+        "name": "functions",
+        "type": "namespace",
+        "tools": [
+          {
+            "name": "exec",
+            "type": "custom"
+          },
+          {
+            "name": "wait",
+            "type": "function"
+          }
+        ]
+      }
+    ],
+    "nestedHeadings": [
+      "apply_patch"
+    ]
+  },
+  "inventorySha256": "72e35cf8ba0499e9868c26b19bdfbcbc75241e0c47b019dce15b70d1ca90a926",
+  "derivedCapabilityProfile": {
+    "responsesRequestToolsFieldPresent": false,
+    "responsesRequestAdditionalToolsFieldPresent": true,
+    "namespacedTools": [
+      "functions.exec",
+      "wait"
+    ],
+    "nestedExecTools": [
+      "apply_patch"
+    ],
+    "viewImage": false,
+    "webSearch": false,
+    "mcpResources": false,
+    "pluginInstall": false,
+    "collaboration": false,
+    "requestUserInput": false,
+    "writeSandbox": "read-only"
+  }
+}

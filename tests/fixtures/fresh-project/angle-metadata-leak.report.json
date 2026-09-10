@@ -1,0 +1,66 @@
+{
+  "summary": "Host compound mutation result failed validation during iteration 4: fresh_apply_contract_connectivity returned an invalid mutation-status contract: Unrecognized key: \"angleDeg\"",
+  "harness": {
+    "operations": [
+      {
+        "iteration": 1,
+        "name": "sch_get_symbols"
+      },
+      {
+        "iteration": 1,
+        "name": "sch_get_connectivity_graph"
+      },
+      {
+        "iteration": 1,
+        "name": "sch_get_bounding_boxes"
+      },
+      {
+        "iteration": 2,
+        "name": "sch_get_pin_positions"
+      },
+      {
+        "iteration": 2,
+        "name": "sch_get_pin_positions"
+      },
+      {
+        "iteration": 2,
+        "name": "sch_get_pin_positions"
+      },
+      {
+        "iteration": 2,
+        "name": "sch_get_pin_positions"
+      },
+      {
+        "iteration": 3,
+        "name": "sch_add_symbol"
+      },
+      {
+        "iteration": 3,
+        "name": "sch_add_symbol"
+      },
+      {
+        "iteration": 3,
+        "name": "sch_add_symbol"
+      },
+      {
+        "iteration": 3,
+        "name": "sch_add_symbol"
+      },
+      {
+        "iteration": 3,
+        "name": "pcb_save"
+      },
+      {
+        "iteration": 3,
+        "name": "sch_get_connectivity_graph"
+      },
+      {
+        "iteration": 4,
+        "name": "fresh_apply_contract_connectivity",
+        "result": {
+          "content": "{\"schemaVersion\":\"evleda.fresh-contract-connectivity-result.v1\",\"contractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"cf2a3c85767ce0bc2bd4cbac931f4fb37603c40bc0176b45223bc6bf698ce038\",\"schemaVersion\":\"evleda.fresh-connectivity-contract.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"applied\":false,\"mutated\":false,\"idempotent\":false,\"issues\":[{\"code\":\"SYMBOL_BOUNDING_BOX_OVERLAP\",\"message\":\"C1 and D1 schematic bounding boxes overlap by 10.200 x 7.660 mm.\",\"remediation\":\"Move D1 clear of C1, re-read bounding boxes, then retry the same empty-argument operation.\",\"endpoints\":[\"C1\",\"D1\"]},{\"code\":\"SYMBOL_BOUNDING_BOX_OVERLAP\",\"message\":\"C1 and J1 schematic bounding boxes overlap by 10.200 x 10.200 mm.\",\"remediation\":\"Move J1 clear of C1, re-read bounding boxes, then retry the same empty-argument operation.\",\"endpoints\":[\"C1\",\"J1\"]},{\"code\":\"SYMBOL_BOUNDING_BOX_OVERLAP\",\"message\":\"C1 and R1 schematic bounding boxes overlap by 20.360 x 7.660 mm.\",\"remediation\":\"Move R1 clear of C1, re-read bounding boxes, then retry the same empty-argument operation.\",\"endpoints\":[\"C1\",\"R1\"]},{\"code\":\"SYMBOL_BOUNDING_BOX_OVERLAP\",\"message\":\"D1 and J1 schematic bounding boxes overlap by 0.040 x 12.740 mm.\",\"remediation\":\"Move J1 clear of D1, re-read bounding boxes, then retry the same empty-argument operation.\",\"endpoints\":[\"D1\",\"J1\"]},{\"code\":\"SYMBOL_BOUNDING_BOX_OVERLAP\",\"message\":\"D1 and R1 schematic bounding boxes overlap by 10.200 x 15.280 mm.\",\"remediation\":\"Move R1 clear of D1, re-read bounding boxes, then retry the same empty-argument operation.\",\"endpoints\":[\"D1\",\"R1\"]},{\"code\":\"SYMBOL_BOUNDING_BOX_OVERLAP\",\"message\":\"J1 and R1 schematic bounding boxes overlap by 10.200 x 12.740 mm.\",\"remediation\":\"Move R1 clear of J1, re-read bounding boxes, then retry the same empty-argument operation.\",\"endpoints\":[\"J1\",\"R1\"]},{\"code\":\"PIN_COORDINATE_COLLISION\",\"message\":\"C1:1 and R1:2 resolve to the same electrical point (40.64, 31.75) mm.\",\"remediation\":\"Move C1 or R1 so all contract pins are distinct, then retry the same empty-argument operation.\",\"endpoints\":[\"C1:1\",\"R1:2\"],\"atMm\":{\"x\":40.64,\"y\":31.75,\"angleDeg\":270}}]}"
+        }
+      }
+    ]
+  }
+}

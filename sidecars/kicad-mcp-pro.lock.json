@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 2,
+  "sidecar": {
+    "name": "kicad-mcp-pro",
+    "distribution": "kicad-mcp-pro",
+    "version": "3.33.3",
+    "launch": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "kicad-mcp-pro==3.33.3",
+        "kicad-mcp-pro"
+      ]
+    }
+  },
+  "auditedSource": {
+    "repository": "https://github.com/oaslananka/kicad-mcp-pro",
+    "repositoryId": "R_kgDOStXTag",
+    "commit": "817969d7e302ad470c2cac3d7c20961419400c47",
+    "pyprojectVersion": "3.33.3",
+    "pythonRequires": ">=3.13",
+    "mcpDependency": "mcp[cli]>=1.27.1,<2.0.0",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 Osman Aslan"
+  },
+  "publishedDistribution": {
+    "verifiedAgainst": "https://pypi.org/pypi/kicad-mcp-pro/3.33.3/json",
+    "pypiLastSerial": 40448507,
+    "verifiedOn": "2026-09-03",
+    "files": [
+      {
+        "filename": "kicad_mcp_pro-3.33.3-py3-none-any.whl",
+        "packageType": "bdist_wheel",
+        "sizeBytes": 905627,
+        "sha256": "c26f4dc6e2360375330056864490aab96f30f1d3f1c7d51bc57e42d4f9e4c26f",
+        "coreMetadataSha256": "6bd08b36cb18b43b2584e37d2c6b344254d16b72472ed9e7b5ee7993865184f2",
+        "url": "https://files.pythonhosted.org/packages/36/87/c4639fdaafdd0cc504de190d183c11f30ab46f812a7b5b6ab6e190d6f287/kicad_mcp_pro-3.33.3-py3-none-any.whl",
+        "uploadedAt": "2026-08-27T13:59:05.670736Z"
+      },
+      {
+        "filename": "kicad_mcp_pro-3.33.3.tar.gz",
+        "packageType": "sdist",
+        "sizeBytes": 757540,
+        "sha256": "688e54a1f721ca0318d597564c654257dab98c06469870e8e6bb7af2612d4f76",
+        "url": "https://files.pythonhosted.org/packages/28/42/d7ec04c44fc15c7efd4314b82aee3ea3d2c9881dc94f7b418790997e2969/kicad_mcp_pro-3.33.3.tar.gz",
+        "uploadedAt": "2026-08-27T13:59:07.751090Z"
+      }
+    ],
+    "identityCaveat": "PyPI archive digests identify published distribution bytes. The audited Git commit identifies reviewed source state; PyPI does not cryptographically attest that either archive was built from that commit."
+  },
+  "verifiedWindowsRuntime": {
+    "uv": {
+      "version": "0.11.31",
+      "upstreamPinSource": "The audited source commit pins UV_VERSION=0.11.31 in Dockerfile and its bootstrap workflow.",
+      "repository": "https://github.com/astral-sh/uv",
+      "release": "https://github.com/astral-sh/uv/releases/tag/0.11.31",
+      "archive": {
+        "assetId": 485371099,
+        "filename": "uv-x86_64-pc-windows-msvc.zip",
+        "sizeBytes": 25653699,
+        "sha256": "410c2fd3126ff621c9450a21cfc200002c7540dc48d130069a8f619cdb0a811b",
+        "url": "https://github.com/astral-sh/uv/releases/download/0.11.31/uv-x86_64-pc-windows-msvc.zip"
+      },
+      "checksumAsset": {
+        "assetId": 485371108,
+        "filename": "uv-x86_64-pc-windows-msvc.zip.sha256",
+        "sizeBytes": 96,
+        "sha256": "d6ea532ced58724fb60f1904b07accd118dc2e8ef5c67240db1f485cf293d080",
+        "url": "https://github.com/astral-sh/uv/releases/download/0.11.31/uv-x86_64-pc-windows-msvc.zip.sha256"
+      },
+      "executables": {
+        "uv": {
+          "filename": "uv.exe",
+          "sizeBytes": 76180480,
+          "sha256": "f9984f1375c819a42f59de73abc468eb76abef0a9a4097167b0a770ede81dc18"
+        },
+        "uvx": {
+          "filename": "uvx.exe",
+          "sizeBytes": 339456,
+          "sha256": "27de9e9f6a5089bead9fcbbeff46bf4da34862430b8f949b5d9b1e4b0c916911"
+        }
+      }
+    },
+    "python": {
+      "version": "3.13.12",
+      "upstreamPinSource": "The audited source commit pins 3.13.12 in .python-version.",
+      "repository": "https://github.com/astral-sh/python-build-standalone",
+      "archive": {
+        "assetId": 381126470,
+        "filename": "cpython-3.13.12+20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+        "sizeBytes": 21724944,
+        "sha256": "34bb9427d022c2810387e1376c6e184d3f3fdd0984b28519ac58295b0ba1adde",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
+      },
+      "executable": {
+        "filename": "python.exe",
+        "sizeBytes": 91648,
+        "sha256": "264a93517ecc069ee57dff451b66ed1c7b8d8543911f3d86e494ac44e96d6a10"
+      }
+    },
+    "observedPackageIdentity": {
+      "distribution": "kicad-mcp-pro",
+      "version": "3.33.3",
+      "wheelSha256": "c26f4dc6e2360375330056864490aab96f30f1d3f1c7d51bc57e42d4f9e4c26f",
+      "coreMetadataSha256": "6bd08b36cb18b43b2584e37d2c6b344254d16b72472ed9e7b5ee7993865184f2",
+      "mcpServerInfo": {
+        "name": "kicad-mcp-pro",
+        "version": "1.29.1"
+      },
+      "mcpServerInfoCaveat": "The exact 3.33.3 wheel advertises the bundled MCP SDK version 1.29.1 during initialize. Treat that protocol field as a separate observed identity, not as the Python distribution identity."
+    },
+    "defaultPaths": {
+      "uv": "D:\\Codex-Recovery\\tools\\uv\\0.11.31\\uv.exe",
+      "uvx": "D:\\Codex-Recovery\\tools\\uv\\0.11.31\\uvx.exe",
+      "uvArchive": "D:\\Codex-Recovery\\tools\\uv\\artifacts\\uv-x86_64-pc-windows-msvc-0.11.31.zip",
+      "uvChecksum": "D:\\Codex-Recovery\\tools\\uv\\artifacts\\uv-x86_64-pc-windows-msvc-0.11.31.zip.sha256",
+      "python": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\runtime\\python\\cpython-3.13.12-windows-x86_64-none\\python.exe",
+      "pythonArchive": "D:\\Codex-Recovery\\tools\\python\\artifacts\\cpython-3.13.12+20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+      "wheel": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\3.33.3\\kicad_mcp_pro-3.33.3-py3-none-any.whl",
+      "uvCache": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\runtime\\uv-cache",
+      "runtimeHome": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\runtime\\home",
+      "runtimeTemp": "D:\\Codex-Recovery\\tools\\kicad-mcp-pro\\runtime\\temp",
+      "runRoot": "D:\\Codex-Recovery\\evleda-runs\\kicad-mcp-pro-smoke"
+    },
+    "environmentOverrides": {
+      "uv": "EVLEDA_KICAD_MCP_UV",
+      "uvx": "EVLEDA_KICAD_MCP_UVX",
+      "uvArchive": "EVLEDA_KICAD_MCP_UV_ARCHIVE",
+      "uvChecksum": "EVLEDA_KICAD_MCP_UV_CHECKSUM",
+      "python": "EVLEDA_KICAD_MCP_PYTHON",
+      "pythonArchive": "EVLEDA_KICAD_MCP_PYTHON_ARCHIVE",
+      "wheel": "EVLEDA_KICAD_MCP_WHEEL",
+      "uvCache": "EVLEDA_KICAD_MCP_UV_CACHE",
+      "runtimeHome": "EVLEDA_KICAD_MCP_HOME",
+      "runtimeTemp": "EVLEDA_KICAD_MCP_TEMP",
+      "runRoot": "EVLEDA_KICAD_MCP_RUN_ROOT"
+    },
+    "offlineLaunchArgs": [
+      "--offline",
+      "--no-config",
+      "--python",
+      "{python}",
+      "--from",
+      "{wheel}",
+      "kicad-mcp-pro"
+    ]
+  },
+  "controllerPolicy": {
+    "defaultOperatingMode": "readonly",
+    "writeModeRequiresIsolatedWorkingCopy": true,
+    "manufacturingAndReleaseToolsForbidden": true,
+    "environmentInheritance": "allowlist-only",
+    "pathConfinement": "workspace-and-project-roots",
+    "launcherResolution": "resolve-once-to-absolute-regular-file-and-bind-sha256-size; preflight and recheck the sibling uv executable plus the exact local wheel and runtime identities",
+    "toolDiscovery": "explicit-cursor-pagination-with-page-and-tool-caps",
+    "stderrOverflow": "fatal"
+  },
+  "notice": "../third_party/kicad-mcp-pro/NOTICE.md"
+}

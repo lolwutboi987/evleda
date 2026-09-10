@@ -1,0 +1,27 @@
+# Example only: this file is not an installed client configuration.
+# Replace every <...> value using the owning host's approved paths and pins.
+# See ../docs/toolbox-client-setup.md before enabling.
+[mcp_servers.evleda_native]
+enabled = false
+command = 'C:\<NODE_INSTALLATION>\node.exe'
+cwd = 'C:\<EVLEDA_REPOSITORY>'
+args = [
+  'C:\<EVLEDA_REPOSITORY>\dist\src\mcp\toolbox-native-main.js',
+  '--profile', 'C:\<HOST_PROFILE_DIRECTORY>\native-profile.json',
+  '--profile-sha256', '<EXACT_APPROVED_PROFILE_SHA256>',
+  '--profile-bytes', '<EXACT_APPROVED_PROFILE_BYTE_COUNT>',
+  '--project-dir', 'C:\<DESIGN_INPUT_DIRECTORY>',
+  '--output-dir', 'C:\<NEW_EMPTY_OUTPUT_DIRECTORY>',
+  '--new-project', '<PROJECT_NAME>',
+  '--intent', 'C:\<DESIGN_INPUT_DIRECTORY>\intent.json',
+  '--prompt', '<ORIGINAL_DESIGN_REQUEST>',
+  '--edit',
+]
+startup_timeout_sec = 180
+tool_timeout_sec = 180
+
+# For subsequent fresh-project sessions: retain the same project name, profile,
+# input folder, and output folder; remove --intent/--prompt and their values;
+# add '--resume'. Never run fresh and resumed connections against one output
+# directory concurrently. Call evleda_finish_session before disconnecting.
+# Omit '--edit' to expose read-only CAD access.
