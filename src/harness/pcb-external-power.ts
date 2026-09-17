@@ -121,11 +121,11 @@ export function parsePcbExternalPowerBinding(value: unknown, contractIdentity?: 
       || (index > 0 && compare(parsed.flags[index - 1]!.net, flag.net) >= 0))) throw new Error("External power flags must have canonical unique nets and references");
   return freeze(parsed);
 }
-function sourceFromInspection(inspection: PcbExternalPowerFlagInspection): PcbExternalPowerBinding["source"] {
+export function pcbPowerFlagSourceFromInspection(inspection: PcbExternalPowerFlagInspection): PcbExternalPowerBinding["source"] {
   return { symbolLibId: inspection.symbolLibId, sourceIdentity: inspection.sourceIdentity, definitionIdentity: inspection.definitionIdentity,
     definitionSemanticIdentity: inspection.definitionSemanticIdentity, inspectionIdentity: inspection.identity, policyIdentity: inspection.policyIdentity };
 }
-function inspect(resolver: PcbReadOnlyLibraryResolver): PcbExternalPowerFlagInspection {
+export function inspectPcbPowerFlag(resolver: PcbReadOnlyLibraryResolver): PcbExternalPowerFlagInspection {
   const value = resolver.inspectExternalPowerFlag?.();
   if (value == null) throw new Error("External power inputs require host-approved exact stock power:PWR_FLAG inspection capability");
   const { identity, ...payload } = value;
@@ -144,8 +144,8 @@ function inspect(resolver: PcbReadOnlyLibraryResolver): PcbExternalPowerFlagInsp
 /** Current guarded source evidence, including complete geometry, for host authoring. */
 export function assertPcbExternalPowerBindingCurrent(binding: PcbExternalPowerBinding, resolver: PcbReadOnlyLibraryResolver): PcbExternalPowerFlagInspection {
   const parsed = parsePcbExternalPowerBinding(binding);
-  const current = inspect(resolver);
-  if (canonicalJson(parsed.source) !== canonicalJson(sourceFromInspection(current))) throw new Error("External power flag source or host policy changed from the compilation binding");
+  const current = inspectPcbPowerFlag(resolver);
+  if (canonicalJson(parsed.source) !== canonicalJson(pcbPowerFlagSourceFromInspection(current))) throw new Error("External power flag source or host policy changed from the compilation binding");
   return current;
 }
 /** Physical libraries remain separate; annotations are derived only from closed declarations. */
@@ -162,12 +162,12 @@ export function createPcbExternalPowerBinding(contract: PowerDocument & { readon
     const old = anchors.get(net.name);
     if (old === undefined || compare(key(point), key(old)) < 0) anchors.set(net.name, point);
   }
-  const inspection = inspect(resolver);
+  const inspection = inspectPcbPowerFlag(resolver);
   const flags = [...anchors.entries()].sort(([a], [b]) => compare(a, b)).map(([net, anchorEndpoint], index) => ({
     reference: `#FLG${String(index + 1).padStart(3, "0")}`, net, anchorEndpoint, symbolLibId: PCB_EXTERNAL_POWER_FLAG_LIB_ID,
   }));
   const payload = { schemaVersion: PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION, contractIdentity: contract.identity,
-    source: sourceFromInspection(inspection), flags };
+    source: pcbPowerFlagSourceFromInspection(inspection), flags };
   const binding = parsePcbExternalPowerBinding({ ...payload, identity: canonicalIdentity(payload, PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION) }, contract.identity);
   assertPcbExternalPowerBindingCurrent(binding, resolver);
   return binding;

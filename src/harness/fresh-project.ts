@@ -29,6 +29,7 @@ import {
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
 import { createNativeEmptyBoardSeed } from "./native-empty-board-seed.js";
 import { createInterfaceConstructionBoardSeed } from "./interface-construction-seed.js";
+import { powerAnnotationBindingOf } from "./pcb-derived-power.js";
 
 /** Strict, local contracts for the audited incremental sidecar calls. */
 const coordinate = z.number().finite().min(-2_000).max(2_000);
@@ -472,15 +473,41 @@ const freezeGenericBinding = <Value>(value: Value): Value => {
   return value;
 };
 
-function genericSymbolLibraryTable(bundle: Pick<PcbDesignCompilationBundle, "libraryBinding"> & Pick<PcbPlaneCompilationBundle, "externalPowerBinding">): string {
+function approvedPackageTableUri(binding: PcbDesignCompilationBundle["libraryBinding"], kind: "symbol" | "footprint", nickname: string): string | undefined {
+  const entries = (kind === "symbol" ? binding.symbols : binding.footprints).filter(entry => safeKicadLibraryNickname(entry.libraryId) === nickname);
+  const records = binding.sourceSelection?.records.filter(entry => entry.kind === kind && safeKicadLibraryNickname(entry.libraryId) === nickname) ?? [];
+  if (entries.every(entry => entry.source === "kicad-stock")) {
+    if (records.some(record => record.approvedPackage !== undefined)) throw new Error("Stock table nickname carries package authority");
+    return undefined;
+  }
+  if (entries.some(entry => entry.source !== "project-custom") || entries.some(entry => !records.some(record => record.libraryId === entry.libraryId && record.approvedPackage !== undefined))) {
+    throw new Error("Custom table mapping lacks complete approved source bindings");
+  }
+  const mappings = [...new Set(records.map(record => record.approvedPackage?.tableUri))];
+  const uri = mappings[0];
+  if (mappings.length !== 1 || uri === undefined || !/^(?:[A-Za-z]:\/|\/)[^\u0000-\u001f\u007f"\\$]*$/u.test(uri)
+    || !uri.endsWith(kind === "symbol" ? `/${nickname}.kicad_sym` : `/${nickname}.pretty`)) throw new Error("Custom table namespace has an invalid or conflicting URI");
+  return uri;
+}
+
+function genericSymbolLibraryTable(bundle: Pick<PcbDesignCompilationBundle, "libraryBinding"> & Pick<PcbPlaneCompilationBundle, "externalPowerBinding" | "derivedPowerBinding">): string {
+  const annotations = powerAnnotationBindingOf(bundle);
   const nicknames = uniqueSortedLibraryNicknames([...bundle.libraryBinding.symbols.map((entry) => entry.libraryId),
-    ...(bundle.externalPowerBinding === undefined ? [] : [bundle.externalPowerBinding.source.symbolLibId])]);
-  return `(sym_lib_table\n  (version 7)\n${nicknames.map((nickname) => `  (lib (name "${nickname}")(type "KiCad")(uri "\${KICAD10_SYMBOL_DIR}/${nickname}.kicad_sym")(options "")(descr "Bundle-bound KiCad 10 stock ${nickname} symbols"))`).join("\n")}\n)\n`;
+    ...(annotations === undefined ? [] : [annotations.source.symbolLibId])]);
+  return `(sym_lib_table\n  (version 7)\n${nicknames.map((nickname) => {
+    const uri = approvedPackageTableUri(bundle.libraryBinding, "symbol", nickname);
+    return uri === undefined ? `  (lib (name "${nickname}")(type "KiCad")(uri "\${KICAD10_SYMBOL_DIR}/${nickname}.kicad_sym")(options "")(descr "Bundle-bound KiCad 10 stock ${nickname} symbols"))`
+      : `  (lib (name "${nickname}")(type "KiCad")(uri "${uri}")(options "")(descr "Bundle-bound host-approved package ${nickname} symbols"))`;
+  }).join("\n")}\n)\n`;
 }
 
 function genericFootprintLibraryTable(bundle: Pick<PcbDesignCompilationBundle, "libraryBinding">): string {
   const nicknames = uniqueSortedLibraryNicknames(bundle.libraryBinding.footprints.map((entry) => entry.libraryId));
-  return `(fp_lib_table\n  (version 7)\n${nicknames.map((nickname) => `  (lib (name "${nickname}")(type "KiCad")(uri "\${KICAD10_FOOTPRINT_DIR}/${nickname}.pretty")(options "")(descr "Bundle-bound KiCad 10 stock ${nickname} footprints"))`).join("\n")}\n)\n`;
+  return `(fp_lib_table\n  (version 7)\n${nicknames.map((nickname) => {
+    const uri = approvedPackageTableUri(bundle.libraryBinding, "footprint", nickname);
+    return uri === undefined ? `  (lib (name "${nickname}")(type "KiCad")(uri "\${KICAD10_FOOTPRINT_DIR}/${nickname}.pretty")(options "")(descr "Bundle-bound KiCad 10 stock ${nickname} footprints"))`
+      : `  (lib (name "${nickname}")(type "KiCad")(uri "${uri}")(options "")(descr "Bundle-bound host-approved package ${nickname} footprints"))`;
+  }).join("\n")}\n)\n`;
 }
 
 const sameContentIdentity = (left: ContentIdentity, right: ContentIdentity): boolean =>

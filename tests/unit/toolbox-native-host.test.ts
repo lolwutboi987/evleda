@@ -16,6 +16,8 @@ import { openKicadToolboxNativeHost } from "../../src/mcp/toolbox-native-host.js
 import { bindKicadStartupEvidence, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import { KicadMcpTerminationUncertainError } from "../../src/integrations/kicad-mcp-session.js";
 import { writeToolboxStartupDiagnostic } from "../../src/mcp/toolbox-startup-diagnostics.js";
+import type { FreshSchematicFieldCloseOutcome } from "../../src/harness/fresh-schematic-field-diagnostics.js";
+import { createSchematicFailureSession, schematicFailureReply } from "../helpers/schematic-failure-session.js";
 
 const roots: string[] = [];
 afterEach(async () => { vi.resetAllMocks(); await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))); });
@@ -67,6 +69,48 @@ async function fixture() {
 }
 
 describe("native toolbox host composition", () => {
+  it("records field close only after the exact graceful editor exit, sidecar close and owned cleanup", async () => {
+    const f = await fixture();
+    const launched = await f.dependencies.launcher({ executablePath: "host-owned", boardPath: f.input.pcbPath, environment: {} });
+    const requestClose = vi.fn(async () => { f.order.push("request-close"); });
+    f.dependencies.launcher.mockResolvedValue({ ...launched, requestClose } as typeof launched);
+    const finalize = vi.fn(async (outcome: FreshSchematicFieldCloseOutcome) => {
+      f.order.push("field-close-record");
+      expect(outcome).toEqual({ nativeEditorTeardown: "confirmed", sidecarTeardown: "confirmed", ownedHostCleanup: "confirmed", checkpoint: "not-observed" });
+    });
+    Object.assign(f.connected, { finalizeSchematicFieldFailure: finalize });
+    const host = await openKicadToolboxNativeHost(f.input, f.dependencies);
+    const closing = host.close();
+    await vi.waitFor(() => expect(requestClose).toHaveBeenCalledOnce());
+    expect(finalize).not.toHaveBeenCalled();
+    expect(f.connected.close).not.toHaveBeenCalled();
+    f.finish(); await closing;
+    expect(f.order).toEqual(["request-close", "cad-close", "locks-release", "release", "field-close-record"]);
+    expect(f.dependencies.terminate).not.toHaveBeenCalled();
+    await host.close(); expect(finalize).toHaveBeenCalledOnce();
+  });
+
+  it.each(["editor", "sidecar"] as const)("keeps %s teardown uncertainty separate and preserves cleanup failure if diagnostics reject", async failure => {
+    const f = await fixture();
+    if (failure === "editor") f.dependencies.terminate.mockResolvedValue(false);
+    else f.connected.close.mockRejectedValue(new Error("sidecar teardown uncertain"));
+    const finalize = vi.fn(async (outcome: FreshSchematicFieldCloseOutcome) => {
+      expect(outcome).toEqual({ nativeEditorTeardown: failure === "editor" ? "unconfirmed" : "confirmed",
+        sidecarTeardown: failure === "sidecar" ? "unconfirmed" : "confirmed", ownedHostCleanup: "unconfirmed", checkpoint: "not-observed" });
+      throw new Error("private diagnostic writer failure");
+    });
+    Object.assign(f.connected, { finalizeSchematicFieldFailure: finalize });
+    const host = await openKicadToolboxNativeHost(f.input, f.dependencies);
+    const error = await host.close().catch(error => error as AggregateError);
+    expect(error).toBeInstanceOf(AggregateError);
+    expect(String(error)).toContain("cleanup was not confirmed");
+    expect((error as AggregateError).errors).toHaveLength(1);
+    expect(String((error as AggregateError).errors[0])).not.toContain("diagnostic");
+    expect(finalize).toHaveBeenCalledOnce();
+    expect(f.runtime.releaseIpcSocket).not.toHaveBeenCalled();
+    f.finish();
+  });
+
   it("awaits captured editor readiness before allocating or connecting MCP authority", async () => {
     const f = await fixture(); let ready!: () => void;
     f.waitUntilReady.mockImplementation(() => new Promise<void>(resolve => { ready = resolve; }));
@@ -175,6 +219,51 @@ describe("native toolbox host composition", () => {
     expect(host.checkReferenceCoverage).toBeUndefined(); await host.close();
     expect(f.order).toEqual(["graceful", "cad-close", "locks-release", "release"]);
     expect(f.dependencies.terminate).not.toHaveBeenCalled(); expect(f.locks.refresh).not.toHaveBeenCalled();
+  });
+
+  it("reaches ordinary owned editor close after a real qualified schematic negative and checked active-document read", async () => {
+    const f = await fixture();
+    const { session, calls } = await createSchematicFailureSession({ workspace: f.input.prepared.outputPath,
+      project: f.input.prepared.isolatedProjectPath, boardFile: f.input.pcbPath });
+    f.connected.assertCurrent.mockImplementation(async () => {
+      await session.assertActivePcb(f.input.pcbPath); f.order.push("checked-current");
+    });
+    f.connected.close.mockImplementation(async () => { f.order.push("cad-close"); await session.close(); });
+    const requestClose = vi.fn(async () => { f.order.push("graceful"); f.finish(); });
+    const detach = vi.fn();
+    const launched = await f.dependencies.launcher({ executablePath: "host-owned", boardPath: f.input.pcbPath, environment: {} });
+    f.dependencies.launcher.mockResolvedValue({ ...launched, requestClose, detach });
+    try {
+      const host = await openKicadToolboxNativeHost(f.input, f.dependencies);
+      const error = await session.callTool("sch_autoplace_fields").catch((error: unknown) => error);
+      expect((error as Error).cause).toEqual({ operation: "sch_autoplace_fields", response: schematicFailureReply });
+      await expect(session.callTool("pcb_save")).rejects.toThrow(/quarantined/iu);
+      f.order.length = 0;
+      await host.close();
+      expect(f.order).toEqual(["checked-current", "graceful", "cad-close", "locks-release", "release"]);
+      expect(await calls()).toEqual(["evleda_get_live_pcb_document", "sch_autoplace_fields", "evleda_get_live_pcb_document"]);
+      expect(requestClose).toHaveBeenCalledOnce(); expect(detach).not.toHaveBeenCalled();
+      expect(f.dependencies.terminate).not.toHaveBeenCalled();
+    } finally { f.finish(); await session.close(); }
+  });
+
+  it("refuses graceful close when the retained read channel finds a changed document", async () => {
+    const f = await fixture();
+    const { session } = await createSchematicFailureSession({ workspace: f.input.prepared.outputPath,
+      project: f.input.prepared.isolatedProjectPath, boardFile: f.input.pcbPath, liveFailure: "document" });
+    f.connected.assertCurrent.mockImplementation(() => session.assertActivePcb(f.input.pcbPath));
+    f.connected.close.mockImplementation(() => session.close());
+    const requestClose = vi.fn(), detach = vi.fn();
+    const launched = await f.dependencies.launcher({ executablePath: "host-owned", boardPath: f.input.pcbPath, environment: {} });
+    f.dependencies.launcher.mockResolvedValue({ ...launched, requestClose, detach });
+    try {
+      const host = await openKicadToolboxNativeHost(f.input, f.dependencies);
+      await expect(session.callTool("sch_autoplace_fields")).rejects.toThrow(/categorical/iu);
+      await expect(host.close()).rejects.toThrow(/cleanup was not confirmed/iu);
+      expect(requestClose).not.toHaveBeenCalled(); expect(detach).toHaveBeenCalledOnce();
+      expect(f.dependencies.terminate).not.toHaveBeenCalled();
+      expect(f.locks.release).not.toHaveBeenCalled(); expect(f.runtime.releaseIpcSocket).not.toHaveBeenCalled();
+    } finally { f.finish(); await session.close(); }
   });
 
   it("retains the graceful owner when a close request is refused instead of forcing it", async () => {

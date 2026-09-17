@@ -190,6 +190,17 @@ export function compareDifferentialPairCopperGap(distance: DifferentialPairSquar
   if (twiceThreshold < 0n) return 1;
   return sign(4n * n - twiceThreshold * twiceThreshold * d);
 }
+/** Exact cross-section capsule inventory; callers must retain all selected nets. */
+export function assessDifferentialTrackGaps(positive: readonly DifferentialPairTrack[], negative: readonly DifferentialPairTrack[], minimumGapNm: number): DifferentialPairGapObservation[] {
+  if (positive.length + negative.length > DIFFERENTIAL_PAIR_GEOMETRY_BOUNDS.maximumSelectedTracks) throw new Error("CHANNEL_TRACK_WORK_BOUND");
+  if (!Number.isSafeInteger(minimumGapNm) || minimumGapNm < 0) throw new Error("CHANNEL_GAP_LIMIT_UNSUPPORTED");
+  return positive.flatMap(p => negative.map(n => {
+    const distance = p.layer === n.layer ? serializedFraction(segmentSquaredDistance(p, n)) : null;
+    return { positiveUuid: p.uuid, negativeUuid: n.uuid, layerRelationship: distance ? "same_layer" as const : "different_layer_not_assessed" as const,
+      centerlineSquaredNm2: distance, radiusSumTwiceNm: String(BigInt(p.widthNm) + BigInt(n.widthNm)),
+      minimumGap: distance ? compareDifferentialPairCopperGap(distance, p.widthNm, n.widthNm, minimumGapNm) >= 0 ? "pass" as const : "fail" as const : "not_assessed" as const };
+  }));
+}
 class WorkBound extends Error { }
 const bounded = (condition: boolean, reason: string) => { if (!condition) throw new WorkBound(reason); };
 function emptyRoute(net: string, reason: string): DifferentialPairRoute {

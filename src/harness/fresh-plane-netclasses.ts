@@ -67,7 +67,7 @@ function operation(input: FreshPlaneNetClassOperationOptions) {
   if (!same(project.planeBinding, expectedBinding)) return fail("UNVERIFIED_BUNDLE", "Plane project binding differs from the exact V2 bundle and its dependencies.");
   const rules = createFreshPlaneRules(compilationBundle);
   const expectedRuleBytes = Buffer.from(rules.source, "utf8");
-  const connectivity=createFreshConnectivityContract(compilationBundle.contract,compilationBundle.externalPowerBinding);
+  const connectivity=createFreshConnectivityContract(compilationBundle.contract,compilationBundle.externalPowerBinding,compilationBundle.derivedPowerBinding);
   let nativeSources:Readonly<Record<string,string>>|undefined;
   const assertNativeTerminalSourcesCurrent=async()=>{
     if(nativeSources===undefined)return;

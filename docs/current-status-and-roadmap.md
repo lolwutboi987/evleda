@@ -1,5 +1,14 @@
 # Current status and roadmap
 
+Latest continuation, 17 September 2026: **the reviewed baseline is published to
+`codex/destination-resume`; RP2350 circuit and toolbox progress is on `codex/rp2350-pico`.**
+DOC9 passes native USB-C field placement; attempt05 now passes import, complete
+physical PAD observation and preserving movement. Its checkpoint failed on a
+stock footprint drawing layer; the reader fix passes offline, while the failed
+session remains retained and successful native finalization is still unverified.
+Read [RP2350 progress](rp2350-progress.md) for the current result and next step.
+The detailed snapshots below retain their historical scope.
+
 Evidence snapshot: **DOC7 profile02 and the exact updated PCB skill are installed; native10 completed V2 regulator authoring, strict public DRC/parity checks, normal close and fresh read-only reopen.** The installed command passed four read-only preflight calls, and a fresh actual CLI process discovered all 15 initial tools with exit 0. Activation of the new profile in the running desktop remains unverified; earlier DOC6 desktop discovery is historical. Native10 remains unaccepted: 9 passed/38 unknown/0 failed edit-session rows, then 47 unknown rows without a new fill witness on read-only reopen. Start with the checked-in [WSON regulator proof](../examples/wson-regulator-toolbox-proof/README.md) and [installation record](destination-client-installation.md). Earlier failed runs and the historical failed full suite remain unchanged.
 
 ## The short answer
@@ -307,9 +316,9 @@ The direct validation tool collects native findings and source/practice coverage
 
 ## GitHub, RP2350 order, and comparison claims
 
-The source-machine handoff recorded **no HEAD, no remote, and no authenticated GitHub CLI session**. Those authentication/configuration observations must be refreshed on the destination before publication. Destination owner/repository, visibility and author identity were unresolved. A verified local transfer is not a push, and no reference repository is assumed to be the destination.
+The user-selected destination is [lolwutboi987/evleda](https://github.com/lolwutboi987/evleda/tree/codex/destination-resume). The reviewed baseline was pushed and its remote commit verified as `8fa120343111107763433c7204bdbdbc240fc609` on `codex/destination-resume`. The existing Python `main` has separate history and was preserved. See the [publication receipt](../../destination-verification/reviewed-baseline-20260916-01/publication.json); the old no-remote/no-push observations are historical.
 
-The requested **RP2350 Pico-like, Orpheus-inspired board starts after the reviewed baseline push**. Reusable capability preparation can continue independently, but must not be represented as already designing that board.
+The requested [RP2350 Pico-like, Orpheus-informed board](../designs/rp2350-pico/README.md) has started after that verified push, on `codex/rp2350-pico`. Primary-reference review, selected-library inspection and concrete USB-C/native-pad capability work are underway. The native board is not yet authored or accepted.
 
 No head-to-head benchmark against direct Astra computer use has been run. The demonstrated direct MCP operations and the older Astra-driven workflow do not establish superior speed, fewer corrections or better board quality. Any future comparison needs equal requirements/resources and independent saved-result checks. There is no arbitrary percentage or firm overall ETA.
 

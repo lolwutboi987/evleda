@@ -1226,6 +1226,36 @@ export const createKiCad10StockLibraryResolver = (
   options: KiCad10StockLibraryResolverOptions
 ): KiCad10StockLibraryResolver => new KiCad10StockLibraryResolver(options);
 
+/** Bounded parser reuse only. These byte readers grant no filesystem or package authority. */
+export function inspectKiCadApprovedSymbolBytes(bytes: Buffer, libraryId: string, declaredIds: readonly string[]) {
+  const limits = mergeLimits({ maxSymbolFileBytes: 512 * 1024, maxSymbolDefinitions: 16, maxUnits: 1 });
+  if (bytes.length > limits.maxSymbolFileBytes) throw new Error("Approved package symbol source exceeds its byte limit");
+  const id = parseLibraryId(libraryId);
+  if (id === null) throw new Error("Approved package symbol ID is invalid");
+  const parsed = parseSymbolLibrary(bytes, libraryId, limits);
+  if (canonicalIdentity([...parsed.definitions.keys()].sort(), "evleda.package-symbol-names.v1").digest
+      !== canonicalIdentity(declaredIds.map(value => value.split(":")[1]).sort(), "evleda.package-symbol-names.v1").digest) {
+    throw new Error("Approved package symbol definitions differ from its exact manifest inventory");
+  }
+  const inspection = buildSymbolInspection(parsed, libraryId, id[0], id[1], contentIdentity(bytes), limits);
+  if (inspection === null || inspection.resolverRecord.unitCount !== 1 || inspection.resolverRecord.componentKind === "bga") {
+    throw new Error("Approved package symbol must be an ordinary self-contained single-unit symbol");
+  }
+  return inspection;
+}
+
+export function inspectKiCadApprovedFootprintBytes(bytes: Buffer, libraryId: string) {
+  const limits = mergeLimits({ maxFootprintFileBytes: 512 * 1024 });
+  if (bytes.length > limits.maxFootprintFileBytes) throw new Error("Approved package footprint source exceeds its byte limit");
+  const id = parseLibraryId(libraryId);
+  if (id === null) throw new Error("Approved package footprint ID is invalid");
+  const parsed = parseFootprintLibrary(bytes, libraryId, limits);
+  if (descendants(parsed.footprint, "model").length > 0) throw new Error("Approved package footprints cannot reference external models");
+  const inspection = buildFootprintInspection(parsed, libraryId, id[0], id[1], contentIdentity(bytes), limits);
+  if (inspection === null || inspection.resolverRecord.packageKind !== "generic") throw new Error("Approved package footprint is not an ordinary exact footprint");
+  return inspection;
+}
+
 /** Metadata is discovery evidence only; exact pin/pad inspection is still required. */
 export interface KiCadStockDiscoveryCandidate {
   readonly kind: "symbol" | "footprint";

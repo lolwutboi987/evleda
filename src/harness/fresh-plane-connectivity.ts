@@ -42,7 +42,7 @@ export function prepareFreshPlaneConnectivity(input: FreshPlaneConnectivityInput
   requireValue(scope.algorithm === "sha256" && /^[a-f0-9]{64}$/u.test(scope.digest) && scope.canonicalizationVersion === "evleda-c14n-json-v1"
     && typeof scope.schemaVersion === "string" && scope.schemaVersion.length > 0, "current host scope identity is invalid");
   const board = parseFreshPcbSource(input.pcbSource), pins = input.physicalFootprints;
-  const connectivityContract=createFreshConnectivityContract(bundle.contract,bundle.externalPowerBinding);
+  const connectivityContract=createFreshConnectivityContract(bundle.contract,bundle.externalPowerBinding,bundle.derivedPowerBinding);
   if(connectivityContract.noConnects.length>0||input.nativeTerminalBinding!==undefined){
     validateCurrentFreshNativeTerminalBinding(input.nativeTerminalBinding,connectivityContract.identity,scope);
     assertFreshNativeNoConnectPcbIsolation(input.nativeTerminalBinding,board);

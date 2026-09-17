@@ -10,6 +10,7 @@ import { assertPlaneIncrementalRouteGeometry, planeRouteBinding } from "./fresh-
 import type { FreshContractPadPosition, FreshRouteSelectionItem } from "./kicad-tools.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
+import { channelForNet, channelTrackWidthAllowed } from "./pcb-channel-width.js";
 
 export const FRESH_PLANE_COMMON_CHECKS_SCHEMA_VERSION = "evleda.fresh-plane-common-checks.v1" as const;
 export const FRESH_PLANE_COMMON_CHECKS_LIMITS = Object.freeze({ maximumPcbBytes: 2 * 1024 * 1024, maximumSegments: 256,
@@ -208,7 +209,8 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
         requireValue(!analysis.findings.some(finding => ["DUPLICATE_ROUTED_TRACK", "OVERLAPPING_ROUTED_TRACKS"].includes(finding.code)
           && finding.evidence.some(entry => entry.location.form === "segment" && trackIds.has(entry.location.uuid))),
         "complete source analysis reports duplicate or overlapping copper tracks; physical PAD contacts cannot exempt overlap");
-        requireValue(tracks.every(track => exactNm(track.widthMm) >= exactNm(netClass.traceWidthMm)), "a saved track is below the exact declared class width");
+        requireValue(tracks.every(track => channelForNet(bundle.contract, route.net)
+          ? channelTrackWidthAllowed(bundle.contract, route.net, track.widthMm) : exactNm(track.widthMm) >= exactNm(netClass.traceWidthMm)), "a saved track is outside its exact declared width authorization");
         const vectors = tracks.map(track => {
           const dx = Math.abs(exactNm(track.end.x) - exactNm(track.start.x)), dy = Math.abs(exactNm(track.end.y) - exactNm(track.start.y));
           return { dx: BigInt(dx), dy: BigInt(dy) };

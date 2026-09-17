@@ -12,6 +12,7 @@ import { harnessToolDefinitionSchema, harnessToolResultSchema, type HarnessToolC
 import { kicadHarnessToolEffect, type KicadHarnessToolName } from "../harness/kicad-tools.js";
 import { compoundMutationState, mutationBatchDispositionSchema } from "../harness/pcb-agent-harness.js";
 import { parsePcbExternalPowerBinding } from "../harness/pcb-external-power.js";
+import { parsePcbDerivedPowerBinding } from "../harness/pcb-derived-power.js";
 import { loadDeepRuleResource, selectDeepRules, type DeepRuleSelector } from "../harness/deep-rule-catalog.js";
 import type { ConnectedKicadToolbox } from "./toolbox-session.js";
 import { kicadTransmissionLineRequestSchema, type KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
@@ -236,6 +237,8 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
     const planeContext = cad.planeAuthoringContext === undefined ? undefined : structuredClone(cad.planeAuthoringContext);
     const externalPowerBinding = planeContext?.externalPowerBinding === undefined ? undefined
       : parsePcbExternalPowerBinding(planeContext.externalPowerBinding, planeContext.sourceContractIdentity);
+    const derivedPowerBinding = planeContext?.derivedPowerBinding === undefined ? undefined
+      : parsePcbDerivedPowerBinding(planeContext.derivedPowerBinding, planeContext.sourceContractIdentity, externalPowerBinding);
     const options = { ...attachment };
     const access = options.access ?? "read-only";
     const contractIdentity = options.compoundContractIdentity === undefined ? undefined : structuredClone(options.compoundContractIdentity);
@@ -458,7 +461,7 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
                 })();
                 const mutated = (planeContext === undefined || contractIdentity === undefined ? undefined
                   : planeCompoundMutationState(call, result, { ...planeContext, connectivityIdentity: contractIdentity }))
-                  ?? compoundMutationState(call, result, contractIdentity, externalPowerBinding) ?? true;
+                  ?? compoundMutationState(call, result, contractIdentity, externalPowerBinding, derivedPowerBinding) ?? true;
                 let saved: unknown;
                 if (mutated && !noEffect) {
                   const saveCall = { id: `${call.id}:save`, name: "pcb_save", arguments: {} };

@@ -3,6 +3,7 @@ import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { z } from "zod";
 import { FRESH_NATIVE_NETLIST_COMPARISON_SCHEMA_VERSION } from "./fresh-native-netlist-comparison.js";
 import { PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION, parsePcbExternalPowerBinding, type PcbExternalPowerBinding } from "./pcb-external-power.js";
+import { PCB_DERIVED_POWER_BINDING_SCHEMA_VERSION, parsePcbDerivedPowerBinding, type PcbDerivedPowerBinding } from "./pcb-derived-power.js";
 
 import {
   parseHarnessOptions,
@@ -104,6 +105,8 @@ export interface PcbAgentHarnessConfig {
   readonly compoundMutationContractIdentity?: CanonicalIdentity;
   /** Trusted annotation inventory for externally powered contract-connectivity mutations. */
   readonly compoundMutationExternalPowerBinding?: PcbExternalPowerBinding;
+  /** Trusted combined annotation inventory for reviewed derived-power mutations. */
+  readonly compoundMutationDerivedPowerBinding?: PcbDerivedPowerBinding;
   /** Host-selected rule guidance; caller prompt text cannot alter this policy. */
   readonly designerPrompt?: Omit<PcbDesignerPromptConstraints, "constraints" | "userConstraints">;
   /** Host-owned readback required after fresh incremental schematic mutations. */
@@ -283,6 +286,15 @@ const compoundMutationResultSchema = z.object({
   externalPowerBindingIdentity: canonicalIdentityBaseSchema.extend({
     schemaVersion: z.literal(PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION),
   }).strict().optional(),
+  powerAnnotations: z.array(z.object({
+    reference: z.string().regex(/^#FLG[0-9]{3}$/u),
+    x: z.number().finite().min(-2_000).max(2_000),
+    y: z.number().finite().min(-2_000).max(2_000),
+    rotation: z.literal(0),
+  }).strict()).min(2).max(16).optional(),
+  powerAnnotationBindingIdentity: canonicalIdentityBaseSchema.extend({
+    schemaVersion: z.literal(PCB_DERIVED_POWER_BINDING_SCHEMA_VERSION),
+  }).strict().optional(),
   nativeNetlistSha256: z.string().regex(/^[a-f0-9]{64}$/u).optional(),
   nativeNetCount: z.number().int().nonnegative().optional(),
   nativeComponentCount: z.number().int().nonnegative().optional(),
@@ -308,6 +320,16 @@ const compoundMutationResultSchema = z.object({
     if (!value.applied) context.addIssue({ code: "custom", message: "external power annotations require applied=true" });
     if (value.externalPowerAnnotations.some((annotation, index) => annotation.reference !== `#FLG${String(index + 1).padStart(3, "0")}`)) {
       context.addIssue({ code: "custom", message: "external power annotation references must be complete, unique, and canonically sorted" });
+    }
+  }
+  if ((value.powerAnnotations === undefined) !== (value.powerAnnotationBindingIdentity === undefined)) {
+    context.addIssue({ code: "custom", message: "power annotations and binding identity must be supplied together" });
+  }
+  if (value.powerAnnotations !== undefined) {
+    if (value.externalPowerAnnotations !== undefined || value.externalPowerBindingIdentity !== undefined) context.addIssue({ code: "custom", message: "generic and external power annotation result branches are mutually exclusive" });
+    if (!value.applied) context.addIssue({ code: "custom", message: "power annotations require applied=true" });
+    if (value.powerAnnotations.some((annotation, index) => annotation.reference !== `#FLG${String(index + 1).padStart(3, "0")}`)) {
+      context.addIssue({ code: "custom", message: "power annotation references must be complete, unique, and canonically sorted" });
     }
   }
   if (value.applied && value.issues.length !== 0) context.addIssue({ code: "custom", message: "applied=true requires zero issues" });
@@ -488,6 +510,7 @@ export const compoundMutationState = (
   result: HarnessToolResult,
   expectedIdentity: CanonicalIdentity | undefined,
   expectedExternalPowerBinding?: PcbExternalPowerBinding,
+  expectedDerivedPowerBinding?: PcbDerivedPowerBinding,
 ): boolean | undefined => {
   if (!["fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields", "fresh_replace_route_items", "fresh_sync_from_schematic"].includes(call.name)) return undefined;
   let value: unknown;
@@ -542,14 +565,26 @@ export const compoundMutationState = (
     throw new Error("fresh_apply_contract_connectivity result contractIdentity does not match the host-bound contract.");
   }
   const externalPowerBinding = expectedExternalPowerBinding === undefined ? undefined : parsePcbExternalPowerBinding(expectedExternalPowerBinding);
+  const derivedPowerBinding = expectedDerivedPowerBinding === undefined ? undefined
+    : parsePcbDerivedPowerBinding(expectedDerivedPowerBinding, undefined, externalPowerBinding);
   if (parsed.data.externalPowerAnnotations !== undefined) {
+    if (derivedPowerBinding !== undefined) throw new Error("fresh_apply_contract_connectivity requires the combined derived power annotation result branch.");
     if (externalPowerBinding === undefined) throw new Error("fresh_apply_contract_connectivity has no host-bound external power annotation inventory.");
     if (canonicalJson(parsed.data.externalPowerBindingIdentity) !== canonicalJson(externalPowerBinding.identity)
         || canonicalJson(parsed.data.externalPowerAnnotations.map(annotation => annotation.reference)) !== canonicalJson(externalPowerBinding.flags.map(flag => flag.reference))) {
       throw new Error("fresh_apply_contract_connectivity external power annotations do not match the host-bound binding identity and inventory.");
     }
-  } else if (externalPowerBinding !== undefined && parsed.data.mutated) {
+  } else if (derivedPowerBinding === undefined && externalPowerBinding !== undefined && parsed.data.mutated) {
     throw new Error("fresh_apply_contract_connectivity mutated an externally powered contract without its required annotation result and binding identity.");
+  }
+  if (parsed.data.powerAnnotations !== undefined) {
+    if (derivedPowerBinding === undefined) throw new Error("fresh_apply_contract_connectivity has no host-bound derived power annotation inventory.");
+    if (canonicalJson(parsed.data.powerAnnotationBindingIdentity) !== canonicalJson(derivedPowerBinding.identity)
+        || canonicalJson(parsed.data.powerAnnotations.map(annotation => annotation.reference)) !== canonicalJson(derivedPowerBinding.flags.map(flag => flag.reference))) {
+      throw new Error("fresh_apply_contract_connectivity power annotations do not match the host-bound derived binding identity and inventory.");
+    }
+  } else if (derivedPowerBinding !== undefined && parsed.data.mutated) {
+    throw new Error("fresh_apply_contract_connectivity mutated a derived powered contract without its required combined annotation result and binding identity.");
   }
   if (parsed.data.recommendedMoves !== undefined && parsed.data.recommendedMoves.length > 0) {
     const expectedPlanIdentity = canonicalIdentity({
@@ -744,6 +779,8 @@ export async function runPcbAgentHarness(
   const options = parseHarnessOptions(input);
   const externalPowerBinding = config.compoundMutationExternalPowerBinding === undefined ? undefined
     : parsePcbExternalPowerBinding(config.compoundMutationExternalPowerBinding);
+  const derivedPowerBinding = config.compoundMutationDerivedPowerBinding === undefined ? undefined
+    : parsePcbDerivedPowerBinding(config.compoundMutationDerivedPowerBinding, undefined, externalPowerBinding);
   const validationTools = config.validationTools ?? DEFAULT_PCB_HARNESS_VALIDATION_TOOLS;
   let prompt: string;
   if (config.exactProviderPrompt !== undefined) {
@@ -1016,7 +1053,7 @@ export async function runPcbAgentHarness(
           if (!mutationToolNames.has(call.name)) continue;
           const result = agentResults.get(call.id)!;
           // Validate every compound result, even after an earlier call mutated.
-          const mutated = compoundMutationState(call, result, config.compoundMutationContractIdentity, externalPowerBinding) ?? true;
+          const mutated = compoundMutationState(call, result, config.compoundMutationContractIdentity, externalPowerBinding, derivedPowerBinding) ?? true;
           mutatedThisTurn = mutatedThisTurn || mutated;
         }
       } catch (error) {

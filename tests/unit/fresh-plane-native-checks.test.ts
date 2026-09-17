@@ -38,7 +38,7 @@ function projectSettings() {
     single_global_label: "error", footprint_filter: "error", simulation_model_issue: "error", four_way_junction: "error",
   } } as { erc_exclusions: unknown[]; rule_severities: Record<string, string>; pin_map?: number[][] },
   board: { file: "fixture.kicad_pcb", design_settings: {
-    rule_severities: { clearance: "error", hole_clearance: "error", copper_edge_clearance: "error", shorting_items: "error", tracks_crossing: "error", zones_intersect: "error", unconnected_items: "error", starved_thermal: "error" },
+    rule_severities: { clearance: "error", hole_clearance: "error", hole_to_hole: "warning", holes_co_located: "warning", annular_width: "error", drill_out_of_range: "error", copper_edge_clearance: "error", shorting_items: "error", tracks_crossing: "error", zones_intersect: "error", unconnected_items: "error", starved_thermal: "error" },
     rules: { min_resolved_spokes: 2, max_error: 0.005 }, drc_exclusions: [] as unknown[],
   } } };
 }
@@ -325,7 +325,7 @@ describe("source-bound native plane policy evidence", () => {
     const input = changeNative(await fixture(), n => { n.drc.report.ignored_checks = [{ key, description: "Ignored check" }]; });
     expect(assessFreshPlaneNativeChecks(input).checks.thermalPolicy).toMatchObject({ status: "failed", reasons: expect.arrayContaining([`required-native-check-disabled:${key}`]) });
   });
-  it.each(["clearance", "hole_clearance", "copper_edge_clearance", "shorting_items", "tracks_crossing", "zones_intersect"])("rejects relevant ignored check %s in scoped clearance/short evidence", async key => {
+  it.each(["clearance", "hole_clearance", "hole_to_hole", "holes_co_located", "annular_width", "drill_out_of_range", "copper_edge_clearance", "shorting_items", "tracks_crossing", "zones_intersect"])("rejects relevant ignored check %s in scoped clearance/short evidence", async key => {
     const input = changeNative(await fixture(), n => { n.drc.report.ignored_checks = [{ key, description: "Ignored check" }]; });
     expect(assessFreshPlaneNativeChecks(input).checks.drcClearanceShorts).toMatchObject({ status: "failed", reasons: expect.arrayContaining([`required-native-check-disabled:${key}`]) });
   });
@@ -345,6 +345,24 @@ describe("source-bound native plane policy evidence", () => {
   it("requires project severity independently of native report ignored-check metadata", async () => {
     const project = projectSettings(); project.board.design_settings.rule_severities.starved_thermal = "ignore";
     expect(assessFreshPlaneNativeChecks(await fixture({ project })).checks.thermalPolicy.status).toBe("failed");
+  });
+  it.each(["hole_to_hole", "holes_co_located", "annular_width", "drill_out_of_range"] as const)("rejects disabled project via check %s even when the report omits it", async key => {
+    const project = projectSettings(); project.board.design_settings.rule_severities[key] = "ignore";
+    const result = assessFreshPlaneNativeChecks(await fixture({ project }));
+    expect(result.checks.drcClearanceShorts).toMatchObject({ status: "failed", reasons: expect.arrayContaining([`required-native-check-disabled:${key}`]) });
+  });
+  it.each([undefined, "unknown"])("rejects missing or unsupported via-check severity %s", async severity => {
+    const project = projectSettings();
+    const settings = project.board.design_settings.rule_severities as Record<string, unknown>;
+    if (severity === undefined) delete settings.hole_to_hole; else settings.hole_to_hole = severity;
+    expect(assessFreshPlaneNativeChecks(await fixture({ project })).checks.drcClearanceShorts).toMatchObject({ status: "failed", reasons: expect.arrayContaining(["required-native-check-disabled:hole_to_hole"]) });
+  });
+  it("treats a hole-to-hole warning as a failure under all-severity native checking", async () => {
+    const input = changeNative(await fixture(), n => {
+      n.drc.report.violations = [{ type: "hole_to_hole", severity: "warning", description: "Drilled holes are closer than the configured minimum" }];
+      n.drc.violationCount = 1; n.drc.status = "violations"; n.drc.invocation.exitCode = 5; n.clean = false;
+    });
+    expect(assessFreshPlaneNativeChecks(input).checks.drcClearanceShorts).toMatchObject({ status: "failed", reasons: expect.arrayContaining(["native-drc-has-findings"]) });
   });
   it("does not accept unexplained native stderr alongside a clean JSON report", async () => {
     const input = changeNative(await fixture(), n => { n.drc.invocation.stderr = "Rules failed to initialize"; });

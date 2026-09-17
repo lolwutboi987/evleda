@@ -173,7 +173,11 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       };
       const anchors = allFacts(([pair.terminations.source, pair.terminations.receiver] as const).flatMap(termination => {
         if (termination.kind === "none") return [fact("verified", "No termination anchor is declared on this interface side.")];
-        if (termination.kind === "source_series") return [fact("unknown", "Complete split-net source-series termination anchors are unsupported.")];
+        if (termination.kind === "source_series") {
+          if (!assessment.channel) return [fact("unknown", "Complete split-net source-series channel evidence is unavailable.")];
+          return [...assessment.channel.anchors.map(anchor => interfaceFact(anchor.status, ["pass"], ["fail"], [`Declared channel anchor ${anchor.selector.reference}:${anchor.selector.pad} must contact its exact net graph.`])),
+            ...assessment.channel.protectionReturns.map(anchor => interfaceFact(anchor.status, ["pass"], ["fail"], [`Protection return ${anchor.reference}:${anchor.pin} must match its exact declared net.`]))];
+        }
         return [termination.positivePin, termination.negativePin].map(pin => {
           // Integrated termination pins are the declared source or receiver
           // roles; external parallel terminations have separate route anchors.
@@ -184,7 +188,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         });
       }));
       const topology = allFacts([source, ...(["sourcePolarity", "topology", "stubs", "transitions"] as const).map(geometryCheck), terminationSourceFacts, anchors]);
-      const memberNets = [pair.nets.positive, pair.nets.negative], referenceRowIds: string[] = [];
+      const memberNets = [pair.nets.positive, pair.nets.negative, ...(pair.channel ? [pair.channel.launchNets.positive, pair.channel.launchNets.negative] : [])], referenceRowIds: string[] = [];
       const referenceCoverage = { ...allFacts(memberNets.map(net => {
         const observed = references.filter(reference => reference.net === net && reference.planeId === pair.routing.referencePlaneId);
         if (observed.length !== 1) return fact("unknown", `Current saved-fill reference coverage is unavailable for interface member ${net}.`);

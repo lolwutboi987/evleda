@@ -1,0 +1,19 @@
+{
+  "provenance": {
+    "kind": "captured-native-public-response",
+    "recordedAt": "2026-09-17T07:15:14.165Z",
+    "originalSource": "destination-usb-c-native-02/mcp-session-01/workspace-client-62a14dce-de76-4e2c-9775-758eb8346a98/000079-response-db234a7da62c82f1de4b9bf659a6045d529d54c499d1390aedef43717cb2f803.json",
+    "sourceIdentity": {
+      "algorithm": "sha256",
+      "digest": "db234a7da62c82f1de4b9bf659a6045d529d54c499d1390aedef43717cb2f803",
+      "size": 2355
+    },
+    "contentIdentity": {
+      "algorithm": "sha256",
+      "digest": "aee836e0080ac66ee1e1d89e672de512abddee4f230ad5af02ae07481c4d7d1a",
+      "size": 452
+    }
+  },
+  "operation": "sch_get_symbols",
+  "content": "{\"result\":\"Symbols (4 total):\\n- J1 USB4105-GF-A Connector:USB_C_Receptacle_USB2.0_16P @ (101.60, 76.20) rot=0 unit=1 footprint=Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal\\n- J2 PROBE_POWER Connector_Generic:Conn_01x02 @ (152.40, 76.20) rot=0 unit=1 footprint=Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical\\nPower symbols:\\n- #FLG001 PWR_FLAG @ (134.62, 88.90) unit=1\\n- #FLG002 PWR_FLAG @ (134.62, 55.88) unit=1\"}"
+}

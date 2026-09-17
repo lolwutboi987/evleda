@@ -1,4 +1,5 @@
 import { PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE } from "./pcb-external-power.js";
+import { PCB_DERIVED_POWER_EXECUTION_GUIDANCE, PCB_EXTERNAL_DIODE_POWER_EXECUTION_GUIDANCE } from "./pcb-derived-power.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { capturePortableRawBytes, decodeCapturedPortableUtf8, parseCapturedPortableJsonBytes } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -7,7 +8,7 @@ import {
   type PcbPlaneCompilerOptions, type PcbPlaneDesignCompilation, type PcbPlaneReadyCompilation,
 } from "./pcb-design-plane-compiler.js";
 import { freezePcbPlaneArtifact, snapshotPcbPlaneValue } from "./pcb-design-plane-contract.js";
-import { PCB_INTERFACE_EXECUTION_GUIDANCE } from "./pcb-interface-requirements.js";
+import { PCB_INTERFACE_EXECUTION_GUIDANCE, PCB_CHANNEL_EXECUTION_GUIDANCE } from "./pcb-interface-requirements.js";
 
 export const PCB_PLANE_BUNDLE_SCHEMA_VERSION = "evleda.pcb-design-compilation-bundle.v2" as const;
 export const PCB_PLANE_BUNDLE_REF_SCHEMA_VERSION = "evleda.pcb-design-compilation-bundle-ref.v2" as const;
@@ -43,6 +44,7 @@ export interface PcbPlaneCompilationBundle {
   readonly contract: PcbPlaneReadyCompilation["contract"];
   readonly libraryBinding: PcbPlaneReadyCompilation["libraryBinding"];
   readonly externalPowerBinding?: PcbPlaneReadyCompilation["externalPowerBinding"];
+  readonly derivedPowerBinding?: PcbPlaneReadyCompilation["derivedPowerBinding"];
   readonly deepRuleBinding: PcbPlaneReadyCompilation["deepRuleBinding"];
   readonly verificationPlan: PcbPlaneReadyCompilation["verificationPlan"];
   readonly identity: CanonicalIdentity;
@@ -79,11 +81,15 @@ function build(originalPrompt: unknown, compilation: PcbPlaneReadyCompilation): 
     fabricationAuthorized: false as const, qualificationEstablished: false as const, releaseAuthorized: false as const,
     compilerId: PCB_PLANE_COMPILER_ID, originalPrompt, originalPromptContentIdentity: contentIdentity(originalPrompt),
     executionGuidance: guidance + (compilation.contract.interfaceRequirements === undefined ? "" : ` ${PCB_INTERFACE_EXECUTION_GUIDANCE}`)
-      + (compilation.externalPowerBinding === undefined ? "" : ` ${PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE}`),
+      + (compilation.contract.interfaceRequirements?.interfaces.some(pair => pair.channel) ? ` ${PCB_CHANNEL_EXECUTION_GUIDANCE}` : "")
+      + (compilation.externalPowerBinding === undefined ? "" : ` ${PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE}`)
+      + (compilation.derivedPowerBinding === undefined ? "" : ` ${PCB_DERIVED_POWER_EXECUTION_GUIDANCE}`)
+      + (compilation.contract.derivedPowerSources?.some(entry => entry.externalPowerInput !== undefined) ? ` ${PCB_EXTERNAL_DIODE_POWER_EXECUTION_GUIDANCE}` : ""),
     draft: compilation.draft, draftIdentity: compilation.draftIdentity, selectionPolicy: compilation.selectionPolicy,
     contract: compilation.contract, libraryBinding: compilation.libraryBinding, deepRuleBinding: compilation.deepRuleBinding,
     verificationPlan: compilation.verificationPlan,
-    ...(compilation.externalPowerBinding === undefined ? {} : { externalPowerBinding: compilation.externalPowerBinding }) };
+    ...(compilation.externalPowerBinding === undefined ? {} : { externalPowerBinding: compilation.externalPowerBinding }),
+    ...(compilation.derivedPowerBinding === undefined ? {} : { derivedPowerBinding: compilation.derivedPowerBinding }) };
   const bundle = freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, PCB_PLANE_BUNDLE_SCHEMA_VERSION) });
   if (Buffer.byteLength(canonicalJson(bundle) + "\n", "utf8") > PCB_PLANE_BUNDLE_MAX_BYTES) throw new Error("Plane compilation bundle exceeds its aggregate byte bound");
   authenticated.add(bundle);

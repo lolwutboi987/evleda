@@ -34,3 +34,17 @@ a10d6862fb5a8eb3e16d5add6c30dd75014c28fa0028f1b57362f62fa2977fdf  blocked-wire-p
 
 `.gitattributes` disables text conversion for this directory so Git preserves
 the captured bytes across platforms.
+
+`captured-usb-c-power-symbols.report.json` preserves the unchanged nested
+`result.structuredContent.result.content` string from the native02 public
+`sch_get_symbols` response recorded at `2026-09-17T07:15:14.165Z`. Its provenance
+contains the original relative response path and SHA-256/byte identities for
+both the original response file and extracted content. The declared four symbols
+comprise two physical symbols and two flags separated by `Power symbols:`.
+
+The corresponding `fresh-external-power-parser.test.ts` replay uses separately
+identified synthetic source/graph facts to test formatting and field comparison.
+Its rejection variants and combined post-flag bounding-box example are synthetic,
+based on frozen DOC7 producer grammar; no post-flag native bounding-box capture
+is claimed. This fixture does not establish native field-repair or PCB-import
+success.

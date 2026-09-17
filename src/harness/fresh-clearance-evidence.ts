@@ -91,7 +91,7 @@ const CANONICAL_UNSIGNED_DECIMAL = /^(?:0|[1-9]\d*)$/u;
 const MAX_KICAD_NET_ID = 2_147_483_647;
 const KICAD_10_LAYER_IDENTITIES_BY_BOARD_VERSION = new Map<number, Readonly<Record<string, number>>>([
   [20250316, Object.freeze({ "F.Cu": 0, "B.Cu": 31, "Edge.Cuts": 44 })],
-  [20260206, Object.freeze({ "F.Cu": 0, "B.Cu": 2, "Edge.Cuts": 25 })],
+  [20260206, Object.freeze({ "F.Cu": 0, "B.Cu": 2, "Edge.Cuts": 25, "Dwgs.User": 17 })],
 ]);
 // KiCad 10.0.3 initializes item-layer lookups from the default LSET::Name map;
 // the root layer table serializes only enabled layers. These audited technical
@@ -991,6 +991,11 @@ const declaredLayerNames = (
     const ordinal = Number(entry.name);
     const name = entry.values[0]!.value;
     const auditedOrdinal = auditedIdentities[name];
+    if (fileVersion === 20260206 && (name === "Dwgs.User" || ordinal === 17)
+        && (name !== "Dwgs.User" || ordinal !== 17 || entry.values[1]!.value !== "user"
+          || entry.values.length > 3 || entry.values[2] !== undefined && !entry.values[2]!.quoted)) {
+      return fail("UNSUPPORTED_PCB", "PCB Dwgs.User must retain its audited ordinal 17 and user type; aliases or conflicting declarations are unsupported.");
+    }
     if (ordinals.has(ordinal)
         || (auditedOrdinal !== undefined && ordinal !== auditedOrdinal)) {
       return fail("UNSUPPORTED_PCB", "PCB layer table ordinals must be unique and match the audited file-version identity mapping.");
@@ -1064,7 +1069,13 @@ const assertClosedLayeredItems = (
   layerNames: ReadonlySet<string>,
   source: string,
   zones: "rejected" | "not-evaluated" = "rejected",
+  fileVersion?: number,
 ): void => {
+  // The 20260206 native USB-C source retains stock drawing graphics on a
+  // disabled Dwgs.User layer. KiCad 10.0.3 initializes this default name in
+  // parser::init independently of the enabled root table. Bound that exception
+  // to ordinary footprint graphics; it confers no pad, route or copper meaning.
+  const footprintGraphicLayers = fileVersion === 20260206 ? new Set([...layerNames, "Dwgs.User"]) : layerNames;
   for (const child of root.children) {
     if (!KICAD_10_ROOT_FORMS.has(child.name)) {
       fail("UNSUPPORTED_PCB", `PCB root contains unsupported KiCad form ${child.name}.`);
@@ -1088,7 +1099,7 @@ const assertClosedLayeredItems = (
       if (layerSetFields.length !== 0) {
         fail("UNSUPPORTED_PCB", `Single-layer PCB ${item.name} cannot carry a plural layers child.`);
       }
-      const layer = exactSingleLayer(item, layerNames);
+      const layer = exactSingleLayer(item, item.name.startsWith("fp_") && COPPER_GRAPHIC_FORMS.has(item.name) ? footprintGraphicLayers : layerNames);
       if (COPPER_GRAPHIC_FORMS.has(item.name) && (layer === "F.Cu" || layer === "B.Cu")) {
         fail("UNSUPPORTED_PCB", `Copper ${item.name} graphics are outside the clearance-evidence V1 object model.`);
       }
@@ -1148,7 +1159,7 @@ export function assertFreshPlaneReferenceCopperScope(source: string): void {
   const layers = declaredLayerNames(table!, Number(version));
   const copper = [...layers].filter(name => name.endsWith(".Cu"));
   if (copper.length !== 2 || copper[0] !== "F.Cu" || copper[1] !== "B.Cu") fail("UNSUPPORTED_PCB", "Reference copper scope supports exact F.Cu/B.Cu layers.");
-  assertClosedLayeredItems(root, new Set([...layers, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]), source, "not-evaluated");
+  assertClosedLayeredItems(root, new Set([...layers, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]), source, "not-evaluated", Number(version));
 }
 
 const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "rejected" | "not-evaluated" = "rejected", nativeTerminals?: FreshNativeTerminalBinding): PcbFacts => {
@@ -1188,7 +1199,7 @@ const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "
     }
   }
   const itemLayerNames = new Set<string>([...layerNames, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]);
-  assertClosedLayeredItems(root, itemLayerNames, bytes.toString("utf8"), zones);
+  assertClosedLayeredItems(root, itemLayerNames, bytes.toString("utf8"), zones, fileVersion);
 
   const numericNets = new Map<string, string>();
   const tableNames = new Set<string>();

@@ -4,9 +4,9 @@ import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canon
 import { hardenPortableValue, parsePortableJsonBytes } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { freshBoardSerializationsEqual } from "../harness/fresh-board-serialization.js";
-import { parseFreshPcbSource, type FreshParsedPcb, type FreshPcbPad } from "../harness/fresh-kicad-parser.js";
+import { parseFreshPcbSource, parseFreshPcbSourceDocument, type FreshKicadSourceNode, type FreshParsedPcb, type FreshPcbPad } from "../harness/fresh-kicad-parser.js";
 import { buildPadTerminalInventory, type JsonObject, type NativePadClusterCapture, type PadInventory } from "../harness/fresh-pcb-pad-model.js";
-import type { KiCadStockFootprintInspection } from "../harness/kicad-library-resolver.js";
+import type { KiCadAuthorizedFootprintInspection } from "../harness/kicad-approved-package.js";
 
 export const KICAD_NATIVE_PAD_SNAPSHOT_SCHEMA_VERSION = "evleda.kicad-live-pcb-pad-snapshot.v1" as const;
 export const KICAD_NATIVE_PAD_OBSERVATION_SCHEMA_VERSION = "evleda.kicad-native-pad-observation.v1" as const;
@@ -25,7 +25,7 @@ export interface KicadNativePadObservationExpected {
   readonly enabledCopperLayers: readonly string[];
   /** Current marker/compilation or native-validation source authority, supplied only by the host. */
   readonly scopeIdentity: CanonicalIdentity;
-  readonly physicalFootprintResolver?: Readonly<{ inspectFootprint(libraryId: string): KiCadStockFootprintInspection | null }>;
+  readonly physicalFootprintResolver?: Readonly<{ inspectFootprint(libraryId: string): KiCadAuthorizedFootprintInspection | null }>;
   /** Exact host-selected library source pins, not model-supplied pad counts/ordinals. */
   readonly physicalFootprints?: readonly Readonly<{ reference: string; libraryId: string; sourceIdentity: ContentIdentity }>[];
 }
@@ -71,6 +71,48 @@ function identity(value: unknown, label: string): string { const record = obj(va
 function nm(value: unknown): number { if (value === undefined) return 0; requireValue(typeof value === "number" || typeof value === "string" && /^-?[0-9]+$/u.test(value), "invalid native coordinate"); const number = Number(value); requireValue(Number.isSafeInteger(number), "unsafe native coordinate"); return number; }
 function nativePoint(value: unknown): readonly [number, number] { const p = obj(value, "native point"); keys(p, [], "native point", ["x_nm", "y_nm"]); return [nm(p.x_nm), nm(p.y_nm)]; }
 function sameMm(nativeNm: number, mm: number): boolean { return Math.abs(nativeNm / 1_000_000 - mm) <= 0.0000005; }
+function exactDecimal(text: string): Readonly<{ integer: bigint; power: number }> {
+  requireValue(text.length <= 128, "unsupported exact geometry coordinate length");
+  const match = /^([+-]?)(\d*)(?:\.(\d*))?(?:[eE]([+-]?\d+))?$/u.exec(text);
+  requireValue(match !== null && (match[2]!.length > 0 || (match[3]?.length ?? 0) > 0), "invalid saved geometry coordinate");
+  const exponent = Number(match[4] ?? "0"), fraction = match[3] ?? "";
+  requireValue(Number.isSafeInteger(exponent) && Math.abs(exponent) <= 100, "unsupported saved geometry exponent");
+  return {integer:BigInt(match[2]! + fraction) * (match[1] === "-" ? -1n : 1n),power:exponent-fraction.length};
+}
+/** Compare serialized dimensions in integer nm without floating-point rounding or tolerance. */
+function sourceNm(atom: FreshKicadSourceNode["values"][number] | undefined): number {
+  requireValue(atom !== undefined && !atom.quoted, "missing/invalid saved geometry coordinate");
+  const decimal = exactDecimal(atom.value), power = 6 + decimal.power;
+  let value = decimal.integer;
+  if (power >= 0) value *= 10n ** BigInt(power);
+  else {
+    const divisor = 10n ** BigInt(-power);
+    requireValue(value % divisor === 0n, "saved geometry is not exact integer nanometres");
+    value /= divisor;
+  }
+  requireValue(value >= -2147483637n && value <= 2147483637n, "saved geometry is outside KiCad coordinate range");
+  return Number(value);
+}
+function sameSourceAngle(nativeAngle: number, atom: FreshKicadSourceNode["values"][number] | undefined): boolean {
+  requireValue(atom === undefined || !atom.quoted, "invalid saved pad angle");
+  const native = exactDecimal(String(nativeAngle)), saved = exactDecimal(atom?.value ?? "0");
+  const power = Math.min(native.power,saved.power,0);
+  return (native.integer * 10n ** BigInt(native.power-power) - saved.integer * 10n ** BigInt(saved.power-power)) % (360n * 10n ** BigInt(-power)) === 0n;
+}
+function exactSavedGeometry(saved: FreshPcbPad): Readonly<{ size: readonly number[]; drill: readonly number[]; offset: readonly number[]; angle: FreshKicadSourceNode["values"][number] | undefined }> {
+  const pad = parseFreshPcbSourceDocument(`(kicad_pcb ${saved.physical.source})`).children[0]!;
+  const field = (node: FreshKicadSourceNode, name: string): FreshKicadSourceNode | undefined => {
+    const matches = node.children.filter(child => child.name === name);
+    requireValue(matches.length <= 1, `duplicate saved pad ${name}`); return matches[0];
+  };
+  const size = field(pad, "size"), drill = field(pad, "drill"), offset = drill && field(drill, "offset"), at = field(pad,"at");
+  requireValue(size !== undefined && size.values.length === 2 && size.children.length === 0, "invalid saved pad dimensions");
+  requireValue(at !== undefined && [2,3].includes(at.values.length) && at.children.length === 0, "invalid saved pad placement");
+  const oval = drill?.values[0]?.value === "oval";
+  const drillValues = drill?.values.slice(oval ? 1 : 0);
+  return {size:size.values.map(sourceNm), drill:drillValues ? [sourceNm(drillValues[0]), sourceNm(drillValues[oval ? 1 : 0])] : [0,0],
+    offset:offset ? offset.values.map(sourceNm) : [0,0],angle:at.values[2]};
+}
 function canonicalNativeLayer(layer: string): string {
   if (layer === "*.Cu") return layer;
   const match = /^(F|B|In(?:[1-9]|[12][0-9]|30))\.Cu$/u.exec(layer);
@@ -81,6 +123,41 @@ function canonicalNativeLayer(layer: string): string {
 function expandedNativeLayers(layers: readonly string[]): readonly string[] {
   return [...new Set(layers.flatMap(layer=>layer==="*.Cu"?["BL_F_Cu","BL_B_Cu",...Array.from({length:30},(_,i)=>`BL_In${i+1}_Cu`)]
     :layer==="F&B.Cu"?["BL_F_Cu","BL_B_Cu"]:layer==="*.Mask"?["BL_F_Mask","BL_B_Mask"]:layer==="*.Paste"?["BL_F_Paste","BL_B_Paste"]:[canonicalNativeLayer(layer)]))];
+}
+/** Saved-source admission only; complete native PAD/library/presence evidence is still required. */
+export function isSupportedSavedMechanicalHole(saved: FreshPcbPad): boolean {
+  if (saved.number !== "" || saved.netName !== null || saved.physical.padType !== "np_thru_hole"
+      || saved.physical.id === null || !UUID.test(saved.physical.id)) return false;
+  try {
+    const pad = parseFreshPcbSourceDocument(`(kicad_pcb ${saved.physical.source})`).children[0]!;
+    // Do not infer semantics for unknown NPTH source extensions or silently
+    // discard a second field. Library identity is checked independently.
+    const fields = new Set(["at", "size", "drill", "layers", "uuid", "tstamp", "net"]);
+    if (pad.name !== "pad" || pad.values.length !== 3 || !pad.values[0]!.quoted || pad.values[0]!.value !== ""
+        || pad.values[1]!.quoted || pad.values[1]!.value !== "np_thru_hole" || pad.values[2]!.quoted
+        || new Set(pad.children.map(child => child.name)).size !== pad.children.length
+        || pad.children.some(child => !fields.has(child.name))) return false;
+    const net = pad.children.find(child => child.name === "net");
+    if (net !== undefined) {
+      const values = net.values, zero = (index: number) => values[index] !== undefined && !values[index]!.quoted && /^\+?0+$/u.test(values[index]!.value);
+      const empty = (index: number) => values[index]?.quoted === true && values[index]!.value === "";
+      if (net.children.length !== 0 || !(values.length === 1 && (zero(0) || empty(0)) || values.length === 2 && zero(0) && empty(1))) return false;
+    }
+    const layers = pad.children.find(child => child.name === "layers");
+    if (layers === undefined || layers.children.length !== 0 || layers.values.length === 0
+        || layers.values.some(value => !value.quoted) || new Set(saved.layers).size !== saved.layers.length) return false;
+    const declared = expandedNativeLayers(saved.layers);
+    if (!declared.some(layer => /^BL_(?:F|B|In(?:[1-9]|[12][0-9]|30))_Cu$/u.test(layer))
+        || declared.some(layer => !/^BL_(?:F|B|In(?:[1-9]|[12][0-9]|30))_Cu$/u.test(layer) && !["BL_F_Mask", "BL_B_Mask"].includes(layer))) return false;
+    const drill = pad.children.find(child => child.name === "drill");
+    const oval = saved.physical.shape === "oval";
+    if (drill === undefined || saved.physical.shape !== "circle" && !oval || saved.physical.drill?.shape !== (oval ? "oval" : "circle")
+        || drill.values.length !== (oval ? 3 : 1) || oval && (drill.values[0]?.quoted || drill.values[0]?.value !== "oval")
+        || drill.children.length > 1 || drill.children.some(child => child.name !== "offset" || child.values.length !== 2 || child.children.length !== 0)) return false;
+    const geometry = exactSavedGeometry(saved);
+    return geometry.size.every((value, index) => value > 0 && value === geometry.drill[index])
+      && (oval || geometry.size[0] === geometry.size[1]) && geometry.offset.length === 2 && geometry.offset.every(value => value === 0);
+  } catch { return false; }
 }
 /** Reproduce complete physical library geometry against source-pinned approved inspections.
  * Instance UUID/net/placement are checked separately; no positional ordinal matching is used.
@@ -127,17 +204,22 @@ function assertPadProjection(raw: Obj, saved: FreshPcbPad, enabled: readonly str
   const declared = expandedNativeLayers(saved.layers);
   requireValue(declared.every(layer => !layer.startsWith("UNSUPPORTED:")), "saved pad has uncharacterized layer selectors");
   requireValue(sameSet(actualLayers,declared), "complete native pad layer membership differs from saved source");
+  // New oval/NPTH coverage requires exact serialized geometry. Existing pad
+  // projections retain their established behavior and separate downstream gates.
+  const geometry = saved.physical.shape === "oval" || type === "PT_NPTH" ? exactSavedGeometry(saved) : null;
   const angle = obj(stack.angle, "pad angle").value_degrees ?? 0;
-  requireValue(typeof angle === "number" && Number.isFinite(angle) && Math.abs((((angle - saved.physical.rotationDeg) % 360) + 540) % 360 - 180) <= 1e-8, "native pad angle differs from saved source");
+  requireValue(typeof angle === "number" && Number.isFinite(angle) && (geometry !== null ? sameSourceAngle(angle,geometry.angle)
+    : Math.abs((((angle - saved.physical.rotationDeg) % 360) + 540) % 360 - 180) <= 1e-8), "native pad angle differs from saved source");
   const templates = array(stack.copper_layers, "pad geometry templates", 64);
   requireValue(stack.type === "PST_NORMAL" && templates.length === 1 && saved.physical.sizeMm !== null, "pad-stack geometry is outside normal complete source coverage");
   const template = obj(templates[0], "pad shape");
-  const shape = ({ circle: "PSS_CIRCLE", rect: "PSS_RECTANGLE", roundrect: "PSS_ROUNDRECT" } as Record<string, string>)[saved.physical.shape ?? ""];
+  const shape = ({ circle: "PSS_CIRCLE", oval: "PSS_OVAL", rect: "PSS_RECTANGLE", roundrect: "PSS_ROUNDRECT" } as Record<string, string>)[saved.physical.shape ?? ""];
   requireValue(shape !== undefined && template.shape === shape, "native pad shape differs or is uncharacterized");
   if(shape==="PSS_ROUNDRECT")requireValue(saved.physical.roundrectRatio!==null&&saved.physical.roundrectRatio>=0&&saved.physical.roundrectRatio<=0.5
     &&template.corner_rounding_ratio===saved.physical.roundrectRatio,"native roundrect corner ratio differs from saved source");
   const offset=nativePoint(template.offset??{});
-  requireValue(sameMm(offset[0],saved.physical.drill?.offsetMm?.x??0)&&sameMm(offset[1],saved.physical.drill?.offsetMm?.y??0),"native copper offset differs from saved drill-offset encoding");
+  requireValue(geometry !== null ? equal(offset,geometry.offset)
+    : sameMm(offset[0],saved.physical.drill?.offsetMm?.x??0)&&sameMm(offset[1],saved.physical.drill?.offsetMm?.y??0),"native copper offset differs from saved drill-offset encoding");
   requireValue((template.custom_shapes===undefined||array(template.custom_shapes,"custom shapes").length===0)
     &&(template.chamfered_corners===undefined||array(template.chamfered_corners,"chamfered corners").length===0)
     &&nativePoint(template.trapezoid_delta??{}).every(value=>value===0),"nondefault custom/chamfer/trapezoid geometry is outside supported source coverage");
@@ -145,10 +227,12 @@ function assertPadProjection(raw: Obj, saved: FreshPcbPad, enabled: readonly str
     requireValue(stack[key]===undefined||equal(stack[key],{}),`uncharacterized pad-stack ${key} is not accepted as default geometry`);
   }
   const size = nativePoint(template.size);
-  requireValue(sameMm(size[0], saved.physical.sizeMm.x) && sameMm(size[1], saved.physical.sizeMm.y), "native pad dimensions differ from saved source");
+  requireValue(geometry !== null ? equal(size,geometry.size)
+    : sameMm(size[0], saved.physical.sizeMm.x) && sameMm(size[1], saved.physical.sizeMm.y), "native pad dimensions differ from saved source");
   const drill = obj(stack.drill, "native drill"), drillSize = nativePoint(drill.diameter);
   const savedDrill = saved.physical.drill;
-  requireValue(sameMm(drillSize[0], savedDrill?.sizeMm.x ?? 0) && sameMm(drillSize[1], savedDrill?.sizeMm.y ?? 0), "native drill dimensions differ from saved source");
+  requireValue(geometry !== null ? equal(drillSize,geometry.drill)
+    : sameMm(drillSize[0], savedDrill?.sizeMm.x ?? 0) && sameMm(drillSize[1], savedDrill?.sizeMm.y ?? 0), "native drill dimensions differ from saved source");
   if (savedDrill !== null) {
     requireValue(drill.shape === (savedDrill.shape === "oval" ? "DS_OBLONG" : "DS_CIRCLE"), "native drill shape differs from saved source");
     requireValue(drill.start_layer==="BL_F_Cu"&&drill.end_layer==="BL_B_Cu","non-through native pad drill span is outside source coverage");
@@ -237,7 +321,7 @@ export function decodeKicadNativePadObservation(envelopeInput: unknown, expected
     requireValue(equal(c.request, {header:{document},items:[{value:sourceId}],types:["KOT_PCB_PAD"]}), "cluster request is not exact native single-pad PAD-filtered request");
     const indexes = indices(c.padRecordIndexes, "cluster indexes"); unique(indexes, "cluster indexes");
     const selectedRaw=rawPads[padIds.indexOf(sourceId)]!,selectedStack=obj(selectedRaw.pad_stack,"cluster source stack");
-    const sourceHasCopper=strings(selectedStack.layers,"cluster source layers",64).some(layer=>enabled.includes(layer));
+    const sourceHasCopper=selectedRaw.type!=="PT_NPTH"&&strings(selectedStack.layers,"cluster source layers",64).some(layer=>enabled.includes(layer));
     requireValue(!sourceHasCopper||indexes.some(index=>padIds[index]===sourceId),"complete copper-pad cluster omits its own physical source");
     return {id:`native-pad-cluster:${ordinal}`,sourceUuids:[sourceId],filterTypes:["KOT_PCB_PAD"],status:"complete" as const,returnedPadUuids:indexes.map(index => padIds[index]!),rawCapture:c as JsonObject};
   });

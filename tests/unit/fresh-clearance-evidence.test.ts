@@ -27,6 +27,7 @@ import {
   verifyFreshClearanceEvidenceReceipt,
   verifyFreshClearanceEvidenceReceiptAgainstSemanticAuthority,
   verifyFreshNetClassSemanticAuthority,
+  assertFreshPlaneReferenceCopperScope,
   type FreshClearanceEvidenceReceipt,
   type FreshClearanceOperationOptions,
 } from "../../src/harness/fresh-clearance-evidence.js";
@@ -52,6 +53,15 @@ import {
   exactContractNetClassPattern,
 } from "../../src/harness/fresh-netclass-assignment.js";
 import type { KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
+import type { KicadMcpSession } from "../../src/integrations/kicad-mcp-session.js";
+import { parseFreshPcbSource } from "../../src/harness/fresh-kicad-parser.js";
+import { createKiCad10StockLibraryResolver } from "../../src/harness/kicad-library-resolver.js";
+import { compilePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-compiler.js";
+import { createPcbPlaneCompilationBundle, createPcbPlaneCompilationBundleRef, serializePcbPlaneCompilationBundle } from "../../src/harness/pcb-design-plane-bundle.js";
+import { preparePlaneFreshProject } from "../../src/harness/fresh-project.js";
+import { materializeFreshPlaneNetClasses, readFreshPlaneNetClassSemanticAuthority, verifyFreshPlaneNetClassSemanticAuthority } from "../../src/harness/fresh-plane-netclasses.js";
+import { createToolboxSavedCheckpointLifecycle } from "../../src/mcp/toolbox-fresh-checkpoint.js";
+import { derivedPowerLibrarySources } from "../helpers/derived-power-bundle.js";
 
 const execFile = promisify(execFileCallback);
 const catalog = loadDeepRuleCatalog();
@@ -63,6 +73,12 @@ const capturedTechnicalLayers = JSON.parse(readFileSync(new URL("../fixtures/fre
 };
 const capturedTechnicalBoardBytes = Buffer.from(capturedTechnicalLayers.board.base64, "base64");
 const capturedTechnicalBoardSource = capturedTechnicalBoardBytes.toString("utf8");
+const native05SourceBytes=readFileSync(new URL('../fixtures/usb-c-native-pads/native05-saved-post-move.kicad_pcb',import.meta.url));
+const native05Source=native05SourceBytes.toString('utf8');
+const native05Netlist=readFileSync(new URL('../fixtures/usb-c-native-pads/native05-sync.net',import.meta.url),'utf8');
+const native05Draft=JSON.parse(readFileSync(new URL('../fixtures/usb-c-native-pads/native05-draft.json',import.meta.url),'utf8')) as {
+  components: {reference:string;symbolLibId:string;footprintLibId:string;pins:{pin:string}[]}[];
+};
 const owned = new Set<string>();
 const originalPostCommitFault = process.env.EVLEDA_TEST_ONLY_FRESH_CLEARANCE_POST_COMMIT_FAULT;
 const originalPreReceiptFault = process.env.EVLEDA_TEST_ONLY_FRESH_CLEARANCE_PRE_RECEIPT_FAULT;
@@ -370,6 +386,35 @@ const remintReceiptIdentity = (receipt: Record<string, unknown>): void => {
   receipt.identity = canonicalIdentity(payload, FRESH_CLEARANCE_EVIDENCE_RECEIPT_SCHEMA_VERSION);
 };
 
+async function native05CheckpointFixture(){
+  const root=await mkdtemp(path.join(os.tmpdir(),'evleda-clearance-native05-'));owned.add(root);
+  // The board/draft/netlist are captured files. Library records, power symbol
+  // and replay transport are offline fixtures, not new native qualification.
+  await writeFile(path.join(root,'power.kicad_sym'),derivedPowerLibrarySources.power!,'utf8');
+  const power=createKiCad10StockLibraryResolver({symbolRoot:root,footprintRoot:root,exactSymbolIds:['power:PWR_FLAG'],exactFootprintIds:[],stockSymbolNicknames:['power'],stockFootprintNicknames:[]});
+  const libraryResolver:PcbReadOnlyLibraryResolver={
+    resolveSymbol:libraryId=>{const component=native05Draft.components.find(item=>item.symbolLibId===libraryId);return component?{libraryId,source:'kicad-stock',unitCount:1,componentKind:'connector',polarized:false,pins:component.pins.map(pin=>({number:pin.pin,function:pin.pin}))}:null;},
+    resolveFootprint:libraryId=>{const component=native05Draft.components.find(item=>item.footprintLibId===libraryId);return component?{libraryId,source:'kicad-stock',packageKind:'generic',pads:component.pins.map(pin=>pin.pin)}:null;},
+    inspectExternalPowerFlag:()=>power.inspectExternalPowerFlag(),
+  };
+  const dependencies={libraryResolver,deepRuleCatalog:catalog},compilation=compilePcbPlaneDesignIntentDraft(native05Draft,dependencies);
+  if(compilation.disposition!=='ready')throw new Error(JSON.stringify(compilation.issues));
+  const compilationBundle=createPcbPlaneCompilationBundle({originalPrompt:'Offline replay of native05 saved USB-C checkpoint parser source.',compilation},dependencies);
+  const project=await preparePlaneFreshProject({outputDir:path.join(root,'output'),name:'native05-parser',resume:false,compilationBundle,compilationBundleRef:createPcbPlaneCompilationBundleRef(compilationBundle)});
+  let captures=0;
+  const options={project,compilationBundle,kicad:KICAD_IDENTITY,captureNativeNetlist:async()=>{captures++;return native05Netlist;}};
+  await materializeFreshPlaneNetClasses(options);
+  const authority=await readFreshPlaneNetClassSemanticAuthority(options);
+  await writeFile(project.pcbPath,native05SourceBytes);
+  const bundleBytes=serializePcbPlaneCompilationBundle(compilationBundle),bundlePath=path.join(root,'bundle.json'),reportPath=path.join(root,'report.json');
+  const expectedReport={schemaVersion:'evleda.offline-checkpoint-parser-fixture.v1',status:'needs_review'};
+  await writeFile(bundlePath,bundleBytes);await writeFile(reportPath,JSON.stringify({...expectedReport,assurance:'Offline fixture only.'}));
+  const lifecycle=createToolboxSavedCheckpointLifecycle({project,bundleBytes,bundlePath,reportPath,
+    session:{readActivePcbSource:async(expected:string)=>{if(expected!==project.pcbPath)throw new Error('Unexpected fixture board path');return await readFile(project.pcbPath,'utf8');}} as unknown as KicadMcpSession,
+    verifySemantics:()=>verifyFreshPlaneNetClassSemanticAuthority(authority,options),expectedReport:()=>expectedReport});
+  return {project,options,authority,lifecycle,captures:()=>captures,reportPath};
+}
+
 const remintIdentity = (artifact: Record<string, unknown>, schemaVersion: string): void => {
   const payload = Object.fromEntries(Object.entries(artifact).filter(([key]) => key !== "identity"));
   artifact.identity = canonicalIdentity(payload, schemaVersion);
@@ -495,6 +540,66 @@ describe("closed authored netclass pattern grammar", () => {
 });
 
 describe("fresh KiCad clearance evidence", () => {
+  it('prepares a checkpoint from the exact saved native05 USB-C source without altering source, rules or markers',async()=>{
+    expect(contentIdentity(native05SourceBytes)).toEqual({algorithm:'sha256',digest:'24e3935b9e41cfb2df113bd5cfae3ae1884ec0e4f698011f16bd68f349bc1c9b',size:14440});
+    const rootLayerTable=native05Source.slice(native05Source.indexOf('\t(layers'),native05Source.indexOf('\t(setup'));
+    expect(rootLayerTable).not.toContain('Dwgs.User');
+    expect(native05Source).toContain('(fp_text user "PCB Edge"');
+    const current=await native05CheckpointFixture();
+    const preserved=[current.project.pcbPath,current.project.rulesPath,current.project.markerPath,current.reportPath,
+      path.join(current.project.projectPath,`${current.project.name}.kicad_pro`)];
+    const checkpointPath=path.join(current.project.outputPath,'.evleda-pcb-agent-checkpoint.json');
+    await expect(readFile(checkpointPath)).rejects.toMatchObject({code:'ENOENT'});
+    const before=await Promise.all(preserved.map(file=>readFile(file)));
+    expect(()=>assertFreshPlaneReferenceCopperScope(native05Source)).not.toThrow();
+    expect(await readFreshPlaneNetClassSemanticAuthority(current.options)).toEqual(current.authority);
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(current.authority,current.options)).toEqual(current.authority);
+    const publish=await current.lifecycle.prepareCheckpoint();
+    expect(typeof publish).toBe('function'); // Preparation only; no checkpoint is published.
+    expect(current.captures()).toBeGreaterThanOrEqual(3);
+    expect(await Promise.all(preserved.map(file=>readFile(file)))).toEqual(before);
+    await expect(readFile(checkpointPath)).rejects.toMatchObject({code:'ENOENT'});
+    const board=parseFreshPcbSource(await readFile(current.project.pcbPath,'utf8'));
+    expect(board.footprints.flatMap(fp=>fp.pads)).toHaveLength(24);
+    expect(board.footprints.flatMap(fp=>fp.pads).filter(pad=>pad.physical.padType==='np_thru_hole')).toHaveLength(2);
+    expect(board.footprints.flatMap(fp=>fp.pads).filter(pad=>pad.netName?.startsWith('unconnected-('))).toHaveLength(8);
+  });
+
+  it('accepts exact declared Dwgs.User identity and rejects conflicting or expanded native05 layer semantics',async()=>{
+    const current=await native05CheckpointFixture();
+    const withDeclaration=(row:string)=>native05Source.replace('(25 "Edge.Cuts" user)',`(25 "Edge.Cuts" user) ${row}`);
+    for(const row of ['(17 "Dwgs.User" user)','(17 "Dwgs.User" user "Drawing display label")']){
+      const source=withDeclaration(row);await writeFile(current.project.pcbPath,source,'utf8');
+      expect(()=>assertFreshPlaneReferenceCopperScope(source)).not.toThrow();
+      expect(await verifyFreshPlaneNetClassSemanticAuthority(current.authority,current.options)).toEqual(current.authority);
+      expect(typeof await current.lifecycle.prepareCheckpoint()).toBe('function');
+    }
+    const variants:[string,string][]=[
+      ...['Unknown.Layer','dwgs.User','Drawing display label','In1.Cu','*.Cu','F.Cu','B.Cu'].map(name=>[name,native05Source.replace('(layer "Dwgs.User")',`(layer "${name}")`)] as [string,string]),
+      ['wrong ordinal',withDeclaration('(19 "Dwgs.User" user)')],
+      ['copper ordinal',withDeclaration('(4 "Dwgs.User" user)')],
+      ['copper type',withDeclaration('(17 "Dwgs.User" signal)')],
+      ['reserved ordinal alias',withDeclaration('(17 "DrawingAlias" user)')],
+      ['reserved ordinal copper alias',withDeclaration('(17 "Inner1.Cu" signal)')],
+      ['unknown declaration type',withDeclaration('(17 "Dwgs.User" arbitrary)')],
+      ['duplicate selector',native05Source.replace('(layer "Dwgs.User")','(layer "Dwgs.User") (layer "F.Cu")')],
+      ['plural graphic selector',native05Source.replace('(layer "Dwgs.User")','(layers "Dwgs.User")')],
+      ['unquoted selector',native05Source.replace('(layer "Dwgs.User")','(layer Dwgs.User)')],
+      ['pad scope',native05Source.replace('(layers "F.Cu" "F.Mask" "F.Paste")','(layers "F.Cu" "F.Mask" "Dwgs.User")')],
+      ['property scope',native05Source.replace('(layer "F.SilkS")','(layer "Dwgs.User")')],
+      ['route scope',native05Source.replace(/\)\s*$/u,'(segment (start 1 1) (end 2 1) (width 0.25) (layer "Dwgs.User") (net "GND"))\n)')],
+      ['board graphic scope',native05Source.replace(/\)\s*$/u,'(gr_line (start 1 1) (end 2 1) (stroke (width 0.1) (type solid)) (layer "Dwgs.User"))\n)')],
+      ['unsupported file version',native05Source.replace('(version 20260206)','(version 20269999)')],
+    ];
+    for(const [name,source]of variants){
+      expect(source,name).not.toBe(native05Source);await writeFile(current.project.pcbPath,source,'utf8');
+      expect(()=>assertFreshPlaneReferenceCopperScope(source),name).toThrow();
+      await expect(readFreshPlaneNetClassSemanticAuthority(current.options),name).rejects.toMatchObject({code:'UNSUPPORTED_PCB'});
+      await expect(current.lifecycle.prepareCheckpoint(),name).rejects.toMatchObject({code:'UNSUPPORTED_PCB'});
+      expect(await readFile(current.project.pcbPath,'utf8'),name).toBe(source);
+    }
+  });
+
   it("reads the exact captured populated -06 board with native technical item layers absent from its enabled-layer table", async () => {
     expect(capturedTechnicalLayers.nativeExecutionByTests).toBe(false);
     expect(capturedTechnicalBoardBytes).toHaveLength(12430);

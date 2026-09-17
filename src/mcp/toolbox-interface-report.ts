@@ -211,6 +211,27 @@ function project(value: SavedInterfaceAssessment) {
         kind: tag(item.kind, "track", "pad", "via", "unsupported_route"), uuid: item.uuid === null ? null : text(item.uuid), net: item.net === null ? null : text(item.net),
         sourceIdentity: content(item.sourceIdentity), status: tag(item.status, "supported", "unsupported"), reasons: savedReasons(item.reasons) })), projectionComplete: flag(value.sourceInventory.projectionComplete) },
     geometry: value.geometry === null ? null : geometry(value.geometry),
+    ...(value.channel === undefined ? {} : { channel: {
+      kind: tag(value.channel.kind, "source_series"), inventoryComplete: flag(value.channel.inventoryComplete), accepted: flag(value.channel.accepted),
+      copperEtchLength: { positive: value.channel.copperEtchLength.positive === null ? null : length(value.channel.copperEtchLength.positive),
+        negative: value.channel.copperEtchLength.negative === null ? null : length(value.channel.copperEtchLength.negative) },
+      budgets: { pathLength: check(value.channel.budgets.pathLength), totalCopperLength: check(value.channel.budgets.totalCopperLength), pathSkew: check(value.channel.budgets.pathSkew) },
+      launch: geometry(value.channel.launch), receiverPaths: value.channel.receiverPaths.map(item => ({
+        receiver: { positive: { reference: text(item.receiver.positive.reference), pin: pinText(item.receiver.positive.pin) },
+          negative: { reference: text(item.receiver.negative.reference), pin: pinText(item.receiver.negative.pin) } }, geometry: geometry(item.geometry),
+        positiveEtchLength: item.positiveEtchLength === null ? null : length(item.positiveEtchLength), negativeEtchLength: item.negativeEtchLength === null ? null : length(item.negativeEtchLength),
+        etchSkew: item.etchSkew === null ? null : length(item.etchSkew) })),
+      allTrackPairGaps: value.channel.allTrackPairGaps === null ? null : value.channel.allTrackPairGaps.map(item => ({ positiveUuid: text(item.positiveUuid), negativeUuid: text(item.negativeUuid),
+        layerRelationship: tag(item.layerRelationship, "same_layer", "different_layer_not_assessed"), centerlineSquaredNm2: item.centerlineSquaredNm2 === null ? null : squared(item.centerlineSquaredNm2),
+        radiusSumTwiceNm: integerText(item.radiusSumTwiceNm), minimumGap: tag(item.minimumGap, "pass", "fail", "not_assessed") })),
+      checks: { sourcePolarity: check(value.channel.checks.sourcePolarity), topology: check(value.channel.checks.topology), width: check(value.channel.checks.width),
+        minimumGap: check(value.channel.checks.minimumGap), coupledGap: check(value.channel.checks.coupledGap), length: check(value.channel.checks.length),
+        skew: check(value.channel.checks.skew), stubs: check(value.channel.checks.stubs), uncoupled: check(value.channel.checks.uncoupled), transitions: check(value.channel.checks.transitions) },
+      anchors: value.channel.anchors.map(item => ({ selector: terminal(item.selector), net: text(item.net), matchingPadUuids: item.matchingPadUuids.map(text),
+        contactNodeIds: item.contactNodeIds.map(text), status: tag(item.status, "pass", "fail", "not_assessed") })),
+      escapes: value.channel.escapes.map(item => ({ net: text(item.net), edgeId: edgeId(item.edgeId), widthNm: number(item.widthNm), qualifyingTerminals: item.qualifyingTerminals.map(terminal), status: tag(item.status, "pass", "fail", "not_assessed") })),
+      protectionReturns: value.channel.protectionReturns.map(item => ({ reference: text(item.reference), pin: pinText(item.pin), expectedNet: text(item.expectedNet),
+        matchingPadUuids: item.matchingPadUuids.map(text), status: tag(item.status, "pass", "fail", "not_assessed") })) } }),
     construction: { status: tag(value.construction.status, "matched_saved_declaration", "failed_saved_declaration", "unassessed"), reasons: savedReasons(value.construction.reasons),
       observed: { boardThicknessNm: nullableNumber(observed.boardThicknessNm), frontCopperThicknessNm: nullableNumber(observed.frontCopperThicknessNm),
         backCopperThicknessNm: nullableNumber(observed.backCopperThicknessNm), dielectricThicknessNm: nullableNumber(observed.dielectricThicknessNm),
@@ -264,7 +285,8 @@ function snapshot(assessment: SavedInterfaceAssessment) {
   if (captured.schemaVersion !== "evleda.saved-interface-assessment.v1"
       || canonicalJson(identity) !== canonicalJson(canonicalIdentity(payload, captured.schemaVersion))
       || captured.boardAccepted !== false || captured.interfaceAccepted !== false || captured.fabricationAuthorized !== false
-      || (captured.geometry !== null && captured.geometry.accepted !== false)) throw new Error(ERROR);
+      || (captured.geometry !== null && captured.geometry.accepted !== false)
+      || captured.channel !== undefined && (captured.channel.accepted !== false || captured.channel.launch.accepted !== false || captured.channel.receiverPaths.some(p => p.geometry.accepted !== false))) throw new Error(ERROR);
   return captured;
 }
 function completeReport(captured: SavedInterfaceAssessment) {

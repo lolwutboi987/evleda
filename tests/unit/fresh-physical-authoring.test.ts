@@ -33,12 +33,14 @@ function bundleFor(source:string,allowedRotationsDeg:readonly number[]=[0]){
   const parsed=parseFreshPcbSource(source),base=genericDividerDraft();
   const components=parsed.footprints.map(fp=>({reference:fp.reference,symbolLibId:`Fixture:Terminals_${fp.reference}`,value:fp.value,footprintLibId:fp.libraryId,unit:1,
     pins:[...new Set(fp.pads.map(p=>p.number).filter(Boolean))].map(pin=>({pin,assignment:(fp.pads.find(p=>p.number===pin)!.netName===null||fp.pads.find(p=>p.number===pin)!.netName!.startsWith("unconnected-("))?{kind:"no_connect" as const}:{kind:"net" as const,net:fp.pads.find(p=>p.number===pin)!.netName!}}))}));
-  const endpoints=components.flatMap(c=>c.pins.flatMap(p=>p.assignment.kind==="net"?[{reference:c.reference,pin:p.pin}]:[]));
+  const nets=[...new Set(components.flatMap(c=>c.pins.flatMap(p=>p.assignment.kind==="net"?[p.assignment.net]:[])))].map(name=>({
+    ...structuredClone(base.nets[0]!),name,role:"passive",netClassId:"SIGNAL",endpoints:components.flatMap(c=>c.pins.flatMap(p=>p.assignment.kind==="net"&&p.assignment.net===name?[{reference:c.reference,pin:p.pin}]:[])),
+  }));
   const draft={...base,scope:{...base.scope,board:{...base.scope.board,widthMm:80,heightMm:50}},components,
-    nets:[{...base.nets[0]!,name:"LINK",role:"passive",netClassId:"SIGNAL",endpoints}],
+    nets,
     netClasses:[{id:"SIGNAL",traceWidthMm:0.25,clearanceMm:0.2,copperToEdgeMm:0.5,allowedLayers:["F.Cu"]}],
     placementConstraints:components.map(c=>({reference:c.reference,side:"front",regionMm:{minXmm:1,maxXmm:79,minYmm:1,maxYmm:49},allowedRotationsDeg:[...allowedRotationsDeg],minimumEdgeClearanceMm:1,minimumCourtyardClearanceMm:0.25,edgePreference:"none"})),
-    routingConstraints:{...base.routingConstraints,nets:[{net:"LINK",topology:endpoints.length===2?"point_to_point":"tree",preferredLayer:"F.Cu",maxVias:0,routeLength:{mode:"unbounded"}}]}};
+    routingConstraints:{...base.routingConstraints,nets:nets.map(net=>({net:net.name,topology:net.endpoints.length===2?"point_to_point":"tree",preferredLayer:"F.Cu",maxVias:0,routeLength:{mode:"unbounded"}}))}};
   const resolver:PcbReadOnlyLibraryResolver={
     resolveSymbol:libraryId=>{const c=components.find(c=>c.symbolLibId===libraryId);return c?{libraryId,source:"kicad-stock",unitCount:1,componentKind:"generic",polarized:false,pins:c.pins.map(p=>({number:p.pin,function:`Terminal ${p.pin}`}))}:null;},
     resolveFootprint:libraryId=>{const c=components.find(c=>c.footprintLibId===libraryId);return c?{libraryId,source:"kicad-stock",packageKind:"generic",pads:c.pins.map(p=>p.pin)}:null;},
@@ -51,12 +53,13 @@ function bundleFor(source:string,allowedRotationsDeg:readonly number[]=[0]){
 }
 
 function schematicFor(bundle:ReturnType<typeof bundleFor>["bundle"]):string{
-  return `(kicad_sch (version 20250316) (generator "fixture") (global_label "LINK" (shape passive) (at 10 10 0)) ${bundle.contract.components.map(c=>`(symbol (lib_id "${c.symbolLibId}") (at 20 20 0) (property "Reference" "${c.reference}") (property "Value" "${c.value}") (property "Footprint" "${c.footprintLibId}"))`).join(' ')} ${bundle.contract.components.flatMap(c=>c.pins.filter(p=>p.assignment.kind==="no_connect").map((_,i)=>`(no_connect (at ${40+i} 30))`)).join(' ')})`;
+  return `(kicad_sch (version 20250316) (generator "fixture") ${bundle.contract.nets.map(net=>`(global_label "${net.name}" (shape passive) (at 10 10 0))`).join(' ')} ${bundle.contract.components.map(c=>`(symbol (lib_id "${c.symbolLibId}") (at 20 20 0) (property "Reference" "${c.reference}") (property "Value" "${c.value}") (property "Footprint" "${c.footprintLibId}"))`).join(' ')} ${bundle.contract.components.flatMap(c=>c.pins.filter(p=>p.assignment.kind==="no_connect").map((_,i)=>`(no_connect (at ${40+i} 30))`)).join(' ')})`;
 }
-function netlistFor(bundle:ReturnType<typeof bundleFor>["bundle"]):string{
-  const nodes=bundle.contract.components.flatMap(c=>c.pins.flatMap(p=>p.assignment.kind==="net"?[`(node (ref "${c.reference}") (pin "${p.pin}") (pintype "passive"))`]:[]));
-  const nc=bundle.contract.components.flatMap(c=>c.pins.flatMap(p=>p.assignment.kind==="no_connect"?[`(net (code "nc-${c.reference}-${p.pin}") (name "unconnected-(${c.reference}-Pin_${p.pin}-Pad${p.pin})") (node (ref "${c.reference}") (pin "${p.pin}") (pintype "passive+no_connect")))`]:[]));
-  return `(export (design (source "fixture.kicad_sch") (date "2026-09-09T10:00:00")) (components ${bundle.contract.components.map(c=>`(comp (ref "${c.reference}") (value "${c.value}") (footprint "${c.footprintLibId}") (libsource (lib "Fixture") (part "Terminals_${c.reference}")))`).join(' ')}) (nets (net (code "1") (name "LINK") ${nodes.join(' ')} ) ${nc.join(' ')}))`;
+function netlistFor(bundle:ReturnType<typeof bundleFor>["bundle"],source:string):string{
+  const board=parseFreshPcbSource(source);
+  const nets=bundle.contract.nets.map((net,index)=>`(net (code "${index+1}") (name "${net.name}") ${net.endpoints.map(p=>`(node (ref "${p.reference}") (pin "${p.pin}") (pintype "passive"))`).join(' ')})`);
+  const nc=bundle.contract.components.flatMap(c=>c.pins.flatMap(p=>p.assignment.kind==="no_connect"?[`(net (code "nc-${c.reference}-${p.pin}") (name "${board.footprints.find(fp=>fp.reference===c.reference)!.pads.find(pad=>pad.number===p.pin)!.netName??`unconnected-(${c.reference}-Pin_${p.pin}-Pad${p.pin})`}") (node (ref "${c.reference}") (pin "${p.pin}") (pintype "passive+no_connect")))`]:[]));
+  return `(export (design (source "fixture.kicad_sch") (date "2026-09-09T10:00:00")) (components ${bundle.contract.components.map(c=>`(comp (ref "${c.reference}") (value "${c.value}") (footprint "${c.footprintLibId}") (libsource (lib "Fixture") (part "Terminals_${c.reference}")))`).join(' ')}) (nets ${nets.join(' ')} ${nc.join(' ')}))`;
 }
 function upstream(source:string):string{
   const board=parseFreshPcbSource(source),pads=board.footprints.flatMap(fp=>fp.pads.filter(p=>p.number)),named=pads.filter(p=>p.netName!==null).length;
@@ -91,6 +94,7 @@ function routeSource():string{
   return withNativePadFixtureIds(header+fp('A1',5,'')+fp('B1',15,'(pad "1" thru_hole circle (at -0.5 0) (size 0.5 0.5) (drill 0.2) (layers "*.Cu") (net "LINK")) (pad "" smd rect (at 0 0) (size 0.7 0.7) (layers "F.Paste"))')+`\n(segment (start 5 10) (end 15 9) (width 0.25) (layer "F.Cu") (net "LINK") (uuid "${routeId}"))\n)\n`);
 }
 interface Options {
+  syncSource?:string;syncReply?:CallToolResult;
   routePushAutosave?:boolean;forbidUnsavedRouteNetlist?:boolean;historyDriftDuringParity?:boolean;
   routePushDrift?:"schematic"|"project"|"custom-rules"|"symbol-library"|"footprint-library"|"symbol-table"|"footprint-table"|"marker"|"authoritative-pcb"|"physical-library"|"live-pad-geometry";
   nativeNoConnectReachesFunctional?:boolean;nativeNoConnectSeparated?:boolean;schematicDriftDuringRead?:boolean;schematicDriftDuringParity?:boolean;
@@ -164,7 +168,7 @@ async function fixture(source:string,options:Options={},physical?:Awaited<Return
     callTool:async(name,args={})=>{
       calls.push(name);let result='ok';
       if(name==='pcb_revert'||name==='pcb_save')nativeWriteSources.push({name,source:await readFile(project.pcbPath,'utf8'),liveSource:live});
-      if(name==='pcb_sync_from_schematic'){live=options.corruptSyncNet?source.replace('(net "LINK")','(net "BAD")'):source;await writeFile(project.pcbPath,live,'utf8');result=upstream(source);if(options.badMetrics)result=result.replace(/Total pads considered: \d+/u,'Total pads considered: 1');}
+      if(name==='pcb_sync_from_schematic'){live=options.syncSource??(options.corruptSyncNet?source.replace('(net "LINK")','(net "BAD")'):source);await writeFile(project.pcbPath,live,'utf8');if(options.syncReply)return options.syncReply;result=upstream(source);if(options.badMetrics)result=result.replace(/Total pads considered: \d+/u,'Total pads considered: 1');}
       if(name==='pcb_begin_commit'){transaction=live;result='Transaction group started. Use pcb_push_commit to apply or pcb_drop_commit to discard.';}
       if(name==='pcb_drop_commit'){live=transaction;routePushedUnsaved=false;result='Transaction group discarded successfully.';}
       if(name==='pcb_push_commit'){routePushedUnsaved=true;result='Transaction group committed successfully.';}
@@ -193,7 +197,7 @@ async function fixture(source:string,options:Options={},physical?:Awaited<Return
   const toolOptions:KicadHarnessToolsOptions={freshProject:project,freshConnectivityContract:generic.bundle.contract,freshCompilationBundle:generic.bundle,
     ...(options.placementDiagnosticObserver===undefined?{}:{observeFreshFootprintPlacementDiagnostic:async(diagnostic:FreshFootprintPlacementDiagnostic)=>{await options.placementDiagnosticObserver!(diagnostic,await readFile(project.pcbPath,'utf8'));}}),
     capturePersistedMutationBaseline:async()=>contentIdentity(await readFile(project.pcbPath)).digest,verifyPersistedMutation:async baseline=>baseline!==contentIdentity(await readFile(project.pcbPath)).digest,
-    captureFreshNativeNetlist:async()=>{netlistReads++;netlistExports.push({saveCount,routePushedUnsaved});if(options.historyDriftDuringParity)await writeFile(historyPcbPath,source+"\n",'utf8');if(options.forbidUnsavedRouteNetlist&&routePushedUnsaved)throw new Error('Fixture forbids native netlist export while pushed route remains unsaved.');if(options.schematicDriftDuringParity)await writeFile(project.schematicPath,schematicFor(generic.bundle)+"\n",'utf8');if(saveCount>0&&options.pcbDriftDuringParity)await writeFile(project.pcbPath,live+'\n','utf8');const value=netlistFor(generic.bundle);return saveCount>0&&options.nativeParityFailureOnSave?value.replace('(name "LINK")','(name "WRONG")'):value;},
+    captureFreshNativeNetlist:async()=>{netlistReads++;netlistExports.push({saveCount,routePushedUnsaved});if(options.historyDriftDuringParity)await writeFile(historyPcbPath,source+"\n",'utf8');if(options.forbidUnsavedRouteNetlist&&routePushedUnsaved)throw new Error('Fixture forbids native netlist export while pushed route remains unsaved.');if(options.schematicDriftDuringParity)await writeFile(project.schematicPath,schematicFor(generic.bundle)+"\n",'utf8');if(saveCount>0&&options.pcbDriftDuringParity)await writeFile(project.pcbPath,live+'\n','utf8');const value=netlistFor(generic.bundle,source);return saveCount>0&&options.nativeParityFailureOnSave?value.replace('(name "LINK")','(name "WRONG")'):value;},
     ...(options.legacy?{}:{freshPhysicalFootprintResolver:physicalResolver,freshPhysicalFootprintSourcePins:physical?.sourcePins??fakeBaseline.expected.physicalFootprints!})};
   const bridge=createKicadHarnessTools(session,toolOptions);
   return {...generic,project,bridge,calls,nativeWriteSources,historyPcbPath,netlistExports,postPushReads,postPushMutations,live:()=>live,nativeReads:()=>nativeReads,netlistReads:()=>netlistReads,
@@ -209,6 +213,93 @@ async function placementFailure(operation:Promise<unknown>){
   expect(failure).toBeInstanceOf(Error);
   return failure as Error&{placementDiagnostic:{phase:string;firstOperation:string;primary:{name:string;message:string};beforePcbContentIdentity:unknown;plannedPcbContentIdentity:unknown;savedPcbAtFailure:{source:string;contentIdentity:unknown};nativeResponse?:unknown}};
 }
+
+describe('native04 saved USB-C source through the physical authoring boundary',()=>{
+  // Real saved post-import source/reply; native04 failed BEFORE a full PAD capture.
+  // The native-pad responses and schematic transport below are constructed offline.
+  const source=readFileSync(new URL('../fixtures/usb-c-native-pads/native04-saved-post-import.kicad_pcb',import.meta.url),'utf8');
+  const syncReply=JSON.parse(readFileSync(new URL('../fixtures/usb-c-native-pads/native04-sync-reply.json',import.meta.url),'utf8')) as CallToolResult;
+  const original=parseFreshPcbSource(source),connector=original.footprints.find(fp=>fp.reference==='J1')!;
+  const hole=connector.pads.find(pad=>pad.physical.padType==='np_thru_hole')!;
+  const padRead={id:'read-usb',name:'fresh_get_contract_pad_positions' as const,arguments:{reference:'J1'}};
+
+  it('syncs, reads terminals and preserves every native04 physical feature through a saved move',async()=>{
+    expect(contentIdentity(source)).toEqual({algorithm:'sha256',digest:'3bcb34016b6385a7d943ffdb9617d2d6619cbc2e847163351aa416741fc25014',size:14257});
+    const current=await fixture(source,{syncReply,allowedRotationsDeg:[0,90]});
+    const synced=JSON.parse((await current.bridge.execute(syncCall)).content);
+    expect(synced).toMatchObject({applied:true,physicalPadCount:24,logicalTerminalCount:19,numberedCopperPrimitiveCount:22,
+      nonElectricalFeatureCount:2,platedFootprintHoleCount:6,logicalNoConnectTerminalCount:8,noConnectCopperPrimitiveCount:8,
+      functionalCopperPrimitiveCount:14,netlessCopperPrimitiveCount:0,upstreamMetrics:{totalPadsConsidered:22,namedPads:22,noNetPads:0}});
+    expect(synced.afterPcbContentIdentity).toEqual(contentIdentity(source));
+    expect(synced.placementReview.interimFindings).toHaveLength(3);
+    expect((await current.bridge.internal.saveAfterMutation(saveCall)).isError).not.toBe(true);
+    const read=JSON.parse((await current.bridge.execute(padRead)).content);
+    expect(read.components.find((component:any)=>component.reference==='J1')).toEqual({reference:'J1',logicalTerminalCount:17,physicalPadCount:22});
+    expect(read.terminals.find((terminal:any)=>terminal.pad==='SH').physicalPadIds).toHaveLength(4);
+    expect(read.terminals.find((terminal:any)=>terminal.pad==='A5')).toMatchObject({net:null,disposition:'no_connect',nativeNetName:'unconnected-(J1-CC1-PadA5)'});
+    expect(read.pads).toHaveLength(12);
+    expect(read.pads.every((pad:any)=>pad.pad!==''&&!pad.net.startsWith('unconnected-('))).toBe(true);
+    expect(read.pads.some((pad:any)=>pad.physical.id===hole.physical.id)).toBe(false);
+    const moved=JSON.parse((await current.bridge.execute(placementCall('pcb_move_footprint',{reference:'J1',x_mm:22,y_mm:24,rotation_deg:90}))).content);
+    expect(moved).toMatchObject({applied:true,reference:'J1',footprintId:connector.id,after:{xMm:22,yMm:24,rotationDeg:90}});
+    expect((await current.bridge.internal.saveAfterMutation(saveCall)).isError).not.toBe(true);
+    const after=parseFreshPcbSource(await readFile(current.project.pcbPath,'utf8')),placed=after.footprints.find(fp=>fp.reference==='J1')!;
+    expect(placed.libraryId).toBe(connector.libraryId);
+    expect(placed.pads.map(pad=>[pad.physical.id,pad.number,pad.netName,pad.physical.definitionKey])).toEqual(connector.pads.map(pad=>[pad.physical.id,pad.number,pad.netName,pad.physical.definitionKey]));
+    expect(after.footprints.find(fp=>fp.reference==='J2')).toEqual(original.footprints.find(fp=>fp.reference==='J2'));
+    const reread=JSON.parse((await current.bridge.execute(padRead)).content);
+    expect(reread.boardCounts).toEqual(read.boardCounts);
+  });
+
+  it.each(['oval','explicit zero net and offset'] as const)('admits the bounded constructed %s variant without exposing a hole terminal',async kind=>{
+    const changedHole=kind==='oval'?hole.physical.source.replace('np_thru_hole circle','np_thru_hole oval')
+      .replace('(size 0.65 0.65)','(size 0.65 0.9)').replace('(drill 0.65)','(drill oval 0.65 0.9)')
+      :`${hole.physical.source.slice(0,-1).replace('(drill 0.65)','(drill 0.65 (offset 0 0))')} (net 0 ""))`;
+    const variant=source.replace(hole.physical.source,changedHole),current=await fixture(variant,{initial:variant});
+    const read=JSON.parse((await current.bridge.execute(padRead)).content);
+    expect(read.boardCounts).toMatchObject({physicalPadCount:24,logicalTerminalCount:19,nonElectricalFeatureCount:2});
+    expect(read.terminals.some((terminal:any)=>terminal.pad==='')).toBe(false);
+    expect(read.pads.some((pad:any)=>pad.physical.id===hole.physical.id)).toBe(false);
+  });
+
+  it.each([
+    ['numbered NPTH',(pad:string)=>pad.replace('(pad ""','(pad "LOCATOR"')],
+    ['assigned NPTH',(pad:string)=>`${pad.slice(0,-1)} (net "GND"))`],
+    ['annular NPTH',(pad:string)=>pad.replace('(size 0.65 0.65)','(size 0.8 0.8)')],
+    ['offset NPTH',(pad:string)=>pad.replace('(drill 0.65)','(drill 0.65 (offset 0.1 0))')],
+    ['unsupported shape',(pad:string)=>pad.replace('np_thru_hole circle','np_thru_hole rect')],
+    ['unsupported type',(pad:string)=>pad.replace('np_thru_hole','unknown_pad')],
+    ['unsupported layer',(pad:string)=>pad.replace('"*.Cu" "*.Mask"','"*.Cu" "Dwgs.User"')],
+    ['paste layer',(pad:string)=>pad.replace('"*.Cu" "*.Mask"','"*.Cu" "F.Paste"')],
+    ['missing drill',(pad:string)=>pad.replace('(drill 0.65)','')],
+    ['duplicate size',(pad:string)=>pad.replace('(size 0.65 0.65)','(size 0.65 0.65) (size 0.65 0.65)')],
+    ['unknown source field',(pad:string)=>`${pad.slice(0,-1)} (uncharacterized 1))`],
+    ['unknown drill field',(pad:string)=>pad.replace('(drill 0.65)','(drill 0.65 (uncharacterized 1))')],
+    ['sub-nm dimensions',(pad:string)=>pad.replace('(size 0.65 0.65)','(size 0.65000000000000000001 0.65)')],
+  ] as const)('rejects %s at sync and contract pad read before raw PAD collection',async(_label,change)=>{
+    const damaged=source.replace(hole.physical.source,change(hole.physical.source));
+    const syncing=await fixture(source,{syncSource:damaged,syncReply});
+    await expect(syncing.bridge.execute(syncCall)).rejects.toThrow();
+    expect(syncing.nativeReads()).toBe(0);
+    expect(await readFile(syncing.project.pcbPath,'utf8')).toBe(empty);
+    const reading=await fixture(source,{initial:source});
+    await reading.replaceOwnedSource(damaged);
+    await expect(reading.bridge.execute(padRead)).rejects.toThrow();
+    expect(reading.nativeReads()).toBe(0);
+    expect(await readFile(reading.project.pcbPath,'utf8')).toBe(damaged);
+  });
+
+  it.each(['removed hole','changed bore','wrong library','wrong NC net'] as const)('retains complete source/library/NC checks for %s',async change=>{
+    const current=await fixture(source,{initial:source});
+    const damaged=change==='removed hole'?source.replace(hole.physical.source,'')
+      :change==='changed bore'?source.replace(hole.physical.source,hole.physical.source.replaceAll('0.65','0.7'))
+      :change==='wrong library'?source.replace(connector.libraryId,'Other:Different')
+      :source.replace('(net "unconnected-(J1-CC1-PadA5)")','(net "GND")');
+    await current.replaceOwnedSource(damaged);
+    await expect(current.bridge.execute(padRead)).rejects.toThrow();
+    expect(await readFile(current.project.pcbPath,'utf8')).toBe(damaged);
+  });
+});
 
 describe('preserving physical footprint placement',()=>{
   it.each(placementAliases)('stages an exact stock-footprint translation for %s and requires native save/readback',async name=>{

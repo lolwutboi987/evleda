@@ -28,6 +28,12 @@ const DOC8 = Object.freeze({
   path: DOC6.path, sha256: "8e5810bc7879b636c42c8d6e0d561875b3d16bd2222272a2ea58bd5f7aeefddf", sizeBytes: 189117,
   patch: "no-connect-net-transfer.patch", patchSha256: "ddef949dfe12f2291451fa912fe3c1b9e11965185c5f507cd7172d67fef0330d", patchBytes: 2387,
 });
+const DOC9 = Object.freeze({
+  provenanceSha256: "5bcc8899c65fa4fdf9a2da6737d2fc6d63c64df819493cc9120c87972cccbcdf",
+  path: "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+  sha256: "543f36faf8747907c4044906b6a24cb48cf43bf399bc8986cd4d2192a748c93e", sizeBytes: 25847,
+  patch: "bounded-arc-field-layout.patch", patchSha256: "798c369c022018d4fe88d6c93979995f0aa5c9992193db689b34d23c471b034e", patchBytes: 7159,
+});
 export const originalRuntimeRoot = String.raw`D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc5`;
 export const sha256 = bytes => createHash("sha256").update(bytes).digest("hex");
 export const pyvenvText = root => `home = ${path.join(root, "python")}\nimplementation = CPython\nuv = 0.11.31\nversion_info = 3.13.12\ninclude-system-site-packages = false\nrelocatable = true\n`;
@@ -172,6 +178,35 @@ async function doc8Reference(doc7) {
     files: doc7.files.map(file => file.path === DOC8.path ? after : file) };
 }
 
+/** Authenticate ARC planning on DOC7 directly; DOC8 is never a predecessor. */
+async function doc9Reference(doc7) {
+  const directory = path.join(repositoryRoot, "sidecars", "patches", "doc9");
+  const bytes = await readFile(path.join(directory, "provenance.json"));
+  assert.equal(sha256(bytes), DOC9.provenanceSha256, "DOC9 provenance differs from its published pin");
+  const provenance = JSON.parse(bytes);
+  assert.equal(provenance.schemaVersion, "evleda.doc9-bounded-arc-field-layout-runtime.v1");
+  assert.equal(provenance.sourceManifest.sha256, "87de3535155cdfcf9650f19409ca4f203b8bba373ce8021ea646f982258b80f7", "DOC9 must derive from frozen DOC7");
+  assert.equal(doc7.files.find(file => file.path === DOC6.path)?.sha256, DOC6.sha256, "DOC9 must retain DOC7 PCB behavior");
+  assert.deepEqual(provenance.runtimeDelta.map(delta => delta.path), [DOC9.path, "environment/pyvenv.cfg"], "DOC9 contains an unapproved runtime delta");
+  const before = doc7.files.find(file => file.path === DOC9.path);
+  assert.ok(before, "DOC9 source has no published DOC7 predecessor");
+  const after = { ...before, sha256: DOC9.sha256, sizeBytes: DOC9.sizeBytes };
+  assert.deepEqual(provenance.runtimeDelta[0], { path: DOC9.path, before, after }, "DOC9 source delta differs from its published predecessor");
+  assert.equal(provenance.sourceRestoreMapping.length, 1, "DOC9 must contain only the published field-layout overlay");
+  const mapping = provenance.sourceRestoreMapping[0];
+  assert.equal(mapping.runtimeRelativePath, DOC9.path);
+  assert.equal(mapping.source.sha256, DOC9.sha256); assert.equal(mapping.source.sizeBytes, DOC9.sizeBytes);
+  const source = await readFile(path.join(directory, "kicad_mcp", "utils", "field_layout.py"));
+  assert.equal(sha256(source), DOC9.sha256, "DOC9 field-layout source differs from its published pin");
+  assert.equal(source.length, DOC9.sizeBytes);
+  assert.equal(provenance.patch.sha256, DOC9.patchSha256); assert.equal(provenance.patch.sizeBytes, DOC9.patchBytes);
+  const patch = await readFile(path.join(directory, DOC9.patch));
+  assert.equal(sha256(patch), DOC9.patchSha256, "DOC9 patch differs from its published pin");
+  assert.equal(patch.length, DOC9.patchBytes);
+  return { ...doc7, totalBytes: doc7.totalBytes - before.sizeBytes + after.sizeBytes,
+    files: doc7.files.map(file => file.path === DOC9.path ? after : file) };
+}
+
 export function runManifestHelper(mode, root, manifest, finalRoot = root) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [path.join(repositoryRoot, "scripts", "build-kicad-inspection-runtime-manifest.mjs"), mode, root, manifest, finalRoot], {
@@ -195,19 +230,24 @@ export async function verifyRuntime(paths) {
   const isDoc6 = isDoc8 || pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
   const graph = candidate.files?.find(file => file.path === DOC7.sources[0].path);
   const isDoc7 = isDoc6 && graph?.sha256 === DOC7.sources[0].sha256 && graph?.sizeBytes === DOC7.sources[0].sizeBytes;
+  const fieldLayout = candidate.files?.find(file => file.path === DOC9.path);
+  const isDoc9 = fieldLayout?.sha256 === DOC9.sha256 && fieldLayout?.sizeBytes === DOC9.sizeBytes;
+  assert.ok(!isDoc9 || (isDoc7 && !isDoc8), "DOC9 requires the DOC7 graph and PCB behavior; DOC8 cannot be its predecessor");
   const doc6 = isDoc6 ? await doc6Reference(original) : original;
   const doc7 = isDoc7 ? await doc7Reference(doc6) : doc6;
-  const reference = isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
+  const reference = isDoc9 ? await doc9Reference(doc7) : isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
   assertDoc5Relocation(reference, candidate, paths.root);
   const result = await runManifestHelper("verify", paths.root, paths.manifest);
-  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
+  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
     doc5SourcePinsVerified: true, ...(isDoc6 ? { doc6SourcePinsVerified: true, doc6ProvenanceSha256: DOC6.provenanceSha256 } : {}),
     ...(isDoc7 ? { doc7SourcePinsVerified: true, doc7ProvenanceSha256: DOC7.provenanceSha256 } : {}),
     ...(isDoc8 ? { doc8SourcePinsVerified: true, doc8ProvenanceSha256: DOC8.provenanceSha256 } : {}),
+    ...(isDoc9 ? { doc9SourcePinsVerified: true, doc9ProvenanceSha256: DOC9.provenanceSha256 } : {}),
     allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only",
       ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : []),
       ...(isDoc7 ? DOC7.sources.map(source => `${source.path}: published DOC7 power-flag graph overlay only`) : []),
-      ...(isDoc8 ? [`${DOC8.path}: published DOC8 singleton no-connect transfer overlay only`] : [])] };
+      ...(isDoc8 ? [`${DOC8.path}: published DOC8 singleton no-connect transfer overlay only`] : []),
+      ...(isDoc9 ? [`${DOC9.path}: published DOC9 bounded ARC field-layout overlay only`] : [])] };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

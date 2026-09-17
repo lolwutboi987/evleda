@@ -137,18 +137,28 @@ describe("in-chat workspace controller over actual MCP", () => {
       expect(planeSchema).toMatchObject({ family: "plane-v2",
         supportedFamilies: ["routed-v1", "plane-v2"],
         schema: { properties: { schemaVersion: { const: "evleda.pcb-design-intent-draft.v2" }, planes: expect.any(Object), interfaceRequirements: expect.any(Object) } },
-        guide: getPcbPlaneDesignIntentModelGuide(true, true), guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
+        guide: getPcbPlaneDesignIntentModelGuide(true, true, false, true), guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
         optionalRequirements: { interfaceRequirements: { schemaVersion: PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION,
           kinds: ["differential_pair"], sourceAuthority: "caller_asserted_intent", physicalVerification: "not_performed" } },
         example: { schemaVersion: "evleda.pcb-design-intent-draft.v2" }, instruction: expect.any(String) });
       expect(Buffer.byteLength(planeSchema.guide, "utf8")).toBeLessThanOrEqual(20 * 1024);
       expect(planeSchema.schema.required).not.toContain("interfaceRequirements");
       expect(planeSchema.schema.required).not.toContain("externalPowerInputs");
+      expect(planeSchema.schema.required).not.toContain("derivedPowerSources");
       expect(planeSchema.optionalRequirements.externalPowerInputs).toMatchObject({ sourceAuthority: "caller_asserted_external_supply", physicalComponentsAdded: false });
+      expect(planeSchema.optionalRequirements.derivedPowerSources).toMatchObject({ sourceAuthority: "source_inspected_driver_and_caller_reviewed_path", physicalComponentsAdded: false });
+      for (const term of ["Without externalPowerInput", "externalPowerInput={id,diodeForwardDropAssumption,operatingModes}",
+        "exact bound external connector supply", "one stock Device:D_Schottky step 2/A to 1/K", "power_in consumer", "same external ground", "not electrical qualification"])
+        expect(planeSchema.optionalRequirements.derivedPowerSources.instruction).toContain(term);
+      expect(planeSchema.guide).toContain("exactly one stock Device:D_Schottky");
+      const channelSchema = body(await f.call("evleda_design_schema", { family: "plane-v2", includeChannel: true }));
+      expect(Buffer.byteLength(channelSchema.guide, "utf8")).toBeLessThanOrEqual(channelSchema.guideMaxUtf8Bytes);
       expect(planeSchema.example).not.toHaveProperty("externalPowerInputs");
+      expect(planeSchema.example).not.toHaveProperty("derivedPowerSources");
       expect(planeSchema.example).not.toHaveProperty("interfaceRequirements");
       expect(defaultSchema).not.toHaveProperty("optionalRequirements");
       expect((await f.client.listTools()).tools.find(tool => tool.name === "evleda_design_schema")!.description).toContain("interfaceRequirements");
+      expect((await f.client.listTools()).tools.find(tool => tool.name === "evleda_design_schema")!.description).toContain("explicit external-input forward Schottky");
       expect((await f.call("evleda_design_schema", { family: "plane-v3" })).isError).toBe(true);
       expect(body(await f.call("evleda_inspect_library", { kind: "symbol", libraryId: "Device:R" })).found).toBe(true);
       expect(f.inspectLibrary).toHaveBeenCalledWith("symbol", "Device:R");

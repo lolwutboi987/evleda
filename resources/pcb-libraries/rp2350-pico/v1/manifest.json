@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "evleda.kicad-approved-package.v1",
+  "namespace": "EvlEDA_Pico2350",
+  "symbols": [
+    {
+      "libraryId": "EvlEDA_Pico2350:RT6150B-33GQW",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "702a0f8ea64f3dd9185b7790634aea222c8efee4f137be2d5a1a1e5cff8491f6",
+          "size": 3276
+        }
+      },
+      "provenanceIds": [
+        "richtek-rt6150",
+        "source-identities"
+      ]
+    }
+  ],
+  "footprints": [
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_Abracon_Recommended",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_Abracon_Recommended.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "5b39565979fcd5f4a59483446d5b9e5479df81908690e9d6e6d9fe300e3cef8a",
+          "size": 1452
+        }
+      },
+      "provenanceIds": [
+        "abracon-aota",
+        "raspberry-pi-minimal",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+          "size": 1456
+        }
+      },
+      "provenanceIds": [
+        "abracon-aota",
+        "raspberry-pi-minimal",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+          "size": 2284
+        }
+      },
+      "provenanceIds": [
+        "richtek-rt6150",
+        "source-identities"
+      ]
+    }
+  ],
+  "provenance": [
+    {
+      "id": "richtek-rt6150",
+      "relativePath": "provenance/richtek-rt6150.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "12136603ad4115171d9cbbda977a84bb7b15d01d1c3a530ad571c142c14bd35c",
+        "size": 2215
+      },
+      "url": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf"
+    },
+    {
+      "id": "abracon-aota",
+      "relativePath": "provenance/abracon-aota.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "4b1ff20e2f2c22af48b418e5e2d5599543a10688e0623bb9652a67fc9ef4e67f",
+        "size": 1533
+      },
+      "url": "https://abracon.com/datasheets/AOTA-B201610S3R3-101-T.pdf"
+    },
+    {
+      "id": "raspberry-pi-minimal",
+      "relativePath": "provenance/raspberry-pi-minimal.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0d5cf3398ec5f581b81fb23b66b3d2d66b182b0caea8cc9d51f51486740bd870",
+        "size": 1867
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip"
+    },
+    {
+      "id": "source-identities",
+      "relativePath": "provenance/source-identities.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0cbe9e88ab99eba6419b7a46e7a848f9e021f9174a6bbe27877dabaf214d150e",
+        "size": 3129
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf"
+    }
+  ],
+  "notice": {
+    "relativePath": "NOTICE.md",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "2258d017888096924ca0ca55d27835029d42fb340a51c2f65abf0066746f74e9",
+      "size": 2539
+    }
+  }
+}

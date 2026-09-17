@@ -1,0 +1,305 @@
+{
+  "schemaVersion": "evleda.doc9-bounded-arc-field-layout-runtime.v1",
+  "status": "OFFLINE_VERIFIED_NATIVE_PENDING",
+  "startedAt": "2026-09-17T08:26:55.410Z",
+  "completedAt": "2026-09-17T08:28:20.497Z",
+  "elapsedMs": 85086,
+  "timings": {
+    "sourceVerificationMs": 34300,
+    "copyAndPatchMs": 0,
+    "installedOfflineTestsMs": 2454,
+    "manifestMs": 33422,
+    "finalSourceVerificationMs": 14822
+  },
+  "sourceRuntimeRoot": "C:\\EvlEDA-DOC7-20260910",
+  "sourceManifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc7.json",
+    "sha256": "87de3535155cdfcf9650f19409ca4f203b8bba373ce8021ea646f982258b80f7",
+    "sizeBytes": 1574798
+  },
+  "sourceVerification": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150423640,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "7654f6c1cafab4e9f2f30f33ecff2325bb8993e2023b059945f6a4c966a3df99",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "94d05e96729f2fc62b8e74cdc5e6733cbaf3f24117ad6d645dcea3c97a2c4d30",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "finalSourceVerification": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150423640,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "7654f6c1cafab4e9f2f30f33ecff2325bb8993e2023b059945f6a4c966a3df99",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "94d05e96729f2fc62b8e74cdc5e6733cbaf3f24117ad6d645dcea3c97a2c4d30",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "runtimeRoot": "C:\\EvlEDA-DOC9-20260917",
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc9.json",
+    "sha256": "28be8d5a44cf635fbb0e50609b8a0ae72e2051f68b7cd9897e78b676cb036738",
+    "sizeBytes": 1574798
+  },
+  "manifestIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "21cdd9a8f3949f5ac2e7ed143932cf2153da140d12959773b34554d980bb1d73",
+    "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+  },
+  "treeIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "7f5120eca970b135eb52aa49a9f4936e7bc6871f68184b127425414bd004addf",
+    "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+  },
+  "fileCount": 8467,
+  "directoryCount": 1159,
+  "totalBytes": 150429066,
+  "runtimeDelta": [
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+      "before": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+        "sha256": "6164828e26cc9a614abe012d543b7b4d44b3d0cbcba19c3cad0a127906c9ffe1",
+        "sizeBytes": 20421
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py",
+        "sha256": "543f36faf8747907c4044906b6a24cb48cf43bf399bc8986cd4d2192a748c93e",
+        "sizeBytes": 25847
+      }
+    },
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "9b187aa6cdd1a4747b01b9eab97eb8dd2a17daa2728a047d3a4e6830744e34df",
+        "sizeBytes": 155
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "7aa74f5c95bce9300ad069a12f843acbd0b4b8e78383c0edc68d760169bc1270",
+        "sizeBytes": 155
+      }
+    }
+  ],
+  "sourceRestoreMapping": [
+    {
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc9\\kicad_mcp\\utils\\field_layout.py",
+        "sha256": "543f36faf8747907c4044906b6a24cb48cf43bf399bc8986cd4d2192a748c93e",
+        "sizeBytes": 25847
+      },
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/utils/field_layout.py"
+    }
+  ],
+  "patch": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc9\\bounded-arc-field-layout.patch",
+    "sha256": "798c369c022018d4fe88d6c93979995f0aa5c9992193db689b34d23c471b034e",
+    "sizeBytes": 7159
+  },
+  "testDriver": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc9\\test_arc_field_layout.py",
+    "sha256": "f60b1a1d720eafa4ed3563d000706ac3c73b76b870dcb26de49cd749fb350939",
+    "sizeBytes": 15460
+  },
+  "builder": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc9\\build-runtime.mjs",
+    "sha256": "f9c46f2c963b186a2c06268587476b60dde3424c8b3cda3a228aaf4a044e32ae",
+    "sizeBytes": 18578
+  },
+  "baseline": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-arc-baseline-doc7.json",
+    "sha256": "7c38503830e060d0e55927c89a093604c829b5a6a7a5775e0b0efa5ffbc65692",
+    "sizeBytes": 1474
+  },
+  "fixtureSource": {
+    "source": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-usb-c-native-03\\workspace\\projects\\7ff60924-86a8-4b10-93d7-8c3c4e291439\\output\\project\\usb-c-mechanical-probe.kicad_sch",
+      "sha256": "55e2d56e6d65e5bab705a891f8d7360ad21f84a47d26b6a7d1bb933f2a93d68d",
+      "sizeBytes": 22705
+    },
+    "retained": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc9\\fixtures\\usb-c-mechanical-probe.kicad_sch",
+      "sha256": "55e2d56e6d65e5bab705a891f8d7360ad21f84a47d26b6a7d1bb933f2a93d68d",
+      "sizeBytes": 22705
+    }
+  },
+  "patchReproduction": {
+    "command": "C:\\Program Files\\Git\\cmd\\git.exe",
+    "args": [
+      "-c",
+      "core.autocrlf=false",
+      "apply",
+      "--reverse",
+      "--check",
+      "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc9\\bounded-arc-field-layout.patch"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "reproducedFile": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-arc-patch-reproduction-final\\kicad_mcp\\utils\\field_layout.py",
+      "sha256": "543f36faf8747907c4044906b6a24cb48cf43bf399bc8986cd4d2192a748c93e",
+      "sizeBytes": 25847
+    },
+    "matchesPublishedSource": true
+  },
+  "installedOfflineTests": {
+    "report": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-bounded-arc-field-layout-tests.json",
+      "sha256": "e14c8b71263ef2ea80b5a8c604da39f3e5fe45cd3ed2968edbf2f1b9a6a3ed0c",
+      "sizeBytes": 18979
+    },
+    "testsRun": 17,
+    "success": true
+  },
+  "preservedIdentityTests": {
+    "driver": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc6\\test_qualified_footprint_identity.py",
+      "sha256": "588ac7826945dd02581d6e96dc72be39c0af9ec6de4f89da9ee64e1b49c0b74d",
+      "sizeBytes": 16143
+    },
+    "report": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-qualified-footprint-identity-tests.json",
+      "sha256": "accb8a53785290a3e79dc8689bfff869da0dcb1ed50bcc768686c635762eb386",
+      "sizeBytes": 5289
+    },
+    "testsRun": 12,
+    "success": true
+  },
+  "preservedGraphTests": {
+    "driver": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc7\\test_power_flag_connectivity.py",
+      "sha256": "4aac2239b1034316ab6975e083daf23714fcf85e3a4551a66cf92a3eaf1aefad",
+      "sizeBytes": 13177
+    },
+    "report": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-power-flag-connectivity-tests.json",
+      "sha256": "69f8dd6fd558ad3553b49d790ea65fcb7705267fe24ce61cf3757ec1ab65e102",
+      "sizeBytes": 38838
+    },
+    "testsRun": 13,
+    "success": true
+  },
+  "registeredDescriptors": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-preserved-tool-descriptors.json",
+    "sha256": "a28dad8c1c2d88a539513bbe64b3176b9a1078046dd7325103a1cce46753451e",
+    "sizeBytes": 7476
+  },
+  "normalizedDescriptorSha256": {
+    "pcb_sync_from_schematic": "4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3",
+    "sch_get_connectivity_graph": "eddb2180b77bf4aa528bc9f007c5ab07cdd54dbc310d661e79c4a8fb368ad54d"
+  },
+  "syncRegistration": {
+    "driver": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc9\\capture_sync_descriptor.py",
+      "sha256": "ac6f3f449dcffc79ed9c1cf59cb9c9fc12a6014568c0711419164b13b2da1b99",
+      "sizeBytes": 1998
+    },
+    "report": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-sync-registration.json",
+      "sha256": "550e170219041a23a80ff6f346d53e3c74581a1ebe48986b5cc8c901403bb86a",
+      "sizeBytes": 3292
+    }
+  },
+  "resumedAfter": "Generic FastMCP in DOC6 regression driver does not apply production KiCadFastMCP descriptor normalization. Exact production registration captured separately; no comparator weakened.",
+  "resumeClosure": {
+    "manifest": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc9-resume-runtime-manifest.json",
+      "sha256": "28be8d5a44cf635fbb0e50609b8a0ae72e2051f68b7cd9897e78b676cb036738",
+      "sizeBytes": 1574798
+    },
+    "verification": {
+      "fileCount": 8467,
+      "directoryCount": 1159,
+      "totalBytes": 150429066,
+      "treeIdentity": {
+        "algorithm": "sha256",
+        "digest": "7f5120eca970b135eb52aa49a9f4936e7bc6871f68184b127425414bd004addf",
+        "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      },
+      "manifestIdentity": {
+        "algorithm": "sha256",
+        "digest": "21cdd9a8f3949f5ac2e7ed143932cf2153da140d12959773b34554d980bb1d73",
+        "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    }
+  },
+  "built": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150429066,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "7f5120eca970b135eb52aa49a9f4936e7bc6871f68184b127425414bd004addf",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "21cdd9a8f3949f5ac2e7ed143932cf2153da140d12959773b34554d980bb1d73",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "verification": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150429066,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "7f5120eca970b135eb52aa49a9f4936e7bc6871f68184b127425414bd004addf",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "21cdd9a8f3949f5ac2e7ed143932cf2153da140d12959773b34554d980bb1d73",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "preserved": {
+    "frozenDoc7": true,
+    "full8467FileClosure": true,
+    "packageMetadataAndRecord": true,
+    "existingProfiles": true,
+    "dist": true,
+    "existingNativeProject": true,
+    "toolDescriptors": true,
+    "doc7PcbNoConnectBehavior": true
+  },
+  "scope": {
+    "editorLaunched": false,
+    "mcpServerLoopStarted": false,
+    "nativeApiCalls": 0,
+    "nativeIntegration": "parent-owned, pending",
+    "baselineEvidence": "Pure-memory replay on retained native03 source, not original MCP error text.",
+    "change": "Bound explicit three-point ARC sweeps with stroke-aware conservative AABBs in the existing field planner; retain complete arc source.",
+    "limitations": "No native glyph/pin-text accuracy, readability, electrical or manufacturing verdict. Bezier, library text, default-width arcs and ambiguous geometry remain rejected. No DOC8 NC filter."
+  }
+}

@@ -8,6 +8,8 @@ import { createKicadTransmissionLineCalculator, KICAD_TRANSMISSION_LINE_IMPLEMEN
   type KicadTransmissionLineCalculator } from "../../src/integrations/kicad-transmission-line.js";
 import type { BoundedProcessOptions, BoundedProcessResult } from "../../src/integrations/bounded-process.js";
 import { interfaceConstructionBundle, interfaceConstructionDraft, constructionAssertion } from "../helpers/interface-construction-bundle.js";
+import { usbChannelBundle, usbChannelDraft } from "../helpers/usb-channel-bundle.js";
+import { usbChannelPcb } from "../helpers/usb-channel-source.js";
 
 const ownedDirectories: string[] = [];
 afterEach(async () => { for (const directory of ownedDirectories.splice(0)) { const resolved = path.resolve(directory);
@@ -69,6 +71,19 @@ async function calculatorFixture(odd = 50, onDispatch?: (options: BoundedProcess
 const assess = (source: string, inputDraft = draft(), calculator?: KicadTransmissionLineCalculator) => assessSavedInterface({ savedPcbBytes: Buffer.from(source), compilationBundle: interfaceConstructionBundle(inputDraft), interfaceId: "LINK", ...(calculator ? { calculator } : {}) });
 
 describe("saved interface source and authority boundaries", () => {
+  it("retains a modeled channel body interval without claiming launch, branch, resistor or protection coverage", async () => {
+    const inputDraft = usbChannelDraft();
+    inputDraft.interfaceRequirements.construction.surfaceFinish = "bare copper";
+    inputDraft.interfaceRequirements.interfaces[0].impedance = { mode: "differential", targetOhms: 100, toleranceOhms: 1,
+      frequencyHz: 100_000_000, constructionId: "STACK", source: constructionAssertion() };
+    const fixture = await calculatorFixture(), result = await assessSavedInterface({ savedPcbBytes: Buffer.from(usbChannelPcb().replace('(copper_finish "fixture bare copper")', '(copper_finish "bare copper")')),
+      compilationBundle: usbChannelBundle(inputDraft), interfaceId: "LINK", calculator: fixture.calculator });
+    expect(result.impedance.intervals.length).toBeGreaterThan(0);
+    expect(result.impedance.intervals.every(interval => interval.status === "within_tolerance"), JSON.stringify(result.impedance.intervals.map(interval => interval.reasons))).toBe(true);
+    expect(result.impedance.completeRouteModelCoverage).toBe(false);
+    expect(result.impedance.unmodeledEffects).toEqual(expect.arrayContaining(["neckdowns", "branch_taps", "series_resistors", "protection_devices", "complete_channel"]));
+    expect(result.interfaceAccepted).toBe(false); expect(result.fabricationAuthorized).toBe(false);
+  });
   it("binds actual complete saved geometry and exact construction to an authenticated requirement", async () => {
     const source = pcb(), bundle = interfaceConstructionBundle(draft(false)), result = await assessSavedInterface({ savedPcbBytes: Buffer.from(source), compilationBundle: bundle, interfaceId: "LINK" });
     expect(result.sourceIdentity).toEqual(contentIdentity(source)); expect(result.bundleIdentity).toEqual(bundle.identity);

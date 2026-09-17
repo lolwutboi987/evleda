@@ -1,0 +1,540 @@
+"""Bounded presentation planning, not a native schematic-readability verdict.
+
+Reuse the upstream 0.66 text-width model and field placer. Geometry is deliberately
+conservative and incomplete for native glyph/pin text; a native SVG gate remains
+required. This module has no configuration, filesystem, IPC, or mutation access.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import math
+import re
+from dataclasses import dataclass
+
+from ..models.visual_qa import _collect_symbol_local_points, _instance_body_box, _rotate_local
+from .field_placer import FieldPlacement, FieldSpec, autoplace_fields
+from .geometry import Box, TextField, parse_justify
+from .sexpr import _unescape_sexpr_string
+
+_STRING = r'"((?:[^"\\]|\\.)*)"'
+_NUMBER = r'[-+]?(?:\d+(?:\.\d*)?|\.\d+)'
+_POSITIONAL_JUSTIFY = frozenset({"left", "right", "top", "bottom"})
+CLEARANCE_MM = 0.762
+MAX_MARGIN_STEPS = 12
+MARGIN_STEP_MM = 1.27
+# DOC9 deliberately bounds numeric conditioning and explicit local geometry.
+ARC_LIMIT_MM = 10_000.0
+ARC_MIN_SEPARATION_MM = 1e-6
+ARC_MIN_NORMALIZED_CROSS = 1e-8
+ARC_ANGLE_EPSILON = 1e-8
+
+
+def child_spans(block: str) -> list[tuple[int, int]]:
+    """Immediate child spans in the original string, never matches inside text.
+
+    No comment syntax is advertised by this bounded planner. Comments outside
+    quoted strings are rejected rather than guessed; quoted semicolons are text.
+    """
+    root_start = len(block) - len(block.lstrip())
+    if root_start == len(block) or block[root_start] != "(":
+        raise ValueError("Presentation input is not one S-expression")
+    result: list[tuple[int, int]] = []
+    depth = 0
+    child_start = None
+    quoted = False
+    escaped = False
+    for index in range(root_start, len(block)):
+        char = block[index]
+        if quoted:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                quoted = False
+        elif char == '"':
+            quoted = True
+        elif char == ";" or block.startswith("#|", index):
+            raise ValueError("Comments are unsupported in bounded presentation planning")
+        elif char == "(":
+            if depth == 1:
+                child_start = index
+            depth += 1
+        elif char == ")":
+            depth -= 1
+            if depth == 1:
+                if child_start is None:
+                    raise ValueError("Unbalanced presentation child")
+                result.append((child_start, index + 1))
+                child_start = None
+            if depth == 0:
+                if block[index + 1:].strip():
+                    raise ValueError("Trailing data after presentation expression")
+                return result
+    raise ValueError("Unbalanced/unterminated presentation input")
+
+
+def children(block: str) -> list[str]:
+    return [block[start:end] for start, end in child_spans(block)]
+
+
+def splice(block: str, replacements: list[tuple[int, int, str]]) -> str:
+    """Replace already resolved non-overlapping structural spans, right to left."""
+    previous = len(block)
+    for start, end, replacement in sorted(replacements, reverse=True):
+        if not 0 <= start < end <= previous:
+            raise ValueError("Overlapping/invalid presentation spans")
+        block = block[:start] + replacement + block[end:]
+        previous = start
+    return block
+
+
+def tag(block: str) -> str:
+    match = re.match(r"\(([^\s()]+)", block)
+    return match.group(1) if match else ""
+
+
+def child(block: str, name: str) -> str | None:
+    span = named_child_span(block, name)
+    return block[span[0]:span[1]] if span else None
+
+
+def named_child_span(block: str, name: str) -> tuple[int, int] | None:
+    matches = [(start, end) for start, end in child_spans(block) if tag(block[start:end]) == name]
+    if len(matches) > 1:
+        raise ValueError(f"Duplicate presentation node: {name}")
+    return matches[0] if matches else None
+
+
+def at(block: str) -> tuple[float, float, float]:
+    value = child(block, "at") or ""
+    match = re.fullmatch(rf"\(at\s+({_NUMBER})\s+({_NUMBER})(?:\s+({_NUMBER}))?\s*\)", value)
+    if not match:
+        raise ValueError("Missing/unsupported presentation position")
+    result = (float(match[1]), float(match[2]), float(match[3] or 0))
+    if not all(math.isfinite(number) for number in result):
+        raise ValueError("Nonfinite presentation position")
+    if result[2] % 90:
+        raise ValueError("Presentation planning supports cardinal rotations only")
+    return result
+
+
+def quoted_head(block: str, name: str, count: int = 1) -> list[str]:
+    match = re.match(r"\(" + re.escape(name) + (r"\s+" + _STRING) * count, block)
+    if not match:
+        raise ValueError(f"Malformed {name} presentation node")
+    return [_unescape_sexpr_string(value) for value in match.groups()]
+
+
+def effects(block: str) -> tuple[float, bool, bool, frozenset[str]]:
+    node = child(block, "effects")
+    if node is None:
+        raise ValueError("Presentation node has no effects")
+    font = child(node, "font") or "(font)"
+    size = child(font, "size") or ""
+    match = re.fullmatch(rf"\(size\s+({_NUMBER})\s+({_NUMBER})\s*\)", size)
+    if not match or float(match[1]) <= 0 or float(match[1]) != float(match[2]):
+        raise ValueError("Presentation planning requires positive isotropic font size")
+    font_mm = float(match[1])
+    # KiCad accepts both bare legacy 'hide'/'bold' and modern '(hide yes)'.
+    bare_effects = splice(node, [(start, end, "") for start, end in child_spans(node)])
+    bare_font = splice(font, [(start, end, "") for start, end in child_spans(font)])
+    hide = child(node, "hide")
+    hidden = bool(re.fullmatch(r"\(hide\s+yes\s*\)", hide or "")) or bool(re.search(r"\bhide\b", bare_effects))
+    bold = bool(re.search(r"\bbold\b", bare_font)) or bool(
+        re.fullmatch(r"\(bold\s+yes\s*\)", child(font, "bold") or "")
+    )
+    justify_node = child(node, "justify")
+    raw_justify = justify_node[len("(justify"):-1].split() if justify_node else []
+    if set(raw_justify) - _POSITIONAL_JUSTIFY:
+        raise ValueError("Unsupported/mirrored text justification in presentation planning")
+    return font_mm, bold, hidden, parse_justify(" ".join(raw_justify))
+
+
+def bounds(box: Box) -> dict[str, float]:
+    return {"minX": box.x_min, "minY": box.y_min, "maxX": box.x_max, "maxY": box.y_max}
+
+
+@dataclass(frozen=True)
+class Field:
+    name: str
+    text: str
+    x: float
+    y: float
+    angle: float
+    font_mm: float
+    bold: bool
+    hidden: bool
+    justify: frozenset[str]
+
+    def box(self) -> Box:
+        return TextField(self.text, self.x, self.y, self.angle, self.font_mm,
+                         bold=self.bold, justify=self.justify).box()
+
+    def evidence(self) -> dict:
+        return {"name": self.name, "text": self.text, "visible": not self.hidden,
+                "fontMm": self.font_mm, "bold": self.bold, "at": {"x": self.x, "y": self.y},
+                "angle": self.angle, "justify": sorted(self.justify), "bounds": bounds(self.box())}
+
+
+def fields(block: str) -> list[Field]:
+    result: list[Field] = []
+    for prop in children(block):
+        if tag(prop) != "property":
+            continue
+        name, text = quoted_head(prop, "property", 2)
+        x, y, angle = at(prop)
+        font_mm, bold, hidden, justify = effects(prop)
+        if any(item.name == name for item in result):
+            raise ValueError(f"Duplicate property: {name}")
+        result.append(Field(name, text, x, y, angle, font_mm, bold, hidden, justify))
+    return result
+
+
+def set_field_presentation(block: str, field: str, at_node: str,
+                           justify: frozenset[str]) -> str:
+    """Change only a real immediate Reference/Value property's at/justify nodes."""
+    if field not in ("Reference", "Value") or set(justify) - _POSITIONAL_JUSTIFY:
+        raise ValueError("Unauthorized presentation field/justification")
+    if not re.fullmatch(rf"\(at\s+({_NUMBER})\s+({_NUMBER})\s+({_NUMBER})\)", at_node):
+        raise ValueError("Invalid planned property position")
+    at(f"(property {at_node})")
+    matches = [(start, end) for start, end in child_spans(block)
+               if tag(block[start:end]) == "property"
+               and quoted_head(block[start:end], "property", 2)[0] == field]
+    if len(matches) != 1:
+        raise ValueError(f"Missing/duplicate target field: {field}")
+    prop_start, prop_end = matches[0]
+    prop = block[prop_start:prop_end]
+    if effects(prop)[2]:
+        raise ValueError("Hidden fields are not authorized presentation targets")
+    position_span = named_child_span(prop, "at")
+    effects_span = named_child_span(prop, "effects")
+    if position_span is None or effects_span is None:
+        raise ValueError("Target property lacks at/effects")
+    effects_start, effects_end = effects_span
+    effects_node = prop[effects_start:effects_end]
+    justify_span = named_child_span(effects_node, "justify")
+    justify_node = "(justify " + " ".join(sorted(justify)) + ")" if justify else ""
+    if justify_span is not None:
+        updated_effects = splice(effects_node, [(*justify_span, justify_node)])
+    elif justify_node:
+        # The validated immediate effects node has its structural ')' last.
+        updated_effects = effects_node[:-1] + " " + justify_node + ")"
+    else:
+        updated_effects = effects_node
+    updated_prop = splice(prop, [(*position_span, at_node), (*effects_span, updated_effects)])
+    return splice(block, [(prop_start, prop_end, updated_prop)])
+
+
+def find_symbol_span(content: str, reference: str) -> tuple[str, int, int]:
+    matches = []
+    for start, end in child_spans(content):
+        block = content[start:end]
+        if tag(block) == "symbol" and any(item.name == "Reference" and item.text == reference
+                                           for item in fields(block)):
+            matches.append((block, start, end))
+    if len(matches) != 1:
+        raise ValueError(f"Missing/duplicate target symbol: {reference}")
+    return matches[0]
+
+
+def arc_bounds(block: str) -> Box:
+    """Conservative local AABB of an explicit three-point library arc.
+
+    Start/mid/end determine the circle and the directed sweep through mid,
+    including major arcs. Cardinal extrema, stroke radius and a numeric guard
+    enclose the curve; filled arcs also include the centre to cover either chord
+    or sector fill. Width zero depends on native settings and is rejected. This
+    function never substitutes, flattens or changes the retained source arc.
+    """
+    def exact_children(node: str, name: str, expected: set[str]) -> dict[str, str]:
+        spans = child_spans(node)
+        nodes = [node[start:end] for start, end in spans]
+        names = [tag(item) for item in nodes]
+        if (len(names) != len(expected) or set(names) != expected
+                or not re.fullmatch(r"\(" + re.escape(name) + r"\s*\)",
+                                    splice(node, [(*span, "") for span in spans]))):
+            raise ValueError(f"Unsupported/duplicate arc {name} form")
+        return dict(zip(names, nodes, strict=True))
+
+    nodes = exact_children(block, "arc", {"start", "mid", "end", "stroke", "fill"})
+
+    def point(name: str) -> tuple[float, float]:
+        match = re.fullmatch(rf"\({name}\s+({_NUMBER})\s+({_NUMBER})\s*\)", nodes[name])
+        if not match:
+            raise ValueError("Unsupported arc point")
+        result = (float(match[1]), float(match[2]))
+        if not all(math.isfinite(n) and abs(n) <= ARC_LIMIT_MM for n in result):
+            raise ValueError("Nonfinite/out-of-bounds arc point")
+        return result
+
+    start, mid, end = (point(name) for name in ("start", "mid", "end"))
+    stroke = exact_children(nodes["stroke"], "stroke", {"width", "type"})
+    width_match = re.fullmatch(rf"\(width\s+({_NUMBER})\s*\)", stroke["width"])
+    if not width_match:
+        raise ValueError("Unsupported arc stroke width")
+    width = float(width_match[1])
+    if not math.isfinite(width) or not 0 < width <= ARC_LIMIT_MM:
+        raise ValueError("Arc stroke requires a bounded positive explicit width")
+    if not re.fullmatch(r"\(type\s+(?:default|solid)\s*\)", stroke["type"]):
+        raise ValueError("Unsupported arc stroke type")
+    fill = exact_children(nodes["fill"], "fill", {"type"})
+    fill_match = re.fullmatch(r"\(type\s+(none|outline|background)\s*\)", fill["type"])
+    if not fill_match:
+        raise ValueError("Unsupported arc fill")
+
+    # Compute relative to start, with a normalized determinant, to avoid the
+    # cancellation of absolute-coordinate circle formulas.
+    ux, uy = mid[0] - start[0], mid[1] - start[1]
+    vx, vy = end[0] - start[0], end[1] - start[1]
+    lengths = (math.hypot(ux, uy), math.hypot(vx, vy),
+               math.hypot(end[0] - mid[0], end[1] - mid[1]))
+    if min(lengths) <= ARC_MIN_SEPARATION_MM:
+        raise ValueError("Degenerate/ambiguous arc endpoints")
+    scale = max(lengths)
+    unx, uny, vnx, vny = ux / scale, uy / scale, vx / scale, vy / scale
+    cross = unx * vny - uny * vnx
+    if abs(cross) <= ARC_MIN_NORMALIZED_CROSS:
+        raise ValueError("Degenerate/ill-conditioned arc circle")
+    u2, v2 = unx * unx + uny * uny, vnx * vnx + vny * vny
+    cx = start[0] + scale * (u2 * vny - v2 * uny) / (2 * cross)
+    cy = start[1] + scale * (unx * v2 - vnx * u2) / (2 * cross)
+    radius = math.hypot(start[0] - cx, start[1] - cy)
+    if (not all(math.isfinite(n) and abs(n) <= ARC_LIMIT_MM for n in (cx, cy, radius))
+            or radius <= ARC_MIN_SEPARATION_MM):
+        raise ValueError("Nonfinite/out-of-bounds arc circle")
+    angles = [math.atan2(py - cy, px - cx) for px, py in (start, mid, end)]
+    direction = 1 if cross > 0 else -1
+    sweep = ((angles[2] - angles[0]) * direction) % math.tau
+    middle = ((angles[1] - angles[0]) * direction) % math.tau
+    if (not ARC_ANGLE_EPSILON < sweep < math.tau - ARC_ANGLE_EPSILON
+            or not ARC_ANGLE_EPSILON < middle < sweep - ARC_ANGLE_EPSILON):
+        raise ValueError("Ambiguous arc sweep")
+    points = [start, mid, end]
+    for angle in (0.0, math.pi / 2, math.pi, 3 * math.pi / 2):
+        if ((angle - angles[0]) * direction) % math.tau <= sweep + ARC_ANGLE_EPSILON:
+            points.append((cx + radius * math.cos(angle), cy + radius * math.sin(angle)))
+    if fill_match[1] != "none":
+        points.append((cx, cy))
+    # The determinant floor limits conditioning; pad for floating arithmetic in
+    # addition to stroke radius. Native glyph/rendered clearance remains separate.
+    guard = max(1e-7, scale * 1e-12 / abs(cross),
+                128 * math.ulp(max(1.0, abs(cx), abs(cy), radius)))
+    xs, ys = [p[0] for p in points], [p[1] for p in points]
+    return Box(min(xs), min(ys), max(xs), max(ys)).expanded(width / 2 + guard)
+
+
+def selected_graphics(library: str, unit: int) -> str:
+    parts = []
+    for part in children(library):
+        if tag(part) != "symbol":
+            continue
+        name = quoted_head(part, "symbol")[0]
+        match = re.search(r"_(\d+)_(\d+)$", name)
+        if not match:
+            raise ValueError("Unsupported library unit naming in presentation planning")
+        if int(match[1]) in (0, unit) and int(match[2]) in (0, 1):
+            parts.append(part)
+    if not parts:
+        raise ValueError("No embedded/local graphics for requested unit")
+    graphics = "\n".join(parts)
+    if re.search(r"\((bezier|text|text_box)\b", graphics):
+        raise ValueError("Unsupported Bezier/library text geometry for presentation planning")
+    return graphics
+
+
+def body_and_pins(library: str, lib_id: str, unit: int, x: float, y: float,
+                  rotation: float) -> tuple[Box, list[tuple[float, float]]]:
+    graphics = selected_graphics(library, unit)
+    points = _collect_symbol_local_points(graphics)
+    for part in children("(selected " + graphics + ")"):
+        for item in children(part):
+            if tag(item) == "arc":
+                box = arc_bounds(item)
+                # All four AABB corners keep cardinal placement transforms
+                # conservative, including library-to-sheet y-axis inversion.
+                points.extend([(box.x_min, box.y_min), (box.x_min, box.y_max),
+                               (box.x_max, box.y_min), (box.x_max, box.y_max)])
+    pins = []
+    for px, py, angle, length in re.findall(
+        rf"\(pin\s+\w+\s+\w+\s+\(at\s+({_NUMBER})\s+({_NUMBER})\s+({_NUMBER})\)\s+\(length\s+({_NUMBER})\)",
+        graphics,
+    ):
+        px, py, angle, length = map(float, (px, py, angle, length))
+        dx, dy = _rotate_local(px, py, rotation)
+        pins.append((x + dx, y + dy))
+        # Keep upstream conservative points and also include the body-side end.
+        radians = math.radians(angle)
+        points.append((px + length * math.cos(radians), py + length * math.sin(radians)))
+    if not points:
+        raise ValueError(f"Empty body geometry for {lib_id}")
+    return _instance_body_box(lib_id, x, y, rotation, {lib_id: points}), pins
+
+
+@dataclass(frozen=True)
+class Symbol:
+    reference: str
+    lib_id: str
+    unit: int
+    x: float
+    y: float
+    rotation: float
+    body: Box
+    pins: list[tuple[float, float]]
+    fields: list[Field]
+
+
+@dataclass(frozen=True)
+class Model:
+    symbols: list[Symbol]
+    labels: list[dict]
+    wires: list[Box]
+
+
+def presentation_model(content: str) -> Model:
+    root_parts = children(content)
+    cache = child(content, "lib_symbols") or "(lib_symbols)"
+    libraries = {quoted_head(part, "symbol")[0]: part for part in children(cache) if tag(part) == "symbol"}
+    symbols = []
+    labels = []
+    wires = []
+    for part in root_parts:
+        kind = tag(part)
+        if kind == "symbol":
+            lib_id = quoted_head(child(part, "lib_id") or "", "lib_id")[0]
+            x, y, rotation = at(part)
+            if child(part, "mirror") or child(part, "convert"):
+                raise ValueError("Mirrored/alternate symbols require native-aware presentation planning")
+            unit_node = child(part, "unit") or "(unit 1)"
+            unit_match = re.fullmatch(r"\(unit\s+(\d+)\s*\)", unit_node)
+            if not unit_match:
+                raise ValueError("Invalid symbol unit")
+            unit = int(unit_match[1])
+            properties = fields(part)
+            reference = next((item.text for item in properties if item.name == "Reference"), "")
+            if not reference or any(item.reference == reference for item in symbols):
+                raise ValueError("Missing/duplicate reference in presentation input")
+            library = libraries.get(lib_id)
+            if library is None:
+                raise ValueError(f"Missing embedded body geometry: {lib_id}")
+            body, pins = body_and_pins(library, lib_id, unit, x, y, rotation)
+            symbols.append(Symbol(reference, lib_id, unit, x, y, rotation, body, pins, properties))
+        elif kind in ("label", "global_label", "hierarchical_label"):
+            name = quoted_head(part, kind)[0]
+            x, y, angle = at(part)
+            font_mm, bold, hidden, justify = effects(part)
+            shape_node = child(part, "shape")
+            shape = shape_node[len("(shape"):-1].strip() if shape_node else None
+            box = TextField(name, x, y, angle, font_mm, bold=bold, justify=justify).box()
+            # Conservative space for shaped label icon and native anchor offset.
+            padding = font_mm * 2 if kind != "label" else font_mm / 2
+            labels.append({"name": name, "kind": kind, "shape": shape, "at": {"x": x, "y": y},
+                           "rotation": angle, "fontMm": font_mm, "justify": sorted(justify),
+                           "visible": not hidden, "bounds": bounds(box.expanded(padding))})
+        elif kind in ("wire", "bus"):
+            pts = child(part, "pts") or ""
+            numbers = re.findall(rf"\(xy\s+({_NUMBER})\s+({_NUMBER})\)", pts)
+            if len(numbers) != 2:
+                raise ValueError("Unsupported wire/bus geometry")
+            (x1, y1), (x2, y2) = [(float(x), float(y)) for x, y in numbers]
+            # AABB is conservative also for a diagonal; no connectivity inference.
+            wires.append(Box(min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)).expanded(0.254))
+        elif kind in ("text", "text_box", "polyline", "rectangle", "circle", "arc", "sheet", "bus_entry"):
+            raise ValueError(f"Unsupported sheet obstacle for bounded field placement: {kind}")
+    return Model(symbols, labels, wires)
+
+
+def obstacles_for(model: Model, target: Symbol) -> list[Box]:
+    result = [symbol.body for symbol in model.symbols]
+    result += model.wires
+    for label in model.labels:
+        if label["visible"]:
+            b = label["bounds"]
+            result.append(Box(b["minX"], b["minY"], b["maxX"], b["maxY"]))
+    for symbol in model.symbols:
+        for item in symbol.fields:
+            if item.hidden or not item.text:
+                continue
+            if symbol.reference == target.reference and item.name in ("Reference", "Value"):
+                continue
+            result.append(item.box())
+    return [box.expanded(CLEARANCE_MM) for box in result]
+
+
+def plan_fields(target: Symbol, obstacles: list[Box]) -> tuple[list[FieldSpec], list[FieldPlacement]]:
+    specs = [FieldSpec(item.name, item.text, item.font_mm, item.bold) for item in target.fields
+             if item.name in ("Reference", "Value") and not item.hidden and item.text]
+    if not specs:
+        return [], []
+    pitch = max(1.778, max(spec.font_mm for spec in specs) + CLEARANCE_MM)
+    for step in range(1, MAX_MARGIN_STEPS + 1):
+        for pins in (target.pins, []):
+            placements = autoplace_fields(target.body, pins, obstacles, specs,
+                                         margin_mm=step * MARGIN_STEP_MM, pitch_mm=pitch)
+            boxes = [placement.text_field(spec.text, spec.font_mm, bold=spec.bold).box()
+                     for spec, placement in zip(specs, placements, strict=True)]
+            if any(box.overlaps(obstacle) for box in boxes for obstacle in obstacles):
+                continue
+            if any(first.overlaps(second) for index, first in enumerate(boxes) for second in boxes[index + 1:]):
+                continue
+            return specs, placements
+    raise ValueError(f"No clear approximate field placement within {MAX_MARGIN_STEPS * MARGIN_STEP_MM:.2f} mm: {target.reference}")
+
+
+def model_evidence(content: str) -> dict:
+    model = presentation_model(content)
+    return {"schemaVersion": "evleda.schematic-field-planning.v1",
+            "sourceIdentity": {"algorithm": "sha256", "digest": hashlib.sha256(content.encode("utf-8")).hexdigest(),
+                               "size": len(content.encode("utf-8"))},
+            "model": {"body": "selected-embedded-graphics-and-conservative-pin-stub-aabb",
+                      "text": "existing-geometry-0.66", "textApproximate": True,
+                      "clearanceMm": CLEARANCE_MM, "maximumMarginMm": MAX_MARGIN_STEPS * MARGIN_STEP_MM},
+            "symbols": [{"reference": symbol.reference, "libId": symbol.lib_id, "unit": symbol.unit,
+                         "at": {"x": symbol.x, "y": symbol.y}, "rotation": symbol.rotation,
+                         "bodyBounds": bounds(symbol.body), "fields": [item.evidence() for item in symbol.fields]}
+                        for symbol in model.symbols],
+            "labels": model.labels, "wireBounds": [bounds(box) for box in model.wires],
+            "issues": ["Text and shaped-label extents are planning estimates, not native glyph bounds.",
+                       "Pin-name/number glyph extents are not modeled; native SVG readability remains required.",
+                       "No native readability or electrical validation result is produced by this model."]}
+
+
+def presentation_signature(content: str) -> list[str]:
+    """Exact lexical structure except visible Reference/Value at and justify.
+
+    This is a mutation fence, not an electrical interpretation. All root node
+    order, UUIDs, property strings, visibility, font/effects and other fields stay
+    in the signature. Whitespace alone is insignificant; quoted text is exact.
+    """
+    def strip_symbol(symbol: str) -> str:
+        replacements = []
+        for prop_start, prop_end in child_spans(symbol):
+            prop = symbol[prop_start:prop_end]
+            if tag(prop) != "property":
+                continue
+            name = quoted_head(prop, "property", 2)[0]
+            if name not in ("Reference", "Value") or effects(prop)[2]:
+                continue
+            position_span = named_child_span(prop, "at")
+            if position_span is None:
+                raise ValueError("Missing target property position in presentation fence")
+            removals = [(*position_span, "")]
+            effects_span = named_child_span(prop, "effects")
+            if effects_span is None:
+                raise ValueError("Missing target effects in presentation fence")
+            effect_start, effect_end = effects_span
+            justify_span = named_child_span(prop[effect_start:effect_end], "justify")
+            if justify_span:
+                removals.append((effect_start + justify_span[0], effect_start + justify_span[1], ""))
+            replacements.append((prop_start, prop_end, splice(prop, removals)))
+        return splice(symbol, replacements)
+
+    if tag(content.lstrip()) == "symbol":
+        stripped = strip_symbol(content)
+    else:
+        stripped = splice(content, [(start, end, strip_symbol(content[start:end]))
+                                    for start, end in child_spans(content)
+                                    if tag(content[start:end]) == "symbol"])
+    return [match.group(0) for match in re.finditer(r'"(?:[^"\\]|\\.)*"|[()]|[^\s()]+', stripped)]

@@ -7,6 +7,7 @@ import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFre
   type FreshPcbStackup, type FreshStackupField } from "./fresh-kicad-parser.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import type { PcbInterfaceConstruction } from "./pcb-interface-requirements.js";
+import { assessDifferentialChannelGeometry, type DifferentialChannelGeometryAssessment } from "./differential-channel-geometry.js";
 import { readSavedPcbSourceForm as readForm, savedPcbSourceField as field, savedPcbSourceScalar as scalar,
   exactSavedPcbSourceDecimal as exactDecimal, savedPcbSourcePoint as sourcePoint, savedPcbSourceRotation as rotation,
   savedPcbSourceUuid as sourceId, boundedSavedPcbNm as boundedNm, assertSavedPcbPhysicalFormParents as assertParents,
@@ -82,6 +83,8 @@ export interface SavedInterfaceAssessment {
   readonly sourceIdentity: ContentIdentity; readonly bundleIdentity: CanonicalIdentity; readonly contractIdentity: CanonicalIdentity;
   readonly verificationPlanIdentity: CanonicalIdentity; readonly interfaceId: string; readonly requirementIdentity: CanonicalIdentity;
   readonly sourceInventory: SavedInterfaceSourceInventory; readonly geometry: DifferentialPairGeometryAssessment | null;
+  readonly channel?: DifferentialChannelGeometryAssessment & { readonly protectionReturns: readonly Readonly<{ reference: string; pin: string; expectedNet: string;
+    matchingPadUuids: readonly string[]; status: "pass" | "fail" | "not_assessed" }>[] };
   readonly construction: SavedInterfaceConstructionAssessment; readonly terminations: SavedInterfaceTerminationAssessment;
   readonly referenceRequirements: SavedInterfaceReferenceRequirements; readonly impedance: SavedInterfaceImpedanceAssessment;
   readonly unevaluatedRows: readonly Readonly<{ id: string; kind: string; reasons: readonly SavedInterfaceReason[] }>[];
@@ -104,18 +107,25 @@ function mmNm(value: number): number {
     "EXACT_LIMIT_NM_REQUIRED", "Declared dimensions and limits must be exact nonnegative nanometres within their independent quantity bound.");
   return Number(scaled / amount.d);
 }
-const pairNets = (pair: PcbDifferentialPairRequirement) => [pair.nets.positive, pair.nets.negative];
+const pairNets = (pair: PcbDifferentialPairRequirement) => [pair.nets.positive, pair.nets.negative, ...(pair.channel ? [pair.channel.launchNets.positive, pair.channel.launchNets.negative] : [])];
 const selector = (endpoint: { readonly reference: string; readonly pin: string }) => ({ reference: endpoint.reference, pad: endpoint.pin });
 const expectedNet = (pair: PcbDifferentialPairRequirement, side: "source" | "receiver", polarity: "positive" | "negative") => pair.nets[side === "receiver" && pair.routing.polarityInversion.receiverMapping === "inverted" ? polarity === "positive" ? "negative" : "positive" : polarity];
 function terminationSelectors(pair: PcbDifferentialPairRequirement) {
   return (["source", "receiver"] as const).flatMap(side => {
     const value = pair.terminations[side];
     return value.kind === "parallel" ? [{ reference: value.componentReference, pad: value.positivePin }, { reference: value.componentReference, pad: value.negativePin }] : [];
-  });
+  }).concat(pair.channel && pair.terminations.source.kind === "source_series" ? [
+    ...(["positive", "negative"] as const).flatMap(p => {
+      const leg = pair.terminations.source.kind === "source_series" ? pair.terminations.source[p] : null;
+      return leg ? [leg.sourcePin, leg.linePin].map(pad => ({ reference: leg.componentReference, pad })) : [];
+    }), ...pair.channel.additionalReceivers.flatMap(r => [selector(r.positive), selector(r.negative)]),
+    ...pair.channel.protection.flatMap(p => [...p.positivePins, ...p.negativePins, p.ground.pin, p.supply.pin].map(pad => ({ reference: p.componentReference, pad })))
+  ] : []);
 }
 
 function extractSource(source: string, geometry: FreshPcbReferenceGeometry, pair: PcbDifferentialPairRequirement): SavedInterfaceSourceInventory {
   const nets = new Set(pairNets(pair)), reasons: SavedInterfaceReason[] = [];
+  const returnSelector = (reference: string, pin: string) => pair.channel?.protection.some(p => p.componentReference === reference && [p.ground.pin, p.supply.pin].includes(pin)) === true;
   const tracks: DifferentialPairTrack[] = geometry.segments.filter(item => item.netName !== null && nets.has(item.netName)).map(item => ({ uuid: item.uuid, net: item.netName!, layer: item.layer,
     start: { xNm: item.startNm.x, yNm: item.startNm.y }, end: { xNm: item.endNm.x, yNm: item.endNm.y }, widthNm: item.widthNm, sourceIdentity: item.sourceIdentity }));
   const pads: DifferentialPairPad[] = [], vias: DifferentialPairVia[] = [];
@@ -154,7 +164,7 @@ function extractSource(source: string, geometry: FreshPcbReferenceGeometry, pair
           need(pad.netName !== null || nullNet, "PAD_NET_UNRESOLVED", "A declared pad net cannot become an unassigned projection.");
           if (net.atoms.length === 2) need(pad.netName === (net.atoms[1]!.value || null), "PAD_NET_MISMATCH", "Legacy numeric and named pad nets disagree.");
         }
-        if (pad.netName === null || !nets.has(pad.netName)) continue;
+        if (pad.netName === null || !nets.has(pad.netName) && !returnSelector(fp.reference, pad.number)) continue;
         const sourceIdentity = contentIdentity(pad.physical.source);
         try {
           const placement = field(footprint, "at")!, origin = sourcePoint(placement, true), angle = rotation(placement);
@@ -197,7 +207,7 @@ function extractSource(source: string, geometry: FreshPcbReferenceGeometry, pair
   // An earlier physical-identity error must not erase later selected-pad
   // identities. Numeric projection remains explicitly incomplete.
   for (const fp of physicalBoard?.footprints ?? []) for (const pad of fp.pads) {
-    if (pad.netName === null || !nets.has(pad.netName)) continue;
+    if (pad.netName === null || !nets.has(pad.netName) && !returnSelector(fp.reference, pad.number)) continue;
     const sourceIdentity = contentIdentity(pad.physical.source);
     if (observations.some(item => same(item.sourceIdentity, sourceIdentity))) continue;
     const problem = reason("PAD_PROJECTION_UNASSESSED", "This selected physical pad is retained by source identity; an earlier source error prevented a complete supported numerical projection.");
@@ -326,7 +336,36 @@ function assessTerminations(pair: PcbDifferentialPairRequirement, inventory: Sav
   for (const side of ["source", "receiver"] as const) {
     const declared = pair.terminations[side];
     if (declared.kind === "none") continue;
-    if (declared.kind === "source_series") { reasons.push(reason("SOURCE_SERIES_UNSUPPORTED", "Series termination introduces additional member-net topology and is not assessed by this two-net source model.")); continue; }
+    if (declared.kind === "source_series") {
+      if (!pair.channel || side !== "source") { reasons.push(reason("SOURCE_SERIES_UNSUPPORTED", "Series termination requires the bounded four-net channel declaration.")); continue; }
+      for (const polarity of ["positive", "negative"] as const) {
+        const leg = declared[polarity], endpoint = pair.endpoints.source[polarity];
+        assertedResistanceOhms.push({ side, value: leg.resistanceOhms });
+        for (const field of ["sourcePin", "linePin"] as const) {
+          const net = field === "sourcePin" ? pair.channel.launchNets[polarity] : pair.nets[polarity];
+          const matches = inventory.selected.pads.filter(p => p.reference === leg.componentReference && p.pad === leg[field]);
+          const endpoints = inventory.selected.pads.filter(p => p.reference === endpoint.reference && p.pad === endpoint.pin);
+          let distanceSquaredNm2: string | null = null, status: SavedInterfaceTerminationPin["status"] = "unassessed";
+          const observations: SavedInterfaceReason[] = [];
+          if (inventory.status === "complete") {
+            const mapped = matches.length === 1 && matches[0]!.net === net && endpoints.length === 1 && endpoints[0]!.net === pair.channel.launchNets[polarity];
+            status = mapped ? "matched_source_facts" : "failed_source_facts";
+            if (!mapped) observations.push(reason("TERMINATION_PIN_MAPPING_MISMATCH", "Both series pins must match their distinct source and line nets exactly."));
+            else {
+              const dx = BigInt(matches[0]!.center.xNm - endpoints[0]!.center.xNm), dy = BigInt(matches[0]!.center.yNm - endpoints[0]!.center.yNm);
+              const distance = dx * dx + dy * dy; distanceSquaredNm2 = String(distance);
+              const maximum = decimal(String(declared.maximumDistanceToEndpointMm));
+              if (distance * maximum.d ** 2n > (maximum.n * 1_000_000n) ** 2n) {
+                status = "failed_source_facts"; observations.push(reason("TERMINATION_ENDPOINT_DISTANCE_EXCEEDED", "Series pin planar distance exceeds the explicit source placement bound."));
+              }
+            }
+          }
+          pins.push({ side, polarity, kind: "source_series", reference: leg.componentReference, pin: leg[field], expectedNet: net, matchingPadUuids: matches.map(p => p.uuid),
+            endpointPadUuid: endpoints.length === 1 ? endpoints[0]!.uuid : null, distanceSquaredNm2, maximumDistanceNm: declared.maximumDistanceToEndpointMm * 1e6, status, reasons: observations });
+        }
+      }
+      continue;
+    }
     if (declared.kind === "parallel") assertedResistanceOhms.push({ side, value: declared.resistanceOhms });
     for (const polarity of ["positive", "negative"] as const) {
       const terminal = declared[polarity === "positive" ? "positivePin" : "negativePin"], endpoint = pair.endpoints[side][polarity], net = expectedNet(pair, side, polarity);
@@ -394,7 +433,8 @@ async function assessImpedance(pair: PcbDifferentialPairRequirement, declared: P
   const intervals: SavedInterfaceImpedanceInterval[] = [], reasons: SavedInterfaceReason[] = [];
   const base = { targetOhm: pair.impedance.mode === "differential" ? pair.impedance.targetOhms : null, absoluteToleranceOhm: pair.impedance.mode === "differential" ? pair.impedance.toleranceOhms : null,
     frequencyHz: pair.impedance.mode === "differential" ? pair.impedance.frequencyHz : null, intervals, completeRouteModelCoverage: false,
-    differentialBasis: "twice_frequency_dependent_odd_mode_Z0_O" as const, unmodeledEffects };
+    differentialBasis: "twice_frequency_dependent_odd_mode_Z0_O" as const,
+    unmodeledEffects: pair.channel ? [...unmodeledEffects, "neckdowns", "branch_taps", "series_resistors", "protection_devices", "complete_channel"] : unmodeledEffects };
   if (pair.impedance.mode === "none") return { ...base, status: "not_requested", reasons: [] };
   const target = pair.impedance, spans = geometry?.coupling?.paired ?? [];
   const overBound = spans.length > SAVED_INTERFACE_ASSESSMENT_BOUNDS.maximumModelIntervals;
@@ -446,7 +486,7 @@ async function assessImpedance(pair: PcbDifferentialPairRequirement, declared: P
   const allModelled = intervals.length > 0 && intervals.every(interval => interval.status !== "unassessed");
   const noUncoupled = geometry?.coupling !== null && geometry?.coupling !== undefined && [geometry.coupling.positiveUncoupledLength, geometry.coupling.negativeUncoupledLength]
     .every(length => length.twiceAxisNm === "0" && length.twiceDiagonalNm === "0");
-  const completeRouteModelCoverage = allModelled && noUncoupled && geometry?.coupling?.status === "complete" && geometry.routes.positive.runs?.length === 1 && geometry.routes.negative.runs?.length === 1
+  const completeRouteModelCoverage = pair.channel === undefined && allModelled && noUncoupled && geometry?.coupling?.status === "complete" && geometry.routes.positive.runs?.length === 1 && geometry.routes.negative.runs?.length === 1
     && ["topology", "sourcePolarity", "stubs", "transitions", "width", "minimumGap", "length", "skew", "uncoupled"].every(key => geometry.checks[key as keyof typeof geometry.checks].status === "pass");
   if (!intervals.length) reasons.push(reason("NO_SUPPORTED_PAIRED_INTERVALS", "There are no complete source-derived paired intervals to evaluate."));
   if (!completeRouteModelCoverage) reasons.push(reason("WHOLE_INTERFACE_MODEL_COVERAGE_UNASSESSED", "Unsupported/ambiguous intervals, unequal widths, uncoupled lengths, bends or source-contract failures prevent a whole-route uniform-model conclusion."));
@@ -468,6 +508,7 @@ export async function assessSavedInterface(input: SavedInterfaceAssessmentInput)
   const declared = bundle.contract.interfaceRequirements!.construction.mode === "two_layer" ? bundle.contract.interfaceRequirements!.construction : null;
   let sourceInventory: SavedInterfaceSourceInventory = { status: "unsupported", reasons: [], selected: { tracks: [], pads: [], vias: [] }, observations: [], projectionComplete: false };
   let geometry: DifferentialPairGeometryAssessment | null = null, sourceGeometry: FreshPcbReferenceGeometry | null = null, stackup: FreshPcbStackup | null = null, construction = emptyConstruction();
+  let channel: SavedInterfaceAssessment["channel"];
   try {
     need(bytes.length <= SAVED_INTERFACE_ASSESSMENT_BOUNDS.maximumAssessedSourceBytes, "SOURCE_WORK_BOUND", "The complete saved PCB exceeds the strict source-assessment work bound; no subset is parsed.");
     const source = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
@@ -477,7 +518,17 @@ export async function assessSavedInterface(input: SavedInterfaceAssessmentInput)
     try { stackup = parseFreshPcbStackup(source); construction = compareConstruction(stackup, declared); }
     catch (error) { construction = { ...construction, reasons: [failure(error, "CONSTRUCTION_UNSUPPORTED")] }; }
     {
-      geometry = assessDifferentialPairGeometry({ ...sourceInventory.selected, positiveNet: pair.nets.positive, negativeNet: pair.nets.negative,
+      if (pair.channel) {
+        const assessed = assessDifferentialChannelGeometry(pair, sourceInventory.selected, sourceInventory.status === "complete");
+        const protectionReturns = pair.channel.protection.flatMap(protection => [protection.ground, protection.supply].map(anchor => {
+          const pads = sourceInventory.selected.pads.filter(p => p.reference === protection.componentReference && p.pad === anchor.pin);
+          return { reference: protection.componentReference, pin: anchor.pin, expectedNet: anchor.net, matchingPadUuids: pads.map(p => p.uuid),
+            status: sourceInventory.status !== "complete" ? "not_assessed" as const : pads.length === 1 && pads[0]!.net === anchor.net ? "pass" as const : "fail" as const };
+        }));
+        channel = { ...assessed, protectionReturns };
+        if (protectionReturns.some(p => p.status === "fail")) channel = { ...channel, checks: { ...channel.checks, topology: { status: "fail", reasons: ["PROTECTION_RETURN_MAPPING_MISMATCH"] } } };
+        geometry = { ...assessed.receiverPaths[0]!.geometry, inventoryComplete: assessed.inventoryComplete, checks: channel.checks };
+      } else geometry = assessDifferentialPairGeometry({ ...sourceInventory.selected, positiveNet: pair.nets.positive, negativeNet: pair.nets.negative,
         source: { positive: selector(pair.endpoints.source.positive), negative: selector(pair.endpoints.source.negative) },
         receiver: { positive: selector(pair.endpoints.receiver.positive), negative: selector(pair.endpoints.receiver.negative) },
         receiverMapping: pair.routing.polarityInversion.receiverMapping === "normal" ? "preserved" : "swapped", terminationAnchors: terminationSelectors(pair),
@@ -506,7 +557,7 @@ export async function assessSavedInterface(input: SavedInterfaceAssessmentInput)
   const relevantIds = new Set(["interface-construction", `interface-topology:${interfaceId}`, `interface-geometry:${interfaceId}`, `interface-termination:${interfaceId}`, `interface-impedance:${interfaceId}`]);
   const payload = { schemaVersion: SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION, sourceIdentity, bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity,
     verificationPlanIdentity: bundle.verificationPlan.identity, interfaceId, requirementIdentity: canonicalIdentity(pair, "evleda.saved-interface-requirement.v1"),
-    sourceInventory, geometry, construction, terminations, referenceRequirements: reference, impedance,
+    sourceInventory, geometry, ...(channel ? { channel } : {}), construction, terminations, referenceRequirements: reference, impedance,
     unevaluatedRows: bundle.verificationPlan.requirements.filter(row => relevantIds.has(row.id) || row.kind === "trace_geometry").map(row => ({ id: row.id, kind: row.kind,
       reasons: [reason("FULL_REQUIREMENT_AUTHORITY_NOT_ESTABLISHED", "These numerical source observations do not alone supply native terminal/library authority, fresh reference eligibility, physical termination verification, global trace-turn policy or complete model applicability.")] })),
     limits: SAVED_INTERFACE_ASSESSMENT_BOUNDS, sourceAuthority: "saved_byte_numerical_facts_and_bound_caller_assertions" as const, nativeReachability: "not_evaluated" as const,

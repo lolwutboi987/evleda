@@ -48,7 +48,7 @@ const roots = new Set<string>(), sessions = new Set<KicadMcpSession>();
 afterEach(async () => {
   for (const session of sessions) await session.close();
   sessions.clear();
-  const base = path.resolve(process.platform === "win32" ? "D:/Temp" : tmpdir());
+  const base = path.resolve(tmpdir());
   for (const directory of roots) {
     const relative = path.relative(base, path.resolve(directory));
     if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) throw new Error("Native route fixture escaped its owned temporary root.");
@@ -59,7 +59,7 @@ afterEach(async () => {
 
 async function fixture(options: { legacy?: boolean; descriptors?: readonly unknown[]; failures?: Record<string, string>;
   sourceFailureAfterPush?: boolean; switchDocumentOnFailure?: boolean } = {}) {
-  const base = process.platform === "win32" ? "D:/Temp" : tmpdir(); await mkdir(base, { recursive: true });
+  const base = tmpdir(); await mkdir(base, { recursive: true });
   const workspace = await mkdtemp(path.join(base, "evleda-native-route-")); roots.add(workspace);
   const project = path.join(workspace, "project"), outputRoot = path.join(workspace, "output");
   await Promise.all([mkdir(project), mkdir(outputRoot)]);

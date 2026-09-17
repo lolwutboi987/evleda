@@ -17,6 +17,7 @@ import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js
 import path from "node:path";
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 import { writeToolboxFootprintPlacementDiagnostic } from "./toolbox-footprint-placement-diagnostics.js";
+import { createToolboxSchematicFieldDiagnostics } from "./toolbox-schematic-field-diagnostics.js";
 
 export interface KicadToolboxFreshSessionInput {
   readonly authority: KicadMcpBoundSessionAuthority;
@@ -78,19 +79,21 @@ export async function openKicadToolboxFreshSession(input: KicadToolboxFreshSessi
     };
     const captures = createFreshNativeCaptures({ project, executablePath: preparation.kicadIdentity.path, createAdapter: input.createCliAdapter });
     if (captures.captureNativeNetlist === undefined || captures.captureNativeSchematicStrokeStyle === undefined) throw new Error("Fresh native capture capabilities are incomplete.");
+    const schematicFieldDiagnostics = createToolboxSchematicFieldDiagnostics(outputRoot);
     const tools = createKicadHarnessTools(session, {
       freshProject: project, freshConnectivityContract: bundle.contract, freshCompilationBundle: bundle,
       freshLibraryResolver: resolver,
       freshSchematicGeometryResolver: libraries, freshPhysicalFootprintResolver: libraries, freshPhysicalFootprintSourcePins: physicalPins,
       captureFreshNativeNetlist: captures.captureNativeNetlist, captureFreshSchematicStrokeStyle: captures.captureNativeSchematicStrokeStyle,
       observeFreshFootprintPlacementDiagnostic: async diagnostic => { await writeToolboxFootprintPlacementDiagnostic(outputRoot, diagnostic); },
+      observeFreshSchematicFieldDiagnostic: schematicFieldDiagnostics.observe,
       capturePersistedMutationBaseline: captureSources,
       verifyPersistedMutation: async baseline => baseline !== undefined && await captureSources() !== baseline,
     });
     const analyzePractices = await createToolboxPracticeAnalyzer({ pcbPath: project.pcbPath, profile: bundle.practiceProfileBinding.profile });
     const checkpoint = createFreshToolboxCheckpointLifecycle({ project, preparation, session });
     const owned = session; let closing: Promise<void> | undefined;
-    return Object.freeze({ tools, analyzePractices, ...checkpoint,
+    return Object.freeze({ tools, analyzePractices, finalizeSchematicFieldFailure: schematicFieldDiagnostics.finalize, ...checkpoint,
       prepareCheckpoint: async () => {
         assertSources(); const publish = await checkpoint.prepareCheckpoint(); assertSources();
         return async () => { assertSources(); await publish(); assertSources(); };

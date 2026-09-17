@@ -1,12 +1,18 @@
 import { freshNativeNetlistParityIssues, createFreshNativeTerminalBinding, validateCurrentFreshNativeTerminalBinding, assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 export { freshNativeNetlistParityIssues } from "./fresh-native-terminal-binding.js";
 import type { CallToolResult } from "@modelcontextprotocol/client";
+import { randomUUID } from "node:crypto";
+import { captureFreshSchematicFieldError, createFreshSchematicFieldDiagnostic, publishFreshSchematicFieldDiagnostic,
+  schematicFieldDiagnosticReferenceText, type FreshSchematicFieldDiagnosticObserver } from "./fresh-schematic-field-diagnostics.js";
 import { lstat, readFile, realpath } from "node:fs/promises";
 import path from "node:path";
 import type { PcbReadOnlyLibraryResolver } from "./pcb-design-compiler.js";
 import { assertPcbLibrarySourcesCurrent } from "./pcb-library-source-binding.js";
+import type { PcbLibraryBinding } from "./pcb-design-compiler.js";
 import { assertPcbExternalPowerBindingCurrent } from "./pcb-external-power.js";
-import { verifyFreshExternalPowerSource, type FreshExternalPowerPlacement } from "./fresh-external-power.js";
+import { assertPcbDerivedPowerBindingCurrent, powerAnnotationBindingOf } from "./pcb-derived-power.js";
+import { materializeChannelTrackWidth } from "./pcb-channel-width.js";
+import { verifyFreshExternalPowerSource, type FreshExternalPowerPlacement, type FreshExternalPowerSourcePlacement } from "./fresh-external-power.js";
 
 import {
   harnessToolCallSchema,
@@ -76,7 +82,7 @@ import { validatePristineTerminalPartition, type FreshSchematicTerminalInput, ty
 import { FreshSchematicWorkBudget, type FreshSchematicWorkKind } from "./fresh-schematic-work-budget.js";
 import { prepareFreshSchematicConnectivityBatch, validateFreshSchematicConnectivityBatchReceipt } from "./fresh-schematic-connectivity-batch.js";
 import { applyFreshSchematicStrokeStyle, type FreshSchematicStrokeStyleEvidence } from "./fresh-schematic-stroke-style.js";
-import { collectKicadNativePadObservation, bindKicadPhysicalFootprintLibraries, type KicadNativePadObservation, type KicadNativePadObservationExpected } from "../integrations/kicad-native-pad-observation.js";
+import { collectKicadNativePadObservation, bindKicadPhysicalFootprintLibraries, isSupportedSavedMechanicalHole, type KicadNativePadObservation, type KicadNativePadObservationExpected } from "../integrations/kicad-native-pad-observation.js";
 import { buildFreshPhysicalRouteTopology } from "./fresh-design-acceptance.js";
 import { assertPlaneIncrementalRouteGeometry, assertPlaneRouteSourcePreservation, FRESH_PLANE_ROUTE_MUTATION_SCHEMA_VERSION, FRESH_PLANE_ROUTE_SELECTION_SCHEMA_VERSION, PLANE_ROUTE_MUTATION_INPUT_SCHEMA, PLANE_ROUTE_MUTATION_SCOPE, PLANE_ROUTE_NOT_EVALUATED, parsePlaneRouteMutationArguments } from "./fresh-plane-route-mutation.js";
 import type { KicadPlaneStageInput, KicadPlaneStageReceipt } from "../integrations/kicad-plane-stage.js";
@@ -323,6 +329,7 @@ export interface KicadHarnessToolsOptions {
   /** Host-private bounded provenance; callback failures never mask the first native fault. */
   readonly observeFreshRouteMutationDiagnostic?:(diagnostic:FreshRouteMutationDiagnostic)=>void|Promise<void>;
   readonly observeFreshFootprintPlacementDiagnostic?:(diagnostic:FreshFootprintPlacementDiagnostic)=>void|Promise<void>;
+  readonly observeFreshSchematicFieldDiagnostic?: FreshSchematicFieldDiagnosticObserver;
   /** Deterministic host fallback, normally backed by a source-preserving KiCad CLI check. */
   readonly fallback?: HarnessInternalToolPort;
   /** Required only when the sidecar has no explicit save tool but its edit tools persist directly. */
@@ -438,6 +445,12 @@ export interface FreshPlacement extends FreshPoint {
   readonly rotation: number;
   readonly unit: number;
   readonly footprint?: string;
+  /** DOC7 power rows omit these fields; their authority is the qualified saved source. */
+  readonly sourceBoundFields?: Readonly<{
+    basis: "verified-schematic-source";
+    sourceIdentity: ContentIdentity;
+    fields: readonly ["library", "symbol", "rotation", "footprint"];
+  }>;
 }
 export interface FreshConnectivityGroup {
   readonly name: string;
@@ -493,6 +506,8 @@ export interface FreshContractConnectivityResultFields {
   readonly connectivity?: readonly FreshConnectivityGroup[];
   readonly externalPowerAnnotations?: readonly FreshExternalPowerPlacement[];
   readonly externalPowerBindingIdentity?: CanonicalIdentity;
+  readonly powerAnnotations?: readonly FreshExternalPowerPlacement[];
+  readonly powerAnnotationBindingIdentity?: CanonicalIdentity;
   readonly nativeNetlistSha256?: string;
   readonly nativeNetCount?: number;
   readonly nativeComponentCount?: number;
@@ -888,7 +903,10 @@ function exactContractPadPositions(
     }
     for (const pad of footprint.pads) {
       if(physicalMode&&pad.number.length===0){
-        if(pad.netName!==null||pad.physical.padType!=="smd"||pad.layers.some(layer=>layer!=="F.Paste"&&layer!=="B.Paste"))throw new Error(`PCB ${component.reference} has unsupported unnumbered/non-electrical pad features.`);
+        const pasteOnly=pad.netName===null&&pad.physical.padType==="smd"&&pad.layers.length>0&&pad.layers.every(layer=>layer==="F.Paste"||layer==="B.Paste");
+        if(!pasteOnly&&!isSupportedSavedMechanicalHole(pad))throw new Error(`PCB ${component.reference} has unsupported unnumbered/non-electrical pad features.`);
+        // Non-electrical features remain in the complete source/native/library
+        // inventory; they never become a logical terminal or routing candidate.
         continue;
       }
       const key = `${component.reference}:${pad.number}`;
@@ -1226,18 +1244,40 @@ function assertSuccessfulSidecarMutation(result: CallToolResult, operation: stri
   return text;
 }
 
-export function parseFreshPlacements(value: string, auxiliaryReferences: readonly string[] = []): ReadonlyMap<string, readonly FreshPlacement[]> {
+export function parseFreshPlacements(value: string, auxiliarySourcePlacements: readonly FreshExternalPowerSourcePlacement[] = []): ReadonlyMap<string, readonly FreshPlacement[]> {
   const placements = new Map<string, FreshPlacement[]>();
+  const auxiliary = new Map(auxiliarySourcePlacements.map(placement => [placement.reference, placement]));
+  if (auxiliary.size !== auxiliarySourcePlacements.length) throw new Error("Symbol placement source contains duplicate auxiliary references.");
   const lines = value.split(/\r?\n/u).filter((line) => line.trim().length > 0);
   const heading = /^Symbols \((\d+) total\):$/u.exec(lines[0]?.trim() ?? "");
-  const placementLines = heading === null ? lines : lines.slice(1);
+  const rows = heading === null ? lines : lines.slice(1);
+  const powerSection = rows.indexOf("Power symbols:");
+  if (powerSection !== -1 && (heading === null || rows.lastIndexOf("Power symbols:") !== powerSection || powerSection === rows.length - 1)) throw new Error("Symbol placement readback contains a malformed power section heading.");
+  const placementLines = rows.filter(line => line !== "Power symbols:");
   if (heading !== null && Number(heading[1]) !== placementLines.length) throw new Error("Symbol placement readback count does not match its declared total.");
   const expression = /^-\s+([A-Z][A-Z0-9_-]{0,31}|#FLG[0-9]{3})\s+(.{1,256}?)\s+([^\s:]{1,120}):([^\s:]{1,240})\s+@\s+\((-?[\d.]+),\s*(-?[\d.]+)\)\s+rot=(0|90|180|270)\s+unit=([1-9]\d?)(?:\s+footprint=([^\s:]{1,120}):([^\s:]{1,384}))?\s*$/u;
-  for (const line of placementLines) {
+  const powerExpression = /^- (#FLG[0-9]{3}) (.{1,256}?) @ \((-?\d+\.\d{2}), (-?\d+\.\d{2})\) unit=([1-9]\d?)$/u;
+  for (const [index, line] of placementLines.entries()) {
     if (line.length > 1_500) throw new Error("Symbol placement readback line exceeds its bounded grammar.");
+    if (powerSection !== -1 && index >= powerSection) {
+      const match = powerExpression.exec(line);
+      if (match === null) throw new Error("Symbol placement power readback contains a malformed or unsupported line suffix.");
+      const source = auxiliary.get(match[1]!);
+      if (source === undefined) throw new Error("Symbol placement readback contains an unbound auxiliary reference.");
+      const x = Number(match[3]), y = Number(match[4]), unit = Number(match[5]);
+      if (match[2] !== source.value || unit !== source.unit || !Number.isFinite(x) || !Number.isFinite(y)
+        || Math.abs(x) > 2_000 || Math.abs(y) > 2_000 || Math.abs(x - source.x) >= 0.000_001 || Math.abs(y - source.y) >= 0.000_001) throw new Error("Live external power symbol readback differs from verified source.");
+      const placement: FreshPlacement = { reference: source.reference, value: match[2]!, x, y, unit,
+        library: source.library, symbol: source.symbol, rotation: source.rotation,
+        sourceBoundFields: Object.freeze({ basis: "verified-schematic-source", sourceIdentity: source.sourceIdentity,
+          fields: Object.freeze(["library", "symbol", "rotation", "footprint"] as const) }) };
+      placements.set(placement.reference, [...(placements.get(placement.reference) ?? []), placement]);
+      continue;
+    }
     const match = expression.exec(line);
     if (match === null) throw new Error("Symbol placement readback contains a malformed or unsupported line suffix.");
-    if (match[1]!.startsWith("#") && !auxiliaryReferences.includes(match[1]!)) throw new Error("Symbol placement readback contains an unbound auxiliary reference.");
+    if (match[1]!.startsWith("#") && !auxiliary.has(match[1]!)) throw new Error("Symbol placement readback contains an unbound auxiliary reference.");
+    if (powerSection !== -1 && match[1]!.startsWith("#")) throw new Error("Symbol placement readback contains an auxiliary row outside its power section.");
     const x = Number(match[5]);
     const y = Number(match[6]);
     const rotation = Number(match[7]);
@@ -1253,6 +1293,12 @@ export function parseFreshPlacements(value: string, auxiliaryReferences: readonl
     const existing = placements.get(placement.reference) ?? [];
     existing.push(placement);
     placements.set(placement.reference, existing);
+  }
+  for (const source of auxiliary.values()) {
+    const observed = placements.get(source.reference), actual = observed?.[0];
+    if (observed?.length !== 1 || actual === undefined || actual.value !== source.value || actual.unit !== source.unit
+      || actual.library !== source.library || actual.symbol !== source.symbol || actual.rotation !== source.rotation || actual.footprint !== undefined
+      || Math.abs(actual.x - source.x) >= 0.000_001 || Math.abs(actual.y - source.y) >= 0.000_001) throw new Error("Live external power symbol inventory or placement differs from verified source.");
   }
   if (placements.size === 0 && placementLines.length > 0) throw new Error("Symbol placement readback contains no valid placements.");
   return placements;
@@ -2019,14 +2065,18 @@ function planFreshContractGeometry(
   return retry.issues.length === 0 || work.exhausted ? retry : initial;
 }
 
-/** Reserve schematic-only flags and connector branches without extending the physical graph. */
+/** Reserve schematic-only flags and physical anchor branches without extending the physical graph. */
 export function planFreshExternalPowerGeometry(contract: FreshConnectivityContract, plan: ReturnType<typeof planFreshContractGeometry>,
   pins: ReadonlyMap<string, FreshPoint & { readonly angleDeg: 0 | 90 | 180 | 270 }>, boxes: readonly FreshBoundingBox[],
-  resolver: PcbReadOnlyLibraryResolver | undefined, work: FreshPlanningWork, sourceIdentity: ContentIdentity, style?: FreshSchematicStrokeStyleEvidence) {
+  resolver: PcbReadOnlyLibraryResolver | undefined, work: FreshPlanningWork, sourceIdentity: ContentIdentity, style?: FreshSchematicStrokeStyleEvidence,
+  libraryBinding?: PcbLibraryBinding) {
   const flags: FreshExternalPowerPlacement[] = [], wires = [...plan.wires], issues: FreshConnectivityIssue[] = [];
-  if (contract.externalPowerBinding === undefined) return { ...plan, flags };
+  const binding = powerAnnotationBindingOf(contract);
+  if (binding === undefined) return { ...plan, flags };
   if (resolver === undefined) throw new Error("External power authoring has no approved stock resolver.");
-  const stock = assertPcbExternalPowerBindingCurrent(contract.externalPowerBinding, resolver);
+  if (contract.derivedPowerBinding !== undefined && libraryBinding === undefined) throw new Error("Derived power authoring has no source-bound physical library inventory.");
+  const stock = contract.derivedPowerBinding === undefined ? assertPcbExternalPowerBindingCurrent(contract.externalPowerBinding!, resolver)
+    : assertPcbDerivedPowerBindingCurrent(contract.derivedPowerBinding, libraryBinding!, resolver);
   if (style === undefined) return { ...plan, flags, issues: [...plan.issues, { code: "EXTERNAL_POWER_STYLE_UNAVAILABLE", message: "External power graphics require the source-bound native stroke style.", remediation: "Keep connectivity unchanged until current native style evidence is available." }] };
   const graphics = applyFreshSchematicStrokeStyle(selectFreshSymbolBodyGeometry(stock.geometry, 1, 1), style, sourceIdentity);
   if (graphics.length === 0 || graphics.some(graphic => graphic.bounds === null || graphic.unsupportedReason !== null
@@ -2035,13 +2085,13 @@ export function planFreshExternalPowerGeometry(contract: FreshConnectivityContra
   }
   const flagBoxes: FreshBoundingBox[] = [];
   const within = (point: FreshPoint, box: FreshBoundingBox) => point.x > box.minX && point.x < box.maxX && point.y > box.minY && point.y < box.maxY;
-  for (const flag of contract.externalPowerBinding.flags) {
+  for (const flag of binding.flags) {
     const id = endpointId(flag.anchorEndpoint), pin = pins.get(id), ownBox = boxes.find(box => box.reference === flag.anchorEndpoint.reference);
     let selected: { placement: FreshExternalPowerPlacement; box: FreshBoundingBox; wires: PlannedWire[] } | undefined;
     if (pin !== undefined && ownBox !== undefined) {
       const dx = pin.angleDeg === 0 ? -1 : pin.angleDeg === 180 ? 1 : 0;
       const dy = pin.angleDeg === 90 ? 1 : pin.angleDeg === 270 ? -1 : 0;
-      // Every route begins at the exact corroborated connector terminal, then
+      // Every route begins at the exact corroborated physical terminal, then
       // escapes along its source direction. No component-origin pin guesses.
       // Keep every established candidate first. A second bounded pass ends at
       // the transverse turn, so downward escapes can approach upright flags
@@ -2601,7 +2651,7 @@ export function projectKicadHarnessToolDefinitions(
     if (HOST_INTERNAL_TOOL_NAMES.has(name)) continue;
     const definition=harnessToolDefinitionSchema.parse({
       name,
-      description: freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?"Read the complete bounded, source-bound track/via UUID selection for the genuine V2 plane project. This inventory does not establish route completion, plane contact, clearance, or reference coverage.":freshProject?.workflowKind==="plane"&&name==="fresh_replace_route_items"?"Incrementally add and/or delete selected track/via UUIDs on one exact V2 contract net, including ground-plane access. Supply the last plane selection identity and all arrays; arrays may be empty but the operation must have an effect. Widths and via dimensions are host-derived. Draft routes may remain incomplete; mandatory save verifies exact source/native readback, not completed connectivity.":name === "pcb_add_text" ? "Add one bounded literal front-silkscreen label at zero rotation to the bound generic fresh PCB. Defaults are explicit; mandatory save verifies the new text and preservation of all existing board content. No copied-project support." : tool === undefined
+      description: freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?"Read the complete bounded, source-bound track/via UUID selection for the genuine V2 plane project. This inventory does not establish route completion, plane contact, clearance, or reference coverage.":freshProject?.workflowKind==="plane"&&name==="fresh_replace_route_items"?"Incrementally add and/or delete selected track/via UUIDs on one exact V2 contract net, including ground-plane access. Supply the last plane selection identity and all arrays; arrays may be empty but the operation must have an effect. Widths default to the exact class width; optional track widthMm must meet the existing net-class floor; channel widths instead require declared body or terminal escape intervals. Via dimensions are host-derived. Draft routes may remain incomplete; mandatory save verifies exact source/native readback, not completed connectivity.":name === "pcb_add_text" ? "Add one bounded literal front-silkscreen label at zero rotation to the bound generic fresh PCB. Defaults are explicit; mandatory save verifies the new text and preservation of all existing board content. No copied-project support." : tool === undefined
         ? name === "fresh_apply_contract_connectivity"
           ? "Apply the host-bound design contract's exact nets and no-connects. Arguments must be empty. If a recommendation is returned, pass only its exact identity to the host atomic placement operation."
           : name === "fresh_apply_recommended_schematic_placement"
@@ -2713,6 +2763,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   readonly #freshFootprintPlacementSaveResults=new WeakSet<HarnessToolResult>();
   readonly #observeFreshRouteMutationDiagnostic:KicadHarnessToolsOptions["observeFreshRouteMutationDiagnostic"];
   readonly #observeFreshFootprintPlacementDiagnostic:KicadHarnessToolsOptions["observeFreshFootprintPlacementDiagnostic"];
+  readonly #observeFreshSchematicFieldDiagnostic: KicadHarnessToolsOptions["observeFreshSchematicFieldDiagnostic"];
   #freshRouteMutationDiagnostics:FreshRouteMutationDiagnostic[]=[];
   #pendingFreshBoardPostSave: (
     | PendingFreshPlaneApply
@@ -2725,7 +2776,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   #freshBoardSaveAudits: FreshBoardSaveAudit[] = [];
 
   assertExternalPowerAnnotationsCurrent(): Promise<void> {
-    const run = this.#tail.then(async () => { if (this.#freshConnectivityContract?.externalPowerBinding !== undefined) await this.#assertFreshCompoundAuthority(); });
+    const run = this.#tail.then(async () => { if (this.#freshConnectivityContract !== undefined && powerAnnotationBindingOf(this.#freshConnectivityContract) !== undefined) await this.#assertFreshCompoundAuthority(); });
     this.#tail = run.then(() => undefined, () => undefined);
     return run;
   }
@@ -2734,6 +2785,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     this.#session = session;
     this.#observeFreshRouteMutationDiagnostic=options.observeFreshRouteMutationDiagnostic;
     this.#observeFreshFootprintPlacementDiagnostic=options.observeFreshFootprintPlacementDiagnostic;
+    this.#observeFreshSchematicFieldDiagnostic = options.observeFreshSchematicFieldDiagnostic;
     this.#fallback = options.fallback;
     this.#verifyPersistedMutation = options.verifyPersistedMutation;
     this.#capturePersistedMutationBaseline = options.capturePersistedMutationBaseline;
@@ -2741,7 +2793,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if(options.freshProject?.workflowKind==="plane"&&!isVerifiedPlaneFreshProject(options.freshProject))throw new Error("Copied or unauthenticated plane project cannot enter authoring or LED compatibility mode.");
     const freshConnectivityContract = this.#freshProject === undefined || options.freshConnectivityContract === undefined
       ? undefined
-      : createFreshConnectivityContract(options.freshConnectivityContract, options.freshPlaneCompilationBundle?.externalPowerBinding);
+      : createFreshConnectivityContract(options.freshConnectivityContract, options.freshPlaneCompilationBundle?.externalPowerBinding, options.freshPlaneCompilationBundle?.derivedPowerBinding);
     const freshDesignContract = this.#freshProject?.workflowKind === "generic"
       && (options.freshConnectivityContract as { readonly schemaVersion?: unknown } | undefined)?.schemaVersion === "evleda.pcb-design-contract.v1"
       ? parsePcbDesignContract(options.freshConnectivityContract)
@@ -2801,7 +2853,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       await this.#freshProject.assertMarkerCurrent();
       const schematicSource = await readFile(this.#freshProject.schematicPath,"utf8");
       assertFreshGenericSchematicSource(parseFreshSchematicSource(schematicSource));
-      if (this.#freshConnectivityContract?.externalPowerBinding !== undefined) await this.#qualifiedPowerSource(this.#freshConnectivityContract, schematicSource, true);
+      if (this.#freshConnectivityContract !== undefined && powerAnnotationBindingOf(this.#freshConnectivityContract) !== undefined) await this.#qualifiedPowerSource(this.#freshConnectivityContract, schematicSource, true);
       assertPlaneCompilationBinding(this.#freshProject,this.#freshConnectivityContract,this.#freshPlaneDesignContract,this.#freshPlaneCompilationBundle);
       this.#assertLibrarySources();
       return;
@@ -2830,6 +2882,11 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       if (this.#freshLibraryResolver === undefined) throw new Error("External power annotations require the source-bound stock resolver.");
       assertPcbExternalPowerBindingCurrent(external, this.#freshLibraryResolver);
     }
+    const derived = this.#freshPlaneCompilationBundle?.derivedPowerBinding;
+    if (derived !== undefined) {
+      if (this.#freshLibraryResolver === undefined) throw new Error("Derived power annotations require the source-bound stock resolver.");
+      assertPcbDerivedPowerBindingCurrent(derived, this.#freshPlaneCompilationBundle!.libraryBinding, this.#freshLibraryResolver);
+    }
     const binding = (this.#freshPlaneCompilationBundle ?? this.#freshCompilationBundle)?.libraryBinding;
     if (binding === undefined) return;
     if (this.#freshLibraryResolver === undefined) {
@@ -2841,18 +2898,18 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
 
   async #callSourceBoundTool(name: string, argumentsValue: Readonly<Record<string, unknown>>, observeResponse?: (result: CallToolResult) => void): ReturnType<KicadHarnessSession["callTool"]> {
     this.#assertLibrarySources();
-    if (this.#freshPlaneCompilationBundle?.externalPowerBinding === undefined) {
+    if (powerAnnotationBindingOf(this.#freshPlaneCompilationBundle ?? {}) === undefined) {
       const result = await this.#session.callTool(name, argumentsValue);
       observeResponse?.(result);
       return result;
     }
-    const externalGraph = this.#freshPlaneCompilationBundle?.externalPowerBinding !== undefined && name === "sch_get_connectivity_graph";
+    const externalGraph = powerAnnotationBindingOf(this.#freshPlaneCompilationBundle ?? {}) !== undefined && name === "sch_get_connectivity_graph";
     if (externalGraph && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE: unqualified native power-flag graph producer.");
     const result = await this.#session.callTool(name, argumentsValue);
     observeResponse?.(result);
     // Preserve a native failure as the primary cause even if sources also drifted.
     const success = result.isError !== true && !/\b(?:failed|failure|error|aborted|unable|refused)\b|\bcould not\b|\bwas not found\b/iu.test(preferredResultText(result));
-    if (this.#freshPlaneCompilationBundle?.externalPowerBinding !== undefined && success) this.#assertLibrarySources();
+    if (powerAnnotationBindingOf(this.#freshPlaneCompilationBundle ?? {}) !== undefined && success) this.#assertLibrarySources();
     if (externalGraph && success && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE: native graph authority changed across its read.");
     return result;
   }
@@ -3105,16 +3162,19 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const strokeStyleEvidence = await this.#captureFreshSchematicStrokeStyle?.(schematicIdentity);
     this.#assertLibrarySources();
     const externalPowerBinding = this.#freshConnectivityContract?.externalPowerBinding;
+    const derivedPowerBinding = this.#freshConnectivityContract?.derivedPowerBinding;
+    const annotationBinding = powerAnnotationBindingOf(this.#freshConnectivityContract ?? {});
     let auxiliaryConnectivity: readonly FreshConnectivityGroup[] | undefined;
-    if (externalPowerBinding !== undefined && parseFreshSchematicSource(schematic).symbols.some(symbol => externalPowerBinding.flags.some(flag => flag.reference === symbol.reference))) {
+    if (annotationBinding !== undefined && parseFreshSchematicSource(schematic).symbols.some(symbol => annotationBinding.flags.some(flag => flag.reference === symbol.reference))) {
       const readback = await this.#callSourceBoundTool("sch_get_connectivity_graph", {});
-      if (readback.isError === true) throw new Error("Native external power connectivity read failed.");
+      if (readback.isError === true) throw new Error("Native external power connectivity read failed.", { cause: nativeReplyCause("sch_get_connectivity_graph", readback) });
       auxiliaryConnectivity = parseFreshConnectivityGroups(preferredResultText(readback));
     }
     const result = buildFreshSchematicSourceTerminalGroups({
       schematicSource: schematic, expectedSourceIdentity: schematicIdentity, contract: this.#freshConnectivitySource,
       libraryResolver: this.#freshSchematicGeometryResolver,
       ...(externalPowerBinding === undefined ? {} : { externalPowerBinding }),
+      ...(derivedPowerBinding === undefined ? {} : { derivedPowerBinding }),
       ...(auxiliaryConnectivity === undefined ? {} : { auxiliaryConnectivity }),
       ...(strokeStyleEvidence === undefined ? {} : { strokeStyleEvidence }),
       livePins: [...pins].map(([id, pin]) => {
@@ -3128,12 +3188,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
 
   async #qualifiedPowerSource(contract: FreshConnectivityContract, schematic: string, allowAbsent = false,
     placements?: readonly FreshExternalPowerPlacement[]) {
-    if (contract.externalPowerBinding === undefined) return { references: [] as readonly string[], physicalSymbols: parseFreshSchematicSource(schematic).symbols, groups: undefined };
+    if (powerAnnotationBindingOf(contract) === undefined) return { references: [] as readonly string[], sourcePlacements: [] as readonly FreshExternalPowerSourcePlacement[], physicalSymbols: parseFreshSchematicSource(schematic).symbols, groups: undefined };
     const sourceOnly = verifyFreshExternalPowerSource(contract, schematic, { allowAbsent, ...(placements === undefined ? {} : { placements }) });
     if (sourceOnly.references.length === 0) return sourceOnly;
     if (this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE: the native graph producer is not qualified for complete separate PWR_FLAG pin connectivity.");
     const raw = await this.#callSourceBoundTool("sch_get_connectivity_graph", {});
-    if (raw.isError === true) throw new Error("Native external power connectivity read failed.");
+    if (raw.isError === true) throw new Error("Native external power connectivity read failed.", { cause: nativeReplyCause("sch_get_connectivity_graph", raw) });
     const result = verifyFreshExternalPowerSource(contract, schematic, { allowAbsent, groups: parseFreshConnectivityGroups(preferredResultText(raw)), ...(placements === undefined ? {} : { placements }) });
     if (await readFile(this.#freshProject!.schematicPath, "utf8") !== schematic) throw new Error("Schematic source changed across external power inventory verification.");
     this.#assertLibrarySources();
@@ -3146,9 +3206,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       if (!schematic.includes(`(symbol "${component.symbolLibId}"`)) throw new Error(`Missing embedded ${component.symbolLibId} definition for ${component.reference}.`);
     }
     const symbolsResult = await this.#callSourceBoundTool("sch_get_symbols", {});
-    if (symbolsResult.isError === true) throw new Error("KiCad failed to read the recommendation-bound symbol placements.");
+    if (symbolsResult.isError === true) throw new Error("KiCad failed to read the recommendation-bound symbol placements.", { cause: nativeReplyCause("sch_get_symbols", symbolsResult) });
     const auxiliary = await this.#qualifiedPowerSource(contract, schematic, true);
-    const allPlacements = new Map(parseFreshPlacements(preferredResultText(symbolsResult), auxiliary.references));
+    const allPlacements = new Map(parseFreshPlacements(preferredResultText(symbolsResult), auxiliary.sourcePlacements));
     for (const reference of auxiliary.references) {
       const values = allPlacements.get(reference);
       if (values?.length !== 1 || values[0]!.unit !== 1 || values[0]!.library !== "power" || values[0]!.symbol !== "PWR_FLAG" || values[0]!.value !== "PWR_FLAG" || values[0]!.footprint !== undefined) throw new Error("Live external power symbol inventory differs from verified source.");
@@ -3170,7 +3230,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       placements.set(component.reference, placement);
     }
     const boundsResult = await this.#callSourceBoundTool("sch_get_bounding_boxes", {});
-    if (boundsResult.isError === true) throw new Error("KiCad failed to read recommendation-bound schematic bounding boxes.");
+    if (boundsResult.isError === true) throw new Error("KiCad failed to read recommendation-bound schematic bounding boxes.", { cause: nativeReplyCause("sch_get_bounding_boxes", boundsResult) });
     const allBoxes = parseFreshBoundingBoxes(preferredResultText(boundsResult));
     if (allBoxes.length !== contract.components.length + auxiliary.references.length || auxiliary.references.some(reference => allBoxes.filter(box => box.reference === reference).length !== 1) || allBoxes.some(box => !expectedReferences.has(box.reference) && !auxiliary.references.includes(box.reference))
       || contract.components.some((component) => allBoxes.filter((box) => box.reference === component.reference).length !== 1)) {
@@ -3185,7 +3245,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         library: placement.library, symbol_name: placement.symbol, x_mm: placement.x, y_mm: placement.y,
         rotation: placement.rotation, unit: placement.unit,
       });
-      if (result.isError === true) throw new Error(`KiCad failed to resolve recommendation-bound pin positions for ${reference}.`);
+      if (result.isError === true) throw new Error(`KiCad failed to resolve recommendation-bound pin positions for ${reference}.`, { cause: nativeReplyCause("sch_get_pin_positions", result) });
       for (const match of preferredResultText(result).matchAll(/- Pin ([^:]+): \((-?[\d.]+),\s*(-?[\d.]+)\) mm/gu)) {
         const id = `${reference}:${match[1]}`;
         const x = Number(match[2]);
@@ -3564,10 +3624,10 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         if(this.#freshProject?.workflowKind==="plane")await this.#assertFreshCompoundAuthority();
       }
       if (parsed.name !== "pcb_save" && result.isError === true && this.#pendingFreshPlacementCommit !== undefined) {
-        return await this.#rollbackPendingPlacementCommitAfterFailure(new Error(`KiCad ${parsed.name} returned an MCP error.`), `a ${parsed.name} call failed before atomic placement commit completed`);
+        return await this.#rollbackPendingPlacementCommitAfterFailure(new Error(`KiCad ${parsed.name} returned an MCP error.`, { cause: nativeReplyCause(parsed.name, result) }), `a ${parsed.name} call failed before atomic placement commit completed`);
       }
       if (providerCallable && result.isError === true && this.#pendingFreshConnectivity !== undefined) {
-        return await this.#rollbackPendingConnectivityAfterFailure(new Error(`KiCad ${parsed.name} returned an MCP error.`), `a later ${parsed.name} call failed before mandatory save/native parity`);
+        return await this.#rollbackPendingConnectivityAfterFailure(new Error(`KiCad ${parsed.name} returned an MCP error.`, { cause: nativeReplyCause(parsed.name, result) }), `a later ${parsed.name} call failed before mandatory save/native parity`);
       }
       if (!providerCallable && HOST_INTERNAL_TOOL_NAMES.has(parsed.name) && this.#fallback !== undefined && unavailableValidationResult(result.structuredContent ?? result.content)) {
         return await this.#fallback.execute(parsed);
@@ -3874,15 +3934,19 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       readonly selectionIdentity: CanonicalIdentity;
       readonly net: string;
       readonly deleteItemIds: readonly string[];
-      readonly tracks: readonly { readonly x1Mm: number; readonly y1Mm: number; readonly x2Mm: number; readonly y2Mm: number; readonly layer: "F.Cu" | "B.Cu" }[];
+      readonly tracks: readonly { readonly x1Mm: number; readonly y1Mm: number; readonly x2Mm: number; readonly y2Mm: number; readonly layer: "F.Cu" | "B.Cu"; readonly widthMm?: number }[];
       readonly vias: readonly { readonly xMm: number; readonly yMm: number }[];
     };
     // Keep original call arguments intact. Native integer units are the one
     // materialized add plan used for validation, transport and exact readback.
-    const nativeTracks=requestedArguments.tracks.map(track=>({x1Nm:routeMmToNativeNm(track.x1Mm),y1Nm:routeMmToNativeNm(track.y1Mm),x2Nm:routeMmToNativeNm(track.x2Mm),y2Nm:routeMmToNativeNm(track.y2Mm),layer:track.layer}));
+    const requestedNet = design.nets.find(net => net.name === requestedArguments.net);
+    const requestedClass = design.netClasses.find(cls => cls.id === requestedNet?.netClassId);
+    if (!requestedClass) throw new Error("Route replacement net is not an exact host-contract net.");
+    const nativeTracks=requestedArguments.tracks.map(track=>({x1Nm:routeMmToNativeNm(track.x1Mm),y1Nm:routeMmToNativeNm(track.y1Mm),x2Nm:routeMmToNativeNm(track.x2Mm),y2Nm:routeMmToNativeNm(track.y2Mm),layer:track.layer,
+      widthNm:materializeChannelTrackWidth(planeDesign,requestedArguments.net,requestedClass.traceWidthMm,track.widthMm)}));
     const nativeVias=requestedArguments.vias.map(via=>({xNm:routeMmToNativeNm(via.xMm),yNm:routeMmToNativeNm(via.yMm)}));
     const argumentsValue={...requestedArguments,
-      tracks:nativeTracks.map(track=>({x1Mm:routeNativeNmToMm(track.x1Nm),y1Mm:routeNativeNmToMm(track.y1Nm),x2Mm:routeNativeNmToMm(track.x2Nm),y2Mm:routeNativeNmToMm(track.y2Nm),layer:track.layer})),
+      tracks:nativeTracks.map(track=>({x1Mm:routeNativeNmToMm(track.x1Nm),y1Mm:routeNativeNmToMm(track.y1Nm),x2Mm:routeNativeNmToMm(track.x2Nm),y2Mm:routeNativeNmToMm(track.y2Nm),layer:track.layer,widthMm:routeNativeNmToMm(track.widthNm)})),
       vias:nativeVias.map(via=>({xMm:routeNativeNmToMm(via.xNm),yMm:routeNativeNmToMm(via.yNm)}))};
     const pending = this.#pendingFreshRouteSelection;
     this.#pendingFreshRouteSelection = undefined;
@@ -3945,7 +4009,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     }
     if(planeDesign!==undefined){
       const proposed:FreshRouteSelectionItem[]=[...currentSelection.items.filter(item=>!argumentsValue.deleteItemIds.includes(item.id)),
-        ...argumentsValue.tracks.map((track,index):FreshRouteSelectionItem=>({kind:"track",id:`proposed-track-${index}`,net:net.name,start:{xMm:track.x1Mm,yMm:track.y1Mm},end:{xMm:track.x2Mm,yMm:track.y2Mm},layer:track.layer,widthMm:netClass.traceWidthMm})),
+        ...argumentsValue.tracks.map((track,index):FreshRouteSelectionItem=>({kind:"track",id:`proposed-track-${index}`,net:net.name,start:{xMm:track.x1Mm,yMm:track.y1Mm},end:{xMm:track.x2Mm,yMm:track.y2Mm},layer:track.layer,widthMm:track.widthMm})),
         ...argumentsValue.vias.map((via,index):FreshRouteSelectionItem=>({kind:"via",id:`proposed-via-${index}`,net:net.name,at:{xMm:via.xMm,yMm:via.yMm},layers:["F.Cu","B.Cu"],diameterMm:viaPolicy.mode==="bounded"?viaPolicy.diameterMm:0,drillMm:viaPolicy.mode==="bounded"?viaPolicy.drillMm:0}))];
       assertPlaneIncrementalRouteGeometry(planeDesign,net.name,proposed,currentPhysical!.pads);
     }
@@ -3980,7 +4044,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         const native=nativeTracks[index]!;
         assertSuccessfulSidecarMutation(await this.#callSourceBoundTool("pcb_add_track", {
           x1_mm: routeNativeNmToKipyMm(native.x1Nm), y1_mm: routeNativeNmToKipyMm(native.y1Nm), x2_mm: routeNativeNmToKipyMm(native.x2Nm), y2_mm: routeNativeNmToKipyMm(native.y2Nm),
-          layer: normalizeLayer(track.layer), width_mm: netClass.traceWidthMm, net_name: net.name,
+          layer: normalizeLayer(track.layer), width_mm: requestedArguments.tracks[index]!.widthMm === undefined ? netClass.traceWidthMm : routeNativeNmToMm(native.widthNm), net_name: net.name,
         }), "pcb_add_track");
       }
       for (const [index,via] of argumentsValue.vias.entries()) {
@@ -4036,7 +4100,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const expectedTrackKeys = nativeTracks.map((track) => canonicalJson({
         kind: "track", net: net.name,
         start: { xNm: track.x1Nm, yNm: track.y1Nm }, end: { xNm: track.x2Nm, yNm: track.y2Nm },
-        widthNm: routeMmToNativeNm(netClass.traceWidthMm), layer: track.layer,
+        widthNm: track.widthNm, layer: track.layer,
       })).sort();
       const actualTrackKeys = newItems.filter((item) => item.kind === "track").map(item=>canonicalJson({kind:item.kind,net:item.net,start:{xNm:routeSourceMmToNativeNm(item.start.xMm),yNm:routeSourceMmToNativeNm(item.start.yMm)},end:{xNm:routeSourceMmToNativeNm(item.end.xMm),yNm:routeSourceMmToNativeNm(item.end.yMm)},widthNm:routeSourceMmToNativeNm(item.widthMm),layer:item.layer})).sort();
       const expectedViaKeys = nativeVias.map((via) => canonicalJson({
@@ -4144,8 +4208,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const beforeIssues = freshNativeNetlistParityIssues(contract, beforeNative);
     if (beforeIssues.length > 0) throw new Error(`Field repair requires exact pre-mutation native contract parity: ${beforeIssues.map((issue) => issue.code).join(", ")}.`);
     const baseline = await this.#freshSchematicRollback.capture(beforeSource);
+    let firstOperation = "sch_autoplace_fields";
+    let sessionResponse: CallToolResult | undefined;
     try {
       const result = await this.#callSourceBoundTool("sch_autoplace_fields", { references, dry_run: false });
+      sessionResponse = result;
+      firstOperation = "validate-field-repair-reply";
       assertSuccessfulSidecarMutation(result, "sch_autoplace_fields");
       // One exact positive completion line; prose about a failed/unsupported
       // operation or a dry run cannot authorize a successful field mutation.
@@ -4158,6 +4226,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
           || new Set(reportedRefs).size !== reportedRefs.length || reportedRefs.some((reference) => !references.includes(reference))) {
         throw new Error("Schematic field repair completion references/count do not match the exact contract scope.");
       }
+      firstOperation = "verify-field-repair-source";
       const afterBytes = await readFile(this.#freshProject.schematicPath);
       const afterSource = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(afterBytes);
       const comparison = compareFreshSchematicFieldPresentationSources(beforeSource, afterSource, beforeIdentity, targets);
@@ -4174,10 +4243,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         }
       }
       assertFreshGenericSchematicSource(parseFreshSchematicSource(afterSource));
+      firstOperation = "capture-native-netlist-after-fields";
       const afterNative = await this.#captureFreshNativeNetlist();
       await assertSource(afterBytes);
       const afterIssues = freshNativeNetlistParityIssues(contract, afterNative);
       if (afterIssues.length > 0) throw new Error(`Field repair changed native contract parity: ${afterIssues.map((issue) => issue.code).join(", ")}.`);
+      firstOperation = "verify-field-repair-authority";
       await this.#assertFreshCompoundAuthority();
       await assertSource(afterBytes);
       const afterIdentity = contentIdentity(afterBytes);
@@ -4196,11 +4267,27 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       })) });
     } catch (error) {
       this.#pendingFreshConnectivity = undefined;
+      const primary = createFreshSchematicFieldDiagnostic({ failureId: randomUUID(), phase: "primary-failure", toolCallId: call.id.slice(0, 256),
+        firstOperation, beforeSchematicContentIdentity: beforeIdentity, primary: captureFreshSchematicFieldError(error),
+        sessionResponse: sessionResponse === undefined ? null : captureFreshSchematicFieldError(sessionResponse),
+        schematicRollback: "not-attempted", rollbackFailure: null, nativeSchematicState: "unproven", nativeClose: null,
+        primaryArtifact: null, recoveryArtifact: null });
+      // Persist the exact primary cause before any rollback can fail or replace
+      // evidence. Publication is bounded and cannot prevent required recovery.
+      const primaryArtifact = await publishFreshSchematicFieldDiagnostic(this.#observeFreshSchematicFieldDiagnostic, primary);
+      let rollbackFailure: unknown;
+      let rollbackFailed = false;
       try { await this.#freshSchematicRollback.restore(baseline); }
-      catch (rollbackError) {
-        throw new Error(`FRESH_CONNECTIVITY_ROLLBACK_FAILED_TERMINAL: explicit field repair failed and exact schematic rollback failed: ${rollbackError instanceof Error ? rollbackError.message : String(rollbackError)}.`, { cause: error });
-      }
-      throw new Error(`FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL: explicit field repair failed: ${error instanceof Error ? error.message : String(error)}. Exact schematic preimage restored; the editing session must close without retry.`, { cause: error });
+      catch (error) { rollbackFailed = true; rollbackFailure = error; }
+      const { schemaVersion: _version, identity: _identity, ...primaryBody } = primary;
+      const recovery = createFreshSchematicFieldDiagnostic({ ...primaryBody, phase: "recovery-finished", primaryArtifact,
+        schematicRollback: rollbackFailed ? "failed" : "verified", rollbackFailure: rollbackFailed ? captureFreshSchematicFieldError(rollbackFailure) : null });
+      const recoveryArtifact = await publishFreshSchematicFieldDiagnostic(this.#observeFreshSchematicFieldDiagnostic, recovery);
+      const references = schematicFieldDiagnosticReferenceText("primary", primaryArtifact) + schematicFieldDiagnosticReferenceText("recovery", recoveryArtifact);
+      const message = rollbackFailed
+        ? "FRESH_CONNECTIVITY_ROLLBACK_FAILED_TERMINAL: explicit field repair failed and exact schematic rollback could not be verified. The editing session must close without retry."
+        : "FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL: explicit field repair failed. Exact schematic preimage restored; native schematic state remains unproven and the editing session must close without retry.";
+      throw new Error(message + references, { cause: error });
     }
   }
 
@@ -4455,7 +4542,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (!freshGlobalLabelInventoryMatches(schematic, contract.nets.map((net) => net.name))) {
       throw new Error("Fresh sync requires exactly one passive global label for each contract net and no extra labels.");
     }
-    const qualifiedSymbols = contract.externalPowerBinding === undefined ? schematic.symbols : (await this.#qualifiedPowerSource(contract, new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(schematicBytes))).physicalSymbols;
+    const qualifiedSymbols = powerAnnotationBindingOf(contract) === undefined ? schematic.symbols : (await this.#qualifiedPowerSource(contract, new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(schematicBytes))).physicalSymbols;
     if (qualifiedSymbols.length !== contract.components.length
         || contract.components.some((component) => {
           const symbols = qualifiedSymbols.filter((symbol) => symbol.reference === component.reference);
@@ -4720,10 +4807,10 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         const result = await this.#callSourceBoundTool("sch_move_symbol", {
           reference: move.reference, x_mm: move.xMm, y_mm: move.yMm, snap_to_grid: true,
         });
-        if (result.isError === true) throw new Error(`KiCad rejected atomic recommendation move ${attemptedMoves}/${pending.recommendedMoves.length} for ${move.reference}.`);
+        if (result.isError === true) throw new Error(`KiCad rejected atomic recommendation move ${attemptedMoves}/${pending.recommendedMoves.length} for ${move.reference}.`, { cause: nativeReplyCause("sch_move_symbol", result) });
         const semantic = preferredResultText(result).replace(/\s+/gu, " ").trim();
         if (/\bWARNING\b|\b(?:failed|failure|error|aborted|unable)\b|\bcould not\b|\bwas not found\b|\balready overlap\b/iu.test(semantic)) {
-          throw new Error(`KiCad returned an unsafe semantic result for ${move.reference}: ${semantic.slice(0, 500)}`);
+          throw new Error(`KiCad returned an unsafe semantic result for ${move.reference}: ${semantic.slice(0, 500)}`, { cause: nativeReplyCause("sch_move_symbol", result) });
         }
       }
       const after = await this.#readFreshPlacementSnapshot(pending.contract, work);
@@ -4778,7 +4865,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   async #freshApplyContractConnectivity(call: HarnessToolCall): Promise<HarnessToolResult> {
     parseFreshIncrementalArguments(call.name, call.arguments);
     const contract = this.#freshConnectivityContract!;
-    if (contract.externalPowerBinding !== undefined && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) return contractResult(call, contract, {
+    if (powerAnnotationBindingOf(contract) !== undefined && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) return contractResult(call, contract, {
       applied: false, mutated: false, idempotent: false, issues: [{ code: "EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE", message: "The native graph producer is not qualified to retain separate complete PWR_FLAG pin groups.", remediation: "Use the qualified source-bound graph runtime before adding declared external power annotations." }],
     });
     const globalLabels = contractAuthoringProject(this.#freshProject);
@@ -4824,11 +4911,11 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       });
     }
     const symbolsResult = await this.#callSourceBoundTool("sch_get_symbols", {});
-    if (symbolsResult.isError === true) throw new Error("KiCad failed to read placed symbols before contract connectivity.");
+    if (symbolsResult.isError === true) throw new Error("KiCad failed to read placed symbols before contract connectivity.", { cause: nativeReplyCause("sch_get_symbols", symbolsResult) });
     let qualifiedAuxiliary: ReturnType<typeof verifyFreshExternalPowerSource>;
     try { qualifiedAuxiliary = await this.#qualifiedPowerSource(contract, schematic, true); }
     catch (error) { return contractResult(call, contract, { applied: false, mutated: false, idempotent: false, issues: [{ code: "EXTERNAL_POWER_INVENTORY_MISMATCH", message: error instanceof Error ? error.message : String(error), remediation: "Restore exact source-bound physical and auxiliary symbol inventory before authoring." }] }); }
-    const allPlacements = new Map(parseFreshPlacements(preferredResultText(symbolsResult), qualifiedAuxiliary.references));
+    const allPlacements = new Map(parseFreshPlacements(preferredResultText(symbolsResult), qualifiedAuxiliary.sourcePlacements));
     if (qualifiedAuxiliary.references.length > 0) {
       const observedFlags = qualifiedAuxiliary.references.map(reference => { const values = allPlacements.get(reference); const value = values?.[0];
         if (values?.length !== 1 || value === undefined || value.unit !== 1 || value.rotation !== 0 || value.library !== "power" || value.symbol !== "PWR_FLAG" || value.value !== "PWR_FLAG" || value.footprint !== undefined) throw new Error("Live external power annotation differs from its source inventory.");
@@ -4889,9 +4976,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     }
 
     const boundsResult = await this.#callSourceBoundTool("sch_get_bounding_boxes", {});
-    if (boundsResult.isError === true) throw new Error("KiCad failed to read schematic bounding boxes before contract connectivity.");
+    if (boundsResult.isError === true) throw new Error("KiCad failed to read schematic bounding boxes before contract connectivity.", { cause: nativeReplyCause("sch_get_bounding_boxes", boundsResult) });
     const allBounds = parseFreshBoundingBoxes(preferredResultText(boundsResult));
-    if (contract.externalPowerBinding !== undefined && (allBounds.length !== contract.components.length + qualifiedAuxiliary.references.length || qualifiedAuxiliary.references.some(reference => allBounds.filter(box => box.reference === reference).length !== 1) || allBounds.some(box => !contract.components.some(component => component.reference === box.reference) && !qualifiedAuxiliary.references.includes(box.reference)))) throw new Error("Bounding-box inventory differs from the complete qualified physical/annotation inventory.");
+    if (powerAnnotationBindingOf(contract) !== undefined && (allBounds.length !== contract.components.length + qualifiedAuxiliary.references.length || qualifiedAuxiliary.references.some(reference => allBounds.filter(box => box.reference === reference).length !== 1) || allBounds.some(box => !contract.components.some(component => component.reference === box.reference) && !qualifiedAuxiliary.references.includes(box.reference)))) throw new Error("Bounding-box inventory differs from the complete qualified physical/annotation inventory.");
     let contractBounds = contract.components.flatMap((component) => allBounds.filter((box) => box.reference === component.reference));
     if (contractBounds.length !== contract.components.length) addPreflightIssue({
       code: "BOUNDING_BOX_READBACK_INCOMPLETE",
@@ -4906,7 +4993,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     for (const [reference, placement] of placements) {
       const localAngles = parseFreshEmbeddedPinAngles(schematic, `${placement.library}:${placement.symbol}`, placement.unit);
       const result = await this.#callSourceBoundTool("sch_get_pin_positions", { library: placement.library, symbol_name: placement.symbol, x_mm: placement.x, y_mm: placement.y, rotation: placement.rotation, unit: placement.unit });
-      if (result.isError === true) throw new Error(`KiCad failed to resolve pin positions for ${reference}.`);
+      if (result.isError === true) throw new Error(`KiCad failed to resolve pin positions for ${reference}.`, { cause: nativeReplyCause("sch_get_pin_positions", result) });
       const text = preferredResultText(result);
       for (const match of text.matchAll(/- Pin ([^:]+): \((-?[\d.]+),\s*(-?[\d.]+)\) mm/gu)) {
         const localAngle = localAngles[match[1]!];
@@ -5008,7 +5095,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     }
     const physicalGeometryPlan = allGeometryInputsResolved
       ? planFreshContractGeometry(contract, pins, contractBounds, planningWork, globalLabels, terminalPartition) : null;
-    const currentGeometryPlan = physicalGeometryPlan === null ? null : planFreshExternalPowerGeometry(contract, physicalGeometryPlan, pins, contractBounds, this.#freshLibraryResolver, planningWork, contentIdentity(schematic), sourceTerminals?.strokeStyleEvidence);
+    const currentGeometryPlan = physicalGeometryPlan === null ? null : planFreshExternalPowerGeometry(contract, physicalGeometryPlan, pins, contractBounds, this.#freshLibraryResolver, planningWork, contentIdentity(schematic), sourceTerminals?.strokeStyleEvidence, this.#freshPlaneCompilationBundle?.libraryBinding);
     const convergenceIssues = [...preflightIssues, ...(currentGeometryPlan?.issues ?? [])];
     if (convergenceIssues.length > 0) {
       const searchEligible = allGeometryInputsResolved
@@ -5062,9 +5149,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     this.#pendingFreshPlacementRecommendation = undefined;
 
     const beforeReadback = await this.#callSourceBoundTool("sch_get_connectivity_graph", {});
-    if (beforeReadback.isError === true) throw new Error("KiCad failed to read connectivity before the contract operation.");
+    if (beforeReadback.isError === true) throw new Error("KiCad failed to read connectivity before the contract operation.", { cause: nativeReplyCause("sch_get_connectivity_graph", beforeReadback) });
     const rawBeforeGroups = parseFreshConnectivityGroups(preferredResultText(beforeReadback));
-    const beforeGroups = contract.externalPowerBinding === undefined ? rawBeforeGroups : verifyFreshExternalPowerSource(contract, schematic, { allowAbsent: true, groups: rawBeforeGroups, placements: currentGeometryPlan!.flags }).groups!;
+    const beforeGroups = powerAnnotationBindingOf(contract) === undefined ? rawBeforeGroups : verifyFreshExternalPowerSource(contract, schematic, { allowAbsent: true, groups: rawBeforeGroups, placements: currentGeometryPlan!.flags }).groups!;
     const alreadyExactIssues = exactFreshConnectivityIssues(contract, beforeGroups);
     const expectedLabels: readonly FreshContractLabelAnchor[] = globalLabels ? currentGeometryPlan!.labels
       : contract.nets.map((net) => ({ name: net.name, at: pins.get(endpointId(net.endpoints[0]!))! }));
@@ -5073,19 +5160,19 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const expected = pins.get(endpointId(endpoint))!;
       return noConnectLocations.some((actual) => pointDistance(expected, actual) <= 0.001);
     });
-    if (alreadyExactIssues.length === 0 && exactNoConnects && (contract.externalPowerBinding === undefined || qualifiedAuxiliary.references.length === contract.externalPowerBinding.flags.length)) {
+    if (alreadyExactIssues.length === 0 && exactNoConnects && (powerAnnotationBindingOf(contract) === undefined || qualifiedAuxiliary.references.length === powerAnnotationBindingOf(contract)!.flags.length)) {
       if (!exactFreshContractLabelsMatch(schematic, expectedLabels, globalLabels)) return contractResult(call, contract, {
         applied: false, mutated: false, idempotent: true,
         issues: [{ code: "CONTRACT_LABEL_INVENTORY_MISMATCH", message: "Persisted schematic label kinds, shapes, names, or anchors differ from the exact host contract inventory.", remediation: "Restore the exact contract-label checkpoint before accepting existing connectivity." }],
       });
       const erc = await this.#callSourceBoundTool("run_erc", {});
-      if (erc.isError === true) throw new Error("KiCad ERC could not run after exact contract-connectivity readback.");
+      if (erc.isError === true) throw new Error("KiCad ERC could not run after exact contract-connectivity readback.", { cause: nativeReplyCause("run_erc", erc) });
       const ercPayload = JSON.parse(resultContent(erc, true)) as Record<string, unknown>;
       if (!ercIsClean(ercPayload)) return contractResult(call, contract, {
         applied: false, mutated: false, idempotent: true,
         issues: [{ code: "ERC_NOT_CLEAN", message: "Contract connectivity is exact, but ERC is not clean.", remediation: "Resolve the reported ERC design findings without changing contract topology, then retry." }],
       });
-      if (contract.externalPowerBinding !== undefined && await readFile(this.#freshProject!.schematicPath, "utf8") !== schematic) throw new Error("Exact annotated schematic changed during idempotent ERC verification.");
+      if (powerAnnotationBindingOf(contract) !== undefined && await readFile(this.#freshProject!.schematicPath, "utf8") !== schematic) throw new Error("Exact annotated schematic changed during idempotent ERC verification.");
       if (this.#pendingFreshConnectivity === undefined) {
         if (this.#captureFreshNativeNetlist === undefined) return contractResult(call, contract, {
           applied: false, mutated: false, idempotent: true,
@@ -5093,7 +5180,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         });
         try {
           const nativeSource = await this.#captureFreshNativeNetlist();
-          if (contract.externalPowerBinding !== undefined) {
+          if (powerAnnotationBindingOf(contract) !== undefined) {
             if (await readFile(this.#freshProject!.schematicPath, "utf8") !== schematic) throw new Error("Exact annotated schematic changed during idempotent native parity capture.");
             this.#assertLibrarySources();
           }
@@ -5167,12 +5254,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     let connectivityBatchAfterContentIdentity: ContentIdentity | undefined;
     let recoveryIssues: readonly FreshConnectivityIssue[] | undefined;
     const mutate = async (name: string, argumentsValue: Readonly<Record<string, unknown>>, failure: string): Promise<void> => {
-      if (contract.externalPowerBinding !== undefined && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("External power graph authority changed before a governed mutation.");
+      if (powerAnnotationBindingOf(contract) !== undefined && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("External power graph authority changed before a governed mutation.");
       const result = await this.#callSourceBoundTool(name, argumentsValue);
-      if (result.isError === true) throw new Error(failure);
+      if (result.isError === true) throw new Error(failure, { cause: nativeReplyCause(name, result) });
       const semantic = preferredResultText(result).replace(/\s+/gu, " ").trim();
       if (/\bWARNING\b|\b(?:failed|failure|error|aborted|unable)\b|\bcould not\b|\bwas not found\b|\balready overlap\b/iu.test(semantic)) {
-        throw new Error(`${failure} Sidecar semantic result: ${semantic.slice(0, 500)}`);
+        throw new Error(`${failure} Sidecar semantic result: ${semantic.slice(0, 500)}`, { cause: nativeReplyCause(name, result) });
       }
       completedMutationCalls += 1;
     };
@@ -5182,7 +5269,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         if (!beforeBytes.equals(Buffer.from(schematic, "utf8"))) throw new Error("Schematic source changed before the exact batch dispatch.");
         const beforeInventory = parseFreshSchematicConnectivityPrimitiveInventory(schematic);
         this.#assertLibrarySources();
-        if (contract.externalPowerBinding !== undefined && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("External power graph authority changed before complete batch authoring.");
+        if (powerAnnotationBindingOf(contract) !== undefined && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("External power graph authority changed before complete batch authoring.");
         const response = await this.#session.applySchematicConnectivityBatch!(batchPlan.value.request);
         completedMutationCalls += 1;
         const afterBytes = await readFile(this.#freshProject!.schematicPath);
@@ -5231,13 +5318,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       await mutate("sch_add_missing_junctions", {}, "KiCad failed to add required wire junctions.");
       }
 
-      if (contract.externalPowerBinding !== undefined) {
+      if (powerAnnotationBindingOf(contract) !== undefined) {
         const beforeFlagsSource = await readFile(this.#freshProject!.schematicPath, "utf8");
-        const retained = freshExternalPowerRetainedSourceIdentity(beforeFlagsSource, contract.externalPowerBinding.flags.map(flag => flag.reference));
+        const retained = freshExternalPowerRetainedSourceIdentity(beforeFlagsSource, powerAnnotationBindingOf(contract)!.flags.map(flag => flag.reference));
         for (const flag of geometryPlan.flags) {
           await mutate("sch_add_symbol", { library: "power", symbol_name: "PWR_FLAG", reference: flag.reference, value: "PWR_FLAG", footprint: "", x_mm: flag.x, y_mm: flag.y, rotation: flag.rotation, unit: 1, snap_to_grid: false }, `KiCad failed while materializing source-bound external power ${flag.reference}.`);
           const afterFlagSource = await readFile(this.#freshProject!.schematicPath, "utf8");
-          if (canonicalJson(freshExternalPowerRetainedSourceIdentity(afterFlagSource, contract.externalPowerBinding.flags.map(flag => flag.reference))) !== canonicalJson(retained)) throw new Error("External power symbol creation changed unrelated schematic tokens.");
+          if (canonicalJson(freshExternalPowerRetainedSourceIdentity(afterFlagSource, powerAnnotationBindingOf(contract)!.flags.map(flag => flag.reference))) !== canonicalJson(retained)) throw new Error("External power symbol creation changed unrelated schematic tokens.");
         }
         connectivityBatchAfterContentIdentity = contentIdentity(await readFile(this.#freshProject!.schematicPath));
       }
@@ -5253,12 +5340,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
 
       const readback = await this.#callSourceBoundTool("sch_get_connectivity_graph", {});
-      if (readback.isError === true) throw new Error("KiCad failed to read back contract connectivity.");
+      if (readback.isError === true) throw new Error("KiCad failed to read back contract connectivity.", { cause: nativeReplyCause("sch_get_connectivity_graph", readback) });
       const rawGroups = parseFreshConnectivityGroups(preferredResultText(readback));
-      groups = contract.externalPowerBinding === undefined ? rawGroups : verifyFreshExternalPowerSource(contract, await readFile(this.#freshProject!.schematicPath, "utf8"), { groups: rawGroups, placements: geometryPlan.flags }).groups!;
+      groups = powerAnnotationBindingOf(contract) === undefined ? rawGroups : verifyFreshExternalPowerSource(contract, await readFile(this.#freshProject!.schematicPath, "utf8"), { groups: rawGroups, placements: geometryPlan.flags }).groups!;
       const postconditionIssues = [...exactFreshConnectivityIssues(contract, groups)];
       const postSource = await readFile(this.#freshProject!.schematicPath, "utf8");
-      if (contract.externalPowerBinding !== undefined && postSource !== geometrySource) throw new Error("Exact annotated schematic source changed during connectivity readback.");
+      if (powerAnnotationBindingOf(contract) !== undefined && postSource !== geometrySource) throw new Error("Exact annotated schematic source changed during connectivity readback.");
       const postSchematic = parseFreshSchematicSource(postSource);
       if (globalLabels) assertFreshGenericSchematicSource(postSchematic);
       if (!exactFreshContractLabelsMatch(postSource, expectedLabels, globalLabels)) {
@@ -5279,7 +5366,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
 
       const erc = await this.#callSourceBoundTool("run_erc", {});
-      if (erc.isError === true) throw new Error("KiCad ERC could not run after contract connectivity mutation.");
+      if (erc.isError === true) throw new Error("KiCad ERC could not run after contract connectivity mutation.", { cause: nativeReplyCause("run_erc", erc) });
       const ercPayload = JSON.parse(resultContent(erc, true)) as Record<string, unknown>;
       if (!ercIsClean(ercPayload)) {
         recoveryIssues = [{ code: "ERC_NOT_CLEAN", message: "Exact connectivity readback passed, but ERC is not clean.", remediation: "Correct placement or other ERC design findings, then retry; do not change contract topology." }];
@@ -5310,12 +5397,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       noConnectPoints: contract.noConnects.map((endpoint) => ({ endpoint, point: pins.get(endpointId(endpoint))! })),
       labelAnchors: expectedLabels,
       ...(connectivityBatchAfterContentIdentity === undefined ? {} : { connectivityBatchAfterContentIdentity }),
-      ...(contract.externalPowerBinding === undefined ? {} : { externalPowerPlacements: geometryPlan.flags }),
+      ...(powerAnnotationBindingOf(contract) === undefined ? {} : { externalPowerPlacements: geometryPlan.flags }),
     };
     return contractResult(call, contract, {
       applied: true, mutated: true, idempotent: false, issues: [],
       routes, noConnects: contract.noConnects.map(endpointId), connectivity: groups,
-      ...(contract.externalPowerBinding === undefined ? {} : { externalPowerAnnotations: geometryPlan.flags, externalPowerBindingIdentity: contract.externalPowerBinding.identity }),
+      ...(contract.derivedPowerBinding !== undefined ? { powerAnnotations: geometryPlan.flags, powerAnnotationBindingIdentity: contract.derivedPowerBinding.identity }
+        : contract.externalPowerBinding === undefined ? {} : { externalPowerAnnotations: geometryPlan.flags, externalPowerBindingIdentity: contract.externalPowerBinding.identity }),
     });
   }
 
@@ -5404,7 +5492,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
       const globalLabels = contractAuthoringProject(this.#freshProject);
       if (globalLabels) assertFreshGenericSchematicSource(schematic);
-      if (pending.contract.externalPowerBinding !== undefined) await this.#qualifiedPowerSource(pending.contract, schematicSource, false, pending.externalPowerPlacements);
+      if (powerAnnotationBindingOf(pending.contract) !== undefined) await this.#qualifiedPowerSource(pending.contract, schematicSource, false, pending.externalPowerPlacements);
       if (!exactFreshContractLabelsMatch(schematicSource, pending.labelAnchors, globalLabels)) {
         throw new Error("Persisted schematic label kinds, shapes, names, or anchors do not exactly reproduce the host contract after save");
       }

@@ -1,7 +1,7 @@
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { exactFreshSchematicGeometryMatches, expectedFreshSchematicGeometryPrefixes, type FreshSchematicWriterGeometry } from "../../src/harness/fresh-schematic-writer-geometry.js";
 import { parseFreshSchematicSource, type FreshSchematicWire } from "../../src/harness/fresh-kicad-parser.js";
@@ -11,6 +11,10 @@ import { createFreshConnectivityContract } from "../../src/harness/fresh-connect
 import { runPcbAgentHarness } from "../../src/harness/pcb-agent-harness.js";
 import type { HarnessProviderTurn, HarnessToolPort, HarnessToolResult } from "../../src/harness/contracts.js";
 import { prepareFreshProject } from "../../src/harness/fresh-project.js";
+import { FreshSchematicRollback } from "../../src/harness/fresh-schematic-rollback.js";
+import { FRESH_SCHEMATIC_FIELD_DIAGNOSTIC_TIMEOUT_MS, type FreshSchematicFieldDiagnosticObserver } from "../../src/harness/fresh-schematic-field-diagnostics.js";
+import { createToolboxSchematicFieldDiagnostics } from "../../src/mcp/toolbox-schematic-field-diagnostics.js";
+import { createSchematicFailureSession, schematicFailureReply } from "../helpers/schematic-failure-session.js";
 import { createGenericDividerBundleFixture } from "../helpers/generic-divider-bundle.js";
 import { normalizeFakeSchematicWriterSource, replaceFakeSchematicGeometry } from "../helpers/normalizing-schematic-writer.js";
 
@@ -248,6 +252,7 @@ async function fieldRepairBridge(
   summary = "Auto-placed Reference/Value fields on 1 symbol(s): R1.",
   nativeFailure = false,
   thirdCaptureEdit?: (source: string) => string,
+  observeFreshSchematicFieldDiagnostic?: FreshSchematicFieldDiagnosticObserver,
 ) {
   const current = await capturedPlanBridge();
   await current.bridge.execute({ id: "connect", name: "fresh_apply_contract_connectivity", arguments: {} });
@@ -268,6 +273,7 @@ async function fieldRepairBridge(
   const bridge = createKicadHarnessTools(current.sidecar, {
     freshProject: current.fresh, freshConnectivityContract: current.fixture.bundle.contract,
     freshCompilationBundle: current.fixture.bundle, verifyPersistedMutation: async () => true,
+    ...(observeFreshSchematicFieldDiagnostic === undefined ? {} : { observeFreshSchematicFieldDiagnostic }),
     captureFreshNativeNetlist: async () => {
       captures += 1;
       if (nativeFailure && captures === 2) throw new Error("field native parity unavailable");
@@ -373,14 +379,104 @@ describe("explicit source-bound schematic field repair", () => {
   ] as const)("restores the exact connected preimage when a field operation also changes %s", async (_name, corrupt) => {
     const current = await fieldRepairBridge((source) => corrupt(relocateR1Value(source)));
     await expect(current.bridge.execute({ id: "bad-fields", name: "fresh_autoplace_schematic_fields", arguments: {} }))
-      .rejects.toThrow(/FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL.*outside existing visible/iu);
+      .rejects.toMatchObject({ message: expect.stringContaining("FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL"),
+        cause: expect.objectContaining({ message: expect.stringContaining("outside existing visible") }) });
     expect(await readFile(current.fresh.schematicPath, "utf8")).toBe(current.before);
+  });
+
+  it.each([false, true])("retains a real schematic negative through host rollback (rollback failure: %s)", async rollbackFails => {
+    let diagnostics: ReturnType<typeof createToolboxSchematicFieldDiagnostics>;
+    const phases: string[] = [];
+    const current = await fieldRepairBridge(undefined, undefined, false, undefined, async diagnostic => {
+      phases.push(diagnostic.phase); return diagnostics.observe(diagnostic);
+    });
+    diagnostics = createToolboxSchematicFieldDiagnostics(current.fresh.outputPath);
+    const { session } = await createSchematicFailureSession({ workspace: current.fresh.outputPath,
+      project: current.fresh.projectPath, boardFile: current.fresh.pcbPath });
+    const originalRestore = FreshSchematicRollback.prototype.restore;
+    let primaryBytes: Buffer | undefined;
+    const restore = vi.spyOn(FreshSchematicRollback.prototype, "restore").mockImplementation(async function (this: FreshSchematicRollback, ...args) {
+      phases.push("rollback");
+      const files = (await readdir(current.fresh.outputPath)).filter(file => file.startsWith("schematic-field-diagnostic-"));
+      expect(files).toHaveLength(1);
+      primaryBytes = await readFile(path.join(current.fresh.outputPath, files[0]!));
+      const first = JSON.parse(primaryBytes.toString("utf8"));
+      expect(first).toMatchObject({ phase: "primary-failure", schematicRollback: "not-attempted", nativeClose: null });
+      expect(first.primary.value.cause).toEqual({ operation: "sch_autoplace_fields", response: schematicFailureReply });
+      if (rollbackFails) throw new Error("synthetic rollback failure");
+      return await originalRestore.apply(this, args);
+    });
+    const baseCall = current.sidecar.callTool;
+    current.sidecar.callTool = async (name, args) => name === "sch_autoplace_fields"
+      ? await session.callTool(name, args) : await baseCall(name, args);
+    try {
+      const error = await current.bridge.execute({ id: "native-negative-fields", name: "fresh_autoplace_schematic_fields", arguments: {} })
+        .catch((error: unknown) => error);
+      expect((error as Error).message).toContain(rollbackFails ? "FRESH_CONNECTIVITY_ROLLBACK_FAILED_TERMINAL" : "FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL");
+      expect(((error as Error).cause as Error).cause).toEqual({ operation: "sch_autoplace_fields", response: schematicFailureReply });
+      expect(String(error)).not.toMatch(/synthetic-private-test-token|Unsupported graphical/iu);
+      expect(JSON.stringify(error)).not.toContain("synthetic-private-test-token");
+      expect((error as Error).message).toMatch(/Private primary diagnostic: schematic-field-diagnostic-primary-failure-.*sha256:[a-f0-9]{64}/u);
+      expect((error as Error).message).not.toContain(current.fresh.outputPath);
+      expect(phases).toEqual(["primary-failure", "rollback", "recovery-finished"]);
+      const files = (await readdir(current.fresh.outputPath)).filter(file => file.startsWith("schematic-field-diagnostic-"));
+      expect(files).toHaveLength(2);
+      const recovery = JSON.parse(await readFile(path.join(current.fresh.outputPath, files.find(file => file.includes("recovery-finished"))!), "utf8"));
+      expect(recovery).toMatchObject({ schematicRollback: rollbackFails ? "failed" : "verified", nativeClose: null,
+        primaryArtifact: { identity: contentIdentity(primaryBytes!) } });
+      expect(recovery.rollbackFailure).toEqual(rollbackFails ? { status: "captured", value: { name: "Error", message: "synthetic rollback failure" } } : null);
+      expect(await readFile(current.fresh.schematicPath, "utf8")).toBe(current.before);
+      await session.assertActivePcb(current.fresh.pcbPath);
+      await expect(session.callTool("pcb_save")).rejects.toThrow(/quarantined/iu);
+      await session.close();
+      await diagnostics.finalize({ nativeEditorTeardown: "unconfirmed", sidecarTeardown: "confirmed", ownedHostCleanup: "unconfirmed", checkpoint: "not-observed" });
+      const finalFiles = (await readdir(current.fresh.outputPath)).filter(file => file.startsWith("schematic-field-diagnostic-"));
+      const closed = JSON.parse(await readFile(path.join(current.fresh.outputPath, finalFiles.find(file => file.includes("close-finished"))!), "utf8"));
+      expect(closed).toMatchObject({ schematicRollback: rollbackFails ? "failed" : "verified",
+        nativeClose: { nativeEditorTeardown: "unconfirmed", sidecarTeardown: "confirmed", checkpoint: "not-observed" } });
+      expect(await readFile(path.join(current.fresh.outputPath, finalFiles.find(file => file.includes("primary-failure"))!))).toEqual(primaryBytes);
+    } finally { restore.mockRestore(); await session.close(); }
+  });
+
+  it.each(["reject", "timeout"] as const)("preserves the first fault and exact rollback when diagnostic publication encounters %s", async mode => {
+    let firstObserved!: () => void;
+    const observed = new Promise<void>(resolve => { firstObserved = resolve; });
+    const phases: string[] = [];
+    const current = await fieldRepairBridge(undefined, undefined, false, undefined, async diagnostic => {
+      phases.push(diagnostic.phase); firstObserved();
+      if (mode === "reject") throw new Error("private diagnostic writer failure");
+      return await new Promise(() => {});
+    });
+    const primary = new Error("private-original-native-fault");
+    const call = current.sidecar.callTool;
+    current.sidecar.callTool = async (name, args) => {
+      if (name !== "sch_autoplace_fields") return await call(name, args);
+      await writeFile(current.fresh.schematicPath, relocateR1Value(current.before));
+      throw primary;
+    };
+    try {
+      if (mode === "timeout") vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+      const result = current.bridge.execute({ id: "diagnostic-failure", name: "fresh_autoplace_schematic_fields", arguments: {} }).catch(error => error as Error);
+      await observed;
+      if (mode === "timeout") {
+        await vi.advanceTimersByTimeAsync(FRESH_SCHEMATIC_FIELD_DIAGNOSTIC_TIMEOUT_MS);
+        await vi.waitFor(() => expect(phases).toHaveLength(2));
+        await vi.advanceTimersByTimeAsync(FRESH_SCHEMATIC_FIELD_DIAGNOSTIC_TIMEOUT_MS);
+      }
+      const error = await result as Error;
+      expect(error.cause).toBe(primary);
+      expect(error.message).toContain("FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL");
+      expect(error.message).toContain("diagnostic publication was not confirmed");
+      expect(error.message).not.toMatch(/private-original|private diagnostic/);
+      expect(phases).toEqual(["primary-failure", "recovery-finished"]);
+      expect(await readFile(current.fresh.schematicPath, "utf8")).toBe(current.before);
+    } finally { vi.useRealTimers(); }
   });
 
   it("rolls back a native parity failure after the field write", async () => {
     const current = await fieldRepairBridge(relocateR1Value, undefined, true);
     await expect(current.bridge.execute({ id: "native-field-failure", name: "fresh_autoplace_schematic_fields", arguments: {} }))
-      .rejects.toThrow(/ROLLED_BACK_TERMINAL.*native parity unavailable/iu);
+      .rejects.toMatchObject({ message: expect.stringContaining("ROLLED_BACK_TERMINAL"), cause: expect.objectContaining({ message: "field native parity unavailable" }) });
     expect(await readFile(current.fresh.schematicPath, "utf8")).toBe(current.before);
   });
 
@@ -392,7 +488,7 @@ describe("explicit source-bound schematic field repair", () => {
   ])("rejects contradictory field completion metadata %s", async (summary) => {
     const current = await fieldRepairBridge(relocateR1Value, summary);
     await expect(current.bridge.execute({ id: "field-summary", name: "fresh_autoplace_schematic_fields", arguments: {} }))
-      .rejects.toThrow(/ROLLED_BACK_TERMINAL.*completion/iu);
+      .rejects.toMatchObject({ message: expect.stringContaining("ROLLED_BACK_TERMINAL"), cause: expect.objectContaining({ message: expect.stringContaining("completion") }) });
     expect(await readFile(current.fresh.schematicPath, "utf8")).toBe(current.before);
   });
 
@@ -436,7 +532,8 @@ describe("explicit source-bound schematic field repair", () => {
     const current = await fieldRepairBridge(relocateR1Value, "Dry run: would reposition Reference/Value fields on 1 symbol(s): R1.");
     await expect(current.bridge.execute({ id: "fields-args", name: "fresh_autoplace_schematic_fields", arguments: { references: ["R1"] } })).rejects.toThrow(/unrecognized/iu);
     expect(current.fieldRequests).toEqual([]);
-    await expect(current.bridge.execute({ id: "fields-false-positive", name: "fresh_autoplace_schematic_fields", arguments: {} })).rejects.toThrow(/ROLLED_BACK_TERMINAL.*completion summary/iu);
+    await expect(current.bridge.execute({ id: "fields-false-positive", name: "fresh_autoplace_schematic_fields", arguments: {} })).rejects.toMatchObject({
+      message: expect.stringContaining("ROLLED_BACK_TERMINAL"), cause: expect.objectContaining({ message: expect.stringContaining("completion summary") }) });
     expect(await readFile(current.fresh.schematicPath, "utf8")).toBe(current.before);
   });
 });

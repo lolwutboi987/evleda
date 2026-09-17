@@ -1504,8 +1504,8 @@ function qualifiedNativeCommitReply(result: CallToolResult, expected: string): b
   return present;
 }
 
-function nativeRouteResultCause(name: string, result: CallToolResult, maximumBytes: number): unknown {
-  assertJsonValue(result, "KiCad MCP native route failure response");
+function nativeToolResultCause(name: string, result: CallToolResult, maximumBytes: number): Readonly<{ operation: string; response?: CallToolResult; responseExceededBound?: true }> {
+  assertJsonValue(result, "KiCad MCP private failure response");
   if (Buffer.byteLength(JSON.stringify(result), "utf8") > maximumBytes) return { operation: name, responseExceededBound: true };
   return Object.freeze({ operation: name, response: structuredClone(result) });
 }
@@ -1513,9 +1513,10 @@ function nativeRouteResultCause(name: string, result: CallToolResult, maximumByt
 function parsePlaneStageArtifactReference(result: CallToolResult, maximumBytes: number) {
   assertJsonValue(result, "KiCad MCP plane stage artifact envelope");
   if (Buffer.byteLength(JSON.stringify(result), "utf8") > maximumBytes) throw new KicadMcpOutputError("KiCad MCP plane stage artifact reference exceeds the configured message limit.");
+  if (result.isError === true) throw new KicadMcpOutputError("KiCad MCP returned categorical plane stage failure evidence.", { cause: nativeToolResultCause(KICAD_PLANE_STAGE_TOOL, result, maximumBytes) });
   const envelope = inspectionRecord(result, "KiCad MCP plane stage artifact envelope");
   inspectionExactKeys(envelope, ["content", "structuredContent"], ["isError"], "KiCad MCP plane stage artifact envelope");
-  if (envelope.isError !== undefined && envelope.isError !== false) throw new KicadMcpOutputError("KiCad MCP returned categorical plane stage failure evidence.");
+  if (envelope.isError !== undefined && envelope.isError !== false) throw new KicadMcpOutputError("KiCad MCP plane stage failure flag is invalid.");
   if (!Array.isArray(envelope.content) || envelope.content.length !== 1) throw new KicadMcpOutputError("KiCad MCP plane stage artifact requires one exact text result.");
   const block = inspectionRecord(envelope.content[0], "KiCad MCP plane stage artifact text");
   inspectionExactKeys(block, ["type", "text"], [], "KiCad MCP plane stage artifact text");
@@ -1782,6 +1783,8 @@ export class KicadMcpSession {
   #schematicConnectivityBatchInFlight = false;
   #planeStageInFlight = false;
   #planeStageWritesQuarantined = false;
+  #toolFailureWritesQuarantined = false;
+  readonly #connectionHealth: { faultObserved: boolean };
   #lastVerifiedLivePcbPath: string | undefined;
   #nativeRouteTransaction: {
     readonly boardPath: string;
@@ -1793,6 +1796,7 @@ export class KicadMcpSession {
 
   private constructor(parameters: {
     client: Client;
+    connectionHealth: { faultObserved: boolean };
     transport: IncarnationBoundStdioClientTransport;
     stderrCapture: BoundedStderrCapture;
     mode: KicadMcpOperatingMode;
@@ -1817,6 +1821,7 @@ export class KicadMcpSession {
     toolsByName: ReadonlyMap<string, Tool>;
   }) {
     this.#client = parameters.client;
+    this.#connectionHealth = parameters.connectionHealth;
     this.#transport = parameters.transport;
     this.#stderrCapture = parameters.stderrCapture;
     this.#mode = parameters.mode;
@@ -2102,6 +2107,13 @@ export class KicadMcpSession {
       },
     );
 
+    // Observe the whole connection lifetime. A later application reply cannot
+    // restore a transport that reported a protocol fault or disconnect.
+    // Keep only the fact, never foreign error text.
+    const connectionHealth = { faultObserved: false };
+    client.onerror = () => { connectionHealth.faultObserved = true; };
+    client.onclose = () => { connectionHealth.faultObserved = true; };
+
     try {
       options.assertLaunchAuthority?.();
       setStartupStage("mcp-handshake");
@@ -2154,6 +2166,7 @@ export class KicadMcpSession {
 
       return new KicadMcpSession({
         client,
+        connectionHealth,
         transport,
         stderrCapture,
         mode,
@@ -2355,12 +2368,22 @@ export class KicadMcpSession {
   }
 
   async #assertTrustedRuntime(): Promise<void> {
+    if (this.#toolFailureWritesQuarantined && this.#connectionHealth.faultObserved) {
+      throw new KicadMcpSessionError("KiCad MCP recovery connection reported a protocol fault or disconnect.");
+    }
     this.#stderrCapture.assertWithinLimit();
     await assertExecutableIdentity(this.#trustedLauncher, "KiCad MCP launcher");
     this.#stderrCapture.assertWithinLimit();
+    if (this.#toolFailureWritesQuarantined) {
+      if (this.#connectionHealth.faultObserved) throw new KicadMcpSessionError("KiCad MCP recovery connection reported a protocol fault or disconnect.");
+      this.#transport.assertCurrentLiveRoot(this.#pid);
+    }
   }
 
   #assertPlaneStageWriteAdmission(name: string): void {
+    if (this.#toolFailureWritesQuarantined) {
+      throw new KicadMcpAuthorizationError("KiCad MCP writes are quarantined after a completed tool-negative reply; only checked reads and explicit close remain available. Host source recovery does not reauthorize edits.");
+    }
     if (this.#planeStageWritesQuarantined && name !== "pcb_revert") {
       throw new KicadMcpAuthorizationError("KiCad MCP writes are quarantined after plane staging; only host PCB revert is admitted for recovery.");
     }
@@ -2398,13 +2421,13 @@ export class KicadMcpSession {
   /** Fixed runtime capability, independent of whether a healthy transaction is awaiting host verification. */
   supportsNativeRouteTransactions(): boolean {
     return !this.#closed && this.#mode === "write" && this.#projectBound
-      && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
+      && !this.#toolFailureWritesQuarantined && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
       && NATIVE_COMMIT_TOOL_NAMES.every(name => nativeCommitToolQualified(this.#toolsByName.get(name)));
   }
 
   supportsQualifiedFootprintIdentitySync(): boolean {
     return !this.#closed && this.#mode === "write" && this.#projectBound
-      && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
+      && !this.#toolFailureWritesQuarantined && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
       && footprintIdentitySyncQualified(this.#toolsByName.get("pcb_sync_from_schematic"));
   }
 
@@ -2430,7 +2453,7 @@ export class KicadMcpSession {
         { name: "kicad_set_project", arguments: { project_dir: this.#projectRoot, output_dir: this.#outputRoot } },
         { ...requestOptions(this.#timeoutMs, operation.signal), toolDefinition: tool },
       );
-      if (result.isError === true) throw new KicadMcpOutputError("KiCad MCP returned categorical project-binding failure evidence.");
+      if (result.isError === true) throw new KicadMcpOutputError("KiCad MCP returned categorical project-binding failure evidence.", { cause: nativeToolResultCause("kicad_set_project", result, this.#maxMessageBytes) });
       sanitizeToolResult(result, [this.#workspaceRoot, this.#projectRoot, this.#outputRoot, this.#launchCwd, this.#trustedLauncher.path], this.#maxMessageBytes);
       await this.#assertTrustedRuntime();
       this.#projectBound = true;
@@ -2451,7 +2474,7 @@ export class KicadMcpSession {
 
   supportsPlaneStage(): boolean {
     return !this.#closed && this.#mode === "write" && this.#projectBound
-      && !this.#planeStageWritesQuarantined && !this.#planeStageInFlight
+      && !this.#toolFailureWritesQuarantined && !this.#planeStageWritesQuarantined && !this.#planeStageInFlight
       && this.#nativeRouteTransaction === undefined
       && !this.#schematicConnectivityBatchInFlight && this.#activeOperationAbortControllers.size === 0
       && this.#toolsByName.has(KICAD_PLANE_STAGE_TOOL);
@@ -2532,7 +2555,7 @@ export class KicadMcpSession {
   /** Capability/readiness only. Workflow phase and rollback admission stay with the host consumer. */
   supportsSchematicConnectivityBatch(): boolean {
     return !this.#closed && this.#mode === "write" && this.#projectBound
-      && !this.#planeStageWritesQuarantined && !this.#planeStageInFlight
+      && !this.#toolFailureWritesQuarantined && !this.#planeStageWritesQuarantined && !this.#planeStageInFlight
       && this.#nativeRouteTransaction === undefined
       && !this.#schematicConnectivityBatchInFlight
       && this.#activeOperationAbortControllers.size === 0
@@ -2598,7 +2621,7 @@ export class KicadMcpSession {
       if (Buffer.byteLength(JSON.stringify(result), "utf8") > this.#maxMessageBytes) {
         throw new KicadMcpOutputError("KiCad MCP schematic connectivity batch exceeds the configured message limit.");
       }
-      if (result.isError === true) throw new KicadMcpOutputError("KiCad MCP returned categorical schematic connectivity batch failure evidence.");
+      if (result.isError === true) throw new KicadMcpOutputError("KiCad MCP returned categorical schematic connectivity batch failure evidence.", { cause: nativeToolResultCause(SCHEMATIC_CONNECTIVITY_BATCH_TOOL, result, this.#maxMessageBytes) });
       await withinInspectionDeadline(async () => await assertExecutableIdentity(projectIdentity, "KiCad MCP schematic connectivity batch project"), deadline, "schematic connectivity batch project preservation");
       await withinInspectionDeadline(async () => await this.#assertTrustedRuntime(), deadline, "schematic connectivity batch final runtime check");
       return result;
@@ -2609,9 +2632,9 @@ export class KicadMcpSession {
       try { await this.close(); } catch { closureUnconfirmed = true; }
       if (closureUnconfirmed) throw new KicadMcpTerminationUncertainError(dispatched
         ? "SCHEMATIC_CONNECTIVITY_BATCH_WRITE_UNCERTAIN_TERMINAL: The mutating call failed and process closure is unconfirmed. Retain runtime evidence; host rollback is required."
-        : "KiCad MCP schematic connectivity batch was not dispatched, but process closure is unconfirmed. Retain runtime evidence.");
+        : "KiCad MCP schematic connectivity batch was not dispatched, but process closure is unconfirmed. Retain runtime evidence.", { cause: error });
       if (dispatched) {
-        throw new KicadMcpSessionError("SCHEMATIC_CONNECTIVITY_BATCH_WRITE_UNCERTAIN_TERMINAL: The mutating call did not complete with a bounded host-verifiable receipt. Exact host rollback and session closure are required; native reload is unproven.");
+        throw new KicadMcpSessionError("SCHEMATIC_CONNECTIVITY_BATCH_WRITE_UNCERTAIN_TERMINAL: The mutating call did not complete with a bounded host-verifiable receipt. Exact host rollback and session closure are required; native reload is unproven.", { cause: error });
       }
       if (limitError !== undefined) throw limitError;
       if (error instanceof KicadMcpSessionError) throw error;
@@ -2652,7 +2675,7 @@ export class KicadMcpSession {
       if (Buffer.byteLength(JSON.stringify(result), "utf8") > this.#maxMessageBytes) {
         throw new KicadMcpOutputError("KiCad MCP live PCB pad snapshot exceeds the configured message limit.");
       }
-      if (result.isError === true) throw new KicadMcpOutputError("KiCad MCP returned categorical live PCB pad snapshot failure evidence.", this.#nativeRouteTransaction === undefined ? undefined : { cause: nativeRouteResultCause(LIVE_PCB_PAD_SNAPSHOT_TOOL, result, this.#maxMessageBytes) });
+      if (result.isError === true) throw new KicadMcpOutputError("KiCad MCP returned categorical live PCB pad snapshot failure evidence.", { cause: nativeToolResultCause(LIVE_PCB_PAD_SNAPSHOT_TOOL, result, this.#maxMessageBytes) });
       await this.#assertTrustedRuntime();
       return result;
     } catch (error) {
@@ -2691,7 +2714,7 @@ export class KicadMcpSession {
       try { snapshot = parseLivePcbDocumentSnapshot(result, this.#maxMessageBytes); }
       catch (error) {
         if (this.#nativeRouteTransaction !== undefined) throw new KicadMcpOutputError("KiCad MCP live PCB document response failed transaction readback validation.", {
-          cause: { failure: error, native: nativeRouteResultCause(LIVE_PCB_DOCUMENT_TOOL, result, this.#maxMessageBytes) },
+          cause: { failure: error, native: nativeToolResultCause(LIVE_PCB_DOCUMENT_TOOL, result, this.#maxMessageBytes) },
         });
         throw error;
       }
@@ -2781,6 +2804,7 @@ export class KicadMcpSession {
       throw new KicadMcpAuthorizationError("KiCad MCP native route document admission changed before begin.");
     }
     const operation = this.#beginOperation(options.signal);
+    let qualifiedToolFailure: KicadMcpOutputError | undefined;
     try {
       await this.#assertTrustedRuntime();
       if (writeAllowed) this.#assertPlaneStageWriteAdmission(name);
@@ -2799,7 +2823,24 @@ export class KicadMcpSession {
         },
       );
       if (result.isError === true) {
-        throw new KicadMcpOutputError("KiCad MCP returned categorical tool-failure evidence.", this.#nativeRouteTransaction === undefined ? undefined : { cause: nativeRouteResultCause(name, result, this.#maxMessageBytes) });
+        const evidence = nativeToolResultCause(name, result, this.#maxMessageBytes);
+        const failure = new KicadMcpOutputError("KiCad MCP returned categorical tool-failure evidence.", { cause: evidence });
+        if ((writeAllowed || this.#toolFailureWritesQuarantined) && this.#nativeRouteTransaction === undefined) {
+          // Fence pending admissions before the first post-reply await.
+          this.#toolFailureWritesQuarantined = true;
+          try {
+            if (evidence.response === undefined || this.#connectionHealth.faultObserved) throw new Error("Unqualified reply or connection.");
+            await this.#assertTrustedRuntime();
+            operation.signal.throwIfAborted();
+            if (this.#connectionHealth.faultObserved) throw new Error("Connection changed during verification.");
+            qualifiedToolFailure = failure;
+          } catch {
+            // The original returned reply remains the private primary cause,
+            // even when runtime verification or later teardown also fails.
+            throw new KicadMcpSessionError("KiCad MCP returned tool-failure evidence, but recovery connection integrity could not be confirmed.", { cause: failure });
+          }
+        }
+        throw failure;
       }
       if (tool.outputSchema !== undefined && result.structuredContent === undefined) {
         throw new KicadMcpOutputError(
@@ -2811,7 +2852,7 @@ export class KicadMcpSession {
       }
       await this.#assertTrustedRuntime();
       if (commitOperation && !qualifiedNativeCommitReply(result, NATIVE_COMMIT_REPLIES[name]!)) {
-        throw new KicadMcpOutputError("KiCad MCP native commit lifecycle did not return its exact positive acknowledgement.", { cause: nativeRouteResultCause(name, result, this.#maxMessageBytes) });
+        throw new KicadMcpOutputError("KiCad MCP native commit lifecycle did not return its exact positive acknowledgement.", { cause: nativeToolResultCause(name, result, this.#maxMessageBytes) });
       }
       const sanitized = sanitizeToolResult(
         result,
@@ -2828,6 +2869,10 @@ export class KicadMcpSession {
       const limitError = this.#stderrCapture.limitError;
       operation.release();
       if (this.#nativeRouteTransaction !== undefined) throw this.#nativeRouteFailure(name, limitError ?? error);
+      if (qualifiedToolFailure !== undefined && error === qualifiedToolFailure && limitError === undefined && !this.#closed) {
+        this.#toolFailureWritesQuarantined = true;
+        throw error;
+      }
       if (!this.#closed && !this.#planeStageWritesQuarantined) await this.close().catch(() => undefined);
       if (limitError !== undefined) throw limitError;
       if (error instanceof KicadMcpSessionError) throw error;

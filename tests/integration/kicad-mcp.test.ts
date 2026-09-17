@@ -3345,13 +3345,35 @@ describe("KiCad MCP subprocess session", () => {
             : kind === "project-change" ? plan.receipt : kind;
       const fixture = await livePcbFixture(project, [], { batchTool: schematicBatchTool(), batchResults: [result], batchAfterSource: plan.after, ...(kind === "project-change" ? { batchProjectAfter: "{\"changed\":true}\n" } : {}) });
       const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, mode: "write", freshProject: true, command: fixture.command, maxMessageBytes: 32_768, timeoutMs: 500 });
-      await expect(session.applySchematicConnectivityBatch(plan.args)).rejects.toThrow(/WRITE_UNCERTAIN_TERMINAL/iu);
+      const failure = await session.applySchematicConnectivityBatch(plan.args).catch((error: unknown) => error);
+      expect((failure as Error).message).toMatch(/WRITE_UNCERTAIN_TERMINAL/iu);
+      if (kind === "categorical") {
+        expect(((failure as Error).cause as Error).cause).toEqual({ operation: SCHEMATIC_BATCH_TOOL, response: result });
+        expect(String(failure)).not.toContain("C:/private/schema");
+        expect(JSON.stringify(failure)).not.toContain("C:/private/schema");
+      }
       await expect(session.callTool("pcb_save")).rejects.toThrow(/closed/iu);
       await session.close();
       expect((await readFile(fixture.callsPath, "utf8")).trim()).toBe(JSON.stringify({ name: SCHEMATIC_BATCH_TOOL, arguments: plan.args }));
       // Session does not fabricate a rollback; the host checkpoint owner must restore this source.
       expect(await readFile(plan.schematicFile, "utf8")).toBe(plan.after);
     }
+  });
+
+  it("preserves the schematic connectivity batch reply when its terminal teardown also fails", async () => {
+    const { workspace, project } = await roots();
+    const plan = await schematicBatchPlan(project);
+    const reply = { isError: true, content: [{ type: "text", text: "original private batch refusal" }] };
+    const fixture = await livePcbFixture(project, [], { batchTool: schematicBatchTool(), batchResults: [reply] });
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, mode: "write", freshProject: true, command: fixture.command });
+    const originalClose = session.close.bind(session);
+    const close = vi.spyOn(session, "close").mockImplementation(async () => { await originalClose(); throw new Error("secondary teardown failure"); });
+    try {
+      const failure = await session.applySchematicConnectivityBatch(plan.args).catch((error: unknown) => error);
+      expect(failure).toBeInstanceOf(KicadMcpTerminationUncertainError);
+      expect(((failure as Error).cause as Error).cause).toEqual({ operation: SCHEMATIC_BATCH_TOOL, response: reply });
+      expect(String(failure)).not.toMatch(/original private|secondary teardown/iu);
+    } finally { close.mockRestore(); await session.close(); }
   });
 
   it("runs the KiCad CLI version probe with only explicit pinned environment", async () => {

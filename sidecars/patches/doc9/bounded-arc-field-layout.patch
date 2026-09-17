@@ -1,0 +1,135 @@
+diff --git a/kicad_mcp/utils/field_layout.py b/kicad_mcp/utils/field_layout.py
+index 5a959cf..7dc4f21 100644
+--- a/kicad_mcp/utils/field_layout.py
++++ b/kicad_mcp/utils/field_layout.py
+@@ -23,6 +23,11 @@ _POSITIONAL_JUSTIFY = frozenset({"left", "right", "top", "bottom"})
+ CLEARANCE_MM = 0.762
+ MAX_MARGIN_STEPS = 12
+ MARGIN_STEP_MM = 1.27
++# DOC9 deliberately bounds numeric conditioning and explicit local geometry.
++ARC_LIMIT_MM = 10_000.0
++ARC_MIN_SEPARATION_MM = 1e-6
++ARC_MIN_NORMALIZED_CROSS = 1e-8
++ARC_ANGLE_EPSILON = 1e-8
+ 
+ 
+ def child_spans(block: str) -> list[tuple[int, int]]:
+@@ -235,6 +240,92 @@ def find_symbol_span(content: str, reference: str) -> tuple[str, int, int]:
+     return matches[0]
+ 
+ 
++def arc_bounds(block: str) -> Box:
++    """Conservative local AABB of an explicit three-point library arc.
++
++    Start/mid/end determine the circle and the directed sweep through mid,
++    including major arcs. Cardinal extrema, stroke radius and a numeric guard
++    enclose the curve; filled arcs also include the centre to cover either chord
++    or sector fill. Width zero depends on native settings and is rejected. This
++    function never substitutes, flattens or changes the retained source arc.
++    """
++    def exact_children(node: str, name: str, expected: set[str]) -> dict[str, str]:
++        spans = child_spans(node)
++        nodes = [node[start:end] for start, end in spans]
++        names = [tag(item) for item in nodes]
++        if (len(names) != len(expected) or set(names) != expected
++                or not re.fullmatch(r"\(" + re.escape(name) + r"\s*\)",
++                                    splice(node, [(*span, "") for span in spans]))):
++            raise ValueError(f"Unsupported/duplicate arc {name} form")
++        return dict(zip(names, nodes, strict=True))
++
++    nodes = exact_children(block, "arc", {"start", "mid", "end", "stroke", "fill"})
++
++    def point(name: str) -> tuple[float, float]:
++        match = re.fullmatch(rf"\({name}\s+({_NUMBER})\s+({_NUMBER})\s*\)", nodes[name])
++        if not match:
++            raise ValueError("Unsupported arc point")
++        result = (float(match[1]), float(match[2]))
++        if not all(math.isfinite(n) and abs(n) <= ARC_LIMIT_MM for n in result):
++            raise ValueError("Nonfinite/out-of-bounds arc point")
++        return result
++
++    start, mid, end = (point(name) for name in ("start", "mid", "end"))
++    stroke = exact_children(nodes["stroke"], "stroke", {"width", "type"})
++    width_match = re.fullmatch(rf"\(width\s+({_NUMBER})\s*\)", stroke["width"])
++    if not width_match:
++        raise ValueError("Unsupported arc stroke width")
++    width = float(width_match[1])
++    if not math.isfinite(width) or not 0 < width <= ARC_LIMIT_MM:
++        raise ValueError("Arc stroke requires a bounded positive explicit width")
++    if not re.fullmatch(r"\(type\s+(?:default|solid)\s*\)", stroke["type"]):
++        raise ValueError("Unsupported arc stroke type")
++    fill = exact_children(nodes["fill"], "fill", {"type"})
++    fill_match = re.fullmatch(r"\(type\s+(none|outline|background)\s*\)", fill["type"])
++    if not fill_match:
++        raise ValueError("Unsupported arc fill")
++
++    # Compute relative to start, with a normalized determinant, to avoid the
++    # cancellation of absolute-coordinate circle formulas.
++    ux, uy = mid[0] - start[0], mid[1] - start[1]
++    vx, vy = end[0] - start[0], end[1] - start[1]
++    lengths = (math.hypot(ux, uy), math.hypot(vx, vy),
++               math.hypot(end[0] - mid[0], end[1] - mid[1]))
++    if min(lengths) <= ARC_MIN_SEPARATION_MM:
++        raise ValueError("Degenerate/ambiguous arc endpoints")
++    scale = max(lengths)
++    unx, uny, vnx, vny = ux / scale, uy / scale, vx / scale, vy / scale
++    cross = unx * vny - uny * vnx
++    if abs(cross) <= ARC_MIN_NORMALIZED_CROSS:
++        raise ValueError("Degenerate/ill-conditioned arc circle")
++    u2, v2 = unx * unx + uny * uny, vnx * vnx + vny * vny
++    cx = start[0] + scale * (u2 * vny - v2 * uny) / (2 * cross)
++    cy = start[1] + scale * (unx * v2 - vnx * u2) / (2 * cross)
++    radius = math.hypot(start[0] - cx, start[1] - cy)
++    if (not all(math.isfinite(n) and abs(n) <= ARC_LIMIT_MM for n in (cx, cy, radius))
++            or radius <= ARC_MIN_SEPARATION_MM):
++        raise ValueError("Nonfinite/out-of-bounds arc circle")
++    angles = [math.atan2(py - cy, px - cx) for px, py in (start, mid, end)]
++    direction = 1 if cross > 0 else -1
++    sweep = ((angles[2] - angles[0]) * direction) % math.tau
++    middle = ((angles[1] - angles[0]) * direction) % math.tau
++    if (not ARC_ANGLE_EPSILON < sweep < math.tau - ARC_ANGLE_EPSILON
++            or not ARC_ANGLE_EPSILON < middle < sweep - ARC_ANGLE_EPSILON):
++        raise ValueError("Ambiguous arc sweep")
++    points = [start, mid, end]
++    for angle in (0.0, math.pi / 2, math.pi, 3 * math.pi / 2):
++        if ((angle - angles[0]) * direction) % math.tau <= sweep + ARC_ANGLE_EPSILON:
++            points.append((cx + radius * math.cos(angle), cy + radius * math.sin(angle)))
++    if fill_match[1] != "none":
++        points.append((cx, cy))
++    # The determinant floor limits conditioning; pad for floating arithmetic in
++    # addition to stroke radius. Native glyph/rendered clearance remains separate.
++    guard = max(1e-7, scale * 1e-12 / abs(cross),
++                128 * math.ulp(max(1.0, abs(cx), abs(cy), radius)))
++    xs, ys = [p[0] for p in points], [p[1] for p in points]
++    return Box(min(xs), min(ys), max(xs), max(ys)).expanded(width / 2 + guard)
++
++
+ def selected_graphics(library: str, unit: int) -> str:
+     parts = []
+     for part in children(library):
+@@ -249,8 +340,8 @@ def selected_graphics(library: str, unit: int) -> str:
+     if not parts:
+         raise ValueError("No embedded/local graphics for requested unit")
+     graphics = "\n".join(parts)
+-    if re.search(r"\((arc|bezier|text|text_box)\b", graphics):
+-        raise ValueError("Unsupported arc/Bezier/library text geometry for presentation planning")
++    if re.search(r"\((bezier|text|text_box)\b", graphics):
++        raise ValueError("Unsupported Bezier/library text geometry for presentation planning")
+     return graphics
+ 
+ 
+@@ -258,6 +349,14 @@ def body_and_pins(library: str, lib_id: str, unit: int, x: float, y: float,
+                   rotation: float) -> tuple[Box, list[tuple[float, float]]]:
+     graphics = selected_graphics(library, unit)
+     points = _collect_symbol_local_points(graphics)
++    for part in children("(selected " + graphics + ")"):
++        for item in children(part):
++            if tag(item) == "arc":
++                box = arc_bounds(item)
++                # All four AABB corners keep cardinal placement transforms
++                # conservative, including library-to-sheet y-axis inversion.
++                points.extend([(box.x_min, box.y_min), (box.x_min, box.y_max),
++                               (box.x_max, box.y_min), (box.x_max, box.y_max)])
+     pins = []
+     for px, py, angle, length in re.findall(
+         rf"\(pin\s+\w+\s+\w+\s+\(at\s+({_NUMBER})\s+({_NUMBER})\s+({_NUMBER})\)\s+\(length\s+({_NUMBER})\)",

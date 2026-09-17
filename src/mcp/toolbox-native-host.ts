@@ -144,6 +144,7 @@ export async function openKicadToolboxNativeHost(
   let closing: Promise<void> | undefined;
   const cleanup = async (): Promise<void> => {
     const failures: unknown[] = [];
+    let sidecarTeardownConfirmed = false;
     const graceful = editor?.requestClose !== undefined;
     if (graceful && editor !== undefined) {
       try {
@@ -160,7 +161,7 @@ export async function openKicadToolboxNativeHost(
       catch (error) { failures.push(error); }
     }
     try {
-      if (connected !== undefined) await connected.close();
+      if (connected !== undefined) { await connected.close(); sidecarTeardownConfirmed = true; }
       else if (authority !== undefined) await authority.disposeUnused();
     } catch (error) { failures.push(error); }
     if (editor !== undefined && !graceful) {
@@ -184,6 +185,13 @@ export async function openKicadToolboxNativeHost(
         }
       } catch (error) { failures.push(error); }
     }
+    // This records only observed host-owned teardown, never workspace lease
+    // release or live schematic reload. Diagnostics cannot change cleanup.
+    try {
+      await connected?.finalizeSchematicFieldFailure?.({ nativeEditorTeardown: editorTeardownConfirmed ? "confirmed" : "unconfirmed",
+        sidecarTeardown: sidecarTeardownConfirmed ? "confirmed" : "unconfirmed", ownedHostCleanup: failures.length === 0 ? "confirmed" : "unconfirmed",
+        checkpoint: "not-observed" });
+    } catch { /* Preserve the original cleanup outcome if private diagnostics fail. */ }
     if (failures.length > 0) throw new AggregateError(failures, "Native toolbox cleanup was not confirmed; owned state was retained.");
   };
   const close = (): Promise<void> => closing ??= cleanup();

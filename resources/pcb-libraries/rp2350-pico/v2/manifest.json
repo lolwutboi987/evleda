@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "evleda.kicad-approved-package.v1",
+  "namespace": "EvlEDA_Pico2350",
+  "symbols": [
+    {
+      "libraryId": "EvlEDA_Pico2350:RT6150B-33GQW",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "17267454fd7d89b616de08857f53e076a13b9198f4463da3bb0ab78e2a2e4462",
+          "size": 7845
+        }
+      },
+      "provenanceIds": [
+        "richtek-rt6150",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:W25Q32RVXHJQ",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "17267454fd7d89b616de08857f53e076a13b9198f4463da3bb0ab78e2a2e4462",
+          "size": 7845
+        }
+      },
+      "provenanceIds": [
+        "winbond-w25q32rv",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:USBLC6-2SC6",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "17267454fd7d89b616de08857f53e076a13b9198f4463da3bb0ab78e2a2e4462",
+          "size": 7845
+        }
+      },
+      "provenanceIds": [
+        "st-usblc6",
+        "source-identities"
+      ]
+    }
+  ],
+  "footprints": [
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_Abracon_Recommended",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_Abracon_Recommended.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "5b39565979fcd5f4a59483446d5b9e5479df81908690e9d6e6d9fe300e3cef8a",
+          "size": 1452
+        }
+      },
+      "provenanceIds": [
+        "abracon-aota",
+        "raspberry-pi-minimal",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+          "size": 1456
+        }
+      },
+      "provenanceIds": [
+        "abracon-aota",
+        "raspberry-pi-minimal",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+          "size": 2284
+        }
+      },
+      "provenanceIds": [
+        "richtek-rt6150",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+          "size": 4261
+        }
+      },
+      "provenanceIds": [
+        "winbond-w25q32rv",
+        "kicad-winbond-land",
+        "kicad-library-license",
+        "source-identities"
+      ]
+    }
+  ],
+  "provenance": [
+    {
+      "id": "richtek-rt6150",
+      "relativePath": "provenance/richtek-rt6150.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "12136603ad4115171d9cbbda977a84bb7b15d01d1c3a530ad571c142c14bd35c",
+        "size": 2215
+      },
+      "url": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf"
+    },
+    {
+      "id": "abracon-aota",
+      "relativePath": "provenance/abracon-aota.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "4b1ff20e2f2c22af48b418e5e2d5599543a10688e0623bb9652a67fc9ef4e67f",
+        "size": 1533
+      },
+      "url": "https://abracon.com/datasheets/AOTA-B201610S3R3-101-T.pdf"
+    },
+    {
+      "id": "raspberry-pi-minimal",
+      "relativePath": "provenance/raspberry-pi-minimal.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0d5cf3398ec5f581b81fb23b66b3d2d66b182b0caea8cc9d51f51486740bd870",
+        "size": 1867
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip"
+    },
+    {
+      "id": "source-identities",
+      "relativePath": "provenance/source-identities.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "a6e24fbc9d0e73bca41c8a29b84c489c1b4c0dc3ee9118b079abaa9335d3655a",
+        "size": 5153
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf"
+    },
+    {
+      "id": "winbond-w25q32rv",
+      "relativePath": "provenance/winbond-w25q32rv.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "8057314c828f3fc1b62081880dca1a0d38cbf20743f40420e2448fdcb604b9d7",
+        "size": 3357
+      },
+      "url": "https://www.winbond.com/resource-files/W25Q32RV_SPI_QPI%20RevE%2011132025%20Plus.pdf"
+    },
+    {
+      "id": "st-usblc6",
+      "relativePath": "provenance/st-usblc6.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "24024bb8ce2534e3078b042cb5a037f58ae7e7044925f536604c92a592a69356",
+        "size": 1516
+      },
+      "url": "https://www.st.com/resource/en/datasheet/usblc6-2.pdf"
+    },
+    {
+      "id": "kicad-winbond-land",
+      "relativePath": "provenance/kicad-winbond-land.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e5ff89b3c1f0e4d5c7333e981c7500a0bf2e3144758c27dc1c869b477df31654",
+        "size": 1536
+      },
+      "url": "https://gitlab.com/kicad/libraries/kicad-footprints/-/blob/master/Package_SON.pretty/Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod"
+    },
+    {
+      "id": "kicad-library-license",
+      "relativePath": "provenance/KiCad-Libraries-LICENSE.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "45d2bce75e5a4208f5afb01b8fb2c406e700371c4fe2b5f5cd5c443d46db4d8f",
+        "size": 2101
+      },
+      "url": "https://gitlab.com/kicad/libraries/kicad-footprints/-/raw/master/LICENSE.md"
+    }
+  ],
+  "notice": {
+    "relativePath": "NOTICE.md",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "51dacce81f66733d1bc683a4b84b04d2487bde3cf9644b0273e755a45529904b",
+      "size": 3094
+    }
+  }
+}

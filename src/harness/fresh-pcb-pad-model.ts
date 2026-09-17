@@ -63,7 +63,7 @@ export interface PhysicalPad {
   readonly declaredEnabledCopperLayers: readonly string[];
   /** Null means native layer-presence evidence is unavailable/ambiguous. */
   readonly observedUsableCopperLayers: readonly string[] | null;
-  readonly role: 'numbered-copper' | 'paste-aperture' | 'unsupported-physical';
+  readonly role: 'numbered-copper' | 'paste-aperture' | 'mechanical-hole' | 'unsupported-physical';
   readonly issues: readonly string[];
   /** Preserves every field, including shapes, paste, drills, positions, UUID and unknown extensions. */
   readonly rawNative: JsonObject;
@@ -121,7 +121,7 @@ export interface CopperCommonAssessment {
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/u;
 const COPPER = /^BL_(?:F|B|In(?:[1-9]|[12][0-9]|30))_Cu$/u;
 const PASTE = new Set(['BL_F_Paste', 'BL_B_Paste']);
-const SHAPES = new Set(['PSS_CIRCLE', 'PSS_RECTANGLE', 'PSS_ROUNDRECT']);
+const SHAPES = new Set(['PSS_CIRCLE', 'PSS_OVAL', 'PSS_RECTANGLE', 'PSS_ROUNDRECT']);
 const MAX_PADS = 4096;
 function requireCondition(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -206,17 +206,21 @@ export function buildPadTerminalInventory(input: PadInventoryInput): PadInventor
       unique(layers, 'physical pad layer');
       const declared = input.enabledCopperLayers.filter(l => layers.includes(l));
       const issues: string[] = [];
-      if (!['PT_PTH', 'PT_SMD'].includes(nativeType)) issues.push('uncharacterized-pad-type');
+      if (!['PT_PTH', 'PT_SMD', 'PT_NPTH'].includes(nativeType)) issues.push('uncharacterized-pad-type');
       if (stack.type !== 'PST_NORMAL') issues.push('uncharacterized-pad-stack-mode');
       if (layers.length === 0 || layers.length > 64 || layers.some(l => !COPPER.test(l) && !PASTE.has(l) && !['BL_F_Mask', 'BL_B_Mask'].includes(l))) issues.push('uncharacterized-layer-membership');
       const geometry = stack.copper_layers;
       if (!Array.isArray(geometry) || geometry.length === 0 || geometry.some(entry => {
         const shape = object(entry), dimensions = size(object(shape.size));
-        return !SHAPES.has(String(shape.shape)) || dimensions.some(value => value === null || value <= 0);
+        return !SHAPES.has(String(shape.shape)) || dimensions.some(value => value === null || value <= 0)
+          || shape.shape === 'PSS_CIRCLE' && dimensions[0] !== dimensions[1];
       })) issues.push('uncharacterized-or-invalid-shape-geometry');
       if (size(object(raw.position)).some(v => v === null)) issues.push('invalid-native-position');
-      const drill = size(object(object(stack.drill).diameter));
-      if (drill.some(v => v === null || v < 0) || (nativeType === 'PT_PTH' ? drill.some(v => v === 0) : drill.some(v => v !== 0))) issues.push('unsupported-pad-drill-combination');
+      const drillRecord = object(stack.drill), drill = size(object(drillRecord.diameter));
+      const drilled = nativeType === 'PT_PTH' || nativeType === 'PT_NPTH';
+      if (drill.some(v => v === null || v < 0) || (drilled ? drill.some(v => v === 0) : drill.some(v => v !== 0))
+          || drilled && (!['DS_CIRCLE', 'DS_OBLONG'].includes(String(drillRecord.shape))
+            || drillRecord.shape === 'DS_CIRCLE' && drill[0] !== drill[1])) issues.push('unsupported-pad-drill-combination');
       const angle = object(stack.angle).value_degrees ?? 0;
       if (typeof angle !== 'number' || !Number.isFinite(angle)) issues.push('invalid-native-angle');
       let observed: readonly string[] | null = null;
@@ -227,7 +231,26 @@ export function buildPadTerminalInventory(input: PadInventoryInput): PadInventor
         else observed = states.filter(p => p.state === 'present').map(p => p.layer);
       }
       const pasteOnly = !number && netName === null && nativeType === 'PT_SMD' && layers.length > 0 && layers.every(l => PASTE.has(l));
-      const role = number && declared.length > 0 ? 'numbered-copper' : pasteOnly ? 'paste-aperture' : 'unsupported-physical';
+      // KiCad 10 NPTH locating holes retain their complete pad-stack records and
+      // layer selectors, but are not electrical terminals. Bound this support to
+      // a centered circle/oval bore exactly covering the matching pad shape;
+      // NPTH annular copper and offsets need separate geometry characterization.
+      const holeShape = Array.isArray(geometry) && geometry.length === 1 ? object(geometry[0]) : {};
+      const holeSize = size(object(holeShape.size)), holeOffset = size(object(holeShape.offset));
+      const rawNetCode = object(raw.net).code;
+      const netCodeUnassigned = rawNetCode === undefined || rawNetCode !== null && typeof rawNetCode === 'object' && !Array.isArray(rawNetCode)
+        && Object.keys(rawNetCode).every(key => key === 'value') && (object(rawNetCode).value === undefined || object(rawNetCode).value === 0);
+      const mechanicalHole = nativeType === 'PT_NPTH' && !number && netName === null && netCodeUnassigned
+        && stack.type === 'PST_NORMAL' && declared.length > 0 && layers.every(l => COPPER.test(l) || ['BL_F_Mask', 'BL_B_Mask'].includes(l))
+        && ((holeShape.shape === 'PSS_CIRCLE' && drillRecord.shape === 'DS_CIRCLE') || (holeShape.shape === 'PSS_OVAL' && drillRecord.shape === 'DS_OBLONG'))
+        && holeSize.every((value, index) => value !== null && value > 0 && value === drill[index])
+        && holeOffset.every(value => value === 0) && drillRecord.start_layer === 'BL_F_Cu' && drillRecord.end_layer === 'BL_B_Cu';
+      if (nativeType === 'PT_NPTH' && !mechanicalHole) issues.push('unsupported-mechanical-hole-geometry-or-disposition');
+      if (mechanicalHole && observed !== null && observed.length > 0) issues.push('mechanical-hole-contradicts-native-copper-presence');
+      // The raw presence response remains in rawLayerPresence. Even an invalid
+      // NPTH record cannot acquire electrical usable copper or terminal identity.
+      if (nativeType === 'PT_NPTH') observed = [];
+      const role = mechanicalHole ? 'mechanical-hole' : number && declared.length > 0 && nativeType !== 'PT_NPTH' ? 'numbered-copper' : pasteOnly ? 'paste-aperture' : 'unsupported-physical';
       if (role === 'unsupported-physical') issues.push('uncharacterized-number-layer-or-net-disposition');
       physical.push({uuid, footprintUuid: fp.instanceUuid, reference: fp.reference, number, nativeType, netName,
         layerMembership: layers, declaredEnabledCopperLayers: declared, observedUsableCopperLayers: observed,
@@ -248,7 +271,7 @@ export function buildPadTerminalInventory(input: PadInventoryInput): PadInventor
       copperCommon: 'not-assessed', componentInternalConnectivity: 'unknown'};
   });
   return cloneFrozen({schemaVersion: 'evleda.pcb-pad-terminal-inventory.v1', source: input.source, physicalPads: physical, terminals,
-    nonElectricalFeatureUuids: physical.filter(p => p.role === 'paste-aperture').map(p => p.uuid),
+    nonElectricalFeatureUuids: physical.filter(p => p.role === 'paste-aperture' || p.role === 'mechanical-hole').map(p => p.uuid),
     unsupportedPhysicalUuids: physical.filter(p => p.role === 'unsupported-physical' || p.issues.length > 0).map(p => p.uuid),
     footprintUuids: input.footprints.map(fp => fp.instanceUuid), rawLayerPresence: input.layerPresence ?? null});
 }

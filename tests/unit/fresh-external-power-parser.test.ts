@@ -1,13 +1,16 @@
 import { describe, expect, it } from "vitest";
+import { readFile } from "node:fs/promises";
 import { contentIdentity } from "../../src/core/canonical.js";
 import type { FreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { verifyFreshExternalPowerSource, type FreshExternalPowerGroup } from "../../src/harness/fresh-external-power.js";
+import { parseFreshBoundingBoxes, parseFreshPlacements } from "../../src/harness/kicad-tools.js";
 import {
   freshPowerFlagDefinitionSemanticIdentity,
   parseFreshSchematicPowerFlagInstances,
 } from "../../src/harness/fresh-kicad-parser.js";
 
-// Synthetic parser fixtures only: these bytes are not captured stock or native evidence.
+// Source/graph fixtures are synthetic, not stock/native evidence. The explicitly
+// identified captured sch_get_symbols fixture below is the only native readback.
 const uuid = (value: number) => `aaaaaaaa-aaaa-4aaa-8aaa-${String(value).padStart(12, "0")}`;
 const rootUuid = uuid(1);
 const flagUuid = uuid(2);
@@ -247,6 +250,11 @@ describe("qualified external power source and complete native graph projection",
       groups: nativeGroups, placements: qualifiedPlacements,
     });
     expect(value.references).toEqual(["#FLG001", "#FLG002"]);
+    expect(value.sourcePlacements).toEqual(qualifiedPlacements.map(placement => ({ ...placement,
+      library: "power", symbol: "PWR_FLAG", value: "PWR_FLAG", unit: 1, sourceIdentity: contentIdentity(qualifiedSource),
+    })));
+    expect(Object.isFrozen(value.sourcePlacements)).toBe(true);
+    expect(value.sourcePlacements.every(Object.isFrozen)).toBe(true);
     expect(value.physicalSymbols).toEqual(physicalReferences.map(reference => ({
       reference, libId: "Test:Connector", value: "Connector", footprint: "Test:Connector",
     })));
@@ -354,6 +362,7 @@ describe("qualified external power source and complete native graph projection",
     expect(() => verifyFreshExternalPowerSource(qualifiedContract, physicalOnly, { allowAbsent: false })).toThrow(/inventory/u);
     const value = verifyFreshExternalPowerSource(qualifiedContract, physicalOnly, { allowAbsent: true, groups: physicalGroups });
     expect(value.references).toEqual([]);
+    expect(value.sourcePlacements).toEqual([]);
     expect(value.physicalSymbols.map(symbol => symbol.reference)).toEqual(physicalReferences);
     expect(value.groups).toEqual(physicalGroups);
   });
@@ -371,5 +380,103 @@ describe("qualified external power source and complete native graph projection",
   it.each([false, true])("rejects a partial source flag inventory with allowAbsent=%s", allowAbsent => {
     const partial = qualifiedSchematic([qualifiedFlags[0]]);
     expect(() => verifyFreshExternalPowerSource(qualifiedContract, partial, { allowAbsent })).toThrow(/inventory/u);
+  });
+});
+
+describe("source-qualified DOC7 power symbol readback", () => {
+  const physicalRow = "- J1 Connector Test:Connector @ (50.80, 50.80) rot=0 unit=1 footprint=Test:Connector";
+  const powerRows = ["- #FLG001 PWR_FLAG @ (55.88, 50.80) unit=1", "- #FLG002 PWR_FLAG @ (55.88, 76.20) unit=1"];
+  const readback = ["Symbols (3 total):", physicalRow, "Power symbols:", ...powerRows].join("\n");
+  const qualified = () => verifyFreshExternalPowerSource(qualifiedContract, qualifiedSource, { groups: nativeGroups });
+
+  it("compares every reported field and marks omitted fields as saved-source facts", () => {
+    const values = parseFreshPlacements(readback, qualified().sourcePlacements);
+    expect(values.get("J1")?.[0]).not.toHaveProperty("sourceBoundFields");
+    expect(values.get("#FLG001")).toEqual([{
+      reference: "#FLG001", value: "PWR_FLAG", x: 55.88, y: 50.8, unit: 1,
+      library: "power", symbol: "PWR_FLAG", rotation: 0,
+      sourceBoundFields: { basis: "verified-schematic-source", sourceIdentity: contentIdentity(qualifiedSource),
+        fields: ["library", "symbol", "rotation", "footprint"] },
+    }]);
+    expect([...values.keys()]).toEqual(["J1", "#FLG001", "#FLG002"]);
+  });
+
+  it("parses unchanged captured USB-C native02 output with separately qualified synthetic auxiliary source facts", async () => {
+    const fixture = JSON.parse(await readFile(new URL("../fixtures/fresh-project/captured-usb-c-power-symbols.report.json", import.meta.url), "utf8")) as {
+      provenance: { kind: string; contentIdentity: ReturnType<typeof contentIdentity> }; content: string;
+    };
+    expect(fixture.provenance.kind).toBe("captured-native-public-response");
+    expect(contentIdentity(fixture.content)).toEqual(fixture.provenance.contentIdentity);
+    // Matching auxiliary source/graph data is deliberately synthetic. This test
+    // replays captured formatting; it does not certify the native02 schematic.
+    const syntheticSource = qualifiedSchematic([
+      qualifiedFlag("#FLG001", 0, 134.62, 88.9), qualifiedFlag("#FLG002", 1, 134.62, 55.88),
+    ]).replaceAll("(at 50.8", "(at 129.54");
+    const facts = verifyFreshExternalPowerSource(qualifiedContract, syntheticSource, { groups: nativeGroups }).sourcePlacements;
+    const text = (JSON.parse(fixture.content) as { result: string }).result;
+    const values = parseFreshPlacements(text, facts);
+    expect([...values.keys()]).toEqual(["J1", "J2", "#FLG001", "#FLG002"]);
+    expect(values.get("J1")?.[0]).toMatchObject({ library: "Connector", symbol: "USB_C_Receptacle_USB2.0_16P", rotation: 0, unit: 1 });
+    expect(values.get("#FLG001")?.[0]).toMatchObject({ x: 134.62, y: 88.9, sourceBoundFields: { sourceIdentity: contentIdentity(syntheticSource) } });
+    expect(values.get("#FLG002")?.[0]).toMatchObject({ x: 134.62, y: 55.88 });
+  });
+
+  it("preserves legacy complete rows without adding source-derived metadata", () => {
+    const rows = qualifiedPlacements.map(value => `- ${value.reference} PWR_FLAG power:PWR_FLAG @ (${value.x.toFixed(2)}, ${value.y.toFixed(2)}) rot=0 unit=1`);
+    const values = parseFreshPlacements(["Symbols (3 total):", physicalRow, ...rows].join("\n"), qualified().sourcePlacements);
+    expect(values.get("#FLG001")).toEqual([{ reference: "#FLG001", value: "PWR_FLAG", library: "power", symbol: "PWR_FLAG", x: 55.88, y: 50.8, rotation: 0, unit: 1 }]);
+    for (const [before, after] of [["rot=0", "rot=90"], ["power:PWR_FLAG", "other:PWR_FLAG"], ["unit=1", "unit=2"], ["55.88", "57.15"]]) {
+      const changed = ["Symbols (3 total):", physicalRow, rows[0]!.replace(before!, after!), rows[1]!].join("\n");
+      expect(() => parseFreshPlacements(changed, qualified().sourcePlacements)).toThrow(/verified source/u);
+    }
+  });
+
+  it.each([
+    ["unknown auxiliary", readback.replace("#FLG002", "#FLG999")],
+    ["duplicate auxiliary", readback.replace("#FLG002", "#FLG001")],
+    ["missing auxiliary with adjusted count", readback.replace("(3 total)", "(2 total)").replace(`\n${powerRows[1]}`, "")],
+    ["declared count drift", readback.replace("(3 total)", "(4 total)")],
+    ["physical-only declared count", readback.replace("(3 total)", "(1 total)")],
+    ["changed x", readback.replace("(55.88, 50.80)", "(57.15, 50.80)")],
+    ["changed y", readback.replace("(55.88, 50.80)", "(55.88, 52.07)")],
+    ["changed value", readback.replace("#FLG001 PWR_FLAG", "#FLG001 OTHER")],
+    ["changed unit", readback.replace(`${powerRows[0]}`, `${powerRows[0]!.replace("unit=1", "unit=2")}`)],
+    ["unsupported rotation suffix", `${readback} rot=90`],
+    ["unsupported footprint suffix", `${readback} footprint=Test:Physical`],
+    ["malformed power heading", readback.replace("Power symbols:", "Power symbols (2):")],
+    ["repeated power heading", readback.replace("Power symbols:", "Power symbols:\nPower symbols:")],
+    ["missing total heading", readback.replace("Symbols (3 total):\n", "")],
+    ["missing power heading", readback.replace("Power symbols:\n", "")],
+    ["empty power section", `Symbols (1 total):\n${physicalRow}\nPower symbols:`],
+    ["physical row inside power section", `Symbols (3 total):\nPower symbols:\n${physicalRow}\n${powerRows.join("\n")}`],
+    ["full auxiliary outside power section", `Symbols (3 total):\n- #FLG001 PWR_FLAG power:PWR_FLAG @ (55.88, 50.80) rot=0 unit=1\nPower symbols:\n${powerRows.join("\n")}`],
+    ["nonfinite coordinate", readback.replace("55.88", "NaN")],
+    ["out-of-bounds coordinate", readback.replace("55.88", "2001.00")],
+  ])("rejects synthetic %s readback", (_label, text) => {
+    expect(() => parseFreshPlacements(text, qualified().sourcePlacements)).toThrow();
+  });
+
+  it("rejects unbound power rows and duplicated source facts", () => {
+    expect(() => parseFreshPlacements(readback)).toThrow(/unbound auxiliary/u);
+    const facts = qualified().sourcePlacements;
+    expect(() => parseFreshPlacements(readback, [facts[0]!, facts[0]!])).toThrow(/duplicate auxiliary/u);
+  });
+
+  it("cannot derive omitted rotation from a modified or unsupported source", () => {
+    const changedSource = qualifiedSource.replace("(at 55.88 50.8 0)", "(at 55.88 50.8 90)");
+    expect(() => parseFreshPlacements(readback, verifyFreshExternalPowerSource(qualifiedContract, changedSource, { groups: nativeGroups }).sourcePlacements)).toThrow(/geometry or placement/u);
+  });
+
+  it("accepts the DOC7 combined bounding-box table including every auxiliary row", () => {
+    // Synthetic producer-shaped rows, not a captured post-flag bounds response.
+    // DOC7 uses one physical + power table and seeds positive default extents.
+    const boxes = ["Schematic bounding boxes (3 symbols):", "Ref Value X Y X_min Y_min X_max Y_max", "-".repeat(76),
+      "J1 Connector 50.80 50.80 40.64 43.18 60.96 58.42",
+      "#FLG001 PWR_FLAG 55.88 50.80 45.72 43.18 66.04 58.42",
+      "#FLG002 PWR_FLAG 55.88 76.20 45.72 68.58 66.04 83.82", "",
+      "Sheet occupied region: X=[40.6, 66.0] Y=[43.2, 83.8] mm", "Tip: use sch_find_free_placement to get safe coordinates for new symbols."].join("\n");
+    expect(parseFreshBoundingBoxes(boxes).map(value => value.reference)).toEqual(["J1", "#FLG001", "#FLG002"]);
+    expect(() => parseFreshBoundingBoxes(boxes.replace("(3 symbols)", "(1 symbols)"))).toThrow(/count mismatch/u);
+    expect(() => parseFreshBoundingBoxes(boxes.replace("#FLG002 PWR_FLAG 55.88 76.20 45.72 68.58 66.04 83.82\n", ""))).toThrow(/count mismatch/u);
   });
 });

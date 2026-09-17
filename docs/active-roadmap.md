@@ -1,5 +1,10 @@
 # Active PCB-toolbox roadmap
 
+Current continuation: the reviewed baseline is published; RP2350 drafting and
+connector qualification are under way. See [RP2350 progress](rp2350-progress.md)
+for successful DOC9 field placement, attempt05's physical-feature qualification,
+and the retained checkpoint layer-reader failure.
+
 Updated for **native10 V2 regulator authoring, strict public DRC/parity zero, normal close and fresh read-only reopen**, with DOC7 profile02 and the exact updated skill installed. Four read-only preflight calls and a fresh actual CLI process verify 15 initial tools. Activation of the new profile in the running desktop remains unverified; earlier DOC6 discovery is historical. The checked-in [WSON regulator proof](../examples/wson-regulator-toolbox-proof/README.md) carries the native sources/previews and incomplete acceptance scope. Earlier fixtures and failures remain separate; electrical/manufacturing approval and fully autonomous design remain unresolved.
 
 [Native10](toolbox-external-power.md#native-attempt10-and-remaining-limits) now completes V2 external-power schematic/import, nineteen-feature inventory, six placements, eighteen tracks/six vias/GND plane, all three functional nets connected, strict public DRC/parity zero and normal close. Scoped thermal/clearance checks are verified and the ten-bore inventory is complete. Plane acceptance remains **incomplete: 9 passed, 38 unknown, 0 failed**, with `accepted=false`. Fresh read-only reopen and normal close passed with six sources unchanged, all three functional nets connected and the same top PNG; its plane report correctly has 47 unknown rows without a new fill witness. Resolve the two connector bore/cached-hole relationships, physical widths/contact continuity, ignored ERC coverage and remaining mandatory rows without promoting scoped checks into approval. The V2 reader correction passed separate 95/95 lifecycle, 46/46 final netclass, actual09 offline replay and typecheck/build03 scopes. Named-NC netclass/checkpoint support remains unsupported in legacy V1. Earlier [attempt08](../../destination-ic-design-08/assessment.md) and [attempt09](../../destination-ic-design-09/assessment.md) failures remain retained. [DOC7 profile02 and the exact updated skill are now installed](destination-client-installation.md), with 15-tool preflight/fresh-CLI verification. Activation of the new profile in the running desktop remains unverified.
@@ -161,9 +166,9 @@ The 1,773 guidance records remain accessible through the toolbox; they are not a
 
 ## 6. GitHub first, then the RP2350 board
 
-The source-machine handoff recorded **no HEAD, no remote and no authenticated GitHub CLI session**. Recheck those destination settings before publication; owner/repository, visibility and author identity were unresolved. A verified local transfer is not a push and no reference repository is assumed to be the destination.
+The reviewed baseline was pushed to the user-selected [lolwutboi987/evleda](https://github.com/lolwutboi987/evleda/tree/codex/destination-resume) on 2026-09-16 PDT. Remote branch `codex/destination-resume` was verified at `8fa120343111107763433c7204bdbdbc240fc609`; the earlier Python implementation on `main` remains unchanged. The [publication receipt](../../destination-verification/reviewed-baseline-20260916-01/publication.json) preserves the exact remote observation. The source-machine no-remote/no-push notes are historical.
 
-Preserve later reviewed changes and required closed evidence, complete the user-selected push, and verify the remote commit. Only then start the requested **RP2350 Pico-like, Orpheus-inspired board**. Capability preparation can continue independently, but is not already the board design.
+The requested [RP2350 Pico-like, Orpheus-informed board](../designs/rp2350-pico/README.md) has now started on `codex/rp2350-pico`. Current work is the component/circuit brief and concrete USB-C/native-pad capability gaps; no completed RP2350 native project is claimed.
 
 The project must be produced through reusable tools with its exact selected parts/libraries, applicable stackup/interface/electrical requirements, current checks and readable artifacts—not manually repaired to manufacture the appearance of a successful workflow.
 

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { canonicalIdentity, canonicalJson } from "../core/canonical.js";
+import { parsePcbLibrarySourceSelection, assertPcbLibraryBindingSourceKinds, assertPcbLibrarySourcesCurrent } from "./pcb-library-source-binding.js";
 import {
   createFluxDiagnostic,
   parseFluxDiagnostic,
@@ -900,7 +901,7 @@ const libraryBindingSchema = z.object({
   symbols: z.array(z.object({
     reference: z.string().regex(/^[A-Z][A-Z0-9_-]{0,31}$/u),
     libraryId: z.string().min(1).max(192),
-    source: z.literal("kicad-stock"),
+    source: z.enum(["kicad-stock", "project-custom"]),
     unitCount: z.literal(1),
     componentKind: z.enum(["generic", "connector", "gpio"]),
     polarized: z.boolean(),
@@ -912,10 +913,11 @@ const libraryBindingSchema = z.object({
   footprints: z.array(z.object({
     reference: z.string().regex(/^[A-Z][A-Z0-9_-]{0,31}$/u),
     libraryId: z.string().min(1).max(192),
-    source: z.literal("kicad-stock"),
+    source: z.enum(["kicad-stock", "project-custom"]),
     packageKind: z.literal("generic"),
     pads: z.array(z.string().min(1).max(32)).min(1).max(PCB_DESIGN_CONTRACT_LIMITS.maxPinsPerComponent)
   }).strict()).min(1).max(PCB_DESIGN_CONTRACT_LIMITS.maxComponents),
+  sourceSelection: z.unknown().optional(),
   identity: canonicalIdentitySchemaFor(PCB_LIBRARY_BINDING_SCHEMA_VERSION)
 }).strict();
 
@@ -1130,6 +1132,12 @@ const validateCompilation = (
     verifySelfIdentity(result.acceptancePlan, PCB_ACCEPTANCE_PLAN_SCHEMA_VERSION);
 
     validationPhase = "library projection";
+    if (Object.hasOwn(result.libraryBinding, "sourceSelection")) parsePcbLibrarySourceSelection(result.libraryBinding.sourceSelection, {
+      symbolIds: [...new Set(result.libraryBinding.symbols.map(entry => entry.libraryId))],
+      footprintIds: [...new Set(result.libraryBinding.footprints.map(entry => entry.libraryId))],
+    });
+    assertPcbLibraryBindingSourceKinds(result.libraryBinding);
+    assertPcbLibrarySourcesCurrent(result.libraryBinding, compilerOptions.libraryResolver);
     const components = new Map(result.contract.components.map((component) => [component.reference, component]));
     if (result.libraryBinding.symbols.length !== components.size || result.libraryBinding.footprints.length !== components.size ||
         !strictlyIncreasing(result.libraryBinding.symbols.map((entry) => entry.reference)) ||

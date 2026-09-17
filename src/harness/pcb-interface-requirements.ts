@@ -58,6 +58,20 @@ const terminationDraft = z.discriminatedUnion("kind", [noTermination.extend({ so
   series.extend({ positive: seriesLegDraft.nullable(), negative: seriesLegDraft.nullable(), maximumDistanceToEndpointMm: length.nullable(), source: sourceDraft.nullable() }).strict()]);
 const terminations = z.object({ source: termination, receiver: termination }).strict();
 const terminationsDraft = terminations.extend({ source: terminationDraft.nullable(), receiver: terminationDraft.nullable() }).strict();
+const channelEscape = z.object({ terminal: endpoint, traceWidthMm: interval, maximumRoutedLengthMm: positive }).strict();
+const channelEscapeDraft = channelEscape.extend({ maximumRoutedLengthMm: positive.nullable() }).strict();
+const channelReturn = z.object({ pin, net: netName }).strict();
+const channelProtection = z.object({ componentReference: reference, positivePins: z.array(pin).min(1).max(8),
+  negativePins: z.array(pin).min(1).max(8), ground: channelReturn, supply: channelReturn, source }).strict();
+const channelProtectionDraft = channelProtection.extend({ source: sourceDraft.nullable() }).strict();
+/** Explicit bounded four-net channel. No inferred pins, internal copper, or dimensional defaults. */
+const channel = z.object({ kind: z.literal("source_series"), launchNets: nets,
+  additionalReceivers: z.array(roleEndpoints).min(1).max(4), protection: z.array(channelProtection).min(1).max(4),
+  escapes: z.array(channelEscape).min(1).max(64), maximumLaunchEtchLengthMm: positive,
+  maximumBranchEtchLengthMm: length, maxEtchLengthMm: positive, maxTotalCopperLengthMm: positive, maxEtchSkewMm: length, source }).strict();
+const channelDraft = channel.extend({ launchNets: netsDraft.nullable(), additionalReceivers: z.array(roleEndpointsDraft).min(1).max(4).nullable(),
+  protection: z.array(channelProtectionDraft).min(1).max(4).nullable(), escapes: z.array(channelEscapeDraft).min(1).max(64).nullable(), maximumLaunchEtchLengthMm: positive.nullable(),
+  maximumBranchEtchLengthMm: length.nullable(), maxEtchLengthMm: positive.nullable(), maxTotalCopperLengthMm: positive.nullable(), maxEtchSkewMm: length.nullable(), source: sourceDraft.nullable() }).strict();
 const noImpedance = z.object({ mode: z.literal("none") }).strict();
 const impedance = z.object({ mode: z.literal("differential"), targetOhms: positive, toleranceOhms: length,
   frequencyHz: frequency, constructionId: identifier, source }).strict();
@@ -88,10 +102,10 @@ const constructionDraft = pcbInterfaceConstructionSchema.extend({ boardThickness
   backCopperThicknessMm: nativeThickness.nullable(), dielectric: dielectricDraft.nullable(), conductor: conductorDraft.nullable(),
   solderMask: masksDraft.nullable(), exterior: exteriorDraft.nullable(), surfaceFinish: nativeMaterialText.nullable(), source: sourceDraft.nullable() }).strict();
 export const pcbDifferentialPairRequirementSchema = z.object({ id: identifier, kind: z.literal("differential_pair"), nets, endpoints,
-  geometry, routing, terminations, impedance: z.discriminatedUnion("mode", [noImpedance, impedance]), source }).strict();
+  geometry, routing, terminations, impedance: z.discriminatedUnion("mode", [noImpedance, impedance]), source, channel: channel.optional() }).strict();
 const pairDraft = pcbDifferentialPairRequirementSchema.extend({ nets: netsDraft.nullable(), endpoints: endpointsDraft.nullable(),
   geometry: geometryDraft.nullable(), routing: routingDraft.nullable(), terminations: terminationsDraft.nullable(),
-  impedance: z.discriminatedUnion("mode", [noImpedance, impedanceDraft]).nullable(), source: sourceDraft.nullable() }).strict();
+  impedance: z.discriminatedUnion("mode", [noImpedance, impedanceDraft]).nullable(), source: sourceDraft.nullable(), channel: channelDraft.optional() }).strict();
 export const pcbInterfaceRequirementsSchema = z.object({ schemaVersion: z.literal(PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION),
   construction: z.discriminatedUnion("mode", [noConstruction, pcbInterfaceConstructionSchema]),
   interfaces: z.array(pcbDifferentialPairRequirementSchema).min(1).max(32) }).strict();
@@ -107,6 +121,107 @@ const key = (point: { readonly reference: string; readonly pin: string }) => `${
 const sides = ["source", "receiver"] as const;
 const polarities = ["positive", "negative"] as const;
 const opposite = (polarity: typeof polarities[number]) => polarity === "positive" ? "negative" : "positive";
+
+function validateChannel(document: PcbPlaneDesignIntentDraft | PcbPlaneDesignContractPayload,
+  pair: NonNullable<PcbPlaneDesignIntentDraft["interfaceRequirements"]>["interfaces"][number], path: PropertyKey[],
+  issue: (path: PropertyKey[], message: string) => void, closed: boolean, usedNets: Set<string>): void {
+  const channel = pair.channel!;
+  const fail = (field: string, message: string) => issue([...path, "channel", field], message);
+  const series = pair.terminations?.source;
+  if (series != null && series.kind !== "source_series") fail("kind", "Bounded channel requires source_series at its source");
+  if (pair.terminations?.receiver != null && pair.terminations.receiver.kind !== "none") fail("kind", "Bounded source-series channel requires an explicit unterminated receiver");
+  if (pair.routing?.polarityInversion?.receiverMapping === "inverted") fail("kind", "Bounded source-series channels require preserved receiver polarity");
+  const names = [...polarities.map(p => pair.nets?.[p]), ...polarities.map(p => channel.launchNets?.[p])].filter((n): n is string => n != null);
+  if (new Set(names).size !== names.length) fail("launchNets", "Channel requires exactly four distinct signal nets");
+  const allowed = new Map(names.map(name => [name, new Set<string>()]));
+  const nets = new Map(document.nets.map(net => [net.name, net]));
+  const add = (name: string | null | undefined, point: { reference: string; pin: string } | null | undefined, field: string) => {
+    if (name == null || point == null) return;
+    const members = allowed.get(name)!;
+    if (members.has(key(point))) fail(field, "Every channel signal anchor must be explicitly distinct");
+    members.add(key(point));
+    if (!nets.get(name)?.endpoints.some(p => key(p) === key(point))) fail(field, "Channel anchor is not a member of its exact declared polarity and section net");
+  };
+  for (const polarity of polarities) {
+    const launch = channel.launchNets?.[polarity], line = pair.nets?.[polarity];
+    add(launch, pair.endpoints?.source?.[polarity], "launchNets");
+    add(line, pair.endpoints?.receiver?.[polarity], "additionalReceivers");
+    if (series?.kind === "source_series") {
+      const leg = series[polarity];
+      if (leg?.componentReference != null && leg.sourcePin != null) add(launch, { reference: leg.componentReference, pin: leg.sourcePin }, "launchNets");
+      if (leg?.componentReference != null && leg.linePin != null) add(line, { reference: leg.componentReference, pin: leg.linePin }, "launchNets");
+    }
+    for (const receiver of channel.additionalReceivers ?? []) add(line, receiver[polarity], "additionalReceivers");
+    for (const protection of channel.protection ?? []) for (const pin of protection[polarity === "positive" ? "positivePins" : "negativePins"])
+      add(line, { reference: protection.componentReference, pin }, "protection");
+    if (launch != null) {
+      if (usedNets.has(launch)) fail("launchNets", "A net cannot belong to multiple differential interfaces");
+      usedNets.add(launch);
+    }
+  }
+  if (series?.kind === "source_series" && series.positive?.componentReference != null
+      && series.positive.componentReference === series.negative?.componentReference) fail("launchNets", "Each source-series leg requires its own resistor component");
+  const layers = new Set<string>();
+  for (const name of names) {
+    const net = nets.get(name), route = document.routingConstraints.nets.find(route => route.net === name);
+    if (net === undefined || net.role != null && ["ground", "power", "power_input", "power_output"].includes(net.role)) fail("launchNets", "Every channel member must be an explicit signal net");
+    if (closed && net && (net.endpoints.length !== allowed.get(name)!.size || net.endpoints.some(p => !allowed.get(name)!.has(key(p)))))
+      fail("launchNets", "Channel net endpoints must exactly equal all declared anchors; undeclared taps are unsupported");
+    if (net && net.endpoints.length > 2 && route?.topology !== "tree") fail("launchNets", "Multiple channel anchors require explicit tree routing");
+    if (route?.topology === "plane") fail("launchNets", "Channel signal cannot use plane topology");
+    if (route && route.topology !== "plane") {
+      if (route.maxVias != null && route.maxVias !== 0) fail("launchNets", "Channel routes forbid vias");
+      if (route.preferredLayer != null) {
+        layers.add(route.preferredLayer);
+        if (route.preferredLayer === "either" || pair.routing?.allowedLayers != null && !pair.routing.allowedLayers.includes(route.preferredLayer)) fail("launchNets", "Each channel net requires the same exact allowed signal layer");
+      }
+      if (route.referencePath?.mode !== "continuous_plane" && (closed || route.referencePath != null)) fail("launchNets", "All four channel nets require continuous reference-plane paths");
+      if (route.referencePath?.mode === "continuous_plane" && route.referencePath.planeId != null && route.referencePath.planeId !== pair.routing?.referencePlaneId)
+        fail("launchNets", "All channel reference paths must name the interface plane");
+    }
+    const cls = document.netClasses.find(cls => cls.id === net?.netClassId);
+    if (cls?.traceWidthMm != null && pair.geometry?.traceWidthMm != null
+        && (pair.geometry.traceWidthMm.minimumMm != null && cls.traceWidthMm < pair.geometry.traceWidthMm.minimumMm
+          || pair.geometry.traceWidthMm.maximumMm != null && cls.traceWidthMm > pair.geometry.traceWidthMm.maximumMm)) fail("launchNets", "Channel class width must remain inside the body interval");
+    if (cls?.clearanceMm != null && pair.geometry?.edgeGapMm?.minimumMm != null && cls.clearanceMm > pair.geometry.edgeGapMm.minimumMm) fail("launchNets", "Channel gap cannot weaken any member class clearance");
+    if (cls?.allowedLayers != null && pair.routing?.allowedLayers?.some(layer => !cls.allowedLayers!.includes(layer))) fail("launchNets", "Channel allowed layer is forbidden by a member class");
+  }
+  if (layers.size > 1) fail("launchNets", "All four channel nets must use the same signal layer");
+  const plane = document.planes.find(plane => plane.id === pair.routing?.referencePlaneId);
+  for (const protection of channel.protection ?? []) {
+    const pins = [...protection.positivePins, ...protection.negativePins, protection.ground.pin, protection.supply.pin];
+    if (new Set(pins).size !== pins.length) fail("protection", "Protection signal, ground and supply pins must be distinct");
+    for (const role of ["ground", "supply"] as const) {
+      const declared = protection[role], net = nets.get(declared.net);
+      if (!net?.endpoints.some(p => p.reference === protection.componentReference && p.pin === declared.pin)) fail("protection", "Protection return anchor must belong to its exact declared net");
+      if (role === "ground" && (net?.role !== "ground" || plane != null && declared.net !== plane.net)) fail("protection", "Protection ground must use the declared ground reference plane net");
+      if (role === "supply" && (net == null || !["power", "power_input", "power_output"].includes(net.role ?? ""))) fail("protection", "Protection supply requires a declared power net");
+    }
+  }
+  for (const protection of channel.protection ?? []) for (const polarity of polarities) {
+    const route = document.routingConstraints.nets.find(route => route.net === pair.nets?.[polarity]);
+    if (route?.topology !== "plane" && route?.referencePath?.mode === "continuous_plane") for (const pin of protection[polarity === "positive" ? "positivePins" : "negativePins"]) {
+      const references = route.referencePath.terminalReferences;
+      if (references != null && !references.some(r => r.signalEndpoint?.reference === protection.componentReference && r.signalEndpoint.pin === pin
+        && r.referenceEndpoint?.reference === protection.componentReference && r.referenceEndpoint.pin === protection.ground.pin))
+        fail("protection", "Every protection signal requires its exact declared ground anchor in the continuous reference path");
+    }
+  }
+  const escapeKeys = new Set<string>();
+  const anchorsKnown = polarities.every(p => pair.nets?.[p] != null && channel.launchNets?.[p] != null
+    && pair.endpoints?.source?.[p] != null && pair.endpoints?.receiver?.[p] != null
+    && series?.kind === "source_series" && series[p]?.componentReference != null && series[p]?.sourcePin != null && series[p]?.linePin != null)
+    && channel.additionalReceivers != null && channel.additionalReceivers.every(r => r.positive != null && r.negative != null) && channel.protection != null;
+  for (const escape of channel.escapes ?? []) {
+    const name = key(escape.terminal), interval = escape.traceWidthMm;
+    if (escapeKeys.has(name) || anchorsKnown && ![...allowed.values()].some(members => members.has(name))) fail("escapes", "Escape requires one unique declared channel signal terminal");
+    escapeKeys.add(name);
+    if (interval.minimumMm < 0.2 || interval.minimumMm > interval.maximumMm || pair.geometry?.traceWidthMm?.maximumMm != null && interval.maximumMm > pair.geometry.traceWidthMm.maximumMm)
+      fail("escapes", "Escape interval must be ordered, at least 0.2 mm, and no wider than the body maximum");
+  }
+  if (pair.geometry?.traceWidthMm?.minimumMm != null && pair.geometry.traceWidthMm.minimumMm < 0.2) fail("escapes", "Channel body width must preserve the native 0.2 mm floor");
+  if (channel.maxEtchLengthMm != null && channel.maxEtchSkewMm != null && channel.maxEtchSkewMm > channel.maxEtchLengthMm) fail("maxEtchSkewMm", "Channel skew budget exceeds its etch budget");
+}
 
 /** Validates declared relationships only. Caller citations never establish native or physical authority. */
 export function validatePcbInterfaceRelationships(document: PcbPlaneDesignIntentDraft | PcbPlaneDesignContractPayload,
@@ -144,7 +259,8 @@ export function validatePcbInterfaceRelationships(document: PcbPlaneDesignIntent
     const endpointKeys = new Set<string>();
     const allowedEndpoints = { positive: new Set<string>(), negative: new Set<string>() };
     const isSeries = sides.some(side => pair.terminations?.[side]?.kind === "source_series");
-    if (closed && isSeries) issue([...path, "terminations"], "Source-series split-net topology is unsupported by the closed two-member-net contract");
+    if (closed && isSeries && pair.channel === undefined) issue([...path, "terminations"], "Source-series split-net topology is unsupported without an explicit bounded four-net channel");
+    if (pair.channel !== undefined) validateChannel(document, pair, path, issue, closed, usedNets);
     const inversion = pair.routing?.polarityInversion;
     if (inversion?.policy === "forbidden" && inversion.receiverMapping === "inverted") issue([...path, "routing", "polarityInversion"], "Receiver inversion is forbidden by this interface");
     if (pair.routing?.allowedLayers != null && new Set(pair.routing.allowedLayers).size !== pair.routing.allowedLayers.length) issue([...path, "routing", "allowedLayers"], "Duplicate allowed copper layer");
@@ -264,14 +380,26 @@ export function validatePcbInterfaceRelationships(document: PcbPlaneDesignIntent
 
 /** These topologies are retained as intent, then explicitly declined by the bounded compiler. */
 export function unsupportedPcbInterfaceRequirements(requirements: PcbPlaneDesignIntentDraft["interfaceRequirements"]): { path: string; message: string }[] {
-  return requirements?.interfaces.flatMap(pair => sides.flatMap(side => pair.terminations?.[side]?.kind === "source_series"
+  return requirements?.interfaces.flatMap(pair => sides.flatMap(side => pair.terminations?.[side]?.kind === "source_series" && (pair.channel === undefined || side !== "source")
     ? [{ path: `/interfaceRequirements/interfaces/${pair.id}/terminations/${side}`, message: "Source-series termination splits member nets. This bounded two-member-net interface topology is unsupported; preserve the source and line pin declarations for a future topology implementation." }] : [])) ?? [];
 }
 
 export function canonicalizePcbInterfaceRequirements(requirements: PcbInterfaceRequirementsDraft | PcbInterfaceRequirements | null | undefined): void {
   requirements?.interfaces.sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
   for (const pair of requirements?.interfaces ?? []) pair.routing?.allowedLayers?.sort((a, b) => a === b ? 0 : a === "F.Cu" ? -1 : 1);
+  for (const pair of requirements?.interfaces ?? []) if (pair.channel) {
+    const compare = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
+    // An unknown positive selector has no stable collection key yet; preserve
+    // numeric unresolved-path binding until every receiver can be keyed.
+    if (pair.channel.additionalReceivers?.every(receiver => receiver.positive != null))
+      pair.channel.additionalReceivers.sort((a, b) => compare(key(a.positive!), key(b.positive!)));
+    pair.channel.protection?.sort((a, b) => compare(a.componentReference, b.componentReference));
+    for (const protection of pair.channel.protection ?? []) { protection.positivePins.sort(compare); protection.negativePins.sort(compare); }
+    pair.channel.escapes?.sort((a, b) => compare(key(a.terminal), key(b.terminal)));
+  }
 }
+
+export const PCB_CHANNEL_EXECUTION_GUIDANCE = "The explicit source-series channel retains four signal nets, both resistor pins, every connector contact and protection pin. Measure the launch and every receiver path and aggregate copper-only channel lengths and skew, including branches. Variable widths are limited to declared terminal-bound routed escapes; an incomplete route may use only the union of its explicit width intervals. Final assessment must prove each narrow edge's routed distance to its exact terminal, all opposite-polarity gaps across all four nets, and continuous reference coverage of all four nets. Resistor and protection internals are not imaginary PCB segments. Uniform-section impedance never establishes whole-channel coverage or physical compliance.";
 
 export const PCB_INTERFACE_EXECUTION_GUIDANCE = "Interface requirements are explicit caller-asserted design intent, including all material and source metadata; they are not verified physical authority. "
   + "Preserve both member nets, all four endpoint roles, receiver polarity mapping and every declared termination pin. Verify the complete source-to-receiver routes, including bends, launches, uncoupled lengths and termination placement; an isolated straight section is insufficient. "

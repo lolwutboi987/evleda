@@ -1,4 +1,5 @@
 import { createPcbExternalPowerBinding, assertPcbExternalPowerBindingCurrent, type PcbExternalPowerBinding } from "./pcb-external-power.js";
+import { createPcbDerivedPowerBinding, assertPcbDerivedPowerBindingCurrent, type PcbDerivedPowerBinding } from "./pcb-derived-power.js";
 import { z } from "zod";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { hardenPortableValue } from "../core/portable-artifact.js";
@@ -68,6 +69,7 @@ export interface PcbPlaneReadyCompilation extends CompilationCommon {
   readonly contract: PcbPlaneDesignContract;
   readonly libraryBinding: PcbLibraryBinding;
   readonly externalPowerBinding?: PcbExternalPowerBinding;
+  readonly derivedPowerBinding?: PcbDerivedPowerBinding;
   readonly deepRuleBinding: PcbDeepRuleBinding;
   readonly verificationPlan: PcbPlaneVerificationPlan;
 }
@@ -125,6 +127,8 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
     add(`placement:${component.reference}`, "placement", `/placementConstraints/${token(component.reference)}`, "Verify all side, rotation, region, edge and courtyard constraints.");
   }
   for (const net of contract.nets) add(`schematic-net:${net.name}`, "schematic", `/nets/${token(net.name)}`, "Verify every exact net endpoint and no unintended endpoints; plane routing changes no schematic assignments.");
+  for (const source of contract.derivedPowerSources ?? []) add(`derived-power:${source.id}`, "schematic", `/derivedPowerSources/${token(source.id)}`,
+    "Verify source-pinned complete driver/passive pin facts, every upstream/path/ground native group and the complete schematic-only flag inventory. A reviewed source path is not current, thermal, feedback or electrical qualification; native ERC remains independent.");
   add("board:outline", "outline", "/scope/board", "Verify the exact rectangular outline and two-layer board.");
   for (const netClass of contract.netClasses) add(`netclass:${netClass.id}`, "netclass_configuration", `/netClasses/${token(netClass.id)}`, "Verify exact authored class assignment, trace-width preference and effective configured clearance; no ampacity claim.");
   for (const route of contract.routingConstraints.nets) {
@@ -152,9 +156,11 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
     for (const pair of contract.interfaceRequirements.interfaces) {
       const path = `/interfaceRequirements/interfaces/${token(pair.id)}`;
       add(`interface-topology:${pair.id}`, "interface_topology", path,
-        "Verify exactly two member nets, all four source/receiver roles and explicit polarity mapping, complete unique source-to-receiver paths and all declared termination anchors; reject undeclared taps, stubs, transitions or ambiguous branches.");
+        pair.channel ? "Verify exactly four channel nets, both resistor pin mappings, every connector and protection signal anchor, exact protection returns, and complete launch and every receiver path. Require declared pad-center branch attachments and leaves; reject undeclared taps, cycles, transitions, disconnected copper and ambiguous anchors."
+          : "Verify exactly two member nets, all four source/receiver roles and explicit polarity mapping, complete unique source-to-receiver paths and all declared termination anchors; reject undeclared taps, stubs, transitions or ambiguous branches.");
       add(`interface-geometry:${pair.id}`, "interface_pair_geometry", `${path}/geometry`,
-        "Verify both complete routes including bends, launches and termination access: width/gap intervals, etch length, etch skew, uncoupled length and reference coverage. An isolated straight segment cannot satisfy this requirement.");
+        pair.channel ? "Verify every channel path and branch, all four-net opposing copper gaps, body widths, exact terminal-bound routed escapes, launch bounds and full copper-only channel etch/skew budgets, with continuous reference coverage on every member net. No device-internal segment is fabricated; complete electromagnetic coverage remains unverified."
+          : "Verify both complete routes including bends, launches and termination access: width/gap intervals, etch length, etch skew, uncoupled length and reference coverage. An isolated straight segment cannot satisfy this requirement.");
       add(`interface-termination:${pair.id}`, "interface_termination", `${path}/terminations`,
         "Verify exact source/receiver termination component pins, member-net polarity, declared resistance and external endpoint-distance bounds. Device internals and source citations remain caller-asserted intent, not device qualification.");
       if (pair.impedance.mode === "differential") add(`interface-impedance:${pair.id}`, "interface_impedance", `${path}/impedance`,
@@ -191,6 +197,7 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
       ...(libraries.sourceSelection === undefined ? {} : { sourceSelection: libraries.sourceSelection }) };
     const libraryBinding: PcbLibraryBinding = freezePcbPlaneArtifact({ ...libraryPayload, identity: canonicalIdentity(libraryPayload, PCB_LIBRARY_BINDING_SCHEMA_VERSION) });
     const externalPowerBinding = createPcbExternalPowerBinding(contract, libraryBinding, options.libraryResolver);
+    const derivedPowerBinding = createPcbDerivedPowerBinding(contract, libraryBinding, options.libraryResolver, externalPowerBinding);
     const selectionPolicy = normalizePcbPlaneSelectionPolicy(options.deepRuleSelectionOptions);
     const catalog = validateDeepRuleCatalog(hardenPortableValue(options.deepRuleCatalog, {
       maxBytes: 8 * 1024 * 1024, maxDepth: 64, maxNodes: 500_000, maxArrayLength: 100_000,
@@ -206,9 +213,11 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
       catalogIdentity: canonicalIdentity(catalog, "evleda.deep-rule-catalog.v1"), features, selection };
     const deepRuleBinding: PcbDeepRuleBinding = freezePcbPlaneArtifact({ ...deepPayload, identity: canonicalIdentity(deepPayload, PCB_DEEP_RULE_BINDING_SCHEMA_VERSION) });
     if (externalPowerBinding !== undefined) assertPcbExternalPowerBindingCurrent(externalPowerBinding, options.libraryResolver);
+    if (derivedPowerBinding !== undefined) assertPcbDerivedPowerBindingCurrent(derivedPowerBinding, libraryBinding, options.libraryResolver);
     return freezePcbPlaneArtifact({ ...base, disposition: "ready", draft, draftIdentity: contentIdentity(canonicalJson(draft)),
       selectionPolicy, questions: [], issues: [], contract, libraryBinding, deepRuleBinding,
       ...(externalPowerBinding === undefined ? {} : { externalPowerBinding }),
+      ...(derivedPowerBinding === undefined ? {} : { derivedPowerBinding }),
       verificationPlan: verificationPlan(contract, libraryBinding, deepRuleBinding) });
   } catch (error) {
     return diagnostics("needs_clarification", draft, [{ code: "COMPILER_DEPENDENCY", path: "/", message: error instanceof Error ? error.message : "Compiler dependency is unavailable" }]);

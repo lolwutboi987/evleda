@@ -1,0 +1,903 @@
+{
+  "format": "rp2350-pico-placement-intent-v1",
+  "reviewedAt": "2026-09-17",
+  "status": "Provisional original floorplan; not CAD, native placement, approved lands or a clearance pass.",
+  "detail": "placement-intent.md",
+  "coordinateFrame": {
+    "unit": "mm",
+    "origin": "northwest board corner",
+    "xPositive": "east",
+    "yPositive": "south",
+    "angleConvention": "KiCad footprint angle; +90 maps local +Y to board +X"
+  },
+  "boardEnvelopeMm": {
+    "width": 21,
+    "height": 51
+  },
+  "intendedComponentSide": "F.Cu",
+  "copperTurnPolicy": {
+    "maximumDegrees": 45,
+    "rightAngleCornersAllowed": false
+  },
+  "sourceBindings": [
+    {
+      "path": "designs/rp2350-pico/circuit-inputs.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+        "size": 102754
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/component-selection.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "be88ab07265f2fa3957aa95eed95098125256403feeaa6aa0671716b52b9bc2f",
+        "size": 32539
+      }
+    },
+    {
+      "path": "resources/pcb-libraries/rp2350-pico/v2/manifest.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "5f6921d7b77f8bc5a87d7fd3b87edcd170557ccc7d0fb7633db6bcab4a9789fa",
+        "size": 6700
+      }
+    }
+  ],
+  "mechanicalIntent": {
+    "pitchMm": 2.54,
+    "rowSpacingMm": 17.78,
+    "contactFirstLastSpanMm": 48.26,
+    "J2": {
+      "xMm": 1.61,
+      "pad1Ymm": 1.37,
+      "yStepMm": 2.54,
+      "picoNumber": "local n"
+    },
+    "J3": {
+      "xMm": 19.39,
+      "pad1Ymm": 49.63,
+      "yStepMm": -2.54,
+      "picoNumber": "local n+20"
+    },
+    "stockHeaderCourtyardExceedsOutline": true,
+    "headerFootprintsAccepted": false,
+    "mountingHoles": {
+      "countReference": 4,
+      "diameterMmReference": 2.1,
+      "positions": null,
+      "screwKeepouts": null
+    },
+    "castellations": null
+  },
+  "provisionalAnchors": [
+    {
+      "ref": "J1",
+      "xMm": 10.5,
+      "yMm": 3.675,
+      "rotation": 180,
+      "basis": "Stock edge line aligned north; actual shell/cable/board fit pending"
+    },
+    {
+      "ref": "U1",
+      "xMm": 10.5,
+      "yMm": 22,
+      "rotation": 0,
+      "basis": "Verified USB/QSPI/core domains north; analog east; crystal south"
+    },
+    {
+      "ref": "J4",
+      "xMm": 7.96,
+      "yMm": 48.2,
+      "rotation": 90,
+      "basis": "Pad1 anchor; probe/mounting fit pending"
+    }
+  ],
+  "components": [
+    {
+      "reference": "U1",
+      "groupId": "group-1",
+      "rationale": "Central pin-oriented anchor; EP ground and all supply escapes reserved.",
+      "nativePose": null
+    },
+    {
+      "reference": "U2",
+      "groupId": "group-2",
+      "rationale": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND.",
+      "nativePose": null
+    },
+    {
+      "reference": "U3",
+      "groupId": "group-3",
+      "rationale": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short.",
+      "nativePose": null
+    },
+    {
+      "reference": "U4",
+      "groupId": "group-4",
+      "rationale": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2.",
+      "nativePose": null
+    },
+    {
+      "reference": "J1",
+      "groupId": "group-4",
+      "rationale": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2.",
+      "nativePose": null
+    },
+    {
+      "reference": "J2",
+      "groupId": "group-6",
+      "rationale": "Mechanical anchors with opposite numbering directions, exact pitch/row spacing and pending accepted lands.",
+      "nativePose": null
+    },
+    {
+      "reference": "J3",
+      "groupId": "group-6",
+      "rationale": "Mechanical anchors with opposite numbering directions, exact pitch/row spacing and pending accepted lands.",
+      "nativePose": null
+    },
+    {
+      "reference": "J4",
+      "groupId": "group-7",
+      "rationale": "South debug access; reserve short MCU launches for SWCLK24/SWDIO25, then route to J4. R19 near the MCU clock entry; R20 begins near U1 as a provisional bidirectional SWD damping choice, subject to probe/interface review.",
+      "nativePose": null
+    },
+    {
+      "reference": "L1",
+      "groupId": "group-8",
+      "rationale": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46.",
+      "nativePose": null
+    },
+    {
+      "reference": "L2",
+      "groupId": "group-2",
+      "rationale": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND.",
+      "nativePose": null
+    },
+    {
+      "reference": "Q1",
+      "groupId": "group-9",
+      "rationale": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks.",
+      "nativePose": null
+    },
+    {
+      "reference": "D1",
+      "groupId": "group-10",
+      "rationale": "North/right supply ingress, cathode=VSYS and anode=VBUS; selected land unresolved.",
+      "nativePose": null
+    },
+    {
+      "reference": "D2",
+      "groupId": "group-11",
+      "rationale": "Visible GPIO25 indication outside sensitive regions; R18 is series current limiting, not an MCU power decoupler.",
+      "nativePose": null
+    },
+    {
+      "reference": "SW1",
+      "groupId": "group-12",
+      "rationale": "Accessible BOOT near flash group, preserving R5 current limiting and exact contact pairs. Cold-BOOT power sequencing remains a separate open issue.",
+      "nativePose": null
+    },
+    {
+      "reference": "SW2",
+      "groupId": "group-13",
+      "rationale": "Accessible RUN/reset south/east of U1 and near the RUN route; keep away from crystal load nodes.",
+      "nativePose": null
+    },
+    {
+      "reference": "Y1",
+      "groupId": "group-14",
+      "rationale": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified.",
+      "nativePose": null
+    },
+    {
+      "reference": "R1",
+      "groupId": "group-5",
+      "rationale": "USB launch group immediately at U1.52/51; pad1 faces the MCU and pad2 the port. Preserve the 27-ohm terminations and reserve equal-flow 45-degree launches with the separate C14/C15 supply bypasses.",
+      "nativePose": null
+    },
+    {
+      "reference": "R2",
+      "groupId": "group-5",
+      "rationale": "USB launch group immediately at U1.52/51; pad1 faces the MCU and pad2 the port. Preserve the 27-ohm terminations and reserve equal-flow 45-degree launches with the separate C14/C15 supply bypasses.",
+      "nativePose": null
+    },
+    {
+      "reference": "R3",
+      "groupId": "group-4",
+      "rationale": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2.",
+      "nativePose": null
+    },
+    {
+      "reference": "R4",
+      "groupId": "group-4",
+      "rationale": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2.",
+      "nativePose": null
+    },
+    {
+      "reference": "R5",
+      "groupId": "group-3",
+      "rationale": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short.",
+      "nativePose": null
+    },
+    {
+      "reference": "R6",
+      "groupId": "group-3",
+      "rationale": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short.",
+      "nativePose": null
+    },
+    {
+      "reference": "R7",
+      "groupId": "group-14",
+      "rationale": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified.",
+      "nativePose": null
+    },
+    {
+      "reference": "R8",
+      "groupId": "group-8",
+      "rationale": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46.",
+      "nativePose": null
+    },
+    {
+      "reference": "R9",
+      "groupId": "group-2",
+      "rationale": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND.",
+      "nativePose": null
+    },
+    {
+      "reference": "R10",
+      "groupId": "group-2",
+      "rationale": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND.",
+      "nativePose": null
+    },
+    {
+      "reference": "R11",
+      "groupId": "group-16",
+      "rationale": "VBUS divider at GPIO24 pin36, rather than beside the USB data launch; keep the divider output local, with a routed VBUS feed.",
+      "nativePose": null
+    },
+    {
+      "reference": "R12",
+      "groupId": "group-16",
+      "rationale": "VBUS divider at GPIO24 pin36, rather than beside the USB data launch; keep the divider output local, with a routed VBUS feed.",
+      "nativePose": null
+    },
+    {
+      "reference": "R13",
+      "groupId": "group-9",
+      "rationale": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks.",
+      "nativePose": null
+    },
+    {
+      "reference": "R14",
+      "groupId": "group-9",
+      "rationale": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks.",
+      "nativePose": null
+    },
+    {
+      "reference": "R15",
+      "groupId": "group-9",
+      "rationale": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks.",
+      "nativePose": null
+    },
+    {
+      "reference": "R16",
+      "groupId": "group-15",
+      "rationale": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter.",
+      "nativePose": null
+    },
+    {
+      "reference": "R17",
+      "groupId": "group-15",
+      "rationale": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter.",
+      "nativePose": null
+    },
+    {
+      "reference": "R18",
+      "groupId": "group-11",
+      "rationale": "Visible GPIO25 indication outside sensitive regions; R18 is series current limiting, not an MCU power decoupler.",
+      "nativePose": null
+    },
+    {
+      "reference": "R19",
+      "groupId": "group-7",
+      "rationale": "South debug access; reserve short MCU launches for SWCLK24/SWDIO25, then route to J4. R19 near the MCU clock entry; R20 begins near U1 as a provisional bidirectional SWD damping choice, subject to probe/interface review.",
+      "nativePose": null
+    },
+    {
+      "reference": "R20",
+      "groupId": "group-7",
+      "rationale": "South debug access; reserve short MCU launches for SWCLK24/SWDIO25, then route to J4. R19 near the MCU clock entry; R20 begins near U1 as a provisional bidirectional SWD damping choice, subject to probe/interface review.",
+      "nativePose": null
+    },
+    {
+      "reference": "C1",
+      "groupId": "group-8",
+      "rationale": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.49"
+    },
+    {
+      "reference": "C2",
+      "groupId": "group-8",
+      "rationale": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.50"
+    },
+    {
+      "reference": "C3",
+      "groupId": "group-8",
+      "rationale": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.46"
+    },
+    {
+      "reference": "C4",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.23"
+    },
+    {
+      "reference": "C5",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.1"
+    },
+    {
+      "reference": "C6",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.11"
+    },
+    {
+      "reference": "C7",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.20"
+    },
+    {
+      "reference": "C8",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.30"
+    },
+    {
+      "reference": "C9",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.38"
+    },
+    {
+      "reference": "C10",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.45"
+    },
+    {
+      "reference": "C11",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.6"
+    },
+    {
+      "reference": "C12",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.23"
+    },
+    {
+      "reference": "C13",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.39"
+    },
+    {
+      "reference": "C14",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.53"
+    },
+    {
+      "reference": "C15",
+      "groupId": "group-17",
+      "rationale": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.54"
+    },
+    {
+      "reference": "C16",
+      "groupId": "group-15",
+      "rationale": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.44"
+    },
+    {
+      "reference": "C17",
+      "groupId": "group-15",
+      "rationale": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.44"
+    },
+    {
+      "reference": "C18",
+      "groupId": "group-3",
+      "rationale": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U3.8"
+    },
+    {
+      "reference": "C19",
+      "groupId": "group-3",
+      "rationale": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U3.8"
+    },
+    {
+      "reference": "C20",
+      "groupId": "group-2",
+      "rationale": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U2.5"
+    },
+    {
+      "reference": "C21",
+      "groupId": "group-2",
+      "rationale": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U2.1"
+    },
+    {
+      "reference": "C22",
+      "groupId": "group-2",
+      "rationale": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U2.8"
+    },
+    {
+      "reference": "C23",
+      "groupId": "group-9",
+      "rationale": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "Q1.3"
+    },
+    {
+      "reference": "C24",
+      "groupId": "group-14",
+      "rationale": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U1.21"
+    },
+    {
+      "reference": "C25",
+      "groupId": "group-14",
+      "rationale": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "Y1.3"
+    },
+    {
+      "reference": "C26",
+      "groupId": "group-4",
+      "rationale": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2.",
+      "nativePose": null,
+      "associatedSupplyOrSignalTerminal": "U4.5"
+    }
+  ],
+  "footprintObservations": [
+    {
+      "libraryId": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_DFN_QFN.pretty/QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+        "size": 14069
+      },
+      "fabBoundsMm": {
+        "xMin": -3.5,
+        "yMin": -3.5,
+        "xMax": 3.5,
+        "yMax": 3.5
+      },
+      "courtyardBoundsMm": {
+        "xMin": -4.1,
+        "yMin": -4.1,
+        "xMax": 4.1,
+        "yMax": 4.1
+      }
+    },
+    {
+      "libraryId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Connector_USB.pretty/USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+        "size": 7170
+      },
+      "fabBoundsMm": {
+        "xMin": -4.47,
+        "yMin": -3.675,
+        "xMax": 4.47,
+        "yMax": 3.675
+      },
+      "courtyardBoundsMm": {
+        "xMin": -5.32,
+        "yMin": -4.76,
+        "xMax": 5.32,
+        "yMax": 4.18
+      }
+    },
+    {
+      "libraryId": "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Connector_PinHeader_2.54mm.pretty/PinHeader_1x20_P2.54mm_Vertical.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3dc8726ee7f93edb84e15c825d0f3e15fb3fe992aacbf8c99df82813202e7552",
+        "size": 5459
+      },
+      "fabBoundsMm": {
+        "xMin": -1.27,
+        "yMin": -1.27,
+        "xMax": 1.27,
+        "yMax": 49.53
+      },
+      "courtyardBoundsMm": {
+        "xMin": -1.77,
+        "yMin": -1.78,
+        "xMax": 1.77,
+        "yMax": 50.03
+      }
+    },
+    {
+      "libraryId": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Connector_PinHeader_2.54mm.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6a7dba97d6e733fd9d5f12d2d57f2cde29e8393e15b08d8b3e41bf2b430d83ed",
+        "size": 3129
+      },
+      "fabBoundsMm": {
+        "xMin": -1.27,
+        "yMin": -1.27,
+        "xMax": 1.27,
+        "yMax": 6.35
+      },
+      "courtyardBoundsMm": {
+        "xMin": -1.77,
+        "yMin": -1.77,
+        "xMax": 1.77,
+        "yMax": 6.85
+      }
+    },
+    {
+      "libraryId": "Inductor_SMD:L_Coilcraft_XxL4020",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Inductor_SMD.pretty/L_Coilcraft_XxL4020.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+        "size": 3525
+      },
+      "fabBoundsMm": {
+        "xMin": -2,
+        "yMin": -2,
+        "xMax": 2,
+        "yMax": 2
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.26,
+        "yMin": -2.26,
+        "xMax": 2.26,
+        "yMax": 2.26
+      }
+    },
+    {
+      "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "fabBoundsMm": {
+        "xMin": -0.5,
+        "yMin": -0.25,
+        "xMax": 0.5,
+        "yMax": 0.25
+      },
+      "courtyardBoundsMm": {
+        "xMin": -0.91,
+        "yMin": -0.46,
+        "xMax": 0.91,
+        "yMax": 0.46
+      }
+    },
+    {
+      "libraryId": "Capacitor_SMD:C_1210_3225Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_1210_3225Metric.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c0c3dbbbe623e957a8ee6c0a36f432e06b10ff8bd79fc785bd13dea723a1f20c",
+        "size": 2048
+      },
+      "fabBoundsMm": {
+        "xMin": -1.6,
+        "yMin": -1.25,
+        "xMax": 1.6,
+        "yMax": 1.25
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.3,
+        "yMin": -1.6,
+        "xMax": 2.3,
+        "yMax": 1.6
+      }
+    },
+    {
+      "libraryId": "Resistor_SMD:R_0402_1005Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "fabBoundsMm": {
+        "xMin": -0.525,
+        "yMin": -0.27,
+        "xMax": 0.525,
+        "yMax": 0.27
+      },
+      "courtyardBoundsMm": {
+        "xMin": -0.93,
+        "yMin": -0.47,
+        "xMax": 0.93,
+        "yMax": 0.47
+      }
+    },
+    {
+      "libraryId": "Package_TO_SOT_SMD:SOT-23-6",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_TO_SOT_SMD.pretty/SOT-23-6.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ea29040bed73e5dfa455e36f2c9324b0de7782c5a6cf79040b7d885ff766fdb4",
+        "size": 4568
+      },
+      "fabBoundsMm": {
+        "xMin": -0.8,
+        "yMin": -1.45,
+        "xMax": 0.8,
+        "yMax": 1.45
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.05,
+        "yMin": -1.7,
+        "xMax": 2.05,
+        "yMax": 1.7
+      }
+    },
+    {
+      "libraryId": "Package_TO_SOT_SMD:SOT-523",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_TO_SOT_SMD.pretty/SOT-523.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+        "size": 4144
+      },
+      "fabBoundsMm": {
+        "xMin": -0.4,
+        "yMin": -0.8,
+        "xMax": 0.4,
+        "yMax": 0.8
+      },
+      "courtyardBoundsMm": {
+        "xMin": -1.15,
+        "yMin": -1.05,
+        "xMax": 1.15,
+        "yMax": 1.05
+      }
+    },
+    {
+      "libraryId": "Diode_SMD:Nexperia_CFP3_SOD-123W",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Diode_SMD.pretty/Nexperia_CFP3_SOD-123W.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e0867bfd9057e4ed44483786d9d8809eab12909401240f9f7ee7de141cd7be7c",
+        "size": 4768
+      },
+      "fabBoundsMm": {
+        "xMin": -1.3,
+        "yMin": -0.85,
+        "xMax": 1.3,
+        "yMax": 0.85
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.25,
+        "yMin": -1.1,
+        "xMax": 2.25,
+        "yMax": 1.1
+      }
+    },
+    {
+      "libraryId": "LED_SMD:LED_0603_1608Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/LED_SMD.pretty/LED_0603_1608Metric.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+        "size": 2593
+      },
+      "fabBoundsMm": {
+        "xMin": -0.8,
+        "yMin": -0.4,
+        "xMax": 0.8,
+        "yMax": 0.4
+      },
+      "courtyardBoundsMm": {
+        "xMin": -1.48,
+        "yMin": -0.73,
+        "xMax": 1.48,
+        "yMax": 0.73
+      }
+    },
+    {
+      "libraryId": "Button_Switch_SMD:SW_Push_1P1T_NO_Vertical_Wuerth_434133025816",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Button_Switch_SMD.pretty/SW_Push_1P1T_NO_Vertical_Wuerth_434133025816.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d1f601c92c3b7f2616de486b6f60f906d283cbb789a64657128f1e0a9e423516",
+        "size": 5728
+      },
+      "fabBoundsMm": {
+        "xMin": -2.1,
+        "yMin": -1.6,
+        "xMax": 2.1,
+        "yMax": 1.6
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.85,
+        "yMin": -1.85,
+        "xMax": 2.85,
+        "yMax": 1.85
+      }
+    },
+    {
+      "libraryId": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Crystal.pretty/Crystal_SMD_3225-4Pin_3.2x2.5mm.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0efc1a86f641a5e4d27a4483811386c23ddfa5b416c628f65cef963ef7edbb62",
+        "size": 2278
+      },
+      "fabBoundsMm": {
+        "xMin": -1.6,
+        "yMin": -1.25,
+        "xMax": 1.6,
+        "yMax": 1.25
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.1,
+        "yMin": -1.75,
+        "xMax": 2.1,
+        "yMax": 1.75
+      }
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_Abracon_Recommended",
+      "path": "resources/pcb-libraries/rp2350-pico/v2/footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_Abracon_Recommended.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "5b39565979fcd5f4a59483446d5b9e5479df81908690e9d6e6d9fe300e3cef8a",
+        "size": 1452
+      },
+      "fabBoundsMm": {
+        "xMin": -1,
+        "yMin": -0.8,
+        "xMax": 1,
+        "yMax": 0.8
+      },
+      "courtyardBoundsMm": {
+        "xMin": -1.75,
+        "yMin": -1.05,
+        "xMax": 1.75,
+        "yMax": 1.05
+      }
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "path": "resources/pcb-libraries/rp2350-pico/v2/footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+        "size": 1456
+      },
+      "fabBoundsMm": {
+        "xMin": -1,
+        "yMin": -0.8,
+        "xMax": 1,
+        "yMax": 0.8
+      },
+      "courtyardBoundsMm": {
+        "xMin": -1.1,
+        "yMin": -0.9,
+        "xMax": 1.1,
+        "yMax": 0.9
+      }
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "path": "resources/pcb-libraries/rp2350-pico/v2/footprints/EvlEDA_Pico2350.pretty/RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+        "size": 2284
+      },
+      "fabBoundsMm": {
+        "xMin": -1.25,
+        "yMin": -1.25,
+        "xMax": 1.25,
+        "yMax": 1.25
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.05,
+        "yMin": -1.55,
+        "xMax": 1.9,
+        "yMax": 1.55
+      }
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+      "path": "resources/pcb-libraries/rp2350-pico/v2/footprints/EvlEDA_Pico2350.pretty/W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+        "size": 4261
+      },
+      "fabBoundsMm": {
+        "xMin": -1.5,
+        "yMin": -1,
+        "xMax": 1.5,
+        "yMax": 1
+      },
+      "courtyardBoundsMm": {
+        "xMin": -2.13,
+        "yMin": -1.25,
+        "xMax": 2.13,
+        "yMax": 1.25
+      }
+    }
+  ],
+  "observationLimits": "Line/rectangle/polygon centreline bounds exclude stroke width, text and circles; not manufacturer body-tolerance or native clearance evidence. Source observation does not establish admission or selected-part qualification.",
+  "verification": {
+    "exactInventoryReferenceSet": true,
+    "referenceCount": 62,
+    "duplicateReferences": 0,
+    "capacitorSupplyOrSignalAssociationsChecked": 26,
+    "footprintSourcesMeasured": 18,
+    "nativeCadRun": false,
+    "nativeDrcRun": false,
+    "allComponentClearancePass": false,
+    "schematicOrPcbModified": false
+  },
+  "openGaps": [
+    "Header courtyard/edge and exact land qualification",
+    "Mounting/cable/probe/button envelopes",
+    "TDK C20/C21 land/effective-capacitance review",
+    "Core reference-versus-stock 0402 lands",
+    "Wurth switch logical-to-physical numbering mismatch",
+    "D1 absent inventory footprint ID; new candidate qualification",
+    "Exact crystal footprint compatibility",
+    "Dense north-edge escape and return fit",
+    "Complete USB contact/ESD routing and numeric budgets",
+    "Stackup/impedance/plane continuity",
+    "Power loops, EP/vias, return copper and thermal budget",
+    "Native saved-source placement/render/ERC/DRC/connectivity/reference evidence"
+  ]
+}

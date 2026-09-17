@@ -24,6 +24,7 @@ import { createPlaneToolboxCheckpointLifecycle } from "./toolbox-plane-checkpoin
 import { writeToolboxRouteDiagnostic } from "./toolbox-route-diagnostics.js";
 import { writeToolboxSyncDiagnostic } from "./toolbox-sync-diagnostics.js";
 import { writeToolboxFootprintPlacementDiagnostic } from "./toolbox-footprint-placement-diagnostics.js";
+import { createToolboxSchematicFieldDiagnostics } from "./toolbox-schematic-field-diagnostics.js";
 import { captureToolboxEndpointConnectivity } from "./toolbox-endpoint-connectivity.js";
 import { captureToolboxPlaneAcceptance } from "./toolbox-plane-acceptance.js";
 import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js";
@@ -31,6 +32,7 @@ import type { KicadTransmissionLineCalculator } from "../integrations/kicad-tran
 import { captureToolboxInterface } from "./toolbox-interface-report.js";
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 import { assertPcbExternalPowerBindingCurrent } from "../harness/pcb-external-power.js";
+import { assertPcbDerivedPowerBindingCurrent, powerAnnotationBindingOf } from "../harness/pcb-derived-power.js";
 
 export interface KicadToolboxPlaneSessionInput {
   readonly authority: KicadMcpBoundSessionAuthority;
@@ -50,6 +52,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
     const assertSources = () => {
       assertPcbLibrarySourcesCurrent(bundle.libraryBinding, resolver);
       if (bundle.externalPowerBinding !== undefined) assertPcbExternalPowerBindingCurrent(bundle.externalPowerBinding, resolver);
+      if (bundle.derivedPowerBinding !== undefined) assertPcbDerivedPowerBindingCurrent(bundle.derivedPowerBinding, bundle.libraryBinding, resolver);
     };
     assertSources();
     if (!("inspectFootprint" in resolver) || typeof resolver.inspectFootprint !== "function"
@@ -93,6 +96,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
     };
     const captures = createFreshNativeCaptures({ project, executablePath: preparation.kicadIdentity.path, createAdapter: input.createCliAdapter });
     if (captures.captureNativeNetlist === undefined || captures.captureNativeSchematicStrokeStyle === undefined) throw new Error("Plane schematic native capture capabilities are incomplete.");
+    const schematicFieldDiagnostics = createToolboxSchematicFieldDiagnostics(outputRoot);
     const tools = createKicadHarnessTools(session, { freshProject: project, freshConnectivityContract: bundle.contract, freshPlaneCompilationBundle: bundle,
       freshLibraryResolver: resolver,
       assessFreshPlaneEvidence: async context => {
@@ -123,10 +127,11 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
       observeFreshRouteMutationDiagnostic: async diagnostic => { await writeToolboxRouteDiagnostic(outputRoot, diagnostic); },
       observeFreshSyncFailureDiagnostic: async diagnostic => { await writeToolboxSyncDiagnostic(outputRoot, diagnostic); },
       observeFreshFootprintPlacementDiagnostic: async diagnostic => { await writeToolboxFootprintPlacementDiagnostic(outputRoot, diagnostic); },
+      observeFreshSchematicFieldDiagnostic: schematicFieldDiagnostics.observe,
       capturePersistedMutationBaseline: captureSources,
       verifyPersistedMutation: async baseline => baseline !== undefined && await captureSources() !== baseline });
     const assertAnnotations = async () => {
-      if (bundle.externalPowerBinding === undefined) return;
+      if (powerAnnotationBindingOf(bundle) === undefined) return;
       if (tools.assertExternalPowerAnnotationsCurrent === undefined) throw new Error("Annotated V2 sessions require their complete host source/graph guard.");
       await tools.assertExternalPowerAnnotationsCurrent();
     };
@@ -143,7 +148,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
       : async (interfaceId: string, calculator?: KicadTransmissionLineCalculator) => captureToolboxInterface(outputRoot, await tools.assessInterface!(interfaceId, calculator));
     const owned = session;
     let closing: Promise<void> | undefined;
-    return Object.freeze({ tools, analyzePractices, checkEndpointConnectivity, checkPlaneAcceptance, ...checkpoint,
+    return Object.freeze({ tools, analyzePractices, finalizeSchematicFieldFailure: schematicFieldDiagnostics.finalize, checkEndpointConnectivity, checkPlaneAcceptance, ...checkpoint,
       prepareCheckpoint: async () => {
         assertSources(); await assertAnnotations();
         const publish = await checkpoint.prepareCheckpoint(); assertSources();
@@ -151,7 +156,8 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
       },
       ...(checkInterface === undefined ? {} : { checkInterface }),
       planeAuthoringContext: Object.freeze({ projectBindingIdentity: project.planeBinding.identity, sourceContractIdentity: bundle.contract.identity,
-        ...(bundle.externalPowerBinding === undefined ? {} : { externalPowerBinding: bundle.externalPowerBinding }) }),
+        ...(bundle.externalPowerBinding === undefined ? {} : { externalPowerBinding: bundle.externalPowerBinding }),
+        ...(bundle.derivedPowerBinding === undefined ? {} : { derivedPowerBinding: bundle.derivedPowerBinding }) }),
       assertCurrent: async () => { assertSources(); await owned.assertActivePcb(project.pcbPath); await assertAnnotations(); assertSources(); }, captureSources,
       close: () => closing ??= owned.close() });
   } catch (error) {

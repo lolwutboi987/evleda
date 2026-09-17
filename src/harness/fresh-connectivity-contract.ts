@@ -1,6 +1,7 @@
 import { canonicalIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import { parsePcbExternalPowerBinding, type PcbExternalPowerBinding } from "./pcb-external-power.js";
+import { parsePcbDerivedPowerBinding, type PcbDerivedPowerBinding } from "./pcb-derived-power.js";
 import {
   parsePcbDesignContract,
   type PcbDesignContract,
@@ -43,6 +44,7 @@ export interface FreshConnectivityContract {
   readonly noConnects: readonly FreshConnectivityEndpoint[];
   /** Separate source-bound schematic annotations; never physical components or routing endpoints. */
   readonly externalPowerBinding?: PcbExternalPowerBinding;
+  readonly derivedPowerBinding?: PcbDerivedPowerBinding;
   readonly identity: CanonicalIdentity;
 }
 
@@ -118,7 +120,7 @@ function fromValidatedPcbDesignContract(contract: PcbDesignContract | PcbPlaneDe
  * source contract identity retains all V2 constraints. The provider never
  * receives or supplies this payload as tool arguments.
  */
-export function createFreshConnectivityContract(value: FreshConnectivityContractSource, externalPowerBinding?: PcbExternalPowerBinding): FreshConnectivityContract {
+export function createFreshConnectivityContract(value: FreshConnectivityContractSource, externalPowerBinding?: PcbExternalPowerBinding, derivedPowerBinding?: PcbDerivedPowerBinding): FreshConnectivityContract {
   const record = value as unknown as { schemaVersion?: unknown } | null;
   let payload: Omit<FreshConnectivityContract, "identity">;
   switch (record?.schemaVersion) {
@@ -137,6 +139,10 @@ export function createFreshConnectivityContract(value: FreshConnectivityContract
   if (externalPowerBinding !== undefined) {
     if (record?.schemaVersion !== PCB_PLANE_CONTRACT_SCHEMA_VERSION) throw new Error("External power annotations require their genuine V2 contract.");
     payload = { ...payload, externalPowerBinding: parsePcbExternalPowerBinding(externalPowerBinding, payload.sourceContractIdentity) };
+  }
+  if (derivedPowerBinding !== undefined) {
+    if (record?.schemaVersion !== PCB_PLANE_CONTRACT_SCHEMA_VERSION) throw new Error("Derived power annotations require their genuine V2 contract.");
+    payload = { ...payload, derivedPowerBinding: parsePcbDerivedPowerBinding(derivedPowerBinding, payload.sourceContractIdentity, payload.externalPowerBinding) };
   }
   return freeze({
     ...payload,

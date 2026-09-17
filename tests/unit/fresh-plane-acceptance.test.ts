@@ -26,6 +26,8 @@ import { assessFreshPlaneNativeChecks, FRESH_PLANE_NATIVE_CHECK_PROFILE } from "
 import type { KicadCheckResult, KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
 import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
 import { interfaceConstructionBundle, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
+import { usbChannelBundle } from "../helpers/usb-channel-bundle.js";
+import { usbChannelPcb, usbChannelSourceId } from "../helpers/usb-channel-source.js";
 import { createKicadTransmissionLineCalculator, KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION,
   KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION, KICAD_TRANSMISSION_LINE_SOURCE_COMMIT } from "../../src/integrations/kicad-transmission-line.js";
 
@@ -175,7 +177,8 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
  * checks assessor. No native process or authentication predicate is replaced. */
 async function ercFixture(kind: "clean" | "violation" | "ignored" | "missing") {
   const project = { board: { design_settings: { rule_severities: {
-    ...Object.fromEntries(FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredClearanceShortChecks.map(key => [key, "error"])), starved_thermal: "error" },
+    ...Object.fromEntries(FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredClearanceShortChecks.map(key => [key, "error"])),
+    ...Object.fromEntries(FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredViaManufacturingChecks.map(key => [key, "warning"])), starved_thermal: "error" },
     rules: { min_resolved_spokes: 2, max_error: 0.005 }, drc_exclusions: [] } },
     erc: { rule_severities: { single_global_label: "error", footprint_filter: "error", simulation_model_issue: "error", four_way_junction: "error" } } };
   if (kind === "ignored") project.erc.rule_severities.single_global_label = "ignore";
@@ -289,6 +292,26 @@ const boreCases: Array<{ name: string; route: { start: NmPoint; end: NmPoint }; 
 ];
 
 describe("pure current-source V2 plane acceptance", () => {
+  it("retains four channel reference requirements and source-series anchors while physical termination remains unknown", async () => {
+    const compilationBundle = usbChannelBundle();
+    let source = usbChannelPcb();
+    source = source.replace(parseFreshPcbReferenceGeometry(source).zones[0]!.source, "")
+      .replaceAll('(at 0 0) (uuid', '(at 5 7) (uuid')
+      .replace(/\((start|end|xy) (-?[0-9.]+) (-?[0-9.]+)\)/gu, (_match, kind, x, y) => `(${kind} ${Number(x) + 5} ${Number(y) + 7})`)
+      .replace(`(at 5 7) (uuid "${usbChannelSourceId(30)}")`, `(at 5 8) (uuid "${usbChannelSourceId(30)}")`)
+      .replace('(pad "1" smd rect (at 1 1)', '(pad "1" smd rect (at 1 0)')
+      .replace('(pad "2" smd rect (at 2 1)', '(pad "2" smd rect (at 2 0)');
+    const f = await fixture({ compilationBundle, pcbSource: source });
+    const result = await assessFreshPlaneAcceptance(f.input), channel = result.interfaces![0]!;
+    expect(channel.referenceCoverage.memberNets).toEqual(["DP", "DN", "LP", "LN"]);
+    expect(channel.referenceCoverage.referenceRowIds).toEqual(["reference:DP", "reference:DN", "reference:LP", "reference:LN"]);
+    expect(result.evidence.interfaces![0]!.channel!.anchors).toHaveLength(14);
+    expect(result.evidence.interfaces![0]!.terminations.pins).toHaveLength(4);
+    expect(channel.topology.status).toBe("verified");
+    expect(channel.termination.status).toBe("unknown");
+    expect(result.evidence.interfaces![0]!.impedance.completeRouteModelCoverage).toBe(false);
+    expect(result.accepted).toBe(false); expect(result.fabricationAuthorized).toBe(false);
+  });
   it("preserves the legacy assessment and public shape when no interfaces are declared", async () => {
     const f = await fixture(), result = await assessFreshPlaneAcceptance(f.input);
     expect(result).not.toHaveProperty("interfaces"); expect(result.evidence).not.toHaveProperty("interfaces");

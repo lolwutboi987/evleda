@@ -13,8 +13,11 @@ import { genericDividerLibraryResolver, createGenericDividerBundleFixture } from
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { nativePadObservationFixture } from "../helpers/native-pad-observation-fixture.js";
 import { normalizeFakeSchematicWriterSource } from "../helpers/normalizing-schematic-writer.js";
-import { parseFreshSchematicSource } from "../../src/harness/fresh-kicad-parser.js";
+import { parseFreshPcbSource, parseFreshSchematicSource } from "../../src/harness/fresh-kicad-parser.js";
 import { planeCompoundMutationState } from "../../src/mcp/toolbox-plane-results.js";
+import { usbChannelBundle } from "../helpers/usb-channel-bundle.js";
+import { usbChannelPcb, usbChannelSourceId } from "../helpers/usb-channel-source.js";
+import { routeMmToNativeNm } from "../../src/harness/fresh-route-native-units.js";
 
 // Offline source/native-port simulation only. No plane, route, or native KiCad qualification is asserted.
 const roots=new Set<string>();
@@ -34,14 +37,25 @@ const netlist=(b:ReturnType<typeof bundle>,omitGround=false)=>`(export (design (
 const schematic=(b:ReturnType<typeof bundle>)=>`(kicad_sch (version 20250316) (lib_symbols) ${b.contract.nets.map((net,i)=>`(global_label "${net.name}" (shape passive) (at ${10+i*5} 10 0))`).join(' ')} ${b.contract.components.map(c=>`(symbol (lib_id "${c.symbolLibId}") (at 20 20 0) (unit 1) (property "Reference" "${c.reference}" (at 20 18 0) (effects (font (size 1.27 1.27)))) (property "Value" "${c.value}" (at 20 22 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "${c.footprintLibId}"))`).join(' ')})`;
 const syncText=['Schematic components considered: 3','New footprints added: 3','Mismatched footprints replaced: 0','Total pads considered: 7','Pads with named nets: 7','Pads left as <no net>: 0','Transfer quality: CLEAN (100.0% pad coverage)','Fully net-mapped refs: 3','Partially net-mapped refs: 0','Refs with unresolved pad nets: (none)','The PCB file was updated and KiCad was asked to reload it.'].join('\n');
 
-async function fixture(options:{initial?:string;physicalSource?:string;routeReadbackOffsetNm?:number;omitGround?:boolean;tamperMarkerOnCall?:boolean;tamperMarkerOnPhysicalRead?:boolean;nativeFailureOnSave?:boolean;nativeParityFailureOnSave?:boolean;saveChangesPad?:boolean;nativeDisconnectedOnSave?:boolean;wrongRouteWidth?:boolean;changeUnrelatedOnPush?:boolean}={}){
-  const b=bundle(),root=await mkdtemp(path.join(os.tmpdir(),'evleda-plane-authoring-'));roots.add(root);
+async function fixture(options:{initial?:string;physicalSource?:string;compilationBundle?:ReturnType<typeof bundle>;widthReadbackOffsetNm?:number;routeReadbackOffsetNm?:number;omitGround?:boolean;tamperMarkerOnCall?:boolean;tamperMarkerOnPhysicalRead?:boolean;nativeFailureOnSave?:boolean;nativeParityFailureOnSave?:boolean;saveChangesPad?:boolean;nativeDisconnectedOnSave?:boolean;wrongRouteWidth?:boolean;changeUnrelatedOnPush?:boolean;reassignViaNetAt?:'push'|'save'}={}){
+  const b=options.compilationBundle??bundle(),root=await mkdtemp(path.join(os.tmpdir(),'evleda-plane-authoring-'));roots.add(root);
   const project=await preparePlaneFreshProject({outputDir:path.join(root,'output'),name:'plane',resume:false,compilationBundle:b,compilationBundleRef:createPcbPlaneCompilationBundleRef(b)});
   let live=options.initial??empty,physicalReads=0,saveCount=0,routeOrdinal=0,transaction=live;const calls:string[]=[];
   await writeFile(project.pcbPath,live,'utf8');await writeFile(project.schematicPath,schematic(b),'utf8');
   const physicalBaseline=options.physicalSource??pcb;
   const physical=await nativePadObservationFixture(physicalBaseline);
   const nativeCoordinate=(value:unknown,deltaNm=0)=>(Math.trunc(Number(value)*1e6)+deltaNm)/1e6;
+  const viaNetFaults:Array<{before:string;after:string;viaId:string}>=[];
+  const reassignViaNet=()=>{
+    const vias=parseFreshPcbSource(live).vias;
+    if(vias.length!==1||vias[0]!.id===null||vias[0]!.netName!=='GND')throw new Error('Via-net fault requires exactly one admitted GND via.');
+    const viaId=vias[0]!.id,before=live;
+    // Boundary-response fault only: retain the exact UUID and all geometry.
+    // This does not simulate pcbnew's connectivity-based net propagation.
+    live=live.replace(`(net "GND") (uuid "${viaId}")`,`(net "VIN") (uuid "${viaId}")`);
+    if(live===before)throw new Error('Via-net fault did not match the exact fixture via.');
+    viaNetFaults.push({before,after:live,viaId});
+  };
   const session:KicadHarnessSession={
     supportsNativeRouteTransactions:()=>true,
     supportsQualifiedFootprintIdentitySync:()=>true,
@@ -64,10 +78,11 @@ async function fixture(options:{initial?:string;physicalSource?:string;routeRead
       if(name==='pcb_drop_commit'){live=transaction;result='Transaction group discarded successfully.';}
       if(name==='pcb_push_commit')result='Transaction group committed successfully.';
       if(name==='pcb_delete_items')live=live.split(/(?<=\n)/u).filter(line=>!(args.item_ids as string[]).some(id=>line.includes(`(uuid "${id}")`))).join('');
-      if(name==='pcb_add_track')live=live.slice(0,live.lastIndexOf(')'))+`\n(segment (start ${nativeCoordinate(args.x1_mm,options.routeReadbackOffsetNm)} ${nativeCoordinate(args.y1_mm)}) (end ${nativeCoordinate(args.x2_mm)} ${nativeCoordinate(args.y2_mm)}) (width ${options.wrongRouteWidth?0.1:args.width_mm}) (layer "${String(args.layer).replace('_','.')}") (net "${args.net_name}") (uuid "${fixtureUuid(1000+ ++routeOrdinal)}"))\n)`;
+      if(name==='pcb_add_track')live=live.slice(0,live.lastIndexOf(')'))+`\n(segment (start ${nativeCoordinate(args.x1_mm,options.routeReadbackOffsetNm)} ${nativeCoordinate(args.y1_mm)}) (end ${nativeCoordinate(args.x2_mm)} ${nativeCoordinate(args.y2_mm)}) (width ${options.wrongRouteWidth?0.1:(routeMmToNativeNm(Number(args.width_mm))+(options.widthReadbackOffsetNm??0))/1e6}) (layer "${String(args.layer).replace('_','.')}") (net "${args.net_name}") (uuid "${fixtureUuid(1000+ ++routeOrdinal)}"))\n)`;
       if(name==='pcb_add_via')live=live.slice(0,live.lastIndexOf(')'))+`\n(via (at ${nativeCoordinate(args.x_mm)} ${nativeCoordinate(args.y_mm)}) (size ${args.diameter_mm}) (drill ${args.drill_mm}) (layers "F.Cu" "B.Cu") (net "${args.net_name}") (uuid "${fixtureUuid(1000+ ++routeOrdinal)}"))\n)`;
       if(name==='pcb_push_commit'&&options.changeUnrelatedOnPush)live=live.replace('(thickness 1.6)','(thickness 1.7)');
-      if(name==='pcb_save'){saveCount++;if(options.saveChangesPad)live=live.replace('(size 1 1)','(size 1.1 1)');await writeFile(project.pcbPath,live,'utf8');result='Board saved.';}
+      if(name==='pcb_push_commit'&&options.reassignViaNetAt==='push')reassignViaNet();
+      if(name==='pcb_save'){saveCount++;if(options.saveChangesPad)live=live.replace('(size 1 1)','(size 1.1 1)');if(options.reassignViaNetAt==='save')reassignViaNet();await writeFile(project.pcbPath,live,'utf8');result='Board saved.';}
       if(name==='pcb_revert'){live=await readFile(project.pcbPath,'utf8');result='Board reverted to last saved state. All unsaved changes have been discarded.';}
       if(name==='sch_get_symbols')result='Symbols (0 total):';
       if(name==='sch_modify_property')await writeFile(project.schematicPath,(await readFile(project.schematicPath,'utf8')).replace('(at 20 18 0)','(at 21 18 0)'),'utf8');
@@ -81,7 +96,7 @@ async function fixture(options:{initial?:string;physicalSource?:string;routeRead
     captureFreshNativeNetlist:async()=>netlist(b,options.omitGround||saveCount>0&&options.nativeParityFailureOnSave),capturePersistedMutationBaseline:async()=>contentIdentity(await readFile(project.pcbPath)).digest,
     verifyPersistedMutation:async baseline=>baseline!==contentIdentity(await readFile(project.pcbPath)).digest};
   const bridge=createKicadHarnessTools(session,toolOptions);
-  return {bundle:b,project,session,toolOptions,bridge,calls,physicalReads:()=>physicalReads,replaceOwnedSource:async(source:string)=>{live=source;await writeFile(project.pcbPath,source,'utf8');}};
+  return {bundle:b,project,session,toolOptions,bridge,calls,viaNetFaults,physicalReads:()=>physicalReads,replaceOwnedSource:async(source:string)=>{live=source;await writeFile(project.pcbPath,source,'utf8');}};
 }
 
 async function completeSchematicFixture(){
@@ -163,6 +178,49 @@ describe('true plane-project authoring seam',()=>{
     expect((await f.bridge.internal.saveAfterMutation({id:'save',name:'pcb_save',arguments:{}})).isError).toBe(true);
     if(flag==='nativeFailureOnSave')expect(await readFile(f.project.pcbPath,'utf8')).toBe(pcb);
     else expect(await readFile(f.project.pcbPath,'utf8')).toContain('(size 1.1 1)');
+  });
+  it.each(['push','save'] as const)('quarantines a via-only net reassignment at %s readback without successful persistence',async phase=>{
+    const f=await fixture({initial:pcb,reassignViaNetAt:phase}),quarantined:unknown[]=[];let finished=0;
+    f.session.quarantineNativeRouteTransaction=cause=>{quarantined.push(cause);};
+    f.session.finishNativeRouteTransaction=()=>{finished++;};
+    // Use the authenticated fixture's actual GND access policy; VIN's route
+    // disallows this via and is only the unexpected net in the faulty response.
+    expect(f.bundle.contract.routingConstraints.nets.find(route=>route.net==='GND')).toMatchObject({topology:'plane',accessRouting:{maxVias:2}});
+    expect(f.bundle.contract.routingConstraints.viaPolicy).toMatchObject({mode:'bounded',diameterMm:0.6,drillMm:0.3});
+    const selection=JSON.parse((await f.bridge.execute({id:'read-via-net',name:'fresh_get_route_items',arguments:{}})).content);
+    const call={id:'route-via-net',name:'fresh_replace_route_items' as const,arguments:{selectionIdentity:selection.identity,net:'GND',deleteItemIds:[],
+      tracks:[{x1Mm:9,y1Mm:10,x2Mm:10,y2Mm:10,layer:'F.Cu'}],vias:[{xMm:10,yMm:10}]}};
+    if(phase==='push'){
+      await expect(f.bridge.execute(call)).rejects.toThrow(/ROLLBACK_FAILED_TERMINAL.*primary post-push-source-readback.*geometry differs/);
+      expect(f.calls).not.toContain('pcb_save');
+      expect(await readFile(f.project.pcbPath,'utf8')).toBe(pcb);
+    }else{
+      const staged=await f.bridge.execute(call);
+      expect(staged.isError).not.toBe(true);
+      expect(JSON.parse(staged.content)).toMatchObject({mutationValidity:'verified',addedViaCount:1});
+      expect(parseFreshPcbSource(await f.session.readActivePcbSource!(f.project.pcbPath)).vias[0]!.netName).toBe('GND');
+      expect(await readFile(f.project.pcbPath,'utf8')).toBe(pcb);
+      const failed=await f.bridge.internal.saveAfterMutation({id:'save-via-net',name:'pcb_save',arguments:{}});
+      expect(failed).toMatchObject({isError:true,content:expect.stringMatching(/ROLLBACK_FAILED_TERMINAL.*mandatory-save\/readback.*Mandatory PCB save changed the exact verified physical board source/)});
+      expect(f.calls.filter(name=>name==='pcb_save')).toHaveLength(1);
+      expect(await readFile(f.project.pcbPath,'utf8')).toBe(f.viaNetFaults[0]!.after);
+    }
+    expect(f.calls.indexOf('pcb_add_track')).toBeLessThan(f.calls.indexOf('pcb_add_via'));
+    expect(f.viaNetFaults).toHaveLength(1);
+    const fault=f.viaNetFaults[0]!,before=parseFreshPcbSource(fault.before),after=parseFreshPcbSource(fault.after);
+    expect(fault.after).toBe(fault.before.replace(`(net "GND") (uuid "${fault.viaId}")`,`(net "VIN") (uuid "${fault.viaId}")`));
+    expect(before.vias).toHaveLength(1);expect(after.vias).toEqual([{...before.vias[0]!,netName:'VIN'}]);
+    expect(before.vias[0]).toMatchObject({netName:'GND',at:{x:10,y:10},diameterMm:0.6,drillMm:0.3,layers:['F.Cu','B.Cu']});
+    expect(after.segments).toEqual(before.segments);expect(after.footprints).toEqual(before.footprints);
+    expect(await f.session.readActivePcbSource!(f.project.pcbPath)).toBe(fault.after);
+    expect(quarantined).toHaveLength(1);expect(finished).toBe(0);
+    expect(f.bridge.freshRouteMutationDiagnostics!.at(-1)).toMatchObject({phase:'recovery-finished',transactionStarted:true,transactionPushed:true,
+      firstOperation:phase==='push'?'post-push-source-readback':'mandatory-save/readback',recovery:'preserved-state-recovery-required'});
+    expect(f.calls).not.toContain('pcb_drop_commit');expect(f.calls).not.toContain('pcb_revert');
+    const callsBeforeRetry=[...f.calls];
+    await expect(f.bridge.execute(call)).rejects.toThrow(/recovery|quarantin|close/i);
+    expect((await f.bridge.internal.saveAfterMutation({id:'retry-via-save',name:'pcb_save',arguments:{}})).isError).toBe(true);
+    expect(f.calls).toEqual(callsBeforeRetry);expect(finished).toBe(0);
   });
   it('rejects name-only transaction support before begin but retains readonly route inventory',async()=>{
     const f=await fixture({initial:pcb});f.session.supportsNativeRouteTransactions=()=>false;
@@ -288,6 +346,43 @@ describe('true plane-project authoring seam',()=>{
     const f=await fixture({initial:pcb,routeReadbackOffsetNm:1});const selection=JSON.parse((await f.bridge.execute({id:'read',name:'fresh_get_route_items',arguments:{}})).content);
     await expect(f.bridge.execute({id:'route',name:'fresh_replace_route_items',arguments:{selectionIdentity:selection.identity,net:'GND',deleteItemIds:[],tracks:[{x1Mm:1.000001,y1Mm:10.299999999999999,x2Mm:2.000001,y2Mm:10.299999999999999,layer:'F.Cu'}],vias:[]}})).rejects.toThrow(/geometry differs/);
     expect(f.calls).not.toContain('pcb_save');expect(await readFile(f.project.pcbPath,'utf8')).toBe(pcb);
+  });
+  it.each([0,1,-1])('writes explicit channel width from one nm plan and enforces exact width readback offset %s',async offset=>{
+    // Translate the synthetic saved source into the authoring board and retain
+    // one identical local land pattern for the two resistor instances.
+    let source=usbChannelPcb().replaceAll('(at 0 0) (uuid','(at 5 7) (uuid')
+      .replace(/\((start|end|xy) (-?[0-9.]+) (-?[0-9.]+)\)/gu,(_match,kind,x,y)=>`(${kind} ${Number(x)+5} ${Number(y)+7})`)
+      .replace(`(at 5 7) (uuid "${usbChannelSourceId(30)}")`,`(at 5 8) (uuid "${usbChannelSourceId(30)}")`)
+      .replace('(pad "1" smd rect (at 1 1)','(pad "1" smd rect (at 1 0)')
+      .replace('(pad "2" smd rect (at 2 1)','(pad "2" smd rect (at 2 0)')
+      .replace(/\)\s+(?=\(segment)/gu,')\n');
+    const f=await fixture({initial:source,physicalSource:source,compilationBundle:usbChannelBundle(),widthReadbackOffsetNm:offset}),wire:Record<string,unknown>[]=[];
+    const base=f.session.callTool;f.session.callTool=async(name,args={})=>{if(name==='pcb_add_track')wire.push({...args});return await base(name,args);};
+    const selection=JSON.parse((await f.bridge.execute({id:'read',name:'fresh_get_route_items',arguments:{}})).content);
+    const call={id:'route',name:'fresh_replace_route_items' as const,arguments:{selectionIdentity:selection.identity,net:'LP',deleteItemIds:[usbChannelSourceId(1)],tracks:[
+      {x1Mm:5,y1Mm:7,x2Mm:5.5,y2Mm:7,layer:'F.Cu',widthMm:0.200000499999},
+      {x1Mm:5.5,y1Mm:7,x2Mm:6,y2Mm:7,layer:'F.Cu'}],vias:[]}};
+    const original=structuredClone(call);
+    if(offset){await expect(f.bridge.execute(call)).rejects.toThrow(/geometry differs/);expect(await readFile(f.project.pcbPath,'utf8')).toBe(source);}
+    else{expect((await f.bridge.execute(call)).isError).not.toBe(true);expect((await f.bridge.internal.saveAfterMutation({id:'save',name:'pcb_save',arguments:{}})).isError).not.toBe(true);}
+    expect(call).toEqual(original);expect(wire.map(track=>track.width_mm)).toEqual([0.2,0.5]);
+  });
+  it.each([0,1,-1])('writes wider ordinary power copper and enforces exact width readback offset %s',async offset=>{
+    const f=await fixture({initial:pcb,widthReadbackOffsetNm:offset}),wire:Record<string,unknown>[]=[];
+    const base=f.session.callTool;f.session.callTool=async(name,args={})=>{if(name==='pcb_add_track')wire.push({...args});return await base(name,args);};
+    const selection=JSON.parse((await f.bridge.execute({id:'read',name:'fresh_get_route_items',arguments:{}})).content);
+    const call={id:'route',name:'fresh_replace_route_items' as const,arguments:{selectionIdentity:selection.identity,net:'GND',deleteItemIds:[],
+      tracks:[{x1Mm:9,y1Mm:10,x2Mm:10,y2Mm:10,layer:'F.Cu',widthMm:0.800000499999}],vias:[]}};
+    const original=structuredClone(call);
+    if(offset){await expect(f.bridge.execute(call)).rejects.toThrow(/geometry differs/);expect(await readFile(f.project.pcbPath,'utf8')).toBe(pcb);}
+    else{expect((await f.bridge.execute(call)).isError).not.toBe(true);expect((await f.bridge.internal.saveAfterMutation({id:'save',name:'pcb_save',arguments:{}})).isError).not.toBe(true);}
+    expect(call).toEqual(original);expect(wire.map(track=>track.width_mm)).toEqual([0.8]);
+  });
+  it('rejects explicit widths below ordinary net-class floors before starting a native transaction',async()=>{
+    const f=await fixture({initial:pcb});const selection=JSON.parse((await f.bridge.execute({id:'read',name:'fresh_get_route_items',arguments:{}})).content);
+    await expect(f.bridge.execute({id:'route',name:'fresh_replace_route_items',arguments:{selectionIdentity:selection.identity,net:'GND',deleteItemIds:[],
+      tracks:[{x1Mm:9,y1Mm:10,x2Mm:10,y2Mm:10,layer:'F.Cu',widthMm:0.499999}],vias:[]}})).rejects.toThrow(/class floor/);
+    expect(f.calls).not.toContain('pcb_begin_commit');
   });
   it('returns source-bound native pad positions after a cardinal transform without leaking binary addition residue',async()=>{
     const resistor=(reference:string,x:number,y:number,nets:readonly string[],rotated=false)=>fp(reference,'Resistor_SMD:R_0603_1608Metric','10k',x,y,nets)

@@ -1,0 +1,121 @@
+{
+  "sources": [
+    {
+      "id": "richtek_datasheet",
+      "url": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf",
+      "version": "DS6150A/B-06, July 2018",
+      "pages": "2, 9, 13",
+      "retrievedOrReviewed": "2026-09-16",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/power/RT6150AB-06.pdf",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6a211238810773979ca1ccc577f9184f07c48ceb77bdf3707c4d469253f4045e",
+        "size": 187081
+      }
+    },
+    {
+      "id": "richtek_land",
+      "url": "https://www.richtek.com/assets/podfiles/Footprint-%28V%29%28W%29%28U%29XDFN2.5x2.5-10-R-B.pdf",
+      "version": "V/W/U/XDFN2.5*2.5-10; no printed revision/date",
+      "pages": "1",
+      "retrievedOrReviewed": "2026-09-16",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/vendor-assets/Richtek-WDFN2.5x2.5-10-land-pattern.pdf",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c09afb95d9cfc506e6cc8810cf1c5c28109f951fa79d8d133328a0bdd7f0c0d0",
+        "size": 26454
+      }
+    },
+    {
+      "id": "abracon_datasheet",
+      "url": "https://abracon.com/datasheets/AOTA-B201610S3R3-101-T.pdf",
+      "version": "Revision A, 2024-09-13",
+      "pages": "1, 4",
+      "retrievedOrReviewed": "2026-09-16",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/vendor-assets/AOTA-B201610S3R3-101-T.pdf",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "b15dcb32224c50ddf5c7643358bdef49177b451d72933d7fbb02f3756aca7827",
+        "size": 708418
+      }
+    },
+    {
+      "id": "raspberry_pi_native",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip",
+      "version": "RPI-RP2350A-MINIMAL_R4-S1_public, PCB date 2026-07-03",
+      "pages": "Native L1 footprint, no page",
+      "retrievedOrReviewed": "2026-09-16",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/raspberry-pi/RP2350A-Minimal-KiCAD.zip",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c0b858d78f56fa271a827064198e8ee81e4ec246234ce6659be8a1fcd877d06b",
+        "size": 903559
+      }
+    },
+    {
+      "id": "raspberry_pi_guide",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf",
+      "version": "Release 3, build 2026-08-20",
+      "pages": "printed 5-7 (PDF pages 6-8)",
+      "retrievedOrReviewed": "2026-09-16",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/raspberry-pi/hardware-design-with-rp2350.pdf",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "cef88bc7d87e67b4262ee15f2b94b03566667143f4e8daf6931828bef6408059",
+        "size": 8543080
+      }
+    },
+    {
+      "id": "winbond_w25q32rv",
+      "url": "https://www.winbond.com/resource-files/W25Q32RV_SPI_QPI%20RevE%2011132025%20Plus.pdf",
+      "version": "Rev E, 2025-11-13",
+      "pages": "printed5-6,77,80-81; PDF6-7,78,81-82",
+      "retrievedOrReviewed": "2026-09-17",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/vendor-assets/W25Q32RV-RevE-20251113.pdf",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "a863fb8b34fa72d70eb9ee0fa8ffe5ad911b57383e17b0cf8a1eef4118061d2a",
+        "size": 3395418
+      }
+    },
+    {
+      "id": "kicad_winbond_footprint",
+      "url": "https://gitlab.com/kicad/libraries/kicad-footprints/-/blob/master/Package_SON.pretty/Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+      "version": "installed KiCad10 footprint; version20260206; upstream geometry cross-check2026-09-17",
+      "retrievedOrReviewed": "2026-09-17",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/vendor-assets/v2/Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.source.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e8385abf1caaeda6c31a6228b55e289f19eb240e580c40b463b7e25e69dcaaa8",
+        "size": 4704
+      }
+    },
+    {
+      "id": "kicad_library_license",
+      "url": "https://gitlab.com/kicad/libraries/kicad-footprints/-/raw/master/LICENSE.md",
+      "retrievedOrReviewed": "2026-09-17",
+      "archiveRelativeToRepository": "../rp2350-reference-inputs-01/vendor-assets/v2/KiCad-Libraries-LICENSE.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "45d2bce75e5a4208f5afb01b8fb2c406e700371c4fe2b5f5cd5c443d46db4d8f",
+        "size": 2101
+      }
+    },
+    {
+      "id": "st_usblc6",
+      "url": "https://www.st.com/resource/en/datasheet/usblc6-2.pdf",
+      "version": "DS4260 Rev7 December2021",
+      "pages": "1,2,6",
+      "retrievedOrReviewed": "2026-09-17",
+      "inspection": "official PDF web reader; local download unavailable; no local byte identity asserted"
+    }
+  ],
+  "nativePcb": {
+    "archiveRelativeToRepository": "../rp2350-reference-inputs-01/raspberry-pi/RPI-RP2350A-MINIMAL_R4-S1.kicad_pcb",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "cde2b7e54bf25b443972b8b31214f7880428c40be70d9df9dbd3d0a41fc50b86",
+      "size": 1626166
+    }
+  }
+}

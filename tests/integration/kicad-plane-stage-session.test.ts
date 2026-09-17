@@ -76,7 +76,7 @@ const descriptor = () => ({ name: KICAD_PLANE_STAGE_TOOL, inputSchema: KICAD_PLA
 async function fixture(options: { advertised?: boolean; complete?: boolean; mutationDispatched?: boolean; recoveryRequired?: boolean;
   large?: boolean; delayMs?: number; corruptArtifact?: boolean; badReference?: boolean; mismatchedText?: boolean;
   malformedReceipt?: boolean; runtimeChange?: boolean; tool?: Record<string, unknown>; savedMismatch?: boolean; readFailure?: boolean;
-  badFilename?: boolean; transportFailure?: boolean } = {}) {
+  badFilename?: boolean; transportFailure?: boolean; toolFailure?: boolean } = {}) {
   await mkdir(temporaryRoot, { recursive: true });
   const workspace = await mkdtemp(path.join(temporaryRoot, "evleda-plane-session-")); owned.add(workspace);
   const project = path.join(workspace, "project"), outputRoot = path.join(workspace, "output");
@@ -114,7 +114,8 @@ async function fixture(options: { advertised?: boolean; complete?: boolean; muta
     .map(name => ({ name, inputSchema: { type: "object", properties: {}, additionalProperties: false } }));
   const privateTool = options.tool ?? descriptor();
   const padTool = { name: padProtocol.toolName, inputSchema: padProtocol.inputSchema, outputSchema: padProtocol.outputSchema, annotations: padProtocol.annotations };
-  await writeFile(fixtureFile, JSON.stringify({ tools: [...tools, padTool, ...(options.advertised === false ? [] : [privateTool])], result,
+  await writeFile(fixtureFile, JSON.stringify({ tools: [...tools, padTool, ...(options.advertised === false ? [] : [privateTool])],
+    result: options.toolFailure ? { isError: true, content: [{ type: "text", text: "original private plane failure" }] } : result,
     delayMs: options.delayMs ?? 0, corruptArtifact: options.corruptArtifact ?? false, artifactPath, runtimeMarker,
     transportFailure: options.transportFailure ?? false,
     readFailure: options.readFailure ?? false,
@@ -260,6 +261,17 @@ describe("host-private plane stage session", () => {
     expect(await session.readActivePcbSource(f.boardFile)).toBe(f.source);
     await expect(session.callTool("pcb_revert")).resolves.toBeDefined();
     expect((await calls(f)).map(call => call.name)).toEqual([KICAD_PLANE_STAGE_TOOL, "evleda_get_live_pcb_document", "pcb_revert"]);
+  });
+
+  it("retains the literal negative plane reply without requiring a success artifact envelope", async () => {
+    const f = await fixture({ toolFailure: true }), session = await connect(f);
+    const error = await session.stagePlane(f.args).catch((error: unknown) => error);
+    expect(error).toBeInstanceOf(KicadPlaneStageMayHaveMutatedError);
+    expect(((error as Error).cause as Error).cause).toEqual({ operation: KICAD_PLANE_STAGE_TOOL,
+      response: { isError: true, content: [{ type: "text", text: "original private plane failure" }] } });
+    expect(String(error)).not.toContain("original private plane failure");
+    await expect(session.callTool("pcb_save")).rejects.toThrow(/quarantined/iu);
+    expect(await session.readActivePcbSource(f.boardFile)).toBe(f.source);
   });
 
   it("retains recovery ownership after quarantined public, source and pad read failures", async () => {

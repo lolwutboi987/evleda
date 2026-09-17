@@ -59,6 +59,7 @@ import {
   KICAD_STOCK_LIBRARY_RESOLVER_LIMITS,
   createKiCad10StockLibraryResolver,
 } from "../harness/kicad-library-resolver.js";
+import { parseKiCadApprovedPackageProfile, type KiCadApprovedPackageProfile } from "../harness/kicad-approved-package.js";
 import type { PcbDesignCompilerOptions } from "../harness/pcb-design-compiler.js";
 import {
   createDeepRuleResourceProfile,
@@ -831,7 +832,11 @@ const boundedInteger = (value: unknown, maximum: number): number => {
   return value;
 };
 
-const parseToolboxLibraryProfile = (value: unknown): LibraryProfile | KiCadToolboxStockCatalogPolicy => {
+const parseToolboxLibraryProfile = (value: unknown): (LibraryProfile | KiCadToolboxStockCatalogPolicy) & { readonly approvedPackage?: KiCadApprovedPackageProfile } => {
+  if (value !== null && typeof value === "object" && !Array.isArray(value) && Object.hasOwn(value, "approvedPackage")) {
+    const { approvedPackage, ...stock } = value as Record<string, unknown>;
+    return deepFreeze({ ...parseToolboxLibraryProfile(stock), approvedPackage: parseKiCadApprovedPackageProfile(approvedPackage) });
+  }
   if (value === null || typeof value !== "object" || Array.isArray(value)
     || (value as Record<string, unknown>).mode !== "stock_catalog") return parseLibraryProfile(value);
   const record = exactRecord(value, ["schemaVersion", "mode", "kicadMajorVersion", "symbolRoot", "footprintRoot",

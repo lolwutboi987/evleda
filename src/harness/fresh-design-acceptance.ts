@@ -3,7 +3,7 @@ import { createFreshNativeTerminalBinding, assertFreshNativeNoConnectPcbIsolatio
 import { createHash } from "node:crypto";
 
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
-import { capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable } from "./pcb-library-source-binding.js";
+import { capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable, isPcbLibraryRecordAuthorized, assertPcbLibraryBindingSourceKinds } from "./pcb-library-source-binding.js";
 import {
   PCB_PRACTICE_ANALYSIS_PROFILE_SCHEMA,
   PCB_PRACTICE_ANALYZER_SUPPORTED_BOARD_VERSIONS,
@@ -660,7 +660,7 @@ function libraryBindingCheck(
       const expectedSymbol: PcbLibraryBinding["symbols"][number] = {
         reference: component.reference,
         libraryId: component.symbolLibId,
-        source: "kicad-stock" as const,
+        source: symbol.source,
         unitCount: 1 as const,
         componentKind: symbol.componentKind as Exclude<typeof symbol.componentKind, "bga">,
         polarized: symbol.polarized,
@@ -671,14 +671,14 @@ function libraryBindingCheck(
       const expectedFootprint: PcbLibraryBinding["footprints"][number] = {
         reference: component.reference,
         libraryId: component.footprintLibId,
-        source: "kicad-stock" as const,
+        source: footprint.source,
         packageKind: "generic" as const,
         pads: [...footprint.pads].sort(compareText),
       };
-      if (symbol.libraryId !== component.symbolLibId || symbol.source !== "kicad-stock"
+      if (symbol.libraryId !== component.symbolLibId || !isPcbLibraryRecordAuthorized(resolver, "symbol", symbol, sourceSelection)
           || symbol.unitCount !== 1 || symbol.componentKind === "bga"
           || symbol.polarized && symbol.pins.some((pin) => pin.function === null)
-          || footprint.libraryId !== component.footprintLibId || footprint.source !== "kicad-stock"
+          || footprint.libraryId !== component.footprintLibId || !isPcbLibraryRecordAuthorized(resolver, "footprint", footprint, sourceSelection)
           || footprint.packageKind !== "generic"
           || !sameStrings(symbol.pins.map((pin) => pin.number), component.pins.map((pin) => pin.pin))
           || !sameStrings(footprint.pads, component.pins.map((pin) => pin.pin))) {
@@ -1357,29 +1357,31 @@ function componentBindingChecks(
   component: PcbDesignContract["components"][number],
   binding: PcbLibraryBinding,
 ): Readonly<{ symbol: Check; footprint: Check }> {
+  let sourceKindsValid = true;
+  try { assertPcbLibraryBindingSourceKinds(binding); } catch { sourceKindsValid = false; }
   const symbols = binding.symbols.filter((entry) => entry.reference === component.reference);
   const footprints = binding.footprints.filter((entry) => entry.reference === component.reference);
   const expectedPins = component.pins.map((pin) => pin.pin);
   const symbolPass = symbols.length === 1
     && symbols[0]!.libraryId === component.symbolLibId
-    && symbols[0]!.source === "kicad-stock"
+    && sourceKindsValid
     && symbols[0]!.unitCount === 1
     && sameStrings(symbols[0]!.pins.map((pin) => pin.number), expectedPins);
   const footprintPass = footprints.length === 1
     && footprints[0]!.libraryId === component.footprintLibId
-    && footprints[0]!.source === "kicad-stock"
+    && sourceKindsValid
     && sameStrings(footprints[0]!.pads, expectedPins);
   return {
     symbol: {
       status: symbolPass ? "pass" : "fail",
       detail: symbolPass
-        ? `${component.reference} exact stock symbol and complete pin-number set match the contract.`
+        ? `${component.reference} exact ${symbols[0]!.source === "kicad-stock" ? "stock" : "approved package"} symbol and complete pin-number set match the contract.`
         : `${component.reference} symbol binding differs from the contract or complete pin set.`,
     },
     footprint: {
       status: footprintPass ? "pass" : "fail",
       detail: footprintPass
-        ? `${component.reference} exact stock footprint and complete pad-number set match the contract.`
+        ? `${component.reference} exact ${footprints[0]!.source === "kicad-stock" ? "stock" : "approved package"} footprint and complete pad-number set match the contract.`
         : `${component.reference} footprint binding differs from the contract or complete pad set.`,
     },
   };

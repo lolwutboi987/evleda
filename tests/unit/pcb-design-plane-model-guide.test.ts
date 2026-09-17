@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import { canonicalJson } from "../../src/core/canonical.js";
+import { canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
 import { parsePcbDesignIntentDraft } from "../../src/harness/pcb-design-contract.js";
 import { compilePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-compiler.js";
@@ -45,7 +45,9 @@ describe("V2 PCB plane design-intent model guide", () => {
       if (object.type !== "object") return;
       objectSchemas += 1;
       expect(object.additionalProperties).toBe(false);
-      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs"] : [];
+      const props = object.properties as Record<string, any>;
+      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs", "derivedPowerSources"]
+        : props.kind?.const === "differential_pair" ? ["channel"] : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : [];
       expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).filter(key => !optional.includes(key)).sort());
     });
     expect(objectSchemas).toBeGreaterThan(20);
@@ -63,6 +65,38 @@ describe("V2 PCB plane design-intent model guide", () => {
     expect(Buffer.byteLength(getPcbPlaneDesignIntentModelGuide(true), "utf8")).toBeLessThanOrEqual(PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES);
     for (const term of ["caller_assertion", "receiverMapping", "source_series", "explicit unsupported", "bends, launches", "not measured impedance", "unknown until"])
       expect(PCB_PLANE_INTERFACE_REQUIREMENTS_MODEL_GUIDE).toContain(term);
+  });
+
+  it("keeps derived power intent optional and the combined guide within its published bound", () => {
+    expect(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA.required).not.toContain("derivedPowerSources");
+    expect(PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE).not.toHaveProperty("derivedPowerSources");
+    const guide = getPcbPlaneDesignIntentModelGuide(true, true, true, true);
+    expect(Buffer.byteLength(guide, "utf8")).toBeLessThanOrEqual(PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES);
+    for (const term of ["Optional derivedPowerSources", "power_out", "Device:L", "Device:R", "operatingAssumptions", "not electrical/current/thermal/feedback qualification", "every upstream/path/return native group"])
+      expect(guide).toContain(term);
+    for (const term of ["Without externalPowerInput", "externalPowerInput={id,diodeForwardDropAssumption,operatingModes}",
+      "exact externalPowerInputs binding", "exactly one stock Device:D_Schottky", "entryPin=2 (A), exitPin=1 (K)",
+      "consumer's inspected power_in", "same external return net", "simultaneous-source", "Do not relabel internal rails as external"])
+      expect(guide).toContain(term);
+    expect(guide).not.toContain("not diode or capacitive source assertions");
+  });
+
+  it("advertises a strict optional external source object and preserves every omitted-derived guide byte", () => {
+    let externalSchema: Record<string, any> | undefined;
+    visitObjects(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, object => {
+      const props = object.properties as Record<string, any> | undefined;
+      if (props?.externalPowerInput === undefined) return;
+      expect(object.required).not.toContain("externalPowerInput");
+      externalSchema = props.externalPowerInput;
+    });
+    expect(externalSchema).toBeDefined();
+    expect(externalSchema!.additionalProperties).toBe(false);
+    expect(externalSchema!.required).toEqual(["id", "diodeForwardDropAssumption", "operatingModes"]);
+    for (const key of ["id", "diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual({ type: "null" });
+    for (const key of ["diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual(expect.objectContaining({ type: "string", minLength: 1, maxLength: 2048 }));
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "3e0f31578f6eadefddde31b971797ddceeb2e8b8d90ab787535241472733f9e5", size: 10251 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "26ddb2b252bd28ae7cd50f1853715c660337968f2a976ba641d4e79f81f3de4a", size: 11738 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "c3aee9c81283c26c82cdc323e80a0d879cff4b0147ae8bc512efb6b4d01178f9", size: 18466 });
   });
 
   it("keeps the complete guidance bounded, provider-neutral and explicit about authority", () => {

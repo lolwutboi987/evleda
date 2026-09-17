@@ -14,6 +14,7 @@ import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 export const FRESH_PLANE_NATIVE_CHECK_PROFILE = Object.freeze({
   version: "10.0.3", commit: "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
   requiredClearanceShortChecks: Object.freeze(["clearance", "hole_clearance", "copper_edge_clearance", "shorting_items", "tracks_crossing", "zones_intersect", "unconnected_items"]),
+  requiredViaManufacturingChecks: Object.freeze(["hole_to_hole", "holes_co_located", "annular_width", "drill_out_of_range"]),
 });
 type Status = "verified" | "failed" | "unsupported";
 export interface FreshPlaneNativeCheckFinding { readonly status: Status; readonly reasons: readonly string[] }
@@ -411,6 +412,11 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
   const drcIssues = [...commonIssues];
   for (const name of FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredClearanceShortChecks) {
     if (severities[name] !== "error" || native.ignored.has(name)) drcIssues.push(`required-native-check-disabled:${name}`);
+  }
+  // KiCad defaults hole spacing to warning. The qualified all-severity report
+  // fails on either warning or error findings; missing/ignored checks cannot pass.
+  for (const name of FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredViaManufacturingChecks) {
+    if ((severities[name] !== "error" && severities[name] !== "warning") || native.ignored.has(name)) drcIssues.push(`required-native-check-disabled:${name}`);
   }
   const thermalIssues = [...commonIssues]; let unsupported = false;
   const plane = bundle.contract.planes[0]!, thermal = plane.padConnection.mode === "thermal";

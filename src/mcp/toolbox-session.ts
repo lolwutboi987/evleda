@@ -1,3 +1,4 @@
+import type { FreshSchematicFieldCloseOutcome } from "../harness/fresh-schematic-field-diagnostics.js";
 import { lstat, realpath } from "node:fs/promises";
 import path from "node:path";
 
@@ -26,6 +27,7 @@ import type { ToolboxPlaneAcceptanceResult } from "./toolbox-plane-acceptance.js
 import type { ToolboxInterfaceCheck } from "./toolbox-interface.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import type { PcbExternalPowerBinding } from "../harness/pcb-external-power.js";
+import type { PcbDerivedPowerBinding } from "../harness/pcb-derived-power.js";
 
 /** Host capabilities only. This object is never parsed from an MCP request. */
 export interface KicadToolboxSessionInput {
@@ -54,10 +56,13 @@ export interface ConnectedKicadToolbox {
     projectBindingIdentity: CanonicalIdentity;
     sourceContractIdentity: CanonicalIdentity;
     externalPowerBinding?: PcbExternalPowerBinding;
+    derivedPowerBinding?: PcbDerivedPowerBinding;
   }>;
   /** Capture a verified saved-state guard now; publish only after owned teardown. */
   prepareCheckpoint?: () => Promise<() => Promise<void>>;
   recordRecoveryRequired?: (reason: string) => Promise<void>;
+  /** Owning native host records actual teardown separately from schematic rollback. */
+  finalizeSchematicFieldFailure?: (outcome: FreshSchematicFieldCloseOutcome) => Promise<void>;
   close(): Promise<void>;
 }
 

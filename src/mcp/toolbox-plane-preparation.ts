@@ -18,10 +18,12 @@ import type { KicadCliAdapter, KicadExecutableIdentity } from "../integrations/k
 import { readResumeFile } from "./toolbox-fresh-preparation.js";
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 import { assertPcbExternalPowerBindingCurrent } from "../harness/pcb-external-power.js";
+import { assertPcbDerivedPowerBindingCurrent } from "../harness/pcb-derived-power.js";
 
 function assertPlaneSources(bundle: PcbPlaneCompilationBundle, dependencies: PcbPlaneCompilerOptions): void {
   assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
   if (bundle.externalPowerBinding !== undefined) assertPcbExternalPowerBindingCurrent(bundle.externalPowerBinding, dependencies.libraryResolver);
+  if (bundle.derivedPowerBinding !== undefined) assertPcbDerivedPowerBindingCurrent(bundle.derivedPowerBinding, bundle.libraryBinding, dependencies.libraryResolver);
 }
 
 export interface KicadToolboxPlanePreparationInput {

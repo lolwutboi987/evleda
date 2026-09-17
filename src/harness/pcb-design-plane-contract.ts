@@ -1,4 +1,5 @@
 import { pcbExternalPowerInputsDraftSchema, pcbExternalPowerInputsSchema, validatePcbExternalPowerRelationships } from "./pcb-external-power.js";
+import { pcbDerivedPowerSourcesDraftSchema, pcbDerivedPowerSourcesSchema, validatePcbDerivedPowerRelationships } from "./pcb-derived-power.js";
 import { z } from "zod";
 import { canonicalIdentity, canonicalJson } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
@@ -82,10 +83,12 @@ const routingDraft = draft.routingConstraints.extend({ nets: z.array(z.discrimin
 const draftBase = z.object({ ...draft, schemaVersion: z.literal(PCB_PLANE_DRAFT_SCHEMA_VERSION),
   routingConstraints: routingDraft, planes: z.array(planeDraft).max(1),
   externalPowerInputs: pcbExternalPowerInputsDraftSchema.nullable().optional(),
+  derivedPowerSources: pcbDerivedPowerSourcesDraftSchema.nullable().optional(),
   interfaceRequirements: pcbInterfaceRequirementsDraftSchema.nullable().optional() }).strict();
 const payloadBase = z.object({ ...closed, schemaVersion: z.literal(PCB_PLANE_CONTRACT_SCHEMA_VERSION),
   routingConstraints: routing, planes: z.array(plane).length(1),
   externalPowerInputs: pcbExternalPowerInputsSchema.optional(),
+  derivedPowerSources: pcbDerivedPowerSourcesSchema.optional(),
   interfaceRequirements: pcbInterfaceRequirementsSchema.optional() }).strict();
 type DraftValue = z.infer<typeof draftBase>;
 type PayloadValue = z.infer<typeof payloadBase>;
@@ -99,12 +102,15 @@ const pointerToken = (value: string) => value.replaceAll("~", "~0").replaceAll("
 const record = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === "object" && !Array.isArray(value);
 const arrayEntryKey = (collection: string, entry: unknown): string | null => {
   if (!record(entry)) return null;
-  const field = collection === "planes" || collection === "netClasses" || collection === "interfaces" || collection === "externalPowerInputs" ? "id"
+  const field = collection === "planes" || collection === "netClasses" || collection === "interfaces" || collection === "externalPowerInputs" || collection === "derivedPowerSources" ? "id"
     : collection === "components" || collection === "placementConstraints" ? "reference"
       : collection === "pins" ? "pin" : collection === "nets" ? ("net" in entry ? "net" : "name") : null;
   if (field !== null && typeof entry[field] === "string") return entry[field];
   if (collection === "terminalReferences" && record(entry.signalEndpoint)) return `${entry.signalEndpoint.reference}:${entry.signalEndpoint.pin}`;
   if (collection === "endpoints" && typeof entry.reference === "string" && typeof entry.pin === "string") return `${entry.reference}:${entry.pin}`;
+  if (collection === "additionalReceivers" && record(entry.positive)) return `${entry.positive.reference}:${entry.positive.pin}`;
+  if (collection === "protection" && typeof entry.componentReference === "string") return entry.componentReference;
+  if (collection === "escapes" && record(entry.terminal)) return `${entry.terminal.reference}:${entry.terminal.pin}`;
   return null;
 };
 
@@ -138,6 +144,7 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
   validatePcbDesignCommonRelationships(document, context, closedContract);
   validatePcbInterfaceRelationships(document, context, closedContract);
   validatePcbExternalPowerRelationships(document, context);
+  validatePcbDerivedPowerRelationships(document, context);
   const issue = (path: PropertyKey[], message: string) => context.addIssue({ code: "custom", path, message });
   const unique = <T>(values: readonly T[], getKey: (value: T) => string, path: PropertyKey[]) => {
     const seen = new Set<string>();
@@ -248,6 +255,7 @@ function canonicalize<T extends DraftValue | PayloadValue>(input: T): T {
   value.planes.sort((a, b) => compare(a.id, b.id));
   canonicalizePcbInterfaceRequirements(value.interfaceRequirements);
   value.externalPowerInputs?.sort((a, b) => compare(a.id, b.id));
+  value.derivedPowerSources?.sort((a, b) => compare(a.id, b.id));
   value.routingConstraints.nets.sort((a, b) => compare(a.net, b.net));
   for (const route of value.routingConstraints.nets) if (route.topology !== "plane" && route.referencePath?.mode === "continuous_plane") {
     route.referencePath.terminalReferences?.sort((a, b) => compare(key(a.signalEndpoint), key(b.signalEndpoint)));

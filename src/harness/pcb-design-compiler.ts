@@ -1,8 +1,11 @@
 import type { PcbExternalPowerFlagInspection } from "./pcb-external-power.js";
+import type { KiCadStockSymbolInspection } from "./kicad-library-resolver.js";
+import type { KiCadApprovedSymbolInspection } from "./kicad-approved-package.js";
+import type { FreshSymbolTerminalGeometry } from "./fresh-kicad-parser.js";
 import { canonicalIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import {
-  capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable,
+  capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable, isPcbLibraryRecordAuthorized,
   type PcbLibrarySourceSelection, type PcbLibrarySourceSelectionRequest,
 } from "./pcb-library-source-binding.js";
 import type { DeepRuleCatalog } from "./deep-rule-catalog.js";
@@ -153,13 +156,16 @@ export interface PcbReadOnlyLibraryResolver {
   /** Optional host catalog capability; legacy exact-ID resolvers omit it. */
   /** Strict source-bound schematic power annotation capability; absent in legacy dependency objects. */
   readonly inspectExternalPowerFlag?: () => PcbExternalPowerFlagInspection | null;
+  /** Full host-owned source inspection; reduced resolver pin metadata cannot authorize a driver. */
+  readonly inspectSymbol?: (exactLibraryId: string) => KiCadStockSymbolInspection | KiCadApprovedSymbolInspection | null;
+  readonly inspectSymbolTerminalGeometry?: (exactLibraryId: string) => FreshSymbolTerminalGeometry | null;
   readonly captureSourceSelection?: (selected: PcbLibrarySourceSelectionRequest) => PcbLibrarySourceSelection;
 }
 
 export interface PcbLibrarySymbolBinding {
   readonly reference: string;
   readonly libraryId: string;
-  readonly source: "kicad-stock";
+  readonly source: PcbLibrarySource;
   readonly unitCount: 1;
   readonly componentKind: Exclude<PcbLibraryComponentKind, "bga">;
   readonly polarized: boolean;
@@ -169,7 +175,7 @@ export interface PcbLibrarySymbolBinding {
 export interface PcbLibraryFootprintBinding {
   readonly reference: string;
   readonly libraryId: string;
-  readonly source: "kicad-stock";
+  readonly source: PcbLibrarySource;
   readonly packageKind: "generic";
   readonly pads: readonly string[];
 }
@@ -1219,14 +1225,16 @@ const resolveLibraries = (
     }
     if (symbol === null || footprint === null) continue;
 
-    if (symbol.source !== "kicad-stock") addUnsupported(unsupported, "custom_libraries", symbolPath);
-    if (footprint.source !== "kicad-stock") addUnsupported(unsupported, "custom_libraries", footprintPath);
+    const symbolAuthorized = isPcbLibraryRecordAuthorized(resolver, "symbol", symbol, sourceSelection);
+    const footprintAuthorized = isPcbLibraryRecordAuthorized(resolver, "footprint", footprint, sourceSelection);
+    if (!symbolAuthorized) addUnsupported(unsupported, "custom_libraries", symbolPath);
+    if (!footprintAuthorized) addUnsupported(unsupported, "custom_libraries", footprintPath);
     if (symbol.unitCount !== 1) addUnsupported(unsupported, "multi_unit_symbols", symbolPath);
     if (symbol.componentKind === "bga") addUnsupported(unsupported, "bga", symbolPath);
     if (footprint.packageKind === "bga") addUnsupported(unsupported, "bga", footprintPath);
     if (
-      symbol.source !== "kicad-stock"
-      || footprint.source !== "kicad-stock"
+      !symbolAuthorized
+      || !footprintAuthorized
       || symbol.unitCount !== 1
       || symbol.componentKind === "bga"
       || footprint.packageKind === "bga"
@@ -1283,7 +1291,7 @@ const resolveLibraries = (
     const symbolBinding: PcbLibrarySymbolBinding = {
       reference: component.reference,
       libraryId: symbol.libraryId,
-      source: "kicad-stock",
+      source: symbol.source,
       unitCount: 1,
       componentKind: symbol.componentKind,
       polarized: symbol.polarized,
@@ -1292,7 +1300,7 @@ const resolveLibraries = (
     const footprintBinding: PcbLibraryFootprintBinding = {
       reference: component.reference,
       libraryId: footprint.libraryId,
-      source: "kicad-stock",
+      source: footprint.source,
       packageKind: "generic",
       pads: [...footprint.pads]
     };

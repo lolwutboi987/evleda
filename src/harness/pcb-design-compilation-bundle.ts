@@ -16,7 +16,7 @@ import {
   validateContentIdentity,
 } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
-import { capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable, type PcbLibrarySourceSelection } from "./pcb-library-source-binding.js";
+import { capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable, isPcbLibraryRecordAuthorized, type PcbLibrarySourceSelection } from "./pcb-library-source-binding.js";
 import {
   PCB_PRACTICE_ANALYSIS_PROFILE_SCHEMA,
   type PcbPracticeAnalysisProfile,
@@ -602,11 +602,11 @@ const rebuildLibraryBinding = (
       if (
         symbol === null
         || footprint === null
-        || symbol.source !== "kicad-stock"
+        || !isPcbLibraryRecordAuthorized(dependencies.resolver, "symbol", symbol, sourceSelection)
         || symbol.unitCount !== 1
         || symbol.componentKind === "bga"
         || (symbol.polarized && symbol.pins.some((pin) => pin.function === null))
-        || footprint.source !== "kicad-stock"
+        || !isPcbLibraryRecordAuthorized(dependencies.resolver, "footprint", footprint, sourceSelection)
         || footprint.packageKind !== "generic"
         || !sameUniqueStrings(symbol.pins.map((pin) => pin.number), component.pins.map((pin) => pin.pin))
         || !sameUniqueStrings(footprint.pads, component.pins.map((pin) => pin.pin))
@@ -622,7 +622,7 @@ const rebuildLibraryBinding = (
       symbols.push({
         reference: component.reference,
         libraryId: symbol.libraryId,
-        source: "kicad-stock",
+        source: symbol.source,
         unitCount: 1,
         componentKind: symbol.componentKind,
         polarized: symbol.polarized,
@@ -631,7 +631,7 @@ const rebuildLibraryBinding = (
       footprints.push({
         reference: component.reference,
         libraryId: footprint.libraryId,
-        source: "kicad-stock",
+        source: footprint.source,
         packageKind: "generic",
         pads: [...footprint.pads],
       });
@@ -715,10 +715,12 @@ const executionPromptText = (
   originalPrompt: string,
   contract: PcbDesignContract,
   deepRuleBinding: PcbDeepRuleBinding,
+  hasApprovedPackage = false,
 ): string => [
   "GENERAL FRESH PCB WORKFLOW",
   "Create a new isolated single-sheet, two-layer KiCad candidate from the exact closed contract below.",
-  "Use only host-supplied tools and the bound stock-library identities. Preserve every reference, value, pin disposition, net endpoint, board dimension, net class, placement constraint, routing constraint, and acceptance obligation exactly.",
+  `Use only host-supplied tools and the bound ${hasApprovedPackage ? "stock-library and host-approved package" : "stock-library"} identities. Preserve every reference, value, pin disposition, net endpoint, board dimension, net class, placement constraint, routing constraint, and acceptance obligation exactly.`,
+  ...(hasApprovedPackage ? ["Exact project-custom library IDs in this contract come from the host-approved pinned package. Use their existing generated project table mappings; preserve their namespace and source classification."] : []),
   "Work within 12 bounded iterations and at most 16 provider tool calls per turn. Batch independent symbol, property, footprint, inspection, and route-planning calls; keep dependent compound mutations sequential. Save only through the host-controlled durable-save path.",
   "Use fresh_sync_from_schematic with empty arguments instead of raw pcb_sync_from_schematic. After sync, call fresh_get_contract_pad_positions with empty arguments and route only to its exact unrounded source-bound pad coordinates. Use fresh_get_route_items before fresh_replace_route_items; pass its selection identity and only current track/via UUIDs on one contract net. Never delete footprints, pads, outlines, zones, text, or unknown objects.",
   "For nets with more than two endpoints, daisy-chain through an actual contract pad. Free-space tee junctions are unsupported and forbidden. Use only horizontal, vertical, or exact 45-degree track segments, obey host-derived width/layer/via policy, and repair wrong endpoints, overlaps, self-intersections, backtracking, and hairpins through the bounded replacement operation.",
@@ -750,7 +752,8 @@ const buildExecutionPrompt = (
   if (byteLength(originalPrompt) > PCB_DESIGN_COMPILATION_BUNDLE_LIMITS.maxOriginalPromptBytes) {
     return fail("PROMPT_TOO_LARGE", "Original PCB prompt exceeds its strict UTF-8 byte limit; truncation is forbidden.");
   }
-  const historicalText = executionPromptText(originalPrompt, contract, deepRuleBinding);
+  const historicalText = executionPromptText(originalPrompt, contract, deepRuleBinding,
+    libraryBinding.sourceSelection?.records.some(record => record.approvedPackage !== undefined));
   const text = acceptancePlan.schemaVersion === PCB_ACCEPTANCE_PLAN_LEGACY_SCHEMA_VERSION ? historicalText : `${historicalText}\n\nNATIVE SCHEMATIC INK CLEARANCE\nThe host checks saved native SVG text ink after native validation. A clean ERC/DRC does not establish legibility. If its feedback reports overlapping fields, explicitly call fresh_autoplace_schematic_fields with empty arguments, then allow the host to save, read back, and recollect validation/render evidence. The operation preserves electrical content and cannot repair every label or symbol placement problem. Use bounded feedback while iterations remain; do not infer a schematic field UUID from an SVG element index or claim compactness/professional layout from this ink-clearance check.`;
   const usedUtf8Bytes = byteLength(text);
   if (usedUtf8Bytes > PCB_DESIGN_COMPILATION_BUNDLE_LIMITS.maxExecutionPromptBytes) {

@@ -87,7 +87,7 @@ describe("published DOC6 runtime verification", () => {
   let original: Doc5Manifest;
   const pcbPath = "environment/Lib/site-packages/kicad_mcp/tools/pcb.py";
   beforeAll(async () => { original = await readDoc5Source(); });
-  async function fixture(doc6 = true, doc7 = false, doc8 = false) {
+  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false) {
     const directory = await mkdtemp(path.join(tmpdir(), "evleda-runtime-policy-")); temporaryRoots.push(directory);
     const root = path.join(directory, "runtime"), manifest = path.join(directory, "manifest.json");
     const candidate = structuredClone(original);
@@ -109,6 +109,14 @@ describe("published DOC6 runtime verification", () => {
     }
     if (doc8) {
       const publication = JSON.parse(await readFile(path.resolve("sidecars/patches/doc8/provenance.json"), "utf8"));
+      for (const mapping of publication.sourceRestoreMapping) {
+        const leaf = candidate.files.find(file => file.path === mapping.runtimeRelativePath)!;
+        candidate.totalBytes += mapping.source.sizeBytes - leaf.sizeBytes;
+        Object.assign(leaf, { sha256: mapping.source.sha256, sizeBytes: mapping.source.sizeBytes });
+      }
+    }
+    if (doc9) {
+      const publication = JSON.parse(await readFile(path.resolve("sidecars/patches/doc9/provenance.json"), "utf8"));
       for (const mapping of publication.sourceRestoreMapping) {
         const leaf = candidate.files.find(file => file.path === mapping.runtimeRelativePath)!;
         candidate.totalBytes += mapping.source.sizeBytes - leaf.sizeBytes;
@@ -158,6 +166,47 @@ describe("published DOC6 runtime verification", () => {
     f.candidate.files.find(file => file.path.endsWith("pcb/transaction_lifecycle.py"))!.sha256 = "a".repeat(64);
     await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(/Runtime/);
     expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("authenticates DOC9 directly on DOC7 with the bounded ARC overlay", async () => {
+    const f = await fixture(true, true, false, true);
+    const result = await verifyRuntime(f);
+    expect(result).toMatchObject({ generation: "DOC9", doc5SourcePinsVerified: true,
+      doc6SourcePinsVerified: true, doc7SourcePinsVerified: true, doc9SourcePinsVerified: true,
+      doc9ProvenanceSha256: "5bcc8899c65fa4fdf9a2da6737d2fc6d63c64df819493cc9120c87972cccbcdf" });
+    expect(result).not.toHaveProperty("doc8SourcePinsVerified");
+    expect(control.spawn).toHaveBeenCalledOnce();
+    control.spawn.mockClear();
+    f.candidate.files.find(file => file.path.endsWith("pcb/transaction_lifecycle.py"))!.sha256 = "a".repeat(64);
+    await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(/Runtime/);
+    expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it.each(["provenance.json", "bounded-arc-field-layout.patch", "kicad_mcp/utils/field_layout.py"])("rejects DOC9 publication drift in %s", async leaf => {
+    const f = await fixture(true, true, false, true); control.tamper = `sidecars/patches/doc9/${leaf}`;
+    await expect(verifyRuntime(f)).rejects.toThrow(/DOC9.*published pin/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("rejects DOC9 mixed with the DOC8 no-connect filter", async () => {
+    const f = await fixture(true, true, true, true);
+    await expect(verifyRuntime(f)).rejects.toThrow(/DOC9 requires.*DOC7.*DOC8/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("rejects DOC9 without the DOC7 graph overlay", async () => {
+    const f = await fixture(true, false, false, true);
+    await expect(verifyRuntime(f)).rejects.toThrow(/DOC9 requires.*DOC7/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("rejects a partial DOC7 graph overlay beneath DOC9", async () => {
+    const f = await fixture(true, true, false, true);
+    f.candidate.files.find(file => file.path.endsWith("kicad_mcp/schematic/topology.py"))!.sha256 = "b".repeat(64);
+    await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(/Runtime/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("rejects an unrecognized ARC source even with new manifest identities", async () => {
+    const f = await fixture(true, true, false, true);
+    f.candidate.files.find(file => file.path.endsWith("utils/field_layout.py"))!.sha256 = "b".repeat(64);
+    f.candidate.treeIdentity.digest = "c".repeat(64);
+    await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(/Runtime/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("requires actual complete DOC9 closure verification after publication checks", async () => {
+    const f = await fixture(true, true, false, true); control.helperExitCode = 1;
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+    expect(control.spawn).toHaveBeenCalledOnce();
   });
   it.each(["provenance.json", "no-connect-net-transfer.patch", "kicad_mcp/tools/pcb.py"])("rejects DOC8 publication drift in %s", async leaf => {
     const f = await fixture(true, true, true); control.tamper = `sidecars/patches/doc8/${leaf}`;
