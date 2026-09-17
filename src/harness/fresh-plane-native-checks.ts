@@ -112,7 +112,8 @@ function finding(reasons: string[], unsupported = false): FreshPlaneNativeCheckF
   return { status: reasons.length === 0 ? "verified" : unsupported ? "unsupported" : "failed", reasons };
 }
 
-interface Form { name: string; atoms: string[]; children: Form[] }
+interface Atom { value: string; quoted: boolean }
+interface Form { name: string; atoms: Atom[]; children: Form[] }
 /** Small bounded syntax reader used ONLY to establish absence of override forms.
  * Strings cannot become field names; unknown ordinary-pad forms fail closed.
  */
@@ -120,13 +121,14 @@ function sourceForms(source: string): Form {
   requireEvidence(source.length <= 1_048_576 && source.isWellFormed(), "PCB source exceeds override-reader support");
   let index = 0, nodes = 0;
   const whitespace = () => { while (index < source.length && /\s/u.test(source[index]!)) index++; };
-  const atom = (): string => {
+  const atom = (): Atom => {
     whitespace(); let value = "";
-    if (source[index] === '"') {
+    const quoted = source[index] === '"';
+    if (quoted) {
       index++;
       while (index < source.length) {
         const character = source[index++]!;
-        if (character === '"') return value;
+        if (character === '"') return { value, quoted };
         if (character === "\\") {
           requireEvidence(index < source.length, "unterminated source escape");
           const escaped = source[index++]!;
@@ -138,12 +140,12 @@ function sourceForms(source: string): Form {
     }
     while (index < source.length && !/[\s()"]/u.test(source[index]!)) value += source[index++];
     requireEvidence(value.length > 0 && !/[;\x00-\x1f]/u.test(value), "unsupported source atom");
-    return value;
+    return { value, quoted };
   };
   const form = (depth: number): Form => {
     requireEvidence(depth <= 64 && ++nodes <= 100_000 && source[index++] === "(", "unsupported source structure");
     whitespace(); requireEvidence(source[index] !== '"', "quoted source field name");
-    const result: Form = { name: atom(), atoms: [], children: [] };
+    const result: Form = { name: atom().value, atoms: [], children: [] };
     while (true) {
       whitespace(); requireEvidence(index < source.length, "unclosed source form");
       if (source[index] === ")") { index++; return result; }
@@ -159,23 +161,47 @@ const PAD_FIELDS = new Set(["at", "size", "drill", "layers", "net", "uuid", "tst
   "solder_mask_margin", "solder_paste_margin", "solder_paste_margin_ratio", "die_length", "locked", "remove_unused_layers"]);
 const FORBIDDEN = new Set(["zone_connect", "thermal_width", "thermal_bridge_width", "thermal_bridge_angle", "thermal_gap",
   "zone_layer_connections", "padstack", "primitives", "options"]);
-function overrideSourceIssues(source: string): Map<string, string[]> {
+// Pinned KiCad ZONE_CONNECTION values, including explicit inherited (-1).
+const zoneConnection = (node: Form) => node.children.length === 0 && node.atoms.length === 1
+  && !node.atoms[0]!.quoted && /^(?:-1|[0-3])$/u.test(node.atoms[0]!.value);
+function overrideSourceIssues(source: string, noPlaneCopper: ReadonlySet<string>): Map<string, string[]> {
   const root = sourceForms(source), result = new Map<string, string[]>();
   for (const footprint of root.children.filter(node => node.name === "footprint")) {
-    const footprintIssues = footprint.children.some(node => node.name === "zone_connect") ? ["footprint-source-zone-override"] : [];
+    const footprintConnections = footprint.children.filter(node => node.name === "zone_connect");
     for (const pad of footprint.children.filter(node => node.name === "pad")) {
-      const uuid = pad.children.find(node => node.name === "uuid" || node.name === "tstamp")?.atoms[0];
+      const uuid = pad.children.find(node => node.name === "uuid" || node.name === "tstamp")?.atoms[0]?.value;
       requireEvidence(uuid !== undefined && !result.has(uuid), "source pad override inventory has missing/duplicate UUID");
-      const issues = [...footprintIssues];
-      if (pad.atoms.length < 3 || !["circle", "rect", "roundrect"].includes(pad.atoms[2]!)) issues.push("unsupported-source-pad-shape");
+      const issues: string[] = [];
+      if (footprintConnections.length > 1 || footprintConnections.some(node => !zoneConnection(node))) issues.push("unsupported-footprint-source-zone-connect");
+      else if (footprintConnections.some(node => node.atoms[0]!.value !== "-1") && !noPlaneCopper.has(uuid)) issues.push("footprint-source-zone-override");
+      if (pad.atoms.length !== 3 || pad.atoms[1]!.quoted || pad.atoms[2]!.quoted
+        || !["circle", "rect", "roundrect"].includes(pad.atoms[2]!.value)) issues.push("unsupported-source-pad-shape");
+      const seen = new Set<string>();
       const visit = (node: Form) => {
         if (FORBIDDEN.has(node.name)) issues.push(`source-pad-${node.name}`);
         for (const child of node.children) visit(child);
       };
       for (const child of pad.children) {
+        if (seen.has(child.name)) issues.push(`duplicate-source-pad-field:${child.name}`);
+        seen.add(child.name);
+        if (child.name === "property") {
+          // This stock heatsink marker changes neither pad copper nor its bore.
+          if (child.children.length || child.atoms.length !== 1 || child.atoms[0]!.quoted
+            || child.atoms[0]!.value !== "pad_prop_heatsink") issues.push("unsupported-source-pad-property");
+          visit(child); continue;
+        }
+        if (child.name === "zone_connect") {
+          if (!zoneConnection(child)) { issues.push("unsupported-source-pad-zone-connect"); visit(child); }
+          else if (child.atoms[0]!.value !== "-1" && !noPlaneCopper.has(uuid)) issues.push("source-pad-zone_connect");
+          continue;
+        }
         if (!PAD_FIELDS.has(child.name)) issues.push(`unsupported-source-pad-field:${child.name}`);
+        if (child.name === "drill") {
+          if (child.children.length > 1 || child.children.some(offset => offset.name !== "offset" || offset.children.length !== 0
+            || offset.atoms.length !== 2 || offset.atoms.some(atom => atom.quoted))) issues.push("unsupported-source-pad-drill-fields");
+        } else if (child.children.length !== 0) issues.push(`unsupported-source-pad-nested-field:${child.name}`);
         // KiCad 10 always serializes this false setting for ordinary PTH pads.
-        if (child.name === "remove_unused_layers" && (!same(child.atoms, ["no"]) || child.children.length !== 0)) issues.push("conditional-pad-layer-flashing");
+        if (child.name === "remove_unused_layers" && (!same(child.atoms, [{ value: "no", quoted: false }]) || child.children.length !== 0)) issues.push("conditional-pad-layer-flashing");
         visit(child);
       }
       result.set(uuid, [...new Set(issues)]);
@@ -398,7 +424,15 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
   // An empty number does not make assigned copper non-electrical. Examine every
   // physical pad on the plane net; the physical inventory decides support.
   const ownNet = sourcePads.filter(({ pad }) => pad.netName === plane.net);
-  const sourceIssues = overrideSourceIssues(sources.pcbSource);
+  const inventory = input.savedEvidence.stage.nativePads.inventory;
+  requireEvidence(inventory !== null, "complete validated physical pad inventory required");
+  exactSet(inventory.physicalPads.map(pad => pad.uuid), sourcePads.map(({ pad }) => pad.physical.id!), "saved stage physical pads");
+  const nativeLayer = `BL_${plane.layer.replace(".", "_")}`;
+  // Scope connection settings only after the authenticated physical inventory
+  // establishes absence. Unknown geometry or conditional flashing never earns it.
+  const noPlaneCopper = new Set(inventory.physicalPads.filter(pad => pad.issues.length === 0
+    && pad.observedUsableCopperLayers !== null && !pad.observedUsableCopperLayers.includes(nativeLayer)).map(pad => pad.uuid));
+  const sourceIssues = overrideSourceIssues(sources.pcbSource, noPlaneCopper);
   for (const { pad } of ownNet) {
     const issues = sourceIssues.get(pad.physical.id!) ?? ["source-pad-override-inventory-incomplete"];
     if (issues.length > 0) { thermalIssues.push(...issues.map(issue => `${pad.physical.id}:${issue}`)); unsupported = true; }
@@ -423,9 +457,6 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
       || zone.layers[0]!.subpolygons.length !== 1) { thermalIssues.push("aggregate-native-contact-has-ambiguous-subpolygon-scope"); unsupported = true; }
     exactSet(report.allPads.map(pad => pad.uuid), sourcePads.map(({ pad }) => pad.physical.id!), "native physical pads");
     exactSet(report.allFootprints.map(fp => fp.uuid), board.footprints.map(fp => fp.id!), "native footprints");
-    const inventory = input.savedEvidence.stage.nativePads.inventory;
-    requireEvidence(inventory !== null, "complete validated physical pad inventory required");
-    exactSet(inventory.physicalPads.map(pad => pad.uuid), sourcePads.map(({ pad }) => pad.physical.id!), "saved stage physical pads");
     requireEvidence(zone.directPads.every(pad => pad.netName === plane.net && report.allPads.some(item => item.uuid === pad.uuid)), "native direct pad contact has another net/owner");
     const direct = new Set(zone.directPads.map(pad => pad.uuid));
     for (const { fp, pad } of ownNet) {
@@ -435,8 +466,12 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
         && observed.netName === plane.net && footprint.reference === fp.reference, "native pad ownership/net differs");
       const padIssues = [...(sourceIssues.get(uuid) ?? ["source-pad-override-inventory-incomplete"])];
       if (physical.issues.length > 0 || physical.observedUsableCopperLayers === null) padIssues.push("unsupported-physical-pad");
-      if (observed.localZoneConnection !== -1 || observed.resolvedZoneConnectionOverride !== -1
-        || footprint.localZoneConnection !== -1 || footprint.resolvedZoneConnectionOverride !== -1
+      const absent = noPlaneCopper.has(uuid);
+      if (absent) requireEvidence(!direct.has(uuid), "direct contact contradicts native pad-layer absence");
+      const connections = [observed.localZoneConnection, observed.resolvedZoneConnectionOverride,
+        footprint.localZoneConnection, footprint.resolvedZoneConnectionOverride];
+      if (connections.some(value => ![-1, 0, 1, 2, 3].includes(value))) padIssues.push("unsupported-native-zone-connection");
+      if (!absent && connections.some(value => value !== -1)
         || observed.localThermalGapOverride !== null || observed.localThermalSpokeWidthOverride !== null || observed.padstackMode !== 0) padIssues.push("native-pad-or-footprint-override");
       if (!same(observed.padstackUniqueLayers, [0]) || observed.layers.some(layer => /^(?:F|B|In[0-9]+)\.Cu$/u.test(layer.name)
         && (layer.zoneLayerOverride !== 0 || layer.effectivePadstackLayer !== 0))) padIssues.push("native-per-layer-padstack-or-zone-override");
@@ -446,7 +481,10 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
       const checkZoneSettings = (value: unknown) => {
         if (value === undefined) return;
         const setting = object(value, "raw native pad zone settings");
-        if (setting.zone_connection !== undefined && setting.zone_connection !== "ZCS_INHERITED") padIssues.push("native-padstack-zone-override");
+        if (setting.zone_connection !== undefined) {
+          if (typeof setting.zone_connection !== "string" || !["ZCS_INHERITED", "ZCS_NONE", "ZCS_THERMAL", "ZCS_FULL", "ZCS_PTH_THERMAL"].includes(setting.zone_connection)) padIssues.push("unsupported-native-padstack-zone-connection");
+          else if (!absent && setting.zone_connection !== "ZCS_INHERITED") padIssues.push("native-padstack-zone-override");
+        }
         if (setting.thermal_spokes !== undefined) {
           const spoke = object(setting.thermal_spokes, "raw native thermal settings");
           if (spoke.gap !== undefined || spoke.width !== undefined) padIssues.push("native-padstack-thermal-override");
@@ -459,9 +497,7 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
         checkZoneSettings(copper.zone_settings);
       }
       if (padIssues.length > 0) { thermalIssues.push(...padIssues.map(reason => `${uuid}:${reason}`)); unsupported = true; continue; }
-      const nativeLayer = `BL_${plane.layer.replace(".", "_")}`;
-      if (!physical.observedUsableCopperLayers!.includes(nativeLayer)) {
-        requireEvidence(!direct.has(uuid), "direct contact contradicts native pad-layer absence");
+      if (absent) {
         thermalPads.push({ physicalPadUuid: uuid, footprintUuid: fp.id!, reference: fp.reference, number: pad.number, layer: plane.layer,
           zoneUuid: zone.uuid, applicability: "no-pad-copper-on-plane-layer", minimumResolvedSpokes: null, proof: "not-applicable" });
       } else if (!direct.has(uuid)) {

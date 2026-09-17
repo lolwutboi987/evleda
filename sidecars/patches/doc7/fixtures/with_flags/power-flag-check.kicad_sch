@@ -1,0 +1,487 @@
+(kicad_sch
+  (version 20250316)
+  (generator "EvlEDA native power flag format qualification")
+  (uuid "3e6c3f55-7002-5f1d-8e35-32b7ad09e69f")
+  (paper "A4")
+  (lib_symbols
+(symbol "power:PWR_FLAG"
+		(power global)
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "#FLG"
+			(at 0 1.905 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 0 3.81 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "flag power"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "PWR_FLAG_0_0"
+			(pin power_out line
+				(at 0 0 90)
+				(length 0)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(symbol "PWR_FLAG_0_1"
+			(polyline
+				(pts
+					(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Connector_Generic:Conn_01x02"
+		(pin_names
+			(offset 1.016)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "J"
+			(at 0 2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x02"
+			(at 0 -5.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "connector"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "Connector*:*_1x??_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "Conn_01x02_1_1"
+			(rectangle
+				(start -1.27 1.27)
+				(end 1.27 -3.81)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(rectangle
+				(start -1.27 0.127)
+				(end 0 -0.127)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start -1.27 -2.413)
+				(end 0 -2.667)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(pin passive line
+				(at -5.08 0 0)
+				(length 3.81)
+				(name "Pin_1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at -5.08 -2.54 0)
+				(length 3.81)
+				(name "Pin_2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Regulator_Linear:AMS1117CD-1.5"
+		(pin_names
+			(offset 0.254)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "U"
+			(at -3.81 3.175 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AMS1117CD-1.5"
+			(at 0 3.175 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2"
+			(at 0 5.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.advanced-monolithic.com/pdf/ds1117.pdf"
+			(at 2.54 -6.35 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "1A Low Dropout regulator, positive, 1.5V fixed output, TO-252"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "linear regulator ldo fixed positive"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "TO?252*TabPin2*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "AMS1117CD-1.5_0_1"
+			(rectangle
+				(start -5.08 -5.08)
+				(end 5.08 1.905)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+		)
+		(symbol "AMS1117CD-1.5_1_1"
+			(pin power_in line
+				(at 0 -7.62 90)
+				(length 2.54)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_out line
+				(at 7.62 0 180)
+				(length 2.54)
+				(name "VO"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at -7.62 0 0)
+				(length 2.54)
+				(name "VI"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+  )
+  (symbol
+    (lib_id "Connector_Generic:Conn_01x02") (at 50.8 50.8 0) (unit 1)
+    (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+    (uuid "de7b50ea-e96a-5ed8-84ac-9579d34abd99")
+    (property "Reference" "J1" (at 50.8 46.990000 0)  (effects (font (size 1.27 1.27))))
+    (property "Value" "Conn_01x02" (at 50.8 44.450000 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" (at 50.8 50.8 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (property "Datasheet" "" (at 50.8 50.8 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (instances (project "power-flag-check" (path "/3e6c3f55-7002-5f1d-8e35-32b7ad09e69f" (reference "J1") (unit 1))))
+  )
+  (symbol
+    (lib_id "Regulator_Linear:AMS1117CD-1.5") (at 101.6 50.8 0) (unit 1)
+    (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+    (uuid "8d9a996e-9467-5d67-abd5-7628c879698a")
+    (property "Reference" "U1" (at 101.6 46.990000 0)  (effects (font (size 1.27 1.27))))
+    (property "Value" "AMS1117CD-1.5" (at 101.6 44.450000 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 101.6 50.8 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (property "Datasheet" "" (at 101.6 50.8 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (instances (project "power-flag-check" (path "/3e6c3f55-7002-5f1d-8e35-32b7ad09e69f" (reference "U1") (unit 1))))
+  )
+  (wire (pts (xy 45.72 50.8) (xy 38.1 50.8)) (stroke (width 0) (type default)) (uuid "388c2cfd-2063-5d3a-aa33-ecd05d6daadd"))
+  (label "VIN" (at 38.1 50.8 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "6ffa1bbb-140f-5d1f-8a05-d0b937b7ebf1"))
+  (wire (pts (xy 45.72 53.34) (xy 38.1 53.34)) (stroke (width 0) (type default)) (uuid "f211468a-02a4-53df-9a12-41e404b4a29f"))
+  (label "GND" (at 38.1 53.34 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "141391d0-d338-5ed4-a0f9-0a8ef71c536f"))
+  (wire (pts (xy 93.98 50.8) (xy 86.36 50.8)) (stroke (width 0) (type default)) (uuid "4fe75cad-579b-5577-84e7-a69d712e6e97"))
+  (label "VIN" (at 86.36 50.8 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "f2eb7e5e-1548-5196-8cbe-865a434622cd"))
+  (wire (pts (xy 101.6 58.42) (xy 101.6 66.04)) (stroke (width 0) (type default)) (uuid "c370f83b-6b1e-5252-8295-38fa8fccab74"))
+  (label "GND" (at 101.6 66.04 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "835d6341-0e41-599d-b022-9544e2f6159b"))
+  (no_connect (at 109.22 50.8) (uuid "08ad015c-cb24-5dd3-a2fa-47b431cbcce8"))
+  (symbol
+    (lib_id "power:PWR_FLAG") (at 86.36 50.8 0) (unit 1)
+    (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+    (uuid "79ccd03d-0d77-54dc-a9a7-604b6350a295")
+    (property "Reference" "#FLG01" (at 86.36 46.990000 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (property "Value" "PWR_FLAG" (at 86.36 44.450000 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "" (at 86.36 50.8 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (property "Datasheet" "" (at 86.36 50.8 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (instances (project "power-flag-check" (path "/3e6c3f55-7002-5f1d-8e35-32b7ad09e69f" (reference "#FLG01") (unit 1))))
+  )
+  (symbol
+    (lib_id "power:PWR_FLAG") (at 101.6 66.04 0) (unit 1)
+    (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+    (uuid "59049375-941d-5838-8ad1-5c7e00be936a")
+    (property "Reference" "#FLG02" (at 101.6 62.230000 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (property "Value" "PWR_FLAG" (at 101.6 59.690000 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "" (at 101.6 66.04 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (property "Datasheet" "" (at 101.6 66.04 0) (hide yes) (effects (font (size 1.27 1.27))))
+    (instances (project "power-flag-check" (path "/3e6c3f55-7002-5f1d-8e35-32b7ad09e69f" (reference "#FLG02") (unit 1))))
+  )
+  (embedded_fonts no)
+)

@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
-import { lstat, open, readFile, realpath, rename, rm } from "node:fs/promises";
+import type { BigIntStats } from "node:fs";
+import { lstat, open, realpath, rename, rm } from "node:fs/promises";
 import path from "node:path";
 
 import type { CallToolResult } from "@modelcontextprotocol/client";
@@ -81,6 +82,11 @@ const samePhysicalIdentity = (left: FreshFilesystemIdentity, right: FreshFilesys
   left.canonicalPath === right.canonicalPath
   && (left.dev === null || left.ino === null || (left.dev === right.dev && left.ino === right.ino));
 
+const sameBoardCaptureMetadata = (left: BigIntStats, right: BigIntStats): boolean =>
+  right.isFile() && !right.isSymbolicLink() && right.nlink === 1n
+  && left.dev === right.dev && left.ino === right.ino && left.size === right.size
+  && left.mtimeNs === right.mtimeNs && left.ctimeNs === right.ctimeNs && left.mode === right.mode;
+
 async function readExistingRegularBoard(boardPath: string, projectRoot: FreshFilesystemIdentity): Promise<ExistingBoard> {
   const expected = path.join(projectRoot.canonicalPath, path.basename(boardPath));
   if (path.resolve(boardPath) !== expected) throw new Error("Fresh durable board basename does not bind directly to the marker root.");
@@ -88,9 +94,20 @@ async function readExistingRegularBoard(boardPath: string, projectRoot: FreshFil
   if (!metadata.isFile() || metadata.isSymbolicLink() || metadata.nlink !== 1n) throw new Error("Fresh durable board target is not an existing unlinked physical regular file.");
   const canonicalPath = await realpath(expected);
   if (canonicalPath !== expected) throw new Error("Fresh durable board target resolves through a link or wrong path.");
-  const physical = physicalIdentity(canonicalPath, metadata);
-  const bytes = await readFile(expected);
-  return { bytes, content: identity(bytes), physical };
+  const handle = await open(expected, "r");
+  try {
+    const opened = await handle.stat({ bigint: true });
+    if (!sameBoardCaptureMetadata(metadata, opened)) throw new Error("Fresh durable board changed identity before its source was read.");
+    const bytes = await handle.readFile();
+    const settled = await handle.stat({ bigint: true });
+    const settledPath = await realpath(expected);
+    const current = await lstat(expected, { bigint: true });
+    if (!sameBoardCaptureMetadata(opened, settled) || !sameBoardCaptureMetadata(settled, current)
+        || settledPath !== expected || BigInt(bytes.byteLength) !== settled.size) {
+      throw new Error("Fresh durable board changed identity or bytes while its source was read.");
+    }
+    return { bytes, content: identity(bytes), physical: physicalIdentity(canonicalPath, settled) };
+  } finally { await handle.close(); }
 }
 
 const scalarSafe = (value: string): boolean => !/[\u0000\uD800-\uDFFF]/u.test(value);
@@ -183,6 +200,102 @@ export class FreshBoardPersistence {
 
   markNormalSaveComplete(): void {
     this.#before = undefined;
+  }
+
+  /**
+   * Stage exact host-planned source from a captured, clean disk/live preimage.
+   * This preserves the rollback checkpoint and proves neither a native reload
+   * nor a completed save; the caller owns those qualified native operations.
+   */
+  async stageOwnedSource(
+    session: FreshBoardPersistenceSession,
+    plannedSource: string,
+    expectedDiskSource: string,
+    expectedLiveSource: string,
+  ): Promise<void> {
+    const before = this.#before;
+    if (before === undefined) throw new Error("Owned PCB source staging has no captured pre-mutation state.");
+    const plannedBytes = assertSupportedBoardSource(plannedSource);
+    const expectedDiskBytes = assertSupportedBoardSource(expectedDiskSource);
+    const expectedLiveBytes = assertSupportedBoardSource(expectedLiveSource);
+    if (!before.bytes.equals(expectedDiskBytes)) throw new Error("Owned PCB source staging disk observation differs from the exact captured preimage.");
+    if (!freshBoardSerializationsEqual(expectedDiskSource, expectedLiveSource)) {
+      throw new Error("Owned PCB source staging requires equivalent disk/live source; unsaved live changes were preserved.");
+    }
+
+    const expected = path.resolve(this.#freshProject.pcbPath);
+    const initialRoot = await assertFreshProjectDirectoryChain(this.#freshProject);
+    const markerPath = path.resolve(this.#freshProject.markerPath);
+    const readMarkerIdentity = async (): Promise<FreshFilesystemIdentity> => {
+      const metadata = await lstat(markerPath, { bigint: true });
+      if (!metadata.isFile() || metadata.isSymbolicLink() || metadata.nlink !== 1n || await realpath(markerPath) !== markerPath) {
+        throw new Error("Owned PCB source staging marker is not an unlinked physical regular file.");
+      }
+      const physical = physicalIdentity(markerPath, metadata);
+      await this.#freshProject.assertMarkerCurrent();
+      const settled = await lstat(markerPath, { bigint: true });
+      if (!settled.isFile() || settled.isSymbolicLink() || settled.nlink !== 1n
+          || !samePhysicalIdentity(physical, physicalIdentity(markerPath, settled))) {
+        throw new Error("Owned PCB source staging marker changed physical identity during verification.");
+      }
+      return physical;
+    };
+    const initialMarker = await readMarkerIdentity();
+    const assertDiskCurrent = async (): Promise<void> => {
+      const marker = await readMarkerIdentity();
+      const root = await assertFreshProjectDirectoryChain(this.#freshProject);
+      const disk = await readExistingRegularBoard(expected, root);
+      if (this.#before !== before || !samePhysicalIdentity(marker, initialMarker) || !samePhysicalIdentity(root, initialRoot)
+          || !samePhysicalIdentity(disk.physical, before.physical) || !disk.bytes.equals(expectedDiskBytes)) {
+        throw new Error("Owned PCB source staging observed checkpoint, marker, root, or disk drift; current state was preserved.");
+      }
+    };
+    const assertOwnedState = async (): Promise<void> => {
+      await assertActiveBoard(session, expected);
+      await assertDiskCurrent();
+      const live = await readActiveBoard(session, expected);
+      await assertActiveBoard(session, expected);
+      // The native read awaits IPC. Recheck the disk and marker after that
+      // wait so a foreign disk edit during serialization cannot be overwritten.
+      await assertDiskCurrent();
+      if (!live.equals(expectedLiveBytes)) throw new Error("Owned PCB source staging observed exact live-source drift; current state was preserved.");
+    };
+
+    await assertOwnedState();
+    const temporary = path.join(initialRoot.canonicalPath, `.${path.basename(expected)}.${process.pid}.${randomUUID()}.evleda-stage.tmp`);
+    let temporaryIdentity: FreshFilesystemIdentity | undefined;
+    try {
+      const handle = await open(temporary, "wx", 0o600);
+      try {
+        await assertPhysicalTemporary(temporary);
+        temporaryIdentity = physicalIdentity(temporary, await handle.stat({ bigint: true }));
+        await handle.writeFile(plannedBytes);
+        await handle.sync();
+      } finally { await handle.close(); }
+      await assertOwnedState();
+      await assertPhysicalTemporary(temporary);
+      const staged = await readExistingRegularBoard(temporary, initialRoot);
+      if (!samePhysicalIdentity(staged.physical, temporaryIdentity) || !staged.bytes.equals(plannedBytes)) {
+        throw new Error("Owned PCB source staging temporary path changed identity or exact planned bytes.");
+      }
+      // Keep the final disk/root/marker fence immediately before replacement.
+      await assertActiveBoard(session, expected);
+      await assertDiskCurrent();
+      await rename(temporary, expected);
+      await syncDirectory(initialRoot.canonicalPath);
+    } finally {
+      await rm(temporary, { force: true }).catch(() => undefined);
+    }
+    const afterMarker = await readMarkerIdentity();
+    const afterRoot = await assertFreshProjectDirectoryChain(this.#freshProject);
+    const after = await readExistingRegularBoard(expected, afterRoot);
+    if (!samePhysicalIdentity(afterMarker, initialMarker) || !samePhysicalIdentity(afterRoot, initialRoot)
+        || temporaryIdentity === undefined
+        || !samePhysicalIdentity(after.physical, { ...temporaryIdentity, canonicalPath: expected })
+        || !after.bytes.equals(plannedBytes)) {
+      throw new Error("Owned PCB source staging readback differs from the exact staged source or physical identity.");
+    }
+    assertSupportedBoardSource(boardText(after.bytes));
   }
 
   /**

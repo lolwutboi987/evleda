@@ -45,7 +45,7 @@ describe("V2 PCB plane design-intent model guide", () => {
       if (object.type !== "object") return;
       objectSchemas += 1;
       expect(object.additionalProperties).toBe(false);
-      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements"] : [];
+      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs"] : [];
       expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).filter(key => !optional.includes(key)).sort());
     });
     expect(objectSchemas).toBeGreaterThan(20);

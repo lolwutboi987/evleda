@@ -14,6 +14,20 @@ const DOC6 = Object.freeze({
   sha256: "cebed5c9e87abd799c4c6baab9ddb60224c9dface1e0e44b0eea91f56fb6a2e0", sizeBytes: 187502,
   patch: "qualified-footprint-identity-sync.patch", patchSha256: "7a0a9f2ce1909f4691517c2b9b741b66ae07bb6392a4d33e3f8457fb43562614", patchBytes: 2401,
 });
+const DOC7 = Object.freeze({
+  provenanceSha256: "544905cf360b0bd47bc9eeaed3eadaeec774eac20f87b7f325469952108cdf82",
+  patchSha256: "9d73713cfa47ebffeada3cca64af53990f04716589b705b603435b4c0a61bcb4", patchBytes: 4494,
+  sources: Object.freeze([
+    { path: "environment/Lib/site-packages/kicad_mcp/tools/schematic.py", sha256: "2611e416652e458325110301c206f77ff6080f627efa31a2328bf1aad22c68b1", sizeBytes: 238532 },
+    { path: "environment/Lib/site-packages/kicad_mcp/tools/schematic_topology.py", sha256: "9de824872e29b771d2dda7df510103a419fb8e3944b9cdda6bf0e37c8fec7261", sizeBytes: 2348 },
+    { path: "environment/Lib/site-packages/kicad_mcp/schematic/topology.py", sha256: "7c4b94a4519abd558bd45ab4fbad55a9f832a11d421fb413e03287442f8aad9c", sizeBytes: 8483 },
+  ]),
+});
+const DOC8 = Object.freeze({
+  provenanceSha256: "74ce175cad4efbbc9f6e6571ae6962c71f88bde861049c7215dda9eb963e1795",
+  path: DOC6.path, sha256: "8e5810bc7879b636c42c8d6e0d561875b3d16bd2222272a2ea58bd5f7aeefddf", sizeBytes: 189117,
+  patch: "no-connect-net-transfer.patch", patchSha256: "ddef949dfe12f2291451fa912fe3c1b9e11965185c5f507cd7172d67fef0330d", patchBytes: 2387,
+});
 export const originalRuntimeRoot = String.raw`D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc5`;
 export const sha256 = bytes => createHash("sha256").update(bytes).digest("hex");
 export const pyvenvText = root => `home = ${path.join(root, "python")}\nimplementation = CPython\nuv = 0.11.31\nversion_info = 3.13.12\ninclude-system-site-packages = false\nrelocatable = true\n`;
@@ -96,6 +110,68 @@ async function doc6Reference(original) {
     files: original.files.map(file => file.path === DOC6.path ? after : file) };
 }
 
+/** Authenticate the published DOC7 graph overlay without trusting provenance paths. */
+async function doc7Reference(doc6) {
+  const directory = path.join(repositoryRoot, "sidecars", "patches", "doc7");
+  const bytes = await readFile(path.join(directory, "provenance.json"));
+  assert.equal(sha256(bytes), DOC7.provenanceSha256, "DOC7 provenance differs from its published pin");
+  const provenance = JSON.parse(bytes);
+  assert.equal(provenance.schemaVersion, "evleda.doc7-power-flag-connectivity-runtime.v1");
+  assert.deepEqual(provenance.qualificationMarker, { evledaExternalPowerFlagConnectivity: "evleda.kicad-external-power-flag-connectivity.v1" });
+  assert.deepEqual(provenance.runtimeDelta.map(delta => delta.path).sort(),
+    [...DOC7.sources.map(source => source.path), "environment/pyvenv.cfg"].sort(), "DOC7 contains an unapproved runtime delta");
+  assert.deepEqual(provenance.sourceRestoreMapping.map(mapping => mapping.runtimeRelativePath).sort(),
+    DOC7.sources.map(source => source.path).sort(), "DOC7 mappings differ from the approved graph overlay");
+  const replacements = new Map();
+  let totalBytes = doc6.totalBytes;
+  for (const source of DOC7.sources) {
+    const before = doc6.files.find(file => file.path === source.path);
+    assert.ok(before, "DOC7 source has no published DOC6 predecessor");
+    const after = { ...before, sha256: source.sha256, sizeBytes: source.sizeBytes };
+    assert.deepEqual(provenance.runtimeDelta.find(delta => delta.path === source.path),
+      { path: source.path, before, after }, "DOC7 source delta differs from its published predecessor");
+    const mapping = provenance.sourceRestoreMapping.find(mapping => mapping.runtimeRelativePath === source.path);
+    assert.equal(mapping.source.sha256, source.sha256); assert.equal(mapping.source.sizeBytes, source.sizeBytes);
+    const relative = source.path.slice("environment/Lib/site-packages/".length);
+    const payload = await readFile(path.join(directory, ...relative.split("/")));
+    assert.equal(sha256(payload), source.sha256, "DOC7 graph source differs from its published pin");
+    assert.equal(payload.length, source.sizeBytes);
+    replacements.set(source.path, after); totalBytes += after.sizeBytes - before.sizeBytes;
+  }
+  assert.equal(provenance.patch.sha256, DOC7.patchSha256); assert.equal(provenance.patch.sizeBytes, DOC7.patchBytes);
+  const patch = await readFile(path.join(directory, "power-flag-connectivity.patch"));
+  assert.equal(sha256(patch), DOC7.patchSha256, "DOC7 patch differs from its published pin");
+  assert.equal(patch.length, DOC7.patchBytes);
+  return { ...doc6, totalBytes, files: doc6.files.map(file => replacements.get(file.path) ?? file) };
+}
+
+/** Authenticate the DOC8 singleton no-connect transfer correction on DOC7. */
+async function doc8Reference(doc7) {
+  const directory = path.join(repositoryRoot, "sidecars", "patches", "doc8");
+  const bytes = await readFile(path.join(directory, "provenance.json"));
+  assert.equal(sha256(bytes), DOC8.provenanceSha256, "DOC8 provenance differs from its published pin");
+  const provenance = JSON.parse(bytes);
+  assert.equal(provenance.schemaVersion, "evleda.doc8-no-connect-net-transfer-runtime.v1");
+  assert.deepEqual(provenance.runtimeDelta.map(delta => delta.path), [DOC8.path, "environment/pyvenv.cfg"], "DOC8 contains an unapproved runtime delta");
+  const before = doc7.files.find(file => file.path === DOC8.path);
+  assert.ok(before, "DOC8 source has no published DOC7 predecessor");
+  const after = { ...before, sha256: DOC8.sha256, sizeBytes: DOC8.sizeBytes };
+  assert.deepEqual(provenance.runtimeDelta[0], { path: DOC8.path, before, after }, "DOC8 source delta differs from its published predecessor");
+  assert.equal(provenance.sourceRestoreMapping.length, 1, "DOC8 must contain only the published PCB source overlay");
+  const mapping = provenance.sourceRestoreMapping[0];
+  assert.equal(mapping.runtimeRelativePath, DOC8.path);
+  assert.equal(mapping.source.sha256, DOC8.sha256); assert.equal(mapping.source.sizeBytes, DOC8.sizeBytes);
+  const source = await readFile(path.join(directory, "kicad_mcp", "tools", "pcb.py"));
+  assert.equal(sha256(source), DOC8.sha256, "DOC8 PCB source differs from its published pin");
+  assert.equal(source.length, DOC8.sizeBytes);
+  assert.equal(provenance.patch.sha256, DOC8.patchSha256); assert.equal(provenance.patch.sizeBytes, DOC8.patchBytes);
+  const patch = await readFile(path.join(directory, DOC8.patch));
+  assert.equal(sha256(patch), DOC8.patchSha256, "DOC8 patch differs from its published pin");
+  assert.equal(patch.length, DOC8.patchBytes);
+  return { ...doc7, totalBytes: doc7.totalBytes - before.sizeBytes + after.sizeBytes,
+    files: doc7.files.map(file => file.path === DOC8.path ? after : file) };
+}
+
 export function runManifestHelper(mode, root, manifest, finalRoot = root) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [path.join(repositoryRoot, "scripts", "build-kicad-inspection-runtime-manifest.mjs"), mode, root, manifest, finalRoot], {
@@ -115,14 +191,23 @@ export async function verifyRuntime(paths) {
   try { candidate = JSON.parse(await readFile(paths.manifest, "utf8")); }
   catch (cause) { throw new Error("Destination runtime manifest is unavailable. Run pnpm setup:destination for DOC5, or set both documented runtime environment overrides. Verification was not skipped.", { cause }); }
   const pcb = candidate.files?.find(file => file.path === DOC6.path);
-  const isDoc6 = pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
-  const reference = isDoc6 ? await doc6Reference(original) : original;
+  const isDoc8 = pcb?.sha256 === DOC8.sha256 && pcb?.sizeBytes === DOC8.sizeBytes;
+  const isDoc6 = isDoc8 || pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
+  const graph = candidate.files?.find(file => file.path === DOC7.sources[0].path);
+  const isDoc7 = isDoc6 && graph?.sha256 === DOC7.sources[0].sha256 && graph?.sizeBytes === DOC7.sources[0].sizeBytes;
+  const doc6 = isDoc6 ? await doc6Reference(original) : original;
+  const doc7 = isDoc7 ? await doc7Reference(doc6) : doc6;
+  const reference = isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
   assertDoc5Relocation(reference, candidate, paths.root);
   const result = await runManifestHelper("verify", paths.root, paths.manifest);
-  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc6 ? "DOC6" : "DOC5",
+  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
     doc5SourcePinsVerified: true, ...(isDoc6 ? { doc6SourcePinsVerified: true, doc6ProvenanceSha256: DOC6.provenanceSha256 } : {}),
+    ...(isDoc7 ? { doc7SourcePinsVerified: true, doc7ProvenanceSha256: DOC7.provenanceSha256 } : {}),
+    ...(isDoc8 ? { doc8SourcePinsVerified: true, doc8ProvenanceSha256: DOC8.provenanceSha256 } : {}),
     allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only",
-      ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : [])] };
+      ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : []),
+      ...(isDoc7 ? DOC7.sources.map(source => `${source.path}: published DOC7 power-flag graph overlay only`) : []),
+      ...(isDoc8 ? [`${DOC8.path}: published DOC8 singleton no-connect transfer overlay only`] : [])] };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

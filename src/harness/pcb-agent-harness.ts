@@ -2,6 +2,7 @@ import { canonicalIdentity, canonicalJson, constantTimeDigestEqual, contentIdent
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { z } from "zod";
 import { FRESH_NATIVE_NETLIST_COMPARISON_SCHEMA_VERSION } from "./fresh-native-netlist-comparison.js";
+import { PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION, parsePcbExternalPowerBinding, type PcbExternalPowerBinding } from "./pcb-external-power.js";
 
 import {
   parseHarnessOptions,
@@ -101,6 +102,8 @@ export interface PcbAgentHarnessConfig {
   readonly exactProviderPrompt?: PcbHarnessExactProviderPrompt;
   /** Exact host-bound identity required on every contract-connectivity result. */
   readonly compoundMutationContractIdentity?: CanonicalIdentity;
+  /** Trusted annotation inventory for externally powered contract-connectivity mutations. */
+  readonly compoundMutationExternalPowerBinding?: PcbExternalPowerBinding;
   /** Host-selected rule guidance; caller prompt text cannot alter this policy. */
   readonly designerPrompt?: Omit<PcbDesignerPromptConstraints, "constraints" | "userConstraints">;
   /** Host-owned readback required after fresh incremental schematic mutations. */
@@ -271,6 +274,15 @@ const compoundMutationResultSchema = z.object({
     name: z.string().trim().min(1).max(256),
     endpoints: z.array(z.string().trim().min(1).max(128)).max(512),
   }).strict()).max(512).optional(),
+  externalPowerAnnotations: z.array(z.object({
+    reference: z.string().regex(/^#FLG[0-9]{3}$/u),
+    x: z.number().finite().min(-2_000).max(2_000),
+    y: z.number().finite().min(-2_000).max(2_000),
+    rotation: z.literal(0),
+  }).strict()).min(2).max(16).optional(),
+  externalPowerBindingIdentity: canonicalIdentityBaseSchema.extend({
+    schemaVersion: z.literal(PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION),
+  }).strict().optional(),
   nativeNetlistSha256: z.string().regex(/^[a-f0-9]{64}$/u).optional(),
   nativeNetCount: z.number().int().nonnegative().optional(),
   nativeComponentCount: z.number().int().nonnegative().optional(),
@@ -289,6 +301,15 @@ const compoundMutationResultSchema = z.object({
   }).strict()).max(64).optional(),
   blockingEdgeEvidence: issueEvidenceSchema.optional(),
 }).strict().superRefine((value, context) => {
+  if ((value.externalPowerAnnotations === undefined) !== (value.externalPowerBindingIdentity === undefined)) {
+    context.addIssue({ code: "custom", message: "external power annotations and binding identity must be supplied together" });
+  }
+  if (value.externalPowerAnnotations !== undefined) {
+    if (!value.applied) context.addIssue({ code: "custom", message: "external power annotations require applied=true" });
+    if (value.externalPowerAnnotations.some((annotation, index) => annotation.reference !== `#FLG${String(index + 1).padStart(3, "0")}`)) {
+      context.addIssue({ code: "custom", message: "external power annotation references must be complete, unique, and canonically sorted" });
+    }
+  }
   if (value.applied && value.issues.length !== 0) context.addIssue({ code: "custom", message: "applied=true requires zero issues" });
   if (!value.applied && value.issues.length === 0) context.addIssue({ code: "custom", message: "applied=false requires at least one issue" });
   if (value.mutated && !value.applied) context.addIssue({ code: "custom", message: "mutated=true requires applied=true" });
@@ -417,6 +438,8 @@ export const freshSyncV2ResultFieldsSchema = freshSyncResultSchema.omit({
   numberedCopperPrimitiveCount: z.number().int().nonnegative(),
   namedCopperPrimitiveCount: z.number().int().nonnegative(),
   noConnectCopperPrimitiveCount: z.number().int().nonnegative(),
+  netlessCopperPrimitiveCount: z.number().int().nonnegative().optional(),
+  functionalCopperPrimitiveCount: z.number().int().nonnegative().optional(),
   logicalNamedTerminalCount: z.number().int().nonnegative(),
   logicalNoConnectTerminalCount: z.number().int().nonnegative(),
   nonElectricalFeatureCount: z.number().int().nonnegative(),
@@ -433,18 +456,20 @@ export const freshSyncV2ResultFieldsSchema = freshSyncResultSchema.omit({
   identity: canonicalIdentityBaseSchema.extend({ schemaVersion: z.literal("evleda.fresh-sync-from-schematic-result.v2") }).strict(),
 }).strict();
 export const refineFreshPhysicalSyncCounts = (
-  value: Pick<z.infer<typeof freshSyncV2ResultFieldsSchema>, "physicalPadCount" | "numberedCopperPrimitiveCount" | "nonElectricalFeatureCount" | "namedCopperPrimitiveCount" | "noConnectCopperPrimitiveCount" | "logicalTerminalCount" | "logicalNamedTerminalCount" | "logicalNoConnectTerminalCount" | "platedFootprintHoleCount" | "upstreamMetrics">,
+  value: Pick<z.infer<typeof freshSyncV2ResultFieldsSchema>, "physicalPadCount" | "numberedCopperPrimitiveCount" | "nonElectricalFeatureCount" | "namedCopperPrimitiveCount" | "noConnectCopperPrimitiveCount" | "netlessCopperPrimitiveCount" | "functionalCopperPrimitiveCount" | "logicalTerminalCount" | "logicalNamedTerminalCount" | "logicalNoConnectTerminalCount" | "platedFootprintHoleCount" | "upstreamMetrics">,
   context: z.RefinementCtx,
 ): void => {
   if (value.physicalPadCount !== value.numberedCopperPrimitiveCount + value.nonElectricalFeatureCount
-      || value.numberedCopperPrimitiveCount !== value.namedCopperPrimitiveCount + value.noConnectCopperPrimitiveCount
+      || value.numberedCopperPrimitiveCount !== value.namedCopperPrimitiveCount + (value.netlessCopperPrimitiveCount??value.noConnectCopperPrimitiveCount)
+      || (value.netlessCopperPrimitiveCount===undefined)!==(value.functionalCopperPrimitiveCount===undefined)
+      || value.functionalCopperPrimitiveCount!==undefined&&value.numberedCopperPrimitiveCount!==value.functionalCopperPrimitiveCount+value.noConnectCopperPrimitiveCount
       || value.logicalTerminalCount !== value.logicalNamedTerminalCount + value.logicalNoConnectTerminalCount
       || value.platedFootprintHoleCount > value.numberedCopperPrimitiveCount) {
     context.addIssue({ code: "custom", message: "Physical and logical pad count equations must agree." });
   }
   if (value.upstreamMetrics.totalPadsConsidered !== value.numberedCopperPrimitiveCount
       || value.upstreamMetrics.namedPads !== value.namedCopperPrimitiveCount
-      || value.upstreamMetrics.noNetPads !== value.noConnectCopperPrimitiveCount) {
+      || value.upstreamMetrics.noNetPads !== (value.netlessCopperPrimitiveCount??value.noConnectCopperPrimitiveCount)) {
     context.addIssue({ code: "custom", message: "Upstream pad metrics must bind numbered copper primitive counts." });
   }
 };
@@ -462,6 +487,7 @@ export const compoundMutationState = (
   call: HarnessToolCall,
   result: HarnessToolResult,
   expectedIdentity: CanonicalIdentity | undefined,
+  expectedExternalPowerBinding?: PcbExternalPowerBinding,
 ): boolean | undefined => {
   if (!["fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields", "fresh_replace_route_items", "fresh_sync_from_schematic"].includes(call.name)) return undefined;
   let value: unknown;
@@ -514,6 +540,16 @@ export const compoundMutationState = (
   if (expectedIdentity === undefined) throw new Error("fresh_apply_contract_connectivity has no host-bound contract identity.");
   if (canonicalJson(parsed.data.contractIdentity) !== canonicalJson(expectedIdentity)) {
     throw new Error("fresh_apply_contract_connectivity result contractIdentity does not match the host-bound contract.");
+  }
+  const externalPowerBinding = expectedExternalPowerBinding === undefined ? undefined : parsePcbExternalPowerBinding(expectedExternalPowerBinding);
+  if (parsed.data.externalPowerAnnotations !== undefined) {
+    if (externalPowerBinding === undefined) throw new Error("fresh_apply_contract_connectivity has no host-bound external power annotation inventory.");
+    if (canonicalJson(parsed.data.externalPowerBindingIdentity) !== canonicalJson(externalPowerBinding.identity)
+        || canonicalJson(parsed.data.externalPowerAnnotations.map(annotation => annotation.reference)) !== canonicalJson(externalPowerBinding.flags.map(flag => flag.reference))) {
+      throw new Error("fresh_apply_contract_connectivity external power annotations do not match the host-bound binding identity and inventory.");
+    }
+  } else if (externalPowerBinding !== undefined && parsed.data.mutated) {
+    throw new Error("fresh_apply_contract_connectivity mutated an externally powered contract without its required annotation result and binding identity.");
   }
   if (parsed.data.recommendedMoves !== undefined && parsed.data.recommendedMoves.length > 0) {
     const expectedPlanIdentity = canonicalIdentity({
@@ -706,6 +742,8 @@ export async function runPcbAgentHarness(
   config: PcbAgentHarnessConfig = {}
 ): Promise<PcbAgentHarnessRunReport> {
   const options = parseHarnessOptions(input);
+  const externalPowerBinding = config.compoundMutationExternalPowerBinding === undefined ? undefined
+    : parsePcbExternalPowerBinding(config.compoundMutationExternalPowerBinding);
   const validationTools = config.validationTools ?? DEFAULT_PCB_HARNESS_VALIDATION_TOOLS;
   let prompt: string;
   if (config.exactProviderPrompt !== undefined) {
@@ -973,11 +1011,14 @@ export async function runPcbAgentHarness(
       }
       let mutatedThisTurn: boolean;
       try {
-        mutatedThisTurn = turn.toolCalls.some((call) => {
-          if (!mutationToolNames.has(call.name)) return false;
+        mutatedThisTurn = false;
+        for (const call of turn.toolCalls) {
+          if (!mutationToolNames.has(call.name)) continue;
           const result = agentResults.get(call.id)!;
-          return compoundMutationState(call, result, config.compoundMutationContractIdentity) ?? true;
-        });
+          // Validate every compound result, even after an earlier call mutated.
+          const mutated = compoundMutationState(call, result, config.compoundMutationContractIdentity, externalPowerBinding) ?? true;
+          mutatedThisTurn = mutatedThisTurn || mutated;
+        }
       } catch (error) {
         return report("blocked", `Host compound mutation result failed validation during iteration ${iteration}: ${errorText(error)}`);
       }

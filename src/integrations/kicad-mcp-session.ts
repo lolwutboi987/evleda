@@ -258,6 +258,10 @@ const QUALIFIED_FOOTPRINT_SYNC_META_KEY = "evledaQualifiedFootprintIdentitySync"
 const QUALIFIED_FOOTPRINT_SYNC_SCHEMA_VERSION = "evleda.kicad-qualified-footprint-identity-sync.v1";
 // Actual DOC6 KiCadFastMCP Tool, normalized by the pinned Node MCP SDK.
 const QUALIFIED_FOOTPRINT_SYNC_TOOL_SHA256 = "4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3";
+const EXTERNAL_POWER_FLAG_CONNECTIVITY_META_KEY = "evledaExternalPowerFlagConnectivity";
+const EXTERNAL_POWER_FLAG_CONNECTIVITY_SCHEMA_VERSION = "evleda.kicad-external-power-flag-connectivity.v1";
+// Actual DOC7 KiCadFastMCP Tool, normalized by the pinned Node MCP SDK.
+const EXTERNAL_POWER_FLAG_CONNECTIVITY_TOOL_SHA256 = "eddb2180b77bf4aa528bc9f007c5ab07cdd54dbc310d661e79c4a8fb368ad54d";
 const NATIVE_COMMIT_SCHEMA_VERSION = "evleda.kicad-native-commit-lifecycle.v1";
 const NATIVE_COMMIT_TOOL_NAMES = ["pcb_begin_commit", "pcb_push_commit", "pcb_drop_commit"] as const;
 // Actual KiCadFastMCP DOC5 descriptors as parsed by the pinned Node MCP SDK.
@@ -1477,6 +1481,12 @@ function footprintIdentitySyncQualified(tool: Tool | undefined): boolean {
     && createHash("sha256").update(canonicalJson(tool), "utf8").digest("hex") === QUALIFIED_FOOTPRINT_SYNC_TOOL_SHA256;
 }
 
+function externalPowerFlagConnectivityQualified(tool: Tool | undefined): boolean {
+  return tool?.name === "sch_get_connectivity_graph"
+    && canonicalJson(tool._meta ?? null) === canonicalJson({ [EXTERNAL_POWER_FLAG_CONNECTIVITY_META_KEY]: EXTERNAL_POWER_FLAG_CONNECTIVITY_SCHEMA_VERSION })
+    && createHash("sha256").update(canonicalJson(tool), "utf8").digest("hex") === EXTERNAL_POWER_FLAG_CONNECTIVITY_TOOL_SHA256;
+}
+
 function qualifiedNativeCommitReply(result: CallToolResult, expected: string): boolean {
   if (result.isError === true) return false;
   const matches = (value: unknown): boolean => typeof value === "string" ? value.trim() === expected
@@ -2118,6 +2128,12 @@ export class KicadMcpSession {
       if(isPlainRecord(syncTool?._meta)&&Object.hasOwn(syncTool._meta,QUALIFIED_FOOTPRINT_SYNC_META_KEY)&&!footprintIdentitySyncQualified(syncTool)){
         throw new KicadMcpAuthorizationError("KiCad MCP footprint identity sync claims a mismatched qualified tool contract.");
       }
+      const connectivityGraphTool = discovered.toolsByName.get("sch_get_connectivity_graph");
+      if (isPlainRecord(connectivityGraphTool?._meta)
+        && Object.hasOwn(connectivityGraphTool._meta, EXTERNAL_POWER_FLAG_CONNECTIVITY_META_KEY)
+        && !externalPowerFlagConnectivityQualified(connectivityGraphTool)) {
+        throw new KicadMcpAuthorizationError("KiCad MCP external power flag connectivity claims a mismatched qualified tool contract.");
+      }
       const livePadSnapshotTool = discovered.toolsByName.get(LIVE_PCB_PAD_SNAPSHOT_TOOL);
       if (livePadSnapshotTool !== undefined) assertLivePcbPadSnapshotRegistration(livePadSnapshotTool);
       const connectivityBatchTool = discovered.toolsByName.get(SCHEMATIC_CONNECTIVITY_BATCH_TOOL);
@@ -2390,6 +2406,13 @@ export class KicadMcpSession {
     return !this.#closed && this.#mode === "write" && this.#projectBound
       && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
       && footprintIdentitySyncQualified(this.#toolsByName.get("pcb_sync_from_schematic"));
+  }
+
+  /** Qualified graph-read semantics; mutation permissions remain independent. */
+  supportsExternalPowerFlagConnectivity(): boolean {
+    return !this.#closed && this.#projectBound && this.#readAllowlist.has("sch_get_connectivity_graph")
+      && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
+      && externalPowerFlagConnectivityQualified(this.#toolsByName.get("sch_get_connectivity_graph"));
   }
 
   /** One-shot host-only project selection for the isolated manifested bridge. */

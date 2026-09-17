@@ -15,8 +15,9 @@ import {
   PCB_AGENT_MAX_FRESH_ITERATIONS,
   runPcbAgentHarness
 } from "../../src/harness/pcb-agent-harness.js";
-import { serializeFreshContractConnectivityResult } from "../../src/harness/kicad-tools.js";
+import { FRESH_PROVIDER_RESULT_MAX_CHARS, serializeFreshContractConnectivityResult } from "../../src/harness/kicad-tools.js";
 import { compareFreshNativeNetlists } from "../../src/harness/fresh-native-netlist-comparison.js";
+import { PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION, parsePcbExternalPowerBinding } from "../../src/harness/pcb-external-power.js";
 
 const designTool: HarnessToolDefinition = {
   name: "pcb_place_component",
@@ -29,6 +30,21 @@ const compoundIdentity = {
   schemaVersion: "evleda.fresh-connectivity-contract.v1",
   canonicalizationVersion: "evleda-c14n-json-v1",
 } as const;
+const externalPowerFixture = (flagCount = 2) => {
+  const source = contentIdentity("synthetic external power flag source");
+  const payload = {
+    schemaVersion: PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION,
+    contractIdentity: canonicalIdentity({ fixture: "external-power" }, "evleda.pcb-design-contract.v2"),
+    source: { symbolLibId: "power:PWR_FLAG", sourceIdentity: source, definitionIdentity: source, definitionSemanticIdentity: source,
+      inspectionIdentity: canonicalIdentity({ fixture: "inspection" }, "evleda.pcb-external-power-flag-inspection.v1"),
+      policyIdentity: canonicalIdentity({ fixture: "policy" }, "evleda.pcb-external-power-flag-policy.v1") },
+    flags: Array.from({ length: flagCount }, (_, index) => ({ reference: `#FLG${String(index + 1).padStart(3, "0")}`,
+      net: `NET${String(index).padStart(2, "0")}`, anchorEndpoint: { reference: "J1", pin: String(index + 1) }, symbolLibId: "power:PWR_FLAG" })),
+  };
+  const binding = parsePcbExternalPowerBinding({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
+  const annotations = binding.flags.map((flag, index) => ({ reference: flag.reference, x: 25.4 + index * 12.7, y: 25.4, rotation: 0 as const }));
+  return { binding, annotations };
+};
 const syncMetadata = () => ({
   schematicContentIdentity: contentIdentity("exact saved schematic bytes"),
   nativeNetlistComparison: compareFreshNativeNetlists(
@@ -712,6 +728,61 @@ describe("bounded PCB agent harness", () => {
     expect(result.summary).toMatch(/invalid mutation-status contract/iu);
     expect(calls).toEqual([compound.name]);
   });
+
+  it("accepts the producer's complete annotation inventory through result compaction, save, readback and required validation", async () => {
+    const { binding, annotations } = externalPowerFixture(16);
+    const compound: HarnessToolDefinition = { name: "fresh_apply_contract_connectivity", description: "Apply bound connectivity.", inputSchema: { type: "object" } };
+    const readback: HarnessToolDefinition = { name: "sch_get_connectivity_graph", description: "Read connectivity.", inputSchema: { type: "object" } };
+    const content = serializeFreshContractConnectivityResult({ identity: compoundIdentity }, {
+      applied: true, mutated: true, idempotent: false, issues: [],
+      routes: Array.from({ length: 512 }, (_, index) => `NET${index}: ${"physical route evidence ".repeat(8)}`),
+      externalPowerAnnotations: annotations, externalPowerBindingIdentity: binding.identity,
+    });
+    expect(Buffer.byteLength(content, "utf8")).toBeLessThanOrEqual(FRESH_PROVIDER_RESULT_MAX_CHARS);
+    expect(JSON.parse(content)).toMatchObject({ externalPowerAnnotations: annotations, externalPowerBindingIdentity: binding.identity });
+    expect(JSON.parse(content).routes.length).toBeLessThan(512);
+    const calls: string[] = [], fake = new FakeTools();
+    const report = await runPcbAgentHarness(options({ allowedToolNames: [compound], maxIterations: 1 }),
+      new FakeProvider([{ message: { role: "assistant", content: "Apply external power connectivity." }, stopReason: "tool_calls",
+        toolCalls: [{ id: "external-power", name: compound.name, arguments: {} }] }]),
+      { tools: [compound, readback, ...validationDefinitions], execute: async call => {
+        calls.push(call.name);
+        return call.name === compound.name ? { toolCallId: call.id, content } : fake.execute(call);
+      } },
+      { compoundMutationContractIdentity: compoundIdentity, compoundMutationExternalPowerBinding: binding,
+        postSchematicReadbackTool: readback.name, completionGate: async () => ({ passed: false, missing: ["Fixture is not a completed board."] }) });
+    expect(report.status).toBe("needs_review");
+    expect(report.summary).toContain("Fixture is not a completed board.");
+    expect(calls).toEqual([compound.name, "pcb_save", readback.name, "run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa"]);
+    expect(report.validation.runs).toBe(1);
+  });
+
+  it.each(["missing annotation result", "foreign binding identity", "unbound annotations", "invalid annotation result after another mutation"] as const)(
+    "blocks %s before save in the provider harness", async fault => {
+      const { binding, annotations } = externalPowerFixture();
+      const compound: HarnessToolDefinition = { name: "fresh_apply_contract_connectivity", description: "Apply bound connectivity.", inputSchema: { type: "object" } };
+      const content = serializeFreshContractConnectivityResult({ identity: compoundIdentity }, {
+        applied: true, mutated: true, idempotent: false, issues: [],
+        ...(fault === "missing annotation result" || fault === "invalid annotation result after another mutation" ? {} : { externalPowerAnnotations: annotations,
+          externalPowerBindingIdentity: fault === "foreign binding identity" ? { ...binding.identity, digest: "f".repeat(64) } : binding.identity }),
+      });
+      const calls: string[] = [];
+      const precedingMutation = fault === "invalid annotation result after another mutation";
+      const toolCalls: HarnessToolCall[] = [...(precedingMutation ? [{ id: "earlier-edit", name: designTool.name, arguments: {} }] : []),
+        { id: "bad-power", name: compound.name, arguments: {} }];
+      const report = await runPcbAgentHarness(options({ allowedToolNames: [designTool, compound], maxIterations: 1 }),
+        new FakeProvider([{ message: { role: "assistant", content: "Apply." }, stopReason: "tool_calls", toolCalls }]),
+        { tools: [designTool, compound, ...validationDefinitions], execute: async call => {
+          calls.push(call.name); return { toolCallId: call.id, content: call.name === compound.name ? content : "placed" };
+        } },
+        { compoundMutationContractIdentity: compoundIdentity,
+          ...(fault === "unbound annotations" ? {} : { compoundMutationExternalPowerBinding: binding }) });
+      expect(report.status).toBe("blocked");
+      expect(report.summary).toMatch(/external.*power|externally powered/iu);
+      expect(calls).toEqual(toolCalls.map(call => call.name));
+      expect(report.validation.runs).toBe(0);
+    },
+  );
 
   it.each(["fresh_replace_route_items", "fresh_sync_from_schematic"] as const)(
     "accepts only identity-bound successful host board compound results: %s",

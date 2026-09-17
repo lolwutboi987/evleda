@@ -1,8 +1,20 @@
 # Destination client installation
 
-The global EvlEDA workspace entry now uses catalog profile02 and the updated local skill. The installed Codex CLI discovers **15 initial tools, including `evleda_search_library`**. **The running desktop's activation and dynamic tool refresh remain unverified.** No CAD project or model turn was created during these installation probes.
+The global EvlEDA workspace entry now uses **DOC7 stock catalog profile02** and the current PCB skill. An exact-command preflight and a fresh installed Codex CLI both discover **15 initial tools, including `evleda_search_library`**. Activation of this new profile in the already-running desktop is not established; the earlier desktop discovery result belongs to the previous DOC6 installation.
 
-## Current catalog profile02 installation
+## Current DOC7 installation — 2026-09-16 PDT
+
+The [installation record](../../destination-verification/doc7-client-installation-02/installation.json) records only the existing entry's profile path, SHA-256 and byte count plus the exact repository skill copy. Private configuration/skill backups were retained, unrelated configuration bytes and entry fields were preserved, and the global workspace had no project allocations.
+
+- Profile: `toolbox-native-doc7-stock-catalog-destination-02.json`, 16,267 bytes, SHA-256 `489b93bf39814c1459d19636d54959c55e58efd8f23418fedd1c7ceeb587d512`.
+- Installed skill: 26,528 bytes, SHA-256 `4da48ceffd622100c5f01a1ec44345e69784f5634bf883a41b7b69abd9924b0a`.
+- The [exact-command preflight](../../destination-verification/doc7-client-installation-02/workspace-preflight.json) passed four read-only calls with 15 tools. The [fresh installed CLI catalog](../../destination-verification/doc7-client-installation-02/codex-client-catalog-v2.json) read the actual global entry, discovered all 15 tools and exited normally. Neither probe created a task or native project.
+
+The first prepared installer rejected the raw TOML byte-count quoting before any configuration or skill write. Its [failure record](../../destination-verification/doc7-client-installation-02/initial-installer-failure.json) is retained; `install-v2.mjs` matches the actual single-quoted token while keeping the original unique-replacement and parsed-entry guards.
+
+The profile was qualified separately by [native10](../../destination-ic-design-10/assessment.md): complete regulator authoring, normal close, fresh read-only reopen and a second normal close, with all six authored sources unchanged. Its edit-session plane assessment remains incomplete (9 passed, 38 unknown, 0 failed); the read-only session correctly has no current-session fill witness. This is workflow qualification, not overall board or manufacturing acceptance. The [reviewable native example](../examples/wson-regulator-toolbox-proof/README.md) is included in the repository.
+
+## Previous DOC6 catalog profile02 installation
 
 The [catalog installation record](../../destination-verification/stock-catalog-01/client/installation.json) records changes only to the existing entry's profile path, SHA-256 and byte-count arguments. Unrelated raw configuration and parsed settings were preserved, with private configuration/skill backups retained. The [installation audit](../../destination-verification/stock-catalog-01/client/installation-audit.json) passed all 12 scoped checks.
 
@@ -10,7 +22,7 @@ The [catalog installation record](../../destination-verification/stock-catalog-0
 - Installed skill: validated exact local copy at `C:\Users\kidch\.codex\skills\evleda-pcb\SKILL.md`, SHA-256 `540440fc8d9c32c842f6178a4f419368bd961ebe00e5e21b3cf38149b15ef906`.
 - Workspace: `C:\Users\kidch\Documents\EvlEDA-Workspace`, with no allocations at the audit. Edit access, 30-second MCP startup and 180-second tool timeout remain unchanged.
 
-The [exact installed STDIO command](../../destination-verification/stock-catalog-01/client/workspace-preflight.json) passed four read-only discovery calls with 15 tools and a 660.4752 ms connection. A [fresh installed Codex CLI app-server](../../destination-verification/stock-catalog-01/client/codex-client-catalog-v2.json) independently read the actual global entry, found the same 15 tools and exited with code 0. Other servers/plugins were disabled only within that probe; no task, model turn or native project was created. The current desktop tool catalog still returned no EvlEDA tools. These passes do not establish desktop readiness or notification handling.
+The [exact installed STDIO command](../../destination-verification/stock-catalog-01/client/workspace-preflight.json) passed four read-only discovery calls with 15 tools and a 660.4752 ms connection. A [fresh installed Codex CLI app-server](../../destination-verification/stock-catalog-01/client/codex-client-catalog-v2.json) independently read the actual global entry, found the same 15 tools and exited with code 0. Other servers/plugins were disabled only within that probe; no task, model turn or native project was created. At that earlier probe, the desktop tool catalog returned no EvlEDA tools. The later [initial desktop probe](../../destination-verification/desktop-workspace-probe-20260916.json) observes all 15 and successful idle status calls; attach/detach notification handling remains unverified.
 
 The separate [33-call native catalog lifecycle](toolbox-stock-catalog.md#passing-native02-lifecycle) passed authoring, placement, previews, two closes and same-connection resume in an isolated proof workspace. That intentionally unrouted fixture is separate from installation and does not qualify every catalog part.
 
@@ -45,3 +57,9 @@ Restart the desktop, load a new task context, and verify the actual connected se
 The app-server documents `mcpServerStatus/list` and `config/mcpServer/reload`; the latter queues refresh for loaded tasks. The CLI status probe is separate from observing the running desktop consume those changes. [Official app-server API](https://learn.chatgpt.com/docs/app-server).
 
 Client activation, broader engineering and library choices, the chosen GitHub publication and the requested RP2350 board remain open. The [native interface qualification](destination-interface-qualification.md) keeps its earlier scripted workflow scope; installing the client does not add board acceptance.
+
+## Deferred DOC8 candidate — 2026-09-16
+
+The [prepared DOC8 client scripts](../../destination-verification/doc8-client-installation-01/README.md) were not executed. At that decision the installed entry remained DOC6 catalog profile02; DOC7 now supersedes it as recorded above. Attempt07 completed a routed lifecycle and read-only reopen, but strict parity rejected its netless intentional-NC pad and its plane readers rejected exposed-pad metadata. See the [retained assessment](../../destination-ic-design-07/assessment.md); later fixes do not change that historical result.
+
+A [separate system dependency repin](../../destination-verification/plane-system-dependency-repin-20260916/README.md) passed the real plane reader with two updated, Microsoft-signed WinSxS DLL paths. It preserves the runtime closure and does not itself resolve NC or board-acceptance findings. Native10 subsequently qualified the corrected host NC handling using the preserved DOC7 runtime and this repinned helper manifest.

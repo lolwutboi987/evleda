@@ -14,11 +14,12 @@ import { materializeFreshNetClasses, parseFreshNetClassSemanticAuthority, parseF
   assertFreshPlaneReferenceCopperScope } from "../../src/harness/fresh-clearance-evidence.js";
 import { materializeFreshPlaneNetClasses, readFreshPlaneNetClassSemanticAuthority, verifyFreshPlaneNetClassSemanticAuthority,
   parseFreshPlaneNetClassMaterialization, parseFreshPlaneNetClassSemanticAuthority, createFreshPlaneNetClassPreparationEvidence,
-  parseFreshPlaneNetClassPreparationEvidence } from "../../src/harness/fresh-plane-netclasses.js";
+  parseFreshPlaneNetClassPreparationEvidence, type FreshPlaneNetClassOperationOptions } from "../../src/harness/fresh-plane-netclasses.js";
 import { genericDividerLibraryResolver } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { interfaceConstructionBundle } from "../helpers/interface-construction-bundle.js";
-import { parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
+import { parseFreshPcbSource, parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
+import type { PcbReadOnlyLibraryResolver } from "../../src/harness/pcb-design-compiler.js";
 
 const roots: string[] = [];
 afterEach(async () => { vi.unstubAllEnvs(); await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))); });
@@ -49,7 +50,83 @@ async function editProject(file: string, edit: (value: any) => void) {
   const value = JSON.parse(await readFile(file, "utf8")); edit(value); await writeFile(file, JSON.stringify(value));
 }
 
+const noConnectName = "native isolated terminal J1 / exact arbitrary name";
+const standardNoConnectName = "unconnected-(J1-Pin_4-Pad4)";
+const ncUuid = (index: number) => `99999999-1111-4111-8111-${String(index).padStart(12, "0")}`;
+function noConnectBundle() {
+  const draft = planeDividerDraft(), connector = draft.components.find(component => component.reference === "J1")!;
+  connector.symbolLibId = "Connector_Generic:Conn_01x04";
+  connector.footprintLibId = "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical";
+  connector.pins.push({ pin: "4", assignment: { kind: "no_connect" } });
+  const libraryResolver: PcbReadOnlyLibraryResolver = {
+    resolveSymbol(libraryId) {
+      return libraryId === connector.symbolLibId ? { ...genericDividerLibraryResolver.resolveSymbol("Connector_Generic:Conn_01x03")!, libraryId,
+        pins: ["1", "2", "3", "4"].map(number => ({ number, function: `Pin ${number}` })) } : genericDividerLibraryResolver.resolveSymbol(libraryId);
+    },
+    resolveFootprint(libraryId) {
+      return libraryId === connector.footprintLibId ? { ...genericDividerLibraryResolver.resolveFootprint("Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical")!, libraryId,
+        pads: ["1", "2", "3", "4"] } : genericDividerLibraryResolver.resolveFootprint(libraryId);
+    },
+  };
+  const deps = { libraryResolver, deepRuleCatalog: dependencies.deepRuleCatalog };
+  const compilation = compilePcbPlaneDesignIntentDraft(draft, deps);
+  if (compilation.disposition !== "ready") throw new Error(JSON.stringify(compilation.issues));
+  return createPcbPlaneCompilationBundle({ originalPrompt: "Offline V2 native NC semantic net-class authority regression.", compilation }, deps);
+}
+
+async function noConnectFixture(nativeName = noConnectName, repeated = false) {
+  const f = await fixture(false, noConnectBundle());
+  await materializeFreshPlaneNetClasses(f.options);
+  const initialAuthority = await readFreshPlaneNetClassSemanticAuthority(f.options);
+  const beforePcb = await readFile(f.project.pcbPath, "utf8"), contract = f.compilationBundle.contract;
+  const footprints = contract.components.map((component, index) => `(footprint ${JSON.stringify(component.footprintLibId)} (uuid "${ncUuid(index + 1)}") (layer "F.Cu") (at ${4 + index * 8} 8)
+    (property "Reference" ${JSON.stringify(component.reference)}) (property "Value" ${JSON.stringify(component.value)})
+    ${component.pins.map((pin, ordinal) => `(pad ${JSON.stringify(pin.pin)} smd rect (uuid "${ncUuid(100 + index * 10 + ordinal)}") (at ${ordinal * 2} 0) (size 1 1) (layers "F.Cu") (net ${JSON.stringify(pin.assignment.kind === "net" ? pin.assignment.net : nativeName)}))`).join(" ")}
+    ${repeated && component.reference === "J1" ? `(pad "4" smd rect (uuid "${ncUuid(900)}") (at 6 2) (size 1 1) (layers "F.Cu") (net ${JSON.stringify(nativeName)}))` : ""})`).join("\n");
+  const pcbSource = beforePcb.replace(/\)\s*$/u, `${footprints}\n)\n`);
+  const schematicSource = `(kicad_sch (version 20250316) (generator "fixture") ${contract.nets.map(net => `(global_label ${JSON.stringify(net.name)} (shape passive) (at 10 10 0))`).join(" ")}
+    ${contract.components.map(component => `(symbol (lib_id ${JSON.stringify(component.symbolLibId)}) (at 20 20 0) (unit 1) (property "Reference" ${JSON.stringify(component.reference)}) (property "Value" ${JSON.stringify(component.value)}) (property "Footprint" ${JSON.stringify(component.footprintLibId)}))`).join(" ")} (no_connect (at 40 30)))`;
+  const ncNode = '(node (ref "J1") (pin "4") (pintype "passive+no_connect"))';
+  const ncNet = `(net (name ${JSON.stringify(nativeName)}) ${ncNode})`;
+  const netlistSource = `(export (design (source "plane-test.kicad_sch") (date "2026-09-16T12:00:00")) (components ${contract.components.map(component => {
+    const [lib, part] = component.symbolLibId.split(":");
+    return `(comp (ref ${JSON.stringify(component.reference)}) (value ${JSON.stringify(component.value)}) (footprint ${JSON.stringify(component.footprintLibId)}) (libsource (lib ${JSON.stringify(lib)}) (part ${JSON.stringify(part)})))`;
+  }).join(" ")}) (nets ${contract.nets.map(net => `(net (name ${JSON.stringify(net.name)}) ${net.endpoints.map(endpoint => `(node (ref ${JSON.stringify(endpoint.reference)}) (pin ${JSON.stringify(endpoint.pin)}) (pintype "passive"))`).join(" ")})`).join(" ")} ${ncNet}))`;
+  await writeFile(f.project.pcbPath, pcbSource, "utf8");
+  await writeFile(f.project.schematicPath, schematicSource, "utf8");
+  let capturedNetlist = netlistSource, libraryCurrent = true, captures = 0, libraryChecks = 0;
+  const options: FreshPlaneNetClassOperationOptions = { ...f.options,
+    captureNativeNetlist: async () => { captures++; return capturedNetlist; },
+    assertLibrarySources: () => { libraryChecks++; if (!libraryCurrent) throw new Error("Fixture physical library source identity changed."); },
+  };
+  return { ...f, baseOptions: f.options, options, initialAuthority, pcbSource, schematicSource, netlistSource, ncNode, ncNet, nativeName,
+    captures: () => captures, libraryChecks: () => libraryChecks, setNetlist: (source: string) => { capturedNetlist = source; },
+    changeLibrary: () => { libraryCurrent = false; } };
+}
+
 describe("actual V2 plane net-class preparation", () => {
+  it("preserves pristine and partial functional-only NC preparation without an authored native export", async () => {
+    const f=await fixture(false,noConnectBundle());
+    const captureNativeNetlist=vi.fn(async()=>{throw new Error("Schematic is intentionally not authored yet.");});
+    const options={...f.options,captureNativeNetlist};
+    await materializeFreshPlaneNetClasses(options);
+    const initial=await readFreshPlaneNetClassSemanticAuthority(options);
+    const blank=await readFile(f.project.pcbPath,"utf8"), component=f.compilationBundle.contract.components.find(value=>value.reference==="R1")!;
+    const partial=blank.replace(/\)\s*$/u,`(footprint "${component.footprintLibId}" (layer "F.Cu") (at 8 8) (property "Reference" "R1") (property "Value" "${component.value}") (pad "1" smd rect (at 0 0) (size 1 1) (layers "F.Cu") (net "VIN")))\n)\n`);
+    await writeFile(f.project.pcbPath,partial,"utf8");
+    expect((await materializeFreshPlaneNetClasses(options)).changed).toBe(false);
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(initial,options)).toEqual(initial);
+    const allRefsPartial=blank.replace(/\)\s*$/u,f.compilationBundle.contract.components.map(component=>{
+      const pin=component.pins.find(pin=>pin.assignment.kind==="net")!,net=pin.assignment.kind==="net"?pin.assignment.net:"";
+      return `(footprint "${component.footprintLibId}" (layer "F.Cu") (at 8 8) (property "Reference" "${component.reference}") (property "Value" "${component.value}") (pad "${pin.pin}" smd rect (at 0 0) (size 1 1) (layers "F.Cu") (net "${net}")))`;
+    }).join("\n")+"\n)\n");
+    await writeFile(f.project.pcbPath,allRefsPartial,"utf8");
+    expect(parseFreshPcbSource(allRefsPartial).footprints).toHaveLength(f.compilationBundle.contract.components.length);
+    expect((await materializeFreshPlaneNetClasses(options)).changed).toBe(false);
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(initial,options)).toEqual(initial);
+    expect(captureNativeNetlist).not.toHaveBeenCalled();
+  });
+
   it("materializes and reads canonical constructed boards without changing stackup, source binding or rules", async () => {
     const f = await fixture(false, interfaceConstructionBundle());
     const paths = [f.project.pcbPath, f.project.markerPath, f.druPath];
@@ -220,5 +297,112 @@ describe("actual V2 plane net-class preparation", () => {
     vi.stubEnv("EVLEDA_TEST_ONLY_FRESH_CLEARANCE_POST_COMMIT_FAULT", "throw");
     await expect(materializeFreshPlaneNetClasses(f.options)).rejects.toMatchObject({ code: "SOURCE_DRIFT" });
     expect(await readFile(f.proPath)).toEqual(before); expect(await readFile(f.druPath)).toEqual(rules);
+  });
+});
+
+describe("V2 native NC names remain outside functional net-class assignments", () => {
+  it.each([noConnectName, standardNoConnectName])("retains exact native name %s while reproducing blank-board semantic authority", async nativeName => {
+    const f = await noConnectFixture(nativeName, true);
+    const sourceBefore = await readFile(f.project.pcbPath, "utf8");
+    const padsBefore = parseFreshPcbSource(sourceBefore).footprints.flatMap(fp => fp.pads);
+    expect(padsBefore.filter(pad => pad.netName === nativeName)).toHaveLength(2);
+    const authority = await readFreshPlaneNetClassSemanticAuthority(f.options);
+    expect(authority).toEqual(f.initialAuthority);
+    expect(authority.contractNetAssignments.map(assignment => assignment.netName).sort()).toEqual(["GND", "VIN", "VOUT"]);
+    expect(authority.contractNetAssignments.some(assignment => assignment.netName === nativeName)).toBe(false);
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(f.initialAuthority, f.options)).toEqual(f.initialAuthority);
+    const materialization = await materializeFreshPlaneNetClasses(f.options);
+    expect(materialization.changed).toBe(false);
+    expect(materialization.netClasses.flatMap(netClass => netClass.netNames).sort()).toEqual(["GND", "VIN", "VOUT"]);
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(sourceBefore);
+    expect(parseFreshPcbSource(await readFile(f.project.pcbPath, "utf8")).footprints.flatMap(fp => fp.pads)).toEqual(padsBefore);
+    expect(f.captures()).toBeGreaterThan(0); expect(f.libraryChecks()).toBeGreaterThan(1);
+    const project = JSON.parse(await readFile(f.proPath, "utf8"));
+    expect(project.net_settings.netclass_patterns.map((entry: any) => entry.pattern).sort()).toEqual(["^GND$", "^VIN$", "^VOUT$"]);
+  });
+
+  it("revalidates the original configuration-only authority after a plane fill exists", async () => {
+    const f = await noConnectFixture();
+    const filled = f.pcbSource.replace(/\)\s*$/u, '(zone (net "GND") (layer "B.Cu") (fill yes) (polygon (pts (xy 1 1) (xy 20 1) (xy 20 15))))\n)\n');
+    await writeFile(f.project.pcbPath, filled, "utf8");
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(f.initialAuthority, f.options)).toEqual(f.initialAuthority);
+    expect((await readFreshPlaneNetClassSemanticAuthority(f.options)).ruleResolution).toMatchObject({ zones: "not-evaluated", planeClearance: "not-evaluated" });
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(filled);
+  });
+
+  it.each([noConnectName, standardNoConnectName])("fails closed for %s without host native-netlist capture", async nativeName => {
+    const f = await noConnectFixture(nativeName), before = await readFile(f.proPath, "utf8");
+    await expect(readFreshPlaneNetClassSemanticAuthority(f.baseOptions)).rejects.toThrow();
+    await expect(verifyFreshPlaneNetClassSemanticAuthority(f.initialAuthority, f.baseOptions)).rejects.toThrow();
+    await expect(materializeFreshPlaneNetClasses(f.baseOptions)).rejects.toThrow();
+    expect(f.captures()).toBe(0);
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(f.pcbSource);
+    expect(await readFile(f.proPath, "utf8")).toBe(before);
+  });
+
+  it.each(["untyped", "wrong endpoint", "multiple endpoints", "duplicate endpoint", "functional parity", "component identity"])("rejects %s native export instead of admitting the name", async mutation => {
+    const f = await noConnectFixture(standardNoConnectName);
+    const changed = mutation === "untyped" ? f.netlistSource.replace("passive+no_connect", "passive")
+      : mutation === "wrong endpoint" ? f.netlistSource.replace(f.ncNode, f.ncNode.replace('(pin "4")', '(pin "9")'))
+      : mutation === "multiple endpoints" ? f.netlistSource.replace(f.ncNode, f.ncNode + ' (node (ref "J1") (pin "9") (pintype "no_connect"))')
+      : mutation === "duplicate endpoint" ? f.netlistSource.replace(f.ncNode, `${f.ncNode} ${f.ncNode}`)
+      : mutation === "functional parity" ? f.netlistSource.replace('(name "VIN")', '(name "OTHER")')
+      : f.netlistSource.replace('(value "DIVIDER_IO")', '(value "WRONG")');
+    expect(changed).not.toBe(f.netlistSource); f.setNetlist(changed);
+    await expect(readFreshPlaneNetClassSemanticAuthority(f.options)).rejects.toThrow();
+    await expect(verifyFreshPlaneNetClassSemanticAuthority(f.initialAuthority, f.options)).rejects.toThrow();
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(f.pcbSource);
+  });
+
+  it.each(["wrong name", "prefix impostor", "wrong member", "missing member", "foreign terminal", "mixed repeated member"])("rejects PCB %s despite a complete matching native export", async mutation => {
+    const f = await noConnectFixture(noConnectName, mutation === "mixed repeated member");
+    const board = parseFreshPcbSource(f.pcbSource), ncPad = board.footprints.find(fp => fp.reference === "J1")!.pads.find(pad => pad.number === "4")!;
+    const changed = mutation === "wrong name" ? f.pcbSource.replace(JSON.stringify(f.nativeName), '"OTHER_NC"')
+      : mutation === "prefix impostor" ? f.pcbSource.replace(JSON.stringify(f.nativeName), JSON.stringify(standardNoConnectName))
+      : mutation === "wrong member" ? f.pcbSource.replace(ncPad.physical.source, ncPad.physical.source.replace('(pad "4"', '(pad "9"'))
+      : mutation === "missing member" ? f.pcbSource.replace(ncPad.physical.source, "")
+      : mutation === "foreign terminal" ? f.pcbSource.replace('(net "VIN")', `(net ${JSON.stringify(f.nativeName)})`)
+      : f.pcbSource.replace(ncPad.physical.source, ncPad.physical.source.replace(JSON.stringify(f.nativeName), '"GND"'));
+    expect(changed).not.toBe(f.pcbSource); await writeFile(f.project.pcbPath, changed, "utf8");
+    await expect(readFreshPlaneNetClassSemanticAuthority(f.options)).rejects.toThrow();
+    await expect(materializeFreshPlaneNetClasses(f.options)).rejects.toThrow();
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(changed);
+  });
+
+  it.each([
+    ["track", `(segment (start 1 1) (end 2 2) (width 0.25) (layer "F.Cu") (net ${JSON.stringify(noConnectName)}))`],
+    ["via", `(via (at 1 1) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net ${JSON.stringify(noConnectName)}))`],
+    ["zone", `(zone (net ${JSON.stringify(noConnectName)}) (layer "B.Cu") (fill yes) (polygon (pts (xy 1 1) (xy 20 1) (xy 20 15))))`],
+  ])("rejects NC %s copper even though plane zone rules are otherwise outside semantic scope", async (_label, copper) => {
+    const f = await noConnectFixture(), changed = f.pcbSource.replace(/\)\s*$/u, `${copper}\n)\n`);
+    await writeFile(f.project.pcbPath, changed, "utf8");
+    await expect(readFreshPlaneNetClassSemanticAuthority(f.options)).rejects.toThrow();
+    await expect(verifyFreshPlaneNetClassSemanticAuthority(f.initialAuthority, f.options)).rejects.toThrow();
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(changed);
+  });
+
+  it.each(["schematic", "project", "rules", "symbol table", "footprint table", "marker", "PCB", "new library file"])("rejects %s drift during native export without overwriting it", async mutation => {
+    const f = await noConnectFixture();
+    const changedPath = mutation === "schematic" ? f.project.schematicPath : mutation === "project" ? f.proPath : mutation === "rules" ? f.druPath
+      : mutation === "symbol table" ? path.join(f.project.projectPath, "sym-lib-table") : mutation === "footprint table" ? path.join(f.project.projectPath, "fp-lib-table")
+      : mutation === "marker" ? f.project.markerPath : mutation === "PCB" ? f.project.pcbPath : path.join(f.project.projectPath, "introduced.kicad_sym");
+    const changedSource = mutation === "new library file" ? '(kicad_symbol_lib (version 20241209) (generator "fixture"))\n' : (await readFile(changedPath, "utf8")) + "\n";
+    const options: FreshPlaneNetClassOperationOptions = { ...f.options, captureNativeNetlist: async () => {
+      const exported = await f.options.captureNativeNetlist!();
+      await writeFile(changedPath, changedSource, "utf8"); return exported;
+    } };
+    await expect(readFreshPlaneNetClassSemanticAuthority(options)).rejects.toThrow();
+    expect(f.captures()).toBeGreaterThan(0);
+    expect(await readFile(changedPath, "utf8")).toBe(changedSource);
+  });
+
+  it("rechecks current library source authority after the native export returns", async () => {
+    const f = await noConnectFixture();
+    const options: FreshPlaneNetClassOperationOptions = { ...f.options, captureNativeNetlist: async () => {
+      const exported = await f.options.captureNativeNetlist!(); f.changeLibrary(); return exported;
+    } };
+    await expect(readFreshPlaneNetClassSemanticAuthority(options)).rejects.toThrow(/library source identity changed/iu);
+    expect(f.captures()).toBeGreaterThan(0); expect(f.libraryChecks()).toBeGreaterThan(1);
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(f.pcbSource);
   });
 });

@@ -5,7 +5,8 @@ const seams = vi.hoisted(() => ({ read: vi.fn(), realpath: vi.fn(), toolchain: v
 vi.mock("node:fs/promises", () => ({ realpath: seams.realpath }));
 vi.mock("../../src/flux/production-composition.js", () => ({ readKicadNativeProfile: seams.read }));
 vi.mock("../../src/flux/kicad-toolchain-binding.js", () => ({ createFluxKicadToolchainBinding: seams.toolchain }));
-vi.mock("../../src/flux/pcb-editor-launcher.js", () => ({ bindFluxPcbEditorSuite: seams.suite }));
+vi.mock("../../src/flux/pcb-editor-launcher.js", () => ({ bindFluxPcbEditorSuite: seams.suite,
+  getFluxPcbEditorCliProbeFailure: () => undefined }));
 vi.mock("../../src/integrations/kicad-transmission-line.js", () => ({ createKicadTransmissionLineCalculator: seams.calculator }));
 vi.mock("../../src/integrations/kicad-reference-coverage.js", () => ({ createReferenceCoverageCalculator: seams.reference }));
 vi.mock("../../src/integrations/kicad-plane-contacts.js", () => ({ createKicadPlaneContactsReader: seams.plane }));

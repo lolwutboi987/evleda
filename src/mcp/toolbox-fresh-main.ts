@@ -13,6 +13,7 @@ import type { KicadMcpPinnedFileInput } from "../integrations/kicad-mcp-session.
 import { createFreshConnectivityContract } from "../harness/fresh-connectivity-contract.js";
 import { normalizePcbPlaneSelectionPolicy } from "../harness/pcb-design-plane-compiler.js";
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
+import { assertPcbExternalPowerBindingCurrent } from "../harness/pcb-external-power.js";
 
 export interface FreshNativeToolboxOptions {
   readonly profile: KicadMcpPinnedFileInput;
@@ -108,6 +109,7 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
   const prepared = { sourceProjectPath: project.projectPath, isolatedProjectPath: project.projectPath,
     outputPath: project.outputPath, reportPath: preparation.reportPath, freshProject: project };
   assertPcbLibrarySourcesCurrent(preparation.bundle.libraryBinding, preparation.dependencies.libraryResolver);
+  if ("family" in preparation && preparation.bundle.externalPowerBinding !== undefined) assertPcbExternalPowerBindingCurrent(preparation.bundle.externalPowerBinding, preparation.dependencies.libraryResolver);
   const cad = await openKicadToolboxNativeHost({ runtime: native.bridge, suite: native.editorSuite, prepared,
     pcbPath: project.pcbPath, termination: native.termination, launcher: native.editorLauncher, environment: { ...native.environment, ...design.libraryEnvironment },
     ...("family" in preparation
@@ -121,6 +123,7 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
       originalPrompt: preparation.bundle.originalPrompt, contract: preparation.bundle.contract,
       executionGuidance: preparation.bundle.executionGuidance, verificationPlan: preparation.bundle.verificationPlan,
       bundleIdentity: preparation.bundle.identity, family: preparation.family,
+      ...(preparation.bundle.externalPowerBinding === undefined ? {} : { externalPowerBinding: preparation.bundle.externalPowerBinding }),
       copperAuthoring: {
         incrementalRoutes: options.edit === true && ["fresh_get_route_items", "fresh_replace_route_items"]
           .every(name => cad.tools.tools.some(tool => tool.name === name)),
@@ -130,7 +133,7 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
       executionGuidance: preparation.bundle.executionPrompt.text, acceptancePlan: preparation.bundle.acceptancePlan, bundleIdentity: preparation.bundle.identity };
     return Object.freeze({ cad, access: options.edit ? "edit" : "read-only",
       ...(native.transmissionLine === undefined ? {} : { transmissionLine: native.transmissionLine }),
-      compoundContractIdentity: createFreshConnectivityContract(preparation.bundle.contract).identity,
+      compoundContractIdentity: createFreshConnectivityContract(preparation.bundle.contract, "family" in preparation && preparation.family === "plane-v2" ? preparation.bundle.externalPowerBinding : undefined).identity,
       designContext: () => ({ ...context,
         intentSourceIdentity: bytes === undefined ? null : contentIdentity(bytes), resumedFromSavedBundle: options.resume === true,
         intentSourceKind: options.resume ? "saved-bundle" : hasDraft ? "structured" : "file",

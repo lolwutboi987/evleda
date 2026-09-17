@@ -472,8 +472,9 @@ const freezeGenericBinding = <Value>(value: Value): Value => {
   return value;
 };
 
-function genericSymbolLibraryTable(bundle: Pick<PcbDesignCompilationBundle, "libraryBinding">): string {
-  const nicknames = uniqueSortedLibraryNicknames(bundle.libraryBinding.symbols.map((entry) => entry.libraryId));
+function genericSymbolLibraryTable(bundle: Pick<PcbDesignCompilationBundle, "libraryBinding"> & Pick<PcbPlaneCompilationBundle, "externalPowerBinding">): string {
+  const nicknames = uniqueSortedLibraryNicknames([...bundle.libraryBinding.symbols.map((entry) => entry.libraryId),
+    ...(bundle.externalPowerBinding === undefined ? [] : [bundle.externalPowerBinding.source.symbolLibId])]);
   return `(sym_lib_table\n  (version 7)\n${nicknames.map((nickname) => `  (lib (name "${nickname}")(type "KiCad")(uri "\${KICAD10_SYMBOL_DIR}/${nickname}.kicad_sym")(options "")(descr "Bundle-bound KiCad 10 stock ${nickname} symbols"))`).join("\n")}\n)\n`;
 }
 

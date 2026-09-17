@@ -1,0 +1,6 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Capacitor_SMD")(type "KiCad")(uri "${KICAD10_FOOTPRINT_DIR}/Capacitor_SMD.pretty")(options "")(descr "Bundle-bound KiCad 10 stock Capacitor_SMD footprints"))
+  (lib (name "Connector_PinHeader_2.54mm")(type "KiCad")(uri "${KICAD10_FOOTPRINT_DIR}/Connector_PinHeader_2.54mm.pretty")(options "")(descr "Bundle-bound KiCad 10 stock Connector_PinHeader_2.54mm footprints"))
+  (lib (name "Package_SON")(type "KiCad")(uri "${KICAD10_FOOTPRINT_DIR}/Package_SON.pretty")(options "")(descr "Bundle-bound KiCad 10 stock Package_SON footprints"))
+)

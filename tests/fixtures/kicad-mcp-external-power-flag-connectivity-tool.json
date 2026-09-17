@@ -1,0 +1,29 @@
+{
+  "name": "sch_get_connectivity_graph",
+  "description": "Summarize the active schematic as a textual net connectivity graph.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {},
+    "title": "sch_get_connectivity_graphArguments"
+  },
+  "outputSchema": {
+    "properties": {
+      "result": {
+        "title": "Result",
+        "type": "string"
+      }
+    },
+    "required": [
+      "result"
+    ],
+    "title": "sch_get_connectivity_graphOutput",
+    "type": "object"
+  },
+  "annotations": {
+    "readOnlyHint": true,
+    "idempotentHint": true
+  },
+  "_meta": {
+    "evledaExternalPowerFlagConnectivity": "evleda.kicad-external-power-flag-connectivity.v1"
+  }
+}

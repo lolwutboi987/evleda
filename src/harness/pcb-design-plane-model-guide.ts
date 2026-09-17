@@ -141,6 +141,13 @@ export const PCB_PLANE_INTERFACE_REQUIREMENTS_MODEL_GUIDE = [
   "Known construction thicknesses must be exact integer nanometres within the native serializer domain. The explicitly supplied board total must equal the declared copper, homogeneous dielectric and present-mask thicknesses; do not infer or replace that total. Material Er/Df and names must survive the pinned native serializer exactly; unsupported precision or its unspecified-material sentinel produces clarification, never silent rounding or a guessed replacement.",
 ].join("\n");
 
-export function getPcbPlaneDesignIntentModelGuide(includeInterfaceRequirements = false): string {
-  return PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE + (includeInterfaceRequirements ? `\n${PCB_PLANE_INTERFACE_REQUIREMENTS_MODEL_GUIDE}` : "");
+export const PCB_PLANE_EXTERNAL_POWER_MODEL_GUIDE = [
+  "Optional externalPowerInputs declares caller-asserted off-board power. Omit it when external power was not requested; never add default null or an empty array to an existing omitted-field draft. A requested but unknown declaration may be null; otherwise supply 1..8 closed entries {id,supplyEndpoint,returnEndpoint}. IDs are unique; each endpoint is null while unknown, or exactly {reference,pin} naming an existing physical connector pin. Resolve all unknowns before closure.",
+  "Supply and return endpoints and their assigned nets are distinct. Every endpoint has an exact existing net assignment; no-connect pins are forbidden. The supply net role is power_input and return net role is ground. Each supply net has one declaration; multiple supplies may share a return net. Sort declarations by id. Use stable unresolved paths such as /externalPowerInputs/INPUT/supplyEndpoint; target the whole field when externalPowerInputs is null.",
+  "External declarations assert the caller intends an off-board source at those connector pins; they do not establish actual connection, voltage or physical qualification. The host separately binds and authors canonical stock power:PWR_FLAG annotations, one per unique supply or return net, from approved current stock source. Do not invent flag components, footprints, pads, net endpoints, or numeric electrical values in the draft. Preserve physical components and connectivity; native ERC and exact annotation source/connectivity checks remain required.",
+].join("\n");
+
+export function getPcbPlaneDesignIntentModelGuide(includeInterfaceRequirements = false, includeExternalPowerInputs = false): string {
+  return PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE + (includeInterfaceRequirements ? `\n${PCB_PLANE_INTERFACE_REQUIREMENTS_MODEL_GUIDE}` : "")
+    + (includeExternalPowerInputs ? `\n${PCB_PLANE_EXTERNAL_POWER_MODEL_GUIDE}` : "");
 }

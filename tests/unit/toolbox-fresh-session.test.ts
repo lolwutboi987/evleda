@@ -6,7 +6,7 @@ import type { KicadToolboxFreshSessionInput } from "../../src/mcp/toolbox-fresh-
 import { sourceAwareLibraryFixture } from "../helpers/pcb-library-source-fixture.js";
 
 const seams = vi.hoisted(() => ({ authenticate: vi.fn(), initialize: vi.fn(), initialSave: vi.fn(), checkpoint: vi.fn(), verifyClasses: vi.fn(),
-  resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn() }));
+  resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn(), placementDiagnostic: vi.fn() }));
 vi.mock("../../src/mcp/toolbox-fresh-checkpoint.js", () => ({ createFreshToolboxCheckpointLifecycle: seams.lifecycle }));
 vi.mock("../../src/mcp/toolbox-fresh-initial-save.js", () => ({ saveInitialFreshProjectSettings: seams.initialSave }));
 vi.mock("../../src/cli/pcb-agent.js", () => ({ createFreshNativeCaptures: seams.captures,
@@ -17,6 +17,7 @@ vi.mock("../../src/harness/kicad-tools.js", () => ({ createKicadHarnessTools: se
   KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES: ["sch_add_labels", "evleda_get_live_pcb_document", "pcb_save", "kicad_set_project"] }));
 vi.mock("../../src/mcp/toolbox-fresh-preparation.js", () => ({ assertKicadToolboxFreshPreparation: seams.authenticate }));
 vi.mock("../../src/mcp/toolbox-practices.js", () => ({ createToolboxPracticeAnalyzer: seams.practices }));
+vi.mock("../../src/mcp/toolbox-footprint-placement-diagnostics.js", () => ({ writeToolboxFootprintPlacementDiagnostic: seams.placementDiagnostic }));
 import { openKicadToolboxFreshSession } from "../../src/mcp/toolbox-fresh-session.js";
 
 beforeEach(() => vi.resetAllMocks());
@@ -111,6 +112,9 @@ describe("fresh toolbox session composition", () => {
       freshPhysicalFootprintSourcePins: [{ reference: "R1", libraryId: "Lib:Footprint", sourceIdentity: f.sourceIdentity }],
       captureFreshNativeNetlist: f.captures.captureNativeNetlist, captureFreshSchematicStrokeStyle: f.captures.captureNativeSchematicStrokeStyle });
     expect(options.freshProject).toBe(f.resumed);
+    const placementDiagnostic = { phase: "primary-failure", firstOperation: "native-reload" };
+    await options.observeFreshFootprintPlacementDiagnostic(placementDiagnostic);
+    expect(seams.placementDiagnostic).toHaveBeenCalledWith(path.join(f.original.outputPath, ".evleda-mcp-output"), placementDiagnostic);
     expect(options.freshPhysicalFootprintSourcePins[0].sourceIdentity).not.toBe(f.sourceIdentity);
     expect(seams.practices).toHaveBeenCalledWith({ pcbPath: f.resumed.pcbPath, profile: f.bundle.practiceProfileBinding.profile });
     expect(connected.analyzePractices).toBe(f.practices);

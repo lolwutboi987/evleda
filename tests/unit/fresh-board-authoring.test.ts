@@ -1,9 +1,9 @@
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import type { CallToolResult } from "@modelcontextprotocol/client";
 
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { contentIdentity } from "../../src/core/canonical.js";
 import type { CanonicalIdentity } from "../../src/domain/types.js";
@@ -14,7 +14,8 @@ import {
   type KicadHarnessSession,
 } from "../../src/harness/index.js";
 import { parseFreshPcbSource } from "../../src/harness/fresh-kicad-parser.js";
-import type { FreshSyncBoardComparisonDiagnostic } from "../../src/harness/kicad-tools.js";
+import type { FreshSyncBoardComparisonDiagnostic, FreshSyncFailureDiagnostic } from "../../src/harness/kicad-tools.js";
+import { writeToolboxSyncDiagnostic } from "../../src/mcp/toolbox-sync-diagnostics.js";
 import type { HarnessProviderTurn, HarnessToolPort, HarnessToolResult } from "../../src/harness/contracts.js";
 import { runPcbAgentHarness } from "../../src/harness/pcb-agent-harness.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
@@ -170,6 +171,7 @@ interface MockOptions {
   readonly saveTransform?: (source: string) => string;
   readonly nativeSource?: (capture: number, schematicPath: string) => string | Promise<string>;
   readonly observeFreshSyncBoardComparison?: (diagnostic: FreshSyncBoardComparisonDiagnostic) => void;
+  readonly observeFreshSyncFailureDiagnostic?: (diagnostic: FreshSyncFailureDiagnostic) => void | Promise<void>;
 }
 
 const syncSuccessText = [
@@ -279,6 +281,7 @@ async function authoringFixture(
     capturePersistedMutationBaseline: async () => contentIdentity(await readFile(project.pcbPath)).digest,
     verifyPersistedMutation: async (baseline) => baseline !== contentIdentity(await readFile(project.pcbPath)).digest,
     ...(mockOptions.observeFreshSyncBoardComparison === undefined ? {} : { observeFreshSyncBoardComparison: mockOptions.observeFreshSyncBoardComparison }),
+    ...(mockOptions.observeFreshSyncFailureDiagnostic === undefined ? {} : { observeFreshSyncFailureDiagnostic: mockOptions.observeFreshSyncFailureDiagnostic }),
   });
   return { ...generic, project, bridge, ...mocked };
 }
@@ -726,6 +729,167 @@ describe("fresh generic board authoring compounds", () => {
     await current.bridge.execute({ id: "sync-source-bound", name: "fresh_sync_from_schematic", arguments: {} });
     await writeFile(current.project.schematicPath, `${await readFile(current.project.schematicPath, "utf8")} `);
     expect(await current.bridge.internal.saveAfterMutation({ id: "save-source-drift", name: "pcb_save", arguments: {} })).toMatchObject({ isError: true, content: expect.stringContaining("Exact saved schematic bytes changed") });
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+  });
+
+  it("publishes the complete failed sync response and changed saved PCB before wrong-net rollback", async () => {
+    const wrong = populatedBoard([]).replace('(net "VIN")', '(net "GND")');
+    let observed: FreshSyncFailureDiagnostic | undefined;
+    let publication: Awaited<ReturnType<typeof writeToolboxSyncDiagnostic>> | undefined;
+    let sourceAtPublication: string | undefined;
+    let callsAtPublication: string[] = [];
+    const current = await authoringFixture(emptyBoard(), {
+      syncBoard: wrong, syncResult: capturedSync.receivedResult,
+      observeFreshSyncFailureDiagnostic: async diagnostic => {
+        observed = diagnostic;
+        sourceAtPublication = await readFile(current.project.pcbPath, "utf8");
+        callsAtPublication = current.calls.map(call => call.name);
+        publication = await writeToolboxSyncDiagnostic(current.project.outputPath, diagnostic);
+      },
+    });
+    await expect(current.bridge.execute({ id: "sync-first-failure", name: "fresh_sync_from_schematic", arguments: {} }))
+      .rejects.toThrow(/PCB pad J1:1 .*wrong net/iu);
+    expect(sourceAtPublication).toBe(wrong);
+    expect(callsAtPublication).toContain("pcb_sync_from_schematic");
+    expect(callsAtPublication).not.toContain("pcb_revert");
+    expect(publication).toBeDefined();
+    const bytes = await readFile(publication!.path);
+    expect(contentIdentity(bytes)).toEqual(publication!.identity);
+    expect(JSON.parse(bytes.toString("utf8"))).toEqual(observed);
+    expect(observed).toMatchObject({ phase: "primary-failure", stage: "saved-contract-pad-positions",
+      beforePcb: { status: "captured", text: emptyBoard(), contentIdentity: contentIdentity(emptyBoard()) },
+      savedPcb: { status: "captured", text: wrong, contentIdentity: contentIdentity(wrong) },
+      savedPcbAtFailure: { status: "captured", text: wrong, contentIdentity: contentIdentity(wrong) },
+      schematicInput: { status: "captured", text: schematicSource(), contentIdentity: contentIdentity(schematicSource()) },
+      nativeNetlistBefore: { status: "captured", text: nativeNetlist(), contentIdentity: contentIdentity(nativeNetlist()) },
+      nativeNetlistAfter: { status: "unavailable" }, livePcb: { status: "unavailable" },
+      nativeResponseJson: { status: "captured", text: JSON.stringify(capturedSync.receivedResult), contentIdentity: contentIdentity(JSON.stringify(capturedSync.receivedResult)) } });
+    expect(observed!.primary).toMatchObject({ status: "captured", text: expect.stringContaining("PCB pad J1:1") });
+    expect(Object.isFrozen(observed)).toBe(true);
+    expect(Object.isFrozen(observed!.savedPcb)).toBe(true);
+    expect(JSON.stringify(current.bridge.tools)).not.toContain("observeFreshSyncFailureDiagnostic");
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+    expect(current.live()).toBe(emptyBoard());
+  });
+
+  it.each(["parse", "response"] as const)("retains changed saved source after early %s failure", async kind => {
+    const source = kind === "parse" ? populatedBoard([]).slice(0, -2) : populatedBoard([]);
+    const observed: FreshSyncFailureDiagnostic[] = [];
+    const current = await authoringFixture(emptyBoard(), { syncBoard: source,
+      ...(kind === "response" ? { syncText: "The PCB already contains all schematic footprint assignments." } : {}),
+      observeFreshSyncFailureDiagnostic: diagnostic => { observed.push(diagnostic); },
+    });
+    await expect(current.bridge.execute({ id: "sync-early-failure", name: "fresh_sync_from_schematic", arguments: {} }))
+      .rejects.toThrow(/FRESH_SYNC_ROLLED_BACK_TERMINAL/);
+    expect(observed).toHaveLength(1);
+    expect(observed[0]).toMatchObject({ stage: kind === "parse" ? "saved-pcb-parse" : "native-response-validation",
+      savedPcbAtFailure: { status: "captured", text: source, contentIdentity: contentIdentity(source) } });
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+  });
+
+  it.each([false, true])("preserves primary wrong-net failure and native call count with failing diagnostic sink=%s", async fails => {
+    const wrong = populatedBoard([]).replace('(net "VIN")', '(net "GND")');
+    let count = 0;
+    const current = await authoringFixture(emptyBoard(), { syncBoard: wrong,
+      ...(fails ? { observeFreshSyncFailureDiagnostic: async () => { count++; throw new Error("private diagnostic publication failed"); } } : {}),
+    });
+    const error = await current.bridge.execute({ id: "sync-sink-failure", name: "fresh_sync_from_schematic", arguments: {} }).catch(error => error) as Error;
+    expect(error.message).toMatch(/FRESH_SYNC_ROLLED_BACK_TERMINAL: PCB pad J1:1 .*wrong net/);
+    expect(error.message).not.toContain("publication failed");
+    expect(error.cause).toBeInstanceOf(Error);
+    expect((error.cause as Error).message).toMatch(/PCB pad J1:1 .*wrong net/);
+    expect(count).toBe(fails ? 1 : 0);
+    expect(current.calls.map(call => call.name)).toEqual(["pcb_sync_from_schematic", "pcb_revert"]);
+    expect(current.privateCalls.filter(call => call.name === "readActivePcbSource")).toHaveLength(2);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+  });
+
+  it("does not publish failure diagnostics for successful sync", async () => {
+    let count = 0;
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]),
+      observeFreshSyncFailureDiagnostic: () => { count++; },
+    });
+    await current.bridge.execute({ id: "sync-no-diagnostic", name: "fresh_sync_from_schematic", arguments: {} });
+    expect(count).toBe(0);
+  });
+
+  it("retains already-observed malformed live bytes without another native probe", async () => {
+    const valid = populatedBoard([]), malformed = valid.slice(0, -2);
+    const observed: FreshSyncFailureDiagnostic[] = [];
+    const current = await authoringFixture(emptyBoard(), { syncBoard: valid,
+      liveTransform: source => source === valid ? malformed : source,
+      diskTransform: source => source === malformed ? valid : source,
+      observeFreshSyncFailureDiagnostic: diagnostic => { observed.push(diagnostic); },
+    });
+    await expect(current.bridge.execute({ id: "sync-live-parse", name: "fresh_sync_from_schematic", arguments: {} }))
+      .rejects.toThrow(/FRESH_SYNC_ROLLED_BACK_TERMINAL/);
+    expect(observed).toHaveLength(1);
+    expect(observed[0]).toMatchObject({ stage: "live-pcb-capture", savedPcb: { status: "captured", text: valid },
+      livePcb: { status: "captured", text: malformed, contentIdentity: contentIdentity(malformed) } });
+    expect(current.privateCalls.filter(call => call.name === "readActivePcbSource")).toHaveLength(3);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+  });
+
+  it("records unsafe saved source as unavailable and preserves the first cause when rollback also fails", async () => {
+    const observed: FreshSyncFailureDiagnostic[] = [];
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]),
+      syncText: "The PCB already contains all schematic footprint assignments.",
+      observeFreshSyncFailureDiagnostic: diagnostic => { observed.push(diagnostic); },
+    });
+    const originalCall = current.session.callTool;
+    current.session.callTool = async (name, args) => {
+      const response = await originalCall(name, args);
+      if (name === "pcb_sync_from_schematic") {
+        await rm(current.project.pcbPath);
+        await mkdir(current.project.pcbPath);
+      }
+      return response;
+    };
+    const error = await current.bridge.execute({ id: "sync-unavailable-source", name: "fresh_sync_from_schematic", arguments: {} }).catch(error => error) as Error;
+    expect(error.message).toMatch(/FRESH_SYNC_ROLLBACK_FAILED_TERMINAL: Fresh sync returned refusal or no-change text/);
+    expect((error.cause as Error).message).toContain("Fresh sync returned refusal or no-change text");
+    expect(observed).toHaveLength(1);
+    expect(observed[0]).toMatchObject({ stage: "native-response-validation",
+      savedPcbAtFailure: { status: "unavailable", reason: expect.stringContaining("physical regular file") } });
+  });
+
+  it("bounds a stalled failure observer and still restores the native preimage", async () => {
+    let entered!: () => void;
+    const observing = new Promise<void>(resolve => { entered = resolve; });
+    const current = await authoringFixture(emptyBoard(), {
+      syncBoard: populatedBoard([]).replace('(net "VIN")', '(net "GND")'),
+      observeFreshSyncFailureDiagnostic: () => { entered(); return new Promise<void>(() => {}); },
+    });
+    vi.useFakeTimers();
+    try {
+      const completion = current.bridge.execute({ id: "sync-stalled-diagnostic", name: "fresh_sync_from_schematic", arguments: {} }).catch(error => error) as Promise<Error>;
+      await observing;
+      expect(current.calls.map(call => call.name)).not.toContain("pcb_revert");
+      await vi.advanceTimersByTimeAsync(5_001);
+      expect((await completion).message).toMatch(/FRESH_SYNC_ROLLED_BACK_TERMINAL: PCB pad J1:1 .*wrong net/);
+      expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+    } finally { vi.useRealTimers(); }
+  });
+
+  it("distinguishes the ordinary saved observation from later failure-time source drift", async () => {
+    const synced = populatedBoard([]), drifted = synced.replace('(generator "pcbnew")', '(generator "changed")');
+    const changedNetlist = nativeNetlist().replace('(name "VIN")', '(name "OTHER")');
+    const observed: FreshSyncFailureDiagnostic[] = [];
+    const current = await authoringFixture(emptyBoard(), { syncBoard: synced,
+      nativeSource: async (capture, schematicPath) => {
+        if (capture === 1) return nativeNetlist();
+        await writeFile(schematicPath.replace(/\.kicad_sch$/u, ".kicad_pcb"), drifted, "utf8");
+        return changedNetlist;
+      },
+      observeFreshSyncFailureDiagnostic: diagnostic => { observed.push(diagnostic); },
+    });
+    await expect(current.bridge.execute({ id: "sync-late-drift", name: "fresh_sync_from_schematic", arguments: {} }))
+      .rejects.toThrow(/Schematic\/native netlist changed during PCB synchronization/);
+    expect(observed).toHaveLength(1);
+    expect(observed[0]).toMatchObject({ stage: "post-sync-schematic-native-parity",
+      savedPcb: { status: "captured", text: synced, contentIdentity: contentIdentity(synced) },
+      savedPcbAtFailure: { status: "captured", text: drifted, contentIdentity: contentIdentity(drifted) },
+      nativeNetlistAfter: { status: "captured", text: changedNetlist, contentIdentity: contentIdentity(changedNetlist) } });
     expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
   });
 

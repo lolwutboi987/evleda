@@ -1,0 +1,253 @@
+{
+  "formatVersion": 1,
+  "title": "WSON regulator toolbox software proof",
+  "accepted": false,
+  "manufacturingQualified": false,
+  "scope": "Historical software evidence summary for the exact bundled native sources; no physical, manufacturing, or electrical qualification.",
+  "provenance": {
+    "run": "destination-ic-design-10",
+    "kicadVersion": "10.0.3",
+    "authoringProjectId": "d807a09d-c2de-47e0-b4d3-3f1edc39e838",
+    "authoringMethod": "Model-directed public EvlEDA toolbox calls over MCP STDIO.",
+    "sourceSnapshot": "authored-source-01",
+    "sourceFilesByteIdentical": true,
+    "previewSession": "authoring",
+    "evidenceScope": "Summary of observed session results; private raw traces and runtime authority are not bundled and these records do not grant acceptance authority. Native check JSONs name sources but do not themselves contain source hashes.",
+    "evidenceHashes": [
+      {
+        "locator": "authored-source-01/manifest.json",
+        "sha256": "1ac1d77e800249d37de2badfdf134c3da0db97010bbdb6f30ac1349eaa3f3ae2",
+        "bundled": false
+      },
+      {
+        "locator": "engineering-selection.md",
+        "sha256": "7330cbc1553e7150c8ee85d59991bc8d07b2105008fa67a4592f2f70f8a1f693",
+        "bundled": false
+      },
+      {
+        "locator": "workspace/projects/d807a09d-c2de-47e0-b4d3-3f1edc39e838/output/plane-native-checks-aac25ca0-b376-4c77-8dd4-6438fc76a731/erc.json",
+        "sha256": "083a5a25ae1e9deb88818261aad22cc55bf45fc8004b035cb76918d25b730243",
+        "bundled": false
+      },
+      {
+        "locator": "workspace/projects/d807a09d-c2de-47e0-b4d3-3f1edc39e838/output/plane-native-checks-aac25ca0-b376-4c77-8dd4-6438fc76a731/drc.json",
+        "sha256": "ca8137eba93927b8525efd19fc9f6ee6e70028701398a43f94ee99c4a94070f9",
+        "bundled": false
+      },
+      {
+        "locator": "post-close-observation.json",
+        "sha256": "e4a2ad772d039aca68735c60fea58831cf26d76fd6579f6dfe25becd60450211",
+        "bundled": false
+      },
+      {
+        "locator": "post-readonly-close-observation.json",
+        "sha256": "c9c256839038b54e1e4db846efdc63e54a76d172142bd60e75c1d997783fe633",
+        "bundled": false
+      }
+    ]
+  },
+  "sourceFiles": [
+    {
+      "name": "wson-regulator.kicad_pcb",
+      "size": 37173,
+      "sha256": "aa1412c207b65f8c33a6d42f2a0d64905d3d67cce996c4c26a56922d867fbcfe"
+    },
+    {
+      "name": "wson-regulator.kicad_sch",
+      "size": 26142,
+      "sha256": "ae31dd51e2dc438421d65280bd710a328f4089f4925017ff3aff8af94044ec0f"
+    },
+    {
+      "name": "wson-regulator.kicad_pro",
+      "size": 10766,
+      "sha256": "183e45dff603d1f5ff23356dbeef31a82358d12eaf7ec9174fe2180ebcea03af"
+    },
+    {
+      "name": "wson-regulator.kicad_dru",
+      "size": 331,
+      "sha256": "f94cdbd5df007892a77045602312d9955090c46fbb5956200448af661f89352f"
+    },
+    {
+      "name": "fp-lib-table",
+      "size": 579,
+      "sha256": "bdab71cad3c8c66842274da520bb221810a00fcc3fdc2cdcb555ed88338d794d"
+    },
+    {
+      "name": "sym-lib-table",
+      "size": 683,
+      "sha256": "3d0664d34be01a54a3cf35ce5ad2dd2d41024209bb56de7ab58838659f90c669"
+    }
+  ],
+  "previews": [
+    {
+      "name": "board-top.png",
+      "source": "workspace/projects/d807a09d-c2de-47e0-b4d3-3f1edc39e838/output/toolbox-preview-d9f2e891-ce3d-418b-8738-49a60bae49e4/board-top.png",
+      "scope": "Authoring-session top preview; excludes B.Cu and the GND plane.",
+      "size": 36586,
+      "sha256": "2ca663804c16b360a28f5e7559ee8faaddb5722971cca29bd4f9592d607b98dd"
+    },
+    {
+      "name": "board-assembly.png",
+      "source": "workspace/projects/d807a09d-c2de-47e0-b4d3-3f1edc39e838/output/toolbox-preview-cf5ab427-d079-4fad-b513-0a6ccd71a8ce/board-assembly.png",
+      "scope": "Authoring-session assembly preview.",
+      "size": 53635,
+      "sha256": "2d2ceea4e9c634834e4d9328b5386b361b9f7fe40f3c9bd49c34b4197fb5f44a"
+    }
+  ],
+  "nativeInventory": {
+    "footprints": 6,
+    "tracks": 18,
+    "vias": 6,
+    "physicalPadFeatures": 19,
+    "logicalTerminals": 17,
+    "functionalLogicalTerminals": 16,
+    "intentionalNoConnectTerminals": 1,
+    "bores": 10,
+    "zones": [
+      {
+        "net": "GND",
+        "layer": "B.Cu",
+        "count": 1
+      }
+    ]
+  },
+  "authoringChecks": {
+    "functionalConnectivity": {
+      "connectedNets": [
+        "VIN_5V",
+        "VOUT_3V3",
+        "GND"
+      ],
+      "allFunctionalNetsConnected": true
+    },
+    "erc": {
+      "reportedViolations": 0,
+      "ignoredChecks": [
+        "single_global_label",
+        "four_way_junction",
+        "simulation_model_issue",
+        "footprint_filter"
+      ]
+    },
+    "genericDrc": {
+      "reportedViolations": 0,
+      "unconnectedItems": 0,
+      "ignoredChecks": [
+        "missing_courtyard",
+        "track_not_centered_on_via",
+        "tuning_profile_track_geometries",
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch"
+      ]
+    },
+    "strictSchematicParity": {
+      "reportedViolations": 0
+    },
+    "literalJunctionGeometry": {
+      "measuredJunctions": 10,
+      "violations": 0
+    },
+    "planeAcceptance": {
+      "status": "incomplete",
+      "accepted": false,
+      "pass": 9,
+      "unknown": 38,
+      "fail": 0,
+      "fullContactInventory": true,
+      "groundConnectorBoresIntersectingCachedFillHoleOrBoundary": 2,
+      "drillAwareTopology": "unknown",
+      "drillAwareCopperArea": "unknown",
+      "thermalSpokeDimensions": "not measured",
+      "minimumCopperWidth": "not measured"
+    },
+    "close": {
+      "normalClose": true,
+      "observationRecordedAt": "2026-09-17T06:00:38.8466682Z",
+      "allSixSavedFilesUnchanged": true,
+      "markers": [],
+      "nativeProcesses": []
+    }
+  },
+  "freshReadOnlyReopen": {
+    "inventoryVerified": true,
+    "allFunctionalNetsConnected": true,
+    "allSixSourceHashesVerified": true,
+    "currentSessionFillWitness": false,
+    "planeAcceptance": {
+      "status": "incomplete",
+      "accepted": false,
+      "pass": 0,
+      "unknown": 47,
+      "fail": 0,
+      "reason": "A fresh current-session fill witness was deliberately absent in the read-only session."
+    },
+    "close": {
+      "normalClose": true,
+      "operatorClientExitCode": 0,
+      "observationRecordedAt": "2026-09-17T06:09:20.8410861Z",
+      "allSixSavedFilesUnchanged": true,
+      "markers": [],
+      "nativeProcesses": []
+    }
+  },
+  "engineering": {
+    "assumptions": {
+      "inputVoltageRangeV": [
+        4.75,
+        5.25
+      ],
+      "loadRangeMA": [
+        1,
+        100
+      ],
+      "ambientC": 25
+    },
+    "selectedParts": [
+      {
+        "reference": "U1",
+        "mpn": "TPS7B8133DRVR",
+        "footprint": "Package_SON:WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm"
+      },
+      {
+        "reference": "C1",
+        "mpn": "GRM32ER71E226KE15L",
+        "footprint": "Capacitor_SMD:C_1210_3225Metric"
+      },
+      {
+        "reference": "C2",
+        "mpn": "GRM21BR61E106KA73L",
+        "footprint": "Capacitor_SMD:C_0805_2012Metric"
+      },
+      {
+        "reference": "C3",
+        "mpn": "GRM155R71H104KE14D",
+        "footprint": "Capacitor_SMD:C_0402_1005Metric"
+      }
+    ],
+    "connectorMpnsSelected": false,
+    "pendingRequirements": [
+      "C1 effective capacitance >= 10 uF over intended conditions.",
+      "C2 effective capacitance 1-200 uF and ESR 0.001-5 ohm at 10 kHz over intended conditions.",
+      "Guaranteed capacitor behavior over production tolerance, DC bias, actual ripple, temperature, aging, and combined effects.",
+      "Complete footprint/package and assembly suitability verification.",
+      "Board-level stability, transient behavior, and thermal performance."
+    ],
+    "curveEvidenceLimit": "Manufacturer typical curves support selection only; C2 ESR observation used zero DC bias and capacitance curves used AC amplitudes unlike normal regulator ripple."
+  },
+  "portability": {
+    "sourceLibraryPathsUnmodified": true,
+    "requiredKiCadPathVariables": [
+      "KICAD10_SYMBOL_DIR",
+      "KICAD10_FOOTPRINT_DIR"
+    ],
+    "crossInstallationPortabilityVerified": false,
+    "note": "Resolve the preserved stock-library variables in the target KiCad installation. Edit a copy to adapt this snapshot."
+  },
+  "excludedArtifacts": [
+    "Private session logs",
+    "Runtime configuration",
+    "Lease files",
+    "Checkpoint authority",
+    "Manufacturing outputs"
+  ]
+}

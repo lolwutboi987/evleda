@@ -327,9 +327,9 @@ const LED_PCB = `${boardHeader(["VCC", "LED_A", "GND"])}
 `;
 
 const DIVIDER_ARTIFACTS = compile(dividerDraft());
-const DIVIDER_NETS = { VIN: 1, VOUT: 2, GND: 3 } as const;
-const DIVIDER_PCB = `${boardHeader(["VIN", "VOUT", "GND"])}
-  ${footprint("J1", "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical", "DIVIDER_IO", 2.5, 10, 1.25, 4.25, [[0, -3, "VIN"], [0, -1, "VOUT"], [0, 1, "GND"], [0, 3, null]], DIVIDER_NETS)}
+const DIVIDER_NETS = { VIN: 1, VOUT: 2, GND: 3, "unconnected-(J1-Pin_4-Pad4)":4 } as const;
+const DIVIDER_PCB = `${boardHeader(["VIN", "VOUT", "GND", "unconnected-(J1-Pin_4-Pad4)"])}
+  ${footprint("J1", "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical", "DIVIDER_IO", 2.5, 10, 1.25, 4.25, [[0, -3, "VIN"], [0, -1, "VOUT"], [0, 1, "GND"], [0, 3, "unconnected-(J1-Pin_4-Pad4)"]], DIVIDER_NETS)}
   ${footprint("R1", "Resistor_SMD:R_0603_1608Metric", "10k", 9, 7, 1.25, 0.75, [[-1, 0, "VIN"], [1, 0, "VOUT"]], DIVIDER_NETS)}
   ${footprint("R2", "Resistor_SMD:R_0603_1608Metric", "10k", 17, 11, 1.25, 0.75, [[-1, 0, "VOUT"], [1, 0, "GND"]], DIVIDER_NETS)}
   (segment (start 2.5 7) (end 8 7) (width 0.25) (layer "F.Cu") (net 1) (uuid "vin"))
@@ -572,14 +572,13 @@ describe("generic compiler-bound fresh-design acceptance", () => {
     expect(parseFreshPcbSource(modern).segments.filter((segment) => segment.netName === name)).toHaveLength(2);
   });
 
-  it("keeps an empty quoted net as no-net without confusing it with the literal named net zero", () => {
-    const absent = '(pad "4" smd rect (at 0 3) (size 1 1) (layers "F.Cu"))';
-    const modern = withNamedNetReferences(DIVIDER_PCB, ["VIN", "VOUT", "GND"])
-      .replace(absent, '(pad "4" smd rect (at 0 3) (size 1 1) (layers "F.Cu") (net ""))');
+  it("keeps an empty quoted net parsed as no-net but rejects erasing a native intentional NC assignment", () => {
+    const modern = withNamedNetReferences(DIVIDER_PCB, ["VIN", "VOUT", "GND", "unconnected-(J1-Pin_4-Pad4)"])
+      .replace('(net "unconnected-(J1-Pin_4-Pad4)")', '(net "")');
     expect(modern).toContain('(net "")');
     const result = evaluateFreshDesignAcceptance(evidence(DIVIDER_ARTIFACTS, modern, 1), DIVIDER_ARTIFACTS);
-    expect(row(result, "component:J1:pcb")?.status).toBe("pass");
-    expect(row(result, "pin:J1:4:disposition")?.status).toBe("pass");
+    expect(row(result, "component:J1:pcb")?.status).toBe("fail");
+    expect(result.passed).toBe(false);
     expect(parseFreshPcbSource(modern).footprints.find((footprint) => footprint.reference === "J1")?.pads.find((pad) => pad.number === "4")?.netName).toBeNull();
   });
 

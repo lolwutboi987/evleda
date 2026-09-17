@@ -43,7 +43,8 @@ function projectSettings() {
   } } };
 }
 async function fixture(options: { padFields?: string; footprintFields?: string; project?: ReturnType<typeof projectSettings>;
-  minimumSpokes?: number; rawPadOverride?: "global" | "layer"; extraPad?: string } = {}): Promise<FreshPlaneNativeChecksInput> {
+  minimumSpokes?: number; rawPadOverride?: "global" | "layer"; extraPad?: string;
+  rawPadZoneConnection?: { number: string; value: unknown } } = {}): Promise<FreshPlaneNativeChecksInput> {
   const draft = planeDividerDraft();
   if (options.minimumSpokes !== undefined) draft.planes[0]!.padConnection.minimumConnectedSpokes = options.minimumSpokes;
   const compilationBundle = options.minimumSpokes === undefined ? bundle : createPcbPlaneCompilationBundle({ originalPrompt: "Synthetic four-spoke rule fixture",
@@ -59,6 +60,16 @@ async function fixture(options: { padFields?: string; footprintFields?: string; 
         const target = options.rawPadOverride === "global" ? value.pad_stack : value.pad_stack.copper_layers[0];
         target.zone_settings = { zone_connection: "ZCS_INHERITED", thermal_spokes: { gap: { value_nm: "100000" } } };
       }
+      for (const child of Object.values(value)) patch(child);
+    };
+    patch(staged.receipt);
+  }
+  if (options.rawPadZoneConnection !== undefined) {
+    const setting = options.rawPadZoneConnection;
+    const padUuid = parseFreshPcbSource(before).footprints.flatMap(fp => fp.pads).find(pad => pad.number === setting.number)!.physical.id;
+    const patch = (value: any): void => {
+      if (value === null || typeof value !== "object") return;
+      if (value.id?.value === padUuid && value.pad_stack) value.pad_stack.zone_settings = { zone_connection: setting.value };
       for (const child of Object.values(value)) patch(child);
     };
     patch(staged.receipt);
@@ -102,7 +113,7 @@ async function withContacts(input: FreshPlaneNativeChecksInput, change: (report:
     uuid: pad.physical.id!, nativeType: 15, nativeClass: "PAD" as const, netCode: 1, netName: pad.netName!, footprintUuid: fp.id!, reference: fp.reference,
     number: pad.number, attribute: pad.physical.padType === "thru_hole" ? 0 : 1,
     localZoneConnection: -1, resolvedZoneConnectionOverride: -1, localThermalGapOverride: null, localThermalSpokeWidthOverride: null,
-    padstackMode: 0, padstackUniqueLayers: [0], layers: (pad.layers.includes("*.Cu") ? ["F.Cu", "B.Cu"] : ["F.Cu"]).map(name => ({
+    padstackMode: 0, padstackUniqueLayers: [0], layers: (pad.layers.includes("*.Cu") ? ["F.Cu", "B.Cu"] : pad.layers.filter(layer => layer.endsWith(".Cu"))).map(name => ({
       id: name === "F.Cu" ? 0 : 2, name, zoneLayerOverride: 0, effectivePadstackLayer: 0, hasExplicitPadstackDefinition: name === "F.Cu",
     })),
   })));
@@ -372,6 +383,86 @@ describe("source-bound native plane policy evidence", () => {
     expect(result.physicalThermalWidth).toBe("not_measured");
     expect(result.acceptanceEvaluated).toBe(false);
   });
+  contactTest("keeps the stock WSON heatsink EP and its solid override inapplicable to a B.Cu plane", async () => {
+    // Exact native07 EP geometry/metadata, placed in the synthetic producer.
+    const extraPad = '(pad "7" smd rect (at 0 0) (size 1 1.6) (property pad_prop_heatsink) (layers "F.Cu" "F.Mask") (net "GND") (zone_connect 2))';
+    const input = await withContacts(await fixture({ extraPad, rawPadZoneConnection: { number: "7", value: "ZCS_FULL" } }), report => {
+      const ep = report.allPads.find(pad => pad.number === "7")!;
+      ep.localZoneConnection = 2; ep.resolvedZoneConnectionOverride = 2;
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.thermalPolicy).toEqual({ status: "verified", reasons: [] });
+    expect(result.thermalPads.find(pad => pad.number === "7")).toMatchObject({ layer: "B.Cu",
+      applicability: "no-pad-copper-on-plane-layer", minimumResolvedSpokes: null, proof: "not-applicable" });
+    expect(result.thermalPads.find(pad => pad.number === "3")!.proof).toBe("native-drc-lower-bound-with-source-derived-applicability");
+    expect(result.acceptanceEvaluated).toBe(false);
+  });
+  it.each([-1, 0, 1, 2, 3])("recognizes valid front-only zone_connect %s without treating it as applicable B.Cu policy", async connection => {
+    const extraPad = `(pad "7" smd rect (at 2 0) (size 1 1.6) (layers "F.Cu") (net "GND") (property pad_prop_heatsink) (zone_connect ${connection}))`;
+    const result = assessFreshPlaneNativeChecks(await fixture({ extraPad }));
+    expect(result.checks.thermalPolicy).toEqual({ status: "unsupported", reasons: ["current-native-direct-contacts-unavailable"] });
+  });
+  contactTest("accepts explicit inherited pad and footprint connection settings", async () => {
+    const result = assessFreshPlaneNativeChecks(await withContacts(await fixture({ padFields: "(zone_connect -1)", footprintFields: "(zone_connect -1)" })));
+    expect(result.checks.thermalPolicy).toEqual({ status: "verified", reasons: [] });
+  });
+  contactTest.each(["B.Cu", "*.Cu"])("keeps a supported heatsink pad override restricted on applicable %s copper", async layer => {
+    const extraPad = layer === "*.Cu"
+      ? '(pad "7" thru_hole circle (at 2 0) (size 1.8 1.8) (drill 0.8) (layers "*.Cu") (net "GND") (property pad_prop_heatsink) (zone_connect 2))'
+      : '(pad "7" smd rect (at 2 0) (size 1 1.6) (layers "B.Cu") (net "GND") (property pad_prop_heatsink) (zone_connect 2))';
+    const result = assessFreshPlaneNativeChecks(await withContacts(await fixture({ extraPad, rawPadZoneConnection: { number: "7", value: "ZCS_FULL" } }), report => {
+      const ep = report.allPads.find(pad => pad.number === "7")!;
+      ep.localZoneConnection = 2; ep.resolvedZoneConnectionOverride = 2;
+    }));
+    expect(result.checks.thermalPolicy.status).toBe("unsupported");
+    expect(result.checks.thermalPolicy.reasons).toEqual(expect.arrayContaining([
+      expect.stringContaining(":source-pad-zone_connect"), expect.stringContaining(":native-pad-or-footprint-override"),
+      expect.stringContaining(":native-padstack-zone-override"),
+    ]));
+    expect(result.checks.thermalPolicy.reasons.some(reason => reason.includes("unsupported-source-pad-property"))).toBe(false);
+  });
+  it.each([
+    ["unknown property", "(property pad_prop_future)"],
+    ["quoted property", '(property "pad_prop_heatsink")'],
+    ["empty property", "(property)"],
+    ["extra property atom", "(property pad_prop_heatsink extra)"],
+    ["nested property", "(property pad_prop_heatsink (drill 0.1))"],
+    ["duplicate property", "(property pad_prop_heatsink) (property pad_prop_heatsink)"],
+    ["unknown connection", "(zone_connect 4)"],
+    ["quoted connection", '(zone_connect "2")'],
+    ["empty connection", "(zone_connect)"],
+    ["extra connection atom", "(zone_connect 2 1)"],
+    ["nested connection", "(zone_connect 2 (thermal_gap 0.1))"],
+    ["duplicate connection", "(zone_connect 2) (zone_connect 2)"],
+    ["future field", "(future_pad_geometry 1)"],
+    ["custom geometry", "(primitives (gr_circle (center 0 0) (end 1 0)))"],
+  ])("rejects %s even on front-only plane-net copper", async (_label, fields) => {
+    const extraPad = `(pad "7" smd rect (at 2 0) (size 1 1.6) (layers "F.Cu") (net "GND") ${fields})`;
+    const result = assessFreshPlaneNativeChecks(await fixture({ extraPad }));
+    expect(result.checks.thermalPolicy.status).toBe("unsupported");
+    expect(result.checks.thermalPolicy.reasons.some(reason => /unsupported-source-pad|duplicate-source-pad/.test(reason))).toBe(true);
+  });
+  it("rejects unknown geometry nested beneath a known leaf beside valid off-layer zone metadata", async () => {
+    const extraPad = '(pad "7" smd rect (at 2 0) (size 1 1.6 (future_pad_geometry 1)) (layers "F.Cu") (net "GND") (property pad_prop_heatsink) (zone_connect 2))';
+    const result = assessFreshPlaneNativeChecks(await fixture({ extraPad }));
+    expect(result.checks.thermalPolicy).toMatchObject({ status: "unsupported", reasons: expect.arrayContaining([expect.stringContaining("unsupported-source-pad-nested-field:size")]) });
+  });
+  contactTest("rejects contradictory direct contact for front-only stock EP", async () => {
+    const extraPad = '(pad "7" smd rect (at 2 0) (size 1 1.6) (layers "F.Cu") (net "GND") (property pad_prop_heatsink) (zone_connect 2))';
+    const input = await withContacts(await fixture({ extraPad }), report => {
+      const ep = report.allPads.find(pad => pad.number === "7")!;
+      report.zones[0]!.directPads.push({ uuid: ep.uuid, nativeType: ep.nativeType, nativeClass: "PAD", netCode: ep.netCode, netName: ep.netName, proxyType: "PAD" });
+    });
+    expect(() => assessFreshPlaneNativeChecks(input)).toThrow("direct contact contradicts native pad-layer absence");
+  });
+  contactTest("rejects unknown native connection enums even when copper is absent from the plane layer", async () => {
+    const result = assessFreshPlaneNativeChecks(await withContacts(await fixture(), report => { report.allPads[1]!.localZoneConnection = 4; }));
+    expect(result.checks.thermalPolicy).toMatchObject({ status: "unsupported", reasons: expect.arrayContaining([expect.stringContaining("unsupported-native-zone-connection")]) });
+  });
+  contactTest.each(["ZCS_FUTURE", ["ZCS_FULL"], {}])("rejects malformed raw native padstack connection %j on front-only copper", async value => {
+    const result = assessFreshPlaneNativeChecks(await withContacts(await fixture({ rawPadZoneConnection: { number: "2", value } })));
+    expect(result.checks.thermalPolicy).toMatchObject({ status: "unsupported", reasons: expect.arrayContaining([expect.stringContaining("unsupported-native-padstack-zone-connection")]) });
+  });
   contactTest("rejects a copied contact report even when all claimed hashes are current", async () => {
     const input = await withContacts(await fixture());
     expect(() => assessFreshPlaneNativeChecks({ ...input, contacts: structuredClone(input.contacts!) })).toThrow("genuine host native");
@@ -446,7 +537,7 @@ describe("source-bound native plane policy evidence", () => {
     expect(result.thermalPads.every(pad => pad.proof !== "native-drc-lower-bound-with-source-derived-applicability")).toBe(true);
   });
   contactTest("does not discard unnumbered plane-net copper with unsupported connection policy", async () => {
-    const extraPad = '(pad "" smd rect (at 2 0) (size 1 1) (layers "F.Cu") (net "GND") (zone_connect 2))';
+    const extraPad = '(pad "" smd rect (at 2 0) (size 1 1) (layers "B.Cu") (net "GND") (zone_connect 2))';
     const result = assessFreshPlaneNativeChecks(await withContacts(await fixture({ extraPad })));
     expect(result.checks.thermalPolicy.status).toBe("unsupported");
     expect(result.checks.thermalPolicy.reasons.some(reason => reason.endsWith("source-pad-zone_connect"))).toBe(true);

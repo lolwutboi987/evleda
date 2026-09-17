@@ -14,6 +14,10 @@ interface SourceSpan { readonly start: number; readonly end: number }
 interface Atom extends SourceSpan { readonly value: string; readonly quoted: boolean }
 interface Node extends SourceSpan { readonly name: string; readonly values: readonly Atom[]; readonly children: readonly Node[] }
 
+/** Read-only source locations for narrowly scoped, lossless PCB token edits. */
+export type FreshKicadSourceNode = Node;
+export type FreshKicadSourceAtom = Atom;
+
 export interface FreshSchematicSymbol {
   readonly reference: string;
   readonly libId: string;
@@ -271,6 +275,11 @@ function parseDocument(source: string, expectedRoot: string, rawTokens?: SourceS
 }
 
 const children = (node: Node, name: string): readonly Node[] => node.children.filter((child) => child.name === name);
+
+/** Reuse the bounded reader without projecting away unknown PCB source forms. */
+export function parseFreshPcbSourceDocument(source: string): FreshKicadSourceNode {
+  return parseDocument(source, "kicad_pcb");
+}
 const one = (node: Node, name: string): Node | null => children(node, name).length === 1 ? children(node, name)[0]! : null;
 const scalar = (node: Node, name: string): string | null => {
   const child = one(node, name);
@@ -1217,7 +1226,8 @@ export function selectFreshSymbolTerminalGeometryPins(geometry: FreshSymbolTermi
 }
 
 /** Complete root-instance terminal geometry, bound to the exact current schematic source. */
-export function parseFreshSchematicTerminalGeometrySource(source: string, expectedIdentity: ContentIdentity): readonly FreshPlacedSchematicTerminalGeometry[] {
+export function parseFreshSchematicTerminalGeometrySource(source: string, expectedIdentity: ContentIdentity, auxiliaryReferences: readonly string[] = []): readonly FreshPlacedSchematicTerminalGeometry[] {
+  if (auxiliaryReferences.length > 16 || new Set(auxiliaryReferences).size !== auxiliaryReferences.length || auxiliaryReferences.some(reference => !/^#FLG[0-9]{3}$/u.test(reference))) throw new FreshKicadParseError("Invalid host auxiliary reference inventory.");
   const identity = terminalIdentity(source, expectedIdentity);
   const root = parseDocument(source, "kicad_sch");
   if (children(root, "sheet").length !== 0) throw new FreshKicadParseError("Terminal extraction does not support child-sheet instances.");
@@ -1230,7 +1240,7 @@ export function parseFreshSchematicTerminalGeometrySource(source: string, expect
     definitions.set(id, definition);
   }
   const symbols = children(root, "symbol");
-  if (symbols.length === 0 || symbols.length > 64) throw new FreshKicadParseError("Terminal schematic component inventory is outside its supported bound.");
+  if (symbols.length === 0 || symbols.length > 64 + auxiliaryReferences.length) throw new FreshKicadParseError("Terminal schematic component inventory is outside its supported bound.");
   const references = new Set<string>();
   return Object.freeze(symbols.map((symbol): FreshPlacedSchematicTerminalGeometry => {
     const context = "Terminal placed symbol";
@@ -1238,7 +1248,7 @@ export function parseFreshSchematicTerminalGeometrySource(source: string, expect
       throw new FreshKicadParseError(`${context}: mirrored, alternate library-name, or malformed instances are unsupported.`);
     }
     const reference = terminalProperties(symbol, context).get("Reference");
-    if (reference === undefined || !/^[A-Z][A-Z0-9_-]{0,31}$/u.test(reference) || references.has(reference)) {
+    if (reference === undefined || (!/^[A-Z][A-Z0-9_-]{0,31}$/u.test(reference) && !auxiliaryReferences.includes(reference)) || references.has(reference)) {
       throw new FreshKicadParseError(`${context}: missing/duplicate reference or repeated multi-unit instance is unsupported.`);
     }
     references.add(reference);
@@ -1271,6 +1281,77 @@ export function parseFreshSchematicTerminalGeometrySource(source: string, expect
       bodyStyleOrigin: convert === null ? "omitted-default" : "explicit", sourceIdentity: identity, embeddedDefinitionIdentity: geometry.definitionIdentity, embeddedGeometry: geometry,
       placement: Object.freeze({ at: at.at, rotationDeg: at.angleDeg }), pins });
   }));
+}
+
+/** Complete power definition token identity; only the qualified root name is normalized. */
+export function freshPowerFlagDefinitionSemanticIdentity(source: string, expectedIdentity: ContentIdentity, embedded: boolean): ContentIdentity {
+  terminalIdentity(source, expectedIdentity);
+  const root = parseDocument(source, embedded ? "kicad_sch" : "kicad_symbol_lib");
+  const parent = embedded ? terminalField(root, "lib_symbols", "External power definition")! : root;
+  const name = embedded ? "power:PWR_FLAG" : "PWR_FLAG";
+  const definitions = children(parent, "symbol").filter(node => node.values[0]?.value === name);
+  if (definitions.length !== 1) throw new FreshKicadParseError("External power flag requires one exact embedded or stock definition.");
+  const definition = definitions[0]!;
+  const project = (node: Node): unknown => ({ name: node.name, values: node.values.map((atom, index) => ({ quoted: atom.quoted, value: node === definition && index === 0 ? "PWR_FLAG" : atom.value })), children: node.children.map(project) });
+  return terminalIdentity(JSON.stringify(project(definition)));
+}
+
+/** Retain every parsed token except the explicitly named added flag instances/definition. */
+export function freshExternalPowerRetainedSourceIdentity(source: string, references: readonly string[]): ContentIdentity {
+  const root = parseDocument(source, "kicad_sch");
+  const project = (node: Node): unknown => ({ name: node.name, values: node.values.map(atom => ({ quoted: atom.quoted, value: atom.value })),
+    children: node.children.filter(child => !(node === root && child.name === "symbol" && references.includes(terminalProperties(child, "External power retained source").get("Reference") ?? ""))
+      && !(node.name === "lib_symbols" && child.name === "symbol" && child.values[0]?.value === "power:PWR_FLAG")).map(project) });
+  return terminalIdentity(JSON.stringify(project(root)));
+}
+
+/** Strict auxiliary metadata omitted by the ordinary physical component projection. */
+export function parseFreshSchematicPowerFlagInstances(source: string, expectedIdentity: ContentIdentity, references: readonly string[]) {
+  const placed = parseFreshSchematicTerminalGeometrySource(source, expectedIdentity, references);
+  const root = parseDocument(source, "kicad_sch");
+  const rootUuid = terminalScalar(root, "uuid", "External power schematic");
+  const allUuids = descendants(root, "uuid").map(node => node.values.length === 1 ? node.values[0]!.value : "");
+  const auxiliary = placed.filter(component => references.includes(component.reference));
+  const metadata = auxiliary.map(component => {
+    const matches = children(root, "symbol").filter(node => terminalProperties(node, "External power instance").get("Reference") === component.reference);
+    if (matches.length !== 1) throw new FreshKicadParseError("External power instance inventory is ambiguous.");
+    const symbol = matches[0]!, context = `External power ${component.reference}`;
+    const allowed = new Set(["lib_id", "at", "unit", "body_style", "convert", "in_bom", "on_board", "dnp", "uuid", "property", "pin", "instances", "fields_autoplaced", "exclude_from_sim"]);
+    if (symbol.children.some(node => !allowed.has(node.name))) throw new FreshKicadParseError(`${context}: unsupported instance metadata.`);
+    for (const name of allowed) if (name !== "property" && children(symbol, name).length > 1) throw new FreshKicadParseError(`${context}: duplicate instance metadata.`);
+    for (const name of ["in_bom", "on_board", "dnp", "exclude_from_sim"]) if (children(symbol, name).some(node => node.values.some(atom => atom.quoted))) throw new FreshKicadParseError(`${context}: disposition must use native unquoted tokens.`);
+    if (children(symbol, "fields_autoplaced").some(node => node.values.length !== 0 || node.children.length !== 0)) throw new FreshKicadParseError(`${context}: malformed fields_autoplaced marker.`);
+    if (component.symbolLibId !== "power:PWR_FLAG" || component.unit !== 1 || component.bodyStyle !== 1
+      || component.symbolUuid === null || allUuids.filter(uuid => uuid === component.symbolUuid).length !== 1
+      || terminalScalar(symbol, "in_bom", context) !== "yes" || terminalScalar(symbol, "on_board", context) !== "yes") throw new FreshKicadParseError(`${context}: unsupported power instance identity or disposition.`);
+    for (const name of ["dnp", "exclude_from_sim"]) if (children(symbol, name).length > 0 && terminalScalar(symbol, name, context) !== "no") throw new FreshKicadParseError(`${context}: excluded power instance is unsupported.`);
+    const properties = terminalProperties(symbol, context);
+    if (properties.get("Reference") !== component.reference || properties.get("Value") !== "PWR_FLAG" || properties.get("Footprint") !== ""
+      || [...properties.keys()].some(name => !["Reference", "Value", "Footprint", "Datasheet", "Description"].includes(name))) throw new FreshKicadParseError(`${context}: exact stock power fields or empty footprint changed.`);
+    const pins = children(symbol, "pin");
+    if (pins.length > 1 || pins.length === 1 && (pins[0]!.values.length !== 1 || pins[0]!.values[0]!.value !== "1"
+      || itemIdentity(pins[0]!, context) === null || allUuids.filter(uuid => uuid === itemIdentity(pins[0]!, context)).length !== 1)) throw new FreshKicadParseError(`${context}: optional instance pin metadata must contain one unique pin 1.`);
+    const instances = terminalField(symbol, "instances", context)!;
+    if (instances.values.length !== 0 || instances.children.length !== 1 || instances.children[0]!.name !== "project") throw new FreshKicadParseError(`${context}: unsupported instance project inventory.`);
+    const project = instances.children[0]!;
+    if (project.values.length !== 1 || project.children.length !== 1 || project.children[0]!.name !== "path") throw new FreshKicadParseError(`${context}: unsupported instance path inventory.`);
+    const instancePath = project.children[0]!;
+    if (instancePath.values.length !== 1 || instancePath.values[0]!.value !== `/${rootUuid}` || instancePath.children.length !== 2
+      || terminalScalar(instancePath, "reference", context) !== component.reference || terminalScalar(instancePath, "unit", context) !== "1") throw new FreshKicadParseError(`${context}: instance path/reference/unit differs from the root sheet.`);
+    const fields = children(symbol, "property").map(field => {
+      const offset = field.values[0]?.value === "private" && !field.values[0].quoted ? 1 : 0;
+      const allowedProperty = new Set(["at", "effects", "hide", "show_name", "do_not_autoplace"]);
+      if (field.children.some(child => !allowedProperty.has(child.name)) || [...allowedProperty].some(name => children(field, name).length > 1)) throw new FreshKicadParseError(`${context}: unsupported field rendering metadata.`);
+      for (const name of ["show_name", "do_not_autoplace"]) if (children(field, name).length > 0 && (terminalScalar(field, name, context) !== "no" || children(field, name)[0]!.values[0]!.quoted)) throw new FreshKicadParseError(`${context}: unsupported field presentation flag.`);
+      for (const effects of children(field, "effects")) {
+        if (effects.values.length !== 0 || effects.children.some(child => !["font", "hide", "justify"].includes(child.name)) || ["font", "hide", "justify"].some(name => children(effects, name).length > 1)) throw new FreshKicadParseError(`${context}: unsupported field effects.`);
+        for (const font of children(effects, "font")) if (font.values.length !== 0 || font.children.some(child => child.name !== "size") || children(font, "size").length !== 1) throw new FreshKicadParseError(`${context}: unsupported font face, stroke, or style.`);
+      }
+      return Object.freeze({ name: field.values[offset]!.value, text: field.values[offset + 1]!.value, presentation: schematicTextPresentation(field, context) });
+    });
+    return Object.freeze({ ...component, fields: Object.freeze(fields), instanceIdentity: terminalIdentity(source.slice(symbol.start, symbol.end)) });
+  });
+  return Object.freeze({ placed, auxiliary: Object.freeze(metadata), ...(metadata.length === 0 ? {} : { definitionSemanticIdentity: freshPowerFlagDefinitionSemanticIdentity(source, expectedIdentity, true) }) });
 }
 
 export interface FreshSchematicConnectivityPrimitiveInventory {

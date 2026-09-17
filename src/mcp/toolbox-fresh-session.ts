@@ -16,6 +16,7 @@ import { createFreshToolboxCheckpointLifecycle } from "./toolbox-fresh-checkpoin
 import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js";
 import path from "node:path";
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
+import { writeToolboxFootprintPlacementDiagnostic } from "./toolbox-footprint-placement-diagnostics.js";
 
 export interface KicadToolboxFreshSessionInput {
   readonly authority: KicadMcpBoundSessionAuthority;
@@ -82,6 +83,7 @@ export async function openKicadToolboxFreshSession(input: KicadToolboxFreshSessi
       freshLibraryResolver: resolver,
       freshSchematicGeometryResolver: libraries, freshPhysicalFootprintResolver: libraries, freshPhysicalFootprintSourcePins: physicalPins,
       captureFreshNativeNetlist: captures.captureNativeNetlist, captureFreshSchematicStrokeStyle: captures.captureNativeSchematicStrokeStyle,
+      observeFreshFootprintPlacementDiagnostic: async diagnostic => { await writeToolboxFootprintPlacementDiagnostic(outputRoot, diagnostic); },
       capturePersistedMutationBaseline: captureSources,
       verifyPersistedMutation: async baseline => baseline !== undefined && await captureSources() !== baseline,
     });

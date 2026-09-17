@@ -1,3 +1,4 @@
+import { PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE } from "./pcb-external-power.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { capturePortableRawBytes, decodeCapturedPortableUtf8, parseCapturedPortableJsonBytes } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -41,6 +42,7 @@ export interface PcbPlaneCompilationBundle {
   readonly selectionPolicy: PcbPlaneReadyCompilation["selectionPolicy"];
   readonly contract: PcbPlaneReadyCompilation["contract"];
   readonly libraryBinding: PcbPlaneReadyCompilation["libraryBinding"];
+  readonly externalPowerBinding?: PcbPlaneReadyCompilation["externalPowerBinding"];
   readonly deepRuleBinding: PcbPlaneReadyCompilation["deepRuleBinding"];
   readonly verificationPlan: PcbPlaneReadyCompilation["verificationPlan"];
   readonly identity: CanonicalIdentity;
@@ -76,10 +78,12 @@ function build(originalPrompt: unknown, compilation: PcbPlaneReadyCompilation): 
     foundationOnly: true as const, nativeAuthoringPerformed: false as const, acceptanceEvaluated: false as const,
     fabricationAuthorized: false as const, qualificationEstablished: false as const, releaseAuthorized: false as const,
     compilerId: PCB_PLANE_COMPILER_ID, originalPrompt, originalPromptContentIdentity: contentIdentity(originalPrompt),
-    executionGuidance: guidance + (compilation.contract.interfaceRequirements === undefined ? "" : ` ${PCB_INTERFACE_EXECUTION_GUIDANCE}`),
+    executionGuidance: guidance + (compilation.contract.interfaceRequirements === undefined ? "" : ` ${PCB_INTERFACE_EXECUTION_GUIDANCE}`)
+      + (compilation.externalPowerBinding === undefined ? "" : ` ${PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE}`),
     draft: compilation.draft, draftIdentity: compilation.draftIdentity, selectionPolicy: compilation.selectionPolicy,
     contract: compilation.contract, libraryBinding: compilation.libraryBinding, deepRuleBinding: compilation.deepRuleBinding,
-    verificationPlan: compilation.verificationPlan };
+    verificationPlan: compilation.verificationPlan,
+    ...(compilation.externalPowerBinding === undefined ? {} : { externalPowerBinding: compilation.externalPowerBinding }) };
   const bundle = freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, PCB_PLANE_BUNDLE_SCHEMA_VERSION) });
   if (Buffer.byteLength(canonicalJson(bundle) + "\n", "utf8") > PCB_PLANE_BUNDLE_MAX_BYTES) throw new Error("Plane compilation bundle exceeds its aggregate byte bound");
   authenticated.add(bundle);

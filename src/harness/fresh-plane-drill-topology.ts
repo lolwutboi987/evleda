@@ -141,7 +141,23 @@ function collectBores(source: string, saved: SavedFreshPlaneEvidence) {
     for (const pad of footprint.children.filter(node => node.name === "pad")) {
       padCount++; const uuid = id(pad), raw = nativeById.get(uuid), known = knownFp.pads.find(p => p.physical.id === uuid);
       check(raw !== undefined && known !== undefined, "Native PAD/source footprint ownership mismatch");
-      check(pad.atoms.length === 3 && pad.children.every(child => PAD_FIELDS.has(child.name)), "Unsupported source PAD fields or geometry");
+      check(pad.atoms.length === 3, "Unsupported source PAD fields or geometry");
+      const seen = new Set<string>();
+      for (const child of pad.children) {
+        check(!seen.has(child.name), `Repeated source PAD ${child.name}`); seen.add(child.name);
+        if (child.name === "property") {
+          const marker = scalar(child);
+          check(!marker.quoted && marker.value === "pad_prop_heatsink", "Unsupported source PAD property");
+        } else {
+          check(PAD_FIELDS.has(child.name), "Unsupported source PAD fields or geometry");
+          check(child.name === "drill" || child.children.length === 0, `Unsupported source PAD nested ${child.name}`);
+          if (child.name === "zone_connect") {
+            const connection = scalar(child);
+            // The setting changes zone connection, not the physical drill.
+            check(!connection.quoted && /^(?:-1|[0-3])$/u.test(connection.value), "Unsupported source PAD zone_connect");
+          }
+        }
+      }
       const physical = inventory.physicalPads.find(p => p.uuid === uuid)!;
       check(physical.footprintUuid === fpId && physical.reference === knownFp.reference && physical.number === known.number && physical.netName === known.netName,
         "Staged PAD ownership/net differs from exact source inventory");

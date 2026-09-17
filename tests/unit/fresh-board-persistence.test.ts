@@ -1,7 +1,8 @@
 import { mkdir, mkdtemp, readFile, readdir, rename, rm, symlink, writeFile } from "node:fs/promises";
+import * as fsPromises from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   FreshBoardPersistence,
@@ -12,8 +13,13 @@ import {
   type KicadHarnessSession,
 } from "../../src/harness/index.js";
 
+vi.mock("node:fs/promises", async (importOriginal) => {
+  const original = await importOriginal<typeof import("node:fs/promises")>();
+  return { ...original, open: vi.fn(original.open) };
+});
+
 const owned = new Set<string>();
-afterEach(async () => { await Promise.all([...owned].map(async (directory) => { await rm(directory, { recursive: true, force: true }); owned.delete(directory); })); });
+afterEach(async () => { vi.mocked(fsPromises.open).mockReset(); await Promise.all([...owned].map(async (directory) => { await rm(directory, { recursive: true, force: true }); owned.delete(directory); })); });
 
 const insertBoardForm = (source: string, form: string): string => {
   const changed = source.replace(/^\(kicad_pcb(\r?\n)/u, (_match, newline: string) => `(kicad_pcb${newline}\t${form}${newline}`);
@@ -49,6 +55,191 @@ function internalSession(fresh: FreshProject, live: string, active = fresh.pcbPa
     },
   };
 }
+
+describe("owned fresh-board source staging", () => {
+  it("stages exact planned CRLF bytes, retains the preimage, and makes no native write or reload call", async () => {
+    const fresh = await freshBoard("owned-source");
+    await writeFile(fresh.pcbPath, capturedDisk);
+    const before = capturedDisk.toString("utf8");
+    const planned = changedBoard(before);
+    const persistence = new FreshBoardPersistence(fresh);
+    const calls: string[] = [];
+    let live = capturedLive;
+    const session = {
+      ...internalSession(fresh, live),
+      readActivePcbSource: async () => live,
+      callTool: async (name: string) => {
+        calls.push(name);
+        live = capturedLive;
+        return { content: [], structuredContent: { result: "Board reverted to last saved state. All unsaved changes have been discarded." } };
+      },
+    };
+    await persistence.capturePreMutation(session);
+    await persistence.stageOwnedSource(session, planned, before, capturedLive);
+    expect(await readFile(fresh.pcbPath)).toEqual(Buffer.from(planned, "utf8"));
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+    expect(calls).toEqual([]);
+    expect((await readdir(fresh.projectPath)).filter((entry) => entry.includes("evleda-stage.tmp"))).toEqual([]);
+
+    live = planned;
+    await persistence.rollbackToPreMutation(session, { expectedDiskSource: planned, expectedLiveSource: planned });
+    expect(await readFile(fresh.pcbPath)).toEqual(capturedDisk);
+    expect(calls).toEqual(["pcb_revert"]);
+  });
+
+  it("requires the captured exact disk preimage and rejects unsaved live changes", async () => {
+    const fresh = await freshBoard("owned-preimage");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const planned = changedBoard(before);
+    const session = internalSession(fresh, before);
+    const persistence = new FreshBoardPersistence(fresh);
+    await expect(persistence.stageOwnedSource(session, planned, before, before)).rejects.toThrow(/no captured/iu);
+    await persistence.capturePreMutation(session);
+    await expect(persistence.stageOwnedSource(session, planned, planned, planned)).rejects.toThrow(/exact captured preimage/iu);
+    await expect(persistence.stageOwnedSource(internalSession(fresh, planned), planned, before, planned)).rejects.toThrow(/unsaved live changes/iu);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+  });
+
+  it.each([
+    "(kicad_pcb (general)",
+    "(kicad_pcb)",
+    `(kicad_pcb ${" ".repeat(MAX_FRESH_LIVE_BOARD_BYTES)})`,
+    "\u0000",
+    "\uD800",
+  ])("rejects unsupported planned source before touching the board", async (invalid) => {
+    const fresh = await freshBoard("owned-invalid");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const session = internalSession(fresh, before);
+    const persistence = new FreshBoardPersistence(fresh);
+    await persistence.capturePreMutation(session);
+    await expect(persistence.stageOwnedSource(session, invalid, before, before)).rejects.toThrow();
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+    expect((await readdir(fresh.projectPath)).filter((entry) => entry.includes("evleda-stage.tmp"))).toEqual([]);
+  });
+
+  it.each([1, 2])("preserves foreign disk drift during native source read %i", async (driftRead) => {
+    const fresh = await freshBoard("owned-disk-drift");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const foreign = insertBoardForm(before, '(property "Foreign" "edit")');
+    const persistence = new FreshBoardPersistence(fresh);
+    await persistence.capturePreMutation(internalSession(fresh, before));
+    let reads = 0;
+    const session = {
+      ...internalSession(fresh, before),
+      readActivePcbSource: async () => {
+        if (++reads === driftRead) await writeFile(fresh.pcbPath, foreign);
+        return before;
+      },
+    };
+    await expect(persistence.stageOwnedSource(session, changedBoard(before), before, before)).rejects.toThrow(/disk drift/iu);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(foreign);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+    expect((await readdir(fresh.projectPath)).filter((entry) => entry.includes("evleda-stage.tmp"))).toEqual([]);
+  });
+
+  it.each([1, 2])("rejects exact live-source drift during native source read %i", async (driftRead) => {
+    const fresh = await freshBoard("owned-live-drift");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const persistence = new FreshBoardPersistence(fresh);
+    await persistence.capturePreMutation(internalSession(fresh, before));
+    let reads = 0;
+    const changedLineEndings = before.includes("\r\n") ? before.replace(/\r\n/gu, "\n") : before.replace(/\n/gu, "\r\n");
+    const session = { ...internalSession(fresh, before), readActivePcbSource: async () => ++reads === driftRead ? changedLineEndings : before };
+    await expect(persistence.stageOwnedSource(session, changedBoard(before), before, before)).rejects.toThrow(/exact live-source drift/iu);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+    expect((await readdir(fresh.projectPath)).filter((entry) => entry.includes("evleda-stage.tmp"))).toEqual([]);
+  });
+
+  it.each(["board", "marker"] as const)("rejects a same-byte %s identity swap during the final native read", async (target) => {
+    const fresh = await freshBoard("owned-identity-swap");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const persistence = new FreshBoardPersistence(fresh);
+    await persistence.capturePreMutation(internalSession(fresh, before));
+    let reads = 0;
+    const session = {
+      ...internalSession(fresh, before),
+      readActivePcbSource: async () => {
+        if (++reads === 2) {
+          const targetPath = target === "board" ? fresh.pcbPath : fresh.markerPath;
+          const bytes = await readFile(targetPath);
+          await rename(targetPath, `${targetPath}.replaced`);
+          await writeFile(targetPath, bytes);
+        }
+        return before;
+      },
+    };
+    await expect(persistence.stageOwnedSource(session, changedBoard(before), before, before)).rejects.toThrow(/drift/iu);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+    expect((await readdir(fresh.projectPath)).filter((entry) => entry.includes("evleda-stage.tmp"))).toEqual([]);
+  });
+
+  it.each(["partial", "identity"] as const)("rejects %s temporary-file corruption without replacing the board", async (corruption) => {
+    const fresh = await freshBoard("owned-temp-failure");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const planned = changedBoard(before);
+    const persistence = new FreshBoardPersistence(fresh);
+    await persistence.capturePreMutation(internalSession(fresh, before));
+    let reads = 0;
+    const session = {
+      ...internalSession(fresh, before),
+      readActivePcbSource: async () => {
+        if (++reads === 2) {
+          const temporary = (await readdir(fresh.projectPath)).find((entry) => entry.endsWith(".evleda-stage.tmp"));
+          if (temporary === undefined) throw new Error("Missing owned staging temporary file.");
+          const temporaryPath = path.join(fresh.projectPath, temporary);
+          if (corruption === "identity") await rename(temporaryPath, `${temporaryPath}.replaced`);
+          await writeFile(temporaryPath, corruption === "partial" ? planned.slice(0, 50) : planned);
+        }
+        return before;
+      },
+    };
+    await expect(persistence.stageOwnedSource(session, planned, before, before)).rejects.toThrow(/temporary path changed identity or exact planned bytes/iu);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+    expect((await readdir(fresh.projectPath)).filter((entry) => entry.endsWith(".evleda-stage.tmp"))).toEqual([]);
+  });
+
+  it("rechecks the active PCB immediately before the final disk fence and replacement", async () => {
+    const fresh = await freshBoard("owned-final-active");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const persistence = new FreshBoardPersistence(fresh);
+    await persistence.capturePreMutation(internalSession(fresh, before));
+    let assertions = 0;
+    const session = { ...internalSession(fresh, before), assertActivePcb: async () => {
+      if (++assertions > 4) throw new Error("The active PCB switched after final source capture.");
+    } };
+    await expect(persistence.stageOwnedSource(session, changedBoard(before), before, before)).rejects.toThrow(/active PCB switched/iu);
+    expect(assertions).toBe(5);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+  });
+
+  it("rejects a same-byte board replacement between pathname inspection and opening its source", async () => {
+    const fresh = await freshBoard("owned-capture-swap");
+    const before = await readFile(fresh.pcbPath, "utf8");
+    const persistence = new FreshBoardPersistence(fresh);
+    const session = internalSession(fresh, before);
+    await persistence.capturePreMutation(session);
+    const { open: originalOpen } = await vi.importActual<typeof import("node:fs/promises")>("node:fs/promises");
+    let swapped = false;
+    vi.mocked(fsPromises.open).mockImplementation(async (...args) => {
+      if (!swapped && args[0] === fresh.pcbPath) {
+        swapped = true;
+        await rename(fresh.pcbPath, `${fresh.pcbPath}.replaced`);
+        await writeFile(fresh.pcbPath, before);
+      }
+      return await originalOpen(...args);
+    });
+    await expect(persistence.stageOwnedSource(session, changedBoard(before), before, before)).rejects.toThrow(/changed identity/iu);
+    expect(swapped).toBe(true);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+    expect(persistence.hasPendingBoardMutation()).toBe(true);
+  });
+});
 
 describe("fresh durable board persistence", () => {
   it("rejects a captured line-ending-only fallback without treating configured project prose as active authority", async () => {

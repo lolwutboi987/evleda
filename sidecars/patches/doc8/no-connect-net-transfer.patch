@@ -1,0 +1,52 @@
+diff --git a/kicad_mcp/tools/pcb.py b/kicad_mcp/tools/pcb.py
+--- a/kicad_mcp/tools/pcb.py
++++ b/kicad_mcp/tools/pcb.py
+@@ -2297,6 +2297,28 @@
+     return {}, f"Netlist export failed, so pad net names were skipped: {last_stderr}"
+ 
+ 
++def _netlist_child_blocks(block: str, keyword: str) -> list[str]:
++    """Select direct fields without treating quoted text as netlist structure."""
++    children: list[str] = []
++    cursor = 1
++    while cursor < len(block):
++        if block[cursor] == '"':
++            quoted = re.match(STRING_PATTERN, block[cursor:])
++            if quoted is None:
++                return []
++            cursor += quoted.end()
++        elif block[cursor] == "(":
++            child, length = _extract_block(block, cursor)
++            if not child:
++                return []
++            if re.match(rf"\({keyword}(?=\s|\))", child):
++                children.append(child)
++            cursor += length
++        else:
++            cursor += 1
++    return children
++
++
+ def _parse_netlist_text(content: str) -> dict[tuple[str, str], str]:
+     net_map: dict[tuple[str, str], str] = {}
+     cursor = 0
+@@ -2309,6 +2331,19 @@
+                 name_match = re.search(rf"\(name\s+{STRING_PATTERN}\)", block)
+                 if name_match is not None:
+                     net_name = name_match.group(1)
++                    # KiCad exports an intentional NC as a singleton synthetic net.
++                    # Keep that pad netless; neither the name nor pin type alone
++                    # can establish NC semantics for an ordinary connected net.
++                    nodes = _netlist_child_blocks(block, "node")
++                    if len(nodes) == 1 and re.fullmatch(r"unconnected-\(.+\)", net_name):
++                        pin_types = _netlist_child_blocks(nodes[0], "pintype")
++                        pin_type = (
++                            re.fullmatch(rf"\(pintype\s+{STRING_PATTERN}\)", pin_types[0])
++                            if len(pin_types) == 1 else None
++                        )
++                        if pin_type is not None and "no_connect" in pin_type.group(1).split("+"):
++                            cursor += length
++                            continue
+                     for node in re.finditer(
+                         rf"\(node\s+\(ref\s+{STRING_PATTERN}\)\s+\(pin\s+{STRING_PATTERN}\)",
+                         block,

@@ -1,3 +1,8 @@
+import path from "node:path";
+import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
+import { createFreshConnectivityContract } from "./fresh-connectivity-contract.js";
+import { parseFreshPcbSource } from "./fresh-kicad-parser.js";
+import { createFreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 import { z } from "zod";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -43,6 +48,9 @@ export interface FreshPlaneNetClassOperationOptions {
   readonly project: PlaneFreshProject;
   readonly compilationBundle: PcbPlaneCompilationBundle;
   readonly kicad: KicadExecutableIdentity;
+  /** Current host-owned native export for populated intentional NC terminals. */
+  readonly captureNativeNetlist?: () => Promise<string>;
+  readonly assertLibrarySources?: () => void;
 }
 
 const same = (left: unknown, right: unknown) => canonicalJson(left) === canonicalJson(right);
@@ -59,8 +67,41 @@ function operation(input: FreshPlaneNetClassOperationOptions) {
   if (!same(project.planeBinding, expectedBinding)) return fail("UNVERIFIED_BUNDLE", "Plane project binding differs from the exact V2 bundle and its dependencies.");
   const rules = createFreshPlaneRules(compilationBundle);
   const expectedRuleBytes = Buffer.from(rules.source, "utf8");
+  const connectivity=createFreshConnectivityContract(compilationBundle.contract,compilationBundle.externalPowerBinding);
+  let nativeSources:Readonly<Record<string,string>>|undefined;
+  const assertNativeTerminalSourcesCurrent=async()=>{
+    if(nativeSources===undefined)return;
+    input.assertLibrarySources?.();
+    if(!same(nativeSources,await captureKicadNativeSourceHashes(project.projectPath)))fail("SOURCE_DRIFT","Native NC net-class source inventory changed during readback.");
+    input.assertLibrarySources?.();
+  };
+  const qualifyNativeTerminals=async(pcbSource:string)=>{
+    if(connectivity.noConnects.length===0)return undefined;
+    const board=parseFreshPcbSource(pcbSource);
+    if(board.footprints.length===0)return undefined;
+    const namedNoConnect=connectivity.noConnects.some(endpoint=>board.footprints.some(fp=>fp.reference===endpoint.reference&&fp.pads.some(pad=>pad.number===endpoint.pin&&pad.netName!==null)));
+    const completeComponents=board.footprints.length===connectivity.components.length&&connectivity.components.every(component=>board.footprints.filter(fp=>fp.reference===component.reference).length===1);
+    const completeFunctionalTerminals=completeComponents&&connectivity.nets.every(net=>net.endpoints.every(endpoint=>board.footprints.some(fp=>fp.reference===endpoint.reference&&fp.pads.some(pad=>pad.number===endpoint.pin))));
+    // Preparation also runs before schematic authoring and on partial boards.
+    // Footprint refs alone do not prove the functional terminal inventory exists.
+    if(!namedNoConnect&&!completeFunctionalTerminals)return undefined;
+    if(input.captureNativeNetlist===undefined){
+      if(namedNoConnect)fail("UNSUPPORTED_PCB","Named intentional NC terminals require current host-qualified native netlist evidence.");
+      return undefined;
+    }
+    input.assertLibrarySources?.();
+    nativeSources=await captureKicadNativeSourceHashes(project.projectPath);
+    const pcbKey=path.relative(project.projectPath,project.pcbPath).split(path.sep).join("/");
+    if(nativeSources[pcbKey]!==contentIdentity(pcbSource).digest)fail("SOURCE_DRIFT","Native NC net-class PCB differs from the exact current saved source.");
+    const marker=await project.assertMarkerCurrent();
+    const source=await input.captureNativeNetlist();
+    await assertNativeTerminalSourcesCurrent();
+    if(!same(marker,await project.assertMarkerCurrent()))fail("SOURCE_DRIFT","Native NC net-class marker changed during native export.");
+    return createFreshNativeTerminalBinding(connectivity,source,canonicalIdentity({projectBindingIdentity:project.planeBinding.identity,markerContentIdentity:marker,
+      sourceHashes:nativeSources,libraryBindingIdentity:compilationBundle.libraryBinding.identity},"evleda.fresh-plane-netclass-native-terminal-scope.v1"));
+  };
   return {
-    project, compilationBundle, kicad, zones: "not-evaluated" as const,
+    project, compilationBundle, kicad, zones: "not-evaluated" as const,qualifyNativeTerminals,assertNativeTerminalSourcesCurrent,
     authenticateMarker: async (bytes: Buffer): Promise<void> => {
       const actual = await project.assertMarkerCurrent();
       if (!same(actual, contentIdentity(bytes))) return fail("UNVERIFIED_PROJECT", "Captured V3 marker differs from the original PlaneFreshProject authority.");

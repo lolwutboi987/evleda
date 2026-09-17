@@ -1,3 +1,4 @@
+import type { PcbExternalPowerFlagInspection } from "./pcb-external-power.js";
 import { canonicalIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import {
@@ -150,6 +151,8 @@ export interface PcbReadOnlyLibraryResolver {
   readonly resolveSymbol: (exactLibraryId: string) => PcbResolvedSymbol | null;
   readonly resolveFootprint: (exactLibraryId: string) => PcbResolvedFootprint | null;
   /** Optional host catalog capability; legacy exact-ID resolvers omit it. */
+  /** Strict source-bound schematic power annotation capability; absent in legacy dependency objects. */
+  readonly inspectExternalPowerFlag?: () => PcbExternalPowerFlagInspection | null;
   readonly captureSourceSelection?: (selected: PcbLibrarySourceSelectionRequest) => PcbLibrarySourceSelection;
 }
 

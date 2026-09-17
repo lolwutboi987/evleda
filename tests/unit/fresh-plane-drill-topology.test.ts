@@ -168,6 +168,60 @@ describe("drill-aware single-zone interior topology", () => {
     expect(result.conservativeAreaLowerBoundTwiceNm2).toBe("1099320000000000");
   });
 
+  it("retains every PTH/via bore beside the stock WSON heatsink EP and its solid zone setting", async () => {
+    // The native07 F.Cu EP has no bore; its stock metadata must not erase the
+    // physical inventory belonging to other pads and vias on the board.
+    const ep = '(pad "7" smd rect (at 0 0) (size 1 1.6) (property pad_prop_heatsink) (layers "F.Cu" "F.Mask") (net "GND") (zone_connect 2))';
+    const source = board([pad(), ep, pad("10", "5", "0.5", "VIN")], via("15 5", "0.3", "", undefined, "VOUT"));
+    const result = assessFreshPlaneDrillTopology(await fixture(source));
+    expect(result.status).toBe("verified");
+    expect(result.inventory).toEqual({ sourcePadCount: 3, nativePadCount: 3, sourceViaCount: 1, boreCount: 3, complete: true });
+    expect(result.bores.map(bore => [bore.kind, bore.netName, bore.diameterNm])).toEqual([
+      ["pad", "GND", 1000000], ["pad", "VIN", 500000], ["via", "VOUT", 300000],
+    ]);
+    expect(result.conservativeAreaLowerBoundTwiceNm2).toBe("1099320000000000");
+    const unknownFill = assessFreshPlaneDrillTopology(await fixture(source, [[0.5, 0.5], [29.5, 19.5], [0.5, 19.5], [29.5, 0.5]]));
+    unknown(unknownFill, /normalized/i);
+    expect(unknownFill.inventory).toEqual(result.inventory);
+    expect(unknownFill.bores.map(bore => bore.uuid)).toEqual(result.bores.map(bore => bore.uuid));
+    expect(unknownFill.bores.every(bore => bore.classification === "not_classified")).toBe(true);
+  });
+
+  it.each([-1, 0, 1, 2, 3])("keeps physical PTH bores with valid zone_connect %s without assessing thermal policy", async connection => {
+    const result = assessFreshPlaneDrillTopology(await fixture(board([pad("5", "5", "1", "GND", `(property pad_prop_heatsink) (zone_connect ${connection})`)])));
+    expect(result.status).toBe("verified"); expect(result.inventory).toMatchObject({ complete: true, boreCount: 1 });
+    expect(result.bores[0]).toMatchObject({ diameterNm: 1000000, geometrySource: "exact-source-and-native-pad" });
+    expect(result.physicalConnectivity).toBe("not_assessed");
+  });
+
+  it.each([
+    ["unknown property", "(property pad_prop_future)"],
+    ["quoted property", '(property "pad_prop_heatsink")'],
+    ["empty property", "(property)"],
+    ["extra property atom", "(property pad_prop_heatsink extra)"],
+    ["nested property", "(property pad_prop_heatsink (size 1 1))"],
+    ["duplicate property", "(property pad_prop_heatsink) (property pad_prop_heatsink)"],
+    ["unknown connection", "(zone_connect 4)"],
+    ["quoted connection", '(zone_connect "2")'],
+    ["empty connection", "(zone_connect)"],
+    ["extra connection atom", "(zone_connect 2 1)"],
+    ["nested connection", "(zone_connect 2 (thermal_gap 0.1))"],
+    ["duplicate connection", "(zone_connect 2) (zone_connect 2)"],
+    ["unknown geometry", "(padstack (mode custom))"],
+    ["unknown drill", "(secondary_drill 0.1)"],
+  ])("does not certify an inventory containing %s", async (_label, fields) => {
+    const ep = `(pad "7" smd rect (at 0 0) (size 1 1.6) (layers "F.Cu") (net "GND") ${fields})`;
+    const result = assessFreshPlaneDrillTopology(await fixture(board([pad(), ep], via())));
+    unknown(result, /source|PAD|drilling/i);
+    expect(result.inventory.complete).toBe(false);
+  });
+
+  it("rejects unknown geometry hidden in a known leaf beside valid stock EP metadata", async () => {
+    const ep = '(pad "7" smd rect (at 0 0) (size 1 1.6 (future_pad_geometry 1)) (layers "F.Cu") (net "GND") (property pad_prop_heatsink) (zone_connect 2))';
+    const result = assessFreshPlaneDrillTopology(await fixture(board([pad(), ep], via())));
+    unknown(result, /nested size/i); expect(result.inventory.complete).toBe(false);
+  });
+
   it("accounts for through bores even when the PAD's copper is not flashed on the selected layer", async () => {
     const result = assessFreshPlaneDrillTopology(await fixture(board([pad().replace('"F.Cu" "B.Cu"', '"F.Cu"')])));
     expect(result.status).toBe("verified"); expect(result.inventory.boreCount).toBe(1);

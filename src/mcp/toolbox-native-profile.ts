@@ -2,9 +2,10 @@ import path from "node:path";
 import { realpath } from "node:fs/promises";
 import { readKicadNativeProfile } from "../flux/production-composition.js";
 import { createFluxKicadToolchainBinding } from "../flux/kicad-toolchain-binding.js";
-import { bindFluxPcbEditorSuite } from "../flux/pcb-editor-launcher.js";
+import { bindFluxPcbEditorSuite, FluxPcbEditorIdentityError, getFluxPcbEditorCliProbeFailure } from "../flux/pcb-editor-launcher.js";
 import { KicadCliAdapter } from "../integrations/kicad-cli.js";
 import { createOwnedKicadEditorLauncher } from "./toolbox-editor-launcher.js";
+import { writeToolboxCliProbeDiagnostic } from "./toolbox-cli-probe-diagnostics.js";
 import {
   BOUNDED_WINDOWS_PROCESS_TREE_TERMINATION_SCHEMA_VERSION, runBoundedProcess,
   type BoundedWindowsProcessTreeTermination,
@@ -93,8 +94,19 @@ export async function loadKicadToolboxNativeProfile(input: KicadToolboxNativePro
     kicadCli: { path: suite.kicadCli.path, contentIdentity: suite.kicadCli.identity },
     environment: nativeEnvironment, protectedRoots,
   });
-  const editorSuite = await bindFluxPcbEditorSuite({ toolchain: kicadToolchain, environment: nativeEnvironment,
-    runner: options => runBoundedProcess({ ...options, windowsProcessTreeTermination: termination }) });
+  let editorSuite: Awaited<ReturnType<typeof bindFluxPcbEditorSuite>>;
+  try {
+    editorSuite = await bindFluxPcbEditorSuite({ toolchain: kicadToolchain, environment: nativeEnvironment,
+      runner: options => runBoundedProcess({ ...options, windowsProcessTreeTermination: termination }) });
+  } catch (error) {
+    if (getFluxPcbEditorCliProbeFailure(error) === undefined) throw error;
+    // Preparation still requires an empty output on success. Publish only this
+    // known failure, before native host startup, without inspecting other errors.
+    let artifact: Awaited<ReturnType<typeof writeToolboxCliProbeDiagnostic>>;
+    try { artifact = await writeToolboxCliProbeDiagnostic(outputRoot, error); }
+    catch { throw error; } // Diagnostic I/O must never replace the first cause.
+    throw new FluxPcbEditorIdentityError(`Pinned KiCad CLI identity probe failed its exact transcript policy. Diagnostic: ${artifact.filename} (sha256:${artifact.identity.digest}).`, { cause: error });
+  }
   await bridge.assertCurrent();
   const createCliAdapter: typeof KicadCliAdapter.create = async options => {
     const adapter = await KicadCliAdapter.create({ ...options, executablePath: suite.kicadCli.path,

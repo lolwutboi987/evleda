@@ -1,3 +1,4 @@
+import { PCB_EXTERNAL_POWER_FLAG_INSPECTION_SCHEMA_VERSION, PCB_EXTERNAL_POWER_FLAG_LIB_ID } from "./pcb-external-power.js";
 import { randomBytes } from "node:crypto";
 
 import { canonicalIdentity } from "../core/canonical.js";
@@ -184,6 +185,17 @@ export class KiCad10StockCatalog implements PcbReadOnlyLibraryResolver {
     if (!this.#approved(libraryId, this.#symbols)) return null;
     if (!this.#selectedSymbols.has(libraryId)) this.#select([libraryId], []);
     return this.#resolver.inspectSymbolTerminalGeometry(libraryId);
+  }
+
+  public inspectExternalPowerFlag() {
+    const libraryId = PCB_EXTERNAL_POWER_FLAG_LIB_ID;
+    if (!this.#approved(libraryId, this.#symbols)) return null;
+    if (!this.#selectedSymbols.has(libraryId)) this.#select([libraryId], []);
+    const inspection = this.#resolver.inspectExternalPowerFlag();
+    if (inspection === null) return null;
+    const { identity: _identity, ...captured } = inspection;
+    const payload = { ...captured, policyIdentity: this.#policyIdentity };
+    return freeze({ ...payload, identity: canonicalIdentity(payload, PCB_EXTERNAL_POWER_FLAG_INSPECTION_SCHEMA_VERSION) });
   }
 
   public captureSourceSelection(request: PcbLibrarySourceSelectionRequest): PcbLibrarySourceSelection {

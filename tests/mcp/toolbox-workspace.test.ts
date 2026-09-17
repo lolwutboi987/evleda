@@ -137,12 +137,15 @@ describe("in-chat workspace controller over actual MCP", () => {
       expect(planeSchema).toMatchObject({ family: "plane-v2",
         supportedFamilies: ["routed-v1", "plane-v2"],
         schema: { properties: { schemaVersion: { const: "evleda.pcb-design-intent-draft.v2" }, planes: expect.any(Object), interfaceRequirements: expect.any(Object) } },
-        guide: getPcbPlaneDesignIntentModelGuide(true), guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
+        guide: getPcbPlaneDesignIntentModelGuide(true, true), guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
         optionalRequirements: { interfaceRequirements: { schemaVersion: PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION,
           kinds: ["differential_pair"], sourceAuthority: "caller_asserted_intent", physicalVerification: "not_performed" } },
         example: { schemaVersion: "evleda.pcb-design-intent-draft.v2" }, instruction: expect.any(String) });
       expect(Buffer.byteLength(planeSchema.guide, "utf8")).toBeLessThanOrEqual(20 * 1024);
       expect(planeSchema.schema.required).not.toContain("interfaceRequirements");
+      expect(planeSchema.schema.required).not.toContain("externalPowerInputs");
+      expect(planeSchema.optionalRequirements.externalPowerInputs).toMatchObject({ sourceAuthority: "caller_asserted_external_supply", physicalComponentsAdded: false });
+      expect(planeSchema.example).not.toHaveProperty("externalPowerInputs");
       expect(planeSchema.example).not.toHaveProperty("interfaceRequirements");
       expect(defaultSchema).not.toHaveProperty("optionalRequirements");
       expect((await f.client.listTools()).tools.find(tool => tool.name === "evleda_design_schema")!.description).toContain("interfaceRequirements");
@@ -178,6 +181,17 @@ describe("in-chat workspace controller over actual MCP", () => {
           questions: expect.arrayContaining([expect.objectContaining({ path: "/planes/GND_PLANE/clearanceMm" })]) } });
       expect(result.draftId).toBeUndefined(); expect(result.bundleIdentity).toBeUndefined();
       expect(body(await f.call("evleda_workspace_status")).pendingDrafts).toEqual([]);
+      expect((await f.store.list()).total).toBe(0); expect(f.openBinding).not.toHaveBeenCalled();
+    } finally { await f.close(); }
+  });
+
+  it("returns a keyed external-power clarification before allocating or inventing flags", async () => {
+    const f = await fixture();
+    try {
+      const submitted = await f.submit("power-input", { ...planeDividerDraft(), externalPowerInputs: null });
+      expect(submitted).toMatchObject({ status: "needs_clarification", projectCreated: false,
+        compilation: { questions: expect.arrayContaining([expect.objectContaining({ path: "/externalPowerInputs" })]) } });
+      expect(submitted.draftId).toBeUndefined();
       expect((await f.store.list()).total).toBe(0); expect(f.openBinding).not.toHaveBeenCalled();
     } finally { await f.close(); }
   });

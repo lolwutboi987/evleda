@@ -1,3 +1,4 @@
+import { createPcbExternalPowerBinding, assertPcbExternalPowerBindingCurrent, type PcbExternalPowerBinding } from "./pcb-external-power.js";
 import { z } from "zod";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { hardenPortableValue } from "../core/portable-artifact.js";
@@ -66,6 +67,7 @@ export interface PcbPlaneReadyCompilation extends CompilationCommon {
   readonly selectionPolicy: PcbPlaneSelectionPolicy;
   readonly contract: PcbPlaneDesignContract;
   readonly libraryBinding: PcbLibraryBinding;
+  readonly externalPowerBinding?: PcbExternalPowerBinding;
   readonly deepRuleBinding: PcbDeepRuleBinding;
   readonly verificationPlan: PcbPlaneVerificationPlan;
 }
@@ -188,6 +190,7 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
       symbols: libraries.symbols, footprints: libraries.footprints,
       ...(libraries.sourceSelection === undefined ? {} : { sourceSelection: libraries.sourceSelection }) };
     const libraryBinding: PcbLibraryBinding = freezePcbPlaneArtifact({ ...libraryPayload, identity: canonicalIdentity(libraryPayload, PCB_LIBRARY_BINDING_SCHEMA_VERSION) });
+    const externalPowerBinding = createPcbExternalPowerBinding(contract, libraryBinding, options.libraryResolver);
     const selectionPolicy = normalizePcbPlaneSelectionPolicy(options.deepRuleSelectionOptions);
     const catalog = validateDeepRuleCatalog(hardenPortableValue(options.deepRuleCatalog, {
       maxBytes: 8 * 1024 * 1024, maxDepth: 64, maxNodes: 500_000, maxArrayLength: 100_000,
@@ -202,8 +205,10 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
     const deepPayload = { schemaVersion: PCB_DEEP_RULE_BINDING_SCHEMA_VERSION, contractIdentity: contract.identity,
       catalogIdentity: canonicalIdentity(catalog, "evleda.deep-rule-catalog.v1"), features, selection };
     const deepRuleBinding: PcbDeepRuleBinding = freezePcbPlaneArtifact({ ...deepPayload, identity: canonicalIdentity(deepPayload, PCB_DEEP_RULE_BINDING_SCHEMA_VERSION) });
+    if (externalPowerBinding !== undefined) assertPcbExternalPowerBindingCurrent(externalPowerBinding, options.libraryResolver);
     return freezePcbPlaneArtifact({ ...base, disposition: "ready", draft, draftIdentity: contentIdentity(canonicalJson(draft)),
       selectionPolicy, questions: [], issues: [], contract, libraryBinding, deepRuleBinding,
+      ...(externalPowerBinding === undefined ? {} : { externalPowerBinding }),
       verificationPlan: verificationPlan(contract, libraryBinding, deepRuleBinding) });
   } catch (error) {
     return diagnostics("needs_clarification", draft, [{ code: "COMPILER_DEPENDENCY", path: "/", message: error instanceof Error ? error.message : "Compiler dependency is unavailable" }]);

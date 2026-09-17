@@ -1,0 +1,92 @@
+diff --git a/kicad_mcp/tools/schematic.py b/kicad_mcp/tools/schematic.py
+--- a/kicad_mcp/tools/schematic.py
++++ b/kicad_mcp/tools/schematic.py
+@@ -4436,6 +4436,38 @@
+     return {"x": float(match.group(1)), "y": float(match.group(2))}
+ 
+ 
++def _power_flag_connectivity_pin(
++    content: str, symbol: dict[str, Any]
++) -> tuple[tuple[float, float], dict[str, str]]:
++    """Bind the flag endpoint to its embedded source definition, never a net name."""
++    libraries = re.search(r"\(lib_symbols\b", content)
++    library_block = _extract_block(content, libraries.start())[0] if libraries else ""
++    definitions = [block for name, block in _extract_child_symbol_blocks(library_block)
++                   if name == "power:PWR_FLAG"]
++    records: list[dict[str, Any]] = []
++    all_records: list[dict[str, Any]] = []
++    if len(definitions) == 1:
++        definition = definitions[0]
++        all_records = _extract_pin_records(definition)
++        records.extend(_extract_pin_records(_strip_child_symbol_blocks(definition)))
++        for name, child in _extract_child_symbol_blocks(definition):
++            if name.startswith(("PWR_FLAG_0_", "PWR_FLAG_1_")):
++                records.extend(_extract_pin_records(child))
++    if (int(symbol["unit"]) != 1 or len(records) != 1
++            or len(all_records) != 1
++            or records[0]["number"] != "1" or records[0]["etype"] != "power_out"
++            or float(records[0]["x"]) != 0.0 or float(records[0]["y"]) != 0.0):
++        raise ValueError("power:PWR_FLAG requires one embedded power_out pin numbered 1 at its origin.")
++    record = records[0]
++    rx, ry = rotate_point(float(record["x"]), -float(record["y"]), int(symbol["rotation"]))
++    point = _point_key(float(symbol["x"]) + rx, float(symbol["y"]) + ry)
++    return point, {
++        "reference": str(symbol["reference"]), "pin": str(record["number"]),
++        "value": str(symbol["value"]), "name": str(record["name"]),
++        "etype": str(record["etype"]),
++    }
++
++
+ def _build_connectivity_groups(sch_file: Path) -> list[dict[str, Any]]:
+     data = parse_schematic_file(sch_file)
+     try:
+@@ -4443,6 +4475,7 @@
+         no_connect_points = _extract_no_connects(content)
+         junction_points = _existing_junction_points(content)
+     except OSError:
++        content = ""
+         no_connect_points = set()
+         junction_points = set()
+     parent: dict[tuple[float, float], tuple[float, float]] = {}
+@@ -4513,6 +4546,14 @@
+         group["labels"].add(str(label["name"]))
+ 
+     for power_symbol in data["power_symbols"]:
++        # PWR_FLAG supplies ERC power-output evidence at a physical pin. Its
++        # Value must not union unrelated rails or supply an implicit net name.
++        if power_symbol["lib_id"] == "power:PWR_FLAG":
++            point, pin = _power_flag_connectivity_pin(content, power_symbol)
++            group = ensure_group(point)
++            group["points"].add(point)
++            group["pins"].append(pin)
++            continue
+         group = ensure_group((float(power_symbol["x"]), float(power_symbol["y"])))
+         group["points"].add(_point_key(power_symbol["x"], power_symbol["y"]))
+         group["power"].add(str(power_symbol["value"]))
+diff --git a/kicad_mcp/tools/schematic_topology.py b/kicad_mcp/tools/schematic_topology.py
+--- a/kicad_mcp/tools/schematic_topology.py
++++ b/kicad_mcp/tools/schematic_topology.py
+@@ -49,7 +49,9 @@
+             payload.sheet_name,
+         )
+ 
+-    @mcp.tool()
++    @mcp.tool(meta={
++        "evledaExternalPowerFlagConnectivity": "evleda.kicad-external-power-flag-connectivity.v1"
++    })
+     def sch_get_connectivity_graph() -> str:
+         """Summarize the active schematic as a textual net connectivity graph."""
+         return service.connectivity_graph(dependencies.active_schematic_file())
+diff --git a/kicad_mcp/schematic/topology.py b/kicad_mcp/schematic/topology.py
+--- a/kicad_mcp/schematic/topology.py
++++ b/kicad_mcp/schematic/topology.py
+@@ -159,7 +159,8 @@
+                 label for label in child_data["labels"] if str(label["name"]) == net_name
+             ]
+             matched_power = [
+-                symbol for symbol in child_data["power_symbols"] if str(symbol["value"]) == net_name
++                symbol for symbol in child_data["power_symbols"]
++                if symbol["lib_id"] != "power:PWR_FLAG" and str(symbol["value"]) == net_name
+             ]
+             if matched_labels or matched_power:
+                 child_matches.append(

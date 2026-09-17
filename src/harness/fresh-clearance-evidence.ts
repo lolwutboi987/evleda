@@ -1,3 +1,5 @@
+import { assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
+import { parseFreshPcbSource } from "./fresh-kicad-parser.js";
 import { randomUUID } from "node:crypto";
 import { appendFile, lstat, open, readFile, rename, unlink } from "node:fs/promises";
 import path from "node:path";
@@ -345,6 +347,9 @@ interface SharedNetClassOperationOptions {
   readonly authenticateMarker: (bytes: Buffer) => Promise<void>;
   /** Exact family-owned rule source validation; omission preserves V1 absent/empty rules. */
   readonly validateCustomRules?: (source: CapturedFile | null) => void;
+  /** Family-owned current native parity; never a provider list of extra names. */
+  readonly qualifyNativeTerminals?: (pcbSource: string) => Promise<FreshNativeTerminalBinding | undefined>;
+  readonly assertNativeTerminalSourcesCurrent?: () => Promise<void>;
 }
 
 interface Atom {
@@ -1146,7 +1151,8 @@ export function assertFreshPlaneReferenceCopperScope(source: string): void {
   assertClosedLayeredItems(root, new Set([...layers, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]), source, "not-evaluated");
 }
 
-const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "rejected" | "not-evaluated" = "rejected"): PcbFacts => {
+const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "rejected" | "not-evaluated" = "rejected", nativeTerminals?: FreshNativeTerminalBinding): PcbFacts => {
+  if(nativeTerminals!==undefined)assertFreshNativeNoConnectPcbIsolation(nativeTerminals,parseFreshPcbSource(bytes.toString("utf8")));
   const forms = parseSExpressions(bytes, "KiCad PCB", "UNSUPPORTED_PCB");
   if (forms.length !== 1 || forms[0]!.name !== "kicad_pcb" || forms[0]!.values.length !== 0) {
     return fail("UNSUPPORTED_PCB", "Expected exactly one kicad_pcb root form.");
@@ -1213,10 +1219,11 @@ const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "
     }
   }
   const allNames = [...new Set([...tableNames, ...usedNames])].sort(compareText);
-  if (allNames.some((name) => !isContractNetName(name))) {
+  const noConnectNames=new Set(nativeTerminals?.endpoints.map(endpoint=>endpoint.nativeNetName)??[]);
+  if (allNames.some((name) => !isContractNetName(name)&&!noConnectNames.has(name))) {
     return fail("UNSUPPORTED_PCB", "PCB contains a net name outside the closed contract grammar.");
   }
-  return Object.freeze({ fileVersion, generatorVersion, netNames: Object.freeze(allNames) });
+  return Object.freeze({ fileVersion, generatorVersion, netNames: Object.freeze(allNames.filter(name=>!noConnectNames.has(name))) });
 };
 
 const defaultNetClass = (): JsonRecord => ({
@@ -1749,7 +1756,8 @@ async function materializeNetClassSources<Result>(
     const before = await captureSourceSet(paths);
     await options.authenticateMarker(before.marker.bytes);
     (options.validateCustomRules ?? parseCustomRuleSource)(before.customRules);
-    parsePcbFacts(before.pcb.bytes, false, options.zones);
+    const beforeNativeTerminals=await options.qualifyNativeTerminals?.(before.pcb.bytes.toString("utf8"));
+    parsePcbFacts(before.pcb.bytes, false, options.zones,beforeNativeTerminals);
     const projectJson = strictProjectJson(before.projectSettings.bytes);
     const nextProject = preparedProjectSettings(projectJson, options.project, options.compilationBundle, bindings);
     const nextBytes = Buffer.from(`${JSON.stringify(nextProject, null, 2)}\n`, "utf8");
@@ -1795,13 +1803,15 @@ async function materializeNetClassSources<Result>(
     }
     await options.authenticateMarker(after.marker.bytes);
     (options.validateCustomRules ?? parseCustomRuleSource)(after.customRules);
-    parsePcbFacts(after.pcb.bytes, false, options.zones);
+    const afterNativeTerminals=await options.qualifyNativeTerminals?.(after.pcb.bytes.toString("utf8"));
+    parsePcbFacts(after.pcb.bytes, false, options.zones,afterNativeTerminals);
     readProjectConfiguration(
       strictProjectJson(after.projectSettings.bytes),
       options.project,
       options.compilationBundle,
       bindings,
     );
+    await options.assertNativeTerminalSourcesCurrent?.();
     return build({ changed, kicad, before, after, bindings });
   });
 }
@@ -1853,7 +1863,8 @@ async function readNetClassSources(options: SharedNetClassOperationOptions) {
   const first = await captureSourceSet(paths);
   await options.authenticateMarker(first.marker.bytes);
   (options.validateCustomRules ?? parseCustomRuleSource)(first.customRules);
-  const pcb = parsePcbFacts(first.pcb.bytes, false, options.zones);
+  const nativeTerminals=await options.qualifyNativeTerminals?.(first.pcb.bytes.toString("utf8"));
+  const pcb = parsePcbFacts(first.pcb.bytes, false, options.zones,nativeTerminals);
   if (pcb.generatorVersion !== null) assertGeneratorMatchesKicad(pcb.generatorVersion, kicad);
   const configured = readProjectConfiguration(
     strictProjectJson(first.projectSettings.bytes),
@@ -1865,6 +1876,7 @@ async function readNetClassSources(options: SharedNetClassOperationOptions) {
   if (!sourceSetsEqual(first, second)) {
     return fail("SOURCE_DRIFT", "Net-class semantic authority sources changed during readback.");
   }
+  await options.assertNativeTerminalSourcesCurrent?.();
   const bindingByClassId = new Map(bindings.map(binding => [binding.contractNetClassId, binding]));
   const contractNetAssignments: FreshNetClassContractAssignment[] = [...options.compilationBundle.contract.nets]
     .sort((left, right) => compareText(left.name, right.name))

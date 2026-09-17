@@ -237,6 +237,19 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         currentSourceGuards: "required-of-owning-host-before-and-after-assessment" as const } };
     return freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
   };
+  const expectedNoConnects=bundle.contract.components.flatMap(component=>component.pins.filter(pin=>pin.assignment.kind==="no_connect").map(pin=>`${component.reference}:${pin.pin}`)).sort();
+  if(expectedNoConnects.length>0){
+    const observed=endpoint.noConnectIsolation??[];
+    const isolated=endpoint.nativeTerminalBindingIdentity?.schemaVersion==="evleda.fresh-native-terminal-binding.v1"
+      &&same(observed.map(terminal=>`${terminal.reference}:${terminal.pin}`).sort(),expectedNoConnects)
+      &&observed.every(terminal=>terminal.status==="isolated"&&terminal.disposition==="no_connect"&&terminal.semanticNet===null);
+    if(!isolated){
+      authority=fact("failed","Complete current native intentional-NC terminal isolation is missing or invalid.");
+      sourceScope=authority;setRow("contract:integrity",authority);
+      for(const row of rows.filter(row=>row.kind.startsWith("plane_")||row.kind==="reference_path"))setRow(row.id,authority);
+      return finish();
+    }
+  }
   if (input.savedEvidence === null) { for (const row of rows) setRow(row.id, fact("unknown", missing)); return finish(); }
   const saved = input.savedEvidence;
   requireValue(isSavedFreshPlaneEvidence(saved), "serialized or copied fill evidence has no current-session authority");

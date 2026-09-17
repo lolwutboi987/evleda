@@ -13,7 +13,8 @@ export function createPlaneToolboxCheckpointLifecycle(input: {
   return createToolboxSavedCheckpointLifecycle({ project, session,
     bundleBytes: serializePcbPlaneCompilationBundle(preparation.bundle), bundlePath: preparation.bundlePath, reportPath: preparation.reportPath,
     verifySemantics: () => verifyFreshPlaneNetClassSemanticAuthority(preparation.netClassSemanticAuthority,
-      { project, compilationBundle: preparation.bundle, kicad: preparation.kicadIdentity }),
+      { project, compilationBundle: preparation.bundle, kicad: preparation.kicadIdentity,captureNativeNetlist:preparation.captureNativeNetlist,
+        assertLibrarySources:()=>assertKicadToolboxPlanePreparation(preparation) }),
     expectedReport: () => planePreparationReportBody({ ...preparation, project }),
   });
 }

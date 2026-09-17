@@ -8,13 +8,14 @@ import { performance } from "node:perf_hooks";
 import livePcbPadProtocol from "../fixtures/kicad-mcp-live-pcb-pad-snapshot-protocol.json" with { type: "json" };
 import schematicBatchProtocol from "../fixtures/kicad-mcp-schematic-connectivity-batch-protocol.json" with { type: "json" };
 import qualifiedFootprintSyncTool from "../fixtures/kicad-mcp-qualified-footprint-sync-tool.json" with { type: "json" };
+import externalPowerFlagConnectivityTool from "../fixtures/kicad-mcp-external-power-flag-connectivity-tool.json" with { type: "json" };
 
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import * as canonical from "../../src/core/canonical.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { bindKicadStartupEvidence, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import type { BoundedProcessRunner } from "../../src/integrations/bounded-process.js";
-import { assertDoc5Relocation, readDoc5Source, resolveRuntimeCheckPaths } from "../../scripts/verify-kicad-inspection-runtime.mjs";
+import { resolveRuntimeCheckPaths, verifyRuntime } from "../../scripts/verify-kicad-inspection-runtime.mjs";
 
 import {
   DEFAULT_KICAD_MCP_COMMAND,
@@ -138,6 +139,7 @@ rl.on("line", (line) => {
         ...(liveFixture.padTool === undefined ? [] : [liveFixture.padTool]),
         ...(liveFixture.batchTool === undefined ? [] : [liveFixture.batchTool]),
         ...(liveFixture.syncTool === undefined ? [] : [liveFixture.syncTool]),
+        ...(liveFixture.graphTool === undefined ? [] : [liveFixture.graphTool]),
       ];
       send({ jsonrpc: "2.0", id: message.id, result: { tools: liveTools } });
       return;
@@ -218,6 +220,11 @@ rl.on("line", (line) => {
       }
       if (message.params.name === "pcb_sync_from_schematic") {
         const payload = { result: "fake qualified footprint sync accepted" };
+        send({ jsonrpc: "2.0", id: message.id, result: { content: [{ type: "text", text: payload.result }], structuredContent: payload, isError: false } });
+        return;
+      }
+      if (message.params.name === "sch_get_connectivity_graph") {
+        const payload = { result: "Connectivity groups (1 total):\n- Group 1: VIN | pins=#FLG01:1, J1:1 | points=2" };
         send({ jsonrpc: "2.0", id: message.id, result: { content: [{ type: "text", text: payload.result }], structuredContent: payload, isError: false } });
         return;
       }
@@ -418,6 +425,7 @@ const livePcbFixture = async (project: string, results: readonly unknown[], opti
   batchAfterSource?: string;
   batchProjectAfter?: string;
   syncTool?: Readonly<Record<string, unknown>>;
+  graphTool?: Readonly<Record<string, unknown>>;
 } = {}) => {
   const fixturePath = path.join(project, "live-pcb-fixture.json");
   await writeFile(fixturePath, JSON.stringify({ results, ...options }), "utf8");
@@ -2607,7 +2615,7 @@ describe("KiCad MCP subprocess session", () => {
     await expect(bridge.releaseIpcSocket(ipcSocket, runBindingIdentity)).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
   });
 
-  it.runIf(process.platform === "win32")("reproduces the configured DOC5 runtime without launching KiCad or the sidecar", async () => {
+  it.runIf(process.platform === "win32")("reproduces the configured runtime without launching KiCad or the sidecar", async () => {
     const repositoryRoot = await realpath(process.cwd());
     const installation = resolveRuntimeCheckPaths([], process.env, repositoryRoot);
     const runtimeRoot = installation.root;
@@ -2618,8 +2626,8 @@ describe("KiCad MCP subprocess session", () => {
     const [manifestBytes, lockBytes, cliBytes, terminatorBytes] = await Promise.all([
       readFile(manifestPath), readFile(lockPath), readFile(kicadCliPath), readFile(terminatorPath),
     ]);
-    assertDoc5Relocation(await readDoc5Source(), JSON.parse(manifestBytes.toString("utf8")), runtimeRoot);
-    const parent = await mkdtemp(path.join(suiteRoot, "doc5-")); ownedWorkspaces.add(parent);
+    await verifyRuntime({ root: runtimeRoot, manifest: manifestPath });
+    const parent = await mkdtemp(path.join(suiteRoot, "runtime-")); ownedWorkspaces.add(parent);
     const runtimeParentRoot = path.join(parent, "sessions"), ipcSocketParentRoot = path.join(parent, "ipc");
     await mkdir(runtimeParentRoot); await mkdir(ipcSocketParentRoot);
     let launches = 0;
@@ -3560,6 +3568,103 @@ describe("KiCad MCP subprocess session", () => {
       expect(unbound.supportsQualifiedFootprintIdentitySync()).toBe(false);
       await expect(unbound.callTool(qualifiedFootprintSyncTool.name)).rejects.toThrow(/must be host-bound before tool calls/iu);
     } finally { await unbound.close(); }
+    await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
+  });
+
+  it.each(["readonly", "write"] as const)("admits the captured external power flag connectivity descriptor and preserves complete graph membership in %s mode", async mode => {
+    expect(createHash("sha256").update(canonicalJson(externalPowerFlagConnectivityTool), "utf8").digest("hex"))
+      .toBe("eddb2180b77bf4aa528bc9f007c5ab07cdd54dbc310d661e79c4a8fb368ad54d");
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { graphTool: externalPowerFlagConnectivityTool });
+    const session = await KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, mode,
+      ...(mode === "write" ? { freshProject: true } : {}),
+      command: fixture.command, requiredTools: [externalPowerFlagConnectivityTool.name],
+    });
+    try {
+      expect(session.supportsExternalPowerFlagConnectivity()).toBe(true);
+      await expect(session.callTool(externalPowerFlagConnectivityTool.name)).resolves.toMatchObject({
+        structuredContent: { result: "Connectivity groups (1 total):\n- Group 1: VIN | pins=#FLG01:1, J1:1 | points=2" },
+      });
+      expect((await readFile(fixture.callsPath, "utf8")).trim().split("\n").map(line => JSON.parse(line)))
+        .toEqual([{ name: externalPowerFlagConnectivityTool.name, arguments: {} }]);
+    } finally { await session.close(); }
+    expect(session.supportsExternalPowerFlagConnectivity()).toBe(false);
+  });
+
+  it.each([
+    ["false marker", { _meta: { evledaExternalPowerFlagConnectivity: false } }],
+    ["null marker", { _meta: { evledaExternalPowerFlagConnectivity: null } }],
+    ["object marker", { _meta: { evledaExternalPowerFlagConnectivity: { version: 1 } } }],
+    ["array marker", { _meta: { evledaExternalPowerFlagConnectivity: ["evleda.kicad-external-power-flag-connectivity.v1"] } }],
+    ["wrong version", { _meta: { evledaExternalPowerFlagConnectivity: "evleda.kicad-external-power-flag-connectivity.v0" } }],
+    ["extra metadata", { _meta: { ...externalPowerFlagConnectivityTool._meta, extra: true } }],
+    ["input schema", { inputSchema: { ...externalPowerFlagConnectivityTool.inputSchema, additionalProperties: false } }],
+    ["output schema", { outputSchema: { ...externalPowerFlagConnectivityTool.outputSchema, additionalProperties: false } }],
+    ["annotation", { annotations: { ...externalPowerFlagConnectivityTool.annotations, readOnlyHint: false } }],
+    ["description", { description: `${externalPowerFlagConnectivityTool.description}\n` }],
+  ] as const)("rejects external power flag connectivity %s tampering before dispatch", async (_label, override) => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { graphTool: { ...externalPowerFlagConnectivityTool, ...override } });
+    for (const mode of ["readonly", "write"] as const) {
+      await expect(KicadMcpSession.connect({
+        workspaceRoot: workspace, projectRoot: project, mode,
+        ...(mode === "write" ? { freshProject: true } : {}), command: fixture.command,
+      })).rejects.toThrow(/external power flag connectivity claims a mismatched qualified tool contract/iu);
+      await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
+    }
+  });
+
+  it.each(["readonly", "write"] as const)("keeps old unmarked external power flag connectivity reads available in %s without qualified flag semantics", async mode => {
+    const { workspace, project } = await roots();
+    const { _meta: _qualification, ...oldGraphTool } = externalPowerFlagConnectivityTool;
+    const fixture = await livePcbFixture(project, [], { graphTool: oldGraphTool });
+    const session = await KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, mode, command: fixture.command,
+      ...(mode === "write" ? { freshProject: true } : {}),
+    });
+    try {
+      expect(session.supportsExternalPowerFlagConnectivity()).toBe(false);
+      await expect(session.callTool(externalPowerFlagConnectivityTool.name)).resolves.toMatchObject({
+        structuredContent: { result: expect.stringContaining("pins=#FLG01:1, J1:1") },
+      });
+    } finally { await session.close(); }
+  });
+
+  it("keeps external power flag connectivity readiness separate from mutation permissions and behind project binding", async () => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { graphTool: externalPowerFlagConnectivityTool });
+    const readonly = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, command: fixture.command });
+    try {
+      expect(readonly.supportsExternalPowerFlagConnectivity()).toBe(true);
+      await expect(readonly.callTool("pcb_save")).rejects.toThrow(/not allowed in readonly mode/iu);
+    }
+    finally { await readonly.close(); }
+    const launchCwd = await mkdtemp(path.join(suiteRoot, "evleda-flag-deferred-"));
+    ownedWorkspaces.add(launchCwd);
+    const unbound = await KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, mode: "write", freshProject: true,
+      launchCwd, deferProjectBinding: true, command: fixture.command,
+      requiredTools: [externalPowerFlagConnectivityTool.name],
+    });
+    try {
+      expect(unbound.supportsExternalPowerFlagConnectivity()).toBe(false);
+      await expect(unbound.callTool(externalPowerFlagConnectivityTool.name)).rejects.toThrow(/must be host-bound before tool calls/iu);
+    } finally { await unbound.close(); }
+    await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
+  });
+
+  it("requires graph read authority for external power flag connectivity capability", async () => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { graphTool: externalPowerFlagConnectivityTool });
+    const session = await KicadMcpSession.connect({
+      workspaceRoot: workspace, projectRoot: project, command: fixture.command,
+      readToolAllowlist: ["kicad_get_project_info"],
+    });
+    try {
+      expect(session.supportsExternalPowerFlagConnectivity()).toBe(false);
+      await expect(session.callTool(externalPowerFlagConnectivityTool.name)).rejects.toThrow(/not allowed in readonly mode/iu);
+    } finally { await session.close(); }
     await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
   });
 

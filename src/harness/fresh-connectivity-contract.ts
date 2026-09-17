@@ -1,5 +1,6 @@
 import { canonicalIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
+import { parsePcbExternalPowerBinding, type PcbExternalPowerBinding } from "./pcb-external-power.js";
 import {
   parsePcbDesignContract,
   type PcbDesignContract,
@@ -40,6 +41,8 @@ export interface FreshConnectivityContract {
   readonly components: readonly FreshConnectivityComponent[];
   readonly nets: readonly FreshConnectivityNet[];
   readonly noConnects: readonly FreshConnectivityEndpoint[];
+  /** Separate source-bound schematic annotations; never physical components or routing endpoints. */
+  readonly externalPowerBinding?: PcbExternalPowerBinding;
   readonly identity: CanonicalIdentity;
 }
 
@@ -115,7 +118,7 @@ function fromValidatedPcbDesignContract(contract: PcbDesignContract | PcbPlaneDe
  * source contract identity retains all V2 constraints. The provider never
  * receives or supplies this payload as tool arguments.
  */
-export function createFreshConnectivityContract(value: FreshConnectivityContractSource): FreshConnectivityContract {
+export function createFreshConnectivityContract(value: FreshConnectivityContractSource, externalPowerBinding?: PcbExternalPowerBinding): FreshConnectivityContract {
   const record = value as unknown as { schemaVersion?: unknown } | null;
   let payload: Omit<FreshConnectivityContract, "identity">;
   switch (record?.schemaVersion) {
@@ -130,6 +133,10 @@ export function createFreshConnectivityContract(value: FreshConnectivityContract
       break;
     default:
       throw new Error("Unsupported fresh connectivity source schema; a validated LED, PCB V1, or PCB plane V2 contract is required.");
+  }
+  if (externalPowerBinding !== undefined) {
+    if (record?.schemaVersion !== PCB_PLANE_CONTRACT_SCHEMA_VERSION) throw new Error("External power annotations require their genuine V2 contract.");
+    payload = { ...payload, externalPowerBinding: parsePcbExternalPowerBinding(externalPowerBinding, payload.sourceContractIdentity) };
   }
   return freeze({
     ...payload,

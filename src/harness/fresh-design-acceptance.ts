@@ -1,3 +1,5 @@
+import { createFreshConnectivityContract } from "./fresh-connectivity-contract.js";
+import { createFreshNativeTerminalBinding, assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 import { createHash } from "node:crypto";
 
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
@@ -487,7 +489,7 @@ function parsePcbNetTable(source: string): ParsedPcbNetTable | null {
   return { declarations, references };
 }
 
-function pcbNetInventoryCheck(source: string, contract: PcbDesignContract): Check {
+function pcbNetInventoryCheck(source: string, contract: PcbDesignContract, nativeTerminals?:FreshNativeTerminalBinding): Check {
   const table = parsePcbNetTable(source);
   if (table === null) return { status: "unknown", detail: "PCB net declarations or nested references are malformed or ambiguous." };
   const reserved = table.declarations.filter((entry) => entry.name.length === 0);
@@ -513,7 +515,7 @@ function pcbNetInventoryCheck(source: string, contract: PcbDesignContract): Chec
     && named.every((entry) => entry.id > 0)
     && referencesValid
     && named.every((entry) => referencedNames.has(entry.name))
-    && sameStrings(actualNames, contract.nets.map((net) => net.name));
+    && sameStrings(actualNames, [...contract.nets.map((net) => net.name),...(nativeTerminals?.endpoints.map(endpoint=>endpoint.nativeNetName)??[])]);
   return {
     status: passed ? "pass" : "fail",
     detail: passed
@@ -1409,6 +1411,7 @@ const pcbComponentCheck = (
   allowedFootprintLeaf: string | undefined,
   nativePads: KicadNativePadObservation | null,
   nativePadProblem: string,
+  nativeTerminals?:FreshNativeTerminalBinding,
 ): Check => {
   if (nativePadProblem) return {status:"fail",detail:nativePadProblem};
   if (pcbNetInventory.status !== "pass") {
@@ -1418,7 +1421,7 @@ const pcbComponentCheck = (
     };
   }
   const matches = board.footprints.filter((footprint) => footprint.reference === component.reference);
-  const expectedNetByPin = new Map(component.pins.map((pin) => [pin.pin, pin.assignment.kind === "net" ? pin.assignment.net : null]));
+  const expectedNetByPin = new Map(component.pins.map((pin) => [pin.pin, pin.assignment.kind === "net" ? pin.assignment.net : nativeTerminals?.endpoints.find(endpoint=>endpoint.reference===component.reference&&endpoint.pin===pin.pin)?.nativeNetName??null]));
   if(matches.length===1 && needsNativePhysicalPadEvidence(matches[0]!) && nativePads===null)return {status:"unknown",detail:`${component.reference} needs current host-native physical feature and logical-terminal evidence; paste apertures are not pins.`};
   if(nativePads!==null && !nativePads.physicalLibraryBindings.some(binding=>binding.reference===component.reference&&binding.libraryId===component.footprintLibId))return {status:"unknown",detail:`${component.reference} lacks current source-pinned physical library preservation evidence.`};
   const electrical=matches[0]?.pads.filter(pad=>pad.number.length>0&&physicalPadCopperLayers(pad).length>0)??[];
@@ -1486,7 +1489,7 @@ export function evaluateFreshDesignAcceptance(
   const drc = nativeValidatorCheck(evidence.drc, "drc");
   const clearances = clearanceChecks(evidence.clearance, contract, evidence.pcbSource);
   const uncoveredZonesPresent = hasTopLevelForm(evidence.pcbSource, "zone");
-  const pcbNetInventory = pcbNetInventoryCheck(evidence.pcbSource, contract);
+
   let schematic: ReturnType<typeof parseFreshSchematicSource> | null = null;
   let netlist: ReturnType<typeof parseFreshNetlistSource> | null = null;
   let board: FreshParsedPcb | null = null;
@@ -1499,6 +1502,23 @@ export function evaluateFreshDesignAcceptance(
   catch (error) { netlistProblem = error instanceof FreshKicadParseError ? error.message : "Native netlist parsing failed unexpectedly."; }
   try { board = parseFreshPcbSource(evidence.pcbSource); }
   catch (error) { boardProblem = error instanceof FreshKicadParseError ? error.message : "PCB parsing failed unexpectedly."; }
+
+  let nativeTerminals:FreshNativeTerminalBinding|undefined;
+  let nativeTerminalProblem="";
+  if(contract.components.some(component=>component.pins.some(pin=>pin.assignment.kind==="no_connect"))){
+    try{
+      nativeTerminals=createFreshNativeTerminalBinding(createFreshConnectivityContract(contract),evidence.netlistSource,canonicalIdentity({contractIdentity:contract.identity,schematic:contentIdentity(evidence.schematicSource),pcb:contentIdentity(evidence.pcbSource),libraryBindingIdentity:artifacts.libraryBinding.identity},"evleda.fresh-design-native-terminal-scope.v1"));
+      if(board===null)throw new Error("NC board source is unavailable.");
+      assertFreshNativeNoConnectPcbIsolation(nativeTerminals,board);
+      if(nativePads!==null)for(const endpoint of nativeTerminals.endpoints){
+        const ids=new Set(nativePads.inventory?.physicalPads.filter(pad=>pad.reference===endpoint.reference&&pad.number===endpoint.pin).map(pad=>pad.uuid)??[]);
+        if(ids.size===0)throw new Error("NC physical inventory is missing.");
+        for(const id of ids){const query=nativePads.clusters.queries.find(value=>value.sourceUuids.length===1&&value.sourceUuids[0]===id);
+          if(query===undefined||query.status!=="complete"||!query.returnedPadUuids.includes(id)||query.returnedPadUuids.some(member=>!ids.has(member)))throw new Error("NC native reachability is missing or reaches a foreign logical terminal.");}
+      }
+    }catch(error){nativeTerminalProblem=`Native intentional NC binding rejected: ${error instanceof Error?error.message:String(error)}`;}
+  }
+  const pcbNetInventory:Check=nativeTerminalProblem?{status:"fail",detail:nativeTerminalProblem}:pcbNetInventoryCheck(evidence.pcbSource,contract,nativeTerminals);
 
   let analysis: PcbPracticeAnalysis | null = null;
   let analysisProblem = "";
@@ -1544,18 +1564,17 @@ export function evaluateFreshDesignAcceptance(
     0,
   );
   const intentionalNoConnectNets = netlist?.nets.filter((net) =>
-    /^unconnected-\(.+\)$/u.test(net.name)
-    && net.nodes.length === 1
+    net.nodes.length === 1
+    && nativeTerminals?.endpoints.some(endpoint=>endpoint.reference===net.nodes[0]!.reference&&endpoint.pin===net.nodes[0]!.pin&&endpoint.nativeNetName===net.name)
     && net.nodes[0]!.pinType.split("+").includes("no_connect")) ?? [];
   const functionalNets = netlist?.nets.filter((net) => !intentionalNoConnectNets.includes(net)) ?? [];
   const malformedNoConnectSemantics = functionalNets.some((net) =>
-    /^unconnected-\(/u.test(net.name)
-    || net.nodes.some((node) => node.pinType.split("+").includes("no_connect")));
+    net.nodes.some((node) => node.pinType.split("+").includes("no_connect")));
   const actualNoConnectEndpoints = intentionalNoConnectNets.map((net) =>
     endpointKey(net.nodes[0]!.reference, net.nodes[0]!.pin));
   const expectedNoConnectEndpoints = contract.components.flatMap((component) => component.pins.flatMap((pin) =>
     pin.assignment.kind === "no_connect" ? [endpointKey(component.reference, pin.pin)] : []));
-  const nativeNoConnectEndpointsExact = !malformedNoConnectSemantics
+  const nativeNoConnectEndpointsExact = !nativeTerminalProblem && !malformedNoConnectSemantics
     && sameStrings(actualNoConnectEndpoints, expectedNoConnectEndpoints);
   const actualNetByEndpoint = new Map<string, string>();
   if (netlist !== null) {
@@ -1668,7 +1687,7 @@ export function evaluateFreshDesignAcceptance(
       id,
       board === null
         ? { status: "unknown", detail: boardProblem || "PCB source is unavailable." }
-        : pcbComponentCheck(component, board, pcbInventoryExact, pcbNetInventory, allowedFootprintLeaves.get(component.reference),nativePads,nativePadProblem),
+        : pcbComponentCheck(component, board, pcbInventoryExact, pcbNetInventory, allowedFootprintLeaves.get(component.reference),nativePads,nativePadProblem,nativeTerminals),
     );
   }
   checks.set(

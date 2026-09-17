@@ -1,10 +1,18 @@
 # EvlEDA
 
-The current additive MCP/skills toolbox is documented in [docs/toolbox.md](docs/toolbox.md).
-`pnpm mcp:toolbox` serves the verified research guides directly; CAD operations
-are exposed when an owning host supplies an already-bound project/session.
-The standalone command does not yet create that native binding. The older MCP,
-runner, Flux UI and broader application described below are preserved.
+EvlEDA is a local KiCad MCP toolbox and PCB-design skill for agents working in chat. Its workspace tools discover approved stock parts, compile design drafts, create and resume native projects, author schematics and PCB geometry, and collect source-bound checks and previews.
+
+Start with the [toolbox guide](docs/toolbox.md), [client setup](docs/toolbox-client-setup.md), and [current status](docs/current-status-and-roadmap.md). The [PCB skill](skills/evleda-pcb/SKILL.md) supplies the engineering workflow; it does not itself supply CAD access.
+
+- `pnpm mcp:toolbox` serves the verified research corpus without opening CAD.
+- `pnpm mcp:toolbox:workspace` uses an explicitly configured host profile and workspace for in-chat draft, create, close and resume operations. See the [disabled configuration example](examples/toolbox-workspace.config.toml) before configuring a host.
+- Native authoring is bounded by the selected contract, installed runtime and advertised capabilities. Current source supports the V1 routed family and V2 two-layer plane family; verification status and unsupported cases remain explicit.
+
+The [WSON regulator example](examples/wson-regulator-toolbox-proof/README.md) includes the actual KiCad project, native previews and a compact qualification record. Its public-tool authoring and read-only reopen preserve all six source files; unresolved plane and engineering requirements remain explicit. Native checks produce review evidence, not a manufacture-ready verdict. Physical validation, firmware and manufacturing release are outside this active toolbox milestone.
+
+## Preserved application and Flux UI
+
+The sections below document the earlier application and its profile-bound workflows. Their topology and iteration limits apply to those workflows; they are not a replacement for the current chat toolbox documentation. This infrastructure remains in the repository and is deferred from the active development path.
 
 For the candidate-only local Flux workspace, see [docs/flux-local.md](docs/flux-local.md).
 

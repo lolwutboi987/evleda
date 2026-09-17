@@ -7,7 +7,7 @@ import type { KicadTransmissionLineCalculator } from "../../src/integrations/kic
 import { sourceAwareLibraryFixture } from "../helpers/pcb-library-source-fixture.js";
 
 const seams = vi.hoisted(() => ({ authenticate: vi.fn(), initialize: vi.fn(), initialSave: vi.fn(), checkpoint: vi.fn(), verifyClasses: vi.fn(),
-  resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn(), routeDiagnostic: vi.fn(), endpointCapture: vi.fn(), interfaceCapture: vi.fn() }));
+  resume: vi.fn(), captures: vi.fn(), tools: vi.fn(), practices: vi.fn(), fingerprint: vi.fn(), lifecycle: vi.fn(), routeDiagnostic: vi.fn(), syncDiagnostic: vi.fn(), placementDiagnostic: vi.fn(), endpointCapture: vi.fn(), interfaceCapture: vi.fn() }));
 vi.mock("../../src/mcp/toolbox-plane-checkpoint.js", () => ({ createPlaneToolboxCheckpointLifecycle: seams.lifecycle }));
 vi.mock("../../src/mcp/toolbox-fresh-initial-save.js", () => ({ saveInitialFreshProjectSettings: seams.initialSave }));
 vi.mock("../../src/cli/pcb-agent.js", () => ({ createFreshNativeCaptures: seams.captures,
@@ -19,6 +19,8 @@ vi.mock("../../src/harness/kicad-tools.js", () => ({ createKicadHarnessTools: se
 vi.mock("../../src/mcp/toolbox-plane-preparation.js", () => ({ assertKicadToolboxPlanePreparation: seams.authenticate }));
 vi.mock("../../src/mcp/toolbox-practices.js", () => ({ createToolboxPracticeAnalyzer: seams.practices }));
 vi.mock("../../src/mcp/toolbox-route-diagnostics.js", () => ({ writeToolboxRouteDiagnostic: seams.routeDiagnostic }));
+vi.mock("../../src/mcp/toolbox-sync-diagnostics.js", () => ({ writeToolboxSyncDiagnostic: seams.syncDiagnostic }));
+vi.mock("../../src/mcp/toolbox-footprint-placement-diagnostics.js", () => ({ writeToolboxFootprintPlacementDiagnostic: seams.placementDiagnostic }));
 vi.mock("../../src/mcp/toolbox-endpoint-connectivity.js", () => ({ captureToolboxEndpointConnectivity: seams.endpointCapture }));
 vi.mock("../../src/mcp/toolbox-interface-report.js", () => ({ captureToolboxInterface: seams.interfaceCapture }));
 import { openKicadToolboxPlaneSession } from "../../src/mcp/toolbox-plane-session.js";
@@ -38,7 +40,7 @@ function fixture() {
     contract: { identity: { exact: "plane-contract" }, components: [{ reference: "R1", footprintLibId: "Lib:Footprint" }] }, practiceProfileBinding: { profile: { reviewed: "practice" } } };
   const preparation = { family: "plane-v2", mode: "fresh", project: original, bundle, bundleRef: { pinned: "bundle" }, dependencies: { libraryResolver: resolver }, reportPath: "output/report",
     preparedSourceAuthority: { exact: "original-preparation" }, netClassSemanticAuthority: { netClasses: [{ id: "signal" }], contractNetAssignments: [{ net: "SIG" }] },
-    kicadIdentity: { path: "host/kicad-cli.exe" } };
+    kicadIdentity: { path: "host/kicad-cli.exe" },captureNativeNetlist:vi.fn() };
   seams.authenticate.mockImplementation(value => { if (value !== preparation) throw new Error("Unauthenticated preparation"); });
   seams.initialize.mockImplementation(async () => { order.push("initialize"); });
   seams.initialSave.mockImplementation(async () => { order.push("initial-save"); });
@@ -105,7 +107,7 @@ describe("plane toolbox session composition", () => {
       expectedPreparedSourceAuthority: f.preparation.preparedSourceAuthority,
       expectedNetClassProjection: { netClasses: f.preparation.netClassSemanticAuthority.netClasses, contractNetAssignments: f.preparation.netClassSemanticAuthority.contractNetAssignments } });
     expect(seams.verifyClasses).toHaveBeenCalledWith(f.preparation.netClassSemanticAuthority,
-      { project: f.original, compilationBundle: f.bundle, kicad: f.preparation.kicadIdentity });
+      { project: f.original, compilationBundle: f.bundle, kicad: f.preparation.kicadIdentity,captureNativeNetlist:f.preparation.captureNativeNetlist,assertLibrarySources:expect.any(Function) });
     expect(seams.resume).toHaveBeenCalledWith({ outputDir: f.original.outputPath, name: f.original.name, resume: true,
       compilationBundle: f.bundle, compilationBundleRef: f.preparation.bundleRef });
     expect(seams.captures).toHaveBeenCalledWith({ project: f.resumed, executablePath: f.preparation.kicadIdentity.path, createAdapter: f.createCliAdapter });
@@ -118,6 +120,12 @@ describe("plane toolbox session composition", () => {
     const diagnostic = { phase: "primary-failure", firstOperation: "pcb_push_commit" };
     await options.observeFreshRouteMutationDiagnostic(diagnostic);
     expect(seams.routeDiagnostic).toHaveBeenCalledWith(path.join(f.original.outputPath, ".evleda-mcp-output"), diagnostic);
+    const syncDiagnostic = { phase: "primary-failure", stage: "saved-contract-pad-positions" };
+    await options.observeFreshSyncFailureDiagnostic(syncDiagnostic);
+    expect(seams.syncDiagnostic).toHaveBeenCalledWith(path.join(f.original.outputPath, ".evleda-mcp-output"), syncDiagnostic);
+    const placementDiagnostic = { phase: "primary-failure", firstOperation: "native-reload" };
+    await options.observeFreshFootprintPlacementDiagnostic(placementDiagnostic);
+    expect(seams.placementDiagnostic).toHaveBeenCalledWith(path.join(f.original.outputPath, ".evleda-mcp-output"), placementDiagnostic);
     expect(options).not.toHaveProperty("freshCompilationBundle");
     expect(connected.planeAuthoringContext).toEqual({ projectBindingIdentity: f.resumed.planeBinding.identity, sourceContractIdentity: f.bundle.contract.identity });
     expect(options.freshPhysicalFootprintSourcePins[0].sourceIdentity).not.toBe(f.sourceIdentity);

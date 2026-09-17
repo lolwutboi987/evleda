@@ -28,6 +28,22 @@ export class FluxPcbEditorIdentityError extends Error {
   override readonly name = "FluxPcbEditorIdentityError";
 }
 
+interface FluxPcbEditorCliProbeFailure {
+  readonly args: readonly string[];
+  readonly expectedStdout: string;
+  readonly exitCode: number;
+  readonly stdout: string;
+  readonly stderr: string;
+}
+
+// Only runCliProbe can brand a failure. A model-supplied object, copied cause,
+// or independently constructed identity error cannot become a raw transcript.
+const cliProbeFailures = new WeakMap<object, FluxPcbEditorCliProbeFailure>();
+export function getFluxPcbEditorCliProbeFailure(error: unknown): FluxPcbEditorCliProbeFailure | undefined {
+  return error !== null && (typeof error === "object" || typeof error === "function")
+    ? cliProbeFailures.get(error) : undefined;
+}
+
 export class FluxPcbEditorProbeUncertainError extends Error {
   override readonly name = "FluxPcbEditorProbeUncertainError";
   readonly retryable = false;
@@ -260,7 +276,15 @@ const runCliProbe = async (
       if (error instanceof ProcessTreeTerminationUnconfirmedError) throw new FluxPcbEditorProbeUncertainError({ cause: error });
       throw error;
     }
-    if (result.exitCode !== 0 || result.stderr !== "" || result.stdout !== `${expected}\r\n`) throw new FluxPcbEditorIdentityError("Pinned KiCad CLI identity probe failed its exact transcript policy.");
+    if (result.exitCode !== 0 || result.stderr !== "" || result.stdout !== `${expected}\r\n`) {
+      // Deliberately select only the failed invocation and its bounded result;
+      // never retain the runner options, environment, executable path or input.
+      const failure = Object.freeze({ args: Object.freeze([...args]), expectedStdout: `${expected}\r\n`,
+        exitCode: result.exitCode, stdout: result.stdout, stderr: result.stderr });
+      const error = new FluxPcbEditorIdentityError("Pinned KiCad CLI identity probe failed its exact transcript policy.", { cause: failure });
+      cliProbeFailures.set(error, failure);
+      throw error;
+    }
   };
   await invoke(["version"], binding.kicadCli.operationalVersion);
   await invoke(["version", "--format", "commit"], binding.kicadCli.operationalCommit);

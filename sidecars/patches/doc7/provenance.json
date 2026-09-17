@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "evleda.doc7-power-flag-connectivity-runtime.v1",
+  "status": "OFFLINE_VERIFIED_NATIVE_PENDING",
+  "startedAt": "2026-09-10T19:32:13.447Z",
+  "completedAt": "2026-09-10T19:33:46.233Z",
+  "elapsedMs": 92786,
+  "timings": {
+    "sourceVerificationMs": 17853,
+    "copyAndPatchMs": 17811,
+    "installedTestsMs": 2938,
+    "manifestMs": 36944,
+    "finalSourceVerificationMs": 17233
+  },
+  "preparedCopy": true,
+  "sourceRuntimeRoot": "C:\\EvlEDA-DOC6-20260910",
+  "sourceManifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc6.json",
+    "sha256": "f7c1d16a8c964a8f5ff55b281baf678c00e88e9b9fd19eb77c6aa5881eedc296",
+    "sizeBytes": 1574798
+  },
+  "sourceVerification": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150421299,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "8ecf10a0781a7c5f8c31f690da917f6a162435602e4afbd443963f0025c340a9",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "220ea1da77652e34cb8f53b7a9d5c975a092013cbba2c2b6ced4bfec355a2236",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "finalSourceVerification": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150421299,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "8ecf10a0781a7c5f8c31f690da917f6a162435602e4afbd443963f0025c340a9",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "220ea1da77652e34cb8f53b7a9d5c975a092013cbba2c2b6ced4bfec355a2236",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "runtimeRoot": "C:\\EvlEDA-DOC7-20260910",
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc7.json",
+    "sha256": "87de3535155cdfcf9650f19409ca4f203b8bba373ce8021ea646f982258b80f7",
+    "sizeBytes": 1574798
+  },
+  "manifestIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "94d05e96729f2fc62b8e74cdc5e6733cbaf3f24117ad6d645dcea3c97a2c4d30",
+    "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+  },
+  "treeIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "7654f6c1cafab4e9f2f30f33ecff2325bb8993e2023b059945f6a4c966a3df99",
+    "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+  },
+  "fileCount": 8467,
+  "directoryCount": 1159,
+  "totalBytes": 150423640,
+  "runtimeDelta": [
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/schematic/topology.py",
+      "before": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/schematic/topology.py",
+        "sha256": "10c100ed1efc3277e610cb4cc7dfa2c52d69b4702d9f0b864df440b5a05d1ec6",
+        "sizeBytes": 8426
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/schematic/topology.py",
+        "sha256": "7c4b94a4519abd558bd45ab4fbad55a9f832a11d421fb413e03287442f8aad9c",
+        "sizeBytes": 8483
+      }
+    },
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic_topology.py",
+      "before": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic_topology.py",
+        "sha256": "8fda4f716f0f97362f2226b332f4c83b8b9d847a0044ed5feebe595f20b07724",
+        "sizeBytes": 2238
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic_topology.py",
+        "sha256": "9de824872e29b771d2dda7df510103a419fb8e3944b9cdda6bf0e37c8fec7261",
+        "sizeBytes": 2348
+      }
+    },
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "before": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+        "sha256": "c3fd448670a77ee817a78acba1512ebbea9f329f1fb3bed5ad9694f3e667b806",
+        "sizeBytes": 236358
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+        "sha256": "2611e416652e458325110301c206f77ff6080f627efa31a2328bf1aad22c68b1",
+        "sizeBytes": 238532
+      }
+    },
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "61b3b4d33d61756931fda3a0c800d2bc0d6f33404469ecdf38b8be14f4d78e0d",
+        "sizeBytes": 155
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "9b187aa6cdd1a4747b01b9eab97eb8dd2a17daa2728a047d3a4e6830744e34df",
+        "sizeBytes": 155
+      }
+    }
+  ],
+  "sourceRestoreMapping": [
+    {
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc7\\kicad_mcp\\tools\\schematic.py",
+        "sha256": "2611e416652e458325110301c206f77ff6080f627efa31a2328bf1aad22c68b1",
+        "sizeBytes": 238532
+      },
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc7\\kicad_mcp\\tools\\schematic_topology.py",
+        "sha256": "9de824872e29b771d2dda7df510103a419fb8e3944b9cdda6bf0e37c8fec7261",
+        "sizeBytes": 2348
+      },
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/tools/schematic_topology.py"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc7\\kicad_mcp\\schematic\\topology.py",
+        "sha256": "7c4b94a4519abd558bd45ab4fbad55a9f832a11d421fb413e03287442f8aad9c",
+        "sizeBytes": 8483
+      },
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/schematic/topology.py"
+    }
+  ],
+  "patch": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc7\\power-flag-connectivity.patch",
+    "sha256": "9d73713cfa47ebffeada3cca64af53990f04716589b705b603435b4c0a61bcb4",
+    "sizeBytes": 4494
+  },
+  "testDriver": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc7\\test_power_flag_connectivity.py",
+    "sha256": "4aac2239b1034316ab6975e083daf23714fcf85e3a4551a66cf92a3eaf1aefad",
+    "sizeBytes": 13177
+  },
+  "baseline": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc7-power-flag-baseline-doc6-04.json",
+    "sha256": "ac07636eeec96074e5604020b4057354d7e54ef12eb9cd5f0123012411cf3d9b",
+    "sizeBytes": 21932
+  },
+  "installedOfflineTests": {
+    "report": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc7-power-flag-connectivity-tests-02.json",
+      "sha256": "b0a31afffd04b59f1b2e93d7179c378ff47b9681f312ffec1aea63ed5c7159bb",
+      "sizeBytes": 38957
+    },
+    "testsRun": 13,
+    "success": true
+  },
+  "registeredDescriptor": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\doc7-power-flag-connectivity-registration.json",
+    "sha256": "a7a1287849e11ec2820636ae968de1beb42f349e9accde32f2c5291b9104998c",
+    "sizeBytes": 1704
+  },
+  "descriptorFixture": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\fixtures\\kicad-mcp-external-power-flag-connectivity-tool.json",
+    "sha256": "4156d18d34d635c300ce87b9282be2c7938ac6a463763dcb4cc5d83237e4ed07",
+    "sizeBytes": 679
+  },
+  "normalizedDescriptorSha256": "eddb2180b77bf4aa528bc9f007c5ab07cdd54dbc310d661e79c4a8fb368ad54d",
+  "qualificationMarker": {
+    "evledaExternalPowerFlagConnectivity": "evleda.kicad-external-power-flag-connectivity.v1"
+  },
+  "built": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150423640,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "7654f6c1cafab4e9f2f30f33ecff2325bb8993e2023b059945f6a4c966a3df99",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "94d05e96729f2fc62b8e74cdc5e6733cbaf3f24117ad6d645dcea3c97a2c4d30",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "verification": {
+    "fileCount": 8467,
+    "directoryCount": 1159,
+    "totalBytes": 150423640,
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "digest": "7654f6c1cafab4e9f2f30f33ecff2325bb8993e2023b059945f6a4c966a3df99",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "94d05e96729f2fc62b8e74cdc5e6733cbaf3f24117ad6d645dcea3c97a2c4d30",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "preserved": {
+    "frozenDoc6": true,
+    "full8467FileClosure": true,
+    "packageMetadataAndRecord": true,
+    "existingProfiles": true,
+    "dist": true
+  },
+  "scope": {
+    "editorLaunched": false,
+    "mcpServerLoopStarted": false,
+    "nativeIntegration": "parent-owned, pending",
+    "nativeXmlEvidence": "Retained prior CLI export; no fresh CLI export performed here.",
+    "flagDefinition": "Exact power:PWR_FLAG, unit 1, one source pin 1 power_out at origin; unsupported geometry rejects."
+  }
+}

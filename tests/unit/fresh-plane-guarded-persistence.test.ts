@@ -9,7 +9,10 @@ afterEach(async()=>{for(const root of owned){await rm(root,{recursive:true,force
 async function fixture(){
   const root=await mkdtemp(path.join(os.tmpdir(),'evleda-guarded-plane-'));owned.add(root);
   const project=await prepareFreshProject({outputDir:path.join(root,'output'),name:'guarded',resume:false});
-  const before=await readFile(project.pcbPath,'utf8'),staged=before.replace('(general)','(general) (property "stage" "accepted")'),external=before.replace('(general)','(general) (property "external" "preserve")');
+  const before=await readFile(project.pcbPath,'utf8');
+  const withProperty=(name:string,value:string)=>before.slice(0,before.lastIndexOf(')'))+`(property "${name}" "${value}")\n`+before.slice(before.lastIndexOf(')'));
+  const staged=withProperty('stage','accepted'),external=withProperty('external','preserve');
+  expect(staged).not.toBe(before);expect(external).not.toBe(before);expect(external).not.toBe(staged);
   let live=staged;const calls:string[]=[];
   const session:FreshBoardPersistenceSession={assertActivePcb:async expected=>{expect(expected).toBe(project.pcbPath);},readActivePcbSource:async()=>live,
     callTool:async name=>{calls.push(name);if(name!=='pcb_revert')throw new Error('unexpected native write');live=await readFile(project.pcbPath,'utf8');return {content:[],structuredContent:{result:'Board reverted to last saved state. All unsaved changes have been discarded.'}};}};

@@ -15,6 +15,8 @@ import {
   type FreshSchematicTerminalInput,
 } from "./fresh-schematic-terminal-groups.js";
 import type { FreshSchematicWorkBudget } from "./fresh-schematic-work-budget.js";
+import type { PcbExternalPowerBinding } from "./pcb-external-power.js";
+import { verifyFreshExternalPowerSource, type FreshExternalPowerGroup } from "./fresh-external-power.js";
 import { applyFreshSchematicStrokeStyle, assertFreshSchematicStrokeStyleEvidence, type FreshSchematicStrokeStyleEvidence } from "./fresh-schematic-stroke-style.js";
 
 /** Host-owned read-only port. Bind this to the allowlisted stock resolver, never tool arguments. */
@@ -30,6 +32,8 @@ export interface FreshSchematicSourceAdapterInput {
   /** Must originate in the host's current private native readback, not model metadata. */
   readonly livePins: FreshSchematicTerminalInput["livePins"];
   readonly strokeStyleEvidence?: FreshSchematicStrokeStyleEvidence;
+  readonly externalPowerBinding?: PcbExternalPowerBinding;
+  readonly auxiliaryConnectivity?: readonly FreshExternalPowerGroup[];
 }
 
 function pinKey(pin: FreshSchematicTerminalPinGeometry): string {
@@ -46,8 +50,11 @@ function pinKey(pin: FreshSchematicTerminalPinGeometry): string {
  * treated as proof. Native provenance of livePins remains the host's obligation.
  */
 export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSourceAdapterInput, budget?: FreshSchematicWorkBudget) {
-  const contract = createFreshConnectivityContract(input.contract);
-  const placed = parseFreshSchematicTerminalGeometrySource(input.schematicSource, input.expectedSourceIdentity);
+  const contract = createFreshConnectivityContract(input.contract, input.externalPowerBinding);
+  const auxiliary = input.externalPowerBinding === undefined ? undefined : verifyFreshExternalPowerSource(contract, input.schematicSource, { allowAbsent: true, ...(input.auxiliaryConnectivity === undefined ? {} : { groups: input.auxiliaryConnectivity }) });
+  if (auxiliary !== undefined && auxiliary.references.length > 0 && input.auxiliaryConnectivity === undefined) throw new FreshKicadParseError("Auxiliary source projection requires complete trusted native connectivity first.");
+  const placed = parseFreshSchematicTerminalGeometrySource(input.schematicSource, input.expectedSourceIdentity, auxiliary?.references)
+    .filter(component => !auxiliary?.references.includes(component.reference));
   if (input.strokeStyleEvidence !== undefined) assertFreshSchematicStrokeStyleEvidence(input.strokeStyleEvidence, input.expectedSourceIdentity);
   const expected = new Map(contract.components.map((component) => [component.reference, component.symbolLibId]));
   // Both supported contracts explicitly permit only single-unit components (unit 1).
@@ -124,6 +131,7 @@ export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSou
     requiresTrustedNativeLiveReadback: true as const,
     sourceBindings: Object.freeze(sourceBindings),
     sourceBodyGeometry: Object.freeze(sourceBodyGeometry),
+    ...(input.externalPowerBinding === undefined || input.strokeStyleEvidence === undefined ? {} : { strokeStyleEvidence: input.strokeStyleEvidence }),
     terminalInput,
     result: buildSchematicTerminalGroups(terminalInput, budget),
   });

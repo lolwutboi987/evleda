@@ -25,6 +25,7 @@ import type { ToolboxEndpointConnectivityResult } from "./toolbox-endpoint-conne
 import type { ToolboxPlaneAcceptanceResult } from "./toolbox-plane-acceptance.js";
 import type { ToolboxInterfaceCheck } from "./toolbox-interface.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
+import type { PcbExternalPowerBinding } from "../harness/pcb-external-power.js";
 
 /** Host capabilities only. This object is never parsed from an MCP request. */
 export interface KicadToolboxSessionInput {
@@ -49,7 +50,11 @@ export interface ConnectedKicadToolbox {
   /** Saved-state V2 native copper reachability; not whole-board electrical acceptance. */
   checkEndpointConnectivity?: () => Promise<ToolboxEndpointConnectivityResult>;
   checkPlaneAcceptance?: (calculator?: KicadTransmissionLineCalculator) => Promise<ToolboxPlaneAcceptanceResult>;
-  readonly planeAuthoringContext?: Readonly<{ projectBindingIdentity: CanonicalIdentity; sourceContractIdentity: CanonicalIdentity }>;
+  readonly planeAuthoringContext?: Readonly<{
+    projectBindingIdentity: CanonicalIdentity;
+    sourceContractIdentity: CanonicalIdentity;
+    externalPowerBinding?: PcbExternalPowerBinding;
+  }>;
   /** Capture a verified saved-state guard now; publish only after owned teardown. */
   prepareCheckpoint?: () => Promise<() => Promise<void>>;
   recordRecoveryRequired?: (reason: string) => Promise<void>;

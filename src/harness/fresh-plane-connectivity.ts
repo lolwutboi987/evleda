@@ -1,3 +1,5 @@
+import { createFreshConnectivityContract } from "./fresh-connectivity-contract.js";
+import { validateCurrentFreshNativeTerminalBinding, assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import { bindKicadPhysicalFootprintLibraries, verifyHostKicadNativePadObservation,
@@ -20,6 +22,8 @@ export interface FreshPlaneConnectivityInput {
   /** Current marker/project authority. A cached or stage-only scope is not a substitute. */
   readonly scopeIdentity: CanonicalIdentity;
   readonly physicalFootprints: readonly Pin[];
+  /** Host-minted complete native netlist parity, captured within the current source guard. */
+  readonly nativeTerminalBinding?: FreshNativeTerminalBinding;
   readonly physicalFootprintResolver: NonNullable<KicadNativePadObservationExpected["physicalFootprintResolver"]>;
 }
 export interface FreshPlaneConnectivityEndpointRequest {
@@ -38,6 +42,16 @@ export function prepareFreshPlaneConnectivity(input: FreshPlaneConnectivityInput
   requireValue(scope.algorithm === "sha256" && /^[a-f0-9]{64}$/u.test(scope.digest) && scope.canonicalizationVersion === "evleda-c14n-json-v1"
     && typeof scope.schemaVersion === "string" && scope.schemaVersion.length > 0, "current host scope identity is invalid");
   const board = parseFreshPcbSource(input.pcbSource), pins = input.physicalFootprints;
+  const connectivityContract=createFreshConnectivityContract(bundle.contract,bundle.externalPowerBinding);
+  if(connectivityContract.noConnects.length>0||input.nativeTerminalBinding!==undefined){
+    validateCurrentFreshNativeTerminalBinding(input.nativeTerminalBinding,connectivityContract.identity,scope);
+    assertFreshNativeNoConnectPcbIsolation(input.nativeTerminalBinding,board);
+  }
+  const noConnectRequests=input.nativeTerminalBinding?.endpoints.map(endpoint=>{
+    const members=board.footprints.filter(fp=>fp.reference===endpoint.reference).flatMap(fp=>fp.pads.filter(pad=>pad.number===endpoint.pin));
+    requireValue(members.length>0&&members.every(pad=>pad.physical.id!==null&&UUID.test(pad.physical.id)),`saved NC ${endpoint.reference}:${endpoint.pin} has missing or unbound physical members`);
+    return {...endpoint,physicalPadUuids:members.map(pad=>pad.physical.id!)};
+  })??[];
   requireValue(pins.length === bundle.contract.components.length && new Set(pins.map(pin => pin.reference)).size === pins.length
     && pins.every(pin => bundle.contract.components.some(component => component.reference === pin.reference && component.footprintLibId === pin.libraryId)
       && bundle.libraryBinding.footprints.some(footprint => footprint.reference === pin.reference && footprint.libraryId === pin.libraryId)
@@ -56,13 +70,14 @@ export function prepareFreshPlaneConnectivity(input: FreshPlaneConnectivityInput
     requireValue(members.length > 0 && members.every(pad => pad.physical.id !== null && UUID.test(pad.physical.id)), `saved ${endpoint.reference}:${endpoint.pin} has missing or unbound physical members`);
     return { net: net.name, reference: endpoint.reference, pin: endpoint.pin, physicalPadUuids: members.map(pad => pad.physical.id!) };
   }));
-  const requestedPrimitiveIds = endpointRequests.flatMap(endpoint => endpoint.physicalPadUuids);
+  const requestedPrimitiveIds = [...endpointRequests.flatMap(endpoint => endpoint.physicalPadUuids),...noConnectRequests.flatMap(endpoint=>endpoint.physicalPadUuids)];
   requireValue(requestedPrimitiveIds.length > 0 && requestedPrimitiveIds.length <= 512 && new Set(requestedPrimitiveIds).size === requestedPrimitiveIds.length,
     "complete individual endpoint query inventory is duplicate or outside the current native capture bound");
   const sourceIdentity = contentIdentity(input.pcbSource);
   const binding = { schemaVersion: "evleda.fresh-plane-connectivity-scope.v1" as const, bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity,
     libraryBindingIdentity: bundle.libraryBinding.identity, verificationPlanIdentity: bundle.verificationPlan.identity,
-    hostScopeIdentity: { ...scope }, sourceIdentity, pcbPath: input.pcbPath, physicalFootprints, endpointRequests };
+    hostScopeIdentity: { ...scope }, sourceIdentity, pcbPath: input.pcbPath, physicalFootprints, endpointRequests,
+    ...(input.nativeTerminalBinding===undefined?{}:{nativeTerminalBindingIdentity:input.nativeTerminalBinding.identity,noConnectRequests}) };
   const nativePadExpected: KicadNativePadObservationExpected = Object.freeze({ pcbPath: input.pcbPath, pcbSource: input.pcbSource,
     requestedPrimitiveIds: Object.freeze(requestedPrimitiveIds), enabledCopperLayers: bundle.contract.scope.board.copperLayers,
     scopeIdentity: canonicalIdentity(binding, binding.schemaVersion), physicalFootprints, physicalFootprintResolver: input.physicalFootprintResolver });
@@ -72,6 +87,11 @@ export function prepareFreshPlaneConnectivity(input: FreshPlaneConnectivityInput
   // The approved resolver is a host capability, not serialized evidence. The
   // identity binds its verified source/physical outputs, never a function name.
   return Object.freeze({ ...freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, "evleda.fresh-plane-connectivity-request.v1") }), nativePadExpected });
+}
+
+function noConnectRequestsFor(input:FreshPlaneConnectivityInput){
+  const board=parseFreshPcbSource(input.pcbSource);
+  return input.nativeTerminalBinding?.endpoints.map(endpoint=>({...endpoint,physicalPadUuids:board.footprints.filter(fp=>fp.reference===endpoint.reference).flatMap(fp=>fp.pads.filter(pad=>pad.number===endpoint.pin).map(pad=>pad.physical.id!))}))??[];
 }
 
 type NetStatus = "connected" | "disconnected" | "needs-review" | "unsupported" | "invalid-evidence";
@@ -92,6 +112,16 @@ export function assessFreshPlaneConnectivity(input: FreshPlaneConnectivityInput 
     && queryBySource.size === observation.clusters.queries.length
     && observation.clusters.queries.every((query, index) => query.sourceUuids.length === 1 && query.sourceUuids[0] === prepared.nativePadExpected.requestedPrimitiveIds[index]
       && query.status === "complete" && same(query.filterTypes, ["KOT_PCB_PAD"])), "every endpoint physical member requires its own complete ordered PAD-filtered query");
+  const noConnectIsolation=noConnectRequestsFor(input).map(request=>{
+    const allowed=new Set(request.physicalPadUuids);
+    const terminals=inventory.terminals.filter(terminal=>terminal.reference===request.reference&&terminal.number===request.pin);
+    const queries=request.physicalPadUuids.map(id=>queryBySource.get(id)!);
+    const valid=terminals.length===1&&terminals[0]!.eligibleForPinMatching&&same([...terminals[0]!.physicalPadUuids].sort(),[...allowed].sort())
+      &&request.physicalPadUuids.every(id=>{const pad=physical.get(id);return pad!==undefined&&usable(pad)&&pad.netName===request.nativeNetName;})
+      &&queries.every(query=>query.returnedPadUuids.includes(query.sourceUuids[0]!)&&new Set(query.returnedPadUuids).size===query.returnedPadUuids.length&&query.returnedPadUuids.every(id=>allowed.has(id)))
+      &&queries.every((query,index)=>queries.slice(0,index).every(previous=>!query.returnedPadUuids.some(id=>previous.returnedPadUuids.includes(id))||same([...query.returnedPadUuids].sort(),[...previous.returnedPadUuids].sort())));
+    return {...request,disposition:"no_connect" as const,semanticNet:null,status:valid?"isolated" as const:"invalid-evidence" as const,nativeQueries:queries,componentInternalConnectivity:"not-inferred" as const};
+  });
   const nets = input.compilationBundle.contract.nets.map(net => {
     const requests = prepared.endpointRequests.filter(endpoint => endpoint.net === net.name), allIds = requests.flatMap(endpoint => endpoint.physicalPadUuids), allowed = new Set(allIds);
     const capture: NativePadClusterCapture = { source: observation.clusters.source, queries: allIds.map(id => queryBySource.get(id)!) };
@@ -148,7 +178,7 @@ export function assessFreshPlaneConnectivity(input: FreshPlaneConnectivityInput 
       everyEligiblePhysicalMemberReachable: everyMemberReachable, observedComponents: components,
       invalidReturnedPhysicalPadUuids: [...invalidReturnedPhysicalPadUuids], nativeQueries: capture.queries };
   });
-  const status = nets.some(net => net.status === "invalid-evidence") ? "invalid-evidence" : nets.some(net => net.status === "unsupported") ? "incomplete"
+  const status = noConnectIsolation.some(endpoint=>endpoint.status==="invalid-evidence")||nets.some(net => net.status === "invalid-evidence") ? "invalid-evidence" : nets.some(net => net.status === "unsupported") ? "incomplete"
     : nets.some(net => net.status === "needs-review") ? "needs-review" : nets.every(net => net.status === "connected") ? "connected"
       : nets.some(net => net.status === "connected") ? "partially-connected" : "disconnected";
   const payload = { schemaVersion: "evleda.fresh-plane-connectivity.v1" as const, family: "plane-v2" as const, status,
@@ -157,6 +187,7 @@ export function assessFreshPlaneConnectivity(input: FreshPlaneConnectivityInput 
     requestIdentity: prepared.identity, physicalLibraryBindingIdentity: prepared.physicalLibraryBindingIdentity, physicalLibraryBindings: prepared.physicalLibraryBindings,
     savedSourceIdentity: prepared.sourceIdentity, nativeSourceIdentity: observation.nativePcbIdentity, nativeObservationIdentity: observation.rawEnvelopeIdentity,
     nativeExpectedIdentity: observation.expectedIdentity, evidenceSource: observation.clusters.source, nets,
+    ...(input.nativeTerminalBinding===undefined?{}:{nativeTerminalBindingIdentity:input.nativeTerminalBinding.identity,noConnectIsolation}),
     nativePhysicalInventoryIdentity: canonicalIdentity(inventory, inventory.schemaVersion),
     limitations: { evidence: "host-collected-native-PAD-reachability-on-exact-saved-source" as const, currentFileGuard: "required-of-caller" as const,
       intendedPlaneContact: "not_evaluated" as const, fillFreshness: "not_established" as const, singlePlaneComponent: "not_evaluated" as const,

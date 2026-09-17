@@ -1,9 +1,10 @@
+import { PCB_EXTERNAL_POWER_FLAG_INSPECTION_SCHEMA_VERSION, PCB_EXTERNAL_POWER_FLAG_POLICY_SCHEMA_VERSION, PCB_EXTERNAL_POWER_FLAG_LIB_ID, type PcbExternalPowerFlagInspection } from "./pcb-external-power.js";
 import { closeSync, fstatSync, lstatSync, openSync, readFileSync, readdirSync, realpathSync, statSync } from "node:fs";
 import { isAbsolute, join, relative, resolve, sep } from "node:path";
 
 import { canonicalIdentity, contentIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
-import { parseFreshSymbolLibraryTerminalGeometrySource, type FreshSymbolTerminalGeometry } from "./fresh-kicad-parser.js";
+import { parseFreshSymbolLibraryTerminalGeometrySource, freshPowerFlagDefinitionSemanticIdentity, type FreshSymbolTerminalGeometry } from "./fresh-kicad-parser.js";
 import { physicalPadDefinitionKey, type PcbPadDefinitionNode } from "./fresh-pcb-pad-model.js";
 import {
   normalizePcbResolvedFootprint,
@@ -601,7 +602,8 @@ const decoratedScalar = (node: SNode, name: string, logicalAsset: string): strin
 const parseSymbolLibrary = (
   bytes: Buffer,
   logicalAsset: string,
-  limits: KiCadStockLibraryResolverLimits
+  limits: KiCadStockLibraryResolverLimits,
+  allowUnselectedSignedPowerNames = false
 ): ParsedSymbolLibrary => {
   const root = new BoundedSExpressionParser(decodeUtf8(bytes, logicalAsset), limits, logicalAsset).parseOne();
   if (root.name !== "kicad_symbol_lib" || root.values.length !== 0) {
@@ -618,7 +620,11 @@ const parseSymbolLibrary = (
   const byName = new Map<string, SNode>();
   for (const definition of definitions) {
     const name = definition.values.length === 1 ? definition.values[0]!.value : null;
-    if (name === null || !validateLibraryPart(name) || byName.has(name)) {
+    // Native power libraries contain +3.3V/-VSW definitions. Only the dedicated
+    // fixed-ID flag reader admits their bounded internal names; path IDs stay strict.
+    const signedPowerName = allowUnselectedSignedPowerNames && logicalAsset === PCB_EXTERNAL_POWER_FLAG_LIB_ID
+      && name !== null && name.length <= 128 && /^[+-]/u.test(name) && validateLibraryPart(name.slice(1));
+    if (name === null || (!validateLibraryPart(name) && !signedPowerName) || byName.has(name)) {
       return resolverError("MALFORMED_LIBRARY", logicalAsset, `${logicalAsset}: symbol names must be unique bounded identifiers.`);
     }
     byName.set(name, definition);
@@ -1014,6 +1020,7 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
   readonly #symbolRoot: RootBinding;
   readonly #footprintRoot: RootBinding;
   readonly #exactSymbolIds: ReadonlySet<string>;
+  readonly #externalPowerPolicyIdentity: CanonicalIdentity;
   readonly #exactFootprintIds: ReadonlySet<string>;
   readonly #stockSymbolNicknames: ReadonlySet<string>;
   readonly #stockFootprintNicknames: ReadonlySet<string>;
@@ -1031,6 +1038,9 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     this.#exactFootprintIds = exactIdSet(options.exactFootprintIds, this.#limits.maxExactFootprintIds, "exactFootprintIds");
     this.#stockSymbolNicknames = nicknameSet(options.stockSymbolNicknames, this.#limits.maxStockNicknames, "stockSymbolNicknames");
     this.#stockFootprintNicknames = nicknameSet(options.stockFootprintNicknames, this.#limits.maxStockNicknames, "stockFootprintNicknames");
+    this.#externalPowerPolicyIdentity = canonicalIdentity({ schemaVersion: PCB_EXTERNAL_POWER_FLAG_POLICY_SCHEMA_VERSION, mode: "exact_ids",
+      symbolRoot: this.#symbolRoot.canonicalPath, exactSymbolIds: [...this.#exactSymbolIds].sort(compareText),
+      stockSymbolNicknames: [...this.#stockSymbolNicknames].sort(compareText), limits: this.#limits }, PCB_EXTERNAL_POWER_FLAG_POLICY_SCHEMA_VERSION);
   }
 
   public resolveSymbol(exactLibraryId: string): PcbResolvedSymbol | null {
@@ -1094,6 +1104,49 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
       return resolverError("MALFORMED_LIBRARY", exactLibraryId, `${exactLibraryId}: source changed during terminal geometry capture.`);
     }
     return geometry;
+  }
+
+  /** A separate role inspection: ordinary symbol outputs and their identities are unchanged. */
+  public inspectExternalPowerFlag(): PcbExternalPowerFlagInspection | null {
+    const libraryId = PCB_EXTERNAL_POWER_FLAG_LIB_ID;
+    if (!this.#exactSymbolIds.has(libraryId) || !this.#stockSymbolNicknames.has("power")) return null;
+    const asset = locateSymbol(this.#symbolRoot, "power", libraryId, this.#limits);
+    if (asset === null) return null;
+    const loaded = loadAsset(asset);
+    // Keep this parse separate from ordinary exact-ID symbol inspection and caches.
+    // Unselected native +/- power names cannot become approved path/library IDs.
+    const parsed = parseSymbolLibrary(loaded.bytes, libraryId, this.#limits, true);
+    const definition = parsed.definitions.get("PWR_FLAG");
+    if (definition === undefined) return null;
+    const approved = buildSymbolInspection(parsed, libraryId, "power", "PWR_FLAG", loaded.identity, this.#limits);
+    if (approved === null) return null;
+    const properties = propertyMap(definition, libraryId, this.#limits);
+    if (scalar(definition, "power", libraryId) !== "global" || scalar(definition, "in_bom", libraryId) !== "yes"
+        || scalar(definition, "on_board", libraryId) !== "yes" || properties.get("Reference") !== "#FLG"
+        || properties.get("Value") !== "PWR_FLAG" || properties.get("Footprint") !== ""
+        || descendants(definition, "pin").length !== 1 || approved.pins.length !== 1 || approved.pins[0]!.number !== "1"
+        || approved.pins[0]!.electricalType !== "power_out" || approved.resolverRecord.unitCount !== 1) {
+      return resolverError("MALFORMED_LIBRARY", libraryId, "Approved PWR_FLAG source has unsupported power annotation semantics.");
+    }
+    const source = decodeUtf8(loaded.bytes, libraryId);
+    const geometry = parseFreshSymbolLibraryTerminalGeometrySource(source, loaded.identity, libraryId);
+    const pins = geometry.representations.flatMap(representation => representation.pins);
+    if (pins.length !== 1 || pins[0]!.number !== "1" || pins[0]!.electricalType !== "power_out" || pins[0]!.lengthMm !== 0
+        || pins[0]!.at.xMm !== 0 || pins[0]!.at.yMm !== 0 || pins[0]!.hidden || pins[0]!.graphicalShape !== "line"
+        || geometry.representations.some(representation => representation.unit > 1 || representation.bodyStyle > 1)
+        || [...geometry.rootGraphics, ...geometry.representations.flatMap(representation => representation.graphics)].some(graphic => graphic.centerlineBounds === null)) {
+      return resolverError("MALFORMED_LIBRARY", libraryId, "Approved PWR_FLAG source has unsupported terminal or body geometry.");
+    }
+    const definitionSemanticIdentity = freshPowerFlagDefinitionSemanticIdentity(source, loaded.identity, false);
+    const after = loadAsset(asset);
+    if (loaded.identity.digest !== after.identity.digest || loaded.identity.size !== after.identity.size) {
+      return resolverError("MALFORMED_LIBRARY", libraryId, "Approved power flag source changed during role capture.");
+    }
+    const payload = { schemaVersion: PCB_EXTERNAL_POWER_FLAG_INSPECTION_SCHEMA_VERSION, symbolLibId: libraryId,
+      sourceIdentity: loaded.identity, definitionIdentity: geometry.definitionIdentity, definitionSemanticIdentity,
+      policyIdentity: this.#externalPowerPolicyIdentity, powerScope: "global" as const, footprint: "" as const,
+      inBom: true as const, onBoard: true as const, geometry };
+    return deepFreeze({ ...payload, identity: canonicalIdentity(payload, PCB_EXTERNAL_POWER_FLAG_INSPECTION_SCHEMA_VERSION) });
   }
 
   public inspectPair(symbolLibraryId: string, footprintLibraryId: string): KiCadStockLibraryPairInspection | null {

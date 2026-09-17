@@ -166,17 +166,19 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     async () => respond(() => { reconcileNativeState(); return { access, nativeState: toolbox.getCadState(), activeProject: active === undefined ? null
       : { projectId: active.projectId, phase: active.phase, error: active.error ?? null },
       pendingDrafts: [...pending.values()].map(draft => ({ draftId: draft.projectId, name: draft.name })), stopping }; }));
-  toolbox.server.registerTool("evleda_design_schema", { description: "Get a complete design-intent schema, model guide and valid example. routed-v1 is the default; plane-v2 supports one bounded rectangular ground plane and optional explicit differential-pair interfaceRequirements. Discover supportedFamilies here. Unknown requirements remain null for clarification.",
+  toolbox.server.registerTool("evleda_design_schema", { description: "Get a complete design-intent schema, model guide and valid example. routed-v1 is the default; plane-v2 supports one bounded rectangular ground plane, optional differential-pair interfaceRequirements, and explicit externalPowerInputs at connector pins. Discover supportedFamilies here. Unknown requirements remain null for clarification.",
     inputSchema: z.object({ family: z.enum(DESIGN_FAMILIES).optional() }).strict(), annotations: READ },
     async args => respond(() => {
       const family = args.family ?? "routed-v1";
       return { family, supportedFamilies: [...DESIGN_FAMILIES],
         schema: structuredClone(family === "plane-v2" ? PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA : PCB_DESIGN_INTENT_TOOL.inputSchema),
-        guide: family === "plane-v2" ? getPcbPlaneDesignIntentModelGuide(true) : PCB_DESIGN_INTENT_MODEL_GUIDE,
+        guide: family === "plane-v2" ? getPcbPlaneDesignIntentModelGuide(true, true) : PCB_DESIGN_INTENT_MODEL_GUIDE,
         ...(family === "plane-v2" ? {
           guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
           optionalRequirements: { interfaceRequirements: { schemaVersion: PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION,
-            kinds: ["differential_pair"], sourceAuthority: "caller_asserted_intent", physicalVerification: "not_performed" } },
+            kinds: ["differential_pair"], sourceAuthority: "caller_asserted_intent", physicalVerification: "not_performed" },
+            externalPowerInputs: { sourceAuthority: "caller_asserted_external_supply", physicalComponentsAdded: false,
+              instruction: "Declare supplyEndpoint and returnEndpoint on existing connector pins; the host binds schematic-only PWR_FLAG annotations. Do not add flag components or physical endpoints." } },
         } : {}),
         example: structuredClone(family === "plane-v2" ? PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE : PCB_DESIGN_INTENT_VALID_EXAMPLE),
         instruction: "Use evleda_submit_design with the complete draft, name and original request; no local draft file is needed." };
