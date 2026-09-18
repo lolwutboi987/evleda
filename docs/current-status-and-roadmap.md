@@ -1,6 +1,34 @@
 # Current status and roadmap
 
-Latest continuation, 18 September 2026: **all 62 RP2350 component instances are
+Latest continuation, 18 September 2026: **the RP2350 native board remains
+unfinished.** V7 project `3666e11a-44e9-4387-b30d-6465aaca2d9a` saved and
+verified 34 schematic symbol-pose updates and 73 field-position updates through
+the public toolbox. Both operations preserved the native netlist; their final
+unwired source matches the independently checked presentation exactly.
+
+Connectivity authoring then stopped on the first power flag's generic
+center-distance proximity warning. The host restored the exact pre-edit source
+(`66c853e18c48c1b83077a8f3bedb02da0572e3c2737715301d2ea5b7d321fd99`).
+Finalization did not publish a checkpoint or release the project lease; the
+project remains quarantined for review. No retry or manual lease/marker cleanup
+was performed. Its PCB still has no outline, footprints or copper.
+
+The separate complete schematic diagnostic has 246 labels, six power flags,
+255 wires, 67 functional nets/260 endpoints and two intentional NCs. Native
+glyph, field, worksheet and configured ERC checks pass; the unchanged ignored
+ERC categories remain recorded in the diagnostic. This is preflight evidence,
+not a successful managed connectivity operation. See the
+[released schematic plan](../designs/rp2350-pico/schematic-layout.md).
+
+The reviewed PCB proposal has 795 trace segments and 92 vias, with 53
+non-ground nets connected in its source model and 13 routes still open. Native
+placement, routing, filled-ground and complete-board DRC remain pending. The V8 draft
+declares a 22 × 51 mm board, 143 total via reservations, mixed-layer GND access
+and the same 0.55/0.20 mm vias with 0.50 mm hole spacing; these declarations are
+not authored copper or design acceptance. Current work is on
+`codex/rp2350-pico`; GitHub's `main` still contains the older application.
+
+Earlier same-day continuation: **all 62 RP2350 component instances are
 saved in a normally closed native schematic; connectivity and PCB layout remain
 unfinished.** The PCB is still its empty baseline. RP2350 work is maintained on
 `codex/rp2350-pico`. This source snapshot adds corrected schematic geometry and

@@ -57,6 +57,8 @@ import {
   parseFreshPcbSource,
   parseFreshSchematicSource,
   parseFreshSchematicPresentationSource,
+  parseFreshSchematicTerminalGeometrySource,
+  parseFreshSchematicPowerFlagInstances,
   compareFreshSchematicFieldPresentationSources,
   freshGlobalLabelInventoryMatches,
   freshGlobalLabelTupleInventoryMatches,
@@ -302,6 +304,8 @@ export interface KicadHarnessTools extends HarnessToolPort<KicadHarnessToolName>
   readonly freshBoardSaveAudits: readonly FreshBoardSaveAudit[];
   readonly freshRouteMutationDiagnostics?:readonly FreshRouteMutationDiagnostic[];
   readonly freshFootprintPlacementDiagnostics?:readonly FreshFootprintPlacementDiagnostic[];
+  /** Host-only complete receipts, including bounded native replies; never spread into provider output. */
+  readonly freshPowerFlagPlacementAdvisories?: readonly FreshPowerFlagPlacementAdvisoryEvidence[];
   captureFreshPcbPadEvidence(): Promise<Readonly<{ observation: KicadNativePadObservation; expected: KicadNativePadObservationExpected }> | undefined>;
   /** Host-only, current saved V2 endpoint reachability. Never an electrical acceptance verdict. */
   assessPlaneConnectivity?(): Promise<FreshPlaneConnectivityAssessment>;
@@ -598,6 +602,7 @@ export interface FreshContractConnectivityResultFields {
   readonly externalPowerBindingIdentity?: CanonicalIdentity;
   readonly powerAnnotations?: readonly FreshExternalPowerPlacement[];
   readonly powerAnnotationBindingIdentity?: CanonicalIdentity;
+  readonly powerFlagPlacementAdvisories?: readonly FreshPowerFlagPlacementAdvisory[];
   readonly nativeNetlistSha256?: string;
   readonly nativeNetCount?: number;
   readonly nativeComponentCount?: number;
@@ -1338,6 +1343,134 @@ function nativeReplyCause(operation:string,result:CallToolResult):unknown{
     return freezeDeep(bytes.length<=16*1024?{operation,response:JSON.parse(json) as unknown}:{operation,responseIdentity:contentIdentity(bytes),responseJsonPrefix:bytes.subarray(0,8192).toString("utf8"),responseTruncated:true});
   }catch(error){return Object.freeze({operation,responseCaptureUnavailable:true,captureError:(error instanceof Error?error.message:String(error)).slice(0,512)});}
 }
+
+export interface FreshPowerFlagPlacementAdvisory {
+  readonly code: "NATIVE_SYMBOL_CENTER_PROXIMITY";
+  readonly warning: string;
+  readonly reference: string;
+  readonly at: FreshPoint;
+  readonly nearReference: string;
+  readonly nearAt: FreshPoint;
+  readonly beforeSchematicContentIdentity: ContentIdentity;
+  readonly afterSchematicContentIdentity?: ContentIdentity;
+  readonly nativeReplyContentIdentity: ContentIdentity;
+}
+export interface FreshPowerFlagPlacementAdvisoryEvidence {
+  readonly advisory: FreshPowerFlagPlacementAdvisory;
+  readonly nativeReply: unknown;
+}
+
+// Match Python's fixed-decimal IEEE-754 rounding, including ties to even. This
+// is only the pinned proximity warning's 1/2-decimal formatting, not geometry.
+function powerFlagWarningNumber(value: number, digits: 1 | 2): string {
+  if (!Number.isFinite(value) || Math.abs(value) > 4000) throw new Error("Unbounded power-flag warning coordinate.");
+  const bytes = new DataView(new ArrayBuffer(8)); bytes.setFloat64(0, Math.abs(value));
+  const bits = bytes.getBigUint64(0), exponent = Number((bits >> 52n) & 0x7ffn);
+  const significand = (bits & ((1n << 52n) - 1n)) | (exponent === 0 ? 0n : 1n << 52n);
+  const power = exponent === 0 ? -1074 : exponent - 1075, scale = 10n ** BigInt(digits), numerator = significand * scale;
+  let rounded: bigint;
+  if (power >= 0) rounded = numerator << BigInt(power);
+  else { const denominator = 1n << BigInt(-power); rounded = numerator / denominator;
+    const twice = (numerator % denominator) * 2n;
+    if (twice > denominator || twice === denominator && rounded % 2n !== 0n) rounded += 1n;
+  }
+  return `${value < 0 || Object.is(value, -0) ? "-" : ""}${rounded / scale}.${String(rounded % scale).padStart(digits, "0")}`;
+}
+
+/** Pure reply qualification. Only the authenticated host flag loop supplies this context. */
+export function qualifyFreshPowerFlagMutationReply(result: CallToolResult, operation: string, argumentsValue: Readonly<Record<string, unknown>>,
+  context: { readonly contract: FreshConnectivityContract; readonly flag: FreshExternalPowerPlacement; readonly beforeSource: string; readonly schematicPath: string }): FreshPowerFlagPlacementAdvisory | null {
+  const reject = (): never => { throw new Error("Power flag mutation lacks its exact source-qualified native acknowledgement.", { cause: nativeReplyCause(operation, result) }); };
+  const { flag, contract, beforeSource } = context, binding = powerAnnotationBindingOf(contract);
+  const expected = { library: "power", symbol_name: "PWR_FLAG", reference: flag.reference, value: "PWR_FLAG", footprint: "", x_mm: flag.x, y_mm: flag.y, rotation: 0, unit: 1, snap_to_grid: false };
+  if (operation !== "sch_add_symbol" || flag.rotation !== 0 || binding === undefined
+    || binding.flags.filter(value => value.reference === flag.reference && value.symbolLibId === "power:PWR_FLAG").length !== 1
+    || canonicalJson(argumentsValue) !== canonicalJson(expected) || ![flag.x, flag.y].every(value => Number.isFinite(value) && Math.abs(value) <= 2000 && Math.abs(value / 1.27 - Math.round(value / 1.27)) < 1e-7)
+    || result.isError !== undefined && result.isError !== false) return reject();
+  const structured = result.structuredContent;
+  if (structured === undefined || structured === null || typeof structured !== "object" || Array.isArray(structured) || Object.keys(structured).length !== 1 || typeof (structured as Record<string, unknown>).result !== "string") return reject();
+  const text = (structured as { result: string }).result;
+  if (Buffer.byteLength(JSON.stringify(result), "utf8") > 16 * 1024 || !Array.isArray(result.content) || result.content.length > 1) return reject();
+  // Reuse the existing qualified-envelope rule: the exact host sanitizer marker
+  // is valid only alongside the matching structured acknowledgement. Other raw
+  // text must independently agree; a marker alone carries no success authority.
+  if (!hasQualifiedNativeBoardReply(result, text)) return reject();
+  const lines = text.replace(/\r\n/gu, "\n").split("\n");
+  if (lines.length !== 2 && lines.length !== 3 || lines[0] !== "The schematic was updated. Reload it manually in KiCad if needed."
+    || lines[1] !== `Target schematic (root): ${context.schematicPath}` && lines[1] !== "Target schematic (root): [redacted path]") return reject();
+  const sourceIdentity = contentIdentity(beforeSource);
+  const placed = parseFreshSchematicTerminalGeometrySource(beforeSource, sourceIdentity, binding.flags.map(value => value.reference));
+  if (placed.some(value => value.reference === flag.reference)) return reject();
+  if (placed.filter(value => !value.reference.startsWith("#")).length !== contract.components.length
+    || contract.components.some(component => placed.filter(value => value.reference === component.reference && value.symbolLibId === component.symbolLibId).length !== 1)) return reject();
+  const warning = lines[2];
+  // _point_near_existing returns only the first origin-distance advisory; it
+  // does not inspect bodies, fields, wires, or real overlap. Reproduce its whole
+  // literal line from a unique current qualified source pose, not a loose regex.
+  const ordered = [...placed.filter(value => !value.symbolLibId.startsWith("power:")), ...placed.filter(value => value.symbolLibId.startsWith("power:"))];
+  if (ordered.some(value => !contract.components.some(component => component.reference === value.reference && component.symbolLibId === value.symbolLibId)
+    && !binding.flags.some(bound => bound.reference === value.reference && bound.symbolLibId === value.symbolLibId))) return reject();
+  const candidates = ordered.filter(value => {
+    const known = contract.components.some(component => component.reference === value.reference && component.symbolLibId === value.symbolLibId)
+      || binding.flags.some(bound => bound.reference === value.reference && bound.symbolLibId === value.symbolLibId);
+    const at = value.placement.at, distance = Math.hypot(flag.x - at.xMm, flag.y - at.yMm);
+    return known && distance < 10.16;
+  });
+  const near = candidates[0];
+  if (near === undefined) return warning === undefined ? null : reject();
+  if (warning === undefined) return reject();
+  const nearAt = near.placement.at, distance = Math.hypot(flag.x - nearAt.xMm, flag.y - nearAt.yMm);
+  if (warning !== `WARNING: coordinate (${powerFlagWarningNumber(flag.x, 2)}, ${powerFlagWarningNumber(flag.y, 2)}) is ${powerFlagWarningNumber(distance, 1)} mm from '${near.reference}' at (${powerFlagWarningNumber(nearAt.xMm, 2)}, ${powerFlagWarningNumber(nearAt.yMm, 2)}) — symbols may overlap. Use sch_find_free_placement to get a safe coordinate.`) return reject();
+  return freezeDeep({ code: "NATIVE_SYMBOL_CENTER_PROXIMITY" as const, warning, reference: flag.reference, at: { x: flag.x, y: flag.y },
+    nearReference: near.reference, nearAt: { x: near.placement.at.xMm, y: near.placement.at.yMm }, beforeSchematicContentIdentity: sourceIdentity,
+    nativeReplyContentIdentity: contentIdentity(JSON.stringify(result)) });
+}
+
+/** Per-flag source proof supplements, and never replaces, the complete later annotation/graph checks. */
+export function assertFreshPowerFlagMutationSource(beforeSource: string, afterSource: string, contract: FreshConnectivityContract, flag: FreshExternalPowerPlacement): void {
+  const binding = powerAnnotationBindingOf(contract);
+  if (binding === undefined || !binding.flags.some(value => value.reference === flag.reference)) throw new Error("Unbound power flag source mutation.");
+  if (canonicalJson(freshExternalPowerRetainedSourceIdentity(beforeSource, [flag.reference])) !== canonicalJson(freshExternalPowerRetainedSourceIdentity(afterSource, [flag.reference]))) throw new Error("Power flag mutation changed unrelated or earlier-flag source tokens.");
+  const before = parseFreshSchematicSource(beforeSource), after = parseFreshSchematicPowerFlagInstances(afterSource, contentIdentity(afterSource), binding.flags.map(value => value.reference));
+  const actual = after.auxiliary.filter(value => value.reference === flag.reference);
+  if (before.symbols.some(value => value.reference === flag.reference) || after.placed.length !== before.symbols.length + 1 || actual.length !== 1
+    || canonicalJson(after.definitionSemanticIdentity) !== canonicalJson(binding.source.definitionSemanticIdentity)) throw new Error("Power flag mutation has wrong source definition or instance inventory.");
+  const value = actual[0]!;
+  if (value.symbolLibId !== "power:PWR_FLAG" || value.unit !== 1 || value.placement.rotationDeg !== 0 || value.placement.at.xMm !== flag.x || value.placement.at.yMm !== flag.y
+    || value.pins.length !== 1 || value.pins[0]!.number !== "1" || value.pins[0]!.electricalType !== "power_out" || value.pins[0]!.lengthMm !== 0
+    || value.pins[0]!.at.xMm !== 0 || value.pins[0]!.at.yMm !== 0) throw new Error("Power flag mutation differs from the collision-checked pose or terminal.");
+}
+
+function powerFlagAdvisorySummary(advisories: readonly FreshPowerFlagPlacementAdvisory[], maximum = 2) {
+  return { total: advisories.length, returned: Math.min(advisories.length, maximum), truncated: advisories.length > maximum,
+    identity: contentIdentity(canonicalJson(advisories)), items: advisories.slice(0, maximum) };
+}
+
+/** Record a qualified advisory before any awaited source read can fail. */
+export async function verifyFreshPowerFlagMutationReplyAndSource(result: CallToolResult, operation: string, argumentsValue: Readonly<Record<string, unknown>>,
+  context: Parameters<typeof qualifyFreshPowerFlagMutationReply>[3], readAfterSource: () => Promise<string>,
+  observeAdvisory: (evidence: FreshPowerFlagPlacementAdvisoryEvidence) => void): Promise<string> {
+  return executeFreshPowerFlagMutation(async observe => { observe(result); return result; }, operation, argumentsValue, context, readAfterSource, observeAdvisory);
+}
+
+/** The source-bound port invokes observe before its post-reply library fence. */
+export async function executeFreshPowerFlagMutation(invoke: (observe: (result: CallToolResult) => void) => Promise<CallToolResult>, operation: string,
+  argumentsValue: Readonly<Record<string, unknown>>, context: Parameters<typeof qualifyFreshPowerFlagMutationReply>[3],
+  readAfterSource: () => Promise<string>, observeAdvisory: (evidence: FreshPowerFlagPlacementAdvisoryEvidence) => void): Promise<string> {
+  let observedIdentity: ContentIdentity | undefined;
+  const result = await invoke(response => {
+    if (observedIdentity !== undefined) throw new Error("Power flag native reply was observed more than once.");
+    const advisory = qualifyFreshPowerFlagMutationReply(response, operation, argumentsValue, context);
+    observedIdentity = contentIdentity(JSON.stringify(response));
+    if (advisory !== null) observeAdvisory(freezeDeep({ advisory, nativeReply: nativeReplyCause(operation, response) }));
+  });
+  if (observedIdentity === undefined || !sameContentIdentity(observedIdentity, contentIdentity(JSON.stringify(result)))) {
+    throw new Error("Power flag native reply is unobserved or changed across its post-reply guard.", { cause: nativeReplyCause(operation, result) });
+  }
+  const source = await readAfterSource();
+  assertFreshPowerFlagMutationSource(context.beforeSource, source, context.contract, context.flag);
+  return source;
+}
 function assertSuccessfulSidecarMutation(result: CallToolResult, operation: string): string {
   if (result.isError === true) throw new Error(`${operation} returned an MCP error.`,{cause:nativeReplyCause(operation,result)});
   const text = preferredResultText(result).replace(/\s+/gu, " ").trim();
@@ -1618,6 +1751,7 @@ export function serializeFreshContractConnectivityResult(
     routes: _routes,
     noConnects: _noConnects,
     connectivity: _connectivity,
+    powerFlagPlacementAdvisories: _powerFlagPlacementAdvisories,
     ...identityFirst
   } = value;
   const minimumIssues = value.applied ? 0 : 1;
@@ -1626,10 +1760,12 @@ export function serializeFreshContractConnectivityResult(
   let routeCount = value.routes?.length ?? 0;
   let noConnectCount = value.noConnects?.length ?? 0;
   let connectivityCount = value.connectivity?.length ?? 0;
+  let advisoryCount = Math.min(value.powerFlagPlacementAdvisories?.length ?? 0, 2);
   const build = (): string => JSON.stringify({
     schemaVersion: "evleda.fresh-contract-connectivity-result.v1",
     contractIdentity: contract.identity,
     ...identityFirst,
+    ...((value.powerFlagPlacementAdvisories?.length ?? 0) === 0 ? {} : { powerFlagPlacementAdvisories: powerFlagAdvisorySummary(value.powerFlagPlacementAdvisories!, advisoryCount) }),
     ...(routeCount === 0 ? {} : { routes: value.routes!.slice(0, routeCount) }),
     ...(noConnectCount === 0 ? {} : { noConnects: value.noConnects!.slice(0, noConnectCount) }),
     ...(connectivityCount === 0 ? {} : { connectivity: value.connectivity!.slice(0, connectivityCount) }),
@@ -1642,11 +1778,12 @@ export function serializeFreshContractConnectivityResult(
   });
   let serialized = build();
   while ((serialized.length > FRESH_PROVIDER_RESULT_MAX_CHARS || Buffer.byteLength(serialized, "utf8") > FRESH_PROVIDER_RESULT_MAX_CHARS)
-    && (blockingCount > 0 || connectivityCount > 0 || routeCount > 0 || noConnectCount > 0 || issueCount > minimumIssues)) {
+    && (blockingCount > 0 || connectivityCount > 0 || routeCount > 0 || noConnectCount > 0 || advisoryCount > 0 || issueCount > minimumIssues)) {
     if (blockingCount > 0) blockingCount -= 1;
     else if (connectivityCount > 0) connectivityCount -= 1;
     else if (routeCount > 0) routeCount -= 1;
     else if (noConnectCount > 0) noConnectCount -= 1;
+    else if (advisoryCount > 0) advisoryCount -= 1;
     else issueCount -= 1;
     serialized = build();
   }
@@ -3036,6 +3173,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     readonly fieldLayoutAfterContentIdentity?: ContentIdentity;
     readonly connectivityBatchAfterContentIdentity?: ContentIdentity;
     readonly externalPowerPlacements?: readonly FreshExternalPowerPlacement[];
+    readonly powerFlagPlacementAdvisories?: readonly FreshPowerFlagPlacementAdvisory[];
   } | undefined;
   #pendingFreshPlacementRecommendation: PendingFreshPlacementRecommendation | undefined;
   #pendingFreshPlacementCommit: PendingFreshPlacementCommit | undefined;
@@ -3047,6 +3185,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   #routeRecoveryRequired = false;
   #footprintPlacementRecoveryRequired = false;
   #freshFootprintPlacementDiagnostics:FreshFootprintPlacementDiagnostic[]=[];
+  #freshPowerFlagPlacementAdvisories: FreshPowerFlagPlacementAdvisoryEvidence[] = [];
   readonly #freshFootprintPlacementSaveResults=new WeakSet<HarnessToolResult>();
   readonly #observeFreshRouteMutationDiagnostic:KicadHarnessToolsOptions["observeFreshRouteMutationDiagnostic"];
   readonly #observeFreshFootprintPlacementDiagnostic:KicadHarnessToolsOptions["observeFreshFootprintPlacementDiagnostic"];
@@ -3214,6 +3353,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
   get freshRouteMutationDiagnostics():readonly FreshRouteMutationDiagnostic[]{return Object.freeze([...this.#freshRouteMutationDiagnostics]);}
   get freshFootprintPlacementDiagnostics():readonly FreshFootprintPlacementDiagnostic[]{return Object.freeze([...this.#freshFootprintPlacementDiagnostics]);}
+  get freshPowerFlagPlacementAdvisories(): readonly FreshPowerFlagPlacementAdvisoryEvidence[] { return Object.freeze([...this.#freshPowerFlagPlacementAdvisories]); }
 
   #physicalExpected(capture:FreshPcbCapture,requestedPrimitiveIds:readonly string[]):KicadNativePadObservationExpected {
     if(this.#freshPhysicalFootprintResolver===undefined||this.#freshPhysicalFootprintSourcePins===undefined||this.#freshAuthoringDesignContract===undefined)throw new Error("Physical PCB expected authority is unavailable.");
@@ -3643,16 +3783,17 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   async #rollbackPendingConnectivityAfterFailure(error: unknown, context: string): Promise<never> {
     const pending = this.#pendingFreshConnectivity;
     if (pending === undefined) throw error;
+    const advisoryProvenance = pending.powerFlagPlacementAdvisories === undefined ? "" : ` Placement advisory provenance: ${JSON.stringify(powerFlagAdvisorySummary(pending.powerFlagPlacementAdvisories))}`;
     try {
       if (pending.baseline !== undefined) await this.#freshSchematicRollback!.restore(pending.baseline);
     } catch (rollbackError) {
       this.#pendingFreshConnectivity = undefined;
       this.#pendingPersistedMutationBaseline = undefined;
-      throw new Error(`FRESH_CONNECTIVITY_ROLLBACK_FAILED_TERMINAL: ${context}; exact disk rollback failed: ${rollbackError instanceof Error ? rollbackError.message : String(rollbackError)}.`, { cause: error });
+      throw new Error(`FRESH_CONNECTIVITY_ROLLBACK_FAILED_TERMINAL: ${context}; exact disk rollback failed: ${rollbackError instanceof Error ? rollbackError.message : String(rollbackError)}.${advisoryProvenance}`, { cause: error });
     }
     this.#pendingFreshConnectivity = undefined;
     this.#pendingPersistedMutationBaseline = undefined;
-    throw new Error(`FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL: ${context}; exact disk preimage restored, live KiCad state is unproven, and this session must close.`, { cause: error });
+    throw new Error(`FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL: ${context}; exact disk preimage restored, live KiCad state is unproven, and this session must close.${advisoryProvenance}`, { cause: error });
   }
 
   async #rollbackPendingPlacementCommitAfterFailure(error: unknown, context: string): Promise<never> {
@@ -5810,10 +5951,21 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const routes = [...geometryPlan.routes];
     let groups: readonly FreshConnectivityGroup[] = [];
     let completedMutationCalls = 0;
+    this.#freshPowerFlagPlacementAdvisories = [];
     let connectivityBatchAfterContentIdentity: ContentIdentity | undefined;
     let recoveryIssues: readonly FreshConnectivityIssue[] | undefined;
-    const mutate = async (name: string, argumentsValue: Readonly<Record<string, unknown>>, failure: string): Promise<void> => {
+    const mutate = async (name: string, argumentsValue: Readonly<Record<string, unknown>>, failure: string,
+      flagContext?: { readonly flag: FreshExternalPowerPlacement; readonly beforeSource: string }): Promise<string | undefined> => {
       if (powerAnnotationBindingOf(contract) !== undefined && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("External power graph authority changed before a governed mutation.");
+      if (flagContext !== undefined) {
+        const afterSource = await executeFreshPowerFlagMutation(observe => this.#callSourceBoundTool(name, argumentsValue, observe), name, argumentsValue,
+          { contract, ...flagContext, schematicPath: this.#freshProject!.schematicPath }, () => readFile(this.#freshProject!.schematicPath, "utf8"), evidence => {
+            if (this.#freshPowerFlagPlacementAdvisories.length >= 16) throw new Error("Power flag advisory evidence exceeds the existing annotation bound.");
+            this.#freshPowerFlagPlacementAdvisories.push(evidence);
+          });
+        completedMutationCalls += 1;
+        return afterSource;
+      }
       const result = await this.#callSourceBoundTool(name, argumentsValue);
       if (result.isError === true) throw new Error(failure, { cause: nativeReplyCause(name, result) });
       const semantic = preferredResultText(result).replace(/\s+/gu, " ").trim();
@@ -5879,11 +6031,19 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
 
       if (powerAnnotationBindingOf(contract) !== undefined) {
         const beforeFlagsSource = await readFile(this.#freshProject!.schematicPath, "utf8");
+        if (connectivityBatchAfterContentIdentity !== undefined && !sameContentIdentity(contentIdentity(beforeFlagsSource), connectivityBatchAfterContentIdentity)) throw new Error("Qualified connectivity source changed before flag authoring.");
+        if (connectivityBatchAfterContentIdentity === undefined && !sameContentIdentity(parseFreshSchematicConnectivityPrimitiveInventory(beforeFlagsSource).unrelatedChildrenIdentity,
+          parseFreshSchematicConnectivityPrimitiveInventory(schematic).unrelatedChildrenIdentity)) throw new Error("Qualified non-connectivity source changed before flag authoring.");
         const retained = freshExternalPowerRetainedSourceIdentity(beforeFlagsSource, powerAnnotationBindingOf(contract)!.flags.map(flag => flag.reference));
+        let priorFlagSource = beforeFlagsSource;
         for (const flag of geometryPlan.flags) {
-          await mutate("sch_add_symbol", { library: "power", symbol_name: "PWR_FLAG", reference: flag.reference, value: "PWR_FLAG", footprint: "", x_mm: flag.x, y_mm: flag.y, rotation: flag.rotation, unit: 1, snap_to_grid: false }, `KiCad failed while materializing source-bound external power ${flag.reference}.`);
-          const afterFlagSource = await readFile(this.#freshProject!.schematicPath, "utf8");
+          if (await readFile(this.#freshProject!.schematicPath, "utf8") !== priorFlagSource) throw new Error("Qualified flag prefix changed before its next mutation.");
+          const afterFlagSource = await mutate("sch_add_symbol", { library: "power", symbol_name: "PWR_FLAG", reference: flag.reference, value: "PWR_FLAG", footprint: "", x_mm: flag.x, y_mm: flag.y, rotation: flag.rotation, unit: 1, snap_to_grid: false }, `KiCad failed while materializing source-bound external power ${flag.reference}.`, { flag, beforeSource: priorFlagSource });
+          if (afterFlagSource === undefined) throw new Error("Power flag source proof is missing.");
           if (canonicalJson(freshExternalPowerRetainedSourceIdentity(afterFlagSource, powerAnnotationBindingOf(contract)!.flags.map(flag => flag.reference))) !== canonicalJson(retained)) throw new Error("External power symbol creation changed unrelated schematic tokens.");
+          this.#freshPowerFlagPlacementAdvisories = this.#freshPowerFlagPlacementAdvisories.map(evidence => evidence.advisory.reference !== flag.reference ? evidence
+            : freezeDeep({ ...evidence, advisory: { ...evidence.advisory, afterSchematicContentIdentity: contentIdentity(afterFlagSource) } }));
+          priorFlagSource = afterFlagSource;
         }
         connectivityBatchAfterContentIdentity = contentIdentity(await readFile(this.#freshProject!.schematicPath));
       }
@@ -5941,12 +6101,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         await this.#freshSchematicRollback!.restore(rollbackCheckpoint);
       } catch (rollbackError) {
         throw new Error(
-          `FRESH_CONNECTIVITY_ROLLBACK_FAILED_TERMINAL: Contract connectivity mutation failed and exact disk rollback could not be verified: ${rollbackError instanceof Error ? rollbackError.message : String(rollbackError)}`,
+          `FRESH_CONNECTIVITY_ROLLBACK_FAILED_TERMINAL: Contract connectivity mutation failed and exact disk rollback could not be verified: ${rollbackError instanceof Error ? rollbackError.message : String(rollbackError)}${this.#freshPowerFlagPlacementAdvisories.length === 0 ? "" : ` Placement advisory provenance: ${JSON.stringify(powerFlagAdvisorySummary(this.#freshPowerFlagPlacementAdvisories.map(value => value.advisory)))}`}`,
           { cause: error },
         );
       }
       throw new Error(
-        `FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL: ${issues.map((issue) => `${issue.code}: ${issue.message}`).join(" ")} Exact disk preimage restored and verified; the KiCad in-memory reload state is unproven, so this session must close without retry.`,
+        `FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL: ${issues.map((issue) => `${issue.code}: ${issue.message}`).join(" ")} Exact disk preimage restored and verified; the KiCad in-memory reload state is unproven, so this session must close without retry.${this.#freshPowerFlagPlacementAdvisories.length === 0 ? "" : ` Placement advisory provenance: ${JSON.stringify(powerFlagAdvisorySummary(this.#freshPowerFlagPlacementAdvisories.map(value => value.advisory)))}`}`,
         { cause: error },
       );
     }
@@ -5957,10 +6117,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       labelAnchors: expectedLabels,
       ...(connectivityBatchAfterContentIdentity === undefined ? {} : { connectivityBatchAfterContentIdentity }),
       ...(powerAnnotationBindingOf(contract) === undefined ? {} : { externalPowerPlacements: geometryPlan.flags }),
+      ...(this.#freshPowerFlagPlacementAdvisories.length === 0 ? {} : { powerFlagPlacementAdvisories: Object.freeze(this.#freshPowerFlagPlacementAdvisories.map(value => value.advisory)) }),
     };
     return contractResult(call, contract, {
       applied: true, mutated: true, idempotent: false, issues: [],
       routes, noConnects: contract.noConnects.map(endpointId), connectivity: groups,
+      ...(this.#freshPowerFlagPlacementAdvisories.length === 0 ? {} : { powerFlagPlacementAdvisories: this.#freshPowerFlagPlacementAdvisories.map(value => value.advisory) }),
       ...(contract.derivedPowerBinding !== undefined ? { powerAnnotations: geometryPlan.flags, powerAnnotationBindingIdentity: contract.derivedPowerBinding.identity }
         : contract.externalPowerBinding === undefined ? {} : { externalPowerAnnotations: geometryPlan.flags, externalPowerBindingIdentity: contract.externalPowerBinding.identity }),
     });
@@ -6020,7 +6182,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     return harnessToolResultSchema.parse({
       toolCallId: call.id,
       isError: true,
-      content: `${prefix}: ${message.replace(/\s+/gu, " ").slice(0, 1_200)}.${rollback} The editing session must close without retry.`,
+      content: `${prefix}: ${message.replace(/\s+/gu, " ").slice(0, 1_200)}.${rollback} The editing session must close without retry.${pending?.powerFlagPlacementAdvisories === undefined ? "" : ` Placement advisory provenance: ${JSON.stringify(powerFlagAdvisorySummary(pending.powerFlagPlacementAdvisories))}`}`,
     });
   }
 
@@ -6086,6 +6248,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
           nativeNetlistSha256: sha256(source),
           nativeNetCount: pending.contract.nets.length,
           nativeComponentCount: pending.contract.components.length,
+          ...(pending.powerFlagPlacementAdvisories === undefined ? {} : { powerFlagPlacementAdvisories: powerFlagAdvisorySummary(pending.powerFlagPlacementAdvisories) }),
         }),
       });
     } catch (error) {

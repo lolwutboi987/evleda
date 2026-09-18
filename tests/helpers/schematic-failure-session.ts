@@ -21,7 +21,7 @@ rl.on('line',line=>{
   if(m.method!=='tools/call')return;
   const name=m.params.name;
   fs.appendFileSync(f.callsPath,JSON.stringify(m.params)+'\n');
-  if(name==='sch_autoplace_fields'){
+  if(name===f.replyToolName){
     mutationFailed=true;
     if(f.failure==='hang')return;
     if(f.failure==='rpc')return send({jsonrpc:'2.0',id:m.id,error:{code:-32603,message:'private RPC failure'}});
@@ -49,15 +49,16 @@ export async function createSchematicFailureSession(input: {
   liveFailure?: "document" | "transport";
   readToolFailure?: boolean;
   reply?: unknown;
+  replyToolName?: "sch_autoplace_fields" | "sch_add_symbol";
 }) {
   const outputRoot = path.join(input.workspace, "session-output");
   await mkdir(outputRoot, { recursive: true });
   const file = path.join(outputRoot, "schematic-failure-peer.json"), callsPath = `${file}.calls`;
-  const names = ["sch_autoplace_fields", "sch_get_symbols", "pcb_get_board_summary", "pcb_save", "pcb_revert"];
+  const names = ["sch_autoplace_fields", "sch_get_symbols", "pcb_get_board_summary", "pcb_save", "pcb_revert", ...(input.replyToolName === "sch_add_symbol" ? ["sch_add_symbol"] : [])];
   const tools = names.map(name => ({ name, inputSchema: { type: "object", additionalProperties: true },
     outputSchema: { type: "object", properties: { result: { type: "string" } }, required: ["result"], additionalProperties: false } }));
   await writeFile(file, JSON.stringify({ project: input.project, boardFile: input.boardFile, source: await readFile(input.boardFile, "utf8"),
-    failure: input.failure ?? "tool", readToolFailure: input.readToolFailure ?? false, liveFailure: input.liveFailure ?? null, reply: input.reply ?? schematicFailureReply, callsPath,
+    failure: input.failure ?? "tool", readToolFailure: input.readToolFailure ?? false, liveFailure: input.liveFailure ?? null, reply: input.reply ?? schematicFailureReply, replyToolName: input.replyToolName ?? "sch_autoplace_fields", callsPath,
     tools: [...tools, { name: "evleda_get_live_pcb_document", inputSchema: { type: "object", properties: {}, additionalProperties: false } }],
   }), "utf8");
   const session = await KicadMcpSession.connect({ workspaceRoot: input.workspace, projectRoot: input.project, outputRoot,
