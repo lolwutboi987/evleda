@@ -7,8 +7,11 @@ then failed before a producer reply was retained; the sidecar session closed,
 rollback failed and normal cleanup was not confirmed. The failed 6,896-byte PCB,
 diagnostics and receipts are preserved. The owned orphan editor was stopped after
 its process identity was checked. Seven non-PCB normal-close file hashes still
-match; the lease, terminal marker and both editor locks remain for reviewed
-recovery. No electrical footprint placement or copper was accepted from this run.
+match. A reviewed retained-lock rollback subsequently restored the exact earlier
+PCB and retired only the two proven orphan editor locks, terminal marker and
+lease. Separate readback verified all eight normal-close hashes and preservation
+of the other captured files/history. Normal native resume is still required.
+No electrical footprint placement or copper was accepted from the failed run.
 
 The host's generic SDK-error wrapper discarded the original cause. The reviewed
 fix now retains it privately before teardown, with the same public message,
@@ -18,6 +21,15 @@ establish why the DOC11 sync failed. Complete DOC11 runtime verification also
 passed after the failure. Evidence is retained outside the repository under
 `destination-verification/integration-doc11-29/` and
 `destination-verification/rp2350-native-sync-failure-03/`.
+
+Repeated stock-library terminal-geometry parsing is now cached as immutable
+derived data under exact source/policy identities, with a 64-entry/4 MiB bound.
+All three guarded source reads and hash checks still run on every request. An
+installed-library probe made six requests with two parses and eighteen full
+reads; 201 targeted tests passed with five skips, and source typechecking passed.
+This reduces parser work, not verification. It is not a diagnosis or cure of the
+separate sync failure. The next frozen host build will combine these reviewed
+source changes before another controlled native attempt.
 
 The new [placement study](../designs/rp2350-pico/placement-rework-study/README.md)
 reconsiders the circuit groups before rerouting. Preferred study B moves the

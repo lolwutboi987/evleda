@@ -2,19 +2,48 @@ import {
   existsSync,
   mkdirSync,
   mkdtempSync,
+  readFileSync,
+  renameSync,
   rmSync,
+  statSync,
   symlinkSync,
+  utimesSync,
   writeFileSync
 } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+const geometryWork = vi.hoisted(() => ({ descriptors: new Map<number, string>(), reads: new Map<string, number>(),
+  parses: 0, closed: undefined as ((file: string) => void) | undefined }));
+vi.mock("node:fs", async importOriginal => {
+  const actual = await importOriginal<typeof import("node:fs")>();
+  return { ...actual,
+    openSync: (...args: unknown[]) => { const fd = Reflect.apply(actual.openSync, actual, args) as number; geometryWork.descriptors.set(fd, String(args[0])); return fd; },
+    readFileSync: (...args: unknown[]) => {
+      const result = Reflect.apply(actual.readFileSync, actual, args) as Buffer | string;
+      if (typeof args[0] === "number") {
+        const file = geometryWork.descriptors.get(args[0])!;
+        geometryWork.reads.set(file, (geometryWork.reads.get(file) ?? 0) + 1);
+      }
+      return result;
+    },
+    closeSync: (fd: number) => { const file = geometryWork.descriptors.get(fd)!; geometryWork.descriptors.delete(fd); actual.closeSync(fd); geometryWork.closed?.(file); },
+  };
+});
+vi.mock("../../src/harness/fresh-kicad-parser.js", async importOriginal => {
+  const actual = await importOriginal<typeof import("../../src/harness/fresh-kicad-parser.js")>();
+  return { ...actual, parseFreshSymbolLibraryTerminalGeometrySource: (...args: Parameters<typeof actual.parseFreshSymbolLibraryTerminalGeometrySource>) => {
+    geometryWork.parses++; return actual.parseFreshSymbolLibraryTerminalGeometrySource(...args);
+  } };
+});
 
 import {
   KiCad10StockLibraryDiscoveryReader,
   KiCadStockLibraryResolverError,
   createKiCad10StockLibraryResolver,
+  createKiCadStockSyntaxCache,
   type KiCad10StockLibraryResolverOptions
 } from "../../src/harness/kicad-library-resolver.js";
 import {
@@ -167,6 +196,7 @@ const resolverOptions = (
 });
 
 afterEach(() => {
+  geometryWork.closed = undefined; geometryWork.descriptors.clear(); geometryWork.reads.clear(); geometryWork.parses = 0;
   for (const root of temporaryRoots.splice(0)) rmSync(root, { recursive: true, force: true });
 });
 
@@ -503,6 +533,182 @@ describe("KiCad 10 stock-library resolver", () => {
     }))).toThrowError(expect.objectContaining({ code: "INVALID_CONFIGURATION" }));
   });
 });
+
+describe("bounded pure terminal geometry reuse", () => {
+  it("removes repeated whole-library geometry parsing while retaining all three guarded full reads", () => {
+    const fixture = createFixture(), file = join(fixture.symbols, "Device.kicad_sym");
+    const resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture));
+    const first = resolver.inspectSymbolTerminalGeometry("Device:R")!;
+    expect(resolver.inspectSymbolTerminalGeometry("Device:R")).toBe(first);
+    expect(geometryWork.parses).toBe(1);
+    expect(geometryWork.reads.get(file)).toBe(6);
+    expect(resolver.inspectSymbolTerminalGeometry("Device:C")?.libraryId).toBe("Device:C");
+    expect(geometryWork.parses).toBe(2);
+    expect(geometryWork.reads.get(file)).toBe(9);
+    expect(resolver.cacheSnapshot().parsedSymbolFileCount).toBe(1);
+    expect(JSON.stringify(first)).not.toContain(fixture.root);
+  });
+
+  it("freezes all nested geometry exposed to callers, including graphic bounds and identities", () => {
+    const fixture = createFixture();
+    writeLibrary(fixture.symbols, "Device", library([symbol("R", "R", [pin("1", "A")])
+      .replace('(symbol "R_1_1"', '(symbol "R_1_1" (rectangle (start -1 -2) (end 1 2) (stroke (width 0.1) (type default)) (fill (type none)))')]));
+    const resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture));
+    const first = resolver.inspectSymbolTerminalGeometry("Device:R")!, before = JSON.stringify(first);
+    const visit = (value: unknown): void => {
+      if (value === null || typeof value !== "object") return;
+      expect(Object.isFrozen(value)).toBe(true);
+      for (const [key, child] of Object.entries(value)) { expect(Reflect.set(value, key, "poison")).toBe(false); visit(child); }
+    };
+    visit(first);
+    expect(first.representations[0]!.graphics[0]!.bounds).not.toBeNull();
+    expect(JSON.stringify(resolver.inspectSymbolTerminalGeometry("Device:R"))).toBe(before);
+    expect(geometryWork.parses).toBe(1);
+  });
+
+  it("shares only admitted parser products across selections and separates namespace/limit policies", () => {
+    const fixture = createFixture(), storage = createKiCadStockSyntaxCache();
+    const make = (override: Partial<KiCad10StockLibraryResolverOptions> = {}) => createKiCad10StockLibraryResolver(resolverOptions(fixture, override), storage);
+    const first = make().inspectSymbolTerminalGeometry("Device:R");
+    expect(make({ exactSymbolIds: ["Device:R"] }).inspectSymbolTerminalGeometry("Device:R")).toBe(first);
+    expect(make({ exactSymbolIds: ["Device:C"] }).inspectSymbolTerminalGeometry("Device:R")).toBeNull();
+    expect(make({ stockSymbolNicknames: ["Connector_Generic"] }).inspectSymbolTerminalGeometry("Device:R")).toBeNull();
+    expect(geometryWork.parses).toBe(1);
+    expect(make({ stockSymbolNicknames: ["Device"] }).inspectSymbolTerminalGeometry("Device:R")).toEqual(first);
+    expect(make({ limits: { maxPinsOrPads: 2 } }).inspectSymbolTerminalGeometry("Device:R")).toEqual(first);
+    expect(geometryWork.parses).toBe(3);
+    expect(() => make({ limits: { maxPinsOrPads: 1 } }).inspectSymbolTerminalGeometry("Device:R")).toThrow();
+    expect(geometryWork.parses).toBe(3);
+  });
+
+  it("does not borrow equal-byte geometry from another canonical root", () => {
+    const firstFixture = createFixture(), secondFixture = createFixture(), storage = createKiCadStockSyntaxCache();
+    const first = createKiCad10StockLibraryResolver(resolverOptions(firstFixture), storage).inspectSymbolTerminalGeometry("Device:R");
+    const second = createKiCad10StockLibraryResolver(resolverOptions(secondFixture), storage).inspectSymbolTerminalGeometry("Device:R");
+    expect(second).toEqual(first); expect(second).not.toBe(first);
+    expect(geometryWork.parses).toBe(2);
+  });
+
+  it("reparses equal-length changed bytes even when mtime is restored", () => {
+    const fixture = createFixture(), file = join(fixture.symbols, "Device.kicad_sym");
+    const resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture));
+    const first = resolver.inspectSymbolTerminalGeometry("Device:R")!, before = statSync(file);
+    const source = readFileSync(file, "utf8"), changed = source.replace("(length 2.54)", "(length 3.54)");
+    expect(changed.length).toBe(source.length);
+    writeFileSync(file, changed); utimesSync(file, before.atime, before.mtime);
+    const second = resolver.inspectSymbolTerminalGeometry("Device:R")!;
+    expect(second.sourceIdentity.size).toBe(first.sourceIdentity.size);
+    expect(second.sourceIdentity.digest).not.toBe(first.sourceIdentity.digest);
+    expect(second.representations[0]!.pins[0]!.lengthMm).toBe(3.54);
+    expect(geometryWork.parses).toBe(2); expect(geometryWork.reads.get(file)).toBe(6);
+  });
+
+  it.each([false, true])("keeps both source comparison fences on warm=%s captures and never publishes failed parses", warm => {
+    for (const changedAfterRead of [1, 2]) {
+      const fixture = createFixture(), file = join(fixture.symbols, "Device.kicad_sym");
+      const resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture));
+      const source = readFileSync(file, "utf8");
+      if (warm) resolver.inspectSymbolTerminalGeometry("Device:R");
+      const startReads = geometryWork.reads.get(file) ?? 0, startParses = geometryWork.parses;
+      geometryWork.closed = current => {
+        if (current === file && geometryWork.reads.get(file) === startReads + changedAfterRead) {
+          geometryWork.closed = undefined;
+          writeFileSync(file, source.replace("(length 2.54)", "(length 3.54)"));
+        }
+      };
+      expect(() => resolver.inspectSymbolTerminalGeometry("Device:R")).toThrow(/source changed (?:before|during) terminal geometry capture/u);
+      geometryWork.closed = undefined;
+      expect(geometryWork.reads.get(file)).toBe(startReads + changedAfterRead + 1);
+      expect(geometryWork.parses - startParses).toBe(!warm && changedAfterRead === 2 ? 1 : 0);
+      writeFileSync(file, source);
+      expect(resolver.inspectSymbolTerminalGeometry("Device:R")?.representations[0]!.pins[0]!.lengthMm).toBe(2.54);
+      expect(geometryWork.parses - startParses).toBe(warm ? 0 : changedAfterRead === 2 ? 2 : 1);
+    }
+  });
+
+  it("rejects root junction replacement despite warm identical geometry", () => {
+    const fixture = createFixture(), resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture));
+    resolver.inspectSymbolTerminalGeometry("Device:R");
+    const moved = join(fixture.root, "moved-symbols");
+    renameSync(fixture.symbols, moved); symlinkSync(moved, fixture.symbols, "junction");
+    expect(() => resolver.inspectSymbolTerminalGeometry("Device:R")).toThrowError(expect.objectContaining({ code: "PATH_REJECTED" }));
+    expect(geometryWork.parses).toBe(1);
+  });
+
+  it("does not retain malformed geometry failures as parser products", () => {
+    const fixture = createFixture();
+    writeLibrary(fixture.symbols, "Device", library([symbol("R", "R", [pin("1", "A").replace("(length 2.54)", "(length -2.54)")])]));
+    const resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture));
+    for (let index = 0; index < 2; index++) expect(() => resolver.inspectSymbolTerminalGeometry("Device:R")).toThrow(/pin length/u);
+    expect(geometryWork.parses).toBe(2);
+  });
+
+  it("bounds retained derived records independently of the ordinary syntax cache", () => {
+    const fixture = createFixture(), resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture, { limits: { maxCachedRecords: 1 } }));
+    for (const id of ["Device:R", "Device:C", "Device:C", "Device:R"]) resolver.inspectSymbolTerminalGeometry(id);
+    expect(geometryWork.parses).toBe(3);
+    expect(resolver.cacheSnapshot().parsedSymbolFileCount).toBe(1);
+  });
+
+  it("bounds aggregate encoded geometry bytes and declines individually oversized values", () => {
+    const fixture = createFixture();
+    const initial = createKiCad10StockLibraryResolver(resolverOptions(fixture)).inspectSymbolTerminalGeometry("Device:R")!;
+    const encodedBytes = Buffer.byteLength(JSON.stringify(initial), "utf8");
+    const one = createKiCad10StockLibraryResolver(resolverOptions(fixture, { limits: { maxCachedSourceBytes: encodedBytes } }));
+    geometryWork.parses = 0;
+    for (const id of ["Device:R", "Device:C", "Device:C", "Device:R"]) one.inspectSymbolTerminalGeometry(id);
+    expect(geometryWork.parses).toBe(3);
+    const none = createKiCad10StockLibraryResolver(resolverOptions(fixture, { limits: { maxCachedSourceBytes: encodedBytes - 1 } }));
+    geometryWork.parses = 0;
+    none.inspectSymbolTerminalGeometry("Device:R"); none.inspectSymbolTerminalGeometry("Device:R");
+    expect(geometryWork.parses).toBe(2);
+  });
+
+  it("never double-charges a value published by a nested capture during the final read", () => {
+    const fixture = createFixture(), file = join(fixture.symbols, "Device.kicad_sym");
+    const initial = createKiCad10StockLibraryResolver(resolverOptions(fixture)).inspectSymbolTerminalGeometry("Device:R")!;
+    const resolver = createKiCad10StockLibraryResolver(resolverOptions(fixture, {
+      limits: { maxCachedSourceBytes: Buffer.byteLength(JSON.stringify(initial), "utf8") * 2 },
+    }));
+    geometryWork.reads.clear(); geometryWork.parses = 0;
+    geometryWork.closed = current => {
+      if (current === file && geometryWork.reads.get(file) === 3) {
+        geometryWork.closed = undefined;
+        resolver.inspectSymbolTerminalGeometry("Device:R");
+      }
+    };
+    resolver.inspectSymbolTerminalGeometry("Device:R");
+    resolver.inspectSymbolTerminalGeometry("Device:C");
+    resolver.inspectSymbolTerminalGeometry("Device:R");
+    resolver.inspectSymbolTerminalGeometry("Device:C");
+    expect(geometryWork.parses).toBe(3);
+    expect(geometryWork.reads.get(file)).toBe(15);
+  });
+
+  it("caps the shared derived cache at 64 exact-symbol products across selection replacement", () => {
+    const fixture = createFixture(), storage = createKiCadStockSyntaxCache();
+    const ids = Array.from({ length: 65 }, (_, index) => `Device:R${index}`);
+    writeLibrary(fixture.symbols, "Device", library(ids.map(id => symbol(id.split(":")[1]!, "R", [pin("1", "A")]))));
+    const capture = (id: string) => createKiCad10StockLibraryResolver(resolverOptions(fixture, { exactSymbolIds: [id] }), storage).inspectSymbolTerminalGeometry(id);
+    for (const id of ids) expect(capture(id)?.libraryId).toBe(id);
+    expect(geometryWork.parses).toBe(65);
+    capture(ids[64]!); expect(geometryWork.parses).toBe(65);
+    capture(ids[0]!); expect(geometryWork.parses).toBe(66);
+  });
+});
+
+const geometryStockRoot = "C:\\Program Files\\KiCad\\10.0\\share\\kicad";
+it.runIf(existsSync(join(geometryStockRoot, "symbols", "Device.kicad_sym")) && existsSync(join(geometryStockRoot, "footprints")))(
+  "reuses installed Device terminal geometry with every full read retained (work counts, not a timing guarantee)", () => {
+    const resolver = createKiCad10StockLibraryResolver({ symbolRoot: join(geometryStockRoot, "symbols"), footprintRoot: join(geometryStockRoot, "footprints"),
+      exactSymbolIds: ["Device:R", "Device:L"], exactFootprintIds: [], stockSymbolNicknames: ["Device"], stockFootprintNicknames: [] });
+    for (const id of ["Device:R", "Device:L", "Device:R", "Device:R", "Device:L", "Device:R"]) {
+      expect(resolver.inspectSymbolTerminalGeometry(id)?.representations.flatMap(value => value.pins)).toHaveLength(2);
+    }
+    expect(geometryWork.parses).toBe(2);
+    expect(geometryWork.reads.get(join(geometryStockRoot, "symbols", "Device.kicad_sym"))).toBe(18);
+  },
+);
 
 const installedSymbolRoot = "D:\\Codex-Recovery\\KiCad\\10.0\\share\\kicad\\symbols";
 const installedFootprintRoot = "D:\\Codex-Recovery\\KiCad\\10.0\\share\\kicad\\footprints";

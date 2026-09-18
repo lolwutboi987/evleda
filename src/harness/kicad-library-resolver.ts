@@ -231,14 +231,25 @@ interface CachedParsedLibrary {
   }>;
 }
 
+// Derived values have their own small bound: retaining a pin/graphic projection
+// must neither retain another full library tree nor evict the stock syntax cache.
+const MAX_CACHED_TERMINAL_GEOMETRIES = 64;
+const MAX_CACHED_TERMINAL_GEOMETRY_BYTES = 4 * 1024 * 1024;
+interface CachedTerminalGeometry {
+  readonly geometry: FreshSymbolTerminalGeometry;
+  readonly encodedBytes: number;
+}
+
 const syntaxCacheBrand: unique symbol = Symbol("kicad-stock-syntax-cache");
 /** Opaque parser storage; grants no selection, filesystem, or currentness authority. */
 export interface KiCadStockSyntaxCache { readonly [syntaxCacheBrand]: true }
 interface SyntaxCacheState {
   readonly entries: Map<string, CachedParsedLibrary>;
+  readonly terminalGeometries: Map<string, CachedTerminalGeometry>;
   readonly maximumFiles: number;
   readonly maximumSourceBytes: number;
   sourceBytes: number;
+  terminalGeometryBytes: number;
 }
 const syntaxCaches = new WeakMap<KiCadStockSyntaxCache, SyntaxCacheState>();
 
@@ -246,8 +257,8 @@ const syntaxCaches = new WeakMap<KiCadStockSyntaxCache, SyntaxCacheState>();
 export function createKiCadStockSyntaxCache(limits?: Partial<KiCadStockLibraryResolverLimits>): KiCadStockSyntaxCache {
   const policy = mergeLimits(limits);
   const handle: KiCadStockSyntaxCache = Object.freeze({ [syntaxCacheBrand]: true as const });
-  syntaxCaches.set(handle, { entries: new Map(), maximumFiles: policy.maxCachedFiles,
-    maximumSourceBytes: policy.maxCachedSourceBytes, sourceBytes: 0 });
+  syntaxCaches.set(handle, { entries: new Map(), terminalGeometries: new Map(), maximumFiles: policy.maxCachedFiles,
+    maximumSourceBytes: policy.maxCachedSourceBytes, sourceBytes: 0, terminalGeometryBytes: 0 });
   return handle;
 }
 
@@ -1208,12 +1219,17 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     if (loaded.identity.digest !== approved.sourceIdentity.digest || loaded.identity.size !== approved.sourceIdentity.size) {
       return resolverError("MALFORMED_LIBRARY", exactLibraryId, `${exactLibraryId}: approved source changed before terminal geometry capture.`);
     }
-    const source = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(loaded.bytes);
-    const geometry = parseFreshSymbolLibraryTerminalGeometrySource(source, loaded.identity, exactLibraryId);
+    // This is only a pure parser product. Every admission, guarded full read,
+    // approved-identity comparison and final fresh read still runs on a hit.
+    const cacheKey = `${this.#syntaxPolicyIdentity}\u0000terminal-geometry:${exactLibraryId}\u0000${loaded.canonicalPath}\u0000${loaded.identity.digest}\u0000${loaded.identity.size}`;
+    const cached = this.#syntaxCache.terminalGeometries.get(cacheKey);
+    const geometry = cached?.geometry ?? parseFreshSymbolLibraryTerminalGeometrySource(
+      new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(loaded.bytes), loaded.identity, exactLibraryId);
     const after = loadAsset(asset);
     if (after.identity.digest !== loaded.identity.digest || after.identity.size !== loaded.identity.size) {
       return resolverError("MALFORMED_LIBRARY", exactLibraryId, `${exactLibraryId}: source changed during terminal geometry capture.`);
     }
+    if (cached === undefined) this.#rememberTerminalGeometry(cacheKey, geometry);
     return geometry;
   }
 
@@ -1347,6 +1363,26 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
       cache.entries.set(cacheKey, Object.freeze(entry));
       cache.sourceBytes += identity.size;
     }
+  }
+
+  #rememberTerminalGeometry(cacheKey: string, geometry: FreshSymbolTerminalGeometry): void {
+    const cache = this.#syntaxCache;
+    // The parser freezes every nested pin, graphic, coordinate and identity.
+    // No caller can mutate the value to affect a later source-qualified read.
+    // A nested synchronous capture may already have published the same value.
+    if (cache.terminalGeometries.has(cacheKey)) return;
+    const encodedBytes = Buffer.byteLength(JSON.stringify(geometry), "utf8");
+    const maximumBytes = Math.min(MAX_CACHED_TERMINAL_GEOMETRY_BYTES, cache.maximumSourceBytes);
+    const maximumRecords = Math.min(MAX_CACHED_TERMINAL_GEOMETRIES, this.#limits.maxCachedRecords);
+    if (encodedBytes > maximumBytes) return;
+    while (cache.terminalGeometries.size >= maximumRecords || cache.terminalGeometryBytes + encodedBytes > maximumBytes) {
+      const oldest = cache.terminalGeometries.entries().next().value as [string, CachedTerminalGeometry] | undefined;
+      if (oldest === undefined) break;
+      cache.terminalGeometries.delete(oldest[0]);
+      cache.terminalGeometryBytes -= oldest[1].encodedBytes;
+    }
+    cache.terminalGeometries.set(cacheKey, Object.freeze({ geometry, encodedBytes }));
+    cache.terminalGeometryBytes += encodedBytes;
   }
 
   #setRecord<Value>(cache: Map<string, Value>, key: string, value: Value): void {

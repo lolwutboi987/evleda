@@ -25,6 +25,7 @@ const MAX_FILE = 2 * 1024 * 1024, MAX_TOTAL = 8 * 1024 * 1024, RESERVE = 100 * 1
 const VERSION = "evleda.offline-zero-pcb-recovery-plan.v1";
 const SYNC_VERSION = "evleda.offline-outlined-pre-sync-recovery-plan.v1";
 const ROLLBACK_VERSION = "evleda.offline-pcb-checkpoint-rollback-plan.v1";
+const ORPHAN_ROLLBACK_VERSION = "evleda.offline-pcb-checkpoint-rollback-plan.v2";
 const ROLLBACK_WORK_LIMIT = 5 * 1024 * 1024, ROLLBACK_RESERVE = 150 * 1024 * 1024;
 const uuid = z.string().uuid(), digest = z.string().regex(/^[a-f0-9]{64}$/u);
 const pin = z.object({ path: z.string().min(1), sha256: digest, bytes: z.number().int().min(0).max(MAX_FILE) }).strict();
@@ -46,18 +47,22 @@ export type OutlinedSyncRecoveryRequest = z.infer<typeof syncRequestSchema>;
 const rollbackRequestSchema = syncRequestSchema.omit({ outlineRequest: true, outlineResponse: true }).extend({
   schemaVersion: z.literal("evleda.offline-pcb-checkpoint-rollback-request.v1"), currentPcb: pin, observedFailurePcb: pin.optional() }).strict();
 export type PcbCheckpointRollbackRequest = z.infer<typeof rollbackRequestSchema>;
-const anyRequestSchema = z.discriminatedUnion("schemaVersion", [requestSchema, syncRequestSchema, rollbackRequestSchema]);
-type AnyRequest = RecoveryRequest | OutlinedSyncRecoveryRequest | PcbCheckpointRollbackRequest;
+const orphanRollbackRequestSchema = rollbackRequestSchema.extend({ schemaVersion: z.literal("evleda.offline-pcb-checkpoint-rollback-request.v2"),
+  expectedBoardLock: pin, expectedProjectLock: pin, orphanEditorObservation: pin, ownedEditorTermination: pin }).strict();
+export type OrphanPcbCheckpointRollbackRequest = z.infer<typeof orphanRollbackRequestSchema>;
+const anyRequestSchema = z.discriminatedUnion("schemaVersion", [requestSchema, syncRequestSchema, rollbackRequestSchema, orphanRollbackRequestSchema]);
+type AnyRequest = RecoveryRequest | OutlinedSyncRecoveryRequest | PcbCheckpointRollbackRequest | OrphanPcbCheckpointRollbackRequest;
 const isSyncRequest = (request: AnyRequest): request is OutlinedSyncRecoveryRequest => request.schemaVersion === "evleda.offline-outlined-pre-sync-recovery-request.v1";
-const isRollbackRequest = (request: AnyRequest): request is PcbCheckpointRollbackRequest => request.schemaVersion === "evleda.offline-pcb-checkpoint-rollback-request.v1";
-const isSyncFailureRequest = (request: AnyRequest): request is OutlinedSyncRecoveryRequest | PcbCheckpointRollbackRequest => isSyncRequest(request) || isRollbackRequest(request);
+const isOrphanRollbackRequest = (request: AnyRequest): request is OrphanPcbCheckpointRollbackRequest => request.schemaVersion === "evleda.offline-pcb-checkpoint-rollback-request.v2";
+const isRollbackRequest = (request: AnyRequest): request is PcbCheckpointRollbackRequest | OrphanPcbCheckpointRollbackRequest => request.schemaVersion === "evleda.offline-pcb-checkpoint-rollback-request.v1" || isOrphanRollbackRequest(request);
+const isSyncFailureRequest = (request: AnyRequest): request is OutlinedSyncRecoveryRequest | PcbCheckpointRollbackRequest | OrphanPcbCheckpointRollbackRequest => isSyncRequest(request) || isRollbackRequest(request);
 type Pin = z.infer<typeof pin>;
 type Physical = { dev: string; ino: string; size: string; mode: string; mtimeNs: string; ctimeNs: string; birthtimeNs: string };
 type Capture = { path: string; sha256: string; bytes: number; physical: Physical; data: Buffer };
 type Witness = Omit<Capture, "data">;
 type Directory = { path: string; dev: string; ino: string };
 export interface RecoveryPlan {
-  schemaVersion: typeof VERSION | typeof SYNC_VERSION | typeof ROLLBACK_VERSION; request: AnyRequest; pcbPath: string;
+  schemaVersion: typeof VERSION | typeof SYNC_VERSION | typeof ROLLBACK_VERSION | typeof ORPHAN_ROLLBACK_VERSION; request: AnyRequest; pcbPath: string;
   files: Witness[]; directories: Directory[]; requiredFreeBytes: number;
   absentPaths?: string[];
   discardAllCurrentPcbChanges?: true;
@@ -204,7 +209,7 @@ async function diskRoom(directory: string, required: number, hooks: RecoveryHook
 }
 async function inspect(requestValue: unknown): Promise<{ request: AnyRequest; captures: Capture[]; directories: Directory[]; pcbPath: string; absentPaths?: string[] }> {
   const request = anyRequestSchema.parse(requestValue), root = request.projectRoot, output = path.join(root, "output"), project = path.join(output, "project");
-  const sync = isSyncFailureRequest(request), rollback = isRollbackRequest(request);
+  const sync = isSyncFailureRequest(request), rollback = isRollbackRequest(request), orphanLocks = isOrphanRollbackRequest(request);
   need(path.basename(root) === request.projectId && path.basename(path.dirname(root)) === "projects", "project allocation path differs from its exact ID");
   need(!contains(root, request.archiveRoot) && !contains(request.archiveRoot, root), "recovery archive must be disjoint from the allocation");
   await directoryChain(request.archiveRoot);
@@ -273,7 +278,10 @@ async function inspect(requestValue: unknown): Promise<{ request: AnyRequest; ca
     "pre-sync failure has no failed-close/needs-review chain");
     need(shutdown.projectId === request.projectId && shutdown.ownedHostObservedAbsent === true && Number.isSafeInteger(shutdown.ownedHostPid)
       && Array.isArray(shutdown.nativeEditors) && shutdown.nativeEditors.length === 0 && shutdown.clientInterruptedAfterFailedNormalClose === true
-      && shutdown.normalNativeCheckpointClose === false && shutdown.leaseAndUnsafeMarkerRetained === true && shutdown.editorLocksObservedAbsentAfterClose === true,
+      && shutdown.normalNativeCheckpointClose === false && shutdown.leaseAndUnsafeMarkerRetained === true
+      && (orphanLocks ? shutdown.editorLocksObservedAbsentAfterClose === false && shutdown.ownedEditorForciblyTerminated === true
+        && shutdown.ownedSidecarObservedAbsent === true && Number.isSafeInteger(shutdown.ownedSidecarPid) && shutdown.ownedSidecarPid > 0
+        : shutdown.editorLocksObservedAbsentAfterClose === true),
     "pre-sync operator shutdown evidence is incomplete or claims normal checkpoint closure");
     if (rollback) need(failure.projectId === request.projectId && failure.failedOperation === "fresh_sync_from_schematic"
       && failure.normalCloseFailed === true && failure.mutationsRetried === false && failure.recoveryApplied === false
@@ -345,10 +353,38 @@ async function inspect(requestValue: unknown): Promise<{ request: AnyRequest; ca
   need(same([request.expectedBoardLock.path, request.expectedProjectLock.path, request.expectedLease.path], lockPaths), "reviewed lease/lock paths differ");
   const lease = json(artifacts.expectedLease!.data);
   need(same(Object.keys(lease).sort(), ["nonce", "schemaVersion"]) && lease.schemaVersion === "evleda.toolbox-owned-lock.v1" && uuid.safeParse(lease.nonce).success, "unsupported lease contents");
-  for (const file of sync ? [lockPaths[2]!] : lockPaths) {
+  for (const file of sync && !orphanLocks ? [lockPaths[2]!] : lockPaths) {
     const owned = captures.get(file)!;
     const born = Number(BigInt(owned.physical.birthtimeNs) / 1_000_000n);
     need(owned.bytes > 0 && owned.bytes <= 16_384 && born >= times[sync ? 2 : 1]! && born <= times[sync ? 3 : 5]!, "retained lock is outside the reviewed ownership interval");
+  }
+  if (orphanLocks) {
+    const observed = json(artifacts.orphanEditorObservation!.data), terminated = json(artifacts.ownedEditorTermination!.data);
+    const shutdown = json(artifacts.shutdownObservation!.data), editor = observed.native;
+    const stamp = (value: unknown) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{1,7}Z$/u.test(value) && Number.isFinite(Date.parse(value));
+    need(observed.hostPresent === false && Number.isSafeInteger(observed.clientTerminalExitCode) && observed.clientTerminalExitCode === shutdown.clientExecExitCode
+      && Number.isSafeInteger(editor?.pid) && editor.pid > 0 && Number.isSafeInteger(editor.parentPid) && editor.parentPid > 0
+      && [shutdown.ownedHostPid, shutdown.ownedSidecarPid].includes(editor.parentPid), "orphan observation lacks the exact stopped-client/owned-parent relationship");
+    need(stamp(editor.creationUtc) && stamp(editor.kernelStartUtc) && stamp(terminated.verifiedCreationUtc)
+      && stamp(terminated.verifiedKernelStartUtc ?? terminated.verifiedCreationUtc)
+      && editor.pid === terminated.pid && editor.creationUtc === terminated.verifiedCreationUtc
+      && editor.kernelStartUtc === (terminated.verifiedKernelStartUtc ?? terminated.verifiedCreationUtc), "orphan/termination PID or exact CIM/kernel start identities differ");
+    const expectedEditor = typeof report.native?.kicad?.path === "string" && path.isAbsolute(report.native.kicad.path)
+      ? path.join(path.dirname(report.native.kicad.path), "pcbnew.exe") : undefined;
+    need(expectedEditor !== undefined && editor.executable === expectedEditor && terminated.executable === editor.executable
+      && typeof editor.commandLine === "string" && editor.commandLine.length <= 32768 && !/[\0\r\n]/u.test(editor.commandLine)
+      && terminated.commandLine === editor.commandLine, "orphan/termination executable or command line differs from the checkpoint toolchain");
+    const argv = commandArguments(editor.commandLine);
+    need(argv.length === 2 && argv[0] === expectedEditor && argv[1] === pcbPath, "orphan argv is not the exact editor and target PCB pair");
+    need(terminated.normalClosePreviouslyFailed === true && terminated.failedBoardPreviouslyArchived === true && terminated.forcedOwnedShutdown === true
+      && terminated.waitForExitReturned === true && terminated.leaseOrMarkerRemoved === false && terminated.pcbSha256After === request.currentPcb.sha256,
+    "owned termination lacks confirmed exit, unchanged PCB or retained bookkeeping proof");
+    const observedAt = Date.parse(observed.recordedAt), terminatedAt = Date.parse(terminated.recordedAt), closeAt = Date.parse(json(artifacts.closeResponse!.data).recordedAt);
+    need(Number.isFinite(observedAt) && Number.isFinite(terminatedAt) && Date.parse(editor.creationUtc) >= times[2]! && Date.parse(editor.creationUtc) <= times[3]!
+      && closeAt <= observedAt && observedAt <= terminatedAt && terminatedAt <= Date.parse(shutdown.recordedAt), "orphan launch/failed-close/termination/shutdown chronology differs");
+    need(Array.isArray(observed.locks) && observed.locks.length === 2 && same(observed.locks.map((lock: any) => ({ path: lock.FullName, bytes: lock.Length })).sort((a: any, b: any) => a.path.localeCompare(b.path)),
+      [request.expectedBoardLock, request.expectedProjectLock].map(lock => ({ path: lock.path, bytes: lock.bytes })).sort((a, b) => a.path.localeCompare(b.path))), "orphan observation does not bind the exact retained editor-lock pair");
+    for (const file of lockPaths.slice(0, 2)) need(Number(BigInt(captures.get(file)!.physical.birthtimeNs) / 1_000_000n) >= Date.parse(editor.creationUtc), "editor lock predates the verified owned editor");
   }
   let allowedUnsafe: string | undefined;
   if (sync) {
@@ -411,7 +447,7 @@ async function inspect(requestValue: unknown): Promise<{ request: AnyRequest; ca
     const closeRequested = Number(BigInt(artifacts.closeRequest!.physical.birthtimeNs) / 1_000_000n);
     need(unsafeBorn >= closeRequested && unsafeBorn <= times[times.length - 1]! && same(failure.retainedArtifacts,
       [request.expectedLease, request.expectedUnsafeMarker, request.expectedBoardLock, request.expectedProjectLock]), "retained marker/lease/absence evidence or close interval differs");
-    for (const file of lockPaths.slice(0, 2)) await assertAbsent(file);
+    if (!orphanLocks) for (const file of lockPaths.slice(0, 2)) await assertAbsent(file);
   }
   const allocation = json((await take(path.join(root, "allocation.json"))).data);
   need(allocation.schemaVersion === "evleda.toolbox-workspace-allocation.v1" && allocation.projectId === request.projectId && allocation.name === marker.name, "workspace allocation differs");
@@ -435,7 +471,7 @@ async function inspect(requestValue: unknown): Promise<{ request: AnyRequest; ca
   await scan(project); await scan(path.join(root, "input"));
   for (const file of captures.values()) for (const dir of await directoryChain(path.dirname(file.path))) if (!directories.some(old => old.path === dir.path)) directories.push(dir);
   return { request, pcbPath, captures: [...captures.values()].sort((a, b) => a.path.localeCompare(b.path)), directories: directories.sort((a, b) => a.path.localeCompare(b.path)),
-    ...(sync ? { absentPaths: lockPaths.slice(0, 2) } : {}) };
+    ...(sync && !orphanLocks ? { absentPaths: lockPaths.slice(0, 2) } : {}) };
 }
 /** Pure size arithmetic; no filesystem or recovery authority is conferred. */
 export function pcbCheckpointRollbackBudget(capturedBytes: number, backupBytes: number, metadataBytes: number) {
@@ -448,7 +484,7 @@ export async function inspectRecovery(request: unknown, hooks: RecoveryHooks = {
   const parsed = anyRequestSchema.parse(request), workspaceRoot = path.dirname(path.dirname(parsed.projectRoot));
   await quiescent(hooks, workspaceRoot); const state = await inspect(parsed); await quiescent(hooks, workspaceRoot);
   const capturedBytes = state.captures.reduce((sum, f) => sum + f.bytes, 0), backupBytes = state.captures.find(f => f.path === state.request.backup.path)!.bytes;
-  const version = isRollbackRequest(parsed) ? ROLLBACK_VERSION : isSyncRequest(parsed) ? SYNC_VERSION : VERSION;
+  const version = isOrphanRollbackRequest(parsed) ? ORPHAN_ROLLBACK_VERSION : isRollbackRequest(parsed) ? ROLLBACK_VERSION : isSyncRequest(parsed) ? SYNC_VERSION : VERSION;
   const base = { schemaVersion: version as RecoveryPlan["schemaVersion"], request: state.request, pcbPath: state.pcbPath, files: state.captures.map(witness), directories: state.directories,
     ...(state.absentPaths === undefined ? {} : { absentPaths: state.absentPaths }), ownershipBasis: "operator-approved exact orphan artifacts; not original nonce ownership" as const };
   const payload = isRollbackRequest(parsed)
@@ -462,9 +498,10 @@ async function writeExclusive(file: string, bytes: Buffer): Promise<void> {
   const copied = await capture(file); need(copied.sha256 === contentIdentity(bytes).digest && copied.bytes === bytes.length, "archive/write readback differs");
 }
 export async function applyRecovery(plan: RecoveryPlan, approval: { planIdentity: string; maintenanceConfirmed: true }, hooks: RecoveryHooks = {}): Promise<{ status: "restored-exact-checkpoint-pcb"; archive: string }> {
-  checkIdentity(plan); need([VERSION, SYNC_VERSION, ROLLBACK_VERSION].includes(plan.schemaVersion) && approval.maintenanceConfirmed === true && approval.planIdentity === plan.identity.digest, "exact reviewed plan and exclusive maintenance confirmation are required");
-  const rollback = isRollbackRequest(plan.request), syncRequest = isSyncFailureRequest(plan.request) ? plan.request : undefined;
-  if (rollback) need(plan.schemaVersion === ROLLBACK_VERSION && plan.discardAllCurrentPcbChanges === true,
+  checkIdentity(plan); need([VERSION, SYNC_VERSION, ROLLBACK_VERSION, ORPHAN_ROLLBACK_VERSION].includes(plan.schemaVersion) && approval.maintenanceConfirmed === true && approval.planIdentity === plan.identity.digest, "exact reviewed plan and exclusive maintenance confirmation are required");
+  const rollback = isRollbackRequest(plan.request), orphanRequest = isOrphanRollbackRequest(plan.request) ? plan.request : undefined;
+  const syncRequest = isSyncFailureRequest(plan.request) ? plan.request : undefined;
+  if (rollback) need(plan.schemaVersion === (orphanRequest === undefined ? ROLLBACK_VERSION : ORPHAN_ROLLBACK_VERSION) && plan.discardAllCurrentPcbChanges === true,
     "the reviewed checkpoint rollback plan must explicitly discard ALL current PCB changes");
   const fresh = await inspectRecovery(plan.request, hooks); need(same(fresh, plan), "plan no longer matches every source, evidence, lock or physical identity");
   await diskRoom(plan.request.archiveRoot, plan.requiredFreeBytes, hooks); await diskRoom(path.dirname(plan.pcbPath), plan.requiredFreeBytes, hooks);
@@ -540,28 +577,31 @@ export async function applyRecovery(plan: RecoveryPlan, approval: { planIdentity
       const file = path.join(archive, name);
       await hooks.beforeStep?.(`before-${name}`);
       await write(file, Buffer.from(canonicalJson({ state, planIdentity: plan.identity, pcbIdentity: contentIdentity(backup.data),
-        ...(syncRequest === undefined ? { removedEditorLocks: [...removed] } : { retiredArtifacts: [...removed], editorLocksRemainAbsent: true }),
+        ...(syncRequest === undefined ? { removedEditorLocks: [...removed] } : { retiredArtifacts: [...removed],
+          ...(orphanRequest === undefined ? { editorLocksRemainAbsent: true } : { reviewedOrphanEditorLocksRetired: [orphanRequest.expectedBoardLock.path, orphanRequest.expectedProjectLock.path].filter(file => removed.has(file)) }) }),
         checkpointUnchanged: true, normalResumeRequired: true, restoredSchematic: false })));
       archived.push(witness(await capture(file)));
     };
     await receipt("restore-verified.json", rollback ? "ALL archived current PCB changes discarded by operator decision; exact prior closed-checkpoint PCB restored and verified; reviewed marker and lease retained; no native rollback or normal close claimed"
       : syncRequest === undefined ? "PCB restored and verified; original orphan locks retained"
       : "Old checkpoint PCB restored and verified, discarding the archived saved outline; reviewed unsafe marker and lease retained; editor locks remain absent");
-    const retirements: Pin[] = syncRequest === undefined
+    const retirements: Pin[] = orphanRequest !== undefined ? [orphanRequest.expectedBoardLock, orphanRequest.expectedProjectLock, orphanRequest.expectedUnsafeMarker, orphanRequest.expectedLease] : syncRequest === undefined
       ? [(plan.request as RecoveryRequest).expectedBoardLock, (plan.request as RecoveryRequest).expectedProjectLock, plan.request.expectedLease]
       : [syncRequest.expectedUnsafeMarker, syncRequest.expectedLease];
     for (const [index, lock] of retirements.entries()) {
       const last = index === retirements.length - 1;
       if (last) {
         stage = "release-lease-last";
-        await receipt("lease-release-intent.json", rollback ? "Exact earlier closed-checkpoint PCB and unchanged non-PCB sources verified; reviewed marker retired and locks remained absent; lease removal intended, not yet observed; no native rollback or normal close claimed"
+        await receipt("lease-release-intent.json", orphanRequest !== undefined ? "Exact earlier closed-checkpoint PCB and unchanged non-PCB sources verified; only reviewed orphan editor locks and terminal marker retired; lease removal intended, not yet observed; no native rollback or normal close claimed"
+          : rollback ? "Exact earlier closed-checkpoint PCB and unchanged non-PCB sources verified; reviewed marker retired and locks remained absent; lease removal intended, not yet observed; no native rollback or normal close claimed"
           : syncRequest === undefined ? "PCB verified and editor locks released; exact original lease removal intended, not yet observed"
           : "Old checkpoint PCB verified; only reviewed unsafe marker retired; editor locks remained absent; exact lease removal intended, not yet observed; no normal close claimed");
       }
-      if (!last && syncRequest !== undefined) await receipt("unsafe-marker-retirement-intent.json", rollback
+      const markerRetirement = syncRequest !== undefined && lock.path === syncRequest.expectedUnsafeMarker.path;
+      if (markerRetirement) await receipt("unsafe-marker-retirement-intent.json", rollback
         ? "Exact earlier closed-checkpoint PCB verified; only this reviewed failed-sync terminal marker is scheduled for retirement under the explicit operator rollback decision"
         : "Exact checkpoint PCB verified; only the archived pre-sync unsafe marker is scheduled for retirement");
-      await hooks.beforeStep?.(last ? "before-lease-release" : syncRequest === undefined ? `before-editor-lock-${index + 1}-release` : "before-unsafe-marker-retirement");
+      await hooks.beforeStep?.(last ? "before-lease-release" : markerRetirement ? "before-unsafe-marker-retirement" : `before-editor-lock-${index + 1}-release`);
       await quiescent(hooks, path.dirname(path.dirname(plan.request.projectRoot)));
       await assertArchiveAndDirectories();
       await assertInventory();
@@ -573,8 +613,9 @@ export async function applyRecovery(plan: RecoveryPlan, approval: { planIdentity
       await unlink(lock.path);
       if (last) return { status: "restored-exact-checkpoint-pcb", archive }; // Last fallible operation; no later receipt/callback.
       removed.add(lock.path);
-      await receipt(syncRequest === undefined ? `editor-lock-${index + 1}-released.json` : "unsafe-marker-retired.json",
-        rollback ? "Only the reviewed failed-sync terminal marker retired after exact checkpoint rollback; original lease retained; no native rollback or normal close claimed"
+      await receipt(markerRetirement ? "unsafe-marker-retired.json" : `editor-lock-${index + 1}-released.json`,
+        orphanRequest !== undefined && !markerRetirement ? "One exact reviewed orphan editor lock retired after checkpoint restore; terminal marker and original lease remain retained"
+          : rollback ? "Only the reviewed failed-sync terminal marker retired after exact checkpoint rollback; original lease retained; no native rollback or normal close claimed"
           : syncRequest === undefined ? "One reviewed editor lock released; exact original lease retained" : "Only the archived pre-sync unsafe marker retired; exact original lease retained; no normal close is claimed");
     }
     throw new Error("Unreachable recovery release state");

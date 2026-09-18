@@ -1,6 +1,6 @@
 # Offline recovery of the recorded PCB checkpoint failures
 
-`scripts/recover-toolbox-project.ts` handles three bounded recovery modes through
+`scripts/recover-toolbox-project.ts` handles three bounded recovery families through
 separate strict request and plan schemas: the zero-byte PCB after disk exhaustion,
 the outlined pre-sync board rejected before native electrical synchronization,
 and explicit abandonment of current PCB changes in favor of an authenticated
@@ -33,6 +33,17 @@ error message claiming rollback does not establish native rollback completion.
 Current PCB bytes and available failed output are archived before replacement;
 only the exact typed terminal marker and lease may be retired. This mode has a
 5 MiB cumulative write bound and a 150 MiB reserve plus calculated work space.
+
+PCB rollback v1 requires editor locks to be absent. The separate v2 request and
+plan admit an exact pair of retained locks only with pinned orphan-editor and
+owned-termination evidence: matching process ID, executable, board arguments,
+both creation-time observations, parent association, successful exit and unchanged
+failed PCB. Fresh shutdown evidence must show no native editor or owned host.
+Lock contents, physical identities and creation times are checked; neither a
+hostname nor a dead process ID alone establishes ownership. The original locks
+are archived before restoration. Only after the PCB is restored and verified may
+the board lock, project lock, terminal marker and finally lease be retired.
+Older schemas retain their original conditions.
 
 Inspection writes only a plan to stdout:
 
@@ -69,10 +80,11 @@ review. Do not blindly retry, delete the archive, recreate locks, or change the
 checkpoint. A successful offline restore still requires the normal toolbox
 resume and fresh native verification; it does not establish a completed design.
 
-The implementation received 71 focused tests, TypeScript checking and an
-independent source review. All three actual V9 recoveries restored the PCB's exact
+The implementation received 101 focused tests, TypeScript checking and an
+independent source review. All four actual V9 recoveries restored the PCB's exact
 2,614 checkpoint bytes; separate readbacks confirmed all eight prior normal-close
 hashes and preservation of the other captured files. Evidence is retained under
 `destination-verification/rp2350-native-disk-full-01/` and
 `destination-verification/rp2350-native-sync-failure-01/` and
-`destination-verification/rp2350-native-sync-failure-02/` outside the repository.
+`destination-verification/rp2350-native-sync-failure-02/` and
+`destination-verification/rp2350-native-sync-failure-03/` outside the repository.

@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it } from "vitest";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
-import { applyRecovery, classifyRecoveryProcesses, inspectRecovery, pcbCheckpointRollbackBudget, type RecoveryHooks, type RecoveryRequest, type OutlinedSyncRecoveryRequest, type PcbCheckpointRollbackRequest, type RecoveryPlan } from "../../scripts/recover-toolbox-project.js";
+import { applyRecovery, classifyRecoveryProcesses, inspectRecovery, pcbCheckpointRollbackBudget, type RecoveryHooks, type RecoveryRequest, type OutlinedSyncRecoveryRequest, type PcbCheckpointRollbackRequest, type OrphanPcbCheckpointRollbackRequest, type RecoveryPlan } from "../../scripts/recover-toolbox-project.js";
 import { closePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-contract.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
@@ -17,7 +17,7 @@ const jsonBytes = (value: unknown) => Buffer.from(canonicalJson(value));
 const identified = <T extends { schemaVersion: string }>(value: T) => ({ ...value, identity: canonicalIdentity(value, value.schemaVersion) });
 afterEach(async () => { for (const root of owned) { expect(path.resolve(root).startsWith(path.resolve(os.tmpdir()) + path.sep)).toBe(true); await rm(root, { recursive: true, force: true }); owned.delete(root); } });
 
-async function fixture(outlined = false) {
+async function fixture(outlined = false, nativeToolchain = false) {
   const base = await mkdtemp(path.join(os.tmpdir(), "evleda-offline-recovery-test-")); owned.add(base);
   const evidenceBase = path.join(base, "case"), projectId = randomUUID(), projectRoot = path.join(evidenceBase, "workspace", "projects", projectId);
   const output = path.join(projectRoot, "output"), project = path.join(output, "project"), input = path.join(projectRoot, "input");
@@ -42,7 +42,8 @@ async function fixture(outlined = false) {
   const dir = await lstat(project, { bigint: true });
   const markerPin = await put(path.join(output, ".evleda-pcb-agent-fresh.json"), { schemaVersion: "evleda.pcb-agent-fresh-project.v3", workflowKind: "plane", name: "test", outputPath: output, projectPath: project,
     projectIdentity: { canonicalPath: project, dev: String(dir.dev), ino: String(dir.ino) }, files, planeBinding });
-  const reportPin = await put(path.join(output, "pcb-agent-report.json"), { status: "needs_review", projectPath: project, workflow: { kind: "plane", bundlePath: bundlePin.path, bundleRef } });
+  const reportPin = await put(path.join(output, "pcb-agent-report.json"), { status: "needs_review", projectPath: project, workflow: { kind: "plane", bundlePath: bundlePin.path, bundleRef },
+    ...(nativeToolchain ? { native: { kicad: { path: path.join(base, "KiCad", "kicad-cli.exe") } } } : {}) });
   const checkpointPin = await put(path.join(output, ".evleda-pcb-agent-checkpoint.json"), { schemaVersion: "evleda.pcb-agent-fresh-project-checkpoint.v3", reason: "run_exit", projectPath: project,
     baselineMarkerSha256: markerPin.sha256, reportPath: reportPin.path, reportSha256: reportPin.sha256, reportStatus: "needs_review", planeBindingIdentity: planeBinding.identity, files });
   const goodBoard = await readFile(byLeaf("test.kicad_pcb").path), backup = await put(path.join(base, "backup.kicad_pcb"), goodBoard);
@@ -77,8 +78,8 @@ async function fixture(outlined = false) {
   return { base, request, put, project, output, goodBoard, sourcePins, markerPin, checkpointPin, reportPin, bundle, planeBinding, baseline, pcb: byLeaf("test.kicad_pcb").path };
 }
 
-async function outlinedFixture() {
-  const f = await fixture(true), originalRequest = f.request, sessionDir = path.dirname(originalRequest.failedSession.path);
+async function outlinedFixture(nativeToolchain = false) {
+  const f = await fixture(true, nativeToolchain), originalRequest = f.request, sessionDir = path.dirname(originalRequest.failedSession.path);
   const leaseBirth = Number((await lstat(originalRequest.expectedLease.path, { bigint: true })).birthtimeNs / 1_000_000n);
   const at = (offset: number) => new Date(leaseBirth + offset).toISOString();
   const session = JSON.parse(await readFile(originalRequest.failedSession.path, "utf8")); session.startedAt = at(-1000);
@@ -128,8 +129,8 @@ async function outlinedFixture() {
   return { ...f, request, originalRequest, source, diagnostic, failure };
 }
 
-async function checkpointRollbackFixture(kind: "different" | "empty" | "checkpoint" = "different") {
-  const f = await outlinedFixture(), source = kind === "empty" ? "" : kind === "checkpoint" ? f.goodBoard.toString() : "Untrusted failed native PCB state; deliberately abandoned.\n";
+async function checkpointRollbackFixture(kind: "different" | "empty" | "checkpoint" = "different", nativeToolchain = false) {
+  const f = await outlinedFixture(nativeToolchain), source = kind === "empty" ? "" : kind === "checkpoint" ? f.goodBoard.toString() : "Untrusted failed native PCB state; deliberately abandoned.\n";
   const currentPcb = await f.put(f.pcb, source);
   const diagnostic = JSON.parse(await readFile(f.request.syncDiagnostic.path, "utf8"));
   diagnostic.stage = "physical-pad-observation";
@@ -155,6 +156,35 @@ async function checkpointRollbackFixture(kind: "different" | "empty" | "checkpoi
   const request: PcbCheckpointRollbackRequest = { ...common, schemaVersion: "evleda.offline-pcb-checkpoint-rollback-request.v1", currentPcb,
     observedFailurePcb, syncDiagnostic, syncResponse, closeResponse, failureObservation };
   return { ...f, request, source, failure, failedNative };
+}
+
+async function orphanRollbackFixture() {
+  const f = await checkpointRollbackFixture("different", true), now = Date.now(), at = (delta: number) => new Date(now + delta).toISOString();
+  const report = JSON.parse(await readFile(f.reportPin.path, "utf8")), executable = path.join(path.dirname(report.native.kicad.path), "pcbnew.exe");
+  const born = (await lstat(f.request.expectedLease.path, { bigint: true })).birthtimeNs / 1_000_000n;
+  const creation = new Date(Number(born)).toISOString().replace("Z", "0000Z");
+  const editor = { pid: 40444, parentPid: 58900, creationUtc: creation, kernelStartUtc: creation, executable, commandLine: `"${executable}" "${f.pcb}"` };
+  const expectedBoardLock = await f.put(f.request.expectedBoardLock.path, '{"hostname":"test","username":"test"}');
+  const expectedProjectLock = await f.put(f.request.expectedProjectLock.path, '{"hostname":"test","username":"test"}');
+  const shifted: Record<string, { path: string; sha256: string; bytes: number }> = {};
+  for (const [key, time] of [["resumeResponse", at(1000)], ["syncResponse", at(2000)], ["closeResponse", at(3000)], ["statusResponse", at(4000)]] as const) {
+    const value = JSON.parse(await readFile(f.request[key].path, "utf8")); value.recordedAt = time; shifted[key] = await f.put(f.request[key].path, value);
+  }
+  const orphanEditorObservation = await f.put(path.join(f.base, "orphan-editor.json"), { recordedAt: at(4500), hostPresent: false, clientTerminalExitCode: 1, native: editor,
+    locks: [expectedBoardLock, expectedProjectLock].map(pin => ({ FullName: pin.path, Length: pin.bytes })) });
+  const ownedEditorTermination = await f.put(path.join(f.base, "owned-termination.json"), { recordedAt: at(5000), pid: editor.pid, verifiedCreationUtc: creation,
+    executable, commandLine: editor.commandLine, normalClosePreviouslyFailed: true, failedBoardPreviouslyArchived: true, forcedOwnedShutdown: true,
+    waitForExitReturned: true, pcbSha256After: f.request.currentPcb.sha256, leaseOrMarkerRemoved: false });
+  const failure = { ...f.failure, recordedAt: at(5500), retainedArtifacts: [f.request.expectedLease, f.request.expectedUnsafeMarker, expectedBoardLock, expectedProjectLock] };
+  const failureObservation = await f.put(f.request.failureObservation.path, failure);
+  const shutdown = JSON.parse(await readFile(f.request.shutdownObservation.path, "utf8"));
+  Object.assign(shutdown, { recordedAt: at(6000), ownedSidecarPid: editor.parentPid, ownedSidecarObservedAbsent: true, clientExecExitCode: 1,
+    editorLocksObservedAbsentAfterClose: false, ownedEditorForciblyTerminated: true });
+  const shutdownObservation = await f.put(f.request.shutdownObservation.path, shutdown);
+  const request: OrphanPcbCheckpointRollbackRequest = { ...f.request, schemaVersion: "evleda.offline-pcb-checkpoint-rollback-request.v2",
+    resumeResponse: shifted.resumeResponse!, syncResponse: shifted.syncResponse!, closeResponse: shifted.closeResponse!, statusResponse: shifted.statusResponse!,
+    expectedBoardLock, expectedProjectLock, orphanEditorObservation, ownedEditorTermination, failureObservation, shutdownObservation };
+  return { ...f, request, failure, editor };
 }
 
 describe("bounded offline zero-PCB recovery", () => {
@@ -448,5 +478,100 @@ describe("operator PCB-only rollback to a prior authenticated closed checkpoint"
     const f = await checkpointRollbackFixture();
     await expect(inspectRecovery({ ...f.request, schemaVersion: "evleda.offline-zero-pcb-recovery-request.v1" }, hooks)).rejects.toThrow();
     await expect(inspectRecovery({ ...f.request, schemaVersion: "evleda.offline-outlined-pre-sync-recovery-request.v1" }, hooks)).rejects.toThrow();
+  });
+});
+
+describe("checkpoint rollback v2 with proven present orphan editor locks", () => {
+  const approve = (plan: RecoveryPlan) => ({ planIdentity: plan.identity.digest, maintenanceConfirmed: true as const });
+  it("archives exact original locks and retires board lock, project lock, marker, then lease after restore", async () => {
+    const f = await orphanRollbackFixture(), plan = await inspectRecovery(f.request, hooks), steps: string[] = [];
+    expect(plan.schemaVersion).toBe("evleda.offline-pcb-checkpoint-rollback-plan.v2");
+    expect(plan.discardAllCurrentPcbChanges).toBe(true); expect(plan.absentPaths).toBeUndefined();
+    const result = await applyRecovery(plan, approve(plan), { ...hooks, beforeStep: async step => { steps.push(step); } });
+    expect(steps.filter(step => /^before-(editor-lock-[12]-release|unsafe-marker-retirement|lease-release)$/u.test(step)))
+      .toEqual(["before-editor-lock-1-release", "before-editor-lock-2-release", "before-unsafe-marker-retirement", "before-lease-release"]);
+    expect(await readFile(f.pcb)).toEqual(f.goodBoard);
+    for (const original of [f.request.expectedBoardLock, f.request.expectedProjectLock, f.request.expectedUnsafeMarker, f.request.expectedLease]) {
+      await expect(lstat(original.path)).rejects.toMatchObject({ code: "ENOENT" });
+      const index = plan.files.findIndex(file => file.path === original.path);
+      expect(contentIdentity(await readFile(path.join(result.archive, `${String(index).padStart(4, "0")}.bin`))).digest).toBe(original.sha256);
+    }
+    for (const file of [f.markerPin, f.checkpointPin, f.reportPin, ...f.sourcePins.filter(file => file.path !== f.pcb)]) expect(contentIdentity(await readFile(file.path)).digest).toBe(file.sha256);
+    expect((await readFile(path.join(f.project, ".history", "test.kicad_pcb"))).length).toBe(0);
+    const receipt = JSON.parse(await readFile(path.join(result.archive, "lease-release-intent.json"), "utf8"));
+    expect(receipt.reviewedOrphanEditorLocksRetired).toEqual([f.request.expectedBoardLock.path, f.request.expectedProjectLock.path]);
+    expect(receipt).not.toHaveProperty("editorLocksRemainAbsent");
+  });
+  it.each(["pid", "CIM-start", "kernel-start", "parent", "executable", "argv", "lock-pair"])("rejects a re-pinned forged orphan observation: %s", async kind => {
+    const f = await orphanRollbackFixture(), observed = JSON.parse(await readFile(f.request.orphanEditorObservation.path, "utf8"));
+    if (kind === "pid") observed.native.pid++;
+    else if (kind === "CIM-start") observed.native.creationUtc = observed.native.creationUtc.replace(/0Z$/u, "1Z");
+    else if (kind === "kernel-start") observed.native.kernelStartUtc = observed.native.kernelStartUtc.replace(/0Z$/u, "1Z");
+    else if (kind === "parent") observed.native.parentPid = 999;
+    else if (kind === "executable") observed.native.executable = path.join(f.base, "Other", "pcbnew.exe");
+    else if (kind === "argv") observed.native.commandLine += " --other-file";
+    else observed.locks[1] = observed.locks[0];
+    const orphanEditorObservation = await f.put(f.request.orphanEditorObservation.path, observed);
+    await expect(inspectRecovery({ ...f.request, orphanEditorObservation }, hooks)).rejects.toThrow();
+    expect(await readdir(f.request.archiveRoot)).toEqual([]);
+  });
+  it.each(["waitForExitReturned", "forcedOwnedShutdown", "normalClosePreviouslyFailed", "failedBoardPreviouslyArchived", "leaseOrMarkerRemoved", "pcbSha256After", "recordedAt"])("rejects a re-pinned inconsistent termination receipt: %s", async field => {
+    const f = await orphanRollbackFixture(), terminated = JSON.parse(await readFile(f.request.ownedEditorTermination.path, "utf8"));
+    terminated[field] = field === "leaseOrMarkerRemoved" ? true : field === "pcbSha256After" ? "0".repeat(64)
+      : field === "recordedAt" ? "2000-01-01T00:00:00.000Z" : false;
+    const ownedEditorTermination = await f.put(f.request.ownedEditorTermination.path, terminated);
+    await expect(inspectRecovery({ ...f.request, ownedEditorTermination }, hooks)).rejects.toThrow();
+  });
+  it.each(["wrong-target", "extra-argv", "wrong-toolchain"])("rejects mutually matching but out-of-scope process records: %s", async kind => {
+    const f = await orphanRollbackFixture(), observed = JSON.parse(await readFile(f.request.orphanEditorObservation.path, "utf8")), terminated = JSON.parse(await readFile(f.request.ownedEditorTermination.path, "utf8"));
+    const executable = kind === "wrong-toolchain" ? path.join(f.base, "Other", "pcbnew.exe") : f.editor.executable;
+    const commandLine = `"${executable}" "${kind === "wrong-target" ? path.join(f.project, "other.kicad_pcb") : f.pcb}"${kind === "extra-argv" ? " --extra" : ""}`;
+    Object.assign(observed.native, { executable, commandLine }); Object.assign(terminated, { executable, commandLine });
+    const orphanEditorObservation = await f.put(f.request.orphanEditorObservation.path, observed), ownedEditorTermination = await f.put(f.request.ownedEditorTermination.path, terminated);
+    await expect(inspectRecovery({ ...f.request, orphanEditorObservation, ownedEditorTermination }, hooks)).rejects.toThrow();
+  });
+  it.each(["schematic", "board-lock", "project-lock", "missing-lock", "replaced-lock"])("rejects source/retained-lock drift after review: %s", async kind => {
+    const f = await orphanRollbackFixture(), plan = await inspectRecovery(f.request, hooks);
+    const file = kind === "schematic" ? path.join(f.project, "test.kicad_sch") : kind === "project-lock" ? f.request.expectedProjectLock.path : f.request.expectedBoardLock.path;
+    if (kind === "missing-lock") await unlink(file);
+    else if (kind === "replaced-lock") { const bytes = await readFile(file); await unlink(file); await writeFile(file, bytes); }
+    else await writeFile(file, "changed");
+    await expect(applyRecovery(plan, approve(plan), hooks)).rejects.toThrow();
+    expect(await readdir(f.request.archiveRoot)).toEqual([]); expect(await readFile(f.pcb, "utf8")).toBe(f.source);
+  });
+  it.each(["before-editor-lock-1-release", "before-editor-lock-2-release", "before-unsafe-marker-retirement", "before-lease-release"])("preserves lease and archive on a partial failure at %s", async stop => {
+    const f = await orphanRollbackFixture(), plan = await inspectRecovery(f.request, hooks);
+    await expect(applyRecovery(plan, approve(plan), { ...hooks, beforeStep: async step => { if (step === stop) throw new Error("simulated unlink failure"); } })).rejects.toThrow(/stopped/);
+    expect(await readFile(f.pcb)).toEqual(f.goodBoard);
+    expect(contentIdentity(await readFile(f.request.expectedLease.path)).digest).toBe(f.request.expectedLease.sha256);
+    for (const [index, pin] of [f.request.expectedBoardLock, f.request.expectedProjectLock, f.request.expectedUnsafeMarker].entries()) {
+      const removedCount = ["before-editor-lock-1-release", "before-editor-lock-2-release", "before-unsafe-marker-retirement", "before-lease-release"].indexOf(stop);
+      if (index < removedCount) await expect(lstat(pin.path)).rejects.toMatchObject({ code: "ENOENT" });
+      else expect(contentIdentity(await readFile(pin.path)).digest).toBe(pin.sha256);
+    }
+    expect(contentIdentity(await readFile(f.checkpointPin.path)).digest).toBe(f.checkpointPin.sha256);
+  });
+  it("refuses a removed lock reappearing before the next retirement", async () => {
+    const f = await orphanRollbackFixture(), plan = await inspectRecovery(f.request, hooks), original = await readFile(f.request.expectedBoardLock.path);
+    await expect(applyRecovery(plan, approve(plan), { ...hooks, beforeStep: async step => {
+      if (step === "before-editor-lock-2-release") await writeFile(f.request.expectedBoardLock.path, original);
+    } })).rejects.toThrow(/expected absent artifact reappeared/);
+    expect(await readFile(f.request.expectedBoardLock.path)).toEqual(original);
+    expect(contentIdentity(await readFile(f.request.expectedLease.path)).digest).toBe(f.request.expectedLease.sha256);
+    expect(contentIdentity(await readFile(f.request.expectedUnsafeMarker.path)).digest).toBe(f.request.expectedUnsafeMarker.sha256);
+  });
+  it("refuses a live-process observation before inspection and again after restoring PCB", async () => {
+    const f = await orphanRollbackFixture();
+    await expect(inspectRecovery(f.request, { ...hooks, assertQuiescent: async () => { throw new Error("live target/native process"); } })).rejects.toThrow(/live target/);
+    const plan = await inspectRecovery(f.request, hooks); let live = false;
+    await expect(applyRecovery(plan, approve(plan), { ...hooks, assertQuiescent: async () => { if (live) throw new Error("live target/native process"); },
+      beforeStep: async step => { if (step === "restored") live = true; } })).rejects.toThrow(/live target/);
+    expect(contentIdentity(await readFile(f.request.expectedBoardLock.path)).digest).toBe(f.request.expectedBoardLock.sha256);
+    expect(contentIdentity(await readFile(f.request.expectedLease.path)).digest).toBe(f.request.expectedLease.sha256);
+  });
+  it("does not admit present locks through the older absent-lock rollback schema", async () => {
+    const f = await orphanRollbackFixture(), { orphanEditorObservation: _orphan, ownedEditorTermination: _termination, ...request } = f.request;
+    await expect(inspectRecovery({ ...request, schemaVersion: "evleda.offline-pcb-checkpoint-rollback-request.v1" }, hooks)).rejects.toThrow();
+    expect(await readdir(f.request.archiveRoot)).toEqual([]);
   });
 });
