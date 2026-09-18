@@ -1,0 +1,4006 @@
+{
+  "schema": "rp2350.header-service-placement-macro.v1",
+  "name": "A",
+  "poses": {
+    "U1": {
+      "x": 10.8,
+      "y": 34,
+      "r": 0
+    },
+    "U2": {
+      "x": 11,
+      "y": 19.2,
+      "r": 180
+    },
+    "U3": {
+      "x": 6.15,
+      "y": 27.5,
+      "r": 90
+    },
+    "U4": {
+      "x": 10.85,
+      "y": 11.55,
+      "r": 0
+    },
+    "J1": {
+      "x": 11,
+      "y": 4.975,
+      "r": 180
+    },
+    "J2": {
+      "x": 2.11,
+      "y": 1.37,
+      "r": 0
+    },
+    "J3": {
+      "x": 19.89,
+      "y": 49.63,
+      "r": 180
+    },
+    "J4": {
+      "x": 8.46,
+      "y": 48.2,
+      "r": 90
+    },
+    "L1": {
+      "x": 12.85,
+      "y": 26.35,
+      "r": 0
+    },
+    "L2": {
+      "x": 15.41,
+      "y": 19.2,
+      "r": 270
+    },
+    "Q1": {
+      "x": 17.14,
+      "y": 29,
+      "r": 0
+    },
+    "D1": {
+      "x": 16.9,
+      "y": 13.2,
+      "r": 90
+    },
+    "D2": {
+      "x": 4.95,
+      "y": 45.72,
+      "r": 0
+    },
+    "SW1": {
+      "x": 5.5,
+      "y": 41,
+      "r": 90
+    },
+    "SW2": {
+      "x": 16.2,
+      "y": 43,
+      "r": 90
+    },
+    "Y1": {
+      "x": 9.6,
+      "y": 42.3,
+      "r": 0
+    },
+    "R1": {
+      "x": 10.425,
+      "y": 28.39,
+      "r": 90
+    },
+    "R2": {
+      "x": 11.385,
+      "y": 28.5,
+      "r": 90
+    },
+    "R3": {
+      "x": 7.8,
+      "y": 10.8,
+      "r": 90
+    },
+    "R4": {
+      "x": 6.5,
+      "y": 10.8,
+      "r": 90
+    },
+    "R5": {
+      "x": 4.325,
+      "y": 29,
+      "r": 90
+    },
+    "R6": {
+      "x": 4.8,
+      "y": 30.5,
+      "r": 0
+    },
+    "R7": {
+      "x": 9.5,
+      "y": 39.98,
+      "r": 180
+    },
+    "R8": {
+      "x": 15.09,
+      "y": 27.1,
+      "r": 270
+    },
+    "R9": {
+      "x": 7.34,
+      "y": 16.7,
+      "r": 270
+    },
+    "R10": {
+      "x": 6.71,
+      "y": 18.2,
+      "r": 180
+    },
+    "R11": {
+      "x": 4.6,
+      "y": 20,
+      "r": 0
+    },
+    "R12": {
+      "x": 4.6,
+      "y": 21.2,
+      "r": 0
+    },
+    "R13": {
+      "x": 17.3,
+      "y": 25.8,
+      "r": 0
+    },
+    "R14": {
+      "x": 15.45,
+      "y": 25.1,
+      "r": 90
+    },
+    "R15": {
+      "x": 17.8,
+      "y": 31.4,
+      "r": 270
+    },
+    "R16": {
+      "x": 16.4,
+      "y": 36.35,
+      "r": 0
+    },
+    "R17": {
+      "x": 17.92,
+      "y": 33.36,
+      "r": 90
+    },
+    "R18": {
+      "x": 8.7,
+      "y": 45.35,
+      "r": 0
+    },
+    "R19": {
+      "x": 13.3,
+      "y": 41.2,
+      "r": 270
+    },
+    "R20": {
+      "x": 13.2,
+      "y": 44.2,
+      "r": 270
+    },
+    "C1": {
+      "x": 12.8,
+      "y": 29.24,
+      "r": 0
+    },
+    "C2": {
+      "x": 12.9,
+      "y": 28.15,
+      "r": 0
+    },
+    "C3": {
+      "x": 15,
+      "y": 28.95,
+      "r": 270
+    },
+    "C4": {
+      "x": 12.27,
+      "y": 39.9,
+      "r": 270
+    },
+    "C5": {
+      "x": 5.6,
+      "y": 31.82,
+      "r": 180
+    },
+    "C6": {
+      "x": 5.4,
+      "y": 35.2,
+      "r": 180
+    },
+    "C7": {
+      "x": 8.36,
+      "y": 38.84,
+      "r": 180
+    },
+    "C8": {
+      "x": 15.5,
+      "y": 39.12,
+      "r": 270
+    },
+    "C9": {
+      "x": 16.25,
+      "y": 35.21,
+      "r": 0
+    },
+    "C10": {
+      "x": 16.3,
+      "y": 30.8,
+      "r": 0
+    },
+    "C11": {
+      "x": 5.6,
+      "y": 33.3,
+      "r": 180
+    },
+    "C12": {
+      "x": 11,
+      "y": 39.42,
+      "r": 270
+    },
+    "C13": {
+      "x": 16.3,
+      "y": 34.08,
+      "r": 0
+    },
+    "C14": {
+      "x": 9.365,
+      "y": 28.1,
+      "r": 90
+    },
+    "C15": {
+      "x": 8.29,
+      "y": 27.28,
+      "r": 270
+    },
+    "C16": {
+      "x": 16.3,
+      "y": 31.82,
+      "r": 0
+    },
+    "C17": {
+      "x": 16.3,
+      "y": 32.95,
+      "r": 0
+    },
+    "C18": {
+      "x": 5.7,
+      "y": 24,
+      "r": 90
+    },
+    "C19": {
+      "x": 6.9,
+      "y": 24,
+      "r": 90
+    },
+    "C20": {
+      "x": 10.36,
+      "y": 15.7,
+      "r": 180
+    },
+    "C21": {
+      "x": 10.36,
+      "y": 22.7,
+      "r": 180
+    },
+    "C22": {
+      "x": 8.06,
+      "y": 19.23,
+      "r": 180
+    },
+    "C23": {
+      "x": 17.3,
+      "y": 27,
+      "r": 180
+    },
+    "C24": {
+      "x": 6.49,
+      "y": 44.42,
+      "r": 180
+    },
+    "C25": {
+      "x": 12.27,
+      "y": 42.25,
+      "r": 270
+    },
+    "C26": {
+      "x": 13.92,
+      "y": 11.55,
+      "r": 0
+    }
+  },
+  "grouping": {
+    "fixed": [
+      "J1",
+      "J2",
+      "J3",
+      "J4"
+    ],
+    "power": [
+      "U2",
+      "L2",
+      "C20",
+      "C21",
+      "C22",
+      "R9",
+      "R10"
+    ],
+    "usb": [
+      "U4",
+      "R3",
+      "R4",
+      "C26",
+      "D1"
+    ],
+    "mcu": [
+      "U1",
+      "U3",
+      "L1",
+      "Q1",
+      "Y1",
+      "R1",
+      "R2",
+      "R5",
+      "R6",
+      "R7",
+      "R8",
+      "R13",
+      "R14",
+      "R15",
+      "R16",
+      "R17",
+      "R19",
+      "R20",
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6",
+      "C7",
+      "C8",
+      "C9",
+      "C10",
+      "C11",
+      "C12",
+      "C13",
+      "C14",
+      "C15",
+      "C16",
+      "C17",
+      "C18",
+      "C19",
+      "C23",
+      "C24",
+      "C25"
+    ],
+    "controls": [
+      "SW1",
+      "SW2",
+      "D2",
+      "R18",
+      "R11",
+      "R12"
+    ],
+    "secondary": [
+      "Q1",
+      "R13",
+      "R14",
+      "R15",
+      "C23"
+    ],
+    "rightLocal": [
+      "C9",
+      "C10",
+      "C13",
+      "C16",
+      "C17",
+      "R16"
+    ],
+    "rigidFlashSubgroup": [
+      "U3",
+      "C18",
+      "C19",
+      "R5",
+      "R6"
+    ],
+    "rigidOscillatorSubgroup": [
+      "Y1",
+      "R7",
+      "C24",
+      "C25"
+    ],
+    "bottomSupportSubgroup": [
+      "C4",
+      "C7",
+      "C8",
+      "C12",
+      "R7",
+      "Y1",
+      "C24",
+      "C25",
+      "R19",
+      "R20"
+    ]
+  },
+  "rationale": "Longitudinal power-first floorplan. Rigid180-degree U2/L2/C20/C21/C22/R9/R10 cell puts the input cap towardUSB and output cap towardMCU. MCU/core shift12mm down; flash/pullups/bypass and crystal/load-cap subgroups retain their internal relative geometry.",
+  "base": {
+    "algorithm": "sha256",
+    "digest": "421df1f6f7fad2857b58fcd7d9a6afb0d3d71792827094516ec423f1fcfc63c4",
+    "size": 501145,
+    "serialization": "UTF-8 JSON.stringify"
+  },
+  "notes": {
+    "algorithm": "sha256",
+    "digest": "639e1f60a1a453ca3a4f706a721388908b6a70d78ca53d0fccdfc9104a7280ec",
+    "size": 160515
+  },
+  "serviceBands": [
+    {
+      "reference": "J2",
+      "inwardDirection": "+X",
+      "minX": 0,
+      "maxX": 3.46,
+      "minY": 0,
+      "maxY": 51,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "appliesTo": "Actual full copper area, including track width, ordinary-via annuli, zones/pours and other non-header copper. Not merely centreline positions."
+    },
+    {
+      "reference": "J3",
+      "inwardDirection": "-X",
+      "minX": 18.54,
+      "maxX": 22,
+      "minY": 0,
+      "maxY": 51,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "appliesTo": "Actual full copper area, including track width, ordinary-via annuli, zones/pours and other non-header copper. Not merely centreline positions."
+    }
+  ],
+  "headerAndHoleGeometry": "exact unchanged",
+  "analysis": {
+    "status": "introduced-placement-screen-clear; unchanged-stock-and-header-corner-findings-open",
+    "counts": {
+      "pads": 265,
+      "paste": 230,
+      "holes": 53,
+      "courtyards": 62
+    },
+    "hardFindings": [
+      {
+        "type": "pad-hole",
+        "pad": "J1.A1",
+        "hole": "J1.",
+        "gap": 0.19440271884718147,
+        "required": 0.25
+      },
+      {
+        "type": "pad-hole",
+        "pad": "J1.A12",
+        "hole": "J1.",
+        "gap": 0.1944027188471818,
+        "required": 0.25
+      },
+      {
+        "type": "pad-hole",
+        "pad": "J1.B1",
+        "hole": "J1.",
+        "gap": 0.1944027188471818,
+        "required": 0.25
+      },
+      {
+        "type": "pad-hole",
+        "pad": "J1.B12",
+        "hole": "J1.",
+        "gap": 0.19440271884718147,
+        "required": 0.25
+      }
+    ],
+    "courtyardFindings": [],
+    "serviceFindings": [],
+    "edgeFindings": [],
+    "headerFirstTurnAttempts": [
+      {
+        "terminal": "J2.1",
+        "net": "GPIO0",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          1.37
+        ],
+        "firstTurnMm": [
+          3.56,
+          1.37
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H1.",
+                "gap": -0.01840820080737618,
+                "required": 0.25
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H1.",
+                "gap": -0.01840820080737618,
+                "required": 0.25
+              }
+            ]
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.2",
+        "net": "GPIO1",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          3.91
+        ],
+        "firstTurnMm": [
+          3.56,
+          3.91
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.3",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          2.11,
+          6.45
+        ],
+        "firstTurnMm": [
+          3.61,
+          6.45
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.4",
+        "net": "GPIO2",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          8.99
+        ],
+        "firstTurnMm": [
+          3.56,
+          8.99
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.5",
+        "net": "GPIO3",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          11.530000000000001
+        ],
+        "firstTurnMm": [
+          3.56,
+          11.53
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.6",
+        "net": "GPIO4",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          14.07
+        ],
+        "firstTurnMm": [
+          3.56,
+          14.07
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.7",
+        "net": "GPIO5",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          16.61
+        ],
+        "firstTurnMm": [
+          3.56,
+          16.61
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.8",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          2.11,
+          19.15
+        ],
+        "firstTurnMm": [
+          3.61,
+          19.15
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.9",
+        "net": "GPIO6",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          21.69
+        ],
+        "firstTurnMm": [
+          3.56,
+          21.69
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.10",
+        "net": "GPIO7",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          24.23
+        ],
+        "firstTurnMm": [
+          3.56,
+          24.23
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.11",
+        "net": "GPIO8",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          26.77
+        ],
+        "firstTurnMm": [
+          3.56,
+          26.77
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.12",
+        "net": "GPIO9",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          29.31
+        ],
+        "firstTurnMm": [
+          3.56,
+          29.31
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.13",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          2.11,
+          31.85
+        ],
+        "firstTurnMm": [
+          3.61,
+          31.85
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.14",
+        "net": "GPIO10",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          34.39
+        ],
+        "firstTurnMm": [
+          3.56,
+          34.39
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.15",
+        "net": "GPIO11",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          36.93
+        ],
+        "firstTurnMm": [
+          3.56,
+          36.93
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.16",
+        "net": "GPIO12",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          39.47
+        ],
+        "firstTurnMm": [
+          3.56,
+          39.47
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.17",
+        "net": "GPIO13",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          42.01
+        ],
+        "firstTurnMm": [
+          3.56,
+          42.01
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.18",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          2.11,
+          44.55
+        ],
+        "firstTurnMm": [
+          3.61,
+          44.55
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.19",
+        "net": "GPIO14",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          47.09
+        ],
+        "firstTurnMm": [
+          3.56,
+          47.09
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J2.20",
+        "net": "GPIO15",
+        "widthMm": 0.2,
+        "fromMm": [
+          2.11,
+          49.63
+        ],
+        "firstTurnMm": [
+          3.56,
+          49.63
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H3.",
+                "gap": -0.018408200807374625,
+                "required": 0.25
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H3.",
+                "gap": -0.018408200807374625,
+                "required": 0.25
+              }
+            ]
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.1",
+        "net": "GPIO16",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          49.63
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          49.63
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H4.",
+                "gap": -0.0184082008073764,
+                "required": 0.25
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H4.",
+                "gap": -0.0184082008073764,
+                "required": 0.25
+              }
+            ]
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.2",
+        "net": "GPIO17",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          47.09
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          47.09
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.3",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          19.89,
+          44.55
+        ],
+        "firstTurnMm": [
+          18.39,
+          44.55
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.4",
+        "net": "GPIO18",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          42.01
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          42.01
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.5",
+        "net": "GPIO19",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          39.47
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          39.47
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.6",
+        "net": "GPIO20",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          36.93
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          36.93
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.7",
+        "net": "GPIO21",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          34.39
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          34.39
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.8",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          19.89,
+          31.85
+        ],
+        "firstTurnMm": [
+          18.39,
+          31.85
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.9",
+        "net": "GPIO22",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          29.31
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          29.31
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.10",
+        "net": "RUN",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          26.77
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          26.77
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.11",
+        "net": "GPIO26",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          24.23
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          24.23
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.12",
+        "net": "GPIO27",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          21.69
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          21.69
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.13",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          19.89,
+          19.15
+        ],
+        "firstTurnMm": [
+          18.39,
+          19.15
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.14",
+        "net": "GPIO28",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          16.61
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          16.61
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.15",
+        "net": "ADC_VREF",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          14.07
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          14.07
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.16",
+        "net": "3V3",
+        "widthMm": 0.3,
+        "fromMm": [
+          19.89,
+          11.530000000000001
+        ],
+        "firstTurnMm": [
+          18.39,
+          11.53
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.17",
+        "net": "3V3_EN",
+        "widthMm": 0.2,
+        "fromMm": [
+          19.89,
+          8.990000000000002
+        ],
+        "firstTurnMm": [
+          18.439999999999998,
+          8.99
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.18",
+        "net": "GND",
+        "widthMm": 0.3,
+        "fromMm": [
+          19.89,
+          6.450000000000003
+        ],
+        "firstTurnMm": [
+          18.39,
+          6.45
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.19",
+        "net": "VSYS",
+        "widthMm": 0.3,
+        "fromMm": [
+          19.89,
+          3.9100000000000037
+        ],
+        "firstTurnMm": [
+          18.39,
+          3.91
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "issues": []
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      },
+      {
+        "terminal": "J3.20",
+        "net": "VBUS",
+        "widthMm": 0.3,
+        "fromMm": [
+          19.89,
+          1.3699999999999974
+        ],
+        "firstTurnMm": [
+          18.39,
+          1.37
+        ],
+        "perLayer": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H2.",
+                "gap": -0.1095872341172813,
+                "required": 0.25
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "issues": [
+              {
+                "type": "hole",
+                "against": "H2.",
+                "gap": -0.1095872341172813,
+                "required": 0.25
+              }
+            ]
+          }
+        },
+        "scope": "Hardware-only centred first-turn attempt; no route/plane/reference proof after wholesale placement changes."
+      }
+    ],
+    "headerCounts": {
+      "frontClear": 36,
+      "backClear": 36,
+      "notFullConnection": true
+    },
+    "regionChanges": [
+      {
+        "reference": "C1",
+        "current": {
+          "reference": "C1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 12.6,
+            "maxXmm": 14.2,
+            "minYmm": 14.8,
+            "maxYmm": 17.7
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 12.8,
+          "y": 29.24,
+          "r": 0
+        }
+      },
+      {
+        "reference": "C10",
+        "current": {
+          "reference": "C10",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.25,
+            "maxXmm": 16.75,
+            "minYmm": 18.5,
+            "maxYmm": 19.1
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.3,
+          "y": 30.8,
+          "r": 0
+        }
+      },
+      {
+        "reference": "C11",
+        "current": {
+          "reference": "C11",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 4.95,
+            "maxXmm": 6.05,
+            "minYmm": 21,
+            "maxYmm": 21.6
+          },
+          "allowedRotationsDeg": [
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 5.6,
+          "y": 33.3,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C12",
+        "current": {
+          "reference": "C12",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 10.8,
+            "maxXmm": 11.3,
+            "minYmm": 26.82,
+            "maxYmm": 27.42
+          },
+          "allowedRotationsDeg": [
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 11,
+          "y": 39.42,
+          "r": 270
+        }
+      },
+      {
+        "reference": "C13",
+        "current": {
+          "reference": "C13",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.25,
+            "maxXmm": 16.75,
+            "minYmm": 21.8,
+            "maxYmm": 22.4
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.3,
+          "y": 34.08,
+          "r": 0
+        }
+      },
+      {
+        "reference": "C14",
+        "current": {
+          "reference": "C14",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 9.05,
+            "maxXmm": 9.815,
+            "minYmm": 15.9,
+            "maxYmm": 17
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 9.365,
+          "y": 28.1,
+          "r": 90
+        }
+      },
+      {
+        "reference": "C15",
+        "current": {
+          "reference": "C15",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 8.1,
+            "maxXmm": 8.875,
+            "minYmm": 15.22,
+            "maxYmm": 17
+          },
+          "allowedRotationsDeg": [
+            90,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 8.29,
+          "y": 27.28,
+          "r": 270
+        }
+      },
+      {
+        "reference": "C16",
+        "current": {
+          "reference": "C16",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.25,
+            "maxXmm": 16.75,
+            "minYmm": 19.6,
+            "maxYmm": 20.2
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.3,
+          "y": 31.82,
+          "r": 0
+        }
+      },
+      {
+        "reference": "C17",
+        "current": {
+          "reference": "C17",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.25,
+            "maxXmm": 16.75,
+            "minYmm": 20.7,
+            "maxYmm": 21.3
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.3,
+          "y": 32.95,
+          "r": 0
+        }
+      },
+      {
+        "reference": "C18",
+        "current": {
+          "reference": "C18",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 5.25,
+            "maxXmm": 5.55,
+            "minYmm": 11.9,
+            "maxYmm": 12.5
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 5.7,
+          "y": 24,
+          "r": 90
+        }
+      },
+      {
+        "reference": "C19",
+        "current": {
+          "reference": "C19",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 6.45,
+            "maxXmm": 6.75,
+            "minYmm": 11.9,
+            "maxYmm": 12.5
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 6.9,
+          "y": 24,
+          "r": 90
+        }
+      },
+      {
+        "reference": "C2",
+        "current": {
+          "reference": "C2",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 12.6,
+            "maxXmm": 16,
+            "minYmm": 13.9,
+            "maxYmm": 17.5
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 12.9,
+          "y": 28.15,
+          "r": 0
+        }
+      },
+      {
+        "reference": "C20",
+        "current": {
+          "reference": "C20",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 11.4,
+            "maxXmm": 12,
+            "minYmm": 41.7,
+            "maxYmm": 42.3
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 10.36,
+          "y": 15.7,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C21",
+        "current": {
+          "reference": "C21",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 11.4,
+            "maxXmm": 12,
+            "minYmm": 34.7,
+            "maxYmm": 35.3
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 10.36,
+          "y": 22.7,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C22",
+        "current": {
+          "reference": "C22",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 13.4,
+            "maxXmm": 14,
+            "minYmm": 38.2,
+            "maxYmm": 38.8
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 8.06,
+          "y": 19.23,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C23",
+        "current": {
+          "reference": "C23",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 17.45,
+            "maxXmm": 17.95,
+            "minYmm": 14.6,
+            "maxYmm": 17.3
+          },
+          "allowedRotationsDeg": [
+            0,
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 17.3,
+          "y": 27,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C24",
+        "current": {
+          "reference": "C24",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 6.24,
+            "maxXmm": 6.74,
+            "minYmm": 32.12,
+            "maxYmm": 32.72
+          },
+          "allowedRotationsDeg": [
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 6.49,
+          "y": 44.42,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C25",
+        "current": {
+          "reference": "C25",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 12.02,
+            "maxXmm": 12.97,
+            "minYmm": 28.7,
+            "maxYmm": 30.5
+          },
+          "allowedRotationsDeg": [
+            0,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 12.27,
+          "y": 42.25,
+          "r": 270
+        }
+      },
+      {
+        "reference": "C26",
+        "current": {
+          "reference": "C26",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 13.6,
+            "maxXmm": 14,
+            "minYmm": 11.65,
+            "maxYmm": 12.15
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 13.92,
+          "y": 11.55,
+          "r": 0
+        }
+      },
+      {
+        "reference": "C3",
+        "current": {
+          "reference": "C3",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 15,
+            "maxXmm": 16,
+            "minYmm": 16.4,
+            "maxYmm": 17.8
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 15,
+          "y": 28.95,
+          "r": 270
+        }
+      },
+      {
+        "reference": "C4",
+        "current": {
+          "reference": "C4",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 11.9,
+            "maxXmm": 12.4,
+            "minYmm": 26.82,
+            "maxYmm": 28.05
+          },
+          "allowedRotationsDeg": [
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 12.27,
+          "y": 39.9,
+          "r": 270
+        }
+      },
+      {
+        "reference": "C5",
+        "current": {
+          "reference": "C5",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 4.7,
+            "maxXmm": 6.05,
+            "minYmm": 19.7,
+            "maxYmm": 20.55
+          },
+          "allowedRotationsDeg": [
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 5.6,
+          "y": 31.82,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C6",
+        "current": {
+          "reference": "C6",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 4.95,
+            "maxXmm": 6.05,
+            "minYmm": 22.9,
+            "maxYmm": 23.5
+          },
+          "allowedRotationsDeg": [
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 5.4,
+          "y": 35.2,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C7",
+        "current": {
+          "reference": "C7",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 8.2,
+            "maxXmm": 9.1,
+            "minYmm": 26.5,
+            "maxYmm": 27.42
+          },
+          "allowedRotationsDeg": [
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 8.36,
+          "y": 38.84,
+          "r": 180
+        }
+      },
+      {
+        "reference": "C8",
+        "current": {
+          "reference": "C8",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 14,
+            "maxXmm": 16,
+            "minYmm": 26.1,
+            "maxYmm": 28
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 15.5,
+          "y": 39.12,
+          "r": 270
+        }
+      },
+      {
+        "reference": "C9",
+        "current": {
+          "reference": "C9",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.25,
+            "maxXmm": 16.75,
+            "minYmm": 22.9,
+            "maxYmm": 23.5
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.25,
+          "y": 35.21,
+          "r": 0
+        }
+      },
+      {
+        "reference": "D1",
+        "current": {
+          "reference": "D1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 17.52,
+            "maxXmm": 17.59,
+            "minYmm": 10.5,
+            "maxYmm": 10.8
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.9,
+          "y": 13.2,
+          "r": 90
+        }
+      },
+      {
+        "reference": "D2",
+        "current": {
+          "reference": "D2",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.05,
+            "maxXmm": 16.55,
+            "minYmm": 44.6,
+            "maxYmm": 45.2
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 4.95,
+          "y": 45.72,
+          "r": 0
+        }
+      },
+      {
+        "reference": "L1",
+        "current": {
+          "reference": "L1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 12.85,
+            "maxXmm": 14.1,
+            "minYmm": 14.35,
+            "maxYmm": 17.2
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 12.85,
+          "y": 26.35,
+          "r": 0
+        }
+      },
+      {
+        "reference": "L2",
+        "current": {
+          "reference": "L2",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 6.35,
+            "maxXmm": 6.95,
+            "minYmm": 38.2,
+            "maxYmm": 38.8
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 15.41,
+          "y": 19.2,
+          "r": 270
+        }
+      },
+      {
+        "reference": "Q1",
+        "current": {
+          "reference": "Q1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 17.1,
+            "maxXmm": 17.54,
+            "minYmm": 15.2,
+            "maxYmm": 17.3
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 17.14,
+          "y": 29,
+          "r": 0
+        }
+      },
+      {
+        "reference": "R1",
+        "current": {
+          "reference": "R1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 10.5,
+            "maxXmm": 10.75,
+            "minYmm": 16.25,
+            "maxYmm": 16.95
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 10.425,
+          "y": 28.39,
+          "r": 90
+        }
+      },
+      {
+        "reference": "R10",
+        "current": {
+          "reference": "R10",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 15,
+            "maxXmm": 15.7,
+            "minYmm": 38.9,
+            "maxYmm": 39.5
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 6.71,
+          "y": 18.2,
+          "r": 180
+        }
+      },
+      {
+        "reference": "R11",
+        "current": {
+          "reference": "R11",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.25,
+            "maxXmm": 16.75,
+            "minYmm": 25.3,
+            "maxYmm": 25.9
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 4.6,
+          "y": 20,
+          "r": 0
+        }
+      },
+      {
+        "reference": "R12",
+        "current": {
+          "reference": "R12",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 17.75,
+            "maxXmm": 18.25,
+            "minYmm": 25.5,
+            "maxYmm": 26.1
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 4.6,
+          "y": 21.2,
+          "r": 0
+        }
+      },
+      {
+        "reference": "R13",
+        "current": {
+          "reference": "R13",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 17.45,
+            "maxXmm": 17.95,
+            "minYmm": 13.5,
+            "maxYmm": 14.1
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 17.3,
+          "y": 25.8,
+          "r": 0
+        }
+      },
+      {
+        "reference": "R14",
+        "current": {
+          "reference": "R14",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 15.6,
+            "maxXmm": 16.4,
+            "minYmm": 12.9,
+            "maxYmm": 14.1
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 15.45,
+          "y": 25.1,
+          "r": 90
+        }
+      },
+      {
+        "reference": "R15",
+        "current": {
+          "reference": "R15",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 17.75,
+            "maxXmm": 18.25,
+            "minYmm": 19.1,
+            "maxYmm": 19.7
+          },
+          "allowedRotationsDeg": [
+            90,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 17.8,
+          "y": 31.4,
+          "r": 270
+        }
+      },
+      {
+        "reference": "R16",
+        "current": {
+          "reference": "R16",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 16.25,
+            "maxXmm": 16.75,
+            "minYmm": 24.1,
+            "maxYmm": 24.7
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.4,
+          "y": 36.35,
+          "r": 0
+        }
+      },
+      {
+        "reference": "R17",
+        "current": {
+          "reference": "R17",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 17.75,
+            "maxXmm": 18.25,
+            "minYmm": 21.3,
+            "maxYmm": 21.9
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 17.92,
+          "y": 33.36,
+          "r": 90
+        }
+      },
+      {
+        "reference": "R18",
+        "current": {
+          "reference": "R18",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 13.25,
+            "maxXmm": 13.75,
+            "minYmm": 44.6,
+            "maxYmm": 45.2
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 8.7,
+          "y": 45.35,
+          "r": 0
+        }
+      },
+      {
+        "reference": "R19",
+        "current": {
+          "reference": "R19",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 13.05,
+            "maxXmm": 13.55,
+            "minYmm": 26.85,
+            "maxYmm": 29.45
+          },
+          "allowedRotationsDeg": [
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 13.3,
+          "y": 41.2,
+          "r": 270
+        }
+      },
+      {
+        "reference": "R2",
+        "current": {
+          "reference": "R2",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 11.485,
+            "maxXmm": 11.685,
+            "minYmm": 16.3,
+            "maxYmm": 16.7
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 11.385,
+          "y": 28.5,
+          "r": 90
+        }
+      },
+      {
+        "reference": "R20",
+        "current": {
+          "reference": "R20",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 13.2,
+            "maxXmm": 16.45,
+            "minYmm": 26.8,
+            "maxYmm": 32.9
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 13.2,
+          "y": 44.2,
+          "r": 270
+        }
+      },
+      {
+        "reference": "R3",
+        "current": {
+          "reference": "R3",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 12.58,
+            "maxXmm": 13.08,
+            "minYmm": 10.15,
+            "maxYmm": 10.65
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 7.8,
+          "y": 10.8,
+          "r": 90
+        }
+      },
+      {
+        "reference": "R4",
+        "current": {
+          "reference": "R4",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 7.12,
+            "maxXmm": 7.62,
+            "minYmm": 10.25,
+            "maxYmm": 10.75
+          },
+          "allowedRotationsDeg": [
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 6.5,
+          "y": 10.8,
+          "r": 90
+        }
+      },
+      {
+        "reference": "R5",
+        "current": {
+          "reference": "R5",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 4,
+            "maxXmm": 4.75,
+            "minYmm": 16.9,
+            "maxYmm": 17.3
+          },
+          "allowedRotationsDeg": [
+            90,
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 4.325,
+          "y": 29,
+          "r": 90
+        }
+      },
+      {
+        "reference": "R6",
+        "current": {
+          "reference": "R6",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 4.25,
+            "maxXmm": 4.75,
+            "minYmm": 18.2,
+            "maxYmm": 18.8
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 4.8,
+          "y": 30.5,
+          "r": 0
+        }
+      },
+      {
+        "reference": "R7",
+        "current": {
+          "reference": "R7",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 9.35,
+            "maxXmm": 10.2,
+            "minYmm": 26.85,
+            "maxYmm": 28.1
+          },
+          "allowedRotationsDeg": [
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 9.5,
+          "y": 39.98,
+          "r": 180
+        }
+      },
+      {
+        "reference": "R8",
+        "current": {
+          "reference": "R8",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 14.9,
+            "maxXmm": 16,
+            "minYmm": 14.3,
+            "maxYmm": 16.4
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 15.09,
+          "y": 27.1,
+          "r": 270
+        }
+      },
+      {
+        "reference": "R9",
+        "current": {
+          "reference": "R9",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 14.3,
+            "maxXmm": 15.5,
+            "minYmm": 40.1,
+            "maxYmm": 41
+          },
+          "allowedRotationsDeg": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 7.34,
+          "y": 16.7,
+          "r": 270
+        }
+      },
+      {
+        "reference": "SW1",
+        "current": {
+          "reference": "SW1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 5.15,
+            "maxXmm": 5.85,
+            "minYmm": 28.65,
+            "maxYmm": 29.35
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 5.5,
+          "y": 41,
+          "r": 90
+        }
+      },
+      {
+        "reference": "SW2",
+        "current": {
+          "reference": "SW2",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 15.85,
+            "maxXmm": 16.55,
+            "minYmm": 31.65,
+            "maxYmm": 32.35
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 16.2,
+          "y": 43,
+          "r": 90
+        }
+      },
+      {
+        "reference": "U1",
+        "current": {
+          "reference": "U1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 10.9,
+            "maxXmm": 11.1,
+            "minYmm": 22,
+            "maxYmm": 22.15
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 10.8,
+          "y": 34,
+          "r": 0
+        }
+      },
+      {
+        "reference": "U2",
+        "current": {
+          "reference": "U2",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 10.85,
+            "maxXmm": 11.45,
+            "minYmm": 38.2,
+            "maxYmm": 38.8
+          },
+          "allowedRotationsDeg": [
+            0
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 11,
+          "y": 19.2,
+          "r": 180
+        }
+      },
+      {
+        "reference": "U3",
+        "current": {
+          "reference": "U3",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 5.85,
+            "maxXmm": 7.3,
+            "minYmm": 15.15,
+            "maxYmm": 15.65
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.01,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 6.15,
+          "y": 27.5,
+          "r": 90
+        }
+      },
+      {
+        "reference": "U4",
+        "current": {
+          "reference": "U4",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 9.8,
+            "maxXmm": 10.3,
+            "minYmm": 11.9,
+            "maxYmm": 12.15
+          },
+          "allowedRotationsDeg": [
+            90
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 10.85,
+          "y": 11.55,
+          "r": 0
+        }
+      },
+      {
+        "reference": "Y1",
+        "current": {
+          "reference": "Y1",
+          "side": "front",
+          "regionMm": {
+            "minXmm": 9.35,
+            "maxXmm": 9.85,
+            "minYmm": 30,
+            "maxYmm": 30.6
+          },
+          "allowedRotationsDeg": [
+            0,
+            180
+          ],
+          "minimumEdgeClearanceMm": 0.25,
+          "minimumCourtyardClearanceMm": 0.1,
+          "edgePreference": "none"
+        },
+        "candidate": {
+          "x": 9.6,
+          "y": 42.3,
+          "r": 0
+        }
+      }
+    ],
+    "routeLowerBounds": [
+      {
+        "net": "1V1",
+        "octilinearPadCentreDiameterMm": 13.119705627484771,
+        "currentMaximumMm": 70,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "L1.1",
+          "C4.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "3V3",
+        "octilinearPadCentreDiameterMm": 31.887059864222703,
+        "currentMaximumMm": 200,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J3.16",
+          "C7.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "3V3_EN",
+        "octilinearPadCentreDiameterMm": 15.95483548270684,
+        "currentMaximumMm": 70,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J3.17",
+          "R9.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "ADC_AVDD",
+        "octilinearPadCentreDiameterMm": 4.187766952966368,
+        "currentMaximumMm": 20,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.44",
+          "R17.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "ADC_VREF",
+        "octilinearPadCentreDiameterMm": 23.514356415871827,
+        "currentMaximumMm": 30,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J3.15",
+          "R16.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "BOOT_SW",
+        "octilinearPadCentreDiameterMm": 15.516980515339469,
+        "currentMaximumMm": 35,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "SW1.3",
+          "R5.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "CORE_LX",
+        "octilinearPadCentreDiameterMm": 4.51066017177982,
+        "currentMaximumMm": 8,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.48",
+          "L1.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO0",
+        "octilinearPadCentreDiameterMm": 32.40047906683502,
+        "currentMaximumMm": 45,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.2",
+          "J2.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO1",
+        "octilinearPadCentreDiameterMm": 30.260479066835018,
+        "currentMaximumMm": 45,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.3",
+          "J2.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO10",
+        "octilinearPadCentreDiameterMm": 6.072569260369921,
+        "currentMaximumMm": 35,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.14",
+          "J2.14"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO11",
+        "octilinearPadCentreDiameterMm": 5.293847763108504,
+        "currentMaximumMm": 35,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.15",
+          "J2.15"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO12",
+        "octilinearPadCentreDiameterMm": 6.726711395993651,
+        "currentMaximumMm": 40,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.16",
+          "J2.16"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO13",
+        "octilinearPadCentreDiameterMm": 8.178813844421313,
+        "currentMaximumMm": 45,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.17",
+          "J2.17"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO14",
+        "octilinearPadCentreDiameterMm": 12.411088732276008,
+        "currentMaximumMm": 55,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.18",
+          "J2.19"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO15",
+        "octilinearPadCentreDiameterMm": 15.116774157225244,
+        "currentMaximumMm": 60,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.19",
+          "J2.20"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO16",
+        "octilinearPadCentreDiameterMm": 15.282459582174482,
+        "currentMaximumMm": 60,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.27",
+          "J3.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO17",
+        "octilinearPadCentreDiameterMm": 12.576774157225245,
+        "currentMaximumMm": 55,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.28",
+          "J3.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO18",
+        "octilinearPadCentreDiameterMm": 8.578813844421312,
+        "currentMaximumMm": 45,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.29",
+          "J3.4"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO19",
+        "octilinearPadCentreDiameterMm": 6.745950211536165,
+        "currentMaximumMm": 40,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.31",
+          "J3.5"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO2",
+        "octilinearPadCentreDiameterMm": 25.580479066835014,
+        "currentMaximumMm": 35,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.4",
+          "J2.4"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO20",
+        "octilinearPadCentreDiameterMm": 5.859533188057742,
+        "currentMaximumMm": 35,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.32",
+          "J3.6"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO21",
+        "octilinearPadCentreDiameterMm": 6.306883835420684,
+        "currentMaximumMm": 35,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.33",
+          "J3.7"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO22",
+        "octilinearPadCentreDiameterMm": 8.626164491784259,
+        "currentMaximumMm": 25,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.34",
+          "J3.9"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO23_SMPS_PS",
+        "octilinearPadCentreDiameterMm": 19.911921343482863,
+        "currentMaximumMm": 40,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.35",
+          "R10.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO24_VBUS_SENSE",
+        "octilinearPadCentreDiameterMm": 18.585911960090087,
+        "currentMaximumMm": 20,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.36",
+          "R11.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO25_LED",
+        "octilinearPadCentreDiameterMm": 13.460134187980959,
+        "currentMaximumMm": 45,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.37",
+          "R18.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO26",
+        "octilinearPadCentreDiameterMm": 11.306164491784259,
+        "currentMaximumMm": 25,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.40",
+          "J3.11"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO27",
+        "octilinearPadCentreDiameterMm": 13.446164491784252,
+        "currentMaximumMm": 20,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.41",
+          "J3.12"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO28",
+        "octilinearPadCentreDiameterMm": 18.126164491784255,
+        "currentMaximumMm": 25,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.42",
+          "J3.14"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO29_VSYS_SENSE",
+        "octilinearPadCentreDiameterMm": 4.009777054234136,
+        "currentMaximumMm": 18,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.43",
+          "R15.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO3",
+        "octilinearPadCentreDiameterMm": 23.440479066835014,
+        "currentMaximumMm": 35,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.5",
+          "J2.5"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO4",
+        "octilinearPadCentreDiameterMm": 21.70047906683502,
+        "currentMaximumMm": 30,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.7",
+          "J2.6"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO5",
+        "octilinearPadCentreDiameterMm": 19.56047906683502,
+        "currentMaximumMm": 25,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.8",
+          "J2.7"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO6",
+        "octilinearPadCentreDiameterMm": 14.880479066835015,
+        "currentMaximumMm": 20,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.9",
+          "J2.9"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO7",
+        "octilinearPadCentreDiameterMm": 12.740479066835015,
+        "currentMaximumMm": 20,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.10",
+          "J2.10"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO8",
+        "octilinearPadCentreDiameterMm": 11.00047906683502,
+        "currentMaximumMm": 25,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.12",
+          "J2.11"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "GPIO9",
+        "octilinearPadCentreDiameterMm": 8.860479066835019,
+        "currentMaximumMm": 25,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.13",
+          "J2.12"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "LED_A",
+        "octilinearPadCentreDiameterMm": 3.6257590180780452,
+        "currentMaximumMm": 15,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "D2.2",
+          "R18.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "QSPI_CS",
+        "octilinearPadCentreDiameterMm": 4.105782104868019,
+        "currentMaximumMm": 20,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.60",
+          "R5.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "QSPI_SCLK",
+        "octilinearPadCentreDiameterMm": 5.800483399593906,
+        "currentMaximumMm": 16,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.56",
+          "U3.6"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "QSPI_SD0",
+        "octilinearPadCentreDiameterMm": 5.427691193458121,
+        "currentMaximumMm": 16,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.57",
+          "U3.5"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "QSPI_SD1",
+        "octilinearPadCentreDiameterMm": 3.1730970388562794,
+        "currentMaximumMm": 16,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.59",
+          "U3.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "QSPI_SD2",
+        "octilinearPadCentreDiameterMm": 3.0730970388562797,
+        "currentMaximumMm": 16,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.58",
+          "U3.3"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "QSPI_SD3",
+        "octilinearPadCentreDiameterMm": 6.173275605729692,
+        "currentMaximumMm": 16,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.55",
+          "U3.7"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "RT_LX1",
+        "octilinearPadCentreDiameterMm": 3.4687362902255714,
+        "currentMaximumMm": 8,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U2.4",
+          "L2.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "RT_LX2",
+        "octilinearPadCentreDiameterMm": 3.4687362902255714,
+        "currentMaximumMm": 8,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U2.2",
+          "L2.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "RUN",
+        "octilinearPadCentreDiameterMm": 19.38816846560565,
+        "currentMaximumMm": 40,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J3.10",
+          "SW2.3"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "SWCLK_HDR",
+        "octilinearPadCentreDiameterMm": 8.494793641885774,
+        "currentMaximumMm": 45,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J4.1",
+          "R19.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "SWCLK_MCU",
+        "octilinearPadCentreDiameterMm": 4.109848480983501,
+        "currentMaximumMm": 6,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.24",
+          "R19.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "SWDIO_HDR",
+        "octilinearPadCentreDiameterMm": 3.6308326112068543,
+        "currentMaximumMm": 45,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J4.3",
+          "R20.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "SWDIO_MCU",
+        "octilinearPadCentreDiameterMm": 6.902741699796946,
+        "currentMaximumMm": 10,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.25",
+          "R20.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_CC1",
+        "octilinearPadCentreDiameterMm": 5.549737008100569,
+        "currentMaximumMm": 20,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J1.A5",
+          "R3.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_CC2",
+        "octilinearPadCentreDiameterMm": 3.8497370081005684,
+        "currentMaximumMm": 25,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J1.B5",
+          "R4.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_DM_ESD",
+        "octilinearPadCentreDiameterMm": 16.182772183069,
+        "currentMaximumMm": 22,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U4.3",
+          "R2.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_DM_MCU",
+        "octilinearPadCentreDiameterMm": 1.6290559159102154,
+        "currentMaximumMm": 3,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.51",
+          "R2.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_DM_PORT",
+        "octilinearPadCentreDiameterMm": 4.357589283436708,
+        "currentMaximumMm": 22,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U4.4",
+          "J1.A7"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_DP_ESD",
+        "octilinearPadCentreDiameterMm": 17.57512716319083,
+        "currentMaximumMm": 22,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U4.1",
+          "R1.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_DP_MCU",
+        "octilinearPadCentreDiameterMm": 1.971015510839151,
+        "currentMaximumMm": 3,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.52",
+          "R1.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "USB_DP_PORT",
+        "octilinearPadCentreDiameterMm": 2.6646960646232554,
+        "currentMaximumMm": 22,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U4.6",
+          "J1.B6"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "VBUS",
+        "octilinearPadCentreDiameterMm": 25.174574285494906,
+        "currentMaximumMm": 80,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J3.20",
+          "R11.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "VREG_AVDD",
+        "octilinearPadCentreDiameterMm": 3.5571782079359124,
+        "currentMaximumMm": 12,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.46",
+          "R8.2"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "VSYS",
+        "octilinearPadCentreDiameterMm": 23.174062043356592,
+        "currentMaximumMm": 130,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "J3.19",
+          "R13.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "VSYS_DIV",
+        "octilinearPadCentreDiameterMm": 4.357188668141178,
+        "currentMaximumMm": 12,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "Q1.3",
+          "R14.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "XIN",
+        "octilinearPadCentreDiameterMm": 8.225067093990477,
+        "currentMaximumMm": 16,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.21",
+          "C24.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "XOUT_MCU",
+        "octilinearPadCentreDiameterMm": 2.6915432893255016,
+        "currentMaximumMm": 5,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "U1.22",
+          "R7.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      },
+      {
+        "net": "XTAL_OUT",
+        "octilinearPadCentreDiameterMm": 4.021442276647839,
+        "currentMaximumMm": 16,
+        "diameterExceedsMaximum": false,
+        "endpoints": [
+          "R7.2",
+          "C25.1"
+        ],
+        "scope": "Necessary centre-endpoint lower bound only; no obstacles, service-entry detour, reference or actual routing proof."
+      }
+    ],
+    "routeBoundConflicts": [],
+    "bypassSeparation": [
+      {
+        "label": "external input",
+        "pads": [
+          "U2.5",
+          "C20.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 2.50922796891793,
+        "candidateCentreDistanceMm": 2.5092279689179304,
+        "baselineOctilinearLowerBoundMm": 2.5890559159102153,
+        "candidateOctilinearLowerBoundMm": 2.589055915910216
+      },
+      {
+        "label": "external output",
+        "pads": [
+          "U2.1",
+          "C21.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 2.50922796891793,
+        "candidateCentreDistanceMm": 2.5092279689179304,
+        "baselineOctilinearLowerBoundMm": 2.5890559159102153,
+        "candidateOctilinearLowerBoundMm": 2.589055915910216
+      },
+      {
+        "label": "externalVINA bypass",
+        "pads": [
+          "U2.8",
+          "C22.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.2353643187335461,
+        "candidateCentreDistanceMm": 1.2353643187335461,
+        "baselineOctilinearLowerBoundMm": 1.2474264068711927,
+        "candidateOctilinearLowerBoundMm": 1.2474264068711927
+      },
+      {
+        "label": "coreVIN bypass",
+        "pads": [
+          "U1.49",
+          "C1.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.312440474840671,
+        "candidateCentreDistanceMm": 1.312440474840671,
+        "baselineOctilinearLowerBoundMm": 1.3431370849898498,
+        "candidateOctilinearLowerBoundMm": 1.3431370849898498
+      },
+      {
+        "label": "IOVDD1",
+        "pads": [
+          "U1.1",
+          "C5.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.4132586458253138,
+        "candidateCentreDistanceMm": 1.413258645825315,
+        "baselineOctilinearLowerBoundMm": 1.526812408671319,
+        "candidateOctilinearLowerBoundMm": 1.52681240867132
+      },
+      {
+        "label": "IOVDD11",
+        "pads": [
+          "U1.11",
+          "C6.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.4699999999999998,
+        "candidateCentreDistanceMm": 1.4699999999999998,
+        "baselineOctilinearLowerBoundMm": 1.4699999999999998,
+        "candidateOctilinearLowerBoundMm": 1.4699999999999998
+      },
+      {
+        "label": "IOVDD20",
+        "pads": [
+          "U1.20",
+          "C7.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.6892897915988254,
+        "candidateCentreDistanceMm": 1.584203269785795,
+        "baselineOctilinearLowerBoundMm": 1.7876450198781724,
+        "candidateOctilinearLowerBoundMm": 1.7048023074035537
+      },
+      {
+        "label": "IOVDD30",
+        "pads": [
+          "U1.30",
+          "C8.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 2.0751144546747295,
+        "candidateCentreDistanceMm": 2.2418965185752864,
+        "baselineOctilinearLowerBoundMm": 2.192914139223983,
+        "candidateOctilinearLowerBoundMm": 2.392914139223981
+      },
+      {
+        "label": "IOVDD38",
+        "pads": [
+          "U1.38",
+          "C9.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.9428072472584628,
+        "candidateCentreDistanceMm": 1.9428072472584628,
+        "baselineOctilinearLowerBoundMm": 2.021198410471447,
+        "candidateOctilinearLowerBoundMm": 2.021198410471447
+      },
+      {
+        "label": "IOVDD45",
+        "pads": [
+          "U1.45",
+          "C10.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.6201543136380558,
+        "candidateCentreDistanceMm": 1.6201543136380558,
+        "baselineOctilinearLowerBoundMm": 1.7356854249492377,
+        "candidateOctilinearLowerBoundMm": 1.7356854249492377
+      },
+      {
+        "label": "DVDD6",
+        "pads": [
+          "U1.6",
+          "C11.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.273930924344016,
+        "candidateCentreDistanceMm": 1.2739309243440164,
+        "baselineOctilinearLowerBoundMm": 1.3114213562373096,
+        "candidateOctilinearLowerBoundMm": 1.3114213562373076
+      },
+      {
+        "label": "DVDD23",
+        "pads": [
+          "U1.23",
+          "C12.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.490000000000002,
+        "candidateCentreDistanceMm": 1.5033628969746409,
+        "baselineOctilinearLowerBoundMm": 1.490000000000002,
+        "candidateOctilinearLowerBoundMm": 1.5728427124746136
+      },
+      {
+        "label": "DVDD39",
+        "pads": [
+          "U1.39",
+          "C13.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.6417368851311096,
+        "candidateCentreDistanceMm": 1.6417368851311096,
+        "baselineOctilinearLowerBoundMm": 1.7688225099390846,
+        "candidateOctilinearLowerBoundMm": 1.7688225099390846
+      },
+      {
+        "label": "localADC bypass",
+        "pads": [
+          "U1.44",
+          "C16.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.5853390804493532,
+        "candidateCentreDistanceMm": 1.5853390804493532,
+        "baselineOctilinearLowerBoundMm": 1.6611269837220808,
+        "candidateOctilinearLowerBoundMm": 1.6611269837220808
+      },
+      {
+        "label": "bulkADC",
+        "pads": [
+          "U1.44",
+          "C17.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 2.0706037766796417,
+        "candidateCentreDistanceMm": 2.070603776679644,
+        "baselineOctilinearLowerBoundMm": 2.129188309203678,
+        "candidateOctilinearLowerBoundMm": 2.129188309203679
+      },
+      {
+        "label": "flash bypass",
+        "pads": [
+          "U3.8",
+          "C18.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 1.622967960250601,
+        "candidateCentreDistanceMm": 1.622967960250601,
+        "baselineOctilinearLowerBoundMm": 1.7192640687119276,
+        "candidateOctilinearLowerBoundMm": 1.7192640687119274
+      },
+      {
+        "label": "flash bulk",
+        "pads": [
+          "U3.8",
+          "C19.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 2.1895262044561137,
+        "candidateCentreDistanceMm": 2.1895262044561137,
+        "baselineOctilinearLowerBoundMm": 2.2163203435596417,
+        "candidateOctilinearLowerBoundMm": 2.2163203435596417
+      },
+      {
+        "label": "ESDVBUS bypass",
+        "pads": [
+          "U4.5",
+          "C26.1"
+        ],
+        "netMatches": true,
+        "baselineCentreDistanceMm": 3.944623714627291,
+        "candidateCentreDistanceMm": 1.4524999999999988,
+        "baselineOctilinearLowerBoundMm": 4.266437046545209,
+        "candidateOctilinearLowerBoundMm": 1.4524999999999988
+      }
+    ],
+    "limits": [
+      "No old tracks,ordinary vias or pours were carried into a placement pass.",
+      "Only stockpad/courtyard/actual-hole placement and short own-header first-turn hardware were assessed.",
+      "Fixed corner mounting-hole obstructions remain; the mechanical owner controls any separately reviewed hole option.",
+      "Retained .55/.20 ordinaryvia,.50 drill-edge,.15 Cu,.50 copper-edge floors and all current electrical policies are not waived."
+    ],
+    "preExistingUnchangedHardFindings": [
+      {
+        "type": "pad-hole",
+        "pad": "J1.A1",
+        "hole": "J1.",
+        "gap": 0.19440271884718147,
+        "required": 0.25
+      },
+      {
+        "type": "pad-hole",
+        "pad": "J1.A12",
+        "hole": "J1.",
+        "gap": 0.1944027188471818,
+        "required": 0.25
+      },
+      {
+        "type": "pad-hole",
+        "pad": "J1.B1",
+        "hole": "J1.",
+        "gap": 0.1944027188471818,
+        "required": 0.25
+      },
+      {
+        "type": "pad-hole",
+        "pad": "J1.B12",
+        "hole": "J1.",
+        "gap": 0.19440271884718147,
+        "required": 0.25
+      }
+    ],
+    "introducedHardFindings": [],
+    "powerPlacementDistances": [
+      {
+        "label": "ExternalVSYS header toinputcap",
+        "terminals": [
+          "J3.19",
+          "C20.1"
+        ],
+        "baselineOctilinearCentreDistanceMm": 42.165861453751255,
+        "candidateOctilinearCentreDistanceMm": 15.054002871499986,
+        "scope": "Unobstructed pad-centre placement metric, not routed copper length or electrical qualification."
+      },
+      {
+        "label": "DiodeVSYS toinputcap",
+        "terminals": [
+          "D1.1",
+          "C20.1"
+        ],
+        "baselineOctilinearCentreDistanceMm": 32.90660171779822,
+        "candidateOctilinearCentreDistanceMm": 5.345634918610406,
+        "scope": "Unobstructed pad-centre placement metric, not routed copper length or electrical qualification."
+      },
+      {
+        "label": "Outputcap toMCUcoreVIN",
+        "terminals": [
+          "C21.1",
+          "U1.49"
+        ],
+        "baselineOctilinearCentreDistanceMm": 17.50624458405139,
+        "candidateOctilinearCentreDistanceMm": 8.011543289325509,
+        "scope": "Unobstructed pad-centre placement metric, not routed copper length or electrical qualification."
+      },
+      {
+        "label": "USBVBUS todiode",
+        "terminals": [
+          "J1.A4",
+          "D1.2"
+        ],
+        "baselineOctilinearCentreDistanceMm": 4.458589103967957,
+        "candidateOctilinearCentreDistanceMm": 4.802701653663382,
+        "scope": "Unobstructed pad-centre placement metric, not routed copper length or electrical qualification."
+      }
+    ],
+    "analogRawHorizontalPadGapMm": 0.8899999999999988,
+    "interiorServiceWidthMm": 15.08,
+    "stockReplay": {
+      "copperPads": 265,
+      "courtyards": 62,
+      "footprintSources": 62,
+      "actualPasteApertures": 230,
+      "pasteMatch": true,
+      "comparison": "Physical geometry compared at1nm precision; source footprints hash-checked. No native verification."
+    }
+  },
+  "notRouted": true,
+  "accepted": false
+}

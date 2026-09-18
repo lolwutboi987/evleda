@@ -1,5 +1,32 @@
 # Current status and roadmap
 
+Latest native result, 18 September 2026: the separately frozen DOC11 host build
+passes source/UI typechecks, backend packaging and complete runtime checks. The
+preserved RP2350 project reopened under DOC11 and saved its outline. Real sync
+then failed before a producer reply was retained; the sidecar session closed,
+rollback failed and normal cleanup was not confirmed. The failed 6,896-byte PCB,
+diagnostics and receipts are preserved. The owned orphan editor was stopped after
+its process identity was checked. Seven non-PCB normal-close file hashes still
+match; the lease, terminal marker and both editor locks remain for reviewed
+recovery. No electrical footprint placement or copper was accepted from this run.
+
+The host's generic SDK-error wrapper discarded the original cause. The reviewed
+fix now retains it privately before teardown, with the same public message,
+timeouts and quarantine behavior. Eight focused tests and source typechecking
+pass. This repairs future diagnostics; it cannot recover the missing cause or
+establish why the DOC11 sync failed. Complete DOC11 runtime verification also
+passed after the failure. Evidence is retained outside the repository under
+`destination-verification/integration-doc11-29/` and
+`destination-verification/rp2350-native-sync-failure-03/`.
+
+The new [placement study](../designs/rp2350-pico/placement-rework-study/README.md)
+reconsiders the circuit groups before rerouting. Preferred study B moves the
+external converter near USB/VSYS and gives the MCU's right-side launch area more
+room. It introduces no pad, courtyard or service-band conflicts in the scoped
+placement check. Four corner-hole conflicts and four existing USB pad-to-NPTH
+source-clearance findings remain. Neither study is adopted, routed or natively
+qualified; the previous V9 copper remains historical.
+
 Latest user constraint: **keep unrelated copper out from between the external
 GPIO-header pads on both sides, with clean inward connections and room for
 soldering/rework. Keep two layers for now.** V9 contains between-pad vias and
@@ -21,7 +48,8 @@ template cases; the host gate passed 47 selected tests. Legacy identity-only
 producers can still serve unrelated operations but cannot perform sync under
 the new host. The separate DOC11 runtime/profile now passes complete source
 verification, installed descriptor capture and both production profile readers.
-The integrated host build and real public synchronization remain pending.
+The integrated host build subsequently passed; the real public synchronization
+attempt failed as described above and remains unqualified.
 Existing DOC10 and earlier evidence are preserved. The immutable overlay manifest
 records its earlier source-only qualification; later runtime evidence is retained
 under `destination-verification/doc11-runtime-publication-01/` outside the repository.

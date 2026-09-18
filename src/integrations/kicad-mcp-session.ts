@@ -2896,10 +2896,12 @@ export class KicadMcpSession {
         this.#toolFailureWritesQuarantined = true;
         throw error;
       }
+      // Retain the original SDK failure privately before teardown can also fail.
+      const failure = limitError ?? (error instanceof KicadMcpSessionError
+        ? error
+        : new KicadMcpSessionError(`KiCad MCP tool '${name}' did not complete safely.`, { cause: error }));
       if (!this.#closed && !this.#planeStageWritesQuarantined) await this.close().catch(() => undefined);
-      if (limitError !== undefined) throw limitError;
-      if (error instanceof KicadMcpSessionError) throw error;
-      throw new KicadMcpSessionError(`KiCad MCP tool '${name}' did not complete safely.`);
+      throw failure;
     } finally {
       operation.release();
     }

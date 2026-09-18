@@ -1,0 +1,685 @@
+{
+  "status": "Two22x51placement macros frozen; no routing/adoption claim",
+  "baseModel": {
+    "algorithm": "sha256",
+    "digest": "421df1f6f7fad2857b58fcd7d9a6afb0d3d71792827094516ec423f1fcfc63c4",
+    "size": 501145,
+    "serialization": "UTF-8 JSON.stringify"
+  },
+  "headerNotes": {
+    "algorithm": "sha256",
+    "digest": "639e1f60a1a453ca3a4f706a721388908b6a70d78ca53d0fccdfc9104a7280ec",
+    "size": 160515
+  },
+  "stockFootprints": [
+    {
+      "reference": "U1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+        "size": 14069
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_DFN_QFN.pretty/QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod"
+    },
+    {
+      "reference": "U2",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+        "size": 2284
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod"
+    },
+    {
+      "reference": "U3",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+        "size": 4261
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod"
+    },
+    {
+      "reference": "U4",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ea29040bed73e5dfa455e36f2c9324b0de7782c5a6cf79040b7d885ff766fdb4",
+        "size": 4568
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_TO_SOT_SMD.pretty/SOT-23-6.kicad_mod"
+    },
+    {
+      "reference": "J1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+        "size": 7170
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Connector_USB.pretty/USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod"
+    },
+    {
+      "reference": "J2",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+        "size": 5332
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod"
+    },
+    {
+      "reference": "J3",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+        "size": 5332
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod"
+    },
+    {
+      "reference": "J4",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6a7dba97d6e733fd9d5f12d2d57f2cde29e8393e15b08d8b3e41bf2b430d83ed",
+        "size": 3129
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Connector_PinHeader_2.54mm.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod"
+    },
+    {
+      "reference": "L1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+        "size": 1456
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod"
+    },
+    {
+      "reference": "L2",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+        "size": 3525
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Inductor_SMD.pretty/L_Coilcraft_XxL4020.kicad_mod"
+    },
+    {
+      "reference": "Q1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+        "size": 4144
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_TO_SOT_SMD.pretty/SOT-523.kicad_mod"
+    },
+    {
+      "reference": "D1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e0867bfd9057e4ed44483786d9d8809eab12909401240f9f7ee7de141cd7be7c",
+        "size": 4768
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Diode_SMD.pretty/Nexperia_CFP3_SOD-123W.kicad_mod"
+    },
+    {
+      "reference": "D2",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+        "size": 2593
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/LED_SMD.pretty/LED_0603_1608Metric.kicad_mod"
+    },
+    {
+      "reference": "SW1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+        "size": 1398
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\Wuerth_434133025816_4Terminal.kicad_mod"
+    },
+    {
+      "reference": "SW2",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+        "size": 1398
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\Wuerth_434133025816_4Terminal.kicad_mod"
+    },
+    {
+      "reference": "Y1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0efc1a86f641a5e4d27a4483811386c23ddfa5b416c628f65cef963ef7edbb62",
+        "size": 2278
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Crystal.pretty/Crystal_SMD_3225-4Pin_3.2x2.5mm.kicad_mod"
+    },
+    {
+      "reference": "R1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R2",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R3",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R4",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R5",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R6",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R7",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R8",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R9",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R10",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R11",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R12",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R13",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R14",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R15",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R16",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R17",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R18",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R19",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "R20",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C1",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C2",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C3",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C4",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C5",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C6",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C7",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C8",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C9",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C10",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C11",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C12",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C13",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C14",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C15",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C16",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C17",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C18",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C19",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C20",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+        "size": 1130
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod"
+    },
+    {
+      "reference": "C21",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+        "size": 1130
+      },
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v3\\footprints\\EvlEDA_Pico2350.pretty\\C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod"
+    },
+    {
+      "reference": "C22",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C23",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C24",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C25",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    },
+    {
+      "reference": "C26",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod"
+    }
+  ],
+  "stockPasteReplay": {
+    "count": 230,
+    "matched": true
+  },
+  "macros": [
+    {
+      "name": "A",
+      "poseMapFile": "macro-A.json",
+      "poseCount": 62,
+      "introducedHardFindings": 0,
+      "courtyard": 0,
+      "service": 0,
+      "edge": 0,
+      "preExistingUSBFindings": 4,
+      "headerHardware": {
+        "frontClear": 36,
+        "backClear": 36,
+        "notFullConnection": true
+      },
+      "changedRegions": 58,
+      "routeLowerBoundConflicts": 0
+    },
+    {
+      "name": "B",
+      "poseMapFile": "macro-B.json",
+      "poseCount": 62,
+      "introducedHardFindings": 0,
+      "courtyard": 0,
+      "service": 0,
+      "edge": 0,
+      "preExistingUSBFindings": 4,
+      "headerHardware": {
+        "frontClear": 36,
+        "backClear": 36,
+        "notFullConnection": true
+      },
+      "changedRegions": 58,
+      "routeLowerBoundConflicts": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "base-physical.json",
+      "algorithm": "sha256",
+      "digest": "f1ed5ff1f252ff029af22f3aec9c9c3cd229ebf7a916e0d7023b200c22b45940",
+      "size": 219525
+    },
+    {
+      "file": "baseline-hardware-findings.json",
+      "algorithm": "sha256",
+      "digest": "74705cb61c19f682e702851d720d994372276fc7d10bf84a9c72b3983e5ab687",
+      "size": 3056
+    },
+    {
+      "file": "finalize.mjs",
+      "algorithm": "sha256",
+      "digest": "3bc37934c293756eb030852250f3d91374e218fc90693845dd8ff58a090f5c6a",
+      "size": 12345
+    },
+    {
+      "file": "macro-A.json",
+      "algorithm": "sha256",
+      "digest": "464c9153e68163f2ab08bca4e62c350428e64f439c850473839fb02e255a2612",
+      "size": 101112
+    },
+    {
+      "file": "macro-A.svg",
+      "algorithm": "sha256",
+      "digest": "8280c8c73cf6c1ab2a2ea5386cba5e5d47201a2b25c3724f75e00372e301d404",
+      "size": 57417
+    },
+    {
+      "file": "macro-B.json",
+      "algorithm": "sha256",
+      "digest": "a5e4b1cfdb60f5ef8bd46ba40282dd4ffede54e7b82a330f4230cf9a2ccbe680",
+      "size": 101253
+    },
+    {
+      "file": "macro-B.svg",
+      "algorithm": "sha256",
+      "digest": "9fa4ff762abe4f22086ff5aa9466d33356396e200b1d5c9c1fa3d70f7a738176",
+      "size": 57688
+    },
+    {
+      "file": "REPORT.md",
+      "algorithm": "sha256",
+      "digest": "afd51d51ad834a924a5972f808fa7418bce5e6e1a50becaa4b81de249b6a89dc",
+      "size": 6013
+    },
+    {
+      "file": "study.mjs",
+      "algorithm": "sha256",
+      "digest": "ccbbf1d3a8772571aa1dd448e6fa7ba16df378ce323057af805837ceceace7fb",
+      "size": 16804
+    },
+    {
+      "file": "summary.json",
+      "algorithm": "sha256",
+      "digest": "08d68d3ef36b225dd2423ed19ac591ea32836c8bf1d4a95bcc4460f69a94da22",
+      "size": 13555
+    }
+  ],
+  "storage": {
+    "directoryBytesBeforeManifest": 588768,
+    "maximumBytes": 2097152,
+    "freeBytesAtFreeze": 4259291136,
+    "reserveBytes": 157286400
+  },
+  "nativeEdited": false,
+  "canonicalEdited": false,
+  "managedProjectEdited": false
+}

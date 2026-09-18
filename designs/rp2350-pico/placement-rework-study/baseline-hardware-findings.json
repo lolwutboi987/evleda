@@ -1,0 +1,124 @@
+{
+  "source": {
+    "algorithm": "sha256",
+    "digest": "421df1f6f7fad2857b58fcd7d9a6afb0d3d71792827094516ec423f1fcfc63c4",
+    "size": 501145,
+    "serialization": "UTF-8 JSON.stringify"
+  },
+  "hard": [
+    {
+      "type": "pad-hole",
+      "pad": "J1.A1",
+      "hole": "J1.",
+      "gap": 0.19440271884718147,
+      "required": 0.25
+    },
+    {
+      "type": "pad-hole",
+      "pad": "J1.A12",
+      "hole": "J1.",
+      "gap": 0.1944027188471818,
+      "required": 0.25
+    },
+    {
+      "type": "pad-hole",
+      "pad": "J1.B1",
+      "hole": "J1.",
+      "gap": 0.1944027188471818,
+      "required": 0.25
+    },
+    {
+      "type": "pad-hole",
+      "pad": "J1.B12",
+      "hole": "J1.",
+      "gap": 0.19440271884718147,
+      "required": 0.25
+    }
+  ],
+  "courtyard": [],
+  "service": [
+    {
+      "type": "courtyard-service-band",
+      "reference": "Q1",
+      "bounds": {
+        "minX": 16.39,
+        "maxX": 18.69,
+        "minY": 15.95,
+        "maxY": 18.05
+      },
+      "scope": "Conservative component-access reservation, beyond the no-unrelated-copper user requirement."
+    },
+    {
+      "type": "courtyard-service-band",
+      "reference": "D1",
+      "bounds": {
+        "minX": 16.45,
+        "maxX": 18.65,
+        "minY": 8.55,
+        "maxY": 13.05
+      },
+      "scope": "Conservative component-access reservation, beyond the no-unrelated-copper user requirement."
+    },
+    {
+      "type": "courtyard-service-band",
+      "reference": "R12",
+      "bounds": {
+        "minX": 17.63,
+        "maxX": 18.57,
+        "minY": 25.17,
+        "maxY": 27.03
+      },
+      "scope": "Conservative component-access reservation, beyond the no-unrelated-copper user requirement."
+    },
+    {
+      "type": "courtyard-service-band",
+      "reference": "R13",
+      "bounds": {
+        "minX": 16.77,
+        "maxX": 18.63,
+        "minY": 13.33,
+        "maxY": 14.27
+      },
+      "scope": "Conservative component-access reservation, beyond the no-unrelated-copper user requirement."
+    },
+    {
+      "type": "courtyard-service-band",
+      "reference": "R15",
+      "bounds": {
+        "minX": 17.68,
+        "maxX": 18.62,
+        "minY": 18.47,
+        "maxY": 20.33
+      },
+      "scope": "Conservative component-access reservation, beyond the no-unrelated-copper user requirement."
+    },
+    {
+      "type": "courtyard-service-band",
+      "reference": "R17",
+      "bounds": {
+        "minX": 17.65,
+        "maxX": 18.59,
+        "minY": 20.67,
+        "maxY": 22.53
+      },
+      "scope": "Conservative component-access reservation, beyond the no-unrelated-copper user requirement."
+    },
+    {
+      "type": "courtyard-service-band",
+      "reference": "C23",
+      "bounds": {
+        "minX": 16.79,
+        "maxX": 18.61,
+        "minY": 14.54,
+        "maxY": 15.46
+      },
+      "scope": "Conservative component-access reservation, beyond the no-unrelated-copper user requirement."
+    }
+  ],
+  "edge": [],
+  "headerCounts": {
+    "frontClear": 29,
+    "backClear": 36,
+    "notFullConnection": true
+  }
+}

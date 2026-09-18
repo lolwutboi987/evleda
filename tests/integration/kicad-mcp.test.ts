@@ -33,7 +33,9 @@ import {
   KICAD_MCP_PRO_PYPI_DISTRIBUTIONS,
   KICAD_MCP_PRO_VERSION,
   KicadMcpAuthorizationError,
+  KicadMcpOutputError,
   KicadMcpOutputLimitError,
+  KicadMcpSessionError,
   KicadMcpRuntimeVerificationDeadlineError,
   KicadMcpTerminationUncertainError,
   KicadMcpSession as RawKicadMcpSession,
@@ -246,6 +248,10 @@ rl.on("line", (line) => {
       return;
     }
     if (message.params.name === "kicad_get_version") {
+      if (message.params.arguments?.protocolFailure === true) {
+        send({ jsonrpc: "2.0", id: message.id, error: { code: -32603, message: "original private protocol refusal" } });
+        return;
+      }
       if (message.params.arguments?.rawSecretFailure === true) {
         send({ jsonrpc: "2.0", id: message.id, result: { isError: true, content: [{ type: "text", text: "sk-sidecar-secret C:/private/provider-prompt.txt" }] } });
         return;
@@ -3952,7 +3958,46 @@ describe("KiCad MCP subprocess session", () => {
     await expect(session.callTool("kicad_get_version")).rejects.toThrow(/session is closed/iu);
   });
 
-  it("closes the session when structured output violates the discovered schema", async () => {
+  it.each([false, true])("preserves the SDK protocol rejection privately when teardown fails: %s", async (teardownFails) => {
+    const { workspace, project } = await roots();
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, command: fakeCommand() });
+    const originalClose = session.close.bind(session);
+    const close = vi.spyOn(session, "close").mockImplementation(async () => {
+      await originalClose();
+      if (teardownFails) throw new Error("secondary teardown failure");
+    });
+    try {
+      const failure = await session.callTool("kicad_get_version", { protocolFailure: true }).catch((error: unknown) => error);
+      expect(failure).toBeInstanceOf(KicadMcpSessionError);
+      expect((failure as Error).message).toBe("KiCad MCP tool 'kicad_get_version' did not complete safely.");
+      expect((failure as Error).cause).toBeInstanceOf(Error);
+      expect((failure as Error).cause).toMatchObject({ code: -32603, message: expect.stringContaining("original private protocol refusal") });
+      expect(Object.getOwnPropertyDescriptor(failure, "cause")?.enumerable).toBe(false);
+      expect(String(failure)).not.toMatch(/original private|secondary teardown/iu);
+      expect(JSON.stringify(failure)).not.toMatch(/original private|secondary teardown/iu);
+      expect(close).toHaveBeenCalledTimes(1);
+      await expect(session.callTool("kicad_get_version")).rejects.toThrow("KiCad MCP session is closed.");
+    } finally { close.mockRestore(); await session.close(); }
+  });
+
+  it("preserves typed tool failure evidence when teardown also fails", async () => {
+    const { workspace, project } = await roots();
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, command: fakeCommand() });
+    const originalClose = session.close.bind(session);
+    const close = vi.spyOn(session, "close").mockImplementation(async () => { await originalClose(); throw new Error("secondary teardown failure"); });
+    try {
+      const failure = await session.callTool("kicad_get_version", { rawSecretFailure: true }).catch((error: unknown) => error);
+      expect(failure).toBeInstanceOf(KicadMcpOutputError);
+      expect((failure as Error).message).toBe("KiCad MCP returned categorical tool-failure evidence.");
+      expect((failure as Error).cause).toEqual({ operation: "kicad_get_version", response: { isError: true, content: [{ type: "text", text: "sk-sidecar-secret C:/private/provider-prompt.txt" }] } });
+      expect(String(failure)).not.toMatch(/sk-sidecar-secret|secondary teardown/iu);
+      expect(JSON.stringify(failure)).not.toMatch(/sk-sidecar-secret|secondary teardown/iu);
+      expect(close).toHaveBeenCalledTimes(1);
+      await expect(session.callTool("kicad_get_version")).rejects.toThrow("KiCad MCP session is closed.");
+    } finally { close.mockRestore(); await session.close(); }
+  });
+
+  it("closes the session and preserves the SDK cause when structured output violates the discovered schema", async () => {
     const { workspace, project } = await roots();
     const session = await KicadMcpSession.connect({
       workspaceRoot: workspace,
@@ -3960,9 +4005,11 @@ describe("KiCad MCP subprocess session", () => {
       command: fakeCommand(),
     });
 
-    await expect(
-      session.callTool("kicad_get_version", { invalidOutput: true }),
-    ).rejects.toThrow(/did not complete safely/iu);
+    const failure = await session.callTool("kicad_get_version", { invalidOutput: true }).catch((error: unknown) => error);
+    expect(failure).toBeInstanceOf(KicadMcpSessionError);
+    expect((failure as Error).message).toBe("KiCad MCP tool 'kicad_get_version' did not complete safely.");
+    expect((failure as Error).cause).toBeInstanceOf(Error);
+    expect(((failure as Error).cause as Error).message).toBe("Structured content does not match the tool's output schema: data/ok must be boolean");
     await expect(session.callTool("kicad_get_version")).rejects.toThrow(/session is closed/iu);
   });
 
