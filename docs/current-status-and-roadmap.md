@@ -5,12 +5,19 @@ exhaustion interrupted an outline operation.** A separate offline-router JDK
 extraction exhausted C: during the resumed V9 session. The previously empty PCB
 is now zero bytes; the connected schematic, project settings, rules, library
 tables, bundle and prior checkpoint still match their last normal-close hashes.
-The client could not retain its response or terminal record. The owned host and
-native editors were subsequently observed absent, with the project lease and
-locks retained. No uncertain mutation was retried and no checkpoint, lease or
-lock was manually changed. Recovery is pending; this is not a placed board.
+The client could not retain its response or terminal record. The host exited,
+but its PCB editor remained running. An earlier absence claim was incorrect:
+mixed PowerShell table output was ambiguous. Fresh structured process inspection
+identified the exact orphaned editor, which was then terminated after checking
+its executable, project argument and creation time. This discarded the failed
+outline's in-memory state; it was not a normal save or close. The lease and
+locks remain retained. No uncertain mutation was retried and no checkpoint,
+lease or lock was manually changed. Recovery is pending; this is not a placed board.
 The failure observation is retained under
 `destination-verification/rp2350-native-disk-full-01/` outside the repository.
+The original observation and its explicit correction are both preserved there.
+The intact [connected schematic and native preview](../designs/rp2350-pico/schematic-v9/README.md)
+are also published separately from the failed working PCB.
 
 Before this failure, **the complete RP2350 schematic was confirmed through
 public native readback and normal checkpoint/close.** V9
