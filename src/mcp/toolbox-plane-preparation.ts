@@ -173,8 +173,9 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
   assertPlaneSources(bundle, dependencies);
   const project = await preparePlaneFreshProject(projectOptions);
   if (report.projectPath !== project.projectPath || canonicalJson(preparedSourceAuthority.projectIdentity) !== canonicalJson(project.projectIdentity)) throw new Error("Plane preparation belongs to another project.");
-  const boardFeatureState = createFreshBoardFeatureState(bundle, preparedSourceAuthority, checkpoint.files.pcb.sha256);
-  boardFeatureState?.verify(await readFile(project.pcbPath, "utf8"), dependencies.libraryResolver);
+  const checkpointPcbSource = bundle.contract.boardFeatures === undefined ? undefined : await readFile(project.pcbPath, "utf8");
+  const boardFeatureState = createFreshBoardFeatureState(bundle, preparedSourceAuthority, checkpoint.files.pcb.sha256, checkpointPcbSource);
+  boardFeatureState?.verify(checkpointPcbSource!, dependencies.libraryResolver);
   const adapter = await openAdapter(project, expected, input.createKicadCliAdapter), kicadIdentity = adapter.identity;
   if (canonicalJson(kicadIdentity) !== canonicalJson(report.native.kicad)) throw new Error("Plane resume KiCad identity differs from its recorded toolchain.");
   const captureNativeNetlist=createFreshNativeCaptures({project,executablePath:kicadIdentity.path,createAdapter:input.createKicadCliAdapter}).captureNativeNetlist;

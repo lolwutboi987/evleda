@@ -1,9 +1,24 @@
 # Current status and roadmap
 
-Latest continuation, 18 September 2026: **V9 has been recovered and reopened
-through the normal native toolbox path.** The resumed project has the expected
-bundle, edit access and no recovery requirement. PCB outline authoring has
-resumed; placement, routing and design acceptance remain unfinished.
+Latest continuation, 18 September 2026: **the pre-sync board-feature guard has
+been fixed in source; native qualification is pending.** After successful
+disk-full recovery and normal reopen, V9 saved its 22 x 51 mm outline. Sync then
+rejected that valid outlined preimage before calling native electrical sync:
+the old mounting-feature guard accepted only the exact prepared constructor.
+The native session restored its exact outlined preimage, then entered terminal
+review. Close retained the lease and unsafe marker; the owned native editor
+exited and the client was subsequently stopped. The connected schematic is
+unchanged. No electrical footprints, mounting features or placement were added.
+
+The three-file fix admits only the canonical prepared board plus the exact
+contract-sized native outline. It preserves outline UUID/style and all other
+source forms, verifies checkpoint bytes before classifying a resumed pre-sync
+board, and retains strict feature/library/UUID checks after materialization.
+Two focused suites passed 52 tests; the final strengthened deletion regression,
+source typecheck and independent review also passed. The failed session still
+requires separately reviewed recovery before an updated native run.
+Evidence is retained under
+`destination-verification/rp2350-native-sync-failure-01/` outside the repository.
 
 Earlier, a separate offline-router JDK extraction exhausted C: during a V9
 outline operation. The previously empty PCB became zero bytes; the connected

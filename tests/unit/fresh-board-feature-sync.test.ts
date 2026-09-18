@@ -13,12 +13,15 @@ import type { KicadCliAdapter, KicadExecutableIdentity } from "../../src/integra
 import type { KicadMcpSession } from "../../src/integrations/kicad-mcp-session.js";
 import { boardFeatureFixture, electricalBoard, holeId } from "../helpers/board-feature-fixture.js";
 import { nativePadObservationFixture } from "../helpers/native-pad-observation-fixture.js";
+import { createFreshBoardFeatureState } from "../../src/harness/fresh-board-features.js";
 
 const owned: string[] = [];
 afterEach(async () => { for (const root of owned.splice(0)) { if (!path.resolve(root).startsWith(path.resolve(tmpdir()) + path.sep)) throw new Error("unsafe cleanup"); await rm(root, { recursive: true, force: true }); } });
 const sync = { id: "sync", name: "fresh_sync_from_schematic" as const, arguments: {} };
 const save = { id: "save", name: "pcb_save" as const, arguments: {} };
-async function fixture(fault?: "drop" | "number" | "move" | "exclude" | "source-drift" | "save") {
+const outlined = (source: string) => source.replace(/\)\s*$/u, `(gr_rect (start 0 0) (end 30 20)
+  (stroke (width 0.05) (type default)) (fill no) (layer "Edge.Cuts") (uuid "22222222-2222-4222-8222-222222222222"))\n)\n`);
+async function fixture(fault?: "drop" | "number" | "move" | "exclude" | "source-drift" | "save", withOutline = false) {
   const f = boardFeatureFixture(); owned.push(f.root);
   const identity: KicadExecutableIdentity = { kind: "kicad-cli", path: path.join(f.root, "kicad-cli.exe"), version: "10.0.3",
     commit: "146a4f2a7585c65bc580427a19b6fe2ec4a3f622", sha256: "a".repeat(64), sizeBytes: 100,
@@ -32,6 +35,7 @@ async function fixture(fault?: "drop" | "number" | "move" | "exclude" | "source-
   const result = await prepareKicadToolboxPlaneProject(input); if (result.status !== "prepared") throw new Error(JSON.stringify(result.compilation.issues));
   const preparation = result.preparation, { bundle, project } = preparation;
   let live = await readFile(project.pcbPath, "utf8"), syncCalls = 0;
+  if (withOutline) { live = outlined(live).replaceAll("\r\n", "\n").replaceAll("\n", "\r\n"); await writeFile(project.pcbPath, live); }
   let physicalReads = 0;
   let resyncChange: ((source: string) => string) | undefined;
   const initial = live, staged: string[] = [], calls: { name: string; args: Readonly<Record<string, unknown>> }[] = [];
@@ -95,6 +99,55 @@ async function fixture(fault?: "drop" | "number" | "move" | "exclude" | "source-
     changeOnResync: (change: (source: string) => string) => { resyncChange = change; } };
 }
 describe("board-only NPTH source-bound sync and existing checkpoint", () => {
+  it("preserves the native contract outline through first feature staging, sync, save and resume", async () => {
+    const f = await fixture(undefined, true);
+    const outline = (source: string) => { const node = parseFreshPcbSourceDocument(source).children.find(n => n.name === "gr_rect")!; return source.slice(node.start, node.end); };
+    const response = JSON.parse((await f.bridge.execute(sync)).content);
+    expect(response).toMatchObject({ componentCount: 3, physicalPadCount: 9, nonElectricalFeatureCount: 2 });
+    expect(outline(f.staged[0]!)).toBe(outline(f.initial));
+    expect(parseFreshPcbSource(f.staged[0]!).footprints.map(fp => fp.reference)).toEqual(["H1", "H2"]);
+    expect((await f.bridge.internal.saveAfterMutation(save)).isError).not.toBe(true);
+    const saved = await readFile(f.project.pcbPath, "utf8"); expect(outline(saved)).toBe(outline(f.initial));
+    expect(() => f.preparation.boardFeatureState!.verify(f.initial, f.f.resolver)).toThrow(/missing board feature/);
+    const hole = parseFreshPcbSourceDocument(saved).children.find(node => node.name === "footprint" && node.values[0]?.value === holeId)!;
+    expect(() => f.preparation.boardFeatureState!.verify(saved.slice(0, hole.start) + saved.slice(hole.end), f.f.resolver)).toThrow(/missing board feature/);
+    const publish = await f.lifecycle.prepareCheckpoint(); await publish();
+    const resumed = await resumeKicadToolboxPlaneProject(f.input);
+    expect(() => resumed.boardFeatureState!.verify(saved, f.f.resolver)).not.toThrow();
+    expect(() => resumed.boardFeatureState!.verify(f.initial, f.f.resolver)).toThrow(/missing board feature/);
+  });
+  it("resumes a checkpoint-proven outline-only board without consuming initial feature authority", async () => {
+    const f = await fixture(undefined, true);
+    const publish = await f.lifecycle.prepareCheckpoint(); await publish();
+    const resumed = await resumeKicadToolboxPlaneProject(f.input);
+    expect(() => resumed.boardFeatureState!.verify(f.initial, f.f.resolver)).not.toThrow();
+    expect(() => createFreshBoardFeatureState(resumed.bundle, resumed.preparedSourceAuthority, "a".repeat(64), f.initial)).toThrow(/checkpoint identity/);
+    expect(f.physicalReads()).toBe(0);
+  });
+  it("rejects non-contract geometry and settings before feature staging", async () => {
+    const f = await fixture(undefined, true), state = f.preparation.boardFeatureState!;
+    const inject = (form: string) => f.initial.replace(/\)\s*$/u, `${form}\n)\n`);
+    for (const source of [
+      f.initial.replace('(end 30 20)', '(end 30.000000000000000001 20)'),
+      f.initial.replace('(start 0 0)', '(start 1 0)'),
+      f.initial.replace('(layer "Edge.Cuts")', '(layer "F.Cu")'),
+      f.initial.replace('(fill no)', '(fill yes)'),
+      f.initial.replace('(thickness 1.6)', '(thickness 1.7)'),
+      f.initial.replace('(end 30 20)', '(end 30)'),
+      outlined(f.initial), inject('(segment (start 1 1) (end 2 1) (width 0.2) (layer "F.Cu") (net 0))'),
+      inject('(zone (net 0) (layer "F.Cu"))'), inject('(unknown_geometry 1)'),
+    ]) expect(() => state.verify(source, f.f.resolver)).toThrow();
+    expect(f.staged).toHaveLength(0);
+  });
+  it.each(["drop", "move", "save"] as const)("retains outline-only authority and exact rollback after %s failure", async fault => {
+    const f = await fixture(fault, true);
+    if (fault === "save") { await f.bridge.execute(sync); expect((await f.bridge.internal.saveAfterMutation(save)).isError).toBe(true); }
+    else await expect(f.bridge.execute(sync)).rejects.toThrow(/ROLLED_BACK_TERMINAL/);
+    expect(await readFile(f.project.pcbPath, "utf8")).toBe(f.initial); expect(f.live()).toBe(f.initial);
+    const publish = await f.lifecycle.prepareCheckpoint(); await publish();
+    const resumed = await resumeKicadToolboxPlaneProject(f.input);
+    expect(() => resumed.boardFeatureState!.verify(f.initial, f.f.resolver)).not.toThrow();
+  });
   it("stages all bound holes atomically, retains raw native inventory, saves, checkpoints and resumes", async () => {
     const f = await fixture(), response = JSON.parse((await f.bridge.execute(sync)).content);
     expect(response).toMatchObject({ componentCount: 3, physicalPadCount: 9, logicalTerminalCount: 7, nonElectricalFeatureCount: 2 });

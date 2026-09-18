@@ -9,6 +9,7 @@ import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundl
 import type { PcbReadOnlyLibraryResolver } from "./pcb-design-compiler.js";
 import { assertPcbLibrarySourcesCurrent } from "./pcb-library-source-binding.js";
 import { createInterfaceConstructionBoardSeed } from "./interface-construction-seed.js";
+import { freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
 
 const requireValue = (value: unknown, message: string): void => { if (!value) throw new Error(`Board features: ${message}`); };
 const seededIdentities = new WeakMap<object, ReadonlyMap<string, readonly (string | null)[]>>();
@@ -44,13 +45,31 @@ export function verifyFreshBoardFeatures(bundle: PcbPlaneCompilationBundle, sour
   }
 }
 
-/** One in-process lifecycle bit. The existing checkpoint PCB hash supplies its
- * initial value on resume; no new persisted artifact or checkpoint family. */
+/** One in-process lifecycle bit. The existing checkpoint's hash-verified PCB
+ * supplies its initial value on resume; no new artifact or checkpoint family. */
 export interface FreshBoardFeatureState {
   verify(source: string, resolver?: PcbReadOnlyLibraryResolver): void;
   commitSavedSource(source: string, resolver?: PcbReadOnlyLibraryResolver): void;
 }
 const featureStates = new WeakMap<object, Readonly<{ bundle: string; project: string }>>();
+/** Before the first sync, the native outline tool may add its one rectangle.
+ * Remove only that exact contract-sized form for comparison with the prepared
+ * constructor. All settings and other source forms remain bound; no shape-only
+ * empty-board exception or feature repair is permitted. */
+function isPreparedFeatureSource(bundle: PcbPlaneCompilationBundle, preparedSource: string, source: string): boolean {
+  if (freshBoardSerializationsEqual(source, preparedSource)) return true;
+  const rectangles = parseFreshPcbSourceDocument(source).children.filter(node => node.name === "gr_rect");
+  if (rectangles.length !== 1) return false;
+  const rectangle = rectangles[0]!, ids = rectangle.children.filter(node => node.name === "uuid");
+  const id = ids[0]?.values[0]?.value;
+  if (ids.length !== 1 || ids[0]!.values.length !== 1 || ids[0]!.children.length !== 0
+      || id === undefined || !/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u.test(id)) return false;
+  const board = bundle.contract.scope.board;
+  const expected = `(gr_rect (start 0 0) (end ${board.widthMm} ${board.heightMm})
+    (stroke (width 0.05) (type default)) (fill no) (layer "Edge.Cuts") (uuid "${id}"))`;
+  return freshBoardSerializationsEqual(`(kicad_pcb ${source.slice(rectangle.start, rectangle.end)})`, `(kicad_pcb ${expected})`)
+    && freshBoardSerializationsEqual(source.slice(0, rectangle.start) + source.slice(rectangle.end), preparedSource);
+}
 export function assertFreshBoardFeatureState(state: FreshBoardFeatureState | undefined, bundle: PcbPlaneCompilationBundle, project: FreshProject | undefined): void {
   const bound = state === undefined ? undefined : featureStates.get(state);
   if (bundle.contract.boardFeatures !== undefined) requireValue(bound !== undefined && bound.bundle === bundle.identity.digest
@@ -61,20 +80,22 @@ export function assertFreshBoardFeatureState(state: FreshBoardFeatureState | und
  * authority and latest checkpoint. The canonical constructor independently
  * prevents an arbitrary empty board becoming a new prepared baseline. */
 export function createFreshBoardFeatureState(bundle: PcbPlaneCompilationBundle, prepared: FreshProjectOpenPreparedSourceAuthority,
-  checkpointPcbSha256 = prepared.pcb.digest): FreshBoardFeatureState | undefined {
+  checkpointPcbSha256 = prepared.pcb.digest, checkpointPcbSource?: string): FreshBoardFeatureState | undefined {
   if (bundle.contract.boardFeatures === undefined) return undefined;
   requireValue(isAuthenticatedPcbPlaneCompilationBundle(bundle), "authenticated V2 bundle required");
   const preparedPcb = prepared.pcb;
-  const expected = contentIdentity(createInterfaceConstructionBoardSeed(bundle));
+  const preparedSource = createInterfaceConstructionBoardSeed(bundle), expected = contentIdentity(preparedSource);
   requireValue(preparedPcb.algorithm === expected.algorithm && preparedPcb.digest === expected.digest && preparedPcb.size === expected.size,
     "prepared PCB identity differs from its canonical constructor");
   requireValue(/^[a-f0-9]{64}$/u.test(checkpointPcbSha256), "invalid authenticated checkpoint PCB identity");
-  let materialized = checkpointPcbSha256 !== preparedPcb.digest;
+  if (checkpointPcbSource !== undefined) requireValue(contentIdentity(checkpointPcbSource).digest === checkpointPcbSha256,
+    "PCB source differs from the authenticated checkpoint identity");
+  let materialized = checkpointPcbSha256 !== preparedPcb.digest
+    && (checkpointPcbSource === undefined || !isPreparedFeatureSource(bundle, preparedSource, checkpointPcbSource));
   const state: FreshBoardFeatureState = Object.freeze({
     verify(source: string, resolver?: PcbReadOnlyLibraryResolver) {
       if (resolver !== undefined) assertPcbLibrarySourcesCurrent(bundle.libraryBinding, resolver);
-      const current = contentIdentity(source);
-      if (!materialized && current.digest === expected.digest && current.size === expected.size) return;
+      if (!materialized && isPreparedFeatureSource(bundle, preparedSource, source)) return;
       verifyFreshBoardFeatures(bundle, source, resolver);
     },
     commitSavedSource(source: string, resolver?: PcbReadOnlyLibraryResolver) {
