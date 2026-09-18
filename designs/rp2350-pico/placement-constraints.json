@@ -1141,11 +1141,21 @@
         "allowedLayers": [
           "F.Cu"
         ]
+      },
+      {
+        "id": "POWER_FINE",
+        "traceWidthMm": 0.2,
+        "clearanceMm": 0.15,
+        "copperToEdgeMm": 0.25,
+        "allowedLayers": [
+          "F.Cu",
+          "B.Cu"
+        ]
       }
     ],
     "netClassAssignments": {
-      "1V1": "POWER",
-      "3V3": "POWER",
+      "1V1": "POWER_FINE",
+      "3V3": "POWER_FINE",
       "3V3_EN": "SIGNAL",
       "ADC_AVDD": "SIGNAL",
       "ADC_VREF": "SIGNAL",
@@ -7224,5 +7234,25 @@
     "tracks": 0,
     "zones": 0,
     "globalDrcPass": false
+  },
+  "powerTerminalEscapeRevision": {
+    "appliedAt": "2026-09-18T02:14:21.836Z",
+    "supersedesCandidate": "05",
+    "previousPlacementSha256": "48ad9ad98531026cf90eeb8d590996c7cd2aa92cfb87b614dbcd7a48122ae042",
+    "reason": "The 0.30 mm starting conductor at U1.50/U1.53 leaves 0.15 mm to neighboring USB copper; the unchanged USB clearance is 0.20 mm.",
+    "anchorScreen": "All 263 connected physical copper anchors pass the proposed floor screen; exactly those two fail the preceding classes.",
+    "routePlanPolicy": {
+      "defaultActualWidthMm": 0.3,
+      "distributionBackboneTargetWidthMm": 0.6,
+      "fineTerminalWidthMm": 0.2,
+      "onlyNecessaryTerminals": [
+        "U1.53",
+        "U1.50"
+      ],
+      "proposedMaximumFineRoutedLengthMm": 1,
+      "enforcement": "Additional source-plan check required; the generic net-class minimum alone does not enforce short neckdowns."
+    },
+    "electricalBasis": "At declared nominal 43 um copper and 58 MS/m, a 1 mm x 0.20 mm neck is 2.005 mOhm. Whole-rail screening gives at most 0.601 mV peak drop; 35 um sensitivity gives 0.739 mV, without asserting a manufactured thickness minimum.",
+    "verificationBoundary": "The class minimum enables the two fine escapes; only the separately checked actual route plan enforces maximum 1 mm narrow usage and >=0.30 mm elsewhere. Copper, hole and edge clearances are unchanged. Earlier native placement reports retain their original class identities."
   }
 }

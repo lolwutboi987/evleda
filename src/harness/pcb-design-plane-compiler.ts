@@ -1,5 +1,6 @@
 import { createPcbExternalPowerBinding, assertPcbExternalPowerBindingCurrent, type PcbExternalPowerBinding } from "./pcb-external-power.js";
 import { createPcbDerivedPowerBinding, assertPcbDerivedPowerBindingCurrent, type PcbDerivedPowerBinding } from "./pcb-derived-power.js";
+import { assertPcbChannelFeedThroughSources } from "./pcb-channel-feed-through.js";
 import { z } from "zod";
 import { resolvePcbBoardFeatureLibraries } from "./pcb-board-feature-libraries.js";
 import type { PcbBoardFeatureLibrarySource } from "./pcb-board-features.js";
@@ -161,10 +162,12 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
     for (const pair of contract.interfaceRequirements.interfaces) {
       const path = `/interfaceRequirements/interfaces/${token(pair.id)}`;
       add(`interface-topology:${pair.id}`, "interface_topology", path,
-        pair.channel ? "Verify exactly four channel nets, both resistor pin mappings, every connector and protection signal anchor, exact protection returns, and complete launch and every receiver path. Require declared pad-center branch attachments and leaves; reject undeclared taps, cycles, transitions, disconnected copper and ambiguous anchors."
+        pair.channel?.feedThrough ? "Verify all six native copper nets independently: launch, resistor-to-protection input and protection-output-to-contact sections. Retain every resistor, transfer IO, connector and ground/supply anchor. Internal transfers are explicitly source-asserted component paths, never fabricated copper. Reject undeclared taps, cycles, transitions, disconnected sections and ambiguous anchors."
+          : pair.channel ? "Verify exactly four channel nets, both resistor pin mappings, every connector and protection signal anchor, exact protection returns, and complete launch and every receiver path. Require declared pad-center branch attachments and leaves; reject undeclared taps, cycles, transitions, disconnected copper and ambiguous anchors."
           : "Verify exactly two member nets, all four source/receiver roles and explicit polarity mapping, complete unique source-to-receiver paths and all declared termination anchors; reject undeclared taps, stubs, transitions or ambiguous branches.");
       add(`interface-geometry:${pair.id}`, "interface_pair_geometry", `${path}/geometry`,
-        pair.channel ? "Verify every channel path and branch, all four-net opposing copper gaps, body widths, exact terminal-bound routed escapes, launch bounds and full copper-only channel etch/skew budgets, with continuous reference coverage on every member net. No device-internal segment is fabricated; complete electromagnetic coverage remains unverified."
+        pair.channel?.feedThrough ? "Verify all six-net opposing gaps, widths, routed escapes, vias and continuous reference coverage. Pair geometry budgets cover the combined input/output PCB sections; channel etch/skew covers all three PCB sections including launch, per receiver. Count unique branch copper once. Package electrical delay/skew remains not assessed. A qualified transfer-output pad may source distinct outgoing paths; ordinary serial bends retain all turn constraints."
+          : pair.channel ? "Verify every channel path and branch, all four-net opposing copper gaps, body widths, exact terminal-bound routed escapes, launch bounds and full copper-only channel etch/skew budgets, with continuous reference coverage on every member net. No device-internal segment is fabricated; complete electromagnetic coverage remains unverified."
           : "Verify both complete routes including bends, launches and termination access: width/gap intervals, etch length, etch skew, uncoupled length and reference coverage. An isolated straight segment cannot satisfy this requirement.");
       add(`interface-termination:${pair.id}`, "interface_termination", `${path}/terminations`,
         "Verify exact source/receiver termination component pins, member-net polarity, declared resistance and external endpoint-distance bounds. Device internals and source citations remain caller-asserted intent, not device qualification.");
@@ -202,6 +205,7 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
       symbols: libraries.symbols, footprints: physicalLibraries.footprints,
       ...(physicalLibraries.sourceSelection === undefined ? {} : { sourceSelection: physicalLibraries.sourceSelection }) };
     const libraryBinding: PcbLibraryBinding = freezePcbPlaneArtifact({ ...libraryPayload, identity: canonicalIdentity(libraryPayload, PCB_LIBRARY_BINDING_SCHEMA_VERSION) });
+    assertPcbChannelFeedThroughSources(contract, libraryBinding, options.libraryResolver);
     const externalPowerBinding = createPcbExternalPowerBinding(contract, libraryBinding, options.libraryResolver);
     const derivedPowerBinding = createPcbDerivedPowerBinding(contract, libraryBinding, options.libraryResolver, externalPowerBinding);
     const selectionPolicy = normalizePcbPlaneSelectionPolicy(options.deepRuleSelectionOptions);
@@ -220,6 +224,7 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
     const deepRuleBinding: PcbDeepRuleBinding = freezePcbPlaneArtifact({ ...deepPayload, identity: canonicalIdentity(deepPayload, PCB_DEEP_RULE_BINDING_SCHEMA_VERSION) });
     if (externalPowerBinding !== undefined) assertPcbExternalPowerBindingCurrent(externalPowerBinding, options.libraryResolver);
     if (derivedPowerBinding !== undefined) assertPcbDerivedPowerBindingCurrent(derivedPowerBinding, libraryBinding, options.libraryResolver);
+    assertPcbChannelFeedThroughSources(contract, libraryBinding, options.libraryResolver);
     return freezePcbPlaneArtifact({ ...base, disposition: "ready", draft, draftIdentity: contentIdentity(canonicalJson(draft)),
       selectionPolicy, questions: [], issues: [], contract, libraryBinding, deepRuleBinding,
       ...(physicalLibraries.boardFeatureLibrarySources === undefined ? {} : { boardFeatureLibrarySources: physicalLibraries.boardFeatureLibrarySources }),

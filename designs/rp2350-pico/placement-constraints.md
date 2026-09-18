@@ -161,7 +161,8 @@ All 65 nets have topology, layer, via count, length bound and reference-path dis
 | Class | Minimum/default width | Clearance | Copper-to-edge | Layers and rationale |
 | --- | --- | --- | --- | --- |
 | SIGNAL | 0.20 | 0.15 | 0.25 | F.Cu/B.Cu allowed at class level; individual short/quiet routes bind F.Cu. The route API's explicit-width floor is 0.20 mm. |
-| POWER | 0.30 | 0.15 | 0.25 | F.Cu/B.Cu; accommodates supply-pin escape. Widen distribution bodies where space permits and verify voltage loss/heating. |
+| POWER | 0.30 | 0.15 | 0.25 | VBUS/VSYS on F.Cu/B.Cu. Widen distribution bodies where space permits and verify voltage loss/heating. |
+| POWER_FINE | 0.20 | 0.15 | 0.25 | 1V1/3V3 fine terminal access. The actual route plan permits at most 1 mm at U1.50/U1.53, retains >=0.30 mm elsewhere and widens backbones/loops. |
 | SWITCH | 0.30 | 0.15 | 0.25 | F.Cu only, zero vias, each LX net <=8 mm. The short escape width is not an ampacity or thermal rating. |
 | GROUND | 0.30 | 0.15 | 0.25 | Plane plus short accesses; actual ground-contact/EP paths require separate evidence. |
 | USB_FS | 0.82 | 0.20 | 0.50 | F.Cu only. All four member classes must default to the body interval under the current interface schema. Narrower 0.20/0.40/0.60 mm sections are authorized only by the USB proposal's explicit terminal-bound escapes. |
@@ -253,6 +254,8 @@ The JSON retains an unobstructed Manhattan minimum-spanning-tree *screen* over e
 | XTAL_OUT | tree | F.Cu | 0 | 16 | 0.25 mm guard |
 
 The power-net lengths bound total tree copper, not maximum source-to-load impedance. Operating currents and voltage/thermal assumptions belong to [operating-constraints.json](operating-constraints.json). A 0.30 mm minimum width alone cannot demonstrate the maximum supply/current envelope; widen the bodies as appropriate and retain load, temperature and actual construction checks.
+
+Candidate 06 adds POWER_FINE after screening every connected physical copper anchor. At the preceding 0.30 mm floor, U1.50 and U1.53 leave only 0.15 mm to adjacent USB pads, below their unchanged 0.20 mm clearance. These are the only two failing anchors among 263 checked. A 1 mm × 0.20 mm neck at the declared nominal 43 µm copper is approximately 2.005 mΩ, giving at most 0.601 mV peak drop under the conservative whole-rail screening currents. The 35 µm sensitivity case gives 0.739 mV; it is not a manufacturer thickness guarantee or thermal qualification. The [power route plan](power-route-plan.json) records the assumptions and separate narrow-length policy. The class minimum alone does not enforce that policy; it must be checked on the actual routed geometry. Earlier native placement reports remain tied to their original five-class inputs.
 
 ## Verification and the remaining limits
 

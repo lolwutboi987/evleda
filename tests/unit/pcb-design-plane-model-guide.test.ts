@@ -46,8 +46,8 @@ describe("V2 PCB plane design-intent model guide", () => {
       objectSchemas += 1;
       expect(object.additionalProperties).toBe(false);
       const props = object.properties as Record<string, any>;
-      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs", "derivedPowerSources"]
-        : props.kind?.const === "differential_pair" ? ["channel"] : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : [];
+      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs", "derivedPowerSources", "boardFeatures"]
+        : props.kind?.const === "differential_pair" ? ["channel"] : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : props.launchNets !== undefined ? ["feedThrough"] : [];
       expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).filter(key => !optional.includes(key)).sort());
     });
     expect(objectSchemas).toBeGreaterThan(20);

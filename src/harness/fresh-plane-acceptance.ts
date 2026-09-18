@@ -1,4 +1,5 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import { channelMemberNets } from "./pcb-channel-width.js";
 import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { isKicadPlaneContactsObservation, type KicadPlaneContactsObservation } from "../integrations/kicad-plane-contacts.js";
@@ -189,7 +190,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         });
       }));
       const topology = allFacts([source, ...(["sourcePolarity", "topology", "stubs", "transitions"] as const).map(geometryCheck), terminationSourceFacts, anchors]);
-      const memberNets = [pair.nets.positive, pair.nets.negative, ...(pair.channel ? [pair.channel.launchNets.positive, pair.channel.launchNets.negative] : [])], referenceRowIds: string[] = [];
+      const memberNets = channelMemberNets(pair), referenceRowIds: string[] = [];
       const referenceCoverage = { ...allFacts(memberNets.map(net => {
         const observed = references.filter(reference => reference.net === net && reference.planeId === pair.routing.referencePlaneId);
         if (observed.length !== 1) return fact("unknown", `Current saved-fill reference coverage is unavailable for interface member ${net}.`);

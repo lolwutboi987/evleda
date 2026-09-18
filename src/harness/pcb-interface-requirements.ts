@@ -64,14 +64,22 @@ const channelReturn = z.object({ pin, net: netName }).strict();
 const channelProtection = z.object({ componentReference: reference, positivePins: z.array(pin).min(1).max(8),
   negativePins: z.array(pin).min(1).max(8), ground: channelReturn, supply: channelReturn, source }).strict();
 const channelProtectionDraft = channelProtection.extend({ source: sourceDraft.nullable() }).strict();
+const transferPins = z.object({ inputPin: pin, outputPin: pin }).strict();
+const transferPinsDraft = transferPins.extend({ inputPin: pin.nullable(), outputPin: pin.nullable() }).strict();
+const feedThrough = z.object({ kind: z.literal("two_line_protection"), componentReference: reference, inputNets: nets,
+  positive: transferPins, negative: transferPins, source }).strict();
+const feedThroughDraft = feedThrough.extend({ componentReference: reference.nullable(), inputNets: netsDraft.nullable(),
+  positive: transferPinsDraft.nullable(), negative: transferPinsDraft.nullable(), source: sourceDraft.nullable() }).strict();
 /** Explicit bounded four-net channel. No inferred pins, internal copper, or dimensional defaults. */
 const channel = z.object({ kind: z.literal("source_series"), launchNets: nets,
   additionalReceivers: z.array(roleEndpoints).min(1).max(4), protection: z.array(channelProtection).min(1).max(4),
   escapes: z.array(channelEscape).min(1).max(64), maximumLaunchEtchLengthMm: positive,
-  maximumBranchEtchLengthMm: length, maxEtchLengthMm: positive, maxTotalCopperLengthMm: positive, maxEtchSkewMm: length, source }).strict();
+  maximumBranchEtchLengthMm: length, maxEtchLengthMm: positive, maxTotalCopperLengthMm: positive, maxEtchSkewMm: length, source,
+  feedThrough: feedThrough.optional() }).strict();
 const channelDraft = channel.extend({ launchNets: netsDraft.nullable(), additionalReceivers: z.array(roleEndpointsDraft).min(1).max(4).nullable(),
   protection: z.array(channelProtectionDraft).min(1).max(4).nullable(), escapes: z.array(channelEscapeDraft).min(1).max(64).nullable(), maximumLaunchEtchLengthMm: positive.nullable(),
-  maximumBranchEtchLengthMm: length.nullable(), maxEtchLengthMm: positive.nullable(), maxTotalCopperLengthMm: positive.nullable(), maxEtchSkewMm: length.nullable(), source: sourceDraft.nullable() }).strict();
+  maximumBranchEtchLengthMm: length.nullable(), maxEtchLengthMm: positive.nullable(), maxTotalCopperLengthMm: positive.nullable(), maxEtchSkewMm: length.nullable(), source: sourceDraft.nullable(),
+  feedThrough: feedThroughDraft.nullable().optional() }).strict();
 const noImpedance = z.object({ mode: z.literal("none") }).strict();
 const impedance = z.object({ mode: z.literal("differential"), targetOhms: positive, toleranceOhms: length,
   frequencyHz: frequency, constructionId: identifier, source }).strict();
@@ -126,13 +134,33 @@ function validateChannel(document: PcbPlaneDesignIntentDraft | PcbPlaneDesignCon
   pair: NonNullable<PcbPlaneDesignIntentDraft["interfaceRequirements"]>["interfaces"][number], path: PropertyKey[],
   issue: (path: PropertyKey[], message: string) => void, closed: boolean, usedNets: Set<string>): void {
   const channel = pair.channel!;
+  const transfer = channel.feedThrough, hasTransfer = transfer !== undefined;
   const fail = (field: string, message: string) => issue([...path, "channel", field], message);
   const series = pair.terminations?.source;
   if (series != null && series.kind !== "source_series") fail("kind", "Bounded channel requires source_series at its source");
   if (pair.terminations?.receiver != null && pair.terminations.receiver.kind !== "none") fail("kind", "Bounded source-series channel requires an explicit unterminated receiver");
   if (pair.routing?.polarityInversion?.receiverMapping === "inverted") fail("kind", "Bounded source-series channels require preserved receiver polarity");
-  const names = [...polarities.map(p => pair.nets?.[p]), ...polarities.map(p => channel.launchNets?.[p])].filter((n): n is string => n != null);
-  if (new Set(names).size !== names.length) fail("launchNets", "Channel requires exactly four distinct signal nets");
+  const names = [...polarities.map(p => pair.nets?.[p]), ...polarities.map(p => channel.launchNets?.[p]),
+    ...(hasTransfer ? polarities.map(p => transfer?.inputNets?.[p]) : [])].filter((n): n is string => n != null);
+  if (new Set(names).size !== names.length) fail("launchNets", hasTransfer ? "Feed-through channel requires exactly six distinct signal nets" : "Channel requires exactly four distinct signal nets");
+  const protectionNet = (componentReference: string, pin: string, polarity: typeof polarities[number]) => !hasTransfer ? pair.nets?.[polarity]
+    : transfer?.componentReference !== componentReference ? undefined : pin === transfer[polarity]?.inputPin ? transfer.inputNets?.[polarity]
+      : pin === transfer[polarity]?.outputPin ? pair.nets?.[polarity] : undefined;
+  if (hasTransfer) {
+    if (channel.protection != null && channel.protection.length !== 1) fail("feedThrough", "Initial feed-through support requires exactly one two-line protection stage");
+    const protection = channel.protection?.[0];
+    if (transfer?.componentReference != null && protection != null && protection.componentReference !== transfer.componentReference) fail("feedThrough", "Feed-through must name the exact declared protection component");
+    for (const polarity of polarities) {
+      const leg = transfer?.[polarity], declared = protection?.[polarity === "positive" ? "positivePins" : "negativePins"];
+      if (leg?.inputPin != null && leg.outputPin != null && (leg.inputPin === leg.outputPin || declared != null
+        && (declared.length !== 2 || !declared.includes(leg.inputPin) || !declared.includes(leg.outputPin)))) fail("feedThrough", "Each transfer must map the complete distinct protection input/output pin pair");
+    }
+    if (closed && transfer != null && protection != null) {
+      const component = document.components.find(value => value.reference === transfer.componentReference);
+      const pins = [...protection.positivePins, ...protection.negativePins, protection.ground.pin, protection.supply.pin];
+      if (component?.pins.length !== 6 || component.pins.some(value => !pins.includes(value.pin))) fail("feedThrough", "The bounded transfer requires the exact complete six-pin protection component");
+    }
+  }
   const allowed = new Map(names.map(name => [name, new Set<string>()]));
   const nets = new Map(document.nets.map(net => [net.name, net]));
   const add = (name: string | null | undefined, point: { reference: string; pin: string } | null | undefined, field: string) => {
@@ -143,20 +171,24 @@ function validateChannel(document: PcbPlaneDesignIntentDraft | PcbPlaneDesignCon
     if (!nets.get(name)?.endpoints.some(p => key(p) === key(point))) fail(field, "Channel anchor is not a member of its exact declared polarity and section net");
   };
   for (const polarity of polarities) {
-    const launch = channel.launchNets?.[polarity], line = pair.nets?.[polarity];
+    const launch = channel.launchNets?.[polarity], line = pair.nets?.[polarity], input = hasTransfer ? transfer?.inputNets?.[polarity] : line;
     add(launch, pair.endpoints?.source?.[polarity], "launchNets");
     add(line, pair.endpoints?.receiver?.[polarity], "additionalReceivers");
     if (series?.kind === "source_series") {
       const leg = series[polarity];
       if (leg?.componentReference != null && leg.sourcePin != null) add(launch, { reference: leg.componentReference, pin: leg.sourcePin }, "launchNets");
-      if (leg?.componentReference != null && leg.linePin != null) add(line, { reference: leg.componentReference, pin: leg.linePin }, "launchNets");
+      if (leg?.componentReference != null && leg.linePin != null) add(input, { reference: leg.componentReference, pin: leg.linePin }, "launchNets");
     }
     for (const receiver of channel.additionalReceivers ?? []) add(line, receiver[polarity], "additionalReceivers");
     for (const protection of channel.protection ?? []) for (const pin of protection[polarity === "positive" ? "positivePins" : "negativePins"])
-      add(line, { reference: protection.componentReference, pin }, "protection");
+      add(protectionNet(protection.componentReference, pin, polarity), { reference: protection.componentReference, pin }, "protection");
     if (launch != null) {
       if (usedNets.has(launch)) fail("launchNets", "A net cannot belong to multiple differential interfaces");
       usedNets.add(launch);
+    }
+    if (hasTransfer && input != null) {
+      if (usedNets.has(input)) fail("feedThrough", "A net cannot belong to multiple differential interfaces");
+      usedNets.add(input);
     }
   }
   if (series?.kind === "source_series" && series.positive?.componentReference != null
@@ -199,19 +231,22 @@ function validateChannel(document: PcbPlaneDesignIntentDraft | PcbPlaneDesignCon
     }
   }
   for (const protection of channel.protection ?? []) for (const polarity of polarities) {
-    const route = document.routingConstraints.nets.find(route => route.net === pair.nets?.[polarity]);
-    if (route?.topology !== "plane" && route?.referencePath?.mode === "continuous_plane") for (const pin of protection[polarity === "positive" ? "positivePins" : "negativePins"]) {
+    for (const pin of protection[polarity === "positive" ? "positivePins" : "negativePins"]) {
+      const route = document.routingConstraints.nets.find(route => route.net === protectionNet(protection.componentReference, pin, polarity));
+      if (route?.topology !== "plane" && route?.referencePath?.mode === "continuous_plane") {
       const references = route.referencePath.terminalReferences;
       if (references != null && !references.some(r => r.signalEndpoint?.reference === protection.componentReference && r.signalEndpoint.pin === pin
         && r.referenceEndpoint?.reference === protection.componentReference && r.referenceEndpoint.pin === protection.ground.pin))
         fail("protection", "Every protection signal requires its exact declared ground anchor in the continuous reference path");
+      }
     }
   }
   const escapeKeys = new Set<string>();
   const anchorsKnown = polarities.every(p => pair.nets?.[p] != null && channel.launchNets?.[p] != null
     && pair.endpoints?.source?.[p] != null && pair.endpoints?.receiver?.[p] != null
     && series?.kind === "source_series" && series[p]?.componentReference != null && series[p]?.sourcePin != null && series[p]?.linePin != null)
-    && channel.additionalReceivers != null && channel.additionalReceivers.every(r => r.positive != null && r.negative != null) && channel.protection != null;
+    && channel.additionalReceivers != null && channel.additionalReceivers.every(r => r.positive != null && r.negative != null) && channel.protection != null
+    && (!hasTransfer || transfer?.componentReference != null && polarities.every(p => transfer.inputNets?.[p] != null && transfer[p]?.inputPin != null && transfer[p]?.outputPin != null));
   for (const escape of channel.escapes ?? []) {
     const name = key(escape.terminal), interval = escape.traceWidthMm;
     if (escapeKeys.has(name) || anchorsKnown && ![...allowed.values()].some(members => members.has(name))) fail("escapes", "Escape requires one unique declared channel signal terminal");

@@ -9,7 +9,12 @@ export const SCHEMATIC_RENDER_CLEARANCE_POLICY = Object.freeze({
   scope: "native-ink-clearance-only" as const,
   primitives: Object.freeze(["absolute-M-L-Z", "rect", "circle"]),
   stroke: "round-caps-and-joins", paint: "black-native-ink", coordinateUnits: "mm", numericalToleranceMm: 0.000001,
-  maxSvgBytes: 2 * 1024 * 1024, maxElements: 20_000, maxDepth: 32, maxSegments: 30_000,
+  hiddenTextMetadata: "native-text-or-single-invisible-cardinal-rotation-wrapper",
+  planningOnlyNontextLeafFillRules: Object.freeze(["nonzero", "evenodd"]),
+  // The source-bound 62-part RP2350 render has 21,080 elements / 1,181,482
+  // bytes before terminal labels. Increase XML capacity, retaining the separate
+  // glyph primitive, text-group, depth and collision-work ceilings below.
+  maxSvgBytes: 4 * 1024 * 1024, maxElements: 64_000, maxDepth: 32, maxSegments: 30_000,
   maxTextGroups: 1_000, maxComparisons: 2_000_000, maxWitnesses: 128,
 });
 export const SCHEMATIC_RENDER_CLEARANCE_POLICY_IDENTITY = Object.freeze(canonicalIdentity(SCHEMATIC_RENDER_CLEARANCE_POLICY, SCHEMATIC_RENDER_CLEARANCE_POLICY.schemaVersion));
@@ -143,7 +148,7 @@ function parseXml(source: string): XmlNode {
 interface Style { fill: string; stroke: string; width: number; opacity: number; fillOpacity: number; strokeOpacity: number; cap: string; join: string }
 const DEFAULT_STYLE: Style = { fill: "black", stroke: "none", width: 1, opacity: 1, fillOpacity: 1, strokeOpacity: 1, cap: "butt", join: "miter" };
 const STYLE_KEYS = new Set(["fill", "stroke", "stroke-width", "opacity", "fill-opacity", "stroke-opacity", "stroke-linecap", "stroke-linejoin", "fill-rule"]);
-function styleFor(node: XmlNode, inherited: Style): Style {
+function styleFor(node: XmlNode, inherited: Style, omittedNontextLeaf = false): Style {
   const values: Record<string, string> = {};
   for (const key of STYLE_KEYS) if (node.attrs[key] !== undefined) values[key] = node.attrs[key]!;
   for (const field of (node.attrs.style ?? "").split(";")) {
@@ -159,7 +164,8 @@ function styleFor(node: XmlNode, inherited: Style): Style {
   };
   const width = values["stroke-width"] === undefined ? inherited.width : number(values["stroke-width"], node.index);
   if (width < 0) unsupported("NEGATIVE_STROKE_WIDTH", node.index);
-  if (values["fill-rule"] !== undefined && values["fill-rule"] !== "nonzero") unsupported("UNSUPPORTED_FILL_RULE", node.index);
+  if (values["fill-rule"] !== undefined && values["fill-rule"] !== "nonzero"
+      && !(omittedNontextLeaf && values["fill-rule"] === "evenodd")) unsupported("UNSUPPORTED_FILL_RULE", node.index);
   return {
     fill: color(values.fill ?? inherited.fill), stroke: color(values.stroke ?? inherited.stroke), width,
     opacity: inherited.opacity * opacity("opacity", 1), fillOpacity: opacity("fill-opacity", inherited.fillOpacity),
@@ -196,8 +202,27 @@ function pathSegments(value: string | undefined, index: number): readonly [Point
   return segments;
 }
 
+/** KiCad rotates only this invisible metadata text. Its following stroked-text
+ * sibling already contains absolute sheet coordinates; never rotate that ink.
+ */
+const metadataNumber = "[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?";
+const metadataRotation = new RegExp(`^\\s*rotate\\s*\\(\\s*(${metadataNumber})(?:\\s*,\\s*|\\s+)(${metadataNumber})(?:\\s*,\\s*|\\s+)(${metadataNumber})\\s*\\)\\s*$`, "u");
+function rotatedNativeMetadataText(node: XmlNode): XmlNode | undefined {
+  if (node.name !== "g" || Object.keys(node.attrs).length !== 1 || node.attrs.transform === undefined
+      || node.children.length !== 1 || node.text.trim()) return undefined;
+  const text = node.children[0]!;
+  if (text.name !== "text" || text.children.length !== 0 || !text.text.trim()
+      || text.attrs.opacity === undefined || text.attrs["stroke-opacity"] === undefined
+      || number(text.attrs.opacity, text.index) !== 0 || number(text.attrs["stroke-opacity"], text.index) !== 0) return undefined;
+  const match = metadataRotation.exec(node.attrs.transform);
+  if (match === null) return undefined;
+  const args = match.slice(1).map(value => number(value, node.index));
+  return [-360, -270, -180, -90, 0, 90, 180, 270, 360].includes(args[0]!) ? text : undefined;
+}
+
 function collect(root: XmlNode, textOnly = false): { primitives: Primitive[]; groups: TextGroup[]; problems: SchematicInkUnsupported[] } {
   const primitives: Primitive[] = []; const groups: TextGroup[] = []; const problems: SchematicInkUnsupported[] = [];
+  const rotatedMetadata = new Map<number, XmlNode>();
   const textGroupIndices = new Map<number, number>();
   const inventory = (node: XmlNode): void => {
     if (node.name === "g" && node.attrs.class === "stroked-text") textGroupIndices.set(node.index, textGroupIndices.size);
@@ -223,8 +248,9 @@ function collect(root: XmlNode, textOnly = false): { primitives: Primitive[]; gr
       if (!Object.hasOwn(allowed, node.name)) unsupported("UNSUPPORTED_ELEMENT", node.index);
       if ((node.name === "title" || node.name === "desc") && node.children.length !== 0) unsupported("METADATA_CONTAINS_ELEMENTS", node.index);
       for (const key of Object.keys(node.attrs)) if (!baseAttributes.includes(key) && !allowed[node.name]!.includes(key) && !(node.name === "svg" && /^xmlns(?::[\w-]+)?$/u.test(key))) unsupported("UNSUPPORTED_ATTRIBUTE", node.index);
+      const metadataText = rotatedNativeMetadataText(node);
       const transform = node.attrs.transform;
-      if (transform !== undefined) {
+      if (transform !== undefined && metadataText === undefined) {
         let cursor = 0; const pattern = /\s*(translate|scale|matrix)\s*\(([^)]*)\)\s*/gy;
         while (cursor < transform.length) {
           pattern.lastIndex = cursor; const operation = pattern.exec(transform);
@@ -241,12 +267,17 @@ function collect(root: XmlNode, textOnly = false): { primitives: Primitive[]; gr
         const box = node.attrs.viewBox?.trim().split(/[\s,]+/u).map((item) => number(item, node.index));
         if (!box || box.length !== 4 || box[0] !== 0 || box[1] !== 0 || box[2]! <= 0 || box[3]! <= 0 || !node.attrs.width?.endsWith("mm") || !node.attrs.height?.endsWith("mm") || number(node.attrs.width.slice(0, -2), node.index) !== box[2] || number(node.attrs.height.slice(0, -2), node.index) !== box[3]) unsupported("UNSUPPORTED_SVG_UNITS_OR_VIEWPORT", node.index);
       }
-      const style = styleFor(node, inherited); let group = owner;
+      const omittedNontextLeaf = textOnly && owner === null && ["path", "rect", "circle"].includes(node.name)
+        && node.children.length === 0 && !node.text.trim();
+      const style = styleFor(node, inherited, omittedNontextLeaf); let group = owner;
+      if (metadataText !== undefined) rotatedMetadata.set(node.index, metadataText);
       if (node.name === "g" && node.attrs.class !== undefined) {
         if (node.attrs.class !== "stroked-text" || owner !== null || groups.length >= SCHEMATIC_RENDER_CLEARANCE_POLICY.maxTextGroups) unsupported("UNSUPPORTED_TEXT_GROUP", node.index);
         const descriptions = node.children.filter((child) => child.name === "desc");
-        if (descriptions.length !== 1 || previous?.name !== "text" || previous.text !== descriptions[0]!.text || !previous.text.trim() || previous.children.length) unsupported("UNPAIRED_NATIVE_TEXT_GROUP", node.index);
-        group = { index: textGroupIndices.get(node.index)!, elementIndex: node.index, text: previous.text }; groups.push(group);
+        const precedingText = previous?.name === "text" ? previous : previous === undefined ? undefined : rotatedMetadata.get(previous.index);
+        if (descriptions.length !== 1 || precedingText === undefined || precedingText.text !== descriptions[0]!.text
+            || !precedingText.text.trim() || precedingText.children.length) unsupported("UNPAIRED_NATIVE_TEXT_GROUP", node.index);
+        group = { index: textGroupIndices.get(node.index)!, elementIndex: node.index, text: precedingText.text }; groups.push(group);
       }
       if (node.name === "text") {
         if (style.opacity !== 0) unsupported("VISIBLE_FONT_TEXT_UNSUPPORTED", node.index);
@@ -280,7 +311,13 @@ function collect(root: XmlNode, textOnly = false): { primitives: Primitive[]; gr
       }
       for (let i = 0; i < node.children.length; i++) visit(node.children[i]!, style, group, node.children[i - 1]);
       if (node.name === "g" && group !== owner && !primitives.some((entry) => entry.object.textGroupIndex === group!.index)) unsupported("EMPTY_NATIVE_TEXT_GROUP", node.index);
-      for (let i = 0; i < node.children.length; i++) if (node.children[i]!.name === "text" && node.children[i + 1]?.attrs.class !== "stroked-text") problems.push({ code: "NATIVE_TEXT_WITHOUT_GLYPH_GROUP", elementIndex: node.children[i]!.index });
+      for (let i = 0; i < node.children.length; i++) {
+        const child = node.children[i]!;
+        if (child === metadataText) continue; // Its required paired ink is the wrapper's next sibling.
+        if ((child.name === "text" || rotatedMetadata.has(child.index)) && node.children[i + 1]?.attrs.class !== "stroked-text") {
+          problems.push({ code: "NATIVE_TEXT_WITHOUT_GLYPH_GROUP", elementIndex: child.index });
+        }
+      }
     } catch (error) { issue(error, node.index); }
   };
   visit(root, DEFAULT_STYLE, null, undefined);

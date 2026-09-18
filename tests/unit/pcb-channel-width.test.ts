@@ -47,11 +47,27 @@ describe("explicit channel track width authorization", () => {
     expect(routeSourceMmToNativeNm(0.199999)).not.toBe(expected);
     expect(() => routeSourceMmToNativeNm(0.2000001)).toThrow(/exact integer/);
   });
-  it("parses optional width while retaining strict fields and the 0.2mm native floor", () => {
+  it("parses the existing contract width range while channel authorization keeps its 0.2mm floor", () => {
     const args = { selectionIdentity: canonicalIdentity({}, "evleda.fresh-plane-route-selection.v1"), net: "DP", deleteItemIds: [],
       tracks: [{ x1Mm: 1, y1Mm: 1, x2Mm: 2, y2Mm: 1, layer: "F.Cu", widthMm: 0.2 }], vias: [] };
     expect(parsePlaneRouteMutationArguments(args).tracks[0]!.widthMm).toBe(0.2);
-    expect(() => parsePlaneRouteMutationArguments({ ...args, tracks: [{ ...args.tracks[0], widthMm: 0.199999 }] })).toThrow();
+    expect(parsePlaneRouteMutationArguments({ ...args, tracks: [{ ...args.tracks[0], widthMm: 0.199999 }] }).tracks[0]!.widthMm).toBe(0.199999);
+    expect(() => materializeChannelTrackWidth(usbChannelBundle().contract, "DP", 0.5, 0.199999)).toThrow(/interval/u);
+    expect(() => parsePlaneRouteMutationArguments({ ...args, tracks: [{ ...args.tracks[0], widthMm: 0.049999 }] })).toThrow();
     expect(() => parsePlaneRouteMutationArguments({ ...args, tracks: [{ ...args.tracks[0], terminalException: "U1:52" }] })).toThrow();
+  });
+  it("materializes an explicit ordinary .15mm class without lowering its class rule or any USB interval", () => {
+    const draft = usbChannelDraft();
+    draft.netClasses.find((value: { id: string }) => value.id === "POWER").traceWidthMm = 0.15;
+    const contract = usbChannelBundle(draft).contract;
+    const args = { selectionIdentity: canonicalIdentity({}, "evleda.fresh-plane-route-selection.v1"), net: "VBUS", deleteItemIds: [],
+      tracks: [{ x1Mm: 1, y1Mm: 1, x2Mm: 2, y2Mm: 1, layer: "F.Cu", widthMm: 0.15 }], vias: [] };
+    for (const widthMm of [0.15, 0.20]) {
+      const parsed = parsePlaneRouteMutationArguments({ ...args, tracks: [{ ...args.tracks[0], widthMm }] });
+      expect(materializeChannelTrackWidth(contract, parsed.net, 0.15, parsed.tracks[0]!.widthMm)).toBe(widthMm * 1e6);
+    }
+    expect(materializeChannelTrackWidth(contract, "VBUS", 0.15)).toBe(150_000);
+    expect(() => materializeChannelTrackWidth(contract, "VBUS", 0.15, 0.149999)).toThrow(/class floor/u);
+    expect(() => materializeChannelTrackWidth(contract, "DP", 0.5, 0.15)).toThrow(/interval/u);
   });
 });

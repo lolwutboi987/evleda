@@ -2471,7 +2471,7 @@
           "minimumEdgeTimeNs": null
         }
       },
-      "netClassId": "POWER"
+      "netClassId": "POWER_FINE"
     },
     {
       "name": "3V3",
@@ -2612,7 +2612,7 @@
           "minimumEdgeTimeNs": null
         }
       },
-      "netClassId": "POWER"
+      "netClassId": "POWER_FINE"
     },
     {
       "name": "3V3_EN",
@@ -5088,6 +5088,16 @@
     {
       "id": "POWER",
       "traceWidthMm": 0.3,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.25,
+      "allowedLayers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "id": "POWER_FINE",
+      "traceWidthMm": 0.2,
       "clearanceMm": 0.15,
       "copperToEdgeMm": 0.25,
       "allowedLayers": [

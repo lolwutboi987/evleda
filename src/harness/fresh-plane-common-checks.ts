@@ -12,6 +12,8 @@ import type { FreshContractPadPosition, FreshRouteSelectionItem } from "./kicad-
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 import { channelForNet, channelTrackWidthAllowed } from "./pcb-channel-width.js";
+import { isPcbChannelFeedThroughOutputFork } from "./pcb-channel-feed-through.js";
+import { validatedNativePadPositionMm } from "./fresh-route-native-units.js";
 
 export const FRESH_PLANE_COMMON_CHECKS_SCHEMA_VERSION = "evleda.fresh-plane-common-checks.v1" as const;
 export const FRESH_PLANE_COMMON_CHECKS_LIMITS = Object.freeze({ maximumPcbBytes: 2 * 1024 * 1024, maximumSegments: 256,
@@ -198,7 +200,7 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
     const positions: FreshContractPadPosition[] = board.footprints.flatMap(fp => fp.pads.flatMap(pad => {
       const observed = native.physicalPads.find(value => value.uuid === pad.physical.id)!;
       if (observed.role !== "numbered-copper" || observed.issues.length || observed.observedUsableCopperLayers === null || pad.physical.sizeMm === null || fp.id === null || pad.physical.id === null || pad.physical.padType === null || pad.physical.shape === null) return [];
-      return [{ reference: fp.reference, pad: pad.number, net: pad.netName, xMm: pad.at.x, yMm: pad.at.y,
+      return [{ reference: fp.reference, pad: pad.number, net: pad.netName, ...validatedNativePadPositionMm(observed.rawNative),
         layers: observed.observedUsableCopperLayers.map(layer => layer.replace(/^BL_/u, "").replaceAll("_", ".")),
         physical: { id: pad.physical.id, footprintId: fp.id, padType: pad.physical.padType, shape: pad.physical.shape, sizeMm: pad.physical.sizeMm, drill: pad.physical.drill } }];
     }));
@@ -228,6 +230,7 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
         }
         const directions = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
         for (const turn of analysis.extracted.turns.filter(turn => turn.netName === route.net)) {
+          if (isPcbChannelFeedThroughOutputFork(bundle.contract, route.net, { xMm: turn.vertex.x, yMm: turn.vertex.y }, turn.layer, positions)) continue;
           const pivot = [exactNm(turn.vertex.x), exactNm(turn.vertex.y)];
           const legs = turn.segmentOrdinals.map(ordinal => {
             const segment = analysis!.extracted.segments.find(segment => segment.ordinal === ordinal)!;

@@ -34,6 +34,17 @@ export interface DifferentialChannelGeometryAssessment {
   readonly escapes: readonly Readonly<{ net: string; edgeId: string; widthNm: number; qualifyingTerminals: readonly DifferentialPairTerminal[];
     status: DifferentialPairGeometryCheck["status"] }>[];
   readonly inventoryComplete: boolean;
+  readonly feedThrough?: Readonly<{
+    readonly inputSection: DifferentialPairGeometryAssessment;
+    readonly downstreamPaths: readonly Readonly<{ receiver: Pair["endpoints"]["receiver"]; positiveEtchLength: Length | null; negativeEtchLength: Length | null;
+      etchSkew: Length | null; positiveUncoupledLength: Length | null; negativeUncoupledLength: Length | null }>[];
+    readonly downstreamBudgets: Readonly<{ length: DifferentialPairGeometryCheck; skew: DifferentialPairGeometryCheck; uncoupled: DifferentialPairGeometryCheck }>;
+    readonly componentTransfers: readonly Readonly<{ componentReference: string; polarity: "positive" | "negative";
+      input: { selector: DifferentialPairTerminal; net: string }; output: { selector: DifferentialPairTerminal; net: string };
+      source: NonNullable<NonNullable<Pair["channel"]>["feedThrough"]>["source"]; pinMapping: DifferentialPairGeometryCheck;
+      authority: "caller_asserted_component_transfer"; pcbEtchContribution: "excluded_component_path";
+      electricalDelay: "not_assessed"; electricalSkew: "not_assessed"; physicalInternalPath: "not_verified" }>[];
+  }>;
   readonly accepted: false;
 }
 
@@ -55,32 +66,42 @@ export function assessDifferentialChannelGeometry(pair: Pair, selected: Selected
   const roles = (points: Pair["endpoints"]["source"]) => ({ positive: selector(points.positive), negative: selector(points.negative) });
   const resistor = (field: "sourcePin" | "linePin") => ({ positive: { reference: series.positive.componentReference, pad: series.positive[field] }, negative: { reference: series.negative.componentReference, pad: series.negative[field] } });
   const receivers = [pair.endpoints.receiver, ...c.additionalReceivers];
+  const transfer = c.feedThrough;
+  const transferRoles = (field: "inputPin" | "outputPin") => ({ positive: { reference: transfer!.componentReference, pad: transfer!.positive[field] },
+    negative: { reference: transfer!.componentReference, pad: transfer!.negative[field] } });
   const protection = c.protection.flatMap(p => [...p.positivePins, ...p.negativePins].map(pin => ({ reference: p.componentReference, pad: pin })));
-  const lineAnchors = [...receivers.flatMap(r => [selector(r.positive), selector(r.negative)]), ...protection];
-  const evaluate = (nets: Pair["nets"], source: ReturnType<typeof roles>, receiver: ReturnType<typeof roles>, anchors: DifferentialPairTerminal[], launch: boolean) => {
+  const lineAnchors = [...receivers.flatMap(r => [selector(r.positive), selector(r.negative)]),
+    ...(transfer === undefined ? protection : Object.values(transferRoles("outputPin")))];
+  const evaluate = (nets: Pair["nets"], source: ReturnType<typeof roles>, receiver: ReturnType<typeof roles>, anchors: DifferentialPairTerminal[], launch: boolean, input = false) => {
     const g = assessDifferentialPairGeometry({ ...selected, positiveNet: nets.positive, negativeNet: nets.negative, source, receiver, receiverMapping: "preserved", terminationAnchors: anchors,
       limits: { minimumWidthNm: 200_000, maximumWidthNm: nm(pair.geometry.traceWidthMm.maximumMm), minimumGapNm: nm(pair.geometry.edgeGapMm.minimumMm),
         maximumCoupledGapNm: nm(pair.geometry.edgeGapMm.maximumMm), maximumMainLengthNm: nm(launch ? c.maximumLaunchEtchLengthMm : pair.geometry.maxEtchLengthMm),
         // Launch skew has no separate caller budget. Its length cap implies
         // this bound; only the line pair and full channel impose skew limits.
-        maximumSkewNm: nm(launch ? c.maximumLaunchEtchLengthMm : pair.geometry.maxEtchSkewMm), maximumStubLengthNm: nm(launch ? 0 : c.maximumBranchEtchLengthMm),
+        maximumSkewNm: nm(launch ? c.maximumLaunchEtchLengthMm : transfer === undefined ? pair.geometry.maxEtchSkewMm : pair.geometry.maxEtchLengthMm), maximumStubLengthNm: nm(launch || input ? 0 : c.maximumBranchEtchLengthMm),
         maximumUncoupledLengthNm: nm(pair.geometry.maxUncoupledLengthMm), transitions: "forbidden", allowedLayers: pair.routing.allowedLayers } });
     return projectionComplete ? g : incompleteDifferentialGeometry(g);
   };
   const launch = evaluate(c.launchNets, roles(pair.endpoints.source), resistor("sourcePin"), [], true);
+  const inputSection = transfer === undefined ? undefined : evaluate(transfer.inputNets, resistor("linePin"), transferRoles("inputPin"), [], false, true);
   const receiverPaths = receivers.map(receiver => {
-    const geometry = evaluate(pair.nets, resistor("linePin"), roles(receiver), lineAnchors, false);
-    const complete = launch.checks.topology.status === "pass" && geometry.checks.topology.status === "pass";
-    const positiveEtchLength = complete ? add(launch.routes.positive.mainLength!, geometry.routes.positive.mainLength!) : null;
-    const negativeEtchLength = complete ? add(launch.routes.negative.mainLength!, geometry.routes.negative.mainLength!) : null;
+    const geometry = evaluate(pair.nets, transfer === undefined ? resistor("linePin") : transferRoles("outputPin"), roles(receiver), lineAnchors, false);
+    const sections = [launch, ...(inputSection === undefined ? [] : [inputSection]), geometry];
+    const complete = sections.every(section => section.checks.topology.status === "pass");
+    const positiveEtchLength = complete ? sections.reduce((sum, section) => add(sum, section.routes.positive.mainLength!), zero()) : null;
+    const negativeEtchLength = complete ? sections.reduce((sum, section) => add(sum, section.routes.negative.mainLength!), zero()) : null;
     return { receiver, geometry, positiveEtchLength, negativeEtchLength, etchSkew: complete ? absolute(subtract(positiveEtchLength!, negativeEtchLength!)) : null };
   });
-  const views = [launch, ...receiverPaths.map(p => p.geometry)], routes = [launch.routes.positive, launch.routes.negative, receiverPaths[0]!.geometry.routes.positive, receiverPaths[0]!.geometry.routes.negative];
-  const copperEtchLength = { positive: routes[0]!.status === "complete_source_tree" && routes[2]!.status === "complete_source_tree" ? add(routes[0]!.totalEtchLength!, routes[2]!.totalEtchLength!) : null,
-    negative: routes[1]!.status === "complete_source_tree" && routes[3]!.status === "complete_source_tree" ? add(routes[1]!.totalEtchLength!, routes[3]!.totalEtchLength!) : null };
-  const declared = [...launch.sourceRoles, ...receiverPaths[0]!.geometry.sourceRoles].map(role => ({ selector: role.selector, net: role.expectedNet }))
+  const views = [launch, ...(inputSection === undefined ? [] : [inputSection]), ...receiverPaths.map(p => p.geometry)];
+  const uniqueSections = [launch, ...(inputSection === undefined ? [] : [inputSection]), receiverPaths[0]!.geometry];
+  const routes = uniqueSections.flatMap(section => [section.routes.positive, section.routes.negative]);
+  const total = (polarity: "positive" | "negative") => uniqueSections.every(section => section.routes[polarity].status === "complete_source_tree")
+    ? uniqueSections.reduce((sum, section) => add(sum, section.routes[polarity].totalEtchLength!), zero()) : null;
+  const copperEtchLength = { positive: total("positive"), negative: total("negative") };
+  const declared = uniqueSections.flatMap(section => section.sourceRoles).map(role => ({ selector: role.selector, net: role.expectedNet }))
     .concat(receivers.flatMap(receiver => (["positive", "negative"] as const).map(p => ({ selector: selector(receiver[p]), net: pair.nets[p] }))),
-      c.protection.flatMap(protection => (["positive", "negative"] as const).flatMap(p => protection[p === "positive" ? "positivePins" : "negativePins"].map(pin => ({ selector: { reference: protection.componentReference, pad: pin }, net: pair.nets[p] })))));
+      c.protection.flatMap(protection => (["positive", "negative"] as const).flatMap(p => protection[p === "positive" ? "positivePins" : "negativePins"].map(pin => ({ selector: { reference: protection.componentReference, pad: pin },
+        net: transfer !== undefined && pin === transfer[p].inputPin ? transfer.inputNets[p] : pair.nets[p] })))));
   const anchors = [...new Map(declared.map(a => [`${a.net}:${key(a.selector)}`, a])).values()].map(anchor => {
     const pads = selected.pads.filter(p => key(p) === key(anchor.selector)), route = routes.find(r => r.net === anchor.net);
     const nodes = route?.nodes?.filter(n => n.padUuids.some(uuid => pads.some(p => p.uuid === uuid))) ?? [];
@@ -123,9 +144,9 @@ export function assessDifferentialChannelGeometry(pair: Pair, selected: Selected
       return degree === 2 || authorized.has(node.id); });
     return check(valid ? "pass" : "fail", "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS");
   });
-  const gaps = assessDifferentialTrackGaps(selected.tracks.filter(t => [c.launchNets.positive, pair.nets.positive].includes(t.net)),
-    selected.tracks.filter(t => [c.launchNets.negative, pair.nets.negative].includes(t.net)), nm(pair.geometry.edgeGapMm.minimumMm));
-  const gapCheck = check(gaps.some(g => g.minimumGap === "fail") ? "fail" : projectionComplete && gaps.length && gaps.every(g => g.minimumGap === "pass") ? "pass" : "not_assessed", "ALL_FOUR_NET_OPPOSITE_POLARITY_CAPSULES");
+  const gaps = assessDifferentialTrackGaps(selected.tracks.filter(t => [c.launchNets.positive, pair.nets.positive, ...(transfer ? [transfer.inputNets.positive] : [])].includes(t.net)),
+    selected.tracks.filter(t => [c.launchNets.negative, pair.nets.negative, ...(transfer ? [transfer.inputNets.negative] : [])].includes(t.net)), nm(pair.geometry.edgeGapMm.minimumMm));
+  const gapCheck = check(gaps.some(g => g.minimumGap === "fail") ? "fail" : projectionComplete && gaps.length && gaps.every(g => g.minimumGap === "pass") ? "pass" : "not_assessed", transfer ? "ALL_SIX_NET_OPPOSITE_POLARITY_CAPSULES" : "ALL_FOUR_NET_OPPOSITE_POLARITY_CAPSULES");
   const checks = Object.fromEntries(Object.keys(launch.checks).map(name => [name, all(views.map(v => v.checks[name as keyof typeof v.checks]))])) as unknown as DifferentialPairGeometryAssessment["checks"];
   const budgets = { totalCopperLength: all(Object.values(copperEtchLength).map(v => check(v === null ? "not_assessed" : compareDifferentialPairLengths(v, limit(c.maxTotalCopperLengthMm)) <= 0 ? "pass" : "fail", "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES"))),
     pathLength: all(receiverPaths.map(p => check(p.positiveEtchLength === null ? "not_assessed" : [p.positiveEtchLength, p.negativeEtchLength!].every(v => compareDifferentialPairLengths(v, limit(c.maxEtchLengthMm)) <= 0) ? "pass" : "fail", "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH"))),
@@ -133,11 +154,38 @@ export function assessDifferentialChannelGeometry(pair: Pair, selected: Selected
   const aggregate = { ...checks, width: all(widthChecks), minimumGap: gapCheck,
     topology: all([checks.topology, ...boundedTrees, ...anchors.map(a => check(a.status, "EVERY_DECLARED_ANCHOR_REACHED"))]),
     length: all([checks.length, budgets.pathLength, budgets.totalCopperLength]), skew: all([checks.skew, budgets.pathSkew]) };
+  let feedThrough: DifferentialChannelGeometryAssessment["feedThrough"];
+  if (transfer !== undefined && inputSection !== undefined) {
+    const downstreamPaths = receiverPaths.map(path => {
+      const complete = [inputSection, path.geometry].every(section => section.checks.topology.status === "pass");
+      const positiveEtchLength = complete ? add(inputSection.routes.positive.mainLength!, path.geometry.routes.positive.mainLength!) : null;
+      const negativeEtchLength = complete ? add(inputSection.routes.negative.mainLength!, path.geometry.routes.negative.mainLength!) : null;
+      const coupled = inputSection.coupling?.status === "complete" && path.geometry.coupling?.status === "complete";
+      return { receiver: path.receiver, positiveEtchLength, negativeEtchLength, etchSkew: complete ? absolute(subtract(positiveEtchLength!, negativeEtchLength!)) : null,
+        positiveUncoupledLength: coupled ? add(inputSection.coupling!.positiveUncoupledLength, path.geometry.coupling!.positiveUncoupledLength) : null,
+        negativeUncoupledLength: coupled ? add(inputSection.coupling!.negativeUncoupledLength, path.geometry.coupling!.negativeUncoupledLength) : null };
+    });
+    const bounded = (values: readonly (Length | null)[], maximum: number, reason: string) => all(values.map(value => check(value === null ? "not_assessed"
+      : compareDifferentialPairLengths(value, limit(maximum)) <= 0 ? "pass" : "fail", reason)));
+    const downstreamBudgets = {
+      length: bounded(downstreamPaths.flatMap(path => [path.positiveEtchLength, path.negativeEtchLength]), pair.geometry.maxEtchLengthMm, "COMBINED_INPUT_AND_OUTPUT_PCB_ETCH_BUDGET"),
+      skew: bounded(downstreamPaths.map(path => path.etchSkew), pair.geometry.maxEtchSkewMm, "COMBINED_INPUT_AND_OUTPUT_PCB_SKEW_BUDGET"),
+      uncoupled: bounded(downstreamPaths.flatMap(path => [path.positiveUncoupledLength, path.negativeUncoupledLength]), pair.geometry.maxUncoupledLengthMm, "COMBINED_INPUT_AND_OUTPUT_UNCOUPLED_PCB_BUDGET"),
+    };
+    aggregate.length = all([aggregate.length, downstreamBudgets.length]); aggregate.skew = all([aggregate.skew, downstreamBudgets.skew]); aggregate.uncoupled = all([aggregate.uncoupled, downstreamBudgets.uncoupled]);
+    feedThrough = { inputSection, downstreamPaths, downstreamBudgets, componentTransfers: (["positive", "negative"] as const).map(polarity => {
+      const input = { selector: transferRoles("inputPin")[polarity], net: transfer.inputNets[polarity] }, output = { selector: transferRoles("outputPin")[polarity], net: pair.nets[polarity] };
+      return { componentReference: transfer.componentReference, polarity, input, output, source: transfer.source,
+        pinMapping: all([input, output].map(point => check(anchors.find(anchor => key(anchor.selector) === key(point.selector) && anchor.net === point.net)?.status ?? "not_assessed", "EXACT_DECLARED_TRANSFER_PAD_MAPPING"))),
+        authority: "caller_asserted_component_transfer", pcbEtchContribution: "excluded_component_path", electricalDelay: "not_assessed", electricalSkew: "not_assessed", physicalInternalPath: "not_verified" };
+    }) };
+  }
   const signalNets = routes.map(route => route.net);
   if (projectionComplete && selected.pads.some(pad => signalNets.includes(pad.net) && !declared.some(a => key(a.selector) === key(pad) && a.net === pad.net)))
     aggregate.topology = check("fail", "UNDECLARED_SOURCE_SIGNAL_PAD");
   const layers = new Set(selected.tracks.map(t => t.layer));
-  if (layers.size > 1) aggregate.transitions = check("fail", "ALL_FOUR_NETS_REQUIRE_ONE_SIGNAL_LAYER");
+  if (layers.size > 1) aggregate.transitions = check("fail", transfer ? "ALL_SIX_NETS_REQUIRE_ONE_SIGNAL_LAYER" : "ALL_FOUR_NETS_REQUIRE_ONE_SIGNAL_LAYER");
   return { kind: "source_series", launch, receiverPaths, allTrackPairGaps: gaps, copperEtchLength, budgets, checks: aggregate, anchors, escapes,
+    ...(feedThrough === undefined ? {} : { feedThrough }),
     inventoryComplete: projectionComplete && views.every(v => v.inventoryComplete), accepted: false };
 }

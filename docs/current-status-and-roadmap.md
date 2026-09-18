@@ -10,6 +10,12 @@ the unfinished MCP project, whose PCB has no components or copper yet.
 [Candidate status](../designs/rp2350-pico/candidate-readiness.md) separates
 these results from the older connector fixtures below. Via-clearance DRC has
 [targeted native qualification](via-clearance-qualification.md).
+Subsequent joint routing found a QSPI escape obstruction and corrected the USBLC6
+model to retain six native signal nets across its manufacturer-described internal
+transfers. The earlier four-net 38-segment USB native diagnostic remains preserved;
+it has zero USB unconnected items but is superseded as the final circuit model.
+Placement and power/return routing are being revised together before allocating
+another full native candidate. The complete RP2350 board remains unfinished.
 DOC9 passes native USB-C field placement; attempt05 now passes import, complete
 physical PAD observation and preserving movement. Its checkpoint failed on a
 stock footprint drawing layer; the reader fix passes offline, while the failed

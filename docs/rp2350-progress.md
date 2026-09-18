@@ -17,6 +17,14 @@ support repeated schematic labels, precise graphic/glyph obstacles and atomic
 PCB field presentation edits. Their scoped software and isolated native results
 do not establish a completed public-tool RP2350 workflow.
 
+Joint route planning now supersedes that placement-only milestone. The
+[USBLC6 model correction](research/rp2350-pico/usb-feedthrough-model.md) retains
+all six device pins on six signal nets, producing 67 board nets. It compiles with
+the approved package, and its proposed USB copper reaches all 14 signal anchors.
+Power-pin escape widths and flash/decoupling placement are being revised together;
+the candidate06 submission created no native project. The [candidate status](../designs/rp2350-pico/candidate-readiness.md)
+distinguishes the new source proposal from the preserved candidate05 MCP project.
+
 The following unresolved-draft and connector records are historical inputs.
 The [circuit inventory](../designs/rp2350-pico/circuit-inputs.md) and
 [unresolved V2 draft](../designs/rp2350-pico/design-draft-notes.md) preserve 62

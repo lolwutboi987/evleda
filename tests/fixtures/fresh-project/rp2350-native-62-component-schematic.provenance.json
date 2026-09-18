@@ -1,0 +1,22 @@
+{
+  "classification": "Genuine KiCad 10.0.3 native SVG of an isolated 62-component diagnostic schematic; not a manufacturing or electrical acceptance artifact.",
+  "sourceEvidenceDirectory": "destination-verification/rp2350-schematic-native-preflight-02",
+  "nativeExportRelativePath": "native-capture-01/schematic-render-clearance/a94cbf61-e6a2-47e2-a3cc-7bb799022c6f/rp2350-schematic-diagnostic.svg",
+  "uncompressedIdentity": {
+    "algorithm": "sha256",
+    "digest": "1a33efe129206d83926c7c73df2c45d156ef565b7c9750d06de560283cb90b24",
+    "size": 1181482
+  },
+  "inventory": {
+    "elements": 21080,
+    "maximumDepth": 4,
+    "paths": 19105,
+    "textGroups": 554,
+    "glyphPaths": 18630,
+    "glyphLineSegments": 18630,
+    "nonGlyphArcPaths": 16,
+    "rotatedInvisibleTextWrappers": 111,
+    "nonGlyphEvenOddFilledPaths": 2
+  },
+  "fixtureEncoding": "gzip of exact original UTF-8 bytes, preserving CRLF line endings"
+}

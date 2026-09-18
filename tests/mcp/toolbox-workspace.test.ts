@@ -171,6 +171,10 @@ describe("in-chat workspace controller over actual MCP", () => {
       expect(planeSchema.guide).toContain("exactly one stock Device:D_Schottky");
       const channelSchema = body(await f.call("evleda_design_schema", { family: "plane-v2", includeChannel: true }));
       expect(Buffer.byteLength(channelSchema.guide, "utf8")).toBeLessThanOrEqual(channelSchema.guideMaxUtf8Bytes);
+      const transferSchema = body(await f.call("evleda_design_schema", { family: "plane-v2", includeFeedThrough: true }));
+      expect(transferSchema.guide).toContain("channel.feedThrough");
+      expect(transferSchema.guide).toContain("six distinct native copper nets");
+      expect(Buffer.byteLength(transferSchema.guide, "utf8")).toBeLessThanOrEqual(transferSchema.guideMaxUtf8Bytes);
       expect(planeSchema.example).not.toHaveProperty("externalPowerInputs");
       expect(planeSchema.example).not.toHaveProperty("derivedPowerSources");
       expect(planeSchema.example).not.toHaveProperty("interfaceRequirements");

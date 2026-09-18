@@ -1,4 +1,25 @@
-# Candidate 05: route-aware placement and mounting correction
+# RP2350 candidate progress
+
+The board is unfinished. The only project authored through public MCP still
+contains U1 and J2 in its schematic and no PCB components or copper. It is closed
+normally with its checkpoint preserved.
+
+The checked-in [ready draft](design-ready-draft.json) is candidate06: 62 parts,
+65 nets, four bores and the POWER_FINE class revision for 1V1/3V3. It was submitted
+successfully, but no native project was allocated from it. Joint routing then
+found additional problems that require a new candidate: crowded QSPI escapes,
+power-pin trace overlap, and unnecessary external USBLC6 channel links.
+
+The [USB feed-through revision](usb-feedthrough-revision.json) preserves every
+physical pin on 67 total nets. A current-source compile with the approved v4
+package passes, and a separate 41-track USB source-plan replay reaches all 14
+signal anchors within the length/skew and escape-width budgets. One output-path
+coupled-gap result remains unassessed. The [joint north plan](north-routing-revision.json)
+and [QSPI plan](qspi-clock-route-plan.md) remain proposals; complete bus/power
+coexistence and native realization are still in progress. Earlier native DRC
+and placement passes retain their exact historical inputs.
+
+## Candidate 05: retained placement and mounting evidence
 
 The latest isolated whole-placement native DRC screen has zero targeted physical
 placement errors with all 65 exact net classes and unchanged rules verified.
@@ -24,12 +45,12 @@ The original candidate 03 and its failure evidence remain preserved. It compiled
 opened and closed in native KiCad, but no symbols or copper were authored in it.
 Compilation readiness does not establish routing or board acceptance.
 
-The [ready V2 draft](design-ready-draft.json) compiles without unresolved inputs:
+Candidate05 compiled without unresolved inputs:
 62 electrical components, 65 nets, 262 logical pins and four separate board-only
 NPTH mounting features. The earlier [unresolved scaffold](design-draft.json)
 remains historical input. Neither file is a placed or routed board.
 
-The current source-compiled candidate has bundle identity
+Candidate05 has bundle identity
 `b5e884ed1e2348ee042eb3a0334a446170cf00baeda4b745c75866128cb77cae`.
 It was compiled using the checked immutable `integration-doc9-build-05` source
 snapshot while schematic planner work continued in the active checkout.

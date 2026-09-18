@@ -221,6 +221,19 @@ function project(value: SavedInterfaceAssessment) {
           negative: { reference: text(item.receiver.negative.reference), pin: pinText(item.receiver.negative.pin) } }, geometry: geometry(item.geometry),
         positiveEtchLength: item.positiveEtchLength === null ? null : length(item.positiveEtchLength), negativeEtchLength: item.negativeEtchLength === null ? null : length(item.negativeEtchLength),
         etchSkew: item.etchSkew === null ? null : length(item.etchSkew) })),
+      ...(value.channel.feedThrough === undefined ? {} : { feedThrough: {
+        inputSection: geometry(value.channel.feedThrough.inputSection),
+        downstreamPaths: value.channel.feedThrough.downstreamPaths.map(item => ({
+          receiver: { positive: { reference: text(item.receiver.positive.reference), pin: pinText(item.receiver.positive.pin) }, negative: { reference: text(item.receiver.negative.reference), pin: pinText(item.receiver.negative.pin) } },
+          positiveEtchLength: item.positiveEtchLength === null ? null : length(item.positiveEtchLength), negativeEtchLength: item.negativeEtchLength === null ? null : length(item.negativeEtchLength),
+          etchSkew: item.etchSkew === null ? null : length(item.etchSkew), positiveUncoupledLength: item.positiveUncoupledLength === null ? null : length(item.positiveUncoupledLength),
+          negativeUncoupledLength: item.negativeUncoupledLength === null ? null : length(item.negativeUncoupledLength) })),
+        downstreamBudgets: { length: check(value.channel.feedThrough.downstreamBudgets.length), skew: check(value.channel.feedThrough.downstreamBudgets.skew), uncoupled: check(value.channel.feedThrough.downstreamBudgets.uncoupled) },
+        componentTransfers: value.channel.feedThrough.componentTransfers.map(item => ({ componentReference: text(item.componentReference), polarity: tag(item.polarity, "positive", "negative"),
+          input: { selector: terminal(item.input.selector), net: text(item.input.net) }, output: { selector: terminal(item.output.selector), net: text(item.output.net) },
+          source: { kind: tag(item.source.kind, "caller_assertion"), reference: text(item.source.reference), description: text(item.source.description) }, pinMapping: check(item.pinMapping),
+          authority: tag(item.authority, "caller_asserted_component_transfer"), pcbEtchContribution: tag(item.pcbEtchContribution, "excluded_component_path"),
+          electricalDelay: tag(item.electricalDelay, "not_assessed"), electricalSkew: tag(item.electricalSkew, "not_assessed"), physicalInternalPath: tag(item.physicalInternalPath, "not_verified") })) } }),
       allTrackPairGaps: value.channel.allTrackPairGaps === null ? null : value.channel.allTrackPairGaps.map(item => ({ positiveUuid: text(item.positiveUuid), negativeUuid: text(item.negativeUuid),
         layerRelationship: tag(item.layerRelationship, "same_layer", "different_layer_not_assessed"), centerlineSquaredNm2: item.centerlineSquaredNm2 === null ? null : squared(item.centerlineSquaredNm2),
         radiusSumTwiceNm: integerText(item.radiusSumTwiceNm), minimumGap: tag(item.minimumGap, "pass", "fail", "not_assessed") })),
@@ -286,7 +299,8 @@ function snapshot(assessment: SavedInterfaceAssessment) {
       || canonicalJson(identity) !== canonicalJson(canonicalIdentity(payload, captured.schemaVersion))
       || captured.boardAccepted !== false || captured.interfaceAccepted !== false || captured.fabricationAuthorized !== false
       || (captured.geometry !== null && captured.geometry.accepted !== false)
-      || captured.channel !== undefined && (captured.channel.accepted !== false || captured.channel.launch.accepted !== false || captured.channel.receiverPaths.some(p => p.geometry.accepted !== false))) throw new Error(ERROR);
+      || captured.channel !== undefined && (captured.channel.accepted !== false || captured.channel.launch.accepted !== false || captured.channel.receiverPaths.some(p => p.geometry.accepted !== false)
+        || captured.channel.feedThrough !== undefined && captured.channel.feedThrough.inputSection.accepted !== false)) throw new Error(ERROR);
   return captured;
 }
 function completeReport(captured: SavedInterfaceAssessment) {

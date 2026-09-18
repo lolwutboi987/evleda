@@ -1,6 +1,6 @@
 # RP2350 placement and clearance verification
 
-The current placement study uses all 62 electrical parts and four board-only
+The retained placement study uses all 62 electrical parts and four board-only
 mounting bores. It is an isolated native KiCad engineering screen, separate from
 the project being authored through public MCP calls. No complete routed board is
 claimed.
@@ -34,17 +34,32 @@ unrouted connections. Six unconnected witness pairs select different coincident
 USB-pad UUIDs after native reload; both raw reports remain preserved. This
 qualifies helper serialization, not public-tool execution or completed routing.
 
-The [USB route proposal](../designs/rp2350-pico/usb-route-plan.md) contains 38
-segments connecting all 14 signal anchors with no vias. Its source-based geometry,
-45-degree turns, polarity, branches, width/gap, length and skew checks pass. Only
-0.525 mm is nominal coupled body; the remaining routing uses declared terminal
-escapes. Native routing/readback, fresh plane/reference checks and masked-channel
-impedance remain separate requirements.
+The historical four-net [USB route proposal](../designs/rp2350-pico/usb-route-plan.md)
+contains 38 segments connecting all 14 signal anchors with no vias. A subsequent
+isolated native diagnostic wrote those exact segments and verified every USB
+anchor: native DRC reports zero violations and 184 remaining unrouted connections,
+none on USB. It preserves all 66 footprints, 281 pads and the exact candidate06
+classes, including POWER_FINE. Only 0.525 mm is nominal coupled body; the remaining
+routing uses declared terminal escapes. Fresh plane/reference checks and
+masked-channel impedance remain unverified.
+
+Joint routing then exposed limitations that the placement-only pass could not
+establish. C14/C15 obstruct the complete QSPI bus, and the old USB protection
+model required unnecessary external links across the USBLC6's internal channels.
+The [manufacturer-backed model correction](research/rp2350-pico/usb-feedthrough-model.md)
+retains all physical pins on six native signal nets and opens local supply/ground
+access. The [power plan](../designs/rp2350-pico/power-route-plan.json) also screens
+all 263 connected physical anchors together: U1.39/48/50/53 need bounded 0.20 mm
+power escapes with the original clearances. The revised flash, decoupling and power
+placement remains a joint source-plan proposal until its complete routes and
+native readback are verified. Neither the earlier DRC pass nor the revised source
+proposal establishes a finished board.
 
 Local immutable evidence is retained under
 `destination-verification/rp2350-placement-native-screen-01`, including the failed
 original positions, corrected canonical-netclass reports, final source audit and
-`field-hide-only-01` qualification. The first scratch saves reset their net classes
+`field-hide-only-01` qualification and the later `usb38-candidate06-01` diagnostic.
+The first scratch saves reset their net classes
 to a stricter default; those preliminary reports were preserved and replaced by
 separate checks with every exact class restored and byte-guarded.
 

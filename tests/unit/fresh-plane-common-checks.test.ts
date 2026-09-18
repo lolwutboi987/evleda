@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterEach, beforeAll, describe, expect, it } from "vitest";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { assessFreshPlaneCommonChecks, isFreshPlaneCommonChecksAssessment } from "../../src/harness/fresh-plane-common-checks.js";
 import { prepareFreshPlaneConnectivity, assessFreshPlaneConnectivity } from "../../src/harness/fresh-plane-connectivity.js";
@@ -13,6 +13,9 @@ import { genericDividerLibraryResolver } from "../helpers/generic-divider-bundle
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { nativePadObservationFixture } from "../helpers/native-pad-observation-fixture.js";
 import { planeStageObservationFixture } from "../helpers/plane-stage-observation-fixture.js";
+import { usbFeedThroughDraft, usbFeedThroughFixture } from "../helpers/usb-feed-through-bundle.js";
+import { cleanupDerivedPowerFixtures } from "../helpers/derived-power-bundle.js";
+afterEach(cleanupDerivedPowerFixtures);
 
 // Offline native-shaped process-port fixtures; no CAD executable is launched and
 // none of the production evidence/authenticity predicates is mocked.
@@ -43,17 +46,17 @@ const lines = () => [line(1, "0 0", "30 0"), line(2, "30 0", "30 20"), line(3, "
 const track = (n = 10, a = "3 3", b = "8 3", width = "0.5", layer = "F.Cu") => `(segment (start ${a}) (end ${b}) (width ${width}) (layer "${layer}") (net "VIN") (uuid "${id(n)}"))`;
 const via = (options: { n?: number; at?: string; diameter?: string; drill?: string; net?: string; extra?: string } = {}) =>
   `(via ${options.extra ?? ""} (at ${options.at ?? "20 8"}) (size ${options.diameter ?? "0.6"}) (drill ${options.drill ?? "0.3"}) (layers "F.Cu" "B.Cu") (net "${options.net ?? "GND"}") (uuid "${id(options.n ?? 20)}"))`;
-interface FixtureOptions extends ConstraintOptions { outline?: string; tracks?: string; vias?: string; extraCopper?: string; platedPads?: boolean; footprintProperty?: string }
+interface FixtureOptions extends ConstraintOptions { outline?: string; tracks?: string; vias?: string; extraCopper?: string; platedPads?: boolean; footprintProperty?: string; compilationBundle?: typeof bundle; rotatedProtection?: boolean }
 async function fixture(options: FixtureOptions = {}) {
-  const compilationBundle = options.maximumTurnAngleDeg !== undefined || options.minimumStraightMm !== undefined || options.maximumVinLengthMm !== undefined
-    ? buildBundle(options) : options.forbidden ? forbiddenBundle : bundle;
+  const compilationBundle = options.compilationBundle ?? (options.maximumTurnAngleDeg !== undefined || options.minimumStraightMm !== undefined || options.maximumVinLengthMm !== undefined
+    ? buildBundle(options) : options.forbidden ? forbiddenBundle : bundle);
   const before = `(kicad_pcb (version 20260206) (generator "pcbnew") (generator_version "10.0") (general (thickness 1.6))
     (layers (0 "F.Cu" signal) (2 "B.Cu" signal) (25 "Edge.Cuts" user))
-    ${compilationBundle.contract.components.map((component, i) => `(footprint ${JSON.stringify(component.footprintLibId)} (uuid "${id(100 + i)}") (layer "F.Cu") (at ${3 + 5 * i} 3)
+    ${compilationBundle.contract.components.map((component, i) => `(footprint ${JSON.stringify(component.footprintLibId)} (uuid "${id(100 + i)}") (layer "F.Cu") (at ${options.rotatedProtection && component.reference === "D1" ? "9.6 12.15 90" : `${3 + 5 * i} 3`})
       (property "Reference" ${JSON.stringify(component.reference)}) (property "Value" ${JSON.stringify(component.value)})
       ${i === 0 ? options.footprintProperty ?? "" : ""}
       ${component.pins.map((pin, j) => `(pad ${JSON.stringify(pin.pin)} ${options.platedPads ? "thru_hole circle" : "smd rect"}
-        (uuid "${id(200 + i * 10 + j)}") (at 0 ${j * 2}) (size 1 1) ${options.platedPads ? "(drill 0.4) (layers \"F.Cu\" \"B.Cu\")" : "(layers \"F.Cu\")"}
+        (uuid "${id(200 + i * 10 + j)}") (at ${options.rotatedProtection && component.reference === "D1" && pin.pin === "6" ? "1.1375 -0.95" : `0 ${j * 2}`}) (size 1 1) ${options.platedPads ? "(drill 0.4) (layers \"F.Cu\" \"B.Cu\")" : "(layers \"F.Cu\")"}
         (net ${JSON.stringify(pin.assignment.kind === "net" ? pin.assignment.net : "")}))`).join("\n")})`).join("\n")}
     ${options.outline ?? rectangle()} ${options.tracks ?? track()} ${options.vias ?? ""} ${options.extraCopper ?? ""})\n`;
   const prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, operation: "create" });
@@ -77,6 +80,17 @@ async function fixture(options: FixtureOptions = {}) {
 const row = (value: ReturnType<typeof assessFreshPlaneCommonChecks>, name: string) => value.rows.find(row => row.id === name)!;
 
 describe("authenticated V2 common numerical source checks", () => {
+  it("assesses a qualified transfer-output fork independently from an adjacent forbidden serial turn", async () => {
+    const draft = usbFeedThroughDraft(); draft.interfaceRequirements.construction = { mode: "none" }; draft.interfaceRequirements.interfaces[0].impedance = { mode: "none" };
+    const compilationBundle = usbFeedThroughFixture(draft).bundle;
+    // Exact actual proposed U4 geometry exercises decimal cardinal-transform noise.
+    const fork = track(10, "8.65 11.0125", "8.65 9.95").replace('(net "VIN")', '(net "DP")') + track(11, "8.65 11.0125", "9 10.6625").replace('(net "VIN")', '(net "DP")');
+    const good = assessFreshPlaneCommonChecks(await fixture({ compilationBundle, tracks: fork, rotatedProtection: true }));
+    expect(good.sourceInventory.complete).toBe(true);
+    expect(row(good, "trace-geometry:DP").status, JSON.stringify(row(good, "trace-geometry:DP"))).toBe("pass");
+    const bad = assessFreshPlaneCommonChecks(await fixture({ compilationBundle, tracks: fork + track(12, "8.65 9.95", "9.65 9.95").replace('(net "VIN")', '(net "DP")'), rotatedProtection: true }));
+    expect(row(bad, "trace-geometry:DP").status).toBe("fail");
+  });
   it("passes complete rectangle, supported via and trace geometry as original V2 rows without claiming connectivity or electrical sizing", async () => {
     const input = await fixture({ vias: via() }), result = assessFreshPlaneCommonChecks(input);
     expect(result.sourceInventory.complete).toBe(true); expect(row(result, "board:outline").status).toBe("pass");

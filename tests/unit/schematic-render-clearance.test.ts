@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { gunzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import type { KicadSchematicSvgResult } from "../../src/integrations/kicad-cli.js";
@@ -26,6 +27,119 @@ const capture = (source = clear): KicadSchematicSvgResult => ({
 });
 
 describe("source-bound native schematic ink clearance", () => {
+  it("replays all 554 genuine RP2350 glyph groups without claiming unsupported body-ink coverage", async () => {
+    const bytes = gunzipSync(await readFile(new URL("../fixtures/fresh-project/rp2350-native-62-component-schematic.svg.gz", import.meta.url)));
+    expect(contentIdentity(bytes)).toMatchObject({ digest: "1a33efe129206d83926c7c73df2c45d156ef565b7c9750d06de560283cb90b24", size: 1_181_482 });
+    const source = bytes.toString("utf8"), planning = collectNativeSchematicTextBounds(source);
+    expect(planning).toMatchObject({ completeCoverage: true, hasText: true, unsupported: [] });
+    expect(planning.bounds).toHaveLength(554);
+    expect(planning.bounds.map(group => group.textGroupIndex)).toEqual(Array.from({ length: 554 }, (_, index) => index));
+    expect(planning.bounds.find(group => group.elementIndex === 50)?.text).toBe("GND");
+    const full = analyzeNativeSchematicSvg(source);
+    expect(full).toMatchObject({ completeCoverage: false, textGroupCount: 554, primitiveCount: 19_463 });
+    expect(full.unsupported.map(problem => problem.code)).toEqual(expect.arrayContaining([
+      "UNSUPPORTED_PATH_COMMAND", "FILLED_PATH_UNSUPPORTED", "UNSUPPORTED_FILL_RULE", "COLLISION_WORK_LIMIT",
+    ]));
+  });
+
+  it("admits the exact XML element ceiling and rejects one additional element", () => {
+    const source = svg(text("A", "M1 1 L2 1") + "<g/>".repeat(SCHEMATIC_RENDER_CLEARANCE_POLICY.maxElements - 6));
+    expect(collectNativeSchematicTextBounds(source)).toMatchObject({ completeCoverage: true, unsupported: [] });
+    expect(analyzeNativeSchematicSvg(source)).toMatchObject({ status: "pass", completeCoverage: true });
+    const excess = source.replace("</svg>", "<g/></svg>");
+    for (const result of [collectNativeSchematicTextBounds(excess), analyzeNativeSchematicSvg(excess)]) {
+      expect(result).toMatchObject({ completeCoverage: false, unsupported: [expect.objectContaining({ code: "SVG_STRUCTURE_LIMIT" })] });
+    }
+  });
+
+  it("admits exact byte capacity and rejects the next byte before collecting glyphs", () => {
+    const source = clear.replace("</svg>", `<!--${" ".repeat(SCHEMATIC_RENDER_CLEARANCE_POLICY.maxSvgBytes - Buffer.byteLength(clear) - 7)}--></svg>`);
+    expect(Buffer.byteLength(source)).toBe(SCHEMATIC_RENDER_CLEARANCE_POLICY.maxSvgBytes);
+    expect(collectNativeSchematicTextBounds(source).completeCoverage).toBe(true);
+    expect(analyzeNativeSchematicSvg(source).completeCoverage).toBe(true);
+    for (const result of [collectNativeSchematicTextBounds(source + " "), analyzeNativeSchematicSvg(source + " ")]) {
+      expect(result).toMatchObject({ completeCoverage: false, unsupported: [expect.objectContaining({ code: "SVG_BYTE_LIMIT_OR_INVALID_UNICODE" })] });
+    }
+  });
+
+  it("retains the existing depth, text-group and segment ceilings", () => {
+    const depth = svg(text("A", "M1 1 L2 1") + "<g>".repeat(30) + "</g>".repeat(30));
+    expect(SCHEMATIC_RENDER_CLEARANCE_POLICY).toMatchObject({ maxDepth: 32, maxTextGroups: 1000, maxSegments: 30000, maxComparisons: 2000000 });
+    expect(collectNativeSchematicTextBounds(depth).completeCoverage).toBe(true);
+    expect(collectNativeSchematicTextBounds(depth.replace("<g><g>", "<g><g><g>").replace("</g></g>", "</g></g></g>")))
+      .toMatchObject({ completeCoverage: false, unsupported: [expect.objectContaining({ code: "SVG_STRUCTURE_LIMIT" })] });
+    const groups = Array.from({ length: 1000 }, (_, index) => text(`G${index}`, "M1 1 L2 1")).join("");
+    expect(collectNativeSchematicTextBounds(svg(groups)).bounds).toHaveLength(1000);
+    expect(collectNativeSchematicTextBounds(svg(groups + text("EXTRA", "M1 1 L2 1"))))
+      .toMatchObject({ completeCoverage: false, unsupported: [expect.objectContaining({ code: "SVG_TEXT_GROUP_LIMIT" })] });
+    const segments = svg(text("A", "M1 1 L2 1").replace('<path d="M1 1 L2 1"/>', '<path d="M1 1 L2 1"/>'.repeat(30000)));
+    expect(collectNativeSchematicTextBounds(segments).completeCoverage).toBe(true);
+    expect(collectNativeSchematicTextBounds(segments.replace('<path d="M1 1 L2 1"/>', '<path d="M1 1 L2 1"/><path d="M1 1 L2 1"/>')))
+      .toMatchObject({ completeCoverage: false, unsupported: [expect.objectContaining({ code: "SVG_PRIMITIVE_LIMIT" })] });
+  });
+
+  it.each([-270, -180, -90, 0, 90, 180, 270])("pairs invisible metadata rotated %d degrees without rotating absolute glyph ink", angle => {
+    const source = svg(`<g transform="rotate(${angle} 40 50)"><text x="40" y="50" opacity="0" stroke-opacity="0">R1</text></g>`
+      + '<g class="stroked-text"><desc>R1</desc><path d="M5 5 L6 5"/></g>');
+    expect(collectNativeSchematicTextBounds(source)).toMatchObject({ completeCoverage: true, unsupported: [],
+      bounds: [{ text: "R1", minX: 4.9, maxX: 6.1, minY: 4.9, maxY: 5.1 }] });
+    expect(analyzeNativeSchematicSvg(source)).toMatchObject({ completeCoverage: true, status: "pass" });
+  });
+
+  it.each([
+    'rotate(-90,,40,50)', 'rotate(-90,40,50,)', 'rotate(,-90,40,50)', 'rotate(-90 40)',
+    'rotate(-91 40 50)', 'rotate(-90 40 50) translate(0 0)', 'rotate(-90 1e309 50)',
+  ])("rejects malformed or unsupported hidden metadata transform %s", transform => {
+    const source = svg(`<g transform="${transform}"><text x="40" y="50" opacity="0" stroke-opacity="0">R1</text></g>`
+      + '<g class="stroked-text"><desc>R1</desc><path d="M5 5 L6 5"/></g>');
+    expect(collectNativeSchematicTextBounds(source).completeCoverage).toBe(false);
+    expect(analyzeNativeSchematicSvg(source).completeCoverage).toBe(false);
+  });
+
+  it("rejects visible, mixed, nested, unpaired or mismatched rotated metadata", () => {
+    const hidden = '<text x="40" y="50" opacity="0" stroke-opacity="0">R1</text>';
+    const wrapper = `<g transform="rotate(-90 40 50)">${hidden}</g>`;
+    const glyph = '<g class="stroked-text"><desc>R1</desc><path d="M5 5 L6 5"/></g>';
+    for (const body of [
+      wrapper.replace('opacity="0"', 'opacity="1"') + glyph,
+      wrapper.replace('opacity="0"', 'opacity="0" style="opacity:1"') + glyph,
+      wrapper.replace(' stroke-opacity="0"', '') + glyph,
+      wrapper.replace('</g>', '<path d="M8 8 L9 8"/></g>') + glyph,
+      wrapper.replace(hidden, hidden + hidden) + glyph,
+      wrapper.replace(hidden, `<g>${hidden}</g>`) + glyph,
+      wrapper.replace('<g transform=', '<g clip-path="url(#clip)" transform=') + glyph,
+      wrapper + glyph.replace('<desc>R1</desc>', '<desc>wrong</desc>'),
+      wrapper + '<g/>' + glyph,
+      wrapper,
+    ]) {
+      // An unrelated good group must not mask missing wrapper-to-glyph pairing.
+      const source = svg(body + text("GOOD", "M80 80 L81 80"));
+      expect(collectNativeSchematicTextBounds(source).completeCoverage, body).toBe(false);
+      expect(analyzeNativeSchematicSvg(source).completeCoverage, body).toBe(false);
+    }
+  });
+
+  it("accepts evenodd only on a nonglyph leaf already outside planning geometry scope", () => {
+    const body = '<path d="M10 10 L12 10 L11 12 Z" fill="black" fill-rule="evenodd"/>';
+    expect(collectNativeSchematicTextBounds(svg(text("A", "M1 1 L2 1") + body))).toMatchObject({ completeCoverage: true, unsupported: [] });
+    expect(analyzeNativeSchematicSvg(svg(text("A", "M1 1 L2 1") + body)).unsupported)
+      .toContainEqual(expect.objectContaining({ code: "UNSUPPORTED_FILL_RULE" }));
+    for (const source of [
+      svg(text("A", "M1 1 L2 1").replace('<path ', '<path fill-rule="evenodd" ')),
+      svg(`<g fill-rule="evenodd">${text("A", "M1 1 L2 1")}</g>`),
+      svg(text("A", "M1 1 L2 1") + body.replace('evenodd', 'unknown')),
+      svg(text("A", "M1 1 L2 1") + body.replace('/>', '><path d="M1 1 L2 1"/></path>')),
+    ]) expect(collectNativeSchematicTextBounds(source).completeCoverage).toBe(false);
+  });
+
+  it("does not reproduce receipts bound to the old XML capacity policy", () => {
+    const evidence = createSchematicRenderClearanceEvidence(capture(), expected);
+    const { hiddenTextMetadata: _metadata, planningOnlyNontextLeafFillRules: _fillRules, ...policy } = SCHEMATIC_RENDER_CLEARANCE_POLICY;
+    const oldPolicy = { ...policy, maxSvgBytes: 2 * 1024 * 1024, maxElements: 20000 };
+    const oldReceipt = { ...evidence, policyIdentity: canonicalIdentity(oldPolicy, oldPolicy.schemaVersion) };
+    expect(() => verifySchematicRenderClearanceEvidence(oldReceipt, capture(), expected)).toThrow(/does not reproduce/);
+  });
+
   it("retains every glyph group as independent planning ink without assigning repeated pin numbers or custom fields", () => {
     const source = svg(text("1", "M1 1 L2 1") + text("1", "M5 5 L6 5") + text("MPN custom field", "M10 10 L12 10"));
     const result = collectNativeSchematicTextBounds(source);

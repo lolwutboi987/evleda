@@ -1,0 +1,2990 @@
+{
+  "format": "rp2350-joint-north-routing-revision-v1",
+  "status": "Unadopted coherent north trial in progress: USB plus core converter local copper coexist; complete QSPI and 3V3/VREG_AVDD branches pending",
+  "sourceOnly": true,
+  "nativeAuthorization": false,
+  "sourceBindings": [
+    {
+      "path": "designs/rp2350-pico/placement-constraints.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "265a177213958ba5a5f546bbe2fb676b5ef558bcb25457bcb86cee96cd51d7b3",
+        "size": 187582
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/usb-route-plan.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "836f5461471e404b717cd1771e9ad9a3022d8364dae0d1e85d81424a54546522",
+        "size": 64250
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/circuit-inputs.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+        "size": 102754
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/design-ready-draft.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "43bce7ba0e3178b271878eba464623cf51ed3119957a1809cae6c16a97a6d45d",
+        "size": 181712
+      }
+    }
+  ],
+  "helper": {
+    "path": "../destination-verification/rp2350-routing-geometry-01/source-geometry.mjs",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "d331d0e455b78d5b0170c3e130b0284b945923a7703616240997026a4a227ba0",
+      "size": 10657
+    }
+  },
+  "poseOverrides": {
+    "R1": {
+      "x": 10.125,
+      "y": 16.39,
+      "r": 90
+    },
+    "C14": {
+      "x": 9.165,
+      "y": 16.75,
+      "r": 90
+    },
+    "C15": {
+      "x": 8.225,
+      "y": 16.5,
+      "r": 90
+    },
+    "C1": {
+      "x": 12.5,
+      "y": 17.24,
+      "r": 0
+    },
+    "C2": {
+      "x": 12.5,
+      "y": 16.3,
+      "r": 0
+    }
+  },
+  "retainedParts": {
+    "U4": "USBLC6-2SC6; unchanged selected physical pins/footprint",
+    "C26": "100nF VBUS bypass retained"
+  },
+  "proposedNativeSignalNets": {
+    "USB_DP_MCU": [
+      "U1.52",
+      "R1.1"
+    ],
+    "USB_DM_MCU": [
+      "U1.51",
+      "R2.1"
+    ],
+    "USB_DP_ESD": [
+      "R1.2",
+      "U4.1"
+    ],
+    "USB_DM_ESD": [
+      "R2.2",
+      "U4.3"
+    ],
+    "USB_DP_PORT": [
+      "U4.6",
+      "J1.A6",
+      "J1.B6"
+    ],
+    "USB_DM_PORT": [
+      "U4.4",
+      "J1.A7",
+      "J1.B7"
+    ]
+  },
+  "qualifiedDeviceTransfersRequired": [
+    {
+      "component": "U4",
+      "fromPin": "1",
+      "toPin": "6",
+      "polarity": "positive",
+      "basis": "ST manufacturer qualification confirmed by root; exact source receipt must bind the compiled transfer"
+    },
+    {
+      "component": "U4",
+      "fromPin": "3",
+      "toPin": "4",
+      "polarity": "negative",
+      "basis": "ST manufacturer qualification confirmed by root; exact source receipt must bind the compiled transfer"
+    }
+  ],
+  "removedCopper": [
+    "dp-esd-link:0",
+    "dm-esd-link:0"
+  ],
+  "all14PhysicalAnchorsRetained": true,
+  "noPackageInternalCopperInvented": true,
+  "usbPaths": [
+    {
+      "id": "dp-launch",
+      "net": "USB_DP_MCU",
+      "width": 0.2,
+      "points": [
+        [
+          10.9,
+          18.55
+        ],
+        [
+          10.9,
+          17.985
+        ],
+        [
+          10.125,
+          17.21
+        ],
+        [
+          10.125,
+          16.9
+        ]
+      ]
+    },
+    {
+      "id": "dm-launch",
+      "net": "USB_DM_MCU",
+      "width": 0.2,
+      "points": [
+        [
+          11.3,
+          18.55
+        ],
+        [
+          11.3,
+          17.6
+        ],
+        [
+          11.085,
+          17.385
+        ],
+        [
+          11.085,
+          17.21
+        ]
+      ]
+    },
+    {
+      "id": "dp-lower-escape",
+      "net": "USB_DP_ESD",
+      "width": 0.2,
+      "points": [
+        [
+          10.125,
+          15.88
+        ],
+        [
+          10.125,
+          15.49
+        ],
+        [
+          9.7,
+          15.065
+        ]
+      ]
+    },
+    {
+      "id": "dp-body",
+      "net": "USB_DP_ESD",
+      "width": 0.82,
+      "points": [
+        [
+          9.7,
+          15.065
+        ],
+        [
+          9.7,
+          14.75
+        ]
+      ]
+    },
+    {
+      "id": "dp-esd-south",
+      "net": "USB_DP_ESD",
+      "width": 0.2,
+      "points": [
+        [
+          9.7,
+          14.75
+        ],
+        [
+          9.7,
+          14.452
+        ],
+        [
+          9.498,
+          14.25
+        ],
+        [
+          8.9,
+          14.25
+        ],
+        [
+          8.65,
+          14
+        ],
+        [
+          8.65,
+          13.2875
+        ]
+      ]
+    },
+    {
+      "id": "dp-j1-b6",
+      "net": "USB_DP_PORT",
+      "width": 0.2,
+      "points": [
+        [
+          8.65,
+          11.0125
+        ],
+        [
+          8.65,
+          10.29
+        ],
+        [
+          9.37,
+          9.57
+        ],
+        [
+          9.58,
+          9.57
+        ],
+        [
+          9.75,
+          9.4
+        ],
+        [
+          9.75,
+          8.655
+        ]
+      ]
+    },
+    {
+      "id": "dp-j1-a6",
+      "net": "USB_DP_PORT",
+      "width": 0.2,
+      "points": [
+        [
+          8.65,
+          11.0125
+        ],
+        [
+          9,
+          10.6625
+        ],
+        [
+          9,
+          10.25
+        ],
+        [
+          9.2,
+          10.05
+        ],
+        [
+          10.45,
+          10.05
+        ],
+        [
+          10.85,
+          9.65
+        ],
+        [
+          10.85,
+          9.55
+        ],
+        [
+          10.75,
+          9.45
+        ],
+        [
+          10.75,
+          8.655
+        ]
+      ]
+    },
+    {
+      "id": "dm-lower-escape",
+      "net": "USB_DM_ESD",
+      "width": 0.2,
+      "points": [
+        [
+          11.085,
+          16.19
+        ],
+        [
+          11.085,
+          15.43
+        ],
+        [
+          10.72,
+          15.065
+        ]
+      ]
+    },
+    {
+      "id": "dm-body",
+      "net": "USB_DM_ESD",
+      "width": 0.82,
+      "points": [
+        [
+          10.72,
+          15.065
+        ],
+        [
+          10.72,
+          14.75
+        ]
+      ]
+    },
+    {
+      "id": "dm-esd-south",
+      "net": "USB_DM_ESD",
+      "width": 0.2,
+      "points": [
+        [
+          10.72,
+          14.75
+        ],
+        [
+          11.1,
+          14.37
+        ],
+        [
+          11.1,
+          14.12
+        ],
+        [
+          10.55,
+          13.57
+        ],
+        [
+          10.55,
+          13.2875
+        ]
+      ]
+    },
+    {
+      "id": "dm-j1-b7",
+      "net": "USB_DM_PORT",
+      "width": 0.2,
+      "points": [
+        [
+          10.55,
+          11.0125
+        ],
+        [
+          11.25,
+          10.3125
+        ],
+        [
+          11.25,
+          8.655
+        ]
+      ]
+    },
+    {
+      "id": "dm-j1-a7",
+      "net": "USB_DM_PORT",
+      "width": 0.2,
+      "points": [
+        [
+          11.25,
+          8.655
+        ],
+        [
+          11.25,
+          8.035
+        ],
+        [
+          10.97,
+          7.755
+        ],
+        [
+          10.53,
+          7.755
+        ],
+        [
+          10.25,
+          8.035
+        ],
+        [
+          10.25,
+          8.655
+        ]
+      ]
+    }
+  ],
+  "powerAndGroundPaths": [
+    {
+      "id": "u4-vbus-to-c26",
+      "net": "VBUS",
+      "width": 0.3,
+      "layer": "F.Cu",
+      "points": [
+        [
+          9.6,
+          11.0125
+        ],
+        [
+          9.6,
+          11.7
+        ],
+        [
+          10,
+          12.1
+        ],
+        [
+          11.25,
+          12.1
+        ],
+        [
+          11.87,
+          11.48
+        ],
+        [
+          11.87,
+          10.6
+        ]
+      ]
+    },
+    {
+      "id": "u4-ground-via-access",
+      "net": "GND",
+      "width": 0.3,
+      "layer": "F.Cu",
+      "points": [
+        [
+          9.6,
+          13.2875
+        ],
+        [
+          9.6,
+          12.85
+        ],
+        [
+          9,
+          12.25
+        ],
+        [
+          9,
+          12.15
+        ]
+      ]
+    },
+    {
+      "id": "c26-ground-via-access",
+      "net": "GND",
+      "width": 0.3,
+      "layer": "F.Cu",
+      "points": [
+        [
+          12.83,
+          10.6
+        ],
+        [
+          13.53,
+          10.6
+        ]
+      ]
+    },
+    {
+      "id": "core-lx-narrow",
+      "net": "CORE_LX",
+      "width": 0.2,
+      "points": [
+        [
+          12.5,
+          18.55
+        ],
+        [
+          12.5,
+          18.04
+        ],
+        [
+          12.69,
+          17.85
+        ]
+      ]
+    },
+    {
+      "id": "core-lx-necks",
+      "net": "CORE_LX",
+      "width": 0.3,
+      "points": [
+        [
+          12.69,
+          17.85
+        ],
+        [
+          13.7,
+          17.85
+        ],
+        [
+          13.9,
+          17.65
+        ],
+        [
+          13.9,
+          17
+        ]
+      ]
+    },
+    {
+      "id": "core-lx-wide",
+      "net": "CORE_LX",
+      "width": 0.6,
+      "points": [
+        [
+          13.9,
+          17
+        ],
+        [
+          13.9,
+          15.5
+        ],
+        [
+          13.2,
+          14.8
+        ]
+      ]
+    },
+    {
+      "id": "core-cin",
+      "net": "3V3",
+      "width": 0.3,
+      "points": [
+        [
+          12.1,
+          18.55
+        ],
+        [
+          12.1,
+          17.32
+        ],
+        [
+          12.02,
+          17.24
+        ]
+      ]
+    },
+    {
+      "id": "core-cout",
+      "net": "1V1",
+      "width": 0.3,
+      "points": [
+        [
+          11.8,
+          14.8
+        ],
+        [
+          11.8,
+          16.08
+        ],
+        [
+          12.02,
+          16.3
+        ]
+      ]
+    },
+    {
+      "id": "core-pgnd",
+      "net": "GND",
+      "width": 0.3,
+      "points": [
+        [
+          12.9,
+          18.55
+        ],
+        [
+          12.9,
+          19.7
+        ]
+      ]
+    },
+    {
+      "id": "core-fb-narrow",
+      "net": "1V1",
+      "width": 0.2,
+      "points": [
+        [
+          11.7,
+          18.55
+        ],
+        [
+          11.7,
+          19.35
+        ]
+      ]
+    },
+    {
+      "id": "core-fb-via-access",
+      "net": "1V1",
+      "width": 0.3,
+      "points": [
+        [
+          11.7,
+          19.35
+        ],
+        [
+          11.7,
+          19.525
+        ],
+        [
+          12,
+          19.825
+        ]
+      ]
+    },
+    {
+      "id": "core-output-via-access",
+      "net": "1V1",
+      "width": 0.3,
+      "points": [
+        [
+          11.8,
+          14.8
+        ],
+        [
+          11.8,
+          13.55
+        ],
+        [
+          12.35,
+          13
+        ],
+        [
+          12.8,
+          13
+        ]
+      ]
+    },
+    {
+      "id": "core-output-backbone",
+      "net": "1V1",
+      "width": 0.6,
+      "layer": "B.Cu",
+      "points": [
+        [
+          12.8,
+          13
+        ],
+        [
+          14,
+          14.2
+        ],
+        [
+          14,
+          19.75
+        ],
+        [
+          13.1,
+          20.65
+        ],
+        [
+          12.6,
+          20.65
+        ],
+        [
+          12,
+          20.05
+        ],
+        [
+          12,
+          19.825
+        ]
+      ]
+    }
+  ],
+  "groundVias": [
+    {
+      "id": "u4-gnd",
+      "net": "GND",
+      "atMm": [
+        9,
+        12.15
+      ],
+      "diameterMm": 0.6,
+      "drillMm": 0.25
+    },
+    {
+      "id": "c26-gnd",
+      "net": "GND",
+      "atMm": [
+        13.53,
+        10.6
+      ],
+      "diameterMm": 0.6,
+      "drillMm": 0.25
+    },
+    {
+      "id": "core-cin-ground",
+      "net": "GND",
+      "atMm": [
+        12.98,
+        17.24
+      ],
+      "diameterMm": 0.6,
+      "drillMm": 0.25
+    },
+    {
+      "id": "core-cout-ground",
+      "net": "GND",
+      "atMm": [
+        12.98,
+        16.3
+      ],
+      "diameterMm": 0.6,
+      "drillMm": 0.25
+    },
+    {
+      "id": "core-pgnd",
+      "net": "GND",
+      "atMm": [
+        12.9,
+        19.7
+      ],
+      "diameterMm": 0.6,
+      "drillMm": 0.25
+    }
+  ],
+  "physicalChecks": {
+    "traceAndPad": {
+      "tracks": [
+        {
+          "id": "dp-launch:0",
+          "net": "USB_DP_MCU",
+          "layer": "F.Cu",
+          "a": [
+            10.9,
+            18.55
+          ],
+          "b": [
+            10.9,
+            17.985
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-launch:1",
+          "net": "USB_DP_MCU",
+          "layer": "F.Cu",
+          "a": [
+            10.9,
+            17.985
+          ],
+          "b": [
+            10.125,
+            17.21
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-launch:2",
+          "net": "USB_DP_MCU",
+          "layer": "F.Cu",
+          "a": [
+            10.125,
+            17.21
+          ],
+          "b": [
+            10.125,
+            16.9
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-launch:0",
+          "net": "USB_DM_MCU",
+          "layer": "F.Cu",
+          "a": [
+            11.3,
+            18.55
+          ],
+          "b": [
+            11.3,
+            17.6
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-launch:1",
+          "net": "USB_DM_MCU",
+          "layer": "F.Cu",
+          "a": [
+            11.3,
+            17.6
+          ],
+          "b": [
+            11.085,
+            17.385
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-launch:2",
+          "net": "USB_DM_MCU",
+          "layer": "F.Cu",
+          "a": [
+            11.085,
+            17.385
+          ],
+          "b": [
+            11.085,
+            17.21
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-lower-escape:0",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            10.125,
+            15.88
+          ],
+          "b": [
+            10.125,
+            15.49
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-lower-escape:1",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            10.125,
+            15.49
+          ],
+          "b": [
+            9.7,
+            15.065
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-body:0",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            9.7,
+            15.065
+          ],
+          "b": [
+            9.7,
+            14.75
+          ],
+          "width": 0.82
+        },
+        {
+          "id": "dp-esd-south:0",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            9.7,
+            14.75
+          ],
+          "b": [
+            9.7,
+            14.452
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-esd-south:1",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            9.7,
+            14.452
+          ],
+          "b": [
+            9.498,
+            14.25
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-esd-south:2",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            9.498,
+            14.25
+          ],
+          "b": [
+            8.9,
+            14.25
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-esd-south:3",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            8.9,
+            14.25
+          ],
+          "b": [
+            8.65,
+            14
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-esd-south:4",
+          "net": "USB_DP_ESD",
+          "layer": "F.Cu",
+          "a": [
+            8.65,
+            14
+          ],
+          "b": [
+            8.65,
+            13.2875
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-b6:0",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            8.65,
+            11.0125
+          ],
+          "b": [
+            8.65,
+            10.29
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-b6:1",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            8.65,
+            10.29
+          ],
+          "b": [
+            9.37,
+            9.57
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-b6:2",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            9.37,
+            9.57
+          ],
+          "b": [
+            9.58,
+            9.57
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-b6:3",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            9.58,
+            9.57
+          ],
+          "b": [
+            9.75,
+            9.4
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-b6:4",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            9.75,
+            9.4
+          ],
+          "b": [
+            9.75,
+            8.655
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:0",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            8.65,
+            11.0125
+          ],
+          "b": [
+            9,
+            10.6625
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:1",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            9,
+            10.6625
+          ],
+          "b": [
+            9,
+            10.25
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:2",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            9,
+            10.25
+          ],
+          "b": [
+            9.2,
+            10.05
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:3",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            9.2,
+            10.05
+          ],
+          "b": [
+            10.45,
+            10.05
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:4",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.45,
+            10.05
+          ],
+          "b": [
+            10.85,
+            9.65
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:5",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.85,
+            9.65
+          ],
+          "b": [
+            10.85,
+            9.55
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:6",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.85,
+            9.55
+          ],
+          "b": [
+            10.75,
+            9.45
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dp-j1-a6:7",
+          "net": "USB_DP_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.75,
+            9.45
+          ],
+          "b": [
+            10.75,
+            8.655
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-lower-escape:0",
+          "net": "USB_DM_ESD",
+          "layer": "F.Cu",
+          "a": [
+            11.085,
+            16.19
+          ],
+          "b": [
+            11.085,
+            15.43
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-lower-escape:1",
+          "net": "USB_DM_ESD",
+          "layer": "F.Cu",
+          "a": [
+            11.085,
+            15.43
+          ],
+          "b": [
+            10.72,
+            15.065
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-body:0",
+          "net": "USB_DM_ESD",
+          "layer": "F.Cu",
+          "a": [
+            10.72,
+            15.065
+          ],
+          "b": [
+            10.72,
+            14.75
+          ],
+          "width": 0.82
+        },
+        {
+          "id": "dm-esd-south:0",
+          "net": "USB_DM_ESD",
+          "layer": "F.Cu",
+          "a": [
+            10.72,
+            14.75
+          ],
+          "b": [
+            11.1,
+            14.37
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-esd-south:1",
+          "net": "USB_DM_ESD",
+          "layer": "F.Cu",
+          "a": [
+            11.1,
+            14.37
+          ],
+          "b": [
+            11.1,
+            14.12
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-esd-south:2",
+          "net": "USB_DM_ESD",
+          "layer": "F.Cu",
+          "a": [
+            11.1,
+            14.12
+          ],
+          "b": [
+            10.55,
+            13.57
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-esd-south:3",
+          "net": "USB_DM_ESD",
+          "layer": "F.Cu",
+          "a": [
+            10.55,
+            13.57
+          ],
+          "b": [
+            10.55,
+            13.2875
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-j1-b7:0",
+          "net": "USB_DM_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.55,
+            11.0125
+          ],
+          "b": [
+            11.25,
+            10.3125
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-j1-b7:1",
+          "net": "USB_DM_PORT",
+          "layer": "F.Cu",
+          "a": [
+            11.25,
+            10.3125
+          ],
+          "b": [
+            11.25,
+            8.655
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-j1-a7:0",
+          "net": "USB_DM_PORT",
+          "layer": "F.Cu",
+          "a": [
+            11.25,
+            8.655
+          ],
+          "b": [
+            11.25,
+            8.035
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-j1-a7:1",
+          "net": "USB_DM_PORT",
+          "layer": "F.Cu",
+          "a": [
+            11.25,
+            8.035
+          ],
+          "b": [
+            10.97,
+            7.755
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-j1-a7:2",
+          "net": "USB_DM_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.97,
+            7.755
+          ],
+          "b": [
+            10.53,
+            7.755
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-j1-a7:3",
+          "net": "USB_DM_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.53,
+            7.755
+          ],
+          "b": [
+            10.25,
+            8.035
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "dm-j1-a7:4",
+          "net": "USB_DM_PORT",
+          "layer": "F.Cu",
+          "a": [
+            10.25,
+            8.035
+          ],
+          "b": [
+            10.25,
+            8.655
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "u4-vbus-to-c26:0",
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "a": [
+            9.6,
+            11.0125
+          ],
+          "b": [
+            9.6,
+            11.7
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "u4-vbus-to-c26:1",
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "a": [
+            9.6,
+            11.7
+          ],
+          "b": [
+            10,
+            12.1
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "u4-vbus-to-c26:2",
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "a": [
+            10,
+            12.1
+          ],
+          "b": [
+            11.25,
+            12.1
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "u4-vbus-to-c26:3",
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "a": [
+            11.25,
+            12.1
+          ],
+          "b": [
+            11.87,
+            11.48
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "u4-vbus-to-c26:4",
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "a": [
+            11.87,
+            11.48
+          ],
+          "b": [
+            11.87,
+            10.6
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "u4-ground-via-access:0",
+          "net": "GND",
+          "layer": "F.Cu",
+          "a": [
+            9.6,
+            13.2875
+          ],
+          "b": [
+            9.6,
+            12.85
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "u4-ground-via-access:1",
+          "net": "GND",
+          "layer": "F.Cu",
+          "a": [
+            9.6,
+            12.85
+          ],
+          "b": [
+            9,
+            12.25
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "u4-ground-via-access:2",
+          "net": "GND",
+          "layer": "F.Cu",
+          "a": [
+            9,
+            12.25
+          ],
+          "b": [
+            9,
+            12.15
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "c26-ground-via-access:0",
+          "net": "GND",
+          "layer": "F.Cu",
+          "a": [
+            12.83,
+            10.6
+          ],
+          "b": [
+            13.53,
+            10.6
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-lx-narrow:0",
+          "net": "CORE_LX",
+          "layer": "F.Cu",
+          "a": [
+            12.5,
+            18.55
+          ],
+          "b": [
+            12.5,
+            18.04
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "core-lx-narrow:1",
+          "net": "CORE_LX",
+          "layer": "F.Cu",
+          "a": [
+            12.5,
+            18.04
+          ],
+          "b": [
+            12.69,
+            17.85
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "core-lx-necks:0",
+          "net": "CORE_LX",
+          "layer": "F.Cu",
+          "a": [
+            12.69,
+            17.85
+          ],
+          "b": [
+            13.7,
+            17.85
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-lx-necks:1",
+          "net": "CORE_LX",
+          "layer": "F.Cu",
+          "a": [
+            13.7,
+            17.85
+          ],
+          "b": [
+            13.9,
+            17.65
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-lx-necks:2",
+          "net": "CORE_LX",
+          "layer": "F.Cu",
+          "a": [
+            13.9,
+            17.65
+          ],
+          "b": [
+            13.9,
+            17
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-lx-wide:0",
+          "net": "CORE_LX",
+          "layer": "F.Cu",
+          "a": [
+            13.9,
+            17
+          ],
+          "b": [
+            13.9,
+            15.5
+          ],
+          "width": 0.6
+        },
+        {
+          "id": "core-lx-wide:1",
+          "net": "CORE_LX",
+          "layer": "F.Cu",
+          "a": [
+            13.9,
+            15.5
+          ],
+          "b": [
+            13.2,
+            14.8
+          ],
+          "width": 0.6
+        },
+        {
+          "id": "core-cin:0",
+          "net": "3V3",
+          "layer": "F.Cu",
+          "a": [
+            12.1,
+            18.55
+          ],
+          "b": [
+            12.1,
+            17.32
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-cin:1",
+          "net": "3V3",
+          "layer": "F.Cu",
+          "a": [
+            12.1,
+            17.32
+          ],
+          "b": [
+            12.02,
+            17.24
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-cout:0",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            11.8,
+            14.8
+          ],
+          "b": [
+            11.8,
+            16.08
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-cout:1",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            11.8,
+            16.08
+          ],
+          "b": [
+            12.02,
+            16.3
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-pgnd:0",
+          "net": "GND",
+          "layer": "F.Cu",
+          "a": [
+            12.9,
+            18.55
+          ],
+          "b": [
+            12.9,
+            19.7
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-fb-narrow:0",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            11.7,
+            18.55
+          ],
+          "b": [
+            11.7,
+            19.35
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "core-fb-via-access:0",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            11.7,
+            19.35
+          ],
+          "b": [
+            11.7,
+            19.525
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-fb-via-access:1",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            11.7,
+            19.525
+          ],
+          "b": [
+            12,
+            19.825
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-output-via-access:0",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            11.8,
+            14.8
+          ],
+          "b": [
+            11.8,
+            13.55
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-output-via-access:1",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            11.8,
+            13.55
+          ],
+          "b": [
+            12.35,
+            13
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-output-via-access:2",
+          "net": "1V1",
+          "layer": "F.Cu",
+          "a": [
+            12.35,
+            13
+          ],
+          "b": [
+            12.8,
+            13
+          ],
+          "width": 0.3
+        },
+        {
+          "id": "core-output-backbone:0",
+          "net": "1V1",
+          "layer": "B.Cu",
+          "a": [
+            12.8,
+            13
+          ],
+          "b": [
+            14,
+            14.2
+          ],
+          "width": 0.6
+        },
+        {
+          "id": "core-output-backbone:1",
+          "net": "1V1",
+          "layer": "B.Cu",
+          "a": [
+            14,
+            14.2
+          ],
+          "b": [
+            14,
+            19.75
+          ],
+          "width": 0.6
+        },
+        {
+          "id": "core-output-backbone:2",
+          "net": "1V1",
+          "layer": "B.Cu",
+          "a": [
+            14,
+            19.75
+          ],
+          "b": [
+            13.1,
+            20.65
+          ],
+          "width": 0.6
+        },
+        {
+          "id": "core-output-backbone:3",
+          "net": "1V1",
+          "layer": "B.Cu",
+          "a": [
+            13.1,
+            20.65
+          ],
+          "b": [
+            12.6,
+            20.65
+          ],
+          "width": 0.6
+        },
+        {
+          "id": "core-output-backbone:4",
+          "net": "1V1",
+          "layer": "B.Cu",
+          "a": [
+            12.6,
+            20.65
+          ],
+          "b": [
+            12,
+            20.05
+          ],
+          "width": 0.6
+        },
+        {
+          "id": "core-output-backbone:5",
+          "net": "1V1",
+          "layer": "B.Cu",
+          "a": [
+            12,
+            20.05
+          ],
+          "b": [
+            12,
+            19.825
+          ],
+          "width": 0.6
+        }
+      ],
+      "violations": [],
+      "minPad": {
+        "gap": 0.14999999999999789,
+        "trace": "core-lx-necks:0",
+        "pad": "U1.46",
+        "required": 0.15
+      },
+      "minTrace": {
+        "gap": 0.15000000000000036,
+        "a": "core-lx-narrow:0",
+        "b": "core-cin:0",
+        "required": 0.15
+      },
+      "scope": "Caller source geometry only; does not authorize native routing or assess planes/impedance."
+    },
+    "viaViolations": [],
+    "referenceGuardViolations": [],
+    "referenceMarginMm": 0.9,
+    "bCopperPowerZoneIsolationMm": 0.15,
+    "notes": [
+      "Non-GND via reference exclusion includes full copper radius plus .15mm ground-zone clearance; GND via uses drill radius.",
+      "Pad/trace/via source checks do not establish actual filled-plane connectivity or impedance."
+    ]
+  },
+  "remaining": [
+    "Joint all-six QSPI proposal still required before freeze",
+    "3V3 supply distribution and VREG_AVDD/R8/C3 local branches still need explicit compatible routes",
+    "All62 final courtyard/board-feature checks must use final combined overrides",
+    "Transfer-output fork qualification and native pad readback/DRC remain required",
+    "Ground-plane refill/connectivity, impedance, assembly of proposed via-in-pad locations remain unqualified"
+  ],
+  "historicalSixNetLocalAccess": {
+    "poseOverrides": {},
+    "usbPaths": [
+      {
+        "id": "dp-launch",
+        "net": "USB_DP_MCU",
+        "width": 0.2,
+        "points": [
+          [
+            10.9,
+            18.55
+          ],
+          [
+            10.9,
+            17.975
+          ],
+          [
+            10.335,
+            17.41
+          ],
+          [
+            10.125,
+            17.41
+          ]
+        ]
+      },
+      {
+        "id": "dm-launch",
+        "net": "USB_DM_MCU",
+        "width": 0.2,
+        "points": [
+          [
+            11.3,
+            18.55
+          ],
+          [
+            11.3,
+            17.6
+          ],
+          [
+            11.085,
+            17.385
+          ],
+          [
+            11.085,
+            17.21
+          ]
+        ]
+      },
+      {
+        "id": "dp-lower-escape",
+        "net": "USB_DP_ESD",
+        "width": 0.2,
+        "points": [
+          [
+            10.125,
+            16.39
+          ],
+          [
+            10.125,
+            15.7
+          ],
+          [
+            9.7,
+            15.275
+          ]
+        ]
+      },
+      {
+        "id": "dp-body",
+        "net": "USB_DP_ESD",
+        "width": 0.82,
+        "points": [
+          [
+            9.7,
+            15.275
+          ],
+          [
+            9.7,
+            14.75
+          ]
+        ]
+      },
+      {
+        "id": "dp-esd-south",
+        "net": "USB_DP_ESD",
+        "width": 0.2,
+        "points": [
+          [
+            9.7,
+            14.75
+          ],
+          [
+            8.65,
+            13.7
+          ],
+          [
+            8.65,
+            13.2875
+          ]
+        ]
+      },
+      {
+        "id": "dp-j1-b6",
+        "net": "USB_DP_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            8.65,
+            11.0125
+          ],
+          [
+            8.65,
+            9.95
+          ],
+          [
+            8.9,
+            9.7
+          ],
+          [
+            9.45,
+            9.7
+          ],
+          [
+            9.75,
+            9.4
+          ],
+          [
+            9.75,
+            8.655
+          ]
+        ]
+      },
+      {
+        "id": "dp-j1-a6",
+        "net": "USB_DP_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            8.65,
+            11.0125
+          ],
+          [
+            9,
+            10.6625
+          ],
+          [
+            9,
+            10.25
+          ],
+          [
+            9.2,
+            10.05
+          ],
+          [
+            10.45,
+            10.05
+          ],
+          [
+            10.75,
+            9.75
+          ],
+          [
+            10.75,
+            8.655
+          ]
+        ]
+      },
+      {
+        "id": "dm-lower-escape",
+        "net": "USB_DM_ESD",
+        "width": 0.2,
+        "points": [
+          [
+            11.085,
+            16.19
+          ],
+          [
+            11.085,
+            15.64
+          ],
+          [
+            10.72,
+            15.275
+          ]
+        ]
+      },
+      {
+        "id": "dm-body",
+        "net": "USB_DM_ESD",
+        "width": 0.82,
+        "points": [
+          [
+            10.72,
+            15.275
+          ],
+          [
+            10.72,
+            14.75
+          ]
+        ]
+      },
+      {
+        "id": "dm-esd-south",
+        "net": "USB_DM_ESD",
+        "width": 0.2,
+        "points": [
+          [
+            10.72,
+            14.75
+          ],
+          [
+            11.1,
+            14.37
+          ],
+          [
+            11.1,
+            14.12
+          ],
+          [
+            10.55,
+            13.57
+          ],
+          [
+            10.55,
+            13.2875
+          ]
+        ]
+      },
+      {
+        "id": "dm-j1-b7",
+        "net": "USB_DM_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            10.55,
+            11.0125
+          ],
+          [
+            11.25,
+            10.3125
+          ],
+          [
+            11.25,
+            8.655
+          ]
+        ]
+      },
+      {
+        "id": "dm-j1-a7",
+        "net": "USB_DM_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            11.25,
+            8.655
+          ],
+          [
+            11.25,
+            8.035
+          ],
+          [
+            10.97,
+            7.755
+          ],
+          [
+            10.53,
+            7.755
+          ],
+          [
+            10.25,
+            8.035
+          ],
+          [
+            10.25,
+            8.655
+          ]
+        ]
+      }
+    ],
+    "powerAndGroundPaths": [
+      {
+        "id": "u4-vbus-to-c26",
+        "net": "VBUS",
+        "width": 0.3,
+        "layer": "F.Cu",
+        "points": [
+          [
+            9.6,
+            11.0125
+          ],
+          [
+            9.6,
+            11.7
+          ],
+          [
+            10,
+            12.1
+          ],
+          [
+            11.25,
+            12.1
+          ],
+          [
+            11.87,
+            11.48
+          ],
+          [
+            11.87,
+            10.6
+          ]
+        ]
+      },
+      {
+        "id": "u4-ground-via-access",
+        "net": "GND",
+        "width": 0.3,
+        "layer": "F.Cu",
+        "points": [
+          [
+            9.6,
+            13.2875
+          ],
+          [
+            9.6,
+            12.85
+          ],
+          [
+            9,
+            12.25
+          ],
+          [
+            9,
+            12.15
+          ]
+        ]
+      },
+      {
+        "id": "c26-ground-via-access",
+        "net": "GND",
+        "width": 0.3,
+        "layer": "F.Cu",
+        "points": [
+          [
+            12.83,
+            10.6
+          ],
+          [
+            13.53,
+            10.6
+          ]
+        ]
+      }
+    ],
+    "groundVias": [
+      {
+        "id": "u4-gnd",
+        "net": "GND",
+        "atMm": [
+          9,
+          12.15
+        ],
+        "diameterMm": 0.6,
+        "drillMm": 0.25
+      },
+      {
+        "id": "c26-gnd",
+        "net": "GND",
+        "atMm": [
+          13.53,
+          10.6
+        ],
+        "diameterMm": 0.6,
+        "drillMm": 0.25
+      }
+    ],
+    "physicalChecks": {
+      "traceAndPad": {
+        "tracks": [
+          {
+            "id": "dp-launch:0",
+            "net": "USB_DP_MCU",
+            "layer": "F.Cu",
+            "a": [
+              10.9,
+              18.55
+            ],
+            "b": [
+              10.9,
+              17.975
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-launch:1",
+            "net": "USB_DP_MCU",
+            "layer": "F.Cu",
+            "a": [
+              10.9,
+              17.975
+            ],
+            "b": [
+              10.335,
+              17.41
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-launch:2",
+            "net": "USB_DP_MCU",
+            "layer": "F.Cu",
+            "a": [
+              10.335,
+              17.41
+            ],
+            "b": [
+              10.125,
+              17.41
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-launch:0",
+            "net": "USB_DM_MCU",
+            "layer": "F.Cu",
+            "a": [
+              11.3,
+              18.55
+            ],
+            "b": [
+              11.3,
+              17.6
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-launch:1",
+            "net": "USB_DM_MCU",
+            "layer": "F.Cu",
+            "a": [
+              11.3,
+              17.6
+            ],
+            "b": [
+              11.085,
+              17.385
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-launch:2",
+            "net": "USB_DM_MCU",
+            "layer": "F.Cu",
+            "a": [
+              11.085,
+              17.385
+            ],
+            "b": [
+              11.085,
+              17.21
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-lower-escape:0",
+            "net": "USB_DP_ESD",
+            "layer": "F.Cu",
+            "a": [
+              10.125,
+              16.39
+            ],
+            "b": [
+              10.125,
+              15.7
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-lower-escape:1",
+            "net": "USB_DP_ESD",
+            "layer": "F.Cu",
+            "a": [
+              10.125,
+              15.7
+            ],
+            "b": [
+              9.7,
+              15.275
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-body:0",
+            "net": "USB_DP_ESD",
+            "layer": "F.Cu",
+            "a": [
+              9.7,
+              15.275
+            ],
+            "b": [
+              9.7,
+              14.75
+            ],
+            "width": 0.82
+          },
+          {
+            "id": "dp-esd-south:0",
+            "net": "USB_DP_ESD",
+            "layer": "F.Cu",
+            "a": [
+              9.7,
+              14.75
+            ],
+            "b": [
+              8.65,
+              13.7
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-esd-south:1",
+            "net": "USB_DP_ESD",
+            "layer": "F.Cu",
+            "a": [
+              8.65,
+              13.7
+            ],
+            "b": [
+              8.65,
+              13.2875
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-b6:0",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              8.65,
+              11.0125
+            ],
+            "b": [
+              8.65,
+              9.95
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-b6:1",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              8.65,
+              9.95
+            ],
+            "b": [
+              8.9,
+              9.7
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-b6:2",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              8.9,
+              9.7
+            ],
+            "b": [
+              9.45,
+              9.7
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-b6:3",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              9.45,
+              9.7
+            ],
+            "b": [
+              9.75,
+              9.4
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-b6:4",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              9.75,
+              9.4
+            ],
+            "b": [
+              9.75,
+              8.655
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-a6:0",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              8.65,
+              11.0125
+            ],
+            "b": [
+              9,
+              10.6625
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-a6:1",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              9,
+              10.6625
+            ],
+            "b": [
+              9,
+              10.25
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-a6:2",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              9,
+              10.25
+            ],
+            "b": [
+              9.2,
+              10.05
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-a6:3",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              9.2,
+              10.05
+            ],
+            "b": [
+              10.45,
+              10.05
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-a6:4",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              10.45,
+              10.05
+            ],
+            "b": [
+              10.75,
+              9.75
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dp-j1-a6:5",
+            "net": "USB_DP_PORT",
+            "layer": "F.Cu",
+            "a": [
+              10.75,
+              9.75
+            ],
+            "b": [
+              10.75,
+              8.655
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-lower-escape:0",
+            "net": "USB_DM_ESD",
+            "layer": "F.Cu",
+            "a": [
+              11.085,
+              16.19
+            ],
+            "b": [
+              11.085,
+              15.64
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-lower-escape:1",
+            "net": "USB_DM_ESD",
+            "layer": "F.Cu",
+            "a": [
+              11.085,
+              15.64
+            ],
+            "b": [
+              10.72,
+              15.275
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-body:0",
+            "net": "USB_DM_ESD",
+            "layer": "F.Cu",
+            "a": [
+              10.72,
+              15.275
+            ],
+            "b": [
+              10.72,
+              14.75
+            ],
+            "width": 0.82
+          },
+          {
+            "id": "dm-esd-south:0",
+            "net": "USB_DM_ESD",
+            "layer": "F.Cu",
+            "a": [
+              10.72,
+              14.75
+            ],
+            "b": [
+              11.1,
+              14.37
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-esd-south:1",
+            "net": "USB_DM_ESD",
+            "layer": "F.Cu",
+            "a": [
+              11.1,
+              14.37
+            ],
+            "b": [
+              11.1,
+              14.12
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-esd-south:2",
+            "net": "USB_DM_ESD",
+            "layer": "F.Cu",
+            "a": [
+              11.1,
+              14.12
+            ],
+            "b": [
+              10.55,
+              13.57
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-esd-south:3",
+            "net": "USB_DM_ESD",
+            "layer": "F.Cu",
+            "a": [
+              10.55,
+              13.57
+            ],
+            "b": [
+              10.55,
+              13.2875
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-j1-b7:0",
+            "net": "USB_DM_PORT",
+            "layer": "F.Cu",
+            "a": [
+              10.55,
+              11.0125
+            ],
+            "b": [
+              11.25,
+              10.3125
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-j1-b7:1",
+            "net": "USB_DM_PORT",
+            "layer": "F.Cu",
+            "a": [
+              11.25,
+              10.3125
+            ],
+            "b": [
+              11.25,
+              8.655
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-j1-a7:0",
+            "net": "USB_DM_PORT",
+            "layer": "F.Cu",
+            "a": [
+              11.25,
+              8.655
+            ],
+            "b": [
+              11.25,
+              8.035
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-j1-a7:1",
+            "net": "USB_DM_PORT",
+            "layer": "F.Cu",
+            "a": [
+              11.25,
+              8.035
+            ],
+            "b": [
+              10.97,
+              7.755
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-j1-a7:2",
+            "net": "USB_DM_PORT",
+            "layer": "F.Cu",
+            "a": [
+              10.97,
+              7.755
+            ],
+            "b": [
+              10.53,
+              7.755
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-j1-a7:3",
+            "net": "USB_DM_PORT",
+            "layer": "F.Cu",
+            "a": [
+              10.53,
+              7.755
+            ],
+            "b": [
+              10.25,
+              8.035
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "dm-j1-a7:4",
+            "net": "USB_DM_PORT",
+            "layer": "F.Cu",
+            "a": [
+              10.25,
+              8.035
+            ],
+            "b": [
+              10.25,
+              8.655
+            ],
+            "width": 0.2
+          },
+          {
+            "id": "u4-vbus-to-c26:0",
+            "net": "VBUS",
+            "layer": "F.Cu",
+            "a": [
+              9.6,
+              11.0125
+            ],
+            "b": [
+              9.6,
+              11.7
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "u4-vbus-to-c26:1",
+            "net": "VBUS",
+            "layer": "F.Cu",
+            "a": [
+              9.6,
+              11.7
+            ],
+            "b": [
+              10,
+              12.1
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "u4-vbus-to-c26:2",
+            "net": "VBUS",
+            "layer": "F.Cu",
+            "a": [
+              10,
+              12.1
+            ],
+            "b": [
+              11.25,
+              12.1
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "u4-vbus-to-c26:3",
+            "net": "VBUS",
+            "layer": "F.Cu",
+            "a": [
+              11.25,
+              12.1
+            ],
+            "b": [
+              11.87,
+              11.48
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "u4-vbus-to-c26:4",
+            "net": "VBUS",
+            "layer": "F.Cu",
+            "a": [
+              11.87,
+              11.48
+            ],
+            "b": [
+              11.87,
+              10.6
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "u4-ground-via-access:0",
+            "net": "GND",
+            "layer": "F.Cu",
+            "a": [
+              9.6,
+              13.2875
+            ],
+            "b": [
+              9.6,
+              12.85
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "u4-ground-via-access:1",
+            "net": "GND",
+            "layer": "F.Cu",
+            "a": [
+              9.6,
+              12.85
+            ],
+            "b": [
+              9,
+              12.25
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "u4-ground-via-access:2",
+            "net": "GND",
+            "layer": "F.Cu",
+            "a": [
+              9,
+              12.25
+            ],
+            "b": [
+              9,
+              12.15
+            ],
+            "width": 0.3
+          },
+          {
+            "id": "c26-ground-via-access:0",
+            "net": "GND",
+            "layer": "F.Cu",
+            "a": [
+              12.83,
+              10.6
+            ],
+            "b": [
+              13.53,
+              10.6
+            ],
+            "width": 0.3
+          }
+        ],
+        "violations": [],
+        "minPad": {
+          "gap": 0.19999999999999787,
+          "trace": "dm-launch:0",
+          "pad": "U1.50",
+          "required": 0.2
+        },
+        "minTrace": {
+          "gap": 0.20000000000000034,
+          "a": "dp-launch:0",
+          "b": "dm-launch:0",
+          "required": 0.2
+        },
+        "scope": "Caller source geometry only; does not authorize native routing or assess planes/impedance."
+      },
+      "viaViolations": [],
+      "minimumViaToForeignPadGapMm": 0.20622023742033363,
+      "referenceDrillGuardMm": 0.9,
+      "referenceGuardViolations": [],
+      "minimumReferenceGuardRemainderMm": 0.06512866951435059,
+      "powerPathLengths": [
+        {
+          "id": "u4-vbus-to-c26",
+          "lengthMm": 4.259997833620558
+        },
+        {
+          "id": "u4-ground-via-access",
+          "lengthMm": 1.3860281374238563
+        },
+        {
+          "id": "c26-ground-via-access",
+          "lengthMm": 0.6999999999999993
+        }
+      ]
+    }
+  },
+  "powerVias": [
+    {
+      "id": "core-output-rail",
+      "net": "1V1",
+      "atMm": [
+        12.8,
+        13
+      ],
+      "diameterMm": 0.6,
+      "drillMm": 0.25
+    },
+    {
+      "id": "core-feedback-rail",
+      "net": "1V1",
+      "atMm": [
+        12,
+        19.825
+      ],
+      "diameterMm": 0.6,
+      "drillMm": 0.25
+    }
+  ],
+  "usbMetrics": {
+    "lengths": [
+      {
+        "id": "dp-launch",
+        "lengthMm": 1.9710155108391514
+      },
+      {
+        "id": "dm-launch",
+        "lengthMm": 1.4290559159102152
+      },
+      {
+        "id": "dp-lower-escape",
+        "lengthMm": 0.991040764008567
+      },
+      {
+        "id": "dp-body",
+        "lengthMm": 0.3149999999999995
+      },
+      {
+        "id": "dp-esd-south",
+        "lengthMm": 2.247724530192638
+      },
+      {
+        "id": "dp-j1-b6",
+        "lengthMm": 2.936150070512055
+      },
+      {
+        "id": "dp-j1-a6",
+        "lengthMm": 4.042424240491749
+      },
+      {
+        "id": "dm-lower-escape",
+        "lengthMm": 1.2761879502661815
+      },
+      {
+        "id": "dm-body",
+        "lengthMm": 0.3149999999999995
+      },
+      {
+        "id": "dm-esd-south",
+        "lengthMm": 1.8477186130069776
+      },
+      {
+        "id": "dm-j1-b7",
+        "lengthMm": 2.647449493661166
+      },
+      {
+        "id": "dm-j1-a7",
+        "lengthMm": 2.4719595949289324
+      }
+    ],
+    "fullA": [
+      9.567205045532106,
+      9.987371567773472
+    ],
+    "fullB": [
+      8.46093087555241,
+      7.51541197284454
+    ],
+    "postResistorA": [
+      7.596189534692954,
+      8.558315651863257
+    ],
+    "postResistorB": [
+      6.4899153647132595,
+      6.086356056934324
+    ]
+  },
+  "widthRevision": {
+    "class": {
+      "id": "SWITCH_FINE",
+      "traceWidthMm": 0.2,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.25,
+      "allowedLayers": [
+        "F.Cu"
+      ]
+    },
+    "assignment": {
+      "CORE_LX": "SWITCH_FINE"
+    },
+    "neckdownTerminals": [
+      "U1.39",
+      "U1.48",
+      "U1.50",
+      "U1.53"
+    ],
+    "maximumNeckLengthMm": 1,
+    "actualCopperWidthElsewhereMmAtLeast": 0.3,
+    "coreLxNeckLengthMm": 0.7787005768508877
+  }
+}

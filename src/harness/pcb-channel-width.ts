@@ -3,7 +3,8 @@ type PcbDifferentialPairRequirement = NonNullable<PcbPlaneDesignContract["interf
 import { routeMmToNativeNm, routeSourceMmToNativeNm } from "./fresh-route-native-units.js";
 
 export const channelMemberNets = (pair: PcbDifferentialPairRequirement): string[] => [pair.nets.positive, pair.nets.negative,
-  ...(pair.channel ? [pair.channel.launchNets.positive, pair.channel.launchNets.negative] : [])];
+  ...(pair.channel ? [pair.channel.launchNets.positive, pair.channel.launchNets.negative] : []),
+  ...(pair.channel?.feedThrough ? [pair.channel.feedThrough.inputNets.positive, pair.channel.feedThrough.inputNets.negative] : [])];
 export function channelForNet(contract: PcbPlaneDesignContract, net: string): PcbDifferentialPairRequirement | undefined {
   return contract.interfaceRequirements?.interfaces.find(pair => pair.channel && channelMemberNets(pair).includes(net));
 }

@@ -8,6 +8,7 @@ import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFre
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import type { PcbInterfaceConstruction } from "./pcb-interface-requirements.js";
 import { assessDifferentialChannelGeometry, type DifferentialChannelGeometryAssessment } from "./differential-channel-geometry.js";
+import { channelMemberNets } from "./pcb-channel-width.js";
 import { readSavedPcbSourceForm as readForm, savedPcbSourceField as field, savedPcbSourceScalar as scalar,
   exactSavedPcbSourceDecimal as exactDecimal, savedPcbSourcePoint as sourcePoint, savedPcbSourceRotation as rotation,
   savedPcbSourceUuid as sourceId, boundedSavedPcbNm as boundedNm, assertSavedPcbPhysicalFormParents as assertParents,
@@ -107,7 +108,7 @@ function mmNm(value: number): number {
     "EXACT_LIMIT_NM_REQUIRED", "Declared dimensions and limits must be exact nonnegative nanometres within their independent quantity bound.");
   return Number(scaled / amount.d);
 }
-const pairNets = (pair: PcbDifferentialPairRequirement) => [pair.nets.positive, pair.nets.negative, ...(pair.channel ? [pair.channel.launchNets.positive, pair.channel.launchNets.negative] : [])];
+const pairNets = channelMemberNets;
 const selector = (endpoint: { readonly reference: string; readonly pin: string }) => ({ reference: endpoint.reference, pad: endpoint.pin });
 const expectedNet = (pair: PcbDifferentialPairRequirement, side: "source" | "receiver", polarity: "positive" | "negative") => pair.nets[side === "receiver" && pair.routing.polarityInversion.receiverMapping === "inverted" ? polarity === "positive" ? "negative" : "positive" : polarity];
 function terminationSelectors(pair: PcbDifferentialPairRequirement) {
@@ -342,7 +343,7 @@ function assessTerminations(pair: PcbDifferentialPairRequirement, inventory: Sav
         const leg = declared[polarity], endpoint = pair.endpoints.source[polarity];
         assertedResistanceOhms.push({ side, value: leg.resistanceOhms });
         for (const field of ["sourcePin", "linePin"] as const) {
-          const net = field === "sourcePin" ? pair.channel.launchNets[polarity] : pair.nets[polarity];
+          const net = field === "sourcePin" ? pair.channel.launchNets[polarity] : (pair.channel.feedThrough?.inputNets ?? pair.nets)[polarity];
           const matches = inventory.selected.pads.filter(p => p.reference === leg.componentReference && p.pad === leg[field]);
           const endpoints = inventory.selected.pads.filter(p => p.reference === endpoint.reference && p.pad === endpoint.pin);
           let distanceSquaredNm2: string | null = null, status: SavedInterfaceTerminationPin["status"] = "unassessed";
