@@ -1,0 +1,94 @@
+{
+  "recordedAt": "2026-09-18T14:58:51.564Z",
+  "status": "Frozen adopted source proposal; routing, ground and returns unfinished",
+  "modelSha256": "421df1f6f7fad2857b58fcd7d9a6afb0d3d71792827094516ec423f1fcfc63c4",
+  "geometryIdentity": {
+    "algorithm": "sha256",
+    "digest": "4155f22aa9fd961ecfb29b3fb571a430e6039bd3724f97c9353f3142754f83dd",
+    "size": 45048,
+    "serialization": "UTF-8 JSON.stringify"
+  },
+  "draftCompactSha256": "442f219438929d4d7f102d6a910bf79e623c71d0ca2647718e6d392040bd2166",
+  "placementsCompactSha256": "bc41a7565fc923fe87322e31efee936b9f22f3185100aba6cde3c800d0a81ec5",
+  "componentCount": 62,
+  "trackCount": 858,
+  "viaCount": 101,
+  "completeNonGroundSourceMembershipCount": 55,
+  "unroutedNets": [
+    "GPIO1",
+    "GPIO2",
+    "GPIO3",
+    "GPIO17",
+    "GPIO18",
+    "GPIO20",
+    "GPIO21",
+    "GPIO22",
+    "GPIO26",
+    "GPIO27",
+    "GPIO28"
+  ],
+  "nativeBoardMaterialized": false,
+  "managedNativeBoardMaterialized": false,
+  "disposableNativeGroundDiagnosticExists": true,
+  "groundAndReturnAcceptance": false,
+  "groundDiagnostic": {
+    "groundComponents": 13,
+    "missingGroundLinks": 12,
+    "C6StoredIslandMm2": 0.5595375889405,
+    "minimumIslandMm2": 1,
+    "referenceCoveragePass": false,
+    "summaryFile": "ground-diagnostic-summary.json"
+  },
+  "sourceChecks": {
+    "configuredSourcePhysicalFindings": 0,
+    "scope": "Selected source Cu/via/drill/paste/turn/clearance checks only; neither complete board nor filled-ground/reference acceptance."
+  },
+  "unadoptedExcluded": [
+    "SW2 rotation 270 and GPIO20 closure experiment",
+    "north flash/C5/C11 macro alternatives",
+    "analog cap/rail alternatives",
+    "PairB front 3V3/PS layer exchange"
+  ],
+  "files": [
+    {
+      "name": "README.md",
+      "size": 3001,
+      "sha256": "076ad5169d812d7bdeed9691b90e7517e3c2b73b02c961a3819eece4dff8bbf4"
+    },
+    {
+      "name": "copper-proposal.json",
+      "size": 199982,
+      "sha256": "2cc4c7e61b3732eda741625d40388e338fff35419ba2e7e68fa2ee42864b1fc7"
+    },
+    {
+      "name": "draft.json",
+      "size": 186283,
+      "sha256": "b94aef425258200135c38cc0096f0e87e3e19c5deb2daef4d46f81012e2ec751"
+    },
+    {
+      "name": "ground-diagnostic-summary.json",
+      "size": 4117,
+      "sha256": "6de6546e2612e9976fca5506617357970803426810633bd13f06e37bcbfcf5a8"
+    },
+    {
+      "name": "ground-map.svg",
+      "size": 273438,
+      "sha256": "aa889c950266890ad4ab0aa51e88dc855e3fc9591fc309a910a9a0d72b242cfd"
+    },
+    {
+      "name": "placements.json",
+      "size": 3565,
+      "sha256": "a71883635936ba926c064a041ed2e6a87a80073e5c0354453080f358d33229cb"
+    },
+    {
+      "name": "routing-proposal.png",
+      "size": 346863,
+      "sha256": "a656257e798dc66af97aa433bacd6283263ddd6c897c2a734f1c799cd2978a0a"
+    },
+    {
+      "name": "routing-proposal.svg",
+      "size": 177322,
+      "sha256": "15e915588f434bb0f24a100ea390a9e735279f1b14baaa76783d7b1e4ea71688"
+    }
+  ]
+}

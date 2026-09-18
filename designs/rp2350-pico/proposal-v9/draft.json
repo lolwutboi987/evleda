@@ -1,0 +1,8336 @@
+{
+  "schemaVersion": "evleda.pcb-design-intent-draft.v2",
+  "kind": "pcb_design_intent_draft",
+  "scope": {
+    "sheetCount": 1,
+    "componentUnitPolicy": "single_unit",
+    "board": {
+      "shape": "rectangle",
+      "widthMm": 22,
+      "heightMm": 51,
+      "layerCount": 2,
+      "copperLayers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    }
+  },
+  "components": [
+    {
+      "reference": "C1",
+      "symbolLibId": "Device:C",
+      "value": "4.7uF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C10",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C11",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C12",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C13",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C14",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C15",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C16",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "ADC_AVDD"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C17",
+      "symbolLibId": "Device:C",
+      "value": "4.7uF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "ADC_AVDD"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C18",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C19",
+      "symbolLibId": "Device:C",
+      "value": "4.7uF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C2",
+      "symbolLibId": "Device:C",
+      "value": "4.7uF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C20",
+      "symbolLibId": "Device:C",
+      "value": "47uF",
+      "footprintLibId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C21",
+      "symbolLibId": "Device:C",
+      "value": "47uF",
+      "footprintLibId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C22",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C23",
+      "symbolLibId": "Device:C",
+      "value": "1nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS_DIV"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C24",
+      "symbolLibId": "Device:C",
+      "value": "15pF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "XIN"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C25",
+      "symbolLibId": "Device:C",
+      "value": "15pF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "XTAL_OUT"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C26",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C3",
+      "symbolLibId": "Device:C",
+      "value": "4.7uF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VREG_AVDD"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C4",
+      "symbolLibId": "Device:C",
+      "value": "4.7uF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C5",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C6",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C7",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C8",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "C9",
+      "symbolLibId": "Device:C",
+      "value": "100nF",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "D1",
+      "symbolLibId": "Device:D_Schottky",
+      "value": "PMEG6010ELR",
+      "footprintLibId": "Diode_SMD:Nexperia_CFP3_SOD-123W",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "D2",
+      "symbolLibId": "Device:LED",
+      "value": "GREEN",
+      "footprintLibId": "LED_SMD:LED_0603_1608Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "LED_A"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "J1",
+      "symbolLibId": "Connector:USB_C_Receptacle_USB2.0_16P",
+      "value": "USB-C",
+      "footprintLibId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "A1",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "A12",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "A4",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "A5",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_CC1"
+          }
+        },
+        {
+          "pin": "A6",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DP_PORT"
+          }
+        },
+        {
+          "pin": "A7",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DM_PORT"
+          }
+        },
+        {
+          "pin": "A8",
+          "assignment": {
+            "kind": "no_connect"
+          }
+        },
+        {
+          "pin": "A9",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "B1",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "B12",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "B4",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "B5",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_CC2"
+          }
+        },
+        {
+          "pin": "B6",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DP_PORT"
+          }
+        },
+        {
+          "pin": "B7",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DM_PORT"
+          }
+        },
+        {
+          "pin": "B8",
+          "assignment": {
+            "kind": "no_connect"
+          }
+        },
+        {
+          "pin": "B9",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "SH",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "J2",
+      "symbolLibId": "Connector_Generic:Conn_01x20",
+      "value": "PICO_1-20",
+      "footprintLibId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO0"
+          }
+        },
+        {
+          "pin": "10",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO7"
+          }
+        },
+        {
+          "pin": "11",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO8"
+          }
+        },
+        {
+          "pin": "12",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO9"
+          }
+        },
+        {
+          "pin": "13",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "14",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO10"
+          }
+        },
+        {
+          "pin": "15",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO11"
+          }
+        },
+        {
+          "pin": "16",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO12"
+          }
+        },
+        {
+          "pin": "17",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO13"
+          }
+        },
+        {
+          "pin": "18",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "19",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO14"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO1"
+          }
+        },
+        {
+          "pin": "20",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO15"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO2"
+          }
+        },
+        {
+          "pin": "5",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO3"
+          }
+        },
+        {
+          "pin": "6",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO4"
+          }
+        },
+        {
+          "pin": "7",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO5"
+          }
+        },
+        {
+          "pin": "8",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "9",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO6"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "J3",
+      "symbolLibId": "Connector_Generic:Conn_01x20",
+      "value": "PICO_21-40",
+      "footprintLibId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO16"
+          }
+        },
+        {
+          "pin": "10",
+          "assignment": {
+            "kind": "net",
+            "net": "RUN"
+          }
+        },
+        {
+          "pin": "11",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO26"
+          }
+        },
+        {
+          "pin": "12",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO27"
+          }
+        },
+        {
+          "pin": "13",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "14",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO28"
+          }
+        },
+        {
+          "pin": "15",
+          "assignment": {
+            "kind": "net",
+            "net": "ADC_VREF"
+          }
+        },
+        {
+          "pin": "16",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "17",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3_EN"
+          }
+        },
+        {
+          "pin": "18",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "19",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO17"
+          }
+        },
+        {
+          "pin": "20",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO18"
+          }
+        },
+        {
+          "pin": "5",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO19"
+          }
+        },
+        {
+          "pin": "6",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO20"
+          }
+        },
+        {
+          "pin": "7",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO21"
+          }
+        },
+        {
+          "pin": "8",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "9",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO22"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "J4",
+      "symbolLibId": "Connector_Generic:Conn_01x03",
+      "value": "SWD",
+      "footprintLibId": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "SWCLK_HDR"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "SWDIO_HDR"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "L1",
+      "symbolLibId": "Device:L",
+      "value": "3.3uH",
+      "footprintLibId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "CORE_LX"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "L2",
+      "symbolLibId": "Device:L",
+      "value": "2.2uH",
+      "footprintLibId": "Inductor_SMD:L_Coilcraft_XxL4020",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "RT_LX1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "RT_LX2"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "Q1",
+      "symbolLibId": "Transistor_FET:Q_NMOS_GSD",
+      "value": "DMG1012T",
+      "footprintLibId": "Package_TO_SOT_SMD:SOT-523",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO29_VSYS_SENSE"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS_DIV"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R1",
+      "symbolLibId": "Device:R",
+      "value": "27R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DP_MCU"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DP_ESD"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R10",
+      "symbolLibId": "Device:R",
+      "value": "100k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO23_SMPS_PS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R11",
+      "symbolLibId": "Device:R",
+      "value": "5.6k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO24_VBUS_SENSE"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R12",
+      "symbolLibId": "Device:R",
+      "value": "10k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO24_VBUS_SENSE"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R13",
+      "symbolLibId": "Device:R",
+      "value": "100k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS_DIV"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R14",
+      "symbolLibId": "Device:R",
+      "value": "100k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS_DIV"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R15",
+      "symbolLibId": "Device:R",
+      "value": "100k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO29_VSYS_SENSE"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R16",
+      "symbolLibId": "Device:R",
+      "value": "200R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "ADC_VREF"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R17",
+      "symbolLibId": "Device:R",
+      "value": "1R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "ADC_VREF"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "ADC_AVDD"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R18",
+      "symbolLibId": "Device:R",
+      "value": "470R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO25_LED"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "LED_A"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R19",
+      "symbolLibId": "Device:R",
+      "value": "100R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "SWCLK_MCU"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "SWCLK_HDR"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R2",
+      "symbolLibId": "Device:R",
+      "value": "27R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DM_MCU"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DM_ESD"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R20",
+      "symbolLibId": "Device:R",
+      "value": "100R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "SWDIO_MCU"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "SWDIO_HDR"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R3",
+      "symbolLibId": "Device:R",
+      "value": "5.1k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_CC1"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R4",
+      "symbolLibId": "Device:R",
+      "value": "5.1k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_CC2"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R5",
+      "symbolLibId": "Device:R",
+      "value": "1k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_CS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "BOOT_SW"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R6",
+      "symbolLibId": "Device:R",
+      "value": "10k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_CS"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R7",
+      "symbolLibId": "Device:R",
+      "value": "1k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "XOUT_MCU"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "XTAL_OUT"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R8",
+      "symbolLibId": "Device:R",
+      "value": "33R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "VREG_AVDD"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "R9",
+      "symbolLibId": "Device:R",
+      "value": "100k",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3_EN"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "SW1",
+      "symbolLibId": "EvlEDA_Pico2350:Wuerth_434133025816",
+      "value": "BOOTSEL",
+      "footprintLibId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "BOOT_SW"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "BOOT_SW"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "SW2",
+      "symbolLibId": "EvlEDA_Pico2350:Wuerth_434133025816",
+      "value": "RUN",
+      "footprintLibId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "RUN"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "RUN"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "U1",
+      "symbolLibId": "MCU_RaspberryPi:RP2350A",
+      "value": "RP2350A",
+      "footprintLibId": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "10",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO7"
+          }
+        },
+        {
+          "pin": "11",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "12",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO8"
+          }
+        },
+        {
+          "pin": "13",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO9"
+          }
+        },
+        {
+          "pin": "14",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO10"
+          }
+        },
+        {
+          "pin": "15",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO11"
+          }
+        },
+        {
+          "pin": "16",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO12"
+          }
+        },
+        {
+          "pin": "17",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO13"
+          }
+        },
+        {
+          "pin": "18",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO14"
+          }
+        },
+        {
+          "pin": "19",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO15"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO0"
+          }
+        },
+        {
+          "pin": "20",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "21",
+          "assignment": {
+            "kind": "net",
+            "net": "XIN"
+          }
+        },
+        {
+          "pin": "22",
+          "assignment": {
+            "kind": "net",
+            "net": "XOUT_MCU"
+          }
+        },
+        {
+          "pin": "23",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "24",
+          "assignment": {
+            "kind": "net",
+            "net": "SWCLK_MCU"
+          }
+        },
+        {
+          "pin": "25",
+          "assignment": {
+            "kind": "net",
+            "net": "SWDIO_MCU"
+          }
+        },
+        {
+          "pin": "26",
+          "assignment": {
+            "kind": "net",
+            "net": "RUN"
+          }
+        },
+        {
+          "pin": "27",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO16"
+          }
+        },
+        {
+          "pin": "28",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO17"
+          }
+        },
+        {
+          "pin": "29",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO18"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO1"
+          }
+        },
+        {
+          "pin": "30",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "31",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO19"
+          }
+        },
+        {
+          "pin": "32",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO20"
+          }
+        },
+        {
+          "pin": "33",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO21"
+          }
+        },
+        {
+          "pin": "34",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO22"
+          }
+        },
+        {
+          "pin": "35",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO23_SMPS_PS"
+          }
+        },
+        {
+          "pin": "36",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO24_VBUS_SENSE"
+          }
+        },
+        {
+          "pin": "37",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO25_LED"
+          }
+        },
+        {
+          "pin": "38",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "39",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO2"
+          }
+        },
+        {
+          "pin": "40",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO26"
+          }
+        },
+        {
+          "pin": "41",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO27"
+          }
+        },
+        {
+          "pin": "42",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO28"
+          }
+        },
+        {
+          "pin": "43",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO29_VSYS_SENSE"
+          }
+        },
+        {
+          "pin": "44",
+          "assignment": {
+            "kind": "net",
+            "net": "ADC_AVDD"
+          }
+        },
+        {
+          "pin": "45",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "46",
+          "assignment": {
+            "kind": "net",
+            "net": "VREG_AVDD"
+          }
+        },
+        {
+          "pin": "47",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "48",
+          "assignment": {
+            "kind": "net",
+            "net": "CORE_LX"
+          }
+        },
+        {
+          "pin": "49",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "5",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO3"
+          }
+        },
+        {
+          "pin": "50",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "51",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DM_MCU"
+          }
+        },
+        {
+          "pin": "52",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DP_MCU"
+          }
+        },
+        {
+          "pin": "53",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "54",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "55",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD3"
+          }
+        },
+        {
+          "pin": "56",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SCLK"
+          }
+        },
+        {
+          "pin": "57",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD0"
+          }
+        },
+        {
+          "pin": "58",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD2"
+          }
+        },
+        {
+          "pin": "59",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD1"
+          }
+        },
+        {
+          "pin": "6",
+          "assignment": {
+            "kind": "net",
+            "net": "1V1"
+          }
+        },
+        {
+          "pin": "60",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_CS"
+          }
+        },
+        {
+          "pin": "61",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "7",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO4"
+          }
+        },
+        {
+          "pin": "8",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO5"
+          }
+        },
+        {
+          "pin": "9",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO6"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "U2",
+      "symbolLibId": "EvlEDA_Pico2350:RT6150B-33GQW",
+      "value": "RT6150B-33",
+      "footprintLibId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "10",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "11",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "RT_LX2"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "RT_LX1"
+          }
+        },
+        {
+          "pin": "5",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "6",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3_EN"
+          }
+        },
+        {
+          "pin": "7",
+          "assignment": {
+            "kind": "net",
+            "net": "GPIO23_SMPS_PS"
+          }
+        },
+        {
+          "pin": "8",
+          "assignment": {
+            "kind": "net",
+            "net": "VSYS"
+          }
+        },
+        {
+          "pin": "9",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "U3",
+      "symbolLibId": "EvlEDA_Pico2350:W25Q32RVXHJQ",
+      "value": "W25Q32RV",
+      "footprintLibId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_CS"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD1"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD2"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "5",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD0"
+          }
+        },
+        {
+          "pin": "6",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SCLK"
+          }
+        },
+        {
+          "pin": "7",
+          "assignment": {
+            "kind": "net",
+            "net": "QSPI_SD3"
+          }
+        },
+        {
+          "pin": "8",
+          "assignment": {
+            "kind": "net",
+            "net": "3V3"
+          }
+        },
+        {
+          "pin": "9",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "U4",
+      "symbolLibId": "EvlEDA_Pico2350:USBLC6-2SC6",
+      "value": "USBLC6-2SC6",
+      "footprintLibId": "Package_TO_SOT_SMD:SOT-23-6",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DP_ESD"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DM_ESD"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DM_PORT"
+          }
+        },
+        {
+          "pin": "5",
+          "assignment": {
+            "kind": "net",
+            "net": "VBUS"
+          }
+        },
+        {
+          "pin": "6",
+          "assignment": {
+            "kind": "net",
+            "net": "USB_DP_PORT"
+          }
+        }
+      ]
+    },
+    {
+      "reference": "Y1",
+      "symbolLibId": "Device:Crystal_GND24",
+      "value": "12MHz",
+      "footprintLibId": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+      "unit": 1,
+      "pins": [
+        {
+          "pin": "1",
+          "assignment": {
+            "kind": "net",
+            "net": "XIN"
+          }
+        },
+        {
+          "pin": "2",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        },
+        {
+          "pin": "3",
+          "assignment": {
+            "kind": "net",
+            "net": "XTAL_OUT"
+          }
+        },
+        {
+          "pin": "4",
+          "assignment": {
+            "kind": "net",
+            "net": "GND"
+          }
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "1V1",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "C11",
+          "pin": "1"
+        },
+        {
+          "reference": "C12",
+          "pin": "1"
+        },
+        {
+          "reference": "C13",
+          "pin": "1"
+        },
+        {
+          "reference": "C2",
+          "pin": "1"
+        },
+        {
+          "reference": "C4",
+          "pin": "1"
+        },
+        {
+          "reference": "L1",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "23"
+        },
+        {
+          "reference": "U1",
+          "pin": "39"
+        },
+        {
+          "reference": "U1",
+          "pin": "50"
+        },
+        {
+          "reference": "U1",
+          "pin": "6"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 1.05,
+          "nominalV": 1.1,
+          "maximumV": 1.16
+        },
+        "current": {
+          "nominalA": 0.05,
+          "maximumContinuousA": 0.15,
+          "peakA": 0.2,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "POWER_FINE"
+    },
+    {
+      "name": "3V3",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "C10",
+          "pin": "1"
+        },
+        {
+          "reference": "C14",
+          "pin": "1"
+        },
+        {
+          "reference": "C15",
+          "pin": "1"
+        },
+        {
+          "reference": "C18",
+          "pin": "1"
+        },
+        {
+          "reference": "C19",
+          "pin": "1"
+        },
+        {
+          "reference": "C1",
+          "pin": "1"
+        },
+        {
+          "reference": "C21",
+          "pin": "1"
+        },
+        {
+          "reference": "C5",
+          "pin": "1"
+        },
+        {
+          "reference": "C6",
+          "pin": "1"
+        },
+        {
+          "reference": "C7",
+          "pin": "1"
+        },
+        {
+          "reference": "C8",
+          "pin": "1"
+        },
+        {
+          "reference": "C9",
+          "pin": "1"
+        },
+        {
+          "reference": "J3",
+          "pin": "16"
+        },
+        {
+          "reference": "Q1",
+          "pin": "1"
+        },
+        {
+          "reference": "R16",
+          "pin": "1"
+        },
+        {
+          "reference": "R6",
+          "pin": "1"
+        },
+        {
+          "reference": "R8",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "11"
+        },
+        {
+          "reference": "U1",
+          "pin": "20"
+        },
+        {
+          "reference": "U1",
+          "pin": "30"
+        },
+        {
+          "reference": "U1",
+          "pin": "38"
+        },
+        {
+          "reference": "U1",
+          "pin": "45"
+        },
+        {
+          "reference": "U1",
+          "pin": "49"
+        },
+        {
+          "reference": "U1",
+          "pin": "53"
+        },
+        {
+          "reference": "U1",
+          "pin": "54"
+        },
+        {
+          "reference": "U2",
+          "pin": "1"
+        },
+        {
+          "reference": "U2",
+          "pin": "10"
+        },
+        {
+          "reference": "U3",
+          "pin": "8"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 3.135,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.25,
+          "peakA": 0.3,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "POWER_FINE_015"
+    },
+    {
+      "name": "3V3_EN",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "17"
+        },
+        {
+          "reference": "R9",
+          "pin": "2"
+        },
+        {
+          "reference": "U2",
+          "pin": "6"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.00005,
+          "maximumContinuousA": 0.000058,
+          "peakA": 0.000058,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "ADC_AVDD",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "C16",
+          "pin": "1"
+        },
+        {
+          "reference": "C17",
+          "pin": "1"
+        },
+        {
+          "reference": "R17",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "44"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 2.97,
+          "nominalV": 3.27,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00015,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.02,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "ADC_VREF",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "15"
+        },
+        {
+          "reference": "R16",
+          "pin": "2"
+        },
+        {
+          "reference": "R17",
+          "pin": "1"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 2.97,
+          "nominalV": 3.27,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00015,
+          "maximumContinuousA": 0.00101,
+          "peakA": 0.02,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "BOOT_SW",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "R5",
+          "pin": "2"
+        },
+        {
+          "reference": "SW1",
+          "pin": "3"
+        },
+        {
+          "reference": "SW1",
+          "pin": "4"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00033,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "CORE_LX",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "L1",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "48"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.1,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.05,
+          "maximumContinuousA": 0.2,
+          "peakA": 0.8,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 4,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SWITCH_FINE"
+    },
+    {
+      "name": "GND",
+      "role": "ground",
+      "endpoints": [
+        {
+          "reference": "C10",
+          "pin": "2"
+        },
+        {
+          "reference": "C11",
+          "pin": "2"
+        },
+        {
+          "reference": "C12",
+          "pin": "2"
+        },
+        {
+          "reference": "C13",
+          "pin": "2"
+        },
+        {
+          "reference": "C14",
+          "pin": "2"
+        },
+        {
+          "reference": "C15",
+          "pin": "2"
+        },
+        {
+          "reference": "C16",
+          "pin": "2"
+        },
+        {
+          "reference": "C17",
+          "pin": "2"
+        },
+        {
+          "reference": "C18",
+          "pin": "2"
+        },
+        {
+          "reference": "C19",
+          "pin": "2"
+        },
+        {
+          "reference": "C1",
+          "pin": "2"
+        },
+        {
+          "reference": "C20",
+          "pin": "2"
+        },
+        {
+          "reference": "C21",
+          "pin": "2"
+        },
+        {
+          "reference": "C22",
+          "pin": "2"
+        },
+        {
+          "reference": "C23",
+          "pin": "2"
+        },
+        {
+          "reference": "C24",
+          "pin": "2"
+        },
+        {
+          "reference": "C25",
+          "pin": "2"
+        },
+        {
+          "reference": "C26",
+          "pin": "2"
+        },
+        {
+          "reference": "C2",
+          "pin": "2"
+        },
+        {
+          "reference": "C3",
+          "pin": "2"
+        },
+        {
+          "reference": "C4",
+          "pin": "2"
+        },
+        {
+          "reference": "C5",
+          "pin": "2"
+        },
+        {
+          "reference": "C6",
+          "pin": "2"
+        },
+        {
+          "reference": "C7",
+          "pin": "2"
+        },
+        {
+          "reference": "C8",
+          "pin": "2"
+        },
+        {
+          "reference": "C9",
+          "pin": "2"
+        },
+        {
+          "reference": "D2",
+          "pin": "1"
+        },
+        {
+          "reference": "J1",
+          "pin": "A1"
+        },
+        {
+          "reference": "J1",
+          "pin": "A12"
+        },
+        {
+          "reference": "J1",
+          "pin": "B1"
+        },
+        {
+          "reference": "J1",
+          "pin": "B12"
+        },
+        {
+          "reference": "J1",
+          "pin": "SH"
+        },
+        {
+          "reference": "J2",
+          "pin": "13"
+        },
+        {
+          "reference": "J2",
+          "pin": "18"
+        },
+        {
+          "reference": "J2",
+          "pin": "3"
+        },
+        {
+          "reference": "J2",
+          "pin": "8"
+        },
+        {
+          "reference": "J3",
+          "pin": "13"
+        },
+        {
+          "reference": "J3",
+          "pin": "18"
+        },
+        {
+          "reference": "J3",
+          "pin": "3"
+        },
+        {
+          "reference": "J3",
+          "pin": "8"
+        },
+        {
+          "reference": "J4",
+          "pin": "2"
+        },
+        {
+          "reference": "R10",
+          "pin": "2"
+        },
+        {
+          "reference": "R12",
+          "pin": "2"
+        },
+        {
+          "reference": "R14",
+          "pin": "2"
+        },
+        {
+          "reference": "R15",
+          "pin": "2"
+        },
+        {
+          "reference": "R3",
+          "pin": "2"
+        },
+        {
+          "reference": "R4",
+          "pin": "2"
+        },
+        {
+          "reference": "SW1",
+          "pin": "1"
+        },
+        {
+          "reference": "SW1",
+          "pin": "2"
+        },
+        {
+          "reference": "SW2",
+          "pin": "1"
+        },
+        {
+          "reference": "SW2",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "47"
+        },
+        {
+          "reference": "U1",
+          "pin": "61"
+        },
+        {
+          "reference": "U2",
+          "pin": "11"
+        },
+        {
+          "reference": "U2",
+          "pin": "3"
+        },
+        {
+          "reference": "U2",
+          "pin": "9"
+        },
+        {
+          "reference": "U3",
+          "pin": "4"
+        },
+        {
+          "reference": "U3",
+          "pin": "9"
+        },
+        {
+          "reference": "U4",
+          "pin": "2"
+        },
+        {
+          "reference": "Y1",
+          "pin": "2"
+        },
+        {
+          "reference": "Y1",
+          "pin": "4"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": -0.05,
+          "nominalV": 0,
+          "maximumV": 0.05
+        },
+        "current": {
+          "nominalA": 0.25,
+          "maximumContinuousA": 1.2,
+          "peakA": 2,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "GROUND"
+    },
+    {
+      "name": "GPIO0",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "2"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO1",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "3"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO10",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "14"
+        },
+        {
+          "reference": "U1",
+          "pin": "14"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO11",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "15"
+        },
+        {
+          "reference": "U1",
+          "pin": "15"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO12",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "16"
+        },
+        {
+          "reference": "U1",
+          "pin": "16"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO13",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "17"
+        },
+        {
+          "reference": "U1",
+          "pin": "17"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO14",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "19"
+        },
+        {
+          "reference": "U1",
+          "pin": "18"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO15",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "20"
+        },
+        {
+          "reference": "U1",
+          "pin": "19"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO16",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "27"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO17",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "28"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO18",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "4"
+        },
+        {
+          "reference": "U1",
+          "pin": "29"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO19",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "5"
+        },
+        {
+          "reference": "U1",
+          "pin": "31"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO2",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "4"
+        },
+        {
+          "reference": "U1",
+          "pin": "4"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO20",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "6"
+        },
+        {
+          "reference": "U1",
+          "pin": "32"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO21",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "7"
+        },
+        {
+          "reference": "U1",
+          "pin": "33"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO22",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "9"
+        },
+        {
+          "reference": "U1",
+          "pin": "34"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO23_SMPS_PS",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "R10",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "35"
+        },
+        {
+          "reference": "U2",
+          "pin": "7"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.000033,
+          "maximumContinuousA": 0.00004,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO24_VBUS_SENSE",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "R11",
+          "pin": "2"
+        },
+        {
+          "reference": "R12",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "36"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.205,
+          "maximumV": 3.58
+        },
+        "current": {
+          "nominalA": 0.00032,
+          "maximumContinuousA": 0.00037,
+          "peakA": 0.00037,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO25_LED",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "R18",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "37"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0025,
+          "maximumContinuousA": 0.008,
+          "peakA": 0.008,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.02,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO26",
+      "role": "analog",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "11"
+        },
+        {
+          "reference": "U1",
+          "pin": "40"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO27",
+      "role": "analog",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "12"
+        },
+        {
+          "reference": "U1",
+          "pin": "41"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO28",
+      "role": "analog",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "14"
+        },
+        {
+          "reference": "U1",
+          "pin": "42"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO29_VSYS_SENSE",
+      "role": "analog",
+      "endpoints": [
+        {
+          "reference": "Q1",
+          "pin": "2"
+        },
+        {
+          "reference": "R15",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "43"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.667,
+          "maximumV": 1.89
+        },
+        "current": {
+          "nominalA": 0.000017,
+          "maximumContinuousA": 0.00006,
+          "peakA": 0.00006,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1000
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO3",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "5"
+        },
+        {
+          "reference": "U1",
+          "pin": "5"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO4",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "6"
+        },
+        {
+          "reference": "U1",
+          "pin": "7"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO5",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "7"
+        },
+        {
+          "reference": "U1",
+          "pin": "8"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO6",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "9"
+        },
+        {
+          "reference": "U1",
+          "pin": "9"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO7",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "10"
+        },
+        {
+          "reference": "U1",
+          "pin": "10"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO8",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "11"
+        },
+        {
+          "reference": "U1",
+          "pin": "12"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "GPIO9",
+      "role": "digital",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "12"
+        },
+        {
+          "reference": "U1",
+          "pin": "13"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "LED_A",
+      "role": "passive",
+      "endpoints": [
+        {
+          "reference": "D2",
+          "pin": "2"
+        },
+        {
+          "reference": "R18",
+          "pin": "2"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 2.1,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0025,
+          "maximumContinuousA": 0.008,
+          "peakA": 0.008,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.02,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "QSPI_CS",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "R5",
+          "pin": "1"
+        },
+        {
+          "reference": "R6",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "60"
+        },
+        {
+          "reference": "U3",
+          "pin": "1"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00033,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "QSPI_FINE"
+    },
+    {
+      "name": "QSPI_SCLK",
+      "role": "clock",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "56"
+        },
+        {
+          "reference": "U3",
+          "pin": "6"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "QSPI_FINE"
+    },
+    {
+      "name": "QSPI_SD0",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "57"
+        },
+        {
+          "reference": "U3",
+          "pin": "5"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "QSPI_FINE"
+    },
+    {
+      "name": "QSPI_SD1",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "59"
+        },
+        {
+          "reference": "U3",
+          "pin": "2"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "QSPI_FINE"
+    },
+    {
+      "name": "QSPI_SD2",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "58"
+        },
+        {
+          "reference": "U3",
+          "pin": "3"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "QSPI_FINE"
+    },
+    {
+      "name": "QSPI_SD3",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "55"
+        },
+        {
+          "reference": "U3",
+          "pin": "7"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "QSPI_FINE"
+    },
+    {
+      "name": "RT_LX1",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "L2",
+          "pin": "1"
+        },
+        {
+          "reference": "U2",
+          "pin": "4"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 2.5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1.5,
+          "peakDurationMs": 0.01
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 1.2,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SWITCH"
+    },
+    {
+      "name": "RT_LX2",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "L2",
+          "pin": "2"
+        },
+        {
+          "reference": "U2",
+          "pin": "2"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1.5,
+          "peakDurationMs": 0.01
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 1.2,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SWITCH"
+    },
+    {
+      "name": "RUN",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "10"
+        },
+        {
+          "reference": "SW2",
+          "pin": "3"
+        },
+        {
+          "reference": "SW2",
+          "pin": "4"
+        },
+        {
+          "reference": "U1",
+          "pin": "26"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00005,
+          "maximumContinuousA": 0.00012,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "SWCLK_HDR",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "J4",
+          "pin": "1"
+        },
+        {
+          "reference": "R19",
+          "pin": "2"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "SWCLK_MCU",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "R19",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "24"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "SWDIO_HDR",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "J4",
+          "pin": "3"
+        },
+        {
+          "reference": "R20",
+          "pin": "2"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "SWDIO_MCU",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "R20",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "25"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00001,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "USB_CC1",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "A5"
+        },
+        {
+          "reference": "R3",
+          "pin": "1"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 0.42,
+          "maximumV": 2.04
+        },
+        "current": {
+          "nominalA": 0.00008,
+          "maximumContinuousA": 0.00042,
+          "peakA": 0.00042,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "USB_CC2",
+      "role": "control",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "B5"
+        },
+        {
+          "reference": "R4",
+          "pin": "1"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 0.42,
+          "maximumV": 2.04
+        },
+        "current": {
+          "nominalA": 0.00008,
+          "maximumContinuousA": 0.00042,
+          "peakA": 0.00042,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "USB_DM_ESD",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "R2",
+          "pin": "2"
+        },
+        {
+          "reference": "U4",
+          "pin": "3"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "netClassId": "USB_FS"
+    },
+    {
+      "name": "USB_DM_MCU",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "R2",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "51"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "netClassId": "USB_FS"
+    },
+    {
+      "name": "USB_DM_PORT",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "A7"
+        },
+        {
+          "reference": "J1",
+          "pin": "B7"
+        },
+        {
+          "reference": "U4",
+          "pin": "4"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "netClassId": "USB_FS"
+    },
+    {
+      "name": "USB_DP_ESD",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "R1",
+          "pin": "2"
+        },
+        {
+          "reference": "U4",
+          "pin": "1"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "netClassId": "USB_FS"
+    },
+    {
+      "name": "USB_DP_MCU",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "R1",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "52"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "netClassId": "USB_FS"
+    },
+    {
+      "name": "USB_DP_PORT",
+      "role": "interface",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "A6"
+        },
+        {
+          "reference": "J1",
+          "pin": "B6"
+        },
+        {
+          "reference": "U4",
+          "pin": "6"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "netClassId": "USB_FS"
+    },
+    {
+      "name": "VBUS",
+      "role": "power_input",
+      "endpoints": [
+        {
+          "reference": "C26",
+          "pin": "1"
+        },
+        {
+          "reference": "D1",
+          "pin": "2"
+        },
+        {
+          "reference": "J1",
+          "pin": "A4"
+        },
+        {
+          "reference": "J1",
+          "pin": "A9"
+        },
+        {
+          "reference": "J1",
+          "pin": "B4"
+        },
+        {
+          "reference": "J1",
+          "pin": "B9"
+        },
+        {
+          "reference": "J3",
+          "pin": "20"
+        },
+        {
+          "reference": "R11",
+          "pin": "1"
+        },
+        {
+          "reference": "U4",
+          "pin": "5"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 4.4,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.4,
+          "peakA": 0.5,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "POWER"
+    },
+    {
+      "name": "VREG_AVDD",
+      "role": "power",
+      "endpoints": [
+        {
+          "reference": "C3",
+          "pin": "1"
+        },
+        {
+          "reference": "R8",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "46"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 3.135,
+          "nominalV": 3.29,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00022,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.112,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "VSYS",
+      "role": "power_input",
+      "endpoints": [
+        {
+          "reference": "C20",
+          "pin": "1"
+        },
+        {
+          "reference": "C22",
+          "pin": "1"
+        },
+        {
+          "reference": "D1",
+          "pin": "1"
+        },
+        {
+          "reference": "J3",
+          "pin": "19"
+        },
+        {
+          "reference": "R13",
+          "pin": "1"
+        },
+        {
+          "reference": "R9",
+          "pin": "1"
+        },
+        {
+          "reference": "U2",
+          "pin": "5"
+        },
+        {
+          "reference": "U2",
+          "pin": "8"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 1.8,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "netClassId": "POWER"
+    },
+    {
+      "name": "VSYS_DIV",
+      "role": "analog",
+      "endpoints": [
+        {
+          "reference": "C23",
+          "pin": "1"
+        },
+        {
+          "reference": "Q1",
+          "pin": "3"
+        },
+        {
+          "reference": "R13",
+          "pin": "2"
+        },
+        {
+          "reference": "R14",
+          "pin": "1"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.667,
+          "maximumV": 2.81
+        },
+        "current": {
+          "nominalA": 0.000034,
+          "maximumContinuousA": 0.00006,
+          "peakA": 0.00006,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1000
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "XIN",
+      "role": "analog",
+      "endpoints": [
+        {
+          "reference": "C24",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "21"
+        },
+        {
+          "reference": "Y1",
+          "pin": "1"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.0021,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "XOUT_MCU",
+      "role": "clock",
+      "endpoints": [
+        {
+          "reference": "R7",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "22"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    },
+    {
+      "name": "XTAL_OUT",
+      "role": "analog",
+      "endpoints": [
+        {
+          "reference": "C25",
+          "pin": "1"
+        },
+        {
+          "reference": "R7",
+          "pin": "2"
+        },
+        {
+          "reference": "Y1",
+          "pin": "3"
+        }
+      ],
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.0021,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "netClassId": "SIGNAL"
+    }
+  ],
+  "netClasses": [
+    {
+      "id": "GROUND",
+      "traceWidthMm": 0.3,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "id": "POWER",
+      "traceWidthMm": 0.3,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "id": "POWER_FINE",
+      "traceWidthMm": 0.2,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "id": "QSPI_FINE",
+      "traceWidthMm": 0.15,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu"
+      ]
+    },
+    {
+      "id": "SIGNAL",
+      "traceWidthMm": 0.2,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "id": "SWITCH",
+      "traceWidthMm": 0.3,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu"
+      ]
+    },
+    {
+      "id": "SWITCH_FINE",
+      "traceWidthMm": 0.2,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu"
+      ]
+    },
+    {
+      "id": "USB_FS",
+      "traceWidthMm": 0.82,
+      "clearanceMm": 0.2,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu"
+      ]
+    },
+    {
+      "id": "POWER_FINE_015",
+      "traceWidthMm": 0.15,
+      "clearanceMm": 0.15,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    }
+  ],
+  "placementConstraints": [
+    {
+      "reference": "C1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 12.6,
+        "maxXmm": 14.2,
+        "minYmm": 14.8,
+        "maxYmm": 17.7
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C10",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.25,
+        "maxXmm": 16.75,
+        "minYmm": 18.5,
+        "maxYmm": 19.1
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C11",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 4.95,
+        "maxXmm": 6.05,
+        "minYmm": 21,
+        "maxYmm": 21.6
+      },
+      "allowedRotationsDeg": [
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C12",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 10.8,
+        "maxXmm": 11.3,
+        "minYmm": 26.82,
+        "maxYmm": 27.42
+      },
+      "allowedRotationsDeg": [
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C13",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.25,
+        "maxXmm": 16.75,
+        "minYmm": 21.8,
+        "maxYmm": 22.4
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C14",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 9.05,
+        "maxXmm": 9.815,
+        "minYmm": 15.9,
+        "maxYmm": 17
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C15",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 8.1,
+        "maxXmm": 8.875,
+        "minYmm": 15.22,
+        "maxYmm": 17
+      },
+      "allowedRotationsDeg": [
+        90,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C16",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.25,
+        "maxXmm": 16.75,
+        "minYmm": 19.6,
+        "maxYmm": 20.2
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C17",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.25,
+        "maxXmm": 16.75,
+        "minYmm": 20.7,
+        "maxYmm": 21.3
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C18",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 5.25,
+        "maxXmm": 5.55,
+        "minYmm": 11.9,
+        "maxYmm": 12.5
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C19",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 6.45,
+        "maxXmm": 6.75,
+        "minYmm": 11.9,
+        "maxYmm": 12.5
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C2",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 12.6,
+        "maxXmm": 16,
+        "minYmm": 13.9,
+        "maxYmm": 17.5
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C20",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 11.4,
+        "maxXmm": 12,
+        "minYmm": 41.7,
+        "maxYmm": 42.3
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C21",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 11.4,
+        "maxXmm": 12,
+        "minYmm": 34.7,
+        "maxYmm": 35.3
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C22",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 13.4,
+        "maxXmm": 14,
+        "minYmm": 38.2,
+        "maxYmm": 38.8
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C23",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 17.45,
+        "maxXmm": 17.95,
+        "minYmm": 14.6,
+        "maxYmm": 17.3
+      },
+      "allowedRotationsDeg": [
+        0,
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C24",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 6.24,
+        "maxXmm": 6.74,
+        "minYmm": 32.12,
+        "maxYmm": 32.72
+      },
+      "allowedRotationsDeg": [
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C25",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 12.02,
+        "maxXmm": 12.97,
+        "minYmm": 28.7,
+        "maxYmm": 30.5
+      },
+      "allowedRotationsDeg": [
+        0,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C26",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 13.6,
+        "maxXmm": 14,
+        "minYmm": 11.65,
+        "maxYmm": 12.15
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C3",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 15,
+        "maxXmm": 16,
+        "minYmm": 16.4,
+        "maxYmm": 17.8
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C4",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 11.9,
+        "maxXmm": 12.4,
+        "minYmm": 26.82,
+        "maxYmm": 28.05
+      },
+      "allowedRotationsDeg": [
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C5",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 4.7,
+        "maxXmm": 6.05,
+        "minYmm": 19.7,
+        "maxYmm": 20.55
+      },
+      "allowedRotationsDeg": [
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C6",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 4.95,
+        "maxXmm": 6.05,
+        "minYmm": 22.9,
+        "maxYmm": 23.5
+      },
+      "allowedRotationsDeg": [
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C7",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 8.2,
+        "maxXmm": 9.1,
+        "minYmm": 26.5,
+        "maxYmm": 27.42
+      },
+      "allowedRotationsDeg": [
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C8",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 14,
+        "maxXmm": 16,
+        "minYmm": 26.1,
+        "maxYmm": 28
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "C9",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.25,
+        "maxXmm": 16.75,
+        "minYmm": 22.9,
+        "maxYmm": 23.5
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "D1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 17.52,
+        "maxXmm": 17.59,
+        "minYmm": 10.5,
+        "maxYmm": 10.8
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "D2",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.05,
+        "maxXmm": 16.55,
+        "minYmm": 44.6,
+        "maxYmm": 45.2
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "J1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 11,
+        "maxXmm": 11,
+        "minYmm": 4.975,
+        "maxYmm": 4.975
+      },
+      "allowedRotationsDeg": [
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.5,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "top"
+    },
+    {
+      "reference": "J2",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 2.11,
+        "maxXmm": 2.11,
+        "minYmm": 1.37,
+        "maxYmm": 1.37
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "top"
+    },
+    {
+      "reference": "J3",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 19.89,
+        "maxXmm": 19.89,
+        "minYmm": 49.63,
+        "maxYmm": 49.63
+      },
+      "allowedRotationsDeg": [
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "bottom"
+    },
+    {
+      "reference": "J4",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 8.46,
+        "maxXmm": 8.46,
+        "minYmm": 48.2,
+        "maxYmm": 48.2
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "bottom"
+    },
+    {
+      "reference": "L1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 12.85,
+        "maxXmm": 14.1,
+        "minYmm": 14.35,
+        "maxYmm": 17.2
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "L2",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 6.35,
+        "maxXmm": 6.95,
+        "minYmm": 38.2,
+        "maxYmm": 38.8
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "Q1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 17.1,
+        "maxXmm": 17.54,
+        "minYmm": 15.2,
+        "maxYmm": 17.3
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 10.5,
+        "maxXmm": 10.75,
+        "minYmm": 16.25,
+        "maxYmm": 16.95
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R10",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 15,
+        "maxXmm": 15.7,
+        "minYmm": 38.9,
+        "maxYmm": 39.5
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R11",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.25,
+        "maxXmm": 16.75,
+        "minYmm": 25.3,
+        "maxYmm": 25.9
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R12",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 17.75,
+        "maxXmm": 18.25,
+        "minYmm": 25.5,
+        "maxYmm": 26.1
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R13",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 17.45,
+        "maxXmm": 17.95,
+        "minYmm": 13.5,
+        "maxYmm": 14.1
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R14",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 15.6,
+        "maxXmm": 16.4,
+        "minYmm": 12.9,
+        "maxYmm": 14.1
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R15",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 17.75,
+        "maxXmm": 18.25,
+        "minYmm": 19.1,
+        "maxYmm": 19.7
+      },
+      "allowedRotationsDeg": [
+        90,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R16",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 16.25,
+        "maxXmm": 16.75,
+        "minYmm": 24.1,
+        "maxYmm": 24.7
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R17",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 17.75,
+        "maxXmm": 18.25,
+        "minYmm": 21.3,
+        "maxYmm": 21.9
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R18",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 13.25,
+        "maxXmm": 13.75,
+        "minYmm": 44.6,
+        "maxYmm": 45.2
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R19",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 13.05,
+        "maxXmm": 13.55,
+        "minYmm": 26.85,
+        "maxYmm": 29.45
+      },
+      "allowedRotationsDeg": [
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R2",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 11.485,
+        "maxXmm": 11.685,
+        "minYmm": 16.3,
+        "maxYmm": 16.7
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R20",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 13.2,
+        "maxXmm": 16.45,
+        "minYmm": 26.8,
+        "maxYmm": 32.9
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R3",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 12.58,
+        "maxXmm": 13.08,
+        "minYmm": 10.15,
+        "maxYmm": 10.65
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R4",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 7.12,
+        "maxXmm": 7.62,
+        "minYmm": 10.25,
+        "maxYmm": 10.75
+      },
+      "allowedRotationsDeg": [
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R5",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 4,
+        "maxXmm": 4.75,
+        "minYmm": 16.9,
+        "maxYmm": 17.3
+      },
+      "allowedRotationsDeg": [
+        90,
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R6",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 4.25,
+        "maxXmm": 4.75,
+        "minYmm": 18.2,
+        "maxYmm": 18.8
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R7",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 9.35,
+        "maxXmm": 10.2,
+        "minYmm": 26.85,
+        "maxYmm": 28.1
+      },
+      "allowedRotationsDeg": [
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R8",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 14.9,
+        "maxXmm": 16,
+        "minYmm": 14.3,
+        "maxYmm": 16.4
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "R9",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 14.3,
+        "maxXmm": 15.5,
+        "minYmm": 40.1,
+        "maxYmm": 41
+      },
+      "allowedRotationsDeg": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "SW1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 5.15,
+        "maxXmm": 5.85,
+        "minYmm": 28.65,
+        "maxYmm": 29.35
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "SW2",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 15.85,
+        "maxXmm": 16.55,
+        "minYmm": 31.65,
+        "maxYmm": 32.35
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "U1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 10.9,
+        "maxXmm": 11.1,
+        "minYmm": 22,
+        "maxYmm": 22.15
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "U2",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 10.85,
+        "maxXmm": 11.45,
+        "minYmm": 38.2,
+        "maxYmm": 38.8
+      },
+      "allowedRotationsDeg": [
+        0
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "U3",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 5.85,
+        "maxXmm": 7.3,
+        "minYmm": 15.15,
+        "maxYmm": 15.65
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.01,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "U4",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 9.8,
+        "maxXmm": 10.3,
+        "minYmm": 11.9,
+        "maxYmm": 12.15
+      },
+      "allowedRotationsDeg": [
+        90
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    },
+    {
+      "reference": "Y1",
+      "side": "front",
+      "regionMm": {
+        "minXmm": 9.35,
+        "maxXmm": 9.85,
+        "minYmm": 30,
+        "maxYmm": 30.6
+      },
+      "allowedRotationsDeg": [
+        0,
+        180
+      ],
+      "minimumEdgeClearanceMm": 0.25,
+      "minimumCourtyardClearanceMm": 0.1,
+      "edgePreference": "none"
+    }
+  ],
+  "routingConstraints": {
+    "cornerStyle": "miter_45",
+    "maximumTurnAngleDeg": 45,
+    "minimumStraightBeforeTurnMm": 0.1,
+    "allowRightAngleCorners": false,
+    "allowAcuteInteriorCorners": false,
+    "allowBacktracking": false,
+    "allowSelfIntersections": false,
+    "viaPolicy": {
+      "mode": "bounded",
+      "maxTotal": 143,
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "minimumAnnularRingMm": 0.15
+    },
+    "nets": [
+      {
+        "net": "1V1",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 8,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 70
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "3V3",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 12,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 200
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "3V3_EN",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 70
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "ADC_AVDD",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 20
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "ADC_VREF",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 30
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "BOOT_SW",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 35
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "CORE_LX",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 8
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GND",
+        "topology": "plane",
+        "planeId": "GND_PLANE",
+        "accessRouting": {
+          "preferredLayer": "either",
+          "maxVias": 48,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 160
+          }
+        }
+      },
+      {
+        "net": "GPIO0",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 45
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO1",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 45
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO10",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 35
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO11",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 35
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO12",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 40
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO13",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 45
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO14",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 55
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO15",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 60
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO16",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 60
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO17",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 55
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO18",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 45
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO19",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 40
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO2",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 35
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO20",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 35
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO21",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 35
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO22",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 25
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO23_SMPS_PS",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 40
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO24_VBUS_SENSE",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 20
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO25_LED",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 45
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO26",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 25
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO27",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 20
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO28",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 25
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO29_VSYS_SENSE",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 18
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO3",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 35
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO4",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 30
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO5",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 25
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO6",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 20
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO7",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 20
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO8",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 25
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "GPIO9",
+        "topology": "point_to_point",
+        "preferredLayer": "either",
+        "maxVias": 2,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 25
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "LED_A",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 15
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "QSPI_CS",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 20
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R5",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "R6",
+                "pin": "2"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "60"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U3",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "QSPI_SCLK",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 16
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "56"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U3",
+                "pin": "6"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "QSPI_SD0",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 16
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "57"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U3",
+                "pin": "5"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "QSPI_SD1",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 16
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "59"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U3",
+                "pin": "2"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "QSPI_SD2",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 16
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "58"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U3",
+                "pin": "3"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "QSPI_SD3",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 16
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "55"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U3",
+                "pin": "7"
+              },
+              "referenceEndpoint": {
+                "reference": "U3",
+                "pin": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "RT_LX1",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 8
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "RT_LX2",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 8
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "RUN",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 40
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "SWCLK_HDR",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 45
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "J4",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "J4",
+                "pin": "2"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "R19",
+                "pin": "2"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "SWCLK_MCU",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 6
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R19",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "24"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "SWDIO_HDR",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 45
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "J4",
+                "pin": "3"
+              },
+              "referenceEndpoint": {
+                "reference": "J4",
+                "pin": "2"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "R20",
+                "pin": "2"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "SWDIO_MCU",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 10
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R20",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "25"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "USB_CC1",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 20
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "USB_CC2",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 25
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "USB_DM_ESD",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 22
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R2",
+                "pin": "2"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U4",
+                "pin": "3"
+              },
+              "referenceEndpoint": {
+                "reference": "U4",
+                "pin": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "USB_DM_MCU",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 3
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R2",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "51"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "USB_DM_PORT",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 22
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "J1",
+                "pin": "A7"
+              },
+              "referenceEndpoint": {
+                "reference": "J1",
+                "pin": "A12"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "J1",
+                "pin": "B7"
+              },
+              "referenceEndpoint": {
+                "reference": "J1",
+                "pin": "A1"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U4",
+                "pin": "4"
+              },
+              "referenceEndpoint": {
+                "reference": "U4",
+                "pin": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "USB_DP_ESD",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 22
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R1",
+                "pin": "2"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U4",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U4",
+                "pin": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "USB_DP_MCU",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 3
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R1",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "52"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "USB_DP_PORT",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 22
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "J1",
+                "pin": "A6"
+              },
+              "referenceEndpoint": {
+                "reference": "J1",
+                "pin": "A1"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "J1",
+                "pin": "B6"
+              },
+              "referenceEndpoint": {
+                "reference": "J1",
+                "pin": "A12"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U4",
+                "pin": "6"
+              },
+              "referenceEndpoint": {
+                "reference": "U4",
+                "pin": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "VBUS",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 3,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 80
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "VREG_AVDD",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 12
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "VSYS",
+        "topology": "tree",
+        "preferredLayer": "either",
+        "maxVias": 6,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 130
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "VSYS_DIV",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 12
+        },
+        "referencePath": {
+          "mode": "none"
+        }
+      },
+      {
+        "net": "XIN",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 16
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "C24",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "C24",
+                "pin": "2"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "21"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "Y1",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "Y1",
+                "pin": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "XOUT_MCU",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 5
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "R7",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "U1",
+                "pin": "22"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "net": "XTAL_OUT",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "routeLength": {
+          "mode": "bounded",
+          "maximumMm": 16
+        },
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.25,
+          "layerTransitions": "forbidden",
+          "terminalReferences": [
+            {
+              "signalEndpoint": {
+                "reference": "C25",
+                "pin": "1"
+              },
+              "referenceEndpoint": {
+                "reference": "C25",
+                "pin": "2"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "R7",
+                "pin": "2"
+              },
+              "referenceEndpoint": {
+                "reference": "U1",
+                "pin": "61"
+              }
+            },
+            {
+              "signalEndpoint": {
+                "reference": "Y1",
+                "pin": "3"
+              },
+              "referenceEndpoint": {
+                "reference": "Y1",
+                "pin": "2"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "minimumHoleToHoleMm": 0.5
+  },
+  "nativeRuleMode": "contract-derived-v1",
+  "planes": [
+    {
+      "id": "GND_PLANE",
+      "net": "GND",
+      "layer": "B.Cu",
+      "boundary": {
+        "minXmm": 0.5,
+        "maxXmm": 21.5,
+        "minYmm": 0.5,
+        "maxYmm": 50.5,
+        "kind": "rectangle"
+      },
+      "clearanceMm": 0.15,
+      "minimumCopperWidthMm": 0.2,
+      "copperFill": "solid",
+      "padConnection": {
+        "mode": "solid"
+      },
+      "islandPolicy": {
+        "removeUnconnected": true,
+        "minimumAreaMm2": 1,
+        "requireSingleConnectedComponent": true
+      }
+    }
+  ],
+  "externalPowerInputs": [
+    {
+      "id": "EXTERNAL_VSYS",
+      "supplyEndpoint": {
+        "reference": "J3",
+        "pin": "19"
+      },
+      "returnEndpoint": {
+        "reference": "J3",
+        "pin": "18"
+      }
+    },
+    {
+      "id": "USB_VBUS",
+      "supplyEndpoint": {
+        "reference": "J1",
+        "pin": "A4"
+      },
+      "returnEndpoint": {
+        "reference": "J1",
+        "pin": "A1"
+      }
+    }
+  ],
+  "derivedPowerSources": [
+    {
+      "id": "ADC_AVDD_FILTER",
+      "drivingEndpoint": {
+        "reference": "U2",
+        "pin": "1"
+      },
+      "path": [
+        {
+          "reference": "R16",
+          "entryPin": "1",
+          "exitPin": "2"
+        },
+        {
+          "reference": "R17",
+          "entryPin": "1",
+          "exitPin": "2"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U1",
+        "pin": "44"
+      },
+      "returnEndpoint": {
+        "reference": "U2",
+        "pin": "3"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "U2 3V3 through R16.1->2 and R17.1->2 drives U1.44. ADC<=1mA plus<=10uA external reference load;3V3>=3.20V and201ohm at+2% leave>=2.992928V.20mA/10ms is a decaying charging envelope. No external reference injection, no shorts, J3.15 high impedance only. Preserve ADC_VREF intermediate net and C16/C17 shunts. Filter is not a precision reference."
+    },
+    {
+      "id": "CORE_1V1",
+      "drivingEndpoint": {
+        "reference": "U1",
+        "pin": "48"
+      },
+      "path": [
+        {
+          "reference": "L1",
+          "entryPin": "2",
+          "exitPin": "1"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U1",
+        "pin": "6"
+      },
+      "returnEndpoint": {
+        "reference": "U1",
+        "pin": "61"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "U1 normal-mode internal buck at default1.1V drives L1.2->1 and U1 DVDD.150mA continuous,200mA for1ms; no external core load or software overvoltage. Preserve marked inductor, C1/C2 feedback and quiet return geometry.60% efficiency is a budget assumption.3V3 steady>=3.20V and VREG_AVDD>=3.135V. U1.47 and U1.61 both remain GND. Source tracing is not stability/startup/current qualification."
+    },
+    {
+      "id": "VREG_AVDD_FILTER",
+      "drivingEndpoint": {
+        "reference": "U2",
+        "pin": "1"
+      },
+      "path": [
+        {
+          "reference": "R8",
+          "entryPin": "1",
+          "exitPin": "2"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U1",
+        "pin": "46"
+      },
+      "returnEndpoint": {
+        "reference": "U2",
+        "pin": "3"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "Enabled U2 fixed3.3V output drives R8.1->2 then U1.46; C3 remains shunt.3V3>=3.20V,R8<=33.66ohm and<=1mA leave>=3.16634V.112mA is a decaying1ms charging envelope, not a rectangular resistor load. VREG_VIN and VREG_AVDD power up together. No external injection. Disabled or absent upstream power means no available operating rail."
+    },
+    {
+      "id": "VSYS_DIODE_PENDING",
+      "drivingEndpoint": {
+        "reference": "J1",
+        "pin": "A4"
+      },
+      "path": [
+        {
+          "reference": "D1",
+          "entryPin": "2",
+          "exitPin": "1"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U2",
+        "pin": "5"
+      },
+      "returnEndpoint": {
+        "reference": "U2",
+        "pin": "3"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "USB at J1.A4 with J1.A1 GND drives D1 A2->K1 and U2.5. Present valid4.4..5.5V USB with assumed diode drop<=0.8V leaves VSYS>=3.6V. Absent or reverse-biased USB contributes no power. Alternate external VSYS may power U2; simultaneous supplies require external reverse blocking to protect the external source. ENlow leaves VSYS/C20 present while3V3 unavailable. Preconfiguration<=100mA, configured current<=host grant and500mA.47uF C20 charging is uncontrolled;500mA/10ms is a copper target, not verified inrush. No external VBUS/VSYS loads.",
+      "externalPowerInput": {
+        "id": "USB_VBUS",
+        "diodeForwardDropAssumption": "N Table7 specifies maximum605mV at0.5A,Tj25C; Fig4 supplies typical temperature behavior. Choose0..0.8V candidate design allowance at<=0.5A,targetambient0..50C, not a guaranteed full-temperature drop. At4.4V VBUS this leavesVSYS>=3.6V; verify junction/current behavior later.",
+        "operatingModes": "USB-only with valid default5V; external-VSYS-only with USB absent; coexistence only with external reverse blocking/power path. Absent or reverse-biased USB supplies nothing through D1. ENlow disables U2 output but does not disconnect C20.3V3 injection, USB host and PD unsupported."
+      }
+    }
+  ],
+  "boardFeatures": [
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H1",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 4.5,
+        "yMm": 2,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    },
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H2",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 17.5,
+        "yMm": 2,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    },
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H3",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 4.5,
+        "yMm": 49,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    },
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H4",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 17.5,
+        "yMm": 49,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    }
+  ],
+  "interfaceRequirements": {
+    "schemaVersion": "evleda.pcb-interface-requirements.v1",
+    "construction": {
+      "mode": "two_layer",
+      "id": "BOARD_STACKUP",
+      "boardThicknessMm": 1.006,
+      "frontCopperThicknessMm": 0.043,
+      "backCopperThicknessMm": 0.043,
+      "dielectric": {
+        "material": "FR4 TG-140; laminate supplier pending",
+        "relativePermittivity": 4.5,
+        "lossTangent": 0.02,
+        "frequencyHz": 100000000,
+        "source": {
+          "kind": "caller_assertion",
+          "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+          "description": "JetPCB nominal 1 mm table provides 0.900 mm core. FR4 TG-140 is listed, but supplier, Dk/Df and test frequency are unreported. Er=4.5 and tan(delta)=0.02 are Raspberry Pi native reference values extrapolated as explicit homogeneous 100 MHz model assumptions; mu_r=1 is an analytical idealization, not lot data."
+        },
+        "thicknessMm": 0.9,
+        "substrateRelativePermeability": 1
+      },
+      "conductor": {
+        "conductivitySiemensPerMetre": 58000000,
+        "relativePermeability": 1,
+        "roughnessNm": 0,
+        "source": {
+          "kind": "caller_assertion",
+          "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+          "description": "Finished copper per side is table foil 18 um plus plating 25 um = 43 um. Sigma=58 MS/m, mu_r=1 and zero roughness are smooth bulk-copper analytical assumptions, not measured foil/plating/finish properties; conductor/finish loss is not qualified."
+        }
+      },
+      "solderMask": {
+        "front": {
+          "material": "Green LPI solder mask; exact product pending",
+          "relativePermittivity": 3.8,
+          "lossTangent": 0.02,
+          "frequencyHz": 100000000,
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+            "description": "JetPCB table specifies 10 um mask per side. Product is unreported. Er=3.8 and tan(delta)=0.02 at 100 MHz are explicit illustrative model assumptions, NOT JetPCB material facts; no bare-model mask correction is claimed."
+          },
+          "kind": "present",
+          "thicknessMm": 0.01
+        },
+        "back": {
+          "material": "Green LPI solder mask; exact product pending",
+          "relativePermittivity": 3.8,
+          "lossTangent": 0.02,
+          "frequencyHz": 100000000,
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+            "description": "JetPCB table specifies 10 um mask per side. Product is unreported. Er=3.8 and tan(delta)=0.02 at 100 MHz are explicit illustrative model assumptions, NOT JetPCB material facts; no bare-model mask correction is claimed."
+          },
+          "kind": "present",
+          "thicknessMm": 0.01
+        }
+      },
+      "exterior": {
+        "front": "air",
+        "back": "air"
+      },
+      "surfaceFinish": "ENIG; specified candidate finish",
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+        "description": "Select the published nominal 1 mm two-layer build and listed ENIG option as the candidate procurement target. Native total is the exact nominal layer sum 0.010+0.043+0.900+0.043+0.010=1.006 mm, not a claim of 6 um fabrication accuracy. Finish is local to mask openings and not represented as an added full-board layer. Supplier/material/tolerance confirmation remains open."
+      }
+    },
+    "interfaces": [
+      {
+        "id": "USB_FS",
+        "kind": "differential_pair",
+        "nets": {
+          "positive": "USB_DP_PORT",
+          "negative": "USB_DM_PORT"
+        },
+        "endpoints": {
+          "source": {
+            "positive": {
+              "reference": "U1",
+              "pin": "52"
+            },
+            "negative": {
+              "reference": "U1",
+              "pin": "51"
+            }
+          },
+          "receiver": {
+            "positive": {
+              "reference": "J1",
+              "pin": "A6"
+            },
+            "negative": {
+              "reference": "J1",
+              "pin": "A7"
+            }
+          }
+        },
+        "geometry": {
+          "traceWidthMm": {
+            "minimumMm": 0.8,
+            "maximumMm": 0.84
+          },
+          "edgeGapMm": {
+            "minimumMm": 0.2,
+            "maximumMm": 0.22
+          },
+          "maxEtchLengthMm": 22,
+          "maxEtchSkewMm": 1,
+          "maxUncoupledLengthMm": 12
+        },
+        "routing": {
+          "allowedLayers": [
+            "F.Cu"
+          ],
+          "layerTransitions": "forbidden",
+          "stubs": "forbidden",
+          "polarityInversion": {
+            "policy": "forbidden",
+            "receiverMapping": "normal"
+          },
+          "referencePlaneId": "GND_PLANE"
+        },
+        "terminations": {
+          "source": {
+            "kind": "source_series",
+            "positive": {
+              "componentReference": "R1",
+              "sourcePin": "1",
+              "linePin": "2",
+              "resistanceOhms": 27
+            },
+            "negative": {
+              "componentReference": "R2",
+              "sourcePin": "1",
+              "linePin": "2",
+              "resistanceOhms": 27
+            },
+            "maximumDistanceToEndpointMm": 2,
+            "source": {
+              "kind": "caller_assertion",
+              "reference": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf#page=16",
+              "description": "Raspberry Pi requires separate 27 ohm resistors near the MCU. The 2 mm pad-center distance and 3 mm copper launch budget are explicit candidate layout choices, not published manufacturer maxima."
+            }
+          },
+          "receiver": {
+            "kind": "none",
+            "source": {
+              "kind": "caller_assertion",
+              "reference": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf#page=16",
+              "description": "No board-mounted parallel resistor terminates the USB receptacle. RP2350 has internal USB pull resistors; the host/cable and PHY are outside the PCB-copper model. This does not authorize removing Type-C CC resistors."
+            }
+          }
+        },
+        "impedance": {
+          "mode": "differential",
+          "targetOhms": 90,
+          "toleranceOhms": 9,
+          "frequencyHz": 100000000,
+          "constructionId": "BOARD_STACKUP",
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf#page=16",
+            "description": "Retain approximately 90 ohm differential intent. +/-9 ohm and 100 MHz are candidate engineering targets/checkpoint, not a claimed USB-IF compliance band, specified RP2350 edge frequency or measured material property. Actual mask-covered channel impedance remains unqualified."
+          }
+        },
+        "source": {
+          "kind": "caller_assertion",
+          "reference": "designs/rp2350-pico/usb-construction.md",
+          "description": "Engineering candidate for the actual 21 x 51 mm board. All six native signal nets, 14 signal terminals and both explicit manufacturer-described protection transfers remain required. Etch length/skew measures the three PCB copper sections; package electrical delay/skew and parasitics are not assessed. Preserve 45-degree copper turns, ground/supply access and 90-ohm intent; no manufacturer, USB, ESD or physical qualification is claimed."
+        },
+        "channel": {
+          "kind": "source_series",
+          "launchNets": {
+            "positive": "USB_DP_MCU",
+            "negative": "USB_DM_MCU"
+          },
+          "additionalReceivers": [
+            {
+              "positive": {
+                "reference": "J1",
+                "pin": "B6"
+              },
+              "negative": {
+                "reference": "J1",
+                "pin": "B7"
+              }
+            }
+          ],
+          "protection": [
+            {
+              "componentReference": "U4",
+              "positivePins": [
+                "1",
+                "6"
+              ],
+              "negativePins": [
+                "3",
+                "4"
+              ],
+              "ground": {
+                "pin": "2",
+                "net": "GND"
+              },
+              "supply": {
+                "pin": "5",
+                "net": "VBUS"
+              },
+              "source": {
+                "kind": "caller_assertion",
+                "reference": "ST USBLC6-2 DS4260 Rev.7, page 1 and Figures 15/17: https://www.st.com/resource/en/datasheet/usblc6-2.pdf",
+                "description": "USBLC6-2SC6 has reciprocal internal IO1 transfer between pins 1 and 6 and IO2 transfer between pins 3 and 4. These manufacturer-described package R/L paths are not PCB copper or zero electrical delay. All unique physical pins, VBUS and GND remain represented."
+              }
+            }
+          ],
+          "escapes": [
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "A6"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "A7"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "B6"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "B7"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "R1",
+                "pin": "1"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "R1",
+                "pin": "2"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2
+            },
+            {
+              "terminal": {
+                "reference": "R2",
+                "pin": "1"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "R2",
+                "pin": "2"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2
+            },
+            {
+              "terminal": {
+                "reference": "U1",
+                "pin": "51"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "U1",
+                "pin": "52"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "1"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "3"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "4"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "6"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            }
+          ],
+          "maximumLaunchEtchLengthMm": 3,
+          "maximumBranchEtchLengthMm": 5,
+          "maxEtchLengthMm": 25,
+          "maxTotalCopperLengthMm": 35,
+          "maxEtchSkewMm": 1,
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "designs/rp2350-pico/usb-construction.md",
+            "description": "Engineering candidate for the actual 21 x 51 mm board. All six native signal nets, 14 signal terminals and both explicit manufacturer-described protection transfers remain required. Etch length/skew measures the three PCB copper sections; package electrical delay/skew and parasitics are not assessed. Preserve 45-degree copper turns, ground/supply access and 90-ohm intent; no manufacturer, USB, ESD or physical qualification is claimed."
+          },
+          "feedThrough": {
+            "kind": "two_line_protection",
+            "componentReference": "U4",
+            "inputNets": {
+              "positive": "USB_DP_ESD",
+              "negative": "USB_DM_ESD"
+            },
+            "positive": {
+              "inputPin": "1",
+              "outputPin": "6"
+            },
+            "negative": {
+              "inputPin": "3",
+              "outputPin": "4"
+            },
+            "source": {
+              "kind": "caller_assertion",
+              "reference": "ST USBLC6-2 DS4260 Rev.7, page 1 and Figures 15/17: https://www.st.com/resource/en/datasheet/usblc6-2.pdf",
+              "description": "USBLC6-2SC6 has reciprocal internal IO1 transfer between pins 1 and 6 and IO2 transfer between pins 3 and 4. These manufacturer-described package R/L paths are not PCB copper or zero electrical delay. All unique physical pins, VBUS and GND remain represented."
+            }
+          }
+        }
+      }
+    ]
+  },
+  "unresolved": []
+}

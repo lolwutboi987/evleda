@@ -1,0 +1,146 @@
+{
+  "status": "FAIL / UNFINISHED: ground connectivity, island area and declared reference coverage are not complete",
+  "scope": "One disposable native reconstruction of this 858-track/101-via proposal, filled once with the exact V9 zone controls. This is diagnostic evidence, not managed fresh-fill authority, a native project save, fabrication or HF acceptance.",
+  "modelSha256": "421df1f6f7fad2857b58fcd7d9a6afb0d3d71792827094516ec423f1fcfc63c4",
+  "diagnosticNativeVersion": "10.0.3",
+  "groundComponentCount": 13,
+  "missingGroundLinkFindings": 12,
+  "allNativeUnconnectedFindings": 23,
+  "openGpioNetCount": 11,
+  "isolatedGroundGroups": [
+    {
+      "component": 1,
+      "members": [
+        "J2.13"
+      ]
+    },
+    {
+      "component": 2,
+      "members": [
+        "J3.8"
+      ]
+    },
+    {
+      "component": 3,
+      "members": [
+        "SW2.2"
+      ]
+    },
+    {
+      "component": 4,
+      "members": [
+        "C8.2"
+      ]
+    },
+    {
+      "component": 5,
+      "members": [
+        "SW1.2"
+      ]
+    },
+    {
+      "component": 6,
+      "members": [
+        "R12.2"
+      ]
+    },
+    {
+      "component": 7,
+      "members": [
+        "C13.2",
+        "C9.2"
+      ]
+    },
+    {
+      "component": 8,
+      "members": [
+        "C6.2"
+      ]
+    },
+    {
+      "component": 9,
+      "members": [
+        "C10.2",
+        "C16.2",
+        "C17.2",
+        "R15.2"
+      ]
+    },
+    {
+      "component": 10,
+      "members": [
+        "C5.2"
+      ]
+    },
+    {
+      "component": 11,
+      "members": [
+        "J3.13"
+      ]
+    },
+    {
+      "component": 12,
+      "members": [
+        "J3.18"
+      ]
+    }
+  ],
+  "C6Island": {
+    "storedFillAreaMm2": 0.5595375889405,
+    "conservativeDrillSubtractedAreaMm2": 0.5280203457385,
+    "requiredMinimumAreaMm2": 1,
+    "meetsRequirement": false
+  },
+  "referenceCoverage": {
+    "status": "Declared coverage deficits remain",
+    "netsWithDeficits": [
+      "QSPI_SCLK",
+      "QSPI_SD0",
+      "QSPI_SD2",
+      "SWCLK_HDR",
+      "SWDIO_HDR"
+    ],
+    "smallShoulderDeficitApproxMm": 0.0005,
+    "smallDeficitsNotWaived": true,
+    "substantialTerminalDeficits": [
+      "SWCLK_HDR at J4.1",
+      "SWDIO_HDR at J4.3"
+    ],
+    "USB": "No deficit found in the declared 0.90 mm trace ribbons by this diagnostic; no complete return or USB electrical acceptance inferred."
+  },
+  "nativeFindings": {
+    "violations": {
+      "track_dangling": 1,
+      "via_dangling": 4,
+      "silk_overlap": 96,
+      "silk_over_copper": 87
+    },
+    "unconnected_items": {
+      "unconnected_items": 23
+    },
+    "schematic_parity": {}
+  },
+  "configuredNumericalChecks": {
+    "clearanceShortHoleEdgeWidthAnnulusCourtyardFindings": 0,
+    "scope": "Zero configured numerical-category findings only. Silkscreen/dangling/unconnected findings and five inherited ignored project categories prevent a clean-board claim."
+  },
+  "limits": [
+    "The two large bottom regions join through existing front EP/core ground copper; this is not one uninterrupted B.Cu plane.",
+    "Disappearance of dangling GND-via warnings does not connect isolated islands.",
+    "The disposable reconstruction retained its 1.6 mm general thickness; intended construction is 1.006 mm. This is a 2D fill diagnostic, not a qualified stackup.",
+    "Ground return, coplanar signal returns, transitions, noise/ESD and manufacturing acceptance remain unfinished."
+  ],
+  "evidence": {
+    "fillReceipt": {
+      "name": "fill-receipt.json",
+      "sha256": "59ab8ada56ec63793c8d4eae56e5d71603c37dcccec255b6dc007db6787e0bcc"
+    },
+    "groundAnalysis": {
+      "name": "ground-analysis.json",
+      "sha256": "fbd4b4430565655cc5ea9df7ac6aec01a7f6c616696fe1de72102e8243923821"
+    },
+    "filledBoardSha256": "bd354767b42fddb0aa6d97aa8ddeab6c874ca052f6b16e9f353af22938e12c33",
+    "originalNativeSourceSha256": "7e9cdda5ebdc820e3bf423f5a6e4d35f252c29590900a6f0e182a448f24d456d"
+  },
+  "geometryDiagnosticMethod": "Native polygon booleans at0.5um approximation: copper inside, drill/ribbon outside; diagnostic lower-bound copper, not qualified exact physical topology."
+}
