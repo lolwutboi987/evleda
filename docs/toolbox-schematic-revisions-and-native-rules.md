@@ -335,3 +335,10 @@ retry work. Exhaustion returns no executable partial geometry. The independently
 reviewed implementation clears the observed MCU QSPI label dead end in the
 RP2350 diagnostic; that does not imply that its full label/flag plan or native
 board is complete.
+
+When a power-flag retry rebuilds a previously successful suffix, the same
+planning session can try its prior distance indices first. Each choice still
+runs every geometry check; a failed hinted branch can try the earlier default
+choices. Hints stay private to the session, preserve flag minima and consume the
+same work budget. This avoids repeatedly solving the same suffix without
+reusing clearance results or increasing the search limit.

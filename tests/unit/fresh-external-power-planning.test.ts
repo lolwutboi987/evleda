@@ -287,16 +287,16 @@ describe("joint repeated terminal labels and declared power flags", () => {
     expect(JSON.stringify({ ...f.input, pins: [...f.input.pins] })).toBe(before);
   });
 
-  it.each([0, 4])("fails closed when the extra continuation budget %s exhausts during anchor lookup or suffix truncation", extra => {
+  it.each([0, 4, 5])("fails closed when extra continuation budget %s exhausts during anchor lookup, hint capture or suffix truncation", extra => {
     const f = terminalPowerFixture(), initial = new FreshSchematicWorkBudget();
     expect(createFreshTerminalLabelPlanningSession(f.input, initial).plan.issues).toEqual([]);
     // Two singleton functional groups precede/contain J1:1: four lookup units.
-    // Its own choice and one later group require two suffix-removal units.
+    // The later group's hint costs one unit, then two choices are removed.
     const budget = new FreshSchematicWorkBudget(initial.snapshot().consumed + extra), session = createFreshTerminalLabelPlanningSession(f.input, budget);
     expect(session.plan.issues).toEqual([]);
     expect(session.retryDeclaredPowerAnchor("J1:1")).toMatchObject({ wires: [], labels: [], routes: [], issues: [{ code: "PLANNING_WORK_LIMIT" }] });
     expect(budget.snapshot()).toMatchObject({ status: "exhausted", remaining: 0,
-      exhaustion: { kind: extra === 0 ? "terminal_group" : "label", requested: 2, remaining: 0 } });
+      exhaustion: { kind: extra === 0 ? "terminal_group" : "label", requested: extra === 4 ? 1 : 2, remaining: 0 } });
   });
 
   it("fails closed with no partial labels, wires, or flags when all bounded anchor choices remain blocked", () => {

@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js";
 import { FRESH_CONNECTIVITY_CONTRACT_SCHEMA_VERSION, type FreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { buildSchematicTerminalGroups, type FreshSchematicCardinalAngle } from "../../src/harness/fresh-schematic-terminal-groups.js";
-import { planFreshTerminalGlobalLabels, type FreshTerminalLabelObstacle } from "../../src/harness/fresh-schematic-terminal-labels.js";
+import { createFreshTerminalLabelPlanningSession, planFreshTerminalGlobalLabels, type FreshTerminalLabelObstacle } from "../../src/harness/fresh-schematic-terminal-labels.js";
+import { PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION } from "../../src/harness/pcb-external-power.js";
 import { FreshSchematicWorkBudget, type FreshSchematicWorkKind } from "../../src/harness/fresh-schematic-work-budget.js";
 
 type Input = Parameters<typeof planFreshTerminalGlobalLabels>[0];
@@ -68,7 +69,7 @@ function fixture(options: { count?: number; separated?: boolean; blocker?: Block
 }
 
 /** Native-sized frames in a synthetic local conflict chain; no native authority. */
-function windowFixture(options: { count?: number; padding?: boolean; blocked?: boolean } = {}) {
+function windowFixture(options: { count?: number; padding?: boolean; blocked?: boolean; flagAnchor?: "C1:1" | "U1:55" } = {}) {
   const { count = 9, padding = false, blocked = false } = options;
   const sourceIdentity = contentIdentity("synthetic four-terminal conflict window");
   const components = ["C1", "R1", "R2", "U1", ...Array.from({ length: count - 4 }, (_, index) => `Z${index + 1}`)]
@@ -91,7 +92,16 @@ function windowFixture(options: { count?: number; padding?: boolean; blocked?: b
   const noConnects = points.filter(point => point.net === null).map(({ reference, pin }) => ({ reference, pin }));
   const payload = { schemaVersion: FRESH_CONNECTIVITY_CONTRACT_SCHEMA_VERSION,
     sourceContractIdentity: canonicalIdentity({ components, nets, noConnects }, "test.terminal-window-contract.v1"), components, nets, noConnects };
-  const contract: FreshConnectivityContract = { ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) };
+  // A declaration-only fixture for the private continuation API. It supplies
+  // no stock inspection, native capture or flag placement authority.
+  const flagPoint = points.find(point => `${point.reference}:${point.pin}` === options.flagAnchor);
+  const flagPayload = flagPoint === undefined ? undefined : { schemaVersion: PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION,
+    contractIdentity: payload.sourceContractIdentity,
+    source: { symbolLibId: "power:PWR_FLAG" as const, sourceIdentity, definitionIdentity: sourceIdentity, definitionSemanticIdentity: sourceIdentity,
+      inspectionIdentity: canonicalIdentity({ synthetic: true }, "test.window-flag-inspection.v1"), policyIdentity: canonicalIdentity({ synthetic: true }, "test.window-flag-policy.v1") },
+    flags: [{ reference: "#FLG001", net: flagPoint.net!, anchorEndpoint: { reference: flagPoint.reference, pin: flagPoint.pin }, symbolLibId: "power:PWR_FLAG" as const }] };
+  const boundPayload = { ...payload, ...(flagPayload === undefined ? {} : { externalPowerBinding: { ...flagPayload, identity: canonicalIdentity(flagPayload, flagPayload.schemaVersion) } }) };
+  const contract: FreshConnectivityContract = { ...boundPayload, identity: canonicalIdentity(boundPayload, boundPayload.schemaVersion) };
   const grouped = buildSchematicTerminalGroups({ contractIdentity: contract.sourceContractIdentity,
     components: components.map(component => ({ reference: component.reference, symbolLibId: component.symbolLibId, unit: 1, sourceIdentity,
       placement: { at: { xMm: 0, yMm: 0 }, rotationDeg: 0 }, pins: points.filter(point => point.reference === component.reference)
@@ -223,5 +233,45 @@ describe("bounded previous functional terminal retry (synthetic, no native proof
       expect(f.run(limited)).toMatchObject({ wires: [], labels: [], routes: [], issues: [{ code: "PLANNING_WORK_LIMIT" }] });
       expect(limited.snapshot().exhaustion).toMatchObject({ kind: "label", requested: maximum === setup.before + 3 ? 4 : 1 });
     }
+  });
+
+  it("rechecks successful suffix choices as private continuation hints without repeating the expensive window repair", () => {
+    const f = windowFixture({ flagAnchor: "C1:1" }), budget = new FreshSchematicWorkBudget();
+    const session = createFreshTerminalLabelPlanningSession(f.input, budget), initialWork = budget.snapshot().consumed;
+    const initialCollisions = budget.snapshot().counters.collision;
+    expect(session.plan.issues).toEqual([]);
+    const next = session.retryDeclaredPowerAnchor("C1:1")!;
+    expect(next.issues).toEqual([]);
+    expect(next.labels[0]!.at.y).toBe(127);
+    expect(next.labels.slice(1)).toEqual(session.plan.labels.slice(1));
+    const continuationWork = budget.snapshot().consumed - initialWork;
+    expect(continuationWork).toBeGreaterThan(100);
+    expect(continuationWork).toBeLessThan(initialWork / 3);
+    expect(budget.snapshot().counters.collision).toBeGreaterThan(initialCollisions);
+    // A fresh session still takes the original first pass; hints are neither
+    // public arguments nor process-global state or cached clearance results.
+    const freshBudget = new FreshSchematicWorkBudget();
+    const fresh = createFreshTerminalLabelPlanningSession(f.input, freshBudget);
+    expect(fresh.plan).toEqual(session.plan);
+    expect(freshBudget.snapshot().consumed).toBe(initialWork);
+    expect(fresh.retryDeclaredPowerAnchor("C1:1")).toEqual(next);
+    expect(freshBudget.snapshot()).toEqual(budget.snapshot());
+  });
+
+  it("rejects a newly colliding hint and revisits earlier default choices after a valid hint reaches a later dead end", () => {
+    const f = windowFixture({ flagAnchor: "U1:55" }), before = JSON.stringify({ ...f.input, pins: [...f.input.pins] });
+    const session = createFreshTerminalLabelPlanningSession(f.input);
+    expect(session.plan.issues).toEqual([]);
+    expect(session.retryDeclaredPowerAnchor("U1:55")!.issues).toEqual([]);
+    const next = session.retryDeclaredPowerAnchor("U1:55")!;
+    expect(next.issues).toEqual([]);
+    // SD0's old 15.24 mm hint remains locally valid, but the downstream SD1
+    // slot now requires its untried 1.27 mm default. SD2's old hint collides
+    // with the advanced declared anchor and must also be re-evaluated.
+    expect(next.labels.filter(label => label.endpointId.startsWith("U1:")).map(label => [label.endpointId, label.at.x])).toEqual([
+      ["U1:55", 120.65], ["U1:56", 105.41], ["U1:57", 134.62], ["U1:58", 134.62], ["U1:59", 120.65], ["U1:60", 134.62],
+    ]);
+    expect(next.labels.find(label => label.endpointId === "U1:57")!.at.x).toBeGreaterThan(session.plan.labels.find(label => label.endpointId === "U1:57")!.at.x);
+    expect(JSON.stringify({ ...f.input, pins: [...f.input.pins] })).toBe(before);
   });
 });

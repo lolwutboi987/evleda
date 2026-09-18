@@ -120,19 +120,27 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
     : Math.max(strokeStyle.symbolDefaultStrokeWidthMm, strokeStyle.minimumPlotStrokeWidthMm) + 0.001;
   const distances = [1.27, 2.54, 3.81, 5.08, 7.62, 10.16, 12.7, 15.24, 20.32, 25.4, 30.48, 38.1, 50.8];
   type Group = FreshSchematicTerminalPartition["groups"][number];
-  type Selection = { label: FreshPlannedGlobalLabel; wire: FreshTerminalLabelWire; distanceIndex: number };
-  const choices: { group: Group; distanceIndex: number }[] = [];
+  type Selection = { label: FreshPlannedGlobalLabel; wire: FreshTerminalLabelWire; distanceIndex: number; trialCursor: number };
+  const choices: { group: Group; distanceIndex: number; trialCursor: number }[] = [];
   const groups = input.partition.groups.filter(group => group.assignment.kind === "net").map(group => ({ ...group,
     memberEndpointIds: [...group.memberEndpointIds], assignment: { ...group.assignment }, sourceTransformedAnchor: { ...group.sourceTransformedAnchor } }));
   const minimumIndices = new Map<string, number>();
-  const select = (group: Group, startIndex = 0): Selection | undefined => {
+  let continuationHints = new Map<string, number>();
+  const select = (group: Group, startCursor = 0, useHint = true): Selection | undefined => {
     if (group.assignment.kind === "no_connect") return undefined;
+    const hint = useHint ? continuationHints.get(group.id) : undefined;
+    if (hint !== undefined && !budget.charge("label")) return undefined;
     const pin = pins.get(group.memberEndpointIds[0]!)!, orientation = freshGlobalLabelOrientation(pin.angleDeg);
     const members = new Set(group.memberEndpointIds), name = group.assignment.net;
     const escapeGeometry = escapes.find(value => value.reference === group.reference);
     const dx = pin.angleDeg === 0 ? -1 : pin.angleDeg === 180 ? 1 : 0, dy = pin.angleDeg === 90 ? 1 : pin.angleDeg === 270 ? -1 : 0;
-    for (let distanceIndex = Math.max(startIndex, minimumIndices.get(group.id) ?? 0); distanceIndex < distances.length; distanceIndex++) {
+    const minimum = minimumIndices.get(group.id) ?? 0;
+    for (let trialCursor = hint === undefined ? Math.max(startCursor, minimum) : startCursor; trialCursor < distances.length; trialCursor++) {
       if (!budget.charge("label")) break;
+      // A hint changes trial order, never the allowed minimum. Each existing
+      // distance occurs once: hint first, then all other indices in old order.
+      const distanceIndex = hint === undefined ? trialCursor : trialCursor === 0 ? hint : trialCursor <= hint ? trialCursor - 1 : trialCursor;
+      if (distanceIndex < minimum) continue;
       const distance = distances[distanceIndex]!;
       const at = { x: Number((pin.x + dx * distance).toFixed(4)), y: Number((pin.y + dy * distance).toFixed(4)) };
       if ([pin.x, pin.y, at.x, at.y].some(value => Math.abs(value / 1.27 - Math.round(value / 1.27)) > 1e-7)) continue;
@@ -166,13 +174,13 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
         || onWire(other, segment) && !(members.has(endpoint) && same(other, pin)))
         || labels.some(label => !budget.charge("collision") || boxesConflict(bounds, label.bounds) || wireEntersBox(segment, label.bounds))
         || wires.some(previous => !budget.charge("collision") || wiresTouch(segment, asWire(previous)) || wireEntersBox(asWire(previous), bounds))) continue;
-      return { label: { name, endpointId: group.id, at, ...orientation, fontMm: 1.524, bounds }, wire, distanceIndex };
+      return { label: { name, endpointId: group.id, at, ...orientation, fontMm: 1.524, bounds }, wire, distanceIndex, trialCursor };
     }
     return undefined;
   };
   const append = (group: Group, selected: Selection): void => {
     labels.push(selected.label); wires.push(selected.wire); routes.push(`${selected.label.name}:${group.memberEndpointIds.join(",")}`);
-    choices.push({ group, distanceIndex: selected.distanceIndex });
+    choices.push({ group, distanceIndex: selected.distanceIndex, trialCursor: selected.trialCursor });
     if (minimumIndices.has(group.id)) minimumIndices.set(group.id, Math.max(minimumIndices.get(group.id)!, selected.distanceIndex));
   };
   const removeLast = (): void => { labels.pop(); wires.pop(); routes.pop(); choices.pop(); };
@@ -194,18 +202,18 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
     let depth = failedIndex - 2;
     if (depth < first || choices.length !== failedIndex - 1) return false;
     if (!budget.charge("label", failedIndex - first + 1)) return false;
-    const cursors = Array.from({ length: failedIndex - first + 1 }, (_, offset) => (choices[first + offset]?.distanceIndex ?? -1) + 1);
+    const cursors = Array.from({ length: failedIndex - first + 1 }, (_, offset) => (choices[first + offset]?.trialCursor ?? -1) + 1);
     if (!truncate(depth)) return false;
     while (depth >= first) {
       if (!budget.charge("label")) return false;
       const selected = select(groups[depth]!, cursors[depth - first]!);
       if (selected !== undefined) {
         append(groups[depth]!, selected);
-        cursors[depth - first] = selected.distanceIndex + 1;
+        cursors[depth - first] = selected.trialCursor + 1;
         if (depth === failedIndex) return true;
         depth++;
         // A later cursor resets only after its earlier prefix changes. The
-        // candidate-index tuple therefore never repeats; depth is at most four.
+        // trial-order tuple therefore never repeats; depth is at most four.
         cursors[depth - first] = 0;
       } else {
         if (budget.snapshot().status === "exhausted") return false;
@@ -228,17 +236,17 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
     if (selected === undefined && larger && choices.length > start && budget.snapshot().status !== "exhausted") {
       const previous = choices.at(-1)!;
       removeLast();
-      for (let nextIndex = previous.distanceIndex + 1; nextIndex < distances.length;) {
+      for (let nextCursor = previous.trialCursor + 1; nextCursor < distances.length;) {
         // Charge retry bookkeeping as well as every candidate/collision below.
         if (!budget.charge("label")) break;
-        const alternate = select(previous.group, nextIndex);
+        const alternate = select(previous.group, nextCursor);
         if (alternate === undefined) break;
         append(previous.group, alternate);
         selected = select(group);
         if (selected !== undefined) break;
         removeLast();
         if (budget.snapshot().status === "exhausted") break;
-        nextIndex = alternate.distanceIndex + 1;
+        nextCursor = alternate.trialCursor + 1;
       }
     }
     if (selected === undefined && larger && budget.snapshot().status !== "exhausted" && repairPriorWindow(index, start)) continue;
@@ -273,13 +281,19 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
     const index = flag.index;
     if (index < 0) return null;
     const group = groups[index]!, previousIndex = choices[index]!.distanceIndex;
+    // Retain only indices from the last successful suffix, within this session.
+    // Every hinted candidate is rechecked against the new prefix and all source
+    // obstacles. Keep this order fixed until this continuation finishes.
+    const suffixLength = choices.length - index - 1;
+    if (suffixLength > 0 && !budget.charge("label", suffixLength)) return exhausted();
+    continuationHints = new Map(choices.slice(index + 1).map(choice => [choice.group.id, choice.distanceIndex]));
     // Floors survive suffix rebuilds, including retries of earlier anchors.
     // Every continuation advances one declared anchor; no state can recur.
     minimumIndices.set(group.id, Math.max(previousIndex + 1, minimumIndices.get(group.id) ?? 0));
     if (!truncate(index)) return exhausted();
     for (let nextIndex = minimumIndices.get(group.id)!; nextIndex < distances.length;) {
       if (!budget.charge("label")) break;
-      const alternate = select(group, nextIndex);
+      const alternate = select(group, nextIndex, false);
       if (alternate === undefined) break;
       minimumIndices.set(group.id, alternate.distanceIndex);
       append(group, alternate);
