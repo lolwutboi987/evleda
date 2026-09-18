@@ -2,6 +2,14 @@
 
 Latest continuation, 17 September 2026: **the reviewed baseline is published to
 `codex/destination-resume`; RP2350 circuit and toolbox progress is on `codex/rp2350-pico`.**
+The 62-part RP2350 candidate now compiles and has U1/J2 observed through public
+native schematic reads, with normal checkpoint/close. The independent
+[whole-placement screen](rp2350-placement-verification.md) clears the corrected
+USB/mounting geometry and qualifies reference-field cleanup. It is separate from
+the unfinished MCP project, whose PCB has no components or copper yet.
+[Candidate status](../designs/rp2350-pico/candidate-readiness.md) separates
+these results from the older connector fixtures below. Via-clearance DRC has
+[targeted native qualification](via-clearance-qualification.md).
 DOC9 passes native USB-C field placement; attempt05 now passes import, complete
 physical PAD observation and preserving movement. Its checkpoint failed on a
 stock footprint drawing layer; the reader fix passes offline, while the failed

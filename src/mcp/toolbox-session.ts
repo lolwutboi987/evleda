@@ -55,6 +55,7 @@ export interface ConnectedKicadToolbox {
   readonly planeAuthoringContext?: Readonly<{
     projectBindingIdentity: CanonicalIdentity;
     sourceContractIdentity: CanonicalIdentity;
+    boardFeatureCount?: number;
     externalPowerBinding?: PcbExternalPowerBinding;
     derivedPowerBinding?: PcbDerivedPowerBinding;
   }>;

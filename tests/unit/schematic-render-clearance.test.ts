@@ -5,6 +5,7 @@ import type { KicadSchematicSvgResult } from "../../src/integrations/kicad-cli.j
 import {
   analyzeNativeSchematicSvg, createSchematicRenderClearanceEvidence, verifySchematicRenderClearanceEvidence,
   verifyHostSchematicRenderClearanceEvidence, SCHEMATIC_RENDER_CLEARANCE_POLICY, type SchematicRenderClearanceExpected,
+  collectNativeSchematicTextBounds,
 } from "../../src/integrations/schematic-render-clearance.js";
 
 const style = 'fill="none" stroke="#000000" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round"';
@@ -25,6 +26,34 @@ const capture = (source = clear): KicadSchematicSvgResult => ({
 });
 
 describe("source-bound native schematic ink clearance", () => {
+  it("retains every glyph group as independent planning ink without assigning repeated pin numbers or custom fields", () => {
+    const source = svg(text("1", "M1 1 L2 1") + text("1", "M5 5 L6 5") + text("MPN custom field", "M10 10 L12 10"));
+    const result = collectNativeSchematicTextBounds(source);
+    expect(result).toMatchObject({ completeCoverage: true, hasText: true, unsupported: [] });
+    expect(result.bounds).toEqual([
+      expect.objectContaining({ textGroupIndex: 0, text: "1", minX: 0.9, maxX: 2.1, minY: 0.9, maxY: 1.1 }),
+      expect.objectContaining({ textGroupIndex: 1, text: "1", minX: 4.9, maxX: 6.1 }),
+      expect.objectContaining({ textGroupIndex: 2, text: "MPN custom field", minX: 9.9, maxX: 12.1 }),
+    ]);
+    expect(Object.isFrozen(result.bounds[0])).toBe(true);
+  });
+
+  it("keeps text coverage separate from source-qualified nontext arcs", () => {
+    const source = svg(text("R1", "M1 1 L2 1") + '<path d="M10 10 A2 2 0 0 0 12 12"/>');
+    expect(collectNativeSchematicTextBounds(source)).toMatchObject({ completeCoverage: true, unsupported: [] });
+    expect(analyzeNativeSchematicSvg(source).completeCoverage).toBe(false);
+  });
+
+  it.each([
+    svg('<g transform="translate(1 0)">' + text("R1", "M1 1 L2 1") + '</g>'),
+    svg('<g class="stroked-text"><desc>unpaired</desc><path d="M1 1 L2 1"/></g>'),
+    svg(text("custom", "M1 1 C2 2 3 3 4 4")),
+    svg('<text x="1" y="1">unsupported real font</text>'),
+    svg('<g clip-path="url(#clip)">' + text("1", "M1 1 L2 1") + '</g>'),
+  ])("refuses incomplete or unsupported native planning text coverage", source => {
+    expect(collectNativeSchematicTextBounds(source)).toMatchObject({ completeCoverage: false, hasText: true });
+  });
+
   it("detects actual attempt14 native glyph collisions without estimating text boxes", async () => {
     const normalized = await readFile(new URL("../fixtures/fresh-project/attempt14-native-schematic.svg", import.meta.url), "utf8");
     const native = normalized.replace(/\r?\n/gu, "\r\n");

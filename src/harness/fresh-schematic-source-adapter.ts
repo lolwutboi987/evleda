@@ -1,4 +1,5 @@
-import type { ContentIdentity } from "../domain/types.js";
+import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
+import { canonicalJson } from "../core/canonical.js";
 import { createFreshConnectivityContract, type FreshConnectivityContractSource } from "./fresh-connectivity-contract.js";
 import {
   FreshKicadParseError,
@@ -7,6 +8,8 @@ import {
   selectFreshSymbolTerminalGeometryPins,
   type FreshSchematicTerminalPinGeometry,
   type FreshSymbolTerminalGeometry,
+  type FreshBounds,
+  type FreshPoint,
 } from "./fresh-kicad-parser.js";
 import {
   buildSchematicTerminalGroups,
@@ -36,6 +39,27 @@ export interface FreshSchematicSourceAdapterInput {
   readonly externalPowerBinding?: PcbExternalPowerBinding;
   readonly derivedPowerBinding?: PcbDerivedPowerBinding;
   readonly auxiliaryConnectivity?: readonly FreshExternalPowerGroup[];
+}
+
+/** In-memory authority for one selected component's complete first-escape obstacles. */
+export interface FreshSchematicEscapeGeometry {
+  readonly reference: string;
+  readonly symbolLibId: string;
+  readonly schematicSourceIdentity: ContentIdentity;
+  readonly librarySourceIdentity: ContentIdentity;
+  readonly libraryDefinitionIdentity: ContentIdentity;
+  readonly embeddedDefinitionIdentity: ContentIdentity;
+  readonly strokeStyleIdentity: CanonicalIdentity;
+  readonly bounds: FreshBounds;
+  readonly bodyBounds: FreshBounds | null;
+  readonly graphics: readonly Readonly<{ index: number; kind: string; tokenIdentity: ContentIdentity; bounds: FreshBounds }>[];
+  readonly pins: readonly Readonly<{ endpointId: string; anchor: FreshPoint; angleDeg: 0 | 90 | 180 | 270; bounds: FreshBounds }>[];
+}
+const issuedEscapeGeometry = new WeakSet<object>();
+export function assertFreshSchematicEscapeGeometryCurrent(value: FreshSchematicEscapeGeometry, source: ContentIdentity, style: FreshSchematicStrokeStyleEvidence): void {
+  assertFreshSchematicStrokeStyleEvidence(style, source);
+  if (!issuedEscapeGeometry.has(value) || canonicalJson(value.schematicSourceIdentity) !== canonicalJson(source)
+    || canonicalJson(value.strokeStyleIdentity) !== canonicalJson(style.identity)) throw new Error("First-escape geometry lacks complete current source-adapter and stroke authority.");
 }
 
 function pinKey(pin: FreshSchematicTerminalPinGeometry): string {
@@ -107,13 +131,19 @@ export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSou
     })) throw new FreshKicadParseError(`Source terminal ${component.reference}: selected embedded graphics differ from exact approved library graphics.`);
     const effective = input.strokeStyleEvidence === undefined ? embedded : applyFreshSchematicStrokeStyle(embedded, input.strokeStyleEvidence, input.expectedSourceIdentity);
     const unsupportedKinds = [...new Set(effective.flatMap((graphic) => graphic.unsupportedReason === null ? [] : [graphic.unsupportedReason]))].sort();
-    const corners = effective.flatMap((graphic) => graphic.bounds === null ? [] : [
+    const graphicBounds = effective.map((graphic, index) => {
+      const corners = graphic.bounds === null ? [] : [
       [graphic.bounds.minXmm, graphic.bounds.minYmm], [graphic.bounds.minXmm, graphic.bounds.maxYmm],
       [graphic.bounds.maxXmm, graphic.bounds.minYmm], [graphic.bounds.maxXmm, graphic.bounds.maxYmm],
     ].map(([xMm, yMm]) => {
       // Reuse the audited schematic transform for rectangle-envelope corners, not inferred pins.
       return transformFreshSchematicSourcePin({ number: "body_corner", at: { xMm: xMm!, yMm: yMm! }, angleDeg: 0 }, component.placement).at;
-    }));
+      });
+      const bounds = corners.length === 0 ? null : Object.freeze({ minX: Math.min(...corners.map(point => point.xMm)), maxX: Math.max(...corners.map(point => point.xMm)),
+        minY: Math.min(...corners.map(point => point.yMm)), maxY: Math.max(...corners.map(point => point.yMm)) });
+      return Object.freeze({ index, kind: graphic.kind, tokenIdentity: graphic.tokenIdentity, bounds });
+    });
+    const corners = graphicBounds.flatMap(graphic => graphic.bounds === null ? [] : [{ xMm: graphic.bounds.minX, yMm: graphic.bounds.minY }, { xMm: graphic.bounds.maxX, yMm: graphic.bounds.maxY }]);
     if (corners.some((point) => !Number.isFinite(point.xMm) || !Number.isFinite(point.yMm) || Math.abs(point.xMm) > 2000 || Math.abs(point.yMm) > 2000)) {
       unsupportedKinds.push("transformed-graphic-bounds-out-of-envelope");
     }
@@ -122,18 +152,47 @@ export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSou
       minXmm: Math.min(...corners.map((point) => point.xMm)), maxXmm: Math.max(...corners.map((point) => point.xMm)),
       minYmm: Math.min(...corners.map((point) => point.yMm)), maxYmm: Math.max(...corners.map((point) => point.yMm)),
     });
-    return Object.freeze({ ...sourceBindings[index]!, bounds,
+    return Object.freeze({ ...sourceBindings[index]!, bounds, graphicBounds: Object.freeze(graphicBounds),
       coverage: Object.freeze({ complete, unsupportedKinds: Object.freeze(unsupportedKinds), includesText: false as const, includesStroke: complete,
         renderedStrokeVerified: complete && input.strokeStyleEvidence !== undefined,
         strokeStyleIdentity: input.strokeStyleEvidence?.identity ?? null,
         scope: "selected-library-graphics-only" as const, graphicCount: embedded.length }) });
+  });
+  const sourcePlanningGeometry = placed.map((component, index) => {
+    const body = sourceBodyGeometry[index]!;
+    const unsupported = component.pins.some(pin => pin.graphicalShape !== "line");
+    const margin = input.strokeStyleEvidence === undefined ? 0
+      : Math.max(input.strokeStyleEvidence.symbolDefaultStrokeWidthMm, input.strokeStyleEvidence.minimumPlotStrokeWidthMm) + 0.001;
+    const pinPrimitives = component.pins.map(pin => {
+      const dx = pin.angleDeg === 0 ? pin.lengthMm : pin.angleDeg === 180 ? -pin.lengthMm : 0;
+      const dy = pin.angleDeg === 90 ? pin.lengthMm : pin.angleDeg === 270 ? -pin.lengthMm : 0;
+      const points = [pin.at, { xMm: pin.at.xMm + dx, yMm: pin.at.yMm + dy }]
+        .map(at => transformFreshSchematicSourcePin({ number: pin.number, at, angleDeg: pin.angleDeg }, component.placement).at);
+      const transformed = transformFreshSchematicSourcePin(pin, component.placement);
+      return Object.freeze({ endpointId: `${component.reference}:${pin.number}`, anchor: Object.freeze({ x: transformed.at.xMm, y: transformed.at.yMm }), angleDeg: transformed.angleDeg,
+        bounds: Object.freeze({ minX: Math.min(...points.map(point => point.xMm)) - margin, minY: Math.min(...points.map(point => point.yMm)) - margin,
+          maxX: Math.max(...points.map(point => point.xMm)) + margin, maxY: Math.max(...points.map(point => point.yMm)) + margin }) });
+    });
+    const bounds = Object.freeze({ minX: Math.min(...pinPrimitives.map(pin => pin.bounds.minX), body.bounds?.minXmm ?? Infinity), minY: Math.min(...pinPrimitives.map(pin => pin.bounds.minY), body.bounds?.minYmm ?? Infinity),
+      maxX: Math.max(...pinPrimitives.map(pin => pin.bounds.maxX), body.bounds?.maxXmm ?? -Infinity), maxY: Math.max(...pinPrimitives.map(pin => pin.bounds.maxY), body.bounds?.maxYmm ?? -Infinity) });
+    const complete = body.coverage.complete && body.coverage.renderedStrokeVerified && !unsupported;
+    let escapeGeometry: FreshSchematicEscapeGeometry | null = null;
+    if (complete && input.strokeStyleEvidence !== undefined && body.graphicBounds.every(graphic => graphic.bounds !== null)) {
+      escapeGeometry = Object.freeze({ ...sourceBindings[index]!, strokeStyleIdentity: input.strokeStyleEvidence.identity, bounds,
+        bodyBounds: body.bounds === null ? null : Object.freeze({ minX: body.bounds.minXmm, minY: body.bounds.minYmm, maxX: body.bounds.maxXmm, maxY: body.bounds.maxYmm }),
+        graphics: Object.freeze(body.graphicBounds.map(graphic => Object.freeze({ ...graphic, bounds: graphic.bounds! }))), pins: Object.freeze(pinPrimitives) });
+      issuedEscapeGeometry.add(escapeGeometry);
+    }
+    return Object.freeze({ reference: component.reference, complete, bounds, escapeGeometry,
+      unsupportedPinShapes: Object.freeze([...new Set(component.pins.filter(pin => pin.graphicalShape !== "line").map(pin => pin.graphicalShape))]) });
   });
   return Object.freeze({
     verificationScope: "exact_source_and_approved_selected_pin_geometry" as const,
     requiresTrustedNativeLiveReadback: true as const,
     sourceBindings: Object.freeze(sourceBindings),
     sourceBodyGeometry: Object.freeze(sourceBodyGeometry),
-    ...(powerAnnotationBindingOf(input) === undefined || input.strokeStyleEvidence === undefined ? {} : { strokeStyleEvidence: input.strokeStyleEvidence }),
+    sourcePlanningGeometry: Object.freeze(sourcePlanningGeometry),
+    ...(input.strokeStyleEvidence === undefined ? {} : { strokeStyleEvidence: input.strokeStyleEvidence }),
     terminalInput,
     result: buildSchematicTerminalGroups(terminalInput, budget),
   });

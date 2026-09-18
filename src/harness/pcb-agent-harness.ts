@@ -177,6 +177,7 @@ export type PcbAgentHarnessObserver = (event: PcbAgentHarnessEvent) => void | Pr
 
 /** Explicit reviewed mutations; inspection calls do not satisfy editsRequired. */
 export const DEFAULT_PCB_HARNESS_MUTATION_TOOL_NAMES = Object.freeze([
+  "fresh_set_footprint_fields", "pcb_add_text",
   "sch_apply_plan", "sch_add_symbol", "sch_modify_property", "lib_assign_footprint", "fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields", "fresh_replace_route_items", "fresh_sync_from_schematic", "sch_move_symbol", "pcb_set_board_outline", "pcb_add_track", "pcb_add_via",
   "pcb_place_component", "pcb_move_component", "pcb_move_footprint", "pcb_sync_from_schematic", "pcb_add_zone",
 ] as const);
@@ -1095,7 +1096,7 @@ export async function runPcbAgentHarness(
 
     const reachedPhaseBoundary = turn.stopReason === "completed"
       || iteration === iterationLimit
-      || turn.toolCalls.some((call) => call.name === "fresh_autoplace_schematic_fields" || call.name === "pcb_sync_from_schematic" || call.name === "fresh_sync_from_schematic" || call.name === "fresh_replace_route_items" || (mutationToolNames.has(call.name) && call.name.startsWith("pcb_")));
+      || turn.toolCalls.some((call) => call.name === "fresh_set_footprint_fields" || call.name === "fresh_autoplace_schematic_fields" || call.name === "pcb_sync_from_schematic" || call.name === "fresh_sync_from_schematic" || call.name === "fresh_replace_route_items" || (mutationToolNames.has(call.name) && call.name.startsWith("pcb_")));
     if (config.deferFullValidationUntilPhaseBoundary && !reachedPhaseBoundary) {
       const lastOperation = operations.at(-1);
       const savedThisIteration = operations.some((operation) => operation.iteration === iteration && operation.phase === "save");

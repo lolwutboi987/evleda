@@ -1,7 +1,13 @@
 # Active PCB-toolbox roadmap
 
 Current continuation: the reviewed baseline is published; RP2350 drafting and
-connector qualification are under way. See [RP2350 progress](rp2350-progress.md)
+connector qualification are under way. The full candidate compiles and U1/J2 are
+observed in its native schematic, with successful checkpoint/close. Its PCB still
+has no components or copper. Corrected placement and field cleanup have a separate
+[native diagnostic](rp2350-placement-verification.md). Continue the remaining
+schematic, connectivity, physical placement and routing through public tools;
+see [candidate status](../designs/rp2350-pico/candidate-readiness.md).
+See [RP2350 progress](rp2350-progress.md)
 for successful DOC9 field placement, attempt05's physical-feature qualification,
 and the retained checkpoint layer-reader failure.
 

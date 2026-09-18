@@ -1,4 +1,5 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { analyzeKicadPcbPractices, PCB_PRACTICE_ANALYSIS_PROFILE_SCHEMA, PCB_PRACTICE_ANALYZER_SUPPORTED_BOARD_VERSIONS,
   type PcbPracticeAnalysis, type PcbPracticeAnalysisProfile } from "../integrations/pcb-practice-analyzer.js";
@@ -176,8 +177,8 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
     requireValue(reference.unsupportedRouteItems.length === viaSpans.length && viaSpans.length === board.vias.length
       && reference.unsupportedRouteItems.every(item => item.kind === "via" && viaSpans.filter(span => pcbSource.slice(span.start, span.end) === item.source).length === 1), "unsupported route geometry has no exact characterized source span");
     requireValue(same(sorted(reference.zones.map(zone => zone.uuid!)), sorted(saved.stage.nativeFilledZones.map(zone => zone.uuid))), "source and staged zone inventories differ");
-    requireValue(same(sorted(board.footprints.map(fp => fp.reference)), sorted(bundle.contract.components.map(component => component.reference)))
-      && board.footprints.every(fp => bundle.contract.components.some(component => component.reference === fp.reference && component.footprintLibId === fp.libraryId)), "source component and qualified-library inventory differs from V2");
+    assertPcbBoardFeatureInventory(bundle.contract, board, pcbSource);
+    requireValue(board.footprints.every(fp => [...bundle.contract.components, ...(bundle.contract.boardFeatures ?? [])].some(component => component.reference === fp.reference && component.footprintLibId === fp.libraryId)), "source component and qualified-library inventory differs from V2");
     requireValue(native !== null && native.unsupportedPhysicalUuids.length === 0 && same(sorted(native.physicalPads.map(pad => pad.uuid)), sorted(pads.map(pad => pad.physical.id!)))
       && same(saved.stage.nativePads.physicalLibraryBindings, endpoint.physicalLibraryBindings), "complete supported source and native PAD and library evidence is required");
     const netNames = new Set(bundle.contract.nets.map(net => net.name));

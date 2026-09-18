@@ -1,6 +1,7 @@
 import { createFreshNativeCaptures } from "../cli/pcb-agent.js";
 import path from "node:path";
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
+import { createFreshBoardFeatureState, assertFreshBoardFeatureState, type FreshBoardFeatureState } from "../harness/fresh-board-features.js";
 import { z } from "zod";
 import { canonicalJson, contentIdentity } from "../core/canonical.js";
 import { hardenPortableValue, parsePortableJsonBytes, validateCanonicalIdentity } from "../core/portable-artifact.js";
@@ -38,6 +39,7 @@ export interface KicadToolboxPlanePreparationInput {
   readonly createKicadCliAdapter: typeof KicadCliAdapter.create;
 }
 export interface KicadToolboxPlanePreparation {
+  readonly boardFeatureState?: FreshBoardFeatureState | undefined;
   readonly family: "plane-v2";
   readonly mode: "fresh" | "resumed";
   readonly project: PlaneFreshProject;
@@ -58,6 +60,7 @@ const preparations = new WeakSet<object>();
 export function assertKicadToolboxPlanePreparation(value: unknown): asserts value is KicadToolboxPlanePreparation {
   if (value === null || typeof value !== "object" || !preparations.has(value)) throw new Error("Plane toolbox requires an original authenticated V2 preparation capability.");
   const preparation = value as KicadToolboxPlanePreparation;
+  assertFreshBoardFeatureState(preparation.boardFeatureState, preparation.bundle, preparation.project);
   assertPlaneSources(preparation.bundle, preparation.dependencies);
 }
 
@@ -104,12 +107,14 @@ export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePr
   const bundleRef = createPcbPlaneCompilationBundleRef(bundle);
   assertPlaneSources(bundle, dependencies);
   const project = await preparePlaneFreshProject({ outputDir: input.outputDir, name: input.name, resume: false, compilationBundle: bundle, compilationBundleRef: bundleRef });
+  const boardFeatureState = bundle.contract.boardFeatures === undefined ? undefined
+    : createFreshBoardFeatureState(bundle, await captureFreshProjectOpenPreparedSourceAuthority(project));
   assertPlaneSources(bundle, dependencies);
   const adapter = await openAdapter(project, expected, input.createKicadCliAdapter);
   assertPlaneSources(bundle, dependencies);
   const kicadIdentity = adapter.identity;
   const captureNativeNetlist=createFreshNativeCaptures({project,executablePath:kicadIdentity.path,createAdapter:input.createKicadCliAdapter}).captureNativeNetlist;
-  const operation = { project, compilationBundle: bundle, kicad: kicadIdentity,captureNativeNetlist,assertLibrarySources:()=>assertPlaneSources(bundle,dependencies) };
+  const operation = { project, compilationBundle: bundle, kicad: kicadIdentity,captureNativeNetlist,assertLibrarySources:()=>assertPlaneSources(bundle,dependencies), boardFeatureState };
   assertPlaneSources(bundle, dependencies);
   const netClassMaterialization = await materializeFreshPlaneNetClasses(operation);
   const netClassSemanticAuthority = await verifyFreshPlaneNetClassSemanticAuthority(await readFreshPlaneNetClassSemanticAuthority(operation), operation);
@@ -120,7 +125,7 @@ export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePr
   assertPlaneSources(bundle, dependencies);
   await writeFile(bundlePath, serializePcbPlaneCompilationBundle(bundle), { flag: "wx" });
   const fields = { project, bundle, bundleRef, bundlePath, reportPath, kicadIdentity, preparedSourceAuthority,
-    netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence };
+    netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence, ...(boardFeatureState === undefined ? {} : { boardFeatureState }) };
   await writeFile(reportPath, `${JSON.stringify({ ...planePreparationReportBody(fields),
     assurance: "V2 plane project and netclass configuration only. Schematic/PCB authoring, fresh copper, connectivity, clearance, reference coverage and design acceptance remain pending." }, null, 2)}\n`, { flag: "wx" });
   await project.checkpointAfterReport(reportPath, "needs_review");
@@ -148,7 +153,8 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
   const parse = (bytes: Buffer) => parsePortableJsonBytes(bytes, { maxBytes: 16 * 1024 * 1024, maxDepth: 96, maxNodes: 500_000,
     maxArrayLength: 100_000, maxOwnKeys: 8192, maxKeyBytes: 1024, maxStringBytes: 1024 * 1024 });
   const report = savedReport.parse(parse(reportBytes));
-  z.object({ schemaVersion: z.literal("evleda.pcb-agent-fresh-project-checkpoint.v3"), reportPath: z.literal(reportPath),
+  const checkpoint = z.object({ schemaVersion: z.literal("evleda.pcb-agent-fresh-project-checkpoint.v3"), reportPath: z.literal(reportPath),
+    files: z.object({ pcb: z.object({ sha256: z.string().regex(/^[a-f0-9]{64}$/u) }).passthrough() }).passthrough(),
     reportSha256: z.literal(contentIdentity(reportBytes).digest), reportStatus: z.literal("needs_review") }).passthrough().parse(parse(checkpointBytes));
   const bundle = parsePcbPlaneCompilationBundle(bundleBytes, dependencies), bundleRef = createPcbPlaneCompilationBundleRef(bundle);
   if (report.workflow.bundlePath !== bundlePath || canonicalJson(parsePcbPlaneCompilationBundleRef(report.workflow.bundleRef)) !== canonicalJson(bundleRef)) throw new Error("Plane report does not bind the exact saved V2 bundle.");
@@ -164,16 +170,20 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
   assertPlaneSources(bundle, dependencies);
   const project = await preparePlaneFreshProject(projectOptions);
   if (report.projectPath !== project.projectPath || canonicalJson(preparedSourceAuthority.projectIdentity) !== canonicalJson(project.projectIdentity)) throw new Error("Plane preparation belongs to another project.");
+  const boardFeatureState = createFreshBoardFeatureState(bundle, preparedSourceAuthority, checkpoint.files.pcb.sha256);
+  boardFeatureState?.verify(await readFile(project.pcbPath, "utf8"), dependencies.libraryResolver);
   const adapter = await openAdapter(project, expected, input.createKicadCliAdapter), kicadIdentity = adapter.identity;
   if (canonicalJson(kicadIdentity) !== canonicalJson(report.native.kicad)) throw new Error("Plane resume KiCad identity differs from its recorded toolchain.");
   const captureNativeNetlist=createFreshNativeCaptures({project,executablePath:kicadIdentity.path,createAdapter:input.createKicadCliAdapter}).captureNativeNetlist;
-  await verifyFreshPlaneNetClassSemanticAuthority(netClassSemanticAuthority, { project, compilationBundle: bundle, kicad: kicadIdentity,captureNativeNetlist,assertLibrarySources:()=>assertPlaneSources(bundle,dependencies) });
+  await verifyFreshPlaneNetClassSemanticAuthority(netClassSemanticAuthority, { project, compilationBundle: bundle, kicad: kicadIdentity,captureNativeNetlist,assertLibrarySources:()=>assertPlaneSources(bundle,dependencies), boardFeatureState });
   const after = await Promise.all([readResumeFile(bundlePath, bundleBytes.length), readResumeFile(reportPath, reportBytes.length), readResumeFile(checkpointPath, checkpointBytes.length)]);
   if (after.some((bytes, index) => !bytes.equals([bundleBytes, reportBytes, checkpointBytes][index]!))) throw new Error("Saved plane artifacts changed during resume.");
   assertPlaneSources(bundle, dependencies);
   await preparePlaneFreshProject(projectOptions);
+  boardFeatureState?.verify(await readFile(project.pcbPath, "utf8"), dependencies.libraryResolver);
   const preparation: KicadToolboxPlanePreparation = Object.freeze({ family: "plane-v2", mode: "resumed", project, bundle, bundleRef, bundlePath,
-    reportPath, dependencies, adapter, kicadIdentity, preparedSourceAuthority,captureNativeNetlist, netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence });
+    reportPath, dependencies, adapter, kicadIdentity, preparedSourceAuthority,captureNativeNetlist, netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence,
+    ...(boardFeatureState === undefined ? {} : { boardFeatureState }) });
   preparations.add(preparation);
   return preparation;
 }

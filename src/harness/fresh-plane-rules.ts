@@ -13,6 +13,16 @@ export function createFreshPlaneRules(bundle: PcbPlaneCompilationBundle) {
       gapMm: plane.padConnection.gapMm, spokeWidthMm: plane.padConnection.spokeWidthMm,
     }) }));
   const lines = ["(version 1)"];
+  for (const feature of bundle.contract.boardFeatures ?? []) {
+    // Schema-bound H references contain no expression metacharacters. The
+    // companion physical constraint also checks intentionally netless copper.
+    lines.push("", `(rule "EVLEDA_${feature.reference}_NPTH_COPPER"`,
+      `  (condition "A.Type == 'Pad' && A.Reference == '${feature.reference}'")`, "  (severity error)",
+      `  (constraint hole_clearance (min ${feature.minimumHoleToCopperMm}mm)))`);
+    lines.push("", `(rule "EVLEDA_${feature.reference}_NPTH_PHYSICAL_COPPER"`, "  (layer outer)",
+      `  (condition "A.Type == 'Pad' && A.Reference == '${feature.reference}'")`, "  (severity error)",
+      `  (constraint physical_hole_clearance (min ${feature.minimumHoleToCopperMm}mm)))`);
+  }
   for (const zone of zones) {
     if (zone.thermal === null) continue;
     const { minimumConnectedSpokes, gapMm, spokeWidthMm } = zone.thermal;

@@ -1,0 +1,1905 @@
+{
+  "format": "rp2350-pico-library-selection-v1",
+  "reviewedAt": "2026-09-17",
+  "status": "Complete source-inspected exact-ID design selection; 62 pin-set matches and isolated native exports passed; not board or physical acceptance.",
+  "sourceBindings": [
+    {
+      "path": "designs/rp2350-pico/circuit-inputs.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+        "size": 102754
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/component-selection.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "be88ab07265f2fa3957aa95eed95098125256403feeaa6aa0671716b52b9bc2f",
+        "size": 32539
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/design-draft.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "90aae1207cfb4b14aadd9f6613070a452a5f206ebf16896c60685b1dc58c7295",
+        "size": 119822
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/placement-intent.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "b42b9add3542eeb889127b11aa34285d9fe2b27f15698872f1f9b649b0cbd712",
+        "size": 32058
+      }
+    }
+  ],
+  "package": {
+    "root": "resources/pcb-libraries/rp2350-pico/v3",
+    "manifest": {
+      "relativePath": "manifest.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "66b34c26e3c789da6506772bff13fa6553faa895d3319738643613d261d51875",
+        "size": 10088
+      }
+    }
+  },
+  "components": [
+    {
+      "reference": "U1",
+      "symbolLibId": "MCU_RaspberryPi:RP2350A",
+      "footprintLibId": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+      "unit": 1,
+      "mpn": "RP2350A",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "U2",
+      "symbolLibId": "EvlEDA_Pico2350:RT6150B-33GQW",
+      "footprintLibId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "unit": 1,
+      "mpn": "RT6150B-33GQW",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "U3",
+      "symbolLibId": "EvlEDA_Pico2350:W25Q32RVXHJQ",
+      "footprintLibId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+      "unit": 1,
+      "mpn": "W25Q32RVXHJQ",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "U4",
+      "symbolLibId": "EvlEDA_Pico2350:USBLC6-2SC6",
+      "footprintLibId": "Package_TO_SOT_SMD:SOT-23-6",
+      "unit": 1,
+      "mpn": "USBLC6-2SC6",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "J1",
+      "symbolLibId": "Connector:USB_C_Receptacle_USB2.0_16P",
+      "footprintLibId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "unit": 1,
+      "mpn": "USB4105-GF-A",
+      "population": "fit",
+      "pinNumbers": [
+        "A1",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "A12",
+        "B1",
+        "B4",
+        "B5",
+        "B6",
+        "B7",
+        "B8",
+        "B9",
+        "B12",
+        "SH"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "J2",
+      "symbolLibId": "Connector_Generic:Conn_01x20",
+      "footprintLibId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "unit": 1,
+      "mpn": null,
+      "population": "unpopulated PCB contacts; no fitted header strip",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "J3",
+      "symbolLibId": "Connector_Generic:Conn_01x20",
+      "footprintLibId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "unit": 1,
+      "mpn": null,
+      "population": "unpopulated PCB contacts; no fitted header strip",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "J4",
+      "symbolLibId": "Connector_Generic:Conn_01x03",
+      "footprintLibId": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+      "unit": 1,
+      "mpn": null,
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "L1",
+      "symbolLibId": "Device:L",
+      "footprintLibId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "unit": 1,
+      "mpn": "AOTA-B201610S3R3-101-T",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "L2",
+      "symbolLibId": "Device:L",
+      "footprintLibId": "Inductor_SMD:L_Coilcraft_XxL4020",
+      "unit": 1,
+      "mpn": "XFL4020-222MEC",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "Q1",
+      "symbolLibId": "Transistor_FET:Q_NMOS_GSD",
+      "footprintLibId": "Package_TO_SOT_SMD:SOT-523",
+      "unit": 1,
+      "mpn": "DMG1012T-7",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "D1",
+      "symbolLibId": "Device:D_Schottky",
+      "footprintLibId": "Diode_SMD:Nexperia_CFP3_SOD-123W",
+      "unit": 1,
+      "mpn": "PMEG6010ELR",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "D2",
+      "symbolLibId": "Device:LED",
+      "footprintLibId": "LED_SMD:LED_0603_1608Metric",
+      "unit": 1,
+      "mpn": "APT1608CGCK",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "SW1",
+      "symbolLibId": "EvlEDA_Pico2350:Wuerth_434133025816",
+      "footprintLibId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "unit": 1,
+      "mpn": "434133025816",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "SW2",
+      "symbolLibId": "EvlEDA_Pico2350:Wuerth_434133025816",
+      "footprintLibId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "unit": 1,
+      "mpn": "434133025816",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "Y1",
+      "symbolLibId": "Device:Crystal_GND24",
+      "footprintLibId": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+      "unit": 1,
+      "mpn": "ABM8-272-T3",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R1",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-0727RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R2",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-0727RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R3",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-075K1L",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R4",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-075K1L",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R5",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-071KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R6",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-0710KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R7",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-071KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R8",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-0733RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R9",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07100KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R10",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07100KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R11",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-075K6L",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R12",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-0710KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R13",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07100KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R14",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07100KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R15",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07100KL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R16",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07200RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R17",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-071RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R18",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07470RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R19",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07100RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "R20",
+      "symbolLibId": "Device:R",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "unit": 1,
+      "mpn": "RC0402FR-07100RL",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C1",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R60J475ME47D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C2",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R60J475ME47D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C3",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R60J475ME47D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C4",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R60J475ME47D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C5",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C6",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C7",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C8",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C9",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C10",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C11",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C12",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C13",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C14",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C15",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C16",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C17",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R60J475ME47D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C18",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C19",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R60J475ME47D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C20",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "unit": 1,
+      "mpn": "C3225X5R1A476M250AC",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C21",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "unit": 1,
+      "mpn": "C3225X5R1A476M250AC",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C22",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C23",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "C1005X7R1H102K050BA",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C24",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM1555C1H150JA01D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C25",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM1555C1H150JA01D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    },
+    {
+      "reference": "C26",
+      "symbolLibId": "Device:C",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "unit": 1,
+      "mpn": "GRM155R71E104KE14D",
+      "population": "fit",
+      "pinNumbers": [
+        "1",
+        "2"
+      ],
+      "selectionStatus": "selected; actual resolver pinset match and isolated native export passed",
+      "basis": [
+        "component-selection.json",
+        "circuit-inputs.json",
+        "v3 provenance"
+      ],
+      "exactPinPadMatch": true
+    }
+  ],
+  "connectivityModified": false,
+  "populationDecision": {
+    "J2": "bare PTH contacts, no fitted header strip",
+    "J3": "bare PTH contacts, no fitted header strip"
+  },
+  "structuralBlockers": [],
+  "remainingBoardVerification": [
+    "native project/source binding and placement/copper checks",
+    "ERC/DRC and retained physical endpoint connectivity",
+    "manufacturer electrical limits, power budget and effective-capacitance review",
+    "assembly/stencil/mechanical and any fitted-header selection"
+  ],
+  "procurementAuthorized": false,
+  "physicalAcceptance": false,
+  "verification": {
+    "result": "pass",
+    "referenceCount": 62,
+    "logicalPinCount": 262,
+    "exactPinPadMatches": 62,
+    "stockAndPackageUniqueSymbols": 15,
+    "stockAndPackageUniqueFootprints": 18,
+    "isolatedKiCadVersion": "10.0.3",
+    "nativeSymbolExports": 15,
+    "nativeFootprintExports": 18,
+    "newAssetVisualReview": "Four new assets rendered and inspected",
+    "evidenceRelativeToRepository": "../rp2350-reference-inputs-01/vendor-assets/v3/validation-report.json",
+    "scope": "local source/schema/pin/geometry selection; not runtime host admission or board acceptance"
+  },
+  "librarySources": [
+    {
+      "kind": "symbol",
+      "libraryId": "EvlEDA_Pico2350:RT6150B-33GQW",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+        "size": 9995
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "060e3573780256e6421eceba649b034744decf54677b81a4895b3426aeb4d74a",
+        "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "EvlEDA_Pico2350:W25Q32RVXHJQ",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+        "size": 9995
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "04318700da37ece6a7e7fd5a5392973c485361fd41ebf02aebe9716a4664e036",
+        "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "EvlEDA_Pico2350:USBLC6-2SC6",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+        "size": 9995
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "da7d5b01ba67c853cb9106e5603cfdecb9347f8708d1f9338e484a0daaa6b939",
+        "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+        "size": 9995
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "da00011306c44bd9840d4f2b7e82ad3cd6dafcedbdaedd7ac2f85de7207fd39a",
+        "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "MCU_RaspberryPi:RP2350A",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c9f0fe21e8a46d7503537322833345ba4299a2e6d0e7c018a8a4a4457f563191",
+        "size": 64675
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "1cc84f57361e903236b48da33c10dba6351b4049d7a2b11cde0e0978cfcc5bbf",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Connector:USB_C_Receptacle_USB2.0_16P",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "93b4f3aff935bf620579315d1b48c176f38014d998ca37e5480c2e33ac34502c",
+        "size": 5436317
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "822d63df2a9a108ea88f26619f6785e787c63970d6b2c4da3c5f5091105eef48",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Connector_Generic:Conn_01x20",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "1ae3b346fe1c4e874fecb72abc7df4e94a253780db183439dbfefc4e2ff3a0be",
+        "size": 7299661
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "a65c186bae708cc898ad51482eb611e39bb859b11a53ddcbb5380c3f3f8b3577",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Connector_Generic:Conn_01x03",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "1ae3b346fe1c4e874fecb72abc7df4e94a253780db183439dbfefc4e2ff3a0be",
+        "size": 7299661
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "62293b9a1d55c414b9a34345499e203a89ea257cab0214907380d2c4f2a7652c",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Device:L",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "661e83e74bbf50301c555b8e88454eab5429a2a41945586c12ced110656609a2",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Transistor_FET:Q_NMOS_GSD",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "d7beb2349ad72aed87767dc920fd11c6c0709ca25048a7945d4f6826191e91d9",
+        "size": 1468058
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "ef3832f8e98fd0aba3b3fbe803baa05e9ad4a56e0d6e565688501c183094b100",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Device:D_Schottky",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "2a20de576999a7488886a18f0fba00f38bc14f7ee4c13769bb625a0cd1fc43a7",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Device:LED",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "70489bbc77d5b88a20661a739d8303d2268e57eda6147ce972528dc805d61b41",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Device:Crystal_GND24",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "c8e08832d75eb1519b4f03de6488a2dfc40017d873e1428eff608dda7e070279",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Device:R",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "552663fc322364f940bae7445f930739413e41e9522e52ae0274b65fc8e2d2bd",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "symbol",
+      "libraryId": "Device:C",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "be6fec447cb62158d7a97370e25fe2b2ff16eaa6342f190f279ebdf1a53536ea",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_Abracon_Recommended",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "5b39565979fcd5f4a59483446d5b9e5479df81908690e9d6e6d9fe300e3cef8a",
+        "size": 1452
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "b12e9eefd8074944c8d22d34eaa249c8fff80157eb334da769b448caf66eabd6",
+        "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+        "size": 1456
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "4c2821296a82a4e8e78f91b886bbc9efe46d2f795a61c541d9ac5e6884becc5e",
+        "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+        "size": 2284
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "e64b2fc4bc09482e4a7bd34455b976857812c8125b9020e222c2afd68238bc3c",
+        "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+        "size": 4261
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "972ef8df53bba8a4df449f43c91ca5f443f851d61cdb0097e729165fecbf70fa",
+        "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+        "size": 1398
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "803d22e0f5026d2d7493a30de736e24c19f0132eb89139735f445ffd40c80cdc",
+        "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+        "size": 1130
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "6aacebb655482921aa31e819c27a6b666d4f33f3d39289492bd5069afb175b49",
+        "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+        "size": 5332
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "303cccfdb1c21423eae16f4cf4caed30c57f2792c7fdb0f17a7ced3948976647",
+        "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+        "size": 14069
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "c4ea7ae4c827d5129b7a8b07372a747a3934ad355261a3fe0657010d89938e15",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Package_TO_SOT_SMD:SOT-23-6",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ea29040bed73e5dfa455e36f2c9324b0de7782c5a6cf79040b7d885ff766fdb4",
+        "size": 4568
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "b3ea54faeb63e6af7cea749881c631febe1c768b777f8c3f0fda51b989d5d31a",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+        "size": 7170
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "649d4da923236d655b67d147d95bea0d9c3bfcbc7e50f6134627e8ff86bd82fa",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6a7dba97d6e733fd9d5f12d2d57f2cde29e8393e15b08d8b3e41bf2b430d83ed",
+        "size": 3129
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "2f5c150d246e7be0288937e8c74f39e0e0452b7373e81024c3d1e30917200889",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Inductor_SMD:L_Coilcraft_XxL4020",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+        "size": 3525
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "43c2885006a6739f4db06bd81a1a0fcbc0bdf0c968531836ae925897223551d5",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Package_TO_SOT_SMD:SOT-523",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+        "size": 4144
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "4f7aa5da165727fb6e18d76172bec998d706828f6d710056d81c40fcdab17d24",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Diode_SMD:Nexperia_CFP3_SOD-123W",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "e0867bfd9057e4ed44483786d9d8809eab12909401240f9f7ee7de141cd7be7c",
+        "size": 4768
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "68808fd526c79eb37da67fddc40afc1d9d0ad1f649be7d7a7ae746fcc61b0d7a",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "LED_SMD:LED_0603_1608Metric",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+        "size": 2593
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "5de7d907e195bd7c440a567144296cd09aadf639ef14a50140f11d9ac169ceb6",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "0efc1a86f641a5e4d27a4483811386c23ddfa5b416c628f65cef963ef7edbb62",
+        "size": 2278
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "932ed3946d9dd99cfe42c67ae41333e9a399edb56a8f2047a752a48bae8f3006",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "0e32f5a6f0625009fbf0ecea6efd18d431f096a62a5f6b4b751d805c26cfed49",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "kind": "footprint",
+      "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "inspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "2a7b7cc0242ee7456cb5186fbb8e6a7f65d49ffd557f599a53bcde4df41d3aab",
+        "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    }
+  ],
+  "mechanicalPackageExtension": {
+    "packageRoot": "resources/pcb-libraries/rp2350-pico/v4",
+    "manifest": {
+      "relativePath": "manifest.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+        "size": 10953
+      }
+    },
+    "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+    "source": {
+      "relativePath": "footprints/EvlEDA_Pico2350.pretty/MountingHole_D2.1_Pico.kicad_mod",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+        "size": 796
+      }
+    },
+    "kind": "board-only centered circular NPTH bore; no electrical symbol or BOM part",
+    "intendedFeatureCount": 4,
+    "electricalCadBytesUnchanged": true,
+    "bindingNote": "The package field and librarySources above retain historical v3 electrical inspection identities. Integration must recapture the complete v4 package binding, including this zero-terminal mechanical footprint. No component or net assignment is changed.",
+    "verification": "Actual v4 package resolver, strict mechanical source guard and isolated KiCad10.0.3 SVG export passed; board-feature native lifecycle is separate."
+  }
+}

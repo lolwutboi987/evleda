@@ -4,6 +4,7 @@ import { parsePortableJsonBytes } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import type { KicadSchematicSourceIdentities, KicadSchematicSvgResult } from "../integrations/kicad-cli.js";
 import type { FreshSchematicBodyGraphic } from "./fresh-kicad-parser.js";
+import { collectNativeSchematicTextBounds } from "../integrations/schematic-render-clearance.js";
 
 /** Source-audited 10.0.3 SVG command profile; unknown binaries require a new audit. */
 export const FRESH_SCHEMATIC_STROKE_NATIVE_PROFILE = Object.freeze({
@@ -51,6 +52,7 @@ export interface FreshSchematicStrokeStyleEvidence {
   readonly symbolDefaultStrokeWidthMm: number;
   readonly minimumPlotStrokeWidthMm: number;
   readonly semantics: "pinned-cli-library-symbol-default-and-minimum";
+  readonly nativeText: ReturnType<typeof collectNativeSchematicTextBounds>;
 }
 
 const same = (left: ContentIdentity, right: ContentIdentity): boolean => left.algorithm === "sha256" && right.algorithm === "sha256"
@@ -128,6 +130,7 @@ export function createFreshSchematicStrokeStyleEvidence(capture: FreshSchematicS
     symbolDefaultStrokeWidthMm: profile.symbolDefaultWidthMils * 0.0254,
     minimumPlotStrokeWidthMm: profile.minimumPlotPenWidthInternalUnits / profile.schematicInternalUnitsPerMm,
     semantics: "pinned-cli-library-symbol-default-and-minimum" as const,
+    nativeText: collectNativeSchematicTextBounds(render.source),
   };
   const evidence: FreshSchematicStrokeStyleEvidence = Object.freeze({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion), [styleBrand]: true as const });
   issued.add(evidence);

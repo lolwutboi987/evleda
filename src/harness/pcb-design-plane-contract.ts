@@ -1,6 +1,7 @@
 import { pcbExternalPowerInputsDraftSchema, pcbExternalPowerInputsSchema, validatePcbExternalPowerRelationships } from "./pcb-external-power.js";
 import { pcbDerivedPowerSourcesDraftSchema, pcbDerivedPowerSourcesSchema, validatePcbDerivedPowerRelationships } from "./pcb-derived-power.js";
 import { z } from "zod";
+import { pcbBoardFeaturesSchema, validatePcbBoardFeatureRelationships } from "./pcb-board-features.js";
 import { canonicalIdentity, canonicalJson } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import { pcbInterfaceRequirementsDraftSchema, pcbInterfaceRequirementsSchema,
@@ -84,11 +85,13 @@ const draftBase = z.object({ ...draft, schemaVersion: z.literal(PCB_PLANE_DRAFT_
   routingConstraints: routingDraft, planes: z.array(planeDraft).max(1),
   externalPowerInputs: pcbExternalPowerInputsDraftSchema.nullable().optional(),
   derivedPowerSources: pcbDerivedPowerSourcesDraftSchema.nullable().optional(),
+  boardFeatures: pcbBoardFeaturesSchema.nullable().optional(),
   interfaceRequirements: pcbInterfaceRequirementsDraftSchema.nullable().optional() }).strict();
 const payloadBase = z.object({ ...closed, schemaVersion: z.literal(PCB_PLANE_CONTRACT_SCHEMA_VERSION),
   routingConstraints: routing, planes: z.array(plane).length(1),
   externalPowerInputs: pcbExternalPowerInputsSchema.optional(),
   derivedPowerSources: pcbDerivedPowerSourcesSchema.optional(),
+  boardFeatures: pcbBoardFeaturesSchema.optional(),
   interfaceRequirements: pcbInterfaceRequirementsSchema.optional() }).strict();
 type DraftValue = z.infer<typeof draftBase>;
 type PayloadValue = z.infer<typeof payloadBase>;
@@ -103,7 +106,7 @@ const record = (value: unknown): value is Record<string, unknown> => value !== n
 const arrayEntryKey = (collection: string, entry: unknown): string | null => {
   if (!record(entry)) return null;
   const field = collection === "planes" || collection === "netClasses" || collection === "interfaces" || collection === "externalPowerInputs" || collection === "derivedPowerSources" ? "id"
-    : collection === "components" || collection === "placementConstraints" ? "reference"
+    : collection === "components" || collection === "placementConstraints" || collection === "boardFeatures" ? "reference"
       : collection === "pins" ? "pin" : collection === "nets" ? ("net" in entry ? "net" : "name") : null;
   if (field !== null && typeof entry[field] === "string") return entry[field];
   if (collection === "terminalReferences" && record(entry.signalEndpoint)) return `${entry.signalEndpoint.reference}:${entry.signalEndpoint.pin}`;
@@ -145,6 +148,7 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
   validatePcbInterfaceRelationships(document, context, closedContract);
   validatePcbExternalPowerRelationships(document, context);
   validatePcbDerivedPowerRelationships(document, context);
+  validatePcbBoardFeatureRelationships(document, context);
   const issue = (path: PropertyKey[], message: string) => context.addIssue({ code: "custom", path, message });
   const unique = <T>(values: readonly T[], getKey: (value: T) => string, path: PropertyKey[]) => {
     const seen = new Set<string>();
@@ -245,6 +249,7 @@ function canonicalize<T extends DraftValue | PayloadValue>(input: T): T {
   const value = structuredClone(input);
   value.scope.board.copperLayers.sort((a, b) => a === b ? 0 : a === "F.Cu" ? -1 : 1);
   value.components.sort((a, b) => compare(a.reference, b.reference));
+  value.boardFeatures?.sort((a, b) => compare(a.reference, b.reference));
   for (const component of value.components) component.pins.sort((a, b) => compare(a.pin, b.pin));
   value.nets.sort((a, b) => compare(a.name, b.name));
   for (const net of value.nets) net.endpoints.sort((a, b) => compare(key(a), key(b)));

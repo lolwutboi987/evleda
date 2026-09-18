@@ -33,5 +33,6 @@ export async function loadKicadToolboxFreshProfile(input: KicadMcpPinnedFileInpu
       ...(profile.libraries.approvedPackage === undefined ? [] : [profile.libraries.approvedPackage.root])]),
     libraryEnvironment: Object.freeze({ KICAD10_SYMBOL_DIR: profile.libraries.symbolRoot, KICAD10_FOOTPRINT_DIR: profile.libraries.footprintRoot }),
     profileIdentity: profile.contentIdentity,
+    ...(libraryResolver instanceof KiCadApprovedPackageResolver ? { describeApprovedPackage: libraryResolver.describeApprovedPackage.bind(libraryResolver) } : {}),
     ...(catalog === undefined ? {} : { searchLibrary: catalog.search.bind(catalog) }) });
 }

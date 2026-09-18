@@ -4,6 +4,7 @@
  * node --import tsx scripts/toolbox-workspace-client.ts --profile <file>
  *   --profile-sha256 <sha256> --profile-bytes <bytes> --workspace-root <existing-dir>
  *   --evidence-dir <dir> [--edit]
+ *   [--initial-command <json-file> --initial-command-sha256 <sha256> --initial-command-bytes <bytes>]
  *
  * Keep stdin open (for example an exec TTY); send one JSON command per line:
  * {"id":"tools-1","operation":"tools"}
@@ -22,7 +23,7 @@
 import { Client, type CallToolResult } from "@modelcontextprotocol/client";
 import { getDefaultEnvironment, StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { createWriteStream } from "node:fs";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, open, readFile, writeFile } from "node:fs/promises";
 import { finished } from "node:stream/promises";
 import type { Readable } from "node:stream";
 import { createHash, randomUUID } from "node:crypto";
@@ -32,7 +33,10 @@ import { inspect, parseArgs } from "node:util";
 
 const MAX_INPUT_BYTES = 1024 * 1024;
 const MAX_OUTPUT_BYTES = 16 * 1024;
-const CALL_TIMEOUT_MS = 180_000;
+// Large source-bound native edits can exceed three minutes. This is only the
+// client's observation window; it does not change native admission, ownership,
+// source checks or recovery deadlines. A timeout still has an unknown outcome.
+const CALL_TIMEOUT_MS = 600_000;
 type OperatorId = string | number;
 type Command = { id: OperatorId } & ({ operation: "tools" | "close" }
   | { operation: "call"; name: string; arguments: Record<string, unknown> }
@@ -77,7 +81,10 @@ function parseCommand(value: unknown): Command {
 }
 
 /** Bounded byte framing, with stream backpressure while a command is running. */
-async function* inputLines(): AsyncGenerator<{ raw: Buffer; frameError?: string }> {
+async function* inputLines(initialCommand?: Buffer): AsyncGenerator<{ raw: Buffer; frameError?: string }> {
+  // An operator-pinned initial frame avoids terminal line-length limits for a
+  // complete board draft. It uses the same parser, ID rules and evidence path.
+  if (initialCommand !== undefined) yield { raw: initialCommand };
   let pending = Buffer.alloc(0);
   for await (const value of process.stdin) {
     const chunk = Buffer.isBuffer(value) ? value : Buffer.from(value as string);
@@ -104,10 +111,11 @@ async function main() {
   const { values } = parseArgs({ strict: true, allowPositionals: false, options: {
     profile: { type: "string" }, "profile-sha256": { type: "string" }, "profile-bytes": { type: "string" },
     "workspace-root": { type: "string" }, "evidence-dir": { type: "string" }, edit: { type: "boolean", default: false },
+    "initial-command": { type: "string" }, "initial-command-sha256": { type: "string" }, "initial-command-bytes": { type: "string" },
     help: { type: "boolean", default: false },
   } });
   if (values.help) {
-    process.stdout.write("Usage: node --import tsx scripts/toolbox-workspace-client.ts --profile <file> --profile-sha256 <sha256> --profile-bytes <bytes> --workspace-root <existing-dir> --evidence-dir <dir> [--edit]\nCommands: {id,operation:'tools'|'close'}, {id,operation:'call',name,arguments}, {id,operation:'resource',uri}; JSON lines, unique IDs, <=1 MiB each. Keep stdin open.\n");
+    process.stdout.write("Usage: node --import tsx scripts/toolbox-workspace-client.ts --profile <file> --profile-sha256 <sha256> --profile-bytes <bytes> --workspace-root <existing-dir> --evidence-dir <dir> [--edit] [--initial-command <json-file> --initial-command-sha256 <sha256> --initial-command-bytes <bytes>]\nCommands: {id,operation:'tools'|'close'}, {id,operation:'call',name,arguments}, {id,operation:'resource',uri}; JSON lines, unique IDs, <=1 MiB each. The optional pinned initial file contains exactly one command; all subsequent actions remain operator-selected. Keep stdin open.\n");
     return;
   }
   for (const key of ["profile", "profile-sha256", "profile-bytes", "workspace-root", "evidence-dir"] as const) {
@@ -115,6 +123,28 @@ async function main() {
   }
   if (!/^[0-9a-f]{64}$/u.test(values["profile-sha256"]!) || !/^[1-9][0-9]*$/u.test(values["profile-bytes"]!)
     || !Number.isSafeInteger(Number(values["profile-bytes"]))) throw new Error("Profile pin requires exact SHA-256 and positive safe byte count.");
+  let initialCommand: Buffer | undefined;
+  const initialKeys = ["initial-command", "initial-command-sha256", "initial-command-bytes"] as const;
+  if (initialKeys.some(key => values[key] !== undefined)) {
+    if (initialKeys.some(key => !values[key]?.trim()) || !/^[0-9a-f]{64}$/u.test(values["initial-command-sha256"]!)
+        || !/^[1-9][0-9]*$/u.test(values["initial-command-bytes"]!)) throw new Error("Initial command requires its file, SHA-256 and byte count together.");
+    const expectedSize = Number(values["initial-command-bytes"]);
+    if (!Number.isSafeInteger(expectedSize) || expectedSize > MAX_INPUT_BYTES) throw new Error("Initial command exceeds the bounded input frame size.");
+    const handle = await open(path.resolve(values["initial-command"]!), "r");
+    try {
+      const before = await handle.stat({ bigint: true });
+      if (!before.isFile() || before.size !== BigInt(expectedSize)) throw new Error("Initial command file differs from its bounded byte count.");
+      const bytes = Buffer.alloc(expectedSize + 1); let length = 0;
+      while (length < bytes.length) { const part = await handle.read(bytes, length, bytes.length - length, length); if (!part.bytesRead) break; length += part.bytesRead; }
+      const after = await handle.stat({ bigint: true });
+      if (length !== expectedSize || before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size
+        || before.mtimeNs !== after.mtimeNs || before.ctimeNs !== after.ctimeNs) throw new Error("Initial command file changed while reading; nothing was dispatched.");
+      initialCommand = bytes.subarray(0, length);
+    } finally { await handle.close(); }
+    const actual = identity(initialCommand);
+    if (actual.size !== expectedSize || actual.digest !== values["initial-command-sha256"]) throw new Error("Initial command bytes differ from the operator's exact pin; nothing was dispatched.");
+    parseCommand(JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(initialCommand)));
+  }
   const repository = fileURLToPath(new URL("../", import.meta.url));
   const host = path.join(repository, "dist/src/mcp/toolbox-workspace-main.js");
   const serverArgs = ["--profile", path.resolve(values.profile!), "--profile-sha256", values["profile-sha256"]!,
@@ -232,7 +262,7 @@ async function main() {
     connecting = client.connect(transport, { timeout: 30_000, signal: startupSignal });
     await abortable(connecting, startupSignal);
     print({ event: "ready", session, evidenceDirectory: output, childPid: transport.pid, access: values.edit ? "edit" : "read-only" });
-    for await (const { raw, frameError } of inputLines()) {
+    for await (const { raw, frameError } of inputLines(initialCommand)) {
       if (closing !== undefined) break;
       const request = await retain(frameError === undefined ? "request" : "incomplete-request", frameError === undefined ? Buffer.concat([raw, Buffer.from("\n")]) : raw, "jsonl");
       activeRequest = request;

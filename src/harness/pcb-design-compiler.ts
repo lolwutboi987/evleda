@@ -3,7 +3,7 @@ import type { KiCadStockSymbolInspection } from "./kicad-library-resolver.js";
 import type { KiCadApprovedSymbolInspection } from "./kicad-approved-package.js";
 import type { FreshSymbolTerminalGeometry } from "./fresh-kicad-parser.js";
 import { canonicalIdentity } from "../core/canonical.js";
-import type { CanonicalIdentity } from "../domain/types.js";
+import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import {
   capturePcbLibrarySourceSelection, assertPcbLibrarySourceSelectionStable, isPcbLibraryRecordAuthorized,
   type PcbLibrarySourceSelection, type PcbLibrarySourceSelectionRequest,
@@ -151,6 +151,8 @@ export interface PcbResolvedFootprint {
  * KiCad libraries, but the compiler supplies no mutation or filesystem path.
  */
 export interface PcbReadOnlyLibraryResolver {
+  readonly inspectFootprint?: (exactLibraryId: string) => import("./kicad-approved-package.js").KiCadAuthorizedFootprintInspection | null;
+  readonly readFootprintSource?: (exactLibraryId: string) => Readonly<{ source: string; sourceIdentity: ContentIdentity }> | null;
   readonly resolveSymbol: (exactLibraryId: string) => PcbResolvedSymbol | null;
   readonly resolveFootprint: (exactLibraryId: string) => PcbResolvedFootprint | null;
   /** Optional host catalog capability; legacy exact-ID resolvers omit it. */

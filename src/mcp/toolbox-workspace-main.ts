@@ -62,6 +62,7 @@ export async function loadKicadToolboxWorkspace(options: NonNullable<ReturnType<
     deepRuleSelectionOptions: design.deepRuleSelectionOptions, access: options.access,
     ...(transmissionLine === undefined ? {} : { transmissionLine }),
     ...(design.searchLibrary === undefined ? {} : { searchLibrary: design.searchLibrary }),
+    ...(design.describeApprovedPackage === undefined ? {} : { describeApprovedPackage: design.describeApprovedPackage }),
     inspectLibrary: (kind, libraryId) => kind === "symbol" ? design.dependencies.libraryResolver.inspectSymbol(libraryId)
       : design.dependencies.libraryResolver.inspectFootprint(libraryId) });
 }

@@ -1,4 +1,4 @@
-import { parseFreshPcbTextItems } from "./fresh-kicad-parser.js";
+import { parseFreshPcbTextItems, parseFreshPcbSourceDocument } from "./fresh-kicad-parser.js";
 import { freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
 
 export interface PcbSilkscreenText {
@@ -10,7 +10,7 @@ export const PCB_SILKSCREEN_TEXT_SCHEMA = Object.freeze({ type: "object", additi
   properties: { text: { type: "string", minLength: 1, maxLength: 64, pattern: "^(?!.*\\$\\{)[ -~]+$" },
     x_mm: { type: "number", minimum: 0, maximum: 2000 }, y_mm: { type: "number", minimum: 0, maximum: 2000 },
     layer: { type: "string", enum: ["F_SilkS"], default: "F_SilkS" },
-    size_mm: { type: "number", minimum: 0.6, maximum: 3, default: 1 },
+    size_mm: { type: "number", minimum: 0.8, maximum: 3, default: 1 },
     rotation_deg: { type: "number", enum: [0], default: 0 }, bold: { type: "boolean", default: false }, italic: { type: "boolean", default: false } },
   required: ["text", "x_mm", "y_mm"] });
 
@@ -21,7 +21,7 @@ export function parsePcbSilkscreenText(value: Readonly<Record<string, unknown>>)
       || typeof value.x_mm !== "number" || !Number.isFinite(value.x_mm) || value.x_mm < 0 || value.x_mm > 2000
       || typeof value.y_mm !== "number" || !Number.isFinite(value.y_mm) || value.y_mm < 0 || value.y_mm > 2000
       || (value.layer !== undefined && value.layer !== "F_SilkS") || (value.rotation_deg !== undefined && value.rotation_deg !== 0)
-      || (value.size_mm !== undefined && (typeof value.size_mm !== "number" || !Number.isFinite(value.size_mm) || value.size_mm < 0.6 || value.size_mm > 3))
+      || (value.size_mm !== undefined && (typeof value.size_mm !== "number" || !Number.isFinite(value.size_mm) || value.size_mm < 0.8 || value.size_mm > 3))
       || (value.bold !== undefined && typeof value.bold !== "boolean") || (value.italic !== undefined && typeof value.italic !== "boolean")) {
     throw new Error("PCB text requires bounded literal text, coordinates, F_SilkS, and verified zero rotation.");
   }
@@ -41,8 +41,26 @@ export function assertOnlyRequestedPcbTextAdded(before: string, after: string, e
     throw new Error("New PCB text lacks a unique native item identity.");
   }
   const p = text.presentation;
+  const native = parseFreshPcbSourceDocument(after).children.find(node => node.start === text.start)!;
+  const fonts = native.children.filter(node => node.name === "effects").flatMap(node => node.children.filter(child => child.name === "font"));
+  const thicknesses = fonts.flatMap(node => node.children.filter(child => child.name === "thickness"));
+  const thickness = thicknesses[0]?.values[0];
+  // Pinned KiCad 10.0.3: omitted stroke is automatic, not zero ink.
+  // common/eda_text.cpp GetEffectiveTextPenWidth; common/gr_text.cpp normal
+  // width=size/8, bold=size/5, clamp=size/4. DRC text_dims uses effective width.
+  // https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.3/common/eda_text.cpp
+  // https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.3/common/gr_text.cpp
+  // The admitted isotropic stock font has a conservative automatic lower bound
+  // of size/8 >= 0.1 mm. Outline fonts/unknown metadata remain unsupported.
+  const automatic = thicknesses.length === 0 && p.fontSizeMm !== null && p.fontSizeMm.x >= 0.8 && p.fontSizeMm.y >= 0.8;
+  const explicit = thicknesses.length === 1 && thicknesses[0]!.children.length === 0 && thicknesses[0]!.values.length === 1
+    && thickness !== undefined && !thickness.quoted && /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/u.test(thickness.value)
+    && Number.isFinite(Number(thickness.value)) && Number(thickness.value) >= 0.08;
+  if (fonts.length !== 1 || !automatic && !explicit) {
+    throw new Error("Native PCB text does not preserve the existing 0.08 mm minimum stroke thickness.");
+  }
   if (!text.supported || text.text !== expected.text || text.layer !== "F.SilkS" || p.at?.x !== expected.x_mm || p.at?.y !== expected.y_mm
-      || (p.rotationDeg ?? 0) !== 0 || p.fontSizeMm?.x !== expected.size_mm || p.fontSizeMm?.y !== expected.size_mm
+      || (p.rotationDeg ?? 0) !== 0 || p.fontSizeMm?.x !== expected.size_mm || p.fontSizeMm?.y !== expected.size_mm || expected.size_mm < 0.8
       || p.bold !== expected.bold || p.italic !== expected.italic || p.hidden
       || p.justify?.length !== 2 || !p.justify.includes("left") || !p.justify.includes("bottom")) {
     throw new Error("Native PCB text differs from the exact requested presentation.");

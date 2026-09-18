@@ -203,6 +203,20 @@ const cleanValidationResult = (call: HarnessToolCall): HarnessToolResult => {
 };
 
 describe("bounded PCB agent harness", () => {
+  it.each(["fresh_set_footprint_fields", "pcb_add_text"])("saves and recollects PCB validation after %s under the default mutation policy", async name => {
+    const definition = { name, description: "Bounded PCB presentation edit", inputSchema: { type: "object" } };
+    const calls: string[] = [], fake = new FakeTools();
+    const report = await runPcbAgentHarness(options({ allowedToolNames: [definition], maxIterations: 1 }),
+      new FakeProvider([{ message: { role: "assistant", content: "Apply the bounded presentation edit." }, stopReason: "tool_calls",
+        toolCalls: [{ id: "presentation", name, arguments: {} }] }]),
+      { tools: [definition, ...validationDefinitions], execute: async call => {
+        calls.push(call.name);
+        return call.name === name ? { toolCallId: call.id, content: JSON.stringify({ applied: true, mutated: true }) } : await fake.execute(call);
+      } }, { completionGate: async () => ({ passed: false, missing: ["Native presentation review remains required."] }) });
+    expect(calls).toEqual([name, "pcb_save", "run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa"]);
+    expect(report.status).toBe("needs_review");
+  });
+
   it.each(["DEGRADED", "POOR", "UNKNOWN", "CLEAN"])("accepts V2 physical NC metrics with literal %s while requiring save and final acceptance", async (quality) => {
     const payload = completeSyncV2Payload();
     payload.upstreamMetrics.transferQuality = quality;

@@ -1,6 +1,8 @@
 import { createPcbExternalPowerBinding, assertPcbExternalPowerBindingCurrent, type PcbExternalPowerBinding } from "./pcb-external-power.js";
 import { createPcbDerivedPowerBinding, assertPcbDerivedPowerBindingCurrent, type PcbDerivedPowerBinding } from "./pcb-derived-power.js";
 import { z } from "zod";
+import { resolvePcbBoardFeatureLibraries } from "./pcb-board-feature-libraries.js";
+import type { PcbBoardFeatureLibrarySource } from "./pcb-board-features.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { hardenPortableValue } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -68,6 +70,7 @@ export interface PcbPlaneReadyCompilation extends CompilationCommon {
   readonly selectionPolicy: PcbPlaneSelectionPolicy;
   readonly contract: PcbPlaneDesignContract;
   readonly libraryBinding: PcbLibraryBinding;
+  readonly boardFeatureLibrarySources?: readonly PcbBoardFeatureLibrarySource[];
   readonly externalPowerBinding?: PcbExternalPowerBinding;
   readonly derivedPowerBinding?: PcbDerivedPowerBinding;
   readonly deepRuleBinding: PcbDeepRuleBinding;
@@ -126,6 +129,8 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
     add(`pcb:${component.reference}`, "pcb_component", path, "Verify the exact PCB footprint and physical pads.");
     add(`placement:${component.reference}`, "placement", `/placementConstraints/${token(component.reference)}`, "Verify all side, rotation, region, edge and courtyard constraints.");
   }
+  for (const feature of contract.boardFeatures ?? []) add(`board-feature:${feature.reference}`, "pcb_component", `/boardFeatures/${feature.reference}`,
+    "Verify exact source-bound NPTH footprint, full physical inventory, zero electrical terminals, board-only/BOM/position exclusions, immutable pose, bore and native hole clearances.");
   for (const net of contract.nets) add(`schematic-net:${net.name}`, "schematic", `/nets/${token(net.name)}`, "Verify every exact net endpoint and no unintended endpoints; plane routing changes no schematic assignments.");
   for (const source of contract.derivedPowerSources ?? []) add(`derived-power:${source.id}`, "schematic", `/derivedPowerSources/${token(source.id)}`,
     "Verify source-pinned complete driver/passive pin facts, every upstream/path/ground native group and the complete schematic-only flag inventory. A reviewed source path is not current, thermal, feedback or electrical qualification; native ERC remains independent.");
@@ -192,9 +197,10 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
   if (libraries.disposition !== "ready") return diagnostics(libraries.disposition, draft, libraries.issues, libraries.questions);
   try {
     const contract = closePcbPlaneDesignIntentDraft(draft);
+    const physicalLibraries = resolvePcbBoardFeatureLibraries(contract.boardFeatures, libraries, options.libraryResolver);
     const libraryPayload = { schemaVersion: PCB_LIBRARY_BINDING_SCHEMA_VERSION, contractIdentity: contract.identity,
-      symbols: libraries.symbols, footprints: libraries.footprints,
-      ...(libraries.sourceSelection === undefined ? {} : { sourceSelection: libraries.sourceSelection }) };
+      symbols: libraries.symbols, footprints: physicalLibraries.footprints,
+      ...(physicalLibraries.sourceSelection === undefined ? {} : { sourceSelection: physicalLibraries.sourceSelection }) };
     const libraryBinding: PcbLibraryBinding = freezePcbPlaneArtifact({ ...libraryPayload, identity: canonicalIdentity(libraryPayload, PCB_LIBRARY_BINDING_SCHEMA_VERSION) });
     const externalPowerBinding = createPcbExternalPowerBinding(contract, libraryBinding, options.libraryResolver);
     const derivedPowerBinding = createPcbDerivedPowerBinding(contract, libraryBinding, options.libraryResolver, externalPowerBinding);
@@ -216,6 +222,7 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
     if (derivedPowerBinding !== undefined) assertPcbDerivedPowerBindingCurrent(derivedPowerBinding, libraryBinding, options.libraryResolver);
     return freezePcbPlaneArtifact({ ...base, disposition: "ready", draft, draftIdentity: contentIdentity(canonicalJson(draft)),
       selectionPolicy, questions: [], issues: [], contract, libraryBinding, deepRuleBinding,
+      ...(physicalLibraries.boardFeatureLibrarySources === undefined ? {} : { boardFeatureLibrarySources: physicalLibraries.boardFeatureLibrarySources }),
       ...(externalPowerBinding === undefined ? {} : { externalPowerBinding }),
       ...(derivedPowerBinding === undefined ? {} : { derivedPowerBinding }),
       verificationPlan: verificationPlan(contract, libraryBinding, deepRuleBinding) });

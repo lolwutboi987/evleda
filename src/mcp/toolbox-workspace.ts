@@ -19,6 +19,7 @@ import { validateFreshProjectName } from "../harness/fresh-project.js";
 import type { createKiCad10StockCatalog } from "../harness/kicad-stock-catalog.js";
 import type { KicadMcpPinnedFileInput } from "../integrations/kicad-mcp-session.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
+import type { KiCadApprovedPackageDescription } from "../harness/kicad-approved-package.js";
 import { openFreshNativeToolboxBinding } from "./toolbox-fresh-main.js";
 import { createKicadToolboxMcpServer } from "./toolbox-server.js";
 import type { ToolboxWorkspaceStore } from "./toolbox-workspace-store.js";
@@ -32,6 +33,7 @@ export interface KicadToolboxWorkspaceOptions {
   readonly transmissionLine?: KicadTransmissionLineCalculator;
   readonly inspectLibrary?: (kind: "symbol" | "footprint", libraryId: string) => unknown;
   readonly searchLibrary?: ReturnType<typeof createKiCad10StockCatalog>["search"];
+  readonly describeApprovedPackage?: () => KiCadApprovedPackageDescription;
   /** Host/test dependency; never part of the model's tool arguments. */
   readonly openBinding?: typeof openFreshNativeToolboxBinding;
 }
@@ -171,11 +173,15 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     async args => respond(() => {
       const family = args.family ?? "routed-v1";
       return { family, supportedFamilies: [...DESIGN_FAMILIES],
+        ...(options.describeApprovedPackage === undefined ? {} : { approvedPackage: options.describeApprovedPackage() }),
         schema: structuredClone(family === "plane-v2" ? PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA : PCB_DESIGN_INTENT_TOOL.inputSchema),
         guide: family === "plane-v2" ? getPcbPlaneDesignIntentModelGuide(true, true, args.includeChannel === true, true) : PCB_DESIGN_INTENT_MODEL_GUIDE,
         ...(family === "plane-v2" ? {
           guideMaxUtf8Bytes: PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES,
-          optionalRequirements: { interfaceRequirements: { schemaVersion: PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION,
+          optionalRequirements: { boardFeatures: { kinds: ["npth_mounting_hole"], schematicComponentsAdded: false,
+            electricalTerminalsAdded: false, boardOnlyFootprints: true,
+            instruction: "Declare the exact approved footprint ID, unique H reference, front cardinal pose, bore diameter and hole-to-copper/edge bounds. Only source-inspected centered circular NPTH features without pad numbers or nets are supported. The first successful schematic sync materializes these board-only footprints; do not add schematic symbols, electrical pins or BOM parts. Complete source, geometry, disposition and native clearance checks remain required." },
+            interfaceRequirements: { schemaVersion: PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION,
             kinds: ["differential_pair"], sourceAuthority: "caller_asserted_intent", physicalVerification: "not_performed" },
             externalPowerInputs: { sourceAuthority: "caller_asserted_external_supply", physicalComponentsAdded: false,
               instruction: "Declare supplyEndpoint and returnEndpoint on existing connector pins; the host binds schematic-only PWR_FLAG annotations. Do not add flag components or physical endpoints." },
@@ -242,7 +248,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       return { status: "closed", projectId: args.projectId, designAcceptance: "not_implied" };
     })));
   if (options.inspectLibrary !== undefined) toolbox.server.registerTool("evleda_inspect_library", {
-    description: "Inspect a symbol or footprint ID through the host-approved stock-library resolver. Reports current source identity and supported native geometry; does not qualify a component electrically. Compilation binds selected sources under a stock catalog policy. Unknown or unsupported items are not replaced with guesses.",
+    description: "Inspect an exact symbol or footprint ID through the host-approved stock and optional package resolver. Package IDs are discoverable in evleda_design_schema when configured. Reports current source identity and supported native geometry; does not qualify a component electrically. Unknown or unsupported items are not replaced with guesses.",
     inputSchema: z.object({ kind: z.enum(["symbol", "footprint"]), libraryId: z.string().min(1).max(192) }).strict(), annotations: READ,
   }, async args => respond(() => { const inspection = options.inspectLibrary!(args.kind, args.libraryId); return { found: inspection !== null, inspection }; }));
   if (options.searchLibrary !== undefined) toolbox.server.registerTool("evleda_search_library", {

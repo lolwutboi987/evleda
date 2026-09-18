@@ -1,0 +1,377 @@
+{
+  "purpose": "Native drawing labels only; all original specifications and selected MPNs retained in companion design records.",
+  "components": [
+    {
+      "reference": "C1",
+      "originalValue": "4.7 uF",
+      "displayValue": "4.7uF",
+      "selectedMpn": "GRM155R60J475ME47D"
+    },
+    {
+      "reference": "C10",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C11",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C12",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C13",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C14",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C15",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C16",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C17",
+      "originalValue": "4.7 uF",
+      "displayValue": "4.7uF",
+      "selectedMpn": "GRM155R60J475ME47D"
+    },
+    {
+      "reference": "C18",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C19",
+      "originalValue": "4.7 uF",
+      "displayValue": "4.7uF",
+      "selectedMpn": "GRM155R60J475ME47D"
+    },
+    {
+      "reference": "C2",
+      "originalValue": "4.7 uF",
+      "displayValue": "4.7uF",
+      "selectedMpn": "GRM155R60J475ME47D"
+    },
+    {
+      "reference": "C20",
+      "originalValue": "47 uF",
+      "displayValue": "47uF",
+      "selectedMpn": "C3225X5R1A476M250AC"
+    },
+    {
+      "reference": "C21",
+      "originalValue": "47 uF",
+      "displayValue": "47uF",
+      "selectedMpn": "C3225X5R1A476M250AC"
+    },
+    {
+      "reference": "C22",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C23",
+      "originalValue": "1 nF",
+      "displayValue": "1nF",
+      "selectedMpn": "C1005X7R1H102K050BA"
+    },
+    {
+      "reference": "C24",
+      "originalValue": "15 pF",
+      "displayValue": "15pF",
+      "selectedMpn": "GRM1555C1H150JA01D"
+    },
+    {
+      "reference": "C25",
+      "originalValue": "15 pF",
+      "displayValue": "15pF",
+      "selectedMpn": "GRM1555C1H150JA01D"
+    },
+    {
+      "reference": "C26",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C3",
+      "originalValue": "4.7 uF",
+      "displayValue": "4.7uF",
+      "selectedMpn": "GRM155R60J475ME47D"
+    },
+    {
+      "reference": "C4",
+      "originalValue": "4.7 uF",
+      "displayValue": "4.7uF",
+      "selectedMpn": "GRM155R60J475ME47D"
+    },
+    {
+      "reference": "C5",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C6",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C7",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C8",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "C9",
+      "originalValue": "100 nF",
+      "displayValue": "100nF",
+      "selectedMpn": "GRM155R71E104KE14D"
+    },
+    {
+      "reference": "D1",
+      "originalValue": "VBUS-to-VSYS Schottky",
+      "displayValue": "PMEG6010ELR",
+      "selectedMpn": "PMEG6010ELR"
+    },
+    {
+      "reference": "D2",
+      "originalValue": "Green status LED",
+      "displayValue": "GREEN",
+      "selectedMpn": "APT1608CGCK"
+    },
+    {
+      "reference": "J1",
+      "originalValue": "USB 2.0 Type-C receptacle; device/sink",
+      "displayValue": "USB-C",
+      "selectedMpn": "USB4105-GF-A"
+    },
+    {
+      "reference": "J2",
+      "originalValue": "20 Pico-compatible contacts",
+      "displayValue": "PICO_1-20",
+      "selectedMpn": null
+    },
+    {
+      "reference": "J3",
+      "originalValue": "20 Pico-compatible contacts",
+      "displayValue": "PICO_21-40",
+      "selectedMpn": null
+    },
+    {
+      "reference": "J4",
+      "originalValue": "SWCLK / GND / SWDIO",
+      "displayValue": "SWD",
+      "selectedMpn": null
+    },
+    {
+      "reference": "L1",
+      "originalValue": "3.3 uH +/-20%",
+      "displayValue": "3.3uH",
+      "selectedMpn": "AOTA-B201610S3R3-101-T"
+    },
+    {
+      "reference": "L2",
+      "originalValue": "2.2 uH",
+      "displayValue": "2.2uH",
+      "selectedMpn": "XFL4020-222MEC"
+    },
+    {
+      "reference": "Q1",
+      "originalValue": "N-channel VSYS sense isolation",
+      "displayValue": "DMG1012T",
+      "selectedMpn": "DMG1012T-7"
+    },
+    {
+      "reference": "R1",
+      "originalValue": "27 ohm",
+      "displayValue": "27R",
+      "selectedMpn": "RC0402FR-0727RL"
+    },
+    {
+      "reference": "R10",
+      "originalValue": "100000 ohm",
+      "displayValue": "100k",
+      "selectedMpn": "RC0402FR-07100KL"
+    },
+    {
+      "reference": "R11",
+      "originalValue": "5600 ohm",
+      "displayValue": "5.6k",
+      "selectedMpn": "RC0402FR-075K6L"
+    },
+    {
+      "reference": "R12",
+      "originalValue": "10000 ohm",
+      "displayValue": "10k",
+      "selectedMpn": "RC0402FR-0710KL"
+    },
+    {
+      "reference": "R13",
+      "originalValue": "100000 ohm",
+      "displayValue": "100k",
+      "selectedMpn": "RC0402FR-07100KL"
+    },
+    {
+      "reference": "R14",
+      "originalValue": "100000 ohm",
+      "displayValue": "100k",
+      "selectedMpn": "RC0402FR-07100KL"
+    },
+    {
+      "reference": "R15",
+      "originalValue": "100000 ohm",
+      "displayValue": "100k",
+      "selectedMpn": "RC0402FR-07100KL"
+    },
+    {
+      "reference": "R16",
+      "originalValue": "200 ohm",
+      "displayValue": "200R",
+      "selectedMpn": "RC0402FR-07200RL"
+    },
+    {
+      "reference": "R17",
+      "originalValue": "1 ohm",
+      "displayValue": "1R",
+      "selectedMpn": "RC0402FR-071RL"
+    },
+    {
+      "reference": "R18",
+      "originalValue": "470 ohm",
+      "displayValue": "470R",
+      "selectedMpn": "RC0402FR-07470RL"
+    },
+    {
+      "reference": "R19",
+      "originalValue": "100 ohm",
+      "displayValue": "100R",
+      "selectedMpn": "RC0402FR-07100RL"
+    },
+    {
+      "reference": "R2",
+      "originalValue": "27 ohm",
+      "displayValue": "27R",
+      "selectedMpn": "RC0402FR-0727RL"
+    },
+    {
+      "reference": "R20",
+      "originalValue": "100 ohm",
+      "displayValue": "100R",
+      "selectedMpn": "RC0402FR-07100RL"
+    },
+    {
+      "reference": "R3",
+      "originalValue": "5100 ohm",
+      "displayValue": "5.1k",
+      "selectedMpn": "RC0402FR-075K1L"
+    },
+    {
+      "reference": "R4",
+      "originalValue": "5100 ohm",
+      "displayValue": "5.1k",
+      "selectedMpn": "RC0402FR-075K1L"
+    },
+    {
+      "reference": "R5",
+      "originalValue": "1000 ohm",
+      "displayValue": "1k",
+      "selectedMpn": "RC0402FR-071KL"
+    },
+    {
+      "reference": "R6",
+      "originalValue": "10000 ohm",
+      "displayValue": "10k",
+      "selectedMpn": "RC0402FR-0710KL"
+    },
+    {
+      "reference": "R7",
+      "originalValue": "1000 ohm",
+      "displayValue": "1k",
+      "selectedMpn": "RC0402FR-071KL"
+    },
+    {
+      "reference": "R8",
+      "originalValue": "33 ohm",
+      "displayValue": "33R",
+      "selectedMpn": "RC0402FR-0733RL"
+    },
+    {
+      "reference": "R9",
+      "originalValue": "100000 ohm",
+      "displayValue": "100k",
+      "selectedMpn": "RC0402FR-07100KL"
+    },
+    {
+      "reference": "SW1",
+      "originalValue": "BOOTSEL",
+      "displayValue": "BOOTSEL",
+      "selectedMpn": "434133025816"
+    },
+    {
+      "reference": "SW2",
+      "originalValue": "RUN/reset",
+      "displayValue": "RUN",
+      "selectedMpn": "434133025816"
+    },
+    {
+      "reference": "U1",
+      "originalValue": "RP2350A; require A4 stepping",
+      "displayValue": "RP2350A",
+      "selectedMpn": "RP2350A"
+    },
+    {
+      "reference": "U2",
+      "originalValue": "Fixed 3.3 V buck-boost",
+      "displayValue": "RT6150B-33",
+      "selectedMpn": "RT6150B-33GQW"
+    },
+    {
+      "reference": "U3",
+      "originalValue": "32 Mbit / 4 MiB QSPI",
+      "displayValue": "W25Q32RV",
+      "selectedMpn": "W25Q32RVXHJQ"
+    },
+    {
+      "reference": "U4",
+      "originalValue": "USB data/VBUS protection candidate",
+      "displayValue": "USBLC6-2SC6",
+      "selectedMpn": "USBLC6-2SC6"
+    },
+    {
+      "reference": "Y1",
+      "originalValue": "12 MHz, CL10 pF, ESR<=50 ohm",
+      "displayValue": "12MHz",
+      "selectedMpn": "ABM8-272-T3"
+    }
+  ]
+}

@@ -1,4 +1,6 @@
 import { createFreshConnectivityContract } from "./fresh-connectivity-contract.js";
+import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
+import { verifyFreshBoardFeatures } from "./fresh-board-features.js";
 import { validateCurrentFreshNativeTerminalBinding, assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
@@ -42,6 +44,10 @@ export function prepareFreshPlaneConnectivity(input: FreshPlaneConnectivityInput
   requireValue(scope.algorithm === "sha256" && /^[a-f0-9]{64}$/u.test(scope.digest) && scope.canonicalizationVersion === "evleda-c14n-json-v1"
     && typeof scope.schemaVersion === "string" && scope.schemaVersion.length > 0, "current host scope identity is invalid");
   const board = parseFreshPcbSource(input.pcbSource), pins = input.physicalFootprints;
+  if (bundle.contract.boardFeatures !== undefined) {
+    verifyFreshBoardFeatures(bundle, input.pcbSource);
+    assertPcbBoardFeatureInventory(bundle.contract, board, input.pcbSource);
+  }
   const connectivityContract=createFreshConnectivityContract(bundle.contract,bundle.externalPowerBinding,bundle.derivedPowerBinding);
   if(connectivityContract.noConnects.length>0||input.nativeTerminalBinding!==undefined){
     validateCurrentFreshNativeTerminalBinding(input.nativeTerminalBinding,connectivityContract.identity,scope);
@@ -52,8 +58,9 @@ export function prepareFreshPlaneConnectivity(input: FreshPlaneConnectivityInput
     requireValue(members.length>0&&members.every(pad=>pad.physical.id!==null&&UUID.test(pad.physical.id)),`saved NC ${endpoint.reference}:${endpoint.pin} has missing or unbound physical members`);
     return {...endpoint,physicalPadUuids:members.map(pad=>pad.physical.id!)};
   })??[];
-  requireValue(pins.length === bundle.contract.components.length && new Set(pins.map(pin => pin.reference)).size === pins.length
-    && pins.every(pin => bundle.contract.components.some(component => component.reference === pin.reference && component.footprintLibId === pin.libraryId)
+  const physicalComponents = [...bundle.contract.components, ...(bundle.contract.boardFeatures ?? [])];
+  requireValue(pins.length === physicalComponents.length && new Set(pins.map(pin => pin.reference)).size === pins.length
+    && pins.every(pin => physicalComponents.some(component => component.reference === pin.reference && component.footprintLibId === pin.libraryId)
       && bundle.libraryBinding.footprints.some(footprint => footprint.reference === pin.reference && footprint.libraryId === pin.libraryId)
       && pin.sourceIdentity.algorithm === "sha256" && /^[a-f0-9]{64}$/u.test(pin.sourceIdentity.digest) && Number.isSafeInteger(pin.sourceIdentity.size) && pin.sourceIdentity.size > 0),
   "complete approved physical library pins must match the actual V2 component/library binding");

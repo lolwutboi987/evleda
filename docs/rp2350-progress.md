@@ -5,6 +5,19 @@ The reviewed toolbox baseline is published at commit
 on `codex/destination-resume`. Main remains the earlier Python implementation.
 RP2350 progress is maintained on `codex/rp2350-pico`; it is not a finished native board.
 
+The [current compiled candidate](../designs/rp2350-pico/candidate-readiness.md)
+resolves the earlier draft's engineering inputs and binds the v4 library package,
+62 electrical parts and four board-only mounting bores. Actual MCP submission,
+native startup and normal checkpoint/close passed. U1 and J2 are now observed in
+the public native schematic; PCB synchronization and copper authoring remain
+unfinished. The [placement diagnostic](rp2350-placement-verification.md) records
+the corrected USB escapes and mounting pattern, exact native rules, and a
+field-only cleanup that removes all 238 silkscreen warnings. New bounded tools
+support repeated schematic labels, precise graphic/glyph obstacles and atomic
+PCB field presentation edits. Their scoped software and isolated native results
+do not establish a completed public-tool RP2350 workflow.
+
+The following unresolved-draft and connector records are historical inputs.
 The [circuit inventory](../designs/rp2350-pico/circuit-inputs.md) and
 [unresolved V2 draft](../designs/rp2350-pico/design-draft-notes.md) preserve 62
 components, 65 nets and 262 logical pins, including two deliberate SBU no-connects.

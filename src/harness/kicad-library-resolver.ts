@@ -4,8 +4,10 @@ import { isAbsolute, join, relative, resolve, sep } from "node:path";
 
 import { canonicalIdentity, contentIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
+import type { PcbLibrarySourceSelectionRecord } from "./pcb-library-source-binding.js";
 import { parseFreshSymbolLibraryTerminalGeometrySource, freshPowerFlagDefinitionSemanticIdentity, type FreshSymbolTerminalGeometry } from "./fresh-kicad-parser.js";
 import { physicalPadDefinitionKey, type PcbPadDefinitionNode } from "./fresh-pcb-pad-model.js";
+import { isSupportedMechanicalFootprintPads } from "./pcb-board-features.js";
 import {
   normalizePcbResolvedFootprint,
   normalizePcbResolvedSymbol,
@@ -46,6 +48,7 @@ export type KiCadStockLibraryResolverErrorCode =
   | "INVALID_CONFIGURATION"
   | "ROOT_REJECTED"
   | "PATH_REJECTED"
+  | "SOURCE_CHANGED"
   | "FILE_TOO_LARGE"
   | "MALFORMED_LIBRARY"
   | "DERIVED_SYMBOL_UNSUPPORTED"
@@ -223,6 +226,26 @@ interface CachedParsedLibrary {
   readonly parsed: ParsedLibrary;
 }
 
+const syntaxCacheBrand: unique symbol = Symbol("kicad-stock-syntax-cache");
+/** Opaque parser storage; grants no selection, filesystem, or currentness authority. */
+export interface KiCadStockSyntaxCache { readonly [syntaxCacheBrand]: true }
+interface SyntaxCacheState {
+  readonly entries: Map<string, CachedParsedLibrary>;
+  readonly maximumFiles: number;
+  readonly maximumSourceBytes: number;
+  sourceBytes: number;
+}
+const syntaxCaches = new WeakMap<KiCadStockSyntaxCache, SyntaxCacheState>();
+
+/** Each catalog owns one cache. Callers cannot supply or retrieve parsed trees. */
+export function createKiCadStockSyntaxCache(limits?: Partial<KiCadStockLibraryResolverLimits>): KiCadStockSyntaxCache {
+  const policy = mergeLimits(limits);
+  const handle: KiCadStockSyntaxCache = Object.freeze({ [syntaxCacheBrand]: true as const });
+  syntaxCaches.set(handle, { entries: new Map(), maximumFiles: policy.maxCachedFiles,
+    maximumSourceBytes: policy.maxCachedSourceBytes, sourceBytes: 0 });
+  return handle;
+}
+
 interface RootBinding {
   readonly canonicalPath: string;
   readonly device: number | bigint;
@@ -239,6 +262,7 @@ interface LocatedAsset {
 interface LoadedAsset {
   readonly bytes: Buffer;
   readonly identity: ContentIdentity;
+  readonly canonicalPath: string;
 }
 
 const LIBRARY_PART = /^[A-Za-z0-9][A-Za-z0-9_.+@~-]{0,127}$/u;
@@ -469,7 +493,7 @@ const loadAsset = (asset: LocatedAsset): LoadedAsset => {
       || !samePath(realAfter, asset.canonicalPath)
       || !containedBy(asset.parentPath, realAfter)
     ) return resolverError("PATH_REJECTED", logicalAsset, `The stock asset for ${logicalAsset} changed while it was read.`);
-    return { bytes, identity: contentIdentity(bytes) };
+    return { bytes, identity: contentIdentity(bytes), canonicalPath: asset.canonicalPath };
   } catch (error) {
     if (error instanceof KiCadStockLibraryResolverError) throw error;
     return resolverError("PATH_REJECTED", logicalAsset, `The stock asset for ${logicalAsset} could not be read safely.`);
@@ -925,7 +949,8 @@ const buildFootprintInspection = (
       copperSides: [...new Set([...previous.copperSides, ...sides])].sort(compareText),
     });
   }
-  if (padsByNumber.size === 0 || padsByNumber.size > limits.maxPinsOrPads) {
+  const mechanicalOnly = padsByNumber.size === 0 && isSupportedMechanicalFootprintPads(physicalPads);
+  if (padsByNumber.size === 0 && !mechanicalOnly || padsByNumber.size > limits.maxPinsOrPads) {
     return resolverError("LIMIT_EXCEEDED", libraryId, `${libraryId}: numbered pad count is unsupported.`);
   }
   const layers = new Set(
@@ -940,7 +965,9 @@ const buildFootprintInspection = (
     packageKind: packageKind(nickname, item),
     pads: pads.map((pad) => pad.number)
   };
-  const resolverRecord = normalizePcbResolvedFootprint(candidate, libraryId);
+  // The ordinary electrical normalizer still rejects zero terminals. Only this
+  // independently characterized NPTH inspection can expose an empty record.
+  const resolverRecord = mechanicalOnly ? candidate : normalizePcbResolvedFootprint(candidate, libraryId);
   if (resolverRecord === null) {
     return resolverError("NORMALIZER_REJECTED", libraryId, `${libraryId}: parsed footprint does not satisfy the compiler resolver boundary.`);
   }
@@ -1025,19 +1052,31 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
   readonly #stockSymbolNicknames: ReadonlySet<string>;
   readonly #stockFootprintNicknames: ReadonlySet<string>;
   readonly #limits: KiCadStockLibraryResolverLimits;
-  readonly #parsedCache = new Map<string, CachedParsedLibrary>();
+  readonly #syntaxCache: SyntaxCacheState;
+  readonly #syntaxPolicyIdentity: string;
   readonly #symbolRecords = new Map<string, KiCadStockSymbolInspection | null>();
   readonly #footprintRecords = new Map<string, KiCadStockFootprintInspection | null>();
-  #cachedSourceBytes = 0;
-
-  public constructor(options: KiCad10StockLibraryResolverOptions) {
+  public constructor(options: KiCad10StockLibraryResolverOptions, syntaxCache?: KiCadStockSyntaxCache) {
     this.#limits = mergeLimits(options.limits);
+    const storage = syntaxCaches.get(syntaxCache ?? createKiCadStockSyntaxCache(this.#limits));
+    if (storage === undefined || storage.maximumFiles !== this.#limits.maxCachedFiles
+        || storage.maximumSourceBytes !== this.#limits.maxCachedSourceBytes) {
+      throw new KiCadStockLibraryResolverError("INVALID_CONFIGURATION", "syntax cache", "Parser storage must be genuine and retain the exact configured aggregate cache bounds.");
+    }
+    this.#syntaxCache = storage;
     this.#symbolRoot = bindRoot(options.symbolRoot, "symbol root");
     this.#footprintRoot = bindRoot(options.footprintRoot, "footprint root");
     this.#exactSymbolIds = exactIdSet(options.exactSymbolIds, this.#limits.maxExactSymbolIds, "exactSymbolIds");
     this.#exactFootprintIds = exactIdSet(options.exactFootprintIds, this.#limits.maxExactFootprintIds, "exactFootprintIds");
     this.#stockSymbolNicknames = nicknameSet(options.stockSymbolNicknames, this.#limits.maxStockNicknames, "stockSymbolNicknames");
     this.#stockFootprintNicknames = nicknameSet(options.stockFootprintNicknames, this.#limits.maxStockNicknames, "stockFootprintNicknames");
+    // Selected IDs deliberately remain outside parser keys: they are admitted
+    // independently before every fresh load. Limits and root/namespace policy
+    // cannot be borrowed from a more permissive resolver's parsed syntax.
+    this.#syntaxPolicyIdentity = canonicalIdentity({ limits: this.#limits,
+      roots: [this.#symbolRoot, this.#footprintRoot].map(root => ({ path: root.canonicalPath, device: String(root.device), inode: String(root.inode) })),
+      symbolNicknames: [...this.#stockSymbolNicknames].sort(compareText), footprintNicknames: [...this.#stockFootprintNicknames].sort(compareText),
+    }, "evleda.kicad-stock-syntax-policy.v1").digest;
     this.#externalPowerPolicyIdentity = canonicalIdentity({ schemaVersion: PCB_EXTERNAL_POWER_FLAG_POLICY_SCHEMA_VERSION, mode: "exact_ids",
       symbolRoot: this.#symbolRoot.canonicalPath, exactSymbolIds: [...this.#exactSymbolIds].sort(compareText),
       stockSymbolNicknames: [...this.#stockSymbolNicknames].sort(compareText), limits: this.#limits }, PCB_EXTERNAL_POWER_FLAG_POLICY_SCHEMA_VERSION);
@@ -1059,6 +1098,11 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     const asset = locateSymbol(this.#symbolRoot, nickname, exactLibraryId, this.#limits);
     if (asset === null) return null;
     const loaded = loadAsset(asset);
+    return this.#inspectLoadedSymbol(exactLibraryId, loaded);
+  }
+
+  #inspectLoadedSymbol(exactLibraryId: string, loaded: LoadedAsset): KiCadStockSymbolInspection | null {
+    const [nickname, item] = parseLibraryId(exactLibraryId)!;
     const recordKey = `${exactLibraryId}\u0000${loaded.identity.digest}\u0000${loaded.identity.size}`;
     if (this.#symbolRecords.has(recordKey)) return this.#symbolRecords.get(recordKey)!;
     const parsed = this.#parsed("symbol", loaded, exactLibraryId);
@@ -1076,6 +1120,11 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     const asset = locateFootprint(this.#footprintRoot, nickname, item, exactLibraryId, this.#limits);
     if (asset === null) return null;
     const loaded = loadAsset(asset);
+    return this.#inspectLoadedFootprint(exactLibraryId, loaded);
+  }
+
+  #inspectLoadedFootprint(exactLibraryId: string, loaded: LoadedAsset): KiCadStockFootprintInspection | null {
+    const [nickname, item] = parseLibraryId(exactLibraryId)!;
     const recordKey = `${exactLibraryId}\u0000${loaded.identity.digest}\u0000${loaded.identity.size}`;
     if (this.#footprintRecords.has(recordKey)) return this.#footprintRecords.get(recordKey)!;
     const parsed = this.#parsed("footprint", loaded, exactLibraryId);
@@ -1083,6 +1132,63 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     const record = buildFootprintInspection(parsed, exactLibraryId, nickname, item, loaded.identity, this.#limits);
     this.#setRecord(this.#footprintRecords, recordKey, record);
     return record;
+  }
+
+  /** One synchronous selection: shared-file bytes never escape or survive this call.
+   * Keep only identities for the final fresh path/link/open/hash fence, so a large
+   * selection cannot retain raw buffers outside the existing parsed-cache bound.
+   */
+  public captureSourceSelectionRecords(): readonly PcbLibrarySourceSelectionRecord[] {
+    const locate = (kind: "symbol" | "footprint", libraryId: string): LocatedAsset => {
+      const [nickname, item] = parseLibraryId(libraryId)!;
+      const allowed = kind === "symbol" ? this.#stockSymbolNicknames : this.#stockFootprintNicknames;
+      const asset = !allowed.has(nickname) ? null : kind === "symbol"
+        ? locateSymbol(this.#symbolRoot, nickname, libraryId, this.#limits)
+        : locateFootprint(this.#footprintRoot, nickname, item, libraryId, this.#limits);
+      if (asset === null) return resolverError("PATH_REJECTED", libraryId, "Selected stock source is absent or outside its approved namespace.");
+      return asset;
+    };
+    const groups = new Map<string, { kind: "symbol" | "footprint"; ids: string[]; asset: LocatedAsset; identity?: ContentIdentity }>();
+    for (const [kind, ids] of [["symbol", this.#exactSymbolIds], ["footprint", this.#exactFootprintIds]] as const) {
+      for (const id of ids) {
+        const asset = locate(kind, id), key = `${kind}\u0000${asset.canonicalPath}`;
+        const group = groups.get(key);
+        if (group === undefined) groups.set(key, { kind, ids: [id], asset });
+        else group.ids.push(id);
+      }
+    }
+    const records: PcbLibrarySourceSelectionRecord[] = [];
+    for (const group of groups.values()) {
+      const loaded = loadAsset(group.asset);
+      group.identity = loaded.identity;
+      for (const libraryId of group.ids) {
+        const inspection = group.kind === "symbol" ? this.#inspectLoadedSymbol(libraryId, loaded) : this.#inspectLoadedFootprint(libraryId, loaded);
+        if (inspection === null) return resolverError("PATH_REJECTED", libraryId, "Selected stock source does not contain its exact library ID.");
+        records.push({ kind: group.kind, libraryId, sourceIdentity: inspection.sourceIdentity, inspectionIdentity: inspection.identity });
+      }
+    }
+    for (const group of groups.values()) {
+      const current = locate(group.kind, group.ids[0]!);
+      if (!samePath(current.canonicalPath, group.asset.canonicalPath)) return resolverError("PATH_REJECTED", group.ids[0]!, "Selected stock source path changed during capture.");
+      const after = loadAsset(current).identity;
+      if (after.digest !== group.identity!.digest || after.size !== group.identity!.size) {
+        return resolverError("SOURCE_CHANGED", group.ids[0]!, "Selected stock source bytes changed during capture.");
+      }
+    }
+    return deepFreeze(records);
+  }
+
+  public readFootprintSource(exactLibraryId: string): Readonly<{ source: string; sourceIdentity: ContentIdentity }> | null {
+    const approved = this.inspectFootprint(exactLibraryId), parsedId = parseLibraryId(exactLibraryId);
+    if (approved === null || parsedId === null) return null;
+    const asset = locateFootprint(this.#footprintRoot, parsedId[0], parsedId[1], exactLibraryId, this.#limits);
+    if (asset === null) return null;
+    const loaded = loadAsset(asset), source = decodeUtf8(loaded.bytes, exactLibraryId), after = loadAsset(asset);
+    if (loaded.identity.digest !== approved.sourceIdentity.digest || loaded.identity.size !== approved.sourceIdentity.size
+        || after.identity.digest !== loaded.identity.digest || after.identity.size !== loaded.identity.size) {
+      return resolverError("MALFORMED_LIBRARY", exactLibraryId, "Footprint source changed during exact source capture.");
+    }
+    return deepFreeze({ source, sourceIdentity: loaded.identity });
   }
 
   /** Complete raw-source pin geometry under the same exact stock allowlist and source authority. */
@@ -1172,42 +1278,48 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
   }
 
   public cacheSnapshot(): KiCadStockLibraryCacheSnapshot {
-    const symbolSourceIdentities = [...this.#parsedCache.values()]
+    const symbolSourceIdentities = [...this.#syntaxCache.entries.values()]
       .filter((entry) => entry.parsed.kind === "symbol")
       .map((entry) => entry.identity)
       .sort((left, right) => compareText(left.digest, right.digest));
-    const footprintSourceIdentities = [...this.#parsedCache.values()]
+    const footprintSourceIdentities = [...this.#syntaxCache.entries.values()]
       .filter((entry) => entry.parsed.kind === "footprint")
       .map((entry) => entry.identity)
       .sort((left, right) => compareText(left.digest, right.digest));
     return deepFreeze({
       parsedSymbolFileCount: symbolSourceIdentities.length,
       parsedFootprintFileCount: footprintSourceIdentities.length,
-      cachedSourceBytes: this.#cachedSourceBytes,
+      cachedSourceBytes: this.#syntaxCache.sourceBytes,
       symbolSourceIdentities,
       footprintSourceIdentities
     });
   }
 
   #parsed(kind: "symbol" | "footprint", loaded: LoadedAsset, logicalAsset: string): ParsedLibrary {
-    const cacheKey = `${kind}\u0000${loaded.identity.digest}\u0000${loaded.identity.size}`;
-    const cached = this.#parsedCache.get(cacheKey);
+    const cache = this.#syntaxCache;
+    const cacheKey = `${this.#syntaxPolicyIdentity}\u0000${kind}\u0000${loaded.canonicalPath}\u0000${loaded.identity.digest}\u0000${loaded.identity.size}`;
+    const cached = cache.entries.get(cacheKey);
     if (cached !== undefined) return cached.parsed;
     const parsed = kind === "symbol"
       ? parseSymbolLibrary(loaded.bytes, logicalAsset, this.#limits)
       : parseFootprintLibrary(loaded.bytes, logicalAsset, this.#limits);
+    // Maps stay module-private; freeze every syntax node that could be aliased
+    // by a footprint inspection, without exposing any mutable parser storage.
+    if (parsed.kind === "symbol") for (const definition of parsed.definitions.values()) deepFreeze(definition);
+    else deepFreeze(parsed.footprint);
+    Object.freeze(parsed);
     while (
-      this.#parsedCache.size >= this.#limits.maxCachedFiles
-      || (this.#cachedSourceBytes + loaded.identity.size > this.#limits.maxCachedSourceBytes && this.#parsedCache.size > 0)
+      cache.entries.size >= cache.maximumFiles
+      || (cache.sourceBytes + loaded.identity.size > cache.maximumSourceBytes && cache.entries.size > 0)
     ) {
-      const oldest = this.#parsedCache.entries().next().value as [string, CachedParsedLibrary] | undefined;
+      const oldest = cache.entries.entries().next().value as [string, CachedParsedLibrary] | undefined;
       if (oldest === undefined) break;
-      this.#parsedCache.delete(oldest[0]);
-      this.#cachedSourceBytes -= oldest[1].identity.size;
+      cache.entries.delete(oldest[0]);
+      cache.sourceBytes -= oldest[1].identity.size;
     }
-    if (loaded.identity.size <= this.#limits.maxCachedSourceBytes) {
-      this.#parsedCache.set(cacheKey, { identity: loaded.identity, parsed });
-      this.#cachedSourceBytes += loaded.identity.size;
+    if (loaded.identity.size <= cache.maximumSourceBytes) {
+      cache.entries.set(cacheKey, { identity: loaded.identity, parsed });
+      cache.sourceBytes += loaded.identity.size;
     }
     return parsed;
   }
@@ -1223,25 +1335,39 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
 }
 
 export const createKiCad10StockLibraryResolver = (
-  options: KiCad10StockLibraryResolverOptions
-): KiCad10StockLibraryResolver => new KiCad10StockLibraryResolver(options);
+  options: KiCad10StockLibraryResolverOptions,
+  syntaxCache?: KiCadStockSyntaxCache,
+): KiCad10StockLibraryResolver => new KiCad10StockLibraryResolver(options, syntaxCache);
 
 /** Bounded parser reuse only. These byte readers grant no filesystem or package authority. */
 export function inspectKiCadApprovedSymbolBytes(bytes: Buffer, libraryId: string, declaredIds: readonly string[]) {
+  return inspectKiCadApprovedSymbolsBytes(bytes, [libraryId], declaredIds)[0]!;
+}
+
+/** Shared immutable package bytes are parsed once for this bounded synchronous selection. */
+export function inspectKiCadApprovedSymbolsBytes(bytes: Buffer, libraryIds: readonly string[], declaredIds: readonly string[]) {
   const limits = mergeLimits({ maxSymbolFileBytes: 512 * 1024, maxSymbolDefinitions: 16, maxUnits: 1 });
   if (bytes.length > limits.maxSymbolFileBytes) throw new Error("Approved package symbol source exceeds its byte limit");
-  const id = parseLibraryId(libraryId);
-  if (id === null) throw new Error("Approved package symbol ID is invalid");
-  const parsed = parseSymbolLibrary(bytes, libraryId, limits);
+  if (libraryIds.length < 1 || libraryIds.length > 16 || new Set(libraryIds).size !== libraryIds.length) throw new Error("Approved package symbol selection is invalid");
+  const ids = libraryIds.map(libraryId => {
+    const id = parseLibraryId(libraryId);
+    if (id === null) throw new Error("Approved package symbol ID is invalid");
+    return id;
+  });
+  const parsed = parseSymbolLibrary(bytes, libraryIds[0]!, limits);
   if (canonicalIdentity([...parsed.definitions.keys()].sort(), "evleda.package-symbol-names.v1").digest
       !== canonicalIdentity(declaredIds.map(value => value.split(":")[1]).sort(), "evleda.package-symbol-names.v1").digest) {
     throw new Error("Approved package symbol definitions differ from its exact manifest inventory");
   }
-  const inspection = buildSymbolInspection(parsed, libraryId, id[0], id[1], contentIdentity(bytes), limits);
-  if (inspection === null || inspection.resolverRecord.unitCount !== 1 || inspection.resolverRecord.componentKind === "bga") {
-    throw new Error("Approved package symbol must be an ordinary self-contained single-unit symbol");
-  }
-  return inspection;
+  const sourceIdentity = contentIdentity(bytes);
+  return Object.freeze(libraryIds.map((libraryId, index) => {
+    const id = ids[index]!;
+    const inspection = buildSymbolInspection(parsed, libraryId, id[0], id[1], sourceIdentity, limits);
+    if (inspection === null || inspection.resolverRecord.unitCount !== 1 || inspection.resolverRecord.componentKind === "bga") {
+      throw new Error("Approved package symbol must be an ordinary self-contained single-unit symbol");
+    }
+    return inspection;
+  }));
 }
 
 export function inspectKiCadApprovedFootprintBytes(bytes: Buffer, libraryId: string) {

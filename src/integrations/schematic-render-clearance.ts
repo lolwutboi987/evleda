@@ -196,7 +196,7 @@ function pathSegments(value: string | undefined, index: number): readonly [Point
   return segments;
 }
 
-function collect(root: XmlNode): { primitives: Primitive[]; groups: TextGroup[]; problems: SchematicInkUnsupported[] } {
+function collect(root: XmlNode, textOnly = false): { primitives: Primitive[]; groups: TextGroup[]; problems: SchematicInkUnsupported[] } {
   const primitives: Primitive[] = []; const groups: TextGroup[] = []; const problems: SchematicInkUnsupported[] = [];
   const textGroupIndices = new Map<number, number>();
   const inventory = (node: XmlNode): void => {
@@ -252,6 +252,10 @@ function collect(root: XmlNode): { primitives: Primitive[]; groups: TextGroup[];
         if (style.opacity !== 0) unsupported("VISIBLE_FONT_TEXT_UNSUPPORTED", node.index);
       } else if (node.name === "path" || node.name === "rect" || node.name === "circle") {
         if (node.children.length || node.text.trim()) unsupported("SHAPE_HAS_CHILD_CONTENT", node.index);
+        // Planning text coverage is independent of source-qualified symbol
+        // graphics. Still validate every container/transform/style above; only
+        // nontext leaf geometry (including native arcs) is outside this scope.
+        if (textOnly && owner === null) return;
         const stroke = style.opacity > 0 && style.stroke !== "none" && style.strokeOpacity > 0 && style.width > 0;
         const fill = style.opacity > 0 && style.fill !== "none" && style.fillOpacity > 0;
         const black = (paint: string): boolean => ["black", "#000", "#000000"].includes(paint);
@@ -286,6 +290,23 @@ function collect(root: XmlNode): { primitives: Primitive[]; groups: TextGroup[];
   }
   if (!groups.length || !primitives.some((entry) => entry.object.textGroupIndex !== null)) problems.push({ code: "NO_NATIVE_GLYPH_COVERAGE", elementIndex: null });
   return { primitives, groups, problems };
+}
+
+/** Complete native glyph envelopes, with no inferred schematic ownership. */
+export function collectNativeSchematicTextBounds(source: string) {
+  let primitives: Primitive[] = [], groups: TextGroup[] = [], problems: SchematicInkUnsupported[] = [];
+  try {
+    if (typeof source !== "string" || !source.isWellFormed() || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/u.test(source)
+        || Buffer.byteLength(source, "utf8") > SCHEMATIC_RENDER_CLEARANCE_POLICY.maxSvgBytes) unsupported("SVG_BYTE_LIMIT_OR_INVALID_UNICODE");
+    ({ primitives, groups, problems } = collect(parseXml(source), true));
+  } catch (error) { problems.push({ code: error instanceof UnsupportedSvg ? error.code : "MALFORMED_SVG", elementIndex: error instanceof UnsupportedSvg ? error.elementIndex : null }); }
+  const bounds = groups.flatMap(group => {
+    const glyphs = primitives.filter(primitive => primitive.object.textGroupIndex === group.index);
+    return glyphs.length === 0 ? [] : [{ textGroupIndex: group.index, elementIndex: group.elementIndex, text: group.text,
+      minX: Math.min(...glyphs.map(glyph => glyph.bounds[0])), minY: Math.min(...glyphs.map(glyph => glyph.bounds[1])),
+      maxX: Math.max(...glyphs.map(glyph => glyph.bounds[2])), maxY: Math.max(...glyphs.map(glyph => glyph.bounds[3])) }];
+  });
+  return freeze({ completeCoverage: problems.length === 0, hasText: /<text(?:\s|>)/u.test(source) || source.includes("stroked-text"), bounds, unsupported: problems });
 }
 
 const dot = (a: Point, b: Point): number => a.x * b.x + a.y * b.y;

@@ -1,0 +1,7228 @@
+{
+  "format": "rp2350-pico-placement-routing-proposal-v1",
+  "status": "Route-aware placement revision: R2 north0.20mm and bounded functional regions; source pose/launch screens passed; complete USB port-tree verification pending; no native acceptance",
+  "reviewedAt": "2026-09-17",
+  "sourceBindings": [
+    {
+      "path": "designs/rp2350-pico/circuit-inputs.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+        "size": 102754
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/library-selection.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "adc747549665ce9e0cec7107453bcc49d01a92e49fca5c62a9edba0701378185",
+        "size": 56035
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/usb-construction.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "1b9c6b5ed601d0bbc706552d123a9d68f503deebd132f5bf7471fcf68e15d4eb",
+        "size": 59491
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/operating-constraints.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "322c85cfd8fe5cb867383e9d612b4d58f80c13e5ef32a7813ff4f017ce41ebf3",
+        "size": 132015
+      }
+    }
+  ],
+  "v2Patch": {
+    "placementConstraints": [
+      {
+        "reference": "U1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.4,
+          "maxXmm": 10.6,
+          "minYmm": 22,
+          "maxYmm": 22.15
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "U2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.3,
+          "maxXmm": 11,
+          "minYmm": 38.1,
+          "maxYmm": 38.9
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "U3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.2,
+          "maxXmm": 6.8,
+          "minYmm": 15.15,
+          "maxYmm": 15.65
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "U4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.3,
+          "maxXmm": 9.8,
+          "minYmm": 11.9,
+          "maxYmm": 12.15
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "J1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.5,
+          "maxXmm": 10.5,
+          "minYmm": 4.975,
+          "maxYmm": 4.975
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.5,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "top"
+      },
+      {
+        "reference": "J2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 1.61,
+          "maxXmm": 1.61,
+          "minYmm": 1.37,
+          "maxYmm": 1.37
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "top"
+      },
+      {
+        "reference": "J3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 19.39,
+          "maxXmm": 19.39,
+          "minYmm": 49.63,
+          "maxYmm": 49.63
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "bottom"
+      },
+      {
+        "reference": "J4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 7.96,
+          "maxXmm": 7.96,
+          "minYmm": 48.2,
+          "maxYmm": 48.2
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "bottom"
+      },
+      {
+        "reference": "L1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.35,
+          "maxXmm": 12.65,
+          "minYmm": 14.65,
+          "maxYmm": 14.95
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "L2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.8,
+          "maxXmm": 6.5,
+          "minYmm": 38.1,
+          "maxYmm": 38.9
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "Q1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.6,
+          "maxXmm": 17.1,
+          "minYmm": 16.7,
+          "maxYmm": 17.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "D1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.02,
+          "maxXmm": 17.09,
+          "minYmm": 10.5,
+          "maxYmm": 10.8
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "D2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.55,
+          "maxXmm": 16.05,
+          "minYmm": 44.6,
+          "maxYmm": 45.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "SW1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.65,
+          "maxXmm": 5.35,
+          "minYmm": 28.65,
+          "maxYmm": 29.35
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "SW2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.35,
+          "maxXmm": 16.05,
+          "minYmm": 31.65,
+          "maxYmm": 32.35
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "Y1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.85,
+          "maxXmm": 9.35,
+          "minYmm": 30,
+          "maxYmm": 30.6
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10,
+          "maxXmm": 10.25,
+          "minYmm": 16.6,
+          "maxYmm": 16.95
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.985,
+          "maxXmm": 11.185,
+          "minYmm": 16.45,
+          "maxYmm": 16.7
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 7,
+          "maxXmm": 7.5,
+          "minYmm": 10.5,
+          "maxYmm": 11.1
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.45,
+          "maxXmm": 13.95,
+          "minYmm": 12.1,
+          "maxYmm": 12.7
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R5",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 3.75,
+          "maxXmm": 4.25,
+          "minYmm": 16.9,
+          "maxYmm": 17.5
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R6",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 3.75,
+          "maxXmm": 4.25,
+          "minYmm": 18.2,
+          "maxYmm": 18.8
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R7",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.2,
+          "maxXmm": 9.7,
+          "minYmm": 26.85,
+          "maxYmm": 27.45
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R8",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.55,
+          "maxXmm": 14.85,
+          "minYmm": 14.95,
+          "maxYmm": 15.25
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R9",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.45,
+          "maxXmm": 14.95,
+          "minYmm": 40.2,
+          "maxYmm": 40.8
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R10",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.45,
+          "maxXmm": 14.95,
+          "minYmm": 38.9,
+          "maxYmm": 39.5
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R11",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.75,
+          "maxXmm": 16.25,
+          "minYmm": 25.3,
+          "maxYmm": 25.9
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R12",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.25,
+          "maxXmm": 17.75,
+          "minYmm": 25.5,
+          "maxYmm": 26.1
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R13",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.95,
+          "maxXmm": 17.45,
+          "minYmm": 13.5,
+          "maxYmm": 14.1
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R14",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.4,
+          "maxXmm": 15.9,
+          "minYmm": 13.7,
+          "maxYmm": 14.3
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R15",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.25,
+          "maxXmm": 17.75,
+          "minYmm": 19.1,
+          "maxYmm": 19.7
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R16",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.75,
+          "maxXmm": 16.25,
+          "minYmm": 24.1,
+          "maxYmm": 24.7
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R17",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.25,
+          "maxXmm": 17.75,
+          "minYmm": 21.3,
+          "maxYmm": 21.9
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R18",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.75,
+          "maxXmm": 13.25,
+          "minYmm": 44.6,
+          "maxYmm": 45.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R19",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.55,
+          "maxXmm": 13.05,
+          "minYmm": 26.85,
+          "maxYmm": 27.45
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "R20",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.45,
+          "maxXmm": 15.95,
+          "minYmm": 26.8,
+          "maxYmm": 27.4
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.35,
+          "maxXmm": 12.65,
+          "minYmm": 17.24,
+          "maxYmm": 17.54
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.35,
+          "maxXmm": 12.65,
+          "minYmm": 16.3,
+          "maxYmm": 16.6
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.55,
+          "maxXmm": 14.85,
+          "minYmm": 16.8,
+          "maxYmm": 17.1
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 11.4,
+          "maxXmm": 11.9,
+          "minYmm": 26.82,
+          "maxYmm": 27.42
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C5",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.05,
+          "maxXmm": 5.55,
+          "minYmm": 19.7,
+          "maxYmm": 20.3
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C6",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.05,
+          "maxXmm": 5.55,
+          "minYmm": 22.9,
+          "maxYmm": 23.5
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C7",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.1,
+          "maxXmm": 8.6,
+          "minYmm": 26.82,
+          "maxYmm": 27.42
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C8",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.75,
+          "maxXmm": 14.25,
+          "minYmm": 26.82,
+          "maxYmm": 27.42
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C9",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.75,
+          "maxXmm": 16.25,
+          "minYmm": 22.9,
+          "maxYmm": 23.5
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C10",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.75,
+          "maxXmm": 16.25,
+          "minYmm": 18.5,
+          "maxYmm": 19.1
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C11",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.05,
+          "maxXmm": 5.55,
+          "minYmm": 21,
+          "maxYmm": 21.6
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C12",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.3,
+          "maxXmm": 10.8,
+          "minYmm": 26.82,
+          "maxYmm": 27.42
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C13",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.75,
+          "maxXmm": 16.25,
+          "minYmm": 21.8,
+          "maxYmm": 22.4
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C14",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.015,
+          "maxXmm": 9.315,
+          "minYmm": 16.7,
+          "maxYmm": 17.1
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C15",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.075,
+          "maxXmm": 8.375,
+          "minYmm": 16.7,
+          "maxYmm": 17.1
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C16",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.75,
+          "maxXmm": 16.25,
+          "minYmm": 19.6,
+          "maxYmm": 20.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C17",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.75,
+          "maxXmm": 16.25,
+          "minYmm": 20.7,
+          "maxYmm": 21.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C18",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.65,
+          "maxXmm": 5.15,
+          "minYmm": 12,
+          "maxYmm": 12.6
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C19",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.85,
+          "maxXmm": 6.35,
+          "minYmm": 12,
+          "maxYmm": 12.6
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C20",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.85,
+          "maxXmm": 11.55,
+          "minYmm": 41.6,
+          "maxYmm": 42.4
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C21",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.85,
+          "maxXmm": 11.55,
+          "minYmm": 34.6,
+          "maxYmm": 35.4
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C22",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.95,
+          "maxXmm": 13.45,
+          "minYmm": 38.2,
+          "maxYmm": 38.8
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C23",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.95,
+          "maxXmm": 17.45,
+          "minYmm": 14.6,
+          "maxYmm": 15.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C24",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 11.97,
+          "maxXmm": 12.47,
+          "minYmm": 28.7,
+          "maxYmm": 29.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C25",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.74,
+          "maxXmm": 6.24,
+          "minYmm": 32.12,
+          "maxYmm": 32.72
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      {
+        "reference": "C26",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.2,
+          "maxXmm": 12.6,
+          "minYmm": 10.35,
+          "maxYmm": 10.9
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    ],
+    "boardFeatures": [
+      {
+        "kind": "npth_mounting_hole",
+        "reference": "H1",
+        "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+        "value": "2.1 mm bare NPTH mounting bore",
+        "pose": {
+          "side": "front",
+          "xMm": 4,
+          "yMm": 2,
+          "rotationDeg": 0
+        },
+        "boreDiameterMm": 2.1,
+        "minimumHoleToCopperMm": 0.25,
+        "minimumHoleToEdgeMm": 0.5
+      },
+      {
+        "kind": "npth_mounting_hole",
+        "reference": "H2",
+        "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+        "value": "2.1 mm bare NPTH mounting bore",
+        "pose": {
+          "side": "front",
+          "xMm": 17,
+          "yMm": 2,
+          "rotationDeg": 0
+        },
+        "boreDiameterMm": 2.1,
+        "minimumHoleToCopperMm": 0.25,
+        "minimumHoleToEdgeMm": 0.5
+      },
+      {
+        "kind": "npth_mounting_hole",
+        "reference": "H3",
+        "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+        "value": "2.1 mm bare NPTH mounting bore",
+        "pose": {
+          "side": "front",
+          "xMm": 4,
+          "yMm": 49,
+          "rotationDeg": 0
+        },
+        "boreDiameterMm": 2.1,
+        "minimumHoleToCopperMm": 0.25,
+        "minimumHoleToEdgeMm": 0.5
+      },
+      {
+        "kind": "npth_mounting_hole",
+        "reference": "H4",
+        "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+        "value": "2.1 mm bare NPTH mounting bore",
+        "pose": {
+          "side": "front",
+          "xMm": 17,
+          "yMm": 49,
+          "rotationDeg": 0
+        },
+        "boreDiameterMm": 2.1,
+        "minimumHoleToCopperMm": 0.25,
+        "minimumHoleToEdgeMm": 0.5
+      }
+    ],
+    "netClasses": [
+      {
+        "id": "SIGNAL",
+        "traceWidthMm": 0.2,
+        "clearanceMm": 0.15,
+        "copperToEdgeMm": 0.25,
+        "allowedLayers": [
+          "F.Cu",
+          "B.Cu"
+        ]
+      },
+      {
+        "id": "POWER",
+        "traceWidthMm": 0.3,
+        "clearanceMm": 0.15,
+        "copperToEdgeMm": 0.25,
+        "allowedLayers": [
+          "F.Cu",
+          "B.Cu"
+        ]
+      },
+      {
+        "id": "SWITCH",
+        "traceWidthMm": 0.3,
+        "clearanceMm": 0.15,
+        "copperToEdgeMm": 0.25,
+        "allowedLayers": [
+          "F.Cu"
+        ]
+      },
+      {
+        "id": "GROUND",
+        "traceWidthMm": 0.3,
+        "clearanceMm": 0.15,
+        "copperToEdgeMm": 0.25,
+        "allowedLayers": [
+          "F.Cu",
+          "B.Cu"
+        ]
+      },
+      {
+        "id": "USB_FS",
+        "traceWidthMm": 0.82,
+        "clearanceMm": 0.2,
+        "copperToEdgeMm": 0.5,
+        "allowedLayers": [
+          "F.Cu"
+        ]
+      }
+    ],
+    "netClassAssignments": {
+      "1V1": "POWER",
+      "3V3": "POWER",
+      "3V3_EN": "SIGNAL",
+      "ADC_AVDD": "SIGNAL",
+      "ADC_VREF": "SIGNAL",
+      "BOOT_SW": "SIGNAL",
+      "CORE_LX": "SWITCH",
+      "GND": "GROUND",
+      "GPIO0": "SIGNAL",
+      "GPIO1": "SIGNAL",
+      "GPIO10": "SIGNAL",
+      "GPIO11": "SIGNAL",
+      "GPIO12": "SIGNAL",
+      "GPIO13": "SIGNAL",
+      "GPIO14": "SIGNAL",
+      "GPIO15": "SIGNAL",
+      "GPIO16": "SIGNAL",
+      "GPIO17": "SIGNAL",
+      "GPIO18": "SIGNAL",
+      "GPIO19": "SIGNAL",
+      "GPIO2": "SIGNAL",
+      "GPIO20": "SIGNAL",
+      "GPIO21": "SIGNAL",
+      "GPIO22": "SIGNAL",
+      "GPIO23_SMPS_PS": "SIGNAL",
+      "GPIO24_VBUS_SENSE": "SIGNAL",
+      "GPIO25_LED": "SIGNAL",
+      "GPIO26": "SIGNAL",
+      "GPIO27": "SIGNAL",
+      "GPIO28": "SIGNAL",
+      "GPIO29_VSYS_SENSE": "SIGNAL",
+      "GPIO3": "SIGNAL",
+      "GPIO4": "SIGNAL",
+      "GPIO5": "SIGNAL",
+      "GPIO6": "SIGNAL",
+      "GPIO7": "SIGNAL",
+      "GPIO8": "SIGNAL",
+      "GPIO9": "SIGNAL",
+      "LED_A": "SIGNAL",
+      "QSPI_CS": "SIGNAL",
+      "QSPI_SCLK": "SIGNAL",
+      "QSPI_SD0": "SIGNAL",
+      "QSPI_SD1": "SIGNAL",
+      "QSPI_SD2": "SIGNAL",
+      "QSPI_SD3": "SIGNAL",
+      "RT_LX1": "SWITCH",
+      "RT_LX2": "SWITCH",
+      "RUN": "SIGNAL",
+      "SWCLK_HDR": "SIGNAL",
+      "SWCLK_MCU": "SIGNAL",
+      "SWDIO_HDR": "SIGNAL",
+      "SWDIO_MCU": "SIGNAL",
+      "USB_CC1": "SIGNAL",
+      "USB_CC2": "SIGNAL",
+      "USB_DM_MCU": "USB_FS",
+      "USB_DM_PORT": "USB_FS",
+      "USB_DP_MCU": "USB_FS",
+      "USB_DP_PORT": "USB_FS",
+      "VBUS": "POWER",
+      "VREG_AVDD": "SIGNAL",
+      "VSYS": "POWER",
+      "VSYS_DIV": "SIGNAL",
+      "XIN": "SIGNAL",
+      "XOUT_MCU": "SIGNAL",
+      "XTAL_OUT": "SIGNAL"
+    },
+    "routingConstraints": {
+      "cornerStyle": "miter_45",
+      "maximumTurnAngleDeg": 45,
+      "minimumStraightBeforeTurnMm": 0.1,
+      "allowRightAngleCorners": false,
+      "allowAcuteInteriorCorners": false,
+      "allowBacktracking": false,
+      "allowSelfIntersections": false,
+      "viaPolicy": {
+        "mode": "bounded",
+        "maxTotal": 64,
+        "diameterMm": 0.6,
+        "drillMm": 0.25,
+        "minimumAnnularRingMm": 0.15
+      },
+      "nets": [
+        {
+          "net": "1V1",
+          "topology": "tree",
+          "preferredLayer": "either",
+          "maxVias": 2,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 70
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "3V3",
+          "topology": "tree",
+          "preferredLayer": "either",
+          "maxVias": 2,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 200
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "3V3_EN",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 70
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "ADC_AVDD",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 20
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "ADC_VREF",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 30
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "BOOT_SW",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 35
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "CORE_LX",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 8
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GND",
+          "topology": "plane",
+          "planeId": "GND_PLANE",
+          "accessRouting": {
+            "preferredLayer": "F.Cu",
+            "maxVias": 32,
+            "routeLength": {
+              "mode": "bounded",
+              "maximumMm": 160
+            }
+          }
+        },
+        {
+          "net": "GPIO0",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 45
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO1",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 45
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO10",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 35
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO11",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 35
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO12",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 40
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO13",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 45
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO14",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 55
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO15",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 60
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO16",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 60
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO17",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 55
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO18",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 45
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO19",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 40
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO2",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 35
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO20",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 35
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO21",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 35
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO22",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 25
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO23_SMPS_PS",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 40
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO24_VBUS_SENSE",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 20
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO25_LED",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 45
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO26",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 25
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO27",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 20
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO28",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 25
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO29_VSYS_SENSE",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 18
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO3",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 35
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO4",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 30
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO5",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 25
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO6",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 20
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO7",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 20
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO8",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 25
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "GPIO9",
+          "topology": "point_to_point",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 25
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "LED_A",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 15
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "QSPI_CS",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 20
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "60"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U3",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R5",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R6",
+                  "pin": "2"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "QSPI_SCLK",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 16
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "56"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U3",
+                  "pin": "6"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "QSPI_SD0",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 16
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "57"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U3",
+                  "pin": "5"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "QSPI_SD1",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 16
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "59"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U3",
+                  "pin": "2"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "QSPI_SD2",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 16
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "58"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U3",
+                  "pin": "3"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "QSPI_SD3",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 16
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "55"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U3",
+                  "pin": "7"
+                },
+                "referenceEndpoint": {
+                  "reference": "U3",
+                  "pin": "4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "RT_LX1",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 8
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "RT_LX2",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 8
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "RUN",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 40
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "SWCLK_HDR",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 45
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "J4",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "J4",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R19",
+                  "pin": "2"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "SWCLK_MCU",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 6
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "24"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R19",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "SWDIO_HDR",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 45
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "J4",
+                  "pin": "3"
+                },
+                "referenceEndpoint": {
+                  "reference": "J4",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R20",
+                  "pin": "2"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "SWDIO_MCU",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 10
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "25"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R20",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "USB_CC1",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 20
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "USB_CC2",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 25
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "USB_DM_MCU",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 3
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.9,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "51"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R2",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "USB_DM_PORT",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 22
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.9,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U4",
+                  "pin": "3"
+                },
+                "referenceEndpoint": {
+                  "reference": "U4",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U4",
+                  "pin": "4"
+                },
+                "referenceEndpoint": {
+                  "reference": "U4",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "J1",
+                  "pin": "A7"
+                },
+                "referenceEndpoint": {
+                  "reference": "J1",
+                  "pin": "A12"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "J1",
+                  "pin": "B7"
+                },
+                "referenceEndpoint": {
+                  "reference": "J1",
+                  "pin": "A1"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R2",
+                  "pin": "2"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "USB_DP_MCU",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 3
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.9,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "52"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R1",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "USB_DP_PORT",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 22
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.9,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U4",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U4",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "U4",
+                  "pin": "6"
+                },
+                "referenceEndpoint": {
+                  "reference": "U4",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "J1",
+                  "pin": "A6"
+                },
+                "referenceEndpoint": {
+                  "reference": "J1",
+                  "pin": "A1"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "J1",
+                  "pin": "B6"
+                },
+                "referenceEndpoint": {
+                  "reference": "J1",
+                  "pin": "A12"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R1",
+                  "pin": "2"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "VBUS",
+          "topology": "tree",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 80
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "VREG_AVDD",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 12
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "VSYS",
+          "topology": "tree",
+          "preferredLayer": "either",
+          "maxVias": 1,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 130
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "VSYS_DIV",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 12
+          },
+          "referencePath": {
+            "mode": "none"
+          }
+        },
+        {
+          "net": "XIN",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 16
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "21"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "Y1",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "Y1",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "C24",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "C24",
+                  "pin": "2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "XOUT_MCU",
+          "topology": "point_to_point",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 5
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "U1",
+                  "pin": "22"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R7",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "net": "XTAL_OUT",
+          "topology": "tree",
+          "preferredLayer": "F.Cu",
+          "maxVias": 0,
+          "routeLength": {
+            "mode": "bounded",
+            "maximumMm": 16
+          },
+          "referencePath": {
+            "mode": "continuous_plane",
+            "planeId": "GND_PLANE",
+            "signalLayer": "F.Cu",
+            "coverageMarginMm": 0.25,
+            "layerTransitions": "forbidden",
+            "terminalReferences": [
+              {
+                "signalEndpoint": {
+                  "reference": "Y1",
+                  "pin": "3"
+                },
+                "referenceEndpoint": {
+                  "reference": "Y1",
+                  "pin": "2"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "R7",
+                  "pin": "2"
+                },
+                "referenceEndpoint": {
+                  "reference": "U1",
+                  "pin": "61"
+                }
+              },
+              {
+                "signalEndpoint": {
+                  "reference": "C25",
+                  "pin": "1"
+                },
+                "referenceEndpoint": {
+                  "reference": "C25",
+                  "pin": "2"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "planes": [
+      {
+        "id": "GND_PLANE",
+        "net": "GND",
+        "layer": "B.Cu",
+        "boundary": {
+          "kind": "rectangle",
+          "minXmm": 0.25,
+          "maxXmm": 20.75,
+          "minYmm": 0.25,
+          "maxYmm": 50.75
+        },
+        "clearanceMm": 0.15,
+        "minimumCopperWidthMm": 0.2,
+        "copperFill": "solid",
+        "padConnection": {
+          "mode": "solid"
+        },
+        "islandPolicy": {
+          "removeUnconnected": true,
+          "minimumAreaMm2": 1,
+          "requireSingleConnectedComponent": true
+        }
+      }
+    ]
+  },
+  "provisionalPoses": [
+    {
+      "reference": "U1",
+      "xMm": 10.5,
+      "yMm": 22,
+      "rotationDeg": 0,
+      "basis": "Central pin-oriented anchor; EP ground and all supply escapes reserved."
+    },
+    {
+      "reference": "U2",
+      "xMm": 10.65,
+      "yMm": 38.5,
+      "rotationDeg": 0,
+      "basis": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND."
+    },
+    {
+      "reference": "U3",
+      "xMm": 6.5,
+      "yMm": 15.5,
+      "rotationDeg": 90,
+      "basis": "Northwest flash rotated +90 at y15.5 to clear MCU courtyard and open the USB body lane; C18/C19 at actual VCC8 above."
+    },
+    {
+      "reference": "U4",
+      "xMm": 9.6,
+      "yMm": 12.15,
+      "rotationDeg": 90,
+      "basis": "Route-aware target 0.25mm south at y12.15, within the unchanged region: gives space for two positive branches and a negative north contact tie while preserving all14 anchors and USB budgets."
+    },
+    {
+      "reference": "J1",
+      "xMm": 10.5,
+      "yMm": 4.975,
+      "rotationDeg": 180,
+      "basis": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2."
+    },
+    {
+      "reference": "J2",
+      "xMm": 1.61,
+      "yMm": 1.37,
+      "rotationDeg": 0,
+      "basis": "Mechanical anchors with opposite numbering directions, exact pitch/row spacing and pending accepted lands."
+    },
+    {
+      "reference": "J3",
+      "xMm": 19.39,
+      "yMm": 49.63,
+      "rotationDeg": 180,
+      "basis": "Mechanical anchors with opposite numbering directions, exact pitch/row spacing and pending accepted lands."
+    },
+    {
+      "reference": "J4",
+      "xMm": 7.96,
+      "yMm": 48.2,
+      "rotationDeg": 90,
+      "basis": "South debug access; reserve short MCU launches for SWCLK24/SWDIO25, then route to J4. R19 near the MCU clock entry; R20 begins near U1 as a provisional bidirectional SWD damping choice, subject to probe/interface review."
+    },
+    {
+      "reference": "L1",
+      "xMm": 12.5,
+      "yMm": 14.8,
+      "rotationDeg": 0,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "L2",
+      "xMm": 6.15,
+      "yMm": 38.5,
+      "rotationDeg": 90,
+      "basis": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND."
+    },
+    {
+      "reference": "Q1",
+      "xMm": 16.85,
+      "yMm": 17,
+      "rotationDeg": 0,
+      "basis": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks."
+    },
+    {
+      "reference": "D1",
+      "xMm": 17.05,
+      "yMm": 10.8,
+      "rotationDeg": 90,
+      "basis": "North/right supply ingress, cathode=VSYS and anode=VBUS; selected land unresolved."
+    },
+    {
+      "reference": "D2",
+      "xMm": 15.8,
+      "yMm": 44.9,
+      "rotationDeg": 0,
+      "basis": "Visible GPIO25 indication outside sensitive regions; R18 is series current limiting, not an MCU power decoupler."
+    },
+    {
+      "reference": "SW1",
+      "xMm": 5,
+      "yMm": 29,
+      "rotationDeg": 90,
+      "basis": "Lower-left accessible BOOT after moving it away from flash VCC bypass area; R5 remains at flash to isolate the longer button branch."
+    },
+    {
+      "reference": "SW2",
+      "xMm": 15.7,
+      "yMm": 32,
+      "rotationDeg": 90,
+      "basis": "Accessible RUN/reset south/east of U1 and near the RUN route; keep away from crystal load nodes."
+    },
+    {
+      "reference": "Y1",
+      "xMm": 9.1,
+      "yMm": 30.3,
+      "rotationDeg": 180,
+      "basis": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified."
+    },
+    {
+      "reference": "R1",
+      "xMm": 10.125,
+      "yMm": 16.9,
+      "rotationDeg": 90,
+      "basis": "USB launch group immediately at U1.52/51; pad1 faces the MCU and pad2 the port. Preserve the 27-ohm terminations and reserve equal-flow 45-degree launches with the separate C14/C15 supply bypasses."
+    },
+    {
+      "reference": "R2",
+      "xMm": 11.085,
+      "yMm": 16.7,
+      "rotationDeg": 90,
+      "basis": "Route-aware correction: 0.20mm north of candidate03 to open a >=0.20mm trace plus0.20mm clearance launch corridor; current source-region revision is required."
+    },
+    {
+      "reference": "R3",
+      "xMm": 7.25,
+      "yMm": 10.8,
+      "rotationDeg": 90,
+      "basis": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2."
+    },
+    {
+      "reference": "R4",
+      "xMm": 13.7,
+      "yMm": 12.4,
+      "rotationDeg": 90,
+      "basis": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2."
+    },
+    {
+      "reference": "R5",
+      "xMm": 4,
+      "yMm": 17.2,
+      "rotationDeg": 180,
+      "basis": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short."
+    },
+    {
+      "reference": "R6",
+      "xMm": 4,
+      "yMm": 18.5,
+      "rotationDeg": 0,
+      "basis": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short."
+    },
+    {
+      "reference": "R7",
+      "xMm": 9.45,
+      "yMm": 27.15,
+      "rotationDeg": 270,
+      "basis": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified."
+    },
+    {
+      "reference": "R8",
+      "xMm": 14.7,
+      "yMm": 15.1,
+      "rotationDeg": 270,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "R9",
+      "xMm": 14.7,
+      "yMm": 40.5,
+      "rotationDeg": 0,
+      "basis": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND."
+    },
+    {
+      "reference": "R10",
+      "xMm": 14.7,
+      "yMm": 39.2,
+      "rotationDeg": 0,
+      "basis": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND."
+    },
+    {
+      "reference": "R11",
+      "xMm": 16,
+      "yMm": 25.6,
+      "rotationDeg": 0,
+      "basis": "VBUS divider at GPIO24 pin36, rather than beside the USB data launch; keep the divider output local, with a routed VBUS feed."
+    },
+    {
+      "reference": "R12",
+      "xMm": 17.5,
+      "yMm": 25.8,
+      "rotationDeg": 90,
+      "basis": "VBUS divider at GPIO24 pin36, rather than beside the USB data launch; keep the divider output local, with a routed VBUS feed."
+    },
+    {
+      "reference": "R13",
+      "xMm": 17.2,
+      "yMm": 13.8,
+      "rotationDeg": 0,
+      "basis": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks."
+    },
+    {
+      "reference": "R14",
+      "xMm": 15.65,
+      "yMm": 14,
+      "rotationDeg": 90,
+      "basis": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks."
+    },
+    {
+      "reference": "R15",
+      "xMm": 17.5,
+      "yMm": 19.4,
+      "rotationDeg": 90,
+      "basis": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks."
+    },
+    {
+      "reference": "R16",
+      "xMm": 16,
+      "yMm": 24.4,
+      "rotationDeg": 0,
+      "basis": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter."
+    },
+    {
+      "reference": "R17",
+      "xMm": 17.5,
+      "yMm": 21.6,
+      "rotationDeg": 90,
+      "basis": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter."
+    },
+    {
+      "reference": "R18",
+      "xMm": 13,
+      "yMm": 44.9,
+      "rotationDeg": 0,
+      "basis": "Visible GPIO25 indication outside sensitive regions; R18 is series current limiting, not an MCU power decoupler."
+    },
+    {
+      "reference": "R19",
+      "xMm": 12.8,
+      "yMm": 27.15,
+      "rotationDeg": 270,
+      "basis": "South debug access; reserve short MCU launches for SWCLK24/SWDIO25, then route to J4. R19 near the MCU clock entry; R20 begins near U1 as a provisional bidirectional SWD damping choice, subject to probe/interface review."
+    },
+    {
+      "reference": "R20",
+      "xMm": 15.7,
+      "yMm": 27.1,
+      "rotationDeg": 0,
+      "basis": "South debug access; reserve short MCU launches for SWCLK24/SWDIO25, then route to J4. R19 near the MCU clock entry; R20 begins near U1 as a provisional bidirectional SWD damping choice, subject to probe/interface review."
+    },
+    {
+      "reference": "C1",
+      "xMm": 12.5,
+      "yMm": 17.39,
+      "rotationDeg": 0,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "C2",
+      "xMm": 12.5,
+      "yMm": 16.45,
+      "rotationDeg": 0,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "C3",
+      "xMm": 14.7,
+      "yMm": 16.95,
+      "rotationDeg": 270,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "C4",
+      "xMm": 11.65,
+      "yMm": 27.12,
+      "rotationDeg": 270,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C5",
+      "xMm": 5.3,
+      "yMm": 20,
+      "rotationDeg": 180,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C6",
+      "xMm": 5.3,
+      "yMm": 23.2,
+      "rotationDeg": 180,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C7",
+      "xMm": 8.35,
+      "yMm": 27.12,
+      "rotationDeg": 270,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C8",
+      "xMm": 14,
+      "yMm": 27.12,
+      "rotationDeg": 270,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C9",
+      "xMm": 16,
+      "yMm": 23.2,
+      "rotationDeg": 0,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C10",
+      "xMm": 16,
+      "yMm": 18.8,
+      "rotationDeg": 0,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C11",
+      "xMm": 5.3,
+      "yMm": 21.3,
+      "rotationDeg": 180,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C12",
+      "xMm": 10.55,
+      "yMm": 27.12,
+      "rotationDeg": 270,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C13",
+      "xMm": 16,
+      "yMm": 22.1,
+      "rotationDeg": 0,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C14",
+      "xMm": 9.165,
+      "yMm": 16.9,
+      "rotationDeg": 90,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C15",
+      "xMm": 8.225,
+      "yMm": 16.9,
+      "rotationDeg": 90,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C16",
+      "xMm": 16,
+      "yMm": 19.9,
+      "rotationDeg": 0,
+      "basis": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter."
+    },
+    {
+      "reference": "C17",
+      "xMm": 16,
+      "yMm": 21,
+      "rotationDeg": 0,
+      "basis": "Quiet ADC supply east of U1.44: 3V3->R16->ADC_VREF/J3.15->R17->ADC_AVDD44. C16 at pin44 with C17 adjacent; J3.13/Pico33 joins GND locally. Do not split AGND into an isolated plane or route switching return through this filter."
+    },
+    {
+      "reference": "C18",
+      "xMm": 4.9,
+      "yMm": 12.3,
+      "rotationDeg": 90,
+      "basis": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short."
+    },
+    {
+      "reference": "C19",
+      "xMm": 6.1,
+      "yMm": 12.3,
+      "rotationDeg": 90,
+      "basis": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short."
+    },
+    {
+      "reference": "C20",
+      "xMm": 11.2,
+      "yMm": 42,
+      "rotationDeg": 0,
+      "basis": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND."
+    },
+    {
+      "reference": "C21",
+      "xMm": 11.2,
+      "yMm": 35,
+      "rotationDeg": 0,
+      "basis": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND."
+    },
+    {
+      "reference": "C22",
+      "xMm": 13.2,
+      "yMm": 38.5,
+      "rotationDeg": 90,
+      "basis": "Lower RT power island: C20->VIN5, C21->VOUT1/FB10, C22->VINA8; R9 at EN6/VSYS, R10 at PS7/GND."
+    },
+    {
+      "reference": "C23",
+      "xMm": 17.2,
+      "yMm": 14.9,
+      "rotationDeg": 0,
+      "basis": "Quiet east-side VSYS sense: R13/R14/C23 close to Q1 drain3; Q1 source2/R15 close to GPIO29 pin43; gate1=3V3. Keep the high-impedance sense node away from both inductors/LX, USB and crystal clocks."
+    },
+    {
+      "reference": "C24",
+      "xMm": 12.22,
+      "yMm": 29,
+      "rotationDeg": 0,
+      "basis": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified."
+    },
+    {
+      "reference": "C25",
+      "xMm": 5.99,
+      "yMm": 32.42,
+      "rotationDeg": 180,
+      "basis": "One quiet oscillator group at U1.21/22: R7 directly on XOUT22-to-Y1.3 path, C24 at XIN/Y1.1 and C25 at Y1.3; ground case2/4 locally. Exact crystal orientation must minimize those two loops after its footprint is qualified."
+    },
+    {
+      "reference": "C26",
+      "xMm": 12.35,
+      "yMm": 10.6,
+      "rotationDeg": 0,
+      "basis": "VBUS bypass immediately east of U4.VBUS5; positive pad faces U4, ground access stays outside data launches."
+    }
+  ],
+  "mechanicalFeatures": [
+    {
+      "id": "MH_NW",
+      "xMm": 4,
+      "yMm": 2,
+      "kind": "npth_circle",
+      "diameterMm": 2.1,
+      "diameterTolerancePlusMinusMm": 0.05,
+      "source": "Explicit project13x47mm mounting pattern: x4/17, y2/49. Original Pico columns4.8/16.2 are superseded; header geometry is unchanged, mounting compatibility is not claimed",
+      "status": "proposed bare bores; no selected screw-head envelope; not authored"
+    },
+    {
+      "id": "MH_NE",
+      "xMm": 17,
+      "yMm": 2,
+      "kind": "npth_circle",
+      "diameterMm": 2.1,
+      "diameterTolerancePlusMinusMm": 0.05,
+      "source": "Explicit project13x47mm mounting pattern: x4/17, y2/49. Original Pico columns4.8/16.2 are superseded; header geometry is unchanged, mounting compatibility is not claimed",
+      "status": "proposed bare bores; no selected screw-head envelope; not authored"
+    },
+    {
+      "id": "MH_SW",
+      "xMm": 4,
+      "yMm": 49,
+      "kind": "npth_circle",
+      "diameterMm": 2.1,
+      "diameterTolerancePlusMinusMm": 0.05,
+      "source": "Explicit project13x47mm mounting pattern: x4/17, y2/49. Original Pico columns4.8/16.2 are superseded; header geometry is unchanged, mounting compatibility is not claimed",
+      "status": "proposed bare bores; no selected screw-head envelope; not authored"
+    },
+    {
+      "id": "MH_SE",
+      "xMm": 17,
+      "yMm": 49,
+      "kind": "npth_circle",
+      "diameterMm": 2.1,
+      "diameterTolerancePlusMinusMm": 0.05,
+      "source": "Explicit project13x47mm mounting pattern: x4/17, y2/49. Original Pico columns4.8/16.2 are superseded; header geometry is unchanged, mounting compatibility is not claimed",
+      "status": "proposed bare bores; no selected screw-head envelope; not authored"
+    }
+  ],
+  "boardFeatureSource": {
+    "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+    "path": "resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty/MountingHole_D2.1_Pico.kicad_mod",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+      "size": 796
+    },
+    "fullPackageRoot": "resources/pcb-libraries/rp2350-pico/v4",
+    "packagePolicyRebindingRequired": true
+  },
+  "bareHoleCopperScreen": [
+    {
+      "feature": "MH_NW",
+      "conservativeMaximumBoreToPadBoxGapMm": 0.465,
+      "nearestComponent": "J2",
+      "nearestPin": "1",
+      "meetsChosenQuarterMm": true
+    },
+    {
+      "feature": "MH_NE",
+      "conservativeMaximumBoreToPadBoxGapMm": 0.465,
+      "nearestComponent": "J3",
+      "nearestPin": "20",
+      "meetsChosenQuarterMm": true
+    },
+    {
+      "feature": "MH_SW",
+      "conservativeMaximumBoreToPadBoxGapMm": 0.465,
+      "nearestComponent": "J2",
+      "nearestPin": "20",
+      "meetsChosenQuarterMm": true
+    },
+    {
+      "feature": "MH_SE",
+      "conservativeMaximumBoreToPadBoxGapMm": 0.465,
+      "nearestComponent": "J3",
+      "nearestPin": "1",
+      "meetsChosenQuarterMm": true
+    }
+  ],
+  "geometryObservations": [
+    {
+      "reference": "U1",
+      "footprintLibId": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_DFN_QFN.pretty/QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+        "size": 14069
+      },
+      "courtyardBoundsMm": {
+        "minX": 6.4,
+        "maxX": 14.6,
+        "minY": 17.9,
+        "maxY": 26.1
+      },
+      "fabBoundsMm": {
+        "minX": 7,
+        "maxX": 14,
+        "minY": 18.5,
+        "maxY": 25.5
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            7.05,
+            19.2
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            7.05,
+            19.6
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            7.05,
+            20
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            7.05,
+            20.4
+          ]
+        },
+        {
+          "pin": "5",
+          "centerMm": [
+            7.05,
+            20.8
+          ]
+        },
+        {
+          "pin": "6",
+          "centerMm": [
+            7.05,
+            21.2
+          ]
+        },
+        {
+          "pin": "7",
+          "centerMm": [
+            7.05,
+            21.6
+          ]
+        },
+        {
+          "pin": "8",
+          "centerMm": [
+            7.05,
+            22
+          ]
+        },
+        {
+          "pin": "9",
+          "centerMm": [
+            7.05,
+            22.4
+          ]
+        },
+        {
+          "pin": "10",
+          "centerMm": [
+            7.05,
+            22.8
+          ]
+        },
+        {
+          "pin": "11",
+          "centerMm": [
+            7.05,
+            23.2
+          ]
+        },
+        {
+          "pin": "12",
+          "centerMm": [
+            7.05,
+            23.6
+          ]
+        },
+        {
+          "pin": "13",
+          "centerMm": [
+            7.05,
+            24
+          ]
+        },
+        {
+          "pin": "14",
+          "centerMm": [
+            7.05,
+            24.4
+          ]
+        },
+        {
+          "pin": "15",
+          "centerMm": [
+            7.05,
+            24.8
+          ]
+        },
+        {
+          "pin": "16",
+          "centerMm": [
+            7.7,
+            25.45
+          ]
+        },
+        {
+          "pin": "17",
+          "centerMm": [
+            8.1,
+            25.45
+          ]
+        },
+        {
+          "pin": "18",
+          "centerMm": [
+            8.5,
+            25.45
+          ]
+        },
+        {
+          "pin": "19",
+          "centerMm": [
+            8.9,
+            25.45
+          ]
+        },
+        {
+          "pin": "20",
+          "centerMm": [
+            9.3,
+            25.45
+          ]
+        },
+        {
+          "pin": "21",
+          "centerMm": [
+            9.7,
+            25.45
+          ]
+        },
+        {
+          "pin": "22",
+          "centerMm": [
+            10.1,
+            25.45
+          ]
+        },
+        {
+          "pin": "23",
+          "centerMm": [
+            10.5,
+            25.45
+          ]
+        },
+        {
+          "pin": "24",
+          "centerMm": [
+            10.9,
+            25.45
+          ]
+        },
+        {
+          "pin": "25",
+          "centerMm": [
+            11.3,
+            25.45
+          ]
+        },
+        {
+          "pin": "26",
+          "centerMm": [
+            11.7,
+            25.45
+          ]
+        },
+        {
+          "pin": "27",
+          "centerMm": [
+            12.1,
+            25.45
+          ]
+        },
+        {
+          "pin": "28",
+          "centerMm": [
+            12.5,
+            25.45
+          ]
+        },
+        {
+          "pin": "29",
+          "centerMm": [
+            12.9,
+            25.45
+          ]
+        },
+        {
+          "pin": "30",
+          "centerMm": [
+            13.3,
+            25.45
+          ]
+        },
+        {
+          "pin": "31",
+          "centerMm": [
+            13.95,
+            24.8
+          ]
+        },
+        {
+          "pin": "32",
+          "centerMm": [
+            13.95,
+            24.4
+          ]
+        },
+        {
+          "pin": "33",
+          "centerMm": [
+            13.95,
+            24
+          ]
+        },
+        {
+          "pin": "34",
+          "centerMm": [
+            13.95,
+            23.6
+          ]
+        },
+        {
+          "pin": "35",
+          "centerMm": [
+            13.95,
+            23.2
+          ]
+        },
+        {
+          "pin": "36",
+          "centerMm": [
+            13.95,
+            22.8
+          ]
+        },
+        {
+          "pin": "37",
+          "centerMm": [
+            13.95,
+            22.4
+          ]
+        },
+        {
+          "pin": "38",
+          "centerMm": [
+            13.95,
+            22
+          ]
+        },
+        {
+          "pin": "39",
+          "centerMm": [
+            13.95,
+            21.6
+          ]
+        },
+        {
+          "pin": "40",
+          "centerMm": [
+            13.95,
+            21.2
+          ]
+        },
+        {
+          "pin": "41",
+          "centerMm": [
+            13.95,
+            20.8
+          ]
+        },
+        {
+          "pin": "42",
+          "centerMm": [
+            13.95,
+            20.4
+          ]
+        },
+        {
+          "pin": "43",
+          "centerMm": [
+            13.95,
+            20
+          ]
+        },
+        {
+          "pin": "44",
+          "centerMm": [
+            13.95,
+            19.6
+          ]
+        },
+        {
+          "pin": "45",
+          "centerMm": [
+            13.95,
+            19.2
+          ]
+        },
+        {
+          "pin": "46",
+          "centerMm": [
+            13.3,
+            18.55
+          ]
+        },
+        {
+          "pin": "47",
+          "centerMm": [
+            12.9,
+            18.55
+          ]
+        },
+        {
+          "pin": "48",
+          "centerMm": [
+            12.5,
+            18.55
+          ]
+        },
+        {
+          "pin": "49",
+          "centerMm": [
+            12.1,
+            18.55
+          ]
+        },
+        {
+          "pin": "50",
+          "centerMm": [
+            11.7,
+            18.55
+          ]
+        },
+        {
+          "pin": "51",
+          "centerMm": [
+            11.3,
+            18.55
+          ]
+        },
+        {
+          "pin": "52",
+          "centerMm": [
+            10.9,
+            18.55
+          ]
+        },
+        {
+          "pin": "53",
+          "centerMm": [
+            10.5,
+            18.55
+          ]
+        },
+        {
+          "pin": "54",
+          "centerMm": [
+            10.1,
+            18.55
+          ]
+        },
+        {
+          "pin": "55",
+          "centerMm": [
+            9.7,
+            18.55
+          ]
+        },
+        {
+          "pin": "56",
+          "centerMm": [
+            9.3,
+            18.55
+          ]
+        },
+        {
+          "pin": "57",
+          "centerMm": [
+            8.9,
+            18.55
+          ]
+        },
+        {
+          "pin": "58",
+          "centerMm": [
+            8.5,
+            18.55
+          ]
+        },
+        {
+          "pin": "59",
+          "centerMm": [
+            8.1,
+            18.55
+          ]
+        },
+        {
+          "pin": "60",
+          "centerMm": [
+            7.7,
+            18.55
+          ]
+        },
+        {
+          "pin": "61",
+          "centerMm": [
+            10.5,
+            22
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "U2",
+      "footprintLibId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+        "size": 2284
+      },
+      "courtyardBoundsMm": {
+        "minX": 8.6,
+        "maxX": 12.55,
+        "minY": 36.95,
+        "maxY": 40.05
+      },
+      "fabBoundsMm": {
+        "minX": 9.4,
+        "maxX": 11.9,
+        "minY": 37.25,
+        "maxY": 39.75
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            9.425,
+            37.5
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            9.425,
+            38
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            9.425,
+            38.5
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            9.425,
+            39
+          ]
+        },
+        {
+          "pin": "5",
+          "centerMm": [
+            9.425,
+            39.5
+          ]
+        },
+        {
+          "pin": "6",
+          "centerMm": [
+            11.875,
+            39.5
+          ]
+        },
+        {
+          "pin": "7",
+          "centerMm": [
+            11.875,
+            39
+          ]
+        },
+        {
+          "pin": "8",
+          "centerMm": [
+            11.875,
+            38.5
+          ]
+        },
+        {
+          "pin": "9",
+          "centerMm": [
+            11.875,
+            38
+          ]
+        },
+        {
+          "pin": "10",
+          "centerMm": [
+            11.875,
+            37.5
+          ]
+        },
+        {
+          "pin": "11",
+          "centerMm": [
+            10.65,
+            38.5
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "U3",
+      "footprintLibId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+        "size": 4261
+      },
+      "courtyardBoundsMm": {
+        "minX": 5.25,
+        "maxX": 7.75,
+        "minY": 13.37,
+        "maxY": 17.63
+      },
+      "fabBoundsMm": {
+        "minX": 5.5,
+        "maxX": 7.5,
+        "minY": 14,
+        "maxY": 17
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            5.75,
+            16.925
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            6.25,
+            16.925
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            6.75,
+            16.925
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            7.25,
+            16.925
+          ]
+        },
+        {
+          "pin": "5",
+          "centerMm": [
+            7.25,
+            14.075
+          ]
+        },
+        {
+          "pin": "6",
+          "centerMm": [
+            6.75,
+            14.075
+          ]
+        },
+        {
+          "pin": "7",
+          "centerMm": [
+            6.25,
+            14.075
+          ]
+        },
+        {
+          "pin": "8",
+          "centerMm": [
+            5.75,
+            14.075
+          ]
+        },
+        {
+          "pin": "9",
+          "centerMm": [
+            6.5,
+            15.5
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "U4",
+      "footprintLibId": "Package_TO_SOT_SMD:SOT-23-6",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_TO_SOT_SMD.pretty/SOT-23-6.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ea29040bed73e5dfa455e36f2c9324b0de7782c5a6cf79040b7d885ff766fdb4",
+        "size": 4568
+      },
+      "courtyardBoundsMm": {
+        "minX": 7.9,
+        "maxX": 11.3,
+        "minY": 10.1,
+        "maxY": 14.2
+      },
+      "fabBoundsMm": {
+        "minX": 8.15,
+        "maxX": 11.05,
+        "minY": 11.35,
+        "maxY": 12.95
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            8.65,
+            13.2875
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            9.6,
+            13.2875
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            10.55,
+            13.2875
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            10.55,
+            11.0125
+          ]
+        },
+        {
+          "pin": "5",
+          "centerMm": [
+            9.6,
+            11.0125
+          ]
+        },
+        {
+          "pin": "6",
+          "centerMm": [
+            8.65,
+            11.0125
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "J1",
+      "footprintLibId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Connector_USB.pretty/USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+        "size": 7170
+      },
+      "courtyardBoundsMm": {
+        "minX": 5.18,
+        "maxX": 15.82,
+        "minY": 0.795,
+        "maxY": 9.735
+      },
+      "fabBoundsMm": {
+        "minX": 6.03,
+        "maxX": 14.97,
+        "minY": 1.3,
+        "maxY": 8.65
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "A1",
+          "centerMm": [
+            13.7,
+            8.655
+          ]
+        },
+        {
+          "pin": "A4",
+          "centerMm": [
+            12.9,
+            8.655
+          ]
+        },
+        {
+          "pin": "A5",
+          "centerMm": [
+            11.75,
+            8.655
+          ]
+        },
+        {
+          "pin": "A6",
+          "centerMm": [
+            10.75,
+            8.655
+          ]
+        },
+        {
+          "pin": "A7",
+          "centerMm": [
+            10.25,
+            8.655
+          ]
+        },
+        {
+          "pin": "A8",
+          "centerMm": [
+            9.25,
+            8.655
+          ]
+        },
+        {
+          "pin": "A9",
+          "centerMm": [
+            8.1,
+            8.655
+          ]
+        },
+        {
+          "pin": "A12",
+          "centerMm": [
+            7.3,
+            8.655
+          ]
+        },
+        {
+          "pin": "B1",
+          "centerMm": [
+            7.3,
+            8.655
+          ]
+        },
+        {
+          "pin": "B4",
+          "centerMm": [
+            8.1,
+            8.655
+          ]
+        },
+        {
+          "pin": "B5",
+          "centerMm": [
+            8.75,
+            8.655
+          ]
+        },
+        {
+          "pin": "B6",
+          "centerMm": [
+            9.75,
+            8.655
+          ]
+        },
+        {
+          "pin": "B7",
+          "centerMm": [
+            11.25,
+            8.655
+          ]
+        },
+        {
+          "pin": "B8",
+          "centerMm": [
+            12.25,
+            8.655
+          ]
+        },
+        {
+          "pin": "B9",
+          "centerMm": [
+            12.9,
+            8.655
+          ]
+        },
+        {
+          "pin": "B12",
+          "centerMm": [
+            13.7,
+            8.655
+          ]
+        },
+        {
+          "pin": "SH",
+          "centerMm": [
+            14.82,
+            8.08
+          ]
+        },
+        {
+          "pin": "SH",
+          "centerMm": [
+            14.82,
+            3.9
+          ]
+        },
+        {
+          "pin": "SH",
+          "centerMm": [
+            6.18,
+            8.08
+          ]
+        },
+        {
+          "pin": "SH",
+          "centerMm": [
+            6.18,
+            3.9
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "J2",
+      "footprintLibId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+        "size": 5332
+      },
+      "courtyardBoundsMm": {
+        "minX": 0.51,
+        "maxX": 2.71,
+        "minY": 0.27,
+        "maxY": 50.73
+      },
+      "fabBoundsMm": {
+        "minX": 0.76,
+        "maxX": 2.46,
+        "minY": 0.52,
+        "maxY": 2.22
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            1.61,
+            1.37
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            1.61,
+            3.91
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            1.61,
+            6.45
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            1.61,
+            8.99
+          ]
+        },
+        {
+          "pin": "5",
+          "centerMm": [
+            1.61,
+            11.53
+          ]
+        },
+        {
+          "pin": "6",
+          "centerMm": [
+            1.61,
+            14.07
+          ]
+        },
+        {
+          "pin": "7",
+          "centerMm": [
+            1.61,
+            16.61
+          ]
+        },
+        {
+          "pin": "8",
+          "centerMm": [
+            1.61,
+            19.15
+          ]
+        },
+        {
+          "pin": "9",
+          "centerMm": [
+            1.61,
+            21.69
+          ]
+        },
+        {
+          "pin": "10",
+          "centerMm": [
+            1.61,
+            24.23
+          ]
+        },
+        {
+          "pin": "11",
+          "centerMm": [
+            1.61,
+            26.77
+          ]
+        },
+        {
+          "pin": "12",
+          "centerMm": [
+            1.61,
+            29.31
+          ]
+        },
+        {
+          "pin": "13",
+          "centerMm": [
+            1.61,
+            31.85
+          ]
+        },
+        {
+          "pin": "14",
+          "centerMm": [
+            1.61,
+            34.39
+          ]
+        },
+        {
+          "pin": "15",
+          "centerMm": [
+            1.61,
+            36.93
+          ]
+        },
+        {
+          "pin": "16",
+          "centerMm": [
+            1.61,
+            39.47
+          ]
+        },
+        {
+          "pin": "17",
+          "centerMm": [
+            1.61,
+            42.01
+          ]
+        },
+        {
+          "pin": "18",
+          "centerMm": [
+            1.61,
+            44.55
+          ]
+        },
+        {
+          "pin": "19",
+          "centerMm": [
+            1.61,
+            47.09
+          ]
+        },
+        {
+          "pin": "20",
+          "centerMm": [
+            1.61,
+            49.63
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "J3",
+      "footprintLibId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+        "size": 5332
+      },
+      "courtyardBoundsMm": {
+        "minX": 18.29,
+        "maxX": 20.49,
+        "minY": 0.27,
+        "maxY": 50.73
+      },
+      "fabBoundsMm": {
+        "minX": 18.54,
+        "maxX": 20.24,
+        "minY": 48.78,
+        "maxY": 50.48
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            19.39,
+            49.63
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            19.39,
+            47.09
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            19.39,
+            44.55
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            19.39,
+            42.01
+          ]
+        },
+        {
+          "pin": "5",
+          "centerMm": [
+            19.39,
+            39.47
+          ]
+        },
+        {
+          "pin": "6",
+          "centerMm": [
+            19.39,
+            36.93
+          ]
+        },
+        {
+          "pin": "7",
+          "centerMm": [
+            19.39,
+            34.39
+          ]
+        },
+        {
+          "pin": "8",
+          "centerMm": [
+            19.39,
+            31.85
+          ]
+        },
+        {
+          "pin": "9",
+          "centerMm": [
+            19.39,
+            29.31
+          ]
+        },
+        {
+          "pin": "10",
+          "centerMm": [
+            19.39,
+            26.77
+          ]
+        },
+        {
+          "pin": "11",
+          "centerMm": [
+            19.39,
+            24.23
+          ]
+        },
+        {
+          "pin": "12",
+          "centerMm": [
+            19.39,
+            21.69
+          ]
+        },
+        {
+          "pin": "13",
+          "centerMm": [
+            19.39,
+            19.15
+          ]
+        },
+        {
+          "pin": "14",
+          "centerMm": [
+            19.39,
+            16.61
+          ]
+        },
+        {
+          "pin": "15",
+          "centerMm": [
+            19.39,
+            14.07
+          ]
+        },
+        {
+          "pin": "16",
+          "centerMm": [
+            19.39,
+            11.53
+          ]
+        },
+        {
+          "pin": "17",
+          "centerMm": [
+            19.39,
+            8.99
+          ]
+        },
+        {
+          "pin": "18",
+          "centerMm": [
+            19.39,
+            6.45
+          ]
+        },
+        {
+          "pin": "19",
+          "centerMm": [
+            19.39,
+            3.91
+          ]
+        },
+        {
+          "pin": "20",
+          "centerMm": [
+            19.39,
+            1.37
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "J4",
+      "footprintLibId": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Connector_PinHeader_2.54mm.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6a7dba97d6e733fd9d5f12d2d57f2cde29e8393e15b08d8b3e41bf2b430d83ed",
+        "size": 3129
+      },
+      "courtyardBoundsMm": {
+        "minX": 6.19,
+        "maxX": 14.81,
+        "minY": 46.43,
+        "maxY": 49.97
+      },
+      "fabBoundsMm": {
+        "minX": 6.69,
+        "maxX": 14.31,
+        "minY": 46.93,
+        "maxY": 49.47
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            7.96,
+            48.2
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            10.5,
+            48.2
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            13.04,
+            48.2
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "L1",
+      "footprintLibId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+        "size": 1456
+      },
+      "courtyardBoundsMm": {
+        "minX": 11.4,
+        "maxX": 13.6,
+        "minY": 13.9,
+        "maxY": 15.7
+      },
+      "fabBoundsMm": {
+        "minX": 11.5,
+        "maxX": 13.5,
+        "minY": 14,
+        "maxY": 15.6
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            11.8,
+            14.8
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            13.2,
+            14.8
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "L2",
+      "footprintLibId": "Inductor_SMD:L_Coilcraft_XxL4020",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Inductor_SMD.pretty/L_Coilcraft_XxL4020.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+        "size": 3525
+      },
+      "courtyardBoundsMm": {
+        "minX": 3.89,
+        "maxX": 8.41,
+        "minY": 36.24,
+        "maxY": 40.76
+      },
+      "fabBoundsMm": {
+        "minX": 4.15,
+        "maxX": 8.15,
+        "minY": 36.5,
+        "maxY": 40.5
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            6.15,
+            39.685
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            6.15,
+            37.315
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "Q1",
+      "footprintLibId": "Package_TO_SOT_SMD:SOT-523",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_TO_SOT_SMD.pretty/SOT-523.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+        "size": 4144
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.7,
+        "maxX": 18,
+        "minY": 15.95,
+        "maxY": 18.05
+      },
+      "fabBoundsMm": {
+        "minX": 16.45,
+        "maxX": 17.25,
+        "minY": 16.2,
+        "maxY": 17.8
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            16.205,
+            16.5
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.205,
+            17.5
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            17.495,
+            17
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "D1",
+      "footprintLibId": "Diode_SMD:Nexperia_CFP3_SOD-123W",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Diode_SMD.pretty/Nexperia_CFP3_SOD-123W.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "e0867bfd9057e4ed44483786d9d8809eab12909401240f9f7ee7de141cd7be7c",
+        "size": 4768
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.95,
+        "maxX": 18.15,
+        "minY": 8.55,
+        "maxY": 13.05
+      },
+      "fabBoundsMm": {
+        "minX": 16.2,
+        "maxX": 17.9,
+        "minY": 9.5,
+        "maxY": 12.1
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            17.05,
+            12.2
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            17.05,
+            9.4
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "D2",
+      "footprintLibId": "LED_SMD:LED_0603_1608Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/LED_SMD.pretty/LED_0603_1608Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+        "size": 2593
+      },
+      "courtyardBoundsMm": {
+        "minX": 14.32,
+        "maxX": 17.28,
+        "minY": 44.17,
+        "maxY": 45.63
+      },
+      "fabBoundsMm": {
+        "minX": 15,
+        "maxX": 16.6,
+        "minY": 44.5,
+        "maxY": 45.3
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.0125,
+            44.9
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.5875,
+            44.9
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "SW1",
+      "footprintLibId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/Wuerth_434133025816_4Terminal.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+        "size": 1398
+      },
+      "courtyardBoundsMm": {
+        "minX": 3.15,
+        "maxX": 6.85,
+        "minY": 26.15,
+        "maxY": 31.85
+      },
+      "fabBoundsMm": {
+        "minX": 3.4,
+        "maxX": 6.6,
+        "minY": 26.9,
+        "maxY": 31.1
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            3.925,
+            31.075
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            3.925,
+            26.925
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            6.075,
+            31.075
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            6.075,
+            26.925
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "SW2",
+      "footprintLibId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/Wuerth_434133025816_4Terminal.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+        "size": 1398
+      },
+      "courtyardBoundsMm": {
+        "minX": 13.85,
+        "maxX": 17.55,
+        "minY": 29.15,
+        "maxY": 34.85
+      },
+      "fabBoundsMm": {
+        "minX": 14.1,
+        "maxX": 17.3,
+        "minY": 29.9,
+        "maxY": 34.1
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            14.625,
+            34.075
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            14.625,
+            29.925
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            16.775,
+            34.075
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            16.775,
+            29.925
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "Y1",
+      "footprintLibId": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Crystal.pretty/Crystal_SMD_3225-4Pin_3.2x2.5mm.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "0efc1a86f641a5e4d27a4483811386c23ddfa5b416c628f65cef963ef7edbb62",
+        "size": 2278
+      },
+      "courtyardBoundsMm": {
+        "minX": 7,
+        "maxX": 11.2,
+        "minY": 28.55,
+        "maxY": 32.05
+      },
+      "fabBoundsMm": {
+        "minX": 7.5,
+        "maxX": 10.7,
+        "minY": 29.05,
+        "maxY": 31.55
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            10.2,
+            29.45
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            8,
+            29.45
+          ]
+        },
+        {
+          "pin": "3",
+          "centerMm": [
+            8,
+            31.15
+          ]
+        },
+        {
+          "pin": "4",
+          "centerMm": [
+            10.2,
+            31.15
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R1",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 9.655,
+        "maxX": 10.595,
+        "minY": 15.97,
+        "maxY": 17.83
+      },
+      "fabBoundsMm": {
+        "minX": 9.855,
+        "maxX": 10.395,
+        "minY": 16.375,
+        "maxY": 17.425
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            10.125,
+            17.41
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            10.125,
+            16.39
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R2",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 10.615,
+        "maxX": 11.555,
+        "minY": 15.77,
+        "maxY": 17.63
+      },
+      "fabBoundsMm": {
+        "minX": 10.815,
+        "maxX": 11.355,
+        "minY": 16.175,
+        "maxY": 17.225
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            11.085,
+            17.21
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            11.085,
+            16.19
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R3",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 6.78,
+        "maxX": 7.72,
+        "minY": 9.87,
+        "maxY": 11.73
+      },
+      "fabBoundsMm": {
+        "minX": 6.98,
+        "maxX": 7.52,
+        "minY": 10.275,
+        "maxY": 11.325
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            7.25,
+            11.31
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            7.25,
+            10.29
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R4",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 13.23,
+        "maxX": 14.17,
+        "minY": 11.47,
+        "maxY": 13.33
+      },
+      "fabBoundsMm": {
+        "minX": 13.43,
+        "maxX": 13.97,
+        "minY": 11.875,
+        "maxY": 12.925
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            13.7,
+            12.91
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            13.7,
+            11.89
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R5",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 3.07,
+        "maxX": 4.93,
+        "minY": 16.73,
+        "maxY": 17.67
+      },
+      "fabBoundsMm": {
+        "minX": 3.475,
+        "maxX": 4.525,
+        "minY": 16.93,
+        "maxY": 17.47
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            4.51,
+            17.2
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            3.49,
+            17.2
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R6",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 3.07,
+        "maxX": 4.93,
+        "minY": 18.03,
+        "maxY": 18.97
+      },
+      "fabBoundsMm": {
+        "minX": 3.475,
+        "maxX": 4.525,
+        "minY": 18.23,
+        "maxY": 18.77
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            3.49,
+            18.5
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            4.51,
+            18.5
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R7",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 8.98,
+        "maxX": 9.92,
+        "minY": 26.22,
+        "maxY": 28.08
+      },
+      "fabBoundsMm": {
+        "minX": 9.18,
+        "maxX": 9.72,
+        "minY": 26.625,
+        "maxY": 27.675
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            9.45,
+            26.64
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            9.45,
+            27.66
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R8",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 14.23,
+        "maxX": 15.17,
+        "minY": 14.17,
+        "maxY": 16.03
+      },
+      "fabBoundsMm": {
+        "minX": 14.43,
+        "maxX": 14.97,
+        "minY": 14.575,
+        "maxY": 15.625
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            14.7,
+            14.59
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            14.7,
+            15.61
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R9",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 13.77,
+        "maxX": 15.63,
+        "minY": 40.03,
+        "maxY": 40.97
+      },
+      "fabBoundsMm": {
+        "minX": 14.175,
+        "maxX": 15.225,
+        "minY": 40.23,
+        "maxY": 40.77
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            14.19,
+            40.5
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            15.21,
+            40.5
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R10",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 13.77,
+        "maxX": 15.63,
+        "minY": 38.73,
+        "maxY": 39.67
+      },
+      "fabBoundsMm": {
+        "minX": 14.175,
+        "maxX": 15.225,
+        "minY": 38.93,
+        "maxY": 39.47
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            14.19,
+            39.2
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            15.21,
+            39.2
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R11",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.07,
+        "maxX": 16.93,
+        "minY": 25.13,
+        "maxY": 26.07
+      },
+      "fabBoundsMm": {
+        "minX": 15.475,
+        "maxX": 16.525,
+        "minY": 25.33,
+        "maxY": 25.87
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.49,
+            25.6
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.51,
+            25.6
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R12",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 17.03,
+        "maxX": 17.97,
+        "minY": 24.87,
+        "maxY": 26.73
+      },
+      "fabBoundsMm": {
+        "minX": 17.23,
+        "maxX": 17.77,
+        "minY": 25.275,
+        "maxY": 26.325
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            17.5,
+            26.31
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            17.5,
+            25.29
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R13",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 16.27,
+        "maxX": 18.13,
+        "minY": 13.33,
+        "maxY": 14.27
+      },
+      "fabBoundsMm": {
+        "minX": 16.675,
+        "maxX": 17.725,
+        "minY": 13.53,
+        "maxY": 14.07
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            16.69,
+            13.8
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            17.71,
+            13.8
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R14",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.18,
+        "maxX": 16.12,
+        "minY": 13.07,
+        "maxY": 14.93
+      },
+      "fabBoundsMm": {
+        "minX": 15.38,
+        "maxX": 15.92,
+        "minY": 13.475,
+        "maxY": 14.525
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.65,
+            14.51
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            15.65,
+            13.49
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R15",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 17.03,
+        "maxX": 17.97,
+        "minY": 18.47,
+        "maxY": 20.33
+      },
+      "fabBoundsMm": {
+        "minX": 17.23,
+        "maxX": 17.77,
+        "minY": 18.875,
+        "maxY": 19.925
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            17.5,
+            19.91
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            17.5,
+            18.89
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R16",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.07,
+        "maxX": 16.93,
+        "minY": 23.93,
+        "maxY": 24.87
+      },
+      "fabBoundsMm": {
+        "minX": 15.475,
+        "maxX": 16.525,
+        "minY": 24.13,
+        "maxY": 24.67
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.49,
+            24.4
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.51,
+            24.4
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R17",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 17.03,
+        "maxX": 17.97,
+        "minY": 20.67,
+        "maxY": 22.53
+      },
+      "fabBoundsMm": {
+        "minX": 17.23,
+        "maxX": 17.77,
+        "minY": 21.075,
+        "maxY": 22.125
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            17.5,
+            22.11
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            17.5,
+            21.09
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R18",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 12.07,
+        "maxX": 13.93,
+        "minY": 44.43,
+        "maxY": 45.37
+      },
+      "fabBoundsMm": {
+        "minX": 12.475,
+        "maxX": 13.525,
+        "minY": 44.63,
+        "maxY": 45.17
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            12.49,
+            44.9
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            13.51,
+            44.9
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R19",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 12.33,
+        "maxX": 13.27,
+        "minY": 26.22,
+        "maxY": 28.08
+      },
+      "fabBoundsMm": {
+        "minX": 12.53,
+        "maxX": 13.07,
+        "minY": 26.625,
+        "maxY": 27.675
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            12.8,
+            26.64
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            12.8,
+            27.66
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R20",
+      "footprintLibId": "Resistor_SMD:R_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+        "size": 2049
+      },
+      "courtyardBoundsMm": {
+        "minX": 14.77,
+        "maxX": 16.63,
+        "minY": 26.63,
+        "maxY": 27.57
+      },
+      "fabBoundsMm": {
+        "minX": 15.175,
+        "maxX": 16.225,
+        "minY": 26.83,
+        "maxY": 27.37
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.19,
+            27.1
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.21,
+            27.1
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C1",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 11.59,
+        "maxX": 13.41,
+        "minY": 16.93,
+        "maxY": 17.85
+      },
+      "fabBoundsMm": {
+        "minX": 12,
+        "maxX": 13,
+        "minY": 17.14,
+        "maxY": 17.64
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            12.02,
+            17.39
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            12.98,
+            17.39
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C2",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 11.59,
+        "maxX": 13.41,
+        "minY": 15.99,
+        "maxY": 16.91
+      },
+      "fabBoundsMm": {
+        "minX": 12,
+        "maxX": 13,
+        "minY": 16.2,
+        "maxY": 16.7
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            12.02,
+            16.45
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            12.98,
+            16.45
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C3",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 14.24,
+        "maxX": 15.16,
+        "minY": 16.04,
+        "maxY": 17.86
+      },
+      "fabBoundsMm": {
+        "minX": 14.45,
+        "maxX": 14.95,
+        "minY": 16.45,
+        "maxY": 17.45
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            14.7,
+            16.47
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            14.7,
+            17.43
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C4",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 11.19,
+        "maxX": 12.11,
+        "minY": 26.21,
+        "maxY": 28.03
+      },
+      "fabBoundsMm": {
+        "minX": 11.4,
+        "maxX": 11.9,
+        "minY": 26.62,
+        "maxY": 27.62
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            11.65,
+            26.64
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            11.65,
+            27.6
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C5",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 4.39,
+        "maxX": 6.21,
+        "minY": 19.54,
+        "maxY": 20.46
+      },
+      "fabBoundsMm": {
+        "minX": 4.8,
+        "maxX": 5.8,
+        "minY": 19.75,
+        "maxY": 20.25
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            5.78,
+            20
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            4.82,
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C6",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 4.39,
+        "maxX": 6.21,
+        "minY": 22.74,
+        "maxY": 23.66
+      },
+      "fabBoundsMm": {
+        "minX": 4.8,
+        "maxX": 5.8,
+        "minY": 22.95,
+        "maxY": 23.45
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            5.78,
+            23.2
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            4.82,
+            23.2
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C7",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 7.89,
+        "maxX": 8.81,
+        "minY": 26.21,
+        "maxY": 28.03
+      },
+      "fabBoundsMm": {
+        "minX": 8.1,
+        "maxX": 8.6,
+        "minY": 26.62,
+        "maxY": 27.62
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            8.35,
+            26.64
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            8.35,
+            27.6
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C8",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 13.54,
+        "maxX": 14.46,
+        "minY": 26.21,
+        "maxY": 28.03
+      },
+      "fabBoundsMm": {
+        "minX": 13.75,
+        "maxX": 14.25,
+        "minY": 26.62,
+        "maxY": 27.62
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            14,
+            26.64
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            14,
+            27.6
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C9",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.09,
+        "maxX": 16.91,
+        "minY": 22.74,
+        "maxY": 23.66
+      },
+      "fabBoundsMm": {
+        "minX": 15.5,
+        "maxX": 16.5,
+        "minY": 22.95,
+        "maxY": 23.45
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.52,
+            23.2
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.48,
+            23.2
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C10",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.09,
+        "maxX": 16.91,
+        "minY": 18.34,
+        "maxY": 19.26
+      },
+      "fabBoundsMm": {
+        "minX": 15.5,
+        "maxX": 16.5,
+        "minY": 18.55,
+        "maxY": 19.05
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.52,
+            18.8
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.48,
+            18.8
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C11",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 4.39,
+        "maxX": 6.21,
+        "minY": 20.84,
+        "maxY": 21.76
+      },
+      "fabBoundsMm": {
+        "minX": 4.8,
+        "maxX": 5.8,
+        "minY": 21.05,
+        "maxY": 21.55
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            5.78,
+            21.3
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            4.82,
+            21.3
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C12",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 10.09,
+        "maxX": 11.01,
+        "minY": 26.21,
+        "maxY": 28.03
+      },
+      "fabBoundsMm": {
+        "minX": 10.3,
+        "maxX": 10.8,
+        "minY": 26.62,
+        "maxY": 27.62
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            10.55,
+            26.64
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            10.55,
+            27.6
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C13",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.09,
+        "maxX": 16.91,
+        "minY": 21.64,
+        "maxY": 22.56
+      },
+      "fabBoundsMm": {
+        "minX": 15.5,
+        "maxX": 16.5,
+        "minY": 21.85,
+        "maxY": 22.35
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.52,
+            22.1
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.48,
+            22.1
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C14",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 8.705,
+        "maxX": 9.625,
+        "minY": 15.99,
+        "maxY": 17.81
+      },
+      "fabBoundsMm": {
+        "minX": 8.915,
+        "maxX": 9.415,
+        "minY": 16.4,
+        "maxY": 17.4
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            9.165,
+            17.38
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            9.165,
+            16.42
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C15",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 7.765,
+        "maxX": 8.685,
+        "minY": 15.99,
+        "maxY": 17.81
+      },
+      "fabBoundsMm": {
+        "minX": 7.975,
+        "maxX": 8.475,
+        "minY": 16.4,
+        "maxY": 17.4
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            8.225,
+            17.38
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            8.225,
+            16.42
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C16",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.09,
+        "maxX": 16.91,
+        "minY": 19.44,
+        "maxY": 20.36
+      },
+      "fabBoundsMm": {
+        "minX": 15.5,
+        "maxX": 16.5,
+        "minY": 19.65,
+        "maxY": 20.15
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.52,
+            19.9
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.48,
+            19.9
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C17",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 15.09,
+        "maxX": 16.91,
+        "minY": 20.54,
+        "maxY": 21.46
+      },
+      "fabBoundsMm": {
+        "minX": 15.5,
+        "maxX": 16.5,
+        "minY": 20.75,
+        "maxY": 21.25
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            15.52,
+            21
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            16.48,
+            21
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C18",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 4.44,
+        "maxX": 5.36,
+        "minY": 11.39,
+        "maxY": 13.21
+      },
+      "fabBoundsMm": {
+        "minX": 4.65,
+        "maxX": 5.15,
+        "minY": 11.8,
+        "maxY": 12.8
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            4.9,
+            12.78
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            4.9,
+            11.82
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C19",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 5.64,
+        "maxX": 6.56,
+        "minY": 11.39,
+        "maxY": 13.21
+      },
+      "fabBoundsMm": {
+        "minX": 5.85,
+        "maxX": 6.35,
+        "minY": 11.8,
+        "maxY": 12.8
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            6.1,
+            12.78
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            6.1,
+            11.82
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C20",
+      "footprintLibId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+        "size": 1130
+      },
+      "courtyardBoundsMm": {
+        "minX": 8.75,
+        "maxX": 13.65,
+        "minY": 40.3,
+        "maxY": 43.7
+      },
+      "fabBoundsMm": {
+        "minX": 9.6,
+        "maxX": 12.8,
+        "minY": 40.75,
+        "maxY": 43.25
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            9.55,
+            42
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            12.85,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C21",
+      "footprintLibId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "sourcePath": "resources/pcb-libraries/rp2350-pico/v3/footprints/EvlEDA_Pico2350.pretty/C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+        "size": 1130
+      },
+      "courtyardBoundsMm": {
+        "minX": 8.75,
+        "maxX": 13.65,
+        "minY": 33.3,
+        "maxY": 36.7
+      },
+      "fabBoundsMm": {
+        "minX": 9.6,
+        "maxX": 12.8,
+        "minY": 33.75,
+        "maxY": 36.25
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            9.55,
+            35
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            12.85,
+            35
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C22",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 12.74,
+        "maxX": 13.66,
+        "minY": 37.59,
+        "maxY": 39.41
+      },
+      "fabBoundsMm": {
+        "minX": 12.95,
+        "maxX": 13.45,
+        "minY": 38,
+        "maxY": 39
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            13.2,
+            38.98
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            13.2,
+            38.02
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C23",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 16.29,
+        "maxX": 18.11,
+        "minY": 14.44,
+        "maxY": 15.36
+      },
+      "fabBoundsMm": {
+        "minX": 16.7,
+        "maxX": 17.7,
+        "minY": 14.65,
+        "maxY": 15.15
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            16.72,
+            14.9
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            17.68,
+            14.9
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C24",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 11.31,
+        "maxX": 13.13,
+        "minY": 28.54,
+        "maxY": 29.46
+      },
+      "fabBoundsMm": {
+        "minX": 11.72,
+        "maxX": 12.72,
+        "minY": 28.75,
+        "maxY": 29.25
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            11.74,
+            29
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            12.7,
+            29
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C25",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 5.08,
+        "maxX": 6.9,
+        "minY": 31.96,
+        "maxY": 32.88
+      },
+      "fabBoundsMm": {
+        "minX": 5.49,
+        "maxX": 6.49,
+        "minY": 32.17,
+        "maxY": 32.67
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            6.47,
+            32.42
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            5.51,
+            32.42
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C26",
+      "footprintLibId": "Capacitor_SMD:C_0402_1005Metric",
+      "sourcePath": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+        "size": 2048
+      },
+      "courtyardBoundsMm": {
+        "minX": 11.44,
+        "maxX": 13.26,
+        "minY": 10.14,
+        "maxY": 11.06
+      },
+      "fabBoundsMm": {
+        "minX": 11.85,
+        "maxX": 12.85,
+        "minY": 10.35,
+        "maxY": 10.85
+      },
+      "copperTerminalCentersMm": [
+        {
+          "pin": "1",
+          "centerMm": [
+            11.87,
+            10.6
+          ]
+        },
+        {
+          "pin": "2",
+          "centerMm": [
+            12.83,
+            10.6
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceGeometryScreen": {
+    "method": "Exact cardinal transform of observed courtyard line/rectangle/polygon centreline bounds; conservative AABB pair distance. No copper routing/clearance/fill/native DRC. Excludes text, circles and stroke widths.",
+    "pairwiseCourtyardFailures": [],
+    "boardEdgeCourtyardFailures": [],
+    "all62Poses": true,
+    "acceptedNativePlacement": false
+  },
+  "routeBudgetBasis": [
+    {
+      "net": "1V1",
+      "physicalPadManhattanMstMm": 29.97,
+      "maximumCopperLengthMm": 70,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 10,
+      "allPhysicalPadCenters": 10,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "3V3",
+      "physicalPadManhattanMstMm": 79.56,
+      "maximumCopperLengthMm": 200,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 29,
+      "allPhysicalPadCenters": 29,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "3V3_EN",
+      "physicalPadManhattanMstMm": 40.025,
+      "maximumCopperLengthMm": 70,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "ADC_AVDD",
+      "physicalPadManhattanMstMm": 5.04,
+      "maximumCopperLengthMm": 20,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 4,
+      "allPhysicalPadCenters": 4,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "ADC_VREF",
+      "physicalPadManhattanMstMm": 13.21,
+      "maximumCopperLengthMm": 30,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "BOOT_SW",
+      "physicalPadManhattanMstMm": 16.46,
+      "maximumCopperLengthMm": 35,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "CORE_LX",
+      "physicalPadManhattanMstMm": 4.45,
+      "maximumCopperLengthMm": 8,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO0",
+      "physicalPadManhattanMstMm": 23.67,
+      "maximumCopperLengthMm": 45,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO1",
+      "physicalPadManhattanMstMm": 21.53,
+      "maximumCopperLengthMm": 45,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO10",
+      "physicalPadManhattanMstMm": 15.43,
+      "maximumCopperLengthMm": 35,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO11",
+      "physicalPadManhattanMstMm": 17.57,
+      "maximumCopperLengthMm": 35,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO12",
+      "physicalPadManhattanMstMm": 20.11,
+      "maximumCopperLengthMm": 40,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO13",
+      "physicalPadManhattanMstMm": 23.05,
+      "maximumCopperLengthMm": 45,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO14",
+      "physicalPadManhattanMstMm": 28.53,
+      "maximumCopperLengthMm": 55,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO15",
+      "physicalPadManhattanMstMm": 31.47,
+      "maximumCopperLengthMm": 60,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO16",
+      "physicalPadManhattanMstMm": 31.47,
+      "maximumCopperLengthMm": 60,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO17",
+      "physicalPadManhattanMstMm": 28.53,
+      "maximumCopperLengthMm": 55,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO18",
+      "physicalPadManhattanMstMm": 23.05,
+      "maximumCopperLengthMm": 45,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO19",
+      "physicalPadManhattanMstMm": 20.11,
+      "maximumCopperLengthMm": 40,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO2",
+      "physicalPadManhattanMstMm": 16.85,
+      "maximumCopperLengthMm": 35,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO20",
+      "physicalPadManhattanMstMm": 17.97,
+      "maximumCopperLengthMm": 35,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO21",
+      "physicalPadManhattanMstMm": 15.83,
+      "maximumCopperLengthMm": 35,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO22",
+      "physicalPadManhattanMstMm": 11.15,
+      "maximumCopperLengthMm": 25,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO23_SMPS_PS",
+      "physicalPadManhattanMstMm": 18.755,
+      "maximumCopperLengthMm": 40,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO24_VBUS_SENSE",
+      "physicalPadManhattanMstMm": 7.06,
+      "maximumCopperLengthMm": 20,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO25_LED",
+      "physicalPadManhattanMstMm": 23.96,
+      "maximumCopperLengthMm": 45,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO26",
+      "physicalPadManhattanMstMm": 8.47,
+      "maximumCopperLengthMm": 25,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO27",
+      "physicalPadManhattanMstMm": 6.33,
+      "maximumCopperLengthMm": 20,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO28",
+      "physicalPadManhattanMstMm": 9.23,
+      "maximumCopperLengthMm": 25,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO29_VSYS_SENSE",
+      "physicalPadManhattanMstMm": 7.345,
+      "maximumCopperLengthMm": 18,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO3",
+      "physicalPadManhattanMstMm": 14.71,
+      "maximumCopperLengthMm": 35,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO4",
+      "physicalPadManhattanMstMm": 12.97,
+      "maximumCopperLengthMm": 30,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO5",
+      "physicalPadManhattanMstMm": 10.83,
+      "maximumCopperLengthMm": 25,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO6",
+      "physicalPadManhattanMstMm": 6.15,
+      "maximumCopperLengthMm": 20,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO7",
+      "physicalPadManhattanMstMm": 6.87,
+      "maximumCopperLengthMm": 20,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO8",
+      "physicalPadManhattanMstMm": 8.61,
+      "maximumCopperLengthMm": 25,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "GPIO9",
+      "physicalPadManhattanMstMm": 10.75,
+      "maximumCopperLengthMm": 25,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "LED_A",
+      "physicalPadManhattanMstMm": 3.0775,
+      "maximumCopperLengthMm": 15,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "QSPI_CS",
+      "physicalPadManhattanMstMm": 6.055,
+      "maximumCopperLengthMm": 20,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 4,
+      "allPhysicalPadCenters": 4,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "QSPI_SCLK",
+      "physicalPadManhattanMstMm": 7.025,
+      "maximumCopperLengthMm": 16,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "QSPI_SD0",
+      "physicalPadManhattanMstMm": 6.125,
+      "maximumCopperLengthMm": 16,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "QSPI_SD1",
+      "physicalPadManhattanMstMm": 3.475,
+      "maximumCopperLengthMm": 16,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "QSPI_SD2",
+      "physicalPadManhattanMstMm": 3.375,
+      "maximumCopperLengthMm": 16,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "QSPI_SD3",
+      "physicalPadManhattanMstMm": 7.925,
+      "maximumCopperLengthMm": 16,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "RT_LX1",
+      "physicalPadManhattanMstMm": 3.96,
+      "maximumCopperLengthMm": 8,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "RT_LX2",
+      "physicalPadManhattanMstMm": 3.96,
+      "maximumCopperLengthMm": 8,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "RUN",
+      "physicalPadManhattanMstMm": 18.93,
+      "maximumCopperLengthMm": 40,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 4,
+      "allPhysicalPadCenters": 4,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "SWCLK_HDR",
+      "physicalPadManhattanMstMm": 25.38,
+      "maximumCopperLengthMm": 45,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "SWCLK_MCU",
+      "physicalPadManhattanMstMm": 3.09,
+      "maximumCopperLengthMm": 6,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "SWDIO_HDR",
+      "physicalPadManhattanMstMm": 24.27,
+      "maximumCopperLengthMm": 45,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "SWDIO_MCU",
+      "physicalPadManhattanMstMm": 5.54,
+      "maximumCopperLengthMm": 10,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "USB_CC1",
+      "physicalPadManhattanMstMm": 7.155,
+      "maximumCopperLengthMm": 20,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "USB_CC2",
+      "physicalPadManhattanMstMm": 9.205,
+      "maximumCopperLengthMm": 25,
+      "basis": "Ceil to 5mm of 1.5*unobstructed Manhattan spanning-tree length +8mm routing reserve; not proof of routability",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "USB_DM_MCU",
+      "physicalPadManhattanMstMm": 1.555,
+      "maximumCopperLengthMm": 3,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "USB_DM_PORT",
+      "physicalPadManhattanMstMm": 9.37,
+      "maximumCopperLengthMm": 22,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 5,
+      "allPhysicalPadCenters": 5,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "USB_DP_MCU",
+      "physicalPadManhattanMstMm": 1.915,
+      "maximumCopperLengthMm": 3,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "USB_DP_PORT",
+      "physicalPadManhattanMstMm": 11.31,
+      "maximumCopperLengthMm": 22,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 5,
+      "allPhysicalPadCenters": 5,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "VBUS",
+      "physicalPadManhattanMstMm": 42.54,
+      "maximumCopperLengthMm": 80,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 9,
+      "allPhysicalPadCenters": 9,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "VREG_AVDD",
+      "physicalPadManhattanMstMm": 4.34,
+      "maximumCopperLengthMm": 12,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "VSYS",
+      "physicalPadManhattanMstMm": 51.65,
+      "maximumCopperLengthMm": 130,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 8,
+      "allPhysicalPadCenters": 8,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "VSYS_DIV",
+      "physicalPadManhattanMstMm": 6.425,
+      "maximumCopperLengthMm": 12,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 4,
+      "allPhysicalPadCenters": 4,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "XIN",
+      "physicalPadManhattanMstMm": 6.49,
+      "maximumCopperLengthMm": 16,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "XOUT_MCU",
+      "physicalPadManhattanMstMm": 1.84,
+      "maximumCopperLengthMm": 5,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 2,
+      "allPhysicalPadCenters": 2,
+      "mstWithinBudget": true
+    },
+    {
+      "net": "XTAL_OUT",
+      "physicalPadManhattanMstMm": 7.74,
+      "maximumCopperLengthMm": 16,
+      "basis": "Explicit group/channel design budget; not measured routed copper",
+      "endpointCount": 3,
+      "allPhysicalPadCenters": 3,
+      "mstWithinBudget": true
+    }
+  ],
+  "mechanicalFit": {
+    "source": "Retained GCT J1 at10.5,4.975,180; 1.3mm mouth setback; unchanged pads",
+    "shieldCentersMm": [
+      [
+        6.18,
+        3.9
+      ],
+      [
+        14.82,
+        3.9
+      ]
+    ],
+    "nominalCircleCapsuleCopperGapMm": 1.096205,
+    "nominalCircleCapsuleDrillGapMm": 1.296205,
+    "maximumBoreDiameterCopperGapMm": 1.071205,
+    "status": "Nominal bare-bore fit screen; exact tolerance, cable mating, shell/body and fastener envelope remain separate acceptance",
+    "mouthSetbackMm": 1.3,
+    "minimumDrawingOvermoldShoulderMm": 1.85,
+    "nominalLongitudinalShoulderMarginMm": 0.55,
+    "nominalShellToMaximumBoreGapMm": 0.955,
+    "shellDefaultWidthToleranceRemainingGapMm": 0.88,
+    "bodyToleranceCaveat": "Outward x4/17 bore columns give0.880mm nominal remaining shell gap after maximum bore and B3 default width tolerance, before placement, hole-location, peg/shell, and edge tolerances; no full cable or screw-head pass"
+  },
+  "placementSemantics": {
+    "source": "fresh-design-acceptance.ts placementCheck and pcb-design-plane-model-guide.ts",
+    "regionMeans": "footprint anchor only",
+    "edgePreferenceMeans": "nearest transformed courtyard board edge; not mating direction",
+    "J2": "top is nearest by0.27mm vs left0.51mm; left row defined separately by fixed x1.61",
+    "J3": "bottom is nearest by0.27mm vs right0.51mm; right row defined separately by fixed x19.39",
+    "overhang": "V1 evaluator requires courtyard inside outline and schema minimumEdge>=0. Physically intentional USB envelope overhang is not itself copper illegality; current V2 common checks explicitly do not evaluate placement.",
+    "nativePlacementNotRun": true
+  },
+  "verification": {
+    "referenceCount": 62,
+    "routeCount": 65,
+    "referenceTerminalMappings": 44,
+    "schemaValidation": "passed actual current V2 source parser with final R2/U4 targets,58 bounded regions and13x47mm mounting pattern",
+    "nativeCad": false,
+    "nativeDrc": false,
+    "localUsbLaunches": {
+      "positiveEtchMm": 1.5840306627407994,
+      "negativeEtchMm": 1.4290559159102152,
+      "selectedPadDrillAndCrossNetViolations": 0,
+      "minimumTrackWidthMm": 0.2,
+      "requiredClearanceMm": 0.2
+    },
+    "completeUsbPortTreeVerification": "source geometry pass; not native authorization",
+    "finalCanonicalNativePlacementScreen": "targeted physical-placement checks pass in isolated baseline; no global DRC pass",
+    "usbIllustrativePosesAgree": true,
+    "mergedDraftBytes": 159662,
+    "sourceIdentityRechecksPassed": true,
+    "targetPosesInsideTheirRegions": true
+  },
+  "routeAwareRevision": {
+    "previousCandidate": "03",
+    "changedTarget": {
+      "reference": "R2",
+      "previousYMm": 16.9,
+      "targetYMm": 16.7,
+      "deltaYMm": -0.2
+    },
+    "regionPolicy": "Connectors and board features fixed; other components have bounded functional adjustment regions. All geometric passes refer only to target poses.",
+    "localLaunchProofPath": "designs/rp2350-pico/usb-route-plan.json",
+    "completeUsbPortTreeVerification": "All caller-source channel geometry checks and selected foreign-pad/drill clearance tests pass for current U4/R2 targets; native readback/DRC/reference/impedance pending",
+    "candidate03Backups": "../destination-verification/rp2350-candidate-03/placement-constraints.{json,md}.before-route-aware-revision",
+    "additionalTargetChange": {
+      "reference": "U4",
+      "previousYMm": 11.9,
+      "targetYMm": 12.15,
+      "deltaYMm": 0.25,
+      "insideUnchangedAllowedRegion": true
+    },
+    "sourceRouteProposal": "designs/rp2350-pico/usb-route-plan.json"
+  },
+  "mountingPitchRevision": {
+    "horizontalPitchMm": 13,
+    "verticalPitchMm": 47,
+    "previousPicoReferenceHorizontalPitchMm": 11.4,
+    "explicitEngineeringTradeoff": true,
+    "headerCoordinatesUnchanged": true,
+    "mountingRevisionDoesNotMoveElectricalParts": true,
+    "separateRouteAwareTargetChange": "U4 y11.9->12.15 within unchanged allowed region",
+    "sourceNativeScreen": "../destination-verification/rp2350-placement-native-screen-01/final-baseline/canonical-native-drc.json",
+    "nativeScreenStatus": "Final canonical-netclass baseline with current U4 target passed targeted physical-placement checks;238silk warnings and194unrouted remain",
+    "targetedPlacementFindings": 0,
+    "physicalFootprints": 66,
+    "physicalPads": 281,
+    "candidate04Backups": "../destination-verification/rp2350-candidate-04/placement-constraints.{json,md}.before-mounting-pitch-revision"
+  },
+  "nativePlacementScreen": {
+    "scope": "Independent isolated unrouted whole-layout baseline with canonical net classes; not production-session acceptance",
+    "receiptPath": "../destination-verification/rp2350-placement-native-screen-01/final-receipt.json",
+    "receiptIdentity": {
+      "algorithm": "sha256",
+      "digest": "0df7a43df5f5f495fb29b82a9e9de74ba50b69c2b59b163bfe164dca57ab1470",
+      "size": 15600
+    },
+    "frozenPlacementIdentity": {
+      "algorithm": "sha256",
+      "digest": "b8934935f0022145343f392e11710fa174e376b1f3ba524dc1f5f97221904df6",
+      "size": 184170
+    },
+    "evaluatedInputArraysMatch": true,
+    "canonicalNetClassAssignmentsVerified": 65,
+    "sourceReadbackPassed": true,
+    "targetedCounts": {
+      "clearance": 0,
+      "hole_clearance": 0,
+      "copper_edge_clearance": 0,
+      "courtyards_overlap": 0,
+      "npth_inside_courtyard": 0,
+      "pth_inside_courtyard": 0,
+      "hole_to_hole": 0,
+      "holes_co_located": 0,
+      "shorting_items": 0,
+      "padstack": 0,
+      "invalid_outline": 0,
+      "malformed_courtyard": 0,
+      "annular_width": 0,
+      "drill_out_of_range": 0
+    },
+    "silkWarnings": {
+      "silk_overlap": 124,
+      "silk_over_copper": 114
+    },
+    "warningTotal": 238,
+    "unroutedConnectionItems": 194,
+    "footprints": 66,
+    "physicalPads": 281,
+    "logicalPinAssignments": 262,
+    "functionalNets": 65,
+    "tracks": 0,
+    "zones": 0,
+    "globalDrcPass": false
+  }
+}

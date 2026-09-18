@@ -6,6 +6,7 @@ import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js"
 import { FRESH_CONNECTIVITY_CONTRACT_SCHEMA_VERSION, type FreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { freshPowerFlagDefinitionSemanticIdentity, parseFreshSymbolLibraryTerminalGeometrySource } from "../../src/harness/fresh-kicad-parser.js";
 import { FreshSchematicWorkBudget } from "../../src/harness/fresh-schematic-work-budget.js";
+import { buildSchematicTerminalGroups, type FreshSchematicTerminalPartition } from "../../src/harness/fresh-schematic-terminal-groups.js";
 import {
   createFreshSchematicStrokeStyleEvidence,
   FRESH_SCHEMATIC_STROKE_NATIVE_PROFILE as profile,
@@ -43,7 +44,7 @@ const librarySource = (graphic = defaultGraphic) => `(kicad_symbol_lib (version 
     (symbol "PWR_FLAG_0_1" ${graphic}
       (pin power_out line (at 0 0 90) (length 0) (name "pwr") (number "1")))))`;
 
-function syntheticStyle() {
+function syntheticStyle(svgSource?: string) {
   const cwd = path.resolve("D:/owned-style-test/project");
   const output = path.resolve("D:/owned-style-test/artifacts/render");
   const executablePath = path.resolve("D:/pinned-runtime/kicad-cli.exe");
@@ -54,7 +55,7 @@ function syntheticStyle() {
     sha256: profile.executable.digest, sizeBytes: profile.executable.size,
     capabilityHelpSha256: "b".repeat(64), confirmedCapabilities: ["sch export svg"],
   };
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg"></svg>';
+  const svg = svgSource ?? '<svg xmlns="http://www.w3.org/2000/svg"></svg>';
   const svgIdentity = contentIdentity(svg), configIdentity = contentIdentity(applicationSource);
   const tree = canonicalIdentity({ schemaVersion: "evleda.kicad-schematic-configuration-tree.v1",
     files: [{ relativePath: "10.0/eeschema.json", identity: configIdentity }], directories: ["10.0"],
@@ -147,6 +148,36 @@ const run = (input = fixture(), obstacles = boxes) => planFreshExternalPowerGeom
   input.contract, plan, pins, obstacles, input.resolver, createFreshSchematicPlanningWork(), sourceIdentity, input.style,
 );
 
+/** Synthetic complete source/live metadata; production obtains this partition from its source adapter. */
+function stackedFixture(nonRepresentativeAnchor = false, source = sourceIdentity, wrongContract = false) {
+  const input = fixture(), contract = structuredClone(input.contract);
+  Object.assign(contract.nets[0]!, { endpoints: [...contract.nets[0]!.endpoints, { reference: "J1", pin: "3" }] });
+  Object.assign(contract.nets[1]!, { endpoints: [...contract.nets[1]!.endpoints, { reference: "J1", pin: "4" }] });
+  const stackedPins = new Map([...pins, ["J1:3", { ...pins.get("J1:1")! }] as const, ["J1:4", { ...pins.get("J1:2")! }] as const]);
+  if (nonRepresentativeAnchor) {
+    const binding = structuredClone(contract.externalPowerBinding!) as any;
+    binding.flags[0].anchorEndpoint.pin = "3";
+    const { identity: _identity, ...payload } = binding;
+    binding.identity = canonicalIdentity(payload, binding.schemaVersion);
+    Object.assign(contract, { externalPowerBinding: binding });
+  }
+  const { identity: _identity, ...payload } = contract;
+  Object.assign(contract, { identity: canonicalIdentity(payload, contract.schemaVersion) });
+  const grouped = buildSchematicTerminalGroups({
+    contractIdentity: wrongContract ? canonicalIdentity({ other: true }, "test.other-contract.v1") : contract.sourceContractIdentity,
+    components: [{ reference: "J1", symbolLibId: "Test:Connector", unit: 1, sourceIdentity: source,
+      placement: { at: { xMm: 0, yMm: 0 }, rotationDeg: 0 },
+      pins: [...stackedPins].map(([id, point]) => ({ number: id.split(":")[1]!, at: { xMm: point.x, yMm: -point.y }, angleDeg: point.angleDeg })) }],
+    assignments: contract.nets.flatMap(net => net.endpoints.map(endpoint => ({ ...endpoint, assignment: { kind: "net" as const, net: net.name } }))),
+    livePins: [...stackedPins].map(([id, point]) => ({ reference: "J1", pin: id.split(":")[1]!, at: { xMm: point.x, yMm: point.y }, angleDeg: point.angleDeg })),
+  });
+  if (grouped.status !== "complete") throw new Error(JSON.stringify(grouped));
+  const runStack = (partition: FreshSchematicTerminalPartition | undefined = grouped.value) => planFreshExternalPowerGeometry(
+    contract, plan, stackedPins, boxes, input.resolver, createFreshSchematicPlanningWork(), sourceIdentity, input.style, undefined, partition,
+  );
+  return { ...input, contract, pins: stackedPins, partition: grouped.value, run: runStack };
+}
+
 function cardinalFixture(angleDeg: 0 | 90 | 180 | 270) {
   const origin = pins.get("J1:1")!;
   const rotate = (point: { x: number; y: number }) => {
@@ -200,6 +231,60 @@ const reaches = (wires: PhysicalPlan["wires"], from: { x: number; y: number }, t
 };
 
 describe("bounded source-qualified external power branch planning", () => {
+  it("replays exact source-qualified flags against their own current native value ink without exempting foreign ink", () => {
+    const input = fixture(), first = run(input);
+    const flags = first.flags.map(flag => ({ ...flag, library: "power", symbol: "PWR_FLAG", value: "PWR_FLAG", unit: 1, sourceIdentity }));
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300mm" height="200mm" viewBox="0 0 300 200"><g fill="none" stroke="black" stroke-width="0.1524" stroke-linecap="round" stroke-linejoin="round">${flags.map(flag => {
+      const x = flag.x - 2, y = flag.y - 5.08;
+      return `<text x="${x}" y="${y}" opacity="0">PWR_FLAG</text><g class="stroked-text"><desc>PWR_FLAG</desc><path d="M${x} ${y} L${x + 4} ${y}"/></g>`;
+    }).join("")}</g></svg>`;
+    const style = syntheticStyle(svg);
+    const glyphs = style.nativeText.bounds.map(ink => ({ reference: `@native-text:${ink.textGroupIndex}`,
+      minX: ink.minX, maxX: ink.maxX, minY: ink.minY, maxY: ink.maxY,
+      nativeText: { kind: "glyph" as const, svgIdentity: style.nativeSvgIdentity, groupIndex: ink.textGroupIndex, text: ink.text, coveringLabel: null } }));
+    const replay = (obstacles = glyphs, existing = flags) => planFreshExternalPowerGeometry(input.contract, plan, pins, [...boxes, ...obstacles],
+      input.resolver, createFreshSchematicPlanningWork(), sourceIdentity, style, undefined, undefined, existing);
+    expect(replay().issues).toEqual([]); expect(replay().flags).toEqual(first.flags); expect(replay().wires).toEqual(first.wires);
+    const foreign = { ...glyphs[0]!, reference: "@foreign", nativeText: { ...glyphs[0]!.nativeText, text: "FOREIGN" } };
+    expect(replay([...glyphs, foreign]).issues.some(issue => issue.code === "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED")).toBe(true);
+    const duplicate = { ...glyphs[0]!, reference: "@duplicate", nativeText: { ...glyphs[0]!.nativeText, groupIndex: 999 } };
+    expect(replay([...glyphs, duplicate]).issues.some(issue => issue.code === "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED")).toBe(true);
+    expect(() => replay(glyphs, flags.map(flag => ({ ...flag, sourceIdentity: contentIdentity("stale") })))).toThrow(/current source-qualified/u);
+  });
+  it.each([false, true])("allows only the exact qualified anchor stack, including nonrepresentative anchor=%s", nonRepresentative => {
+    const input = stackedFixture(nonRepresentative), before = JSON.stringify({ contract: input.contract, pins: [...input.pins], partition: input.partition });
+    const without = planFreshExternalPowerGeometry(input.contract, plan, input.pins, boxes, input.resolver,
+      createFreshSchematicPlanningWork(), sourceIdentity, input.style);
+    expect(without.issues.some(issue => issue.code === "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED")).toBe(true);
+    const result = input.run();
+    expect(result.issues).toEqual([]);
+    expect(result.flags).toEqual(run().flags);
+    expect(result.wires.slice(0, plan.wires.length)).toEqual(plan.wires);
+    expect(result.routes).toEqual(plan.routes);
+    expect(result.labels).toEqual(plan.labels);
+    expect(result.wires.every(wire => wire.x !== wire.endX || wire.y !== wire.endY)).toBe(true);
+    expect(JSON.stringify({ contract: input.contract, pins: [...input.pins], partition: input.partition })).toBe(before);
+  });
+  it.each(["source", "contract"])("rejects a stack qualified for different %s evidence", kind => {
+    const input = stackedFixture(false, kind === "source" ? contentIdentity("different saved source") : sourceIdentity, kind === "contract");
+    expect(input.run().issues.some(issue => issue.code === "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED")).toBe(true);
+  });
+  it.each(["foreign-net", "off-anchor", "angle", "unrelated-same-net", "nearby-same-net"])("keeps %s terminals as collisions", kind => {
+    const input = stackedFixture(), anchor = input.pins.get("J1:1")!;
+    if (kind === "foreign-net") {
+      Object.assign(input.contract.nets[0]!, { endpoints: [{ reference: "J1", pin: "1" }] });
+      Object.assign(input.contract.nets[1]!, { endpoints: [...input.contract.nets[1]!.endpoints, { reference: "J1", pin: "3" }] });
+    } else if (kind === "off-anchor") input.pins.set("J1:3", { ...anchor, x: anchor.x - 0.635 });
+    else if (kind === "angle") Object.assign(input.pins.get("J1:3")!, { angleDeg: 180 });
+    else {
+      const point = kind === "nearby-same-net" ? { ...anchor, x: anchor.x - 0.635 } : { ...anchor };
+      input.pins.set("J2:1", point);
+      Object.assign(input.contract.nets[0]!, { endpoints: [...input.contract.nets[0]!.endpoints, { reference: "J2", pin: "1" }] });
+    }
+    const result = input.run();
+    expect(result.issues.some(issue => issue.code === "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED")).toBe(true);
+    expect(result.flags).toEqual([]);
+  });
   it("places two distinct flags without passing either branch through same-net label text", () => {
     const before = JSON.stringify({ plan, pins: [...pins], boxes });
     const result = run();

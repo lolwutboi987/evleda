@@ -1,0 +1,2071 @@
+{
+  "format": "rp2350-pico-usb-connector-fit-v1",
+  "reviewedAt": "2026-09-17",
+  "status": "USB4105 at 1.3 mm setback adopted by layout owner as preferred candidate; conditional mechanical verification remains; no CAD mutation in this report",
+  "scope": "Fixed 21x51 mm board, four Pico2 bare bores and forty header contacts; source/native-footprint fit review only",
+  "recommendedDecision": "Retain USB4105-GF-A at (10.5,4.975),180 degrees. Preserve all pads and contacts, fixed top bores and header anchors. Resolve the listed manufacturer-edge, cable/body and assembly tolerance conditions before fit acceptance.",
+  "constraints": {
+    "boardMm": [
+      21,
+      51
+    ],
+    "holeCentresMm": [
+      [
+        4.8,
+        2
+      ],
+      [
+        16.2,
+        2
+      ],
+      [
+        4.8,
+        49
+      ],
+      [
+        16.2,
+        49
+      ]
+    ],
+    "holeNominalDiameterMm": 2.1,
+    "holeDiameterTolerancePlusMinusMm": 0.05,
+    "holeCentrePositionToleranceMm": null,
+    "headerRowXmm": [
+      1.61,
+      19.39
+    ],
+    "headerFirstYmm": 1.37,
+    "headerLastYmm": 49.63,
+    "headerPitchMm": 2.54,
+    "headerCopperEnvelopeWidthMm": 1.7,
+    "headerDrillDiameterMm": 1.0,
+    "movedHoles": false,
+    "shrunkPads": false,
+    "waivedClearances": false,
+    "requiredMinimumCopperToHoleClearanceMm": null,
+    "bottomHoleDatumStatus": "y=49 was supplied for this USB review. Live Pico2 Figure3 bottom2.4 dimension points to the top edge of the central SWD contact, and1.6 to its centre; it does not establish bottom hole y48.6. Official CAD authority is required for the bottom-hole Y datum; top USB limiting gaps are unaffected."
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "mpn": "USB4105-GF-A",
+      "caseId": "4105_recess_1p3_candidate",
+      "disposition": "preferred layout candidate adopted by layout owner; mechanical acceptance conditional",
+      "reason": "Least electrical/assembly change; 1.3 mm mouth setback separates shell lands from fixed bores.",
+      "matingEvidence": {
+        "vendorDrawing": "USB4105 B3, sheet 1/2, 2023-02-24",
+        "minimumPlugShoulderAheadOfMouthMm": 1.85,
+        "setbackMm": 1.3,
+        "derivedLongitudinalShoulderToNorthEdgeMarginMm": 0.55,
+        "inferenceNotManufacturerApproval": true
+      },
+      "nominalBodyBoundsMm": {
+        "xmin": 6.03,
+        "xmax": 14.97,
+        "ymin": 1.3,
+        "ymax": 8.65
+      },
+      "nominalBodyToMaximumDiameterTopBoreHorizontalGapMm": 0.155,
+      "shellFrontCentresMm": [
+        [
+          6.18,
+          3.9
+        ],
+        [
+          14.82,
+          3.9
+        ]
+      ],
+      "nativeFields": {
+        "referenceAnchorMm": [
+          10.5,
+          10.475
+        ],
+        "valueAnchorMm": [
+          10.5,
+          -0.025
+        ],
+        "action": "Value field and any long assembly text require explicit relocation/hiding and full-layout text review; no field edits performed."
+      },
+      "stockCoincidentContactGroups": [
+        [
+          "A1",
+          "B12"
+        ],
+        [
+          "A4",
+          "B9"
+        ],
+        [
+          "A9",
+          "B4"
+        ],
+        [
+          "A12",
+          "B1"
+        ]
+      ],
+      "contactGroupingEvidence": "Manufacturer recommended pad drawing labels the four shared solder tails with both contact names. Retain all sixteen symbol terminals; both members of every shared land group have the same intended net.",
+      "toleranceSensitivity": {
+        "maximumBoreDiameterMm": 2.15,
+        "copperGapWithMaximumBoreOnlyMm": 0.46323453,
+        "drillGapWithMaximumBoreOnlyMm": 0.66323453,
+        "hypotheticalAdverseRelativeShiftPerAxisMm": [
+          0.05,
+          0.1
+        ],
+        "correspondingCopperGapMm": [
+          0.392587355,
+          0.321944912
+        ],
+        "exampleShiftsAreSpecifiedTolerances": false,
+        "nominalShellWidthMm": 8.94,
+        "B3DefaultWidthTolerancePlusMinusMm": 0.15,
+        "bodyToMaximumBoreGapIncludingWidthToleranceOnlyMm": 0.08,
+        "completeToleranceStackEstablished": false
+      }
+    },
+    {
+      "rank": 2,
+      "mpn": "USB4085-GF-A",
+      "caseId": "4085_mouth_flush_candidate",
+      "disposition": "conditional alternate component; not selected",
+      "reason": "Full sixteen independently drilled contacts and larger nominal bore clearance at mouth flush; deeper body and through-hole assembly cost.",
+      "matingEvidence": {
+        "vendorDrawing": "USB4085 B, sheet 2/3, 2023-02-28",
+        "illustratedPlugShoulderAheadOfMouthMm": 2.1,
+        "mouthSetbackMm": 0,
+        "boardExtensionBeyondIllustratedRecommendedEdgeMm": 2.51,
+        "inferenceNotManufacturerApproval": true
+      },
+      "nominalBodyBoundsMm": {
+        "xmin": 6.025,
+        "xmax": 14.975,
+        "ymin": 0,
+        "ymax": 9.17
+      },
+      "nominalBodyToMaximumDiameterTopBoreHorizontalGapMm": 0.15,
+      "shellFrontCentresMm": [
+        [
+          6.175,
+          4.25
+        ],
+        [
+          14.825,
+          4.25
+        ]
+      ],
+      "nativeFields": {
+        "referenceAnchorMm": [
+          10.5,
+          10.41
+        ],
+        "valueAnchorMm": [
+          10.5,
+          -1.315
+        ],
+        "action": "Relocate/hide default Value assembly field and review all fields."
+      },
+      "stockCoincidentContactGroups": [],
+      "stockVersusVendorLands": "Native stock signal lands are diameter 0.70 mm with 0.40 mm drills; vendor drawing shows 0.65 mm lands with 0.40 mm drills. Preserve the larger stock lands; do not shrink for fit."
+    }
+  ],
+  "electricalMapping": {
+    "A1": "GND",
+    "A12": "GND",
+    "B1": "GND",
+    "B12": "GND",
+    "A4": "VBUS",
+    "A9": "VBUS",
+    "B4": "VBUS",
+    "B9": "VBUS",
+    "A5": "CC1 -> own 5.1 kohm to GND",
+    "B5": "CC2 -> own 5.1 kohm to GND",
+    "A6": "USB_DP connector side -> existing ESD path",
+    "B6": "USB_DP connector side -> same intentional external DP net",
+    "A7": "USB_DM connector side -> existing ESD path",
+    "B7": "USB_DM connector side -> same intentional external DM net",
+    "A8": "SBU1 explicit no-connect",
+    "B8": "SBU2 explicit no-connect",
+    "SH": "GND per existing approved electrical intent; all four physical shell lands retained"
+  },
+  "method": {
+    "shapeDistance": "Exact point-to-circle/oval/rounded-rectangle signed distance minus bore radius; 180 degree poses read back through pcbnew. Ovals use a straight center segment plus endpoint radius, not an axis-aligned box.",
+    "crossChecks": [
+      "All native pads examined against all four bores.",
+      "All sixteen A/B contact names plus SH retained.",
+      "Known original conflict reproduced: -0.155582559 mm copper and +0.044417441 mm drill gap.",
+      "Independent front oval formula for first candidate: hypot(1.38,1.5)-0.5-1.05."
+    ],
+    "limits": [
+      "Footprint-library primitives only; no native placed-board DRC, fabrication acceptance, force/strain proof or mating test.",
+      "Positive nominal gap is not a clearance pass; design/fabricator copper-to-hole rule and complete tolerance stack were not supplied.",
+      "Maximum diameter results include bore radius change only; no positional, drill wander, copper etch, assembly or shell tolerances.",
+      "Header fit uses fixed 1.7 mm land width envelope; fitted headers/carrier-body interference is not assessed."
+    ]
+  },
+  "separateHardwareAccess": {
+    "screwHeadOrWasherProfileSelected": false,
+    "guaranteedM2HeadCompatibility": false,
+    "nominalTopSideHeadDiameterForZeroBodyOverlapUpperBoundMm": 2.46,
+    "basis": "USB4105 nominal shell begins x=6.03 and top-left bore centre x=4.8. A head/washer whose XY disk overlaps the shell may interfere if their Z envelopes overlap. No head diameter, height, washer or installation direction is assumed.",
+    "cableAccess": "Evaluate complete chosen cable overmold, Z clearance above the board, insertion/removal grip and tolerances. Vendor sectional shoulder distance supports a candidate but does not certify every cable."
+  },
+  "rejectedDistinctStockGeometries": [
+    {
+      "part": "GCT USB4110",
+      "reason": "Four wide SMT shell wings do not resolve the top bore collision at the illustrated edge pose."
+    },
+    {
+      "part": "Amphenol 12401948E412A",
+      "reason": "Stock footprint embeds a board-edge cutout and outer front shell anchors; it is not a drop-in rectangular-outline solution. Do not silently adopt its Edge.Cuts."
+    },
+    {
+      "part": "HRO TYPE-C-31-M-17 and GCT 6-pin families",
+      "reason": "Excluded: missing D+/D- terminals in the native six-pin footprints. Power-only is outside the requirement."
+    }
+  ],
+  "fallbackIfEdgeDeviationIsUnacceptable": "No unconditional flush/illustrated-edge stock horizontal 16-contact solution was established in this bounded review. A reviewed vertical USB-C at an interior north-area position can preserve bores but changes cable entry; moving top bores can retain the original edge pose but changes Pico carrier fit. Neither fallback was selected or implemented.",
+  "sources": [
+    {
+      "id": "gct-usb4105-drawing",
+      "authority": "manufacturer authored primary drawing, distributor mirror used for visual inspection",
+      "url": "https://gct.co/files/drawings/usb4105.pdf",
+      "inspectedMirror": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/5492/USB4105.pdf",
+      "revision": "B3",
+      "date": "2023-02-24",
+      "pages": [
+        1
+      ],
+      "sha256": "bcda0359d7dfbb087b448bce4dfe79f9e6fbfbcf1bbab78915d8fcb81d275ec6"
+    },
+    {
+      "id": "gct-usb4085-drawing",
+      "authority": "manufacturer authored primary drawing, distributor mirror used for visual inspection",
+      "url": "https://gct.co/Files/Drawings/USB4085.pdf",
+      "inspectedMirror": "https://www.farnell.com/cad/4376797.pdf",
+      "revision": "B",
+      "date": "2023-02-28",
+      "pages": [
+        1,
+        2
+      ],
+      "sha256": "39afb82c5104579e8c2db4f4e758825c48cab1c4b06d4c61c62056470ff09e9e"
+    },
+    {
+      "id": "gct-usb4085-pcn",
+      "authority": "manufacturer",
+      "url": "https://gct.co/files/pcns/gct%20usb4085%20b%20pcn%2020230426.pdf",
+      "date": "2023-04-26",
+      "relevance": "States revision B leaves the PCB footprint unchanged."
+    },
+    {
+      "id": "installed-kicad",
+      "authority": "installed stock footprint library",
+      "location": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty",
+      "identity": "Exact per-footprint byte/hash identity recorded in cases."
+    },
+    {
+      "id": "pico2-figure3",
+      "authority": "Raspberry Pi manufacturer primary datasheet",
+      "url": "https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf",
+      "revision": "Release5 / buildd4e0f1799616",
+      "date": "2026-07-03",
+      "pages": [
+        7
+      ],
+      "relevance": "Confirms4x2.1mm(+/-0.05mm) drilled holes, board envelope and top2mm datum. Bottom2.4mm dimension is the SWD pad top, not an explicit lower-hole Y coordinate."
+    }
+  ],
+  "cases": [
+    {
+      "id": "4105_flush_rejected",
+      "footprintId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "footprintPath": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+        "bytes": 7170
+      },
+      "nativeLibraryReader": "KiCad 10.0 bundled pcbnew.FootprintLoad; in-memory pose only; no board created or edited",
+      "pose": {
+        "xMm": 10.5,
+        "yMm": 3.675,
+        "rotationDeg": 180,
+        "side": "F.Cu"
+      },
+      "mouthYmm": 0,
+      "illustratedManufacturerEdgeLineYmm": 0,
+      "physicalNativePadCount": 22,
+      "distinctNumberedPins": [
+        "A1",
+        "A12",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "B1",
+        "B12",
+        "B4",
+        "B5",
+        "B6",
+        "B7",
+        "B8",
+        "B9",
+        "SH"
+      ],
+      "minimumCopperToBoreGapNominalMm": -0.155582559,
+      "minimumDrillToBoreGapNominalMm": 0.044417441,
+      "minimumCopperToBoreGapUsingMaximum2p15DiameterOnlyMm": -0.180582559,
+      "minimumDrillToBoreGapUsingMaximum2p15DiameterOnlyMm": 0.019417441,
+      "minimumHorizontalCopperTo1p7HeaderLandEnvelopeSeparationMm": 3.22,
+      "pads": [
+        {
+          "pin": "",
+          "centreMm": [
+            13.39,
+            6.28
+          ],
+          "sizeMm": [
+            0.65,
+            0.65
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.325,
+          "drillMm": [
+            0.65,
+            0.65
+          ],
+          "minimumCopperToNominalBoreGapMm": null,
+          "minimumDrillToNominalBoreGapMm": 3.745009766
+        },
+        {
+          "pin": "",
+          "centreMm": [
+            7.61,
+            6.28
+          ],
+          "sizeMm": [
+            0.65,
+            0.65
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.325,
+          "drillMm": [
+            0.65,
+            0.65
+          ],
+          "minimumCopperToNominalBoreGapMm": null,
+          "minimumDrillToNominalBoreGapMm": 3.745009766
+        },
+        {
+          "pin": "A1",
+          "centreMm": [
+            13.7,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.261446695,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A4",
+          "centreMm": [
+            12.9,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.650418788,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A5",
+          "centreMm": [
+            11.75,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.41041506,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A6",
+          "centreMm": [
+            10.75,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.118041488,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A7",
+          "centreMm": [
+            10.25,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.118041488,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A8",
+          "centreMm": [
+            9.25,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.41041506,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A9",
+          "centreMm": [
+            8.1,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.650418788,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A12",
+          "centreMm": [
+            7.3,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.261446695,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B1",
+          "centreMm": [
+            7.3,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.261446695,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B4",
+          "centreMm": [
+            8.1,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.650418788,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B5",
+          "centreMm": [
+            8.75,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.086815355,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B6",
+          "centreMm": [
+            9.75,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.755163515,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B7",
+          "centreMm": [
+            11.25,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.755163515,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B8",
+          "centreMm": [
+            12.25,
+            7.355
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.086815355,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B9",
+          "centreMm": [
+            12.9,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.650418788,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B12",
+          "centreMm": [
+            13.7,
+            7.355
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.261446695,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.82,
+            6.78
+          ],
+          "sizeMm": [
+            1.0,
+            2.1
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.7
+          ],
+          "minimumCopperToNominalBoreGapMm": 2.899415692,
+          "minimumDrillToNominalBoreGapMm": 3.099415692
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.82,
+            2.6
+          ],
+          "sizeMm": [
+            1.0,
+            1.8
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": -0.155582559,
+          "minimumDrillToNominalBoreGapMm": 0.044417441
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.18,
+            6.78
+          ],
+          "sizeMm": [
+            1.0,
+            2.1
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.7
+          ],
+          "minimumCopperToNominalBoreGapMm": 2.899415692,
+          "minimumDrillToNominalBoreGapMm": 3.099415692
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.18,
+            2.6
+          ],
+          "sizeMm": [
+            1.0,
+            1.8
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": -0.155582559,
+          "minimumDrillToNominalBoreGapMm": 0.044417441
+        }
+      ]
+    },
+    {
+      "id": "4105_recess_1p3_candidate",
+      "footprintId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "footprintPath": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+        "bytes": 7170
+      },
+      "nativeLibraryReader": "KiCad 10.0 bundled pcbnew.FootprintLoad; in-memory pose only; no board created or edited",
+      "pose": {
+        "xMm": 10.5,
+        "yMm": 4.975,
+        "rotationDeg": 180,
+        "side": "F.Cu"
+      },
+      "mouthYmm": 1.3,
+      "illustratedManufacturerEdgeLineYmm": 1.3,
+      "physicalNativePadCount": 22,
+      "distinctNumberedPins": [
+        "A1",
+        "A12",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "B1",
+        "B12",
+        "B4",
+        "B5",
+        "B6",
+        "B7",
+        "B8",
+        "B9",
+        "SH"
+      ],
+      "minimumCopperToBoreGapNominalMm": 0.48823453,
+      "minimumDrillToBoreGapNominalMm": 0.68823453,
+      "minimumCopperToBoreGapUsingMaximum2p15DiameterOnlyMm": 0.46323453,
+      "minimumDrillToBoreGapUsingMaximum2p15DiameterOnlyMm": 0.66323453,
+      "minimumHorizontalCopperTo1p7HeaderLandEnvelopeSeparationMm": 3.22,
+      "pads": [
+        {
+          "pin": "",
+          "centreMm": [
+            13.39,
+            7.58
+          ],
+          "sizeMm": [
+            0.65,
+            0.65
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.325,
+          "drillMm": [
+            0.65,
+            0.65
+          ],
+          "minimumCopperToNominalBoreGapMm": null,
+          "minimumDrillToNominalBoreGapMm": 4.872599539
+        },
+        {
+          "pin": "",
+          "centreMm": [
+            7.61,
+            7.58
+          ],
+          "sizeMm": [
+            0.65,
+            0.65
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.325,
+          "drillMm": [
+            0.65,
+            0.65
+          ],
+          "minimumCopperToNominalBoreGapMm": null,
+          "minimumDrillToNominalBoreGapMm": 4.872599539
+        },
+        {
+          "pin": "A1",
+          "centreMm": [
+            13.7,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.458483311,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A4",
+          "centreMm": [
+            12.9,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.781074416,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A5",
+          "centreMm": [
+            11.75,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.426466745,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A6",
+          "centreMm": [
+            10.75,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 7.046575735,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A7",
+          "centreMm": [
+            10.25,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 7.046575735,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A8",
+          "centreMm": [
+            9.25,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.426466745,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A9",
+          "centreMm": [
+            8.1,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.781074416,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "A12",
+          "centreMm": [
+            7.3,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.458483311,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B1",
+          "centreMm": [
+            7.3,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.458483311,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B4",
+          "centreMm": [
+            8.1,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.781074416,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B5",
+          "centreMm": [
+            8.75,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.148214558,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B6",
+          "centreMm": [
+            9.75,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.726729109,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B7",
+          "centreMm": [
+            11.25,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.726729109,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B8",
+          "centreMm": [
+            12.25,
+            8.655
+          ],
+          "sizeMm": [
+            0.3,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.075,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.148214558,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B9",
+          "centreMm": [
+            12.9,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.781074416,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "B12",
+          "centreMm": [
+            13.7,
+            8.655
+          ],
+          "sizeMm": [
+            0.6,
+            1.15
+          ],
+          "nativeShapeCode": 4,
+          "cornerRadiusMm": 0.15,
+          "drillMm": [
+            0.0,
+            0.0
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.458483311,
+          "minimumDrillToNominalBoreGapMm": null
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.82,
+            8.08
+          ],
+          "sizeMm": [
+            1.0,
+            2.1
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.7
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.149587704,
+          "minimumDrillToNominalBoreGapMm": 4.349587704
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.82,
+            3.9
+          ],
+          "sizeMm": [
+            1.0,
+            1.8
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 0.48823453,
+          "minimumDrillToNominalBoreGapMm": 0.68823453
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.18,
+            8.08
+          ],
+          "sizeMm": [
+            1.0,
+            2.1
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.7
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.149587704,
+          "minimumDrillToNominalBoreGapMm": 4.349587704
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.18,
+            3.9
+          ],
+          "sizeMm": [
+            1.0,
+            1.8
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.5,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 0.48823453,
+          "minimumDrillToNominalBoreGapMm": 0.68823453
+        }
+      ]
+    },
+    {
+      "id": "4085_recommended_edge_rejected",
+      "footprintId": "Connector_USB:USB_C_Receptacle_GCT_USB4085",
+      "footprintPath": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4085.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "973cc163c3b282d3cea5950dc0dddba1b960fc98069277a18551e2120bd3a4f4",
+        "bytes": 8213
+      },
+      "nativeLibraryReader": "KiCad 10.0 bundled pcbnew.FootprintLoad; in-memory pose only; no board created or edited",
+      "pose": {
+        "xMm": 13.475,
+        "yMm": 6.1,
+        "rotationDeg": 180,
+        "side": "F.Cu"
+      },
+      "mouthYmm": -2.51,
+      "illustratedManufacturerEdgeLineYmm": 0,
+      "physicalNativePadCount": 20,
+      "distinctNumberedPins": [
+        "A1",
+        "A12",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "B1",
+        "B12",
+        "B4",
+        "B5",
+        "B6",
+        "B7",
+        "B8",
+        "B9",
+        "SH"
+      ],
+      "minimumCopperToBoreGapNominalMm": -0.125,
+      "minimumDrillToBoreGapNominalMm": 0.025,
+      "minimumCopperToBoreGapUsingMaximum2p15DiameterOnlyMm": -0.15,
+      "minimumDrillToBoreGapUsingMaximum2p15DiameterOnlyMm": 0.0,
+      "minimumHorizontalCopperTo1p7HeaderLandEnvelopeSeparationMm": 3.265,
+      "pads": [
+        {
+          "pin": "A1",
+          "centreMm": [
+            13.475,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.522969124,
+          "minimumDrillToNominalBoreGapMm": 3.672969124
+        },
+        {
+          "pin": "A4",
+          "centreMm": [
+            12.625,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.039726556,
+          "minimumDrillToNominalBoreGapMm": 4.189726556
+        },
+        {
+          "pin": "A5",
+          "centreMm": [
+            11.775,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.632464256,
+          "minimumDrillToNominalBoreGapMm": 4.782464256
+        },
+        {
+          "pin": "A6",
+          "centreMm": [
+            10.925,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.280989822,
+          "minimumDrillToNominalBoreGapMm": 5.430989822
+        },
+        {
+          "pin": "A7",
+          "centreMm": [
+            10.075,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.280989822,
+          "minimumDrillToNominalBoreGapMm": 5.430989822
+        },
+        {
+          "pin": "A8",
+          "centreMm": [
+            9.225,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.632464256,
+          "minimumDrillToNominalBoreGapMm": 4.782464256
+        },
+        {
+          "pin": "A9",
+          "centreMm": [
+            8.375,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.039726556,
+          "minimumDrillToNominalBoreGapMm": 4.189726556
+        },
+        {
+          "pin": "A12",
+          "centreMm": [
+            7.525,
+            6.1
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.522969124,
+          "minimumDrillToNominalBoreGapMm": 3.672969124
+        },
+        {
+          "pin": "B1",
+          "centreMm": [
+            7.525,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 2.471449987,
+          "minimumDrillToNominalBoreGapMm": 2.621449987
+        },
+        {
+          "pin": "B4",
+          "centreMm": [
+            8.375,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.110335353,
+          "minimumDrillToNominalBoreGapMm": 3.260335353
+        },
+        {
+          "pin": "B5",
+          "centreMm": [
+            9.225,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.809906429,
+          "minimumDrillToNominalBoreGapMm": 3.959906429
+        },
+        {
+          "pin": "B6",
+          "centreMm": [
+            10.075,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.548791894,
+          "minimumDrillToNominalBoreGapMm": 4.698791894
+        },
+        {
+          "pin": "B7",
+          "centreMm": [
+            10.925,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.548791894,
+          "minimumDrillToNominalBoreGapMm": 4.698791894
+        },
+        {
+          "pin": "B8",
+          "centreMm": [
+            11.775,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.809906429,
+          "minimumDrillToNominalBoreGapMm": 3.959906429
+        },
+        {
+          "pin": "B9",
+          "centreMm": [
+            12.625,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.110335353,
+          "minimumDrillToNominalBoreGapMm": 3.260335353
+        },
+        {
+          "pin": "B12",
+          "centreMm": [
+            13.475,
+            4.75
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 2.471449987,
+          "minimumDrillToNominalBoreGapMm": 2.621449987
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.825,
+            5.12
+          ],
+          "sizeMm": [
+            0.9,
+            2.4
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            2.1
+          ],
+          "minimumCopperToNominalBoreGapMm": 1.239986314,
+          "minimumDrillToNominalBoreGapMm": 1.389986314
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.825,
+            1.74
+          ],
+          "sizeMm": [
+            0.9,
+            1.7
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": -0.125,
+          "minimumDrillToNominalBoreGapMm": 0.025
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.175,
+            5.12
+          ],
+          "sizeMm": [
+            0.9,
+            2.4
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            2.1
+          ],
+          "minimumCopperToNominalBoreGapMm": 1.239986314,
+          "minimumDrillToNominalBoreGapMm": 1.389986314
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.175,
+            1.74
+          ],
+          "sizeMm": [
+            0.9,
+            1.7
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": -0.125,
+          "minimumDrillToNominalBoreGapMm": 0.025
+        }
+      ]
+    },
+    {
+      "id": "4085_mouth_flush_candidate",
+      "footprintId": "Connector_USB:USB_C_Receptacle_GCT_USB4085",
+      "footprintPath": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4085.kicad_mod",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "973cc163c3b282d3cea5950dc0dddba1b960fc98069277a18551e2120bd3a4f4",
+        "bytes": 8213
+      },
+      "nativeLibraryReader": "KiCad 10.0 bundled pcbnew.FootprintLoad; in-memory pose only; no board created or edited",
+      "pose": {
+        "xMm": 13.475,
+        "yMm": 8.61,
+        "rotationDeg": 180,
+        "side": "F.Cu"
+      },
+      "mouthYmm": 0,
+      "illustratedManufacturerEdgeLineYmm": 2.51,
+      "physicalNativePadCount": 20,
+      "distinctNumberedPins": [
+        "A1",
+        "A12",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "B1",
+        "B12",
+        "B4",
+        "B5",
+        "B6",
+        "B7",
+        "B8",
+        "B9",
+        "SH"
+      ],
+      "minimumCopperToBoreGapNominalMm": 0.805021692,
+      "minimumDrillToBoreGapNominalMm": 0.955021692,
+      "minimumCopperToBoreGapUsingMaximum2p15DiameterOnlyMm": 0.780021692,
+      "minimumDrillToBoreGapUsingMaximum2p15DiameterOnlyMm": 0.930021692,
+      "minimumHorizontalCopperTo1p7HeaderLandEnvelopeSeparationMm": 3.265,
+      "pads": [
+        {
+          "pin": "A1",
+          "centreMm": [
+            13.475,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.749666076,
+          "minimumDrillToNominalBoreGapMm": 5.899666076
+        },
+        {
+          "pin": "A4",
+          "centreMm": [
+            12.625,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.114833664,
+          "minimumDrillToNominalBoreGapMm": 6.264833664
+        },
+        {
+          "pin": "A5",
+          "centreMm": [
+            11.775,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.55441544,
+          "minimumDrillToNominalBoreGapMm": 6.70441544
+        },
+        {
+          "pin": "A6",
+          "centreMm": [
+            10.925,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 7.056815299,
+          "minimumDrillToNominalBoreGapMm": 7.206815299
+        },
+        {
+          "pin": "A7",
+          "centreMm": [
+            10.075,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 7.056815299,
+          "minimumDrillToNominalBoreGapMm": 7.206815299
+        },
+        {
+          "pin": "A8",
+          "centreMm": [
+            9.225,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.55441544,
+          "minimumDrillToNominalBoreGapMm": 6.70441544
+        },
+        {
+          "pin": "A9",
+          "centreMm": [
+            8.375,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.114833664,
+          "minimumDrillToNominalBoreGapMm": 6.264833664
+        },
+        {
+          "pin": "A12",
+          "centreMm": [
+            7.525,
+            8.61
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.749666076,
+          "minimumDrillToNominalBoreGapMm": 5.899666076
+        },
+        {
+          "pin": "B1",
+          "centreMm": [
+            7.525,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.523953494,
+          "minimumDrillToNominalBoreGapMm": 4.673953494
+        },
+        {
+          "pin": "B4",
+          "centreMm": [
+            8.375,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.959891902,
+          "minimumDrillToNominalBoreGapMm": 5.109891902
+        },
+        {
+          "pin": "B5",
+          "centreMm": [
+            9.225,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.473734429,
+          "minimumDrillToNominalBoreGapMm": 5.623734429
+        },
+        {
+          "pin": "B6",
+          "centreMm": [
+            10.075,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.049377491,
+          "minimumDrillToNominalBoreGapMm": 6.199377491
+        },
+        {
+          "pin": "B7",
+          "centreMm": [
+            10.925,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 6.049377491,
+          "minimumDrillToNominalBoreGapMm": 6.199377491
+        },
+        {
+          "pin": "B8",
+          "centreMm": [
+            11.775,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 5.473734429,
+          "minimumDrillToNominalBoreGapMm": 5.623734429
+        },
+        {
+          "pin": "B9",
+          "centreMm": [
+            12.625,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.959891902,
+          "minimumDrillToNominalBoreGapMm": 5.109891902
+        },
+        {
+          "pin": "B12",
+          "centreMm": [
+            13.475,
+            7.26
+          ],
+          "sizeMm": [
+            0.7,
+            0.7
+          ],
+          "nativeShapeCode": 0,
+          "cornerRadiusMm": 0.35,
+          "drillMm": [
+            0.4,
+            0.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 4.523953494,
+          "minimumDrillToNominalBoreGapMm": 4.673953494
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.825,
+            7.63
+          ],
+          "sizeMm": [
+            0.9,
+            2.4
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            2.1
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.570012327,
+          "minimumDrillToNominalBoreGapMm": 3.720012327
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            14.825,
+            4.25
+          ],
+          "sizeMm": [
+            0.9,
+            1.7
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 0.805021692,
+          "minimumDrillToNominalBoreGapMm": 0.955021692
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.175,
+            7.63
+          ],
+          "sizeMm": [
+            0.9,
+            2.4
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            2.1
+          ],
+          "minimumCopperToNominalBoreGapMm": 3.570012327,
+          "minimumDrillToNominalBoreGapMm": 3.720012327
+        },
+        {
+          "pin": "SH",
+          "centreMm": [
+            6.175,
+            4.25
+          ],
+          "sizeMm": [
+            0.9,
+            1.7
+          ],
+          "nativeShapeCode": 2,
+          "cornerRadiusMm": 0.45,
+          "drillMm": [
+            0.6,
+            1.4
+          ],
+          "minimumCopperToNominalBoreGapMm": 0.805021692,
+          "minimumDrillToNominalBoreGapMm": 0.955021692
+        }
+      ]
+    }
+  ],
+  "verificationConditions": [
+    "Native placed-board DRC under actual copper-to-hole rule with preserved source lands; no relaxed rule.",
+    "Full copper etch, drill diameter and hole-position tolerance stack versus required clearance.",
+    "Body/locating-peg/assembly/hole-position tolerance stack; nominal body margin is only0.155mm to the maximum-diameter bore.",
+    "Cable shoulder/board-edge/mouth-position plus assembly allowance must fit within0.55mm derived longitudinal budget; verify full cableZ and insertion/grip envelope.",
+    "Select actual screw/washer profile and side if top-side fastener access is required; do not assume M2head dimensions.",
+    "Move or hide the default F.FabValue field and verify all fields against actual full placement.",
+    "Confirm official bottom-hole Y datum before this review is promoted as complete mechanical input."
+  ]
+}

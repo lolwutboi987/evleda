@@ -42,11 +42,14 @@ describe("bounded PCB silkscreen text", () => {
     expect(requested).toEqual({ text: "VIN", x_mm: 4, y_mm: 5, layer: "F_SilkS", size_mm: 1, rotation_deg: 0, bold: false, italic: false });
     expect(kicadHarnessToolEffect("pcb_add_text")).toBe("mutation");
   });
-  it.each([{ layer: "F_Cu" }, { rotation_deg: 90 }, { size_mm: 0 }, { size_mm: 20 }, { x_mm: -1 }, { text: "${REFERENCE}" }, { text: "a\nb" }, { object_id: id }])("rejects unsupported presentation %j", change => {
+  it.each([{ layer: "F_Cu" }, { rotation_deg: 90 }, { size_mm: 0 }, { size_mm: 0.79 }, { size_mm: 20 }, { x_mm: -1 }, { text: "${REFERENCE}" }, { text: "a\nb" }, { object_id: id }])("rejects unsupported presentation %j", change => {
     expect(() => parsePcbSilkscreenText({ text: "VIN", x_mm: 4, y_mm: 5, ...change })).toThrow();
   });
   it("accepts exactly one requested text while preserving all other source", () => {
     expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline), requested)).not.toThrow();
+  });
+  it.each(['(thickness 0.079)', '(thickness "0.15")', '(thickness 0x1)', '(thickness 0.15) (thickness 0.2)'])("rejects unverified or below-minimum native text stroke %s", replacement => {
+    expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, textNode.replace('(thickness 0.15)', replacement)), requested)).toThrow(/thickness/);
   });
   it.each([
     (source: string) => source.replace('(width 0.5)', '(width 0.25)'),

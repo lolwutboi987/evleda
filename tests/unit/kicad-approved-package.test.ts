@@ -99,6 +99,44 @@ describe("one host-approved local library package", () => {
     expect(loaded.libraryEnvironment).toEqual({ KICAD10_SYMBOL_DIR: roots.symbolRoot, KICAD10_FOOTPRINT_DIR: roots.footprintRoot });
     expect(loaded.dependencies.libraryResolver.resolveSymbol(customSymbol)?.source).toBe("project-custom");
     expect(loaded.searchLibrary === undefined).toBe(mode === "exact");
+    expect(loaded.describeApprovedPackage?.()).toMatchObject({ namespace, sourceKind: "project-custom", symbolIds: [customSymbol], footprintIds: [customFootprint] });
+  });
+
+  it("discovers only pinned exact IDs without exposing package paths and rejects drift", () => {
+    const f = fixture(), resolver = f.create();
+    const description = resolver.describeApprovedPackage();
+    expect(description).toMatchObject({ namespace, sourceKind: "project-custom", manifestIdentity: f.profile.manifest.identity,
+      symbolIds: [customSymbol], footprintIds: [customFootprint] });
+    expect(Object.isFrozen(description.footprintIds)).toBe(true);
+    expect(JSON.stringify(description)).not.toContain(f.packageRoot);
+    expect(JSON.stringify(description)).not.toContain("relativePath");
+    appendFileSync(path.join(f.packageRoot, f.manifest.footprints[0]!.source.relativePath), " ");
+    expect(() => resolver.describeApprovedPackage()).toThrow();
+  });
+
+  it("returns only exact current approved footprint bytes for host authoring", () => {
+    const f = fixture(), resolver = f.create();
+    const source = resolver.readFootprintSource(customFootprint)!;
+    expect(contentIdentity(source.source)).toEqual(f.manifest.footprints[0]!.source.identity);
+    expect(source.sourceIdentity).toEqual(resolver.inspectFootprint(customFootprint)!.sourceIdentity);
+    expect(resolver.readFootprintSource(customFootprint.toLowerCase())).toBeNull();
+    const stock = resolver.readFootprintSource("Resistor_SMD:R_0603_1608Metric")!;
+    expect(contentIdentity(stock.source)).toEqual(stock.sourceIdentity);
+    appendFileSync(path.join(f.packageRoot, f.manifest.footprints[0]!.source.relativePath), " ");
+    expect(() => resolver.readFootprintSource(customFootprint)).toThrow();
+  });
+
+  it("inspects a strict pinless mechanical package asset without accepting it as an electrical resistor", () => {
+    const f = fixture(), id = `${namespace}:H_21`;
+    f.manifest.footprints.push({ libraryId: id, provenanceIds: ["vendor"], source: f.put(f.packageRoot, `footprints/${namespace}.pretty/H_21.kicad_mod`,
+      '(footprint "H_21" (version 20260206) (generator pcbnew) (layer "F.Cu") (attr board_only exclude_from_pos_files exclude_from_bom) (pad "" np_thru_hole circle (at 0 0) (size 2.1 2.1) (drill 2.1) (layers "*.Cu" "*.Mask")))') });
+    f.repin();
+    const resolver = f.create();
+    expect(resolver.inspectFootprint(id)!.resolverRecord.pads).toEqual([]);
+    expect(resolver.describeApprovedPackage().footprintIds).toContain(id);
+    expect(contentIdentity(resolver.readFootprintSource(id)!.source)).toEqual(resolver.inspectFootprint(id)!.sourceIdentity);
+    const draft = mixedDraft(); draft.components.find(part => part.reference === "R1")!.footprintLibId = id;
+    expect(compilePcbDesignIntentDraft(draft, dependencies(resolver)).disposition).not.toBe("ready");
   });
 
   it("preserves exact custom source identity, full geometry, physical pad inventory and distinct inspection families", () => {

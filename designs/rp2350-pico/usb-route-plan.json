@@ -1,0 +1,3056 @@
+{
+  "format": "rp2350-usb-route-proposal-v1",
+  "status": "Complete source-only four-net USB proposal passes stated channel/trace/pad/drill screens at current R2/U4 targets. Native application and reference/impedance acceptance are not authorized by this artifact.",
+  "sourceBindings": [
+    {
+      "path": "designs/rp2350-pico/placement-constraints.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "48ad9ad98531026cf90eeb8d590996c7cd2aa92cfb87b614dbcd7a48122ae042",
+        "size": 185902
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/usb-construction.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "1b9c6b5ed601d0bbc706552d123a9d68f503deebd132f5bf7471fcf68e15d4eb",
+        "size": 59491
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/circuit-inputs.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+        "size": 102754
+      }
+    },
+    {
+      "path": "designs/rp2350-pico/library-selection.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "adc747549665ce9e0cec7107453bcc49d01a92e49fca5c62a9edba0701378185",
+        "size": 56035
+      }
+    }
+  ],
+  "sourceOnly": true,
+  "nativeAuthorization": false,
+  "originalBarrier": {
+    "net": "USB_DP_MCU",
+    "minimumTraceWidthMm": 0.2,
+    "requiredClearanceMm": 0.2,
+    "expandedObstacleOffsetMm": 0.3,
+    "padCornerRadiiMm": {
+      "U1": 0.05,
+      "R2": 0.135
+    },
+    "R2ToU153CopperGapMm": 0.5576472917879636,
+    "traceCorridorRequiredMm": 0.6,
+    "minimumObstacleMarginAlongClosedBarrierMm": 0.021176354106016038,
+    "sourceInsideBarrier": true,
+    "resistorTargetInsideBarrier": false,
+    "verticesMm": [
+      [
+        7.05,
+        19.2
+      ],
+      [
+        7.05,
+        19.4
+      ],
+      [
+        7.05,
+        19.6
+      ],
+      [
+        7.05,
+        19.8
+      ],
+      [
+        7.05,
+        20
+      ],
+      [
+        7.05,
+        20.2
+      ],
+      [
+        7.05,
+        20.4
+      ],
+      [
+        7.05,
+        20.6
+      ],
+      [
+        7.05,
+        20.8
+      ],
+      [
+        7.05,
+        21
+      ],
+      [
+        7.05,
+        21.2
+      ],
+      [
+        7.05,
+        21.4
+      ],
+      [
+        7.05,
+        21.6
+      ],
+      [
+        7.05,
+        21.8
+      ],
+      [
+        7.05,
+        22
+      ],
+      [
+        7.05,
+        22.2
+      ],
+      [
+        7.05,
+        22.4
+      ],
+      [
+        7.05,
+        22.6
+      ],
+      [
+        7.05,
+        22.8
+      ],
+      [
+        7.05,
+        23
+      ],
+      [
+        7.05,
+        23.2
+      ],
+      [
+        7.05,
+        23.4
+      ],
+      [
+        7.05,
+        23.6
+      ],
+      [
+        7.05,
+        23.8
+      ],
+      [
+        7.05,
+        24
+      ],
+      [
+        7.05,
+        24.2
+      ],
+      [
+        7.05,
+        24.4
+      ],
+      [
+        7.05,
+        24.6
+      ],
+      [
+        7.05,
+        24.8
+      ],
+      [
+        7.375,
+        25.125
+      ],
+      [
+        7.7,
+        25.45
+      ],
+      [
+        7.9,
+        25.45
+      ],
+      [
+        8.1,
+        25.45
+      ],
+      [
+        8.3,
+        25.45
+      ],
+      [
+        8.5,
+        25.45
+      ],
+      [
+        8.7,
+        25.45
+      ],
+      [
+        8.9,
+        25.45
+      ],
+      [
+        9.100000000000001,
+        25.45
+      ],
+      [
+        9.3,
+        25.45
+      ],
+      [
+        9.5,
+        25.45
+      ],
+      [
+        9.7,
+        25.45
+      ],
+      [
+        9.899999999999999,
+        25.45
+      ],
+      [
+        10.1,
+        25.45
+      ],
+      [
+        10.3,
+        25.45
+      ],
+      [
+        10.5,
+        25.45
+      ],
+      [
+        10.7,
+        25.45
+      ],
+      [
+        10.9,
+        25.45
+      ],
+      [
+        11.100000000000001,
+        25.45
+      ],
+      [
+        11.3,
+        25.45
+      ],
+      [
+        11.5,
+        25.45
+      ],
+      [
+        11.7,
+        25.45
+      ],
+      [
+        11.899999999999999,
+        25.45
+      ],
+      [
+        12.1,
+        25.45
+      ],
+      [
+        12.3,
+        25.45
+      ],
+      [
+        12.5,
+        25.45
+      ],
+      [
+        12.7,
+        25.45
+      ],
+      [
+        12.9,
+        25.45
+      ],
+      [
+        13.100000000000001,
+        25.45
+      ],
+      [
+        13.3,
+        25.45
+      ],
+      [
+        13.625,
+        25.125
+      ],
+      [
+        13.95,
+        24.8
+      ],
+      [
+        13.95,
+        24.6
+      ],
+      [
+        13.95,
+        24.4
+      ],
+      [
+        13.95,
+        24.2
+      ],
+      [
+        13.95,
+        24
+      ],
+      [
+        13.95,
+        23.8
+      ],
+      [
+        13.95,
+        23.6
+      ],
+      [
+        13.95,
+        23.4
+      ],
+      [
+        13.95,
+        23.2
+      ],
+      [
+        13.95,
+        23
+      ],
+      [
+        13.95,
+        22.8
+      ],
+      [
+        13.95,
+        22.6
+      ],
+      [
+        13.95,
+        22.4
+      ],
+      [
+        13.95,
+        22.2
+      ],
+      [
+        13.95,
+        22
+      ],
+      [
+        13.95,
+        21.8
+      ],
+      [
+        13.95,
+        21.6
+      ],
+      [
+        13.95,
+        21.4
+      ],
+      [
+        13.95,
+        21.2
+      ],
+      [
+        13.95,
+        21
+      ],
+      [
+        13.95,
+        20.8
+      ],
+      [
+        13.95,
+        20.6
+      ],
+      [
+        13.95,
+        20.4
+      ],
+      [
+        13.95,
+        20.2
+      ],
+      [
+        13.95,
+        20
+      ],
+      [
+        13.95,
+        19.8
+      ],
+      [
+        13.95,
+        19.6
+      ],
+      [
+        13.95,
+        19.4
+      ],
+      [
+        13.95,
+        19.2
+      ],
+      [
+        13.625,
+        18.875
+      ],
+      [
+        13.3,
+        18.55
+      ],
+      [
+        13.100000000000001,
+        18.55
+      ],
+      [
+        12.9,
+        18.55
+      ],
+      [
+        12.7,
+        18.55
+      ],
+      [
+        12.5,
+        18.55
+      ],
+      [
+        12.3,
+        18.55
+      ],
+      [
+        12.1,
+        18.55
+      ],
+      [
+        11.899999999999999,
+        18.55
+      ],
+      [
+        11.7,
+        18.55
+      ],
+      [
+        11.5,
+        18.55
+      ],
+      [
+        11.3,
+        18.55
+      ],
+      [
+        11.26,
+        17.915
+      ],
+      [
+        11.085,
+        17.41
+      ],
+      [
+        10.704970303312914,
+        17.909984146657266
+      ],
+      [
+        10.5,
+        18.55
+      ],
+      [
+        10.3,
+        18.55
+      ],
+      [
+        10.1,
+        18.55
+      ],
+      [
+        9.899999999999999,
+        18.55
+      ],
+      [
+        9.7,
+        18.55
+      ],
+      [
+        9.5,
+        18.55
+      ],
+      [
+        9.3,
+        18.55
+      ],
+      [
+        9.100000000000001,
+        18.55
+      ],
+      [
+        8.9,
+        18.55
+      ],
+      [
+        8.7,
+        18.55
+      ],
+      [
+        8.5,
+        18.55
+      ],
+      [
+        8.3,
+        18.55
+      ],
+      [
+        8.1,
+        18.55
+      ],
+      [
+        7.9,
+        18.55
+      ],
+      [
+        7.7,
+        18.55
+      ],
+      [
+        7.375,
+        18.875
+      ],
+      [
+        7.05,
+        19.2
+      ]
+    ],
+    "edgeOwners": [
+      "U1.1",
+      "U1.2",
+      "U1.2",
+      "U1.3",
+      "U1.3",
+      "U1.4",
+      "U1.4",
+      "U1.5",
+      "U1.5",
+      "U1.6",
+      "U1.6",
+      "U1.7",
+      "U1.7",
+      "U1.8",
+      "U1.8",
+      "U1.9",
+      "U1.9",
+      "U1.10",
+      "U1.10",
+      "U1.11",
+      "U1.11",
+      "U1.12",
+      "U1.12",
+      "U1.13",
+      "U1.13",
+      "U1.14",
+      "U1.14",
+      "U1.15",
+      "U1.15",
+      "U1.16",
+      "U1.16",
+      "U1.17",
+      "U1.17",
+      "U1.18",
+      "U1.18",
+      "U1.19",
+      "U1.19",
+      "U1.20",
+      "U1.20",
+      "U1.21",
+      "U1.21",
+      "U1.22",
+      "U1.22",
+      "U1.23",
+      "U1.23",
+      "U1.24",
+      "U1.24",
+      "U1.25",
+      "U1.25",
+      "U1.26",
+      "U1.26",
+      "U1.27",
+      "U1.27",
+      "U1.28",
+      "U1.28",
+      "U1.29",
+      "U1.29",
+      "U1.30",
+      "U1.30",
+      "U1.31",
+      "U1.31",
+      "U1.32",
+      "U1.32",
+      "U1.33",
+      "U1.33",
+      "U1.34",
+      "U1.34",
+      "U1.35",
+      "U1.35",
+      "U1.36",
+      "U1.36",
+      "U1.37",
+      "U1.37",
+      "U1.38",
+      "U1.38",
+      "U1.39",
+      "U1.39",
+      "U1.40",
+      "U1.40",
+      "U1.41",
+      "U1.41",
+      "U1.42",
+      "U1.42",
+      "U1.43",
+      "U1.43",
+      "U1.44",
+      "U1.44",
+      "U1.45",
+      "U1.45",
+      "U1.46",
+      "U1.46",
+      "U1.47",
+      "U1.47",
+      "U1.48",
+      "U1.48",
+      "U1.49",
+      "U1.49",
+      "U1.50",
+      "U1.50",
+      "U1.51",
+      "U1.51",
+      "R2.1",
+      "R2.1",
+      "U1.53",
+      "U1.53",
+      "U1.54",
+      "U1.54",
+      "U1.55",
+      "U1.55",
+      "U1.56",
+      "U1.56",
+      "U1.57",
+      "U1.57",
+      "U1.58",
+      "U1.58",
+      "U1.59",
+      "U1.59",
+      "U1.60",
+      "U1.60",
+      "U1.1"
+    ],
+    "proof": "Each closed polygon edge has both endpoints strictly inside one convex foreign-pad copper set expanded by trace half-width+clearance. Thus the entire edge lies in forbidden trace-centre space. Winding distinguishes source from target. This blocks every continuous permitted-width F.Cu route, not merely a grid/45-degree search.",
+    "historicalInputIdentities": [
+      {
+        "path": "designs/rp2350-pico/design-ready-draft.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "341f670774220a676da630a912e9b32a21210759265734ab6e2bd1c9fb7457ca",
+          "size": 181387
+        }
+      },
+      {
+        "path": "designs/rp2350-pico/placement-constraints.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "a24dd04f3178c148bd0738d602a0837672beddc493e8217d216f4e9d13f7155b",
+          "size": 182014
+        }
+      },
+      {
+        "path": "designs/rp2350-pico/usb-construction.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "60d75b4fe60f6375d556b35cca3204d2b7e1848c7a99be7992108eb138112f09",
+          "size": 59226
+        }
+      },
+      {
+        "path": "designs/rp2350-pico/circuit-inputs.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+          "size": 102754
+        }
+      }
+    ],
+    "padSourceIdentities": [
+      {
+        "reference": "U1",
+        "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_DFN_QFN.pretty/QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+          "size": 14069
+        },
+        "originalPose": {
+          "xMm": 10.5,
+          "yMm": 22,
+          "rotationDeg": 0
+        }
+      },
+      {
+        "reference": "R2",
+        "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "size": 2049
+        },
+        "originalPose": {
+          "xMm": 11.085,
+          "yMm": 16.9,
+          "rotationDeg": 90
+        }
+      }
+    ],
+    "historicalPlacementSnapshot": "../destination-verification/rp2350-candidate-03/placement-constraints.json.before-route-aware-revision",
+    "boundaryProofDoesNotDependOnCurrentPoses": true
+  },
+  "poseRevision": {
+    "changes": [
+      {
+        "reference": "R2",
+        "from": {
+          "xMm": 11.085,
+          "yMm": 16.9,
+          "rotationDeg": 90
+        },
+        "target": {
+          "xMm": 11.085,
+          "yMm": 16.7,
+          "rotationDeg": 90
+        },
+        "originalContractAllows": false,
+        "nowCurrentTarget": true,
+        "initialLocalRegionSuggestionMm": {
+          "minXmm": 11.085,
+          "maxXmm": 11.085,
+          "minYmm": 16.65,
+          "maxYmm": 16.7
+        },
+        "currentBoundRegionMm": {
+          "minXmm": 10.985,
+          "maxXmm": 11.185,
+          "minYmm": 16.45,
+          "maxYmm": 16.7
+        }
+      }
+    ],
+    "reason": "One resistor moved 0.20mm north clears both adjacent MCU-pad obstacles and preserves R1/core/decap poses; no trace-width or clearance relaxation",
+    "minimumNorthShiftForThisDpLaunchAnalyticMm": 0.18518289963229634
+  },
+  "routeCandidates": {
+    "launches": [
+      {
+        "id": "dp-launch",
+        "net": "USB_DP_MCU",
+        "width": 0.2,
+        "points": [
+          [
+            10.9,
+            18.55
+          ],
+          [
+            10.9,
+            17.975
+          ],
+          [
+            10.335,
+            17.41
+          ],
+          [
+            10.125,
+            17.41
+          ]
+        ]
+      },
+      {
+        "id": "dm-launch",
+        "net": "USB_DM_MCU",
+        "width": 0.2,
+        "points": [
+          [
+            11.3,
+            18.55
+          ],
+          [
+            11.3,
+            17.6
+          ],
+          [
+            11.085,
+            17.385
+          ],
+          [
+            11.085,
+            17.21
+          ]
+        ]
+      }
+    ],
+    "ports": [
+      {
+        "id": "dp-lower-escape",
+        "net": "USB_DP_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            10.125,
+            16.39
+          ],
+          [
+            10.125,
+            15.7
+          ],
+          [
+            9.7,
+            15.275
+          ]
+        ]
+      },
+      {
+        "id": "dp-body",
+        "net": "USB_DP_PORT",
+        "width": 0.82,
+        "points": [
+          [
+            9.7,
+            15.275
+          ],
+          [
+            9.7,
+            14.75
+          ]
+        ]
+      },
+      {
+        "id": "dp-esd-south",
+        "net": "USB_DP_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            9.7,
+            14.75
+          ],
+          [
+            8.65,
+            13.7
+          ],
+          [
+            8.65,
+            13.2875
+          ]
+        ]
+      },
+      {
+        "id": "dp-esd-link",
+        "net": "USB_DP_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            8.65,
+            13.2875
+          ],
+          [
+            8.65,
+            11.0125
+          ]
+        ]
+      },
+      {
+        "id": "dp-j1-b6",
+        "net": "USB_DP_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            8.65,
+            11.0125
+          ],
+          [
+            8.65,
+            9.95
+          ],
+          [
+            8.9,
+            9.7
+          ],
+          [
+            9.45,
+            9.7
+          ],
+          [
+            9.75,
+            9.4
+          ],
+          [
+            9.75,
+            8.655
+          ]
+        ]
+      },
+      {
+        "id": "dp-j1-a6",
+        "net": "USB_DP_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            8.65,
+            11.0125
+          ],
+          [
+            9,
+            10.6625
+          ],
+          [
+            9,
+            10.25
+          ],
+          [
+            9.2,
+            10.05
+          ],
+          [
+            10.45,
+            10.05
+          ],
+          [
+            10.75,
+            9.75
+          ],
+          [
+            10.75,
+            8.655
+          ]
+        ]
+      },
+      {
+        "id": "dm-lower-escape",
+        "net": "USB_DM_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            11.085,
+            16.19
+          ],
+          [
+            11.085,
+            15.64
+          ],
+          [
+            10.72,
+            15.275
+          ]
+        ]
+      },
+      {
+        "id": "dm-body",
+        "net": "USB_DM_PORT",
+        "width": 0.82,
+        "points": [
+          [
+            10.72,
+            15.275
+          ],
+          [
+            10.72,
+            14.75
+          ]
+        ]
+      },
+      {
+        "id": "dm-esd-south",
+        "net": "USB_DM_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            10.72,
+            14.75
+          ],
+          [
+            11.1,
+            14.37
+          ],
+          [
+            11.1,
+            14.12
+          ],
+          [
+            10.55,
+            13.57
+          ],
+          [
+            10.55,
+            13.2875
+          ]
+        ]
+      },
+      {
+        "id": "dm-esd-link",
+        "net": "USB_DM_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            10.55,
+            13.2875
+          ],
+          [
+            10.55,
+            11.0125
+          ]
+        ]
+      },
+      {
+        "id": "dm-j1-b7",
+        "net": "USB_DM_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            10.55,
+            11.0125
+          ],
+          [
+            11.25,
+            10.3125
+          ],
+          [
+            11.25,
+            8.655
+          ]
+        ]
+      },
+      {
+        "id": "dm-j1-a7",
+        "net": "USB_DM_PORT",
+        "width": 0.2,
+        "points": [
+          [
+            11.25,
+            8.655
+          ],
+          [
+            11.25,
+            8.035
+          ],
+          [
+            10.97,
+            7.755
+          ],
+          [
+            10.53,
+            7.755
+          ],
+          [
+            10.25,
+            8.035
+          ],
+          [
+            10.25,
+            8.655
+          ]
+        ]
+      }
+    ]
+  },
+  "localLaunchAssessment": {
+    "tracks": [
+      {
+        "net": "USB_DP_MCU",
+        "a": [
+          10.9,
+          18.55
+        ],
+        "b": [
+          10.9,
+          17.975
+        ],
+        "width": 0.2,
+        "id": "dp-launch:0"
+      },
+      {
+        "net": "USB_DP_MCU",
+        "a": [
+          10.9,
+          17.975
+        ],
+        "b": [
+          10.335,
+          17.41
+        ],
+        "width": 0.2,
+        "id": "dp-launch:1"
+      },
+      {
+        "net": "USB_DP_MCU",
+        "a": [
+          10.335,
+          17.41
+        ],
+        "b": [
+          10.125,
+          17.41
+        ],
+        "width": 0.2,
+        "id": "dp-launch:2"
+      },
+      {
+        "net": "USB_DM_MCU",
+        "a": [
+          11.3,
+          18.55
+        ],
+        "b": [
+          11.3,
+          17.6
+        ],
+        "width": 0.2,
+        "id": "dm-launch:0"
+      },
+      {
+        "net": "USB_DM_MCU",
+        "a": [
+          11.3,
+          17.6
+        ],
+        "b": [
+          11.085,
+          17.385
+        ],
+        "width": 0.2,
+        "id": "dm-launch:1"
+      },
+      {
+        "net": "USB_DM_MCU",
+        "a": [
+          11.085,
+          17.385
+        ],
+        "b": [
+          11.085,
+          17.21
+        ],
+        "width": 0.2,
+        "id": "dm-launch:2"
+      }
+    ],
+    "violations": [],
+    "minForeign": {
+      "gap": 0.19999999999999787,
+      "trace": "dm-launch:0",
+      "pad": "U1.50",
+      "net": "1V1"
+    },
+    "minOpp": {
+      "gap": 0.20000000000000034,
+      "a": "dp-launch:0",
+      "b": "dm-launch:0"
+    },
+    "lengths": [
+      {
+        "id": "dp-launch",
+        "net": "USB_DP_MCU",
+        "lengthMm": 1.5840306627407994
+      },
+      {
+        "id": "dm-launch",
+        "net": "USB_DM_MCU",
+        "lengthMm": 1.4290559159102152
+      }
+    ]
+  },
+  "completeChannelAssessment": {
+    "scope": "Caller/source geometry only; no native saved-board, refill, reference-current or impedance authority",
+    "inventory": {
+      "electricalCopperAndDrillPrimitives": 267,
+      "copperPads": 265,
+      "signalAnchors": 14,
+      "segments": 38,
+      "vias": 0
+    },
+    "checks": {
+      "sourcePolarity": {
+        "status": "pass",
+        "reasons": [
+          "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY"
+        ]
+      },
+      "topology": {
+        "status": "pass",
+        "reasons": [
+          "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+          "EVERY_DECLARED_ANCHOR_REACHED"
+        ]
+      },
+      "width": {
+        "status": "pass",
+        "reasons": [
+          "EXACT_TERMINAL_ROUTED_ESCAPE_DISTANCE",
+          "BODY_WIDTH_INTERVAL"
+        ]
+      },
+      "minimumGap": {
+        "status": "pass",
+        "reasons": [
+          "ALL_FOUR_NET_OPPOSITE_POLARITY_CAPSULES"
+        ]
+      },
+      "coupledGap": {
+        "status": "pass",
+        "reasons": [
+          "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS"
+        ]
+      },
+      "length": {
+        "status": "pass",
+        "reasons": [
+          "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH",
+          "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES"
+        ]
+      },
+      "skew": {
+        "status": "pass",
+        "reasons": [
+          "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW"
+        ]
+      },
+      "stubs": {
+        "status": "pass",
+        "reasons": [
+          "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS"
+        ]
+      },
+      "uncoupled": {
+        "status": "pass",
+        "reasons": []
+      },
+      "transitions": {
+        "status": "pass",
+        "reasons": [
+          "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL"
+        ]
+      }
+    },
+    "budgets": {
+      "totalCopperLength": {
+        "status": "pass",
+        "reasons": [
+          "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES"
+        ]
+      },
+      "pathLength": {
+        "status": "pass",
+        "reasons": [
+          "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH"
+        ]
+      },
+      "pathSkew": {
+        "status": "pass",
+        "reasons": [
+          "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW"
+        ]
+      }
+    },
+    "anchors": [
+      {
+        "selector": {
+          "reference": "U1",
+          "pad": "52"
+        },
+        "net": "USB_DP_MCU",
+        "matchingPadUuids": [
+          "U1.52.1"
+        ],
+        "contactNodeIds": [
+          "F.Cu:10900000,18550000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "U1",
+          "pad": "51"
+        },
+        "net": "USB_DM_MCU",
+        "matchingPadUuids": [
+          "U1.51.0"
+        ],
+        "contactNodeIds": [
+          "F.Cu:11300000,18550000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "R1",
+          "pad": "1"
+        },
+        "net": "USB_DP_MCU",
+        "matchingPadUuids": [
+          "R1.1.10"
+        ],
+        "contactNodeIds": [
+          "F.Cu:10125000,17410000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "R2",
+          "pad": "1"
+        },
+        "net": "USB_DM_MCU",
+        "matchingPadUuids": [
+          "R2.1.12"
+        ],
+        "contactNodeIds": [
+          "F.Cu:11085000,17210000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "R1",
+          "pad": "2"
+        },
+        "net": "USB_DP_PORT",
+        "matchingPadUuids": [
+          "R1.2.11"
+        ],
+        "contactNodeIds": [
+          "F.Cu:10125000,16390000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "R2",
+          "pad": "2"
+        },
+        "net": "USB_DM_PORT",
+        "matchingPadUuids": [
+          "R2.2.13"
+        ],
+        "contactNodeIds": [
+          "F.Cu:11085000,16190000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "J1",
+          "pad": "A6"
+        },
+        "net": "USB_DP_PORT",
+        "matchingPadUuids": [
+          "J1.A6.6"
+        ],
+        "contactNodeIds": [
+          "F.Cu:10750000,8655000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "J1",
+          "pad": "A7"
+        },
+        "net": "USB_DM_PORT",
+        "matchingPadUuids": [
+          "J1.A7.7"
+        ],
+        "contactNodeIds": [
+          "F.Cu:10250000,8655000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "J1",
+          "pad": "B6"
+        },
+        "net": "USB_DP_PORT",
+        "matchingPadUuids": [
+          "J1.B6.8"
+        ],
+        "contactNodeIds": [
+          "F.Cu:9750000,8655000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "J1",
+          "pad": "B7"
+        },
+        "net": "USB_DM_PORT",
+        "matchingPadUuids": [
+          "J1.B7.9"
+        ],
+        "contactNodeIds": [
+          "F.Cu:11250000,8655000"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "U4",
+          "pad": "1"
+        },
+        "net": "USB_DP_PORT",
+        "matchingPadUuids": [
+          "U4.1.2"
+        ],
+        "contactNodeIds": [
+          "F.Cu:8650000,13287500"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "U4",
+          "pad": "6"
+        },
+        "net": "USB_DP_PORT",
+        "matchingPadUuids": [
+          "U4.6.5"
+        ],
+        "contactNodeIds": [
+          "F.Cu:8650000,11012500"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "U4",
+          "pad": "3"
+        },
+        "net": "USB_DM_PORT",
+        "matchingPadUuids": [
+          "U4.3.3"
+        ],
+        "contactNodeIds": [
+          "F.Cu:10550000,13287500"
+        ],
+        "status": "pass"
+      },
+      {
+        "selector": {
+          "reference": "U4",
+          "pad": "4"
+        },
+        "net": "USB_DM_PORT",
+        "matchingPadUuids": [
+          "U4.4.4"
+        ],
+        "contactNodeIds": [
+          "F.Cu:10550000,11012500"
+        ],
+        "status": "pass"
+      }
+    ],
+    "escapes": [
+      {
+        "net": "USB_DP_MCU",
+        "edgeId": "dp-launch:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U1",
+            "pad": "52"
+          },
+          {
+            "reference": "R1",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_MCU",
+        "edgeId": "dp-launch:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U1",
+            "pad": "52"
+          },
+          {
+            "reference": "R1",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_MCU",
+        "edgeId": "dp-launch:2:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U1",
+            "pad": "52"
+          },
+          {
+            "reference": "R1",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_MCU",
+        "edgeId": "dm-launch:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U1",
+            "pad": "51"
+          },
+          {
+            "reference": "R2",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_MCU",
+        "edgeId": "dm-launch:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U1",
+            "pad": "51"
+          },
+          {
+            "reference": "R2",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_MCU",
+        "edgeId": "dm-launch:2:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U1",
+            "pad": "51"
+          },
+          {
+            "reference": "R2",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-lower-escape:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "R1",
+            "pad": "2"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-lower-escape:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "R1",
+            "pad": "2"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-esd-south:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-esd-south:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "1"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-esd-link:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "1"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-b6:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "B6"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-b6:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "B6"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-b6:2:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "B6"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-b6:3:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "B6"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-b6:4:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "B6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-a6:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-a6:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A6"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-a6:2:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A6"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-a6:3:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A6"
+          },
+          {
+            "reference": "U4",
+            "pad": "6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-a6:4:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "edgeId": "dp-j1-a6:5:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A6"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-lower-escape:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "R2",
+            "pad": "2"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-lower-escape:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "R2",
+            "pad": "2"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-esd-south:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "3"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-esd-south:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "3"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-esd-south:2:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "3"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-esd-south:3:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "3"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-esd-link:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "U4",
+            "pad": "3"
+          },
+          {
+            "reference": "U4",
+            "pad": "4"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-j1-b7:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "B7"
+          },
+          {
+            "reference": "U4",
+            "pad": "4"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-j1-b7:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "B7"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-j1-a7:0:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A7"
+          },
+          {
+            "reference": "J1",
+            "pad": "B7"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-j1-a7:1:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A7"
+          },
+          {
+            "reference": "J1",
+            "pad": "B7"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-j1-a7:2:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A7"
+          },
+          {
+            "reference": "J1",
+            "pad": "B7"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-j1-a7:3:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A7"
+          },
+          {
+            "reference": "J1",
+            "pad": "B7"
+          }
+        ],
+        "status": "pass"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "edgeId": "dm-j1-a7:4:0",
+        "widthNm": 200000,
+        "qualifyingTerminals": [
+          {
+            "reference": "J1",
+            "pad": "A7"
+          },
+          {
+            "reference": "J1",
+            "pad": "B7"
+          }
+        ],
+        "status": "pass"
+      }
+    ],
+    "receiverPaths": [
+      {
+        "receiver": {
+          "positive": {
+            "reference": "J1",
+            "pin": "A6"
+          },
+          "negative": {
+            "reference": "J1",
+            "pin": "A7"
+          }
+        },
+        "positiveEtchLength": {
+          "twiceAxisNm": "14890000",
+          "twiceDiagonalNm": "5780000"
+        },
+        "negativeEtchLength": {
+          "twiceAxisNm": "16690000",
+          "twiceDiagonalNm": "5540000"
+        },
+        "etchSkew": {
+          "twiceAxisNm": "1800000",
+          "twiceDiagonalNm": "-240000"
+        },
+        "positiveEtchMm": 11.532077195258244,
+        "negativeEtchMm": 12.262371567773473,
+        "fullCopperSkewMm": 0.7302943725152286,
+        "geometryChecks": {
+          "sourcePolarity": {
+            "status": "pass",
+            "reasons": [
+              "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY"
+            ]
+          },
+          "topology": {
+            "status": "pass",
+            "reasons": []
+          },
+          "width": {
+            "status": "pass",
+            "reasons": [
+              "ALL_SELECTED_TRACK_WIDTHS"
+            ]
+          },
+          "minimumGap": {
+            "status": "pass",
+            "reasons": [
+              "ALL_P_N_TRACK_CAPSULES_INCLUDING_BENDS_ENDCAPS_AND_STUBS"
+            ]
+          },
+          "coupledGap": {
+            "status": "pass",
+            "reasons": [
+              "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS"
+            ]
+          },
+          "length": {
+            "status": "pass",
+            "reasons": [
+              "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH"
+            ]
+          },
+          "skew": {
+            "status": "pass",
+            "reasons": [
+              "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY"
+            ]
+          },
+          "stubs": {
+            "status": "pass",
+            "reasons": [
+              "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS"
+            ]
+          },
+          "uncoupled": {
+            "status": "pass",
+            "reasons": []
+          },
+          "transitions": {
+            "status": "pass",
+            "reasons": [
+              "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL"
+            ]
+          }
+        },
+        "positiveUncoupledMm": 9.423046532517446,
+        "negativeUncoupledMm": 10.308315651863259
+      },
+      {
+        "receiver": {
+          "positive": {
+            "reference": "J1",
+            "pin": "B6"
+          },
+          "negative": {
+            "reference": "J1",
+            "pin": "B7"
+          }
+        },
+        "positiveEtchLength": {
+          "twiceAxisNm": "14090000",
+          "twiceDiagonalNm": "5180000"
+        },
+        "negativeEtchLength": {
+          "twiceAxisNm": "13330000",
+          "twiceDiagonalNm": "4420000"
+        },
+        "etchSkew": {
+          "twiceAxisNm": "760000",
+          "twiceDiagonalNm": "760000"
+        },
+        "positiveEtchMm": 10.707813126546316,
+        "negativeEtchMm": 9.790411972844542,
+        "fullCopperSkewMm": 0.9174011537017762,
+        "geometryChecks": {
+          "sourcePolarity": {
+            "status": "pass",
+            "reasons": [
+              "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY"
+            ]
+          },
+          "topology": {
+            "status": "pass",
+            "reasons": []
+          },
+          "width": {
+            "status": "pass",
+            "reasons": [
+              "ALL_SELECTED_TRACK_WIDTHS"
+            ]
+          },
+          "minimumGap": {
+            "status": "pass",
+            "reasons": [
+              "ALL_P_N_TRACK_CAPSULES_INCLUDING_BENDS_ENDCAPS_AND_STUBS"
+            ]
+          },
+          "coupledGap": {
+            "status": "pass",
+            "reasons": [
+              "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS"
+            ]
+          },
+          "length": {
+            "status": "pass",
+            "reasons": [
+              "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH"
+            ]
+          },
+          "skew": {
+            "status": "pass",
+            "reasons": [
+              "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY"
+            ]
+          },
+          "stubs": {
+            "status": "pass",
+            "reasons": [
+              "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS"
+            ]
+          },
+          "uncoupled": {
+            "status": "pass",
+            "reasons": []
+          },
+          "transitions": {
+            "status": "pass",
+            "reasons": [
+              "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL"
+            ]
+          }
+        },
+        "positiveUncoupledMm": 8.598782463805517,
+        "negativeUncoupledMm": 7.836356056934325
+      }
+    ],
+    "totalCopperMm": {
+      "positive": 14.667394654563447,
+      "negative": 12.262371567773473
+    },
+    "body": {
+      "widthMm": 0.82,
+      "edgeGapMm": 0.2,
+      "pairedBodyLengthMm": 0.525,
+      "positiveXmm": 9.7,
+      "negativeXmm": 10.72,
+      "fromYmm": 14.75,
+      "toYmm": 15.275,
+      "note": "Only0.525mm is the nominal wide coupled body; the rest is declared terminal-bound0.20mm escape geometry. No whole-channel90ohm performance is inferred."
+    },
+    "trackAndPadClearance": {
+      "tracks": [
+        {
+          "net": "USB_DP_MCU",
+          "a": [
+            10.9,
+            18.55
+          ],
+          "b": [
+            10.9,
+            17.975
+          ],
+          "width": 0.2,
+          "id": "dp-launch:0"
+        },
+        {
+          "net": "USB_DP_MCU",
+          "a": [
+            10.9,
+            17.975
+          ],
+          "b": [
+            10.335,
+            17.41
+          ],
+          "width": 0.2,
+          "id": "dp-launch:1"
+        },
+        {
+          "net": "USB_DP_MCU",
+          "a": [
+            10.335,
+            17.41
+          ],
+          "b": [
+            10.125,
+            17.41
+          ],
+          "width": 0.2,
+          "id": "dp-launch:2"
+        },
+        {
+          "net": "USB_DM_MCU",
+          "a": [
+            11.3,
+            18.55
+          ],
+          "b": [
+            11.3,
+            17.6
+          ],
+          "width": 0.2,
+          "id": "dm-launch:0"
+        },
+        {
+          "net": "USB_DM_MCU",
+          "a": [
+            11.3,
+            17.6
+          ],
+          "b": [
+            11.085,
+            17.385
+          ],
+          "width": 0.2,
+          "id": "dm-launch:1"
+        },
+        {
+          "net": "USB_DM_MCU",
+          "a": [
+            11.085,
+            17.385
+          ],
+          "b": [
+            11.085,
+            17.21
+          ],
+          "width": 0.2,
+          "id": "dm-launch:2"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            10.125,
+            16.39
+          ],
+          "b": [
+            10.125,
+            15.7
+          ],
+          "width": 0.2,
+          "id": "dp-lower-escape:0"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            10.125,
+            15.7
+          ],
+          "b": [
+            9.7,
+            15.275
+          ],
+          "width": 0.2,
+          "id": "dp-lower-escape:1"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            9.7,
+            15.275
+          ],
+          "b": [
+            9.7,
+            14.75
+          ],
+          "width": 0.82,
+          "id": "dp-body:0"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            9.7,
+            14.75
+          ],
+          "b": [
+            8.65,
+            13.7
+          ],
+          "width": 0.2,
+          "id": "dp-esd-south:0"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            8.65,
+            13.7
+          ],
+          "b": [
+            8.65,
+            13.2875
+          ],
+          "width": 0.2,
+          "id": "dp-esd-south:1"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            8.65,
+            13.2875
+          ],
+          "b": [
+            8.65,
+            11.0125
+          ],
+          "width": 0.2,
+          "id": "dp-esd-link:0"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            8.65,
+            11.0125
+          ],
+          "b": [
+            8.65,
+            9.95
+          ],
+          "width": 0.2,
+          "id": "dp-j1-b6:0"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            8.65,
+            9.95
+          ],
+          "b": [
+            8.9,
+            9.7
+          ],
+          "width": 0.2,
+          "id": "dp-j1-b6:1"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            8.9,
+            9.7
+          ],
+          "b": [
+            9.45,
+            9.7
+          ],
+          "width": 0.2,
+          "id": "dp-j1-b6:2"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            9.45,
+            9.7
+          ],
+          "b": [
+            9.75,
+            9.4
+          ],
+          "width": 0.2,
+          "id": "dp-j1-b6:3"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            9.75,
+            9.4
+          ],
+          "b": [
+            9.75,
+            8.655
+          ],
+          "width": 0.2,
+          "id": "dp-j1-b6:4"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            8.65,
+            11.0125
+          ],
+          "b": [
+            9,
+            10.6625
+          ],
+          "width": 0.2,
+          "id": "dp-j1-a6:0"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            9,
+            10.6625
+          ],
+          "b": [
+            9,
+            10.25
+          ],
+          "width": 0.2,
+          "id": "dp-j1-a6:1"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            9,
+            10.25
+          ],
+          "b": [
+            9.2,
+            10.05
+          ],
+          "width": 0.2,
+          "id": "dp-j1-a6:2"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            9.2,
+            10.05
+          ],
+          "b": [
+            10.45,
+            10.05
+          ],
+          "width": 0.2,
+          "id": "dp-j1-a6:3"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            10.45,
+            10.05
+          ],
+          "b": [
+            10.75,
+            9.75
+          ],
+          "width": 0.2,
+          "id": "dp-j1-a6:4"
+        },
+        {
+          "net": "USB_DP_PORT",
+          "a": [
+            10.75,
+            9.75
+          ],
+          "b": [
+            10.75,
+            8.655
+          ],
+          "width": 0.2,
+          "id": "dp-j1-a6:5"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            11.085,
+            16.19
+          ],
+          "b": [
+            11.085,
+            15.64
+          ],
+          "width": 0.2,
+          "id": "dm-lower-escape:0"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            11.085,
+            15.64
+          ],
+          "b": [
+            10.72,
+            15.275
+          ],
+          "width": 0.2,
+          "id": "dm-lower-escape:1"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.72,
+            15.275
+          ],
+          "b": [
+            10.72,
+            14.75
+          ],
+          "width": 0.82,
+          "id": "dm-body:0"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.72,
+            14.75
+          ],
+          "b": [
+            11.1,
+            14.37
+          ],
+          "width": 0.2,
+          "id": "dm-esd-south:0"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            11.1,
+            14.37
+          ],
+          "b": [
+            11.1,
+            14.12
+          ],
+          "width": 0.2,
+          "id": "dm-esd-south:1"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            11.1,
+            14.12
+          ],
+          "b": [
+            10.55,
+            13.57
+          ],
+          "width": 0.2,
+          "id": "dm-esd-south:2"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.55,
+            13.57
+          ],
+          "b": [
+            10.55,
+            13.2875
+          ],
+          "width": 0.2,
+          "id": "dm-esd-south:3"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.55,
+            13.2875
+          ],
+          "b": [
+            10.55,
+            11.0125
+          ],
+          "width": 0.2,
+          "id": "dm-esd-link:0"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.55,
+            11.0125
+          ],
+          "b": [
+            11.25,
+            10.3125
+          ],
+          "width": 0.2,
+          "id": "dm-j1-b7:0"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            11.25,
+            10.3125
+          ],
+          "b": [
+            11.25,
+            8.655
+          ],
+          "width": 0.2,
+          "id": "dm-j1-b7:1"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            11.25,
+            8.655
+          ],
+          "b": [
+            11.25,
+            8.035
+          ],
+          "width": 0.2,
+          "id": "dm-j1-a7:0"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            11.25,
+            8.035
+          ],
+          "b": [
+            10.97,
+            7.755
+          ],
+          "width": 0.2,
+          "id": "dm-j1-a7:1"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.97,
+            7.755
+          ],
+          "b": [
+            10.53,
+            7.755
+          ],
+          "width": 0.2,
+          "id": "dm-j1-a7:2"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.53,
+            7.755
+          ],
+          "b": [
+            10.25,
+            8.035
+          ],
+          "width": 0.2,
+          "id": "dm-j1-a7:3"
+        },
+        {
+          "net": "USB_DM_PORT",
+          "a": [
+            10.25,
+            8.035
+          ],
+          "b": [
+            10.25,
+            8.655
+          ],
+          "width": 0.2,
+          "id": "dm-j1-a7:4"
+        }
+      ],
+      "violations": [],
+      "minForeign": {
+        "gap": 0.19999999999999787,
+        "trace": "dm-launch:0",
+        "pad": "U1.50",
+        "net": "1V1"
+      },
+      "minOpp": {
+        "gap": 0.20000000000000034,
+        "a": "dp-launch:0",
+        "b": "dm-launch:0"
+      },
+      "lengths": [
+        {
+          "id": "dp-launch",
+          "net": "USB_DP_MCU",
+          "lengthMm": 1.5840306627407994
+        },
+        {
+          "id": "dm-launch",
+          "net": "USB_DM_MCU",
+          "lengthMm": 1.4290559159102152
+        },
+        {
+          "id": "dp-lower-escape",
+          "net": "USB_DP_PORT",
+          "lengthMm": 1.2910407640085664
+        },
+        {
+          "id": "dp-body",
+          "net": "USB_DP_PORT",
+          "lengthMm": 0.5250000000000004
+        },
+        {
+          "id": "dp-esd-south",
+          "net": "USB_DP_PORT",
+          "lengthMm": 1.8974242404917492
+        },
+        {
+          "id": "dp-esd-link",
+          "net": "USB_DP_PORT",
+          "lengthMm": 2.2750000000000004
+        },
+        {
+          "id": "dp-j1-b6",
+          "net": "USB_DP_PORT",
+          "lengthMm": 3.135317459305202
+        },
+        {
+          "id": "dp-j1-a6",
+          "net": "USB_DP_PORT",
+          "lengthMm": 3.9595815280171305
+        },
+        {
+          "id": "dm-lower-escape",
+          "net": "USB_DM_PORT",
+          "lengthMm": 1.0661879502661806
+        },
+        {
+          "id": "dm-body",
+          "net": "USB_DM_PORT",
+          "lengthMm": 0.5250000000000004
+        },
+        {
+          "id": "dm-esd-south",
+          "net": "USB_DM_PORT",
+          "lengthMm": 1.8477186130069776
+        },
+        {
+          "id": "dm-esd-link",
+          "net": "USB_DM_PORT",
+          "lengthMm": 2.2750000000000004
+        },
+        {
+          "id": "dm-j1-b7",
+          "net": "USB_DM_PORT",
+          "lengthMm": 2.647449493661166
+        },
+        {
+          "id": "dm-j1-a7",
+          "net": "USB_DM_PORT",
+          "lengthMm": 2.4719595949289324
+        }
+      ]
+    },
+    "globalTraceChecks": {
+      "violations": [],
+      "maximumNonbranchTurnDeg": 45,
+      "minimumLegAtNonzeroTurnMm": 0.175,
+      "branchNodes": [
+        {
+          "atMm": [
+            8.65,
+            11.0125
+          ],
+          "net": "USB_DP_PORT",
+          "degree": 3,
+          "terminals": [
+            "U4.6"
+          ]
+        }
+      ]
+    },
+    "courtyardInteractions": [
+      {
+        "trace": "dp-launch:1",
+        "reference": "R2",
+        "penetrationMm": 0.057573593128804994,
+        "nominalBodyGapMm": 0.3702260094890538,
+        "classification": "assembly courtyard only at a related USB component; source defines no copper keepout here"
+      }
+    ],
+    "unrelatedCourtyardCrossings": [],
+    "staticReferenceDrillGuard": {
+      "marginBeyondTraceEdgeMm": 0.9,
+      "violations": [],
+      "minimumRemainingHoleMarginMm": 0.8628356885287346,
+      "notAssessed": [
+        "future ground vias or other routed copper",
+        "actual fresh zone-fill coverage",
+        "ground-island/terminal connectivity",
+        "electrical return-current adequacy",
+        "mask-covered channel impedance"
+      ]
+    },
+    "notNativeAuthorization": true,
+    "sourceOnly": true,
+    "nativeAccepted": false
+  },
+  "additionalInRegionPoseProposal": {
+    "reference": "U4",
+    "from": {
+      "xMm": 9.6,
+      "yMm": 11.9,
+      "rotationDeg": 90
+    },
+    "target": {
+      "xMm": 9.6,
+      "yMm": 12.15,
+      "rotationDeg": 90
+    },
+    "insideCurrentPlacementRegion": true,
+    "basis": "Moves ESD0.25mm south to admit two positive connector branches with0.15mm same-net geometric gap and the opposite negative connector-side tie; no widths, clearances, or channel budgets changed",
+    "nowCurrentTarget": true,
+    "targetSource": "placement-constraints.json"
+  },
+  "requiredTargetPoses": [
+    {
+      "reference": "U1",
+      "xMm": 10.5,
+      "yMm": 22,
+      "rotationDeg": 0,
+      "basis": "Central pin-oriented anchor; EP ground and all supply escapes reserved."
+    },
+    {
+      "reference": "U3",
+      "xMm": 6.5,
+      "yMm": 15.5,
+      "rotationDeg": 90,
+      "basis": "Northwest flash rotated +90 at y15.5 to clear MCU courtyard and open the USB body lane; C18/C19 at actual VCC8 above."
+    },
+    {
+      "reference": "U4",
+      "xMm": 9.6,
+      "yMm": 12.15,
+      "rotationDeg": 90,
+      "basis": "Route-aware target 0.25mm south at y12.15, within the unchanged region: gives space for two positive branches and a negative north contact tie while preserving all14 anchors and USB budgets."
+    },
+    {
+      "reference": "J1",
+      "xMm": 10.5,
+      "yMm": 4.975,
+      "rotationDeg": 180,
+      "basis": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2."
+    },
+    {
+      "reference": "L1",
+      "xMm": 12.5,
+      "yMm": 14.8,
+      "rotationDeg": 0,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "R1",
+      "xMm": 10.125,
+      "yMm": 16.9,
+      "rotationDeg": 90,
+      "basis": "USB launch group immediately at U1.52/51; pad1 faces the MCU and pad2 the port. Preserve the 27-ohm terminations and reserve equal-flow 45-degree launches with the separate C14/C15 supply bypasses."
+    },
+    {
+      "reference": "R2",
+      "xMm": 11.085,
+      "yMm": 16.7,
+      "rotationDeg": 90,
+      "basis": "Route-aware correction: 0.20mm north of candidate03 to open a >=0.20mm trace plus0.20mm clearance launch corridor; current source-region revision is required."
+    },
+    {
+      "reference": "R3",
+      "xMm": 7.25,
+      "yMm": 10.8,
+      "rotationDeg": 90,
+      "basis": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2."
+    },
+    {
+      "reference": "R4",
+      "xMm": 13.7,
+      "yMm": 12.4,
+      "rotationDeg": 90,
+      "basis": "North connector/protection group; C26->U4.5, U4.2 short GND, independent R3/R4 at J1 CC1/CC2."
+    },
+    {
+      "reference": "C1",
+      "xMm": 12.5,
+      "yMm": 17.39,
+      "rotationDeg": 0,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "C2",
+      "xMm": 12.5,
+      "yMm": 16.45,
+      "rotationDeg": 0,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "C3",
+      "xMm": 14.7,
+      "yMm": 16.95,
+      "rotationDeg": 270,
+      "basis": "Source-relative core group described above; C1->VIN49, C2->FB50/output and local PGND47 return, C3/R8->AVDD46."
+    },
+    {
+      "reference": "C14",
+      "xMm": 9.165,
+      "yMm": 16.9,
+      "rotationDeg": 90,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C15",
+      "xMm": 8.225,
+      "yMm": 16.9,
+      "rotationDeg": 90,
+      "basis": "Individual U1 supplies, mapped below; distribute by pin location, not in a decorative capacitor bank."
+    },
+    {
+      "reference": "C18",
+      "xMm": 4.9,
+      "yMm": 12.3,
+      "rotationDeg": 90,
+      "basis": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short."
+    },
+    {
+      "reference": "C19",
+      "xMm": 6.1,
+      "yMm": 12.3,
+      "rotationDeg": 90,
+      "basis": "Northwest QSPI group. C18/C19 at VCC8; R6 local CS1 pullup; R5 starts the BOOT branch near CS1, not at the far button end. Keep unbuffered QSPI branches short."
+    },
+    {
+      "reference": "C26",
+      "xMm": 12.35,
+      "yMm": 10.6,
+      "rotationDeg": 0,
+      "basis": "VBUS bypass immediately east of U4.VBUS5; positive pad faces U4, ground access stays outside data launches."
+    }
+  ],
+  "currentMechanicalFeatures": [
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H1",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 4,
+        "yMm": 2,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    },
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H2",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 17,
+        "yMm": 2,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    },
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H3",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 4,
+        "yMm": 49,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    },
+    {
+      "kind": "npth_mounting_hole",
+      "reference": "H4",
+      "footprintLibId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "value": "2.1 mm bare NPTH mounting bore",
+      "pose": {
+        "side": "front",
+        "xMm": 17,
+        "yMm": 49,
+        "rotationDeg": 0
+      },
+      "boreDiameterMm": 2.1,
+      "minimumHoleToCopperMm": 0.25,
+      "minimumHoleToEdgeMm": 0.5
+    }
+  ],
+  "applicationPrerequisites": [
+    "Read actual saved/native positions, shapes, rotations, source identities and every physical signal/foreign pad before proposing a transaction.",
+    "Confirm current contract accepts selected poses and unchanged USB requirements, widths, via prohibition and budgets.",
+    "Obtain fresh per-net route selections; never reuse plan-local IDs as native deletion/selection authority.",
+    "Apply only through qualified native route tools, then save/read back, inspect actual geometry, run independent DRC, refill GND and verify reference coverage/connectivity.",
+    "Replan on any pose/source/route/plane drift; this file is not a native commit receipt."
+  ],
+  "checkerProvenance": {
+    "pureSourceModules": [
+      {
+        "path": "src/harness/differential-channel-geometry.ts",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "4cdf6404ad4548a8e0d2755577acd7b76b94582feed55e7731a18322d5a76ba9",
+          "size": 15253
+        }
+      },
+      {
+        "path": "src/harness/differential-pair-geometry.ts",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "e92ec60039a1627155fab71482f8704187745fb16f4a2c3218b19a8c3fd0ebcf",
+          "size": 45765
+        }
+      }
+    ],
+    "geometricModel": "Every selected electrical F.Cu pad is transformed from the pinned footprint source at the current target pose. Rectangles and rounded rectangles/ovals/circles are modeled as an axis-aligned core rectangle Minkowski-summed with a disk. Segment-to-core distance minus pad radius and trace half-width gives finite-width clearance; all non-net copper, including intentional NC pads, remains an obstacle.",
+    "sourceRoutedGeometry": "38 source-proposal segment capsules, four nets,14 exact pad-centre anchors and zero vias; no package-internal line is counted as copper.",
+    "precision": "Channel topology/length/gap engine uses integer-nanometre primitives and exact axis/diagonal length forms. Independent analytical Euclidean checks use a1e-8mm floating comparison tolerance only.",
+    "clearanceMm": 0.2,
+    "minimumHoleToCopperMm": 0.25,
+    "actualNativePadReadback": false,
+    "nativeChecksRun": false
+  },
+  "coordinateConvention": "mm, component-side view, northwest origin, +X east,+Y south. Each path has explicit constant width; consecutive points are segment endpoints.",
+  "rejectedApproachNote": "A direct diagonal from U4.6 toward J1.B6 crossed intentional-NC copper J1.A8. The current positive branches approach below the contact row; NC copper was retained as an obstacle.",
+  "finalVerification": {
+    "inputSourceIdentityChecks": true,
+    "checkerSourceIdentityChecks": true,
+    "currentTargetPosesMatch": true,
+    "allChannelChecksPass": true,
+    "all14AnchorsReached": true,
+    "foreignCopperDrillViolations": 0,
+    "globalTurnAndIntersectionViolations": 0,
+    "segments": 38,
+    "vias": 0,
+    "nativeExecutionPerformed": false,
+    "manufacturingAcceptance": false
+  }
+}

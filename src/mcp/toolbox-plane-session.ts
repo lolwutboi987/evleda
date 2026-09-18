@@ -60,7 +60,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
       throw new Error("Plane toolbox requires approved physical footprint and symbol geometry inspection.");
     }
     const libraries = resolver as typeof resolver & FreshSchematicApprovedGeometryResolver & NonNullable<KicadNativePadObservationExpected["physicalFootprintResolver"]>;
-    const physicalPins = Object.freeze(bundle.contract.components.map(component => {
+    const physicalPins = Object.freeze([...bundle.contract.components, ...(bundle.contract.boardFeatures ?? [])].map(component => {
       const footprint = libraries.inspectFootprint(component.footprintLibId);
       if (footprint === null || footprint.libraryId !== component.footprintLibId) throw new Error("Approved plane-project footprint is unavailable.");
       return Object.freeze({ reference: component.reference, libraryId: component.footprintLibId, sourceIdentity: Object.freeze({ ...footprint.sourceIdentity }) });
@@ -83,7 +83,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
         expectedNetClassProjection: { netClasses: [...preparation.netClassSemanticAuthority.netClasses],
           contractNetAssignments: [...preparation.netClassSemanticAuthority.contractNetAssignments] } });
     }
-    await verifyFreshPlaneNetClassSemanticAuthority(preparation.netClassSemanticAuthority, { project: original, compilationBundle: bundle, kicad: preparation.kicadIdentity,captureNativeNetlist:preparation.captureNativeNetlist,assertLibrarySources:assertSources });
+    await verifyFreshPlaneNetClassSemanticAuthority(preparation.netClassSemanticAuthority, { project: original, compilationBundle: bundle, kicad: preparation.kicadIdentity,captureNativeNetlist:preparation.captureNativeNetlist,assertLibrarySources:assertSources, boardFeatureState: preparation.boardFeatureState });
     assertSources();
     const project = await preparePlaneFreshProject({ outputDir: original.outputPath, name: original.name, resume: true, compilationBundle: bundle, compilationBundleRef: bundleRef });
     await session.assertActivePcb(project.pcbPath);
@@ -98,12 +98,13 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
     if (captures.captureNativeNetlist === undefined || captures.captureNativeSchematicStrokeStyle === undefined) throw new Error("Plane schematic native capture capabilities are incomplete.");
     const schematicFieldDiagnostics = createToolboxSchematicFieldDiagnostics(outputRoot);
     const tools = createKicadHarnessTools(session, { freshProject: project, freshConnectivityContract: bundle.contract, freshPlaneCompilationBundle: bundle,
+      freshBoardFeatureState: preparation.boardFeatureState,
       freshLibraryResolver: resolver,
       assessFreshPlaneEvidence: async context => {
         assertSources();
         if(context.savedEvidence===null)return assessFreshPlaneAcceptance(context);
         await verifyFreshPlaneNetClassSemanticAuthority(preparation.netClassSemanticAuthority,
-          {project,compilationBundle:bundle,kicad:preparation.kicadIdentity,captureNativeNetlist:captures.captureNativeNetlist,assertLibrarySources:assertSources});
+          {project,compilationBundle:bundle,kicad:preparation.kicadIdentity,captureNativeNetlist:captures.captureNativeNetlist,assertLibrarySources:assertSources,boardFeatureState:preparation.boardFeatureState});
         const expectedSourceHashes=await captureKicadNativeSourceHashes(project.projectPath);
         const reader=await input.createPlaneContactsReader?.({pcbPath:project.pcbPath,expectedSourceIdentity:contentIdentity(context.pcbSource)});
         const nativeContacts=await reader?.read();
@@ -156,6 +157,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
       },
       ...(checkInterface === undefined ? {} : { checkInterface }),
       planeAuthoringContext: Object.freeze({ projectBindingIdentity: project.planeBinding.identity, sourceContractIdentity: bundle.contract.identity,
+        ...(bundle.contract.boardFeatures === undefined ? {} : { boardFeatureCount: bundle.contract.boardFeatures.length }),
         ...(bundle.externalPowerBinding === undefined ? {} : { externalPowerBinding: bundle.externalPowerBinding }),
         ...(bundle.derivedPowerBinding === undefined ? {} : { derivedPowerBinding: bundle.derivedPowerBinding }) }),
       assertCurrent: async () => { assertSources(); await owned.assertActivePcb(project.pcbPath); await assertAnnotations(); assertSources(); }, captureSources,

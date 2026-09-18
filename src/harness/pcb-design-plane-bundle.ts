@@ -43,6 +43,7 @@ export interface PcbPlaneCompilationBundle {
   readonly selectionPolicy: PcbPlaneReadyCompilation["selectionPolicy"];
   readonly contract: PcbPlaneReadyCompilation["contract"];
   readonly libraryBinding: PcbPlaneReadyCompilation["libraryBinding"];
+  readonly boardFeatureLibrarySources?: PcbPlaneReadyCompilation["boardFeatureLibrarySources"];
   readonly externalPowerBinding?: PcbPlaneReadyCompilation["externalPowerBinding"];
   readonly derivedPowerBinding?: PcbPlaneReadyCompilation["derivedPowerBinding"];
   readonly deepRuleBinding: PcbPlaneReadyCompilation["deepRuleBinding"];
@@ -84,10 +85,12 @@ function build(originalPrompt: unknown, compilation: PcbPlaneReadyCompilation): 
       + (compilation.contract.interfaceRequirements?.interfaces.some(pair => pair.channel) ? ` ${PCB_CHANNEL_EXECUTION_GUIDANCE}` : "")
       + (compilation.externalPowerBinding === undefined ? "" : ` ${PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE}`)
       + (compilation.derivedPowerBinding === undefined ? "" : ` ${PCB_DERIVED_POWER_EXECUTION_GUIDANCE}`)
-      + (compilation.contract.derivedPowerSources?.some(entry => entry.externalPowerInput !== undefined) ? ` ${PCB_EXTERNAL_DIODE_POWER_EXECUTION_GUIDANCE}` : ""),
+      + (compilation.contract.derivedPowerSources?.some(entry => entry.externalPowerInput !== undefined) ? ` ${PCB_EXTERNAL_DIODE_POWER_EXECUTION_GUIDANCE}` : "")
+      + (compilation.contract.boardFeatures === undefined ? "" : " The first host schematic synchronization seeds board-only NPTH mounting features at their immutable contract poses. Preserve their exact approved library IDs, physical holes, UUIDs and native board_only/exclude_from_bom/exclude_from_pos_files dispositions. They are never schematic symbols, electrical terminals or BOM components. Schematic synchronization disables automatic placement; place electrical components explicitly. Require current native hole-clearance DRC and all source-bound feature checks."),
     draft: compilation.draft, draftIdentity: compilation.draftIdentity, selectionPolicy: compilation.selectionPolicy,
     contract: compilation.contract, libraryBinding: compilation.libraryBinding, deepRuleBinding: compilation.deepRuleBinding,
     verificationPlan: compilation.verificationPlan,
+    ...(compilation.boardFeatureLibrarySources === undefined ? {} : { boardFeatureLibrarySources: compilation.boardFeatureLibrarySources }),
     ...(compilation.externalPowerBinding === undefined ? {} : { externalPowerBinding: compilation.externalPowerBinding }),
     ...(compilation.derivedPowerBinding === undefined ? {} : { derivedPowerBinding: compilation.derivedPowerBinding }) };
   const bundle = freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, PCB_PLANE_BUNDLE_SCHEMA_VERSION) });

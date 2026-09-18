@@ -744,6 +744,34 @@ export function freshGlobalLabelInventoryMatches(
     });
 }
 
+/** Exact host-planned tuples permit repeated names only at distinct anchors; legacy names-only checking remains separate. */
+export function freshGlobalLabelTupleInventoryMatches(
+  schematic: Pick<ReturnType<typeof parseFreshSchematicSource>, "labels" | "classSources">,
+  expected: readonly Readonly<{ name: string; at: FreshPoint }>[],
+): boolean {
+  const tuple = (label: { name: string; at: FreshPoint }) => JSON.stringify([label.name, label.at.x, label.at.y]);
+  const anchor = (label: { at: FreshPoint }) => JSON.stringify([label.at.x, label.at.y]);
+  const keys = new Set(expected.map(tuple));
+  return freshSchematicClassSourcesSupported(schematic) && expected.length > 0 && expected.length <= 8192
+    && keys.size === expected.length && new Set(expected.map(anchor)).size === expected.length
+    && schematic.labels.length === expected.length && new Set(schematic.labels.map(tuple)).size === expected.length
+    && new Set(schematic.labels.map(anchor)).size === expected.length
+    && schematic.labels.every(label => label.kind === "global" && label.shape === "passive" && keys.has(tuple(label)));
+}
+
+/** Repeated terminal labels use the stock stroke font only; unknown render metadata cannot hide behind parsed defaults. */
+export function freshTerminalGlobalLabelPresentationSupported(source: string): boolean {
+  const root = parseDocument(source, "kicad_sch");
+  return children(root, "global_label").every(label => {
+    if (label.children.some(child => !["shape", "at", "effects", "uuid", "fields_autoplaced", "property", "iref"].includes(child.name))) return false;
+    const effects = one(label, "effects"), font = effects === null ? null : one(effects, "font");
+    return effects !== null && effects.values.length === 0
+      && effects.children.every(child => ["font", "justify", "hide"].includes(child.name)) && font !== null
+      && font.values.every(value => !value.quoted && ["bold", "italic"].includes(value.value))
+      && font.children.every(child => ["size", "bold", "italic"].includes(child.name));
+  });
+}
+
 /** Bounded parser for the native `kicad-cli sch export netlist` parity gate. */
 export function parseFreshNetlistSource(source: string): Readonly<{
   references: readonly string[];

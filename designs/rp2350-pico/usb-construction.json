@@ -1,0 +1,1756 @@
+{
+  "format": "rp2350-pico-usb-construction-candidate-v1",
+  "reviewedAt": "2026-09-17",
+  "status": "Schema-shaped construction and full-channel layout proposal; not an authenticated compiler bundle, native board, fabrication order or qualification.",
+  "sourceBindings": [
+    {
+      "path": "designs/rp2350-pico/circuit-inputs.json",
+      "sha256": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2"
+    },
+    {
+      "path": "designs/rp2350-pico/design-draft.json",
+      "sha256": "90aae1207cfb4b14aadd9f6613070a452a5f206ebf16896c60685b1dc58c7295"
+    },
+    {
+      "path": "designs/rp2350-pico/placement-intent.json",
+      "sha256": "b42b9add3542eeb889127b11aa34285d9fe2b27f15698872f1f9b649b0cbd712"
+    }
+  ],
+  "interfaceRequirements": {
+    "schemaVersion": "evleda.pcb-interface-requirements.v1",
+    "construction": {
+      "mode": "two_layer",
+      "id": "BOARD_STACKUP",
+      "boardThicknessMm": 1.006,
+      "frontCopperThicknessMm": 0.043,
+      "backCopperThicknessMm": 0.043,
+      "dielectric": {
+        "thicknessMm": 0.9,
+        "material": "FR4 TG-140; laminate supplier pending",
+        "relativePermittivity": 4.5,
+        "lossTangent": 0.02,
+        "frequencyHz": 100000000,
+        "substrateRelativePermeability": 1,
+        "source": {
+          "kind": "caller_assertion",
+          "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+          "description": "JetPCB nominal 1 mm table provides 0.900 mm core. FR4 TG-140 is listed, but supplier, Dk/Df and test frequency are unreported. Er=4.5 and tan(delta)=0.02 are Raspberry Pi native reference values extrapolated as explicit homogeneous 100 MHz model assumptions; mu_r=1 is an analytical idealization, not lot data."
+        }
+      },
+      "conductor": {
+        "conductivitySiemensPerMetre": 58000000,
+        "relativePermeability": 1,
+        "roughnessNm": 0,
+        "source": {
+          "kind": "caller_assertion",
+          "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+          "description": "Finished copper per side is table foil 18 um plus plating 25 um = 43 um. Sigma=58 MS/m, mu_r=1 and zero roughness are smooth bulk-copper analytical assumptions, not measured foil/plating/finish properties; conductor/finish loss is not qualified."
+        }
+      },
+      "solderMask": {
+        "front": {
+          "kind": "present",
+          "thicknessMm": 0.01,
+          "material": "Green LPI solder mask; exact product pending",
+          "relativePermittivity": 3.8,
+          "lossTangent": 0.02,
+          "frequencyHz": 100000000,
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+            "description": "JetPCB table specifies 10 um mask per side. Product is unreported. Er=3.8 and tan(delta)=0.02 at 100 MHz are explicit illustrative model assumptions, NOT JetPCB material facts; no bare-model mask correction is claimed."
+          }
+        },
+        "back": {
+          "kind": "present",
+          "thicknessMm": 0.01,
+          "material": "Green LPI solder mask; exact product pending",
+          "relativePermittivity": 3.8,
+          "lossTangent": 0.02,
+          "frequencyHz": 100000000,
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+            "description": "JetPCB table specifies 10 um mask per side. Product is unreported. Er=3.8 and tan(delta)=0.02 at 100 MHz are explicit illustrative model assumptions, NOT JetPCB material facts; no bare-model mask correction is claimed."
+          }
+        }
+      },
+      "exterior": {
+        "front": "air",
+        "back": "air"
+      },
+      "surfaceFinish": "ENIG; specified candidate finish",
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=4",
+        "description": "Select the published nominal 1 mm two-layer build and listed ENIG option as the candidate procurement target. Native total is the exact nominal layer sum 0.010+0.043+0.900+0.043+0.010=1.006 mm, not a claim of 6 um fabrication accuracy. Finish is local to mask openings and not represented as an added full-board layer. Supplier/material/tolerance confirmation remains open."
+      }
+    },
+    "interfaces": [
+      {
+        "id": "USB_FS",
+        "kind": "differential_pair",
+        "nets": {
+          "positive": "USB_DP_PORT",
+          "negative": "USB_DM_PORT"
+        },
+        "endpoints": {
+          "source": {
+            "positive": {
+              "reference": "U1",
+              "pin": "52"
+            },
+            "negative": {
+              "reference": "U1",
+              "pin": "51"
+            }
+          },
+          "receiver": {
+            "positive": {
+              "reference": "J1",
+              "pin": "A6"
+            },
+            "negative": {
+              "reference": "J1",
+              "pin": "A7"
+            }
+          }
+        },
+        "geometry": {
+          "traceWidthMm": {
+            "minimumMm": 0.8,
+            "maximumMm": 0.84
+          },
+          "edgeGapMm": {
+            "minimumMm": 0.2,
+            "maximumMm": 0.22
+          },
+          "maxEtchLengthMm": 22,
+          "maxEtchSkewMm": 1,
+          "maxUncoupledLengthMm": 12
+        },
+        "routing": {
+          "allowedLayers": [
+            "F.Cu"
+          ],
+          "layerTransitions": "forbidden",
+          "stubs": "forbidden",
+          "referencePlaneId": "GND_PLANE",
+          "polarityInversion": {
+            "policy": "forbidden",
+            "receiverMapping": "normal"
+          }
+        },
+        "terminations": {
+          "source": {
+            "kind": "source_series",
+            "positive": {
+              "componentReference": "R1",
+              "sourcePin": "1",
+              "linePin": "2",
+              "resistanceOhms": 27
+            },
+            "negative": {
+              "componentReference": "R2",
+              "sourcePin": "1",
+              "linePin": "2",
+              "resistanceOhms": 27
+            },
+            "maximumDistanceToEndpointMm": 2,
+            "source": {
+              "kind": "caller_assertion",
+              "reference": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf#page=16",
+              "description": "Raspberry Pi requires separate 27 ohm resistors near the MCU. The 2 mm pad-center distance and 3 mm copper launch budget are explicit candidate layout choices, not published manufacturer maxima."
+            }
+          },
+          "receiver": {
+            "kind": "none",
+            "source": {
+              "kind": "caller_assertion",
+              "reference": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf#page=16",
+              "description": "No board-mounted parallel resistor terminates the USB receptacle. RP2350 has internal USB pull resistors; the host/cable and PHY are outside the PCB-copper model. This does not authorize removing Type-C CC resistors."
+            }
+          }
+        },
+        "impedance": {
+          "mode": "differential",
+          "targetOhms": 90,
+          "toleranceOhms": 9,
+          "frequencyHz": 100000000,
+          "constructionId": "BOARD_STACKUP",
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf#page=16",
+            "description": "Retain approximately 90 ohm differential intent. +/-9 ohm and 100 MHz are candidate engineering targets/checkpoint, not a claimed USB-IF compliance band, specified RP2350 edge frequency or measured material property. Actual mask-covered channel impedance remains unqualified."
+          }
+        },
+        "source": {
+          "kind": "caller_assertion",
+          "reference": "designs/rp2350-pico/usb-construction.md",
+          "description": "Engineering candidate for the actual 21 x 51 mm board. Published dimensions and explicit analytical assumptions are separate. Complete four-net copper topology, 45-degree routing and 90-ohm intent remain required; no manufacturer, USB, ESD or physical qualification."
+        },
+        "channel": {
+          "kind": "source_series",
+          "launchNets": {
+            "positive": "USB_DP_MCU",
+            "negative": "USB_DM_MCU"
+          },
+          "additionalReceivers": [
+            {
+              "positive": {
+                "reference": "J1",
+                "pin": "B6"
+              },
+              "negative": {
+                "reference": "J1",
+                "pin": "B7"
+              }
+            }
+          ],
+          "protection": [
+            {
+              "componentReference": "U4",
+              "positivePins": [
+                "1",
+                "6"
+              ],
+              "negativePins": [
+                "3",
+                "4"
+              ],
+              "ground": {
+                "pin": "2",
+                "net": "GND"
+              },
+              "supply": {
+                "pin": "5",
+                "net": "VBUS"
+              },
+              "source": {
+                "kind": "caller_assertion",
+                "reference": "https://www.st.com/resource/en/datasheet/usblc6-2.pdf",
+                "description": "USBLC6-2SC6 signal channels 1/6 and 3/4, ground2, VBUS5. Both physical pads per channel remain explicit. Internal conduction is not PCB copper; preserve actual external copper or report incomplete current channel graph."
+              }
+            }
+          ],
+          "escapes": [
+            {
+              "terminal": {
+                "reference": "U1",
+                "pin": "52"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "R1",
+                "pin": "1"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "R1",
+                "pin": "2"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2
+            },
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "A6"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "B6"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "1"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "6"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            },
+            {
+              "terminal": {
+                "reference": "U1",
+                "pin": "51"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "R2",
+                "pin": "1"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3
+            },
+            {
+              "terminal": {
+                "reference": "R2",
+                "pin": "2"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2
+            },
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "A7"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "J1",
+                "pin": "B7"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 3.5
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "3"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            },
+            {
+              "terminal": {
+                "reference": "U4",
+                "pin": "4"
+              },
+              "traceWidthMm": {
+                "minimumMm": 0.2,
+                "maximumMm": 0.84
+              },
+              "maximumRoutedLengthMm": 2.5
+            }
+          ],
+          "maximumLaunchEtchLengthMm": 3,
+          "maximumBranchEtchLengthMm": 5,
+          "maxEtchLengthMm": 25,
+          "maxTotalCopperLengthMm": 35,
+          "maxEtchSkewMm": 1,
+          "source": {
+            "kind": "caller_assertion",
+            "reference": "designs/rp2350-pico/usb-construction.md",
+            "description": "Engineering candidate for the actual 21 x 51 mm board. Published dimensions and explicit analytical assumptions are separate. Complete four-net copper topology, 45-degree routing and 90-ohm intent remain required; no manufacturer, USB, ESD or physical qualification."
+          }
+        }
+      }
+    ]
+  },
+  "intendedBoard": {
+    "widthMm": 21,
+    "heightMm": 51,
+    "nominalFabricatorThicknessMm": 1,
+    "explicitLayerSumMm": 1.006,
+    "copperTurnPolicy": "miter_45; no right-angle turns, acute interior corners, backtracking or self-intersections"
+  },
+  "layoutInputs": {
+    "preferredSignalLayer": "F.Cu",
+    "referenceLayer": "B.Cu",
+    "referenceNet": "GND",
+    "referencePlaneId": "GND_PLANE",
+    "maximumUsbVias": 0,
+    "preferredTraceWidthMm": 0.82,
+    "preferredEdgeGapMm": 0.2,
+    "maximumPairBodyEnvelopeMm": 1.9,
+    "preferredPairBodyEnvelopeMm": 1.84,
+    "minimumUnrelatedLateralClearanceMm": 0.25,
+    "minimumReservedBodyLaneMm": 2.4,
+    "referenceCoverageMarginBeyondTraceEdgeMm": 0.9,
+    "coverageMarginBasis": "One nominal dielectric height beyond either trace edge is an explicit geometric guard, not proof of a sufficiently infinite plane or return-current/EMC performance.",
+    "netClassProposal": {
+      "id": "USB_FS",
+      "traceWidthMm": 0.82,
+      "clearanceMm": 0.2,
+      "copperToEdgeMm": 0.5,
+      "allowedLayers": [
+        "F.Cu"
+      ]
+    },
+    "provisionalPoses": [
+      {
+        "reference": "U1",
+        "xMm": 10.5,
+        "yMm": 22,
+        "rotation": 0
+      },
+      {
+        "reference": "U4",
+        "xMm": 9.6,
+        "yMm": 12.15,
+        "rotation": 90
+      },
+      {
+        "reference": "J1",
+        "xMm": 10.5,
+        "yMm": 4.975,
+        "rotation": 180
+      },
+      {
+        "reference": "R1",
+        "xMm": 10.125,
+        "yMm": 16.9,
+        "rotation": 90
+      },
+      {
+        "reference": "R2",
+        "xMm": 11.085,
+        "yMm": 16.7,
+        "rotation": 90
+      }
+    ],
+    "poseStatus": "Illustrative board coordinates recomputed from coordinated adopted targets: recessed J1, U4 at(9.6,12.15), R1 at y16.9 and R2 at y16.7. U4 moved0.25 mm south within its existing placement region for the proposed full port tree. These are source geometry inputs, not native saved placement. Recompute if the placement changes.",
+    "anchors": [
+      {
+        "terminal": {
+          "reference": "U1",
+          "pin": "52"
+        },
+        "net": "USB_DP_MCU",
+        "role": "positive source",
+        "localMm": [
+          0.4,
+          -3.45
+        ],
+        "provisionalBoardMm": [
+          10.9,
+          18.55
+        ],
+        "escapeMm": 3
+      },
+      {
+        "terminal": {
+          "reference": "R1",
+          "pin": "1"
+        },
+        "net": "USB_DP_MCU",
+        "role": "positive resistor source",
+        "localMm": [
+          -0.51,
+          0
+        ],
+        "escapeMm": 3,
+        "provisionalBoardMm": [
+          10.125,
+          17.41
+        ]
+      },
+      {
+        "terminal": {
+          "reference": "R1",
+          "pin": "2"
+        },
+        "net": "USB_DP_PORT",
+        "role": "positive resistor line",
+        "localMm": [
+          0.51,
+          0
+        ],
+        "escapeMm": 2,
+        "provisionalBoardMm": [
+          10.125,
+          16.39
+        ]
+      },
+      {
+        "terminal": {
+          "reference": "J1",
+          "pin": "A6"
+        },
+        "net": "USB_DP_PORT",
+        "role": "positive primary contact",
+        "localMm": [
+          -0.25,
+          -3.68
+        ],
+        "provisionalBoardMm": [
+          10.75,
+          8.655
+        ],
+        "escapeMm": 3.5
+      },
+      {
+        "terminal": {
+          "reference": "J1",
+          "pin": "B6"
+        },
+        "net": "USB_DP_PORT",
+        "role": "positive additional contact",
+        "localMm": [
+          0.75,
+          -3.68
+        ],
+        "provisionalBoardMm": [
+          9.75,
+          8.655
+        ],
+        "escapeMm": 3.5
+      },
+      {
+        "terminal": {
+          "reference": "U4",
+          "pin": "1"
+        },
+        "net": "USB_DP_PORT",
+        "role": "positive protection south",
+        "localMm": [
+          -1.1375,
+          -0.95
+        ],
+        "provisionalBoardMm": [
+          8.65,
+          13.2875
+        ],
+        "escapeMm": 2.5
+      },
+      {
+        "terminal": {
+          "reference": "U4",
+          "pin": "6"
+        },
+        "net": "USB_DP_PORT",
+        "role": "positive protection north",
+        "localMm": [
+          1.1375,
+          -0.95
+        ],
+        "provisionalBoardMm": [
+          8.65,
+          11.0125
+        ],
+        "escapeMm": 2.5
+      },
+      {
+        "terminal": {
+          "reference": "U1",
+          "pin": "51"
+        },
+        "net": "USB_DM_MCU",
+        "role": "negative source",
+        "localMm": [
+          0.8,
+          -3.45
+        ],
+        "provisionalBoardMm": [
+          11.3,
+          18.55
+        ],
+        "escapeMm": 3
+      },
+      {
+        "terminal": {
+          "reference": "R2",
+          "pin": "1"
+        },
+        "net": "USB_DM_MCU",
+        "role": "negative resistor source",
+        "localMm": [
+          -0.51,
+          0
+        ],
+        "escapeMm": 3,
+        "provisionalBoardMm": [
+          11.085,
+          17.21
+        ]
+      },
+      {
+        "terminal": {
+          "reference": "R2",
+          "pin": "2"
+        },
+        "net": "USB_DM_PORT",
+        "role": "negative resistor line",
+        "localMm": [
+          0.51,
+          0
+        ],
+        "escapeMm": 2,
+        "provisionalBoardMm": [
+          11.085,
+          16.19
+        ]
+      },
+      {
+        "terminal": {
+          "reference": "J1",
+          "pin": "A7"
+        },
+        "net": "USB_DM_PORT",
+        "role": "negative primary contact",
+        "localMm": [
+          0.25,
+          -3.68
+        ],
+        "provisionalBoardMm": [
+          10.25,
+          8.655
+        ],
+        "escapeMm": 3.5
+      },
+      {
+        "terminal": {
+          "reference": "J1",
+          "pin": "B7"
+        },
+        "net": "USB_DM_PORT",
+        "role": "negative additional contact",
+        "localMm": [
+          -0.75,
+          -3.68
+        ],
+        "provisionalBoardMm": [
+          11.25,
+          8.655
+        ],
+        "escapeMm": 3.5
+      },
+      {
+        "terminal": {
+          "reference": "U4",
+          "pin": "3"
+        },
+        "net": "USB_DM_PORT",
+        "role": "negative protection south",
+        "localMm": [
+          -1.1375,
+          0.95
+        ],
+        "provisionalBoardMm": [
+          10.55,
+          13.2875
+        ],
+        "escapeMm": 2.5
+      },
+      {
+        "terminal": {
+          "reference": "U4",
+          "pin": "4"
+        },
+        "net": "USB_DM_PORT",
+        "role": "negative protection north",
+        "localMm": [
+          1.1375,
+          0.95
+        ],
+        "provisionalBoardMm": [
+          10.55,
+          11.0125
+        ],
+        "escapeMm": 2.5
+      }
+    ],
+    "neckdownWidthsMm": [
+      0.2,
+      0.4,
+      0.6,
+      0.82
+    ],
+    "connectorFanIn": "At the provisional J1 pose left-to-right data order is B6(+), A7(-), A6(+), B7(-). Explore same-F.Cu opposite-side detours around that row; preserve every contact, shield/locating feature and reference. No via or invented internal connector short. Every tree branch attaches to an actual declared pad center, never an arbitrary junction.",
+    "protectionRouting": "U4 +90 places D+ west and D- east. Connector-facing pads are 6 and 4; MCU-facing pads are 1 and 3. A short real F.Cu connection between each same-channel pair may be explored beneath/around its non-exposed-pad package after footprint clearance review. Do not count a device-internal connection as a PCB segment or add an unexamined long external loop to satisfy the graph.",
+    "placementBudgetBasis": "At adopted anchors the MCU north USB pads y=18.55 are 9.895 mm south of the recessed contact row y=8.655. The left-shifted U4 has signal rows y=11.0125 and13.2875; R1 port/source pads are y=16.39/17.41 and R2 port/source pads are y=16.19/17.21 after its 0.20 mm northward correction. Keep the established 3 mm launches, 22 mm resistor-line-to-each-contact paths, 25 mm full copper-only paths, 5 mm bounded branches and35 mm total copper per polarity. Full channel and each port-pair skew remain <=1 mm. These unchanged budgets are design choices requiring actual routing checks.",
+    "esdReturnIntent": "Place C26 at U4.5/VBUS and a short low-inductance U4.2 connection to GND/B.Cu near the connector; keep ground access away from data lanes. Actual loop geometry, via/pad fit and surge/ESD response remain unverified.",
+    "fourNetRouteRequirements": [
+      {
+        "net": "USB_DP_MCU",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "maxCopperRouteLengthMm": 3,
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden"
+        },
+        "terminalGroundMappingIntent": "U1 signal and resistor source pad to U1.61 GND"
+      },
+      {
+        "net": "USB_DM_MCU",
+        "topology": "point_to_point",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "maxCopperRouteLengthMm": 3,
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden"
+        },
+        "terminalGroundMappingIntent": "U1 signal and resistor source pad to U1.61 GND"
+      },
+      {
+        "net": "USB_DP_PORT",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "maxCopperRouteLengthMm": 22,
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden"
+        },
+        "terminalGroundMappingIntent": "Resistor line pad to U1.61; U4 channel pads to U4.2; each J1 data contact to nearest retained J1.A1/A12/B1/B12 GND after geometry review"
+      },
+      {
+        "net": "USB_DM_PORT",
+        "topology": "tree",
+        "preferredLayer": "F.Cu",
+        "maxVias": 0,
+        "maxCopperRouteLengthMm": 22,
+        "referencePath": {
+          "mode": "continuous_plane",
+          "planeId": "GND_PLANE",
+          "signalLayer": "F.Cu",
+          "coverageMarginMm": 0.9,
+          "layerTransitions": "forbidden"
+        },
+        "terminalGroundMappingIntent": "Resistor line pad to U1.61; U4 channel pads to U4.2; each J1 data contact to nearest retained J1.A1/A12/B1/B12 GND after geometry review"
+      }
+    ],
+    "placementMeasurements": {
+      "sourcePadRowYMm": 18.55,
+      "connectorContactRowYMm": 8.655,
+      "sourceToContactRowDeltaMm": 9.895,
+      "esdConnectorFacingPadRowYMm": 11.0125,
+      "esdMcuFacingPadRowYMm": 13.2875,
+      "resistorSourceDistanceMm": {
+        "positive": 1.378486488871038,
+        "negative": 1.3571385338277
+      },
+      "basis": "Exact cardinal transforms of inspected local pad centers and adopted provisional poses; Euclidean resistor distances are source geometry only, not routed copper lengths.",
+      "resistorSourcePadRowsYMm": {
+        "positive": 17.41,
+        "negative": 17.21
+      },
+      "resistorPortPadRowsYMm": {
+        "positive": 16.39,
+        "negative": 16.19
+      }
+    }
+  },
+  "analysis": {
+    "scope": "Read-only advertised EvlEDA pinned KiCad calculator, uniform bare pair only. Solder mask, finish, bends, fan-in, ESD, series resistors, neckdowns, finite plane and lateral copper are not modeled.",
+    "synthesis": {
+      "status": "calculated",
+      "request": {
+        "model": "coupled_microstrip",
+        "operation": "synthesize",
+        "parameters": {
+          "EPSILONR": 4.5,
+          "H": 0.0009,
+          "T": 0.000043,
+          "PHYS_WIDTH": 0.0008,
+          "PHYS_LEN": 0.02,
+          "FREQUENCY": 100000000,
+          "SIGMA": 58000000,
+          "MURC": 1,
+          "H_T": "absent",
+          "ROUGH": 0,
+          "TAND": 0.02,
+          "PHYS_S": 0.0002
+        },
+        "targetOhm": 90,
+        "fixed": "spacing"
+      },
+      "native": {
+        "sourceCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+        "model": "coupled_microstrip",
+        "operation": "synthesize",
+        "converged": true,
+        "valid": true,
+        "inputs": {
+          "EPSILONR": {
+            "value": 4.5,
+            "unit": "1"
+          },
+          "FREQUENCY": {
+            "value": 100000000,
+            "unit": "Hz"
+          },
+          "H": {
+            "value": 0.0009,
+            "unit": "m"
+          },
+          "MURC": {
+            "value": 1,
+            "unit": "1"
+          },
+          "PHYS_LEN": {
+            "value": 0.02,
+            "unit": "m"
+          },
+          "PHYS_S": {
+            "value": 0.0002,
+            "unit": "m"
+          },
+          "PHYS_WIDTH": {
+            "value": 0.0008,
+            "unit": "m"
+          },
+          "ROUGH": {
+            "value": 0,
+            "unit": "m"
+          },
+          "SIGMA": {
+            "value": 58000000,
+            "unit": "S/m"
+          },
+          "T": {
+            "value": 0.000043,
+            "unit": "m"
+          },
+          "TAND": {
+            "value": 0.02,
+            "unit": "1"
+          },
+          "Z0_O": {
+            "value": 45,
+            "unit": "ohm"
+          },
+          "H_T": {
+            "value": "absent",
+            "unit": "1"
+          }
+        },
+        "results": {
+          "PHYS_WIDTH": {
+            "value": 0.0008202531561759634,
+            "status": "ok",
+            "unit": "m"
+          },
+          "PHYS_S": {
+            "value": 0.0002,
+            "status": "ok",
+            "unit": "m"
+          },
+          "PHYS_LEN": {
+            "value": 0.02,
+            "status": "ok",
+            "unit": "m"
+          },
+          "Z0_E": {
+            "value": 96.48556676647429,
+            "status": "ok",
+            "unit": "ohm"
+          },
+          "Z0_O": {
+            "value": 45.00000006632466,
+            "status": "ok",
+            "unit": "ohm"
+          },
+          "ANG_L": {
+            "value": 0.07401040850380561,
+            "status": "ok",
+            "unit": "rad"
+          },
+          "SKIN_DEPTH": {
+            "value": 0.000006608549310175005,
+            "status": "ok",
+            "unit": "m"
+          },
+          "EPSILON_EFF_EVEN": {
+            "value": 3.4079794266052446,
+            "status": "ok",
+            "unit": "1"
+          },
+          "EPSILON_EFF_ODD": {
+            "value": 2.8517903597263183,
+            "status": "ok",
+            "unit": "1"
+          },
+          "UNIT_PROP_DELAY_ODD": {
+            "value": 56.47907950335218,
+            "status": "ok",
+            "unit": "ps/cm"
+          },
+          "UNIT_PROP_DELAY_EVEN": {
+            "value": 61.74151669808106,
+            "status": "ok",
+            "unit": "ps/cm"
+          },
+          "ATTEN_COND_EVEN": {
+            "value": 0.003268634138930044,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "ATTEN_COND_ODD": {
+            "value": 0.00700707425633266,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "ATTEN_DILECTRIC_EVEN": {
+            "value": 0.006105390047963927,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "ATTEN_DILECTRIC_ODD": {
+            "value": 0.005133113239246185,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "Z_DIFF": {
+            "value": 90.01747015466587,
+            "status": "ok",
+            "unit": "ohm"
+          }
+        },
+        "schemaVersion": 4,
+        "implementationRevision": "evleda-uncovered-coupled-microstrip-v1"
+      },
+      "impedance": {
+        "singleEndedOhm": null,
+        "oddModeOhm": 45.00000006632466,
+        "differentialAtFrequencyOhm": 90.00000013264932,
+        "nativeDifferentialOhm": 90.01747015466587,
+        "nativeDifferentialBasis": "quasistatic"
+      },
+      "targetResidualOhm": 1.3264931908452127e-7,
+      "executableIdentity": {
+        "sha256": "b6398ef3cd9c4ffaf95873c2c5353e157a4eb8b3c292580a5da69d782b6a2430",
+        "sizeBytes": 384000
+      },
+      "modelWarnings": [
+        {
+          "code": "NATIVE_DELAY_APPROXIMATION",
+          "message": "Native UNIT_PROP_DELAY uses 2.99e8 m/s, while the native phase constant uses 299792458 m/s. For relative permeability 1 the reported native delay is approximately 0.265036% higher than the phase-derived delay. Native values are preserved; they are not phase-exact.",
+          "affectedResults": [
+            "UNIT_PROP_DELAY_ODD",
+            "UNIT_PROP_DELAY_EVEN"
+          ]
+        },
+        {
+          "code": "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "message": "The metallic top cover is absent: both coupled cover filling multipliers are 1, both cover impedance corrections are 0, and the auxiliary single line uses its exact uncovered branch. This explicitly bypasses the empirical finite-cover fits; their large-height limit is not uniformly uncovered. The existing uniform bare-conductor model has air above the substrate and does not model solder mask, arbitrary dielectric layers, nearby lateral copper, or board discontinuities. The retained finite-thickness correction assumes edge spacing S is much greater than 2*T; the published model does not supply a numeric threshold for that assumption. Numerical convergence does not qualify a board or establish absolute accuracy.",
+          "affectedResults": [
+            "Z0_E",
+            "Z0_O",
+            "Z_DIFF",
+            "EPSILON_EFF_EVEN",
+            "EPSILON_EFF_ODD"
+          ]
+        },
+        {
+          "code": "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS",
+          "message": "Native Z_DIFF uses quasistatic odd-mode impedance. The adapter separately reports twice frequency-dependent Z0_O; these values can differ and are not interchangeable.",
+          "affectedResults": [
+            "Z_DIFF",
+            "Z0_O"
+          ]
+        }
+      ],
+      "scope": "Pinned KiCad 10.0.3 analytical core, implementation evleda-uncovered-coupled-microstrip-v1, with the retained evleda-stripline-corrections-v1 changes and explicit uncovered single/coupled-microstrip support, for the supplied uniform cross-section and material inputs; not a field solver, board validation, or independently qualified absolute prediction. Native warnings remain applicable. To assess manufacturing rounding, submit the rounded geometry in a separate analyze request.",
+      "boardVerificationPerformed": false
+    },
+    "roundedAnalyze": {
+      "status": "calculated",
+      "request": {
+        "model": "coupled_microstrip",
+        "operation": "analyze",
+        "parameters": {
+          "EPSILONR": 4.5,
+          "H": 0.0009,
+          "T": 0.000043,
+          "PHYS_WIDTH": 0.00082,
+          "PHYS_LEN": 0.02,
+          "FREQUENCY": 100000000,
+          "SIGMA": 58000000,
+          "MURC": 1,
+          "H_T": "absent",
+          "ROUGH": 0,
+          "TAND": 0.02,
+          "PHYS_S": 0.0002
+        }
+      },
+      "native": {
+        "sourceCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+        "model": "coupled_microstrip",
+        "operation": "analyze",
+        "converged": true,
+        "valid": true,
+        "inputs": {
+          "EPSILONR": {
+            "value": 4.5,
+            "unit": "1"
+          },
+          "FREQUENCY": {
+            "value": 100000000,
+            "unit": "Hz"
+          },
+          "H": {
+            "value": 0.0009,
+            "unit": "m"
+          },
+          "MURC": {
+            "value": 1,
+            "unit": "1"
+          },
+          "PHYS_LEN": {
+            "value": 0.02,
+            "unit": "m"
+          },
+          "PHYS_S": {
+            "value": 0.0002,
+            "unit": "m"
+          },
+          "PHYS_WIDTH": {
+            "value": 0.00082,
+            "unit": "m"
+          },
+          "ROUGH": {
+            "value": 0,
+            "unit": "m"
+          },
+          "SIGMA": {
+            "value": 58000000,
+            "unit": "S/m"
+          },
+          "T": {
+            "value": 0.000043,
+            "unit": "m"
+          },
+          "TAND": {
+            "value": 0.02,
+            "unit": "1"
+          },
+          "H_T": {
+            "value": "absent",
+            "unit": "1"
+          }
+        },
+        "results": {
+          "PHYS_WIDTH": {
+            "value": 0.00082,
+            "status": "ok",
+            "unit": "m"
+          },
+          "PHYS_S": {
+            "value": 0.0002,
+            "status": "ok",
+            "unit": "m"
+          },
+          "PHYS_LEN": {
+            "value": 0.02,
+            "status": "ok",
+            "unit": "m"
+          },
+          "Z0_E": {
+            "value": 96.50214717586026,
+            "status": "ok",
+            "unit": "ohm"
+          },
+          "Z0_O": {
+            "value": 45.00465061461334,
+            "status": "ok",
+            "unit": "ohm"
+          },
+          "ANG_L": {
+            "value": 0.07400974098714999,
+            "status": "ok",
+            "unit": "rad"
+          },
+          "SKIN_DEPTH": {
+            "value": 0.000006608549310175005,
+            "status": "ok",
+            "unit": "m"
+          },
+          "EPSILON_EFF_EVEN": {
+            "value": 3.40789497910618,
+            "status": "ok",
+            "unit": "1"
+          },
+          "EPSILON_EFF_ODD": {
+            "value": 2.8517581420424776,
+            "status": "ok",
+            "unit": "1"
+          },
+          "UNIT_PROP_DELAY_ODD": {
+            "value": 56.478760470387485,
+            "status": "ok",
+            "unit": "ps/cm"
+          },
+          "UNIT_PROP_DELAY_EVEN": {
+            "value": 61.74075173616071,
+            "status": "ok",
+            "unit": "ps/cm"
+          },
+          "ATTEN_COND_EVEN": {
+            "value": 0.003268900584219311,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "ATTEN_COND_ODD": {
+            "value": 0.0070081253225504625,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "ATTEN_DILECTRIC_EVEN": {
+            "value": 0.006105251644192983,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "ATTEN_DILECTRIC_ODD": {
+            "value": 0.0051330529300797414,
+            "status": "ok",
+            "unit": "dB"
+          },
+          "Z_DIFF": {
+            "value": 90.02677397410058,
+            "status": "ok",
+            "unit": "ohm"
+          }
+        },
+        "schemaVersion": 4,
+        "implementationRevision": "evleda-uncovered-coupled-microstrip-v1"
+      },
+      "impedance": {
+        "singleEndedOhm": null,
+        "oddModeOhm": 45.00465061461334,
+        "differentialAtFrequencyOhm": 90.00930122922668,
+        "nativeDifferentialOhm": 90.02677397410058,
+        "nativeDifferentialBasis": "quasistatic"
+      },
+      "targetResidualOhm": null,
+      "executableIdentity": {
+        "sha256": "b6398ef3cd9c4ffaf95873c2c5353e157a4eb8b3c292580a5da69d782b6a2430",
+        "sizeBytes": 384000
+      },
+      "modelWarnings": [
+        {
+          "code": "NATIVE_DELAY_APPROXIMATION",
+          "message": "Native UNIT_PROP_DELAY uses 2.99e8 m/s, while the native phase constant uses 299792458 m/s. For relative permeability 1 the reported native delay is approximately 0.265036% higher than the phase-derived delay. Native values are preserved; they are not phase-exact.",
+          "affectedResults": [
+            "UNIT_PROP_DELAY_ODD",
+            "UNIT_PROP_DELAY_EVEN"
+          ]
+        },
+        {
+          "code": "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "message": "The metallic top cover is absent: both coupled cover filling multipliers are 1, both cover impedance corrections are 0, and the auxiliary single line uses its exact uncovered branch. This explicitly bypasses the empirical finite-cover fits; their large-height limit is not uniformly uncovered. The existing uniform bare-conductor model has air above the substrate and does not model solder mask, arbitrary dielectric layers, nearby lateral copper, or board discontinuities. The retained finite-thickness correction assumes edge spacing S is much greater than 2*T; the published model does not supply a numeric threshold for that assumption. Numerical convergence does not qualify a board or establish absolute accuracy.",
+          "affectedResults": [
+            "Z0_E",
+            "Z0_O",
+            "Z_DIFF",
+            "EPSILON_EFF_EVEN",
+            "EPSILON_EFF_ODD"
+          ]
+        },
+        {
+          "code": "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS",
+          "message": "Native Z_DIFF uses quasistatic odd-mode impedance. The adapter separately reports twice frequency-dependent Z0_O; these values can differ and are not interchangeable.",
+          "affectedResults": [
+            "Z_DIFF",
+            "Z0_O"
+          ]
+        }
+      ],
+      "scope": "Pinned KiCad 10.0.3 analytical core, implementation evleda-uncovered-coupled-microstrip-v1, with the retained evleda-stripline-corrections-v1 changes and explicit uncovered single/coupled-microstrip support, for the supplied uniform cross-section and material inputs; not a field solver, board validation, or independently qualified absolute prediction. Native warnings remain applicable. To assess manufacturing rounding, submit the rounded geometry in a separate analyze request.",
+      "boardVerificationPerformed": false
+    },
+    "geometryCorners": [
+      {
+        "widthMm": 0.8,
+        "gapMm": 0.2,
+        "differentialAtFrequencyOhm": 90.7532415564499,
+        "nativeDifferentialOhm": 90.77093214239514,
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "widthMm": 0.8,
+        "gapMm": 0.22,
+        "differentialAtFrequencyOhm": 92.67917248738033,
+        "nativeDifferentialOhm": 92.69831065828882,
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "widthMm": 0.84,
+        "gapMm": 0.2,
+        "differentialAtFrequencyOhm": 89.28310646042456,
+        "nativeDifferentialOhm": 89.3003666705447,
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "widthMm": 0.84,
+        "gapMm": 0.22,
+        "differentialAtFrequencyOhm": 91.1499493972359,
+        "nativeDifferentialOhm": 91.1686222100882,
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      }
+    ],
+    "sensitivity": [
+      {
+        "id": "width_low",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.0008,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 45.37662077822495,
+          "differentialAtFrequencyOhm": 90.7532415564499,
+          "nativeDifferentialOhm": 90.77093214239514,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "width_high",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.00084,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 44.64155323021228,
+          "differentialAtFrequencyOhm": 89.28310646042456,
+          "nativeDifferentialOhm": 89.3003666705447,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "gap_high",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.00082,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.00022
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 45.952624960855125,
+          "differentialAtFrequencyOhm": 91.90524992171025,
+          "nativeDifferentialOhm": 91.92415254568935,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "er_low",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.1,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.00082,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 46.75303657182448,
+          "differentialAtFrequencyOhm": 93.50607314364896,
+          "nativeDifferentialOhm": 93.52342103844143,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "er_high",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.9,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.00082,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 43.43853833175521,
+          "differentialAtFrequencyOhm": 86.87707666351042,
+          "nativeDifferentialOhm": 86.89459084863125,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "h_low",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.00081,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.00082,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 44.33405928403239,
+          "differentialAtFrequencyOhm": 88.66811856806478,
+          "nativeDifferentialOhm": 88.68438560223105,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "h_high",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.00099,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.00082,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 45.52749957404947,
+          "differentialAtFrequencyOhm": 91.05499914809894,
+          "nativeDifferentialOhm": 91.07359544320404,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "frequency_12mhz",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.00082,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 12000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 45.01232570596084,
+          "differentialAtFrequencyOhm": 90.02465141192168,
+          "nativeDifferentialOhm": 90.02677397410058,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "escape_020",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.0002,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 66.3524688477107,
+          "differentialAtFrequencyOhm": 132.7049376954214,
+          "nativeDifferentialOhm": 132.73482520027562,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      },
+      {
+        "id": "escape_040",
+        "request": {
+          "model": "coupled_microstrip",
+          "operation": "analyze",
+          "parameters": {
+            "EPSILONR": 4.5,
+            "H": 0.0009,
+            "T": 0.000043,
+            "PHYS_WIDTH": 0.0004,
+            "PHYS_LEN": 0.02,
+            "FREQUENCY": 100000000,
+            "SIGMA": 58000000,
+            "MURC": 1,
+            "H_T": "absent",
+            "ROUGH": 0,
+            "TAND": 0.02,
+            "PHYS_S": 0.0002
+          }
+        },
+        "status": "calculated",
+        "impedance": {
+          "singleEndedOhm": null,
+          "oddModeOhm": 55.810624951865236,
+          "differentialAtFrequencyOhm": 111.62124990373047,
+          "nativeDifferentialOhm": 111.64505159837915,
+          "nativeDifferentialBasis": "quasistatic"
+        },
+        "warnings": [
+          "NATIVE_DELAY_APPROXIMATION",
+          "COUPLED_MICROSTRIP_UNCOVERED_MODEL",
+          "COUPLED_MICROSTRIP_DIFFERENTIAL_BASIS"
+        ]
+      }
+    ],
+    "sensitivityStatus": "One-factor illustrative perturbations; not measured fabrication tolerances or worst-case statistical bounds.",
+    "finiteThicknessRatio": 2.3255813953488373,
+    "finiteThicknessInterpretation": "S/(2T)=2.3256 is reported, not declared much-greater-than. The source provides no numeric applicability threshold; model convergence cannot establish the finite-thickness correction's accuracy."
+  },
+  "sources": [
+    {
+      "id": "JET",
+      "title": "JetPCB Manufacturing Standards",
+      "url": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf",
+      "discoveryUrl": "https://us.jetpcb.com/rule/standard_pcb.aspx",
+      "sha256": "292022cf8c97dc79aa638b97c2f7b30ce5fbf8a082bb3665ab6325bfb6534f9b",
+      "sizeBytes": 141386,
+      "pages": "PDF pp.1-4 and 8",
+      "sourceFacts": "Nominal 1 mm two-layer table: 0.900 mm core, 18 um foil plus 25 um plating per face, 10 um masks. FR4 TG-140 and ENIG are listed options. No laminate supplier is assigned. No dated revision was identified."
+    },
+    {
+      "id": "H",
+      "title": "Hardware design with RP2350",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf",
+      "sourceFacts": "27 ohm USB resistors close to MCU and approximately 90 ohm differential intent. Its 1 mm/.8 mm/.15 mm example is not substituted for this selected construction."
+    },
+    {
+      "id": "K",
+      "title": "Official Raspberry Pi Minimal native design",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip",
+      "sourceFacts": "Reference-only different build: 1.6 mm total, 1.51 mm dielectric, 35 um copper, 10 um masks, Er4.5 and tan(delta).02 without frequency. Its material scalars are assumptions when applied to JetPCB FR4."
+    },
+    {
+      "id": "G",
+      "title": "GCT USB4105 drawing B4",
+      "url": "https://gct.co/files/drawings/usb4105.pdf",
+      "sourceFacts": "Connector signal contacts and physical land/locating geometry; no unreported internal A/B data tie."
+    },
+    {
+      "id": "ST",
+      "title": "ST USBLC6-2 datasheet DS4260 Rev7",
+      "url": "https://www.st.com/resource/en/datasheet/usblc6-2.pdf",
+      "sourceFacts": "SC6 channel pinout and short low-inductance connection guidance."
+    },
+    {
+      "id": "JLC",
+      "title": "JLCPCB multilayer laminated structures",
+      "url": "https://jlcpcb.com/help/article/multi-layer-pcb-standard-laminated-structures",
+      "sourceFacts": "A different vendor publishes mask Er3.8. This is only an illustrative mask-property assumption here, not JetPCB material identity or its frequency data."
+    }
+  ],
+  "assumptionLedger": [
+    {
+      "id": "A1",
+      "fields": [
+        "dielectric.relativePermittivity",
+        "dielectric.lossTangent",
+        "dielectric.frequencyHz"
+      ],
+      "classification": "explicit analytical idealization",
+      "statement": "Homogeneous Er4.5/tan(delta).02 at100MHz; source gives neither selected laminate nor frequency-dependent values. Frequency portability from Raspberry Pi native reference is unverified."
+    },
+    {
+      "id": "A2",
+      "fields": [
+        "dielectric.substrateRelativePermeability",
+        "conductor.relativePermeability",
+        "conductor.conductivitySiemensPerMetre",
+        "conductor.roughnessNm"
+      ],
+      "classification": "explicit analytical idealization",
+      "statement": "Nonmagnetic laminate and smooth bulk copper, 58MS/m, zero roughness. Actual foil/plating roughness/conductivity/finish layers are unreported."
+    },
+    {
+      "id": "A3",
+      "fields": [
+        "solderMask.front.material",
+        "solderMask.back.material",
+        "solderMask.front.relativePermittivity",
+        "solderMask.back.relativePermittivity",
+        "solderMask.front.lossTangent",
+        "solderMask.back.lossTangent"
+      ],
+      "classification": "candidate process choice and illustrative model placeholders",
+      "statement": "Keep actual intended masks present and 10um. Green LPI is the candidate process choice; product and electrical constants need confirmation. Er3.8/tan(delta).02 are not sourced JetPCB material properties and do not make the bare model mask-aware."
+    },
+    {
+      "id": "A4",
+      "fields": [
+        "surfaceFinish"
+      ],
+      "classification": "published available option selected as design intent",
+      "statement": "ENIG specified for the candidate pads. Ni/Au thickness, local plating and impact on contact/launch behavior are not modeled. No ordering action performed."
+    },
+    {
+      "id": "A5",
+      "fields": [
+        "boardThicknessMm"
+      ],
+      "classification": "derived nominal layer sum",
+      "statement": "1.006mm is the exact arithmetic sum required by the native schema; the vendor calls this a nominal1.0mm build. It is not a measured board thickness or tighter tolerance."
+    },
+    {
+      "id": "A6",
+      "fields": [
+        "geometry",
+        "channel",
+        "terminations.source.maximumDistanceToEndpointMm",
+        "layoutInputs"
+      ],
+      "classification": "explicit engineering layout budgets",
+      "statement": "Numeric lengths, clearances and skew are authored for this 21x51 candidate and must be checked against complete actual copper. They are not attributed to datasheets."
+    }
+  ],
+  "blockers": [
+    {
+      "code": "FABRICATOR_CONSTRUCTION_CONFIRMATION",
+      "scope": "manufacturing/physical confidence",
+      "detail": "Confirm current selected fab can supply the chosen nominal build, actual core/Cu/mask tolerances, named laminate and mask, Dk/Df with frequency/test method, roughness and ENIG details. Published table gives nominal layout inputs, not a purchase-ready controlled-impedance specification."
+    },
+    {
+      "code": "MASKED_MICROSTRIP_UNSUPPORTED",
+      "scope": "saved-board impedance evidence",
+      "detail": "src/harness/saved-microstrip-assessment.ts rejects positive signal-side mask thickness for its bare-conductor model. Both masks remain present. Numerical bare sizing is not a saved masked-board impedance pass."
+    },
+    {
+      "code": "FINITE_THICKNESS_APPLICABILITY",
+      "scope": "absolute model accuracy",
+      "detail": "S=0.20mm and2T=0.086mm do not establish the source assumption S much greater than2T. Mask-aware field solution or qualified vendor calculation/coupon remains needed for controlled impedance."
+    },
+    {
+      "code": "PLACEMENT_AND_REFERENCE_CLOSURE",
+      "scope": "layout candidate",
+      "detail": "The adopted flash +90 pose at(6.5,15.5) opens a nominal3.65 mm courtyard lane to L1, wider than the2.40 mm requested USB body lane. Actual copper, complete source trees, same-layer connector detours, decoupling and B.Cu guard/reference still need native checks; courtyard clearance alone is not route or return-path proof."
+    },
+    {
+      "code": "COMPLETE_NATIVE_CHANNEL",
+      "scope": "saved source evidence",
+      "detail": "All14 anchors, each connector path, branches, protection copper, 27-ohm mapping, source distances, routed escape bounds, 45-degree turns, skew, opposite-polarity clearances and continuous current-source GND reference require native verification."
+    }
+  ],
+  "verification": {
+    "completeV2InterfaceSchemaChecked": true,
+    "unresolvedV2DraftOverlaySchemaChecked": true,
+    "exact14AnchorMappingChecked": true,
+    "constructionSumChecked": true,
+    "nativeCadRun": false,
+    "savedInterfaceAssessmentRun": false,
+    "physicalQualification": false,
+    "fabricationAuthorized": false,
+    "adoptedPoseCoordinateTransformsChecked": true,
+    "resistorSourceDistanceWithinTwoMmChecked": true
+  }
+}

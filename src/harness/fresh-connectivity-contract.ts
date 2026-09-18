@@ -1,4 +1,5 @@
 import { canonicalIdentity } from "../core/canonical.js";
+import type { PcbBoardFeature } from "./pcb-board-features.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import { parsePcbExternalPowerBinding, type PcbExternalPowerBinding } from "./pcb-external-power.js";
 import { parsePcbDerivedPowerBinding, type PcbDerivedPowerBinding } from "./pcb-derived-power.js";
@@ -40,6 +41,7 @@ export interface FreshConnectivityContract {
   readonly schemaVersion: typeof FRESH_CONNECTIVITY_CONTRACT_SCHEMA_VERSION;
   readonly sourceContractIdentity: CanonicalIdentity;
   readonly components: readonly FreshConnectivityComponent[];
+  readonly boardFeatures?: readonly PcbBoardFeature[];
   readonly nets: readonly FreshConnectivityNet[];
   readonly noConnects: readonly FreshConnectivityEndpoint[];
   /** Separate source-bound schematic annotations; never physical components or routing endpoints. */
@@ -95,6 +97,7 @@ function fromValidatedPcbDesignContract(contract: PcbDesignContract | PcbPlaneDe
   return {
     schemaVersion: FRESH_CONNECTIVITY_CONTRACT_SCHEMA_VERSION,
     sourceContractIdentity: contract.identity,
+    ...("boardFeatures" in contract && contract.boardFeatures !== undefined ? { boardFeatures: contract.boardFeatures } : {}),
     components: contract.components
       .map(({ reference, symbolLibId, value, footprintLibId }) => ({ reference, symbolLibId, value, footprintLibId }))
       .sort((left, right) => compareText(left.reference, right.reference)),

@@ -1,4 +1,5 @@
 import path from "node:path";
+import { assertFreshBoardFeatureState, type FreshBoardFeatureState } from "./fresh-board-features.js";
 import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
 import { createFreshConnectivityContract } from "./fresh-connectivity-contract.js";
 import { parseFreshPcbSource } from "./fresh-kicad-parser.js";
@@ -45,6 +46,7 @@ export interface FreshPlaneNetClassPreparationEvidence extends Omit<FreshNetClas
   readonly schemaVersion: typeof FRESH_PLANE_NETCLASS_PREPARATION_EVIDENCE_SCHEMA_VERSION;
 }
 export interface FreshPlaneNetClassOperationOptions {
+  readonly boardFeatureState?: FreshBoardFeatureState | undefined;
   readonly project: PlaneFreshProject;
   readonly compilationBundle: PcbPlaneCompilationBundle;
   readonly kicad: KicadExecutableIdentity;
@@ -68,6 +70,7 @@ function operation(input: FreshPlaneNetClassOperationOptions) {
   const rules = createFreshPlaneRules(compilationBundle);
   const expectedRuleBytes = Buffer.from(rules.source, "utf8");
   const connectivity=createFreshConnectivityContract(compilationBundle.contract,compilationBundle.externalPowerBinding,compilationBundle.derivedPowerBinding);
+  assertFreshBoardFeatureState(input.boardFeatureState, compilationBundle, project);
   let nativeSources:Readonly<Record<string,string>>|undefined;
   const assertNativeTerminalSourcesCurrent=async()=>{
     if(nativeSources===undefined)return;
@@ -76,11 +79,12 @@ function operation(input: FreshPlaneNetClassOperationOptions) {
     input.assertLibrarySources?.();
   };
   const qualifyNativeTerminals=async(pcbSource:string)=>{
+    input.boardFeatureState?.verify(pcbSource);
     if(connectivity.noConnects.length===0)return undefined;
     const board=parseFreshPcbSource(pcbSource);
     if(board.footprints.length===0)return undefined;
     const namedNoConnect=connectivity.noConnects.some(endpoint=>board.footprints.some(fp=>fp.reference===endpoint.reference&&fp.pads.some(pad=>pad.number===endpoint.pin&&pad.netName!==null)));
-    const completeComponents=board.footprints.length===connectivity.components.length&&connectivity.components.every(component=>board.footprints.filter(fp=>fp.reference===component.reference).length===1);
+    const completeComponents=board.footprints.length===connectivity.components.length+(connectivity.boardFeatures?.length??0)&&connectivity.components.every(component=>board.footprints.filter(fp=>fp.reference===component.reference).length===1);
     const completeFunctionalTerminals=completeComponents&&connectivity.nets.every(net=>net.endpoints.every(endpoint=>board.footprints.some(fp=>fp.reference===endpoint.reference&&fp.pads.some(pad=>pad.number===endpoint.pin))));
     // Preparation also runs before schematic authoring and on partial boards.
     // Footprint refs alone do not prove the functional terminal inventory exists.

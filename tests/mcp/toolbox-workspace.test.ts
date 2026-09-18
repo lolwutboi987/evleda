@@ -38,7 +38,7 @@ afterEach(async () => {
 const body = (response: { structuredContent?: unknown }) => response.structuredContent as Record<string, any>;
 const draftFamilies = [["routed-v1", genericDividerDraft], ["plane-v2", planeDividerDraft]] as const;
 async function fixture(access: "read-only" | "edit" = "edit",
-  compilerOptions: Partial<Pick<KicadToolboxWorkspaceOptions, "dependencies" | "deepRuleSelectionOptions" | "searchLibrary">> = {}) {
+  compilerOptions: Partial<Pick<KicadToolboxWorkspaceOptions, "dependencies" | "deepRuleSelectionOptions" | "searchLibrary" | "describeApprovedPackage">> = {}) {
   const root = await mkdtemp(path.join(tmpdir(), "toolbox-workspace-mcp-")); roots.push(root);
   const workspaceRoot = path.join(root, "workspace"), fixed = path.join(root, "fixed");
   await Promise.all([mkdir(workspaceRoot), mkdir(fixed)]);
@@ -65,6 +65,21 @@ async function fixture(access: "read-only" | "edit" = "edit",
 }
 
 describe("in-chat workspace controller over actual MCP", () => {
+  it("discovers configured package IDs read-only and refuses stale discovery without opening a project", async () => {
+    const description = { namespace: "EvlEDA_Test", sourceKind: "project-custom" as const,
+      manifestIdentity: contentIdentity("manifest"), symbolIds: ["EvlEDA_Test:U1"], footprintIds: ["EvlEDA_Test:QFN"], assurance: "Source inventory only" };
+    const describeApprovedPackage = vi.fn(() => description);
+    const f = await fixture("read-only", { describeApprovedPackage });
+    try {
+      expect(body(await f.call("evleda_design_schema", { family: "plane-v2" })).approvedPackage).toEqual(description);
+      expect((await f.store.list()).total).toBe(0); expect(f.openBinding).not.toHaveBeenCalled();
+      expect((await f.call("evleda_design_schema", { family: "plane-v2", packageRoot: "C:/unapproved" })).isError).toBe(true);
+      describeApprovedPackage.mockImplementation(() => { throw new Error("Approved source drift"); });
+      const rejected = await f.call("evleda_design_schema", { family: "plane-v2" });
+      expect(rejected.isError).toBe(true); expect(body(rejected)).not.toHaveProperty("approvedPackage");
+      expect((await f.store.list()).total).toBe(0); expect(f.openBinding).not.toHaveBeenCalled();
+    } finally { await f.close(); }
+  });
   it("exposes bounded read-only catalog discovery only when the host supplies it", async () => {
     const searchLibrary = vi.fn<NonNullable<KicadToolboxWorkspaceOptions["searchLibrary"]>>().mockReturnValue({
       schemaVersion: "evleda.kicad-stock-catalog-search.v1", namespaceAuthority: "host-approved-kicad-10-stock",
@@ -145,6 +160,9 @@ describe("in-chat workspace controller over actual MCP", () => {
       expect(planeSchema.schema.required).not.toContain("interfaceRequirements");
       expect(planeSchema.schema.required).not.toContain("externalPowerInputs");
       expect(planeSchema.schema.required).not.toContain("derivedPowerSources");
+      expect(planeSchema.schema.required).not.toContain("boardFeatures");
+      expect(planeSchema.optionalRequirements.boardFeatures).toMatchObject({ kinds: ["npth_mounting_hole"], schematicComponentsAdded: false,
+        electricalTerminalsAdded: false, boardOnlyFootprints: true });
       expect(planeSchema.optionalRequirements.externalPowerInputs).toMatchObject({ sourceAuthority: "caller_asserted_external_supply", physicalComponentsAdded: false });
       expect(planeSchema.optionalRequirements.derivedPowerSources).toMatchObject({ sourceAuthority: "source_inspected_driver_and_caller_reviewed_path", physicalComponentsAdded: false });
       for (const term of ["Without externalPowerInput", "externalPowerInput={id,diodeForwardDropAssumption,operatingModes}",
@@ -157,6 +175,7 @@ describe("in-chat workspace controller over actual MCP", () => {
       expect(planeSchema.example).not.toHaveProperty("derivedPowerSources");
       expect(planeSchema.example).not.toHaveProperty("interfaceRequirements");
       expect(defaultSchema).not.toHaveProperty("optionalRequirements");
+      expect(defaultSchema).not.toHaveProperty("approvedPackage");
       expect((await f.client.listTools()).tools.find(tool => tool.name === "evleda_design_schema")!.description).toContain("interfaceRequirements");
       expect((await f.client.listTools()).tools.find(tool => tool.name === "evleda_design_schema")!.description).toContain("explicit external-input forward Schottky");
       expect((await f.call("evleda_design_schema", { family: "plane-v3" })).isError).toBe(true);

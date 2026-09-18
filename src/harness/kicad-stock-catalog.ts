@@ -1,5 +1,6 @@
 import { PCB_EXTERNAL_POWER_FLAG_INSPECTION_SCHEMA_VERSION, PCB_EXTERNAL_POWER_FLAG_LIB_ID } from "./pcb-external-power.js";
 import { randomBytes } from "node:crypto";
+import { types as utilTypes } from "node:util";
 
 import { canonicalIdentity } from "../core/canonical.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -9,6 +10,8 @@ import {
   KiCadStockLibraryResolverError,
   KICAD_STOCK_LIBRARY_RESOLVER_LIMITS,
   createKiCad10StockLibraryResolver,
+  createKiCadStockSyntaxCache,
+  type KiCadStockSyntaxCache,
   type KiCad10StockLibraryResolver,
   type KiCadStockDiscoveryCandidate,
   type KiCadStockDiscoveryReaderOptions
@@ -134,7 +137,9 @@ export class KiCad10StockCatalog implements PcbReadOnlyLibraryResolver {
   readonly #limits: SearchLimits;
   readonly #policyIdentity: CanonicalIdentity;
   readonly #cursors = new Map<string, SearchState>();
-  // At most one exact resolver is retained: its existing aggregate parse/record ceilings apply.
+  // Only syntax survives exact selection replacement. Inspection records and
+  // admission remain resolver-local; one catalog-wide cache enforces bounds.
+  readonly #syntaxCache: KiCadStockSyntaxCache;
   #resolver: KiCad10StockLibraryResolver;
   #selectedSymbols = new Set<string>();
   #selectedFootprints = new Set<string>();
@@ -151,7 +156,8 @@ export class KiCad10StockCatalog implements PcbReadOnlyLibraryResolver {
     this.#footprints = new Set(footprints);
     this.#limits = searchLimits(options.searchLimits);
     this.#reader = new KiCad10StockLibraryDiscoveryReader(this.#options);
-    this.#resolver = createKiCad10StockLibraryResolver({ ...this.#options, exactSymbolIds: [], exactFootprintIds: [] });
+    this.#syntaxCache = createKiCadStockSyntaxCache(this.#options.limits);
+    this.#resolver = createKiCad10StockLibraryResolver({ ...this.#options, exactSymbolIds: [], exactFootprintIds: [] }, this.#syntaxCache);
     this.#policyIdentity = canonicalIdentity({
       schemaVersion: KICAD_STOCK_CATALOG_POLICY_SCHEMA_VERSION, mode: "stock_catalog", kicadMajorVersion: 10,
       symbolRoot: options.symbolRoot, footprintRoot: options.footprintRoot,
@@ -173,6 +179,12 @@ export class KiCad10StockCatalog implements PcbReadOnlyLibraryResolver {
     if (!this.#approved(libraryId, this.#footprints)) return null;
     if (!this.#selectedFootprints.has(libraryId)) this.#select([], [libraryId]);
     return this.#resolver.inspectFootprint(libraryId);
+  }
+
+  public readFootprintSource(libraryId: string) {
+    if (!this.#approved(libraryId, this.#footprints)) return null;
+    if (!this.#selectedFootprints.has(libraryId)) this.#select([], [libraryId]);
+    return this.#resolver.readFootprintSource(libraryId);
   }
 
   public inspectPair(symbolLibraryId: string, footprintLibraryId: string) {
@@ -202,20 +214,15 @@ export class KiCad10StockCatalog implements PcbReadOnlyLibraryResolver {
     const selected = normalizePcbLibrarySourceSelectionRequest(request);
     // The exact-reader constructor rejects over-limit and malformed selections before any source read.
     this.#select(selected.symbolIds, selected.footprintIds);
-    const capture = () => [
-      ...selected.symbolIds.map((libraryId) => ({ kind: "symbol" as const, libraryId, inspection: this.#resolver.inspectSymbol(libraryId) })),
-      ...selected.footprintIds.map((libraryId) => ({ kind: "footprint" as const, libraryId, inspection: this.#resolver.inspectFootprint(libraryId) }))
-    ].map(({ kind, libraryId, inspection }) => {
-      if (inspection === null) throw new KiCadStockLibraryResolverError("PATH_REJECTED", "selected stock source", "A selected stock source is absent or outside the approved namespace.");
-      return { kind, libraryId, sourceIdentity: inspection.sourceIdentity, inspectionIdentity: inspection.identity };
-    });
-    const records = capture();
-    const rechecked = capture();
-    if (records.some((record, index) => !sameIdentity(record.sourceIdentity, rechecked[index]!.sourceIdentity)
-      || !sameIdentity(record.inspectionIdentity, rechecked[index]!.inspectionIdentity))) {
-      throw new KiCadStockCatalogError("SOURCE_CHANGED", "Selected stock sources changed during selection capture.");
+    try {
+      const records = this.#resolver.captureSourceSelectionRecords();
+      return createPcbLibrarySourceSelection({ policyIdentity: this.#policyIdentity, records }, selected);
+    } catch (error) {
+      if (error instanceof KiCadStockLibraryResolverError && error.code === "SOURCE_CHANGED") {
+        throw new KiCadStockCatalogError("SOURCE_CHANGED", "Selected stock sources changed during selection capture.");
+      }
+      throw error;
     }
-    return createPcbLibrarySourceSelection({ policyIdentity: this.#policyIdentity, records }, selected);
   }
 
   public cacheSnapshot() {
@@ -332,7 +339,7 @@ export class KiCad10StockCatalog implements PcbReadOnlyLibraryResolver {
     const unchanged = (ids: readonly string[], previous: ReadonlySet<string>) => Array.isArray(ids)
       && ids.length === previous.size && ids.every((id) => previous.has(id)) && new Set(ids).size === ids.length;
     if (unchanged(symbolIds, this.#selectedSymbols) && unchanged(footprintIds, this.#selectedFootprints)) return;
-    const resolver = createKiCad10StockLibraryResolver({ ...this.#options, exactSymbolIds: symbolIds, exactFootprintIds: footprintIds });
+    const resolver = createKiCad10StockLibraryResolver({ ...this.#options, exactSymbolIds: symbolIds, exactFootprintIds: footprintIds }, this.#syntaxCache);
     this.#reader.assertRootsStable();
     this.#resolver = resolver;
     this.#selectedSymbols = new Set(symbolIds);
@@ -367,3 +374,22 @@ export class KiCad10StockCatalog implements PcbReadOnlyLibraryResolver {
 }
 
 export const createKiCad10StockCatalog = (options: KiCadStockCatalogOptions): KiCad10StockCatalog => new KiCad10StockCatalog(options);
+
+const originalCatalogMethods = Object.freeze({
+  captureSourceSelection: KiCad10StockCatalog.prototype.captureSourceSelection,
+  inspectSymbol: KiCad10StockCatalog.prototype.inspectSymbol,
+  inspectFootprint: KiCad10StockCatalog.prototype.inspectFootprint,
+  resolveSymbol: KiCad10StockCatalog.prototype.resolveSymbol,
+  resolveFootprint: KiCad10StockCatalog.prototype.resolveFootprint,
+});
+
+/** Internal composite-resolver reuse only. Structural captures and overridden
+ * inspection methods do not establish the same stock inspection authority.
+ */
+export function captureGenuineKiCadStockCatalogSelection(resolver: object, selected: PcbLibrarySourceSelectionRequest): PcbLibrarySourceSelection | undefined {
+  if (utilTypes.isProxy(resolver) || Object.getPrototypeOf(resolver) !== KiCad10StockCatalog.prototype
+      || Object.entries(originalCatalogMethods).some(([name, method]) =>
+        Object.getOwnPropertyDescriptor(resolver, name) !== undefined
+        || Object.getOwnPropertyDescriptor(KiCad10StockCatalog.prototype, name)?.value !== method)) return undefined;
+  return originalCatalogMethods.captureSourceSelection.call(resolver as KiCad10StockCatalog, selected);
+}

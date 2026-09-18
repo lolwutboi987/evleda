@@ -1,4 +1,5 @@
 import { createFreshConnectivityContract } from "./fresh-connectivity-contract.js";
+import { freshSavedTerminalGlobalLabelsMatch } from "./fresh-schematic-terminal-label-source.js";
 import { createFreshNativeTerminalBinding, assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 import { createHash } from "node:crypto";
 
@@ -1555,7 +1556,8 @@ export function evaluateFreshDesignAcceptance(
   const schematicScopeExact = schematic !== null && schematic.childSheetCount === contract.scope.sheetCount - 1;
   const schematicClassSourcesExact = schematic !== null && freshSchematicClassSourcesSupported(schematic);
   const schematicLabelsExact = schematic !== null
-    && freshGlobalLabelInventoryMatches(schematic, contract.nets.map((net) => net.name));
+    && (freshGlobalLabelInventoryMatches(schematic, contract.nets.map((net) => net.name))
+      || libraryIntegrity.valid && freshSavedTerminalGlobalLabelsMatch(evidence.schematicSource, createFreshConnectivityContract(contract), artifacts.libraryResolver));
   const schematicInventoryExact = schematic !== null
     && schematicScopeExact
     && sameStrings(schematic.symbols.map((symbol) => symbol.reference), expectedReferences);

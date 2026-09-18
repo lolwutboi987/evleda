@@ -5,9 +5,11 @@ import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canon
 import { hardenPortableValue, parsePortableJsonBytes } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { parseFreshSymbolLibraryTerminalGeometrySource, type FreshSymbolTerminalGeometry } from "./fresh-kicad-parser.js";
-import { inspectKiCadApprovedSymbolBytes, inspectKiCadApprovedFootprintBytes,
+import { inspectKiCadApprovedSymbolBytes, inspectKiCadApprovedSymbolsBytes, inspectKiCadApprovedFootprintBytes,
   type KiCadStockSymbolInspection, type KiCadStockFootprintInspection } from "./kicad-library-resolver.js";
+import { captureGenuineKiCadStockCatalogSelection } from "./kicad-stock-catalog.js";
 import type { PcbReadOnlyLibraryResolver, PcbResolvedSymbol, PcbResolvedFootprint } from "./pcb-design-compiler.js";
+import { isSupportedMechanicalFootprintPads } from "./pcb-board-features.js";
 import { createPcbLibrarySourceSelection, capturePcbLibrarySourceSelection, normalizePcbLibrarySourceSelectionRequest,
   type PcbLibrarySourceSelectionRequest, type PcbLibrarySourceSelectionRecord } from "./pcb-library-source-binding.js";
 
@@ -30,6 +32,14 @@ const profileSchema = z.object({ root: z.string().min(1).max(600), manifest: fil
 type Manifest = z.infer<typeof manifestSchema>;
 type FilePin = z.infer<typeof filePin>;
 export type KiCadApprovedPackageProfile = z.infer<typeof profileSchema>;
+export interface KiCadApprovedPackageDescription {
+  readonly namespace: string;
+  readonly sourceKind: "project-custom";
+  readonly manifestIdentity: ContentIdentity;
+  readonly symbolIds: readonly string[];
+  readonly footprintIds: readonly string[];
+  readonly assurance: string;
+}
 export type KiCadApprovedSymbolInspection = Omit<KiCadStockSymbolInspection, "schemaVersion"> & {
   readonly schemaVersion: typeof KICAD_APPROVED_SYMBOL_INSPECTION_SCHEMA_VERSION;
   readonly packagePolicyIdentity: CanonicalIdentity;
@@ -43,6 +53,7 @@ interface StockResolver extends PcbReadOnlyLibraryResolver {
   inspectSymbol(id: string): KiCadStockSymbolInspection | null;
   inspectFootprint(id: string): KiCadStockFootprintInspection | null;
   inspectSymbolTerminalGeometry(id: string): FreshSymbolTerminalGeometry | null;
+  readFootprintSource?(id: string): Readonly<{ source: string; sourceIdentity: ContentIdentity }> | null;
 }
 interface StockPolicy {
   readonly symbolRoot: string; readonly footprintRoot: string;
@@ -197,6 +208,36 @@ export class KiCadApprovedPackageResolver implements PcbReadOnlyLibraryResolver 
   }
   public resolveSymbol(id: string): PcbResolvedSymbol | null { return this.inspectSymbol(id)?.resolverRecord ?? null; }
   public resolveFootprint(id: string): PcbResolvedFootprint | null { return this.inspectFootprint(id)?.resolverRecord ?? null; }
+  /** Bounded model discovery; no paths, file access capability, or engineering approval. */
+  public describeApprovedPackage(): KiCadApprovedPackageDescription {
+    this.#recapture();
+    for (const entry of this.#symbols.values()) this.#read(entry.source, MAX_SOURCE);
+    for (const entry of this.#footprints.values()) this.#read(entry.source, MAX_SOURCE);
+    this.#recapture();
+    return freeze({ namespace: this.#manifest.namespace, sourceKind: "project-custom" as const,
+      manifestIdentity: this.#profile.manifest.identity, symbolIds: [...this.#symbols.keys()].sort(),
+      footprintIds: [...this.#footprints.keys()].sort(),
+      assurance: "Host-approved source inventory only. Inspect exact IDs before selection; no electrical, mechanical or manufacturing qualification is implied." });
+  }
+  /** Host-only exact library bytes for source-preserving board-feature instances. */
+  public readFootprintSource(id: string): Readonly<{ source: string; sourceIdentity: ContentIdentity }> | null {
+    const entry = this.#footprints.get(id);
+    if (entry === undefined) {
+      if (this.#isPackageId(id)) return null;
+      const source = this.#stock.readFootprintSource?.(id) ?? null;
+      if (source === null) return null;
+      const inspected = this.#stock.inspectFootprint(id);
+      if (inspected === null || inspected.libraryId !== id || inspected.resolverRecord.source !== "kicad-stock"
+        || !equal(source.sourceIdentity, inspected.sourceIdentity) || !equal(contentIdentity(source.source), source.sourceIdentity)) throw new Error("Stock footprint bytes differ from their exact inspected source");
+      return freeze(source);
+    }
+    this.#recapture();
+    const bytes = this.#read(entry.source, MAX_SOURCE);
+    const source = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
+    if (!Buffer.from(source, "utf8").equals(bytes)) throw new Error("Approved footprint source must round-trip exact UTF-8 bytes");
+    this.#read(entry.source, MAX_SOURCE); this.#recapture();
+    return freeze({ source, sourceIdentity: contentIdentity(bytes) });
+  }
   public inspectSymbol(id: string): KiCadStockSymbolInspection | KiCadApprovedSymbolInspection | null {
     const entry = this.#symbols.get(id);
     if (entry === undefined) {
@@ -207,10 +248,14 @@ export class KiCadApprovedPackageResolver implements PcbReadOnlyLibraryResolver 
     }
     this.#recapture();
     const stock = inspectKiCadApprovedSymbolBytes(this.#read(entry.source, MAX_SOURCE), id, [...this.#symbols.keys()]);
+    const approved = this.#bindSymbolInspection(stock);
+    this.#read(entry.source, MAX_SOURCE); this.#recapture();
+    return approved;
+  }
+  #bindSymbolInspection(stock: KiCadStockSymbolInspection): KiCadApprovedSymbolInspection {
     const { identity: _identity, ...parsed } = stock;
     const payload = { ...parsed, schemaVersion: KICAD_APPROVED_SYMBOL_INSPECTION_SCHEMA_VERSION,
       packagePolicyIdentity: this.#policyIdentity, resolverRecord: { ...stock.resolverRecord, source: "project-custom" as const } };
-    this.#read(entry.source, MAX_SOURCE); this.#recapture();
     return freeze({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
   }
   public inspectFootprint(id: string): KiCadAuthorizedFootprintInspection | null {
@@ -223,10 +268,15 @@ export class KiCadApprovedPackageResolver implements PcbReadOnlyLibraryResolver 
     }
     this.#recapture();
     const stock = inspectKiCadApprovedFootprintBytes(this.#read(entry.source, MAX_SOURCE), id);
+    const approved = this.#bindFootprintInspection(stock);
+    this.#read(entry.source, MAX_SOURCE); this.#recapture();
+    return approved;
+  }
+  #bindFootprintInspection(stock: KiCadStockFootprintInspection): KiCadApprovedFootprintInspection {
+    if (stock.resolverRecord.pads.length === 0 && !isSupportedMechanicalFootprintPads(stock.physicalPads)) throw new Error("Zero-terminal approved footprints require the strict mechanical feature form");
     const { identity: _identity, ...parsed } = stock;
     const payload = { ...parsed, schemaVersion: KICAD_APPROVED_FOOTPRINT_INSPECTION_SCHEMA_VERSION,
       packagePolicyIdentity: this.#policyIdentity, resolverRecord: { ...stock.resolverRecord, source: "project-custom" as const } };
-    this.#read(entry.source, MAX_SOURCE); this.#recapture();
     return freeze({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
   }
   public inspectSymbolTerminalGeometry(id: string): FreshSymbolTerminalGeometry | null {
@@ -252,18 +302,43 @@ export class KiCadApprovedPackageResolver implements PcbReadOnlyLibraryResolver 
     const selected = normalizePcbLibrarySourceSelectionRequest(request);
     this.#recapture();
     const stockSelected = { symbolIds: selected.symbolIds.filter(id => !this.#isPackageId(id)), footprintIds: selected.footprintIds.filter(id => !this.#isPackageId(id)) };
-    const stockCapture = capturePcbLibrarySourceSelection(this.#stock, stockSelected);
     const records: PcbLibrarySourceSelectionRecord[] = [];
+    const packageSources = new Map<string, { kind: "symbol" | "footprint"; pin: FilePin; ids: string[] }>();
     for (const [kind, ids] of [["symbol", selected.symbolIds], ["footprint", selected.footprintIds]] as const) for (const libraryId of ids) {
+      if (!this.#isPackageId(libraryId)) continue;
+      const entry = (kind === "symbol" ? this.#symbols : this.#footprints).get(libraryId);
+      if (entry === undefined) throw new Error("Selected library ID is unavailable under approved stock/package authority");
+      const group = packageSources.get(entry.source.relativePath);
+      if (group === undefined) packageSources.set(entry.source.relativePath, { kind, pin: entry.source, ids: [libraryId] });
+      else group.ids.push(libraryId);
+    }
+    // No reusable filesystem authority is cached. Only this stack frame shares
+    // immutable source bytes between IDs in one file; buffers are not retained.
+    for (const group of packageSources.values()) {
+      const bytes = this.#read(group.pin, MAX_SOURCE);
+      const inspections = group.kind === "symbol"
+        ? inspectKiCadApprovedSymbolsBytes(bytes, group.ids, [...this.#symbols.keys()]).map(stock => this.#bindSymbolInspection(stock))
+        : group.ids.map(id => this.#bindFootprintInspection(inspectKiCadApprovedFootprintBytes(bytes, id)));
+      for (const inspection of inspections) records.push({ kind: group.kind, libraryId: inspection.libraryId,
+        sourceIdentity: inspection.sourceIdentity, inspectionIdentity: inspection.identity, approvedPackage: this.#packageSourceBinding(group.kind) });
+    }
+    // A genuine, unmodified catalog's fresh capture already contains exactly
+    // the same inspection records. Structural host resolvers retain the old
+    // direct-inspection boundary; their capture alone cannot vouch for records.
+    const genuineStockCapture = captureGenuineKiCadStockCatalogSelection(this.#stock, stockSelected);
+    const stockCapture = genuineStockCapture ?? capturePcbLibrarySourceSelection(this.#stock, stockSelected);
+    if (genuineStockCapture !== undefined) records.push(...genuineStockCapture.records);
+    else for (const [kind, ids] of [["symbol", stockSelected.symbolIds], ["footprint", stockSelected.footprintIds]] as const) for (const libraryId of ids) {
       const inspection = kind === "symbol" ? this.inspectSymbol(libraryId) : this.inspectFootprint(libraryId);
       if (inspection === null) throw new Error("Selected library ID is unavailable under approved stock/package authority");
-      const packaged = inspection.resolverRecord.source === "project-custom";
-      records.push({ kind, libraryId, sourceIdentity: inspection.sourceIdentity, inspectionIdentity: inspection.identity,
-        ...(packaged ? { approvedPackage: this.#packageSourceBinding(kind) } : {}) });
+      records.push({ kind, libraryId, sourceIdentity: inspection.sourceIdentity, inspectionIdentity: inspection.identity });
     }
     const policyIdentity = canonicalIdentity({ schemaVersion: "evleda.kicad-composite-library-policy.v1",
       stockPolicyIdentity: stockCapture?.policyIdentity ?? canonicalIdentity(this.#stockPolicy, "evleda.kicad-exact-stock-policy.v1"),
       packagePolicyIdentity: this.#policyIdentity }, "evleda.kicad-composite-library-policy.v1");
+    // Repeat the full path/link/open/hash checks, including when mtime/size did
+    // not change. A stock callback may have changed package files mid-capture.
+    for (const group of packageSources.values()) this.#read(group.pin, MAX_SOURCE);
     this.#recapture();
     return createPcbLibrarySourceSelection({ policyIdentity, records }, selected);
   }

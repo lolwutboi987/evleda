@@ -1,4 +1,5 @@
 import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
+import { writeFileSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { afterEach, describe, expect, it } from "vitest";
@@ -18,6 +19,7 @@ import { planeCompoundMutationState } from "../../src/mcp/toolbox-plane-results.
 import { usbChannelBundle } from "../helpers/usb-channel-bundle.js";
 import { usbChannelPcb, usbChannelSourceId } from "../helpers/usb-channel-source.js";
 import { routeMmToNativeNm } from "../../src/harness/fresh-route-native-units.js";
+import { planFreshFootprintFields } from "../../src/harness/fresh-footprint-field.js";
 
 // Offline source/native-port simulation only. No plane, route, or native KiCad qualification is asserted.
 const roots=new Set<string>();
@@ -98,6 +100,160 @@ async function fixture(options:{initial?:string;physicalSource?:string;compilati
   const bridge=createKicadHarnessTools(session,toolOptions);
   return {bundle:b,project,session,toolOptions,bridge,calls,viaNetFaults,physicalReads:()=>physicalReads,replaceOwnedSource:async(source:string)=>{live=source;await writeFile(project.pcbPath,source,'utf8');}};
 }
+
+describe('atomic V2 footprint field presentation', () => {
+  const fieldSource = () => {
+    let index = 0;
+    return pcb.replace(/\(property "(Reference|Value)" "([^"]*)"\)/gu, (_match, field: string, text: string) =>
+      `(property "${field}" "${text}" (at 0 ${field === 'Reference' ? -2 : 2} 0) (layer "${field === 'Reference' ? 'F.SilkS' : 'F.Fab'}") (uuid "${fixtureUuid(800 + ++index)}") (effects (font (size 1 1) (thickness 0.15))))`);
+  };
+  const updates = [{ reference: 'R1', field: 'Reference', x_mm: 12, y_mm: 6, rotation_deg: 90, size_mm: .8, thickness_mm: .08 },
+    { reference: 'R2', field: 'Reference', visible: false }];
+  const edit = { id: 'field-batch', name: 'fresh_set_footprint_fields' as const, arguments: { updates } };
+  const save = { id: 'field-save', name: 'pcb_save', arguments: {} };
+
+  it('advertises a closed batch schema and commits all fields through one reload/save with complete physical readback', async () => {
+    const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+    expect(current.bridge.tools.find(tool => tool.name === edit.name)).toMatchObject({ inputSchema: { additionalProperties: false,
+      properties: { updates: { minItems: 1, maxItems: 128 } } } });
+    const planned = planFreshFootprintFields(source, edit.arguments);
+    const result = JSON.parse((await current.bridge.execute(edit)).content);
+    expect(result).toMatchObject({ schemaVersion: 'evleda.fresh-footprint-fields-result.v1', applied: true, mutated: true, updateCount: 2, persistence: 'native-save-required' });
+    expect(current.calls.filter(name => name === 'pcb_revert')).toHaveLength(1);
+    expect(current.calls).not.toContain('pcb_save');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(planned.source);
+    const saved = await current.bridge.internal.saveAfterMutation(save);
+    expect(saved.isError).not.toBe(true);
+    expect(JSON.parse(saved.content)).toMatchObject({ status: 'saved-and-native-footprint-fields-verified', updateCount: 2 });
+    expect(current.calls.filter(name => name === 'pcb_save')).toHaveLength(1);
+    expect(current.physicalReads()).toBe(4);
+    expect(parseFreshPcbSource(await readFile(current.project.pcbPath, 'utf8')).footprints.map(fp => fp.pads))
+      .toEqual(parseFreshPcbSource(source).footprints.map(fp => fp.pads));
+    const repeat = JSON.parse((await current.bridge.execute({ ...edit, id: 'field-idempotent' })).content);
+    expect(repeat).toMatchObject({ mutated: false, idempotent: true });
+    expect((await current.bridge.internal.saveAfterMutation({ ...save, id: 'repeat-save' })).isError).not.toBe(true);
+    expect(current.calls.filter(name => name === 'pcb_revert')).toHaveLength(1);
+  });
+
+  it('validates the complete list and board bounds before any staged source or native write', async () => {
+    const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+    for (const last of [{ reference: 'ABSENT', field: 'Reference', visible: false }, { reference: 'R2', field: 'Reference', x_mm: 31, y_mm: 6 }]) {
+      await expect(current.bridge.execute({ ...edit, arguments: { updates: [updates[0]!, last] } })).rejects.toThrow();
+      expect(current.calls).not.toContain('pcb_revert'); expect(current.calls).not.toContain('pcb_save');
+      expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+    }
+  });
+
+  it('rolls the known entire list back on negative native save and refuses later writes', async () => {
+    const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+    const original = current.session.callTool;
+    current.session.callTool = async (name, args) => {
+      const result = await original(name, args);
+      return name === 'pcb_save' ? { isError: true, content: [{ type: 'text', text: 'synthetic native save failure' }] } : result;
+    };
+    await current.bridge.execute(edit);
+    const saved = await current.bridge.internal.saveAfterMutation(save);
+    expect(saved.isError).toBe(true); expect(saved.content).toContain('native-save');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+    expect(current.calls.filter(name => ['pcb_revert', 'pcb_save'].includes(name))).toEqual(['pcb_revert', 'pcb_save', 'pcb_revert']);
+    const count = current.calls.length;
+    await expect(current.bridge.execute(edit)).rejects.toThrow(/recovery|close/i);
+    expect(current.calls).toHaveLength(count);
+  });
+
+  it('preserves unknown collateral save drift and marks the editing session terminal', async () => {
+    const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+    const original = current.session.callTool;
+    let drift = '';
+    current.session.callTool = async (name, args) => {
+      const result = await original(name, args);
+      if (name === 'pcb_save') { drift = (await readFile(current.project.pcbPath, 'utf8')).replace('(thickness 1.6)', '(thickness 1.7)'); await current.replaceOwnedSource(drift); }
+      return result;
+    };
+    await current.bridge.execute(edit);
+    const saved = await current.bridge.internal.saveAfterMutation(save);
+    expect(saved.isError).toBe(true); expect(saved.content).toContain('ROLLBACK_FAILED_TERMINAL');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(drift);
+    expect(current.calls.filter(name => name === 'pcb_revert')).toHaveLength(1);
+  });
+
+  it('rechecks native write admission before staging a field batch', async () => {
+    const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+    const original = current.session.listTools;
+    current.session.listTools = () => original().map(tool => tool.name === 'pcb_save' ? { ...tool, permission: 'read' as const } : tool);
+    await expect(current.bridge.execute(edit)).rejects.toThrow(/write authorization/);
+    expect(current.calls).not.toContain('pcb_revert');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+  });
+
+  it('recovers the staged field batch when final host-result source authority fails', async () => {
+    const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+    const original = current.toolOptions.freshPhysicalFootprintResolver!;
+    const changed = '(kicad_sch (sheet))'; let changedOnce = false;
+    const bridge = createKicadHarnessTools(current.session, { ...current.toolOptions, freshPhysicalFootprintResolver: {
+      inspectFootprint(libraryId) {
+        // The second complete native PAD observation has finished. This drift
+        // is unrelated to PCB presentation and must survive guarded recovery.
+        if (!changedOnce && current.physicalReads() === 2) { changedOnce = true; writeFileSync(current.project.schematicPath, changed, 'utf8'); }
+        return original.inspectFootprint(libraryId);
+      },
+    } });
+    await expect(bridge.execute(edit)).rejects.toThrow(/result-authority/);
+    expect(bridge.freshFootprintPlacementDiagnostics?.at(-1)?.firstOperation).toBe('result-authority');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+    expect(await readFile(current.project.schematicPath, 'utf8')).toBe(changed);
+    expect(current.calls.filter(name => name === 'pcb_revert')).toHaveLength(2);
+    await expect(bridge.execute(edit)).rejects.toThrow(/recovery|close/i);
+  });
+});
+
+describe('source-preserving V2 standalone silkscreen text', () => {
+  async function textFixture() {
+    const current = await fixture({ initial: pcb });
+    const list = current.session.listTools, call = current.session.callTool;
+    current.session.listTools = () => [...list(), { name: 'pcb_add_text', permission: 'write' as const, inputSchema: { type: 'object' } }];
+    current.session.callTool = async (name, args = {}) => {
+      if (name !== 'pcb_add_text') return await call(name, args);
+      current.calls.push(name);
+      const source = await readFile(current.project.pcbPath, 'utf8');
+      const text = `(gr_text "${args.text}" (at ${args.x_mm} ${args.y_mm} 0) (layer "F.SilkS") (uuid "${fixtureUuid(9000)}") (effects (font (size ${args.size_mm} ${args.size_mm}) (thickness 0.12)) (justify left bottom)))`;
+      await current.replaceOwnedSource(source.slice(0, source.lastIndexOf(')')) + text + '\n)');
+      return { content: [], structuredContent: { result: 'Board text added.' } };
+    };
+    return { ...current, bridge: createKicadHarnessTools(current.session, current.toolOptions) };
+  }
+  const textCall = { id: 'boot-label', name: 'pcb_add_text' as const, arguments: { text: 'BOOT', x_mm: 2, y_mm: 2, size_mm: .8 } };
+  const save = { id: 'boot-label-save', name: 'pcb_save', arguments: {} };
+
+  it('exposes existing one-at-a-time text with V2 bounds, physical verification and mandatory save', async () => {
+    const current = await textFixture();
+    expect(current.bridge.tools.find(tool => tool.name === 'pcb_add_text')?.description).toContain('V1/V2');
+    await current.bridge.execute(textCall);
+    expect((await current.bridge.internal.saveAfterMutation(save)).isError).not.toBe(true);
+    expect(current.calls.filter(name => name === 'pcb_add_text')).toHaveLength(1);
+    expect(current.calls.filter(name => name === 'pcb_save')).toHaveLength(1);
+    expect(current.physicalReads()).toBe(2);
+  });
+
+  it('refuses an out-of-board text anchor before native insertion', async () => {
+    const current = await textFixture();
+    await expect(current.bridge.execute({ ...textCall, arguments: { ...textCall.arguments, x_mm: 31 } })).rejects.toThrow(/board bounds/);
+    expect(current.calls).not.toContain('pcb_add_text');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(pcb);
+  });
+
+  it('fences unknown disk/live drift before native save and preserves it during failure recovery', async () => {
+    const current = await textFixture();
+    await current.bridge.execute(textCall);
+    const drift = (await readFile(current.project.pcbPath, 'utf8')).replace('(thickness 1.6)', '(thickness 1.7)');
+    await current.replaceOwnedSource(drift);
+    const saved = await current.bridge.internal.saveAfterMutation(save);
+    expect(saved.isError).toBe(true); expect(saved.content).toContain('ROLLBACK_FAILED_TERMINAL');
+    expect(current.calls).not.toContain('pcb_save'); expect(current.calls).not.toContain('pcb_revert');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(drift);
+    await expect(current.bridge.execute(textCall)).rejects.toThrow(/recovery|close/i);
+  });
+});
 
 async function completeSchematicFixture(){
   const current=await fixture();

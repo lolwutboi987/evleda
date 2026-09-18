@@ -1,4 +1,5 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import { isKicadPlaneContactsObservation, type KicadPlaneContactsObservation } from "../integrations/kicad-plane-contacts.js";
 import { isReferenceCoverageCalculator, referenceCoverageRequestSchema, type ReferenceCoverageCalculator } from "../integrations/kicad-reference-coverage.js";
@@ -274,7 +275,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     requireValue(source.issues.length === 0 && source.zones.every(zone => zone.status === "supported"), "unsupported source geometry is retained and cannot be discarded");
     requireValue(source.unsupportedRouteItems.length === viaSpans.length && viaSpans.length === board.vias.length
       && source.unsupportedRouteItems.every(item => item.kind === "via" && viaSpans.filter(span => input.pcbSource.slice(span.start, span.end) === item.source).length === 1), "unsupported route primitives cannot be filtered into a coverage pass");
-    requireValue(board.footprints.length === bundle.contract.components.length && same(names(board.footprints.map(fp => fp.reference)), names(bundle.contract.components.map(fp => fp.reference))), "source physical component inventory differs from the exact contract");
+    assertPcbBoardFeatureInventory(bundle.contract, board, input.pcbSource);
     requireValue(same(names(endpoint.nets.map(net => net.net)), names(bundle.contract.nets.map(net => net.name))), "endpoint net inventory differs from the exact V2 contract");
     for (const net of bundle.contract.nets) {
       const observed = endpoint.nets.find(candidate => candidate.net === net.name)!;

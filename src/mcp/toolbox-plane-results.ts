@@ -12,6 +12,24 @@ const planeSyncResultSchema = freshSyncV2ResultFieldsSchema.omit({ genericProjec
   sourceContractIdentity: identitySchema.extend({ schemaVersion: z.literal("evleda.pcb-design-contract.v2") }).strict(),
   identity: identitySchema.extend({ schemaVersion: z.literal(planeSyncSchemaVersion) }).strict(),
 }).strict().superRefine(refineFreshPhysicalSyncCounts);
+const planeFeatureSyncNoChangeSchema = freshSyncV2ResultFieldsSchema.omit({ genericProjectBindingIdentity: true, upstreamMetrics: true }).extend({
+  schemaVersion: z.literal(planeSyncSchemaVersion),
+  planeProjectBindingIdentity: identitySchema.extend({ schemaVersion: z.literal("evleda.pcb-agent-plane-fresh-binding.v1") }).strict(),
+  sourceContractIdentity: identitySchema.extend({ schemaVersion: z.literal("evleda.pcb-design-contract.v2") }).strict(),
+  identity: identitySchema.extend({ schemaVersion: z.literal(planeSyncSchemaVersion) }).strict(),
+  applied: z.literal(true), mutated: z.literal(false), idempotent: z.literal(true),
+  nativeSyncDisposition: z.literal("verified-no-change"), boardFeatureCount: z.number().int().min(1).max(16),
+}).strict().superRefine((value, context) => {
+  if (canonicalJson(value.beforePcbContentIdentity) !== canonicalJson(value.afterPcbContentIdentity)
+      || value.boardFeatureCount > value.nonElectricalFeatureCount
+      || value.physicalPadCount !== value.numberedCopperPrimitiveCount + value.nonElectricalFeatureCount
+      || value.numberedCopperPrimitiveCount !== value.namedCopperPrimitiveCount + (value.netlessCopperPrimitiveCount ?? value.noConnectCopperPrimitiveCount)
+      || (value.netlessCopperPrimitiveCount === undefined) !== (value.functionalCopperPrimitiveCount === undefined)
+      || value.functionalCopperPrimitiveCount !== undefined && value.numberedCopperPrimitiveCount !== value.functionalCopperPrimitiveCount + value.noConnectCopperPrimitiveCount
+      || value.logicalTerminalCount !== value.logicalNamedTerminalCount + value.logicalNoConnectTerminalCount
+      || value.platedFootprintHoleCount > value.numberedCopperPrimitiveCount) context.addIssue({ code: "custom", message: "No-change feature sync requires unchanged source and complete physical/logical counts." });
+});
+const planeSyncUnion = z.union([planeSyncResultSchema, planeFeatureSyncNoChangeSchema]);
 const planeRouteSchemaVersion = "evleda.fresh-plane-route-mutation-result.v1";
 const planeRouteResultSchema = z.object({
   schemaVersion: z.literal(planeRouteSchemaVersion),
@@ -42,6 +60,7 @@ export interface PlaneCompoundMutationContext {
   readonly connectivityIdentity: CanonicalIdentity;
   readonly projectBindingIdentity: CanonicalIdentity;
   readonly sourceContractIdentity: CanonicalIdentity;
+  readonly boardFeatureCount?: number;
 }
 
 const planeApplySchemaVersion = "evleda.fresh-plane-apply-result.v1";
@@ -94,9 +113,10 @@ export const planeCompoundMutationState = (
   let value: unknown;
   try { value = JSON.parse(result.content) as unknown; }
   catch (error) { throw new Error(`${operation} returned invalid JSON.`, { cause: error }); }
-  const parsed = sync ? planeSyncResultSchema.safeParse(value) : apply ? planeApplyResultSchema.safeParse(value) : planeRouteResultSchema.safeParse(value);
+  const parsed = sync ? planeSyncUnion.safeParse(value) : apply ? planeApplyResultSchema.safeParse(value) : planeRouteResultSchema.safeParse(value);
   if (!parsed.success) throw new Error(`${operation} returned an invalid host board-mutation result: ${parsed.error.issues.slice(0, 8).map((issue) => issue.message).join("; ")}`);
   const { identity, ...payload } = parsed.data;
+  if (sync && !payload.mutated && (!("boardFeatureCount" in payload) || payload.boardFeatureCount !== expected.boardFeatureCount)) throw new Error("No-change plane sync requires the exact host-bound board feature inventory.");
   if (canonicalJson(payload.contractIdentity) !== canonicalJson(expected.connectivityIdentity)
       || canonicalJson(payload.planeProjectBindingIdentity) !== canonicalJson(expected.projectBindingIdentity)
       || canonicalJson(payload.sourceContractIdentity) !== canonicalJson(expected.sourceContractIdentity)) {

@@ -1,0 +1,9 @@
+# Unpopulated Pico-compatible PTH contact rows
+
+Reviewed 2026-09-17 against [Pico 2 datasheet Release 5](https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf), printed pages 7-8 / PDF pages 8-9. J2/J3 are bare PCB contacts. No plastic connector is populated, and no castellated or mechanical drop-in compatibility is claimed. A future fitted header requires its full body, courtyard and mechanical review.
+
+Origin is contact 1 at (0,0); contact n is (0, 2.54*(n-1)) mm, with 20 contacts spanning 48.26 mm. Hole diameter is 1 mm. The installed stock electrical-pad choice is retained: 1.7 mm copper, pin 1 square and the rest circular, plated through on *.Cu/*.Mask, remove_unused_layers=no. Nominal annulus is 0.35 mm. There is no paste, invented body, 3D model or clearance override. Fabrication graphics trace actual copper boundaries. Both-side courtyards are explicitly a bare-contact access envelope, copper plus 0.25 mm: x = +/-1.10, y = -1.10 to 49.36 mm. They do not conceal a reduced fitted-header courtyard. Stock geometry attribution and identity are retained.
+
+On the 21 x 51 mm outline, J2 at (1.61,1.37), rotation 0, gives local 1 = Pico 1 top-left and local 20 = Pico 20 bottom-left. J3 at (19.39,49.63), rotation 180, gives local 1 = Pico 21 bottom-right and local 20 = Pico 40 top-right. Row spacing is 17.78 mm. Full-size copper leaves 0.76 mm to side edges and 0.52 mm to end edges; along-row copper gap is 0.84 mm. Drill margins are 1.11 mm side / 0.87 mm end before process tolerances. The contact-access courtyard remains 0.51 mm side / 0.27 mm end inside the outline. No copper-clearance rule is reduced.
+
+Bare contacts are an explicit current design choice. Hole/plating tolerances, mating/probe access, mounting holes and any future fitted connector remain separate checks. The footprint makes no claim that a carrier's castellated lands or USB mechanical envelope will fit.

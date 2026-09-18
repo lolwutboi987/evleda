@@ -10,7 +10,7 @@ import { createPcbDesignCompilationBundle, createPcbDesignCompilationBundleRef }
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { prepareFreshProject } from "../../src/harness/fresh-project.js";
 import { createKicadHarnessTools, KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES, type KicadHarnessSession } from "../../src/harness/kicad-tools.js";
-import { parseFreshSymbolLibraryTerminalGeometrySource, selectFreshSymbolTerminalGeometryPins, parseFreshSchematicSource, parseFreshSchematicConnectivityPrimitiveInventory } from "../../src/harness/fresh-kicad-parser.js";
+import { parseFreshSymbolLibraryTerminalGeometrySource, selectFreshSymbolTerminalGeometryPins, parseFreshSchematicSource, parseFreshSchematicConnectivityPrimitiveInventory, parseFreshSchematicPresentationSource } from "../../src/harness/fresh-kicad-parser.js";
 import { buildFreshSchematicSourceTerminalGroups } from "../../src/harness/fresh-schematic-source-adapter.js";
 import { createFreshSchematicStrokeStyleEvidence, FRESH_SCHEMATIC_STROKE_NATIVE_PROFILE, type FreshSchematicStrokeStyleCapture } from "../../src/harness/fresh-schematic-stroke-style.js";
 import type { KicadSchematicSvgResult } from "../../src/integrations/kicad-cli.js";
@@ -24,16 +24,19 @@ const resistor = JSON.parse(readFileSync(new URL("../fixtures/fresh-project/stoc
 const uuid = (number: number) => `00000000-0000-0000-0000-${number.toString(16).padStart(12, "0")}`;
 const add = (source: string, forms: string): string => { const close = source.lastIndexOf(")"); return `${source.slice(0, close)}\n${forms}\n${source.slice(close)}`; };
 
-export type LargerSchematicFault = "none" | "missing-batch" | "graph-member" | "native-member" | "receipt-uuid" | "after-source" | "no-style";
-export async function largerSchematicBatchFixture(kind: "rp2350b" | "resistor-bank", fault: LargerSchematicFault = "none", workLimit?: number) {
+export type LargerSchematicFault = "none" | "missing-batch" | "graph-member" | "native-member" | "receipt-uuid" | "after-source" | "no-style"
+  | "compact-native-text" | "unsupported-native-text" | "native-text-obstruction" | "unsupported-pin-marker" | "unsupported-source-graphic";
+export async function largerSchematicBatchFixture(kind: "rp2350b" | "resistor-bank" | "terminal-label-bank", fault: LargerSchematicFault = "none", workLimit?: number) {
   const root = await mkdtemp(path.join(os.tmpdir(), "evleda-larger-schematic-"));
   const libraryId = kind === "rp2350b" ? "MCU_RaspberryPi:RP2350B" : "Device:R";
   const leaf = libraryId.split(":")[1]!;
-  const definition = kind === "rp2350b" ? mcu.definitions.find((entry) => entry.libraryId === libraryId)!.source : resistor.definitionSource;
+  const originalDefinition = kind === "rp2350b" ? mcu.definitions.find((entry) => entry.libraryId === libraryId)!.source : resistor.definitionSource;
+  const definition = fault === "unsupported-pin-marker" ? originalDefinition.replace("(pin passive line", "(pin passive inverted")
+    : fault === "unsupported-source-graphic" ? originalDefinition.replace('(symbol "R_0_1"', '(symbol "R_0_1" (text "custom ink" (at 0 0 0) (effects (font (size 1.27 1.27))))') : originalDefinition;
   const librarySource = kind === "rp2350b" ? Buffer.from(mcu.sourceBase64, "base64").toString("utf8") : `(kicad_symbol_lib ${definition})`;
   const geometry = parseFreshSymbolLibraryTerminalGeometrySource(librarySource, contentIdentity(librarySource), libraryId);
   const pins = selectFreshSymbolTerminalGeometryPins(geometry, 1, 1);
-  const references = kind === "rp2350b" ? ["U1"] : Array.from({ length: 16 }, (_, index) => `R${index + 1}`);
+  const references = kind === "rp2350b" ? ["U1"] : Array.from({ length: kind === "terminal-label-bank" ? 40 : 16 }, (_, index) => `R${index + 1}`);
   const footprint = kind === "rp2350b" ? "Package_DFN_QFN:QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm" : "Resistor_SMD:R_0603_1608Metric";
   const netFor = (pin: typeof pins[number]): string | null => kind === "rp2350b" ? pin.name === "IOVDD" ? "N_IO" : pin.name === "DVDD" ? "N_CORE" : null : pin.number === "1" ? "N_TOP" : "N_BOTTOM";
   const components = references.map((reference) => ({ reference, symbolLibId: libraryId, value: leaf, footprintLibId: footprint, unit: 1,
@@ -57,7 +60,10 @@ export async function largerSchematicBatchFixture(kind: "rp2350b" | "resistor-ba
   if (compilation.disposition !== "ready") throw new Error(JSON.stringify(compilation.issues));
   const bundle = createPcbDesignCompilationBundle({ originalPrompt: "FAKE-MCP SCHEMATIC STATE-MACHINE TEST ONLY, not a functioning PCB design.", compilation }, dependencies);
   const fresh = await prepareFreshProject({ outputDir: root, name: "larger", resume: false, workflowKind: "generic", compilationBundle: bundle, compilationBundleRef: createPcbDesignCompilationBundleRef(bundle) });
-  const centers = new Map(references.map((reference, index) => [reference, kind === "rp2350b" ? { x: 101.6, y: 101.6 } : { x: 30.48 + index * 15.24, y: 76.2 }]));
+  const preciseTextFixture = kind === "terminal-label-bank" || ["compact-native-text", "unsupported-native-text", "native-text-obstruction", "unsupported-pin-marker", "unsupported-source-graphic"].includes(fault);
+  const centers = new Map(references.map((reference, index) => [reference, kind === "rp2350b" ? { x: 101.6, y: 101.6 }
+    : kind === "terminal-label-bank" ? { x: Number((30.48 + index % 10 * 25.4).toFixed(4)), y: Number((45.72 + Math.floor(index / 10) * 38.1).toFixed(4)) }
+      : { x: 30.48 + index * (preciseTextFixture ? 12.7 : 15.24), y: 76.2 }]));
   const embedded = definition.replace(`(symbol "${leaf}"`, `(symbol "${libraryId}"`);
   const source = `(kicad_sch (version 20250114) (generator "test_fixture") (uuid "${uuid(1)}") (paper "A4") (lib_symbols ${embedded})
     ${references.map((reference, index) => { const at = centers.get(reference)!; return `(symbol (lib_id "${libraryId}") (at ${at.x} ${at.y} 0) (unit 1) (uuid "${uuid(10 + index)}") (property "Reference" "${reference}") (property "Value" "${leaf}") (property "Footprint" "${footprint}"))`; }).join("\n")}
@@ -131,12 +137,14 @@ export async function largerSchematicBatchFixture(kind: "rp2350b" | "resistor-ba
       let result = "ok";
       if (name === "sch_get_symbols") result = references.map((reference) => { const center = centers.get(reference)!; return `- ${reference} ${leaf} ${libraryId} @ (${center.x}, ${center.y}) rot=0 unit=1 footprint=${footprint}`; }).join("\n");
       if (name === "sch_get_pin_positions") {
-        const reference = references.find((candidate) => Math.abs(centers.get(candidate)!.x - Number(args.x_mm)) < 0.001)!;
+        const reference = references.find((candidate) => Math.abs(centers.get(candidate)!.x - Number(args.x_mm)) < 0.001
+          && Math.abs(centers.get(candidate)!.y - Number(args.y_mm)) < 0.001)!;
         result = livePins.filter((pin) => pin.reference === reference).map((pin) => `- Pin ${pin.pin}: (${pin.at.xMm}, ${pin.at.yMm}) mm`).join("\n");
       }
       if (name === "sch_get_bounding_boxes") result = `Schematic bounding boxes (${references.length} symbols):\nRef Value X Y X_min Y_min X_max Y_max\n--------------------\n${references.map((reference) => {
         const center = centers.get(reference)!; const values = livePins.filter((pin) => pin.reference === reference);
-        return `${reference} ${leaf} ${center.x} ${center.y} ${Math.min(center.x - 1.27, ...values.map((pin) => pin.at.xMm))} ${Math.min(center.y - 1.27, ...values.map((pin) => pin.at.yMm))} ${Math.max(center.x + 1.27, ...values.map((pin) => pin.at.xMm))} ${Math.max(center.y + 1.27, ...values.map((pin) => pin.at.yMm))}`;
+        const halfX = preciseTextFixture ? 10.16 : 1.27, halfY = preciseTextFixture ? 7.62 : 1.27;
+        return `${reference} ${leaf} ${center.x} ${center.y} ${Math.min(center.x - halfX, ...values.map((pin) => pin.at.xMm))} ${Math.min(center.y - halfY, ...values.map((pin) => pin.at.yMm))} ${Math.max(center.x + halfX, ...values.map((pin) => pin.at.xMm))} ${Math.max(center.y + halfY, ...values.map((pin) => pin.at.yMm))}`;
       }).join("\n")}\n\nSheet occupied region: X=[0,300] Y=[0,200] mm`;
       if (name === "sch_get_connectivity_graph") result = applied ? exactGraph() : pristine;
       return { content: [], structuredContent: { result } };
@@ -150,7 +158,17 @@ export async function largerSchematicBatchFixture(kind: "rp2350b" | "resistor-ba
     const config = JSON.stringify({ drawing: { default_line_thickness: 6 } });
     const profile = FRESH_SCHEMATIC_STROKE_NATIVE_PROFILE;
     const executable = { kind: "kicad-cli", path: path.join(root, "fake-bin", "kicad-cli.exe"), version: profile.version, sha256: profile.executable.digest, sizeBytes: profile.executable.size };
-    const outputDirectory = path.join(root, "fake-svg"); const svg = "<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>";
+    const outputDirectory = path.join(root, "fake-svg");
+    const glyph = (text: string, x: number, y: number) => `<text x="${x}" y="${y}" opacity="0">${text}</text><g class="stroked-text"><desc>${text}</desc><path d="M${x} ${y} L${x + 1} ${y}"/></g>`;
+    // Synthetic native-ink geometry for host state-machine coverage only.
+    const text = [...centers].map(([reference, center]) => glyph(reference, center.x + 2.54, center.y + 1.27)).join("")
+      + parseFreshSchematicPresentationSource(schematic).labels.map(label => glyph(label.name,
+        label.at.x + (label.rotationDeg === 0 ? 2 : label.rotationDeg === 180 ? -2 : 0),
+        label.at.y + (label.rotationDeg === 90 ? -2 : label.rotationDeg === 270 ? 2 : 0))).join("");
+    const extra = fault === "unsupported-native-text" ? '<g class="stroked-text"><desc>unpaired</desc><path d="M1 1 L2 2"/></g>'
+      : fault === "native-text-obstruction" ? '<text x="30.48" y="72" opacity="0">custom</text><g class="stroked-text"><desc>custom</desc><path d="M30.48 45 L30.48 72"/></g>' : "";
+    const svg = preciseTextFixture ? `<svg xmlns="http://www.w3.org/2000/svg" width="300mm" height="200mm" viewBox="0 0 300 200"><g fill="none" stroke="black" stroke-width="0.1524" stroke-linecap="round" stroke-linejoin="round">${text}${extra}</g></svg>`
+      : "<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>";
     const render = { classification: "candidate-validation", releaseAuthorized: false, executable, sourceIdentities, outputDirectory, source: svg,
       sourceHashes: { [path.relative(root, fresh.schematicPath).split(path.sep).join("/")]: sourceIdentities.schematic.digest },
       schematicSvg: { path: path.join(outputDirectory, "larger.svg"), sha256: contentIdentity(svg).digest, sizeBytes: Buffer.byteLength(svg) },
@@ -165,6 +183,7 @@ export async function largerSchematicBatchFixture(kind: "rp2350b" | "resistor-ba
     return createFreshSchematicStrokeStyleEvidence(capture, sourceIdentities);
   };
   const bridge = createKicadHarnessTools(session, { freshProject: fresh, freshConnectivityContract: bundle.contract, freshCompilationBundle: bundle, freshSchematicGeometryResolver: resolver,
+    ...(kind === "terminal-label-bank" ? { freshLibraryResolver: resolver } : {}),
     ...(fault === "no-style" ? {} : { captureFreshSchematicStrokeStyle: captureStyle }), ...(workLimit === undefined ? {} : { freshSchematicWorkLimit: workLimit }),
     verifyPersistedMutation: async () => true, captureFreshNativeNetlist: async () => native() });
   return { root, fresh, bridge, source, contract, calls, get batchCalls() { return batchCalls; } };
