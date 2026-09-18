@@ -47,6 +47,7 @@ async function fixture(fault?: "drop" | "number" | "move" | "exclude" | "source-
   await writeFile(project.schematicPath, schematic);
   const session: KicadHarnessSession = {
     supportsQualifiedFootprintIdentitySync: () => true,
+    supportsQualifiedFootprintPoseSync: () => true,
     listTools: () => KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES.map(name => ({ name, permission: "write" as const, inputSchema: { type: "object", additionalProperties: true } })),
     assertActivePcb: async expected => { if (expected !== project.pcbPath) throw new Error("wrong board"); },
     readActivePcbSource: async () => live,

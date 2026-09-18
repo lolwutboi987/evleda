@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it } from "vitest";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
-import { applyRecovery, classifyRecoveryProcesses, inspectRecovery, type RecoveryHooks, type RecoveryRequest, type OutlinedSyncRecoveryRequest } from "../../scripts/recover-toolbox-project.js";
+import { applyRecovery, classifyRecoveryProcesses, inspectRecovery, pcbCheckpointRollbackBudget, type RecoveryHooks, type RecoveryRequest, type OutlinedSyncRecoveryRequest, type PcbCheckpointRollbackRequest, type RecoveryPlan } from "../../scripts/recover-toolbox-project.js";
 import { closePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-contract.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
@@ -126,6 +126,35 @@ async function outlinedFixture() {
     failureObservation, failedSession, resumeRequest: originalRequest.resumeRequest, resumeResponse, outlineRequest, outlineResponse, syncRequest, syncResponse, syncDiagnostic,
     closeRequest, closeResponse, statusRequest, statusResponse, shutdownObservation, expectedUnsafeMarker, expectedLease: originalRequest.expectedLease, expectedBoardLock, expectedProjectLock };
   return { ...f, request, originalRequest, source, diagnostic, failure };
+}
+
+async function checkpointRollbackFixture(kind: "different" | "empty" | "checkpoint" = "different") {
+  const f = await outlinedFixture(), source = kind === "empty" ? "" : kind === "checkpoint" ? f.goodBoard.toString() : "Untrusted failed native PCB state; deliberately abandoned.\n";
+  const currentPcb = await f.put(f.pcb, source);
+  const diagnostic = JSON.parse(await readFile(f.request.syncDiagnostic.path, "utf8"));
+  diagnostic.stage = "physical-pad-observation";
+  diagnostic.primary = { status: "captured", text: "Unspecified failed native validation; no rollback claim", contentIdentity: contentIdentity("Unspecified failed native validation; no rollback claim") };
+  const failedNative = "Separate preserved failed native PCB capture\n";
+  for (const role of ["savedPcb", "savedPcbAtFailure", "livePcb"]) diagnostic[role] = { status: "captured", text: failedNative, contentIdentity: contentIdentity(failedNative) };
+  diagnostic.nativeResponseJson = { status: "captured", text: '{"nativeSyncRan":true}', contentIdentity: contentIdentity('{"nativeSyncRan":true}') };
+  const { identity: _identity, ...body } = diagnostic;
+  const syncDiagnostic = await f.put(f.request.syncDiagnostic.path, identified(body as { schemaVersion: string }));
+  const observedFailurePcb = await f.put(path.join(f.base, "observed-failure.kicad_pcb"), failedNative);
+  const sync = JSON.parse(await readFile(f.request.syncResponse.path, "utf8"));
+  sync.result.structuredContent.error = "Failed sync; native rollback status unproven.";
+  const syncResponse = await f.put(f.request.syncResponse.path, sync);
+  const closed = JSON.parse(await readFile(f.request.closeResponse.path, "utf8"));
+  closed.result.structuredContent.error = "Could not publish checkpoint or finish the failed editing session.";
+  const closeResponse = await f.put(f.request.closeResponse.path, closed);
+  const failure = { recordedAt: f.failure.recordedAt, projectId: f.request.projectId, failedOperation: "fresh_sync_from_schematic", normalCloseFailed: true,
+    mutationsRetried: false, recoveryApplied: false, currentPcb,
+    files: f.failure.files.map(file => file.path === f.pcb ? { ...file, bytes: currentPcb.bytes, sha256: currentPcb.sha256,
+      matchesLastNormalClose: currentPcb.sha256 === file.lastNormalCloseSha256 } : file), retainedArtifacts: f.failure.retainedArtifacts, privateDiagnostic: syncDiagnostic };
+  const failureObservation = await f.put(path.join(f.base, "checkpoint-rollback-failure.json"), failure);
+  const { outlineRequest: _outlineRequest, outlineResponse: _outlineResponse, ...common } = f.request;
+  const request: PcbCheckpointRollbackRequest = { ...common, schemaVersion: "evleda.offline-pcb-checkpoint-rollback-request.v1", currentPcb,
+    observedFailurePcb, syncDiagnostic, syncResponse, closeResponse, failureObservation };
+  return { ...f, request, source, failure, failedNative };
 }
 
 describe("bounded offline zero-PCB recovery", () => {
@@ -343,5 +372,81 @@ describe("separately typed outlined pre-native-sync recovery", () => {
     const f = await fixture(); await writeFile(path.join(f.output, ".evleda-pcb-agent-unsafe-terminal.json"), "unsupported");
     await expect(inspectRecovery(f.request, hooks)).rejects.toThrow(/unsafe\/recovery marker/);
     expect((await readFile(f.pcb)).length).toBe(0); expect(await readdir(f.request.archiveRoot)).toEqual([]);
+  });
+});
+
+describe("operator PCB-only rollback to a prior authenticated closed checkpoint", () => {
+  const approve = (plan: RecoveryPlan) => ({ planIdentity: plan.identity.digest, maintenanceConfirmed: true as const });
+  it.each(["different", "empty", "checkpoint"] as const)("restores exact checkpoint bytes from %s current PCB without native rollback authority", async kind => {
+    const f = await checkpointRollbackFixture(kind), plan = await inspectRecovery(f.request, hooks);
+    expect(plan.schemaVersion).toBe("evleda.offline-pcb-checkpoint-rollback-plan.v1");
+    expect(plan.discardAllCurrentPcbChanges).toBe(true);
+    expect(plan.requiredFreeBytes).toBe(150 * 1024 * 1024 + plan.archiveAndTemporaryBytes!);
+    expect(plan.archiveAndTemporaryBytes).toBeLessThanOrEqual(5 * 1024 * 1024);
+    const result = await applyRecovery(plan, approve(plan), hooks);
+    expect(await readFile(f.pcb)).toEqual(f.goodBoard);
+    for (const pin of [f.markerPin, f.checkpointPin, f.reportPin, ...f.sourcePins.filter(file => file.path !== f.pcb)]) expect(contentIdentity(await readFile(pin.path)).digest).toBe(pin.sha256);
+    const currentIndex = plan.files.findIndex(file => file.path === f.pcb), nativeIndex = plan.files.findIndex(file => file.path === f.request.observedFailurePcb!.path);
+    expect(await readFile(path.join(result.archive, `${String(currentIndex).padStart(4, "0")}.bin`), "utf8")).toBe(f.source);
+    expect(await readFile(path.join(result.archive, `${String(nativeIndex).padStart(4, "0")}.bin`), "utf8")).toBe(f.failedNative);
+    expect((await readFile(path.join(f.project, ".history", "test.kicad_pcb"))).length).toBe(0);
+    await expect(lstat(f.request.expectedUnsafeMarker.path)).rejects.toMatchObject({ code: "ENOENT" });
+    await expect(lstat(f.request.expectedLease.path)).rejects.toMatchObject({ code: "ENOENT" });
+    const receipt = JSON.parse(await readFile(path.join(result.archive, "restore-verified.json"), "utf8"));
+    expect(receipt.state).toContain("ALL archived current PCB changes discarded");
+    expect(receipt.state).toContain("no native rollback or normal close claimed");
+  });
+  it("does not require a stage-specific error or an independent observed-failure PCB copy", async () => {
+    const f = await checkpointRollbackFixture(), diagnostic = JSON.parse(await readFile(f.request.syncDiagnostic.path, "utf8"));
+    diagnostic.stage = "another-native-sync-failure-stage";
+    diagnostic.beforePcb = { status: "unavailable", reason: "Historical preimage not retained; never restoration authority" };
+    const { identity: _identity, ...body } = diagnostic;
+    const syncDiagnostic = await f.put(f.request.syncDiagnostic.path, identified(body as { schemaVersion: string }));
+    const failureObservation = await f.put(f.request.failureObservation.path, { ...f.failure, privateDiagnostic: syncDiagnostic });
+    const { observedFailurePcb: _observed, ...request } = f.request;
+    expect((await inspectRecovery({ ...request, syncDiagnostic, failureObservation }, hooks)).discardAllCurrentPcbChanges).toBe(true);
+  });
+  it.each(["missing", "false"])("requires the explicit discard-all decision even in a re-identified %s plan", async kind => {
+    const f = await checkpointRollbackFixture(), original = await inspectRecovery(f.request, hooks);
+    const { identity: _identity, discardAllCurrentPcbChanges: _decision, ...body } = original;
+    const plan = identified({ ...body, ...(kind === "false" ? { discardAllCurrentPcbChanges: false } : {}) }) as unknown as RecoveryPlan;
+    await expect(applyRecovery(plan, approve(plan), hooks)).rejects.toThrow(/explicitly discard ALL/);
+    expect(await readFile(f.pcb, "utf8")).toBe(f.source); expect(await readdir(f.request.archiveRoot)).toEqual([]);
+  });
+  it.each(["schematic", "report", "checkpoint", "currentPCB", "unsafeMarker", "recreatedLock"])("refuses %s drift before abandoning any current PCB bytes", async kind => {
+    const f = await checkpointRollbackFixture(), plan = await inspectRecovery(f.request, hooks);
+    const file = kind === "schematic" ? path.join(f.project, "test.kicad_sch") : kind === "report" ? f.reportPin.path : kind === "checkpoint" ? f.checkpointPin.path
+      : kind === "currentPCB" ? f.pcb : kind === "unsafeMarker" ? f.request.expectedUnsafeMarker.path : f.request.expectedBoardLock.path;
+    await writeFile(file, "changed");
+    await expect(applyRecovery(plan, approve(plan), hooks)).rejects.toThrow();
+    expect(await readdir(f.request.archiveRoot)).toEqual([]);
+    expect(contentIdentity(await readFile(f.request.expectedLease.path)).digest).toBe(f.request.expectedLease.sha256);
+  });
+  it("refuses a foreign unsafe reason and an unrelated optional native capture even when newly pinned", async () => {
+    const f = await checkpointRollbackFixture(), observedFailurePcb = await f.put(f.request.observedFailurePcb!.path, "unrelated source");
+    await expect(inspectRecovery({ ...f.request, observedFailurePcb }, hooks)).rejects.toThrow(/exact diagnostic capture/);
+    const marker = JSON.parse(await readFile(f.request.expectedUnsafeMarker.path, "utf8")); marker.reason = "Unrelated unsafe condition";
+    const expectedUnsafeMarker = await f.put(f.request.expectedUnsafeMarker.path, marker);
+    await expect(inspectRecovery({ ...f.request, expectedUnsafeMarker, observedFailurePcb: undefined }, hooks)).rejects.toThrow();
+  });
+  it.each(["before-unsafe-marker-retirement", "before-lease-release"])("keeps lease and exact archive across partial failure at %s", async stop => {
+    const f = await checkpointRollbackFixture(), plan = await inspectRecovery(f.request, hooks);
+    await expect(applyRecovery(plan, approve(plan), { ...hooks, beforeStep: async step => { if (step === stop) throw new Error("simulated stopped retirement"); } })).rejects.toThrow(/stopped/);
+    expect(await readFile(f.pcb)).toEqual(f.goodBoard);
+    expect(contentIdentity(await readFile(f.request.expectedLease.path)).digest).toBe(f.request.expectedLease.sha256);
+    if (stop === "before-unsafe-marker-retirement") expect(contentIdentity(await readFile(f.request.expectedUnsafeMarker.path)).digest).toBe(f.request.expectedUnsafeMarker.sha256);
+    else await expect(lstat(f.request.expectedUnsafeMarker.path)).rejects.toMatchObject({ code: "ENOENT" });
+    expect(contentIdentity(await readFile(f.checkpointPin.path)).digest).toBe(f.checkpointPin.sha256);
+  });
+  it("uses the 150 MiB reserve and enforces the 5 MiB work bound without allocating giant test artifacts", () => {
+    const boundary = pcbCheckpointRollbackBudget(4 * 1024 * 1024 - 1, 1, 0);
+    expect(boundary).toEqual({ archiveAndTemporaryBytes: 5 * 1024 * 1024, requiredFreeBytes: 155 * 1024 * 1024 });
+    expect(() => pcbCheckpointRollbackBudget(4 * 1024 * 1024, 1, 0)).toThrow(/5 MiB/);
+    expect(() => pcbCheckpointRollbackBudget(Number.NaN, 1, 0)).toThrow(/accounting/);
+  });
+  it("does not admit post-native evidence through either older mode", async () => {
+    const f = await checkpointRollbackFixture();
+    await expect(inspectRecovery({ ...f.request, schemaVersion: "evleda.offline-zero-pcb-recovery-request.v1" }, hooks)).rejects.toThrow();
+    await expect(inspectRecovery({ ...f.request, schemaVersion: "evleda.offline-outlined-pre-sync-recovery-request.v1" }, hooks)).rejects.toThrow();
   });
 });

@@ -1,0 +1,37 @@
+--- a/kicad_mcp/tools/pcb.py
++++ b/kicad_mcp/tools/pcb.py
+@@ -99,6 +99,7 @@
+     generate_bga_fanout_plan,
+ )
+ from ..utils.sexpr import _extract_block, _sexpr_string, _unescape_sexpr_string
++from ..utils.footprint_pose import project_library_footprint_angles
+ from ..utils.units import _coord_nm, mm_to_nm, nm_to_mm
+ from . import (
+     pcb_basic_inspection,
+@@ -2184,7 +2185,7 @@
+     path = _footprint_file(library, footprint)
+     if not path.exists():
+         raise FileNotFoundError(f"Footprint '{footprint_assignment}' was not found.")
+-    block = path.read_text(encoding="utf-8", errors="ignore").strip()
++    block = path.read_text(encoding="utf-8", errors="strict").strip()
+     root_name = re.match(rf"(\(footprint\s+){STRING_PATTERN}(?=\s|\))", block)
+     if root_name is None:
+         raise ValueError(f"Footprint '{footprint_assignment}' has no quoted root name.")
+@@ -2194,6 +2195,7 @@
+     block = _replace_property_value(block, "Reference", reference)
+     block = _replace_property_value(block, "Value", value)
+     block = _assign_pad_nets(block, pad_nets)
++    block = project_library_footprint_angles(block, rotation)
+     return _inject_root_placement(block, x_mm=x_mm, y_mm=y_mm, rotation=rotation)
+ 
+ 
+@@ -3369,7 +3371,8 @@
+ 
+     @mcp.tool(
+         meta={
+-            "evledaQualifiedFootprintIdentitySync": "evleda.kicad-qualified-footprint-identity-sync.v1"
++            "evledaQualifiedFootprintIdentitySync": "evleda.kicad-qualified-footprint-identity-sync.v1",
++            "evledaQualifiedFootprintPoseSync": "evleda.kicad-qualified-footprint-pose-sync.v1"
+         }
+     )
+     @headless_compatible

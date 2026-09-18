@@ -1,8 +1,10 @@
 # Offline recovery of the recorded PCB checkpoint failures
 
-`scripts/recover-toolbox-project.ts` handles two recorded failures through
+`scripts/recover-toolbox-project.ts` handles three bounded recovery modes through
 separate strict request and plan schemas: the zero-byte PCB after disk exhaustion,
-and the outlined pre-sync board rejected before native electrical synchronization.
+the outlined pre-sync board rejected before native electrical synchronization,
+and explicit abandonment of current PCB changes in favor of an authenticated
+earlier closed checkpoint.
 It is an operator-reviewed offline exception, not an MCP operation, general crash
 repair, or automatic stale-lock reclamation. Other failure shapes are unsupported.
 Normal workspace resume and ownership checks remain unchanged.
@@ -21,6 +23,16 @@ report. The saved board may differ from the older checkpoint only by the exact
 contract outline. This mode intentionally rolls that outline back; it does not
 misrepresent the outlined board as the older checkpoint. Both editor locks must
 already be absent, and no other unsafe marker is admitted.
+
+The PCB-only checkpoint rollback mode has its own request/plan schemas and an
+explicit `discardAllCurrentPcbChanges: true` plan decision. Its authority comes
+from the authenticated prior checkpoint, an exact independent backup, unchanged
+non-PCB governed sources/report/bindings, current pinned failure state, confirmed
+shutdown, and the operator's exact-plan approval. A primary diagnostic or an
+error message claiming rollback does not establish native rollback completion.
+Current PCB bytes and available failed output are archived before replacement;
+only the exact typed terminal marker and lease may be retired. This mode has a
+5 MiB cumulative write bound and a 150 MiB reserve plus calculated work space.
 
 Inspection writes only a plan to stdout:
 
@@ -49,7 +61,7 @@ exclusive recovery archive and verified before replacement. Only the exact
 checkpoint PCB is restored. Checkpoints, history, rules and the schematic are
 not rewritten. Only the orphan artifacts explicitly covered by the selected
 mode are retired: the pinned editor locks in the zero-byte case, or the pinned
-terminal marker in the outlined pre-sync case. The workspace lease is released
+terminal marker in the two checkpoint-rollback cases. The workspace lease is released
 last. Durable receipts distinguish an intended release from an observed release.
 
 On any interruption, preserve the partial archive and remaining orphan artifacts for
@@ -57,9 +69,10 @@ review. Do not blindly retry, delete the archive, recreate locks, or change the
 checkpoint. A successful offline restore still requires the normal toolbox
 resume and fresh native verification; it does not establish a completed design.
 
-The implementation received 54 focused tests, TypeScript checking and an
-independent source review. Both actual V9 recoveries restored the PCB's exact
+The implementation received 71 focused tests, TypeScript checking and an
+independent source review. All three actual V9 recoveries restored the PCB's exact
 2,614 checkpoint bytes; separate readbacks confirmed all eight prior normal-close
 hashes and preservation of the other captured files. Evidence is retained under
 `destination-verification/rp2350-native-disk-full-01/` and
-`destination-verification/rp2350-native-sync-failure-01/` outside the repository.
+`destination-verification/rp2350-native-sync-failure-01/` and
+`destination-verification/rp2350-native-sync-failure-02/` outside the repository.

@@ -1,5 +1,31 @@
 # Current status and roadmap
 
+Latest user constraint: **keep unrelated copper out from between the external
+GPIO-header pads on both sides, with clean inward connections and room for
+soldering/rework. Keep two layers for now.** V9 contains between-pad vias and
+ground copper and is therefore historical under the new intent. The specific
+service margin and exit corridors are still being checked against the mounting
+holes; minimum DRC clearance alone is not the requested durability objective.
+
+The next real sync passed the mounting-feature precondition but exposed a
+producer rotation defect: C10 and six other footprints had rotated roots with
+unrotated absolute child-pad angles. All 66 footprints and 281 physical members
+were present. The physical comparison correctly rejected the result. The failed
+output is archived; a separately reviewed PCB-only rollback restored the older
+checkpoint, with all eight prior close hashes matching. No native placement or
+copper is accepted from that failed sync.
+
+The new DOC11 producer overlay and host capability gate are independently
+reviewed. The correction passed 20 isolated native rotation cases and 264
+template cases; the host gate passed 47 selected tests. Legacy identity-only
+producers can still serve unrelated operations but cannot perform sync under
+the new host. The separate DOC11 runtime/profile now passes complete source
+verification, installed descriptor capture and both production profile readers.
+The integrated host build and real public synchronization remain pending.
+Existing DOC10 and earlier evidence are preserved. The immutable overlay manifest
+records its earlier source-only qualification; later runtime evidence is retained
+under `destination-verification/doc11-runtime-publication-01/` outside the repository.
+
 Latest continuation, 18 September 2026: **the pre-sync board-feature guard has
 been fixed in source; native qualification is pending.** After successful
 disk-full recovery and normal reopen, V9 saved its 22 x 51 mm outline. Sync then
@@ -20,7 +46,8 @@ plus exactly those three reviewed files) passed source/UI typechecks, build and
 DOC9/DOC10 verification. A separate reviewed recovery archived the failed sync
 state and rolled only its saved outline back to the older checkpoint PCB. All
 eight prior close hashes match again; the exact terminal marker and lease were
-retired after verification. The fixed host is now starting a fresh native run.
+retired after verification. That next run exposed the producer defect described
+above; the pre-sync guard fix itself was exercised successfully.
 Evidence is retained under
 `destination-verification/rp2350-native-sync-failure-01/` outside the repository.
 

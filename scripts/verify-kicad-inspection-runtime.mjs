@@ -52,6 +52,13 @@ const DOC10_ADMISSION_02 = Object.freeze({
   admissionSha256: "3273370050019aef03d37e6d33e9a6ed2f9f3834153c819266c8e72d738589dd", admissionBytes: 9122,
   allowedProfileDelta: Object.freeze(["kicadMcpRuntime.runtimeBundle", "kicadMcpRuntime.processTreeSupervision.terminator.path", "kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentsSha256"]),
 });
+const DOC11 = Object.freeze({
+  provenanceSha256: "a7fdc3b43879524d958ce90b71037856cdd36fd7754dfbbdc4e381a6916de1c8",
+  sources: Object.freeze([
+    { path: DOC6.path, sha256: "f5526ff03f2ca1cda4a155758071c7de98249538b9328b8a5bfe5b1b78b7ecc3", sizeBytes: 187729 },
+    { path: "environment/Lib/site-packages/kicad_mcp/utils/footprint_pose.py", sha256: "bd325a508d32f185f2c6cf4275beb40018c461c997f92f141a8df9515283c9b1", sizeBytes: 9168 },
+  ]),
+});
 export const originalRuntimeRoot = String.raw`D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc5`;
 export const sha256 = bytes => createHash("sha256").update(bytes).digest("hex");
 export const pyvenvText = root => `home = ${path.join(root, "python")}\nimplementation = CPython\nuv = 0.11.31\nversion_info = 3.13.12\ninclude-system-site-packages = false\nrelocatable = true\n`;
@@ -311,6 +318,50 @@ async function doc10ProfileAdmissionPublication(reference, geometryProvenance) {
   assert.equal(rejected.readKicadNativeProfile.passed, false); assert.equal(rejected.loadKicadToolboxFreshProfile.passed, true);
 }
 
+/** DOC11 replaces the inherited DOC6 PCB writer and adds one helper to the
+ * complete DOC10 reference. Source/oracle publication is not public sync proof. */
+async function doc11Reference(doc10) {
+  const directory = path.join(repositoryRoot, "sidecars", "patches", "doc11");
+  const bytes = await readFile(path.join(directory, "provenance.json"));
+  assert.equal(sha256(bytes), DOC11.provenanceSha256, "DOC11 provenance differs from its published pin");
+  const provenance = JSON.parse(bytes);
+  assert.equal(provenance.schemaVersion, "evleda.doc11-footprint-pose-source-overlay.v1");
+  assert.equal(provenance.status, "source-and-isolated-oracle-qualified-runtime-not-published");
+  assert.equal(provenance.predecessorModuleSha256, DOC6.sha256);
+  assert.deepEqual(provenance.runtimeDelta, DOC11.sources.map(source => source.path), "DOC11 contains an unapproved runtime delta");
+  assert.deepEqual(provenance.checks, { offlineTestMethodsPassed: 6, nativeOracleCasesPassed: 20,
+    currentTemplateCardinalCasesPassed: 264, completePhysicalMembersPerRotation: 281,
+    physicalComparatorChanged: false, nativeProjectChanged: false, runtimePublished: false });
+  // The pinned publication contains source, descriptor, patch and isolated
+  // oracle/replay evidence. Read only these safe relative artifacts; execute none.
+  const artifacts = Object.entries(provenance.artifacts);
+  assert.equal(artifacts.length, 138, "DOC11 publication artifact inventory differs");
+  let publishedBytes = 0;
+  for (const [relative, pin] of artifacts) {
+    assert.ok(/^[A-Za-z0-9_.\/-]+$/u.test(relative) && !relative.startsWith("/")
+      && relative.split("/").every(part => part !== "" && part !== "." && part !== ".."), "Unsupported DOC11 publication path");
+    const payload = await readFile(path.join(directory, ...relative.split("/")));
+    assert.equal(sha256(payload), pin.sha256, "DOC11 source/oracle artifact differs from its published pin");
+    assert.equal(payload.length, pin.sizeBytes);
+    publishedBytes += payload.length;
+  }
+  assert.equal(publishedBytes, provenance.bytesBeforeManifest);
+  const [pcbSource, helperSource] = DOC11.sources;
+  const before = doc10.files.find(file => file.path === pcbSource.path);
+  assert.ok(before && before.sha256 === DOC6.sha256 && before.sizeBytes === DOC6.sizeBytes, "DOC11 requires the complete DOC10 predecessor PCB source");
+  assert.ok(!doc10.files.some(file => file.path === helperSource.path), "DOC11 helper must be the single added runtime leaf");
+  assert.ok(doc10.directories.some(entry => entry.path === path.posix.dirname(helperSource.path)), "DOC11 helper parent must already exist in DOC10");
+  for (const source of DOC11.sources) {
+    assert.deepEqual(provenance.artifacts[source.path.slice("environment/Lib/site-packages/".length)],
+      { sha256: source.sha256, sizeBytes: source.sizeBytes }, "DOC11 runtime source mapping differs from its approved overlay");
+  }
+  const files = doc10.files.map(file => file.path === pcbSource.path ? { ...file, sha256: pcbSource.sha256, sizeBytes: pcbSource.sizeBytes } : file);
+  files.push({ ...helperSource, mode: 0o666 });
+  files.sort((a, b) => a.path.localeCompare(b.path, "en-US"));
+  return { ...doc10, files, fileCount: doc10.fileCount + 1,
+    totalBytes: doc10.totalBytes - before.sizeBytes + pcbSource.sizeBytes + helperSource.sizeBytes };
+}
+
 export function runManifestHelper(mode, root, manifest, finalRoot = root) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [path.join(repositoryRoot, "scripts", "build-kicad-inspection-runtime-manifest.mjs"), mode, root, manifest, finalRoot], {
@@ -330,23 +381,28 @@ export async function verifyRuntime(paths) {
   try { candidate = JSON.parse(await readFile(paths.manifest, "utf8")); }
   catch (cause) { throw new Error("Destination runtime manifest is unavailable. Run pnpm setup:destination for DOC5, or set both documented runtime environment overrides. Verification was not skipped.", { cause }); }
   const pcb = candidate.files?.find(file => file.path === DOC6.path);
+  const doc11Matches = DOC11.sources.map(source => candidate.files?.some(file => file.path === source.path && file.sha256 === source.sha256 && file.sizeBytes === source.sizeBytes) === true);
+  const isDoc11 = doc11Matches.every(Boolean);
+  const hasDoc11Leaf = doc11Matches.some(Boolean) || candidate.files?.some(file => file.path === DOC11.sources[1].path);
   const isDoc8 = pcb?.sha256 === DOC8.sha256 && pcb?.sizeBytes === DOC8.sizeBytes;
-  const isDoc6 = isDoc8 || pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
+  const isDoc6 = isDoc11 || isDoc8 || pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
   const graph = candidate.files?.find(file => file.path === DOC7.sources[0].path);
   const doc10Matches = DOC10.sources.map(source => candidate.files?.some(file => file.path === source.path && file.sha256 === source.sha256 && file.sizeBytes === source.sizeBytes) === true);
   const isDoc10 = doc10Matches.every(Boolean);
   const isDoc7 = isDoc6 && (isDoc10 || graph?.sha256 === DOC7.sources[0].sha256 && graph?.sizeBytes === DOC7.sources[0].sizeBytes);
   const fieldLayout = candidate.files?.find(file => file.path === DOC9.path);
   const isDoc9 = fieldLayout?.sha256 === DOC9.sha256 && fieldLayout?.sizeBytes === DOC9.sizeBytes;
+  assert.ok(!hasDoc11Leaf || (isDoc11 && isDoc10 && isDoc9 && !isDoc8), "DOC11 requires both qualified pose leaves on the complete DOC10 lineage; partial or mixed overlays are forbidden");
   assert.ok(!doc10Matches.some(Boolean) || (isDoc10 && isDoc9 && isDoc6 && !isDoc8), "DOC10 requires both qualified cardinal leaves on the complete DOC9/DOC7 lineage; DOC8 cannot be its predecessor");
   assert.ok(!isDoc9 || (isDoc7 && !isDoc8), "DOC9 requires the DOC7 graph and PCB behavior; DOC8 cannot be its predecessor");
   const doc6 = isDoc6 ? await doc6Reference(original) : original;
   const doc7 = isDoc7 ? await doc7Reference(doc6) : doc6;
   const doc9 = isDoc9 ? await doc9Reference(doc7) : isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
-  const reference = isDoc10 ? await doc10Reference(doc9) : doc9;
+  const doc10 = isDoc10 ? await doc10Reference(doc9) : doc9;
+  const reference = isDoc11 ? await doc11Reference(doc10) : doc10;
   assertDoc5Relocation(reference, candidate, paths.root);
   const result = await runManifestHelper("verify", paths.root, paths.manifest);
-  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
+  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc11 ? "DOC11" : isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
     doc5SourcePinsVerified: true, ...(isDoc6 ? { doc6SourcePinsVerified: true, doc6ProvenanceSha256: DOC6.provenanceSha256 } : {}),
     ...(isDoc7 ? { doc7SourcePinsVerified: true, doc7ProvenanceSha256: DOC7.provenanceSha256 } : {}),
     ...(isDoc8 ? { doc8SourcePinsVerified: true, doc8ProvenanceSha256: DOC8.provenanceSha256 } : {}),
@@ -354,12 +410,15 @@ export async function verifyRuntime(paths) {
     ...(isDoc10 ? { doc10SourcePinsVerified: true, doc10ProvenanceSha256: DOC10.provenanceSha256,
       doc10GeometryQualificationReceiptSha256: DOC10.receiptSha256, doc10QualificationReceiptSha256: DOC10_ADMISSION_02.receiptSha256,
       doc10ProfileAdmissionPublicationSha256: DOC10_ADMISSION_02.provenanceSha256 } : {}),
+    ...(isDoc11 ? { doc11SourcePinsVerified: true, doc11ProvenanceSha256: DOC11.provenanceSha256,
+      doc11QualificationScope: "published-source-and-isolated-footprint-oracle-only", doc11NativePublicSyncQualified: false } : {}),
     allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only",
       ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : []),
       ...(isDoc7 ? DOC7.sources.map(source => `${source.path}: published DOC7 power-flag graph overlay only`) : []),
       ...(isDoc8 ? [`${DOC8.path}: published DOC8 singleton no-connect transfer overlay only`] : []),
       ...(isDoc9 ? [`${DOC9.path}: published DOC9 bounded ARC field-layout overlay only`] : []),
-      ...(isDoc10 ? DOC10.sources.map(source => `${source.path}: published DOC10 schematic-cardinal correction only`) : [])] };
+      ...(isDoc10 ? DOC10.sources.map(source => `${source.path}: published DOC10 schematic-cardinal correction only`) : []),
+      ...(isDoc11 ? DOC11.sources.map(source => `${source.path}: published DOC11 footprint-pose overlay only`) : [])] };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

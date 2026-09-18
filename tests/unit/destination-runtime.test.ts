@@ -1,6 +1,6 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { EventEmitter } from "node:events";
-import { mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { assertDoc5Relocation, pyvenvText, readDoc5Source, resolveRuntimeCheckPaths, sha256, verifyRuntime } from "../../scripts/verify-kicad-inspection-runtime.mjs";
@@ -8,24 +8,21 @@ import type { Doc5Manifest } from "../../scripts/verify-kicad-inspection-runtime
 
 // Unit tests exercise publication/delta policy. A separate real helper invocation
 // verifies the installed closure; these tests never alter published source files.
-const control = vi.hoisted(() => ({ tamper: "", helperExitCode: 0, spawn: vi.fn() }));
+const control = vi.hoisted(() => ({ tamper: "", helperExitCode: 0, spawn: vi.fn(), manifests: new Map<string, string>() }));
 vi.mock("node:child_process", () => ({ spawn: control.spawn }));
 vi.mock("node:fs/promises", async importOriginal => {
   const actual = await importOriginal<typeof import("node:fs/promises")>();
   return { ...actual, readFile: async (...args: Parameters<typeof actual.readFile>) => {
-    const bytes = await actual.readFile(...args);
+    const supplied = control.manifests.get(String(args[0]));
+    const bytes = supplied === undefined ? await actual.readFile(...args) : args[1] === "utf8" ? supplied : Buffer.from(supplied);
     return control.tamper !== "" && String(args[0]).replaceAll("\\", "/").endsWith(control.tamper)
       ? Buffer.from("modified publication bytes") : bytes;
   } };
 });
-const temporaryRoots: string[] = [];
-afterEach(async () => {
+let fixtureSequence = 0;
+afterEach(() => {
   control.tamper = ""; control.helperExitCode = 0; control.spawn.mockReset();
-  for (const root of temporaryRoots.splice(0)) {
-    const target = await realpath(root), parent = await realpath(tmpdir());
-    if (path.dirname(target) !== parent || !path.basename(target).startsWith("evleda-runtime-policy-")) throw new Error("Runtime policy test cleanup escaped its owned temporary root");
-    await rm(target, { recursive: true, force: true });
-  }
+  control.manifests.clear();
 });
 
 describe("destination DOC5 runtime verification", () => {
@@ -87,8 +84,9 @@ describe("published DOC6 runtime verification", () => {
   let original: Doc5Manifest;
   const pcbPath = "environment/Lib/site-packages/kicad_mcp/tools/pcb.py";
   beforeAll(async () => { original = await readDoc5Source(); });
-  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false, doc10 = false) {
-    const directory = await mkdtemp(path.join(tmpdir(), "evleda-runtime-policy-")); temporaryRoots.push(directory);
+  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false, doc10 = false, doc11 = false) {
+    // Manifests stay in memory: zero test temp bytes and no copied runtime tree.
+    const directory = path.join(tmpdir(), `evleda-runtime-policy-${process.pid}-${++fixtureSequence}`);
     const root = path.join(directory, "runtime"), manifest = path.join(directory, "manifest.json");
     const candidate = structuredClone(original);
     const cfg = candidate.files.find(file => file.path === "environment/pyvenv.cfg")!, cfgBytes = Buffer.from(pyvenvText(root));
@@ -131,6 +129,15 @@ describe("published DOC6 runtime verification", () => {
         Object.assign(leaf, { sha256: mapping.source.sha256, sizeBytes: mapping.source.sizeBytes });
       }
     }
+    if (doc11) {
+      const pcb = candidate.files.find(file => file.path === pcbPath)!;
+      candidate.totalBytes += 187729 - pcb.sizeBytes + 9168;
+      Object.assign(pcb, { sha256: "f5526ff03f2ca1cda4a155758071c7de98249538b9328b8a5bfe5b1b78b7ecc3", sizeBytes: 187729 });
+      candidate.files.push({ path: "environment/Lib/site-packages/kicad_mcp/utils/footprint_pose.py",
+        sha256: "bd325a508d32f185f2c6cf4275beb40018c461c997f92f141a8df9515283c9b1", sizeBytes: 9168, mode: 438 });
+      candidate.fileCount = candidate.files.length;
+      candidate.files.sort((a, b) => a.path.localeCompare(b.path, "en-US"));
+    }
     control.spawn.mockImplementation(() => {
       const child = Object.assign(new EventEmitter(), { stdout: new EventEmitter(), stderr: new EventEmitter() });
       queueMicrotask(() => {
@@ -140,8 +147,9 @@ describe("published DOC6 runtime verification", () => {
       });
       return child;
     });
-    await writeFile(manifest, JSON.stringify(candidate));
-    return { root, manifest, candidate, save: () => writeFile(manifest, JSON.stringify(candidate)) };
+    const save = async () => { control.manifests.set(manifest, JSON.stringify(candidate)); };
+    await save();
+    return { root, manifest, candidate, save };
   }
   it("authenticates the DOC6 source/patch publication and reports only its two allowed changes", async () => {
     const f = await fixture();
@@ -198,6 +206,51 @@ describe("published DOC6 runtime verification", () => {
       doc10ProfileAdmissionPublicationSha256: "e0e6906e4d4aba182b2f513f598a353b7e703750d3e5e9ffd638181f763cf3a8" });
     expect(control.spawn).toHaveBeenCalledOnce(); control.helperExitCode = 1;
     await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it("authenticates the complete DOC11 overlay without requiring the replaced DOC6 PCB leaf or claiming public sync qualification", async () => {
+    const f = await fixture(true, true, false, true, true, true);
+    expect(f.candidate.files).toHaveLength(original.files.length + 1);
+    expect(f.candidate.directories).toEqual(original.directories);
+    const result = await verifyRuntime(f);
+    expect(result).toMatchObject({ generation: "DOC11", doc5SourcePinsVerified: true, doc6SourcePinsVerified: true,
+      doc7SourcePinsVerified: true, doc9SourcePinsVerified: true, doc10SourcePinsVerified: true, doc11SourcePinsVerified: true,
+      doc11ProvenanceSha256: "a7fdc3b43879524d958ce90b71037856cdd36fd7754dfbbdc4e381a6916de1c8",
+      doc11QualificationScope: "published-source-and-isolated-footprint-oracle-only", doc11NativePublicSyncQualified: false });
+    expect(result).not.toHaveProperty("doc8SourcePinsVerified");
+    expect(control.spawn).toHaveBeenCalledOnce();
+    expect(control.spawn.mock.calls[0]![1]).toEqual([expect.stringContaining("build-kicad-inspection-runtime-manifest.mjs"), "verify", f.root, f.manifest, f.root]);
+    control.helperExitCode = 1;
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it.each(["provenance.json", "sync-footprint-pose.patch", "kicad_mcp/tools/pcb.py", "kicad_mcp/utils/footprint_pose.py",
+    "registered-production-descriptor.json", "oracle-final/manifest.json", "oracle-final/qfn-270.kicad_pcb", "template-replay-final.json"])("rejects DOC11 publication drift in %s", async leaf => {
+    const f = await fixture(true, true, false, true, true, true); control.tamper = `sidecars/patches/doc11/${leaf}`;
+    await expect(verifyRuntime(f)).rejects.toThrow(/DOC11.*published pin/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it.each(["missing-helper", "unknown-helper", "old-PCB", "DOC8-PCB", "unknown-PCB", "missing-cardinal", "missing-field-layout",
+    "topology", "extra-file", "duplicate-helper", "helper-mode", "file-count", "directory", "Python", "python-home"])("rejects DOC11 partial/mixed/unapproved %s", async kind => {
+    const f = await fixture(true, true, false, true, true, true), files = f.candidate.files;
+    const helper = files.find(file => file.path.endsWith("utils/footprint_pose.py"))!;
+    if (kind === "missing-helper") f.candidate.files = files.filter(file => file !== helper);
+    else if (kind === "unknown-helper") helper.sha256 = "a".repeat(64);
+    else if (kind === "old-PCB") Object.assign(files.find(file => file.path === pcbPath)!, { sha256: "cebed5c9e87abd799c4c6baab9ddb60224c9dface1e0e44b0eea91f56fb6a2e0", sizeBytes: 187502 });
+    else if (kind === "DOC8-PCB") Object.assign(files.find(file => file.path === pcbPath)!, { sha256: "8e5810bc7879b636c42c8d6e0d561875b3d16bd2222272a2ea58bd5f7aeefddf", sizeBytes: 189117 });
+    else if (kind === "unknown-PCB") files.find(file => file.path === pcbPath)!.sha256 = "a".repeat(64);
+    else if (kind === "missing-cardinal") files.find(file => file.path.endsWith("models/visual_qa.py"))!.sha256 = "a".repeat(64);
+    else if (kind === "missing-field-layout") files.find(file => file.path.endsWith("utils/field_layout.py"))!.sha256 = "a".repeat(64);
+    else if (kind === "topology") files.find(file => file.path.endsWith("schematic/topology.py"))!.sha256 = "a".repeat(64);
+    else if (kind === "extra-file") files.push({ path: "extra.pyc", sha256: "a".repeat(64), sizeBytes: 1, mode: 438 });
+    else if (kind === "duplicate-helper") files.push({ ...helper });
+    else if (kind === "helper-mode") helper.mode = 0;
+    else if (kind === "file-count") f.candidate.fileCount = original.files.length;
+    else if (kind === "directory") f.candidate.directories[0]!.mode = 0;
+    else if (kind === "Python") f.candidate.python.version = "3.14";
+    else files.find(file => file.path === "environment/pyvenv.cfg")!.sha256 = "a".repeat(64);
+    await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it.each(["doc7/power-flag-connectivity.patch", "doc9/bounded-arc-field-layout.patch", "doc10/profile-admission-02/profile-admission.json"])("retains predecessor publication verification for DOC11: %s", async relative => {
+    const f = await fixture(true, true, false, true, true, true); control.tamper = `sidecars/patches/${relative}`;
+    await expect(verifyRuntime(f)).rejects.toThrow(/published pin/); expect(control.spawn).not.toHaveBeenCalled();
   });
   it.each(["provenance.json", "schematic-cardinal.patch", "qualification-receipt.json", "qualification-report.json", "kicad_mcp/tools/schematic.py", "kicad_mcp/models/visual_qa.py"])("rejects DOC10 publication drift in %s", async leaf => {
     const f = await fixture(true, true, false, true, true); control.tamper = `sidecars/patches/doc10/${leaf}`;

@@ -258,6 +258,11 @@ const QUALIFIED_FOOTPRINT_SYNC_META_KEY = "evledaQualifiedFootprintIdentitySync"
 const QUALIFIED_FOOTPRINT_SYNC_SCHEMA_VERSION = "evleda.kicad-qualified-footprint-identity-sync.v1";
 // Actual DOC6 KiCadFastMCP Tool, normalized by the pinned Node MCP SDK.
 const QUALIFIED_FOOTPRINT_SYNC_TOOL_SHA256 = "4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3";
+const QUALIFIED_FOOTPRINT_POSE_SYNC_META_KEY = "evledaQualifiedFootprintPoseSync";
+const QUALIFIED_FOOTPRINT_POSE_SYNC_SCHEMA_VERSION = "evleda.kicad-qualified-footprint-pose-sync.v1";
+// Actual DOC11 KiCadFastMCP registration; the full descriptor differs from
+// DOC6 only by the additional pose qualification marker.
+const QUALIFIED_FOOTPRINT_POSE_SYNC_TOOL_SHA256 = "0dd680af3145c29842d0e75afa0ecd4fe6ad14e94075d796e4296892614ab778";
 const EXTERNAL_POWER_FLAG_CONNECTIVITY_META_KEY = "evledaExternalPowerFlagConnectivity";
 const EXTERNAL_POWER_FLAG_CONNECTIVITY_SCHEMA_VERSION = "evleda.kicad-external-power-flag-connectivity.v1";
 // Actual DOC7 KiCadFastMCP Tool, normalized by the pinned Node MCP SDK.
@@ -1476,9 +1481,18 @@ function nativeCommitToolQualified(tool: Tool | undefined): boolean {
 }
 
 function footprintIdentitySyncQualified(tool: Tool | undefined): boolean {
-  return tool?.name === "pcb_sync_from_schematic"
+  return footprintPoseSyncQualified(tool) || (tool?.name === "pcb_sync_from_schematic"
     && canonicalJson(tool._meta ?? null) === canonicalJson({ [QUALIFIED_FOOTPRINT_SYNC_META_KEY]: QUALIFIED_FOOTPRINT_SYNC_SCHEMA_VERSION })
-    && createHash("sha256").update(canonicalJson(tool), "utf8").digest("hex") === QUALIFIED_FOOTPRINT_SYNC_TOOL_SHA256;
+    && createHash("sha256").update(canonicalJson(tool), "utf8").digest("hex") === QUALIFIED_FOOTPRINT_SYNC_TOOL_SHA256);
+}
+
+function footprintPoseSyncQualified(tool: Tool | undefined): boolean {
+  return tool?.name === "pcb_sync_from_schematic"
+    && canonicalJson(tool._meta ?? null) === canonicalJson({
+      [QUALIFIED_FOOTPRINT_SYNC_META_KEY]: QUALIFIED_FOOTPRINT_SYNC_SCHEMA_VERSION,
+      [QUALIFIED_FOOTPRINT_POSE_SYNC_META_KEY]: QUALIFIED_FOOTPRINT_POSE_SYNC_SCHEMA_VERSION,
+    })
+    && createHash("sha256").update(canonicalJson(tool), "utf8").digest("hex") === QUALIFIED_FOOTPRINT_POSE_SYNC_TOOL_SHA256;
 }
 
 function externalPowerFlagConnectivityQualified(tool: Tool | undefined): boolean {
@@ -2137,6 +2151,9 @@ export class KicadMcpSession {
       });
       setStartupStage("mcp-contracts");
       const syncTool=discovered.toolsByName.get("pcb_sync_from_schematic");
+      if(isPlainRecord(syncTool?._meta)&&Object.hasOwn(syncTool._meta,QUALIFIED_FOOTPRINT_POSE_SYNC_META_KEY)&&!footprintPoseSyncQualified(syncTool)){
+        throw new KicadMcpAuthorizationError("KiCad MCP footprint pose sync claims a mismatched qualified tool contract.");
+      }
       if(isPlainRecord(syncTool?._meta)&&Object.hasOwn(syncTool._meta,QUALIFIED_FOOTPRINT_SYNC_META_KEY)&&!footprintIdentitySyncQualified(syncTool)){
         throw new KicadMcpAuthorizationError("KiCad MCP footprint identity sync claims a mismatched qualified tool contract.");
       }
@@ -2429,6 +2446,12 @@ export class KicadMcpSession {
     return !this.#closed && this.#mode === "write" && this.#projectBound
       && !this.#toolFailureWritesQuarantined && !this.#planeStageWritesQuarantined && !this.#nativeRouteTransaction?.quarantined
       && footprintIdentitySyncQualified(this.#toolsByName.get("pcb_sync_from_schematic"));
+  }
+
+  /** Sync additionally requires the producer's complete pad/field pose semantics. */
+  supportsQualifiedFootprintPoseSync(): boolean {
+    return this.supportsQualifiedFootprintIdentitySync()
+      && footprintPoseSyncQualified(this.#toolsByName.get("pcb_sync_from_schematic"));
   }
 
   /** Qualified graph-read semantics; mutation permissions remain independent. */
@@ -2769,8 +2792,8 @@ export class KicadMcpSession {
       throw new KicadMcpSessionError(`Allowed tool '${name}' was not advertised by the sidecar.`);
     }
     const commitOperation = NATIVE_COMMIT_TOOL_NAMES.includes(name as typeof NATIVE_COMMIT_TOOL_NAMES[number]);
-    if(name==="pcb_sync_from_schematic"&&!footprintIdentitySyncQualified(tool)){
-      throw new KicadMcpAuthorizationError("KiCad MCP schematic sync requires the qualified full-footprint-library-identity writer.");
+    if(name==="pcb_sync_from_schematic"&&!footprintPoseSyncQualified(tool)){
+      throw new KicadMcpAuthorizationError("KiCad MCP schematic sync requires the qualified full-footprint-library-identity writer with native-equivalent footprint pose semantics.");
     }
     if (commitOperation && !NATIVE_COMMIT_TOOL_NAMES.every(entry => nativeCommitToolQualified(this.#toolsByName.get(entry)))) {
       throw new KicadMcpAuthorizationError("KiCad MCP qualified native route transactions are unavailable on this runtime.");

@@ -279,6 +279,7 @@ export interface KicadHarnessSession {
   stagePlane?(argumentsValue: KicadPlaneStageInput): Promise<KicadPlaneStageReceipt>;
   supportsNativeRouteTransactions?():boolean;
   supportsQualifiedFootprintIdentitySync?():boolean;
+  supportsQualifiedFootprintPoseSync?():boolean;
   supportsExternalPowerFlagConnectivity?():boolean;
   finishNativeRouteTransaction?():void;
   quarantineNativeRouteTransaction?(cause?:unknown):void;
@@ -3013,7 +3014,7 @@ function assertFreshGenericSchematicSource(schematic: ReturnType<typeof parseFre
  * This intentionally omits any sidecar capability not in the frozen reviewed name list.
  */
 export function projectKicadHarnessToolDefinitions(
-  session: Pick<KicadHarnessSession, "listTools"|"supportsPlaneStage"|"stagePlane"|"supportsNativeRouteTransactions"|"supportsQualifiedFootprintIdentitySync"|"supportsSchematicConnectivityBatch">,
+  session: Pick<KicadHarnessSession, "listTools"|"supportsPlaneStage"|"stagePlane"|"supportsNativeRouteTransactions"|"supportsQualifiedFootprintIdentitySync"|"supportsQualifiedFootprintPoseSync"|"supportsSchematicConnectivityBatch">,
   freshProject?: FreshProject,
   freshConnectivityContract?: FreshConnectivityContractSource,
 ): readonly HarnessToolDefinition[] {
@@ -3025,7 +3026,8 @@ export function projectKicadHarnessToolDefinitions(
     if ((name === FRESH_SCHEMATIC_FIELD_POSITION_TOOL || name === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL) && (!contractAuthoringProject(freshProject)
         || session.supportsSchematicConnectivityBatch?.() !== true
         || ["sch_modify_property", "pcb_save"].some(required => found.get(required)?.permission !== "write"))) continue;
-    if((name==="fresh_sync_from_schematic"||name==="pcb_sync_from_schematic")&&session.supportsQualifiedFootprintIdentitySync?.()!==true)continue;
+    if((name==="fresh_sync_from_schematic"||name==="pcb_sync_from_schematic")
+      &&(session.supportsQualifiedFootprintIdentitySync?.()!==true||session.supportsQualifiedFootprintPoseSync?.()!==true))continue;
     if(name==="fresh_replace_route_items"&&session.supportsNativeRouteTransactions?.()!==true)continue;
     if(name==="fresh_apply_contract_plane"&&(!isVerifiedPlaneFreshProject(freshProject)||session.supportsPlaneStage?.()!==true||typeof session.stagePlane!=="function"))continue;
     if(freshProject?.workflowKind==="plane"&&(!isVerifiedPlaneFreshProject(freshProject)||PLANE_UNAVAILABLE_TOOL_NAMES.has(name)))continue;
@@ -5190,6 +5192,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
 
   async #freshSyncFromSchematic(call: HarnessToolCall): Promise<HarnessToolResult> {
     if(this.#session.supportsQualifiedFootprintIdentitySync?.()!==true)throw new Error("Fresh sync requires the qualified writer that preserves full footprint library IDs.");
+    if(this.#session.supportsQualifiedFootprintPoseSync?.()!==true)throw new Error("Fresh sync requires the qualified footprint pose writer that preserves pad and field angles.");
     parseFreshIncrementalArguments(call.name, call.arguments);
     const contract = this.#freshConnectivityContract!;
     const physicalMode=this.#freshPhysicalFootprintResolver!==undefined;

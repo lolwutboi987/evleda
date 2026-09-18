@@ -161,6 +161,7 @@ const appendBoardItem = (source: string, item: string): string => {
 
 interface MockOptions {
   readonly qualifiedSync?: boolean | "missing";
+  readonly qualifiedPoseSync?: boolean | "missing";
   readonly syncBoard?: string;
   readonly syncText?: string;
   readonly syncResult?: CallToolResult;
@@ -193,6 +194,7 @@ function mockSession(pcbPath: string, initial: string, options: MockOptions = {}
   const session: KicadHarnessSession = {
     supportsNativeRouteTransactions:()=>true,
     supportsQualifiedFootprintIdentitySync:()=>true,
+    supportsQualifiedFootprintPoseSync:()=>true,
     assertActivePcb: async (expectedPath) => {
       privateCalls.push({ name: "assertActivePcb", expectedPath });
       if (expectedPath !== pcbPath) throw new Error("Active PCB path mismatch.");
@@ -255,6 +257,8 @@ function mockSession(pcbPath: string, initial: string, options: MockOptions = {}
   };
   if (options.qualifiedSync === "missing") delete session.supportsQualifiedFootprintIdentitySync;
   else if (options.qualifiedSync === false) session.supportsQualifiedFootprintIdentitySync = () => false;
+  if (options.qualifiedPoseSync === "missing") delete session.supportsQualifiedFootprintPoseSync;
+  else if (options.qualifiedPoseSync === false) session.supportsQualifiedFootprintPoseSync = () => false;
   return { session, calls, privateCalls, live: () => live };
 }
 
@@ -287,6 +291,27 @@ async function authoringFixture(
 }
 
 describe("fresh generic board authoring compounds", () => {
+  it.each([false, "missing"] as const)("hides and refuses fresh sync with identity-only support when pose qualification is %s", async qualifiedPoseSync => {
+    const current = await authoringFixture(emptyBoard(), { qualifiedPoseSync, syncBoard: populatedBoard([]) });
+    expect(current.session.supportsQualifiedFootprintIdentitySync?.()).toBe(true);
+    expect(current.bridge.tools.map(tool => tool.name)).not.toContain("fresh_sync_from_schematic");
+    expect(current.bridge.tools.map(tool => tool.name)).toContain("fresh_set_footprint_fields");
+    await expect(current.bridge.execute({ id: "old-pose-sync", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/Unsupported KiCad harness tool/iu);
+    expect(current.calls).toEqual([]);
+    expect(current.privateCalls).toEqual([]);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+  });
+
+  it("rechecks pose qualification revoked after discovery before fresh sync dispatch", async () => {
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]) });
+    expect(current.bridge.tools.map(tool => tool.name)).toContain("fresh_sync_from_schematic");
+    current.session.supportsQualifiedFootprintPoseSync = () => false;
+    await expect(current.bridge.execute({ id: "revoked-pose-sync", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/qualified footprint pose writer/iu);
+    expect(current.calls).toEqual([]);
+    expect(current.privateCalls).toEqual([]);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+  });
+
   it.each([false, "missing"] as const)("hides and refuses fresh sync before sidecar writes when qualified identity support is %s", async (qualifiedSync) => {
     const current = await authoringFixture(emptyBoard(), { qualifiedSync, syncBoard: populatedBoard([]) });
     expect(current.bridge.tools.map((tool) => tool.name)).not.toContain("fresh_sync_from_schematic");

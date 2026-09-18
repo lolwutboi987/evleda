@@ -1,0 +1,574 @@
+{
+  "schemaVersion": "evleda.doc11-footprint-pose-source-overlay.v1",
+  "status": "source-and-isolated-oracle-qualified-runtime-not-published",
+  "predecessorModuleSha256": "cebed5c9e87abd799c4c6baab9ddb60224c9dface1e0e44b0eea91f56fb6a2e0",
+  "runtimeDelta": [
+    "environment/Lib/site-packages/kicad_mcp/tools/pcb.py",
+    "environment/Lib/site-packages/kicad_mcp/utils/footprint_pose.py"
+  ],
+  "checks": {
+    "offlineTestMethodsPassed": 6,
+    "nativeOracleCasesPassed": 20,
+    "currentTemplateCardinalCasesPassed": 264,
+    "completePhysicalMembersPerRotation": 281,
+    "physicalComparatorChanged": false,
+    "nativeProjectChanged": false,
+    "runtimePublished": false
+  },
+  "bytesBeforeManifest": 1478738,
+  "diskFreeBytes": 370388992,
+  "artifacts": {
+    "capture_sync_descriptor.py": {
+      "sha256": "bc662d54299462edf6433e979f68bc17711bab4ab047946722bc786b807bd5aa",
+      "sizeBytes": 2696
+    },
+    "descriptor-capture.json": {
+      "sha256": "6fa3e1569d199f82d7aedcd4a4bfdb8cf230136dc9297f5ba9acad4b3850131a",
+      "sizeBytes": 2875
+    },
+    "native_pose_oracle.py": {
+      "sha256": "f56b22beee1882991d4c162d4bff6a7e92b4f26f4531f572a0725e3a3d043f21",
+      "sizeBytes": 5403
+    },
+    "README.md": {
+      "sha256": "be73d2cc51c7d2c91b1a439d8db728e9f78947d009d0110388f5d8f789fc530d",
+      "sizeBytes": 5316
+    },
+    "registered-descriptor-final.json": {
+      "sha256": "a045f102a5e801ec52fe016d41983eee61a6520e8de341e00c0d3267f4b43a73",
+      "sizeBytes": 2175
+    },
+    "registered-descriptor.json": {
+      "sha256": "a045f102a5e801ec52fe016d41983eee61a6520e8de341e00c0d3267f4b43a73",
+      "sizeBytes": 2175
+    },
+    "registered-production-descriptor.json": {
+      "sha256": "0aca03fa98d3692a990703cd3562b97799c753c547aac37ee37b7f9227606238",
+      "sizeBytes": 2225
+    },
+    "replay_current_templates.py": {
+      "sha256": "8d90d2d346cc0395cb1f6576e56a467816826592f8c95da09eb381abe967e01b",
+      "sizeBytes": 3822
+    },
+    "sync-footprint-pose.patch": {
+      "sha256": "ddeed4c93b1d71ffa1bb167ff717490fd5c9ac100baea6378ee2eebf70291018",
+      "sizeBytes": 1676
+    },
+    "template-replay-final.json": {
+      "sha256": "92a28597da82875eb62f1c6c717e84520cbdcbb6104b831233fc0b9c86a07cca",
+      "sizeBytes": 53986
+    },
+    "template-replay.json": {
+      "sha256": "92a28597da82875eb62f1c6c717e84520cbdcbb6104b831233fc0b9c86a07cca",
+      "sizeBytes": 53986
+    },
+    "test_sync_footprint_pose.py": {
+      "sha256": "90c09731d63f75ca278357192bed052dc0e7e4deadb94a6e8723b20623e889a1",
+      "sizeBytes": 16681
+    },
+    "oracle/capacitor-0.kicad_pcb": {
+      "sha256": "df0e7d86e8edceae9687359d851f8d76cfa3be6331e51fc3400856b45b8acf86",
+      "sizeBytes": 5174
+    },
+    "oracle/capacitor-0.kicad_prl": {
+      "sha256": "05529931634fcb580e314cc4514ec9f3b81c498286dd37c5525fc332e946fc41",
+      "sizeBytes": 2298
+    },
+    "oracle/capacitor-0.kicad_pro": {
+      "sha256": "c3ba244bd77a7e3719cbdd3afc7076dd4681cef4a495d14ffa39d8798c3a7812",
+      "sizeBytes": 9587
+    },
+    "oracle/capacitor-180.kicad_pcb": {
+      "sha256": "c94ebe9fb30661e018331b13c1dad59e99bd5e91188b5bf3242105befc59b683",
+      "sizeBytes": 5198
+    },
+    "oracle/capacitor-180.kicad_prl": {
+      "sha256": "5dc1b7e3dfa74b5acc8c800b6c104130a31a2c7e01a4603494cb7cc84162ea5f",
+      "sizeBytes": 2300
+    },
+    "oracle/capacitor-180.kicad_pro": {
+      "sha256": "240b7ba5fca27703f940438f6c1c6842ed9b3539f066e6c4ea83a13eb8333cec",
+      "sizeBytes": 9589
+    },
+    "oracle/capacitor-270.kicad_pcb": {
+      "sha256": "9c6a8c21d3bd9c90465040355fa86339e59954cb5f55a812cbc7f3610d9171fb",
+      "sizeBytes": 5198
+    },
+    "oracle/capacitor-270.kicad_prl": {
+      "sha256": "edc3e5dce1dd8c12b36a77d4613c8369829b41b6750c698101990f187dd0bca0",
+      "sizeBytes": 2300
+    },
+    "oracle/capacitor-270.kicad_pro": {
+      "sha256": "11d598dedf85871e10a467be38d2c1af46781dfbae94f58a35d72f23ab7aca7d",
+      "sizeBytes": 9589
+    },
+    "oracle/capacitor-90.kicad_pcb": {
+      "sha256": "54a04b725577ae85367b86813afae4c560f47812ba944d6bc6e82a491059f900",
+      "sizeBytes": 5189
+    },
+    "oracle/capacitor-90.kicad_prl": {
+      "sha256": "26dcd0dcafa0e4dede39e4a03b3d2b39aa443fce10f76819992736436c027f45",
+      "sizeBytes": 2299
+    },
+    "oracle/capacitor-90.kicad_pro": {
+      "sha256": "0921cfcdfa0fdc3daea3bc9caf3a14c76a891de9c3a2a3b351b4f111813888ed",
+      "sizeBytes": 9588
+    },
+    "oracle/local-0.kicad_pcb": {
+      "sha256": "dfdca4e0a8d00aaab238c8f862bffc319653aab8b41acffa9cfd12e679ee4da3",
+      "sizeBytes": 4553
+    },
+    "oracle/local-0.kicad_prl": {
+      "sha256": "4edd922fc77e626b1e64b83497be90be21ca2566e6c18a20ad0b271cdf897ee4",
+      "sizeBytes": 2294
+    },
+    "oracle/local-0.kicad_pro": {
+      "sha256": "46bc2f2e4fdfb19ea096f396e2d72deaae0155e7f1ec59346ad961fa8c7b5db8",
+      "sizeBytes": 9583
+    },
+    "oracle/local-180.kicad_pcb": {
+      "sha256": "50503dd5bf689de27407cc2684d81df87d660f8a50d1cc71b3aae3adbce8b82c",
+      "sizeBytes": 4555
+    },
+    "oracle/local-180.kicad_prl": {
+      "sha256": "4accf21fa28944feb0a1ff1ba34e6afb03f96da7cde0b91af138c2a18e597949",
+      "sizeBytes": 2296
+    },
+    "oracle/local-180.kicad_pro": {
+      "sha256": "7b2429a38183a40c6be7099d86df520cda6b23565d8b0df4b9e7efa79be7fb87",
+      "sizeBytes": 9585
+    },
+    "oracle/local-270.kicad_pcb": {
+      "sha256": "d03f0a192cbe74426c9aafcb76fe6b221b59b91d9518e898d98b879a4d9d602d",
+      "sizeBytes": 4554
+    },
+    "oracle/local-270.kicad_prl": {
+      "sha256": "87d70a1db3c7973dd309020c6a6082fb1de13c6897ece6f6fdd8c81375ca2679",
+      "sizeBytes": 2296
+    },
+    "oracle/local-270.kicad_pro": {
+      "sha256": "5c082328a85111f0285af937a7ef6178068ffc07cb8264703d1bc5037b810f25",
+      "sizeBytes": 9585
+    },
+    "oracle/local-90.kicad_pcb": {
+      "sha256": "80790f18ed17fd90b3d087e3a478fb811176fa4f93ac5cbdf17597c333e44de9",
+      "sizeBytes": 4553
+    },
+    "oracle/local-90.kicad_prl": {
+      "sha256": "2f40ceaee7bd88f6f2605324d7c4ae6a202347d15926fc0e99f3b82c90129c0b",
+      "sizeBytes": 2295
+    },
+    "oracle/local-90.kicad_pro": {
+      "sha256": "079daa74210148f2b0f9b07f55dc557eccf527ff132fc81c9c80f275406888a6",
+      "sizeBytes": 9584
+    },
+    "oracle/manifest.json": {
+      "sha256": "a6305b47c0565212615d93f52a8e6eb60c4bc1ccd474cf908f829c516a49a8ae",
+      "sizeBytes": 130772
+    },
+    "oracle/qfn-0.kicad_pcb": {
+      "sha256": "aa5c7f25394c7aa60f7b556af823052e638a3800750340eb5bc8d0372e72cf95",
+      "sizeBytes": 22516
+    },
+    "oracle/qfn-0.kicad_prl": {
+      "sha256": "18450e3c8683e869dbc7442da6e56d637aa2f2ec67bbeafccc756b5d0ef4aaf0",
+      "sizeBytes": 2292
+    },
+    "oracle/qfn-0.kicad_pro": {
+      "sha256": "a1ef4576b2569914d755414f2eee47a6ed01249dfa2f4574964c59161c86356d",
+      "sizeBytes": 9581
+    },
+    "oracle/qfn-180.kicad_pcb": {
+      "sha256": "ed7a649a3195f3cf6e02cb217deb4722d8b7564038d30b163a5c3d3e52279c30",
+      "sizeBytes": 22812
+    },
+    "oracle/qfn-180.kicad_prl": {
+      "sha256": "a663cc0e160754308cfbe3bfaf275f827b8ab8579282db4dff5b391df303dbdd",
+      "sizeBytes": 2294
+    },
+    "oracle/qfn-180.kicad_pro": {
+      "sha256": "a9567bcbc51e0a6b1678061bb9f2721330e8b2260fe4b9223dde9cd884a1a273",
+      "sizeBytes": 9583
+    },
+    "oracle/qfn-270.kicad_pcb": {
+      "sha256": "6c4f37beaabc44140a2a1b9721a7fc9ee70c373047910cdd29e0961880d68a8d",
+      "sizeBytes": 22812
+    },
+    "oracle/qfn-270.kicad_prl": {
+      "sha256": "77d9cd05f7cb3d981dfd048826a26460f4196579ae235cd710f00076a0780cfa",
+      "sizeBytes": 2294
+    },
+    "oracle/qfn-270.kicad_pro": {
+      "sha256": "3dbf4eb91e1cf00e4264cd8c9f61f9a568515ce39ccbd588f532316c485f4038",
+      "sizeBytes": 9583
+    },
+    "oracle/qfn-90.kicad_pcb": {
+      "sha256": "344ee51a874fa4bca9db7efe7694f7e67f78d6adfda43da996f210810ad5e233",
+      "sizeBytes": 22735
+    },
+    "oracle/qfn-90.kicad_prl": {
+      "sha256": "9e2570721b0d2e9077be88bcc9ca08a3f14840c14b73659ceac9a11b3ee58163",
+      "sizeBytes": 2293
+    },
+    "oracle/qfn-90.kicad_pro": {
+      "sha256": "bcad8083a91b7807739f11dfffe4e7490136ce8ca12001a812f262133fb12c2f",
+      "sizeBytes": 9582
+    },
+    "oracle/sot523-0.kicad_pcb": {
+      "sha256": "cd926974083a5246a492df156c5571630e58ff6274e64910605de17199b8ab1b",
+      "sizeBytes": 6482
+    },
+    "oracle/sot523-0.kicad_prl": {
+      "sha256": "069e43513ac87dda3a10596c8c1515f1213f9c5b85bb28bf71b2e390aaf3efdc",
+      "sizeBytes": 2295
+    },
+    "oracle/sot523-0.kicad_pro": {
+      "sha256": "7dc06dadd4795086b08557698f0fcd090e9663b9b153235966863bb796c87ab0",
+      "sizeBytes": 9584
+    },
+    "oracle/sot523-180.kicad_pcb": {
+      "sha256": "d4b69faad43f0ca925e55d913790f6bd85d0f3aba3bb1c4e13a59da203c033f1",
+      "sizeBytes": 6481
+    },
+    "oracle/sot523-180.kicad_prl": {
+      "sha256": "6756a88dd37273acb3b70fe1fb3984aa95778fe856c6cc939ec240131d64b6a3",
+      "sizeBytes": 2297
+    },
+    "oracle/sot523-180.kicad_pro": {
+      "sha256": "d9c6eeebec1b2f23bbcfb0f1b81b36e47b9debbc72ac88d4122c8a63a6a5a4df",
+      "sizeBytes": 9586
+    },
+    "oracle/sot523-270.kicad_pcb": {
+      "sha256": "fb0a48be4a0178b63d9a158fcffa36304dcd715abe7a75157c69c403bafb29db",
+      "sizeBytes": 6491
+    },
+    "oracle/sot523-270.kicad_prl": {
+      "sha256": "06fe168454a27619999654376b9431cc29106b12cea258ad9e7fd36547ff1a5b",
+      "sizeBytes": 2297
+    },
+    "oracle/sot523-270.kicad_pro": {
+      "sha256": "2328a9101ef306f7b5e2d155142e661a519e48262e0b0d4ccd45b76239f16019",
+      "sizeBytes": 9586
+    },
+    "oracle/sot523-90.kicad_pcb": {
+      "sha256": "954a5e33cd9727aea9700e7ba96a8c03b0388d95cc2a4824bb5fa4ec6a941a88",
+      "sizeBytes": 6487
+    },
+    "oracle/sot523-90.kicad_prl": {
+      "sha256": "071569b41be521efeb64c6d4e6a2007a8d6f9a18a9657cd82491159eca4addef",
+      "sizeBytes": 2296
+    },
+    "oracle/sot523-90.kicad_pro": {
+      "sha256": "321f10aa06ff5f55135b83bc456c56539b4d6699cb269779d627017a72409cff",
+      "sizeBytes": 9585
+    },
+    "oracle/usb-0.kicad_pcb": {
+      "sha256": "a5fe2d4c56f6b29d9134be4e66c851a91b4b715cc6c6882248a0b350a7334f5b",
+      "sizeBytes": 9595
+    },
+    "oracle/usb-0.kicad_prl": {
+      "sha256": "315afe9c43d11ccfcbf8caa4ecda8a239b688271dc65eb650032df06f340204b",
+      "sizeBytes": 2292
+    },
+    "oracle/usb-0.kicad_pro": {
+      "sha256": "18d674655636afdd25dea442a6628a18d55b1c09cc0f676fd661470303214cb4",
+      "sizeBytes": 9581
+    },
+    "oracle/usb-180.kicad_pcb": {
+      "sha256": "1b67c8ca605e2047bd9098d2febe7c236572e5049fc113f8d92578cc7c2407c9",
+      "sizeBytes": 9699
+    },
+    "oracle/usb-180.kicad_prl": {
+      "sha256": "29c05d131ca62ea372abceefb7d0cf819eb018c46c94463c6d189e6febcbda50",
+      "sizeBytes": 2294
+    },
+    "oracle/usb-180.kicad_pro": {
+      "sha256": "2bc2d7354d8b72d3ddfa1d563e74b0f564fe4d84231ae973f1e3fcd3306930ef",
+      "sizeBytes": 9583
+    },
+    "oracle/usb-270.kicad_pcb": {
+      "sha256": "724b0741aaa119c3bef542dbd850b2627fdaaa272186f48506e2e017986efea6",
+      "sizeBytes": 9699
+    },
+    "oracle/usb-270.kicad_prl": {
+      "sha256": "4c5292c0194a239d9dc158644a949ea27ecc22a0b2d751cff6bce455ce97e207",
+      "sizeBytes": 2294
+    },
+    "oracle/usb-270.kicad_pro": {
+      "sha256": "a7eba040ca7bc2ce97deb978baf49e51c625fc3bbbdcf5182e7fd69622a4a1d5",
+      "sizeBytes": 9583
+    },
+    "oracle/usb-90.kicad_pcb": {
+      "sha256": "e17e83bd5f3922319408a50d1e59822514877afb29dcf54ff371b117629076ec",
+      "sizeBytes": 9670
+    },
+    "oracle/usb-90.kicad_prl": {
+      "sha256": "5f694375ca45e64c97b643882e23de433ec97e7b6d175e6ea2ede3b8b4d776bd",
+      "sizeBytes": 2293
+    },
+    "oracle/usb-90.kicad_pro": {
+      "sha256": "7796d460f0a9929a1750df5ef97fc9b6a55d2179c64e09a65a0dc1cf2cc7510b",
+      "sizeBytes": 9582
+    },
+    "oracle-final/capacitor-0.kicad_pcb": {
+      "sha256": "516a817223e72597b4d2ca8e750146ea1e1a625dd77405581bcf8e4f0c74b9a2",
+      "sizeBytes": 5174
+    },
+    "oracle-final/capacitor-0.kicad_prl": {
+      "sha256": "05529931634fcb580e314cc4514ec9f3b81c498286dd37c5525fc332e946fc41",
+      "sizeBytes": 2298
+    },
+    "oracle-final/capacitor-0.kicad_pro": {
+      "sha256": "c3ba244bd77a7e3719cbdd3afc7076dd4681cef4a495d14ffa39d8798c3a7812",
+      "sizeBytes": 9587
+    },
+    "oracle-final/capacitor-180.kicad_pcb": {
+      "sha256": "903c9ce2ff75ef157c6fa1c327b2bea39ddf50c8fe365068b55172d780ab9611",
+      "sizeBytes": 5198
+    },
+    "oracle-final/capacitor-180.kicad_prl": {
+      "sha256": "5dc1b7e3dfa74b5acc8c800b6c104130a31a2c7e01a4603494cb7cc84162ea5f",
+      "sizeBytes": 2300
+    },
+    "oracle-final/capacitor-180.kicad_pro": {
+      "sha256": "240b7ba5fca27703f940438f6c1c6842ed9b3539f066e6c4ea83a13eb8333cec",
+      "sizeBytes": 9589
+    },
+    "oracle-final/capacitor-270.kicad_pcb": {
+      "sha256": "bb16a3ee002818de3d0737d78c388956da917efaa6bd9926149fec1f97b5ca7d",
+      "sizeBytes": 5198
+    },
+    "oracle-final/capacitor-270.kicad_prl": {
+      "sha256": "edc3e5dce1dd8c12b36a77d4613c8369829b41b6750c698101990f187dd0bca0",
+      "sizeBytes": 2300
+    },
+    "oracle-final/capacitor-270.kicad_pro": {
+      "sha256": "11d598dedf85871e10a467be38d2c1af46781dfbae94f58a35d72f23ab7aca7d",
+      "sizeBytes": 9589
+    },
+    "oracle-final/capacitor-90.kicad_pcb": {
+      "sha256": "d8ceb56fdd8292b756bde5937acf8a1a9f2695f4f30a9febf78cd01af1f28837",
+      "sizeBytes": 5189
+    },
+    "oracle-final/capacitor-90.kicad_prl": {
+      "sha256": "26dcd0dcafa0e4dede39e4a03b3d2b39aa443fce10f76819992736436c027f45",
+      "sizeBytes": 2299
+    },
+    "oracle-final/capacitor-90.kicad_pro": {
+      "sha256": "0921cfcdfa0fdc3daea3bc9caf3a14c76a891de9c3a2a3b351b4f111813888ed",
+      "sizeBytes": 9588
+    },
+    "oracle-final/local-0.kicad_pcb": {
+      "sha256": "cecd43bcd09bc4a715e81dc403adb71d0985b9d231c8c5fc7a7314ee3ccd0d82",
+      "sizeBytes": 4553
+    },
+    "oracle-final/local-0.kicad_prl": {
+      "sha256": "4edd922fc77e626b1e64b83497be90be21ca2566e6c18a20ad0b271cdf897ee4",
+      "sizeBytes": 2294
+    },
+    "oracle-final/local-0.kicad_pro": {
+      "sha256": "46bc2f2e4fdfb19ea096f396e2d72deaae0155e7f1ec59346ad961fa8c7b5db8",
+      "sizeBytes": 9583
+    },
+    "oracle-final/local-180.kicad_pcb": {
+      "sha256": "bdb9ab31138c427eb38674f086b813c9a13c0a737b55afbfe3f98b16b3ada1c1",
+      "sizeBytes": 4555
+    },
+    "oracle-final/local-180.kicad_prl": {
+      "sha256": "4accf21fa28944feb0a1ff1ba34e6afb03f96da7cde0b91af138c2a18e597949",
+      "sizeBytes": 2296
+    },
+    "oracle-final/local-180.kicad_pro": {
+      "sha256": "7b2429a38183a40c6be7099d86df520cda6b23565d8b0df4b9e7efa79be7fb87",
+      "sizeBytes": 9585
+    },
+    "oracle-final/local-270.kicad_pcb": {
+      "sha256": "b10217d4433bb38064e01e9bf7270dc12e1da0f87e42b253072f99a159a2d7d1",
+      "sizeBytes": 4554
+    },
+    "oracle-final/local-270.kicad_prl": {
+      "sha256": "87d70a1db3c7973dd309020c6a6082fb1de13c6897ece6f6fdd8c81375ca2679",
+      "sizeBytes": 2296
+    },
+    "oracle-final/local-270.kicad_pro": {
+      "sha256": "5c082328a85111f0285af937a7ef6178068ffc07cb8264703d1bc5037b810f25",
+      "sizeBytes": 9585
+    },
+    "oracle-final/local-90.kicad_pcb": {
+      "sha256": "d6c50fe27d26dae3b2531acb6ded983b52c4a2fb1ee970b61a45074696b907f9",
+      "sizeBytes": 4553
+    },
+    "oracle-final/local-90.kicad_prl": {
+      "sha256": "2f40ceaee7bd88f6f2605324d7c4ae6a202347d15926fc0e99f3b82c90129c0b",
+      "sizeBytes": 2295
+    },
+    "oracle-final/local-90.kicad_pro": {
+      "sha256": "079daa74210148f2b0f9b07f55dc557eccf527ff132fc81c9c80f275406888a6",
+      "sizeBytes": 9584
+    },
+    "oracle-final/manifest.json": {
+      "sha256": "089c1f7f2c33691096dce26beb18f197a527d5b58417daf6cc65fec517fe31c9",
+      "sizeBytes": 131717
+    },
+    "oracle-final/qfn-0.kicad_pcb": {
+      "sha256": "c66ce1c5800fcc9ea96cabf5998006e10060f4fd2b6c4db128ad46193470fe41",
+      "sizeBytes": 22516
+    },
+    "oracle-final/qfn-0.kicad_prl": {
+      "sha256": "18450e3c8683e869dbc7442da6e56d637aa2f2ec67bbeafccc756b5d0ef4aaf0",
+      "sizeBytes": 2292
+    },
+    "oracle-final/qfn-0.kicad_pro": {
+      "sha256": "a1ef4576b2569914d755414f2eee47a6ed01249dfa2f4574964c59161c86356d",
+      "sizeBytes": 9581
+    },
+    "oracle-final/qfn-180.kicad_pcb": {
+      "sha256": "9c9573db17871e9e1149b3b7b9b20e4b73d49a158554090bc6070948188798bc",
+      "sizeBytes": 22812
+    },
+    "oracle-final/qfn-180.kicad_prl": {
+      "sha256": "a663cc0e160754308cfbe3bfaf275f827b8ab8579282db4dff5b391df303dbdd",
+      "sizeBytes": 2294
+    },
+    "oracle-final/qfn-180.kicad_pro": {
+      "sha256": "a9567bcbc51e0a6b1678061bb9f2721330e8b2260fe4b9223dde9cd884a1a273",
+      "sizeBytes": 9583
+    },
+    "oracle-final/qfn-270.kicad_pcb": {
+      "sha256": "1a69bd5fda7bd254f7c6afd07e53413d546716e7b731c7e20597bef6179cef8a",
+      "sizeBytes": 22812
+    },
+    "oracle-final/qfn-270.kicad_prl": {
+      "sha256": "77d9cd05f7cb3d981dfd048826a26460f4196579ae235cd710f00076a0780cfa",
+      "sizeBytes": 2294
+    },
+    "oracle-final/qfn-270.kicad_pro": {
+      "sha256": "3dbf4eb91e1cf00e4264cd8c9f61f9a568515ce39ccbd588f532316c485f4038",
+      "sizeBytes": 9583
+    },
+    "oracle-final/qfn-90.kicad_pcb": {
+      "sha256": "9427768b8b413ae27af000d5ef38e3b84bd8bc0b494e6cdc6f36f95a913448ed",
+      "sizeBytes": 22735
+    },
+    "oracle-final/qfn-90.kicad_prl": {
+      "sha256": "9e2570721b0d2e9077be88bcc9ca08a3f14840c14b73659ceac9a11b3ee58163",
+      "sizeBytes": 2293
+    },
+    "oracle-final/qfn-90.kicad_pro": {
+      "sha256": "bcad8083a91b7807739f11dfffe4e7490136ce8ca12001a812f262133fb12c2f",
+      "sizeBytes": 9582
+    },
+    "oracle-final/sot523-0.kicad_pcb": {
+      "sha256": "32b825c15d329f5e5e270900084cd024b8b0317af69073c24619a70caec4e776",
+      "sizeBytes": 6482
+    },
+    "oracle-final/sot523-0.kicad_prl": {
+      "sha256": "069e43513ac87dda3a10596c8c1515f1213f9c5b85bb28bf71b2e390aaf3efdc",
+      "sizeBytes": 2295
+    },
+    "oracle-final/sot523-0.kicad_pro": {
+      "sha256": "7dc06dadd4795086b08557698f0fcd090e9663b9b153235966863bb796c87ab0",
+      "sizeBytes": 9584
+    },
+    "oracle-final/sot523-180.kicad_pcb": {
+      "sha256": "c7f0537fca2317ad187c820754cc102ddf88cb1377885c4afd4b96c869512cb4",
+      "sizeBytes": 6481
+    },
+    "oracle-final/sot523-180.kicad_prl": {
+      "sha256": "6756a88dd37273acb3b70fe1fb3984aa95778fe856c6cc939ec240131d64b6a3",
+      "sizeBytes": 2297
+    },
+    "oracle-final/sot523-180.kicad_pro": {
+      "sha256": "d9c6eeebec1b2f23bbcfb0f1b81b36e47b9debbc72ac88d4122c8a63a6a5a4df",
+      "sizeBytes": 9586
+    },
+    "oracle-final/sot523-270.kicad_pcb": {
+      "sha256": "6daad2b7742e9461fdf0dfdf52f2052ed92b08690f155ac24c9b2e4375cce3df",
+      "sizeBytes": 6491
+    },
+    "oracle-final/sot523-270.kicad_prl": {
+      "sha256": "06fe168454a27619999654376b9431cc29106b12cea258ad9e7fd36547ff1a5b",
+      "sizeBytes": 2297
+    },
+    "oracle-final/sot523-270.kicad_pro": {
+      "sha256": "2328a9101ef306f7b5e2d155142e661a519e48262e0b0d4ccd45b76239f16019",
+      "sizeBytes": 9586
+    },
+    "oracle-final/sot523-90.kicad_pcb": {
+      "sha256": "c15ad2753825a95de4b47b169b458b929af6ca68c4a257b2d9f2b558f662b11c",
+      "sizeBytes": 6487
+    },
+    "oracle-final/sot523-90.kicad_prl": {
+      "sha256": "071569b41be521efeb64c6d4e6a2007a8d6f9a18a9657cd82491159eca4addef",
+      "sizeBytes": 2296
+    },
+    "oracle-final/sot523-90.kicad_pro": {
+      "sha256": "321f10aa06ff5f55135b83bc456c56539b4d6699cb269779d627017a72409cff",
+      "sizeBytes": 9585
+    },
+    "oracle-final/usb-0.kicad_pcb": {
+      "sha256": "23b1c56232383e910c79242a5deedb312bae3d49db78dc324a41ccfd0af0e0a7",
+      "sizeBytes": 9595
+    },
+    "oracle-final/usb-0.kicad_prl": {
+      "sha256": "315afe9c43d11ccfcbf8caa4ecda8a239b688271dc65eb650032df06f340204b",
+      "sizeBytes": 2292
+    },
+    "oracle-final/usb-0.kicad_pro": {
+      "sha256": "18d674655636afdd25dea442a6628a18d55b1c09cc0f676fd661470303214cb4",
+      "sizeBytes": 9581
+    },
+    "oracle-final/usb-180.kicad_pcb": {
+      "sha256": "5f25fb05efebc5a4d09ccd4b14c5c77a9dc7f8f7202166898387ea97a911f1d6",
+      "sizeBytes": 9699
+    },
+    "oracle-final/usb-180.kicad_prl": {
+      "sha256": "29c05d131ca62ea372abceefb7d0cf819eb018c46c94463c6d189e6febcbda50",
+      "sizeBytes": 2294
+    },
+    "oracle-final/usb-180.kicad_pro": {
+      "sha256": "2bc2d7354d8b72d3ddfa1d563e74b0f564fe4d84231ae973f1e3fcd3306930ef",
+      "sizeBytes": 9583
+    },
+    "oracle-final/usb-270.kicad_pcb": {
+      "sha256": "fe0cfec8a6fc68b6b1ca38d954a369fd29306b882e05b39579565ae61e4dbeb7",
+      "sizeBytes": 9699
+    },
+    "oracle-final/usb-270.kicad_prl": {
+      "sha256": "4c5292c0194a239d9dc158644a949ea27ecc22a0b2d751cff6bce455ce97e207",
+      "sizeBytes": 2294
+    },
+    "oracle-final/usb-270.kicad_pro": {
+      "sha256": "a7eba040ca7bc2ce97deb978baf49e51c625fc3bbbdcf5182e7fd69622a4a1d5",
+      "sizeBytes": 9583
+    },
+    "oracle-final/usb-90.kicad_pcb": {
+      "sha256": "fe185b831b1901e94b27f5d12bf293ba56337651a39d496ee4aae6b282223229",
+      "sizeBytes": 9670
+    },
+    "oracle-final/usb-90.kicad_prl": {
+      "sha256": "5f694375ca45e64c97b643882e23de433ec97e7b6d175e6ea2ede3b8b4d776bd",
+      "sizeBytes": 2293
+    },
+    "oracle-final/usb-90.kicad_pro": {
+      "sha256": "7796d460f0a9929a1750df5ef97fc9b6a55d2179c64e09a65a0dc1cf2cc7510b",
+      "sizeBytes": 9582
+    },
+    "oracle-final/Fixture.pretty/CardinalLocalAngles.kicad_mod": {
+      "sha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db",
+      "sizeBytes": 1117
+    },
+    "oracle/Fixture.pretty/CardinalLocalAngles.kicad_mod": {
+      "sha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db",
+      "sizeBytes": 1117
+    },
+    "kicad_mcp/tools/pcb.py": {
+      "sha256": "f5526ff03f2ca1cda4a155758071c7de98249538b9328b8a5bfe5b1b78b7ecc3",
+      "sizeBytes": 187729
+    },
+    "kicad_mcp/utils/footprint_pose.py": {
+      "sha256": "bd325a508d32f185f2c6cf4275beb40018c461c997f92f141a8df9515283c9b1",
+      "sizeBytes": 9168
+    }
+  }
+}

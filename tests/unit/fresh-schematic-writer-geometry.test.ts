@@ -154,6 +154,7 @@ async function capturedPlanBridge(fault?: { readonly corruption: Corruption; rea
   let applied = false;
   const sidecar: KicadHarnessSession = {
     supportsQualifiedFootprintIdentitySync: () => true,
+    supportsQualifiedFootprintPoseSync: () => true,
     assertActivePcb: async (expected) => { expect(expected).toBe(fresh.pcbPath); },
     readActivePcbSource: async (expected) => { expect(expected).toBe(fresh.pcbPath); return await readFile(fresh.pcbPath, "utf8"); },
     listTools: () => ["sch_get_symbols", "sch_modify_property", "sch_get_bounding_boxes", "sch_get_pin_positions", "sch_get_connectivity_graph", "sch_add_wire", "sch_add_labels", "sch_add_no_connect", "sch_add_missing_junctions", "run_erc", "pcb_save"].map((name) => ({ name, permission: "write", inputSchema: { type: "object" } })),

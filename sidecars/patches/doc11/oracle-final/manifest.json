@@ -1,0 +1,6646 @@
+{
+  "schemaVersion": "evleda.doc11-native-cardinal-oracle.v1",
+  "nativeVersion": "10.0.3",
+  "scope": "Independent native FootprintLoad, SetPosition, SetOrientationDegrees and SaveBoard; isolated files only.",
+  "toolchain": {
+    "python": {
+      "path": "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe",
+      "sha256": "f9e290b5d6d3bd0371ec842ac83f451d72d2b3e173ad745e221f7d839a66e953",
+      "bytes": 103776
+    },
+    "pcbnewWrapper": {
+      "path": "C:\\Program Files\\KiCad\\10.0\\bin\\Lib\\site-packages\\pcbnew.py",
+      "sha256": "6b3f567f926bc219709c164c9286acce9c35d72e61e0172d59582fa8493471d1",
+      "bytes": 1022246
+    },
+    "pcbnewNative": {
+      "path": "C:\\Program Files\\KiCad\\10.0\\bin\\Lib\\site-packages\\_pcbnew.pyd",
+      "sha256": "3ea2d4d26d928addfe1439698d355655a89fa1a17054cfba54805470052f6b83",
+      "bytes": 31095136
+    }
+  },
+  "ownedConfig": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc11\\oracle-final\\config",
+  "ownedCache": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc11\\oracle-final\\cache",
+  "rows": [
+    {
+      "fixture": "capacitor",
+      "rotation": 0,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Capacitor_SMD.pretty\\C_0402_1005Metric.kicad_mod",
+      "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+      "file": "capacitor-0.kicad_pcb",
+      "sha256": "516a817223e72597b4d2ca8e750146ea1e1a625dd77405581bcf8e4f0c74b9a2",
+      "bytes": 5174,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            99520000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            100480000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "capacitor",
+      "rotation": 90,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Capacitor_SMD.pretty\\C_0402_1005Metric.kicad_mod",
+      "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+      "file": "capacitor-90.kicad_pcb",
+      "sha256": "d8ceb56fdd8292b756bde5937acf8a1a9f2695f4f30a9febf78cd01af1f28837",
+      "bytes": 5189,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            100000000,
+            100480000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            100000000,
+            99520000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "capacitor",
+      "rotation": 180,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Capacitor_SMD.pretty\\C_0402_1005Metric.kicad_mod",
+      "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+      "file": "capacitor-180.kicad_pcb",
+      "sha256": "903c9ce2ff75ef157c6fa1c327b2bea39ddf50c8fe365068b55172d780ab9611",
+      "bytes": 5198,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            100480000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            99520000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "capacitor",
+      "rotation": 270,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Capacitor_SMD.pretty\\C_0402_1005Metric.kicad_mod",
+      "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+      "file": "capacitor-270.kicad_pcb",
+      "sha256": "bb16a3ee002818de3d0737d78c388956da917efaa6bd9926149fec1f97b5ca7d",
+      "bytes": 5198,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            100000000,
+            99520000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            100000000,
+            100480000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            560000,
+            620000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "sot523",
+      "rotation": 0,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_TO_SOT_SMD.pretty\\SOT-523.kicad_mod",
+      "sourceSha256": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+      "file": "sot523-0.kicad_pcb",
+      "sha256": "32b825c15d329f5e5e270900084cd024b8b0317af69073c24619a70caec4e776",
+      "bytes": 6482,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            99355000,
+            99500000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            99355000,
+            100500000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            100645000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "sot523",
+      "rotation": 90,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_TO_SOT_SMD.pretty\\SOT-523.kicad_mod",
+      "sourceSha256": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+      "file": "sot523-90.kicad_pcb",
+      "sha256": "c15ad2753825a95de4b47b169b458b929af6ca68c4a257b2d9f2b558f662b11c",
+      "bytes": 6487,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            99500000,
+            100645000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            100500000,
+            100645000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            100000000,
+            99355000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "sot523",
+      "rotation": 180,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_TO_SOT_SMD.pretty\\SOT-523.kicad_mod",
+      "sourceSha256": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+      "file": "sot523-180.kicad_pcb",
+      "sha256": "c7f0537fca2317ad187c820754cc102ddf88cb1377885c4afd4b96c869512cb4",
+      "bytes": 6481,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            100645000,
+            100500000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            100645000,
+            99500000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            99355000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "sot523",
+      "rotation": 270,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_TO_SOT_SMD.pretty\\SOT-523.kicad_mod",
+      "sourceSha256": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+      "file": "sot523-270.kicad_pcb",
+      "sha256": "6daad2b7742e9461fdf0dfdf52f2052ed92b08690f155ac24c9b2e4375cce3df",
+      "bytes": 6491,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            100500000,
+            99355000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            99500000,
+            99355000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            100000000,
+            100645000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            510000,
+            400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "qfn",
+      "rotation": 0,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_DFN_QFN.pretty\\QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sourceSha256": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+      "file": "qfn-0.kicad_pcb",
+      "sha256": "c66ce1c5800fcc9ea96cabf5998006e10060f4fd2b6c4db128ad46193470fe41",
+      "bytes": 22516,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            98870000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            101130000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            98870000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            101130000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            98870000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            101130000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "1",
+          "positionNm": [
+            96550000,
+            97200000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            96550000,
+            97600000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            96550000,
+            98000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "4",
+          "positionNm": [
+            96550000,
+            98400000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "5",
+          "positionNm": [
+            96550000,
+            98800000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "6",
+          "positionNm": [
+            96550000,
+            99200000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "7",
+          "positionNm": [
+            96550000,
+            99600000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "8",
+          "positionNm": [
+            96550000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "9",
+          "positionNm": [
+            96550000,
+            100400000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "10",
+          "positionNm": [
+            96550000,
+            100800000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "11",
+          "positionNm": [
+            96550000,
+            101200000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "12",
+          "positionNm": [
+            96550000,
+            101600000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "13",
+          "positionNm": [
+            96550000,
+            102000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "14",
+          "positionNm": [
+            96550000,
+            102400000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "15",
+          "positionNm": [
+            96550000,
+            102800000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "16",
+          "positionNm": [
+            97200000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "17",
+          "positionNm": [
+            97600000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "18",
+          "positionNm": [
+            98000000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "19",
+          "positionNm": [
+            98400000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "20",
+          "positionNm": [
+            98800000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "21",
+          "positionNm": [
+            99200000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "22",
+          "positionNm": [
+            99600000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "23",
+          "positionNm": [
+            100000000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "24",
+          "positionNm": [
+            100400000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "25",
+          "positionNm": [
+            100800000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "26",
+          "positionNm": [
+            101200000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "27",
+          "positionNm": [
+            101600000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "28",
+          "positionNm": [
+            102000000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "29",
+          "positionNm": [
+            102400000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "30",
+          "positionNm": [
+            102800000,
+            103450000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "31",
+          "positionNm": [
+            103450000,
+            102800000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "32",
+          "positionNm": [
+            103450000,
+            102400000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "33",
+          "positionNm": [
+            103450000,
+            102000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "34",
+          "positionNm": [
+            103450000,
+            101600000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "35",
+          "positionNm": [
+            103450000,
+            101200000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "36",
+          "positionNm": [
+            103450000,
+            100800000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "37",
+          "positionNm": [
+            103450000,
+            100400000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "38",
+          "positionNm": [
+            103450000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "39",
+          "positionNm": [
+            103450000,
+            99600000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "40",
+          "positionNm": [
+            103450000,
+            99200000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "41",
+          "positionNm": [
+            103450000,
+            98800000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "42",
+          "positionNm": [
+            103450000,
+            98400000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "43",
+          "positionNm": [
+            103450000,
+            98000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "44",
+          "positionNm": [
+            103450000,
+            97600000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "45",
+          "positionNm": [
+            103450000,
+            97200000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "46",
+          "positionNm": [
+            102800000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "47",
+          "positionNm": [
+            102400000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "48",
+          "positionNm": [
+            102000000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "49",
+          "positionNm": [
+            101600000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "50",
+          "positionNm": [
+            101200000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "51",
+          "positionNm": [
+            100800000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "52",
+          "positionNm": [
+            100400000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "53",
+          "positionNm": [
+            100000000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "54",
+          "positionNm": [
+            99600000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "55",
+          "positionNm": [
+            99200000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "56",
+          "positionNm": [
+            98800000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "57",
+          "positionNm": [
+            98400000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "58",
+          "positionNm": [
+            98000000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "59",
+          "positionNm": [
+            97600000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "60",
+          "positionNm": [
+            97200000,
+            96550000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "61",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            3400000,
+            3400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "qfn",
+      "rotation": 90,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_DFN_QFN.pretty\\QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sourceSha256": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+      "file": "qfn-90.kicad_pcb",
+      "sha256": "9427768b8b413ae27af000d5ef38e3b84bd8bc0b494e6cdc6f36f95a913448ed",
+      "bytes": 22735,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            101130000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            101130000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            101130000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            98870000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            98870000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            98870000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "1",
+          "positionNm": [
+            97200000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            97600000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            98000000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "4",
+          "positionNm": [
+            98400000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "5",
+          "positionNm": [
+            98800000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "6",
+          "positionNm": [
+            99200000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "7",
+          "positionNm": [
+            99600000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "8",
+          "positionNm": [
+            100000000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "9",
+          "positionNm": [
+            100400000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "10",
+          "positionNm": [
+            100800000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "11",
+          "positionNm": [
+            101200000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "12",
+          "positionNm": [
+            101600000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "13",
+          "positionNm": [
+            102000000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "14",
+          "positionNm": [
+            102400000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "15",
+          "positionNm": [
+            102800000,
+            103450000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "16",
+          "positionNm": [
+            103450000,
+            102800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "17",
+          "positionNm": [
+            103450000,
+            102400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "18",
+          "positionNm": [
+            103450000,
+            102000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "19",
+          "positionNm": [
+            103450000,
+            101600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "20",
+          "positionNm": [
+            103450000,
+            101200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "21",
+          "positionNm": [
+            103450000,
+            100800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "22",
+          "positionNm": [
+            103450000,
+            100400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "23",
+          "positionNm": [
+            103450000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "24",
+          "positionNm": [
+            103450000,
+            99600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "25",
+          "positionNm": [
+            103450000,
+            99200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "26",
+          "positionNm": [
+            103450000,
+            98800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "27",
+          "positionNm": [
+            103450000,
+            98400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "28",
+          "positionNm": [
+            103450000,
+            98000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "29",
+          "positionNm": [
+            103450000,
+            97600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "30",
+          "positionNm": [
+            103450000,
+            97200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "31",
+          "positionNm": [
+            102800000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "32",
+          "positionNm": [
+            102400000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "33",
+          "positionNm": [
+            102000000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "34",
+          "positionNm": [
+            101600000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "35",
+          "positionNm": [
+            101200000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "36",
+          "positionNm": [
+            100800000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "37",
+          "positionNm": [
+            100400000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "38",
+          "positionNm": [
+            100000000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "39",
+          "positionNm": [
+            99600000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "40",
+          "positionNm": [
+            99200000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "41",
+          "positionNm": [
+            98800000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "42",
+          "positionNm": [
+            98400000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "43",
+          "positionNm": [
+            98000000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "44",
+          "positionNm": [
+            97600000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "45",
+          "positionNm": [
+            97200000,
+            96550000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "46",
+          "positionNm": [
+            96550000,
+            97200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "47",
+          "positionNm": [
+            96550000,
+            97600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "48",
+          "positionNm": [
+            96550000,
+            98000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "49",
+          "positionNm": [
+            96550000,
+            98400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "50",
+          "positionNm": [
+            96550000,
+            98800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "51",
+          "positionNm": [
+            96550000,
+            99200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "52",
+          "positionNm": [
+            96550000,
+            99600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "53",
+          "positionNm": [
+            96550000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "54",
+          "positionNm": [
+            96550000,
+            100400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "55",
+          "positionNm": [
+            96550000,
+            100800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "56",
+          "positionNm": [
+            96550000,
+            101200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "57",
+          "positionNm": [
+            96550000,
+            101600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "58",
+          "positionNm": [
+            96550000,
+            102000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "59",
+          "positionNm": [
+            96550000,
+            102400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "60",
+          "positionNm": [
+            96550000,
+            102800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "61",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            3400000,
+            3400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "qfn",
+      "rotation": 180,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_DFN_QFN.pretty\\QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sourceSha256": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+      "file": "qfn-180.kicad_pcb",
+      "sha256": "9c9573db17871e9e1149b3b7b9b20e4b73d49a158554090bc6070948188798bc",
+      "bytes": 22812,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            101130000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            98870000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            101130000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            98870000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            101130000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            98870000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "1",
+          "positionNm": [
+            103450000,
+            102800000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            103450000,
+            102400000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            103450000,
+            102000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "4",
+          "positionNm": [
+            103450000,
+            101600000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "5",
+          "positionNm": [
+            103450000,
+            101200000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "6",
+          "positionNm": [
+            103450000,
+            100800000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "7",
+          "positionNm": [
+            103450000,
+            100400000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "8",
+          "positionNm": [
+            103450000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "9",
+          "positionNm": [
+            103450000,
+            99600000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "10",
+          "positionNm": [
+            103450000,
+            99200000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "11",
+          "positionNm": [
+            103450000,
+            98800000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "12",
+          "positionNm": [
+            103450000,
+            98400000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "13",
+          "positionNm": [
+            103450000,
+            98000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "14",
+          "positionNm": [
+            103450000,
+            97600000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "15",
+          "positionNm": [
+            103450000,
+            97200000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "16",
+          "positionNm": [
+            102800000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "17",
+          "positionNm": [
+            102400000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "18",
+          "positionNm": [
+            102000000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "19",
+          "positionNm": [
+            101600000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "20",
+          "positionNm": [
+            101200000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "21",
+          "positionNm": [
+            100800000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "22",
+          "positionNm": [
+            100400000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "23",
+          "positionNm": [
+            100000000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "24",
+          "positionNm": [
+            99600000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "25",
+          "positionNm": [
+            99200000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "26",
+          "positionNm": [
+            98800000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "27",
+          "positionNm": [
+            98400000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "28",
+          "positionNm": [
+            98000000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "29",
+          "positionNm": [
+            97600000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "30",
+          "positionNm": [
+            97200000,
+            96550000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "31",
+          "positionNm": [
+            96550000,
+            97200000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "32",
+          "positionNm": [
+            96550000,
+            97600000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "33",
+          "positionNm": [
+            96550000,
+            98000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "34",
+          "positionNm": [
+            96550000,
+            98400000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "35",
+          "positionNm": [
+            96550000,
+            98800000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "36",
+          "positionNm": [
+            96550000,
+            99200000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "37",
+          "positionNm": [
+            96550000,
+            99600000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "38",
+          "positionNm": [
+            96550000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "39",
+          "positionNm": [
+            96550000,
+            100400000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "40",
+          "positionNm": [
+            96550000,
+            100800000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "41",
+          "positionNm": [
+            96550000,
+            101200000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "42",
+          "positionNm": [
+            96550000,
+            101600000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "43",
+          "positionNm": [
+            96550000,
+            102000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "44",
+          "positionNm": [
+            96550000,
+            102400000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "45",
+          "positionNm": [
+            96550000,
+            102800000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "46",
+          "positionNm": [
+            97200000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "47",
+          "positionNm": [
+            97600000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "48",
+          "positionNm": [
+            98000000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "49",
+          "positionNm": [
+            98400000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "50",
+          "positionNm": [
+            98800000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "51",
+          "positionNm": [
+            99200000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "52",
+          "positionNm": [
+            99600000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "53",
+          "positionNm": [
+            100000000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "54",
+          "positionNm": [
+            100400000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "55",
+          "positionNm": [
+            100800000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "56",
+          "positionNm": [
+            101200000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "57",
+          "positionNm": [
+            101600000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "58",
+          "positionNm": [
+            102000000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "59",
+          "positionNm": [
+            102400000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "60",
+          "positionNm": [
+            102800000,
+            103450000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "61",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            3400000,
+            3400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "qfn",
+      "rotation": 270,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_DFN_QFN.pretty\\QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sourceSha256": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+      "file": "qfn-270.kicad_pcb",
+      "sha256": "1a69bd5fda7bd254f7c6afd07e53413d546716e7b731c7e20597bef6179cef8a",
+      "bytes": 22812,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            98870000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            98870000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            98870000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            101130000,
+            101130000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            101130000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            98870000,
+            101130000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            910000,
+            910000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "1",
+          "positionNm": [
+            102800000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            102400000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "3",
+          "positionNm": [
+            102000000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "4",
+          "positionNm": [
+            101600000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "5",
+          "positionNm": [
+            101200000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "6",
+          "positionNm": [
+            100800000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "7",
+          "positionNm": [
+            100400000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "8",
+          "positionNm": [
+            100000000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "9",
+          "positionNm": [
+            99600000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "10",
+          "positionNm": [
+            99200000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "11",
+          "positionNm": [
+            98800000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "12",
+          "positionNm": [
+            98400000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "13",
+          "positionNm": [
+            98000000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "14",
+          "positionNm": [
+            97600000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "15",
+          "positionNm": [
+            97200000,
+            96550000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "16",
+          "positionNm": [
+            96550000,
+            97200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "17",
+          "positionNm": [
+            96550000,
+            97600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "18",
+          "positionNm": [
+            96550000,
+            98000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "19",
+          "positionNm": [
+            96550000,
+            98400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "20",
+          "positionNm": [
+            96550000,
+            98800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "21",
+          "positionNm": [
+            96550000,
+            99200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "22",
+          "positionNm": [
+            96550000,
+            99600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "23",
+          "positionNm": [
+            96550000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "24",
+          "positionNm": [
+            96550000,
+            100400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "25",
+          "positionNm": [
+            96550000,
+            100800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "26",
+          "positionNm": [
+            96550000,
+            101200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "27",
+          "positionNm": [
+            96550000,
+            101600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "28",
+          "positionNm": [
+            96550000,
+            102000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "29",
+          "positionNm": [
+            96550000,
+            102400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "30",
+          "positionNm": [
+            96550000,
+            102800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "31",
+          "positionNm": [
+            97200000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "32",
+          "positionNm": [
+            97600000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "33",
+          "positionNm": [
+            98000000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "34",
+          "positionNm": [
+            98400000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "35",
+          "positionNm": [
+            98800000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "36",
+          "positionNm": [
+            99200000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "37",
+          "positionNm": [
+            99600000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "38",
+          "positionNm": [
+            100000000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "39",
+          "positionNm": [
+            100400000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "40",
+          "positionNm": [
+            100800000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "41",
+          "positionNm": [
+            101200000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "42",
+          "positionNm": [
+            101600000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "43",
+          "positionNm": [
+            102000000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "44",
+          "positionNm": [
+            102400000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "45",
+          "positionNm": [
+            102800000,
+            103450000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            800000,
+            200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "46",
+          "positionNm": [
+            103450000,
+            102800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "47",
+          "positionNm": [
+            103450000,
+            102400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "48",
+          "positionNm": [
+            103450000,
+            102000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "49",
+          "positionNm": [
+            103450000,
+            101600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "50",
+          "positionNm": [
+            103450000,
+            101200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "51",
+          "positionNm": [
+            103450000,
+            100800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "52",
+          "positionNm": [
+            103450000,
+            100400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "53",
+          "positionNm": [
+            103450000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "54",
+          "positionNm": [
+            103450000,
+            99600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "55",
+          "positionNm": [
+            103450000,
+            99200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "56",
+          "positionNm": [
+            103450000,
+            98800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "57",
+          "positionNm": [
+            103450000,
+            98400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "58",
+          "positionNm": [
+            103450000,
+            98000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "59",
+          "positionNm": [
+            103450000,
+            97600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "60",
+          "positionNm": [
+            103450000,
+            97200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            200000,
+            800000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "61",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            3400000,
+            3400000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "usb",
+      "rotation": 0,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sourceSha256": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+      "file": "usb-0.kicad_pcb",
+      "sha256": "23b1c56232383e910c79242a5deedb312bae3d49db78dc324a41ccfd0af0e0a7",
+      "bytes": 9595,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            97110000,
+            97395000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            102890000,
+            97395000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "A1",
+          "positionNm": [
+            96800000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A4",
+          "positionNm": [
+            97600000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A5",
+          "positionNm": [
+            98750000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A6",
+          "positionNm": [
+            99750000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A7",
+          "positionNm": [
+            100250000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A8",
+          "positionNm": [
+            101250000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A9",
+          "positionNm": [
+            102400000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A12",
+          "positionNm": [
+            103200000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B1",
+          "positionNm": [
+            103200000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B4",
+          "positionNm": [
+            102400000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B5",
+          "positionNm": [
+            101750000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B6",
+          "positionNm": [
+            100750000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B7",
+          "positionNm": [
+            99250000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B8",
+          "positionNm": [
+            98250000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B9",
+          "positionNm": [
+            97600000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B12",
+          "positionNm": [
+            96800000,
+            96320000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            95680000,
+            96895000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            95680000,
+            101075000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            104320000,
+            96895000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            104320000,
+            101075000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "usb",
+      "rotation": 90,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sourceSha256": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+      "file": "usb-90.kicad_pcb",
+      "sha256": "fe185b831b1901e94b27f5d12bf293ba56337651a39d496ee4aae6b282223229",
+      "bytes": 9670,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            97395000,
+            102890000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            97395000,
+            97110000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "A1",
+          "positionNm": [
+            96320000,
+            103200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A4",
+          "positionNm": [
+            96320000,
+            102400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A5",
+          "positionNm": [
+            96320000,
+            101250000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A6",
+          "positionNm": [
+            96320000,
+            100250000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A7",
+          "positionNm": [
+            96320000,
+            99750000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A8",
+          "positionNm": [
+            96320000,
+            98750000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A9",
+          "positionNm": [
+            96320000,
+            97600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A12",
+          "positionNm": [
+            96320000,
+            96800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B1",
+          "positionNm": [
+            96320000,
+            96800000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B4",
+          "positionNm": [
+            96320000,
+            97600000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B5",
+          "positionNm": [
+            96320000,
+            98250000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B6",
+          "positionNm": [
+            96320000,
+            99250000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B7",
+          "positionNm": [
+            96320000,
+            100750000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B8",
+          "positionNm": [
+            96320000,
+            101750000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B9",
+          "positionNm": [
+            96320000,
+            102400000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B12",
+          "positionNm": [
+            96320000,
+            103200000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            96895000,
+            104320000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            101075000,
+            104320000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            96895000,
+            95680000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            101075000,
+            95680000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "usb",
+      "rotation": 180,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sourceSha256": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+      "file": "usb-180.kicad_pcb",
+      "sha256": "5f25fb05efebc5a4d09ccd4b14c5c77a9dc7f8f7202166898387ea97a911f1d6",
+      "bytes": 9699,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            102890000,
+            102605000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            97110000,
+            102605000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "A1",
+          "positionNm": [
+            103200000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A4",
+          "positionNm": [
+            102400000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A5",
+          "positionNm": [
+            101250000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A6",
+          "positionNm": [
+            100250000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A7",
+          "positionNm": [
+            99750000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A8",
+          "positionNm": [
+            98750000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A9",
+          "positionNm": [
+            97600000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A12",
+          "positionNm": [
+            96800000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B1",
+          "positionNm": [
+            96800000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B4",
+          "positionNm": [
+            97600000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B5",
+          "positionNm": [
+            98250000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B6",
+          "positionNm": [
+            99250000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B7",
+          "positionNm": [
+            100750000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B8",
+          "positionNm": [
+            101750000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B9",
+          "positionNm": [
+            102400000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B12",
+          "positionNm": [
+            103200000,
+            103680000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            104320000,
+            103105000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            104320000,
+            98925000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            95680000,
+            103105000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            95680000,
+            98925000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "usb",
+      "rotation": 270,
+      "source": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sourceSha256": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+      "file": "usb-270.kicad_pcb",
+      "sha256": "fe0cfec8a6fc68b6b1ca38d954a369fd29306b882e05b39579565ae61e4dbeb7",
+      "bytes": 9699,
+      "nativePads": [
+        {
+          "number": "",
+          "positionNm": [
+            102605000,
+            97110000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            102605000,
+            102890000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            650000,
+            650000
+          ],
+          "drillNm": [
+            650000,
+            650000
+          ]
+        },
+        {
+          "number": "A1",
+          "positionNm": [
+            103680000,
+            96800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A4",
+          "positionNm": [
+            103680000,
+            97600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A5",
+          "positionNm": [
+            103680000,
+            98750000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A6",
+          "positionNm": [
+            103680000,
+            99750000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A7",
+          "positionNm": [
+            103680000,
+            100250000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A8",
+          "positionNm": [
+            103680000,
+            101250000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A9",
+          "positionNm": [
+            103680000,
+            102400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "A12",
+          "positionNm": [
+            103680000,
+            103200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B1",
+          "positionNm": [
+            103680000,
+            103200000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B4",
+          "positionNm": [
+            103680000,
+            102400000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B5",
+          "positionNm": [
+            103680000,
+            101750000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B6",
+          "positionNm": [
+            103680000,
+            100750000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B7",
+          "positionNm": [
+            103680000,
+            99250000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B8",
+          "positionNm": [
+            103680000,
+            98250000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B9",
+          "positionNm": [
+            103680000,
+            97600000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "B12",
+          "positionNm": [
+            103680000,
+            96800000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            600000,
+            1150000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            103105000,
+            95680000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            98925000,
+            95680000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            103105000,
+            104320000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            1000000,
+            2100000
+          ],
+          "drillNm": [
+            600000,
+            1700000
+          ]
+        },
+        {
+          "number": "SH",
+          "positionNm": [
+            98925000,
+            104320000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            1000000,
+            1800000
+          ],
+          "drillNm": [
+            600000,
+            1400000
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "local",
+      "rotation": 0,
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc11\\oracle-final\\Fixture.pretty\\CardinalLocalAngles.kicad_mod",
+      "sourceSha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db",
+      "file": "local-0.kicad_pcb",
+      "sha256": "cecd43bcd09bc4a715e81dc403adb71d0985b9d231c8c5fc7a7314ee3ccd0d82",
+      "bytes": 4553,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            99000000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            400000,
+            1200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            101000000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            1600000,
+            2200000
+          ],
+          "drillNm": [
+            800000,
+            1400000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            300000,
+            600000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "local",
+      "rotation": 90,
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc11\\oracle-final\\Fixture.pretty\\CardinalLocalAngles.kicad_mod",
+      "sourceSha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db",
+      "file": "local-90.kicad_pcb",
+      "sha256": "d6c50fe27d26dae3b2531acb6ded983b52c4a2fb1ee970b61a45074696b907f9",
+      "bytes": 4553,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            100000000,
+            101000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            400000,
+            1200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            100000000,
+            99000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            1600000,
+            2200000
+          ],
+          "drillNm": [
+            800000,
+            1400000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            300000,
+            600000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "local",
+      "rotation": 180,
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc11\\oracle-final\\Fixture.pretty\\CardinalLocalAngles.kicad_mod",
+      "sourceSha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db",
+      "file": "local-180.kicad_pcb",
+      "sha256": "bdb9ab31138c427eb38674f086b813c9a13c0a737b55afbfe3f98b16b3ada1c1",
+      "bytes": 4555,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            101000000,
+            100000000
+          ],
+          "orientationDeg": 270.0,
+          "sizeNm": [
+            400000,
+            1200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            99000000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            1600000,
+            2200000
+          ],
+          "drillNm": [
+            800000,
+            1400000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            300000,
+            600000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "local",
+      "rotation": 270,
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc11\\oracle-final\\Fixture.pretty\\CardinalLocalAngles.kicad_mod",
+      "sourceSha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db",
+      "file": "local-270.kicad_pcb",
+      "sha256": "b10217d4433bb38064e01e9bf7270dc12e1da0f87e42b253072f99a159a2d7d1",
+      "bytes": 4554,
+      "nativePads": [
+        {
+          "number": "1",
+          "positionNm": [
+            100000000,
+            99000000
+          ],
+          "orientationDeg": 0.0,
+          "sizeNm": [
+            400000,
+            1200000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        },
+        {
+          "number": "2",
+          "positionNm": [
+            100000000,
+            101000000
+          ],
+          "orientationDeg": 180.0,
+          "sizeNm": [
+            1600000,
+            2200000
+          ],
+          "drillNm": [
+            800000,
+            1400000
+          ]
+        },
+        {
+          "number": "",
+          "positionNm": [
+            100000000,
+            100000000
+          ],
+          "orientationDeg": 90.0,
+          "sizeNm": [
+            300000,
+            600000
+          ],
+          "drillNm": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

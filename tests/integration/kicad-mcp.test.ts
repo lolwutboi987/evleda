@@ -8,6 +8,7 @@ import { performance } from "node:perf_hooks";
 import livePcbPadProtocol from "../fixtures/kicad-mcp-live-pcb-pad-snapshot-protocol.json" with { type: "json" };
 import schematicBatchProtocol from "../fixtures/kicad-mcp-schematic-connectivity-batch-protocol.json" with { type: "json" };
 import qualifiedFootprintSyncTool from "../fixtures/kicad-mcp-qualified-footprint-sync-tool.json" with { type: "json" };
+import qualifiedFootprintPoseSyncTool from "../fixtures/kicad-mcp-qualified-footprint-pose-sync-tool.json" with { type: "json" };
 import externalPowerFlagConnectivityTool from "../fixtures/kicad-mcp-external-power-flag-connectivity-tool.json" with { type: "json" };
 
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
@@ -3493,13 +3494,16 @@ describe("KiCad MCP subprocess session", () => {
     }
   });
 
-  it("admits the captured qualified footprint sync descriptor and dispatches its exact arguments", async () => {
+  it("admits the captured qualified footprint pose sync descriptor and dispatches its exact arguments", async () => {
     // Captured with the actual FastMCP registration and Node MCP client decoder;
     // the fixture preserves the complete Tool descriptor, including description whitespace.
-    expect(createHash("sha256").update(canonicalJson(qualifiedFootprintSyncTool), "utf8").digest("hex"))
-      .toBe("4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3");
+    expect(createHash("sha256").update(canonicalJson(qualifiedFootprintPoseSyncTool), "utf8").digest("hex"))
+      .toBe("0dd680af3145c29842d0e75afa0ecd4fe6ad14e94075d796e4296892614ab778");
+    const identityOnly = structuredClone(qualifiedFootprintPoseSyncTool) as Record<string, any>;
+    delete identityOnly._meta.evledaQualifiedFootprintPoseSync;
+    expect(canonicalJson(identityOnly)).toBe(canonicalJson(qualifiedFootprintSyncTool));
     const { workspace, project, canonical } = await roots();
-    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintSyncTool });
+    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintPoseSyncTool });
     const session = await KicadMcpSession.connect({
       workspaceRoot: workspace, projectRoot: project, mode: "write",
       isolatedWorkingCopy: { canonicalProjectRoot: canonical }, command: fixture.command,
@@ -3508,6 +3512,7 @@ describe("KiCad MCP subprocess session", () => {
     const args = { auto_place: false, replace_mismatched: true };
     try {
       expect(session.supportsQualifiedFootprintIdentitySync()).toBe(true);
+      expect(session.supportsQualifiedFootprintPoseSync()).toBe(true);
       await expect(session.callTool(qualifiedFootprintSyncTool.name, args)).resolves.toEqual({
         content: [{ type: "text", text: JSON.stringify({ schemaVersion: "evleda.kicad-mcp-result.v1", category: "validated_structured_evidence" }) }],
         structuredContent: { result: "fake qualified footprint sync accepted" },
@@ -3515,8 +3520,54 @@ describe("KiCad MCP subprocess session", () => {
       expect((await readFile(fixture.callsPath, "utf8")).trim().split("\n").map(line => JSON.parse(line)))
         .toEqual([{ name: qualifiedFootprintSyncTool.name, arguments: args }]);
       expect(session.supportsQualifiedFootprintIdentitySync()).toBe(true);
+      expect(session.supportsQualifiedFootprintPoseSync()).toBe(true);
     } finally { await session.close(); }
     expect(session.supportsQualifiedFootprintIdentitySync()).toBe(false);
+    expect(session.supportsQualifiedFootprintPoseSync()).toBe(false);
+  });
+
+  it.each(["readonly", "write"] as const)("keeps identity-only footprint producers available in %s mode but refuses pose sync", async mode => {
+    expect(createHash("sha256").update(canonicalJson(qualifiedFootprintSyncTool), "utf8").digest("hex"))
+      .toBe("4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3");
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintSyncTool });
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, mode,
+      ...(mode === "write" ? { freshProject: true } : {}), command: fixture.command });
+    try {
+      expect(session.supportsQualifiedFootprintIdentitySync()).toBe(mode === "write");
+      expect(session.supportsQualifiedFootprintPoseSync()).toBe(false);
+      await expect(session.callTool("pcb_sync_from_schematic", { replace_mismatched: true })).rejects.toThrow(
+        mode === "write" ? /qualified.*footprint pose semantics/iu : /not allowed in readonly mode/iu,
+      );
+      await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
+      await expect(session.callTool("pcb_get_board_as_string")).resolves.toMatchObject({ structuredContent: { result: "configured board source is not live authority" } });
+      if (mode === "write") expect(session.listTools()).toContainEqual(expect.objectContaining({ name: "pcb_save", permission: "write" }));
+    } finally { await session.close(); }
+  });
+
+  it.each([
+    ["wrong version", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, evledaQualifiedFootprintPoseSync: "evleda.kicad-qualified-footprint-pose-sync.v0" } }],
+    ["false marker", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, evledaQualifiedFootprintPoseSync: false } }],
+    ["null marker", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, evledaQualifiedFootprintPoseSync: null } }],
+    ["object marker", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, evledaQualifiedFootprintPoseSync: { version: 1 } } }],
+    ["array marker", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, evledaQualifiedFootprintPoseSync: ["evleda.kicad-qualified-footprint-pose-sync.v1"] } }],
+    ["numeric marker", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, evledaQualifiedFootprintPoseSync: 1 } }],
+    ["missing identity marker", { _meta: { evledaQualifiedFootprintPoseSync: "evleda.kicad-qualified-footprint-pose-sync.v1" } }],
+    ["contradictory identity marker", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, evledaQualifiedFootprintIdentitySync: "evleda.kicad-qualified-footprint-identity-sync.v0" } }],
+    ["extra metadata", { _meta: { ...qualifiedFootprintPoseSyncTool._meta, extra: true } }],
+    ["description", { description: `${qualifiedFootprintPoseSyncTool.description}\n` }],
+    ["input schema", { inputSchema: { ...qualifiedFootprintPoseSyncTool.inputSchema, additionalProperties: false } }],
+    ["output schema", { outputSchema: { ...qualifiedFootprintPoseSyncTool.outputSchema, additionalProperties: false } }],
+    ["annotations", { annotations: { ...qualifiedFootprintPoseSyncTool.annotations, readOnlyHint: false } }],
+  ] as const)("rejects footprint pose sync %s before dispatch", async (_label, override) => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { syncTool: { ...qualifiedFootprintPoseSyncTool, ...override } });
+    for (const mode of ["readonly", "write"] as const) {
+      await expect(KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, mode,
+        ...(mode === "write" ? { freshProject: true } : {}), command: fixture.command,
+      })).rejects.toThrow(/footprint pose sync claims a mismatched qualified tool contract/iu);
+      await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
+    }
   });
 
   it.each([
@@ -3550,6 +3601,7 @@ describe("KiCad MCP subprocess session", () => {
     });
     try {
       expect(session.supportsQualifiedFootprintIdentitySync()).toBe(false);
+      expect(session.supportsQualifiedFootprintPoseSync()).toBe(false);
       await expect(session.callTool(qualifiedFootprintSyncTool.name, { replace_mismatched: true })).rejects.toThrow(
         mode === "write" ? /requires the qualified full-footprint-library-identity writer/iu : /not allowed in readonly mode/iu,
       );
@@ -3565,7 +3617,7 @@ describe("KiCad MCP subprocess session", () => {
 
   it("keeps the qualified footprint sync writer behind readonly and deferred project-binding gates", async () => {
     const { workspace, project } = await roots();
-    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintSyncTool });
+    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintPoseSyncTool });
     await expect(KicadMcpSession.connect({
       workspaceRoot: workspace, projectRoot: project, command: fixture.command,
       requiredTools: [qualifiedFootprintSyncTool.name],
@@ -3577,6 +3629,7 @@ describe("KiCad MCP subprocess session", () => {
     const readonly = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, command: fixture.command });
     try {
       expect(readonly.supportsQualifiedFootprintIdentitySync()).toBe(false);
+      expect(readonly.supportsQualifiedFootprintPoseSync()).toBe(false);
       await expect(readonly.callTool(qualifiedFootprintSyncTool.name)).rejects.toThrow(/not allowed in readonly mode/iu);
     } finally { await readonly.close(); }
     const launchCwd = await mkdtemp(path.join(suiteRoot, "evleda-sync-deferred-"));
@@ -3588,6 +3641,7 @@ describe("KiCad MCP subprocess session", () => {
     });
     try {
       expect(unbound.supportsQualifiedFootprintIdentitySync()).toBe(false);
+      expect(unbound.supportsQualifiedFootprintPoseSync()).toBe(false);
       await expect(unbound.callTool(qualifiedFootprintSyncTool.name)).rejects.toThrow(/must be host-bound before tool calls/iu);
     } finally { await unbound.close(); }
     await expect(readFile(fixture.callsPath, "utf8")).rejects.toMatchObject({ code: "ENOENT" });

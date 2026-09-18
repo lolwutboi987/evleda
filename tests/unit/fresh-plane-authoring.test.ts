@@ -64,6 +64,7 @@ async function fixture(options:{initial?:string;physicalSource?:string;compilati
   const session:KicadHarnessSession={
     supportsNativeRouteTransactions:()=>true,
     supportsQualifiedFootprintIdentitySync:()=>true,
+    supportsQualifiedFootprintPoseSync:()=>true,
     listTools:()=>KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES.map(name=>({name,permission:'write' as const,description:name,inputSchema:{type:'object',additionalProperties:true}})),
     assertActivePcb:async expected=>{if(expected!==project.pcbPath)throw new Error('wrong PCB');},readActivePcbSource:async()=>live,
     readLivePcbPadSnapshot:async ids=>{

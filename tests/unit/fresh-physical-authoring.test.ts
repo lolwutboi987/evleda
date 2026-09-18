@@ -143,6 +143,7 @@ async function fixture(source:string,options:Options={},physical?:Awaited<Return
   const session:KicadHarnessSession={
     supportsNativeRouteTransactions:()=>true,
     supportsQualifiedFootprintIdentitySync:()=>options.qualifiedFootprintWriter??true,
+    supportsQualifiedFootprintPoseSync:()=>true,
     listTools:()=>KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES.filter(name=>!name.startsWith('evleda_get_live')).map(name=>({name,permission:options.readonlyTools?.includes(name)?'read' as const:'write' as const,inputSchema:{type:'object',additionalProperties:true}})),
     assertActivePcb:async expected=>{if(expected!==project.pcbPath)throw new Error('wrong active path');},
     readActivePcbSource:async()=>{await observePostPushLiveRead();return live;},

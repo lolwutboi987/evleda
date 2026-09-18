@@ -26,6 +26,7 @@ const providerNames = stableNames.filter((name) => !["kicad_set_project", "run_e
 function fakeSession(onCall?: (name: string) => Promise<void>): KicadHarnessSession {
   return {
     supportsQualifiedFootprintIdentitySync: () => true,
+    supportsQualifiedFootprintPoseSync: () => true,
     listTools: () => stableNames.map((name) => ({ name, description: `Fake ${name}`, permission: "write" as const, inputSchema: schema })),
     callTool: async (name, argumentsValue = {}) => {
       await onCall?.(name);
@@ -42,6 +43,7 @@ describe("KiCad harness tools", () => {
   };
   const freshSession = (onCall?: (name: string) => Promise<void>): KicadHarnessSession => ({
     supportsQualifiedFootprintIdentitySync: () => true,
+    supportsQualifiedFootprintPoseSync: () => true,
     assertActivePcb: async () => undefined,
     readActivePcbSource: async (expected) => await readFile(expected, "utf8"),
     listTools: () => KICAD_FRESH_HARNESS_TOOL_NAMES.map((name) => ({ name, description: name, permission: "write" as const, inputSchema: schema })),
@@ -151,6 +153,21 @@ describe("KiCad harness tools", () => {
     await expect(bridge.execute({ id: "old-raw-sync", name: "pcb_sync_from_schematic" as never, arguments: {} })).rejects.toThrow(/Unsupported/iu);
     expect(calls).toEqual([]);
     await expect(bridge.execute({ id: "old-runtime-read", name: "pcb_get_footprints", arguments: {} })).resolves.toMatchObject({ toolCallId: "old-runtime-read" });
+    expect(calls).toEqual(["pcb_get_footprints"]);
+  });
+
+  it.each(["missing", "false"] as const)("hides raw sync with %s pose qualification while retaining identity and unrelated operations", async support => {
+    const calls: string[] = [];
+    const session = fakeSession(async name => { calls.push(name); });
+    if (support === "missing") delete session.supportsQualifiedFootprintPoseSync;
+    else session.supportsQualifiedFootprintPoseSync = () => false;
+    const bridge = createKicadHarnessTools(session);
+    expect(session.supportsQualifiedFootprintIdentitySync?.()).toBe(true);
+    expect(bridge.tools.map(tool => tool.name)).not.toContain("pcb_sync_from_schematic");
+    expect(bridge.tools.map(tool => tool.name)).toEqual(expect.arrayContaining(["pcb_get_footprints", "pcb_add_track", "pcb_move_footprint"]));
+    await expect(bridge.execute({ id: "identity-only-sync", name: "pcb_sync_from_schematic" as never, arguments: {} })).rejects.toThrow(/Unsupported/iu);
+    expect(calls).toEqual([]);
+    await expect(bridge.execute({ id: "identity-only-read", name: "pcb_get_footprints", arguments: {} })).resolves.toMatchObject({ toolCallId: "identity-only-read" });
     expect(calls).toEqual(["pcb_get_footprints"]);
   });
 

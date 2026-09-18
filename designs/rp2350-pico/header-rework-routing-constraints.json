@@ -1,0 +1,6622 @@
+{
+  "schema": "rp2350.header-rework-routing-proposal.v2",
+  "status": "USER INTENT RETAINED; geometric implementation requires mechanical/placement resolution. No all40-exit feasibility claim.",
+  "source": {
+    "modelSha256": "421df1f6f7fad2857b58fcd7d9a6afb0d3d71792827094516ec423f1fcfc63c4",
+    "geometrySha256": "4155f22aa9fd961ecfb29b3fb571a430e6039bd3724f97c9353f3142754f83dd",
+    "counts": {
+      "segments": 858,
+      "vias": 101,
+      "completeNonGroundSourceGraphs": 55,
+      "openGpioGraphs": 11
+    },
+    "SW2RotationDeg": 90
+  },
+  "userRequirements": [
+    "No unrelated traces or vias between external GPIO-header pads on either board face.",
+    "Clean inward pad connections; external rows are soldering/rework areas, not ordinary routing space.",
+    "Keep two copper layers for now; preserve widths, clearances, drills, header interface and 45-degree routing."
+  ],
+  "engineeringChoices": {
+    "proposedInwardMarginBeyondPadEdgeMm": 0.5,
+    "marginAuthority": "Proposed service allowance, not a user-provided distance or manufacturer guarantee. It does not guarantee resistance to soldering heat, pad lifting, tool slips or physical damage.",
+    "edgeConnectedZones": true,
+    "whyEdgeConnected": "Avoid retaining narrow outboard bypass lanes next to the handled/reworked contacts.",
+    "scope": "Both complete J2/J3 rows, including their power and GND contacts. J1/J4 are not silently reassigned this new rule.",
+    "strictness": "The0.50mm edge-connected strips and centred leads are engineering proposals, not user-fixed geometry. Centred leads are a default attempt, not a proved requirement. A pad-local offset may be considered only after a complete checked own-pad connection; no such corner escape is accepted here.",
+    "implementationReady": false
+  },
+  "retainedInterface": {
+    "boardMm": [
+      22,
+      51
+    ],
+    "headerRowCentresXmm": [
+      2.11,
+      19.89
+    ],
+    "rowSpacingMm": 17.78,
+    "contactPitchMm": 2.54,
+    "landSizeMm": 1.7,
+    "finishedHoleNominalMm": 1,
+    "firstAndLastYmm": [
+      1.37,
+      49.63
+    ],
+    "copperLayers": [
+      "F.Cu",
+      "B.Cu"
+    ]
+  },
+  "reworkZones": [
+    {
+      "reference": "J2",
+      "inwardDirection": "+X",
+      "minX": 0,
+      "maxX": 3.46,
+      "minY": 0,
+      "maxY": 51,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "appliesTo": "Actual full copper area, including track width, ordinary-via annuli, zones/pours and other non-header copper. Not merely centreline positions."
+    },
+    {
+      "reference": "J3",
+      "inwardDirection": "-X",
+      "minX": 18.54,
+      "maxX": 22,
+      "minY": 0,
+      "maxY": 51,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "appliesTo": "Actual full copper area, including track width, ordinary-via annuli, zones/pours and other non-header copper. Not merely centreline positions."
+    }
+  ],
+  "exceptions": [
+    {
+      "kind": "retained-header-land-and-plated-barrel",
+      "description": "The original 40 J2/J3 lands and their plated holes remain; do not shrink them."
+    },
+    {
+      "kind": "checked-own-inward-connection",
+      "description": "Prefer a centred inward normal. A separately checked offset starting inside that same existing pad land may be considered, with full-width copper contact,45-degree bends, unchanged clearances/edge limits and no use of neighboring inter-pad gaps. No untested offset or board-edge bypass receives an exception. None of the recorded offset starts is a completed accepted corner route."
+    }
+  ],
+  "prohibitions": [
+    "No ordinary via, including GND stitching vias, intersects either rework zone. Existing header PTH barrels are the explicit exception.",
+    "No polygon fill/pour/zone enters the rework strips; GND is not exempt just because some header pads are GND. Keep GND lands and use explicit inward ground spokes to interior connected ground.",
+    "No outboard bypass, diagonal between neighboring contacts, longitudinal trace beside the row, or solder-mask-based exemption.",
+    "No narrower traces, clearances, lands, annuli or drills introduced to fit this rule."
+  ],
+  "derivedGeometry": {
+    "interiorCopperBandXmm": [
+      3.46,
+      18.54
+    ],
+    "interiorWidthMm": 15.08,
+    "ordinary055ViaCentreBandXmm": [
+      3.735,
+      18.265
+    ],
+    "GPIO020FirstTurnCentreBandXmm": [
+      3.56,
+      18.44
+    ],
+    "power060FirstTurnCentreBandXmm": [
+      3.76,
+      18.24
+    ],
+    "allOtherClearancesStillApply": true,
+    "headerRawPadGapMm": 0.84,
+    "MCURawInterpadGapMm": 0.2,
+    "spaceNeededFor020TrackBetweenForeignPadsWith015ClearancesMm": 0.5,
+    "scope": "Boundary-derived positions only, not evidence that a usable turn/via position exists. Mounting holes and neighboring component clearance must also be checked."
+  },
+  "inwardConnectionCorridors": [
+    {
+      "terminal": "J2.1",
+      "net": "GPIO0",
+      "padCentreMm": [
+        2.11,
+        1.37
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          1.37
+        ],
+        [
+          3.46,
+          1.37
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        1.37
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H1",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.01840820080737618,
+              "requiredMm": 0.25,
+              "atMm": [
+                4.5,
+                2
+              ],
+              "radiusMm": 1.05
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H1",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.01840820080737618,
+              "requiredMm": 0.25,
+              "atMm": [
+                4.5,
+                2
+              ],
+              "radiusMm": 1.05
+            }
+          ],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": false,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.2",
+      "net": "GPIO1",
+      "padCentreMm": [
+        2.11,
+        3.91
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          3.91
+        ],
+        [
+          3.46,
+          3.91
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        3.91
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.3",
+      "net": "GND",
+      "padCentreMm": [
+        2.11,
+        6.45
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          6.45
+        ],
+        [
+          3.46,
+          6.45
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        3.61,
+        6.45
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.4",
+      "net": "GPIO2",
+      "padCentreMm": [
+        2.11,
+        8.99
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          8.99
+        ],
+        [
+          3.46,
+          8.99
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        8.99
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.5",
+      "net": "GPIO3",
+      "padCentreMm": [
+        2.11,
+        11.53
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          11.53
+        ],
+        [
+          3.46,
+          11.53
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        11.53
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.6",
+      "net": "GPIO4",
+      "padCentreMm": [
+        2.11,
+        14.07
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          14.07
+        ],
+        [
+          3.46,
+          14.07
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        14.07
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.7",
+      "net": "GPIO5",
+      "padCentreMm": [
+        2.11,
+        16.61
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          16.61
+        ],
+        [
+          3.46,
+          16.61
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        16.61
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "foreign-pad-clearance",
+              "pad": "R5.2",
+              "net": "BOOT_SW",
+              "gapMm": 0.045000000000000234,
+              "requiredMm": 0.15
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.8",
+      "net": "GND",
+      "padCentreMm": [
+        2.11,
+        19.15
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          19.15
+        ],
+        [
+          3.46,
+          19.15
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        3.61,
+        19.15
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.9",
+      "net": "GPIO6",
+      "padCentreMm": [
+        2.11,
+        21.69
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          21.69
+        ],
+        [
+          3.46,
+          21.69
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        21.69
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.10",
+      "net": "GPIO7",
+      "padCentreMm": [
+        2.11,
+        24.23
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          24.23
+        ],
+        [
+          3.46,
+          24.23
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        24.23
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.11",
+      "net": "GPIO8",
+      "padCentreMm": [
+        2.11,
+        26.77
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          26.77
+        ],
+        [
+          3.46,
+          26.77
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        26.77
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.12",
+      "net": "GPIO9",
+      "padCentreMm": [
+        2.11,
+        29.31
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          29.31
+        ],
+        [
+          3.46,
+          29.31
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        29.31
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.13",
+      "net": "GND",
+      "padCentreMm": [
+        2.11,
+        31.85
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          31.85
+        ],
+        [
+          3.46,
+          31.85
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        3.61,
+        31.85
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.14",
+      "net": "GPIO10",
+      "padCentreMm": [
+        2.11,
+        34.39
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          34.39
+        ],
+        [
+          3.46,
+          34.39
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        34.39
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.15",
+      "net": "GPIO11",
+      "padCentreMm": [
+        2.11,
+        36.93
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          36.93
+        ],
+        [
+          3.46,
+          36.93
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        36.93
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.16",
+      "net": "GPIO12",
+      "padCentreMm": [
+        2.11,
+        39.47
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          39.47
+        ],
+        [
+          3.46,
+          39.47
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        39.47
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.17",
+      "net": "GPIO13",
+      "padCentreMm": [
+        2.11,
+        42.01
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          42.01
+        ],
+        [
+          3.46,
+          42.01
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        42.01
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.18",
+      "net": "GND",
+      "padCentreMm": [
+        2.11,
+        44.55
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          44.55
+        ],
+        [
+          3.46,
+          44.55
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        3.61,
+        44.55
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.19",
+      "net": "GPIO14",
+      "padCentreMm": [
+        2.11,
+        47.09
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          47.09
+        ],
+        [
+          3.46,
+          47.09
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        47.09
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J2.20",
+      "net": "GPIO15",
+      "padCentreMm": [
+        2.11,
+        49.63
+      ],
+      "inwardDirection": "+X",
+      "copperBoundaryXmm": 3.46,
+      "firstTurnCentreXFor020TraceMm": 3.56,
+      "firstOrdinaryViaCentreXFor055PadMm": 3.735,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          2.11,
+          49.63
+        ],
+        [
+          3.46,
+          49.63
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        3.56,
+        49.63
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H3",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.018408200807374625,
+              "requiredMm": 0.25,
+              "atMm": [
+                4.5,
+                49
+              ],
+              "radiusMm": 1.05
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H3",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.018408200807374625,
+              "requiredMm": 0.25,
+              "atMm": [
+                4.5,
+                49
+              ],
+              "radiusMm": 1.05
+            }
+          ],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": false,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.1",
+      "net": "GPIO16",
+      "padCentreMm": [
+        19.89,
+        49.63
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          49.63
+        ],
+        [
+          18.54,
+          49.63
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        49.63
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H4",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.0184082008073764,
+              "requiredMm": 0.25,
+              "atMm": [
+                17.5,
+                49
+              ],
+              "radiusMm": 1.05
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H4",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.0184082008073764,
+              "requiredMm": 0.25,
+              "atMm": [
+                17.5,
+                49
+              ],
+              "radiusMm": 1.05
+            }
+          ],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": false,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.2",
+      "net": "GPIO17",
+      "padCentreMm": [
+        19.89,
+        47.09
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          47.09
+        ],
+        [
+          18.54,
+          47.09
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        47.09
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.3",
+      "net": "GND",
+      "padCentreMm": [
+        19.89,
+        44.55
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          44.55
+        ],
+        [
+          18.54,
+          44.55
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        18.39,
+        44.55
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.4",
+      "net": "GPIO18",
+      "padCentreMm": [
+        19.89,
+        42.01
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          42.01
+        ],
+        [
+          18.54,
+          42.01
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        42.01
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.5",
+      "net": "GPIO19",
+      "padCentreMm": [
+        19.89,
+        39.47
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          39.47
+        ],
+        [
+          18.54,
+          39.47
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        39.47
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.6",
+      "net": "GPIO20",
+      "padCentreMm": [
+        19.89,
+        36.93
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          36.93
+        ],
+        [
+          18.54,
+          36.93
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        36.93
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.7",
+      "net": "GPIO21",
+      "padCentreMm": [
+        19.89,
+        34.39
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          34.39
+        ],
+        [
+          18.54,
+          34.39
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        34.39
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.8",
+      "net": "GND",
+      "padCentreMm": [
+        19.89,
+        31.85
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          31.85
+        ],
+        [
+          18.54,
+          31.85
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        18.39,
+        31.85
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.9",
+      "net": "GPIO22",
+      "padCentreMm": [
+        19.89,
+        29.31
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          29.31
+        ],
+        [
+          18.54,
+          29.31
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        29.31
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.10",
+      "net": "RUN",
+      "padCentreMm": [
+        19.89,
+        26.77
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          26.77
+        ],
+        [
+          18.54,
+          26.77
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        26.77
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "foreign-pad-clearance",
+              "pad": "R12.1",
+              "net": "GPIO24_VBUS_SENSE",
+              "gapMm": -0.0779968153189268,
+              "requiredMm": 0.15
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": false,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.11",
+      "net": "GPIO26",
+      "padCentreMm": [
+        19.89,
+        24.23
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          24.23
+        ],
+        [
+          18.54,
+          24.23
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        24.23
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.12",
+      "net": "GPIO27",
+      "padCentreMm": [
+        19.89,
+        21.69
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          21.69
+        ],
+        [
+          18.54,
+          21.69
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        21.69
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "foreign-pad-clearance",
+              "pad": "R17.1",
+              "net": "ADC_VREF",
+              "gapMm": 0.08035694062442564,
+              "requiredMm": 0.15
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.13",
+      "net": "GND",
+      "padCentreMm": [
+        19.89,
+        19.15
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          19.15
+        ],
+        [
+          18.54,
+          19.15
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        18.39,
+        19.15
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "foreign-pad-clearance",
+              "pad": "R15.1",
+              "net": "GPIO29_VSYS_SENSE",
+              "gapMm": -0.1484349971625253,
+              "requiredMm": 0.15
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.14",
+      "net": "GPIO28",
+      "padCentreMm": [
+        19.89,
+        16.61
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          16.61
+        ],
+        [
+          18.54,
+          16.61
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        16.61
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "foreign-pad-clearance",
+              "pad": "Q1.3",
+              "net": "VSYS_DIV",
+              "gapMm": 0.10675723300355783,
+              "requiredMm": 0.15
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.15",
+      "net": "ADC_VREF",
+      "padCentreMm": [
+        19.89,
+        14.07
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          14.07
+        ],
+        [
+          18.54,
+          14.07
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        14.07
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "foreign-pad-clearance",
+              "pad": "R13.2",
+              "net": "VSYS_DIV",
+              "gapMm": -0.10752451216018452,
+              "requiredMm": 0.15
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.16",
+      "net": "3V3",
+      "padCentreMm": [
+        19.89,
+        11.53
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          11.53
+        ],
+        [
+          18.54,
+          11.53
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        18.39,
+        11.53
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "foreign-pad-clearance",
+              "pad": "D1.1",
+              "net": "VSYS",
+              "gapMm": 0.09999999999999856,
+              "requiredMm": 0.15
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.17",
+      "net": "3V3_EN",
+      "padCentreMm": [
+        19.89,
+        8.99
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          8.99
+        ],
+        [
+          18.54,
+          8.99
+        ]
+      ],
+      "requiredActualWidthMm": 0.2,
+      "firstTurnAttemptMm": [
+        18.439999999999998,
+        8.99
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.18",
+      "net": "GND",
+      "padCentreMm": [
+        19.89,
+        6.45
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          6.45
+        ],
+        [
+          18.54,
+          6.45
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        18.39,
+        6.45
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.19",
+      "net": "VSYS",
+      "padCentreMm": [
+        19.89,
+        3.91
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          3.91
+        ],
+        [
+          18.54,
+          3.91
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        18.39,
+        3.91
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": true,
+          "findings": []
+        },
+        "B.Cu": {
+          "hardwareClear": true,
+          "findings": [],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": true,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    },
+    {
+      "terminal": "J3.20",
+      "net": "VBUS",
+      "padCentreMm": [
+        19.89,
+        1.37
+      ],
+      "inwardDirection": "-X",
+      "copperBoundaryXmm": 18.54,
+      "firstTurnCentreXFor020TraceMm": 18.44,
+      "firstOrdinaryViaCentreXFor055PadMm": 18.265,
+      "widthPolicy": "Keep the actual net/current width policy; this corridor does not authorize a neckdown.",
+      "status": "default attempt; not certified feasible",
+      "defaultCentrelineSegmentMm": [
+        [
+          19.89,
+          1.37
+        ],
+        [
+          18.54,
+          1.37
+        ]
+      ],
+      "requiredActualWidthMm": 0.3,
+      "firstTurnAttemptMm": [
+        18.39,
+        1.37
+      ],
+      "hardwareRecheck": {
+        "F.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H2",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.1095872341172813,
+              "requiredMm": 0.25,
+              "atMm": [
+                17.5,
+                2
+              ],
+              "radiusMm": 1.05
+            }
+          ]
+        },
+        "B.Cu": {
+          "hardwareClear": false,
+          "findings": [
+            {
+              "kind": "hole-clearance",
+              "hole": "H2",
+              "holeKind": "board-feature-bore",
+              "gapMm": -0.1095872341172813,
+              "requiredMm": 0.25,
+              "atMm": [
+                17.5,
+                2
+              ],
+              "radiusMm": 1.05
+            }
+          ],
+          "protectedReferenceFindings": []
+        }
+      },
+      "currentContractLayers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "hardwareClearOnSomeCurrentContractFace": false,
+      "completeConnectionProved": false,
+      "acceptedOffsetAlternative": null
+    }
+  ],
+  "audit": {
+    "status": "V9 FAILS proposed rework routing rule and contains direct violations of the new between-pad intent. PublishedV9 must be treated as historical.",
+    "method": "Analytic source rounded-pad/segment distances; swept trace widths and full via annuli tested against edge-connected rectangular strips. Existing header pad copper and centred own inward leads are treated separately. No new route or fill was generated.",
+    "epsilonMm": 1e-8,
+    "summary": {
+      "failingTraceSegmentRowFindings": 103,
+      "uniqueFailingTraceSegments": 103,
+      "traceByLayer": {
+        "B.Cu": 49,
+        "F.Cu": 54
+      },
+      "traceByCategory": {
+        "own-pad-approach-needs-centered-inward-lead": 29,
+        "unrelated-routing-through-rework-strip": 74
+      },
+      "failingOrdinaryVias": 9,
+      "otherComponentPadIntrusions": 0,
+      "allowedTraceSegmentRowFindings": 30,
+      "storedGroundInterpadWitnesses": 23,
+      "affectedNets": 24
+    },
+    "perNet": {
+      "3V3": {
+        "trackSegments": 6,
+        "vias": 2
+      },
+      "3V3_EN": {
+        "trackSegments": 4,
+        "vias": 0
+      },
+      "ADC_VREF": {
+        "trackSegments": 5,
+        "vias": 0
+      },
+      "BOOT_SW": {
+        "trackSegments": 3,
+        "vias": 0
+      },
+      "GND": {
+        "trackSegments": 2,
+        "vias": 1
+      },
+      "GPIO0": {
+        "trackSegments": 6,
+        "vias": 1
+      },
+      "GPIO4": {
+        "trackSegments": 7,
+        "vias": 0
+      },
+      "GPIO5": {
+        "trackSegments": 5,
+        "vias": 1
+      },
+      "GPIO6": {
+        "trackSegments": 2,
+        "vias": 0
+      },
+      "GPIO7": {
+        "trackSegments": 1,
+        "vias": 0
+      },
+      "GPIO8": {
+        "trackSegments": 4,
+        "vias": 0
+      },
+      "GPIO9": {
+        "trackSegments": 2,
+        "vias": 0
+      },
+      "GPIO10": {
+        "trackSegments": 7,
+        "vias": 1
+      },
+      "GPIO11": {
+        "trackSegments": 5,
+        "vias": 0
+      },
+      "GPIO12": {
+        "trackSegments": 3,
+        "vias": 0
+      },
+      "GPIO13": {
+        "trackSegments": 4,
+        "vias": 1
+      },
+      "GPIO14": {
+        "trackSegments": 6,
+        "vias": 1
+      },
+      "GPIO15": {
+        "trackSegments": 1,
+        "vias": 0
+      },
+      "GPIO16": {
+        "trackSegments": 5,
+        "vias": 0
+      },
+      "GPIO19": {
+        "trackSegments": 2,
+        "vias": 0
+      },
+      "GPIO25_LED": {
+        "trackSegments": 5,
+        "vias": 0
+      },
+      "RUN": {
+        "trackSegments": 1,
+        "vias": 0
+      },
+      "VBUS": {
+        "trackSegments": 10,
+        "vias": 1
+      },
+      "VSYS": {
+        "trackSegments": 7,
+        "vias": 0
+      }
+    },
+    "traceFindings": [
+      {
+        "id": "vbus-sense-backbone:0",
+        "net": "VBUS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.89,
+          1.37
+        ],
+        "b": [
+          19.89,
+          2.275
+        ],
+        "widthMm": 0.3,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.20"
+        ]
+      },
+      {
+        "id": "vbus-sense-backbone:1",
+        "net": "VBUS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.89,
+          2.275
+        ],
+        "b": [
+          18.6,
+          3.565
+        ],
+        "widthMm": 0.3,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.20"
+        ]
+      },
+      {
+        "id": "vbus-sense-backbone:2",
+        "net": "VBUS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.6,
+          3.565
+        ],
+        "b": [
+          18.6,
+          6.1
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vbus-sense-backbone:3",
+        "net": "VBUS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.6,
+          6.1
+        ],
+        "b": [
+          18.6,
+          24.8
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vbus-sense-backbone:4",
+        "net": "VBUS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.6,
+          24.8
+        ],
+        "b": [
+          18.9,
+          25.1
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vbus-sense-ground:1",
+        "net": "GND",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.31,
+          25.8
+        ],
+        "b": [
+          19.14,
+          25.8
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vbus-sense-ground:2",
+        "net": "GND",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.14,
+          25.8
+        ],
+        "b": [
+          19.4,
+          25.54
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vbus-sense-local:0",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.9,
+          25.1
+        ],
+        "b": [
+          18.77,
+          24.97
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vbus-sense-local:1",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.77,
+          24.97
+        ],
+        "b": [
+          16.5,
+          24.97
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "boot-switch-main:0",
+        "net": "BOOT_SW",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          4.025,
+          16.49
+        ],
+        "b": [
+          3.35,
+          17.165
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "boot-switch-main:1",
+        "net": "BOOT_SW",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.35,
+          17.165
+        ],
+        "b": [
+          3.35,
+          24
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "boot-switch-main:2",
+        "net": "BOOT_SW",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.35,
+          24
+        ],
+        "b": [
+          4.65,
+          25.3
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vsys-diode-header:1",
+        "net": "VSYS",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.8,
+          3.91
+        ],
+        "b": [
+          18,
+          4.71
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "vbus-front-hole-detour:1",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.46,
+          1.37
+        ],
+        "b": [
+          19.03,
+          1.8
+        ],
+        "widthMm": 0.3,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.20"
+        ]
+      },
+      {
+        "id": "vbus-front-hole-detour:2",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.03,
+          1.8
+        ],
+        "b": [
+          19.03,
+          2.57
+        ],
+        "widthMm": 0.3,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.20"
+        ]
+      },
+      {
+        "id": "vbus-front-hole-detour:3",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.03,
+          2.57
+        ],
+        "b": [
+          18.07,
+          3.53
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "rt-3v3-east-front-bridge:0",
+        "net": "3V3",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.5,
+          30.35
+        ],
+        "b": [
+          18.5,
+          27.8
+        ],
+        "widthMm": 0.6,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "rt-3v3-east-upper:0",
+        "net": "3V3",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.5,
+          27.8
+        ],
+        "b": [
+          18.5,
+          25.9
+        ],
+        "widthMm": 0.6,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "rt-3v3-east-upper:1",
+        "net": "3V3",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.5,
+          25.9
+        ],
+        "b": [
+          18,
+          25.4
+        ],
+        "widthMm": 0.6,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "adc-vref-main-front:1",
+        "net": "ADC_VREF",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          17.26,
+          24.5
+        ],
+        "b": [
+          18.53,
+          24.5
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "adc-vref-main-front:2",
+        "net": "ADC_VREF",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.53,
+          24.5
+        ],
+        "b": [
+          18.73,
+          24.3
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "adc-vref-main-front:3",
+        "net": "ADC_VREF",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.73,
+          24.3
+        ],
+        "b": [
+          18.73,
+          14.8
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "adc-vref-main-front:4",
+        "net": "ADC_VREF",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.73,
+          14.8
+        ],
+        "b": [
+          19.46,
+          14.07
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.15"
+        ]
+      },
+      {
+        "id": "adc-vref-r17-branch:0",
+        "net": "ADC_VREF",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.73,
+          22.72
+        ],
+        "b": [
+          18.12,
+          22.11
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "header-3v3-front-feed:2",
+        "net": "3V3",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          15.94,
+          11.2
+        ],
+        "b": [
+          18.6,
+          11.2
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "header-3v3-front-feed:3",
+        "net": "3V3",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.6,
+          11.2
+        ],
+        "b": [
+          18.93,
+          11.53
+        ],
+        "widthMm": 0.3,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.16"
+        ]
+      },
+      {
+        "id": "gpio-GPIO0-stage1:2",
+        "net": "GPIO0",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          4.65,
+          19.15
+        ],
+        "b": [
+          3.35,
+          17.85
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO0-stage1:3",
+        "net": "GPIO0",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.35,
+          17.85
+        ],
+        "b": [
+          3.35,
+          15.7
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO0-stage2:0",
+        "net": "GPIO0",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.35,
+          15.7
+        ],
+        "b": [
+          3.35,
+          2.95
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO0-stage2:1",
+        "net": "GPIO0",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.35,
+          2.95
+        ],
+        "b": [
+          2.4,
+          2
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.1"
+        ]
+      },
+      {
+        "id": "gpio-GPIO0-stage2:2",
+        "net": "GPIO0",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          2.4,
+          2
+        ],
+        "b": [
+          2.4,
+          1.66
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.1"
+        ]
+      },
+      {
+        "id": "gpio-GPIO0-stage2:3",
+        "net": "GPIO0",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          2.4,
+          1.66
+        ],
+        "b": [
+          2.11,
+          1.37
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.1"
+        ]
+      },
+      {
+        "id": "gpio-GPIO4-stage1:3",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          4.65,
+          21.15
+        ],
+        "b": [
+          3.25,
+          19.75
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO4-stage1:4",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.25,
+          19.75
+        ],
+        "b": [
+          3.25,
+          18.7
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO4-stage1:5",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.25,
+          18.7
+        ],
+        "b": [
+          2.35,
+          17.8
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO4-stage1:6",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          2.35,
+          17.8
+        ],
+        "b": [
+          1.7,
+          17.8
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO4-stage1:7",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1.7,
+          17.8
+        ],
+        "b": [
+          1,
+          17.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO4-stage1:8",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          17.1
+        ],
+        "b": [
+          1,
+          15.55
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO4-stage1:9",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          15.55
+        ],
+        "b": [
+          1.85,
+          14.7
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.6"
+        ]
+      },
+      {
+        "id": "gpio-GPIO5-stage1:0",
+        "net": "GPIO5",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          4,
+          22
+        ],
+        "b": [
+          2.4,
+          20.4
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO5-stage2:0",
+        "net": "GPIO5",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          2.4,
+          20.4
+        ],
+        "b": [
+          1.8,
+          20.4
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO5-stage2:1",
+        "net": "GPIO5",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          1.8,
+          20.4
+        ],
+        "b": [
+          1,
+          19.6
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO5-stage2:2",
+        "net": "GPIO5",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          19.6
+        ],
+        "b": [
+          1,
+          18.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO5-stage2:3",
+        "net": "GPIO5",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          18.1
+        ],
+        "b": [
+          1.85,
+          17.25
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.7"
+        ]
+      },
+      {
+        "id": "gpio-GPIO15-stage1:5",
+        "net": "GPIO15",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.75,
+          47.65
+        ],
+        "b": [
+          2.4,
+          49
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.20"
+        ]
+      },
+      {
+        "id": "run-header-switch:4",
+        "net": "RUN",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18,
+          27.2
+        ],
+        "b": [
+          19.46,
+          27.2
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.10"
+        ]
+      },
+      {
+        "id": "outline22-vsys-outer:0",
+        "net": "VSYS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.89,
+          3.91
+        ],
+        "b": [
+          20.595,
+          3.91
+        ],
+        "widthMm": 0.3,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.19"
+        ]
+      },
+      {
+        "id": "outline22-vsys-outer:1",
+        "net": "VSYS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          20.595,
+          3.91
+        ],
+        "b": [
+          21.195,
+          4.51
+        ],
+        "widthMm": 0.3,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.19"
+        ]
+      },
+      {
+        "id": "outline22-vsys-outer:2",
+        "net": "VSYS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          21.195,
+          4.51
+        ],
+        "b": [
+          21.195,
+          30
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "outline22-vsys-outer:3",
+        "net": "VSYS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          21.195,
+          30
+        ],
+        "b": [
+          21.195,
+          40.14
+        ],
+        "widthMm": 0.5,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "outline22-vsys-outer:4",
+        "net": "VSYS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          21.195,
+          40.14
+        ],
+        "b": [
+          20.595,
+          40.74
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "outline22-vsys-outer:5",
+        "net": "VSYS",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          20.595,
+          40.74
+        ],
+        "b": [
+          16.56,
+          40.74
+        ],
+        "widthMm": 0.3,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO6-stage1:6",
+        "net": "GPIO6",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          4.9,
+          22.6
+        ],
+        "b": [
+          3.4,
+          22.6
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO6-stage1:7",
+        "net": "GPIO6",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.4,
+          22.6
+        ],
+        "b": [
+          2.75,
+          21.95
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.9"
+        ]
+      },
+      {
+        "id": "gpio-GPIO7-stage1:5",
+        "net": "GPIO7",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          4,
+          24.05
+        ],
+        "b": [
+          2.29,
+          24.05
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.10"
+        ]
+      },
+      {
+        "id": "gpio-GPIO8-stage1:1",
+        "net": "GPIO8",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.625,
+          23.1
+        ],
+        "b": [
+          1.65,
+          23.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO8-stage1:2",
+        "net": "GPIO8",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1.65,
+          23.1
+        ],
+        "b": [
+          1,
+          23.75
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO8-stage1:3",
+        "net": "GPIO8",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          23.75
+        ],
+        "b": [
+          1,
+          25.3
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO8-stage1:4",
+        "net": "GPIO8",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          25.3
+        ],
+        "b": [
+          1.85,
+          26.15
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.11"
+        ]
+      },
+      {
+        "id": "gpio-GPIO9-stage2:4",
+        "net": "GPIO9",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          4.35,
+          28.25
+        ],
+        "b": [
+          3.05,
+          28.25
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO9-stage2:5",
+        "net": "GPIO9",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.05,
+          28.25
+        ],
+        "b": [
+          2.5,
+          28.8
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.12"
+        ]
+      },
+      {
+        "id": "gpio-GPIO10-stage2:0",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.7,
+          25.1
+        ],
+        "b": [
+          3.3,
+          25.5
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO10-stage2:1",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.3,
+          25.5
+        ],
+        "b": [
+          3.3,
+          27.15
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO10-stage2:2",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.3,
+          27.15
+        ],
+        "b": [
+          2.35,
+          28.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO10-stage2:3",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          2.35,
+          28.1
+        ],
+        "b": [
+          1.75,
+          28.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO10-stage2:4",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          1.75,
+          28.1
+        ],
+        "b": [
+          1,
+          28.85
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO10-stage2:5",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          28.85
+        ],
+        "b": [
+          1,
+          32.9
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO10-stage2:6",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          32.9
+        ],
+        "b": [
+          1.85,
+          33.75
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.14"
+        ]
+      },
+      {
+        "id": "gpio-GPIO11-stage1:1",
+        "net": "GPIO11",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          6.57,
+          25.155
+        ],
+        "b": [
+          3.525,
+          28.2
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO11-stage1:2",
+        "net": "GPIO11",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.525,
+          28.2
+        ],
+        "b": [
+          1.65,
+          28.2
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO11-stage1:3",
+        "net": "GPIO11",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1.65,
+          28.2
+        ],
+        "b": [
+          1,
+          28.85
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO11-stage1:4",
+        "net": "GPIO11",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          28.85
+        ],
+        "b": [
+          1,
+          35.45
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO11-stage1:5",
+        "net": "GPIO11",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          1,
+          35.45
+        ],
+        "b": [
+          1.85,
+          36.3
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.15"
+        ]
+      },
+      {
+        "id": "gpio-GPIO12-stage1:1",
+        "net": "GPIO12",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          7.39,
+          25.45
+        ],
+        "b": [
+          3.25,
+          29.59
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO12-stage1:2",
+        "net": "GPIO12",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.25,
+          29.59
+        ],
+        "b": [
+          3.25,
+          38
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO12-stage1:3",
+        "net": "GPIO12",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.25,
+          38
+        ],
+        "b": [
+          2.4,
+          38.85
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.16"
+        ]
+      },
+      {
+        "id": "gpio-GPIO13-stage1:3",
+        "net": "GPIO13",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          7.99,
+          24.35
+        ],
+        "b": [
+          3.54,
+          28.8
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO13-stage1:4",
+        "net": "GPIO13",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.54,
+          28.8
+        ],
+        "b": [
+          3.29,
+          28.8
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO13-stage2:0",
+        "net": "GPIO13",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.29,
+          28.8
+        ],
+        "b": [
+          3.29,
+          40.5
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO13-stage2:1",
+        "net": "GPIO13",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.29,
+          40.5
+        ],
+        "b": [
+          2.4,
+          41.39
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.17"
+        ]
+      },
+      {
+        "id": "gpio-GPIO14-stage1:8",
+        "net": "GPIO14",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          4.7,
+          26.4
+        ],
+        "b": [
+          3.5,
+          26.4
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO14-stage1:9",
+        "net": "GPIO14",
+        "layer": "B.Cu",
+        "headerRow": "J2",
+        "a": [
+          3.5,
+          26.4
+        ],
+        "b": [
+          2.75,
+          25.65
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO14-stage2:0",
+        "net": "GPIO14",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          2.75,
+          25.65
+        ],
+        "b": [
+          1.65,
+          25.65
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO14-stage2:1",
+        "net": "GPIO14",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          1.65,
+          25.65
+        ],
+        "b": [
+          0.65,
+          26.65
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO14-stage2:2",
+        "net": "GPIO14",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          0.65,
+          26.65
+        ],
+        "b": [
+          0.65,
+          45.25
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO14-stage2:3",
+        "net": "GPIO14",
+        "layer": "F.Cu",
+        "headerRow": "J2",
+        "a": [
+          0.65,
+          45.25
+        ],
+        "b": [
+          1.85,
+          46.45
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J2.19"
+        ]
+      },
+      {
+        "id": "gpio-GPIO25_LED-stage1:5",
+        "net": "GPIO25_LED",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          17.85,
+          28.9
+        ],
+        "b": [
+          19.05,
+          30.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO25_LED-stage1:6",
+        "net": "GPIO25_LED",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.05,
+          30.1
+        ],
+        "b": [
+          19.05,
+          31.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO25_LED-stage1:7",
+        "net": "GPIO25_LED",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.05,
+          31.1
+        ],
+        "b": [
+          18.75,
+          31.4
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO25_LED-stage1:8",
+        "net": "GPIO25_LED",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.75,
+          31.4
+        ],
+        "b": [
+          18.75,
+          39.35
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO25_LED-stage1:9",
+        "net": "GPIO25_LED",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.75,
+          39.35
+        ],
+        "b": [
+          17.95,
+          40.15
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "enable04-header-front:1",
+        "net": "3V3_EN",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          20.495,
+          8.99
+        ],
+        "b": [
+          21.195,
+          9.69
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.17"
+        ]
+      },
+      {
+        "id": "enable04-header-front:2",
+        "net": "3V3_EN",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          21.195,
+          9.69
+        ],
+        "b": [
+          21.195,
+          37.55
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "enable04-header-front:3",
+        "net": "3V3_EN",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          21.195,
+          37.55
+        ],
+        "b": [
+          20.545,
+          38.2
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "enable04-header-front:4",
+        "net": "3V3_EN",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          20.545,
+          38.2
+        ],
+        "b": [
+          18.2,
+          38.2
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "rt-3v3-backbone:5",
+        "net": "3V3",
+        "layer": "B.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.05,
+          30.8
+        ],
+        "b": [
+          18.5,
+          30.35
+        ],
+        "widthMm": 0.6,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO16-stage2:1",
+        "net": "GPIO16",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          16.35,
+          37.7
+        ],
+        "b": [
+          18.7,
+          40.05
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO16-stage2:2",
+        "net": "GPIO16",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.7,
+          40.05
+        ],
+        "b": [
+          18.7,
+          48.1
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO16-stage2:3",
+        "net": "GPIO16",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.7,
+          48.1
+        ],
+        "b": [
+          19.6,
+          49
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.1"
+        ]
+      },
+      {
+        "id": "gpio-GPIO16-stage2:4",
+        "net": "GPIO16",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.6,
+          49
+        ],
+        "b": [
+          19.6,
+          49.34
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.1"
+        ]
+      },
+      {
+        "id": "gpio-GPIO16-stage2:5",
+        "net": "GPIO16",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          19.6,
+          49.34
+        ],
+        "b": [
+          19.89,
+          49.63
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.1"
+        ]
+      },
+      {
+        "id": "gpio-GPIO19-stage2:4",
+        "net": "GPIO19",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          16.7,
+          37.45
+        ],
+        "b": [
+          18.45,
+          39.2
+        ],
+        "widthMm": 0.2,
+        "category": "unrelated-routing-through-rework-strip",
+        "ownPadContacts": []
+      },
+      {
+        "id": "gpio-GPIO19-stage2:5",
+        "net": "GPIO19",
+        "layer": "F.Cu",
+        "headerRow": "J3",
+        "a": [
+          18.45,
+          39.2
+        ],
+        "b": [
+          19.62,
+          39.2
+        ],
+        "widthMm": 0.2,
+        "category": "own-pad-approach-needs-centered-inward-lead",
+        "ownPadContacts": [
+          "J3.5"
+        ]
+      }
+    ],
+    "ordinaryViaFindings": [
+      {
+        "id": "vbus-sense-return",
+        "net": "GND",
+        "atMm": [
+          19.55,
+          25.5
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J3",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "vbus-sense-transition",
+        "net": "VBUS",
+        "atMm": [
+          18.9,
+          25.1
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J3",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "rt-3v3-east-bottom-via",
+        "net": "3V3",
+        "atMm": [
+          18.5,
+          30.35
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J3",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "rt-3v3-east-top-via",
+        "net": "3V3",
+        "atMm": [
+          18.5,
+          27.8
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J3",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "gpio-GPIO0-via1",
+        "net": "GPIO0",
+        "atMm": [
+          3.35,
+          15.7
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J2",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "gpio-GPIO5-via1",
+        "net": "GPIO5",
+        "atMm": [
+          2.4,
+          20.4
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J2",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "gpio-GPIO10-via1",
+        "net": "GPIO10",
+        "atMm": [
+          3.7,
+          25.1
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J2",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "gpio-GPIO13-via1",
+        "net": "GPIO13",
+        "atMm": [
+          3.29,
+          28.8
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J2",
+        "category": "ordinary-via-in-rework-strip"
+      },
+      {
+        "id": "gpio-GPIO14-via1",
+        "net": "GPIO14",
+        "atMm": [
+          2.75,
+          25.65
+        ],
+        "diameterMm": 0.55,
+        "drillMm": 0.2,
+        "headerRow": "J2",
+        "category": "ordinary-via-in-rework-strip"
+      }
+    ],
+    "otherComponentPadFindings": [],
+    "permittedExistingSegments": [
+      {
+        "id": "vsys-diode-header:0",
+        "net": "VSYS",
+        "layer": "F.Cu",
+        "header": "J3.19",
+        "reason": "Centered inward normal lead"
+      },
+      {
+        "id": "vbus-front-hole-detour:0",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "header": "J3.20",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "adc-vref-main-front:5",
+        "net": "ADC_VREF",
+        "layer": "F.Cu",
+        "header": "J3.15",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "header-3v3-front-feed:4",
+        "net": "3V3",
+        "layer": "F.Cu",
+        "header": "J3.16",
+        "reason": "Centered inward normal lead"
+      },
+      {
+        "id": "gpio-GPIO4-stage1:10",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "header": "J2.6",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO4-stage1:11",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "header": "J2.6",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO5-stage2:4",
+        "net": "GPIO5",
+        "layer": "F.Cu",
+        "header": "J2.7",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO5-stage2:5",
+        "net": "GPIO5",
+        "layer": "F.Cu",
+        "header": "J2.7",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO15-stage1:6",
+        "net": "GPIO15",
+        "layer": "B.Cu",
+        "header": "J2.20",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO15-stage1:7",
+        "net": "GPIO15",
+        "layer": "B.Cu",
+        "header": "J2.20",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "run-header-switch:5",
+        "net": "RUN",
+        "layer": "F.Cu",
+        "header": "J3.10",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO6-stage1:8",
+        "net": "GPIO6",
+        "layer": "B.Cu",
+        "header": "J2.9",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO6-stage1:9",
+        "net": "GPIO6",
+        "layer": "B.Cu",
+        "header": "J2.9",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO7-stage1:6",
+        "net": "GPIO7",
+        "layer": "B.Cu",
+        "header": "J2.10",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO8-stage1:5",
+        "net": "GPIO8",
+        "layer": "B.Cu",
+        "header": "J2.11",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO8-stage1:6",
+        "net": "GPIO8",
+        "layer": "B.Cu",
+        "header": "J2.11",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO9-stage2:6",
+        "net": "GPIO9",
+        "layer": "F.Cu",
+        "header": "J2.12",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO9-stage2:7",
+        "net": "GPIO9",
+        "layer": "F.Cu",
+        "header": "J2.12",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO10-stage2:7",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "header": "J2.14",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO10-stage2:8",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "header": "J2.14",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO11-stage1:6",
+        "net": "GPIO11",
+        "layer": "B.Cu",
+        "header": "J2.15",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO11-stage1:7",
+        "net": "GPIO11",
+        "layer": "B.Cu",
+        "header": "J2.15",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO12-stage1:4",
+        "net": "GPIO12",
+        "layer": "B.Cu",
+        "header": "J2.16",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO12-stage1:5",
+        "net": "GPIO12",
+        "layer": "B.Cu",
+        "header": "J2.16",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO13-stage2:2",
+        "net": "GPIO13",
+        "layer": "F.Cu",
+        "header": "J2.17",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO13-stage2:3",
+        "net": "GPIO13",
+        "layer": "F.Cu",
+        "header": "J2.17",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO14-stage2:4",
+        "net": "GPIO14",
+        "layer": "F.Cu",
+        "header": "J2.19",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO14-stage2:5",
+        "net": "GPIO14",
+        "layer": "F.Cu",
+        "header": "J2.19",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "enable04-header-front:0",
+        "net": "3V3_EN",
+        "layer": "F.Cu",
+        "header": "J3.17",
+        "reason": "Copper contained in its own existing header land"
+      },
+      {
+        "id": "gpio-GPIO19-stage2:6",
+        "net": "GPIO19",
+        "layer": "F.Cu",
+        "header": "J3.5",
+        "reason": "Copper contained in its own existing header land"
+      }
+    ],
+    "literalInterpadViaWitnesses": [
+      {
+        "via": "gpio-GPIO5-via1",
+        "net": "GPIO5",
+        "atMm": [
+          2.4,
+          20.4
+        ],
+        "headerRow": "J2",
+        "betweenPads": [
+          "J2.8",
+          "J2.9"
+        ],
+        "neighborNets": [
+          "GND",
+          "GPIO6"
+        ]
+      },
+      {
+        "via": "gpio-GPIO14-via1",
+        "net": "GPIO14",
+        "atMm": [
+          2.75,
+          25.65
+        ],
+        "headerRow": "J2",
+        "betweenPads": [
+          "J2.10",
+          "J2.11"
+        ],
+        "neighborNets": [
+          "GPIO7",
+          "GPIO8"
+        ]
+      },
+      {
+        "via": "vbus-sense-return",
+        "net": "GND",
+        "atMm": [
+          19.55,
+          25.5
+        ],
+        "headerRow": "J3",
+        "betweenPads": [
+          "J3.11",
+          "J3.10"
+        ],
+        "neighborNets": [
+          "GPIO26",
+          "RUN"
+        ]
+      },
+      {
+        "via": "vbus-sense-transition",
+        "net": "VBUS",
+        "atMm": [
+          18.9,
+          25.1
+        ],
+        "headerRow": "J3",
+        "betweenPads": [
+          "J3.11",
+          "J3.10"
+        ],
+        "neighborNets": [
+          "GPIO26",
+          "RUN"
+        ]
+      }
+    ],
+    "planeEvidence": {
+      "source": "Existing disposable ground diagnostic; not new managed authority",
+      "storedPolygonFileSha256": "c57736271976c9b2277b18c6502729566c38076cdda94181a0d5af18754234a2",
+      "method": "Exact point-in-stored-polygon classification at inter-pad centreline probes, with stored polygon holes and actual model bores/via drill disks excluded. The stored native fill has its previously recorded 0.5 um polygon approximation.",
+      "witnesses": [
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "1",
+            "2"
+          ],
+          "atMm": [
+            2.11,
+            2.64
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "2",
+            "3"
+          ],
+          "atMm": [
+            2.11,
+            5.18
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "3",
+            "4"
+          ],
+          "atMm": [
+            2.11,
+            7.720000000000001
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "4",
+            "5"
+          ],
+          "atMm": [
+            2.11,
+            10.26
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "5",
+            "6"
+          ],
+          "atMm": [
+            2.11,
+            12.8
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "6",
+            "7"
+          ],
+          "atMm": [
+            2.11,
+            15.34
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "12",
+            "13"
+          ],
+          "atMm": [
+            2.11,
+            30.58
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 3
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "13",
+            "14"
+          ],
+          "atMm": [
+            2.11,
+            33.120000000000005
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 3
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "15",
+            "16"
+          ],
+          "atMm": [
+            2.11,
+            38.2
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "16",
+            "17"
+          ],
+          "atMm": [
+            2.11,
+            40.739999999999995
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "17",
+            "18"
+          ],
+          "atMm": [
+            2.11,
+            43.28
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "18",
+            "19"
+          ],
+          "atMm": [
+            2.11,
+            45.82
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J2",
+          "betweenPads": [
+            "19",
+            "20"
+          ],
+          "atMm": [
+            2.11,
+            48.36
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 0
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "19",
+            "18"
+          ],
+          "atMm": [
+            19.89,
+            5.18
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 13
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "18",
+            "17"
+          ],
+          "atMm": [
+            19.89,
+            7.720000000000001
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 13
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "14",
+            "13"
+          ],
+          "atMm": [
+            19.89,
+            17.88
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 10
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "13",
+            "12"
+          ],
+          "atMm": [
+            19.89,
+            20.42
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 10
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "11",
+            "10"
+          ],
+          "atMm": [
+            19.89,
+            25.5
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 8
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "9",
+            "8"
+          ],
+          "atMm": [
+            19.89,
+            30.58
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 2
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "8",
+            "7"
+          ],
+          "atMm": [
+            19.89,
+            33.120000000000005
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 2
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "4",
+            "3"
+          ],
+          "atMm": [
+            19.89,
+            43.28
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 1
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "3",
+            "2"
+          ],
+          "atMm": [
+            19.89,
+            45.82
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 1
+        },
+        {
+          "headerRow": "J3",
+          "betweenPads": [
+            "2",
+            "1"
+          ],
+          "atMm": [
+            19.89,
+            48.36
+          ],
+          "layer": "B.Cu",
+          "net": "GND",
+          "storedPolygon": 1
+        }
+      ],
+      "coverageLimit": "Positive witnesses only; no witness at a gap does not establish that its entire area is clear.",
+      "declaredPlaneBoundaryAlsoIntersectsBothZones": true
+    },
+    "countsBasis": "The103 segment/9 via impact inventory tests the earlier conservative centred-lead/0.50mm strip proposal against unchanged V9. It is retained evidence, not certification that this implementation can be routed or that every angled own-pad connection is forbidden by the user."
+  },
+  "routingChangesBeforeMacro": [
+    "First resolve the four mounting-hole corner conflicts and the seven front-pad conflicts. Then reserve actual checked own-pad exits and the selected rework regions; do not assume all40 centred stubs exist.",
+    "Replace the west BOOT/header-side GPIO trunks and the right VBUS/VSYS/EN/LED edge corridors; the 22 mm outer-lane benefit cannot be retained inside these zones.",
+    "Move both 3V3 east bridge vias and the VBUS sense transition/return inward, preserving their complete supply/sense/local-return graphs.",
+    "Reallocate all nine listed ordinary vias; keep signal transition returns inside the interior area.",
+    "Remove GND fill from both strips; explicitly connect each GND header pad inward to the interior return network and recheck reference coverage.",
+    "Reroute the 29 own-pad contacts that are currently diagonal/longitudinal into clean normal entries; open GPIOs also require their reserved entries."
+  ],
+  "returnConsequences": [
+    "An explicit inward GND lead is permitted; a generic plane between contacts is not. Direct B-layer spokes can connect GND PTHs without adding ordinary vias beside the pads.",
+    "New service strips remove potential reference copper under the last 0.50 mm beyond the inner land edge. Preserve nearby interior ground and evaluate each signal/header return; do not assert continuous-plane or HF acceptance merely from a clean spoke.",
+    "Existing diagnostic already has 13 GND components / 12 missing GND links and the sub-1 mm² C6 island; the new rule requires a coordinated ground redesign, not the historical fill."
+  ],
+  "interfaceAssessment": {
+    "preservingPicoPitch": "Preserving2.54mm contact pitch and17.78mm row spacing remains an objective, not an established all40-exit result. Four centred corner leads fail on both layers with present bores; seven more fail onF against nearby component pads. No complete fixed-hole corner escape is qualified.",
+    "outlineOnlyWidening": "Increasing width alone does not fix the corner bore/edge bottleneck while header and hole locations remain. Changing hole positions, omitting a hole, altering outline end clearance or moving headers are distinct mechanical decisions; none is silently adopted.",
+    "noSilentChanges": [
+      "2.54mm along-row pitch",
+      "17.78mm row spacing",
+      "Pico pin mapping",
+      "1.7mm lands/1mm nominal holes",
+      "two-layer choice"
+    ],
+    "marginSensitivity": [
+      {
+        "marginMm": 0.25,
+        "interiorWidthMm": 15.58
+      },
+      {
+        "marginMm": 0.5,
+        "interiorWidthMm": 15.08
+      },
+      {
+        "marginMm": 0.75,
+        "interiorWidthMm": 14.58
+      }
+    ],
+    "mechanicalOption": "One explicit unadopted hypothesis shifts only H1/H2 y2.00→2.75 and H3/H4 y49.00→48.25, retaining X4.5/17.5 and2.10mm bores. This changes the mount pattern from13×47 to13×45.5mm, while keeping header positions/pitch. Its short45-degree corner lead examples pass the scoped pad/bore/edge screen; it is not an approved mechanical layout or full routing result."
+  },
+  "scope": "Only this corrected note and proposal JSON are authored. Canonical inputs/models, header pitch/locations, holes, published snapshots and native projects remain unchanged. No width, clearance, drill or board-edge waiver.",
+  "revision": 2,
+  "correctionHistory": [
+    {
+      "supersededMarkdownSha256": "1451e94acc60e55af46a69db79f0a52ceb27913d4e8df299616ffc37c9d62cd4",
+      "supersededJsonSha256": "9528d88ce428cda9648c8e2055d26364fcd82d4661fcac18342a503b28ed2a92",
+      "reason": "The previous all40-inward-connections statement was unsupported: it checked existing copper against strips but did not check the proposed exits against mounting holes or clearance to component pads just inside the boundary.",
+      "retained": "The user prohibition on unrelated between-pad copper, two-layer choice, source intrusion inventory and current physical interface remain unchanged.",
+      "withdrawn": "Universal feasibility of centred normal exits with all existing holes/parts fixed."
+    }
+  ],
+  "hardwareExitRecheck": {
+    "status": "Original universal centred-exit feasibility claim withdrawn",
+    "counts": {
+      "pads": 40,
+      "centeredBlockedOnBothFaces": 4,
+      "centeredBlockedF": 11,
+      "centeredBlockedB": 4,
+      "blockedUnderCurrentNetLayerPolicy": [
+        "J2.1",
+        "J2.20",
+        "J3.1",
+        "J3.10",
+        "J3.20"
+      ],
+      "BReferenceFindings": []
+    },
+    "centeredRows": [
+      {
+        "terminal": "J2.1",
+        "net": "GPIO0",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            1.37
+          ],
+          [
+            3.56,
+            1.37
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H1",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.01840820080737618,
+                "requiredMm": 0.25,
+                "atMm": [
+                  4.5,
+                  2
+                ],
+                "radiusMm": 1.05
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H1",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.01840820080737618,
+                "requiredMm": 0.25,
+                "atMm": [
+                  4.5,
+                  2
+                ],
+                "radiusMm": 1.05
+              }
+            ],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": false
+      },
+      {
+        "terminal": "J2.2",
+        "net": "GPIO1",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            2.11,
+            3.91
+          ],
+          [
+            3.56,
+            3.91
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.3",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            2.11,
+            6.45
+          ],
+          [
+            3.61,
+            6.45
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.4",
+        "net": "GPIO2",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            2.11,
+            8.99
+          ],
+          [
+            3.56,
+            8.99
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.5",
+        "net": "GPIO3",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            2.11,
+            11.53
+          ],
+          [
+            3.56,
+            11.53
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.6",
+        "net": "GPIO4",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            14.07
+          ],
+          [
+            3.56,
+            14.07
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.7",
+        "net": "GPIO5",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            16.61
+          ],
+          [
+            3.56,
+            16.61
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "foreign-pad-clearance",
+                "pad": "R5.2",
+                "net": "BOOT_SW",
+                "gapMm": 0.045000000000000234,
+                "requiredMm": 0.15
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.8",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            2.11,
+            19.15
+          ],
+          [
+            3.61,
+            19.15
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.9",
+        "net": "GPIO6",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            21.69
+          ],
+          [
+            3.56,
+            21.69
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.10",
+        "net": "GPIO7",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            24.23
+          ],
+          [
+            3.56,
+            24.23
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.11",
+        "net": "GPIO8",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            26.77
+          ],
+          [
+            3.56,
+            26.77
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.12",
+        "net": "GPIO9",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            29.31
+          ],
+          [
+            3.56,
+            29.31
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.13",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            2.11,
+            31.85
+          ],
+          [
+            3.61,
+            31.85
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.14",
+        "net": "GPIO10",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            34.39
+          ],
+          [
+            3.56,
+            34.39
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.15",
+        "net": "GPIO11",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            36.93
+          ],
+          [
+            3.56,
+            36.93
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.16",
+        "net": "GPIO12",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            39.47
+          ],
+          [
+            3.56,
+            39.47
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.17",
+        "net": "GPIO13",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            42.01
+          ],
+          [
+            3.56,
+            42.01
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.18",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            2.11,
+            44.55
+          ],
+          [
+            3.61,
+            44.55
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.19",
+        "net": "GPIO14",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            47.09
+          ],
+          [
+            3.56,
+            47.09
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J2.20",
+        "net": "GPIO15",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            2.11,
+            49.63
+          ],
+          [
+            3.56,
+            49.63
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H3",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.018408200807374625,
+                "requiredMm": 0.25,
+                "atMm": [
+                  4.5,
+                  49
+                ],
+                "radiusMm": 1.05
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H3",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.018408200807374625,
+                "requiredMm": 0.25,
+                "atMm": [
+                  4.5,
+                  49
+                ],
+                "radiusMm": 1.05
+              }
+            ],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": false
+      },
+      {
+        "terminal": "J3.1",
+        "net": "GPIO16",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            49.63
+          ],
+          [
+            18.439999999999998,
+            49.63
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H4",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.0184082008073764,
+                "requiredMm": 0.25,
+                "atMm": [
+                  17.5,
+                  49
+                ],
+                "radiusMm": 1.05
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H4",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.0184082008073764,
+                "requiredMm": 0.25,
+                "atMm": [
+                  17.5,
+                  49
+                ],
+                "radiusMm": 1.05
+              }
+            ],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": false
+      },
+      {
+        "terminal": "J3.2",
+        "net": "GPIO17",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            47.09
+          ],
+          [
+            18.439999999999998,
+            47.09
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.3",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            44.55
+          ],
+          [
+            18.39,
+            44.55
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.4",
+        "net": "GPIO18",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            42.01
+          ],
+          [
+            18.439999999999998,
+            42.01
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.5",
+        "net": "GPIO19",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            39.47
+          ],
+          [
+            18.439999999999998,
+            39.47
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.6",
+        "net": "GPIO20",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            36.93
+          ],
+          [
+            18.439999999999998,
+            36.93
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.7",
+        "net": "GPIO21",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            34.39
+          ],
+          [
+            18.439999999999998,
+            34.39
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.8",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            31.85
+          ],
+          [
+            18.39,
+            31.85
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.9",
+        "net": "GPIO22",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            29.31
+          ],
+          [
+            18.439999999999998,
+            29.31
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.10",
+        "net": "RUN",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            26.77
+          ],
+          [
+            18.439999999999998,
+            26.77
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "foreign-pad-clearance",
+                "pad": "R12.1",
+                "net": "GPIO24_VBUS_SENSE",
+                "gapMm": -0.0779968153189268,
+                "requiredMm": 0.15
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": false
+      },
+      {
+        "terminal": "J3.11",
+        "net": "GPIO26",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            24.23
+          ],
+          [
+            18.439999999999998,
+            24.23
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.12",
+        "net": "GPIO27",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            21.69
+          ],
+          [
+            18.439999999999998,
+            21.69
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "foreign-pad-clearance",
+                "pad": "R17.1",
+                "net": "ADC_VREF",
+                "gapMm": 0.08035694062442564,
+                "requiredMm": 0.15
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.13",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            19.15
+          ],
+          [
+            18.39,
+            19.15
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "foreign-pad-clearance",
+                "pad": "R15.1",
+                "net": "GPIO29_VSYS_SENSE",
+                "gapMm": -0.1484349971625253,
+                "requiredMm": 0.15
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.14",
+        "net": "GPIO28",
+        "widthMm": 0.2,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            16.61
+          ],
+          [
+            18.439999999999998,
+            16.61
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "foreign-pad-clearance",
+                "pad": "Q1.3",
+                "net": "VSYS_DIV",
+                "gapMm": 0.10675723300355783,
+                "requiredMm": 0.15
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.15",
+        "net": "ADC_VREF",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            14.07
+          ],
+          [
+            18.439999999999998,
+            14.07
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "foreign-pad-clearance",
+                "pad": "R13.2",
+                "net": "VSYS_DIV",
+                "gapMm": -0.10752451216018452,
+                "requiredMm": 0.15
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.16",
+        "net": "3V3",
+        "widthMm": 0.3,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            11.53
+          ],
+          [
+            18.39,
+            11.53
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "foreign-pad-clearance",
+                "pad": "D1.1",
+                "net": "VSYS",
+                "gapMm": 0.09999999999999856,
+                "requiredMm": 0.15
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.17",
+        "net": "3V3_EN",
+        "widthMm": 0.2,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            8.99
+          ],
+          [
+            18.439999999999998,
+            8.99
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.18",
+        "net": "GND",
+        "widthMm": 0.3,
+        "widthBasis": "Existing class/body floor; no prior touching authored trace",
+        "points": [
+          [
+            19.89,
+            6.45
+          ],
+          [
+            18.39,
+            6.45
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.19",
+        "net": "VSYS",
+        "widthMm": 0.3,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            3.91
+          ],
+          [
+            18.39,
+            3.91
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": true,
+            "findings": []
+          },
+          "B.Cu": {
+            "hardwareClear": true,
+            "findings": [],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": true
+      },
+      {
+        "terminal": "J3.20",
+        "net": "VBUS",
+        "widthMm": 0.3,
+        "widthBasis": "At least the largest existing trace touching this pad; no reduced width",
+        "points": [
+          [
+            19.89,
+            1.37
+          ],
+          [
+            18.39,
+            1.37
+          ]
+        ],
+        "layers": {
+          "F.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H2",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.1095872341172813,
+                "requiredMm": 0.25,
+                "atMm": [
+                  17.5,
+                  2
+                ],
+                "radiusMm": 1.05
+              }
+            ]
+          },
+          "B.Cu": {
+            "hardwareClear": false,
+            "findings": [
+              {
+                "kind": "hole-clearance",
+                "hole": "H2",
+                "holeKind": "board-feature-bore",
+                "gapMm": -0.1095872341172813,
+                "requiredMm": 0.25,
+                "atMm": [
+                  17.5,
+                  2
+                ],
+                "radiusMm": 1.05
+              }
+            ],
+            "protectedReferenceFindings": []
+          }
+        },
+        "contractLayers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "currentPolicyHasHardwareClearFace": false
+      }
+    ],
+    "offsetTrials": [
+      {
+        "terminal": "J2.1",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.51,
+            0.8
+          ],
+          [
+            3.56,
+            0.8
+          ]
+        ],
+        "ownLandFullWidthEmbeddingMm": 0.1799999999999999,
+        "initialLeadOnly": {
+          "findings": [],
+          "minimumCopperToEdgeMm": 0.7000000000000001,
+          "minimumCopperToForeignHoleMm": 0.37433592098329804
+        },
+        "completeEscapeProved": false,
+        "accepted": false,
+        "limit": "Only the short offset lead clears hardware; a complete continuation around the unchanged mounting hole remains unproved. No board-edge waiver or adopted offset route."
+      },
+      {
+        "terminal": "J2.20",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.51,
+            50.2
+          ],
+          [
+            3.56,
+            50.2
+          ]
+        ],
+        "ownLandFullWidthEmbeddingMm": 0.053652385657852325,
+        "initialLeadOnly": {
+          "findings": [],
+          "minimumCopperToEdgeMm": 0.6999999999999972,
+          "minimumCopperToForeignHoleMm": 0.37433592098330026
+        },
+        "completeEscapeProved": false,
+        "accepted": false,
+        "limit": "Only the short offset lead clears hardware; a complete continuation around the unchanged mounting hole remains unproved. No board-edge waiver or adopted offset route."
+      },
+      {
+        "terminal": "J3.1",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.490000000000002,
+            50.2
+          ],
+          [
+            18.439999999999998,
+            50.2
+          ]
+        ],
+        "ownLandFullWidthEmbeddingMm": 0.1799999999999997,
+        "initialLeadOnly": {
+          "findings": [],
+          "minimumCopperToEdgeMm": 0.6999999999999972,
+          "minimumCopperToForeignHoleMm": 0.37433592098329893
+        },
+        "completeEscapeProved": false,
+        "accepted": false,
+        "limit": "Only the short offset lead clears hardware; a complete continuation around the unchanged mounting hole remains unproved. No board-edge waiver or adopted offset route."
+      },
+      {
+        "terminal": "J3.20",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.53,
+            0.8
+          ],
+          [
+            18.39,
+            0.8
+          ]
+        ],
+        "ownLandFullWidthEmbeddingMm": 0.025833848372673357,
+        "initialLeadOnly": {
+          "findings": [],
+          "minimumCopperToEdgeMm": 0.65,
+          "minimumCopperToForeignHoleMm": 0.29402141885583466
+        },
+        "completeEscapeProved": false,
+        "accepted": false,
+        "limit": "Only the short offset lead clears hardware; a complete continuation around the unchanged mounting hole remains unproved. No board-edge waiver or adopted offset route."
+      }
+    ],
+    "unchangedHoleEdgePassage": {
+      "topOrBottomAvailableCopperHeightMm": 0.2,
+      "derivation": "2.00mm edge-to-hole-centre -1.05mm bore radius -0.25mm hole-to-copper -0.50mm copper-to-board-edge =0.20mm.",
+      "GPIO020": "Only nominal equality at the bore-centre section; no additional geometric reserve, so not presented as a robust repair.",
+      "VBUS030": "Does not fit the0.20mm passage at its retained0.30mm width.",
+      "scope": "This is a local board-edge channel bound, not a proof that every conceivable own-pad topology is impossible."
+    },
+    "mechanicalAlternative": {
+      "status": "Explicit mechanical hypothesis only; NOT adopted, no source/native move",
+      "before": [
+        {
+          "reference": "H1",
+          "atMm": [
+            4.5,
+            2
+          ],
+          "boreDiameterMm": 2.1
+        },
+        {
+          "reference": "H2",
+          "atMm": [
+            17.5,
+            2
+          ],
+          "boreDiameterMm": 2.1
+        },
+        {
+          "reference": "H3",
+          "atMm": [
+            4.5,
+            49
+          ],
+          "boreDiameterMm": 2.1
+        },
+        {
+          "reference": "H4",
+          "atMm": [
+            17.5,
+            49
+          ],
+          "boreDiameterMm": 2.1
+        }
+      ],
+      "after": [
+        {
+          "reference": "H1",
+          "atMm": [
+            4.5,
+            2.75
+          ],
+          "boreDiameterMm": 2.1
+        },
+        {
+          "reference": "H2",
+          "atMm": [
+            17.5,
+            2.75
+          ],
+          "boreDiameterMm": 2.1
+        },
+        {
+          "reference": "H3",
+          "atMm": [
+            4.5,
+            48.25
+          ],
+          "boreDiameterMm": 2.1
+        },
+        {
+          "reference": "H4",
+          "atMm": [
+            17.5,
+            48.25
+          ],
+          "boreDiameterMm": 2.1
+        }
+      ],
+      "mountPatternBeforeMm": [
+        13,
+        47
+      ],
+      "mountPatternAfterMm": [
+        13,
+        45.5
+      ],
+      "headerPitchAndPositionsUnchanged": true,
+      "widthClearanceAndDrillDimensionsUnchanged": true,
+      "borePadAndHoleSpacingFindings": [],
+      "cornerLeadTrials": [
+        {
+          "terminal": "J2.1",
+          "widthMm": 0.2,
+          "points": [
+            [
+              2.11,
+              1.37
+            ],
+            [
+              3.56,
+              1.37
+            ],
+            [
+              3.96,
+              0.97
+            ],
+            [
+              5.5,
+              0.97
+            ]
+          ],
+          "screen": {
+            "findings": [],
+            "minimumCopperToEdgeMm": 0.87,
+            "minimumCopperToForeignHoleMm": 0.5197305171793442
+          },
+          "fullNetRouteProved": false
+        },
+        {
+          "terminal": "J2.20",
+          "widthMm": 0.2,
+          "points": [
+            [
+              2.11,
+              49.63
+            ],
+            [
+              3.56,
+              49.63
+            ],
+            [
+              3.96,
+              50.03
+            ],
+            [
+              5.5,
+              50.03
+            ]
+          ],
+          "screen": {
+            "findings": [],
+            "minimumCopperToEdgeMm": 0.8699999999999989,
+            "minimumCopperToForeignHoleMm": 0.5197305171793462
+          },
+          "fullNetRouteProved": false
+        },
+        {
+          "terminal": "J3.1",
+          "widthMm": 0.2,
+          "points": [
+            [
+              19.89,
+              49.63
+            ],
+            [
+              18.439999999999998,
+              49.63
+            ],
+            [
+              18.04,
+              50.03
+            ],
+            [
+              16.5,
+              50.03
+            ]
+          ],
+          "screen": {
+            "findings": [],
+            "minimumCopperToEdgeMm": 0.8699999999999989,
+            "minimumCopperToForeignHoleMm": 0.5197305171793448
+          },
+          "fullNetRouteProved": false
+        },
+        {
+          "terminal": "J3.20",
+          "widthMm": 0.3,
+          "points": [
+            [
+              19.89,
+              1.37
+            ],
+            [
+              18.39,
+              1.37
+            ],
+            [
+              17.990000000000002,
+              0.97
+            ],
+            [
+              16.5,
+              0.97
+            ]
+          ],
+          "screen": {
+            "findings": [],
+            "minimumCopperToEdgeMm": 0.82,
+            "minimumCopperToForeignHoleMm": 0.4421023110634733
+          },
+          "fullNetRouteProved": false
+        }
+      ],
+      "limits": "Only actual pad/bore/edge geometry for these initial leads was screened. Existing tracks/vias, fastener heads/washers, body/mechanical access, returns and full-net continuations were not qualified. Every changed hole position requires explicit mechanical review."
+    }
+  }
+}

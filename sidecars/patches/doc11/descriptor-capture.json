@@ -1,0 +1,89 @@
+{
+  "success": true,
+  "moduleSha256": "f5526ff03f2ca1cda4a155758071c7de98249538b9328b8a5bfe5b1b78b7ecc3",
+  "helperSha256": "6f093d3c191ea9f92dcc3b516fc16c2c2ec48d6ee0f96b9b3ebc78af3c4d2c8b",
+  "onlyDescriptorChange": "evledaQualifiedFootprintPoseSync marker added",
+  "registeredDescriptor": {
+    "name": "pcb_sync_from_schematic",
+    "description": "Sync missing PCB footprints from schematic footprint assignments.\n\nThis is a file-based operation intended for initial board bring-up. It adds\nmissing footprint instances to the `.kicad_pcb` file using schematic\nreferences, values, rotations, and assigned `Library:Footprint` names.\nWhen `replace_mismatched=True`, existing footprints with the same\nreference but the wrong footprint name are replaced in place.",
+    "inputSchema": {
+      "properties": {
+        "origin_x_mm": {
+          "default": 20.0,
+          "title": "Origin X Mm",
+          "type": "number"
+        },
+        "origin_y_mm": {
+          "default": 20.0,
+          "title": "Origin Y Mm",
+          "type": "number"
+        },
+        "scale_x": {
+          "default": 1.0,
+          "title": "Scale X",
+          "type": "number"
+        },
+        "scale_y": {
+          "default": 1.0,
+          "title": "Scale Y",
+          "type": "number"
+        },
+        "grid_mm": {
+          "default": 2.54,
+          "title": "Grid Mm",
+          "type": "number"
+        },
+        "allow_open_board": {
+          "default": false,
+          "title": "Allow Open Board",
+          "type": "boolean"
+        },
+        "use_net_names": {
+          "default": true,
+          "title": "Use Net Names",
+          "type": "boolean"
+        },
+        "replace_mismatched": {
+          "default": false,
+          "title": "Replace Mismatched",
+          "type": "boolean"
+        },
+        "force": {
+          "default": false,
+          "title": "Force",
+          "type": "boolean"
+        },
+        "auto_place": {
+          "default": true,
+          "title": "Auto Place",
+          "type": "boolean"
+        }
+      },
+      "title": "pcb_sync_from_schematicArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "properties": {
+        "result": {
+          "title": "Result",
+          "type": "string"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "title": "pcb_sync_from_schematicOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "idempotentHint": false
+    },
+    "_meta": {
+      "evledaQualifiedFootprintIdentitySync": "evleda.kicad-qualified-footprint-identity-sync.v1",
+      "evledaQualifiedFootprintPoseSync": "evleda.kicad-qualified-footprint-pose-sync.v1"
+    }
+  },
+  "serverLoopStarted": false,
+  "nativeApiCalls": 0,
+  "capturedStdout": "2026-09-18 08:49:59 [debug    ] kipy_cli_discovery_failed      error='Failed to connect to KiCad: Connection refused'\n"
+}
