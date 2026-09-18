@@ -1,0 +1,70 @@
+Connectivity groups (69 total):
+- Group 1: 1V1 | pins=#FLG004:1, C11:1, C12:1, C13:1, C2:1, C4:1, L1:1, U1:23, U1:39, U1:50, U1:6 | points=18
+- Group 2: 3V3 | pins=C1:1, C10:1, C14:1, C15:1, C18:1, C19:1, C21:1, C5:1, C6:1, C7:1, C8:1, C9:1, J3:16, Q1:1, R16:1, R6:1, R8:1, U1:1, U1:11, U1:20, U1:30, U1:38, U1:45, U1:49, U1:53, U1:54, U2:1, U2:10, U3:8 | points=48
+- Group 3: 3V3_EN | pins=J3:17, R9:2, U2:6 | points=6
+- Group 4: ADC_AVDD | pins=#FLG005:1, C16:1, C17:1, R17:2, U1:44 | points=11
+- Group 5: ADC_VREF | pins=J3:15, R16:2, R17:1 | points=6
+- Group 6: BOOT_SW | pins=R5:2, SW1:3, SW1:4 | points=6
+- Group 7: CORE_LX | pins=L1:2, U1:48 | points=4
+- Group 8: GND | pins=#FLG001:1, C1:2, C10:2, C11:2, C12:2, C13:2, C14:2, C15:2, C16:2, C17:2, C18:2, C19:2, C2:2, C20:2, C21:2, C22:2, C23:2, C24:2, C25:2, C26:2, C3:2, C4:2, C5:2, C6:2, C7:2, C8:2, C9:2, D2:1, J1:A1, J1:A12, J1:B1, J1:B12, J1:SH, J2:13, J2:18, J2:3, J2:8, J3:13, J3:18, J3:3, J3:8, J4:2, R10:2, R12:2, R14:2, R15:2, R3:2, R4:2, SW1:1, SW1:2, SW2:1, SW2:2, U1:47, U1:61, U2:11, U2:3, U2:9, U3:4, U3:9, U4:2, Y1:2, Y1:4 | points=116
+- Group 9: GPIO0 | pins=J2:1, U1:2 | points=4
+- Group 10: GPIO1 | pins=J2:2, U1:3 | points=4
+- Group 11: GPIO10 | pins=J2:14, U1:14 | points=4
+- Group 12: GPIO11 | pins=J2:15, U1:15 | points=4
+- Group 13: GPIO12 | pins=J2:16, U1:16 | points=4
+- Group 14: GPIO13 | pins=J2:17, U1:17 | points=4
+- Group 15: GPIO14 | pins=J2:19, U1:18 | points=4
+- Group 16: GPIO15 | pins=J2:20, U1:19 | points=4
+- Group 17: GPIO16 | pins=J3:1, U1:27 | points=4
+- Group 18: GPIO17 | pins=J3:2, U1:28 | points=4
+- Group 19: GPIO18 | pins=J3:4, U1:29 | points=4
+- Group 20: GPIO19 | pins=J3:5, U1:31 | points=4
+- Group 21: GPIO2 | pins=J2:4, U1:4 | points=4
+- Group 22: GPIO20 | pins=J3:6, U1:32 | points=4
+- Group 23: GPIO21 | pins=J3:7, U1:33 | points=4
+- Group 24: GPIO22 | pins=J3:9, U1:34 | points=4
+- Group 25: GPIO23_SMPS_PS | pins=R10:1, U1:35, U2:7 | points=6
+- Group 26: GPIO24_VBUS_SENSE | pins=R11:2, R12:1, U1:36 | points=6
+- Group 27: GPIO25_LED | pins=R18:1, U1:37 | points=4
+- Group 28: GPIO26 | pins=J3:11, U1:40 | points=4
+- Group 29: GPIO27 | pins=J3:12, U1:41 | points=4
+- Group 30: GPIO28 | pins=J3:14, U1:42 | points=4
+- Group 31: GPIO29_VSYS_SENSE | pins=Q1:2, R15:1, U1:43 | points=6
+- Group 32: GPIO3 | pins=J2:5, U1:5 | points=4
+- Group 33: GPIO4 | pins=J2:6, U1:7 | points=4
+- Group 34: GPIO5 | pins=J2:7, U1:8 | points=4
+- Group 35: GPIO6 | pins=J2:9, U1:9 | points=4
+- Group 36: GPIO7 | pins=J2:10, U1:10 | points=4
+- Group 37: GPIO8 | pins=J2:11, U1:12 | points=4
+- Group 38: GPIO9 | pins=J2:12, U1:13 | points=4
+- Group 39: LED_A | pins=D2:2, R18:2 | points=4
+- Group 40: QSPI_CS | pins=R5:1, R6:2, U1:60, U3:1 | points=8
+- Group 41: QSPI_SCLK | pins=U1:56, U3:6 | points=4
+- Group 42: QSPI_SD0 | pins=U1:57, U3:5 | points=4
+- Group 43: QSPI_SD1 | pins=U1:59, U3:2 | points=4
+- Group 44: QSPI_SD2 | pins=U1:58, U3:3 | points=4
+- Group 45: QSPI_SD3 | pins=U1:55, U3:7 | points=4
+- Group 46: RT_LX1 | pins=L2:1, U2:4 | points=4
+- Group 47: RT_LX2 | pins=L2:2, U2:2 | points=4
+- Group 48: RUN | pins=J3:10, SW2:3, SW2:4, U1:26 | points=8
+- Group 49: SWCLK_HDR | pins=J4:1, R19:2 | points=4
+- Group 50: SWCLK_MCU | pins=R19:1, U1:24 | points=4
+- Group 51: SWDIO_HDR | pins=J4:3, R20:2 | points=4
+- Group 52: SWDIO_MCU | pins=R20:1, U1:25 | points=4
+- Group 53: USB_CC1 | pins=J1:A5, R3:1 | points=4
+- Group 54: USB_CC2 | pins=J1:B5, R4:1 | points=4
+- Group 55: USB_DM_ESD | pins=R2:2, U4:3 | points=4
+- Group 56: USB_DM_MCU | pins=R2:1, U1:51 | points=4
+- Group 57: USB_DM_PORT | pins=J1:A7, J1:B7, U4:4 | points=6
+- Group 58: USB_DP_ESD | pins=R1:2, U4:1 | points=4
+- Group 59: USB_DP_MCU | pins=R1:1, U1:52 | points=4
+- Group 60: USB_DP_PORT | pins=J1:A6, J1:B6, U4:6 | points=6
+- Group 61: VBUS | pins=#FLG002:1, C26:1, D1:2, J1:A4, J1:A9, J1:B4, J1:B9, J3:20, R11:1, U4:5 | points=15
+- Group 62: VREG_AVDD | pins=#FLG006:1, C3:1, R8:2, U1:46 | points=8
+- Group 63: VSYS | pins=#FLG003:1, C20:1, C22:1, D1:1, J3:19, R13:1, R9:1, U2:5, U2:8 | points=19
+- Group 64: VSYS_DIV | pins=C23:1, Q1:3, R13:2, R14:1 | points=8
+- Group 65: XIN | pins=C24:1, U1:21, Y1:1 | points=6
+- Group 66: XOUT_MCU | pins=R7:1, U1:22 | points=4
+- Group 67: XTAL_OUT | pins=C25:1, R7:2, Y1:3 | points=6
+- Group 68: ~no-connect | pins=J1:B8 | points=1
+- Group 69: ~no-connect | pins=J1:A8 | points=1

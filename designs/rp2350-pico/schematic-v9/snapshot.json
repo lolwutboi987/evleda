@@ -1,0 +1,59 @@
+{
+  "recordedAt": "2026-09-18T14:30:05.258Z",
+  "source": "Saved connected V9 schematic, unchanged across later failed PCB outline save",
+  "projectId": "d9435dc1-27b9-4fff-8af6-f6a2cfe897e8",
+  "bundleIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "8e8d460e2d885c5d4b91669125f3ddd8bc63a34fc5541ff4d720482daa38893b",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2"
+  },
+  "files": [
+    {
+      "file": "rp2350-pico.kicad_sch",
+      "bytes": 221590,
+      "sha256": "2c3f0e5ec3bbc5379c39118fa4530a1bb816dcb4370d02814b36921a6e9ed110"
+    },
+    {
+      "file": "rp2350-pico.svg",
+      "bytes": 1989395,
+      "sha256": "31df36a18e5a075f918940be5b4c186c892c64148e1ee1de6a1bd427a7a7e352"
+    },
+    {
+      "file": "rp2350-pico.png",
+      "bytes": 747636,
+      "sha256": "477c1190d385f026e085a2fc18c6f4262b72521f586bd0378cad6e471f36779a"
+    },
+    {
+      "file": "README.md",
+      "bytes": 1401,
+      "sha256": "cd56abd07fc0b8eae9e8ad9cda6962fac3b27a2ebf82b8875471a7f449826028"
+    },
+    {
+      "file": "connectivity.txt",
+      "bytes": 4392,
+      "sha256": "dfe81d8576ed75bdfbb1c38fbd82e9617529999357dbd30047df79f130623bdd"
+    }
+  ],
+  "readback": {
+    "observedAt": "2026-09-18T14:05:48.901Z",
+    "responseSha256": "88318f5d9a27917aa44e12d860cff0615b958615aa948601d2a228abdbe43d9b",
+    "operation": "sch_get_connectivity_graph",
+    "functionalNets": 67,
+    "functionalEndpoints": 260,
+    "physicalComponents": 62,
+    "powerFlags": 6,
+    "noConnects": [
+      "J1:A8",
+      "J1:B8"
+    ],
+    "allContractGroupsMatch": true
+  },
+  "nativeExport": {
+    "tool": "KiCad kicad-cli 10.0.3 sch export svg",
+    "worksheetIncluded": true,
+    "pngWidth": 2600
+  },
+  "pcbIncluded": false,
+  "designAccepted": false
+}
