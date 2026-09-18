@@ -1,5 +1,23 @@
 # Current status and roadmap
 
+The next diagnostic run retained the missing SDK cause: **the native sync RPC
+timed out**. Its default 30-second budget was separate from the outer client's
+30-minute wait. The exact slow producer subphase is still unknown. An isolated
+264-template render check took 0.406 seconds; it does not explain the live
+timeout. The producer also performs synchronous IPC, ERC/connectivity checks and
+native netlist export before writing footprints.
+
+A reviewed host-only change gives just the fresh sync mutation RPC a fixed
+120-second budget. Public arguments remain empty; all other RPC defaults,
+startup, source/geometry guards, and uncertain-outcome recovery are unchanged.
+111 relevant tests, source typechecking and independent review passed. This is a
+bounded deadline adjustment, not proof that sync will complete or that a board
+is correct. The timed-out run is archived under
+`destination-verification/rp2350-native-sync-failure-04/`; exact-plan recovery
+restored all eight normal-close file hashes and preserved the remaining captured
+files/history. The frozen host build passes source/UI typechecks, backend
+packaging and runtime checks; native qualification of the new budget is pending.
+
 Latest native result, 18 September 2026: the separately frozen DOC11 host build
 passes source/UI typechecks, backend packaging and complete runtime checks. The
 preserved RP2350 project reopened under DOC11 and saved its outline. Real sync

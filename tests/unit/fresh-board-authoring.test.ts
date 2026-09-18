@@ -442,6 +442,52 @@ describe("fresh generic board authoring compounds", () => {
     expect(parseFreshPcbSource(await readFile(current.project.pcbPath, "utf8")).footprints).toHaveLength(3);
   });
 
+  it("gives only the fresh-sync mutation RPC a host-owned 120-second budget", async () => {
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]) });
+    const native = vi.spyOn(current.session, "callTool");
+    await current.bridge.execute({ id: "bounded-sync", name: "fresh_sync_from_schematic", arguments: {} });
+    await current.bridge.internal.saveAfterMutation({ id: "bounded-save", name: "pcb_save", arguments: {} });
+    await current.bridge.internal.execute({ id: "ordinary-read", name: "pcb_get_board_summary", arguments: {} });
+    const syncCalls = native.mock.calls.filter(([name]) => name === "pcb_sync_from_schematic");
+    expect(syncCalls).toHaveLength(1);
+    expect(syncCalls[0]).toEqual(["pcb_sync_from_schematic", expect.any(Object), { timeoutMs: 120_000 }]);
+    expect(syncCalls[0]![1]).not.toHaveProperty("timeoutMs");
+    const ordinary = native.mock.calls.filter(([name]) => name !== "pcb_sync_from_schematic");
+    expect(ordinary.map(([name]) => name)).toEqual(expect.arrayContaining(["pcb_save", "pcb_get_board_summary"]));
+    expect(ordinary.every(call => call.length === 2)).toBe(true);
+  });
+
+  it("does not extend generic mutation or ordinary read calls", async () => {
+    const native = vi.fn<KicadHarnessSession["callTool"]>().mockResolvedValue({ content: [], structuredContent: { result: "ok" } });
+    const generic = createKicadHarnessTools({ listTools: () => ["pcb_set_board_outline", "pcb_get_tracks"].map(name => ({
+      name, permission: "write" as const, inputSchema: { type: "object", additionalProperties: false },
+    })), callTool: native });
+    await generic.execute({ id: "generic-outline", name: "pcb_set_board_outline", arguments: {} });
+    await generic.execute({ id: "generic-read", name: "pcb_get_tracks", arguments: {} });
+    expect(native.mock.calls).toEqual([["pcb_set_board_outline", {}], ["pcb_get_tracks", {}]]);
+  });
+
+  it.each(["timeoutMs", "timeout", "options"])("rejects public %s overrides before dispatching fresh sync", async key => {
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]) });
+    const native = vi.spyOn(current.session, "callTool");
+    const definition = current.bridge.tools.find(tool => tool.name === "fresh_sync_from_schematic")!;
+    expect(definition.inputSchema).toMatchObject({ additionalProperties: false, properties: {} });
+    await expect(current.bridge.execute({ id: "caller-timeout", name: "fresh_sync_from_schematic", arguments: { [key]: key === "options" ? { timeoutMs: 999_999 } : 999_999 } })).rejects.toThrow();
+    expect(native).not.toHaveBeenCalled();
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+  });
+
+  it("retains normal rollback RPC budgets and exact restoration after an extended sync fails", async () => {
+    const current = await authoringFixture(emptyBoard(), { syncBoard: populatedBoard([]), syncText: "Failed to synchronize schematic." });
+    const native = vi.spyOn(current.session, "callTool");
+    await expect(current.bridge.execute({ id: "failed-extended-sync", name: "fresh_sync_from_schematic", arguments: {} })).rejects.toThrow(/FRESH_SYNC_ROLLED_BACK_TERMINAL/);
+    expect(native.mock.calls.find(([name]) => name === "pcb_sync_from_schematic")?.[2]).toEqual({ timeoutMs: 120_000 });
+    expect(native.mock.calls.filter(([name]) => name !== "pcb_sync_from_schematic")).toContainEqual(["pcb_revert", {}]);
+    expect(native.mock.calls.filter(([name]) => name !== "pcb_sync_from_schematic").every(call => call.length === 2)).toBe(true);
+    expect(await readFile(current.project.pcbPath, "utf8")).toBe(emptyBoard());
+    expect(current.live()).toBe(emptyBoard());
+  });
+
   it("terminally rolls back a claimed qualified writer that emits a bare footprint leaf", async () => {
     const before = emptyBoard();
     const bare = populatedBoard([]).replace('(footprint "Resistor_SMD:R_0603_1608Metric"', '(footprint "R_0603_1608Metric"');

@@ -150,11 +150,18 @@ describe("board-only NPTH source-bound sync and existing checkpoint", () => {
     expect(() => resumed.boardFeatureState!.verify(f.initial, f.f.resolver)).not.toThrow();
   });
   it("stages all bound holes atomically, retains raw native inventory, saves, checkpoints and resumes", async () => {
-    const f = await fixture(), response = JSON.parse((await f.bridge.execute(sync)).content);
+    const f = await fixture(), native = vi.spyOn(f.session, "callTool");
+    const response = JSON.parse((await f.bridge.execute(sync)).content);
     expect(response).toMatchObject({ componentCount: 3, physicalPadCount: 9, logicalTerminalCount: 7, nonElectricalFeatureCount: 2 });
     expect(f.calls.find(call => call.name === "pcb_sync_from_schematic")!.args.auto_place).toBe(false);
     expect(parseFreshPcbSource(f.staged[0]!).footprints.map(fp => fp.reference)).toEqual(["H1", "H2"]);
     await f.bridge.internal.saveAfterMutation(save);
+    expect(native.mock.calls.filter(([name]) => name === "pcb_sync_from_schematic")).toEqual([
+      ["pcb_sync_from_schematic", expect.any(Object), { timeoutMs: 120_000 }],
+    ]);
+    const otherCalls = native.mock.calls.filter(([name]) => name !== "pcb_sync_from_schematic");
+    expect(otherCalls.map(([name]) => name)).toContain("pcb_save");
+    expect(otherCalls.every(call => call.length === 2)).toBe(true);
     const before = await readFile(f.project.pcbPath, "utf8"), ids = parseFreshPcbSource(before).footprints.filter(fp => fp.reference.startsWith("H")).map(fp => [fp.id, fp.pads[0]!.physical.id]);
     const publish = await f.lifecycle.prepareCheckpoint(); await publish();
     const resumed = await resumeKicadToolboxPlaneProject(f.input);
@@ -165,6 +172,7 @@ describe("board-only NPTH source-bound sync and existing checkpoint", () => {
     expect(fields).toMatchObject({ applied: true, mutated: false, idempotent: true, nativeSyncDisposition: "verified-no-change", boardFeatureCount: 2 });
     expect(fields).not.toHaveProperty("upstreamMetrics");
     expect(f.calls.slice(beforeRepeat).map(call => call.name)).toEqual(["pcb_sync_from_schematic"]);
+    expect(native.mock.calls.at(-1)).toEqual(["pcb_sync_from_schematic", expect.any(Object), { timeoutMs: 120_000 }]);
     const context = { connectivityIdentity: createFreshConnectivityContract(f.preparation.bundle.contract).identity,
       projectBindingIdentity: f.project.planeBinding.identity, sourceContractIdentity: f.preparation.bundle.contract.identity, boardFeatureCount: 2 };
     expect(planeCompoundMutationState(sync, repeated, context)).toBe(false);

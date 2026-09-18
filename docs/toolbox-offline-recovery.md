@@ -81,10 +81,11 @@ checkpoint. A successful offline restore still requires the normal toolbox
 resume and fresh native verification; it does not establish a completed design.
 
 The implementation received 101 focused tests, TypeScript checking and an
-independent source review. All four actual V9 recoveries restored the PCB's exact
+independent source review. All five actual V9 recoveries restored the PCB's exact
 2,614 checkpoint bytes; separate readbacks confirmed all eight prior normal-close
 hashes and preservation of the other captured files. Evidence is retained under
 `destination-verification/rp2350-native-disk-full-01/` and
 `destination-verification/rp2350-native-sync-failure-01/` and
 `destination-verification/rp2350-native-sync-failure-02/` and
-`destination-verification/rp2350-native-sync-failure-03/` outside the repository.
+`destination-verification/rp2350-native-sync-failure-03/` and
+`destination-verification/rp2350-native-sync-failure-04/` outside the repository.

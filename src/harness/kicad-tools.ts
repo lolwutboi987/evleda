@@ -31,7 +31,7 @@ import {
   type HarnessMutationBatchDisposition,
   type HarnessToolResult,
 } from "./contracts.js";
-import { KicadMcpSession, type KicadMcpSessionOptions, type KicadMcpToolDescriptor } from "../integrations/kicad-mcp-session.js";
+import { KicadMcpSession, type KicadMcpSessionOptions, type KicadMcpToolDescriptor, type KicadMcpToolCallOptions } from "../integrations/kicad-mcp-session.js";
 import { analyzeKicadPcbPractices, type PcbPracticeAnalysisProfile } from "../integrations/pcb-practice-analyzer.js";
 import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
 import {
@@ -269,7 +269,7 @@ function normalizeReadLayers(value: unknown): unknown {
 
 export interface KicadHarnessSession {
   listTools(): readonly KicadMcpToolDescriptor[];
-  callTool(name: string, argumentsValue?: Readonly<Record<string, unknown>>): Promise<CallToolResult>;
+  callTool(name: string, argumentsValue?: Readonly<Record<string, unknown>>, options?: KicadMcpToolCallOptions): Promise<CallToolResult>;
   assertActivePcb?(expectedPath: string): Promise<void>;
   readActivePcbSource?(expectedPath: string): Promise<string>;
   readLivePcbPadSnapshot?(requestedPrimitiveIds: readonly string[]): Promise<CallToolResult>;
@@ -3332,16 +3332,19 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     assertPcbLibrarySourcesCurrent(binding, this.#freshLibraryResolver);
   }
 
-  async #callSourceBoundTool(name: string, argumentsValue: Readonly<Record<string, unknown>>, observeResponse?: (result: CallToolResult) => void): ReturnType<KicadHarnessSession["callTool"]> {
+  async #callSourceBoundTool(name: string, argumentsValue: Readonly<Record<string, unknown>>, observeResponse?: (result: CallToolResult) => void, options?: KicadMcpToolCallOptions): ReturnType<KicadHarnessSession["callTool"]> {
     this.#assertLibrarySources();
+    const invoke = () => options === undefined
+      ? this.#session.callTool(name, argumentsValue)
+      : this.#session.callTool(name, argumentsValue, options);
     if (powerAnnotationBindingOf(this.#freshPlaneCompilationBundle ?? {}) === undefined) {
-      const result = await this.#session.callTool(name, argumentsValue);
+      const result = await invoke();
       observeResponse?.(result);
       return result;
     }
     const externalGraph = powerAnnotationBindingOf(this.#freshPlaneCompilationBundle ?? {}) !== undefined && name === "sch_get_connectivity_graph";
     if (externalGraph && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE: unqualified native power-flag graph producer.");
-    const result = await this.#session.callTool(name, argumentsValue);
+    const result = await invoke();
     observeResponse?.(result);
     // Preserve a native failure as the primary cause even if sources also drifted.
     const success = result.isError !== true && !/\b(?:failed|failure|error|aborted|unable|refused)\b|\bcould not\b|\bwas not found\b/iu.test(preferredResultText(result));
@@ -5255,6 +5258,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         this.#assertPhysicalLibrarySources();
       }
       stage = "native-sync";
+      // Fixed host policy for this single mutation RPC, not the compound's
+      // preflight, save, readback or rollback calls. Never model-supplied.
       const raw = await this.#callSourceBoundTool("pcb_sync_from_schematic", {
         origin_x_mm: 20, origin_y_mm: 20, scale_x: 1, scale_y: 1, grid_mm: 2.54,
         allow_open_board: true, use_net_names: true, replace_mismatched: true, force: false, auto_place: contract.boardFeatures === undefined,
@@ -5264,7 +5269,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
           try { nativeResponseJson = JSON.stringify(response); }
           catch { responseUnavailable = "Returned native response could not be serialized completely."; }
         }
-      });
+      }, { timeoutMs: 120_000 });
       stage = "native-response-validation";
       const text = assertSuccessfulSidecarMutation(raw, "pcb_sync_from_schematic");
       const receivedText = preferredResultText(raw);

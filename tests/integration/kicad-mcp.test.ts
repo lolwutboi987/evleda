@@ -5,6 +5,7 @@ import { getEventListeners } from "node:events";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
+import { Client } from "@modelcontextprotocol/client";
 import livePcbPadProtocol from "../fixtures/kicad-mcp-live-pcb-pad-snapshot-protocol.json" with { type: "json" };
 import schematicBatchProtocol from "../fixtures/kicad-mcp-schematic-connectivity-batch-protocol.json" with { type: "json" };
 import qualifiedFootprintSyncTool from "../fixtures/kicad-mcp-qualified-footprint-sync-tool.json" with { type: "json" };
@@ -222,6 +223,7 @@ rl.on("line", (line) => {
         return;
       }
       if (message.params.name === "pcb_sync_from_schematic") {
+        if (liveFixture.syncHang === true) return;
         const payload = { result: "fake qualified footprint sync accepted" };
         send({ jsonrpc: "2.0", id: message.id, result: { content: [{ type: "text", text: payload.result }], structuredContent: payload, isError: false } });
         return;
@@ -432,6 +434,7 @@ const livePcbFixture = async (project: string, results: readonly unknown[], opti
   batchAfterSource?: string;
   batchProjectAfter?: string;
   syncTool?: Readonly<Record<string, unknown>>;
+  syncHang?: boolean;
   graphTool?: Readonly<Record<string, unknown>>;
 } = {}) => {
   const fixturePath = path.join(project, "live-pcb-fixture.json");
@@ -3530,6 +3533,58 @@ describe("KiCad MCP subprocess session", () => {
     } finally { await session.close(); }
     expect(session.supportsQualifiedFootprintIdentitySync()).toBe(false);
     expect(session.supportsQualifiedFootprintPoseSync()).toBe(false);
+  });
+
+  it("applies a host per-call sync budget to both SDK deadlines without changing other requests", async () => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintPoseSyncTool });
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, mode: "write", freshProject: true, command: fixture.command });
+    const sdk = vi.spyOn(Client.prototype, "callTool");
+    const args = { auto_place: false, replace_mismatched: true };
+    try {
+      await session.callTool("pcb_get_board_as_string");
+      await session.callTool("pcb_sync_from_schematic", args, { timeoutMs: 120_000 });
+      await session.callTool("pcb_get_board_as_string");
+      await session.callTool("pcb_sync_from_schematic", args);
+      expect(sdk.mock.calls.map(([request, options]) => ({ name: request.name, timeout: options?.timeout, maxTotalTimeout: options?.maxTotalTimeout }))).toEqual([
+        { name: "pcb_get_board_as_string", timeout: 30_000, maxTotalTimeout: 30_000 },
+        { name: "pcb_sync_from_schematic", timeout: 120_000, maxTotalTimeout: 120_000 },
+        { name: "pcb_get_board_as_string", timeout: 30_000, maxTotalTimeout: 30_000 },
+        { name: "pcb_sync_from_schematic", timeout: 30_000, maxTotalTimeout: 30_000 },
+      ]);
+      expect((await readFile(fixture.callsPath, "utf8")).trim().split("\n").map(line => JSON.parse(line))).toEqual([
+        { name: "pcb_get_board_as_string", arguments: {} },
+        { name: "pcb_sync_from_schematic", arguments: args },
+        { name: "pcb_get_board_as_string", arguments: {} },
+        { name: "pcb_sync_from_schematic", arguments: args },
+      ]);
+    } finally { sdk.mockRestore(); await session.close(); }
+  });
+
+  it("preserves the SDK timeout cause and closes an unanswered sync with the host override", async () => {
+    const { workspace, project } = await roots();
+    const fixture = await livePcbFixture(project, [], { syncTool: qualifiedFootprintPoseSyncTool, syncHang: true });
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, mode: "write", freshProject: true, command: fixture.command });
+    const sdk = vi.spyOn(Client.prototype, "callTool"), originalTimer = globalThis.setTimeout;
+    // Exercise the real SDK expiry callback against an unanswered fake peer,
+    // compressing only this fixed timer; no 120-second wall-time or native run.
+    const timers = vi.spyOn(globalThis, "setTimeout").mockImplementation(((callback: (...args: any[]) => void, delay?: number, ...args: any[]) =>
+      originalTimer(callback, delay === 120_000 ? 50 : delay, ...args)) as typeof setTimeout);
+    try {
+      const failure = await session.callTool("pcb_sync_from_schematic", { auto_place: false }, { timeoutMs: 120_000 }).catch((error: unknown) => error);
+      expect(sdk.mock.calls[0]?.[1]).toMatchObject({ timeout: 120_000, maxTotalTimeout: 120_000 });
+      expect(timers.mock.calls.some(([, delay]) => delay === 120_000)).toBe(true);
+      expect(failure).toBeInstanceOf(KicadMcpSessionError);
+      expect((failure as Error).message).toBe("KiCad MCP tool 'pcb_sync_from_schematic' did not complete safely.");
+      expect((failure as Error).cause).toBeInstanceOf(Error);
+      expect((failure as Error).cause).toMatchObject({ code: "REQUEST_TIMEOUT", message: "Request timed out" });
+      expect(Object.getOwnPropertyDescriptor(failure, "cause")?.enumerable).toBe(false);
+      await expect(session.callTool("pcb_save")).rejects.toThrow("KiCad MCP session is closed.");
+      await expect(session.callTool("pcb_get_board_as_string")).rejects.toThrow("KiCad MCP session is closed.");
+      expect((await readFile(fixture.callsPath, "utf8")).trim().split("\n").map(line => JSON.parse(line))).toEqual([
+        { name: "pcb_sync_from_schematic", arguments: { auto_place: false } },
+      ]);
+    } finally { timers.mockRestore(); sdk.mockRestore(); await session.close(); }
   });
 
   it.each(["readonly", "write"] as const)("keeps identity-only footprint producers available in %s mode but refuses pose sync", async mode => {
