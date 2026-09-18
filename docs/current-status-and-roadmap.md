@@ -1,6 +1,57 @@
 # Current status and roadmap
 
-The next diagnostic run retained the missing SDK cause: **the native sync RPC
+Latest verified native milestone, 18 September 2026: **the 22 × 51 mm V9 project
+completed real public schematic-to-PCB sync, the reviewed 62-component placement
+batch, mandatory native save/readback, and normal close under DOC11 host16 in
+session26.** Project `d9435dc1-27b9-4fff-8af6-f6a2cfe897e8` now retains its connected
+schematic and placed PCB. The earlier sync failures below remain preserved;
+they no longer describe the latest verified native state.
+
+The independent [placement/readback verification](../../destination-verification/rp2350-native-placement-readback-01/verification-result-host16-02.json)
+matches all **66 footprint poses, 281 physical pad members and 53 drills** to
+the selected model, contract and complete pinned library definitions. Those
+members include 265 numbered copper pads, 10 anonymous paste pads and 6 NPTH
+holes; 4 of the NPTH holes are the separate board-only mounting features.
+The actual host receipt verifies the 62 electrical placements and native save.
+Public reads independently match 81 physical pad rows from U1, C10 and J1 by
+UUID, geometry, layers and drills; the bounded aggregate read reports the full
+inventory without exposing every row. Raw private native snapshots were not
+independently replayed. All verification inputs remained unchanged.
+
+The [normal-close response](../../destination-rp2350-native-01/mcp-session-26/workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85/000134-response-185046fcafbefdf8ff9606048e203c988838d3003080a79d1165be01bab2c837.json)
+reports the project closed. Separate [post-close disk verification](../../destination-rp2350-native-01/mcp-session-26/v9-normal-close-verification-01.json)
+matches all 6 authored source files and the report to checkpoint
+`7bd6cf8d71944e6adb132f2035b445e3dc5fc0693e37df69995953e73a45eb36`.
+No lease, unsafe marker or editor-lock artifact remains under the project.
+The 251,637-byte PCB retains SHA-256
+`0f7df58b79c3169b689b4f4ec230791cb414db4b6f981d3aa695221ed1aff531`.
+
+This is **native workflow and placement qualification, not accepted routing or
+board acceptance**. The verified V9 PCB contains no tracks, vias or zones.
+Its older proposed copper remains historical under the user's requirement to
+keep GPIO header gaps clear for soldering and rework. Full routing, native DRC,
+plane/reference continuity and fabrication acceptance remain unfinished.
+
+The approved **22 × 60 mm next-candidate packet** is [prepared and compiles
+READY](../designs/rp2350-pico/candidate-60/README.md), with
+separate [draft](../designs/rp2350-pico/candidate-60/candidate-draft.json),
+[target poses](../designs/rp2350-pico/candidate-60/target-poses.json)
+and source-model/local-entry proposals. It retains the circuit and two-layer
+construction but revises placement and mechanical geometry. The public creation
+recipe is being started; no completed native 22 × 60 mm authoring, placement or
+routing is established by the session26 V9 evidence above.
+
+A new source-only header-service audit checks the full copper envelope of tracks,
+vias, non-header pads and stored fill against the two protected header strips.
+Only exact pad-specific inward leads are exempt; shared GND does not exempt
+unrelated copper. Unsupported geometry and unfilled zones remain unknown.
+The helper passed 134 relevant tests, source typechecking, isolated backend
+TypeScript compilation and independent review. It is not yet a public tool or
+native clearance/return-path acceptance.
+
+## Earlier failure and recovery evidence
+
+The earlier diagnostic run retained the missing SDK cause: **the native sync RPC
 timed out**. Its default 30-second budget was separate from the outer client's
 30-minute wait. The exact slow producer subphase is still unknown. An isolated
 264-template render check took 0.406 seconds; it does not explain the live
@@ -16,9 +67,10 @@ is correct. The timed-out run is archived under
 `destination-verification/rp2350-native-sync-failure-04/`; exact-plan recovery
 restored all eight normal-close file hashes and preserved the remaining captured
 files/history. The frozen host build passes source/UI typechecks, backend
-packaging and runtime checks; native qualification of the new budget is pending.
+packaging and runtime checks. Session26 subsequently exercised the new budget
+successfully for sync and placement, as recorded above.
 
-Latest native result, 18 September 2026: the separately frozen DOC11 host build
+Earlier native result, 18 September 2026: the separately frozen DOC11 host build
 passes source/UI typechecks, backend packaging and complete runtime checks. The
 preserved RP2350 project reopened under DOC11 and saved its outline. Real sync
 then failed before a producer reply was retained; the sidecar session closed,
@@ -28,7 +80,8 @@ its process identity was checked. Seven non-PCB normal-close file hashes still
 match. A reviewed retained-lock rollback subsequently restored the exact earlier
 PCB and retired only the two proven orphan editor locks, terminal marker and
 lease. Separate readback verified all eight normal-close hashes and preservation
-of the other captured files/history. Normal native resume is still required.
+of the other captured files/history. Normal native resume was still required
+at that point.
 No electrical footprint placement or copper was accepted from the failed run.
 
 The host's generic SDK-error wrapper discarded the original cause. The reviewed
@@ -46,8 +99,8 @@ All three guarded source reads and hash checks still run on every request. An
 installed-library probe made six requests with two parses and eighteen full
 reads; 201 targeted tests passed with five skips, and source typechecking passed.
 This reduces parser work, not verification. It is not a diagnosis or cure of the
-separate sync failure. The next frozen host build will combine these reviewed
-source changes before another controlled native attempt.
+separate sync failure. Combining the reviewed source changes in a frozen host
+was the next step at that point.
 
 The new [placement study](../designs/rp2350-pico/placement-rework-study/README.md)
 reconsiders the circuit groups before rerouting. Preferred study B moves the
@@ -78,14 +131,15 @@ template cases; the host gate passed 47 selected tests. Legacy identity-only
 producers can still serve unrelated operations but cannot perform sync under
 the new host. The separate DOC11 runtime/profile now passes complete source
 verification, installed descriptor capture and both production profile readers.
-The integrated host build subsequently passed; the real public synchronization
-attempt failed as described above and remains unqualified.
+The integrated host build subsequently passed; the first real public
+synchronization attempt failed as described above. Session26 later completed
+the sync, placement, readback and close milestone.
 Existing DOC10 and earlier evidence are preserved. The immutable overlay manifest
 records its earlier source-only qualification; later runtime evidence is retained
 under `destination-verification/doc11-runtime-publication-01/` outside the repository.
 
-Latest continuation, 18 September 2026: **the pre-sync board-feature guard has
-been fixed in source; native qualification is pending.** After successful
+Earlier continuation, 18 September 2026: **the pre-sync board-feature guard had
+been fixed in source; native qualification was then pending.** After successful
 disk-full recovery and normal reopen, V9 saved its 22 x 51 mm outline. Sync then
 rejected that valid outlined preimage before calling native electrical sync:
 the old mounting-feature guard accepted only the exact prepared constructor.

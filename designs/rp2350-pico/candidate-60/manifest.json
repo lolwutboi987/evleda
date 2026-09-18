@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "evleda.rp2350-candidate-60.delivery.v1",
+  "status": "Reviewed planned source packet; full routing and native acceptance remain separate",
+  "verifiedAt": "2026-09-18T21:41:00.018Z",
+  "sourcePacket": {
+    "directory": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/destination-verification/rp2350-candidate-60-01",
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "digest": "f0e818198616275be77a6961e77e0040300f31c74a9ed5d9937648d78521075d",
+      "size": 6432
+    },
+    "verifiedManifestFileCount": 19
+  },
+  "copiedArtifactCount": 11,
+  "closedContractIdentity": {
+    "algorithm": "sha256",
+    "digest": "59a0d32f12acb3224644513f0028f6d57c3e9c462c285ffddbb84cfcf23e2ee1",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "scope": {
+    "nativeDocumentCreatedBySourcePacket": false,
+    "managedProjectModifiedByDelivery": false,
+    "fullRoutingComplete": false,
+    "clearanceFindingsWaived": false,
+    "builderScriptsCopied": false
+  },
+  "files": [
+    {
+      "file": "README.md",
+      "origin": "generated-delivery-readme",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "f3aff8bd6fa4f35be5fffed5ca265d3f69d8fdc36bc6a67032d37fb67cac14b6",
+        "size": 6136
+      }
+    },
+    {
+      "file": "candidate-draft.json",
+      "sourceFile": "candidate-draft.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "ba4b1682837bc3e0d18ad5f0a3c6eac6f2457857e12ad617e32b815a28499f5e",
+        "size": 100220
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ba4b1682837bc3e0d18ad5f0a3c6eac6f2457857e12ad617e32b815a28499f5e",
+        "size": 100220
+      }
+    },
+    {
+      "file": "candidate-overview.png",
+      "sourceFile": "candidate-overview.png",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "c03d023193895de83392801739c2eee91a899c5a6ca83a15b2a127306924dec7",
+        "size": 132514
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c03d023193895de83392801739c2eee91a899c5a6ca83a15b2a127306924dec7",
+        "size": 132514
+      }
+    },
+    {
+      "file": "candidate-overview.svg",
+      "sourceFile": "candidate-overview.svg",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "d191764f515cbe4443daf7ebc75ccbff0ca68aa414bee3b7e9c267379c8b11d1",
+        "size": 64867
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "d191764f515cbe4443daf7ebc75ccbff0ca68aa414bee3b7e9c267379c8b11d1",
+        "size": 64867
+      }
+    },
+    {
+      "file": "closed-contract.json",
+      "sourceFile": "closed-contract.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "373578de540689becd25008c24623022a84cd7932b67ac20fa7510fe7513fee3",
+        "size": 100402
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "373578de540689becd25008c24623022a84cd7932b67ac20fa7510fe7513fee3",
+        "size": 100402
+      }
+    },
+    {
+      "file": "compilation.json",
+      "sourceFile": "compilation.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "6727687b7940552dffc96aac4b11c3f752733651b2c10011199feb62edc7eb33",
+        "size": 32664
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6727687b7940552dffc96aac4b11c3f752733651b2c10011199feb62edc7eb33",
+        "size": 32664
+      }
+    },
+    {
+      "file": "input-proposal.json",
+      "sourceFile": "input-proposal.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "ca23bb3de20a6e638039dde46349b13d7814d2968cd3eb887156210915f608d6",
+        "size": 83624
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ca23bb3de20a6e638039dde46349b13d7814d2968cd3eb887156210915f608d6",
+        "size": 83624
+      }
+    },
+    {
+      "file": "library-binding.json",
+      "sourceFile": "library-binding.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "d0f8def8a909f336c63e2da08e5c64fe6c832e5d7bcff26fde9d4ffb4fe8c938",
+        "size": 47445
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "d0f8def8a909f336c63e2da08e5c64fe6c832e5d7bcff26fde9d4ffb4fe8c938",
+        "size": 47445
+      }
+    },
+    {
+      "file": "local-entry-proposal.json",
+      "sourceFile": "local-entry-proposal.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "0fec4576e5165e0600e5fe4e649c8f0cd9e62d46d9c156cd5f0a5f34662f274c",
+        "size": 61375
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "0fec4576e5165e0600e5fe4e649c8f0cd9e62d46d9c156cd5f0a5f34662f274c",
+        "size": 61375
+      }
+    },
+    {
+      "file": "physical-check.json",
+      "sourceFile": "physical-check.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "6b72a9b94a32a809f8ac1a139eab3d89c36c69f9bca94a2d4e11c54f57a5519b",
+        "size": 70085
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "6b72a9b94a32a809f8ac1a139eab3d89c36c69f9bca94a2d4e11c54f57a5519b",
+        "size": 70085
+      }
+    },
+    {
+      "file": "source-manifest.json",
+      "sourceFile": "manifest.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "f0e818198616275be77a6961e77e0040300f31c74a9ed5d9937648d78521075d",
+        "size": 6432
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "f0e818198616275be77a6961e77e0040300f31c74a9ed5d9937648d78521075d",
+        "size": 6432
+      }
+    },
+    {
+      "file": "source-physical-model.json",
+      "sourceFile": "source-physical-model.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "fd14f701ae5757dcb17968254155f19174e439b1731b6a7f946dfcab0e5f302c",
+        "size": 236566
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "fd14f701ae5757dcb17968254155f19174e439b1731b6a7f946dfcab0e5f302c",
+        "size": 236566
+      }
+    },
+    {
+      "file": "target-poses.json",
+      "sourceFile": "target-poses.json",
+      "contentIdentity": {
+        "algorithm": "sha256",
+        "digest": "9d8e4ab8a347fedb5385074feacce3d325c303ddd8785efce17846300844df59",
+        "size": 3574
+      },
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "9d8e4ab8a347fedb5385074feacce3d325c303ddd8785efce17846300844df59",
+        "size": 3574
+      }
+    }
+  ]
+}

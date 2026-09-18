@@ -1,0 +1,212 @@
+{
+  "schema": "rp2350.candidate60.freeze.v1",
+  "status": "Future input ready; posed-source/local-entry checks complete; no native/routing/manufacturing acceptance",
+  "initialSourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "ba4b1682837bc3e0d18ad5f0a3c6eac6f2457857e12ad617e32b815a28499f5e",
+    "size": 100220
+  },
+  "closedContractIdentity": {
+    "algorithm": "sha256",
+    "digest": "59a0d32f12acb3224644513f0028f6d57c3e9c462c285ffddbb84cfcf23e2ee1",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "profile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc11-rp2350-v4-01.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "0d330d1d1d34021368e6bca2247cc9d195207c80a169d1d7fbeee37ecd093091",
+      "size": 16672
+    }
+  },
+  "sourceModel": {
+    "algorithm": "sha256",
+    "digest": "fd14f701ae5757dcb17968254155f19174e439b1731b6a7f946dfcab0e5f302c",
+    "size": 236566
+  },
+  "preferredPoses": {
+    "algorithm": "sha256",
+    "digest": "9d8e4ab8a347fedb5385074feacce3d325c303ddd8785efce17846300844df59",
+    "size": 3574
+  },
+  "localEntryProposal": {
+    "algorithm": "sha256",
+    "digest": "0fec4576e5165e0600e5fe4e649c8f0cd9e62d46d9c156cd5f0a5f34662f274c",
+    "size": 61375
+  },
+  "electricalCounts": {
+    "components": 62,
+    "nets": 67,
+    "endpoints": 260,
+    "noConnects": 2,
+    "boardFeatures": 4,
+    "powerFlags": 6
+  },
+  "physicalSummary": {
+    "components": 62,
+    "pads": 265,
+    "paste": 230,
+    "holes": 53,
+    "stockBindingsMatched": 62,
+    "approvedFootprintBindings": 66,
+    "introducedHardFindings": 0,
+    "unwaivedIntrinsicJ1": 4,
+    "courtyardFindings": 0,
+    "serviceFindings": 0,
+    "copperEdgeFindings": 0,
+    "regionRotationEdgePreferenceFindings": 0,
+    "headToolPadBodyFindings": 0,
+    "headToolCourtyardAdvisories": 4,
+    "entries": 40,
+    "frontEntries": 31,
+    "backEntries": 9,
+    "entryFindings": 0,
+    "mutualEntryFindings": 0,
+    "routeLowerBoundFailures": 0,
+    "channelLowerBoundFailures": 0
+  },
+  "parentFilesUnchanged": {
+    "proposal.json": {
+      "algorithm": "sha256",
+      "digest": "28d80f496c3723246dd0f79c4b56d9305feb4b642f16f044556ce2ce9f78bffd",
+      "size": 6771
+    },
+    "physical.json": {
+      "algorithm": "sha256",
+      "digest": "7846aa97062d200913228265d1a94762d80df3590d6e149c1055fb85c5dc2bdb",
+      "size": 114297
+    },
+    "run-offset-01/local-set.json": {
+      "algorithm": "sha256",
+      "digest": "1da6a1cf0529c9381c2635cdfa0957c7a6a358ef88592ae1e6a73c7aad976853",
+      "size": 54291
+    }
+  },
+  "files": [
+    {
+      "file": "base-v9-draft.json",
+      "algorithm": "sha256",
+      "digest": "442f219438929d4d7f102d6a910bf79e623c71d0ca2647718e6d392040bd2166",
+      "size": 100191
+    },
+    {
+      "file": "candidate-draft.json",
+      "algorithm": "sha256",
+      "digest": "ba4b1682837bc3e0d18ad5f0a3c6eac6f2457857e12ad617e32b815a28499f5e",
+      "size": 100220
+    },
+    {
+      "file": "candidate-overview.png",
+      "algorithm": "sha256",
+      "digest": "c03d023193895de83392801739c2eee91a899c5a6ca83a15b2a127306924dec7",
+      "size": 132514
+    },
+    {
+      "file": "candidate-overview.svg",
+      "algorithm": "sha256",
+      "digest": "d191764f515cbe4443daf7ebc75ccbff0ca68aa414bee3b7e9c267379c8b11d1",
+      "size": 64867
+    },
+    {
+      "file": "closed-contract.json",
+      "algorithm": "sha256",
+      "digest": "373578de540689becd25008c24623022a84cd7932b67ac20fa7510fe7513fee3",
+      "size": 100402
+    },
+    {
+      "file": "compilation.json",
+      "algorithm": "sha256",
+      "digest": "6727687b7940552dffc96aac4b11c3f752733651b2c10011199feb62edc7eb33",
+      "size": 32664
+    },
+    {
+      "file": "compile.mts",
+      "algorithm": "sha256",
+      "digest": "05bfdbea19a5125a4f8f7644d8aea75e1577d94d51bfc5b3859fa07deed5ce86",
+      "size": 6125
+    },
+    {
+      "file": "finalize-entries.mjs",
+      "algorithm": "sha256",
+      "digest": "f53816b113ac9ff3e6fc2fed0c714dfe1f832decf42553edff6a3622df420383",
+      "size": 1138
+    },
+    {
+      "file": "freeze.mjs",
+      "algorithm": "sha256",
+      "digest": "29ad67bc26b3f97fa0e64bc1514c7f6af76cf2ee418b4229d217ba158c44c0ad",
+      "size": 11941
+    },
+    {
+      "file": "input-proposal.json",
+      "algorithm": "sha256",
+      "digest": "ca23bb3de20a6e638039dde46349b13d7814d2968cd3eb887156210915f608d6",
+      "size": 83624
+    },
+    {
+      "file": "library-binding.json",
+      "algorithm": "sha256",
+      "digest": "d0f8def8a909f336c63e2da08e5c64fe6c832e5d7bcff26fde9d4ffb4fe8c938",
+      "size": 47445
+    },
+    {
+      "file": "local-entry-proposal.json",
+      "algorithm": "sha256",
+      "digest": "0fec4576e5165e0600e5fe4e649c8f0cd9e62d46d9c156cd5f0a5f34662f274c",
+      "size": 61375
+    },
+    {
+      "file": "physical-check.json",
+      "algorithm": "sha256",
+      "digest": "6b72a9b94a32a809f8ac1a139eab3d89c36c69f9bca94a2d4e11c54f57a5519b",
+      "size": 70085
+    },
+    {
+      "file": "physical-check.mjs",
+      "algorithm": "sha256",
+      "digest": "41072890072efd72e7f8b5729a1cf91335d82a3e8b91f1a797486a955f98b55a",
+      "size": 14953
+    },
+    {
+      "file": "prepare.mjs",
+      "algorithm": "sha256",
+      "digest": "2062d0cd1cfffdd1cc8d72510b1140bd295828b881e1755776c37dcdd3352577",
+      "size": 9526
+    },
+    {
+      "file": "README.md",
+      "algorithm": "sha256",
+      "digest": "bfe485802fc2640927113ea86e0451271797fe292db10b1f43efd92c6f707c82",
+      "size": 5638
+    },
+    {
+      "file": "select-ground-entries.mjs",
+      "algorithm": "sha256",
+      "digest": "5aae736179d34daedc60dc06aaf2aa3ff81e73b6c7f2ba49e1a3ee489442fa27",
+      "size": 2479
+    },
+    {
+      "file": "source-physical-model.json",
+      "algorithm": "sha256",
+      "digest": "fd14f701ae5757dcb17968254155f19174e439b1731b6a7f946dfcab0e5f302c",
+      "size": 236566
+    },
+    {
+      "file": "target-poses.json",
+      "algorithm": "sha256",
+      "digest": "9d8e4ab8a347fedb5385074feacce3d325c303ddd8785efce17846300844df59",
+      "size": 3574
+    }
+  ],
+  "storage": {
+    "usedBytesBeforeManifest": 1085327,
+    "maximumBytes": 3145728,
+    "minimumReserveBytes": 157286400,
+    "freeBytes": 4004564992
+  },
+  "nativeChanged": false,
+  "managedWorkspaceCreated": false,
+  "canonicalChanged": false,
+  "profileRuntimeLibrariesChanged": false
+}

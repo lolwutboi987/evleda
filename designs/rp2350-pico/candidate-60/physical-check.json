@@ -1,0 +1,3027 @@
+{
+  "schema": "rp2350.candidate60.physical-check.v1",
+  "status": "Offline posed-stock and local-entry checks; no routing/fill/native/manufacturing acceptance",
+  "inputs": {
+    "source": {
+      "algorithm": "sha256",
+      "digest": "fd14f701ae5757dcb17968254155f19174e439b1731b6a7f946dfcab0e5f302c",
+      "size": 236566
+    },
+    "draft": {
+      "algorithm": "sha256",
+      "digest": "ba4b1682837bc3e0d18ad5f0a3c6eac6f2457857e12ad617e32b815a28499f5e",
+      "size": 100220
+    },
+    "localEntries": {
+      "algorithm": "sha256",
+      "digest": "0fec4576e5165e0600e5fe4e649c8f0cd9e62d46d9c156cd5f0a5f34662f274c",
+      "size": 61375
+    },
+    "libraryBinding": {
+      "algorithm": "sha256",
+      "digest": "d0f8def8a909f336c63e2da08e5c64fe6c832e5d7bcff26fde9d4ffb4fe8c938",
+      "size": 47445
+    }
+  },
+  "summary": {
+    "components": 62,
+    "pads": 265,
+    "paste": 230,
+    "holes": 53,
+    "stockBindingsMatched": 62,
+    "approvedFootprintBindings": 66,
+    "introducedHardFindings": 0,
+    "unwaivedIntrinsicJ1": 4,
+    "courtyardFindings": 0,
+    "serviceFindings": 0,
+    "copperEdgeFindings": 0,
+    "regionRotationEdgePreferenceFindings": 0,
+    "headToolPadBodyFindings": 0,
+    "headToolCourtyardAdvisories": 4,
+    "entries": 40,
+    "frontEntries": 31,
+    "backEntries": 9,
+    "entryFindings": 0,
+    "mutualEntryFindings": 0,
+    "routeLowerBoundFailures": 0,
+    "channelLowerBoundFailures": 0
+  },
+  "introducedHardFindings": [],
+  "intrinsicJ1Findings": [
+    {
+      "kind": "pad-hole",
+      "pad": "J1.A1",
+      "hole": "J1.",
+      "holeAtMm": [
+        13.89,
+        7.58
+      ],
+      "gapMm": 0.19440271884718147,
+      "requiredMm": 0.25
+    },
+    {
+      "kind": "pad-hole",
+      "pad": "J1.A12",
+      "hole": "J1.",
+      "holeAtMm": [
+        8.11,
+        7.58
+      ],
+      "gapMm": 0.1944027188471818,
+      "requiredMm": 0.25
+    },
+    {
+      "kind": "pad-hole",
+      "pad": "J1.B1",
+      "hole": "J1.",
+      "holeAtMm": [
+        8.11,
+        7.58
+      ],
+      "gapMm": 0.1944027188471818,
+      "requiredMm": 0.25
+    },
+    {
+      "kind": "pad-hole",
+      "pad": "J1.B12",
+      "hole": "J1.",
+      "holeAtMm": [
+        13.89,
+        7.58
+      ],
+      "gapMm": 0.19440271884718147,
+      "requiredMm": 0.25
+    }
+  ],
+  "courtyardFindings": [],
+  "serviceFindings": [],
+  "edgeFindings": [],
+  "placementFindings": [],
+  "connectorEdges": [
+    {
+      "reference": "J1",
+      "edgePreference": "top",
+      "courtyardClearancesMm": {
+        "left": 5.68,
+        "right": 5.68,
+        "top": 0.795,
+        "bottom": 50.265
+      },
+      "passes": true
+    },
+    {
+      "reference": "J2",
+      "edgePreference": "left",
+      "courtyardClearancesMm": {
+        "left": 1.01,
+        "right": 18.79,
+        "top": 4.77,
+        "bottom": 4.770000000000003
+      },
+      "passes": true
+    },
+    {
+      "reference": "J3",
+      "edgePreference": "right",
+      "courtyardClearancesMm": {
+        "left": 18.79,
+        "right": 1.0100000000000016,
+        "top": 4.77,
+        "bottom": 4.770000000000003
+      },
+      "passes": true
+    },
+    {
+      "reference": "J4",
+      "edgePreference": "bottom",
+      "courtyardClearancesMm": {
+        "left": 6.69,
+        "right": 6.6899999999999995,
+        "top": 55.43,
+        "bottom": 1.0300000000000011
+      },
+      "passes": true
+    }
+  ],
+  "fasteners": [
+    {
+      "hole": "H1",
+      "atMm": [
+        3.53,
+        2
+      ],
+      "headPadMinimum": {
+        "object": "J1.SH",
+        "gapMm": 0.988911004883902
+      },
+      "toolPadMinimum": {
+        "object": "J1.SH",
+        "gapMm": 0.48891100488390205
+      },
+      "headBodyMinimum": {
+        "object": "J1",
+        "gapMm": 1
+      },
+      "toolBodyMinimum": {
+        "object": "J1",
+        "gapMm": 0.5
+      },
+      "padBodyFindings": [],
+      "courtyardAdvisories": {
+        "head": [
+          {
+            "object": "J1",
+            "gapMm": 0.15000000000000036
+          }
+        ],
+        "tool": [
+          {
+            "object": "J1",
+            "gapMm": -0.34999999999999964
+          }
+        ]
+      },
+      "J4": {
+        "headToBody": {
+          "object": "J4",
+          "gapMm": 52.05405165202698
+        },
+        "toolToBody": {
+          "object": "J4",
+          "gapMm": 51.55405165202698
+        },
+        "headToCourtyard": {
+          "object": "J4",
+          "gapMm": 51.52336405720404
+        },
+        "toolToCourtyard": {
+          "object": "J4",
+          "gapMm": 51.02336405720404
+        }
+      },
+      "boreEdgeMm": 0.95,
+      "headEdgeMm": 0,
+      "toolBeyondBoardMm": 0.5
+    },
+    {
+      "hole": "H2",
+      "atMm": [
+        18.47,
+        2
+      ],
+      "headPadMinimum": {
+        "object": "J1.SH",
+        "gapMm": 0.9889110048839012
+      },
+      "toolPadMinimum": {
+        "object": "J1.SH",
+        "gapMm": 0.48891100488390116
+      },
+      "headBodyMinimum": {
+        "object": "J1",
+        "gapMm": 0.9999999999999982
+      },
+      "toolBodyMinimum": {
+        "object": "J1",
+        "gapMm": 0.4999999999999982
+      },
+      "padBodyFindings": [],
+      "courtyardAdvisories": {
+        "head": [
+          {
+            "object": "J1",
+            "gapMm": 0.14999999999999858
+          }
+        ],
+        "tool": [
+          {
+            "object": "J1",
+            "gapMm": -0.3500000000000014
+          }
+        ]
+      },
+      "J4": {
+        "headToBody": {
+          "object": "J4",
+          "gapMm": 52.05405165202698
+        },
+        "toolToBody": {
+          "object": "J4",
+          "gapMm": 51.55405165202698
+        },
+        "headToCourtyard": {
+          "object": "J4",
+          "gapMm": 51.52336405720404
+        },
+        "toolToCourtyard": {
+          "object": "J4",
+          "gapMm": 51.02336405720404
+        }
+      },
+      "boreEdgeMm": 0.95,
+      "headEdgeMm": 0,
+      "toolBeyondBoardMm": 0.5
+    },
+    {
+      "hole": "H3",
+      "atMm": [
+        3.53,
+        58
+      ],
+      "headPadMinimum": {
+        "object": "J2.20",
+        "gapMm": 1.2722930512034174
+      },
+      "toolPadMinimum": {
+        "object": "J2.20",
+        "gapMm": 0.7722930512034174
+      },
+      "headBodyMinimum": {
+        "object": "J4",
+        "gapMm": 1.6600000000000006
+      },
+      "toolBodyMinimum": {
+        "object": "J4",
+        "gapMm": 1.1600000000000006
+      },
+      "padBodyFindings": [],
+      "courtyardAdvisories": {
+        "head": [],
+        "tool": []
+      },
+      "J4": {
+        "headToBody": {
+          "object": "J4",
+          "gapMm": 1.6600000000000006
+        },
+        "toolToBody": {
+          "object": "J4",
+          "gapMm": 1.1600000000000006
+        },
+        "headToCourtyard": {
+          "object": "J4",
+          "gapMm": 1.1600000000000001
+        },
+        "toolToCourtyard": {
+          "object": "J4",
+          "gapMm": 0.6600000000000001
+        }
+      },
+      "boreEdgeMm": 0.95,
+      "headEdgeMm": 0,
+      "toolBeyondBoardMm": 0.5
+    },
+    {
+      "hole": "H4",
+      "atMm": [
+        18.47,
+        58
+      ],
+      "headPadMinimum": {
+        "object": "J3.1",
+        "gapMm": 1.0733206796558
+      },
+      "toolPadMinimum": {
+        "object": "J3.1",
+        "gapMm": 0.5733206796557999
+      },
+      "headBodyMinimum": {
+        "object": "J4",
+        "gapMm": 1.6599999999999988
+      },
+      "toolBodyMinimum": {
+        "object": "J4",
+        "gapMm": 1.1599999999999988
+      },
+      "padBodyFindings": [],
+      "courtyardAdvisories": {
+        "head": [],
+        "tool": []
+      },
+      "J4": {
+        "headToBody": {
+          "object": "J4",
+          "gapMm": 1.6599999999999988
+        },
+        "toolToBody": {
+          "object": "J4",
+          "gapMm": 1.1599999999999988
+        },
+        "headToCourtyard": {
+          "object": "J4",
+          "gapMm": 1.1599999999999984
+        },
+        "toolToCourtyard": {
+          "object": "J4",
+          "gapMm": 0.6599999999999984
+        }
+      },
+      "boreEdgeMm": 0.95,
+      "headEdgeMm": 0,
+      "toolBeyondBoardMm": 0.5
+    }
+  ],
+  "localEntryChecks": [
+    {
+      "terminal": "J2.1",
+      "net": "GPIO0",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          5.87
+        ],
+        [
+          3.56,
+          5.87
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          5.87
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.2",
+        "gapMm": 1.5899999999999999
+      },
+      "minHole": {
+        "hole": "J2.2",
+        "gapMm": 1.94
+      },
+      "minOtherHeader": {
+        "pad": "J2.2",
+        "gapMm": 1.5899999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "1",
+          "2"
+        ],
+        "gapMm": 0.7500000000000006
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.2",
+      "net": "GPIO1",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          8.41
+        ],
+        [
+          3.56,
+          8.41
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          8.41
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.3",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.3",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.3",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "1",
+          "2"
+        ],
+        "gapMm": 0.7499999999999997
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.3",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          2.11,
+          10.95
+        ],
+        [
+          3.61,
+          10.95
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          10.95
+        ],
+        "landEmbeddingMm": 0.024999999999999717,
+        "ownDrillMarginMm": 0.025000000000000272
+      },
+      "minPad": {
+        "pad": "J2.2",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J2.2",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J2.2",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "2",
+          "3"
+        ],
+        "gapMm": 0.6999999999999996
+      },
+      "minEdge": 1.96
+    },
+    {
+      "terminal": "J2.4",
+      "net": "GPIO2",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          13.49
+        ],
+        [
+          3.56,
+          13.49
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          13.49
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.3",
+        "gapMm": 1.5900000000000007
+      },
+      "minHole": {
+        "hole": "J2.3",
+        "gapMm": 1.9400000000000008
+      },
+      "minOtherHeader": {
+        "pad": "J2.3",
+        "gapMm": 1.5900000000000007
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "3",
+          "4"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.5",
+      "net": "GPIO3",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          16.03
+        ],
+        [
+          3.56,
+          16.03
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          16.03
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.6",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.6",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.6",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "5",
+          "6"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.6",
+      "net": "GPIO4",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          18.57
+        ],
+        [
+          3.56,
+          18.57
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          18.57
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.5",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.5",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.5",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "5",
+          "6"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.7",
+      "net": "GPIO5",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          21.11
+        ],
+        [
+          3.56,
+          21.11
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          21.11
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.6",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.6",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.6",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "6",
+          "7"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.8",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          2.11,
+          23.65
+        ],
+        [
+          3.61,
+          23.65
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          23.65
+        ],
+        "landEmbeddingMm": 0.024999999999999717,
+        "ownDrillMarginMm": 0.025000000000000272
+      },
+      "minPad": {
+        "pad": "J2.7",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J2.7",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J2.7",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "7",
+          "8"
+        ],
+        "gapMm": 0.6999999999999978
+      },
+      "minEdge": 1.96
+    },
+    {
+      "terminal": "J2.9",
+      "net": "GPIO6",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          26.19
+        ],
+        [
+          3.56,
+          26.19
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          26.19
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "R5.2",
+        "gapMm": 0.5851371836467325
+      },
+      "minHole": {
+        "hole": "J2.10",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.10",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "8",
+          "9"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.10",
+      "net": "GPIO7",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          28.73
+        ],
+        [
+          3.56,
+          28.73
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          28.73
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "R6.1",
+        "gapMm": 0.2672449601539081
+      },
+      "minHole": {
+        "hole": "J2.9",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.9",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "9",
+          "10"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.11",
+      "net": "GPIO8",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          31.27
+        ],
+        [
+          3.56,
+          31.27
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          31.27
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "C11.2",
+        "gapMm": 0.8416653826391967
+      },
+      "minHole": {
+        "hole": "J2.10",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.10",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "10",
+          "11"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.12",
+      "net": "GPIO9",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          33.81
+        ],
+        [
+          3.56,
+          33.81
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          33.81
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "C6.2",
+        "gapMm": 0.5799999999999998
+      },
+      "minHole": {
+        "hole": "J2.13",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.13",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "12",
+          "13"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.13",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          2.11,
+          36.35
+        ],
+        [
+          3.61,
+          36.35
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          36.35
+        ],
+        "landEmbeddingMm": 0.024999999999999717,
+        "ownDrillMarginMm": 0.025000000000000272
+      },
+      "minPad": {
+        "pad": "J2.12",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J2.12",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J2.12",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "12",
+          "13"
+        ],
+        "gapMm": 0.7000000000000014
+      },
+      "minEdge": 1.96
+    },
+    {
+      "terminal": "J2.14",
+      "net": "GPIO10",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          38.89
+        ],
+        [
+          3.56,
+          38.89
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          38.89
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "SW1.2",
+        "gapMm": 0.9840664186294162
+      },
+      "minHole": {
+        "hole": "J2.13",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.13",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "13",
+          "14"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.15",
+      "net": "GPIO11",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          41.43
+        ],
+        [
+          3.56,
+          41.43
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          41.43
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "SW1.1",
+        "gapMm": 0.4399999999999996
+      },
+      "minHole": {
+        "hole": "J2.14",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.14",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "14",
+          "15"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.16",
+      "net": "GPIO12",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          43.97
+        ],
+        [
+          3.56,
+          43.97
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          43.97
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.15",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.15",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.15",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "15",
+          "16"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.17",
+      "net": "GPIO13",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          46.51
+        ],
+        [
+          3.56,
+          46.51
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          46.51
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.16",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.16",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.16",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "16",
+          "17"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.18",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          2.11,
+          49.05
+        ],
+        [
+          3.61,
+          49.05
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          49.05
+        ],
+        "landEmbeddingMm": 0.024999999999999717,
+        "ownDrillMarginMm": 0.025000000000000272
+      },
+      "minPad": {
+        "pad": "J2.17",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J2.17",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J2.17",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "17",
+          "18"
+        ],
+        "gapMm": 0.6999999999999943
+      },
+      "minEdge": 1.96
+    },
+    {
+      "terminal": "J2.19",
+      "net": "GPIO14",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          51.59
+        ],
+        [
+          3.56,
+          51.59
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          51.59
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.20",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.20",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.20",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "19",
+          "20"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J2.20",
+      "net": "GPIO15",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          2.11,
+          54.13
+        ],
+        [
+          3.56,
+          54.13
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          2.785,
+          54.13
+        ],
+        "landEmbeddingMm": 0.0749999999999997,
+        "ownDrillMarginMm": 0.07500000000000026
+      },
+      "minPad": {
+        "pad": "J2.19",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J2.19",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J2.19",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J2",
+        "between": [
+          "19",
+          "20"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.01
+    },
+    {
+      "terminal": "J3.1",
+      "net": "GPIO16",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          54.13
+        ],
+        [
+          18.44,
+          54.13
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          54.13
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "J3.2",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J3.2",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.2",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "2",
+          "1"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.2",
+      "net": "GPIO17",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          51.59
+        ],
+        [
+          18.44,
+          51.59
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          51.59
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "J3.1",
+        "gapMm": 1.5899999999999976
+      },
+      "minHole": {
+        "hole": "J3.1",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.1",
+        "gapMm": 1.5899999999999976
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "2",
+          "1"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.3",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          19.89,
+          49.05
+        ],
+        [
+          18.39,
+          49.05
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          49.05
+        ],
+        "landEmbeddingMm": 0.024999999999999273,
+        "ownDrillMarginMm": 0.025000000000000716
+      },
+      "minPad": {
+        "pad": "J3.4",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J3.4",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J3.4",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "4",
+          "3"
+        ],
+        "gapMm": 0.6999999999999943
+      },
+      "minEdge": 1.9599999999999995
+    },
+    {
+      "terminal": "J3.4",
+      "net": "GPIO18",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          46.51
+        ],
+        [
+          18.44,
+          46.51
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          46.51
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "J3.3",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J3.3",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.3",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "5",
+          "4"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.5",
+      "net": "GPIO19",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          43.97
+        ],
+        [
+          18.44,
+          43.97
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          43.97
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "SW2.3",
+        "gapMm": 0.7400000000000034
+      },
+      "minHole": {
+        "hole": "J3.4",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.4",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "6",
+          "5"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.6",
+      "net": "GPIO20",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          41.43
+        ],
+        [
+          18.44,
+          41.43
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          41.43
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "SW2.4",
+        "gapMm": 1.1907362240210093
+      },
+      "minHole": {
+        "hole": "J3.5",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.5",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "7",
+          "6"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.7",
+      "net": "GPIO21",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          38.89
+        ],
+        [
+          18.44,
+          38.89
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          38.89
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "SW2.4",
+        "gapMm": 0.8827003612495539
+      },
+      "minHole": {
+        "hole": "J3.6",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.6",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "8",
+          "7"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.8",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          19.89,
+          36.35
+        ],
+        [
+          18.39,
+          36.35
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          36.35
+        ],
+        "landEmbeddingMm": 0.024999999999999273,
+        "ownDrillMarginMm": 0.025000000000000716
+      },
+      "minPad": {
+        "pad": "J3.7",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J3.7",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J3.7",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "9",
+          "8"
+        ],
+        "gapMm": 0.7000000000000014
+      },
+      "minEdge": 1.9599999999999995
+    },
+    {
+      "terminal": "J3.9",
+      "net": "GPIO22",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          33.81
+        ],
+        [
+          18.44,
+          33.81
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          33.81
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "J3.8",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J3.8",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.8",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "9",
+          "8"
+        ],
+        "gapMm": 0.7499999999999943
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.10",
+      "net": "RUN",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.34,
+          31.57
+        ],
+        [
+          17.7,
+          31.57
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.34,
+          31.57
+        ],
+        "landEmbeddingMm": 0.12350179569291561,
+        "ownDrillMarginMm": 0.026498204307084355
+      },
+      "minPad": {
+        "pad": "R15.2",
+        "gapMm": 0.2899999999999986
+      },
+      "minHole": {
+        "hole": "J3.9",
+        "gapMm": 1.706534196581531
+      },
+      "minOtherHeader": {
+        "pad": "J3.9",
+        "gapMm": 1.356534196581531
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "10",
+          "9"
+        ],
+        "gapMm": 0.4499999999999972
+      },
+      "minEdge": 2.56
+    },
+    {
+      "terminal": "J3.11",
+      "net": "GPIO26",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          28.73
+        ],
+        [
+          18.44,
+          28.73
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          28.73
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "R15.1",
+        "gapMm": 0.8262492638395554
+      },
+      "minHole": {
+        "hole": "J3.10",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.10",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "12",
+          "11"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.12",
+      "net": "GPIO27",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          26.19
+        ],
+        [
+          18.44,
+          26.19
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          26.19
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "C23.1",
+        "gapMm": 0.4953910524340088
+      },
+      "minHole": {
+        "hole": "J3.11",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.11",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "13",
+          "12"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.13",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          19.89,
+          23.65
+        ],
+        [
+          18.39,
+          23.65
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          23.65
+        ],
+        "landEmbeddingMm": 0.024999999999999273,
+        "ownDrillMarginMm": 0.025000000000000716
+      },
+      "minPad": {
+        "pad": "J3.14",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J3.14",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J3.14",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "14",
+          "13"
+        ],
+        "gapMm": 0.6999999999999978
+      },
+      "minEdge": 1.9599999999999995
+    },
+    {
+      "terminal": "J3.14",
+      "net": "GPIO28",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          21.11
+        ],
+        [
+          18.44,
+          21.11
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          21.11
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "J3.13",
+        "gapMm": 1.589999999999999
+      },
+      "minHole": {
+        "hole": "J3.13",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.13",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "15",
+          "14"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.15",
+      "net": "ADC_VREF",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          18.57
+        ],
+        [
+          18.44,
+          18.57
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          18.57
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "R12.2",
+        "gapMm": 0.8481666538441793
+      },
+      "minHole": {
+        "hole": "J3.14",
+        "gapMm": 1.939999999999999
+      },
+      "minOtherHeader": {
+        "pad": "J3.14",
+        "gapMm": 1.589999999999999
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "16",
+          "15"
+        ],
+        "gapMm": 0.7499999999999979
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.16",
+      "net": "3V3",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          19.89,
+          16.03
+        ],
+        [
+          18.39,
+          16.03
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          16.03
+        ],
+        "landEmbeddingMm": 0.024999999999999273,
+        "ownDrillMarginMm": 0.025000000000000716
+      },
+      "minPad": {
+        "pad": "R11.2",
+        "gapMm": 0.9229942052841119
+      },
+      "minHole": {
+        "hole": "J3.15",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J3.15",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "16",
+          "15"
+        ],
+        "gapMm": 0.6999999999999978
+      },
+      "minEdge": 1.9599999999999995
+    },
+    {
+      "terminal": "J3.17",
+      "net": "3V3_EN",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.89,
+          13.49
+        ],
+        [
+          18.44,
+          13.49
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          13.49
+        ],
+        "landEmbeddingMm": 0.07499999999999926,
+        "ownDrillMarginMm": 0.0750000000000007
+      },
+      "minPad": {
+        "pad": "D1.1",
+        "gapMm": 0.9694391053257788
+      },
+      "minHole": {
+        "hole": "J3.16",
+        "gapMm": 1.9400000000000008
+      },
+      "minOtherHeader": {
+        "pad": "J3.16",
+        "gapMm": 1.5900000000000007
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "18",
+          "17"
+        ],
+        "gapMm": 0.7500000000000014
+      },
+      "minEdge": 2.0099999999999993
+    },
+    {
+      "terminal": "J3.18",
+      "net": "GND",
+      "selectedLayer": "B.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          19.89,
+          10.95
+        ],
+        [
+          18.39,
+          10.95
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          10.95
+        ],
+        "landEmbeddingMm": 0.024999999999999273,
+        "ownDrillMarginMm": 0.025000000000000716
+      },
+      "minPad": {
+        "pad": "J3.19",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J3.19",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J3.19",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "19",
+          "18"
+        ],
+        "gapMm": 0.6999999999999996
+      },
+      "minEdge": 1.9599999999999995
+    },
+    {
+      "terminal": "J3.19",
+      "net": "VSYS",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          19.89,
+          8.41
+        ],
+        [
+          18.39,
+          8.41
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          8.41
+        ],
+        "landEmbeddingMm": 0.024999999999999273,
+        "ownDrillMarginMm": 0.025000000000000716
+      },
+      "minPad": {
+        "pad": "J3.18",
+        "gapMm": 1.5399999999999991
+      },
+      "minHole": {
+        "hole": "J3.18",
+        "gapMm": 1.8899999999999992
+      },
+      "minOtherHeader": {
+        "pad": "J3.18",
+        "gapMm": 1.5399999999999991
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "20",
+          "19"
+        ],
+        "gapMm": 0.6999999999999996
+      },
+      "minEdge": 1.9599999999999995
+    },
+    {
+      "terminal": "J3.20",
+      "net": "VBUS",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.3,
+      "points": [
+        [
+          19.89,
+          5.87
+        ],
+        [
+          18.39,
+          5.87
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.215,
+          5.87
+        ],
+        "landEmbeddingMm": 0.024999999999999273,
+        "ownDrillMarginMm": 0.025000000000000716
+      },
+      "minPad": {
+        "pad": "J3.19",
+        "gapMm": 1.54
+      },
+      "minHole": {
+        "hole": "J3.19",
+        "gapMm": 1.8900000000000001
+      },
+      "minOtherHeader": {
+        "pad": "J3.19",
+        "gapMm": 1.54
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "20",
+          "19"
+        ],
+        "gapMm": 0.7000000000000005
+      },
+      "minEdge": 1.9599999999999995
+    }
+  ],
+  "mutualEntryFindings": [],
+  "routeLowerBounds": [
+    {
+      "net": "1V1",
+      "padCentreOctilinearDiameterMm": 13.28539105243401,
+      "maximumRouteLengthMm": 70,
+      "exceeds": false,
+      "endpoints": [
+        "L1.1",
+        "C4.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "3V3",
+      "padCentreOctilinearDiameterMm": 25.887059864222703,
+      "maximumRouteLengthMm": 200,
+      "exceeds": false,
+      "endpoints": [
+        "J3.16",
+        "C7.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "3V3_EN",
+      "padCentreOctilinearDiameterMm": 9.108660530717321,
+      "maximumRouteLengthMm": 70,
+      "exceeds": false,
+      "endpoints": [
+        "U2.6",
+        "J3.17"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "ADC_AVDD",
+      "padCentreOctilinearDiameterMm": 5.098549057834388,
+      "maximumRouteLengthMm": 20,
+      "exceeds": false,
+      "endpoints": [
+        "U1.44",
+        "R17.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "ADC_VREF",
+      "padCentreOctilinearDiameterMm": 17.431513703397208,
+      "maximumRouteLengthMm": 30,
+      "exceeds": false,
+      "endpoints": [
+        "J3.15",
+        "R16.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "BOOT_SW",
+      "padCentreOctilinearDiameterMm": 15.558401871576779,
+      "maximumRouteLengthMm": 35,
+      "exceeds": false,
+      "endpoints": [
+        "SW1.3",
+        "R5.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "CORE_LX",
+      "padCentreOctilinearDiameterMm": 4.51066017177982,
+      "maximumRouteLengthMm": 8,
+      "exceeds": false,
+      "endpoints": [
+        "U1.48",
+        "L1.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO0",
+      "padCentreOctilinearDiameterMm": 26.23479364188578,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "U1.2",
+        "J2.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO1",
+      "padCentreOctilinearDiameterMm": 24.09479364188578,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "U1.3",
+        "J2.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO10",
+      "padCentreOctilinearDiameterMm": 6.4927121138686505,
+      "maximumRouteLengthMm": 35,
+      "exceeds": false,
+      "endpoints": [
+        "U1.14",
+        "J2.14"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO11",
+      "padCentreOctilinearDiameterMm": 8.134793641885782,
+      "maximumRouteLengthMm": 35,
+      "exceeds": false,
+      "endpoints": [
+        "U1.15",
+        "J2.15"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO12",
+      "padCentreOctilinearDiameterMm": 10.294032457428289,
+      "maximumRouteLengthMm": 40,
+      "exceeds": false,
+      "endpoints": [
+        "U1.16",
+        "J2.16"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO13",
+      "padCentreOctilinearDiameterMm": 12.999717882377526,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "U1.17",
+        "J2.17"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO14",
+      "padCentreOctilinearDiameterMm": 18.245403307326768,
+      "maximumRouteLengthMm": 55,
+      "exceeds": false,
+      "endpoints": [
+        "U1.18",
+        "J2.19"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO15",
+      "padCentreOctilinearDiameterMm": 20.951088732276006,
+      "maximumRouteLengthMm": 60,
+      "exceeds": false,
+      "endpoints": [
+        "U1.19",
+        "J2.20"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO16",
+      "padCentreOctilinearDiameterMm": 21.44814500712372,
+      "maximumRouteLengthMm": 60,
+      "exceeds": false,
+      "endpoints": [
+        "U1.27",
+        "J3.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO17",
+      "padCentreOctilinearDiameterMm": 18.742459582174483,
+      "maximumRouteLengthMm": 55,
+      "exceeds": false,
+      "endpoints": [
+        "U1.28",
+        "J3.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO18",
+      "padCentreOctilinearDiameterMm": 13.49677415722524,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "U1.29",
+        "J3.4"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO19",
+      "padCentreOctilinearDiameterMm": 11.171849916733496,
+      "maximumRouteLengthMm": 40,
+      "exceeds": false,
+      "endpoints": [
+        "U1.31",
+        "J3.5"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO2",
+      "padCentreOctilinearDiameterMm": 19.414793641885776,
+      "maximumRouteLengthMm": 35,
+      "exceeds": false,
+      "endpoints": [
+        "U1.4",
+        "J2.4"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO20",
+      "padCentreOctilinearDiameterMm": 9.031849916733496,
+      "maximumRouteLengthMm": 35,
+      "exceeds": false,
+      "endpoints": [
+        "U1.32",
+        "J3.6"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO21",
+      "padCentreOctilinearDiameterMm": 7.858397538817889,
+      "maximumRouteLengthMm": 35,
+      "exceeds": false,
+      "endpoints": [
+        "U1.33",
+        "J3.7"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO22",
+      "padCentreOctilinearDiameterMm": 6.160121933088198,
+      "maximumRouteLengthMm": 25,
+      "exceeds": false,
+      "endpoints": [
+        "U1.34",
+        "J3.9"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO23_SMPS_PS",
+      "padCentreOctilinearDiameterMm": 19.655508652763324,
+      "maximumRouteLengthMm": 40,
+      "exceeds": false,
+      "endpoints": [
+        "U1.35",
+        "U2.7"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO24_VBUS_SENSE",
+      "padCentreOctilinearDiameterMm": 17.812468247692255,
+      "maximumRouteLengthMm": 20,
+      "exceeds": false,
+      "endpoints": [
+        "U1.36",
+        "R11.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO25_LED",
+      "padCentreOctilinearDiameterMm": 13.498864350760146,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "U1.37",
+        "R18.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO26",
+      "padCentreOctilinearDiameterMm": 7.270214280248093,
+      "maximumRouteLengthMm": 25,
+      "exceeds": false,
+      "endpoints": [
+        "U1.40",
+        "J3.11"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO27",
+      "padCentreOctilinearDiameterMm": 8.156631303726517,
+      "maximumRouteLengthMm": 20,
+      "exceeds": false,
+      "endpoints": [
+        "U1.41",
+        "J3.12"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO28",
+      "padCentreOctilinearDiameterMm": 12.291849916733494,
+      "maximumRouteLengthMm": 25,
+      "exceeds": false,
+      "endpoints": [
+        "U1.42",
+        "J3.14"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO29_VSYS_SENSE",
+      "padCentreOctilinearDiameterMm": 4.382670273047589,
+      "maximumRouteLengthMm": 18,
+      "exceeds": false,
+      "endpoints": [
+        "U1.43",
+        "R15.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO3",
+      "padCentreOctilinearDiameterMm": 17.27479364188578,
+      "maximumRouteLengthMm": 35,
+      "exceeds": false,
+      "endpoints": [
+        "U1.5",
+        "J2.5"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO4",
+      "padCentreOctilinearDiameterMm": 15.53479364188578,
+      "maximumRouteLengthMm": 30,
+      "exceeds": false,
+      "endpoints": [
+        "U1.7",
+        "J2.6"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO5",
+      "padCentreOctilinearDiameterMm": 13.39479364188578,
+      "maximumRouteLengthMm": 25,
+      "exceeds": false,
+      "endpoints": [
+        "U1.8",
+        "J2.7"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO6",
+      "padCentreOctilinearDiameterMm": 8.714793641885777,
+      "maximumRouteLengthMm": 20,
+      "exceeds": false,
+      "endpoints": [
+        "U1.9",
+        "J2.9"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO7",
+      "padCentreOctilinearDiameterMm": 6.732955980045043,
+      "maximumRouteLengthMm": 20,
+      "exceeds": false,
+      "endpoints": [
+        "U1.10",
+        "J2.10"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO8",
+      "padCentreOctilinearDiameterMm": 6.01222438151586,
+      "maximumRouteLengthMm": 25,
+      "exceeds": false,
+      "endpoints": [
+        "U1.12",
+        "J2.11"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "GPIO9",
+      "padCentreOctilinearDiameterMm": 5.125807358037434,
+      "maximumRouteLengthMm": 25,
+      "exceeds": false,
+      "endpoints": [
+        "U1.13",
+        "J2.12"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "LED_A",
+      "padCentreOctilinearDiameterMm": 3.2225,
+      "maximumRouteLengthMm": 15,
+      "exceeds": false,
+      "endpoints": [
+        "D2.2",
+        "R18.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "QSPI_CS",
+      "padCentreOctilinearDiameterMm": 3.8057821048680185,
+      "maximumRouteLengthMm": 20,
+      "exceeds": false,
+      "endpoints": [
+        "U1.60",
+        "R5.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "QSPI_SCLK",
+      "padCentreOctilinearDiameterMm": 5.6762193308819775,
+      "maximumRouteLengthMm": 16,
+      "exceeds": false,
+      "endpoints": [
+        "U1.56",
+        "U3.6"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "QSPI_SD0",
+      "padCentreOctilinearDiameterMm": 5.303427124746192,
+      "maximumRouteLengthMm": 16,
+      "exceeds": false,
+      "endpoints": [
+        "U1.57",
+        "U3.5"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "QSPI_SD1",
+      "padCentreOctilinearDiameterMm": 2.8730970388562795,
+      "maximumRouteLengthMm": 16,
+      "exceeds": false,
+      "endpoints": [
+        "U1.59",
+        "U3.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "QSPI_SD2",
+      "padCentreOctilinearDiameterMm": 2.77309703885628,
+      "maximumRouteLengthMm": 16,
+      "exceeds": false,
+      "endpoints": [
+        "U1.58",
+        "U3.3"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "QSPI_SD3",
+      "padCentreOctilinearDiameterMm": 6.049011537017763,
+      "maximumRouteLengthMm": 16,
+      "exceeds": false,
+      "endpoints": [
+        "U1.55",
+        "U3.7"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "RT_LX1",
+      "padCentreOctilinearDiameterMm": 3.468736290225569,
+      "maximumRouteLengthMm": 8,
+      "exceeds": false,
+      "endpoints": [
+        "U2.4",
+        "L2.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "RT_LX2",
+      "padCentreOctilinearDiameterMm": 3.468736290225569,
+      "maximumRouteLengthMm": 8,
+      "exceeds": false,
+      "endpoints": [
+        "U2.2",
+        "L2.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "RUN",
+      "padCentreOctilinearDiameterMm": 13.888168465605649,
+      "maximumRouteLengthMm": 40,
+      "exceeds": false,
+      "endpoints": [
+        "J3.10",
+        "SW2.3"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "SWCLK_HDR",
+      "padCentreOctilinearDiameterMm": 18.99479364188578,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "J4.1",
+        "R19.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "SWCLK_MCU",
+      "padCentreOctilinearDiameterMm": 4.275533905932733,
+      "maximumRouteLengthMm": 6,
+      "exceeds": false,
+      "endpoints": [
+        "U1.24",
+        "R19.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "SWDIO_HDR",
+      "padCentreOctilinearDiameterMm": 14.130832611206854,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "J4.3",
+        "R20.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "SWDIO_MCU",
+      "padCentreOctilinearDiameterMm": 7.068427124746185,
+      "maximumRouteLengthMm": 10,
+      "exceeds": false,
+      "endpoints": [
+        "U1.25",
+        "R20.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_CC1",
+      "padCentreOctilinearDiameterMm": 5.549737008100569,
+      "maximumRouteLengthMm": 20,
+      "exceeds": false,
+      "endpoints": [
+        "J1.A5",
+        "R3.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_CC2",
+      "padCentreOctilinearDiameterMm": 3.8497370081005684,
+      "maximumRouteLengthMm": 25,
+      "exceeds": false,
+      "endpoints": [
+        "J1.B5",
+        "R4.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_DM_ESD",
+      "padCentreOctilinearDiameterMm": 14.517086758119762,
+      "maximumRouteLengthMm": 22,
+      "exceeds": false,
+      "endpoints": [
+        "U4.3",
+        "R2.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_DM_MCU",
+      "padCentreOctilinearDiameterMm": 1.6290559159102145,
+      "maximumRouteLengthMm": 3,
+      "exceeds": false,
+      "endpoints": [
+        "U1.51",
+        "R2.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_DM_PORT",
+      "padCentreOctilinearDiameterMm": 4.357589283436706,
+      "maximumRouteLengthMm": 22,
+      "exceeds": false,
+      "endpoints": [
+        "U4.4",
+        "J1.A7"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_DP_ESD",
+      "padCentreOctilinearDiameterMm": 15.909441738241592,
+      "maximumRouteLengthMm": 22,
+      "exceeds": false,
+      "endpoints": [
+        "U4.1",
+        "R1.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_DP_MCU",
+      "padCentreOctilinearDiameterMm": 1.971015510839151,
+      "maximumRouteLengthMm": 3,
+      "exceeds": false,
+      "endpoints": [
+        "U1.52",
+        "R1.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "USB_DP_PORT",
+      "padCentreOctilinearDiameterMm": 2.6646960646232536,
+      "maximumRouteLengthMm": 22,
+      "exceeds": false,
+      "endpoints": [
+        "U4.6",
+        "J1.B6"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "VBUS",
+      "padCentreOctilinearDiameterMm": 12.541879502661796,
+      "maximumRouteLengthMm": 80,
+      "exceeds": false,
+      "endpoints": [
+        "J3.20",
+        "R11.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "VREG_AVDD",
+      "padCentreOctilinearDiameterMm": 3.5571782079359133,
+      "maximumRouteLengthMm": 12,
+      "exceeds": false,
+      "endpoints": [
+        "U1.46",
+        "R8.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "VSYS",
+      "padCentreOctilinearDiameterMm": 17.174062043356596,
+      "maximumRouteLengthMm": 130,
+      "exceeds": false,
+      "endpoints": [
+        "J3.19",
+        "R13.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "VSYS_DIV",
+      "padCentreOctilinearDiameterMm": 4.357188668141178,
+      "maximumRouteLengthMm": 12,
+      "exceeds": false,
+      "endpoints": [
+        "Q1.3",
+        "R14.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "XIN",
+      "padCentreOctilinearDiameterMm": 8.059381669041239,
+      "maximumRouteLengthMm": 16,
+      "exceeds": false,
+      "endpoints": [
+        "U1.21",
+        "C24.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "XOUT_MCU",
+      "padCentreOctilinearDiameterMm": 2.534142135623725,
+      "maximumRouteLengthMm": 5,
+      "exceeds": false,
+      "endpoints": [
+        "U1.22",
+        "R7.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "XTAL_OUT",
+      "padCentreOctilinearDiameterMm": 4.021442276647842,
+      "maximumRouteLengthMm": 16,
+      "exceeds": false,
+      "endpoints": [
+        "R7.2",
+        "C25.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    }
+  ],
+  "usbChannelLowerBounds": [
+    {
+      "polarity": "positive",
+      "nets": [
+        "USB_DP_MCU",
+        "USB_DP_ESD",
+        "USB_DP_PORT"
+      ],
+      "sectionLowerBoundsMm": [
+        1.971015510839151,
+        15.909441738241592,
+        2.6646960646232536
+      ],
+      "channelCentreLowerBoundMm": 20.545153313703995,
+      "channelMaximumMm": 25,
+      "totalUniqueCopperLowerBoundMm": 20.545153313703995,
+      "totalUniqueCopperMaximumPerPolarityMm": 35,
+      "downstreamCentreLowerBoundMm": 18.574137802864847,
+      "downstreamMaximumMm": 22,
+      "exceeds": false,
+      "scope": "Maximum totalcopper budget is applied perpolarity by the source evaluator, not summed acrossDP+DM. No skew/coupling/impedance proof."
+    },
+    {
+      "polarity": "negative",
+      "nets": [
+        "USB_DM_MCU",
+        "USB_DM_ESD",
+        "USB_DM_PORT"
+      ],
+      "sectionLowerBoundsMm": [
+        1.6290559159102145,
+        14.517086758119762,
+        4.357589283436706
+      ],
+      "channelCentreLowerBoundMm": 20.50373195746668,
+      "channelMaximumMm": 25,
+      "totalUniqueCopperLowerBoundMm": 20.50373195746668,
+      "totalUniqueCopperMaximumPerPolarityMm": 35,
+      "downstreamCentreLowerBoundMm": 18.87467604155647,
+      "downstreamMaximumMm": 22,
+      "exceeds": false,
+      "scope": "Maximum totalcopper budget is applied perpolarity by the source evaluator, not summed acrossDP+DM. No skew/coupling/impedance proof."
+    }
+  ],
+  "swdLowerBounds": [
+    {
+      "net": "SWCLK_HDR",
+      "padCentreOctilinearDiameterMm": 18.99479364188578,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "J4.1",
+        "R19.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "SWCLK_MCU",
+      "padCentreOctilinearDiameterMm": 4.275533905932733,
+      "maximumRouteLengthMm": 6,
+      "exceeds": false,
+      "endpoints": [
+        "U1.24",
+        "R19.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "SWDIO_HDR",
+      "padCentreOctilinearDiameterMm": 14.130832611206854,
+      "maximumRouteLengthMm": 45,
+      "exceeds": false,
+      "endpoints": [
+        "J4.3",
+        "R20.2"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    },
+    {
+      "net": "SWDIO_MCU",
+      "padCentreOctilinearDiameterMm": 7.068427124746185,
+      "maximumRouteLengthMm": 10,
+      "exceeds": false,
+      "endpoints": [
+        "U1.25",
+        "R20.1"
+      ],
+      "scope": "Centre-endpoint unobstructed diagnostic only; no complete route or arbitrary offset-contact proof."
+    }
+  ],
+  "groundState": "8selectedB.GNDspokes are only local copperproposals. No filledconnectedcomponent or actualtrack-to-fill contact exists in this empty-routing source model.",
+  "additionalScope": "Currentcontract onlyinsets its B.GNDrectangle. Header-band arbitrarytrace/via exclusion remains additional planning/verification scope, not a silentlyinventedcontract field."
+}

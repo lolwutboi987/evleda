@@ -1,0 +1,832 @@
+{
+  "schema": "rp2350.candidate60.compilation-check.v1",
+  "scope": "Pure source-schema/closure/readiness evaluation using the current approved DOC11 library/profile; noMCP startup/native/workspace creation.",
+  "profile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc11-rp2350-v4-01.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "0d330d1d1d34021368e6bca2247cc9d195207c80a169d1d7fbeee37ecd093091",
+      "size": 16672
+    }
+  },
+  "codeSources": {
+    "src/core/canonical.ts": {
+      "algorithm": "sha256",
+      "digest": "10e793ff5af0a5da36fc4a34c9f0256cd05c0f2987be6d8fcfd9ed8bbde9fac4",
+      "size": 2609
+    },
+    "src/mcp/toolbox-fresh-profile.ts": {
+      "algorithm": "sha256",
+      "digest": "78efd71531fdcc63bfe78fa86c7d7e03d11f3d0ceee665e37c0e671d4aa7dece",
+      "size": 2961
+    },
+    "src/harness/pcb-design-plane-contract.ts": {
+      "algorithm": "sha256",
+      "digest": "de0def97e653cc841e463f7fa77136e35c794e798f20b5dd714c1995ad48fe3b",
+      "size": 24038
+    },
+    "src/harness/pcb-design-plane-compiler.ts": {
+      "algorithm": "sha256",
+      "digest": "165c307f26cefd6f87d5d0744c7df7530e956c29dcc52921d93df4663ebd8283",
+      "size": 22332
+    },
+    "src/harness/pcb-design-compiler.ts": {
+      "algorithm": "sha256",
+      "digest": "efcb02cad97dc4eeb83630e2d640c2644eb47ffe6ad12b3d0083a139959ed900",
+      "size": 72655
+    },
+    "src/harness/kicad-approved-package.ts": {
+      "algorithm": "sha256",
+      "digest": "e0c645327480325b0b20bd8cac665c10dc140c4ca87fbe9297210e48fa0dd5a2",
+      "size": 27017
+    },
+    "src/harness/kicad-library-resolver.ts": {
+      "algorithm": "sha256",
+      "digest": "159b3c11fd756c7f4b9fc54c94e1791a7fb7fc5bada47ed786c02a0764b89134",
+      "size": 80696
+    }
+  },
+  "baseDisposition": "ready",
+  "disposition": "ready",
+  "issues": [],
+  "questions": [],
+  "circuitCounts": {
+    "components": 62,
+    "nets": 67,
+    "endpoints": 260,
+    "noConnects": 2,
+    "boardFeatures": 4,
+    "powerFlags": 6
+  },
+  "accepted": false,
+  "nativeAuthoringPerformed": false,
+  "powerFlags": [
+    {
+      "reference": "#FLG001",
+      "net": "GND",
+      "anchorEndpoint": {
+        "reference": "J1",
+        "pin": "A1"
+      },
+      "symbolLibId": "power:PWR_FLAG"
+    },
+    {
+      "reference": "#FLG002",
+      "net": "VBUS",
+      "anchorEndpoint": {
+        "reference": "J1",
+        "pin": "A4"
+      },
+      "symbolLibId": "power:PWR_FLAG"
+    },
+    {
+      "reference": "#FLG003",
+      "net": "VSYS",
+      "anchorEndpoint": {
+        "reference": "J3",
+        "pin": "19"
+      },
+      "symbolLibId": "power:PWR_FLAG"
+    },
+    {
+      "reference": "#FLG004",
+      "net": "1V1",
+      "anchorEndpoint": {
+        "reference": "U1",
+        "pin": "6"
+      },
+      "symbolLibId": "power:PWR_FLAG"
+    },
+    {
+      "reference": "#FLG005",
+      "net": "ADC_AVDD",
+      "anchorEndpoint": {
+        "reference": "U1",
+        "pin": "44"
+      },
+      "symbolLibId": "power:PWR_FLAG"
+    },
+    {
+      "reference": "#FLG006",
+      "net": "VREG_AVDD",
+      "anchorEndpoint": {
+        "reference": "U1",
+        "pin": "46"
+      },
+      "symbolLibId": "power:PWR_FLAG"
+    }
+  ],
+  "draftIdentity": {
+    "algorithm": "sha256",
+    "digest": "ba4b1682837bc3e0d18ad5f0a3c6eac6f2457857e12ad617e32b815a28499f5e",
+    "size": 100220
+  },
+  "contractIdentity": {
+    "algorithm": "sha256",
+    "digest": "59a0d32f12acb3224644513f0028f6d57c3e9c462c285ffddbb84cfcf23e2ee1",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "libraryBindingIdentity": {
+    "algorithm": "sha256",
+    "digest": "083c5ec52c4bdd5d1607ca7b82f6ac7bc835863c9613c1d2dd981e2e6072ba02",
+    "schemaVersion": "evleda.pcb-library-binding.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "deepRuleBindingIdentity": {
+    "algorithm": "sha256",
+    "digest": "d239ba9b53d920516242ee1e3fcadba552269600896727d7979d5af33ebfe20e",
+    "schemaVersion": "evleda.pcb-deep-rule-binding.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "verificationPlanIdentity": {
+    "algorithm": "sha256",
+    "digest": "e2d73ea9630234d496d5702b9c48ad941d5de892efb0bcf680e2e7136690a5c1",
+    "schemaVersion": "evleda.pcb-plane-verification-plan.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "libraryCounts": {
+    "symbols": 62,
+    "footprints": 66,
+    "boardFeatureLibrarySources": 1
+  },
+  "librarySourceSelection": {
+    "schemaVersion": "evleda.pcb-library-source-selection.v1",
+    "policyIdentity": {
+      "algorithm": "sha256",
+      "digest": "0017fa271e97a49ba17e514ef68c2061737f6af9dd07ae77bc383258cd69a8fa",
+      "schemaVersion": "evleda.kicad-composite-library-policy.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "records": [
+      {
+        "kind": "footprint",
+        "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "size": 2048
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "2a7b7cc0242ee7456cb5186fbb8e6a7f65d49ffd557f599a53bcde4df41d3aab",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6a7dba97d6e733fd9d5f12d2d57f2cde29e8393e15b08d8b3e41bf2b430d83ed",
+          "size": 3129
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "2f5c150d246e7be0288937e8c74f39e0e0452b7373e81024c3d1e30917200889",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+          "size": 7170
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "649d4da923236d655b67d147d95bea0d9c3bfcbc7e50f6134627e8ff86bd82fa",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0efc1a86f641a5e4d27a4483811386c23ddfa5b416c628f65cef963ef7edbb62",
+          "size": 2278
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "932ed3946d9dd99cfe42c67ae41333e9a399edb56a8f2047a752a48bae8f3006",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Diode_SMD:Nexperia_CFP3_SOD-123W",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e0867bfd9057e4ed44483786d9d8809eab12909401240f9f7ee7de141cd7be7c",
+          "size": 4768
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "68808fd526c79eb37da67fddc40afc1d9d0ad1f649be7d7a7ae746fcc61b0d7a",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+          "size": 1456
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "e1f6ce1237d5af6030dc83229cde46e56850e038d8fb48d4a42b6576d14840ed",
+          "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+          "size": 1130
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "ff56b5e9a0386662ca6f0ac029b03ba029ebc329db7822c1407172d2ecdf5269",
+          "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+          "size": 796
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "4e29a0a973eba169b4be3f1fd16c502022c87dbabeaa0c676561321a686c663e",
+          "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+          "size": 5332
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "973e86555416d608b175ecaca84231b62091b0369d65ab9fb80a5f44b1884801",
+          "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+          "size": 2284
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "b16029513884028d180cad24762dc2b8610b4435e9ac05488febd3416ccf57b3",
+          "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+          "size": 4261
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "f39e880176335ad222312c63d5aec92b00ad407e74befb58054edf2d5a060309",
+          "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+          "size": 1398
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "0d5dc30ae945946664f1540bcff75bd0b19f4c76a47735e7263cdae645cca8a9",
+          "schemaVersion": "evleda.kicad-approved-footprint-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/footprints/EvlEDA_Pico2350.pretty"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Inductor_SMD:L_Coilcraft_XxL4020",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+          "size": 3525
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "43c2885006a6739f4db06bd81a1a0fcbc0bdf0c968531836ae925897223551d5",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "LED_SMD:LED_0603_1608Metric",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+          "size": 2593
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "5de7d907e195bd7c440a567144296cd09aadf639ef14a50140f11d9ac169ceb6",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+          "size": 14069
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "c4ea7ae4c827d5129b7a8b07372a747a3934ad355261a3fe0657010d89938e15",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Package_TO_SOT_SMD:SOT-23-6",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ea29040bed73e5dfa455e36f2c9324b0de7782c5a6cf79040b7d885ff766fdb4",
+          "size": 4568
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "b3ea54faeb63e6af7cea749881c631febe1c768b777f8c3f0fda51b989d5d31a",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Package_TO_SOT_SMD:SOT-523",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+          "size": 4144
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "4f7aa5da165727fb6e18d76172bec998d706828f6d710056d81c40fcdab17d24",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "footprint",
+        "libraryId": "Resistor_SMD:R_0402_1005Metric",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "size": 2049
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "0e32f5a6f0625009fbf0ecea6efd18d431f096a62a5f6b4b751d805c26cfed49",
+          "schemaVersion": "evleda.kicad-stock-footprint-inspection.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Connector:USB_C_Receptacle_USB2.0_16P",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "93b4f3aff935bf620579315d1b48c176f38014d998ca37e5480c2e33ac34502c",
+          "size": 5436317
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "822d63df2a9a108ea88f26619f6785e787c63970d6b2c4da3c5f5091105eef48",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Connector_Generic:Conn_01x03",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1ae3b346fe1c4e874fecb72abc7df4e94a253780db183439dbfefc4e2ff3a0be",
+          "size": 7299661
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "62293b9a1d55c414b9a34345499e203a89ea257cab0214907380d2c4f2a7652c",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Connector_Generic:Conn_01x20",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1ae3b346fe1c4e874fecb72abc7df4e94a253780db183439dbfefc4e2ff3a0be",
+          "size": 7299661
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "a65c186bae708cc898ad51482eb611e39bb859b11a53ddcbb5380c3f3f8b3577",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Device:C",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+          "size": 2586816
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "be6fec447cb62158d7a97370e25fe2b2ff16eaa6342f190f279ebdf1a53536ea",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Device:Crystal_GND24",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+          "size": 2586816
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "c8e08832d75eb1519b4f03de6488a2dfc40017d873e1428eff608dda7e070279",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Device:D_Schottky",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+          "size": 2586816
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "2a20de576999a7488886a18f0fba00f38bc14f7ee4c13769bb625a0cd1fc43a7",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Device:L",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+          "size": 2586816
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "661e83e74bbf50301c555b8e88454eab5429a2a41945586c12ced110656609a2",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Device:LED",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+          "size": 2586816
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "70489bbc77d5b88a20661a739d8303d2268e57eda6147ce972528dc805d61b41",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Device:R",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+          "size": 2586816
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "552663fc322364f940bae7445f930739413e41e9522e52ae0274b65fc8e2d2bd",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "EvlEDA_Pico2350:RT6150B-33GQW",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "928f6667fe90f479c5d04a1075afa8f01b4b81abb101139eb87aad1d8a553a30",
+          "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/symbols/EvlEDA_Pico2350.kicad_sym"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "EvlEDA_Pico2350:USBLC6-2SC6",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "3fdca821c4e5915667e082e39e2d75d01335d9ec6f4afc8c5ee2ee836372350a",
+          "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/symbols/EvlEDA_Pico2350.kicad_sym"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "EvlEDA_Pico2350:W25Q32RVXHJQ",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "42f000806e3099e94189d8e5f2ea5b742ba0ee35624707a8468c50430bfed6be",
+          "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/symbols/EvlEDA_Pico2350.kicad_sym"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "809054ccd762566812a07a556e2dc22ec85852116e4d2ae75ed2349740b683a5",
+          "schemaVersion": "evleda.kicad-approved-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "approvedPackage": {
+          "policyIdentity": {
+            "algorithm": "sha256",
+            "digest": "efcccc2847935f5f5eac0dc312297c673071ff935259c4cf6d0f95a7f48e0165",
+            "schemaVersion": "evleda.kicad-approved-package-policy.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "manifestIdentity": {
+            "algorithm": "sha256",
+            "digest": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+            "size": 10953
+          },
+          "tableUri": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4/symbols/EvlEDA_Pico2350.kicad_sym"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "MCU_RaspberryPi:RP2350A",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c9f0fe21e8a46d7503537322833345ba4299a2e6d0e7c018a8a4a4457f563191",
+          "size": 64675
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "1cc84f57361e903236b48da33c10dba6351b4049d7a2b11cde0e0978cfcc5bbf",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      },
+      {
+        "kind": "symbol",
+        "libraryId": "Transistor_FET:Q_NMOS_GSD",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d7beb2349ad72aed87767dc920fd11c6c0709ca25048a7945d4f6826191e91d9",
+          "size": 1468058
+        },
+        "inspectionIdentity": {
+          "algorithm": "sha256",
+          "digest": "ef3832f8e98fd0aba3b3fbe803baa05e9ad4a56e0d6e565688501c183094b100",
+          "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        }
+      }
+    ],
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "462437a3ca28ee1bfe1abb4cdf57d8a41efd1cad831bedc2176311f6dbe9b462",
+      "schemaVersion": "evleda.pcb-library-source-selection.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "externalPowerBindingIdentity": {
+    "algorithm": "sha256",
+    "digest": "1b1c9c1da04f9b7580f302563d14e07a31f7b905a271fbc6c405e26e18147aff",
+    "schemaVersion": "evleda.pcb-external-power-binding.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "derivedPowerBindingIdentity": {
+    "algorithm": "sha256",
+    "digest": "4a8b71799875f825cd9b3dd1ca1616375953c6d762643a6dc7c37c108ab4fd16",
+    "schemaVersion": "evleda.pcb-derived-power-binding.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "physicalSourceModelStatus": "Empty routed copper; source physical stock checks and40entry proposals are separate artifacts."
+}

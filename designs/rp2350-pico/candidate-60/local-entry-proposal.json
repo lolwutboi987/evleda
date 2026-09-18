@@ -1,0 +1,2911 @@
+{
+  "schema": "rp2350.macro-B-60-run-offset-local-set.v1",
+  "status": "PASS for the exact40 local entries against candidate60posedhardware; no fullnet route, actualplanecontact or return acceptance.",
+  "parent": {
+    "proposal": {
+      "bytes": 6771,
+      "sha256": "28d80f496c3723246dd0f79c4b56d9305feb4b642f16f044556ce2ce9f78bffd"
+    },
+    "physical": {
+      "bytes": 114297,
+      "sha256": "7846aa97062d200913228265d1a94762d80df3590d6e149c1055fb85c5dc2bdb"
+    },
+    "analysis": {
+      "bytes": 39114,
+      "sha256": "19ddfcbc9a26cc50ef3dfa269ca90c76683102b694949673ceb28eb173f6b09a"
+    }
+  },
+  "exactTrial": {
+    "terminal": "J3.10",
+    "net": "RUN",
+    "layer": "F.Cu",
+    "widthMm": 0.2,
+    "points": [
+      [
+        19.34,
+        31.57
+      ],
+      [
+        17.7,
+        31.57
+      ]
+    ],
+    "poseHoleOutlineChanges": [],
+    "additionalVias": 0
+  },
+  "RUN": {
+    "terminal": "J3.10",
+    "net": "RUN",
+    "widthMm": 0.2,
+    "selectedLayer": "F.Cu",
+    "points": [
+      [
+        19.34,
+        31.57
+      ],
+      [
+        17.7,
+        31.57
+      ]
+    ],
+    "fullNetRouteProved": false,
+    "checks": {
+      "terminal": "J3.10",
+      "net": "RUN",
+      "selectedLayer": "F.Cu",
+      "widthMm": 0.2,
+      "points": [
+        [
+          19.34,
+          31.57
+        ],
+        [
+          17.7,
+          31.57
+        ]
+      ],
+      "issues": [],
+      "fullWidthAnnularContact": {
+        "witnessMm": [
+          19.34,
+          31.57
+        ],
+        "landEmbeddingMm": 0.12350179569291561,
+        "ownDrillMarginMm": 0.026498204307084355
+      },
+      "minPad": {
+        "pad": "R15.2",
+        "gapMm": 0.2899999999999986
+      },
+      "minHole": {
+        "hole": "J3.9",
+        "gapMm": 1.706534196581531
+      },
+      "minOtherHeader": {
+        "pad": "J3.9",
+        "gapMm": 1.356534196581531
+      },
+      "minSlot": {
+        "header": "J3",
+        "between": [
+          "10",
+          "9"
+        ],
+        "gapMm": 0.4499999999999972
+      },
+      "minEdge": 2.56
+    }
+  },
+  "selection": {
+    "entryCount": 40,
+    "frontEntries": 31,
+    "backEntries": 9,
+    "backEntriesByTerminal": [
+      {
+        "terminal": "J2.3",
+        "net": "GND"
+      },
+      {
+        "terminal": "J2.8",
+        "net": "GND"
+      },
+      {
+        "terminal": "J2.13",
+        "net": "GND"
+      },
+      {
+        "terminal": "J2.18",
+        "net": "GND"
+      },
+      {
+        "terminal": "J3.3",
+        "net": "GND"
+      },
+      {
+        "terminal": "J3.8",
+        "net": "GND"
+      },
+      {
+        "terminal": "J3.9",
+        "net": "GPIO22"
+      },
+      {
+        "terminal": "J3.13",
+        "net": "GND"
+      },
+      {
+        "terminal": "J3.18",
+        "net": "GND"
+      }
+    ],
+    "mutualFindings": [],
+    "layerPolicyFindings": [],
+    "allLocalPointsAndWidthsExactToParent": true,
+    "checkedAgainstCandidateJ4": true
+  },
+  "entries": [
+    {
+      "terminal": "J2.1",
+      "net": "GPIO0",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          5.87
+        ],
+        [
+          3.56,
+          5.87
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.1",
+        "net": "GPIO0",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            5.87
+          ],
+          [
+            3.56,
+            5.87
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            5.87
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.2",
+          "gapMm": 1.5899999999999999
+        },
+        "minHole": {
+          "hole": "J2.2",
+          "gapMm": 1.94
+        },
+        "minOtherHeader": {
+          "pad": "J2.2",
+          "gapMm": 1.5899999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "1",
+            "2"
+          ],
+          "gapMm": 0.7500000000000006
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.2",
+      "net": "GPIO1",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          8.41
+        ],
+        [
+          3.56,
+          8.41
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.2",
+        "net": "GPIO1",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            8.41
+          ],
+          [
+            3.56,
+            8.41
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            8.41
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.3",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.3",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.3",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "1",
+            "2"
+          ],
+          "gapMm": 0.7499999999999997
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.3",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          2.11,
+          10.95
+        ],
+        [
+          3.61,
+          10.95
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.3",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            10.95
+          ],
+          [
+            3.61,
+            10.95
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            10.95
+          ],
+          "landEmbeddingMm": 0.024999999999999717,
+          "ownDrillMarginMm": 0.025000000000000272
+        },
+        "minPad": {
+          "pad": "J2.2",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J2.2",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J2.2",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "2",
+            "3"
+          ],
+          "gapMm": 0.6999999999999996
+        },
+        "minEdge": 1.96
+      }
+    },
+    {
+      "terminal": "J2.4",
+      "net": "GPIO2",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          13.49
+        ],
+        [
+          3.56,
+          13.49
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.4",
+        "net": "GPIO2",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            13.49
+          ],
+          [
+            3.56,
+            13.49
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            13.49
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.3",
+          "gapMm": 1.5900000000000007
+        },
+        "minHole": {
+          "hole": "J2.3",
+          "gapMm": 1.9400000000000008
+        },
+        "minOtherHeader": {
+          "pad": "J2.3",
+          "gapMm": 1.5900000000000007
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "3",
+            "4"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.5",
+      "net": "GPIO3",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          16.03
+        ],
+        [
+          3.56,
+          16.03
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.5",
+        "net": "GPIO3",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            16.03
+          ],
+          [
+            3.56,
+            16.03
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            16.03
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.6",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.6",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.6",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "5",
+            "6"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.6",
+      "net": "GPIO4",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          18.57
+        ],
+        [
+          3.56,
+          18.57
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.6",
+        "net": "GPIO4",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            18.57
+          ],
+          [
+            3.56,
+            18.57
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            18.57
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.5",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.5",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.5",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "5",
+            "6"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.7",
+      "net": "GPIO5",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          21.11
+        ],
+        [
+          3.56,
+          21.11
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.7",
+        "net": "GPIO5",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            21.11
+          ],
+          [
+            3.56,
+            21.11
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            21.11
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.6",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.6",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.6",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "6",
+            "7"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.8",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          2.11,
+          23.65
+        ],
+        [
+          3.61,
+          23.65
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.8",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            23.65
+          ],
+          [
+            3.61,
+            23.65
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            23.65
+          ],
+          "landEmbeddingMm": 0.024999999999999717,
+          "ownDrillMarginMm": 0.025000000000000272
+        },
+        "minPad": {
+          "pad": "J2.7",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J2.7",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J2.7",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "7",
+            "8"
+          ],
+          "gapMm": 0.6999999999999978
+        },
+        "minEdge": 1.96
+      }
+    },
+    {
+      "terminal": "J2.9",
+      "net": "GPIO6",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          26.19
+        ],
+        [
+          3.56,
+          26.19
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.9",
+        "net": "GPIO6",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            26.19
+          ],
+          [
+            3.56,
+            26.19
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            26.19
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "R5.2",
+          "gapMm": 0.5851371836467325
+        },
+        "minHole": {
+          "hole": "J2.10",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.10",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "8",
+            "9"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.10",
+      "net": "GPIO7",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          28.73
+        ],
+        [
+          3.56,
+          28.73
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.10",
+        "net": "GPIO7",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            28.73
+          ],
+          [
+            3.56,
+            28.73
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            28.73
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "R6.1",
+          "gapMm": 0.2672449601539081
+        },
+        "minHole": {
+          "hole": "J2.9",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.9",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "9",
+            "10"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.11",
+      "net": "GPIO8",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          31.27
+        ],
+        [
+          3.56,
+          31.27
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.11",
+        "net": "GPIO8",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            31.27
+          ],
+          [
+            3.56,
+            31.27
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            31.27
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "C11.2",
+          "gapMm": 0.8416653826391967
+        },
+        "minHole": {
+          "hole": "J2.10",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.10",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "10",
+            "11"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.12",
+      "net": "GPIO9",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          33.81
+        ],
+        [
+          3.56,
+          33.81
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.12",
+        "net": "GPIO9",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            33.81
+          ],
+          [
+            3.56,
+            33.81
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            33.81
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "C6.2",
+          "gapMm": 0.5799999999999998
+        },
+        "minHole": {
+          "hole": "J2.13",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.13",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "12",
+            "13"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.13",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          2.11,
+          36.35
+        ],
+        [
+          3.61,
+          36.35
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.13",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            36.35
+          ],
+          [
+            3.61,
+            36.35
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            36.35
+          ],
+          "landEmbeddingMm": 0.024999999999999717,
+          "ownDrillMarginMm": 0.025000000000000272
+        },
+        "minPad": {
+          "pad": "J2.12",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J2.12",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J2.12",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "12",
+            "13"
+          ],
+          "gapMm": 0.7000000000000014
+        },
+        "minEdge": 1.96
+      }
+    },
+    {
+      "terminal": "J2.14",
+      "net": "GPIO10",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          38.89
+        ],
+        [
+          3.56,
+          38.89
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.14",
+        "net": "GPIO10",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            38.89
+          ],
+          [
+            3.56,
+            38.89
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            38.89
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "SW1.2",
+          "gapMm": 0.9840664186294162
+        },
+        "minHole": {
+          "hole": "J2.13",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.13",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "13",
+            "14"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.15",
+      "net": "GPIO11",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          41.43
+        ],
+        [
+          3.56,
+          41.43
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.15",
+        "net": "GPIO11",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            41.43
+          ],
+          [
+            3.56,
+            41.43
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            41.43
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "SW1.1",
+          "gapMm": 0.4399999999999996
+        },
+        "minHole": {
+          "hole": "J2.14",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.14",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "14",
+            "15"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.16",
+      "net": "GPIO12",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          43.97
+        ],
+        [
+          3.56,
+          43.97
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.16",
+        "net": "GPIO12",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            43.97
+          ],
+          [
+            3.56,
+            43.97
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            43.97
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.15",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.15",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.15",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "15",
+            "16"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.17",
+      "net": "GPIO13",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          46.51
+        ],
+        [
+          3.56,
+          46.51
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.17",
+        "net": "GPIO13",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            46.51
+          ],
+          [
+            3.56,
+            46.51
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            46.51
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.16",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.16",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.16",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "16",
+            "17"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.18",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          2.11,
+          49.05
+        ],
+        [
+          3.61,
+          49.05
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.18",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            49.05
+          ],
+          [
+            3.61,
+            49.05
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            49.05
+          ],
+          "landEmbeddingMm": 0.024999999999999717,
+          "ownDrillMarginMm": 0.025000000000000272
+        },
+        "minPad": {
+          "pad": "J2.17",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J2.17",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J2.17",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "17",
+            "18"
+          ],
+          "gapMm": 0.6999999999999943
+        },
+        "minEdge": 1.96
+      }
+    },
+    {
+      "terminal": "J2.19",
+      "net": "GPIO14",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          51.59
+        ],
+        [
+          3.56,
+          51.59
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.19",
+        "net": "GPIO14",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            51.59
+          ],
+          [
+            3.56,
+            51.59
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            51.59
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.20",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.20",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.20",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "19",
+            "20"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J2.20",
+      "net": "GPIO15",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          2.11,
+          54.13
+        ],
+        [
+          3.56,
+          54.13
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J2.20",
+        "net": "GPIO15",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            2.11,
+            54.13
+          ],
+          [
+            3.56,
+            54.13
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            2.785,
+            54.13
+          ],
+          "landEmbeddingMm": 0.0749999999999997,
+          "ownDrillMarginMm": 0.07500000000000026
+        },
+        "minPad": {
+          "pad": "J2.19",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J2.19",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J2.19",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J2",
+          "between": [
+            "19",
+            "20"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.01
+      }
+    },
+    {
+      "terminal": "J3.1",
+      "net": "GPIO16",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          54.13
+        ],
+        [
+          18.44,
+          54.13
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.1",
+        "net": "GPIO16",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            54.13
+          ],
+          [
+            18.44,
+            54.13
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            54.13
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "J3.2",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J3.2",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.2",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "2",
+            "1"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.2",
+      "net": "GPIO17",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          51.59
+        ],
+        [
+          18.44,
+          51.59
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.2",
+        "net": "GPIO17",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            51.59
+          ],
+          [
+            18.44,
+            51.59
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            51.59
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "J3.1",
+          "gapMm": 1.5899999999999976
+        },
+        "minHole": {
+          "hole": "J3.1",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.1",
+          "gapMm": 1.5899999999999976
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "2",
+            "1"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.3",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          19.89,
+          49.05
+        ],
+        [
+          18.39,
+          49.05
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.3",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            49.05
+          ],
+          [
+            18.39,
+            49.05
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            49.05
+          ],
+          "landEmbeddingMm": 0.024999999999999273,
+          "ownDrillMarginMm": 0.025000000000000716
+        },
+        "minPad": {
+          "pad": "J3.4",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J3.4",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J3.4",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "4",
+            "3"
+          ],
+          "gapMm": 0.6999999999999943
+        },
+        "minEdge": 1.9599999999999995
+      }
+    },
+    {
+      "terminal": "J3.4",
+      "net": "GPIO18",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          46.51
+        ],
+        [
+          18.44,
+          46.51
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.4",
+        "net": "GPIO18",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            46.51
+          ],
+          [
+            18.44,
+            46.51
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            46.51
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "J3.3",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J3.3",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.3",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "5",
+            "4"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.5",
+      "net": "GPIO19",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          43.97
+        ],
+        [
+          18.44,
+          43.97
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.5",
+        "net": "GPIO19",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            43.97
+          ],
+          [
+            18.44,
+            43.97
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            43.97
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "SW2.3",
+          "gapMm": 0.7400000000000034
+        },
+        "minHole": {
+          "hole": "J3.4",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.4",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "6",
+            "5"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.6",
+      "net": "GPIO20",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          41.43
+        ],
+        [
+          18.44,
+          41.43
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.6",
+        "net": "GPIO20",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            41.43
+          ],
+          [
+            18.44,
+            41.43
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            41.43
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "SW2.4",
+          "gapMm": 1.1907362240210093
+        },
+        "minHole": {
+          "hole": "J3.5",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.5",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "7",
+            "6"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.7",
+      "net": "GPIO21",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          38.89
+        ],
+        [
+          18.44,
+          38.89
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.7",
+        "net": "GPIO21",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            38.89
+          ],
+          [
+            18.44,
+            38.89
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            38.89
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "SW2.4",
+          "gapMm": 0.8827003612495539
+        },
+        "minHole": {
+          "hole": "J3.6",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.6",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "8",
+            "7"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.8",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          19.89,
+          36.35
+        ],
+        [
+          18.39,
+          36.35
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.8",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            36.35
+          ],
+          [
+            18.39,
+            36.35
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            36.35
+          ],
+          "landEmbeddingMm": 0.024999999999999273,
+          "ownDrillMarginMm": 0.025000000000000716
+        },
+        "minPad": {
+          "pad": "J3.7",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J3.7",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J3.7",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "9",
+            "8"
+          ],
+          "gapMm": 0.7000000000000014
+        },
+        "minEdge": 1.9599999999999995
+      }
+    },
+    {
+      "terminal": "J3.9",
+      "net": "GPIO22",
+      "widthMm": 0.2,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          19.89,
+          33.81
+        ],
+        [
+          18.44,
+          33.81
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.9",
+        "net": "GPIO22",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            33.81
+          ],
+          [
+            18.44,
+            33.81
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            33.81
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "J3.8",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J3.8",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.8",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "9",
+            "8"
+          ],
+          "gapMm": 0.7499999999999943
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.10",
+      "net": "RUN",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.34,
+          31.57
+        ],
+        [
+          17.7,
+          31.57
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.10",
+        "net": "RUN",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.34,
+            31.57
+          ],
+          [
+            17.7,
+            31.57
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.34,
+            31.57
+          ],
+          "landEmbeddingMm": 0.12350179569291561,
+          "ownDrillMarginMm": 0.026498204307084355
+        },
+        "minPad": {
+          "pad": "R15.2",
+          "gapMm": 0.2899999999999986
+        },
+        "minHole": {
+          "hole": "J3.9",
+          "gapMm": 1.706534196581531
+        },
+        "minOtherHeader": {
+          "pad": "J3.9",
+          "gapMm": 1.356534196581531
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "10",
+            "9"
+          ],
+          "gapMm": 0.4499999999999972
+        },
+        "minEdge": 2.56
+      }
+    },
+    {
+      "terminal": "J3.11",
+      "net": "GPIO26",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          28.73
+        ],
+        [
+          18.44,
+          28.73
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.11",
+        "net": "GPIO26",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            28.73
+          ],
+          [
+            18.44,
+            28.73
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            28.73
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "R15.1",
+          "gapMm": 0.8262492638395554
+        },
+        "minHole": {
+          "hole": "J3.10",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.10",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "12",
+            "11"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.12",
+      "net": "GPIO27",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          26.19
+        ],
+        [
+          18.44,
+          26.19
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.12",
+        "net": "GPIO27",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            26.19
+          ],
+          [
+            18.44,
+            26.19
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            26.19
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "C23.1",
+          "gapMm": 0.4953910524340088
+        },
+        "minHole": {
+          "hole": "J3.11",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.11",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "13",
+            "12"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.13",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          19.89,
+          23.65
+        ],
+        [
+          18.39,
+          23.65
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.13",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            23.65
+          ],
+          [
+            18.39,
+            23.65
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            23.65
+          ],
+          "landEmbeddingMm": 0.024999999999999273,
+          "ownDrillMarginMm": 0.025000000000000716
+        },
+        "minPad": {
+          "pad": "J3.14",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J3.14",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J3.14",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "14",
+            "13"
+          ],
+          "gapMm": 0.6999999999999978
+        },
+        "minEdge": 1.9599999999999995
+      }
+    },
+    {
+      "terminal": "J3.14",
+      "net": "GPIO28",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          21.11
+        ],
+        [
+          18.44,
+          21.11
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.14",
+        "net": "GPIO28",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            21.11
+          ],
+          [
+            18.44,
+            21.11
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            21.11
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "J3.13",
+          "gapMm": 1.589999999999999
+        },
+        "minHole": {
+          "hole": "J3.13",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.13",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "15",
+            "14"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.15",
+      "net": "ADC_VREF",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          18.57
+        ],
+        [
+          18.44,
+          18.57
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.15",
+        "net": "ADC_VREF",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            18.57
+          ],
+          [
+            18.44,
+            18.57
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            18.57
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "R12.2",
+          "gapMm": 0.8481666538441793
+        },
+        "minHole": {
+          "hole": "J3.14",
+          "gapMm": 1.939999999999999
+        },
+        "minOtherHeader": {
+          "pad": "J3.14",
+          "gapMm": 1.589999999999999
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "16",
+            "15"
+          ],
+          "gapMm": 0.7499999999999979
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.16",
+      "net": "3V3",
+      "widthMm": 0.3,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          16.03
+        ],
+        [
+          18.39,
+          16.03
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.16",
+        "net": "3V3",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            16.03
+          ],
+          [
+            18.39,
+            16.03
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            16.03
+          ],
+          "landEmbeddingMm": 0.024999999999999273,
+          "ownDrillMarginMm": 0.025000000000000716
+        },
+        "minPad": {
+          "pad": "R11.2",
+          "gapMm": 0.9229942052841119
+        },
+        "minHole": {
+          "hole": "J3.15",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J3.15",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "16",
+            "15"
+          ],
+          "gapMm": 0.6999999999999978
+        },
+        "minEdge": 1.9599999999999995
+      }
+    },
+    {
+      "terminal": "J3.17",
+      "net": "3V3_EN",
+      "widthMm": 0.2,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          13.49
+        ],
+        [
+          18.44,
+          13.49
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.17",
+        "net": "3V3_EN",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.2,
+        "points": [
+          [
+            19.89,
+            13.49
+          ],
+          [
+            18.44,
+            13.49
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            13.49
+          ],
+          "landEmbeddingMm": 0.07499999999999926,
+          "ownDrillMarginMm": 0.0750000000000007
+        },
+        "minPad": {
+          "pad": "D1.1",
+          "gapMm": 0.9694391053257788
+        },
+        "minHole": {
+          "hole": "J3.16",
+          "gapMm": 1.9400000000000008
+        },
+        "minOtherHeader": {
+          "pad": "J3.16",
+          "gapMm": 1.5900000000000007
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "18",
+            "17"
+          ],
+          "gapMm": 0.7500000000000014
+        },
+        "minEdge": 2.0099999999999993
+      }
+    },
+    {
+      "terminal": "J3.18",
+      "net": "GND",
+      "widthMm": 0.3,
+      "selectedLayer": "B.Cu",
+      "points": [
+        [
+          19.89,
+          10.95
+        ],
+        [
+          18.39,
+          10.95
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.18",
+        "net": "GND",
+        "selectedLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            10.95
+          ],
+          [
+            18.39,
+            10.95
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            10.95
+          ],
+          "landEmbeddingMm": 0.024999999999999273,
+          "ownDrillMarginMm": 0.025000000000000716
+        },
+        "minPad": {
+          "pad": "J3.19",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J3.19",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J3.19",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "19",
+            "18"
+          ],
+          "gapMm": 0.6999999999999996
+        },
+        "minEdge": 1.9599999999999995
+      }
+    },
+    {
+      "terminal": "J3.19",
+      "net": "VSYS",
+      "widthMm": 0.3,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          8.41
+        ],
+        [
+          18.39,
+          8.41
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.19",
+        "net": "VSYS",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            8.41
+          ],
+          [
+            18.39,
+            8.41
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            8.41
+          ],
+          "landEmbeddingMm": 0.024999999999999273,
+          "ownDrillMarginMm": 0.025000000000000716
+        },
+        "minPad": {
+          "pad": "J3.18",
+          "gapMm": 1.5399999999999991
+        },
+        "minHole": {
+          "hole": "J3.18",
+          "gapMm": 1.8899999999999992
+        },
+        "minOtherHeader": {
+          "pad": "J3.18",
+          "gapMm": 1.5399999999999991
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "20",
+            "19"
+          ],
+          "gapMm": 0.6999999999999996
+        },
+        "minEdge": 1.9599999999999995
+      }
+    },
+    {
+      "terminal": "J3.20",
+      "net": "VBUS",
+      "widthMm": 0.3,
+      "selectedLayer": "F.Cu",
+      "points": [
+        [
+          19.89,
+          5.87
+        ],
+        [
+          18.39,
+          5.87
+        ]
+      ],
+      "fullNetRouteProved": false,
+      "checks": {
+        "terminal": "J3.20",
+        "net": "VBUS",
+        "selectedLayer": "F.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            5.87
+          ],
+          [
+            18.39,
+            5.87
+          ]
+        ],
+        "issues": [],
+        "fullWidthAnnularContact": {
+          "witnessMm": [
+            19.215,
+            5.87
+          ],
+          "landEmbeddingMm": 0.024999999999999273,
+          "ownDrillMarginMm": 0.025000000000000716
+        },
+        "minPad": {
+          "pad": "J3.19",
+          "gapMm": 1.54
+        },
+        "minHole": {
+          "hole": "J3.19",
+          "gapMm": 1.8900000000000001
+        },
+        "minOtherHeader": {
+          "pad": "J3.19",
+          "gapMm": 1.54
+        },
+        "minSlot": {
+          "header": "J3",
+          "between": [
+            "20",
+            "19"
+          ],
+          "gapMm": 0.7000000000000005
+        },
+        "minEdge": 1.9599999999999995
+      }
+    }
+  ],
+  "inheritedOpenItems": {
+    "intrinsicJ1": {
+      "status": "Pre-existing J1 stock pad/internal-NPTH clearance0.194403mm versus0.25mm remains unresolved and unwaived.",
+      "findings": [
+        {
+          "type": "pad-hole",
+          "pad": "J1.A1",
+          "hole": "J1.",
+          "gap": 0.19440271884718147,
+          "required": 0.25
+        },
+        {
+          "type": "pad-hole",
+          "pad": "J1.A12",
+          "hole": "J1.",
+          "gap": 0.1944027188471818,
+          "required": 0.25
+        },
+        {
+          "type": "pad-hole",
+          "pad": "J1.B1",
+          "hole": "J1.",
+          "gap": 0.1944027188471818,
+          "required": 0.25
+        },
+        {
+          "type": "pad-hole",
+          "pad": "J1.B12",
+          "hole": "J1.",
+          "gap": 0.19440271884718147,
+          "required": 0.25
+        }
+      ]
+    },
+    "fastenerCourtyard": [
+      {
+        "hole": "H1",
+        "headMinimum": {
+          "object": "J1",
+          "gapMm": 0.15000000000000036
+        },
+        "toolMinimum": {
+          "object": "J1",
+          "gapMm": -0.34999999999999964
+        },
+        "below025Head": [
+          {
+            "object": "J1",
+            "gapMm": 0.15000000000000036
+          }
+        ],
+        "below025Tool": [
+          {
+            "object": "J1",
+            "gapMm": -0.34999999999999964
+          }
+        ],
+        "scope": "Reported separately from actual pad/body clearance. Component-to-component courtyard checks above remain mandatory. These tool/head projections enter stock assembly reservations and require explicit mechanical disposition; not silently treated as physical body overlap or waived."
+      },
+      {
+        "hole": "H2",
+        "headMinimum": {
+          "object": "J1",
+          "gapMm": 0.14999999999999858
+        },
+        "toolMinimum": {
+          "object": "J1",
+          "gapMm": -0.3500000000000014
+        },
+        "below025Head": [
+          {
+            "object": "J1",
+            "gapMm": 0.14999999999999858
+          }
+        ],
+        "below025Tool": [
+          {
+            "object": "J1",
+            "gapMm": -0.3500000000000014
+          }
+        ],
+        "scope": "Reported separately from actual pad/body clearance. Component-to-component courtyard checks above remain mandatory. These tool/head projections enter stock assembly reservations and require explicit mechanical disposition; not silently treated as physical body overlap or waived."
+      }
+    ],
+    "candidateGroundDisposition": "All8GND localentries areB.Cu under explicitroot instruction. Actualtrace-to-filledB.GND and connectedreturn still unproved."
+  },
+  "limits": [
+    "This changes one tested local lead, not any frozen pose/hole/outline or current contract.",
+    "All40 entries end near the headers; no inner fanout, complete net, plane or return is demonstrated.",
+    "The0.50mm other-header-land margin is a tested engineering allowance; the earlier row-wide centred-only service-strip rule is not silently claimed. This is an own-pad offset exception only.",
+    "Raw-slot avoidance and real annular contact are geometrically checked, without soldering-abuse or tolerance guarantees.",
+    "Known J1 and USB courtyard/tool reservation issues remain unwaived. No other search or coordinate variant was tested."
+  ],
+  "candidateJ4Delta": {
+    "before": {
+      "x": 8.46,
+      "y": 48.2,
+      "r": 90
+    },
+    "after": {
+      "x": 8.46,
+      "y": 57.2,
+      "r": 90
+    },
+    "edgePreference": "bottom",
+    "reason": "Root explicitly movedJ4 +9mmY with boardlength growth to retain original bottom-edge access; frozen parent unchanged."
+  },
+  "candidateLayerDecision": {
+    "authority": "Explicit root planning instruction for candidate60",
+    "changes": [
+      {
+        "terminal": "J2.3",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            10.95
+          ],
+          [
+            3.61,
+            10.95
+          ]
+        ]
+      },
+      {
+        "terminal": "J2.8",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            23.65
+          ],
+          [
+            3.61,
+            23.65
+          ]
+        ]
+      },
+      {
+        "terminal": "J2.13",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            36.35
+          ],
+          [
+            3.61,
+            36.35
+          ]
+        ]
+      },
+      {
+        "terminal": "J2.18",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            2.11,
+            49.05
+          ],
+          [
+            3.61,
+            49.05
+          ]
+        ]
+      },
+      {
+        "terminal": "J3.3",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            49.05
+          ],
+          [
+            18.39,
+            49.05
+          ]
+        ]
+      },
+      {
+        "terminal": "J3.8",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            36.35
+          ],
+          [
+            18.39,
+            36.35
+          ]
+        ]
+      },
+      {
+        "terminal": "J3.13",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            23.65
+          ],
+          [
+            18.39,
+            23.65
+          ]
+        ]
+      },
+      {
+        "terminal": "J3.18",
+        "beforeLayer": "F.Cu",
+        "afterLayer": "B.Cu",
+        "widthMm": 0.3,
+        "points": [
+          [
+            19.89,
+            10.95
+          ],
+          [
+            18.39,
+            10.95
+          ]
+        ]
+      }
+    ],
+    "geometryWidthChanges": 0,
+    "newOrdinaryVias": 0,
+    "groundContact": "PTH connects pad faces; actualB trace-to-connectedBfill contact must be verified later. Rectangle/projection alone is not proof."
+  }
+}

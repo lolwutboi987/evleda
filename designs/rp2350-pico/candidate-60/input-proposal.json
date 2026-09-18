@@ -1,0 +1,3575 @@
+{
+  "schema": "rp2350.candidate60.input-proposal.v1",
+  "status": "Prepared future input; no managed workspace/native document created",
+  "baseV9Draft": {
+    "algorithm": "sha256",
+    "digest": "442f219438929d4d7f102d6a910bf79e623c71d0ca2647718e6d392040bd2166",
+    "size": 100191,
+    "serialization": "UTF-8 JSON.stringify"
+  },
+  "parentFiles": {
+    "proposal.json": {
+      "algorithm": "sha256",
+      "digest": "28d80f496c3723246dd0f79c4b56d9305feb4b642f16f044556ce2ce9f78bffd",
+      "size": 6771
+    },
+    "physical.json": {
+      "algorithm": "sha256",
+      "digest": "7846aa97062d200913228265d1a94762d80df3590d6e149c1055fb85c5dc2bdb",
+      "size": 114297
+    },
+    "run-offset-01/local-set.json": {
+      "algorithm": "sha256",
+      "digest": "1da6a1cf0529c9381c2635cdfa0957c7a6a358ef88592ae1e6a73c7aad976853",
+      "size": 54291
+    }
+  },
+  "targetPoses": {
+    "U1": {
+      "x": 10.4,
+      "y": 32.5,
+      "r": 0
+    },
+    "U2": {
+      "x": 10.5,
+      "y": 16.45,
+      "r": 90
+    },
+    "U3": {
+      "x": 6.05,
+      "y": 26,
+      "r": 90
+    },
+    "U4": {
+      "x": 10.85,
+      "y": 11.55,
+      "r": 0
+    },
+    "J1": {
+      "x": 11,
+      "y": 4.975,
+      "r": 180
+    },
+    "J2": {
+      "x": 2.11,
+      "y": 5.87,
+      "r": 0
+    },
+    "J3": {
+      "x": 19.89,
+      "y": 54.13,
+      "r": 180
+    },
+    "J4": {
+      "x": 8.46,
+      "y": 57.2,
+      "r": 90
+    },
+    "L1": {
+      "x": 12.45,
+      "y": 24.85,
+      "r": 0
+    },
+    "L2": {
+      "x": 10.5,
+      "y": 20.86,
+      "r": 180
+    },
+    "Q1": {
+      "x": 17.14,
+      "y": 27.5,
+      "r": 0
+    },
+    "D1": {
+      "x": 16.9,
+      "y": 13.2,
+      "r": 90
+    },
+    "D2": {
+      "x": 7,
+      "y": 44.8,
+      "r": 0
+    },
+    "SW1": {
+      "x": 5.5,
+      "y": 39.5,
+      "r": 90
+    },
+    "SW2": {
+      "x": 16.2,
+      "y": 42,
+      "r": 90
+    },
+    "Y1": {
+      "x": 9.6,
+      "y": 40.8,
+      "r": 0
+    },
+    "R1": {
+      "x": 10.025,
+      "y": 26.89,
+      "r": 90
+    },
+    "R2": {
+      "x": 10.985,
+      "y": 27,
+      "r": 90
+    },
+    "R3": {
+      "x": 7.8,
+      "y": 10.8,
+      "r": 90
+    },
+    "R4": {
+      "x": 6.5,
+      "y": 10.8,
+      "r": 90
+    },
+    "R5": {
+      "x": 4.225,
+      "y": 27.5,
+      "r": 90
+    },
+    "R6": {
+      "x": 4.7,
+      "y": 29,
+      "r": 0
+    },
+    "R7": {
+      "x": 9.5,
+      "y": 38.48,
+      "r": 180
+    },
+    "R8": {
+      "x": 14.69,
+      "y": 25.6,
+      "r": 270
+    },
+    "R9": {
+      "x": 13.33,
+      "y": 19.29,
+      "r": 90
+    },
+    "R10": {
+      "x": 15,
+      "y": 19.15,
+      "r": 0
+    },
+    "R11": {
+      "x": 16.75,
+      "y": 16.9,
+      "r": 0
+    },
+    "R12": {
+      "x": 16.75,
+      "y": 18.1,
+      "r": 0
+    },
+    "R13": {
+      "x": 17.3,
+      "y": 24.3,
+      "r": 0
+    },
+    "R14": {
+      "x": 15.45,
+      "y": 23.6,
+      "r": 90
+    },
+    "R15": {
+      "x": 17.98,
+      "y": 30.4,
+      "r": 270
+    },
+    "R16": {
+      "x": 16.6,
+      "y": 34.85,
+      "r": 0
+    },
+    "R17": {
+      "x": 18,
+      "y": 32.9,
+      "r": 90
+    },
+    "R18": {
+      "x": 10.5,
+      "y": 44.8,
+      "r": 0
+    },
+    "R19": {
+      "x": 13.3,
+      "y": 39.7,
+      "r": 270
+    },
+    "R20": {
+      "x": 13.2,
+      "y": 42.7,
+      "r": 270
+    },
+    "C1": {
+      "x": 12.4,
+      "y": 27.74,
+      "r": 0
+    },
+    "C2": {
+      "x": 12.5,
+      "y": 26.65,
+      "r": 0
+    },
+    "C3": {
+      "x": 14.6,
+      "y": 27.45,
+      "r": 270
+    },
+    "C4": {
+      "x": 12.27,
+      "y": 38.4,
+      "r": 270
+    },
+    "C5": {
+      "x": 5.2,
+      "y": 30.32,
+      "r": 180
+    },
+    "C6": {
+      "x": 5,
+      "y": 33.7,
+      "r": 180
+    },
+    "C7": {
+      "x": 8.36,
+      "y": 37.34,
+      "r": 180
+    },
+    "C8": {
+      "x": 15.5,
+      "y": 37.62,
+      "r": 270
+    },
+    "C9": {
+      "x": 16.45,
+      "y": 33.71,
+      "r": 0
+    },
+    "C10": {
+      "x": 16.5,
+      "y": 29.3,
+      "r": 0
+    },
+    "C11": {
+      "x": 5.2,
+      "y": 31.8,
+      "r": 180
+    },
+    "C12": {
+      "x": 11,
+      "y": 37.92,
+      "r": 270
+    },
+    "C13": {
+      "x": 16.5,
+      "y": 32.58,
+      "r": 0
+    },
+    "C14": {
+      "x": 8.965,
+      "y": 26.6,
+      "r": 90
+    },
+    "C15": {
+      "x": 7.89,
+      "y": 25.78,
+      "r": 270
+    },
+    "C16": {
+      "x": 16.5,
+      "y": 30.32,
+      "r": 0
+    },
+    "C17": {
+      "x": 16.5,
+      "y": 31.45,
+      "r": 0
+    },
+    "C18": {
+      "x": 5.6,
+      "y": 22.5,
+      "r": 90
+    },
+    "C19": {
+      "x": 6.8,
+      "y": 22.5,
+      "r": 90
+    },
+    "C20": {
+      "x": 14,
+      "y": 15.81,
+      "r": 90
+    },
+    "C21": {
+      "x": 7,
+      "y": 15.81,
+      "r": 90
+    },
+    "C22": {
+      "x": 11,
+      "y": 13.81,
+      "r": 0
+    },
+    "C23": {
+      "x": 17.3,
+      "y": 25.5,
+      "r": 180
+    },
+    "C24": {
+      "x": 6.49,
+      "y": 42.92,
+      "r": 180
+    },
+    "C25": {
+      "x": 12.27,
+      "y": 40.75,
+      "r": 270
+    },
+    "C26": {
+      "x": 13.92,
+      "y": 11.55,
+      "r": 0
+    }
+  },
+  "board": {
+    "outline": [
+      [
+        0,
+        0
+      ],
+      [
+        22,
+        0
+      ],
+      [
+        22,
+        60
+      ],
+      [
+        0,
+        60
+      ]
+    ],
+    "sizeMm": [
+      22,
+      60
+    ],
+    "copperLayers": [
+      "F.Cu",
+      "B.Cu"
+    ],
+    "lengthIncreaseOver51Mm": 9
+  },
+  "boardHoles": [
+    {
+      "reference": "H1",
+      "atMm": [
+        3.53,
+        2
+      ],
+      "boreDiameterMm": 2.1,
+      "holeToCopperMm": 0.25
+    },
+    {
+      "reference": "H2",
+      "atMm": [
+        18.47,
+        2
+      ],
+      "boreDiameterMm": 2.1,
+      "holeToCopperMm": 0.25
+    },
+    {
+      "reference": "H3",
+      "atMm": [
+        3.53,
+        58
+      ],
+      "boreDiameterMm": 2.1,
+      "holeToCopperMm": 0.25
+    },
+    {
+      "reference": "H4",
+      "atMm": [
+        18.47,
+        58
+      ],
+      "boreDiameterMm": 2.1,
+      "holeToCopperMm": 0.25
+    }
+  ],
+  "header": {
+    "translationYFromOriginalMm": 4.5,
+    "firstLastYmm": [
+      5.87,
+      54.13
+    ],
+    "pitchMm": 2.54,
+    "rowSpacingMm": 17.78,
+    "landsAndDrillsUnchanged": true
+  },
+  "assumedHardware": {
+    "headDiameterMm": 4,
+    "headHeightMm": 2.2,
+    "verticalDriverEnvelopeDiameterMm": 5,
+    "minimumProposedClearanceToActualPadsAndBodiesMm": 0.25,
+    "source": "Explicit planning envelopes only; no fastener/tool part selected or tolerance qualification.",
+    "courtyardReservationDisposition": "Head/tool intersections with stock courtyard buffers are separately retained; no automatic exemption."
+  },
+  "extraRootDisposition": {
+    "J2EdgePreference": "left",
+    "J3EdgePreference": "right",
+    "J4": {
+      "before": {
+        "x": 8.46,
+        "y": 48.2,
+        "r": 90
+      },
+      "after": {
+        "x": 8.46,
+        "y": 57.2,
+        "r": 90
+      },
+      "edgePreference": "bottom",
+      "reason": "Root explicitly movedJ4 +9mmY with boardlength growth to retain original bottom-edge access; frozen parent unchanged."
+    },
+    "groundEntries": {
+      "authority": "Explicit root planning instruction for candidate60",
+      "changes": [
+        {
+          "terminal": "J2.3",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              2.11,
+              10.95
+            ],
+            [
+              3.61,
+              10.95
+            ]
+          ]
+        },
+        {
+          "terminal": "J2.8",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              2.11,
+              23.65
+            ],
+            [
+              3.61,
+              23.65
+            ]
+          ]
+        },
+        {
+          "terminal": "J2.13",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              2.11,
+              36.35
+            ],
+            [
+              3.61,
+              36.35
+            ]
+          ]
+        },
+        {
+          "terminal": "J2.18",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              2.11,
+              49.05
+            ],
+            [
+              3.61,
+              49.05
+            ]
+          ]
+        },
+        {
+          "terminal": "J3.3",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              19.89,
+              49.05
+            ],
+            [
+              18.39,
+              49.05
+            ]
+          ]
+        },
+        {
+          "terminal": "J3.8",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              19.89,
+              36.35
+            ],
+            [
+              18.39,
+              36.35
+            ]
+          ]
+        },
+        {
+          "terminal": "J3.13",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              19.89,
+              23.65
+            ],
+            [
+              18.39,
+              23.65
+            ]
+          ]
+        },
+        {
+          "terminal": "J3.18",
+          "beforeLayer": "F.Cu",
+          "afterLayer": "B.Cu",
+          "widthMm": 0.3,
+          "points": [
+            [
+              19.89,
+              10.95
+            ],
+            [
+              18.39,
+              10.95
+            ]
+          ]
+        }
+      ],
+      "geometryWidthChanges": 0,
+      "newOrdinaryVias": 0,
+      "groundContact": "PTH connects pad faces; actualB trace-to-connectedBfill contact must be verified later. Rectangle/projection alone is not proof."
+    }
+  },
+  "regionPolicy": "Rotate all four oldV9region-corner offsets around OLD preferred target by exact pose rotationdelta; add NEW target; take AABB. Rotate allowed rotations by same delta. Preserve frontside and all numerical edge/courtyard floors. No clipping.",
+  "regionChanges": [
+    {
+      "reference": "C1",
+      "oldPreferred": {
+        "x": 13,
+        "y": 17.24,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 12.4,
+        "y": 27.74,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.6,
+          "maxXmm": 14.2,
+          "minYmm": 14.8,
+          "maxYmm": 17.7
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12,
+          "maxXmm": 13.6,
+          "minYmm": 25.3,
+          "maxYmm": 28.2
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C10",
+      "oldPreferred": {
+        "x": 16.5,
+        "y": 18.8,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 16.5,
+        "y": 29.3,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C10",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 18.5,
+          "maxYmm": 19.1
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C10",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 29,
+          "maxYmm": 29.6
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C11",
+      "oldPreferred": {
+        "x": 5.8,
+        "y": 21.3,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 5.2,
+        "y": 31.8,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C11",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.95,
+          "maxXmm": 6.05,
+          "minYmm": 21,
+          "maxYmm": 21.6
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C11",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.35,
+          "maxXmm": 5.45,
+          "minYmm": 31.5,
+          "maxYmm": 32.1
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C12",
+      "oldPreferred": {
+        "x": 11,
+        "y": 27.42,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 11,
+        "y": 37.92,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C12",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.8,
+          "maxXmm": 11.3,
+          "minYmm": 26.82,
+          "maxYmm": 27.42
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C12",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.8,
+          "maxXmm": 11.3,
+          "minYmm": 37.32,
+          "maxYmm": 37.92
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C13",
+      "oldPreferred": {
+        "x": 16.5,
+        "y": 22.08,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 16.5,
+        "y": 32.58,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C13",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 21.8,
+          "maxYmm": 22.4
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C13",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 32.3,
+          "maxYmm": 32.9
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C14",
+      "oldPreferred": {
+        "x": 9.565,
+        "y": 16.1,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 8.965,
+        "y": 26.6,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C14",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.05,
+          "maxXmm": 9.815,
+          "minYmm": 15.9,
+          "maxYmm": 17
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C14",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.45,
+          "maxXmm": 9.215,
+          "minYmm": 26.4,
+          "maxYmm": 27.5
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C15",
+      "oldPreferred": {
+        "x": 8.49,
+        "y": 15.28,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 7.89,
+        "y": 25.78,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C15",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.1,
+          "maxXmm": 8.875,
+          "minYmm": 15.22,
+          "maxYmm": 17
+        },
+        "allowedRotationsDeg": [
+          90,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C15",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 7.5,
+          "maxXmm": 8.275,
+          "minYmm": 25.72,
+          "maxYmm": 27.5
+        },
+        "allowedRotationsDeg": [
+          90,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C16",
+      "oldPreferred": {
+        "x": 16.5,
+        "y": 19.82,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 16.5,
+        "y": 30.32,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C16",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 19.6,
+          "maxYmm": 20.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C16",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 30.1,
+          "maxYmm": 30.7
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C17",
+      "oldPreferred": {
+        "x": 16.5,
+        "y": 20.95,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 16.5,
+        "y": 31.45,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C17",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 20.7,
+          "maxYmm": 21.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C17",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 31.2,
+          "maxYmm": 31.8
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C18",
+      "oldPreferred": {
+        "x": 5.4,
+        "y": 12,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 5.6,
+        "y": 22.5,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C18",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.25,
+          "maxXmm": 5.55,
+          "minYmm": 11.9,
+          "maxYmm": 12.5
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C18",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.45,
+          "maxXmm": 5.75,
+          "minYmm": 22.4,
+          "maxYmm": 23
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C19",
+      "oldPreferred": {
+        "x": 6.6,
+        "y": 12,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 6.8,
+        "y": 22.5,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C19",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.45,
+          "maxXmm": 6.75,
+          "minYmm": 11.9,
+          "maxYmm": 12.5
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C19",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.65,
+          "maxXmm": 6.95,
+          "minYmm": 22.4,
+          "maxYmm": 23
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C2",
+      "oldPreferred": {
+        "x": 13.1,
+        "y": 16.15,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 12.5,
+        "y": 26.65,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.6,
+          "maxXmm": 16,
+          "minYmm": 13.9,
+          "maxYmm": 17.5
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12,
+          "maxXmm": 15.4,
+          "minYmm": 24.4,
+          "maxYmm": 28
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C20",
+      "oldPreferred": {
+        "x": 11.7,
+        "y": 42,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 14,
+        "y": 15.81,
+        "r": 90
+      },
+      "rotationDeltaDeg": 90,
+      "before": {
+        "reference": "C20",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 11.4,
+          "maxXmm": 12,
+          "minYmm": 41.7,
+          "maxYmm": 42.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C20",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.7,
+          "maxXmm": 14.3,
+          "minYmm": 15.51,
+          "maxYmm": 16.11
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C21",
+      "oldPreferred": {
+        "x": 11.7,
+        "y": 35,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 7,
+        "y": 15.81,
+        "r": 90
+      },
+      "rotationDeltaDeg": 90,
+      "before": {
+        "reference": "C21",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 11.4,
+          "maxXmm": 12,
+          "minYmm": 34.7,
+          "maxYmm": 35.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C21",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.7,
+          "maxXmm": 7.3,
+          "minYmm": 15.51,
+          "maxYmm": 16.11
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C22",
+      "oldPreferred": {
+        "x": 14,
+        "y": 38.47,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 11,
+        "y": 13.81,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C22",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.4,
+          "maxXmm": 14,
+          "minYmm": 38.2,
+          "maxYmm": 38.8
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C22",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.4,
+          "maxXmm": 11,
+          "minYmm": 13.54,
+          "maxYmm": 14.14
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C23",
+      "oldPreferred": {
+        "x": 17.7,
+        "y": 15,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 17.3,
+        "y": 25.5,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C23",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.45,
+          "maxXmm": 17.95,
+          "minYmm": 14.6,
+          "maxYmm": 17.3
+        },
+        "allowedRotationsDeg": [
+          0,
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C23",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.05,
+          "maxXmm": 17.55,
+          "minYmm": 25.1,
+          "maxYmm": 27.8
+        },
+        "allowedRotationsDeg": [
+          0,
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C24",
+      "oldPreferred": {
+        "x": 6.49,
+        "y": 32.42,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 6.49,
+        "y": 42.92,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C24",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.24,
+          "maxXmm": 6.74,
+          "minYmm": 32.12,
+          "maxYmm": 32.72
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C24",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.24,
+          "maxXmm": 6.74,
+          "minYmm": 42.62,
+          "maxYmm": 43.22
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C25",
+      "oldPreferred": {
+        "x": 12.27,
+        "y": 30.25,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 12.27,
+        "y": 40.75,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C25",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.02,
+          "maxXmm": 12.97,
+          "minYmm": 28.7,
+          "maxYmm": 30.5
+        },
+        "allowedRotationsDeg": [
+          0,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C25",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.02,
+          "maxXmm": 12.97,
+          "minYmm": 39.2,
+          "maxYmm": 41
+        },
+        "allowedRotationsDeg": [
+          0,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C26",
+      "oldPreferred": {
+        "x": 13.8,
+        "y": 11.9,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 13.92,
+        "y": 11.55,
+        "r": 0
+      },
+      "rotationDeltaDeg": 270,
+      "before": {
+        "reference": "C26",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.6,
+          "maxXmm": 14,
+          "minYmm": 11.65,
+          "maxYmm": 12.15
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C26",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.67,
+          "maxXmm": 14.17,
+          "minYmm": 11.35,
+          "maxYmm": 11.75
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C3",
+      "oldPreferred": {
+        "x": 15.2,
+        "y": 16.95,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 14.6,
+        "y": 27.45,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15,
+          "maxXmm": 16,
+          "minYmm": 16.4,
+          "maxYmm": 17.8
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.4,
+          "maxXmm": 15.4,
+          "minYmm": 26.9,
+          "maxYmm": 28.3
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C4",
+      "oldPreferred": {
+        "x": 12.27,
+        "y": 27.9,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 12.27,
+        "y": 38.4,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 11.9,
+          "maxXmm": 12.4,
+          "minYmm": 26.82,
+          "maxYmm": 28.05
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 11.9,
+          "maxXmm": 12.4,
+          "minYmm": 37.32,
+          "maxYmm": 38.55
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C5",
+      "oldPreferred": {
+        "x": 5.8,
+        "y": 19.82,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 5.2,
+        "y": 30.32,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C5",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.7,
+          "maxXmm": 6.05,
+          "minYmm": 19.7,
+          "maxYmm": 20.55
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C5",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.1,
+          "maxXmm": 5.45,
+          "minYmm": 30.2,
+          "maxYmm": 31.05
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C6",
+      "oldPreferred": {
+        "x": 5.6,
+        "y": 23.2,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 5,
+        "y": 33.7,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C6",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.95,
+          "maxXmm": 6.05,
+          "minYmm": 22.9,
+          "maxYmm": 23.5
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C6",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.35,
+          "maxXmm": 5.45,
+          "minYmm": 33.4,
+          "maxYmm": 34
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C7",
+      "oldPreferred": {
+        "x": 8.36,
+        "y": 26.84,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 8.36,
+        "y": 37.34,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C7",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.2,
+          "maxXmm": 9.1,
+          "minYmm": 26.5,
+          "maxYmm": 27.42
+        },
+        "allowedRotationsDeg": [
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C7",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.2,
+          "maxXmm": 9.1,
+          "minYmm": 37,
+          "maxYmm": 37.92
+        },
+        "allowedRotationsDeg": [
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C8",
+      "oldPreferred": {
+        "x": 15.5,
+        "y": 27.12,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 15.5,
+        "y": 37.62,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C8",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14,
+          "maxXmm": 16,
+          "minYmm": 26.1,
+          "maxYmm": 28
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C8",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14,
+          "maxXmm": 16,
+          "minYmm": 36.6,
+          "maxYmm": 38.5
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "C9",
+      "oldPreferred": {
+        "x": 16.45,
+        "y": 23.21,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 16.45,
+        "y": 33.71,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "C9",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 22.9,
+          "maxYmm": 23.5
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "C9",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 33.4,
+          "maxYmm": 34
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "D1",
+      "oldPreferred": {
+        "x": 17.55,
+        "y": 10.8,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 16.9,
+        "y": 13.2,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "D1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.52,
+          "maxXmm": 17.59,
+          "minYmm": 10.5,
+          "maxYmm": 10.8
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "D1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.87,
+          "maxXmm": 16.94,
+          "minYmm": 12.9,
+          "maxYmm": 13.2
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "D2",
+      "oldPreferred": {
+        "x": 16.3,
+        "y": 44.9,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 7,
+        "y": 44.8,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "D2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.05,
+          "maxXmm": 16.55,
+          "minYmm": 44.6,
+          "maxYmm": 45.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "D2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.75,
+          "maxXmm": 7.25,
+          "minYmm": 44.5,
+          "maxYmm": 45.1
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "J2",
+      "oldPreferred": {
+        "x": 2.11,
+        "y": 1.37,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 2.11,
+        "y": 5.87,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "J2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 2.11,
+          "maxXmm": 2.11,
+          "minYmm": 1.37,
+          "maxYmm": 1.37
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "top"
+      },
+      "after": {
+        "reference": "J2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 2.11,
+          "maxXmm": 2.11,
+          "minYmm": 5.87,
+          "maxYmm": 5.87
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "left"
+      }
+    },
+    {
+      "reference": "J3",
+      "oldPreferred": {
+        "x": 19.89,
+        "y": 49.63,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 19.89,
+        "y": 54.13,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "J3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 19.89,
+          "maxXmm": 19.89,
+          "minYmm": 49.63,
+          "maxYmm": 49.63
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "bottom"
+      },
+      "after": {
+        "reference": "J3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 19.89,
+          "maxXmm": 19.89,
+          "minYmm": 54.13,
+          "maxYmm": 54.13
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "right"
+      }
+    },
+    {
+      "reference": "J4",
+      "oldPreferred": {
+        "x": 8.46,
+        "y": 48.2,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 8.46,
+        "y": 57.2,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "J4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.46,
+          "maxXmm": 8.46,
+          "minYmm": 48.2,
+          "maxYmm": 48.2
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "bottom"
+      },
+      "after": {
+        "reference": "J4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 8.46,
+          "maxXmm": 8.46,
+          "minYmm": 57.2,
+          "maxYmm": 57.2
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "bottom"
+      }
+    },
+    {
+      "reference": "L1",
+      "oldPreferred": {
+        "x": 13.05,
+        "y": 14.35,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 12.45,
+        "y": 24.85,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "L1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.85,
+          "maxXmm": 14.1,
+          "minYmm": 14.35,
+          "maxYmm": 17.2
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "L1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.25,
+          "maxXmm": 13.5,
+          "minYmm": 24.85,
+          "maxYmm": 27.7
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "L2",
+      "oldPreferred": {
+        "x": 6.65,
+        "y": 38.5,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 10.5,
+        "y": 20.86,
+        "r": 180
+      },
+      "rotationDeltaDeg": 90,
+      "before": {
+        "reference": "L2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.35,
+          "maxXmm": 6.95,
+          "minYmm": 38.2,
+          "maxYmm": 38.8
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "L2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.2,
+          "maxXmm": 10.8,
+          "minYmm": 20.56,
+          "maxYmm": 21.16
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "Q1",
+      "oldPreferred": {
+        "x": 17.54,
+        "y": 17,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 17.14,
+        "y": 27.5,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "Q1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.1,
+          "maxXmm": 17.54,
+          "minYmm": 15.2,
+          "maxYmm": 17.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "Q1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.7,
+          "maxXmm": 17.14,
+          "minYmm": 25.7,
+          "maxYmm": 27.8
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R1",
+      "oldPreferred": {
+        "x": 10.625,
+        "y": 16.39,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 10.025,
+        "y": 26.89,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.5,
+          "maxXmm": 10.75,
+          "minYmm": 16.25,
+          "maxYmm": 16.95
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.9,
+          "maxXmm": 10.15,
+          "minYmm": 26.75,
+          "maxYmm": 27.45
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R10",
+      "oldPreferred": {
+        "x": 15.35,
+        "y": 39.5,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 15,
+        "y": 19.15,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R10",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15,
+          "maxXmm": 15.7,
+          "minYmm": 38.9,
+          "maxYmm": 39.5
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R10",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.65,
+          "maxXmm": 15.35,
+          "minYmm": 18.55,
+          "maxYmm": 19.15
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R11",
+      "oldPreferred": {
+        "x": 16.6,
+        "y": 25.6,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 16.75,
+        "y": 16.9,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R11",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 25.3,
+          "maxYmm": 25.9
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R11",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.4,
+          "maxXmm": 16.9,
+          "minYmm": 16.6,
+          "maxYmm": 17.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R12",
+      "oldPreferred": {
+        "x": 18.1,
+        "y": 26.1,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 16.75,
+        "y": 18.1,
+        "r": 0
+      },
+      "rotationDeltaDeg": 270,
+      "before": {
+        "reference": "R12",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.75,
+          "maxXmm": 18.25,
+          "minYmm": 25.5,
+          "maxYmm": 26.1
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R12",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.75,
+          "maxXmm": 17.35,
+          "minYmm": 17.75,
+          "maxYmm": 18.25
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R13",
+      "oldPreferred": {
+        "x": 17.7,
+        "y": 13.8,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 17.3,
+        "y": 24.3,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R13",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.45,
+          "maxXmm": 17.95,
+          "minYmm": 13.5,
+          "maxYmm": 14.1
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R13",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.05,
+          "maxXmm": 17.55,
+          "minYmm": 24,
+          "maxYmm": 24.6
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R14",
+      "oldPreferred": {
+        "x": 15.85,
+        "y": 13.1,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 15.45,
+        "y": 23.6,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R14",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.6,
+          "maxXmm": 16.4,
+          "minYmm": 12.9,
+          "maxYmm": 14.1
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R14",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.2,
+          "maxXmm": 16,
+          "minYmm": 23.4,
+          "maxYmm": 24.6
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R15",
+      "oldPreferred": {
+        "x": 18.15,
+        "y": 19.4,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 17.98,
+        "y": 30.4,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R15",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.75,
+          "maxXmm": 18.25,
+          "minYmm": 19.1,
+          "maxYmm": 19.7
+        },
+        "allowedRotationsDeg": [
+          90,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R15",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.58,
+          "maxXmm": 18.08,
+          "minYmm": 30.1,
+          "maxYmm": 30.7
+        },
+        "allowedRotationsDeg": [
+          90,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R16",
+      "oldPreferred": {
+        "x": 16.6,
+        "y": 24.35,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 16.6,
+        "y": 34.85,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R16",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 24.1,
+          "maxYmm": 24.7
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R16",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 16.25,
+          "maxXmm": 16.75,
+          "minYmm": 34.6,
+          "maxYmm": 35.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R17",
+      "oldPreferred": {
+        "x": 18.12,
+        "y": 21.6,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 18,
+        "y": 32.9,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R17",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.75,
+          "maxXmm": 18.25,
+          "minYmm": 21.3,
+          "maxYmm": 21.9
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R17",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 17.63,
+          "maxXmm": 18.13,
+          "minYmm": 32.6,
+          "maxYmm": 33.2
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R18",
+      "oldPreferred": {
+        "x": 13.5,
+        "y": 44.9,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 10.5,
+        "y": 44.8,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R18",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.25,
+          "maxXmm": 13.75,
+          "minYmm": 44.6,
+          "maxYmm": 45.2
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R18",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.25,
+          "maxXmm": 10.75,
+          "minYmm": 44.5,
+          "maxYmm": 45.1
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R19",
+      "oldPreferred": {
+        "x": 13.3,
+        "y": 29.2,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 13.3,
+        "y": 39.7,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R19",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.05,
+          "maxXmm": 13.55,
+          "minYmm": 26.85,
+          "maxYmm": 29.45
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R19",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.05,
+          "maxXmm": 13.55,
+          "minYmm": 37.35,
+          "maxYmm": 39.95
+        },
+        "allowedRotationsDeg": [
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R2",
+      "oldPreferred": {
+        "x": 11.585,
+        "y": 16.5,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 10.985,
+        "y": 27,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 11.485,
+          "maxXmm": 11.685,
+          "minYmm": 16.3,
+          "maxYmm": 16.7
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.885,
+          "maxXmm": 11.085,
+          "minYmm": 26.8,
+          "maxYmm": 27.2
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R20",
+      "oldPreferred": {
+        "x": 13.2,
+        "y": 32.2,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 13.2,
+        "y": 42.7,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R20",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.2,
+          "maxXmm": 16.45,
+          "minYmm": 26.8,
+          "maxYmm": 32.9
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R20",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 13.2,
+          "maxXmm": 16.45,
+          "minYmm": 37.3,
+          "maxYmm": 43.4
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R3",
+      "oldPreferred": {
+        "x": 12.83,
+        "y": 10.4,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 7.8,
+        "y": 10.8,
+        "r": 90
+      },
+      "rotationDeltaDeg": 90,
+      "before": {
+        "reference": "R3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.58,
+          "maxXmm": 13.08,
+          "minYmm": 10.15,
+          "maxYmm": 10.65
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 7.55,
+          "maxXmm": 8.05,
+          "minYmm": 10.55,
+          "maxYmm": 11.05
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R4",
+      "oldPreferred": {
+        "x": 7.37,
+        "y": 10.5,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 6.5,
+        "y": 10.8,
+        "r": 90
+      },
+      "rotationDeltaDeg": 270,
+      "before": {
+        "reference": "R4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 7.12,
+          "maxXmm": 7.62,
+          "minYmm": 10.25,
+          "maxYmm": 10.75
+        },
+        "allowedRotationsDeg": [
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.25,
+          "maxXmm": 6.75,
+          "minYmm": 10.55,
+          "maxYmm": 11.05
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R5",
+      "oldPreferred": {
+        "x": 4.025,
+        "y": 17,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 4.225,
+        "y": 27.5,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R5",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4,
+          "maxXmm": 4.75,
+          "minYmm": 16.9,
+          "maxYmm": 17.3
+        },
+        "allowedRotationsDeg": [
+          90,
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R5",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.2,
+          "maxXmm": 4.95,
+          "minYmm": 27.4,
+          "maxYmm": 27.8
+        },
+        "allowedRotationsDeg": [
+          90,
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R6",
+      "oldPreferred": {
+        "x": 4.5,
+        "y": 18.5,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 4.7,
+        "y": 29,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R6",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.25,
+          "maxXmm": 4.75,
+          "minYmm": 18.2,
+          "maxYmm": 18.8
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R6",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 4.45,
+          "maxXmm": 4.95,
+          "minYmm": 28.7,
+          "maxYmm": 29.3
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R7",
+      "oldPreferred": {
+        "x": 9.5,
+        "y": 27.98,
+        "r": 180
+      },
+      "newPreferred": {
+        "x": 9.5,
+        "y": 38.48,
+        "r": 180
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R7",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.35,
+          "maxXmm": 10.2,
+          "minYmm": 26.85,
+          "maxYmm": 28.1
+        },
+        "allowedRotationsDeg": [
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R7",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.35,
+          "maxXmm": 10.2,
+          "minYmm": 37.35,
+          "maxYmm": 38.6
+        },
+        "allowedRotationsDeg": [
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R8",
+      "oldPreferred": {
+        "x": 15.29,
+        "y": 15.1,
+        "r": 270
+      },
+      "newPreferred": {
+        "x": 14.69,
+        "y": 25.6,
+        "r": 270
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R8",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.9,
+          "maxXmm": 16,
+          "minYmm": 14.3,
+          "maxYmm": 16.4
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R8",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.3,
+          "maxXmm": 15.4,
+          "minYmm": 24.8,
+          "maxYmm": 26.9
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "R9",
+      "oldPreferred": {
+        "x": 14.72,
+        "y": 41,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 13.33,
+        "y": 19.29,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "R9",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 14.3,
+          "maxXmm": 15.5,
+          "minYmm": 40.1,
+          "maxYmm": 41
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "R9",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 12.91,
+          "maxXmm": 14.11,
+          "minYmm": 18.39,
+          "maxYmm": 19.29
+        },
+        "allowedRotationsDeg": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "SW1",
+      "oldPreferred": {
+        "x": 5.5,
+        "y": 29,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 5.5,
+        "y": 39.5,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "SW1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.15,
+          "maxXmm": 5.85,
+          "minYmm": 28.65,
+          "maxYmm": 29.35
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "SW1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.15,
+          "maxXmm": 5.85,
+          "minYmm": 39.15,
+          "maxYmm": 39.85
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "SW2",
+      "oldPreferred": {
+        "x": 16.2,
+        "y": 32,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 16.2,
+        "y": 42,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "SW2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.85,
+          "maxXmm": 16.55,
+          "minYmm": 31.65,
+          "maxYmm": 32.35
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "SW2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 15.85,
+          "maxXmm": 16.55,
+          "minYmm": 41.65,
+          "maxYmm": 42.35
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "U1",
+      "oldPreferred": {
+        "x": 11,
+        "y": 22,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 10.4,
+        "y": 32.5,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "U1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.9,
+          "maxXmm": 11.1,
+          "minYmm": 22,
+          "maxYmm": 22.15
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "U1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.3,
+          "maxXmm": 10.5,
+          "minYmm": 32.5,
+          "maxYmm": 32.65
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "U2",
+      "oldPreferred": {
+        "x": 11.06,
+        "y": 38.5,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 10.5,
+        "y": 16.45,
+        "r": 90
+      },
+      "rotationDeltaDeg": 90,
+      "before": {
+        "reference": "U2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.85,
+          "maxXmm": 11.45,
+          "minYmm": 38.2,
+          "maxYmm": 38.8
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "U2",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.2,
+          "maxXmm": 10.8,
+          "minYmm": 16.06,
+          "maxYmm": 16.66
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "U3",
+      "oldPreferred": {
+        "x": 5.85,
+        "y": 15.5,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 6.05,
+        "y": 26,
+        "r": 90
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "U3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 5.85,
+          "maxXmm": 7.3,
+          "minYmm": 15.15,
+          "maxYmm": 15.65
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "U3",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 6.05,
+          "maxXmm": 7.5,
+          "minYmm": 25.65,
+          "maxYmm": 26.15
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.01,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "U4",
+      "oldPreferred": {
+        "x": 10.1,
+        "y": 12.15,
+        "r": 90
+      },
+      "newPreferred": {
+        "x": 10.85,
+        "y": 11.55,
+        "r": 0
+      },
+      "rotationDeltaDeg": 270,
+      "before": {
+        "reference": "U4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.8,
+          "maxXmm": 10.3,
+          "minYmm": 11.9,
+          "maxYmm": 12.15
+        },
+        "allowedRotationsDeg": [
+          90
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "U4",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 10.85,
+          "maxXmm": 11.1,
+          "minYmm": 11.25,
+          "maxYmm": 11.75
+        },
+        "allowedRotationsDeg": [
+          0
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    },
+    {
+      "reference": "Y1",
+      "oldPreferred": {
+        "x": 9.6,
+        "y": 30.3,
+        "r": 0
+      },
+      "newPreferred": {
+        "x": 9.6,
+        "y": 40.8,
+        "r": 0
+      },
+      "rotationDeltaDeg": 0,
+      "before": {
+        "reference": "Y1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.35,
+          "maxXmm": 9.85,
+          "minYmm": 30,
+          "maxYmm": 30.6
+        },
+        "allowedRotationsDeg": [
+          0,
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      },
+      "after": {
+        "reference": "Y1",
+        "side": "front",
+        "regionMm": {
+          "minXmm": 9.35,
+          "maxXmm": 9.85,
+          "minYmm": 40.5,
+          "maxYmm": 41.1
+        },
+        "allowedRotationsDeg": [
+          0,
+          180
+        ],
+        "minimumEdgeClearanceMm": 0.25,
+        "minimumCourtyardClearanceMm": 0.1,
+        "edgePreference": "none"
+      }
+    }
+  ],
+  "planeDelta": {
+    "before": [
+      {
+        "id": "GND_PLANE",
+        "net": "GND",
+        "layer": "B.Cu",
+        "boundary": {
+          "minXmm": 0.5,
+          "maxXmm": 21.5,
+          "minYmm": 0.5,
+          "maxYmm": 50.5,
+          "kind": "rectangle"
+        },
+        "clearanceMm": 0.15,
+        "minimumCopperWidthMm": 0.2,
+        "copperFill": "solid",
+        "padConnection": {
+          "mode": "solid"
+        },
+        "islandPolicy": {
+          "removeUnconnected": true,
+          "minimumAreaMm2": 1,
+          "requireSingleConnectedComponent": true
+        }
+      }
+    ],
+    "after": [
+      {
+        "id": "GND_PLANE",
+        "net": "GND",
+        "layer": "B.Cu",
+        "boundary": {
+          "minXmm": 3.46,
+          "maxXmm": 18.54,
+          "minYmm": 0.5,
+          "maxYmm": 59.5,
+          "kind": "rectangle"
+        },
+        "clearanceMm": 0.15,
+        "minimumCopperWidthMm": 0.2,
+        "copperFill": "solid",
+        "padConnection": {
+          "mode": "solid"
+        },
+        "islandPolicy": {
+          "removeUnconnected": true,
+          "minimumAreaMm2": 1,
+          "requireSingleConnectedComponent": true
+        }
+      }
+    ]
+  },
+  "additionalPlanningScope": {
+    "headerServiceBands": [
+      {
+        "minX": 0,
+        "maxX": 3.46,
+        "minY": 0,
+        "maxY": 60,
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ]
+      },
+      {
+        "minX": 18.54,
+        "maxX": 22,
+        "minY": 0,
+        "maxY": 60,
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ]
+      }
+    ],
+    "trackAndViaExclusion": "The current closedcontract has no per-region arbitrary-track/via keepout field. Enforce these bands as additional planning and verification scope; only original J2/J3 lands/barrels and exact own-inward entry geometry are exceptions.",
+    "ground": "Root selectedall8GND localspokes B.Cu atunchangedpoints/widths. ExistingPTHconnectspadfaces; actualfilled-plane connectedcomponent andtracecontact/return verification remainopen. No headerordinaryvia is added bythisproposal."
+  },
+  "inheritedPolicyAppendix": [
+    "Use the existing62 electrical references,67 nets, complete six-net USB channel and four bare NPTH board features. Preserve all pins, component selections, ordinary clearances and declared reference corridors.",
+    "The future ordinary via geometry is uniformly0.55mm copper diameter and0.20mm drill, retaining minimum annulus0.15mm, drill-edge gap0.50mm and copper-edge0.50mm. The 143 global maximum equals the sum of all per-net reservations, not an actual-use target.",
+    "The accepted named C5-to-U1.1 terminal neck is at most1.00mm at0.20mm width (observed0.92mm) before at least0.30mm body copper. This supersedes only the old0.80mm limit for that named branch; R6 and other old0.80mm limits remain unchanged.",
+    "Preserve the accepted C19.1-to-C14.1 main feed limits: total at most6.55mm, at most5.00mm at0.20mm and at least1.54mm at0.30mm; the separate C15 branch fine allowance is at most0.15mm.",
+    "Preserve the accepted C8-only3V3 allowance: at most1.00mm at0.15mm under R20 and at most4.20mm at0.20mm on its approaches. POWER_FINE_015 applies to3V3 only;1V1 minimum remains0.20mm. Other power bodies remain at least0.30mm and converter-loop copper stays wider where declared.",
+    "The named C9-to-U1.38 terminal branch may use0.20mm width for at most1.00mm (observed0.803553mm), then at least0.30mm. Preserve its dedicated C9 bypass and shared digital return. This supersedes only that named terminal use; its DC screen is not high-frequency or ampacity qualification.",
+    "The named dvdd-south-front-feed distribution may total at most3.00mm, with separate0.20mm intervals at most0.84mm and0.40mm (aggregate at most1.24mm), and at least1.76mm at0.30mm. Preserve0.15mm clearance and local C4/C12/C13 loops. This is a distribution exception, not a terminal neck; the actual1V1 transition across a reference return remains subject to filled-plane review.",
+    "The root-accepted original-pose core return may use the named0.60mm B.Cu core-cap-pair-bottom-link and core-local-bottom-return, joining both retained adjacent capacitor vias to the new0.55/0.20mm PGND via at(13.4,19.225). Preserve the corrected0.16mm south leg at the lower capacitor via so every sequential join stays45degrees. Retain the0.30mm F.Cu local PGND access and separate explicit main connection to the QFN exposed-pad ground; do not infer a filled plane from source clearance.",
+    "The named incoming core-vin-feed may contain at most1.05mm of0.20mm copper (observed1.002817mm) with the remainder at least0.30mm. This is a supply-feed exception; the dedicated local C1-to-VIN switching leg remains1.343137mm at0.30mm. Preserve all other supply feeds, both capacitor-return vias and the separate C3 quiet return.",
+    "The accepted CC placement keeps USB_CC1 and USB_CC2 at 0.20 mm on F.Cu with zero vias and the exact original connector pin mapping. R3 is on the right at (12.83,10.40), 0 degrees; R4 is on the left at (7.37,10.50), 180 degrees. C26 moves to (13.8,11.90), 90 degrees. Its U4.5 positive path increases from 4.259998 mm to 4.669165 mm, and its ground access from 0.700 mm to 0.915269 mm. This is an accepted placement/bypass tradeoff, not an ESD performance improvement.",
+    "C23 may use 180 degrees at (17.7,15.0), preserving its original pin nets and value. The explicit VSYS_DIV tree is 6.043625 mm of 0.20 mm F.Cu with zero vias; C23 retains separate ground access. No circuit or signal policy change is introduced.",
+    "GPIO24_VBUS_SENSE, GPIO29_VSYS_SENSE and GPIO25_LED may use F.Cu/B.Cu with at most two ordinary 0.55/0.20 mm vias each. Minimize actual transitions. Their original total route limits remain 20, 18 and 45 mm respectively; preserve 0.20 mm width, 0.15 mm clearance, 0.50 mm copper-edge and hole-edge limits.",
+    "The added access allowance does not change circuit operation. Preserve GPIO24 divider/pin mapping; retain GPIO29 Q1 off-state isolation, the 100 kOhm lower leg, C23 filtering and quiet ADC return/routing. Keep ADC telemetry away from switching nodes and LED/switch-current return paths. GPIO25 still requires return/coupling review for its declared fast edge despite low repetition frequency. No precision, settling, ESD or native return acceptance is implied.",
+    "The reviewed control08 layout selects R19 (13.3,27.5), 270 degrees; C4 (12.27,27.9), 270 degrees; and C25 (12.72,29.9), 0 degrees. C12 is unchanged. C4 remains the dedicated 4.7 uF bulk capacitor, with total positive access 2.958823 mm at 0.30 mm and a dedicated 0.620 mm ground stub. C25 positive branch/ground access becomes 1.814264/0.950 mm versus 2.404/0.600 mm; Y1, R7 and component values remain unchanged. This redistribution enables the F.Cu-only, zero-via RUN route while preserving the clock graphs.",
+    "The accepted VSYS tail keeps its five existing vias and local converter loops, uses 0.30/0.50 mm distribution copper, and totals 79.104984 mm within the existing 130 mm limit. Its changed-section resistance is 52.459/64.450 mOhm at nominal 43/35 um copper; the full supply minimum at U2 still includes connector, diode, via and other copper losses.",
+    "The accepted GPIO25 candidate has 0.44 mm projected copper separation from R16.2 and 0.61 mm from ADC_VREF traces. Its remaining crossing over the B.Cu VSYS tail has a proposed 1.2 mm long, 0.30 mm F.Cu GND bridge, 0.8 mm alongside the signal, connected through two ordinary ground vias. Verify actual attachment to both filled B.GND regions and the full LED return in native assessment; source copper checks do not establish fast-edge, settling, ESD or plane-fill acceptance.",
+    "The accepted complete GPIO29 tree is8.175057 mm on F.Cu/B.Cu with two ordinary vias, using R15 at its unchanged (18.15,19.4) centre and270 degrees. Preserve Q1 off-state isolation, the100 kOhm lower leg, C23 filter, and R15/C16/C17 quiet return. C16/C17 copper and the quiet via remain unchanged; full annular-copper separation from C10 is0.159543 mm, not the earlier larger trace-only estimate. Source clearance does not prove ADC/noise or filled-return performance.",
+    "The explicit same-endpoint supply redistribution preserves every local converter, feedback, capacitor and quiet-return path. The all0.30 mm 1V1 distribution shortens10.494569→10.230965 mm. On core-3v3-link, exactly3.165685 mm of non-switching distribution changes0.60→0.30 mm, while the first0.75 mm remains0.60 mm and total path length remains3.915685 mm. This meets the existing general power-body policy; reviewed added250 mA drop is about0.529 mV at43 um. No general power minimum or via/numerical limit changes.",
+    "V9 changes no routing, numerical, circuit, library or electrical policy. The joint12 source preserves all53 completed non-GND physical graphs and supplies seven simultaneous GPIO16-22 first-via accesses with PS retained. Header continuations, own returns and native fill remain open. Actual selected R19=(13.3,29.2),270 and C25=(12.27,30.25),270 retain the same parts/values/pins. C4/C8/C12/Y1 are unchanged.",
+    "C5 placement freedom covers reviewed north access studies, but C5 actual target remains (5.8,19.82),180 and its active copper remains unchanged. A later pose must preserve its dedicated100nF connection, the named<=1.00mm/.20 terminal neck and>=.30 body, all actual returns, clearances and assembly checks. No longer-cap-loop or shared-return equivalence is inferred from this region allowance; full GPIO1-3 header utility and engineering review remain the selection condition."
+  ],
+  "counts": {
+    "components": 62,
+    "nets": 67,
+    "endpoints": 260,
+    "noConnects": 2,
+    "boardFeatures": 4
+  },
+  "notClaims": [
+    "No old V9 route/via/plane fill retained as accepted geometry.",
+    "All 67 nets still require full routed/plane-connected verification.",
+    "Compiler ready does not waive intrinsicJ1 pad/NPTH, tool-courtyard, tolerance, return or assembly caveats."
+  ]
+}
