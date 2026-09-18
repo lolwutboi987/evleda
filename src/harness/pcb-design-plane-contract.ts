@@ -72,9 +72,9 @@ const referenceDraft = z.discriminatedUnion("mode", [noReference, continuousRefe
   terminalReferences: z.array(terminalReference).max(PCB_PLANE_CONTRACT_LIMITS.maxEndpoints).nullable(),
 }).strict()]).nullable();
 // Plane access may serve many local return terminals; ordinary trace routes keep their V1 ceiling.
-const accessRouting = z.object({ preferredLayer: layer, maxVias: z.number().finite().int().min(0).max(64).refine(value => !Object.is(value, -0), "Negative zero is not canonical"),
+const accessRouting = z.object({ preferredLayer: closedRoute.shape.preferredLayer.describe("F.Cu or B.Cu constrains every access track; either permits both only when the net class allows both. The plane itself retains one exact layer."), maxVias: z.number().finite().int().min(0).max(64).refine(value => !Object.is(value, -0), "Negative zero is not canonical"),
   routeLength: closedRoute.shape.routeLength }).strict();
-const accessDraft = accessRouting.extend({ preferredLayer: layer.nullable(), maxVias: accessRouting.shape.maxVias.nullable(),
+const accessDraft = accessRouting.extend({ preferredLayer: accessRouting.shape.preferredLayer.nullable(), maxVias: accessRouting.shape.maxVias.nullable(),
   routeLength: closedRoute.shape.routeLength.nullable() }).strict();
 const routed = closedRoute.extend({ referencePath: z.discriminatedUnion("mode", [noReference, continuousReference]) }).strict();
 const planeRoute = z.object({ net: netName, topology: z.literal("plane"), planeId: identifier, accessRouting }).strict();

@@ -81,7 +81,10 @@ import completion. `nativeEvidenceTransferred` remains `false`.
 Evidence: transfer-root `destination-verification/rp2350-doc10-import-02/`
 contains `driver-exit.json` and `post-import-verification.json`; custody SHA-256
 is `d84e1242b52da82f74a21b405a952cccfd2271dd97ccabdc444c730564461da8`.
-This imports the exact 21 mm bundle. The 22 mm revision is software-tested only.
+This imports the exact 21 mm bundle. A subsequent same-profile 22 mm revision
+completed native creation and normal close with seven source/bundle files
+unchanged; its PCB still has no outline, footprints or copper. Evidence is in
+`destination-verification/rp2350-native-22-seed-02/post-close-verification.json`.
 Public resume through build03/session13 observed all 62 symbols, 248 unwired
 groups and the corrected Q1 quarter-turn pin positions. Seven source/bundle
 artifacts stayed byte-identical through the reads and normal public close;

@@ -46,8 +46,8 @@ describe("V2 PCB plane design-intent model guide", () => {
       objectSchemas += 1;
       expect(object.additionalProperties).toBe(false);
       const props = object.properties as Record<string, any>;
-      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs", "derivedPowerSources", "boardFeatures"]
-        : props.kind?.const === "differential_pair" ? ["channel"] : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : props.launchNets !== undefined ? ["feedThrough"] : [];
+      const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs", "derivedPowerSources", "boardFeatures", "nativeRuleMode"]
+        : props.kind?.const === "differential_pair" ? ["channel"] : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : props.launchNets !== undefined ? ["feedThrough"] : props.viaPolicy !== undefined ? ["minimumHoleToHoleMm"] : [];
       expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).filter(key => !optional.includes(key)).sort());
     });
     expect(objectSchemas).toBeGreaterThan(20);
@@ -81,7 +81,7 @@ describe("V2 PCB plane design-intent model guide", () => {
     expect(guide).not.toContain("not diode or capacitive source assertions");
   });
 
-  it("advertises a strict optional external source object and preserves every omitted-derived guide byte", () => {
+  it("advertises a strict optional external source object and pins the access-layer guide revision", () => {
     let externalSchema: Record<string, any> | undefined;
     visitObjects(PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, object => {
       const props = object.properties as Record<string, any> | undefined;
@@ -94,9 +94,9 @@ describe("V2 PCB plane design-intent model guide", () => {
     expect(externalSchema!.required).toEqual(["id", "diodeForwardDropAssumption", "operatingModes"]);
     for (const key of ["id", "diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual({ type: "null" });
     for (const key of ["diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual(expect.objectContaining({ type: "string", minLength: 1, maxLength: 2048 }));
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "3e0f31578f6eadefddde31b971797ddceeb2e8b8d90ab787535241472733f9e5", size: 10251 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "26ddb2b252bd28ae7cd50f1853715c660337968f2a976ba641d4e79f81f3de4a", size: 11738 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "c3aee9c81283c26c82cdc323e80a0d879cff4b0147ae8bc512efb6b4d01178f9", size: 18466 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "a1321b369ea2b5fa6714e8098f1e5e2c5ecf8ac81732b6a57d3574024db42d0b", size: 10250 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "7e0ada4448523332374f0db8391d2648aab65de09bbdea294e065fb89bbedeb1", size: 11737 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "efbfe57d2e62dcd5ca75ca99ec46783bb216c9ec13ffa842aea6f5d0783d93a9", size: 18465 });
   });
 
   it("keeps the complete guidance bounded, provider-neutral and explicit about authority", () => {

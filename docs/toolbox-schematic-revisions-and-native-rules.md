@@ -189,8 +189,8 @@ edge-clearance and approved-footprint checks. They do not imply that connector
 pitch or enclosure compatibility is preserved; verify those design relationships
 explicitly. Mechanical feature UUIDs are generated from the new bundle when the
 new PCB is synchronized. There are no source feature UUIDs to migrate from the
-required empty PCB. The 21-to-22 mm lifecycle has software coverage; its actual
-native RP2350 revision remains pending.
+required empty PCB. Actual 21-to-22 mm seed creation/open and normal close are
+now proven in the scoped lifecycle evidence below; target reopen remains pending.
 
 Submit the revised complete draft normally, close the source while retaining the
 workspace connection, then create with the target `draftId` and source ID. Retry
@@ -285,8 +285,8 @@ artifacts stayed unchanged, seven target artifacts matched custody, and source/t
 leases, unsafe markers and locks were absent at import completion.
 `nativeEvidenceTransferred` remains `false`.
 
-The import retained the exact **21 mm bundle and empty PCB**. The 22 mm revision
-has software-test coverage only. Public resume on build03/session13 observed
+The import retained the exact **21 mm bundle and empty PCB**. Public resume on
+build03/session13 observed
 62 symbols, 248 unwired groups and corrected Q1 pin positions, then closed
 normally. All seven source/bundle artifacts remained byte-identical and the
 lease was released; the operator client confirmed an idle workspace and exited.
@@ -297,6 +297,20 @@ Evidence is in
 The same directory's `public-reopen-read-verification.json` and
 `public-reopen-close-verification.json` record the separate public lifecycle.
 
+The separate same-profile **21-to-22 mm seed creation/open and normal close
+passed** on build03/session15 for target
+`6af3e9dd-2be7-41f7-8e00-ac06cde791c6`. The
+[creation snapshot](../../destination-verification/rp2350-native-22-seed-02/REPORT.md)
+and [post-close verification](../../destination-verification/rp2350-native-22-seed-02/post-close-verification.json)
+retain all seven project/bundle files unchanged; the lease, unsafe markers and
+locks were absent after close. The exact 62-symbol unwired schematic is retained.
+Its PCB remains unmaterialized, with no outline, footprints or copper; target
+reopen and design acceptance are not established.
+
+[Explicit mixed-layer plane access](toolbox-plane-access-layers.md) has software
+coverage. Its actual-board qualification remains pending; the closed seed does
+not establish routed access, layer transitions or plane contact.
+
 Implementation references: [pose helper](../src/harness/fresh-schematic-symbol-pose.ts),
 [field helper](../src/harness/fresh-schematic-field-position.ts),
 [owned lifecycle](../src/harness/kicad-tools.ts),
@@ -305,3 +319,19 @@ Implementation references: [pose helper](../src/harness/fresh-schematic-symbol-p
 [seed source envelope](../src/harness/fresh-plane-schematic-seed.ts),
 [V2 schema](../src/harness/pcb-design-plane-contract.ts), and
 [numeric rule projection](../src/harness/pcb-native-numeric-rules.ts).
+
+## Bounded terminal-label retry
+
+Larger terminal-label plans retain the existing successful greedy search. When
+its immediate-predecessor retry fails, a bounded fallback may reconsider up to
+three previous functional groups together with the failed group. Earlier
+placements stay fixed, candidate indices advance without repetition, and the
+same native frame, field, stroke and port checks apply. The remaining suffix and
+all power flags must still pass. Plans with at most eight groups keep their
+existing behavior.
+
+All attempts share the existing 20-million work budget, including rollback and
+retry work. Exhaustion returns no executable partial geometry. The independently
+reviewed implementation clears the observed MCU QSPI label dead end in the
+RP2350 diagnostic; that does not imply that its full label/flag plan or native
+board is complete.

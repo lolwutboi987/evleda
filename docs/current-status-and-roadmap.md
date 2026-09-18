@@ -19,12 +19,23 @@ also preserves all seven target source/bundle artifacts, observes the corrected
 pins and completes normal close. The existing DOC9 project and first failed,
 unallocated import are preserved; no old native acceptance evidence is transferred.
 
-The physical proposal keeps straight/45-degree copper, actual pad and paste
-geometry, local supply bypasses, and explicit return paths. A future uniform
-0.55/0.20 mm via option retains 0.50 mm edge/hole spacing and 0.15 mm minimum
-annular ring. This proposal does not change the current project's 0.60/0.25 mm
-via rules. Partial source-routing screens and targeted native rule controls
-are not a complete-board DRC or electrical acceptance result.
+The separate native 21-to-22 mm seed target
+`6af3e9dd-2be7-41f7-8e00-ac06cde791c6` now completes creation/open and normal
+close on build03/session15. Its [creation snapshot](../../destination-verification/rp2350-native-22-seed-02/REPORT.md)
+and [post-close verification](../../destination-verification/rp2350-native-22-seed-02/post-close-verification.json)
+retain all seven project/bundle files unchanged, with no lease, unsafe markers
+or locks after close. The exact 62-symbol unwired schematic remains; the PCB has
+no outline, footprints or copper. Reopen of this 22 mm target remains unproven.
+
+The closed 22 × 51 mm candidate declares 137 via reservations, four mounting
+features and 0.55/0.20 mm vias with a 0.15 mm minimum annular ring. Native
+hole-to-hole spacing is 0.50 mm; copper-to-hole clearance is separately 0.25 mm.
+These are bound policies, not authored PCB geometry or electrical acceptance.
+[Explicit mixed-layer plane access](toolbox-plane-access-layers.md) has software
+coverage; qualification on the actual board remains pending. The physical
+proposal retains straight/45-degree copper, actual pad/paste geometry, local
+supply bypasses and explicit return paths. Partial routing screens and targeted
+native rule controls do not establish complete-board DRC or acceptance.
 
 The snapshots below retain their historical scope.
 

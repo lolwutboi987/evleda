@@ -28,8 +28,8 @@ import { planFreshFootprintPoses } from "../../src/harness/fresh-footprint-pose-
 const roots=new Set<string>();
 afterEach(async()=>{for(const root of roots){await rm(root,{recursive:true,force:true});roots.delete(root);}});
 const dependencies={libraryResolver:genericDividerLibraryResolver,deepRuleCatalog:loadDeepRuleCatalog()};
-function bundle(prompt="Genuine V2 authoring fixture with GND plane intent."){
-  const compilation=compilePcbPlaneDesignIntentDraft(planeDividerDraft(),dependencies);
+function bundle(prompt="Genuine V2 authoring fixture with GND plane intent.",draft=planeDividerDraft()){
+  const compilation=compilePcbPlaneDesignIntentDraft(draft,dependencies);
   if(compilation.disposition!=="ready")throw new Error(JSON.stringify(compilation.issues));
   return createPcbPlaneCompilationBundle({originalPrompt:prompt,compilation},dependencies);
 }
@@ -505,6 +505,71 @@ async function completeSchematicFixture(){
   const bridge=createKicadHarnessTools(current.session,{...current.toolOptions,verifyPersistedMutation:async()=>true});
   return {...current,bridge,labels};
 }
+
+describe('mixed-layer plane access authoring and exact persistence',()=>{
+  const mixedBundle=()=>{
+    const draft=planeDividerDraft();
+    draft.routingConstraints.nets.find(route=>route.topology==='plane')!.accessRouting!.preferredLayer='either';
+    return bundle('One GND plane with explicit front access and back return strap.',draft);
+  };
+  const retainedBack=`\n(segment (start 10 10) (end 12 10) (width 0.6) (layer "B.Cu") (net "GND") (uuid "${fixtureUuid(900)}"))\n`;
+  const withBack=pcb.slice(0,-1)+retainedBack+')';
+  const front={x1Mm:9,y1Mm:10,x2Mm:10,y2Mm:10,layer:'F.Cu'};
+  const back={x1Mm:10,y1Mm:10,x2Mm:12,y2Mm:10,layer:'B.Cu',widthMm:.6};
+  const selection=async(f:Awaited<ReturnType<typeof fixture>>)=>JSON.parse((await f.bridge.execute({id:'select',name:'fresh_get_route_items',arguments:{}})).content);
+
+  it('preserves a retained 0.60 mm back strap while adding front access and an explicit through via',async()=>{
+    const f=await fixture({initial:withBack,compilationBundle:mixedBundle()}),before=parseFreshPcbSource(withBack);
+    const selected=await selection(f);
+    const result=await f.bridge.execute({id:'mixed',name:'fresh_replace_route_items',arguments:{selectionIdentity:selected.identity,net:'GND',deleteItemIds:[],tracks:[front],vias:[{xMm:10,yMm:10}]}});
+    expect(JSON.parse(result.content)).toMatchObject({mutationValidity:'verified',addedTrackCount:1,addedViaCount:1,connection:'not_evaluated'});
+    expect((await f.bridge.internal.saveAfterMutation({id:'save',name:'pcb_save',arguments:{}})).isError).not.toBe(true);
+    const saved=parseFreshPcbSource(await readFile(f.project.pcbPath,'utf8'));
+    expect(saved.segments).toHaveLength(2);expect(saved.segments).toContainEqual(before.segments[0]);
+    expect(saved.segments.map(segment=>segment.layer).sort()).toEqual(['B.Cu','F.Cu']);
+    expect(saved.segments.every(segment=>segment.netName==='GND')).toBe(true);
+    expect(saved.vias).toMatchObject([{netName:'GND',at:{x:10,y:10},layers:['F.Cu','B.Cu']}]);
+    expect(saved.footprints).toEqual(before.footprints);
+    expect(f.bundle.contract.planes[0]!.layer).toBe('B.Cu');
+    expect(f.calls.filter(name=>name==='pcb_save')).toHaveLength(1);
+    const next=await selection(f);expect(next.items.filter((item:any)=>item.kind==='track').map((item:any)=>item.layer).sort()).toEqual(['B.Cu','F.Cu']);
+  });
+
+  it.each(['proposed','retained'] as const)('rejects %s back copper under the original front-only access contract before Commit',async kind=>{
+    const f=await fixture({initial:kind==='retained'?withBack:pcb}),selected=await selection(f);
+    await expect(f.bridge.execute({id:'forbidden',name:'fresh_replace_route_items',arguments:{selectionIdentity:selected.identity,net:'GND',deleteItemIds:[],tracks:[kind==='proposed'?back:front],vias:[]}})).rejects.toThrow(/layer|routing policy/);
+    expect(f.calls).not.toContain('pcb_begin_commit');expect(await readFile(f.project.pcbPath,'utf8')).toBe(kind==='retained'?withBack:pcb);
+  });
+
+  it.each(['push','save'] as const)('rejects an unexpected native back-to-front layer change at %s even when both layers are authorized',async phase=>{
+    const f=await fixture({initial:pcb,compilationBundle:mixedBundle()}),selected=await selection(f);
+    const originalCall=f.session.callTool;let wrongSource='';
+    f.session.callTool=async(name,args)=>{
+      if(name==='pcb_add_track')expect(args?.layer).toBe('B_Cu');
+      // At push, pass a different individually legal layer to the native-port simulation.
+      // At save, preserve the staged source until the mandatory save boundary.
+      const response=await originalCall(name,phase==='push'&&name==='pcb_add_track'?{...args,layer:'F_Cu'}:args);
+      if(phase==='save'&&name==='pcb_save'){
+        const saved=await readFile(f.project.pcbPath,'utf8');wrongSource=saved.replace('(layer "B.Cu") (net "GND")','(layer "F.Cu") (net "GND")');
+        expect(wrongSource).not.toBe(saved);await f.replaceOwnedSource(wrongSource);
+      }
+      return response;
+    };
+    const call={id:'back',name:'fresh_replace_route_items' as const,arguments:{selectionIdentity:selected.identity,net:'GND',deleteItemIds:[],tracks:[back],vias:[]}};
+    if(phase==='push'){
+      await expect(f.bridge.execute(call)).rejects.toThrow(/ROLLBACK_FAILED_TERMINAL.*post-push-source-readback.*geometry differs/);
+      expect(f.calls).not.toContain('pcb_save');expect(await readFile(f.project.pcbPath,'utf8')).toBe(pcb);
+    }else{
+      expect((await f.bridge.execute(call)).isError).not.toBe(true);
+      expect(await f.bridge.internal.saveAfterMutation({id:'save',name:'pcb_save',arguments:{}})).toMatchObject({isError:true,content:expect.stringMatching(/ROLLBACK_FAILED_TERMINAL.*mandatory-save\/readback.*exact verified physical board source/)});
+      expect(await readFile(f.project.pcbPath,'utf8')).toBe(wrongSource);
+    }
+    const live=parseFreshPcbSource(await f.session.readActivePcbSource!(f.project.pcbPath));
+    expect(live.segments).toMatchObject([{netName:'GND',layer:'F.Cu',widthMm:.6}]);
+    expect(f.calls).not.toContain('pcb_revert');
+    await expect(f.bridge.execute(call)).rejects.toThrow(/recovery|quarantin|close/i);
+  });
+});
 
 describe('true plane-project authoring seam',()=>{
   it('uses plane-only bundle authority and exposes guarded authoring without raw route or zone mutation',async()=>{

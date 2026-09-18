@@ -176,10 +176,45 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
     if (minimumIndices.has(group.id)) minimumIndices.set(group.id, Math.max(minimumIndices.get(group.id)!, selected.distanceIndex));
   };
   const removeLast = (): void => { labels.pop(); wires.pop(); routes.pop(); choices.pop(); };
+  const truncate = (length: number): boolean => {
+    const removed = choices.length - length;
+    if (removed > 0 && !budget.charge("label", removed)) return false;
+    while (choices.length > length) removeLast();
+    return true;
+  };
   const snapshot = (): FreshTerminalLabelPlan => ({
     wires: wires.map(wire => ({ ...wire, edgeEndpoints: [...wire.edgeEndpoints] })),
     labels: labels.map(label => ({ ...label, at: { ...label.at }, bounds: { ...label.bounds } })), routes: [...routes], issues: [],
   });
+  const repairPriorWindow = (failedIndex: number, suffixStart: number): boolean => {
+    // The immediate predecessor has already exhausted all its alternatives and
+    // been removed. Continue at the next earlier choice, without replaying that
+    // failed pair. Never cross the caller's fixed prefix (including flag floors).
+    const first = Math.max(suffixStart, failedIndex - 3);
+    let depth = failedIndex - 2;
+    if (depth < first || choices.length !== failedIndex - 1) return false;
+    if (!budget.charge("label", failedIndex - first + 1)) return false;
+    const cursors = Array.from({ length: failedIndex - first + 1 }, (_, offset) => (choices[first + offset]?.distanceIndex ?? -1) + 1);
+    if (!truncate(depth)) return false;
+    while (depth >= first) {
+      if (!budget.charge("label")) return false;
+      const selected = select(groups[depth]!, cursors[depth - first]!);
+      if (selected !== undefined) {
+        append(groups[depth]!, selected);
+        cursors[depth - first] = selected.distanceIndex + 1;
+        if (depth === failedIndex) return true;
+        depth++;
+        // A later cursor resets only after its earlier prefix changes. The
+        // candidate-index tuple therefore never repeats; depth is at most four.
+        cursors[depth - first] = 0;
+      } else {
+        if (budget.snapshot().status === "exhausted") return false;
+        depth--;
+        if (depth >= first && !truncate(depth)) return false;
+      }
+    }
+    return false;
+  };
   const completeSuffix = (start: number): FreshTerminalLabelPlan => {
   for (let index = start; index < groups.length; index++) {
     const group = groups[index]!;
@@ -206,6 +241,7 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
         nextIndex = alternate.distanceIndex + 1;
       }
     }
+    if (selected === undefined && larger && budget.snapshot().status !== "exhausted" && repairPriorWindow(index, start)) continue;
     if (budget.snapshot().status === "exhausted") return empty("PLANNING_WORK_LIMIT", "Terminal label planning exhausted the shared work budget.");
     if (selected === undefined) return empty("TERMINAL_LABEL_SPACE_UNAVAILABLE", `No bounded outward stub and label fits ${group.id} on ${group.assignment.net}.`, group.memberEndpointIds);
     append(group, selected);
@@ -220,12 +256,6 @@ export function createFreshTerminalLabelPlanningSession(input: FreshTerminalLabe
   const exhausted = (): FreshTerminalLabelPlan => {
     stopped = true;
     return empty("PLANNING_WORK_LIMIT", "Terminal label and flag planning exhausted the shared work budget.");
-  };
-  const truncate = (length: number): boolean => {
-    const removed = choices.length - length;
-    if (removed > 0 && !budget.charge("label", removed)) return false;
-    while (choices.length > length) removeLast();
-    return true;
   };
   return { plan, retryDeclaredPowerAnchor(endpoint) {
     const flag = declared.get(endpoint);
