@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>C:\Users\kidch\Documents\EvlEDA-Transfer-2026-09-09\destination-verification\schematic-cardinal-native-03\cardinal-labelled.kicad_sch</source>
+    <date>2026-09-18T00:32:35</date>
+    <tool>Eeschema 10.0.3</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>cardinal-labelled.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="Q0">
+      <value>DMG1012T</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Transistor_FET" part="Q_NMOS_GSD" description="N-MOSFET transistor, gate/source/drain"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="transistor NMOS N-MOS N-MOSFET"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>eb6811c9-d9b6-5a21-9a89-133e4f6bdf7c</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="3"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Q90">
+      <value>DMG1012T</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Transistor_FET" part="Q_NMOS_GSD" description="N-MOSFET transistor, gate/source/drain"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="transistor NMOS N-MOS N-MOSFET"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0b1bd5bc-6c26-5495-bab6-e042fd92575e</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="3"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Q180">
+      <value>DMG1012T</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Transistor_FET" part="Q_NMOS_GSD" description="N-MOSFET transistor, gate/source/drain"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="transistor NMOS N-MOS N-MOSFET"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4d6ea421-9120-550c-b14c-0985ddcf3399</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="3"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Q270">
+      <value>DMG1012T</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Transistor_FET" part="Q_NMOS_GSD" description="N-MOSFET transistor, gate/source/drain"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="transistor NMOS N-MOS N-MOSFET"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>745a3882-a19c-5e37-b015-558cd90de398</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="3"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R0">
+      <value>R</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>380b9d12-893f-59ae-b5d0-ac0d0c57787e</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R90">
+      <value>R</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>018799fd-fda8-51bb-826d-99321f838ef8</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R180">
+      <value>R</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>60cbd111-d743-5caf-bfeb-040b19520ade</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R270">
+      <value>R</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>960dca58-56b7-52ea-bd96-4cca55767478</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Y0">
+      <value>Crystal_GND24</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="Crystal_GND24" description="Four pin crystal, GND on pins 2 and 4"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="quartz ceramic resonator oscillator"/>
+      <property name="ki_fp_filters" value="Crystal*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7031b34f-d907-527a-92c4-4d935d2f14b7</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="4"/>
+            <pin num="3"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Y90">
+      <value>Crystal_GND24</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="Crystal_GND24" description="Four pin crystal, GND on pins 2 and 4"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="quartz ceramic resonator oscillator"/>
+      <property name="ki_fp_filters" value="Crystal*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6c76ca3e-7d5c-5acf-a20c-e7b2c9acde4b</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="4"/>
+            <pin num="3"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Y180">
+      <value>Crystal_GND24</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="Crystal_GND24" description="Four pin crystal, GND on pins 2 and 4"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="quartz ceramic resonator oscillator"/>
+      <property name="ki_fp_filters" value="Crystal*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a1e23763-c996-5a5e-a960-1b245dbe9252</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="4"/>
+            <pin num="3"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Y270">
+      <value>Crystal_GND24</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="Crystal_GND24" description="Four pin crystal, GND on pins 2 and 4"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="cardinal-labelled.kicad_sch"/>
+      <property name="ki_keywords" value="quartz ceramic resonator oscillator"/>
+      <property name="ki_fp_filters" value="Crystal*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e6018680-6433-53ad-9586-2221a302aff5</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="4"/>
+            <pin num="3"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Device" part="Crystal_GND24">
+      <description>Four pin crystal, GND on pins 2 and 4</description>
+      <footprints>
+        <fp>Crystal*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Y</field>
+        <field name="Value">Crystal_GND24</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Four pin crystal, GND on pins 2 and 4</field>
+        <field name="KLC_S3.3">The rectangle is not a symbol body but a graphical element</field>
+        <field name="KLC_S4.1">Some pins are on 50mil grid to make the symbol small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="G" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="G" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Resistor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Transistor_FET" part="Q_NMOS_GSD">
+      <description>N-MOSFET transistor, gate/source/drain</description>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_NMOS_GSD</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">N-MOSFET transistor, gate/source/drain</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries/>
+  <nets>
+    <net code="3" name="GRID_Q0_X0_Y2" class="Default">
+      <node ref="Q0" pin="1" pinfunction="G_1" pintype="input"/>
+    </net>
+    <net code="16" name="GRID_Q0_X3_Y0" class="Default">
+      <node ref="Q0" pin="3" pinfunction="D_3" pintype="passive"/>
+    </net>
+    <net code="20" name="GRID_Q0_X3_Y4" class="Default">
+      <node ref="Q0" pin="2" pinfunction="S_2" pintype="passive"/>
+    </net>
+    <net code="27" name="GRID_Q90_X0_Y1" class="Default">
+      <node ref="Q90" pin="3" pinfunction="D_3" pintype="passive"/>
+    </net>
+    <net code="40" name="GRID_Q90_X2_Y4" class="Default">
+      <node ref="Q90" pin="1" pinfunction="G_1" pintype="input"/>
+    </net>
+    <net code="47" name="GRID_Q90_X4_Y1" class="Default">
+      <node ref="Q90" pin="2" pinfunction="S_2" pintype="passive"/>
+    </net>
+    <net code="56" name="GRID_Q180_X1_Y0" class="Default">
+      <node ref="Q180" pin="2" pinfunction="S_2" pintype="passive"/>
+    </net>
+    <net code="60" name="GRID_Q180_X1_Y4" class="Default">
+      <node ref="Q180" pin="3" pinfunction="D_3" pintype="passive"/>
+    </net>
+    <net code="73" name="GRID_Q180_X4_Y2" class="Default">
+      <node ref="Q180" pin="1" pinfunction="G_1" pintype="input"/>
+    </net>
+    <net code="79" name="GRID_Q270_X0_Y3" class="Default">
+      <node ref="Q270" pin="2" pinfunction="S_2" pintype="passive"/>
+    </net>
+    <net code="86" name="GRID_Q270_X2_Y0" class="Default">
+      <node ref="Q270" pin="1" pinfunction="G_1" pintype="input"/>
+    </net>
+    <net code="99" name="GRID_Q270_X4_Y3" class="Default">
+      <node ref="Q270" pin="3" pinfunction="D_3" pintype="passive"/>
+    </net>
+    <net code="104" name="GRID_R0_X1_Y0" class="Default">
+      <node ref="R0" pin="1" pintype="passive"/>
+    </net>
+    <net code="106" name="GRID_R0_X1_Y2" class="Default">
+      <node ref="R0" pin="2" pintype="passive"/>
+    </net>
+    <net code="111" name="GRID_R90_X0_Y1" class="Default">
+      <node ref="R90" pin="1" pintype="passive"/>
+    </net>
+    <net code="117" name="GRID_R90_X2_Y1" class="Default">
+      <node ref="R90" pin="2" pintype="passive"/>
+    </net>
+    <net code="122" name="GRID_R180_X1_Y0" class="Default">
+      <node ref="R180" pin="2" pintype="passive"/>
+    </net>
+    <net code="124" name="GRID_R180_X1_Y2" class="Default">
+      <node ref="R180" pin="1" pintype="passive"/>
+    </net>
+    <net code="129" name="GRID_R270_X0_Y1" class="Default">
+      <node ref="R270" pin="2" pintype="passive"/>
+    </net>
+    <net code="135" name="GRID_R270_X2_Y1" class="Default">
+      <node ref="R270" pin="1" pintype="passive"/>
+    </net>
+    <net code="144" name="GRID_Y0_X1_Y2" class="Default">
+      <node ref="Y0" pin="1" pinfunction="1_1" pintype="passive"/>
+    </net>
+    <net code="151" name="GRID_Y0_X2_Y4" class="Default">
+      <node ref="Y0" pin="2" pinfunction="G_2" pintype="passive"/>
+      <node ref="Y0" pin="4" pinfunction="G_4" pintype="passive"/>
+    </net>
+    <net code="154" name="GRID_Y0_X3_Y2" class="Default">
+      <node ref="Y0" pin="3" pinfunction="3_3" pintype="passive"/>
+    </net>
+    <net code="173" name="GRID_Y90_X2_Y1" class="Default">
+      <node ref="Y90" pin="3" pinfunction="3_3" pintype="passive"/>
+    </net>
+    <net code="175" name="GRID_Y90_X2_Y3" class="Default">
+      <node ref="Y90" pin="1" pinfunction="1_1" pintype="passive"/>
+    </net>
+    <net code="184" name="GRID_Y90_X4_Y2" class="Default">
+      <node ref="Y90" pin="2" pinfunction="G_2" pintype="passive"/>
+      <node ref="Y90" pin="4" pinfunction="G_4" pintype="passive"/>
+    </net>
+    <net code="194" name="GRID_Y180_X1_Y2" class="Default">
+      <node ref="Y180" pin="3" pinfunction="3_3" pintype="passive"/>
+    </net>
+    <net code="197" name="GRID_Y180_X2_Y0" class="Default">
+      <node ref="Y180" pin="2" pinfunction="G_2" pintype="passive"/>
+      <node ref="Y180" pin="4" pinfunction="G_4" pintype="passive"/>
+    </net>
+    <net code="204" name="GRID_Y180_X3_Y2" class="Default">
+      <node ref="Y180" pin="1" pinfunction="1_1" pintype="passive"/>
+    </net>
+    <net code="214" name="GRID_Y270_X0_Y2" class="Default">
+      <node ref="Y270" pin="2" pinfunction="G_2" pintype="passive"/>
+      <node ref="Y270" pin="4" pinfunction="G_4" pintype="passive"/>
+    </net>
+    <net code="223" name="GRID_Y270_X2_Y1" class="Default">
+      <node ref="Y270" pin="1" pinfunction="1_1" pintype="passive"/>
+    </net>
+    <net code="225" name="GRID_Y270_X2_Y3" class="Default">
+      <node ref="Y270" pin="3" pinfunction="3_3" pintype="passive"/>
+    </net>
+  </nets>
+</export>

@@ -53,6 +53,8 @@ export interface FreshSchematicStrokeStyleEvidence {
   readonly minimumPlotStrokeWidthMm: number;
   readonly semantics: "pinned-cli-library-symbol-default-and-minimum";
   readonly nativeText: ReturnType<typeof collectNativeSchematicTextBounds>;
+  /** Separate from library strokes: labels use project line width, ratio and application font. */
+  readonly globalLabelPlanning: Readonly<{ supported: boolean; unsupported: readonly string[] }>;
 }
 
 const same = (left: ContentIdentity, right: ContentIdentity): boolean => left.algorithm === "sha256" && right.algorithm === "sha256"
@@ -76,6 +78,23 @@ function configuredLineThickness(root: Record<string, unknown>, project: boolean
     return fail("drawing.default_line_thickness is outside the audited numeric settings envelope.");
   }
   return value;
+}
+
+function globalLabelPlanningStyle(project: Record<string, unknown>, application: Record<string, unknown>, projectLine: number | null, applicationLine: number | null) {
+  const schematic = project.schematic === undefined ? {} : configRecord(project.schematic, "schematic settings");
+  const drawing = schematic.drawing === undefined ? {} : configRecord(schematic.drawing, "schematic drawing settings");
+  const appearance = application.appearance === undefined ? {} : configRecord(application.appearance, "application appearance");
+  const unsupported: string[] = [];
+  if (appearance.default_font !== undefined && appearance.default_font !== "KiCad Font") unsupported.push("non-stock-default-font");
+  if (drawing.label_size_ratio !== undefined && drawing.label_size_ratio !== 0.375) unsupported.push("non-default-label-size-ratio");
+  // Old schematic settings migrate text_offset_ratio into label_size_ratio.
+  // Do not interpret a versionless/old override as the modern native default.
+  if (drawing.text_offset_ratio !== undefined) {
+    const meta = schematic.meta === undefined ? {} : configRecord(schematic.meta, "schematic settings metadata");
+    if (typeof meta.version !== "number" || !Number.isInteger(meta.version) || meta.version < 1) unsupported.push("legacy-label-ratio-migration");
+  }
+  if (projectLine !== null && projectLine !== 6 || projectLine === null && applicationLine !== null && applicationLine !== 6) unsupported.push("non-default-label-plot-stroke");
+  return Object.freeze({ supported: unsupported.length === 0, unsupported: Object.freeze(unsupported) });
 }
 
 /**
@@ -117,8 +136,9 @@ export function createFreshSchematicStrokeStyleEvidence(capture: FreshSchematicS
       || configuration.treeAfter.canonicalizationVersion !== tree.canonicalizationVersion || configuration.treeAfter.digest !== tree.digest) return fail("isolated renderer configuration is unbound or changed.");
   const config = configuration.applicationConfig;
   if (config.relativePath !== "10.0/eeschema.json" || !same(config.before, config.after) || !same(contentIdentity(config.source), config.before)) return fail("raw eeschema configuration differs from its before/after identity.");
-  const applicationDefaultLineThicknessMils = configuredLineThickness(parseConfig(config.source, "eeschema configuration"), false);
-  const projectDefaultLineThicknessMils = configuredLineThickness(parseConfig(capture.projectSettingsSource, "project configuration"), true);
+  const applicationSettings = parseConfig(config.source, "eeschema configuration"), projectSettings = parseConfig(capture.projectSettingsSource, "project configuration");
+  const applicationDefaultLineThicknessMils = configuredLineThickness(applicationSettings, false);
+  const projectDefaultLineThicknessMils = configuredLineThickness(projectSettings, true);
   const payload = {
     schemaVersion: "evleda.fresh-schematic-stroke-style.v1" as const,
     invocationIdentity: canonicalIdentity(invocation, "evleda.kicad-schematic-svg-invocation.v1"),
@@ -131,6 +151,7 @@ export function createFreshSchematicStrokeStyleEvidence(capture: FreshSchematicS
     minimumPlotStrokeWidthMm: profile.minimumPlotPenWidthInternalUnits / profile.schematicInternalUnitsPerMm,
     semantics: "pinned-cli-library-symbol-default-and-minimum" as const,
     nativeText: collectNativeSchematicTextBounds(render.source),
+    globalLabelPlanning: globalLabelPlanningStyle(projectSettings, applicationSettings, projectDefaultLineThicknessMils, applicationDefaultLineThicknessMils),
   };
   const evidence: FreshSchematicStrokeStyleEvidence = Object.freeze({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion), [styleBrand]: true as const });
   issued.add(evidence);

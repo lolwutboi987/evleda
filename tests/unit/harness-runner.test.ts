@@ -203,7 +203,7 @@ const cleanValidationResult = (call: HarnessToolCall): HarnessToolResult => {
 };
 
 describe("bounded PCB agent harness", () => {
-  it.each(["fresh_set_footprint_fields", "pcb_add_text"])("saves and recollects PCB validation after %s under the default mutation policy", async name => {
+  it.each(["fresh_set_footprint_fields", "fresh_set_footprint_poses", "pcb_add_text"])("saves and recollects PCB validation after %s under the default mutation policy", async name => {
     const definition = { name, description: "Bounded PCB presentation edit", inputSchema: { type: "object" } };
     const calls: string[] = [], fake = new FakeTools();
     const report = await runPcbAgentHarness(options({ allowedToolNames: [definition], maxIterations: 1 }),
@@ -215,6 +215,20 @@ describe("bounded PCB agent harness", () => {
       } }, { completionGate: async () => ({ passed: false, missing: ["Native presentation review remains required."] }) });
     expect(calls).toEqual([name, "pcb_save", "run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa"]);
     expect(report.status).toBe("needs_review");
+  });
+
+  it("forces a PCB validation boundary for a pose batch during an intermediate deferred tool turn", async () => {
+    const name = "fresh_set_footprint_poses", definition = { name, description: "Bounded PCB pose batch", inputSchema: { type: "object" } };
+    const calls: string[] = [], fake = new FakeTools();
+    const provider = new FakeProvider([{ message: { role: "assistant", content: "Place footprints." }, stopReason: "tool_calls",
+      toolCalls: [{ id: "poses", name, arguments: {} }] }, { message: { role: "assistant", content: "Inspect the placement result." }, stopReason: "completed", toolCalls: [] }]);
+    await runPcbAgentHarness(options({ allowedToolNames: [definition], maxIterations: 2 }),
+      { provider: "fake", turn: async request => { if (provider.requests.length === 1) calls.push("next-provider"); return provider.turn(request); } },
+      { tools: [definition, ...validationDefinitions], execute: async call => {
+        calls.push(call.name);
+        return call.name === name ? { toolCallId: call.id, content: JSON.stringify({ applied: true, mutated: true }) } : await fake.execute(call);
+      } }, { deferFullValidationUntilPhaseBoundary: true, completionGate: async () => ({ passed: false, missing: ["Physical clearance remains unverified."] }) });
+    expect(calls.slice(0, 7)).toEqual([name, "pcb_save", "run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa", "next-provider"]);
   });
 
   it.each(["DEGRADED", "POOR", "UNKNOWN", "CLEAN"])("accepts V2 physical NC metrics with literal %s while requiring save and final acceptance", async (quality) => {

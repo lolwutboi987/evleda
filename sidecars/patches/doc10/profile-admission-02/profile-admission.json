@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "evleda.doc10-profile-admission.v1",
+  "sourceBuild": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc10-build-01",
+  "sourceBuildCodeSnapshotSha256": "daa9cd1fe59906a2771e1724b69f6c2f1567de41fd9f08a170e6eb3b16d560a8",
+  "readerPins": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc10-build-01\\src\\flux\\production-composition.ts",
+      "sha256": "c221c731b4344e3b344b51b81b05c490d3ec4b041acfd1bcc63e1e9b5b9a94f6",
+      "sizeBytes": 119423
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc10-build-01\\src\\mcp\\toolbox-fresh-profile.ts",
+      "sha256": "78efd71531fdcc63bfe78fa86c7d7e03d11f3d0ceee665e37c0e671d4aa7dece",
+      "sizeBytes": 2961
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc10-build-01\\src\\integrations\\kicad-mcp-session.ts",
+      "sha256": "db8c3f4315d8f7ded3a53d47c0391ff74f8a579b0726240285671f0d4665f055",
+      "sizeBytes": 267356
+    }
+  ],
+  "sourceProfile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc9-rp2350-v4-01.json",
+    "sha256": "2f79bd2ddb855d446676f104482068b634aa406d85d1722c010e2ef5642572c0",
+    "sizeBytes": 16669
+  },
+  "previousTargetProfile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc10-rp2350-v4-01.json",
+    "sha256": "f7924b6184331368d3a52cfc83004b71431f2696aa5f4854dfed2a8c96f4d3fa",
+    "sizeBytes": 16672
+  },
+  "targetProfile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc10-rp2350-v4-02.json",
+    "sha256": "a30a63aa6ada7ed57fc57c1ced9e3f7837b33e75f33c9daf1c42757a8cc9f400",
+    "sizeBytes": 16672
+  },
+  "derivation": {
+    "domainSeparator": "evleda.kicad-mcp-arguments.v1\u0000",
+    "arguments": [
+      "-I",
+      "-s",
+      "-E",
+      "-B",
+      "C:\\EvlEDA-DOC10-20260918\\kicad-inspection-launcher.py"
+    ],
+    "argumentsJson": "[\"-I\",\"-s\",\"-E\",\"-B\",\"C:\\\\EvlEDA-DOC10-20260918\\\\kicad-inspection-launcher.py\"]",
+    "algorithm": "sha256",
+    "argumentsSha256": "74ebcfbc536a5a3d8fa9b6870ead109c9dfa2bae80e948cbd87073be543f7ad9",
+    "argumentCount": 5,
+    "flagsUnchanged": true,
+    "bytecodePolicyUnchanged": true
+  },
+  "onlyChangedFromPreviousProfile": "kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentsSha256",
+  "results": [
+    {
+      "name": "DOC9",
+      "profile": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc9-rp2350-v4-01.json",
+        "sha256": "2f79bd2ddb855d446676f104482068b634aa406d85d1722c010e2ef5642572c0",
+        "sizeBytes": 16669
+      },
+      "readKicadNativeProfile": {
+        "passed": true,
+        "profileIdentity": {
+          "algorithm": "sha256",
+          "digest": "2f79bd2ddb855d446676f104482068b634aa406d85d1722c010e2ef5642572c0",
+          "size": 16669
+        },
+        "runtimeRoot": "C:\\EvlEDA-DOC9-20260917",
+        "pythonLaunch": {
+          "flags": [
+            "-I",
+            "-s",
+            "-E",
+            "-B"
+          ],
+          "argumentCount": 5,
+          "argumentsSha256": "2fce01c238b141567c1b52ea90bc2bc0eea58c1db202800d04e2011d6ba2fe14",
+          "bytecodeWrites": "disabled"
+        }
+      },
+      "loadKicadToolboxFreshProfile": {
+        "passed": true,
+        "profileIdentity": {
+          "algorithm": "sha256",
+          "digest": "2f79bd2ddb855d446676f104482068b634aa406d85d1722c010e2ef5642572c0",
+          "size": 16669
+        },
+        "protectedRoots": [
+          "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\symbols",
+          "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints",
+          "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\dist\\resources\\deep-pcb-rule-corpus\\v1",
+          "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4"
+        ],
+        "libraryEnvironment": {
+          "KICAD10_SYMBOL_DIR": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\symbols",
+          "KICAD10_FOOTPRINT_DIR": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints"
+        },
+        "approvedPackageAvailable": true,
+        "librarySearchAvailable": true,
+        "libraryResolverConstructed": true,
+        "deepRuleCatalogLoaded": true
+      }
+    },
+    {
+      "name": "DOC10-01",
+      "profile": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc10-rp2350-v4-01.json",
+        "sha256": "f7924b6184331368d3a52cfc83004b71431f2696aa5f4854dfed2a8c96f4d3fa",
+        "sizeBytes": 16672
+      },
+      "readKicadNativeProfile": {
+        "passed": false,
+        "error": "Pinned KiCad MCP runtime authority is unavailable or incompatible.",
+        "code": null
+      },
+      "loadKicadToolboxFreshProfile": {
+        "passed": true,
+        "profileIdentity": {
+          "algorithm": "sha256",
+          "digest": "f7924b6184331368d3a52cfc83004b71431f2696aa5f4854dfed2a8c96f4d3fa",
+          "size": 16672
+        },
+        "protectedRoots": [
+          "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\symbols",
+          "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints",
+          "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\dist\\resources\\deep-pcb-rule-corpus\\v1",
+          "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4"
+        ],
+        "libraryEnvironment": {
+          "KICAD10_SYMBOL_DIR": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\symbols",
+          "KICAD10_FOOTPRINT_DIR": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints"
+        },
+        "approvedPackageAvailable": true,
+        "librarySearchAvailable": true,
+        "libraryResolverConstructed": true,
+        "deepRuleCatalogLoaded": true
+      }
+    },
+    {
+      "name": "DOC10-02",
+      "profile": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc10-rp2350-v4-02.json",
+        "sha256": "a30a63aa6ada7ed57fc57c1ced9e3f7837b33e75f33c9daf1c42757a8cc9f400",
+        "sizeBytes": 16672
+      },
+      "readKicadNativeProfile": {
+        "passed": true,
+        "profileIdentity": {
+          "algorithm": "sha256",
+          "digest": "a30a63aa6ada7ed57fc57c1ced9e3f7837b33e75f33c9daf1c42757a8cc9f400",
+          "size": 16672
+        },
+        "runtimeRoot": "C:\\EvlEDA-DOC10-20260918",
+        "pythonLaunch": {
+          "flags": [
+            "-I",
+            "-s",
+            "-E",
+            "-B"
+          ],
+          "argumentCount": 5,
+          "argumentsSha256": "74ebcfbc536a5a3d8fa9b6870ead109c9dfa2bae80e948cbd87073be543f7ad9",
+          "bytecodeWrites": "disabled"
+        }
+      },
+      "loadKicadToolboxFreshProfile": {
+        "passed": true,
+        "profileIdentity": {
+          "algorithm": "sha256",
+          "digest": "a30a63aa6ada7ed57fc57c1ced9e3f7837b33e75f33c9daf1c42757a8cc9f400",
+          "size": 16672
+        },
+        "protectedRoots": [
+          "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\symbols",
+          "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints",
+          "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\dist\\resources\\deep-pcb-rule-corpus\\v1",
+          "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4"
+        ],
+        "libraryEnvironment": {
+          "KICAD10_SYMBOL_DIR": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\symbols",
+          "KICAD10_FOOTPRINT_DIR": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints"
+        },
+        "approvedPackageAvailable": true,
+        "librarySearchAvailable": true,
+        "libraryResolverConstructed": true,
+        "deepRuleCatalogLoaded": true
+      }
+    }
+  ],
+  "realReadersUsed": true,
+  "dependencySeamsInjected": false,
+  "storeCreated": false,
+  "nativeImportRetried": false,
+  "guiOperations": false,
+  "previousArtifactsUnchanged": true,
+  "scopeGap": "Qualification01 verified runtime geometry and closure but omitted real profile admission. The DOC10-01 profile retained the DOC9 path-bound launcher argument hash and is rejected by the real native profile reader. Geometry observations remain valid; native profile admission was not previously established.",
+  "failedImportEvidence": {
+    "driverLog": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-doc10-import-01\\driver.log",
+      "sha256": "2e397b8eb24b9e0f4400b4191b81109dfe5505ccd8c2b93cc97d29135c6fad29",
+      "sizeBytes": 68
+    },
+    "driverExit": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-doc10-import-01\\driver-exit.json",
+      "sha256": "163521af4bfc9e12dd26140161c08e31befc39cd340ccd349db144252bfc4d3e",
+      "sizeBytes": 72
+    }
+  }
+}

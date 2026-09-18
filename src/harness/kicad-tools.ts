@@ -60,6 +60,7 @@ import {
   compareFreshSchematicFieldPresentationSources,
   freshGlobalLabelInventoryMatches,
   freshGlobalLabelTupleInventoryMatches,
+  freshTerminalGlobalLabelPresentationSupported,
   freshSchematicClassSourcesSupported,
   parseFreshSchematicConnectivityPrimitiveInventory,
   parseFreshPcbRouteSourceSpans,
@@ -83,15 +84,17 @@ import { FreshBoardPersistence, hasQualifiedNativeBoardReply, type FreshBoardSav
 import { planFreshFootprintPlacement } from "./fresh-footprint-placement.js";
 import { FRESH_FOOTPRINT_FIELD_TOOL, FRESH_FOOTPRINT_FIELD_SCHEMA, parseFreshFootprintFieldUpdates,
   planFreshFootprintFields, type FreshFootprintFieldsPlan } from "./fresh-footprint-field.js";
+import { FRESH_FOOTPRINT_POSE_BATCH_TOOL, FRESH_FOOTPRINT_POSE_BATCH_SCHEMA, parseFreshFootprintPoses,
+  planFreshFootprintPoses, type FreshFootprintPoseBatchPlan } from "./fresh-footprint-pose-batch.js";
 import { freshBoardComparisonText, freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
 import { PCB_SILKSCREEN_TEXT_SCHEMA, parsePcbSilkscreenText, assertOnlyRequestedPcbTextAdded, type PcbSilkscreenText } from "./pcb-silkscreen-text.js";
 import { compareFreshNativeNetlists } from "./fresh-native-netlist-comparison.js";
 import { FreshSchematicRollback, type FreshSchematicPreimage } from "./fresh-schematic-rollback.js";
 import { exactFreshSchematicGeometryMatches, expectedFreshSchematicGeometryPrefixes } from "./fresh-schematic-writer-geometry.js";
-import { approximateFreshGlobalLabelBounds, freshGlobalLabelOrientation, type FreshPlannedGlobalLabel } from "./fresh-schematic-label-layout.js";
+import { approximateFreshGlobalLabelBounds, freshGlobalLabelOrientation, freshGlobalLabelJustification, freshGlobalLabelOwnPortTouch, type FreshPlannedGlobalLabel } from "./fresh-schematic-label-layout.js";
 import { buildFreshSchematicSourceTerminalGroups, type FreshSchematicApprovedGeometryResolver } from "./fresh-schematic-source-adapter.js";
 import { validatePristineTerminalPartition, type FreshSchematicTerminalInput, type FreshSchematicTerminalPartition } from "./fresh-schematic-terminal-groups.js";
-import { planFreshTerminalGlobalLabels } from "./fresh-schematic-terminal-labels.js";
+import { createFreshTerminalLabelPlanningSession, planFreshTerminalGlobalLabels, type FreshTerminalLabelPlanningInput, type FreshTerminalLabelPlan } from "./fresh-schematic-terminal-labels.js";
 import { freshSavedTerminalGlobalLabelsMatch } from "./fresh-schematic-terminal-label-source.js";
 import { FreshSchematicWorkBudget, type FreshSchematicWorkKind } from "./fresh-schematic-work-budget.js";
 import { prepareFreshSchematicConnectivityBatch, validateFreshSchematicConnectivityBatchReceipt } from "./fresh-schematic-connectivity-batch.js";
@@ -140,6 +143,7 @@ export const KICAD_HARNESS_TOOL_NAMES = Object.freeze([
 export const KICAD_FRESH_HARNESS_TOOL_NAMES = Object.freeze([
   "pcb_add_text",
   FRESH_FOOTPRINT_FIELD_TOOL,
+  FRESH_FOOTPRINT_POSE_BATCH_TOOL,
   ...KICAD_HARNESS_TOOL_NAMES.filter((name) => !name.startsWith("sch_") && name !== "pcb_sync_from_schematic"),
   "sch_get_symbols",
   "sch_get_connectivity_graph",
@@ -204,6 +208,7 @@ const FRESH_HOST_TOOL_NAMES = new Set([
   FRESH_SCHEMATIC_FIELD_POSITION_TOOL,
   FRESH_SCHEMATIC_SYMBOL_POSE_TOOL,
   FRESH_FOOTPRINT_FIELD_TOOL,
+  FRESH_FOOTPRINT_POSE_BATCH_TOOL,
   "fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement",
   "fresh_autoplace_schematic_fields",
   "fresh_get_contract_pad_positions", "fresh_get_route_items", "fresh_replace_route_items", "fresh_sync_from_schematic",
@@ -214,6 +219,7 @@ const HOST_INTERNAL_TOOL_NAMES = new Set(["kicad_set_project", "run_erc", "run_d
 const PCB_MUTATION_TOOL_NAMES = new Set([
   "pcb_add_text",
   FRESH_FOOTPRINT_FIELD_TOOL,
+  FRESH_FOOTPRINT_POSE_BATCH_TOOL,
   "pcb_set_board_outline", "pcb_add_track", "pcb_add_via", "pcb_place_component", "pcb_move_component", "pcb_move_footprint", "pcb_sync_from_schematic", "pcb_add_zone",
 ]);
 const PROVIDER_MUTATION_TOOL_NAMES = new Set([
@@ -499,10 +505,13 @@ export interface FreshBoundingBox {
 export function composeFreshSchematicPlanningBounds(componentBoxes: readonly FreshBoundingBox[],
   nativeText: FreshSchematicStrokeStyleEvidence["nativeText"], svgIdentity: ContentIdentity, schematicSource: string): readonly FreshBoundingBox[] {
   if (!nativeText.completeCoverage) throw new Error("Native schematic text coverage is incomplete or unsupported.");
+  const supportedLabelSource = freshTerminalGlobalLabelPresentationSupported(schematicSource);
   const labels = parseFreshSchematicPresentationSource(schematicSource).labels.filter(label => label.kind === "global" && label.shape === "passive"
+    && supportedLabelSource
     && [0, 90, 180, 270].includes(label.rotationDeg ?? -1) && label.fontSizeMm?.x === 1.524 && label.fontSizeMm.y === 1.524
     && !label.bold && !label.italic && !label.hidden && label.justify?.length === 1
-    && label.justify[0] === ({ 0: "left", 90: "bottom", 180: "right", 270: "top" } as Record<number, string>)[label.rotationDeg!]);
+    && label.justify[0] === freshGlobalLabelJustification(label.rotationDeg!)
+    && approximateFreshGlobalLabelBounds(label.name, label.at, label.rotationDeg as 0 | 90 | 180 | 270) !== null);
   const reservations = labels.map(label => Object.freeze({ reference: `@persisted-label:${label.name}`,
     ...approximateFreshGlobalLabelBounds(label.name, label.at, label.rotationDeg as 0 | 90 | 180 | 270)!,
     nativeText: Object.freeze({ svgIdentity, groupIndex: null, text: label.name, kind: "persisted-label-reservation" as const,
@@ -525,6 +534,9 @@ function sourceQualifiedSchematicPlanningBounds(schematic: string, boxes: readon
   // Large designs already exceed the supported automatic placement search.
   // Keep the demonstrated small-board coarse/recommendation path unchanged.
   if (boxes.length > FRESH_CONNECTIVITY_PLACEMENT_SEARCH.maxComponents && style?.nativeText.hasText) {
+    if (!style.globalLabelPlanning.supported && parseFreshSchematicPresentationSource(schematic).labels.length > 0) {
+      throw new Error("Current native label font, frame ratio or plot stroke is outside the qualified planning model.");
+    }
     if (!style.nativeText.completeCoverage || source.sourcePlanningGeometry.some(geometry => !geometry.complete)) {
       throw new Error("Complete source graphics, line-pin geometry and current native glyph coverage are required for precise schematic bounds.");
     }
@@ -651,7 +663,7 @@ interface PendingFreshFootprintPlacement {
   readonly kind: "footprint-placement";
   readonly operation: string;
   readonly before: FreshPcbCapture;
-  readonly plan: ReturnType<typeof planFreshFootprintPlacement> | FreshFootprintFieldsPlan;
+  readonly plan: ReturnType<typeof planFreshFootprintPlacement> | FreshFootprintFieldsPlan | FreshFootprintPoseBatchPlan;
 }
 
 export interface FreshFootprintPlacementDiagnostic {
@@ -1819,7 +1831,7 @@ export function freshAbsolutePinAngle(
   localAngle: 0 | 90 | 180 | 270,
   placementRotation: number,
 ): 0 | 90 | 180 | 270 | null {
-  const value = (localAngle - placementRotation + 360) % 360;
+  const value = ((localAngle + placementRotation) % 360 + 360) % 360;
   return value === 0 || value === 90 || value === 180 || value === 270 ? value : null;
 }
 
@@ -1847,7 +1859,9 @@ export function planFreshGlobalLabelTerminals(
       const orientation = freshGlobalLabelOrientation(pin.angleDeg);
       const dx = pin.angleDeg === 0 ? -1 : pin.angleDeg === 180 ? 1 : 0;
       const dy = pin.angleDeg === 90 ? 1 : pin.angleDeg === 270 ? -1 : 0;
-      const initialDistance = Math.max(5.08, pointDistance(pin, escape));
+      // A tree branch turns before the frame, leaving one straight grid step
+      // into the owned label port. Turning at the port follows its frame ink.
+      const initialDistance = Math.max(5.08, pointDistance(pin, escape) + ROUTE_GRID_MM);
       for (let distance = initialDistance; distance <= MAX_ENDPOINT_ESCAPE_DISTANCE_MM; distance += ROUTE_GRID_MM) {
         if (work.exhausted) break;
         const at = { x: roundedCoordinate(pin.x + dx * distance), y: roundedCoordinate(pin.y + dy * distance) };
@@ -1958,6 +1972,11 @@ function pathWires(points: readonly FreshPoint[], net: string, endpoints: readon
   });
 }
 
+function freshLabelTreeBranch(label: FreshPlannedGlobalLabel): FreshPoint {
+  return { x: roundedCoordinate(label.at.x + (label.rotationDeg === 0 ? -ROUTE_GRID_MM : label.rotationDeg === 180 ? ROUTE_GRID_MM : 0)),
+    y: roundedCoordinate(label.at.y + (label.rotationDeg === 90 ? ROUTE_GRID_MM : label.rotationDeg === 270 ? -ROUTE_GRID_MM : 0)) };
+}
+
 function planWirePath(
   startEndpoint: FreshConnectivityEndpoint,
   endEndpoint: FreshConnectivityEndpoint,
@@ -1976,8 +1995,10 @@ function planWirePath(
   const startBox = boxes.find((box) => box.reference === startEndpoint.reference);
   const endBox = boxes.find((box) => box.reference === endEndpoint.reference);
   if (startBox === undefined || endBox === undefined) return null;
-  const startEscape = labels.find((label) => label.endpointId === endpointId(startEndpoint))?.at ?? freshEndpointEscape(start, startBox);
-  const endEscape = labels.find((label) => label.endpointId === endpointId(endEndpoint))?.at ?? freshEndpointEscape(end, endBox);
+  const startLabel = labels.find((label) => label.endpointId === endpointId(startEndpoint));
+  const endLabel = labels.find((label) => label.endpointId === endpointId(endEndpoint));
+  const startEscape = startLabel === undefined ? freshEndpointEscape(start, startBox) : freshLabelTreeBranch(startLabel);
+  const endEscape = endLabel === undefined ? freshEndpointEscape(end, endBox) : freshLabelTreeBranch(endLabel);
   if (startEscape === null || endEscape === null) return null;
   const routingBounds = [...boxes, ...labels.map((label) => ({ reference: label.endpointId, ...label.bounds }))];
   const minimumX = outwardRouteGridCoordinate(Math.min(startEscape.x, endEscape.x, ...routingBounds.map((box) => box.minX)), -1);
@@ -2032,7 +2053,8 @@ function planWirePath(
     const wires = pathWires(points, net, [startEndpoint, endEndpoint]);
     if (wires.some((wire) => labels.some((label) => {
       if (!consumeSegmentCheck(work)) return true;
-      return wireEntersBox(wire, { reference: label.endpointId, ...label.bounds });
+      return wireEntersBox(wire, { reference: label.endpointId, ...label.bounds })
+        && !freshGlobalLabelOwnPortTouch(label, { start: { x: wire.x, y: wire.y }, end: { x: wire.endX, y: wire.endY } }, net, [...allowedPins]);
     }))) return [];
     if (wires.some((wire) => reservedTerminalWires.some((reserved) => reserved.net !== net
       && (!consumeSegmentCheck(work) || wireConflicts(wire, reserved))))) return [];
@@ -2090,6 +2112,18 @@ function planContractWires(
       const label = labels.find((candidate) => terminalMembers(candidate.endpointId, partition).includes(endpointId(endpoints[0]!)));
       const pin = pins.get(endpointId(endpoints[0]!))!;
       if (label !== undefined && !samePoint(pin, label.at)) wires.push(...pathWires([pin, label.at], net.name, endpoints));
+    } else {
+      for (const label of labels.filter(value => value.name === net.name)) {
+        const owner = endpoints.find(endpoint => terminalMembers(label.endpointId, partition).includes(endpointId(endpoint)));
+        const start = freshLabelTreeBranch(label);
+        if (owner === undefined || !freshGlobalLabelOwnPortTouch(label, { start, end: label.at }, net.name, terminalMembers(endpointId(owner), partition))) {
+          return { wires: [], routes: [], issues: [{ code: "NO_PROVEN_COLLISION_FREE_WIRE_PLAN", message: "Global label has no exact owned incoming port lead.",
+            remediation: "Keep connectivity unchanged; reserve a straight incoming label lead." }] };
+        }
+        // This short lead was checked as part of the complete reserved stub.
+        // Tree edges meet its inward endpoint, outside the full stroked frame.
+        wires.push(...pathWires([start, label.at], net.name, [owner]));
+      }
     }
     for (const [left, right] of edges) {
     const planned = planWirePath(left, right, net.name, pins, boxes, wires, work, labels, partition, obstacleChannels, reservedTerminalWires);
@@ -2166,27 +2200,74 @@ function planFreshContractGeometry(
 function planFreshQualifiedContractGeometry(contract: FreshConnectivityContract,
   pins: ReadonlyMap<string, FreshPoint & { readonly angleDeg: 0 | 90 | 180 | 270 }>, boxes: readonly FreshBoundingBox[],
   work: FreshPlanningWork, globalLabels: boolean, partition: FreshSchematicTerminalPartition | undefined,
-  source: ReturnType<typeof buildFreshSchematicSourceTerminalGroups> | undefined, schematic: string): ReturnType<typeof planFreshContractGeometry> {
+  source: ReturnType<typeof buildFreshSchematicSourceTerminalGroups> | undefined, schematic: string,
+  power?: { readonly resolver: PcbReadOnlyLibraryResolver | undefined; readonly libraryBinding: PcbLibraryBinding | undefined;
+    readonly existingFlags: readonly FreshExternalPowerSourcePlacement[] | undefined }): ReturnType<typeof planFreshExternalPowerGeometry> {
+  // Production fresh/plane toolbox factories supply the branded current style.
+  // Pure/coarse harness fixtures retain their explicit pinned-style assumption.
+  if (globalLabels && source?.strokeStyleEvidence !== undefined && !source.strokeStyleEvidence.globalLabelPlanning.supported) {
+    return { wires: [], labels: [], routes: [], flags: [], issues: [{ code: "GLOBAL_LABEL_STYLE_UNSUPPORTED",
+      message: "Current native label font, frame ratio or plot stroke is outside the qualified planning model.",
+      remediation: "Keep connectivity unchanged; qualify the current label style before authoring." }] };
+  }
+  const withPower = (plan: ReturnType<typeof planFreshContractGeometry>) => power === undefined ? { ...plan, flags: [] }
+    : planFreshExternalPowerGeometry(contract, plan, pins, boxes, power.resolver, work, contentIdentity(schematic), source?.strokeStyleEvidence,
+      power.libraryBinding, partition, power.existingFlags);
   const labelCount = parseFreshSchematicSource(schematic).labels.length;
   const repeated = globalLabels && (labelCount > contract.nets.length || labelCount === 0
     && contract.components.length > FRESH_CONNECTIVITY_PLACEMENT_SEARCH.maxComponents && pins.size > FRESH_CONNECTIVITY_PLACEMENT_SEARCH.maxEndpoints
     && (partition?.groups.filter(group => group.assignment.kind === "net").length ?? 0) > contract.nets.length);
-  if (!repeated) return planFreshContractGeometry(contract, pins, boxes, work, globalLabels, partition);
+  if (!repeated) return withPower(planFreshContractGeometry(contract, pins, boxes, work, globalLabels, partition));
   if (partition === undefined || source?.strokeStyleEvidence === undefined || !source.strokeStyleEvidence.nativeText.completeCoverage
     || source.sourcePlanningGeometry.some(value => !value.complete || value.escapeGeometry === null) || source.sourceBodyGeometry.some(value => !value.coverage.complete || !value.coverage.renderedStrokeVerified)) {
-    return { wires: [], labels: [], routes: [], issues: [{ code: "TERMINAL_LABEL_SOURCE_UNAVAILABLE", message: "Repeated terminal labels require complete current source pins, graphics, native stroke and glyph evidence.", remediation: "Keep connectivity unchanged until the host source adapter and native glyph capture are complete." }] };
+    return withPower({ wires: [], labels: [], routes: [], issues: [{ code: "TERMINAL_LABEL_SOURCE_UNAVAILABLE", message: "Repeated terminal labels require complete current source pins, graphics, native stroke and glyph evidence.", remediation: "Keep connectivity unchanged until the host source adapter and native glyph capture are complete." }] });
   }
-  const before = work.budget.snapshot();
-  const result = planFreshTerminalGlobalLabels({ contract, partition, sourceIdentity: contentIdentity(schematic), pins, boxes,
+  const input = { contract, partition, sourceIdentity: contentIdentity(schematic), pins, boxes,
     sheet: FRESH_CONNECTIVITY_PLACEMENT_SEARCH.workingBoundsMm, strokeStyle: source.strokeStyleEvidence,
     escapeGeometry: source.sourcePlanningGeometry.map(value => value.escapeGeometry!),
     sourceBodyBoxes: source.sourceBodyGeometry.flatMap(value => value.bounds === null ? [] : [{ reference: `@source-body:${value.reference}`,
       minX: value.bounds.minXmm, minY: value.bounds.minYmm, maxX: value.bounds.maxXmm, maxY: value.bounds.maxYmm }]),
-  }, work.budget);
+  };
+  if (power !== undefined) return planFreshTerminalGlobalLabelsAndPower(input, power.resolver, work, power.libraryBinding, power.existingFlags);
+  const before = work.budget.snapshot();
+  const result = planFreshTerminalGlobalLabels(input, work.budget);
   const after = work.budget.snapshot();
   work.segmentChecks += after.counters.collision + after.counters.label + after.counters.route - before.counters.collision - before.counters.label - before.counters.route;
   if (after.status === "exhausted") work.exhausted = true;
-  return { wires: [...result.wires], labels: result.labels, routes: [...result.routes], issues: [...result.issues] };
+  return { wires: [...result.wires], labels: result.labels, routes: [...result.routes], issues: [...result.issues], flags: [] };
+}
+
+/** One synchronous host-owned label/flag scope; no partial flag attempt survives a retry. */
+export function planFreshTerminalGlobalLabelsAndPower(input: FreshTerminalLabelPlanningInput & { readonly boxes: readonly FreshBoundingBox[] },
+  resolver: PcbReadOnlyLibraryResolver | undefined, work: FreshPlanningWork, libraryBinding?: PcbLibraryBinding,
+  existingFlags?: readonly FreshExternalPowerSourcePlacement[]): ReturnType<typeof planFreshExternalPowerGeometry> {
+  const terminalWork = <T>(produce: () => T): T => {
+    const before = work.budget.snapshot(), value = produce(), after = work.budget.snapshot();
+    work.segmentChecks += after.counters.collision + after.counters.label + after.counters.route - before.counters.collision - before.counters.label - before.counters.route;
+    if (after.status === "exhausted") work.exhausted = true;
+    return value;
+  };
+  const session = terminalWork(() => createFreshTerminalLabelPlanningSession(input, work.budget));
+  const physical = (plan: FreshTerminalLabelPlan): ReturnType<typeof planFreshContractGeometry> => ({
+    wires: [...plan.wires], labels: plan.labels, routes: [...plan.routes], issues: [...plan.issues],
+  });
+  const failed = (issues: readonly FreshConnectivityIssue[]): ReturnType<typeof planFreshExternalPowerGeometry> => ({ wires: [], labels: [], routes: [], flags: [], issues: [...issues] });
+  let plan = physical(session.plan);
+  if (plan.issues.length > 0) return failed(plan.issues);
+  // Only the issued closure can advance private candidate floors. Each retry
+  // advances a declared anchor within the original finite distance list.
+  for (;;) {
+    const result = planFreshExternalPowerGeometry(input.contract, plan, input.pins, input.boxes, resolver, work,
+      input.sourceIdentity, input.strokeStyle, libraryBinding, input.partition, existingFlags);
+    if (result.issues.length === 0 || input.contract.components.length <= 8) return result;
+    if (work.exhausted) return failed(result.issues);
+    const issue = result.issues.length === 1 ? result.issues[0] : undefined;
+    if (issue?.code !== "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED" || issue.endpoints?.length !== 1) return failed(result.issues);
+    const next = terminalWork(() => session.retryDeclaredPowerAnchor(issue.endpoints![0]!));
+    if (next === null) return failed(result.issues);
+    if (next.issues.length > 0) return failed(next.issues);
+    plan = physical(next);
+  }
 }
 
 /** Reserve schematic-only flags and physical anchor branches without extending the physical graph. */
@@ -2241,7 +2322,11 @@ export function planFreshExternalPowerGeometry(contract: FreshConnectivityContra
       // Keep every established candidate first. A second bounded pass ends at
       // the transverse turn, so downward escapes can approach upright flags
       // horizontally without crossing the graphic above their zero-length pin.
-      search: for (const endAtTurn of [false, true]) for (const distance of [1.27, 2.54, 3.81, 5.08, 7.62, 10.16, 12.7, 15.24, 20.32, 25.4]) for (const transverse of [0, 10.16, -10.16, 15.24, -15.24, 20.32, -20.32]) {
+      // Preserve the whole established pass before trying finite extra lanes
+      // for larger schematics. A new early-distance lane cannot displace an
+      // already successful later-distance legacy candidate.
+      const transversePasses = [[0, 10.16, -10.16, 15.24, -15.24, 20.32, -20.32], ...(contract.components.length > 8 ? [[25.4, -25.4, 5.08, -5.08, 8.89, -8.89]] : [])];
+      search: for (const transverseOptions of transversePasses) for (const endAtTurn of [false, true]) for (const distance of [1.27, 2.54, 3.81, 5.08, 7.62, 10.16, 12.7, 15.24, 20.32, 25.4]) for (const transverse of transverseOptions) {
         if (endAtTurn && transverse === 0) continue;
         if (!consumeSegmentCheck(work, "collision")) break search;
         const escape = { x: roundedCoordinate(pin.x + dx * distance), y: roundedCoordinate(pin.y + dy * distance) };
@@ -2264,7 +2349,8 @@ export function planFreshExternalPowerGeometry(contract: FreshConnectivityContra
         if (candidates.some((wire, index) => [...boxes, ...flagBoxes].some(other => !consumeSegmentCheck(work, "collision") || (other.reference !== flag.anchorEndpoint.reference || index !== 0) && wireEntersBox(wire, other))
           || [...pins].some(([otherId, point]) => !consumeSegmentCheck(work, "collision") || otherId !== id && pointOnWire(point, wire)
             && !(index === 0 && anchorMembers.has(otherId) && point.x === wire.x && point.y === wire.y))
-          || plan.labels.some(label => !consumeSegmentCheck(work, "collision") || wireEntersBox(wire, { reference: label.endpointId, ...label.bounds }))
+          || plan.labels.some(label => !consumeSegmentCheck(work, "collision") || wireEntersBox(wire, { reference: label.endpointId, ...label.bounds })
+            && !freshGlobalLabelOwnPortTouch(label, { start: { x: wire.x, y: wire.y }, end: { x: wire.endX, y: wire.endY } }, flag.net, [id, ...anchorMembers]))
           || wires.some(other => !consumeSegmentCheck(work, "collision") || other.net !== flag.net && wireConflicts(wire, other)))) continue;
         // A flag graphic/value may only meet its own incoming branch at the
         // pin; existing electrical routes cannot run through its drawing.
@@ -2353,7 +2439,8 @@ const roundedCoordinate = (value: number): number => Math.round(value * 10_000) 
 const cardinalRotations = [0, 90, 180, 270] as const;
 
 function rotateAround(point: FreshPoint, center: FreshPoint, degrees: number, target: FreshPoint): FreshPoint {
-  const radians = degrees * Math.PI / 180;
+  // Schematic sheet Y points down; positive symbol rotation is counterclockwise.
+  const radians = -degrees * Math.PI / 180;
   const dx = point.x - center.x;
   const dy = point.y - center.y;
   return {
@@ -2810,6 +2897,8 @@ export function projectKicadHarnessToolDefinitions(
         || ["pcb_add_text", "pcb_revert", "pcb_save"].some(required => found.get(required)?.permission !== "write"))) continue;
     if (name === FRESH_FOOTPRINT_FIELD_TOOL && (!contractAuthoringProject(freshProject) || session.supportsQualifiedFootprintIdentitySync?.() !== true
         || ["pcb_revert", "pcb_save"].some(required => found.get(required)?.permission !== "write"))) continue;
+    if (name === FRESH_FOOTPRINT_POSE_BATCH_TOOL && (!contractAuthoringProject(freshProject) || session.supportsQualifiedFootprintIdentitySync?.() !== true
+        || ["pcb_move_footprint", "pcb_revert", "pcb_save"].some(required => found.get(required)?.permission !== "write"))) continue;
     if (FRESH_HOST_TOOL_NAMES.has(name) && freshConnectivityContract === undefined) continue;
     if (["fresh_get_contract_pad_positions", "fresh_get_route_items", "fresh_replace_route_items", "fresh_sync_from_schematic", "fresh_autoplace_schematic_fields"].includes(name)
         && !contractAuthoringProject(freshProject)) continue;
@@ -2828,6 +2917,11 @@ export function projectKicadHarnessToolDefinitions(
     if (name === FRESH_FOOTPRINT_FIELD_TOOL) {
       definitions.push(harnessToolDefinitionSchema.parse({ name, inputSchema: FRESH_FOOTPRINT_FIELD_SCHEMA,
         description: "Atomically update 1–128 unique existing PCB footprint Reference/Value fields. Select exact contract references and field names. Position uses absolute board x_mm/y_mm and cardinal absolute rotation_deg; visible, uniform size_mm, thickness_mm and F.SilkS/F.Fab layer are optional. Strings, UUIDs, footprint identities, pads, nets and all unrelated source stay unchanged. Visible fields require at least 0.8 mm size and 0.08 mm stroke. The complete list validates before one owned source stage/reload and mandatory native save/readback. This is presentation editing, not a silkscreen clearance pass." }));
+      continue;
+    }
+    if (name === FRESH_FOOTPRINT_POSE_BATCH_TOOL) {
+      definitions.push(harnessToolDefinitionSchema.parse({ name, inputSchema: FRESH_FOOTPRINT_POSE_BATCH_SCHEMA,
+        description: "Atomically place 1–64 unique existing electrical contract footprints through one owned source reload and mandatory native save/readback. Supply placements with reference, x_mm, y_mm and rotation_deg (0/90/180/270). Every front-side pose must fit its declared placement region and allowed rotations. The complete batch validates before any source write. Exact UUIDs, library identities, values, physical pads, models, board features and unrelated source are retained using the existing preserving placement operation. Requires native move/revert/save authority. This deliberate placement operation does not solve layout or establish physical clearance." }));
       continue;
     }
     const definition=harnessToolDefinitionSchema.parse({
@@ -3082,6 +3176,11 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (derived !== undefined) {
       if (this.#freshLibraryResolver === undefined) throw new Error("Derived power annotations require the source-bound stock resolver.");
       assertPcbDerivedPowerBindingCurrent(derived, this.#freshPlaneCompilationBundle!.libraryBinding, this.#freshLibraryResolver);
+      // The derived validator checks this exact plane library binding before
+      // and after all flag/driver inspections. Its successful final fence also
+      // covers unrelated selected symbols/footprints; do not capture it a third
+      // time without any intervening operation. Every outer guard still runs.
+      return;
     }
     const binding = (this.#freshPlaneCompilationBundle ?? this.#freshCompilationBundle)?.libraryBinding;
     if (binding === undefined) return;
@@ -3726,6 +3825,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
             ? await this.#freshSetSchematicFieldPositions(parsed)
             : parsed.name === FRESH_FOOTPRINT_FIELD_TOOL
             ? await this.#freshSetFootprintFields(parsed)
+            : parsed.name === FRESH_FOOTPRINT_POSE_BATCH_TOOL
+            ? await this.#freshSetFootprintPoses(parsed)
             : parsed.name === "fresh_apply_contract_connectivity"
             ? await this.#freshApplyContractConnectivity(parsed)
             : parsed.name === "fresh_apply_recommended_schematic_placement"
@@ -3881,7 +3982,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     // The native session projects its live mode/allowlist into descriptors; its
     // qualified authoring capability additionally refuses closed/quarantined
     // sessions. Check both before a host write can bypass callTool admission.
-    const required = operation === FRESH_FOOTPRINT_FIELD_TOOL ? ["pcb_revert", "pcb_save"] : [operation, "pcb_revert", "pcb_save"];
+    const required = operation === FRESH_FOOTPRINT_FIELD_TOOL ? ["pcb_revert", "pcb_save"]
+      : [operation === FRESH_FOOTPRINT_POSE_BATCH_TOOL ? "pcb_move_footprint" : operation, "pcb_revert", "pcb_save"];
     if(this.#session.supportsQualifiedFootprintIdentitySync?.()!==true
         ||required.some(name=>!this.#session.listTools().some(tool=>tool.name===name&&tool.permission==="write")))throw new Error("Preserving footprint edit requires current native write authorization for reload/save and any requested native move.");
   }
@@ -3892,7 +3994,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if(!sameContentIdentity(capture.freshMarkerContentIdentity,pending.before.freshMarkerContentIdentity)
         ||canonicalJson(capture.projectBindingIdentity)!==canonicalJson(pending.before.projectBindingIdentity)
         ||!freshBoardSerializationsEqual(capture.source,pending.plan.source))throw new Error("Preserving footprint placement saved source differs from its exact host plan or authority.");
-    const targets = "updates" in pending.plan ? pending.plan.updates.map(update => ({ reference: update.reference, footprintId: update.footprintId, after: update.footprintPose })) : [pending.plan];
+    const targets = "placements" in pending.plan ? pending.plan.placements
+      : "updates" in pending.plan ? pending.plan.updates.map(update => ({ reference: update.reference, footprintId: update.footprintId, after: update.footprintPose })) : [pending.plan];
     for (const target of targets) {
       const footprint=capture.parsed.footprints.find(fp=>fp.reference===target.reference);
       if(footprint===undefined||footprint.id!==target.footprintId
@@ -3959,6 +4062,22 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     return await this.#stageFreshFootprintEdit(call, before, liveBefore, plan);
   }
 
+  async #freshSetFootprintPoses(call: HarnessToolCall): Promise<HarnessToolResult> {
+    if (!contractAuthoringProject(this.#freshProject) || this.#freshAuthoringDesignContract === undefined
+        || this.#freshPhysicalFootprintResolver === undefined || this.#freshBoardPersistence === undefined) throw new Error("Footprint pose batching requires marker-bound complete physical contract authority.");
+    this.#assertFreshFootprintPlacementWriteAdmission(call.name);
+    const placements = parseFreshFootprintPoses(call.arguments, this.#freshAuthoringDesignContract);
+    await this.#assertFreshCompoundAuthority();
+    const before = await captureFreshPcb(this.#freshProject!);
+    const liveBefore = await freshActiveBoardSource(this.#session, this.#freshProject!.pcbPath);
+    if (!freshBoardSerializationsEqual(before.source, liveBefore)) throw new Error("Footprint pose batching requires matching saved/live preimages; unsaved edits were preserved.");
+    await this.#physicalPadState(before, []);
+    const plan = planFreshFootprintPoses(before.source, { placements }, this.#freshAuthoringDesignContract);
+    bindKicadPhysicalFootprintLibraries(parseFreshPcbSource(plan.source), { ...this.#physicalExpected(before, []), pcbSource: plan.source });
+    this.#assertFreshFootprintPlacementWriteAdmission(call.name);
+    return await this.#stageFreshFootprintEdit(call, before, liveBefore, plan);
+  }
+
   async #stageFreshFootprintEdit(call: HarnessToolCall, before: FreshPcbCapture, liveBefore: string, plan: PendingFreshFootprintPlacement["plan"]): Promise<HarnessToolResult> {
     const pending:PendingFreshFootprintPlacement=Object.freeze({kind:"footprint-placement",operation:call.name,before,plan});
     // Preflight and planning are read-only. Capture the actual disk preimage
@@ -3989,7 +4108,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
       firstOperation="native-reload-readback";
       const after=await this.#assertFreshFootprintPlacementStage(pending,source=>{observedLiveSource=source;});
-      const edit = "updates" in plan ? { schemaVersion: "evleda.fresh-footprint-fields-result.v1", updateCount: plan.updates.length,
+      const edit = "placements" in plan ? { schemaVersion: "evleda.fresh-footprint-poses-result.v1", placementCount: plan.placements.length, placements: plan.placements }
+        : "updates" in plan ? { schemaVersion: "evleda.fresh-footprint-fields-result.v1", updateCount: plan.updates.length,
         fields: plan.updates.map(update => ({ reference: update.reference, field: update.field, fieldId: update.fieldId, changed: update.changed })) }
         : { schemaVersion: "evleda.fresh-footprint-placement-result.v1", reference: plan.reference, footprintId: plan.footprintId, before: plan.before, after: plan.after };
       const payload={...edit,contractIdentity:this.#freshConnectivityContract!.identity,
@@ -4063,7 +4183,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const capture=await this.#assertFreshFootprintPlacementStage(pending,source=>{observedLiveSource=source;});
       this.#freshBoardPersistence!.markNormalSaveComplete();
       this.#pendingFreshBoardPostSave=undefined;this.#pendingPersistedMutationBaseline=undefined;this.#pendingSchematicFileMutationBatch=undefined;
-      const receipt = "updates" in pending.plan ? { status: "saved-and-native-footprint-fields-verified", updateCount: pending.plan.updates.length }
+      const receipt = "placements" in pending.plan ? { status: "saved-and-native-footprint-poses-verified", placementCount: pending.plan.placements.length }
+        : "updates" in pending.plan ? { status: "saved-and-native-footprint-fields-verified", updateCount: pending.plan.updates.length }
         : { status: "saved-and-native-footprint-placement-verified", reference: pending.plan.reference, footprintId: pending.plan.footprintId };
       const result=harnessToolResultSchema.parse({toolCallId:call.id,content:JSON.stringify({...receipt,pcbContentIdentity:capture.contentIdentity})});
       this.#freshFootprintPlacementSaveResults.add(result);
@@ -5428,8 +5549,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const text = preferredResultText(result);
       for (const match of text.matchAll(/- Pin ([^:]+): \((-?[\d.]+),\s*(-?[\d.]+)\) mm/gu)) {
         const localAngle = localAngles[match[1]!];
-        // KiCad placement rotation is applied to (x, -y) library coordinates;
-        // its screen-space cardinal pin angle therefore rotates in subtraction.
+        // Pin direction is a library-space angle: native symbol rotation adds to it.
         const absoluteAngle = localAngle === undefined ? null : freshAbsolutePinAngle(localAngle, placement.rotation);
         if (absoluteAngle === null) continue;
         pins.set(`${reference}:${match[1]}`, { x: Number(match[2]), y: Number(match[3]), angleDeg: absoluteAngle });
@@ -5531,10 +5651,10 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       && canonicalJson(this.#pendingFreshPlacementRecommendation.startingPlacementIdentity) !== canonicalJson(currentPlacementIdentity)) {
       this.#pendingFreshPlacementRecommendation = undefined;
     }
-    const physicalGeometryPlan = allGeometryInputsResolved
-      ? planFreshQualifiedContractGeometry(contract, pins, planningBounds, planningWork, globalLabels, terminalPartition, sourceTerminals, schematic) : null;
-    const currentGeometryPlan = physicalGeometryPlan === null ? null : planFreshExternalPowerGeometry(contract, physicalGeometryPlan, pins, planningBounds, this.#freshLibraryResolver, planningWork, contentIdentity(schematic), sourceTerminals?.strokeStyleEvidence, this.#freshPlaneCompilationBundle?.libraryBinding, terminalPartition,
-      qualifiedAuxiliary.sourcePlacements.length === 0 ? undefined : qualifiedAuxiliary.sourcePlacements);
+    const currentGeometryPlan = allGeometryInputsResolved
+      ? planFreshQualifiedContractGeometry(contract, pins, planningBounds, planningWork, globalLabels, terminalPartition, sourceTerminals, schematic,
+        { resolver: this.#freshLibraryResolver, libraryBinding: this.#freshPlaneCompilationBundle?.libraryBinding,
+          existingFlags: qualifiedAuxiliary.sourcePlacements.length === 0 ? undefined : qualifiedAuxiliary.sourcePlacements }) : null;
     const convergenceIssues = [...preflightIssues, ...(currentGeometryPlan?.issues ?? [])];
     if (convergenceIssues.length > 0) {
       const searchEligible = allGeometryInputsResolved

@@ -40,7 +40,7 @@ const fromOracle = (prefix: OraclePrefix): FreshSchematicWriterGeometry => ({
 const requestedWires = oracle.inputPlan.wires.map(({ x, y, endX, endY }) => fromSegment([x, y, endX, endY]));
 // Current planner expectations are separate from the historical Python oracle.
 // Clearance-adjusted escapes and outer lanes lie on the 50 mil connection grid.
-const onGridPlan = JSON.parse(await readFile(new URL("../fixtures/fresh-project/attempt10-label-reserved-plan.json", import.meta.url), "utf8")) as {
+const onGridPlan = JSON.parse(await readFile(new URL("../fixtures/fresh-project/native-frame-label-reserved-plan.json", import.meta.url), "utf8")) as {
   readonly connectionGridMm: number; readonly wires: readonly Segment[];
 };
 const onGridRequestedWires = onGridPlan.wires.map(fromSegment);
@@ -109,7 +109,7 @@ function corruptGeometry(geometry: FreshSchematicWriterGeometry, corruption: Cor
   if (corruption === "duplicate-wire") wires.push({ start: { ...wires[0]!.end }, end: { ...wires[0]!.start } });
   if (corruption === "missing-wire") wires.pop();
   if (corruption === "split-wire") {
-    const index = wires.findIndex(({ start, end }) => start.y === 50.8 && end.y === 50.8);
+    const index = wires.findIndex(({ start, end }) => start.y === end.y && start.x !== end.x);
     const { start, end } = wires[index]!;
     const middle = { x: (start.x + end.x) / 2, y: start.y };
     wires.splice(index, 1, { start, end: middle }, { start: middle, end });
@@ -203,10 +203,10 @@ describe("grid-aligned planning on captured attempt10 placement", () => {
     const applied = await bridge.execute({ id: "off-grid-bounds", name: "fresh_apply_contract_connectivity", arguments: {} });
     expect(JSON.parse(applied.content)).toMatchObject({ applied: true, mutated: true, issues: [] });
     expect(requests).toEqual(offGridBoundsRequestedWires);
-    expect(requests).toContainEqual(fromSegment([33.02, 50.8, 33.02, 40.64]));
+    expect(requests).toContainEqual(fromSegment([31.75, 50.8, 31.75, 40.64]));
   });
 
-  it("applies all 17 label-reserved grid requests with 15 persisted wires, the required T junction, ERC and native parity", async () => {
+  it("applies the label-port leads and tree with every required T junction, ERC and native parity", async () => {
     expect(onGridPlan.connectionGridMm).toBe(1.27);
     const { bridge, fresh, requests, calls } = await capturedPlanBridge();
     const applied = await bridge.execute({ id: "captured-plan", name: "fresh_apply_contract_connectivity", arguments: {} });
@@ -220,7 +220,7 @@ describe("grid-aligned planning on captured attempt10 placement", () => {
       [wire.start, wire.end].some((endpoint) => endpoint.x === point.x && endpoint.y === point.y))).toBe(true);
     expect(independentRecords(parseFreshSchematicSource(await readFile(fresh.schematicPath, "utf8"))))
       .toEqual(independentRecords(onGridPrefixes.at(-1)!));
-    expect(onGridPrefixes.at(-1)!.junctions).toEqual([{ x: 76.2, y: 59.69 }]);
+    expect(onGridPrefixes.at(-1)!.junctions).toEqual([{ x: 31.75, y: 50.8 }, { x: 39.37, y: 48.26 }, { x: 39.37, y: 53.34 }, { x: 76.2, y: 59.69 }]);
     expect(calls.filter((name) => name === "run_erc")).toHaveLength(1);
     await expect(bridge.internal.saveAfterMutation({ id: "save", name: "pcb_save", arguments: {} }))
       .resolves.toMatchObject({ content: expect.stringContaining("saved-and-native-connectivity-verified") });
@@ -240,7 +240,7 @@ describe("grid-aligned planning on captured attempt10 placement", () => {
     const { bridge, fresh, requests } = await capturedPlanBridge({ corruption, when: "final" });
     await expect(bridge.execute({ id: corruption, name: "fresh_apply_contract_connectivity", arguments: {} }))
       .rejects.toThrow(/FRESH_CONNECTIVITY_ROLLED_BACK_TERMINAL.*expected wires and junctions/iu);
-    expect(requests).toHaveLength(17);
+    expect(requests).toHaveLength(20);
     expect(await readFile(fresh.schematicPath, "utf8")).toBe(baseline);
   });
 });
@@ -543,7 +543,7 @@ const labelCorruptions: readonly (readonly [string, (source: string) => string])
   ["hierarchical-for-global", (source) => source.replace('(global_label "GND"', '(hierarchical_label "GND"')],
   ["wrong-shape", (source) => source.replace('(global_label "GND" (shape passive)', '(global_label "GND" (shape input)')],
   ["wrong-anchor", (source) => source.replace(/\(global_label "GND" \(shape passive\) \(at [^)]+\)/u, '(global_label "GND" (shape passive) (at 999 999 0)')],
-  ["inward-rotation", (source) => source.replace('(at 39.37 53.34 180)', '(at 39.37 53.34 0)')],
+  ["inward-rotation", (source) => source.replace('(at 38.1 53.34 180)', '(at 38.1 53.34 0)')],
   ["inward-justify", (source) => source.replace('(justify right)', '(justify left)')],
   ["centered-label", (source) => source.replace(' (justify right)', '')],
   ["wrong-font", (source) => source.replace('(size 1.524 1.524)', '(size 2.54 2.54)')],
@@ -551,7 +551,7 @@ const labelCorruptions: readonly (readonly [string, (source: string) => string])
   ["bold-label", (source) => source.replace('(font (size 1.524 1.524))', '(font (size 1.524 1.524) (bold yes))')],
   ["italic-label", (source) => source.replace('(font (size 1.524 1.524))', '(font (size 1.524 1.524) (italic yes))')],
   ["hidden-label", (source) => source.replace('(justify right)', '(justify right) (hide yes)')],
-  ["extra-at-atom", (source) => source.replace('(at 39.37 53.34 180)', '(at 39.37 53.34 180 0)')],
+  ["extra-at-atom", (source) => source.replace('(at 38.1 53.34 180)', '(at 38.1 53.34 180 0)')],
   ["duplicate-justify", (source) => source.replace('(justify right)', '(justify right) (justify right)')],
   ["duplicate-global", (source) => addForm(source, '(global_label "GND" (shape passive) (at 999 999 0))')],
   ["extra-local", (source) => addForm(source, '(label "EXTRA" (at 999 999 0))')],
@@ -569,7 +569,7 @@ describe("generic passive global contract labels", () => {
     expect(labelRequests).toEqual(fixture.bundle.contract.nets.map((net) => {
       const endpoint = net.endpoints[0]!;
       const [, at] = oracle.inputPlan.pins.find(([id]) => id === `${endpoint.reference}:${endpoint.pin}`)!;
-      return { name: net.name, x_mm: net.name === "VOUT" ? 33.02 : 39.37, y_mm: at.y, kind: "global", shape: "passive", rotation: 180, snap_to_grid: true, justify: "right" };
+      return { name: net.name, x_mm: net.name === "VOUT" ? 30.48 : 38.1, y_mm: at.y, kind: "global", shape: "passive", rotation: 180, snap_to_grid: true, justify: "right" };
     }));
     expect(parseFreshSchematicSource(await readFile(fresh.schematicPath, "utf8")).labels).toHaveLength(3);
     await bridge.internal.saveAfterMutation({ id: "save-global", name: "pcb_save", arguments: {} });

@@ -8,6 +8,7 @@ import { hardenPortableValue, parsePortableJsonBytes, validateContentIdentity } 
 import type { ContentIdentity } from "../domain/types.js";
 import { validateFreshProjectName } from "../harness/fresh-project.js";
 import { schematicSeedLineageSchema, parseSchematicSeedLineage, type SchematicSeedLineage } from "./toolbox-schematic-seed.js";
+import { runtimeSourceImportLineageSchema, parseRuntimeSourceImportLineage, type RuntimeSourceImportLineage } from "./toolbox-runtime-source-import.js";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u;
 const DRAFT_LIMIT = 256 * 1024;
@@ -22,7 +23,8 @@ const jsonLimits = { maxBytes: DRAFT_LIMIT, maxDepth: 40, maxNodes: 120_000,
 const manifestSchema = z.object({ schemaVersion: z.literal(SCHEMA), projectId: z.string().regex(UUID),
   name: z.string(), originalPrompt: z.string().min(1), draftIdentity: z.object({
     algorithm: z.literal("sha256"), digest: z.string().regex(/^[0-9a-f]{64}$/u), size: z.number().int().min(1).max(DRAFT_LIMIT),
-  }).strict(), schematicSeedLineage: schematicSeedLineageSchema.optional() }).strict();
+  }).strict(), schematicSeedLineage: schematicSeedLineageSchema.optional(), runtimeSourceImportLineage: runtimeSourceImportLineageSchema.optional() }).strict()
+  .refine(value => value.schematicSeedLineage === undefined || value.runtimeSourceImportLineage === undefined, "Distinct seed/import lineage cannot be combined");
 
 export class ToolboxWorkspaceStoreError extends Error {
   public constructor(public readonly code: "INVALID_ARGUMENT" | "NEEDS_REVIEW" | "LEASE_HELD", message: string) {
@@ -37,6 +39,7 @@ export interface ToolboxWorkspaceAllocationInput {
   /** SHA-256 identity of canonicalJson(draft), UTF-8, without a trailing newline. */
   readonly draftIdentity: ContentIdentity;
   readonly schematicSeedLineage?: SchematicSeedLineage;
+  readonly runtimeSourceImportLineage?: RuntimeSourceImportLineage;
 }
 export interface ToolboxWorkspaceProject {
   readonly projectId: string;
@@ -49,6 +52,7 @@ export interface ToolboxWorkspaceRecord extends ToolboxWorkspaceProject {
   readonly draftIdentity: ContentIdentity;
   readonly draft: unknown;
   readonly schematicSeedLineage?: SchematicSeedLineage;
+  readonly runtimeSourceImportLineage?: RuntimeSourceImportLineage;
 }
 export interface ToolboxWorkspaceStore {
   allocate(input: ToolboxWorkspaceAllocationInput): Promise<ToolboxWorkspaceProject & { readonly created: boolean }>;
@@ -234,7 +238,9 @@ export async function createToolboxWorkspaceStore(options: {
       const manifestBytes = await readOrdinary(path.join(locations.projectRoot, MANIFEST), MANIFEST_LIMIT);
       const manifest = manifestSchema.parse(parsePortableJsonBytes(manifestBytes, { ...jsonLimits, maxBytes: MANIFEST_LIMIT }));
       const lineage = manifest.schematicSeedLineage === undefined ? undefined : parseSchematicSeedLineage(manifest.schematicSeedLineage);
+      const runtimeLineage = manifest.runtimeSourceImportLineage === undefined ? undefined : parseRuntimeSourceImportLineage(manifest.runtimeSourceImportLineage);
       if (lineage !== undefined && (lineage.targetProjectId !== id || lineage.sourceProjectId === id)) review("Seed lineage differs from its immutable allocation.");
+      if (runtimeLineage !== undefined && (runtimeLineage.targetProjectId !== id || runtimeLineage.sourceProjectId === id)) review("Runtime import lineage differs from its immutable allocation.");
       if (manifest.projectId !== id || safeName(manifest.name) !== manifest.name || Buffer.byteLength(manifest.originalPrompt, "utf8") > 32 * 1024
         || !manifest.originalPrompt.trim() || canonicalJson(manifest) !== manifestBytes.toString("utf8")) review("Workspace allocation manifest is inconsistent.");
       const draftBytes = await readOrdinary(path.join(locations.inputDir, DRAFT), DRAFT_LIMIT);
@@ -248,7 +254,8 @@ export async function createToolboxWorkspaceStore(options: {
       }
       await assertProjects();
       return Object.freeze({ ...publicRecord({ ...manifest, ...locations }), originalPrompt: manifest.originalPrompt,
-        draftIdentity: Object.freeze({ ...manifest.draftIdentity }), draft, ...(lineage === undefined ? {} : { schematicSeedLineage: lineage }) });
+        draftIdentity: Object.freeze({ ...manifest.draftIdentity }), draft, ...(lineage === undefined ? {} : { schematicSeedLineage: lineage }),
+        ...(runtimeLineage === undefined ? {} : { runtimeSourceImportLineage: runtimeLineage }) });
     } catch (error) {
       if (error instanceof ToolboxWorkspaceStoreError && error.code === "NEEDS_REVIEW") throw error;
       return review("Workspace allocation is incomplete or inconsistent; existing files were retained for review.");
@@ -267,15 +274,19 @@ export async function createToolboxWorkspaceStore(options: {
       throw new ToolboxWorkspaceStoreError("INVALID_ARGUMENT", "Original prompt must be nonempty and at most 32 KiB.");
     }
     const lineage = input.schematicSeedLineage === undefined ? undefined : parseSchematicSeedLineage(input.schematicSeedLineage);
+    const runtimeLineage = input.runtimeSourceImportLineage === undefined ? undefined : parseRuntimeSourceImportLineage(input.runtimeSourceImportLineage);
+    if (lineage !== undefined && runtimeLineage !== undefined) throw new ToolboxWorkspaceStoreError("INVALID_ARGUMENT", "Seed and runtime import lineage cannot be combined.");
     if (lineage !== undefined && (lineage.targetProjectId !== id || lineage.sourceProjectId === id)) throw new ToolboxWorkspaceStoreError("INVALID_ARGUMENT", "Seed lineage must identify this new allocation and a different source.");
+    if (runtimeLineage !== undefined && (runtimeLineage.targetProjectId !== id || runtimeLineage.sourceProjectId === id)) throw new ToolboxWorkspaceStoreError("INVALID_ARGUMENT", "Runtime import lineage must identify this new allocation and a different source.");
     const manifest = { schemaVersion: SCHEMA, projectId: id, name, originalPrompt: input.originalPrompt, draftIdentity: identity,
-      ...(lineage === undefined ? {} : { schematicSeedLineage: lineage }) };
+      ...(lineage === undefined ? {} : { schematicSeedLineage: lineage }), ...(runtimeLineage === undefined ? {} : { runtimeSourceImportLineage: runtimeLineage }) };
     const manifestBytes = canonicalJson(hardenPortableValue(manifest, { ...jsonLimits, maxBytes: MANIFEST_LIMIT }));
     const locations = paths(id);
     const replay = (previous: ToolboxWorkspaceRecord | undefined) => {
       if (previous === undefined || previous.name !== name || previous.originalPrompt !== input.originalPrompt
         || canonicalJson(previous.draftIdentity) !== canonicalJson(identity) || canonicalJson(previous.draft) !== draftBytes
-        || canonicalJson(previous.schematicSeedLineage ?? null) !== canonicalJson(lineage ?? null)) {
+        || canonicalJson(previous.schematicSeedLineage ?? null) !== canonicalJson(lineage ?? null)
+        || canonicalJson(previous.runtimeSourceImportLineage ?? null) !== canonicalJson(runtimeLineage ?? null)) {
         return review("Existing project ID has a conflicting or incomplete allocation; nothing was overwritten.");
       }
       return Object.freeze({ ...publicRecord(previous), created: false });

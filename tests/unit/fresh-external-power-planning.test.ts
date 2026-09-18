@@ -7,13 +7,14 @@ import { FRESH_CONNECTIVITY_CONTRACT_SCHEMA_VERSION, type FreshConnectivityContr
 import { freshPowerFlagDefinitionSemanticIdentity, parseFreshSymbolLibraryTerminalGeometrySource } from "../../src/harness/fresh-kicad-parser.js";
 import { FreshSchematicWorkBudget } from "../../src/harness/fresh-schematic-work-budget.js";
 import { buildSchematicTerminalGroups, type FreshSchematicTerminalPartition } from "../../src/harness/fresh-schematic-terminal-groups.js";
+import { createFreshTerminalLabelPlanningSession, planFreshTerminalGlobalLabels } from "../../src/harness/fresh-schematic-terminal-labels.js";
 import {
   createFreshSchematicStrokeStyleEvidence,
   FRESH_SCHEMATIC_STROKE_NATIVE_PROFILE as profile,
   type FreshSchematicStrokeStyleCapture,
 } from "../../src/harness/fresh-schematic-stroke-style.js";
 import {
-  createFreshSchematicPlanningWork, planFreshExternalPowerGeometry, createKicadHarnessTools,
+  createFreshSchematicPlanningWork, planFreshExternalPowerGeometry, planFreshTerminalGlobalLabelsAndPower, createKicadHarnessTools,
   KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES, type KicadHarnessSession, type KicadHarnessToolsOptions,
 } from "../../src/harness/kicad-tools.js";
 import type { PcbReadOnlyLibraryResolver } from "../../src/harness/pcb-design-compiler.js";
@@ -147,6 +148,191 @@ const plan: PhysicalPlan = {
 const run = (input = fixture(), obstacles = boxes) => planFreshExternalPowerGeometry(
   input.contract, plan, pins, obstacles, input.resolver, createFreshSchematicPlanningWork(), sourceIdentity, input.style,
 );
+
+/** Complete synthetic inventory: one earlier flag and one label-trapped flag. */
+function terminalPowerFixture(count = 9, stacked = false) {
+  const stock = fixture(), base = stock.contract;
+  const components = ["A1", "J1", ...Array.from({ length: count - 2 }, (_, index) => `Z${index + 1}`)]
+    .map(reference => ({ ...base.components[0]!, reference }));
+  const values = [
+    { reference: "A1", pin: "1", x: 30.48, y: 30.48, net: "SUPPLY_A" },
+    { reference: "J1", pin: "1", x: 101.6, y: 101.6, net: "SUPPLY_B" },
+    { reference: "J1", pin: "2", x: 101.6, y: 99.06, net: "ZZ_SIGNAL" },
+    ...(stacked ? [{ reference: "J1", pin: "3", x: 101.6, y: 101.6, net: "SUPPLY_B" }] : []),
+    ...components.filter(component => component.reference.startsWith("Z")).map((component, index) => ({ reference: component.reference,
+      pin: "1", x: Number((20.32 + index * 7.62).toFixed(4)), y: 160.02, net: null })),
+  ];
+  const bindingPayload = { ...base.externalPowerBinding!, flags: [
+    { ...base.externalPowerBinding!.flags[0]!, anchorEndpoint: { reference: "A1", pin: "1" } },
+    { ...base.externalPowerBinding!.flags[1]!, anchorEndpoint: { reference: "J1", pin: stacked ? "3" : "1" } },
+  ] };
+  const { identity: _bindingIdentity, ...bindingContent } = bindingPayload;
+  const externalPowerBinding = { ...bindingContent, identity: canonicalIdentity(bindingContent, bindingContent.schemaVersion) };
+  const { identity: _contractIdentity, ...basePayload } = base;
+  const payload = { ...basePayload, components, externalPowerBinding,
+    nets: ["SUPPLY_A", "SUPPLY_B", "ZZ_SIGNAL"].map(name => ({ name, endpoints: values.filter(value => value.net === name)
+      .map(({ reference, pin }) => ({ reference, pin })) })),
+    noConnects: values.filter(value => value.net === null).map(({ reference, pin }) => ({ reference, pin })),
+  };
+  const contract: FreshConnectivityContract = { ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) };
+  const pins = new Map(values.map(value => [`${value.reference}:${value.pin}`, { x: value.x, y: value.y, angleDeg: 180 as const }]));
+  const grouped = buildSchematicTerminalGroups({ contractIdentity: contract.sourceContractIdentity,
+    components: components.map(component => ({ reference: component.reference, symbolLibId: component.symbolLibId, unit: 1, sourceIdentity,
+      placement: { at: { xMm: 0, yMm: 0 }, rotationDeg: 0 }, pins: values.filter(value => value.reference === component.reference)
+        .map(value => ({ number: value.pin, at: { xMm: value.x, yMm: -value.y }, angleDeg: 180 })) })),
+    assignments: values.map(value => ({ reference: value.reference, pin: value.pin, assignment: value.net === null
+      ? { kind: "no_connect" as const } : { kind: "net" as const, net: value.net } })),
+    livePins: values.map(value => ({ reference: value.reference, pin: value.pin, at: { xMm: value.x, yMm: value.y }, angleDeg: 180 })),
+  });
+  if (grouped.status !== "complete") throw new Error(JSON.stringify(grouped));
+  const boxes = components.map(component => {
+    const pin = values.find(value => value.reference === component.reference)!;
+    return { reference: component.reference, minX: pin.x - 2.54, maxX: pin.x, minY: component.reference === "J1" ? 97.79 : pin.y - 1.27, maxY: pin.y + 1.27 };
+  });
+  // The lower lane is occupied. The upper lane is trapped by the following
+  // signal stub until the declared SUPPLY_B label moves beyond its short slot.
+  // Full native frame strokes require more than the former guessed envelope.
+  // These small ink obstacles reserve usable incoming-port length for each flag.
+  boxes.push({ reference: "@a1-port-ink", minX: 31.6, maxX: 31.8, minY: 29, maxY: 29.2 });
+  boxes.push({ reference: "@j1-port-ink", minX: 103.5, maxX: 104.2, minY: 102.5, maxY: 102.7 });
+  boxes.push({ reference: "@lower-body", minX: 95, maxX: 180, minY: 103.3, maxY: 145 });
+  const input = { contract, partition: grouped.value, sourceIdentity, pins, boxes, strokeStyle: stock.style,
+    sourceBodyBoxes: [], sheet: { minX: 15.24, minY: 15.24, maxX: 279.4, maxY: 195.58 } };
+  const run = (work = createFreshSchematicPlanningWork()) => planFreshTerminalGlobalLabelsAndPower(input, stock.resolver, work);
+  return { ...stock, input, run };
+}
+
+describe("joint repeated terminal labels and declared power flags", () => {
+  it.each([false, true])("regenerates the affected suffix and all flags for a trapped declared anchor; stacked=%s", stacked => {
+    const f = terminalPowerFixture(9, stacked), before = JSON.stringify({ ...f.input, pins: [...f.input.pins] });
+    const greedy = planFreshTerminalGlobalLabels(f.input);
+    expect(greedy.issues).toEqual([]);
+    const initial = planFreshExternalPowerGeometry(f.input.contract, { ...greedy, wires: [...greedy.wires], routes: [...greedy.routes], issues: [] },
+      f.input.pins, f.input.boxes, f.resolver, createFreshSchematicPlanningWork(), sourceIdentity, f.style, undefined, f.input.partition);
+    expect(initial.flags).toHaveLength(1);
+    expect(initial.issues).toEqual([expect.objectContaining({ code: "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED", endpoints: [`J1:${stacked ? "3" : "1"}`] })]);
+    const work = createFreshSchematicPlanningWork(), result = f.run(work);
+    expect(result.issues).toEqual([]);
+    expect(result.flags).toHaveLength(2);
+    expect(new Set(result.flags.map(flag => flag.reference)).size).toBe(2);
+    expect(result.labels.find(label => label.endpointId === "J1:1")!.at.x).toBeGreaterThan(greedy.labels.find(label => label.endpointId === "J1:1")!.at.x);
+    expect(result.labels.find(label => label.endpointId === "J1:2")!.at.x).toBeLessThan(greedy.labels.find(label => label.endpointId === "J1:2")!.at.x);
+    const cleanReplay = planFreshExternalPowerGeometry(f.input.contract, { wires: result.wires.slice(0, result.labels.length), labels: result.labels, routes: result.routes, issues: [] },
+      f.input.pins, f.input.boxes, f.resolver, createFreshSchematicPlanningWork(), sourceIdentity, f.style, undefined, f.input.partition);
+    expect(result).toEqual(cleanReplay);
+    expect(JSON.stringify({ ...f.input, pins: [...f.input.pins] })).toBe(before);
+    const second = createFreshSchematicPlanningWork();
+    expect(f.run(second)).toEqual(result); expect(second.budget.snapshot()).toEqual(work.budget.snapshot());
+  });
+
+  it("preserves the <=8-component flag failure and successful earlier flag", () => {
+    const f = terminalPowerFixture(8), result = f.run();
+    expect(result.flags).toHaveLength(1);
+    expect(result.issues[0]!.code).toBe("EXTERNAL_POWER_PLACEMENT_UNSUPPORTED");
+    expect(result.labels).toEqual(planFreshTerminalGlobalLabels(f.input).labels);
+  });
+
+  it("keeps an already successful whole greedy plan unchanged above the legacy boundary", () => {
+    const small = terminalPowerFixture(8), larger = terminalPowerFixture(9);
+    small.input.boxes.pop(); larger.input.boxes.pop();
+    const previous = small.run(), current = larger.run();
+    expect(previous.issues).toEqual([]); expect(current).toEqual(previous);
+    expect(current.labels).toEqual(planFreshTerminalGlobalLabels(larger.input).labels);
+  });
+
+  it.each([5.08, 8.89])("uses a late finite %s mm lane only when every old flag candidate is blocked", transverse => {
+    const small = terminalPowerFixture(8), larger = terminalPowerFixture(9);
+    for (const f of [small, larger]) {
+      f.input.boxes.push({ reference: "@upper-ink", minX: 95, maxX: 180, minY: 40, maxY: transverse === 5.08 ? 89 : 85.3 });
+      if (transverse === 8.89) f.input.boxes.push({ reference: "@short-lane-ink", minX: 122, maxX: 180, minY: 94.8, maxY: 95 });
+    }
+    const session = createFreshTerminalLabelPlanningSession(larger.input);
+    let plan = session.plan;
+    while (plan.labels.find(label => label.endpointId === "J1:1")!.at.x < 121.92) plan = session.retryDeclaredPowerAnchor("J1:1")!;
+    const run = (f: typeof larger) => planFreshExternalPowerGeometry(f.input.contract,
+      { ...plan, wires: [...plan.wires], routes: [...plan.routes], issues: [] }, f.input.pins, f.input.boxes, f.resolver,
+      createFreshSchematicPlanningWork(), sourceIdentity, f.style, undefined, f.input.partition);
+    expect(run(small).issues[0]!.code).toBe("EXTERNAL_POWER_PLACEMENT_UNSUPPORTED");
+    const result = run(larger);
+    expect(result.issues).toEqual([]);
+    expect(result.flags[1]!.y).toBeCloseTo(larger.input.pins.get("J1:1")!.y - transverse, 8);
+  });
+
+  it("retains the old whole flag pass before using the late 25.4 mm lane for downward anchors", () => {
+    const source = fixture(), geometry = cardinalFixture(90);
+    const make = (count: number) => {
+      const extras = Array.from({ length: count - 1 }, (_, index) => ({ ...source.contract.components[0]!, reference: `Z${index + 1}` }));
+      const { identity: _identity, ...base } = source.contract;
+      const payload = { ...base, components: [...base.components, ...extras], noConnects: extras.map(component => ({ reference: component.reference, pin: "1" })) };
+      const contract = { ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) };
+      const pins = new Map([...geometry.pins, ...extras.map((component, index) => [`${component.reference}:1`, { x: 20.32 + index * 7.62, y: 180.34, angleDeg: 90 as const }] as const)]);
+      const boxes = [{ reference: "J1", minX: 83.82, maxX: 119.38, minY: 65, maxY: 76.2 },
+        ...extras.map((component, index) => ({ reference: component.reference, minX: 20.32 + index * 7.62, maxX: 21.59 + index * 7.62, minY: 179.07, maxY: 180.34 }))];
+      return planFreshExternalPowerGeometry(contract, geometry.plan, pins, boxes, source.resolver, createFreshSchematicPlanningWork(), sourceIdentity, source.style);
+    };
+    expect(make(8).issues[0]!.code).toBe("EXTERNAL_POWER_PLACEMENT_UNSUPPORTED");
+    const result = make(9);
+    expect(result.issues).toEqual([]);
+    expect(Math.abs(result.flags[0]!.x - geometry.pins.get("J1:1")!.x)).toBeCloseTo(25.4, 8);
+  });
+
+  it("uses one nonrefundable budget for the initial plan, every suffix, and every complete flag retry", () => {
+    const f = terminalPowerFixture(), work = createFreshSchematicPlanningWork(), before = JSON.stringify({ ...f.input, pins: [...f.input.pins] });
+    expect(f.run(work).issues).toEqual([]);
+    const consumed = work.budget.snapshot().consumed;
+    const limited = createFreshSchematicPlanningWork(new FreshSchematicWorkBudget(consumed - 1)), result = f.run(limited);
+    expect(result).toMatchObject({ wires: [], labels: [], routes: [], flags: [], issues: [{ code: "PLANNING_WORK_LIMIT" }] });
+    expect(limited.budget.snapshot()).toMatchObject({ status: "exhausted", consumed: consumed - 1, remaining: 0 });
+    expect(f.run(createFreshSchematicPlanningWork(new FreshSchematicWorkBudget(consumed))).issues).toEqual([]);
+    expect(JSON.stringify({ ...f.input, pins: [...f.input.pins] })).toBe(before);
+  });
+
+  it.each([0, 4])("fails closed when the extra continuation budget %s exhausts during anchor lookup or suffix truncation", extra => {
+    const f = terminalPowerFixture(), initial = new FreshSchematicWorkBudget();
+    expect(createFreshTerminalLabelPlanningSession(f.input, initial).plan.issues).toEqual([]);
+    // Two singleton functional groups precede/contain J1:1: four lookup units.
+    // Its own choice and one later group require two suffix-removal units.
+    const budget = new FreshSchematicWorkBudget(initial.snapshot().consumed + extra), session = createFreshTerminalLabelPlanningSession(f.input, budget);
+    expect(session.plan.issues).toEqual([]);
+    expect(session.retryDeclaredPowerAnchor("J1:1")).toMatchObject({ wires: [], labels: [], routes: [], issues: [{ code: "PLANNING_WORK_LIMIT" }] });
+    expect(budget.snapshot()).toMatchObject({ status: "exhausted", remaining: 0,
+      exhaustion: { kind: extra === 0 ? "terminal_group" : "label", requested: 2, remaining: 0 } });
+  });
+
+  it("fails closed with no partial labels, wires, or flags when all bounded anchor choices remain blocked", () => {
+    const f = terminalPowerFixture(), work = createFreshSchematicPlanningWork();
+    f.input.boxes.push({ reference: "@upper-body", minX: 95, maxX: 180, minY: 40, maxY: 97.3 });
+    expect(planFreshTerminalGlobalLabels(f.input).issues).toEqual([]);
+    expect(f.run(work)).toMatchObject({ wires: [], labels: [], routes: [], flags: [], issues: [{ code: "EXTERNAL_POWER_PLACEMENT_UNSUPPORTED" }] });
+    expect(work.budget.snapshot().status).toBe("available");
+    expect(work.budget.snapshot().consumed).toBeLessThan(1_000_000);
+  });
+
+  it("only advances declared anchors, keeps promoted floors on earlier-anchor retry, and isolates private state", () => {
+    const f = terminalPowerFixture(), session = createFreshTerminalLabelPlanningSession(f.input);
+    expect(session.retryDeclaredPowerAnchor("J1:2")).toBeNull();
+    expect(session.retryDeclaredPowerAnchor("FOREIGN:1")).toBeNull();
+    const first = session.retryDeclaredPowerAnchor("J1:1")!;
+    const promoted = first.labels.find(label => label.endpointId === "J1:1")!.at.x;
+    const originalPrefix = structuredClone(first.labels[0]!);
+    Object.assign(first.labels[0]!.at, { x: 999 }); Object.assign(first.labels[0]!.bounds, { minX: 999 });
+    (first.wires[0]!.edgeEndpoints as string[])[0] = "INJECTED";
+    f.input.pins.set("A1:1", { x: 999, y: 999, angleDeg: 180 });
+    Object.assign(f.input.boxes[0]!, { minX: -999, maxX: 999 }); Object.assign(f.input.sheet, { maxX: 0 });
+    const second = session.retryDeclaredPowerAnchor("J1:1")!;
+    expect(second.labels[0]).toEqual(originalPrefix);
+    expect(second.wires[0]!.edgeEndpoints).toEqual(["A1:1"]);
+    const later = session.retryDeclaredPowerAnchor("A1:1")!;
+    expect(later.labels.find(label => label.endpointId === "J1:1")!.at.x).toBeGreaterThanOrEqual(second.labels.find(label => label.endpointId === "J1:1")!.at.x);
+    expect(later.labels.find(label => label.endpointId === "J1:1")!.at.x).toBeGreaterThan(promoted);
+  });
+
+  it("propagates flag source assertion failures without turning them into geometry retries", () => {
+    const f = terminalPowerFixture();
+    const resolver = { ...f.resolver, inspectExternalPowerFlag: () => { throw new Error("flag source changed"); } };
+    expect(() => planFreshTerminalGlobalLabelsAndPower(f.input, resolver, createFreshSchematicPlanningWork())).toThrow("flag source changed");
+  });
+});
 
 /** Synthetic complete source/live metadata; production obtains this partition from its source adapter. */
 function stackedFixture(nonRepresentativeAnchor = false, source = sourceIdentity, wrongContract = false) {

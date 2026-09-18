@@ -71,8 +71,8 @@ function fixture(count = 2, withStacks = true, bodyStyle: 1 | 2 = 1, reverseEmbe
   return { contract, pins, boxes, partition, partitionFor, pristine, plan, source, saved, resolver, endpoints };
 }
 
-function styleFor(source: string) {
-  const schematic = contentIdentity(source), projectSettingsSource = "{}", applicationSource = "{}";
+function styleFor(source: string, applicationSource = "{}") {
+  const schematic = contentIdentity(source), projectSettingsSource = "{}";
   const executablePath = path.resolve("D:/pinned-terminal-label/kicad-cli.exe"), cwd = path.resolve("D:/terminal-label/project"), output = path.resolve("D:/terminal-label/render");
   const executable = { kind: "kicad-cli" as const, path: executablePath, version: profile.version, commit: "a".repeat(40), sha256: profile.executable.digest,
     sizeBytes: profile.executable.size, capabilityHelpSha256: "b".repeat(64), confirmedCapabilities: ["sch export svg"] };
@@ -140,6 +140,22 @@ describe("bounded source-qualified repeated terminal labels (synthetic, no nativ
     expect(f.plan(new FreshSchematicWorkBudget(5)).issues[0]!.code).toBe("PLANNING_WORK_LIMIT");
     f.pins.delete("U1:5");
     expect(f.plan().issues[0]!.code).toBe("TERMINAL_LABEL_SOURCE_MISMATCH");
+  });
+  it("rejects a current but unsupported native label font before returning wires", () => {
+    const f = fixture();
+    const result = planFreshTerminalGlobalLabels({ contract: f.contract, partition: f.partition, sourceIdentity: contentIdentity(f.pristine),
+      pins: f.pins, boxes: f.boxes, sheet, sourceBodyBoxes: [], strokeStyle: styleFor(f.pristine, '{"appearance":{"default_font":"Arial"}}') });
+    expect(result).toMatchObject({ wires: [], labels: [], issues: [{ code: "TERMINAL_LABEL_SOURCE_MISMATCH" }] });
+  });
+  it.each([[90, "left", "bottom"], [270, "right", "top"]] as const)("accepts stock vertical justification %s and rejects the old centered form", (rotation, justify, previous) => {
+    const f = fixture(), result = f.plan(), first = result.labels[0]!;
+    const saved = f.saved(result).replace(`(at ${first.at.x} ${first.at.y} 180)`, `(at ${first.at.x} ${first.at.y} ${rotation})`)
+      .replace("(justify right)", `(justify ${justify})`);
+    // Electrical reconstruction alone is not a clearance certificate; the caller
+    // separately compares the expected planned tuples and the current native ink.
+    expect(freshSavedTerminalGlobalLabelsMatch(saved, f.contract, f.resolver)).toBe(true);
+    expect(freshSavedTerminalGlobalLabelsMatch(saved.replace(`(justify ${justify})`, `(justify ${previous})`), f.contract, f.resolver)).toBe(false);
+    expect(freshSavedTerminalGlobalLabelsMatch(saved, f.contract, f.resolver, result.labels)).toBe(false);
   });
   it.each(["float", "duplicate-anchor", "foreign-name", "font", "face", "color", "rotation", "shape", "bold", "nc", "missing-nc", "source-pin", "cross-net"])("rejects saved %s despite same-name native union", kind => {
     const f = fixture(), result = f.plan(), first = result.labels[0]!, pin = f.pins.get("U1:1")!;

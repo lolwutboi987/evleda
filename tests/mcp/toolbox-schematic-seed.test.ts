@@ -8,10 +8,12 @@ import { createPlaneToolboxCheckpointLifecycle } from "../../src/mcp/toolbox-pla
 import { resumeKicadToolboxPlaneProject, type KicadToolboxPlanePreparation } from "../../src/mcp/toolbox-plane-preparation.js";
 import { captureClosedPlaneSchematicSeedSource } from "../../src/mcp/toolbox-schematic-seed.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
+import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
+import { parseFreshPcbSource } from "../../src/harness/fresh-kicad-parser.js";
 import type { openFreshNativeToolboxBinding } from "../../src/mcp/toolbox-fresh-main.js";
 import type { ConnectedKicadToolbox } from "../../src/mcp/toolbox-session.js";
 import type { KicadMcpSession } from "../../src/integrations/kicad-mcp-session.js";
-import { unwiredPlaneSeedFixture } from "../helpers/unwired-plane-seed.js";
+import { unwiredPlaneSeedFixture, unwiredPlaneSeedGeometryDraft } from "../helpers/unwired-plane-seed.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 
 const fixtures: Awaited<ReturnType<typeof unwiredPlaneSeedFixture>>[] = [];
@@ -46,13 +48,13 @@ async function fixture() {
     const client = new Client({ name: "seed-workspace-test", version: "1" });
     const [left, right] = InMemoryTransport.createLinkedPair(); await workspace.server.connect(right); await client.connect(left);
     const call = (name: string, args: Record<string, unknown> = {}) => client.callTool({ name, arguments: args });
-    const submit = async (revised = false) => { const draft = planeDividerDraft(); if (revised) draft.placementConstraints[1]!.regionMm.maxYmm -= 0.01;
+    const submit = async (revised = false, sourceDraft = planeDividerDraft()) => { const draft = structuredClone(sourceDraft); if (revised) draft.placementConstraints[1]!.regionMm.maxYmm -= 0.01;
       return body(await call("evleda_submit_design", { name: "seeded", originalPrompt: revised ? "Reviewed revised placement" : "Synthetic unwired seed test", draft })); };
     return { client, call, submit, workspace, close: async () => { await client.close(); await workspace.close(); } };
   };
   const c = await connect();
-  const authoredSource = async () => {
-    const ready = await c.submit(); expect(ready.status).toBe("ready");
+  const authoredSource = async (draft = planeDividerDraft()) => {
+    const ready = await c.submit(false, draft); expect(ready.status).toBe("ready");
     expect(body(await c.call("evleda_create_project", { draftId: ready.draftId })).status).toBe("opened");
     const source = preparations.at(-1)!, bytes = f.source(source.bundle);
     await writeFile(source.project.schematicPath, bytes);
@@ -63,6 +65,41 @@ async function fixture() {
 }
 
 describe("same-connection unwired schematic seed over real MCP", () => {
+  it("submits, creates, closes and resumes a 22 x 51 target with new hole poses and the exact closed 21 x 51 source schematic", async () => {
+    const f = await fixture();
+    try {
+      const source = await f.authoredSource(unwiredPlaneSeedGeometryDraft());
+      expect((await f.c.call("evleda_close_project", { projectId: source.ready.draftId })).isError).not.toBe(true);
+      const sourcePaths = [source.source.project.schematicPath, source.source.project.pcbPath, source.source.project.markerPath,
+        source.source.project.checkpointPath, source.source.reportPath, path.join(source.source.project.outputPath, "toolbox-design-bundle.json")];
+      const before = await Promise.all(sourcePaths.map(file => readFile(file))), revised = unwiredPlaneSeedGeometryDraft(22, 51);
+      Object.assign(revised.boardFeatures[0]!.pose, { xMm: 4, yMm: 4, rotationDeg: 90 });
+      Object.assign(revised.boardFeatures[1]!.pose, { xMm: 19, yMm: 47, rotationDeg: 180 });
+      const ready = await f.c.submit(false, revised);
+      expect(ready.status).toBe("ready");
+      const created = await f.c.call("evleda_create_project", { draftId: ready.draftId, sourceProjectId: source.ready.draftId });
+      expect(created.isError, JSON.stringify(body(created))).not.toBe(true);
+      expect(body(created)).toMatchObject({ status: "opened", projectId: ready.draftId,
+        schematicSeedLineage: { sourceProjectId: source.ready.draftId, targetProjectId: ready.draftId } });
+      const target = f.preparations.at(-1)!, pcb = await readFile(target.project.pcbPath, "utf8");
+      expect(target.project.pcbPath).not.toBe(source.source.project.pcbPath);
+      expect(await readFile(target.project.schematicPath, "utf8")).toBe(source.bytes);
+      expect(pcb).toBe(createInterfaceConstructionBoardSeed(target.bundle));
+      expect(parseFreshPcbSource(pcb)).toMatchObject({ footprints: [], segments: [], vias: [], zoneNetNames: [] });
+      expect(target.bundle.identity).not.toEqual(source.source.bundle.identity);
+      expect(target.bundle.contract.scope.board).toMatchObject({ widthMm: 22, heightMm: 51 });
+      expect(target.bundle.contract.boardFeatures).toEqual(revised.boardFeatures);
+      expect((await f.c.call("evleda_close_project", { projectId: ready.draftId })).isError).not.toBe(true);
+      expect(body(await f.c.call("evleda_resume_project", { projectId: ready.draftId }))).toMatchObject({ status: "opened", resumed: true });
+      const resumed = f.preparations.at(-1)!;
+      expect(await readFile(resumed.project.schematicPath, "utf8")).toBe(source.bytes);
+      expect(await readFile(resumed.project.pcbPath, "utf8")).toBe(pcb);
+      expect(resumed.bundle.contract.boardFeatures).toEqual(revised.boardFeatures);
+      expect(source.source.bundle.contract.scope.board).toMatchObject({ widthMm: 21, heightMm: 51 });
+      expect(await Promise.all(sourcePaths.map(file => readFile(file)))).toEqual(before);
+    } finally { await f.c.close(); }
+  });
+
   it("requires successful close, holds the source lease through issuance, binds retry selection and resumes exact seeded bytes", async () => {
     const f = await fixture();
     try {

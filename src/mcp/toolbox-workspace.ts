@@ -128,6 +128,9 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     ensureIdle();
     const record = await store.lookup(projectId);
     if (record === undefined) throw new Error("Unknown workspace project.");
+    if (record.runtimeSourceImportLineage !== undefined && canonicalJson(record.runtimeSourceImportLineage.targetProfile) !== canonicalJson(profile)) {
+      throw new Error("Runtime-imported projects require their exact qualified target profile; ordinary resume cannot change it.");
+    }
     closedSeedSources.delete(projectId);
     const owned = { projectId, phase: "opening" as "opening" | "active" | "needs-review", lease: await store.acquireLease(projectId), error: undefined as string | undefined };
     active = owned;
@@ -141,7 +144,8 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
         await beforeAttach?.();
         if (binding.cad.prepareCheckpoint === undefined) throw new Error("Workspace projects require a checkpoint-capable native binding.");
         toolbox.attachCad({ cad: binding.cad, access: binding.access, compoundContractIdentity: binding.compoundContractIdentity,
-          designContext: () => ({ ...binding.designContext(), ...(record.schematicSeedLineage === undefined ? {} : { schematicSeedLineage: record.schematicSeedLineage }) }), onFinished: async outcome => {
+          designContext: () => ({ ...binding.designContext(), ...(record.schematicSeedLineage === undefined ? {} : { schematicSeedLineage: record.schematicSeedLineage }),
+            ...(record.runtimeSourceImportLineage === undefined ? {} : { runtimeSourceImportLineage: record.runtimeSourceImportLineage }) }), onFinished: async outcome => {
             if (!outcome.nativeSessionClosed || !outcome.checkpointPublished || outcome.recoveryRequired) throw new Error("Project lease retained because native finalization/checkpoint requires review.");
             const seedSource = await binding.captureClosedSchematicSeedSource?.();
             try { await owned.lease.release(); }
@@ -172,6 +176,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       owned.phase = "active";
       return { status: "opened", projectId, name: record.name, resumed: resume, access,
         ...(record.schematicSeedLineage === undefined ? {} : { schematicSeedLineage: record.schematicSeedLineage }),
+        ...(record.runtimeSourceImportLineage === undefined ? {} : { runtimeSourceImportLineage: record.runtimeSourceImportLineage }),
         outputPath: record.outputDir, projectPath: path.join(record.outputDir, "project"),
         instruction: "Refresh the tool list, read evleda_design_context, then author and verify the native project. Opening is not design completion." };
     } catch (error) {
@@ -227,7 +232,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     }));
   toolbox.server.registerTool("evleda_discard_draft", { description: "Forget one uncreated in-memory draft. Does not remove native projects or files.",
     inputSchema: z.object({ draftId: ID }).strict(), annotations: WRITE }, async args => respond(() => ({ discarded: pending.delete(args.draftId) })));
-  toolbox.server.registerTool("evleda_create_project", { description: "Create and open a ready draft in this host-approved workspace. Optional sourceProjectId copies exact unwired V2 schematic bytes after a healthy close in this connection/profile. The same project name and circuit are required; only PCB placement, plane rectangle coordinates, net-class settings/assignments, routing constraints, native numeric mode and prompt metadata may differ. Board, plane identity/settings, interface/construction, components, values, electrical nets and libraries remain exact. Source PCB must be its authenticated unmaterialized baseline. New PCB/rules are generated normally. Retry with the same draft/source IDs; no allocation is overwritten. Requires edit access; native startup may take over a minute.",
+  toolbox.server.registerTool("evleda_create_project", { description: "Create and open a ready draft in this host-approved workspace. Optional sourceProjectId copies exact unwired V2 schematic bytes after a healthy close in this connection/profile. The same project name and circuit are required; only PCB width/height, component placement, board-feature pose coordinates/rotation, plane rectangle coordinates, net-class settings/assignments, routing constraints, native numeric mode and prompt metadata may differ. Board shape/layers, board-feature inventory/definitions/side, plane identity/settings, interface/construction, components, values, electrical nets and libraries remain exact. Source PCB must be its authenticated unmaterialized baseline. New PCB/rules are generated normally. Retry with the same draft/source IDs; no allocation is overwritten. Requires edit access; native startup may take over a minute.",
     inputSchema: z.object({ draftId: ID, sourceProjectId: ID.optional() }).strict(), annotations: WRITE }, async args => respond(() => serialize(async () => {
       reconcileNativeState();
       const existing = await store.lookup(args.draftId);

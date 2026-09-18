@@ -617,8 +617,8 @@ describe("fresh KiCad project authoring", () => {
     expect(parseFreshEmbeddedPinAngles(source, "Device:R", 1)).toEqual({ "1": 270, "2": 90 });
     expect(parseFreshEmbeddedPinAngles(source, "Device:LED", 1)).toEqual({ "1": 0, "2": 180 });
     expect(parseFreshEmbeddedPinAngles(source, "Device:C", 1)).toEqual({ "1": 270, "2": 90 });
-    expect(freshAbsolutePinAngle(0, 90)).toBe(270);
-    expect(freshAbsolutePinAngle(270, 90)).toBe(180);
+    expect(freshAbsolutePinAngle(0, 90)).toBe(90);
+    expect(freshAbsolutePinAngle(270, 90)).toBe(0);
     expect(freshAbsolutePinAngle(0, 45)).toBeNull();
     expect(freshEndpointEscape(
       { x: 45.72, y: 53.34, angleDeg: 0 },

@@ -131,19 +131,24 @@ export async function qualifyClosedPlaneSchematicSeed(input: {
     && equal(context.profile, input.profile), "source name, allocation, V2 family or native profile differs");
   // A new, unmaterialized PCB may receive new implementation constraints. Keep
   // this explicit path list closed: no electrical or physical source is copied
-  // under a changed circuit, stackup, plane identity/settings or interface.
+  // under a changed circuit, stackup, feature definition, plane settings or interface.
   const net = ({ netClassId: _class, ...rest }: PcbPlaneCompilationBundle["contract"]["nets"][number]) => rest;
+  const scope = ({ board: { widthMm: _width, heightMm: _height, ...board }, ...rest }: PcbPlaneCompilationBundle["draft"]["scope"]) => ({ ...rest, board });
+  const feature = ({ pose: { xMm: _x, yMm: _y, rotationDeg: _rotation, ...pose }, ...rest }:
+    NonNullable<PcbPlaneCompilationBundle["draft"]["boardFeatures"]>[number]) => ({ ...rest, pose });
   const plane = ({ boundary, ...rest }: PcbPlaneCompilationBundle["draft"]["planes"][number]) => ({ ...rest,
     boundary: boundary === null ? null : (({ minXmm: _minX, maxXmm: _maxX, minYmm: _minY, maxYmm: _maxY, ...shape }) => shape)(boundary) });
   const contract = ({ identity: _identity, placementConstraints: _placement, netClasses: _classes,
-    routingConstraints: _routing, nativeRuleMode: _mode, nets, planes, ...rest }: PcbPlaneCompilationBundle["contract"]) => ({ ...rest, nets: nets.map(net), planes: planes.map(plane) });
+    routingConstraints: _routing, nativeRuleMode: _mode, scope: boardScope, boardFeatures, nets, planes, ...rest }: PcbPlaneCompilationBundle["contract"]) => ({ ...rest,
+      scope: scope(boardScope), ...(boardFeatures === undefined ? {} : { boardFeatures: boardFeatures.map(feature) }), nets: nets.map(net), planes: planes.map(plane) });
   const draft = ({ placementConstraints: _placement, netClasses: _classes, routingConstraints: _routing,
-    nativeRuleMode: _mode, nets, planes, ...rest }: PcbPlaneCompilationBundle["draft"]) => ({ ...rest,
+    nativeRuleMode: _mode, scope: boardScope, boardFeatures, nets, planes, ...rest }: PcbPlaneCompilationBundle["draft"]) => ({ ...rest,
+      scope: scope(boardScope), ...(boardFeatures === undefined ? {} : { boardFeatures: boardFeatures === null ? null : boardFeatures.map(feature) }),
       nets: nets?.map(({ netClassId: _class, ...electrical }) => electrical), planes: planes.map(plane) });
   const libraries = ({ identity: _identity, contractIdentity: _contract, ...rest }: PcbPlaneCompilationBundle["libraryBinding"]) => rest;
   requireValue(equal(contract(source.contract), contract(target.contract)) && equal(draft(source.draft), draft(target.draft))
     && equal(libraries(source.libraryBinding), libraries(target.libraryBinding)) && equal(source.selectionPolicy, target.selectionPolicy),
-  "only PCB placement, plane rectangle coordinates, net-class assignments/settings, routing constraints, native numeric mode and original-prompt metadata may differ");
+  "only PCB width/height, component placement, board-feature pose coordinates/rotation, plane rectangle coordinates, net-class assignments/settings, routing constraints, native numeric mode and original-prompt metadata may differ");
   const assertCurrent = async () => { await input.assertLeaseCurrent(); await assertClosedPlaneSchematicSeedSourceCurrent(input.receipt); await input.assertLeaseCurrent(); };
   await assertCurrent();
   const current = await snapshot(context);

@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import type { BigIntStats } from "node:fs";
-import { lstat, mkdir, readFile, readdir, realpath, rename, unlink, writeFile } from "node:fs/promises";
+import { lstat, mkdir, open, readFile, readdir, realpath, rename, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { z } from "zod";
@@ -1392,6 +1392,99 @@ export async function verifyPlaneFreshProjectCheckpointReadonly(project: PlaneFr
   await project.assertMarkerCurrent();
   return Object.freeze({ projectIdentity: marker.projectIdentity, baselinePcbSha256: marker.files.pcb.sha256,
     checkpointPcbSha256: checkpoint.files.pcb.sha256, reportPath: checkpoint.reportPath, reportSha256: checkpoint.reportSha256 });
+}
+
+/** Read-only host administration capture. This never mints a FreshProject or
+ * invokes resume/report reconciliation, and grants no old-project write API. */
+export const FRESH_RUNTIME_IMPORT_SOURCE_KEYS = Object.freeze(["marker", "checkpoint", "bundle", "report", "sch", "pcb", "pro", "dru", "symLibTable", "fpLibTable"] as const);
+export type FreshRuntimeImportSourceKey = typeof FRESH_RUNTIME_IMPORT_SOURCE_KEYS[number];
+export type FreshRuntimeImportSourcePins = Readonly<Record<FreshRuntimeImportSourceKey, ContentIdentity>>;
+const importFileStamp = (s: BigIntStats) => [s.dev, s.ino, s.birthtimeNs, s.size, s.mtimeNs, s.ctimeNs, s.mode, s.nlink].map(String).join(":");
+export async function captureFreshRuntimeImportFile(input: Readonly<{ path: string; contentIdentity: ContentIdentity }>, maximumBytes: number) {
+  input = Object.freeze({ path: input.path, contentIdentity: Object.freeze(structuredClone(input.contentIdentity)) });
+  if (path.resolve(input.path) !== input.path || input.contentIdentity.algorithm !== "sha256" || !/^[a-f0-9]{64}$/u.test(input.contentIdentity.digest)
+      || !Number.isSafeInteger(input.contentIdentity.size) || input.contentIdentity.size < 0 || input.contentIdentity.size > maximumBytes
+      || !Number.isSafeInteger(maximumBytes) || maximumBytes > 64 * 1024 * 1024) throw new Error("Runtime source import requires a bounded exact canonical file pin.");
+  const parents: FreshFilesystemIdentity[] = [];
+  for (let directory = path.dirname(input.path);; directory = path.dirname(directory)) {
+    const identity = await readFreshDirectoryIdentity(directory);
+    if (identity.dev === null || identity.ino === null) throw new Error("Runtime source import requires exact physical ancestry.");
+    parents.push(identity); if (path.dirname(directory) === directory) break;
+  }
+  const before = await lstat(input.path, { bigint: true });
+  if (!before.isFile() || before.isSymbolicLink() || before.nlink !== 1n || before.size !== BigInt(input.contentIdentity.size)) throw new Error("Runtime import source is not the pinned ordinary unshared file.");
+  const handle = await open(input.path, "r");
+  try {
+    const opened = await handle.stat({ bigint: true });
+    if (importFileStamp(opened) !== importFileStamp(before)) throw new Error("Runtime import source changed while opening.");
+    const buffer = Buffer.alloc(input.contentIdentity.size + 1); let count = 0;
+    while (count < buffer.length) { const result = await handle.read(buffer, count, buffer.length - count, count); if (!result.bytesRead) break; count += result.bytesRead; }
+    const after = await handle.stat({ bigint: true }), atPath = await lstat(input.path, { bigint: true });
+    const bytes = buffer.subarray(0, count), identity = contentIdentity(bytes);
+    if (count !== input.contentIdentity.size || !sameContentIdentity(identity, input.contentIdentity) || !atPath.isFile() || atPath.isSymbolicLink()
+        || atPath.nlink !== 1n || importFileStamp(opened) !== importFileStamp(after) || importFileStamp(opened) !== importFileStamp(atPath)) throw new Error("Runtime import source bytes or physical identity changed.");
+    for (const expected of parents) if (!sameFreshDirectoryIdentity(expected, await readFreshDirectoryIdentity(expected.canonicalPath))) throw new Error("Runtime import source ancestry changed.");
+    return { path: input.path, bytes, contentIdentity: Object.freeze(identity), physical: importFileStamp(atPath), mtimeNs: atPath.mtimeNs.toString(), parents: Object.freeze(parents) };
+  } finally { await handle.close(); }
+}
+export interface ReadonlyPlaneRuntimeImportSource { readonly kind: "readonly-plane-runtime-import-source"; readonly identity: CanonicalIdentity;
+  readonly outputPath: string; readonly name: string; readonly files: Readonly<Record<FreshRuntimeImportSourceKey, Readonly<{ path: string; contentIdentity: ContentIdentity }>>> }
+const readonlyRuntimeImportSources = new WeakMap<object, { options: { outputDir: string; name: string; compilationBundle: PcbPlaneCompilationBundle; pins: FreshRuntimeImportSourcePins };
+  texts: Readonly<Record<FreshRuntimeImportSourceKey, string>>; physical: string }>();
+export async function captureReadonlyPlaneRuntimeImportSource(input: { readonly outputDir: string; readonly name: string;
+  readonly compilationBundle: PcbPlaneCompilationBundle; readonly pins: FreshRuntimeImportSourcePins }): Promise<ReadonlyPlaneRuntimeImportSource> {
+  const name = validateFreshProjectName(input.name), outputPath = path.resolve(input.outputDir), compilationBundle = input.compilationBundle;
+  const pins = structuredClone(input.pins), projectPath = path.join(outputPath, FRESH_PROJECT_DIRECTORY);
+  const reference = createPcbPlaneCompilationBundleRef(compilationBundle), binding = createPlaneFreshProjectBinding(compilationBundle, reference).binding;
+  if (Object.keys(pins).sort().join("\0") !== [...FRESH_RUNTIME_IMPORT_SOURCE_KEYS].sort().join("\0")) throw new Error("Runtime import source pins must include the exact artifact inventory.");
+  for (const key of FRESH_RUNTIME_IMPORT_SOURCE_KEYS) {
+    const pin = pins[key];
+    if (pin === null || typeof pin !== "object" || Object.keys(pin).sort().join("\0") !== "algorithm\0digest\0size" || pin.algorithm !== "sha256"
+        || !/^[a-f0-9]{64}$/u.test(pin.digest) || !Number.isSafeInteger(pin.size) || pin.size < 1 || pin.size > 16 * 1024 * 1024) throw new Error("Runtime import source pin is not closed and bounded.");
+    Object.freeze(pin);
+  }
+  Object.freeze(pins);
+  if (!sameContentIdentity(pins.bundle, reference.contentIdentity)) throw new Error("Runtime import bundle pin differs from its authenticated bundle.");
+  const assertSafe = async () => {
+    try { await lstat(path.join(outputPath, FRESH_PROJECT_UNSAFE_TERMINAL_NAME)); throw new Error("Runtime import source has an unsafe terminal marker."); }
+    catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
+  };
+  await assertSafe();
+  const paths: Record<FreshRuntimeImportSourceKey, string> = { marker: path.join(outputPath, FRESH_PROJECT_MARKER_NAME), checkpoint: path.join(outputPath, FRESH_PROJECT_CHECKPOINT_NAME),
+    bundle: path.join(outputPath, "toolbox-design-bundle.json"), report: path.join(outputPath, "pcb-agent-report.json"),
+    ...Object.fromEntries(Object.entries({ ...fileNames(name), dru: `${name}.kicad_dru` }).map(([key, file]) => [key, path.join(projectPath, file)])) } as Record<FreshRuntimeImportSourceKey, string>;
+  const captures = new Map<FreshRuntimeImportSourceKey, Awaited<ReturnType<typeof captureFreshRuntimeImportFile>>>();
+  for (const key of FRESH_RUNTIME_IMPORT_SOURCE_KEYS) captures.set(key, await captureFreshRuntimeImportFile({ path: paths[key], contentIdentity: pins[key] },
+    key === "report" ? 16 * 1024 * 1024 : key === "bundle" ? 8 * 1024 * 1024 : 2 * 1024 * 1024));
+  const marker = await parseVerifiedMarker(paths.marker, outputPath, name, false, binding, "plane"), checkpoint = await verifyCheckpoint(marker, paths.marker, paths.checkpoint);
+  if (marker.schemaVersion !== "evleda.pcb-agent-fresh-project.v3" || checkpoint?.schemaVersion !== "evleda.pcb-agent-fresh-project-checkpoint.v3"
+      || checkpoint.reason !== "run_exit" || checkpoint.reportStatus !== "needs_review" || checkpoint.reportSha256 !== pins.report.digest
+      || marker.files.pcb.sha256 !== pins.pcb.digest) throw new Error("Runtime import requires a pinned healthy closed checkpoint and unmaterialized board baseline.");
+  for (const key of FRESH_RUNTIME_IMPORT_SOURCE_KEYS) {
+    const before = captures.get(key)!, after = await captureFreshRuntimeImportFile(before, Math.max(before.bytes.length, 1));
+    if (after.physical !== before.physical || canonicalJson(after.parents) !== canonicalJson(before.parents)) throw new Error("Runtime import source changed during read-only capture.");
+  }
+  await assertSafe();
+  const files = Object.freeze(Object.fromEntries([...captures].map(([key, value]) => [key, Object.freeze({ path: value.path, contentIdentity: value.contentIdentity })]))) as ReadonlyPlaneRuntimeImportSource["files"];
+  const physical = canonicalJson(Object.fromEntries([...captures].map(([key, value]) => [key, { physical: value.physical, parents: value.parents }])));
+  const identity = Object.freeze(canonicalIdentity({ outputPath, name, files, physical, planeBindingIdentity: binding.identity }, "evleda.readonly-plane-runtime-import-source.v1"));
+  const texts = Object.freeze(Object.fromEntries([...captures].map(([key, value]) => {
+    const text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(value.bytes);
+    if (!Buffer.from(text).equals(value.bytes)) throw new Error("Runtime import source is not exact UTF-8.");
+    return [key, text];
+  }))) as Readonly<Record<FreshRuntimeImportSourceKey, string>>;
+  const capability: ReadonlyPlaneRuntimeImportSource = Object.freeze({ kind: "readonly-plane-runtime-import-source", identity, outputPath, name, files });
+  readonlyRuntimeImportSources.set(capability, { options: { outputDir: outputPath, name, compilationBundle, pins }, texts, physical });
+  return capability;
+}
+export function readReadonlyPlaneRuntimeImportSource(source: ReadonlyPlaneRuntimeImportSource, key: FreshRuntimeImportSourceKey): string {
+  const state = readonlyRuntimeImportSources.get(source); if (state === undefined) throw new Error("Runtime import source capability is not genuine.");
+  return state.texts[key];
+}
+export async function assertReadonlyPlaneRuntimeImportSourceCurrent(source: ReadonlyPlaneRuntimeImportSource): Promise<void> {
+  const state = readonlyRuntimeImportSources.get(source); if (state === undefined) throw new Error("Runtime import source capability is not genuine.");
+  const current = await captureReadonlyPlaneRuntimeImportSource(state.options);
+  if (canonicalJson(current.identity) !== canonicalJson(source.identity)) throw new Error("Runtime import source changed after read-only capture.");
 }
 
 /** Creates or verifies the only project class allowed to expose fresh incremental authoring. */

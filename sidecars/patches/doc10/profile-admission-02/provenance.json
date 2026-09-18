@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "evleda.doc10-profile-admission-publication.v1",
+  "supersedesQualificationReceiptSha256": "f13c753aa20aa19f411f67f0ab23563ba085a41028878d5c7bbd00eace7a5b42",
+  "runtimeUnchanged": true,
+  "artifacts": [
+    {
+      "path": "qualification-receipt.json",
+      "sha256": "87b10d6a85a6c8dbd8072be608be015b5ef0df92e87a2f911c500f9f1ac6998d",
+      "sizeBytes": 5099
+    },
+    {
+      "path": "qualification-report.json",
+      "sha256": "5c333161933082327b0ea62ec0a46f5b26374b7751086170d9857056870b78af",
+      "sizeBytes": 12366
+    },
+    {
+      "path": "profile-admission.json",
+      "sha256": "3273370050019aef03d37e6d33e9a6ed2f9f3834153c819266c8e72d738589dd",
+      "sizeBytes": 9122
+    }
+  ],
+  "allowedProfileDelta": [
+    "kicadMcpRuntime.runtimeBundle",
+    "kicadMcpRuntime.processTreeSupervision.terminator.path",
+    "kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentsSha256"
+  ],
+  "scopeGap": "Qualification01 established runtime geometry and closure but did not establish real profile admission. DOC10-01 retains a stale path-derived launch argument hash and is rejected. Qualification02 changes only that derived profile hash; flags, count, bytecode/security policy and runtime bytes remain unchanged.",
+  "nativeImportQualified": false
+}

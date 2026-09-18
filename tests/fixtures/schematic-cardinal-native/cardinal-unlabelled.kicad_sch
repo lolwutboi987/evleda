@@ -1,0 +1,739 @@
+(kicad_sch (version 20250316) (generator "eeschema") (generator_version "10.0") (uuid "f37616c3-6664-5cd1-bf57-2a7de4615c10") (paper "A3")
+(lib_symbols
+(symbol "Device:R"
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "R"
+			(at 2.032 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "R"
+			(at 0 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at -1.778 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "R res resistor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "R_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "R_0_1"
+			(rectangle
+				(start -1.016 -2.54)
+				(end 1.016 2.54)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "R_1_1"
+			(pin passive line
+				(at 0 3.81 270)
+				(length 1.27)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -3.81 90)
+				(length 1.27)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Transistor_FET:Q_NMOS_GSD"
+		(pin_names
+			(offset 0)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "Q"
+			(at 5.08 1.905 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Q_NMOS_GSD"
+			(at 5.08 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 5.08 2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "N-MOSFET transistor, gate/source/drain"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "transistor NMOS N-MOS N-MOSFET"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "Q_NMOS_GSD_0_1"
+			(polyline
+				(pts
+					(xy 0.254 1.905) (xy 0.254 -1.905)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.254 0) (xy -2.54 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 2.286) (xy 0.762 1.27)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 0.508) (xy 0.762 -0.508)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 -1.27) (xy 0.762 -2.286)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 -1.778) (xy 3.302 -1.778) (xy 3.302 1.778) (xy 0.762 1.778)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.016 0) (xy 2.032 0.381) (xy 2.032 -0.381) (xy 1.016 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(circle
+				(center 1.651 0)
+				(radius 2.794)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.54 2.54) (xy 2.54 1.778)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(circle
+				(center 2.54 1.778)
+				(radius 0.254)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(circle
+				(center 2.54 -1.778)
+				(radius 0.254)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.54 -2.54) (xy 2.54 0) (xy 0.762 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.921 0.381) (xy 3.683 0.381)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 3.302 0.381) (xy 2.921 -0.254) (xy 3.683 -0.254) (xy 3.302 0.381)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "Q_NMOS_GSD_1_1"
+			(pin input line
+				(at -5.08 0 0)
+				(length 2.54)
+				(name "G"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 2.54 -5.08 90)
+				(length 2.54)
+				(name "S"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 2.54 5.08 270)
+				(length 2.54)
+				(name "D"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Device:Crystal_GND24"
+		(pin_names
+			(offset 1.016)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "Y"
+			(at 3.175 5.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Crystal_GND24"
+			(at 3.175 3.175 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Four pin crystal, GND on pins 2 and 4"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property private "KLC_S3.3" "The rectangle is not a symbol body but a graphical element"
+			(at 0 -12.7 0)
+			(show_name yes)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property private "KLC_S4.1" "Some pins are on 50mil grid to make the symbol small"
+			(at 0 -15.24 0)
+			(show_name yes)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "quartz ceramic resonator oscillator"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "Crystal*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "Crystal_GND24_0_1"
+			(polyline
+				(pts
+					(xy -2.54 2.286) (xy -2.54 3.556) (xy 2.54 3.556) (xy 2.54 2.286)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.54 0) (xy -2.032 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.54 -2.286) (xy -2.54 -3.556) (xy 2.54 -3.556) (xy 2.54 -2.286)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.032 -1.27) (xy -2.032 1.27)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start -1.143 2.54)
+				(end 1.143 -2.54)
+				(stroke
+					(width 0.3048)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0 -3.81) (xy 0 -3.556)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.032 0) (xy 2.54 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.032 -1.27) (xy 2.032 1.27)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "Crystal_GND24_1_1"
+			(pin passive line
+				(at -3.81 0 0)
+				(length 1.27)
+				(name "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -5.08 90)
+				(length 1.27)
+				(name "G"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 3.81 0 180)
+				(length 1.27)
+				(name "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -5.08 90)
+				(length 1.27)
+				(hide yes)
+				(name "G"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	))
+(symbol (lib_id "Device:R") (at 50.8 40.64 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "380b9d12-893f-59ae-b5d0-ac0d0c57787e") (property "Reference" "R0" (at 50.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "34a147da-0942-57aa-8c54-f454b3b6d7e8")) (pin "2" (uuid "01ff6678-fbb5-501b-a17d-97813e7e0455")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R0") (unit 1)))))
+(symbol (lib_id "Device:R") (at 50.8 100.64 90) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "018799fd-fda8-51bb-826d-99321f838ef8") (property "Reference" "R90" (at 50.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "431ddd85-49ea-5254-aad5-6e2462e8c568")) (pin "2" (uuid "673a886c-4add-5f7c-a982-efa470ef3550")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R90") (unit 1)))))
+(symbol (lib_id "Device:R") (at 50.8 160.64 180) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "60cbd111-d743-5caf-bfeb-040b19520ade") (property "Reference" "R180" (at 50.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "1d05cd08-1583-58e2-8339-d9b29254795c")) (pin "2" (uuid "2dcefa0a-cbf9-5c60-97df-f2cb78d1f485")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R180") (unit 1)))))
+(symbol (lib_id "Device:R") (at 50.8 220.64 270) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "960dca58-56b7-52ea-bd96-4cca55767478") (property "Reference" "R270" (at 50.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "d177e351-9f61-509e-b5df-558e30f40f4e")) (pin "2" (uuid "39409a15-4985-5c7a-83e3-8ec3b8260abe")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R270") (unit 1)))))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 40.64 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "eb6811c9-d9b6-5a21-9a89-133e4f6bdf7c") (property "Reference" "Q0" (at 160.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "f9cc11d5-c0de-58e0-ab6e-77d9fcc4f8de")) (pin "2" (uuid "3527dc0d-cd66-5fd8-8719-98b12de4686f")) (pin "3" (uuid "951e582b-3b8d-5366-a9db-bb1f922b8403")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q0") (unit 1)))))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 100.64 90) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "0b1bd5bc-6c26-5495-bab6-e042fd92575e") (property "Reference" "Q90" (at 160.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "2349b393-0838-5406-9ea7-23ffb077c904")) (pin "2" (uuid "ae416780-1319-56d8-8a10-2a4bd84d6615")) (pin "3" (uuid "34e55cf0-6f96-5eb6-92dc-b5b7eb813878")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q90") (unit 1)))))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 160.64 180) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "4d6ea421-9120-550c-b14c-0985ddcf3399") (property "Reference" "Q180" (at 160.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "c990a6cb-6139-53cc-9acb-d64d1e7daf82")) (pin "2" (uuid "3e1e7256-9a32-5833-9e58-297f8dd793ae")) (pin "3" (uuid "2a91e0f4-fb8c-5f16-b7c6-61f50a54f94b")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q180") (unit 1)))))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 220.64 270) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "745a3882-a19c-5e37-b015-558cd90de398") (property "Reference" "Q270" (at 160.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "44b07d9b-f1f7-51ec-9ca9-f5d1e38ba700")) (pin "2" (uuid "50dbeaad-fe6c-5df7-9f35-43ad3993705b")) (pin "3" (uuid "f3a816a9-ce52-5eb8-b132-e1f9edb5f5f7")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q270") (unit 1)))))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 40.64 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "7031b34f-d907-527a-92c4-4d935d2f14b7") (property "Reference" "Y0" (at 270.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "eb7a28af-2f1e-5d78-936a-cd31b07575de")) (pin "2" (uuid "4466c8d2-696a-5d05-9fd4-d21b29ecb55f")) (pin "3" (uuid "20c3f126-e99f-584d-b46c-877d4d449896")) (pin "4" (uuid "fc4bebb0-ddd3-519c-9b02-9a9923c7ee08")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y0") (unit 1)))))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 100.64 90) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "6c76ca3e-7d5c-5acf-a20c-e7b2c9acde4b") (property "Reference" "Y90" (at 270.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "581975ba-d045-5177-bf03-c800049b3d1c")) (pin "2" (uuid "c7e61e2e-8cf3-55c6-9430-5127da7c6e30")) (pin "3" (uuid "c57b63d8-9358-5197-a02f-67ebaf02d61a")) (pin "4" (uuid "209e9c5a-2f63-5148-a43e-e62bdad6af15")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y90") (unit 1)))))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 160.64 180) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "a1e23763-c996-5a5e-a960-1b245dbe9252") (property "Reference" "Y180" (at 270.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "520d73e4-648b-5809-ae59-7d8299dcd163")) (pin "2" (uuid "6b6dd09f-93d5-5888-8ba2-dc2bd2c9844f")) (pin "3" (uuid "18d0788f-7fef-51c8-bb14-ea21ce68f085")) (pin "4" (uuid "4e72f9a5-5c10-57c1-9c3e-746a47aa82fc")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y180") (unit 1)))))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 220.64 270) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "e6018680-6433-53ad-9586-2221a302aff5") (property "Reference" "Y270" (at 270.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "08609784-f52a-5f74-9a49-2103779747d2")) (pin "2" (uuid "915d925b-11a4-5cc3-b253-ba5191504ecc")) (pin "3" (uuid "88bca507-e564-5578-964f-c5906b834b08")) (pin "4" (uuid "c5ffb8a9-fbb6-56ca-87c4-1f9b3f65bf57")) (instances (project "cardinal-unlabelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y270") (unit 1)))))
+(embedded_fonts no))

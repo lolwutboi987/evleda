@@ -87,7 +87,7 @@ describe("published DOC6 runtime verification", () => {
   let original: Doc5Manifest;
   const pcbPath = "environment/Lib/site-packages/kicad_mcp/tools/pcb.py";
   beforeAll(async () => { original = await readDoc5Source(); });
-  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false) {
+  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false, doc10 = false) {
     const directory = await mkdtemp(path.join(tmpdir(), "evleda-runtime-policy-")); temporaryRoots.push(directory);
     const root = path.join(directory, "runtime"), manifest = path.join(directory, "manifest.json");
     const candidate = structuredClone(original);
@@ -117,6 +117,14 @@ describe("published DOC6 runtime verification", () => {
     }
     if (doc9) {
       const publication = JSON.parse(await readFile(path.resolve("sidecars/patches/doc9/provenance.json"), "utf8"));
+      for (const mapping of publication.sourceRestoreMapping) {
+        const leaf = candidate.files.find(file => file.path === mapping.runtimeRelativePath)!;
+        candidate.totalBytes += mapping.source.sizeBytes - leaf.sizeBytes;
+        Object.assign(leaf, { sha256: mapping.source.sha256, sizeBytes: mapping.source.sizeBytes });
+      }
+    }
+    if (doc10) {
+      const publication = JSON.parse(await readFile(path.resolve("sidecars/patches/doc10/provenance.json"), "utf8"));
       for (const mapping of publication.sourceRestoreMapping) {
         const leaf = candidate.files.find(file => file.path === mapping.runtimeRelativePath)!;
         candidate.totalBytes += mapping.source.sizeBytes - leaf.sizeBytes;
@@ -179,6 +187,35 @@ describe("published DOC6 runtime verification", () => {
     f.candidate.files.find(file => file.path.endsWith("pcb/transaction_lifecycle.py"))!.sha256 = "a".repeat(64);
     await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(/Runtime/);
     expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it("authenticates exactly the DOC10 cardinal correction on DOC9 and still requires full tree verification", async () => {
+    const f = await fixture(true, true, false, true, true);
+    await expect(verifyRuntime(f)).resolves.toMatchObject({ generation: "DOC10", doc5SourcePinsVerified: true, doc6SourcePinsVerified: true,
+      doc7SourcePinsVerified: true, doc9SourcePinsVerified: true, doc10SourcePinsVerified: true,
+      doc10ProvenanceSha256: "01a9f1887849a58605643fc8391793cb7554ce7491189f48731ed8ddb3583c27",
+      doc10GeometryQualificationReceiptSha256: "f13c753aa20aa19f411f67f0ab23563ba085a41028878d5c7bbd00eace7a5b42",
+      doc10QualificationReceiptSha256: "87b10d6a85a6c8dbd8072be608be015b5ef0df92e87a2f911c500f9f1ac6998d",
+      doc10ProfileAdmissionPublicationSha256: "e0e6906e4d4aba182b2f513f598a353b7e703750d3e5e9ffd638181f763cf3a8" });
+    expect(control.spawn).toHaveBeenCalledOnce(); control.helperExitCode = 1;
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it.each(["provenance.json", "schematic-cardinal.patch", "qualification-receipt.json", "qualification-report.json", "kicad_mcp/tools/schematic.py", "kicad_mcp/models/visual_qa.py"])("rejects DOC10 publication drift in %s", async leaf => {
+    const f = await fixture(true, true, false, true, true); control.tamper = `sidecars/patches/doc10/${leaf}`;
+    await expect(verifyRuntime(f)).rejects.toThrow(/DOC10.*published pin/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it.each(["provenance.json", "qualification-receipt.json", "qualification-report.json", "profile-admission.json"])("rejects DOC10 revision02 admission drift in %s", async leaf => {
+    const f = await fixture(true, true, false, true, true); control.tamper = `sidecars/patches/doc10/profile-admission-02/${leaf}`;
+    await expect(verifyRuntime(f)).rejects.toThrow(/DOC10 admission.*published pin/); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it.each(["partial-cardinal", "field-layout", "DOC8", "topology", "extra-file", "directory", "Python"])("rejects DOC10 adjacent or partial %s drift", async kind => {
+    const f = await fixture(true, true, kind === "DOC8", true, true);
+    if (kind === "partial-cardinal") f.candidate.files.find(file => file.path.endsWith("models/visual_qa.py"))!.sha256 = "a".repeat(64);
+    else if (kind === "field-layout") f.candidate.files.find(file => file.path.endsWith("utils/field_layout.py"))!.sha256 = "a".repeat(64);
+    else if (kind === "topology") f.candidate.files.find(file => file.path.endsWith("schematic/topology.py"))!.sha256 = "a".repeat(64);
+    else if (kind === "extra-file") f.candidate.files.push({ path: "extra.pyc", sha256: "a".repeat(64), sizeBytes: 1, mode: 438 });
+    else if (kind === "directory") f.candidate.directories[0]!.mode = 0;
+    else if (kind === "Python") f.candidate.python.version = "3.14";
+    await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(); expect(control.spawn).not.toHaveBeenCalled();
   });
   it.each(["provenance.json", "bounded-arc-field-layout.patch", "kicad_mcp/utils/field_layout.py"])("rejects DOC9 publication drift in %s", async leaf => {
     const f = await fixture(true, true, false, true); control.tamper = `sidecars/patches/doc9/${leaf}`;

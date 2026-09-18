@@ -16,10 +16,10 @@ const independentLivePin = (component: FreshSchematicSourceComponent, pin: Fresh
   // no fixture in this file pretends these coordinates are native captures.
   const x = pin.at.xMm;
   const y = -pin.at.yMm;
-  const coordinates = { 0: [x, y], 90: [-y, x], 180: [-x, -y], 270: [y, -x] }[component.placement.rotationDeg]!;
+  const coordinates = { 0: [x, y], 90: [y, -x], 180: [-x, -y], 270: [-y, x] }[component.placement.rotationDeg]!;
   return { reference: component.reference, pin: pin.number,
     at: { xMm: component.placement.at.xMm + coordinates[0]!, yMm: component.placement.at.yMm + coordinates[1]! },
-    angleDeg: ((pin.angleDeg - component.placement.rotationDeg + 360) % 360) as FreshSchematicCardinalAngle };
+    angleDeg: ((pin.angleDeg + component.placement.rotationDeg) % 360) as FreshSchematicCardinalAngle };
 };
 const fromComponents = (components: readonly FreshSchematicSourceComponent[]): FreshSchematicTerminalInput => ({
   contractIdentity: inputIdentity,
@@ -103,7 +103,7 @@ describe("source-shaped schematic terminal groups", () => {
   });
 
   it.each([
-    [0, 102, 97, 270], [90, 103, 102, 180], [180, 98, 103, 90], [270, 97, 98, 0],
+    [0, 102, 97, 270], [90, 97, 98, 0], [180, 98, 103, 90], [270, 103, 102, 180],
   ] as const)("corroborates asymmetric schematic coordinates at rotation %s without using PCB math", (rotationDeg, xMm, yMm, angleDeg) => {
     const input = sourcePin(sourcePin(small(), "1", { at: { xMm: 2, yMm: 3 } }), "2", { at: { xMm: 2, yMm: 3 } });
     const components = input.components.map((component) => ({ ...component, placement: { ...component.placement, rotationDeg } }));

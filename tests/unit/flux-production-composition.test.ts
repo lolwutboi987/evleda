@@ -421,6 +421,31 @@ const modelFor = (provider: FluxProductionProvider): string =>
   provider === "codex" ? CODEX_CLI_CAPTURED_MODEL : `${provider}-model-exact:2026-09-06`;
 
 describe("native-only pinned profile reader", () => {
+  it("rejects a relocated launcher with the old path-derived argument hash and admits its exact five-argument correction through real readers", async () => {
+    const fixture = await createFixture(), sourcePin = { path: fixture.profilePath, contentIdentity: contentIdentity(await readFile(fixture.profilePath)) };
+    const oldNative = await readKicadNativeProfile(sourcePin), oldDesign = await loadKicadToolboxFreshProfile(sourcePin);
+    const relocated = structuredClone(fixture.profile), runtime = relocated.kicadMcpRuntime;
+    runtime.runtimeBundle.root = path.join(path.dirname(runtime.runtimeBundle.root), "relocated-runtime-doc10");
+    runtime.processTreeSupervision.terminator.path = path.join(runtime.runtimeBundle.root, runtime.processTreeSupervision.terminator.relativePath);
+    const targetPath = path.join(path.dirname(fixture.profilePath), "relocated-profile.json");
+    const writeTarget = async () => { const bytes = Buffer.from(JSON.stringify(relocated) + "\n"); await writeFile(targetPath, bytes); return { path: targetPath, contentIdentity: contentIdentity(bytes) }; };
+    await expect(readKicadNativeProfile(await writeTarget())).rejects.toMatchObject({ reasonCode: "KICAD_MCP_RUNTIME_UNAVAILABLE" });
+    const expectedArgs = ["-I", "-s", "-E", "-B", path.resolve(runtime.runtimeBundle.root, ...runtime.runtimeBundle.expectedClosure.entrypoint.relativePath.split("/"))];
+    runtime.runtimePolicy.pythonLaunch.argumentsSha256 = createHash("sha256").update("evleda.kicad-mcp-arguments.v1\0").update(JSON.stringify(expectedArgs)).digest("hex");
+    expect(runtime.runtimePolicy.pythonLaunch.argumentsSha256).not.toBe(oldNative.kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentsSha256);
+    const targetPin = await writeTarget(), newNative = await readKicadNativeProfile(targetPin), newDesign = await loadKicadToolboxFreshProfile(targetPin);
+    expect(newNative.kicadMcpRuntime.runtimePolicy.pythonLaunch).toEqual({ ...oldNative.kicadMcpRuntime.runtimePolicy.pythonLaunch,
+      argumentsSha256: runtime.runtimePolicy.pythonLaunch.argumentsSha256 });
+    expect(newDesign.libraryEnvironment).toEqual(oldDesign.libraryEnvironment);
+    expect(newDesign.deepRuleSelectionOptions).toEqual(oldDesign.deepRuleSelectionOptions);
+    expect((await readKicadNativeProfile(sourcePin)).kicadMcpRuntime).toEqual(oldNative.kicadMcpRuntime);
+    for (const changed of [{ flags: ["-I", "-s", "-B"] }, { argumentCount: 6 }, { bytecodeWrites: "enabled" }]) {
+      const original = structuredClone(runtime.runtimePolicy.pythonLaunch); Object.assign(runtime.runtimePolicy.pythonLaunch, changed);
+      await expect(readKicadNativeProfile(await writeTarget())).rejects.toMatchObject({ reasonCode: "KICAD_MCP_RUNTIME_UNAVAILABLE" });
+      runtime.runtimePolicy.pythonLaunch = original;
+    }
+  });
+
   it.each([false, true])("preserves the optional connection deadline policy through native parsing and Flux composition: %s", async enabled => {
     const fixture = await createFixture();
     if (enabled) fixture.profile.kicadMcpRuntime.runtimePolicy.connectionDeadlinePolicy = "bounded-phases-v1";

@@ -79,6 +79,23 @@ describe("native-source/executable/config-bound library body stroke", () => {
     const invalid = native.cases.find((entry) => entry.id === "app20_project1")!;
     expect(Number(invalid.measurements.find((entry) => entry.id === "zero")!.documentBody[0]!.strokeWidth)).toBe(0.508);
   });
+  it.each([
+    ["{}", "{}", true],
+    ['{"schematic":{"drawing":{"label_size_ratio":0.375,"default_line_thickness":6}}}', '{"appearance":{"default_font":"KiCad Font"},"drawing":{"default_line_thickness":20}}', true],
+    ["{}", '{"appearance":{"default_font":"Arial"}}', false],
+    ['{"schematic":{"drawing":{"label_size_ratio":0.5}}}', "{}", false],
+    ['{"schematic":{"drawing":{"label_size_ratio":"0.375"}}}', "{}", false],
+    ['{"schematic":{"drawing":{"default_line_thickness":12}}}', "{}", false],
+    ["{}", '{"drawing":{"default_line_thickness":20}}', false],
+    ['{"schematic":{"drawing":{"text_offset_ratio":0.08}}}', "{}", false],
+    ['{"schematic":{"meta":{"version":1},"drawing":{"text_offset_ratio":0.08}}}', "{}", true],
+  ])("keeps label-style qualification distinct from symbol strokes for %s / %s", (project, application, supported) => {
+    const input = captureFixture(project as string, application as string);
+    const evidence = createFreshSchematicStrokeStyleEvidence(input.capture, input.sourceIdentities);
+    expect(evidence.globalLabelPlanning.supported).toBe(supported);
+    expect(evidence.symbolDefaultStrokeWidthMm).toBeCloseTo(0.1524, 10);
+    expect(Object.isFrozen(evidence.globalLabelPlanning.unsupported)).toBe(true);
+  });
   it.each(native.stocks)("preserves actual stock $name graphics and applies renderer rules", (stock) => {
     expect(contentIdentity(stock.symbol).digest).toBe(stock.symbolSha256);
     const nickname = path.basename(stock.file, ".kicad_sym"); const id = `${nickname}:${stock.name}`;

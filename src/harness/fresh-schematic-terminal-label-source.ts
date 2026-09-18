@@ -7,6 +7,7 @@ import { assertFreshTerminalLabelPartition } from "./fresh-schematic-terminal-la
 import { FreshSchematicWorkBudget } from "./fresh-schematic-work-budget.js";
 import type { PcbReadOnlyLibraryResolver } from "./pcb-design-compiler.js";
 import { verifyFreshExternalPowerSource } from "./fresh-external-power.js";
+import { approximateFreshGlobalLabelBounds, freshGlobalLabelJustification } from "./fresh-schematic-label-layout.js";
 
 // Source cardinal transforms can introduce binary floating noise; this is far
 // below the existing 0.001 mm distinct-terminal rejection distance.
@@ -66,7 +67,8 @@ export function freshTerminalGlobalLabelSourceMatches(input: {
       || !freshGlobalLabelTupleInventoryMatches(schematic, labels)
       || labels.some(label => label.fontSizeMm?.x !== 1.524 || label.fontSizeMm.y !== 1.524 || label.bold || label.italic || label.hidden
         || label.rotationDeg === null || ![0, 90, 180, 270].includes(label.rotationDeg) || label.justify?.length !== 1
-        || label.justify[0] !== ({ 0: "left", 90: "bottom", 180: "right", 270: "top" } as Record<number, string>)[label.rotationDeg])
+        || label.justify[0] !== freshGlobalLabelJustification(label.rotationDeg)
+        || approximateFreshGlobalLabelBounds(label.name, label.at, label.rotationDeg as 0 | 90 | 180 | 270) === null)
       || wires.some(wire => same(wire.start, wire.end) || wire.start.x !== wire.end.x && wire.start.y !== wire.end.y)) return false;
     if (input.expectedLabels !== undefined && (!freshGlobalLabelTupleInventoryMatches(schematic, input.expectedLabels)
       || input.expectedLabels.some(expected => !labels.some(actual => actual.name === expected.name && same(actual.at, expected.at)

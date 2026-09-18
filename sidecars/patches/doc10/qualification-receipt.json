@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "evleda.schematic-cardinal-runtime-qualification.v1",
+  "sourceProfile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc9-rp2350-v4-01.json",
+    "sha256": "2f79bd2ddb855d446676f104482068b634aa406d85d1722c010e2ef5642572c0",
+    "sizeBytes": 16669
+  },
+  "targetProfile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc10-rp2350-v4-01.json",
+    "sha256": "f7924b6184331368d3a52cfc83004b71431f2696aa5f4854dfed2a8c96f4d3fa",
+    "sizeBytes": 16672
+  },
+  "sourceRuntime": {
+    "root": "C:\\EvlEDA-DOC9-20260917",
+    "manifest": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc9.json",
+      "sha256": "28be8d5a44cf635fbb0e50609b8a0ae72e2051f68b7cd9897e78b676cb036738",
+      "sizeBytes": 1574798
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "21cdd9a8f3949f5ac2e7ed143932cf2153da140d12959773b34554d980bb1d73",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+    },
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "7f5120eca970b135eb52aa49a9f4936e7bc6871f68184b127425414bd004addf",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+    },
+    "fileCount": 8467,
+    "totalBytes": 150429066
+  },
+  "targetRuntime": {
+    "root": "C:\\EvlEDA-DOC10-20260918",
+    "manifest": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc10.json",
+      "sha256": "46bfefbc9e9b34df3b48941f36ebcbe0f08940f23cfd916437c4c745727ed9de",
+      "sizeBytes": 1574798
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "556fb19ee6acb229d15c929c805805f8525f448859d8e9a6d9038e975cd97423",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+    },
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "20dff51d35485423f54c665c7b1f492df166892db1fed8dd845b8eb02d0c7594",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+    },
+    "fileCount": 8467,
+    "totalBytes": 150429274
+  },
+  "allowedRuntimeChanges": [
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "before": {
+        "sha256": "2611e416652e458325110301c206f77ff6080f627efa31a2328bf1aad22c68b1",
+        "sizeBytes": 238532
+      },
+      "after": {
+        "sha256": "8b0d3707777314fdcc5aff3e47f9e9343a89cbf13171c99b8490f1ae8beb24a1",
+        "sizeBytes": 238727
+      },
+      "reason": "KiCad library rotation before sheet Y inversion, independently established by CLI cardinal oracle"
+    },
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/models/visual_qa.py",
+      "before": {
+        "sha256": "2e225cc287d6297b1e2444bd5bf9b8722aa66aa10736cbd31b82ef88aad31de0",
+        "sizeBytes": 41551
+      },
+      "after": {
+        "sha256": "38090b29e1b5ccc7302c72e82f9960e4c163fc4f9b9be2eaa120abf748354cf7",
+        "sizeBytes": 41563
+      },
+      "reason": "KiCad library rotation before sheet Y inversion, independently established by CLI cardinal oracle"
+    },
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "sha256": "7aa74f5c95bce9300ad069a12f843acbd0b4b8e78383c0edc68d760169bc1270",
+        "sizeBytes": 155
+      },
+      "after": {
+        "sha256": "8f417d8aca78ddacc4b33afcd6930beaf06c8b74054d3968155de4e1dbaea250",
+        "sizeBytes": 156
+      },
+      "reason": "New immutable runtime home relocation only"
+    }
+  ],
+  "oracle": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\native-oracle\\oracle.json",
+    "sha256": "7beab39f21f337b4fe870ef4a4761a76eb7c49c1e3e8ca02ddb2cffcd32edb2e",
+    "sizeBytes": 27833,
+    "cliIdentity": {
+      "algorithm": "sha256",
+      "digest": "4e1910666330fa8f2321d4e616957dacab218a0d835c343c869a87757481c2f4",
+      "size": 2696544
+    }
+  },
+  "qualification": {
+    "report": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\qualification-report.json",
+      "sha256": "baff5dcd0e29a95f71409cca152d459a6fea05f0a76578a6f59a22d1e9c4cc05",
+      "sizeBytes": 8105
+    },
+    "passed": true,
+    "publicPinPositions": true,
+    "exactPinAliases": true,
+    "publicConnectivityGraph": true,
+    "visualBounds": true,
+    "oldNegativeControl": true
+  },
+  "sourceRuntimeUnchanged": true,
+  "profilePolicyComparison": {
+    "allowedPaths": [
+      "kicadMcpRuntime.runtimeBundle",
+      "kicadMcpRuntime.processTreeSupervision.terminator.path"
+    ],
+    "othersEqual": true
+  },
+  "noNativeAcceptanceTransferred": true
+}

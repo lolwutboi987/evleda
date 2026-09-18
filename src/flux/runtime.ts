@@ -91,7 +91,7 @@ const CANONICAL_PCB_AGENT_MUTATION_ALLOWLIST = Object.freeze([...PCB_AGENT_MUTAT
 const canonicalPolicyMutationAllowlist = (input: readonly string[]): readonly string[] => {
   const unique = new Set(input);
   const canonical = [...unique].sort();
-  if (CANONICAL_PCB_AGENT_MUTATION_ALLOWLIST.length !== 18 || input.length !== 18 || unique.size !== input.length ||
+  if (input.length !== CANONICAL_PCB_AGENT_MUTATION_ALLOWLIST.length || unique.size !== input.length ||
     input.some((entry) => !/^[a-z][a-z0-9_]{0,127}$/u.test(entry)) ||
     canonical.some((entry, index) => entry !== CANONICAL_PCB_AGENT_MUTATION_ALLOWLIST[index])) {
     throw new FluxError("INVALID_ARGUMENT", "Flux harness mutation policy must be the exact unique executable mutation-tool set.");

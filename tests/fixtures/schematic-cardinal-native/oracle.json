@@ -1,0 +1,1393 @@
+{
+  "schemaVersion": "evleda.native-schematic-cardinal-oracle.v1",
+  "nativeExecution": true,
+  "classification": "isolated CLI geometry qualification; not managed-board evidence",
+  "version": "10.0.3",
+  "cliIdentity": {
+    "algorithm": "sha256",
+    "digest": "4e1910666330fa8f2321d4e616957dacab218a0d835c343c869a87757481c2f4",
+    "size": 2696544
+  },
+  "captureScriptIdentity": {
+    "algorithm": "sha256",
+    "digest": "4ec0d13535220e58990162be1f2adc9fed257fca45403656512566ef96c0c881",
+    "size": 12042
+  },
+  "gridConstruction": "rotation-independent Cartesian spatial labels; no pin-number prediction",
+  "svgExcludedTransformGroups": [
+    "rotate(-90.000000 160.5460 216.8300)",
+    "rotate(-90.000000 270.5460 156.1950)",
+    "rotate(-90.000000 270.5460 45.0850)",
+    "rotate(-90.000000 270.5460 103.8150)",
+    "rotate(-90.000000 270.5460 97.4650)",
+    "rotate(-90.000000 270.5460 217.4650)",
+    "rotate(-90.000000 270.5460 223.8150)",
+    "rotate(-90.000000 163.0860 44.4500)",
+    "rotate(-90.000000 163.0860 36.8300)",
+    "rotate(-90.000000 160.5460 104.4500)",
+    "rotate(-90.000000 158.0060 156.8300)",
+    "rotate(-90.000000 158.0060 164.4500)"
+  ],
+  "angleOracle": "native SVG straight pin stroke anchored by independent native XML netlist",
+  "inputs": [
+    {
+      "libraryId": "Device:R",
+      "installedSourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "definitionIdentity": {
+        "algorithm": "sha256",
+        "digest": "e90f3152229aac732d8359ae4676b2a38c27190dbb12b71c2b665a8db79b9c8d",
+        "size": 2147
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": 0.0,
+            "yMm": 3.81
+          },
+          "angleDeg": 270,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -3.81
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "libraryId": "Transistor_FET:Q_NMOS_GSD",
+      "installedSourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "d7beb2349ad72aed87767dc920fd11c6c0709ca25048a7945d4f6826191e91d9",
+        "size": 1468058
+      },
+      "definitionIdentity": {
+        "algorithm": "sha256",
+        "digest": "fe33384aebe09399270b30a4a2325183b9b374e1a24aed2ee5e47fc8218f42c5",
+        "size": 4640
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -5.08,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 2.54,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 2.54,
+            "yMm": 5.08
+          },
+          "angleDeg": 270,
+          "lengthMm": 2.54
+        }
+      ]
+    },
+    {
+      "libraryId": "Device:Crystal_GND24",
+      "installedSourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b055c9db747f615ce86b1aaacd4146e14d03b575c00dd2430a0546fd4c78aa99",
+        "size": 2586816
+      },
+      "definitionIdentity": {
+        "algorithm": "sha256",
+        "digest": "29d1e69af1cfcc68aaf21b457e7cee6378c4c7c6110e081207c25cdcad49af79",
+        "size": 4516
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 180,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "4",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "reference": "R0",
+      "symbolLibId": "Device:R",
+      "value": "R",
+      "placement": {
+        "at": {
+          "xMm": 50.8,
+          "yMm": 40.64
+        },
+        "rotationDeg": 0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": 0.0,
+            "yMm": 3.81
+          },
+          "angleDeg": 270,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -3.81
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "reference": "R90",
+      "symbolLibId": "Device:R",
+      "value": "R",
+      "placement": {
+        "at": {
+          "xMm": 50.8,
+          "yMm": 100.64
+        },
+        "rotationDeg": 90
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": 0.0,
+            "yMm": 3.81
+          },
+          "angleDeg": 270,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -3.81
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "reference": "R180",
+      "symbolLibId": "Device:R",
+      "value": "R",
+      "placement": {
+        "at": {
+          "xMm": 50.8,
+          "yMm": 160.64
+        },
+        "rotationDeg": 180
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": 0.0,
+            "yMm": 3.81
+          },
+          "angleDeg": 270,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -3.81
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "reference": "R270",
+      "symbolLibId": "Device:R",
+      "value": "R",
+      "placement": {
+        "at": {
+          "xMm": 50.8,
+          "yMm": 220.64
+        },
+        "rotationDeg": 270
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": 0.0,
+            "yMm": 3.81
+          },
+          "angleDeg": 270,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -3.81
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "reference": "Q0",
+      "symbolLibId": "Transistor_FET:Q_NMOS_GSD",
+      "value": "DMG1012T",
+      "placement": {
+        "at": {
+          "xMm": 160.8,
+          "yMm": 40.64
+        },
+        "rotationDeg": 0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -5.08,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 2.54,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 2.54,
+            "yMm": 5.08
+          },
+          "angleDeg": 270,
+          "lengthMm": 2.54
+        }
+      ]
+    },
+    {
+      "reference": "Q90",
+      "symbolLibId": "Transistor_FET:Q_NMOS_GSD",
+      "value": "DMG1012T",
+      "placement": {
+        "at": {
+          "xMm": 160.8,
+          "yMm": 100.64
+        },
+        "rotationDeg": 90
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -5.08,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 2.54,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 2.54,
+            "yMm": 5.08
+          },
+          "angleDeg": 270,
+          "lengthMm": 2.54
+        }
+      ]
+    },
+    {
+      "reference": "Q180",
+      "symbolLibId": "Transistor_FET:Q_NMOS_GSD",
+      "value": "DMG1012T",
+      "placement": {
+        "at": {
+          "xMm": 160.8,
+          "yMm": 160.64
+        },
+        "rotationDeg": 180
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -5.08,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 2.54,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 2.54,
+            "yMm": 5.08
+          },
+          "angleDeg": 270,
+          "lengthMm": 2.54
+        }
+      ]
+    },
+    {
+      "reference": "Q270",
+      "symbolLibId": "Transistor_FET:Q_NMOS_GSD",
+      "value": "DMG1012T",
+      "placement": {
+        "at": {
+          "xMm": 160.8,
+          "yMm": 220.64
+        },
+        "rotationDeg": 270
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -5.08,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 2.54,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 2.54
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 2.54,
+            "yMm": 5.08
+          },
+          "angleDeg": 270,
+          "lengthMm": 2.54
+        }
+      ]
+    },
+    {
+      "reference": "Y0",
+      "symbolLibId": "Device:Crystal_GND24",
+      "value": "Crystal_GND24",
+      "placement": {
+        "at": {
+          "xMm": 270.8,
+          "yMm": 40.64
+        },
+        "rotationDeg": 0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 180,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "4",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "reference": "Y90",
+      "symbolLibId": "Device:Crystal_GND24",
+      "value": "Crystal_GND24",
+      "placement": {
+        "at": {
+          "xMm": 270.8,
+          "yMm": 100.64
+        },
+        "rotationDeg": 90
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 180,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "4",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "reference": "Y180",
+      "symbolLibId": "Device:Crystal_GND24",
+      "value": "Crystal_GND24",
+      "placement": {
+        "at": {
+          "xMm": 270.8,
+          "yMm": 160.64
+        },
+        "rotationDeg": 180
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 180,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "4",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    },
+    {
+      "reference": "Y270",
+      "symbolLibId": "Device:Crystal_GND24",
+      "value": "Crystal_GND24",
+      "placement": {
+        "at": {
+          "xMm": 270.8,
+          "yMm": 220.64
+        },
+        "rotationDeg": 270
+      },
+      "pins": [
+        {
+          "number": "1",
+          "at": {
+            "xMm": -3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 0,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "2",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "3",
+          "at": {
+            "xMm": 3.81,
+            "yMm": 0.0
+          },
+          "angleDeg": 180,
+          "lengthMm": 1.27
+        },
+        {
+          "number": "4",
+          "at": {
+            "xMm": 0.0,
+            "yMm": -5.08
+          },
+          "angleDeg": 90,
+          "lengthMm": 1.27
+        }
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "reference": "R0",
+      "pin": "1",
+      "net": "GRID_R0_X1_Y0",
+      "at": {
+        "xMm": 50.8,
+        "yMm": 36.83
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          50.8,
+          36.83,
+          50.8,
+          38.1
+        ]
+      ]
+    },
+    {
+      "reference": "R0",
+      "pin": "2",
+      "net": "GRID_R0_X1_Y2",
+      "at": {
+        "xMm": 50.8,
+        "yMm": 44.45
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          50.8,
+          44.45,
+          50.8,
+          43.18
+        ]
+      ]
+    },
+    {
+      "reference": "R90",
+      "pin": "1",
+      "net": "GRID_R90_X0_Y1",
+      "at": {
+        "xMm": 46.99,
+        "yMm": 100.64
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          46.99,
+          100.64,
+          48.26,
+          100.64
+        ]
+      ]
+    },
+    {
+      "reference": "R90",
+      "pin": "2",
+      "net": "GRID_R90_X2_Y1",
+      "at": {
+        "xMm": 54.61,
+        "yMm": 100.64
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          54.61,
+          100.64,
+          53.34,
+          100.64
+        ]
+      ]
+    },
+    {
+      "reference": "R180",
+      "pin": "1",
+      "net": "GRID_R180_X1_Y2",
+      "at": {
+        "xMm": 50.8,
+        "yMm": 164.45
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          50.8,
+          164.45,
+          50.8,
+          163.18
+        ]
+      ]
+    },
+    {
+      "reference": "R180",
+      "pin": "2",
+      "net": "GRID_R180_X1_Y0",
+      "at": {
+        "xMm": 50.8,
+        "yMm": 156.83
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          50.8,
+          156.83,
+          50.8,
+          158.1
+        ]
+      ]
+    },
+    {
+      "reference": "R270",
+      "pin": "1",
+      "net": "GRID_R270_X2_Y1",
+      "at": {
+        "xMm": 54.61,
+        "yMm": 220.64
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          54.61,
+          220.64,
+          53.34,
+          220.64
+        ]
+      ]
+    },
+    {
+      "reference": "R270",
+      "pin": "2",
+      "net": "GRID_R270_X0_Y1",
+      "at": {
+        "xMm": 46.99,
+        "yMm": 220.64
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          46.99,
+          220.64,
+          48.26,
+          220.64
+        ]
+      ]
+    },
+    {
+      "reference": "Q0",
+      "pin": "1",
+      "net": "GRID_Q0_X0_Y2",
+      "at": {
+        "xMm": 155.72,
+        "yMm": 40.64
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          155.72,
+          40.64,
+          158.26,
+          40.64
+        ]
+      ]
+    },
+    {
+      "reference": "Q0",
+      "pin": "2",
+      "net": "GRID_Q0_X3_Y4",
+      "at": {
+        "xMm": 163.34,
+        "yMm": 45.72
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          163.34,
+          45.72,
+          163.34,
+          43.18
+        ]
+      ]
+    },
+    {
+      "reference": "Q0",
+      "pin": "3",
+      "net": "GRID_Q0_X3_Y0",
+      "at": {
+        "xMm": 163.34,
+        "yMm": 35.56
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          163.34,
+          35.56,
+          163.34,
+          38.1
+        ]
+      ]
+    },
+    {
+      "reference": "Q90",
+      "pin": "1",
+      "net": "GRID_Q90_X2_Y4",
+      "at": {
+        "xMm": 160.8,
+        "yMm": 105.72
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          160.8,
+          105.72,
+          160.8,
+          103.18
+        ]
+      ]
+    },
+    {
+      "reference": "Q90",
+      "pin": "2",
+      "net": "GRID_Q90_X4_Y1",
+      "at": {
+        "xMm": 165.88,
+        "yMm": 98.1
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          165.88,
+          98.1,
+          163.34,
+          98.1
+        ]
+      ]
+    },
+    {
+      "reference": "Q90",
+      "pin": "3",
+      "net": "GRID_Q90_X0_Y1",
+      "at": {
+        "xMm": 155.72,
+        "yMm": 98.1
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          155.72,
+          98.1,
+          158.26,
+          98.1
+        ]
+      ]
+    },
+    {
+      "reference": "Q180",
+      "pin": "1",
+      "net": "GRID_Q180_X4_Y2",
+      "at": {
+        "xMm": 165.88,
+        "yMm": 160.64
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          165.88,
+          160.64,
+          163.34,
+          160.64
+        ]
+      ]
+    },
+    {
+      "reference": "Q180",
+      "pin": "2",
+      "net": "GRID_Q180_X1_Y0",
+      "at": {
+        "xMm": 158.26,
+        "yMm": 155.56
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          158.26,
+          155.56,
+          158.26,
+          158.1
+        ]
+      ]
+    },
+    {
+      "reference": "Q180",
+      "pin": "3",
+      "net": "GRID_Q180_X1_Y4",
+      "at": {
+        "xMm": 158.26,
+        "yMm": 165.72
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          158.26,
+          165.72,
+          158.26,
+          163.18
+        ]
+      ]
+    },
+    {
+      "reference": "Q270",
+      "pin": "1",
+      "net": "GRID_Q270_X2_Y0",
+      "at": {
+        "xMm": 160.8,
+        "yMm": 215.56
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          160.8,
+          215.56,
+          160.8,
+          218.1
+        ]
+      ]
+    },
+    {
+      "reference": "Q270",
+      "pin": "2",
+      "net": "GRID_Q270_X0_Y3",
+      "at": {
+        "xMm": 155.72,
+        "yMm": 223.18
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          155.72,
+          223.18,
+          158.26,
+          223.18
+        ]
+      ]
+    },
+    {
+      "reference": "Q270",
+      "pin": "3",
+      "net": "GRID_Q270_X4_Y3",
+      "at": {
+        "xMm": 165.88,
+        "yMm": 223.18
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          165.88,
+          223.18,
+          163.34,
+          223.18
+        ]
+      ]
+    },
+    {
+      "reference": "Y0",
+      "pin": "1",
+      "net": "GRID_Y0_X1_Y2",
+      "at": {
+        "xMm": 266.99,
+        "yMm": 40.64
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          266.99,
+          40.64,
+          268.26,
+          40.64
+        ]
+      ]
+    },
+    {
+      "reference": "Y0",
+      "pin": "2",
+      "net": "GRID_Y0_X2_Y4",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 45.72
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          45.72,
+          270.8,
+          44.45
+        ]
+      ]
+    },
+    {
+      "reference": "Y0",
+      "pin": "3",
+      "net": "GRID_Y0_X3_Y2",
+      "at": {
+        "xMm": 274.61,
+        "yMm": 40.64
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          274.61,
+          40.64,
+          273.34,
+          40.64
+        ]
+      ]
+    },
+    {
+      "reference": "Y0",
+      "pin": "4",
+      "net": "GRID_Y0_X2_Y4",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 45.72
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          45.72,
+          270.8,
+          44.45
+        ]
+      ]
+    },
+    {
+      "reference": "Y90",
+      "pin": "1",
+      "net": "GRID_Y90_X2_Y3",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 104.45
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          104.45,
+          270.8,
+          103.18
+        ]
+      ]
+    },
+    {
+      "reference": "Y90",
+      "pin": "2",
+      "net": "GRID_Y90_X4_Y2",
+      "at": {
+        "xMm": 275.88,
+        "yMm": 100.64
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          275.88,
+          100.64,
+          274.61,
+          100.64
+        ]
+      ]
+    },
+    {
+      "reference": "Y90",
+      "pin": "3",
+      "net": "GRID_Y90_X2_Y1",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 96.83
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          96.83,
+          270.8,
+          98.1
+        ]
+      ]
+    },
+    {
+      "reference": "Y90",
+      "pin": "4",
+      "net": "GRID_Y90_X4_Y2",
+      "at": {
+        "xMm": 275.88,
+        "yMm": 100.64
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          275.88,
+          100.64,
+          274.61,
+          100.64
+        ]
+      ]
+    },
+    {
+      "reference": "Y180",
+      "pin": "1",
+      "net": "GRID_Y180_X3_Y2",
+      "at": {
+        "xMm": 274.61,
+        "yMm": 160.64
+      },
+      "angleDeg": 180,
+      "nativeStrokeSegments": [
+        [
+          274.61,
+          160.64,
+          273.34,
+          160.64
+        ]
+      ]
+    },
+    {
+      "reference": "Y180",
+      "pin": "2",
+      "net": "GRID_Y180_X2_Y0",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 155.56
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          155.56,
+          270.8,
+          156.83
+        ]
+      ]
+    },
+    {
+      "reference": "Y180",
+      "pin": "3",
+      "net": "GRID_Y180_X1_Y2",
+      "at": {
+        "xMm": 266.99,
+        "yMm": 160.64
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          266.99,
+          160.64,
+          268.26,
+          160.64
+        ]
+      ]
+    },
+    {
+      "reference": "Y180",
+      "pin": "4",
+      "net": "GRID_Y180_X2_Y0",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 155.56
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          155.56,
+          270.8,
+          156.83
+        ]
+      ]
+    },
+    {
+      "reference": "Y270",
+      "pin": "1",
+      "net": "GRID_Y270_X2_Y1",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 216.83
+      },
+      "angleDeg": 270,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          216.83,
+          270.8,
+          218.1
+        ]
+      ]
+    },
+    {
+      "reference": "Y270",
+      "pin": "2",
+      "net": "GRID_Y270_X0_Y2",
+      "at": {
+        "xMm": 265.72,
+        "yMm": 220.64
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          265.72,
+          220.64,
+          266.99,
+          220.64
+        ]
+      ]
+    },
+    {
+      "reference": "Y270",
+      "pin": "3",
+      "net": "GRID_Y270_X2_Y3",
+      "at": {
+        "xMm": 270.8,
+        "yMm": 224.45
+      },
+      "angleDeg": 90,
+      "nativeStrokeSegments": [
+        [
+          270.8,
+          224.45,
+          270.8,
+          223.18
+        ]
+      ]
+    },
+    {
+      "reference": "Y270",
+      "pin": "4",
+      "net": "GRID_Y270_X0_Y2",
+      "at": {
+        "xMm": 265.72,
+        "yMm": 220.64
+      },
+      "angleDeg": 0,
+      "nativeStrokeSegments": [
+        [
+          265.72,
+          220.64,
+          266.99,
+          220.64
+        ]
+      ]
+    }
+  ],
+  "sourcesUnchanged": true,
+  "artifacts": {
+    "cardinal-labelled.kicad_prl": {
+      "algorithm": "sha256",
+      "digest": "8431f2f391d73baad8ccf0afe284ccb7e2d8815b5e5c0b256ba6737d34fc8c5b",
+      "size": 2304
+    },
+    "cardinal-labelled.kicad_pro": {
+      "algorithm": "sha256",
+      "digest": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "size": 3
+    },
+    "cardinal-labelled.kicad_sch": {
+      "algorithm": "sha256",
+      "digest": "b7140573ef029292059fea5eb8940ce002293ba1cab0d6fff4434108a8ad69a2",
+      "size": 57529
+    },
+    "cardinal-unlabelled.kicad_prl": {
+      "algorithm": "sha256",
+      "digest": "501271c64cb8ffda0bc581f5b18dbf92cc4e6dbc07221277d6069c1e0245b975",
+      "size": 2306
+    },
+    "cardinal-unlabelled.kicad_pro": {
+      "algorithm": "sha256",
+      "digest": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "size": 3
+    },
+    "cardinal-unlabelled.kicad_sch": {
+      "algorithm": "sha256",
+      "digest": "39fdbe3b98d438f40bd3c8a300957610cae0f08884b151d7af03328cd46d77d8",
+      "size": 18980
+    },
+    "native.net": {
+      "algorithm": "sha256",
+      "digest": "6baeb7daa335cf1ab4810a70829502763037fb01f43169f364fb3b7ae67fdef6",
+      "size": 17094
+    },
+    "native.svg": {
+      "algorithm": "sha256",
+      "digest": "e269bfce5ef08cd52cb03490bf5b3e9d85e6c52f980aa2bf3ba86342ff04f3e4",
+      "size": 39903
+    },
+    "source-symbols.kicad_sym": {
+      "algorithm": "sha256",
+      "digest": "6a1eb1e0c838b9fd04a91724e2d8ba93db075b2770e74a9bc2e54bb3d93196a7",
+      "size": 11367
+    }
+  },
+  "invocations": [
+    {
+      "args": [
+        "version"
+      ],
+      "exitCode": 0,
+      "stdout": "10.0.3\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadxml",
+        "--output",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\schematic-cardinal-native-03\\native.net",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\schematic-cardinal-native-03\\cardinal-labelled.kicad_sch"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "sch",
+        "export",
+        "svg",
+        "--black-and-white",
+        "--exclude-drawing-sheet",
+        "--no-background-color",
+        "--output",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\schematic-cardinal-native-03\\svg",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\schematic-cardinal-native-03\\cardinal-unlabelled.kicad_sch"
+      ],
+      "exitCode": 0,
+      "stdout": "Plotted to 'C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\schematic-cardinal-native-03\\svg\\cardinal-unlabelled.svg'.\nDone.\n",
+      "stderr": ""
+    }
+  ]
+}

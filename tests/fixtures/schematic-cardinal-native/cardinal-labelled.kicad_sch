@@ -1,0 +1,975 @@
+(kicad_sch (version 20250316) (generator "eeschema") (generator_version "10.0") (uuid "f37616c3-6664-5cd1-bf57-2a7de4615c10") (paper "A3")
+(lib_symbols
+(symbol "Device:R"
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "R"
+			(at 2.032 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "R"
+			(at 0 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at -1.778 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "R res resistor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "R_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "R_0_1"
+			(rectangle
+				(start -1.016 -2.54)
+				(end 1.016 2.54)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "R_1_1"
+			(pin passive line
+				(at 0 3.81 270)
+				(length 1.27)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -3.81 90)
+				(length 1.27)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Transistor_FET:Q_NMOS_GSD"
+		(pin_names
+			(offset 0)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "Q"
+			(at 5.08 1.905 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Q_NMOS_GSD"
+			(at 5.08 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 5.08 2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "N-MOSFET transistor, gate/source/drain"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "transistor NMOS N-MOS N-MOSFET"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "Q_NMOS_GSD_0_1"
+			(polyline
+				(pts
+					(xy 0.254 1.905) (xy 0.254 -1.905)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.254 0) (xy -2.54 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 2.286) (xy 0.762 1.27)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 0.508) (xy 0.762 -0.508)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 -1.27) (xy 0.762 -2.286)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.762 -1.778) (xy 3.302 -1.778) (xy 3.302 1.778) (xy 0.762 1.778)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.016 0) (xy 2.032 0.381) (xy 2.032 -0.381) (xy 1.016 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(circle
+				(center 1.651 0)
+				(radius 2.794)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.54 2.54) (xy 2.54 1.778)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(circle
+				(center 2.54 1.778)
+				(radius 0.254)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(circle
+				(center 2.54 -1.778)
+				(radius 0.254)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.54 -2.54) (xy 2.54 0) (xy 0.762 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.921 0.381) (xy 3.683 0.381)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 3.302 0.381) (xy 2.921 -0.254) (xy 3.683 -0.254) (xy 3.302 0.381)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "Q_NMOS_GSD_1_1"
+			(pin input line
+				(at -5.08 0 0)
+				(length 2.54)
+				(name "G"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 2.54 -5.08 90)
+				(length 2.54)
+				(name "S"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 2.54 5.08 270)
+				(length 2.54)
+				(name "D"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Device:Crystal_GND24"
+		(pin_names
+			(offset 1.016)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "Y"
+			(at 3.175 5.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Crystal_GND24"
+			(at 3.175 3.175 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Four pin crystal, GND on pins 2 and 4"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property private "KLC_S3.3" "The rectangle is not a symbol body but a graphical element"
+			(at 0 -12.7 0)
+			(show_name yes)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property private "KLC_S4.1" "Some pins are on 50mil grid to make the symbol small"
+			(at 0 -15.24 0)
+			(show_name yes)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "quartz ceramic resonator oscillator"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "Crystal*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "Crystal_GND24_0_1"
+			(polyline
+				(pts
+					(xy -2.54 2.286) (xy -2.54 3.556) (xy 2.54 3.556) (xy 2.54 2.286)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.54 0) (xy -2.032 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.54 -2.286) (xy -2.54 -3.556) (xy 2.54 -3.556) (xy 2.54 -2.286)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.032 -1.27) (xy -2.032 1.27)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start -1.143 2.54)
+				(end 1.143 -2.54)
+				(stroke
+					(width 0.3048)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0 -3.81) (xy 0 -3.556)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.032 0) (xy 2.54 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.032 -1.27) (xy 2.032 1.27)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "Crystal_GND24_1_1"
+			(pin passive line
+				(at -3.81 0 0)
+				(length 1.27)
+				(name "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -5.08 90)
+				(length 1.27)
+				(name "G"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 3.81 0 180)
+				(length 1.27)
+				(name "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -5.08 90)
+				(length 1.27)
+				(hide yes)
+				(name "G"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	))
+(symbol (lib_id "Device:R") (at 50.8 40.64 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "380b9d12-893f-59ae-b5d0-ac0d0c57787e") (property "Reference" "R0" (at 50.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "34a147da-0942-57aa-8c54-f454b3b6d7e8")) (pin "2" (uuid "01ff6678-fbb5-501b-a17d-97813e7e0455")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R0") (unit 1)))))
+(global_label "GRID_R0_X0_Y0" (shape passive) (at 46.99 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "75321d54-b60f-5a0a-bdfd-6a2776e90b8e"))
+(global_label "GRID_R0_X0_Y1" (shape passive) (at 46.99 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "37fe2c1f-19b0-51bf-b231-7f117b908ee2"))
+(global_label "GRID_R0_X0_Y2" (shape passive) (at 46.99 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "41f88d4d-d494-5989-a5b0-89e3dac4b446"))
+(global_label "GRID_R0_X1_Y0" (shape passive) (at 50.8 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "fddca475-60f6-53e7-84a7-c97e1731c4a9"))
+(global_label "GRID_R0_X1_Y1" (shape passive) (at 50.8 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a84a6960-9fc4-56d9-a2c9-fa2880101b98"))
+(global_label "GRID_R0_X1_Y2" (shape passive) (at 50.8 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "fc2003e1-49fa-5576-aecd-ffbde3897346"))
+(global_label "GRID_R0_X2_Y0" (shape passive) (at 54.61 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "3820bfe8-566c-595a-ac09-cf1c2718d5a1"))
+(global_label "GRID_R0_X2_Y1" (shape passive) (at 54.61 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "516cb879-74ce-53b0-a80b-1be4cbfa9e48"))
+(global_label "GRID_R0_X2_Y2" (shape passive) (at 54.61 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "977730f2-b640-5af8-9f50-106d9867b1a7"))
+(symbol (lib_id "Device:R") (at 50.8 100.64 90) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "018799fd-fda8-51bb-826d-99321f838ef8") (property "Reference" "R90" (at 50.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "431ddd85-49ea-5254-aad5-6e2462e8c568")) (pin "2" (uuid "673a886c-4add-5f7c-a982-efa470ef3550")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R90") (unit 1)))))
+(global_label "GRID_R90_X0_Y0" (shape passive) (at 46.99 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "274edf53-c2c0-56e7-ac6a-159ad5c148db"))
+(global_label "GRID_R90_X0_Y1" (shape passive) (at 46.99 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f12bdba0-18fc-55a6-90e9-e2d65c5f8548"))
+(global_label "GRID_R90_X0_Y2" (shape passive) (at 46.99 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7f6b5185-bc6a-57d2-8fc3-36e15e3244b3"))
+(global_label "GRID_R90_X1_Y0" (shape passive) (at 50.8 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "07956a72-8d0f-5aca-9f9f-52c9cbaf6b9b"))
+(global_label "GRID_R90_X1_Y1" (shape passive) (at 50.8 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bbb65687-c3aa-544b-9dd3-879b4e062afc"))
+(global_label "GRID_R90_X1_Y2" (shape passive) (at 50.8 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "123f2a10-d48e-5910-a777-c8edfb25ae0e"))
+(global_label "GRID_R90_X2_Y0" (shape passive) (at 54.61 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "31b24205-d84c-5643-aff3-0d43340cd7e8"))
+(global_label "GRID_R90_X2_Y1" (shape passive) (at 54.61 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "82f513c0-b259-591c-af17-c07107846b88"))
+(global_label "GRID_R90_X2_Y2" (shape passive) (at 54.61 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5f8f2f0d-b3dd-5334-83d7-0584ec18edff"))
+(symbol (lib_id "Device:R") (at 50.8 160.64 180) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "60cbd111-d743-5caf-bfeb-040b19520ade") (property "Reference" "R180" (at 50.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "1d05cd08-1583-58e2-8339-d9b29254795c")) (pin "2" (uuid "2dcefa0a-cbf9-5c60-97df-f2cb78d1f485")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R180") (unit 1)))))
+(global_label "GRID_R180_X0_Y0" (shape passive) (at 46.99 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5e128a2f-d06b-5738-b446-0844eb3287d9"))
+(global_label "GRID_R180_X0_Y1" (shape passive) (at 46.99 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "08ed9d7f-9a0f-53eb-9912-01e4c465651e"))
+(global_label "GRID_R180_X0_Y2" (shape passive) (at 46.99 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "0c07a66e-fae0-592e-9180-c5e3c3935e06"))
+(global_label "GRID_R180_X1_Y0" (shape passive) (at 50.8 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "308d4bc7-3e55-5e75-8c1c-98ed3eaab503"))
+(global_label "GRID_R180_X1_Y1" (shape passive) (at 50.8 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c10c1a97-7ef3-5362-b11f-da76e2993cd7"))
+(global_label "GRID_R180_X1_Y2" (shape passive) (at 50.8 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2929b3d7-2c82-59db-a127-afac150f4f10"))
+(global_label "GRID_R180_X2_Y0" (shape passive) (at 54.61 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9f0793cd-74d4-5242-85de-883cac514c17"))
+(global_label "GRID_R180_X2_Y1" (shape passive) (at 54.61 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c97fe9a0-5fdb-58fb-83d2-83944f2cc6d0"))
+(global_label "GRID_R180_X2_Y2" (shape passive) (at 54.61 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ce4a868d-a7d8-5a78-a68f-ef6c0ac095a9"))
+(symbol (lib_id "Device:R") (at 50.8 220.64 270) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "960dca58-56b7-52ea-bd96-4cca55767478") (property "Reference" "R270" (at 50.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "R" (at 50.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "d177e351-9f61-509e-b5df-558e30f40f4e")) (pin "2" (uuid "39409a15-4985-5c7a-83e3-8ec3b8260abe")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "R270") (unit 1)))))
+(global_label "GRID_R270_X0_Y0" (shape passive) (at 46.99 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c5eefc46-346b-5ff5-8061-c2c789e636d8"))
+(global_label "GRID_R270_X0_Y1" (shape passive) (at 46.99 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bb4733e9-53c5-5888-88ec-00186be22e65"))
+(global_label "GRID_R270_X0_Y2" (shape passive) (at 46.99 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ba33061a-f79f-58cc-a626-0a6cb4db426b"))
+(global_label "GRID_R270_X1_Y0" (shape passive) (at 50.8 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "3ad9e8bd-393c-5c3e-836a-5676c8e696aa"))
+(global_label "GRID_R270_X1_Y1" (shape passive) (at 50.8 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "63e96d8d-f4bc-578c-8437-a469f93a5678"))
+(global_label "GRID_R270_X1_Y2" (shape passive) (at 50.8 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f9347031-9fe7-56a6-aa8e-6f5f68660206"))
+(global_label "GRID_R270_X2_Y0" (shape passive) (at 54.61 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2e3cbbb2-b885-548a-a36a-5bebd515750e"))
+(global_label "GRID_R270_X2_Y1" (shape passive) (at 54.61 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "df550803-46e0-5eab-a708-c77baa9a53ec"))
+(global_label "GRID_R270_X2_Y2" (shape passive) (at 54.61 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9cafcd86-6865-5d5d-b77e-47d3693797d6"))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 40.64 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "eb6811c9-d9b6-5a21-9a89-133e4f6bdf7c") (property "Reference" "Q0" (at 160.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "f9cc11d5-c0de-58e0-ab6e-77d9fcc4f8de")) (pin "2" (uuid "3527dc0d-cd66-5fd8-8719-98b12de4686f")) (pin "3" (uuid "951e582b-3b8d-5366-a9db-bb1f922b8403")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q0") (unit 1)))))
+(global_label "GRID_Q0_X0_Y0" (shape passive) (at 155.72 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "0fb957cd-87e6-504c-9b54-b7d72fa50487"))
+(global_label "GRID_Q0_X0_Y1" (shape passive) (at 155.72 38.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d02243f2-44d1-5784-bb10-8a46947d5c87"))
+(global_label "GRID_Q0_X0_Y2" (shape passive) (at 155.72 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "457abbbd-013f-5920-82cf-35ed354915c4"))
+(global_label "GRID_Q0_X0_Y3" (shape passive) (at 155.72 43.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "3d6a2202-ee9f-5d12-8c6b-2d4847ecda9d"))
+(global_label "GRID_Q0_X0_Y4" (shape passive) (at 155.72 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5af149d9-0362-54b9-9dd6-75359f82c897"))
+(global_label "GRID_Q0_X1_Y0" (shape passive) (at 158.26 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "33378daf-4d93-545d-9655-cb448aaead12"))
+(global_label "GRID_Q0_X1_Y1" (shape passive) (at 158.26 38.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "07ac5b46-e49e-5ff2-86cb-874841913e74"))
+(global_label "GRID_Q0_X1_Y2" (shape passive) (at 158.26 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "e5283a7e-1d6d-56bd-b16e-a87328eb469a"))
+(global_label "GRID_Q0_X1_Y3" (shape passive) (at 158.26 43.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "e1624137-ff86-5983-862d-bb9f28bf1a88"))
+(global_label "GRID_Q0_X1_Y4" (shape passive) (at 158.26 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bf2c774c-8cc2-5a97-869a-bb94b31e07b1"))
+(global_label "GRID_Q0_X2_Y0" (shape passive) (at 160.8 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a1e25c69-b3e9-5c77-9e1e-d194a43c1e84"))
+(global_label "GRID_Q0_X2_Y1" (shape passive) (at 160.8 38.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "8cc95670-45fe-5365-ae09-b386d02c6a2a"))
+(global_label "GRID_Q0_X2_Y2" (shape passive) (at 160.8 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5edd317f-e5c0-55ff-aa80-65d3309bac8b"))
+(global_label "GRID_Q0_X2_Y3" (shape passive) (at 160.8 43.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1aa5462d-bd68-5b5b-8bf5-d3a57106ac26"))
+(global_label "GRID_Q0_X2_Y4" (shape passive) (at 160.8 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b9a2b0af-1c73-5da5-80f8-f4b0f019c2ee"))
+(global_label "GRID_Q0_X3_Y0" (shape passive) (at 163.34 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bb4a4fc5-382f-50e3-8875-6d172cd611a5"))
+(global_label "GRID_Q0_X3_Y1" (shape passive) (at 163.34 38.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ca1adf71-f2e2-54f9-a607-c52dc20f614d"))
+(global_label "GRID_Q0_X3_Y2" (shape passive) (at 163.34 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "cb25895c-b3ab-5a74-bebc-f5e586a77375"))
+(global_label "GRID_Q0_X3_Y3" (shape passive) (at 163.34 43.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "e9af0573-f421-57ee-83f4-176142fa9fb7"))
+(global_label "GRID_Q0_X3_Y4" (shape passive) (at 163.34 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "dd293110-b470-533c-8beb-9ff8f7596a0d"))
+(global_label "GRID_Q0_X4_Y0" (shape passive) (at 165.88 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f38d7771-1ff0-5a17-bdfd-715b1e6737e3"))
+(global_label "GRID_Q0_X4_Y1" (shape passive) (at 165.88 38.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7034c223-b93e-5d9d-b784-2f2ac11bca9d"))
+(global_label "GRID_Q0_X4_Y2" (shape passive) (at 165.88 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b9cba218-edf2-5d47-8ebf-2b22f260c041"))
+(global_label "GRID_Q0_X4_Y3" (shape passive) (at 165.88 43.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9388310e-f801-5bd7-950b-0e73c90ee986"))
+(global_label "GRID_Q0_X4_Y4" (shape passive) (at 165.88 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "4cf15946-efa0-5cdb-a275-8576180033cb"))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 100.64 90) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "0b1bd5bc-6c26-5495-bab6-e042fd92575e") (property "Reference" "Q90" (at 160.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "2349b393-0838-5406-9ea7-23ffb077c904")) (pin "2" (uuid "ae416780-1319-56d8-8a10-2a4bd84d6615")) (pin "3" (uuid "34e55cf0-6f96-5eb6-92dc-b5b7eb813878")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q90") (unit 1)))))
+(global_label "GRID_Q90_X0_Y0" (shape passive) (at 155.72 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "690dfe0d-82a1-58fd-ba0a-fda325b861fa"))
+(global_label "GRID_Q90_X0_Y1" (shape passive) (at 155.72 98.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "960c2f0f-f163-5db8-b6c9-3bc7dd3197bb"))
+(global_label "GRID_Q90_X0_Y2" (shape passive) (at 155.72 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f28f990d-2310-55ef-83f9-8aace8e59b24"))
+(global_label "GRID_Q90_X0_Y3" (shape passive) (at 155.72 103.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b0d8c889-d099-58d1-99d6-6471928f5f1e"))
+(global_label "GRID_Q90_X0_Y4" (shape passive) (at 155.72 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9e7ad361-f035-5292-889e-b0f95c04e710"))
+(global_label "GRID_Q90_X1_Y0" (shape passive) (at 158.26 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "48d031e3-4554-57f1-8d09-ba2ae4167b93"))
+(global_label "GRID_Q90_X1_Y1" (shape passive) (at 158.26 98.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "99d1c086-12a3-50e3-a2bd-ac3dc64f7d0f"))
+(global_label "GRID_Q90_X1_Y2" (shape passive) (at 158.26 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "05dd1091-a732-5555-bc0e-7d3f1f35948a"))
+(global_label "GRID_Q90_X1_Y3" (shape passive) (at 158.26 103.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "cc65dfdf-c602-5d0b-adaa-5543a4a0b1b1"))
+(global_label "GRID_Q90_X1_Y4" (shape passive) (at 158.26 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "8ff5d4b6-e4a2-5b7b-b13a-909482c063c9"))
+(global_label "GRID_Q90_X2_Y0" (shape passive) (at 160.8 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "8784aa37-7b8c-5c4f-aa99-2b64ac6b5fc6"))
+(global_label "GRID_Q90_X2_Y1" (shape passive) (at 160.8 98.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5ff1301f-7a13-52f4-af75-2954154cf17a"))
+(global_label "GRID_Q90_X2_Y2" (shape passive) (at 160.8 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "98ee6cbd-1d71-5f39-9de5-4abf9c7e44cc"))
+(global_label "GRID_Q90_X2_Y3" (shape passive) (at 160.8 103.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f40e0ba7-26be-54be-9f71-925e4adda1b9"))
+(global_label "GRID_Q90_X2_Y4" (shape passive) (at 160.8 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "fb7798ab-6669-5de5-9e66-9de17fc71ef8"))
+(global_label "GRID_Q90_X3_Y0" (shape passive) (at 163.34 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "42d1cd04-031d-5f62-b61d-0222ae4085fb"))
+(global_label "GRID_Q90_X3_Y1" (shape passive) (at 163.34 98.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d9700b53-656b-5af2-9a1a-caa946058d6d"))
+(global_label "GRID_Q90_X3_Y2" (shape passive) (at 163.34 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "15c38ebf-5371-5bba-8149-c6f7782d7558"))
+(global_label "GRID_Q90_X3_Y3" (shape passive) (at 163.34 103.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "32bd9507-3e62-5cd0-9622-89b66531a491"))
+(global_label "GRID_Q90_X3_Y4" (shape passive) (at 163.34 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "64e9199f-e325-503c-9def-ea22f4955706"))
+(global_label "GRID_Q90_X4_Y0" (shape passive) (at 165.88 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2b17eec8-b1cc-53ac-b7dd-c7fa4ab84f64"))
+(global_label "GRID_Q90_X4_Y1" (shape passive) (at 165.88 98.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a94c843e-2263-5a8e-84c1-5dcfece357d0"))
+(global_label "GRID_Q90_X4_Y2" (shape passive) (at 165.88 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ed4dcb57-5e81-5730-b2d5-73f849ccafa5"))
+(global_label "GRID_Q90_X4_Y3" (shape passive) (at 165.88 103.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ab9aad80-ae21-588b-948f-1c7595c062db"))
+(global_label "GRID_Q90_X4_Y4" (shape passive) (at 165.88 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7954b999-24dc-5563-a5ce-84ba835c9fda"))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 160.64 180) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "4d6ea421-9120-550c-b14c-0985ddcf3399") (property "Reference" "Q180" (at 160.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "c990a6cb-6139-53cc-9acb-d64d1e7daf82")) (pin "2" (uuid "3e1e7256-9a32-5833-9e58-297f8dd793ae")) (pin "3" (uuid "2a91e0f4-fb8c-5f16-b7c6-61f50a54f94b")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q180") (unit 1)))))
+(global_label "GRID_Q180_X0_Y0" (shape passive) (at 155.72 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d8383744-1ed5-501d-b58c-5b004f99d77a"))
+(global_label "GRID_Q180_X0_Y1" (shape passive) (at 155.72 158.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "65240c48-d6b9-51b7-801d-fe12e97332ef"))
+(global_label "GRID_Q180_X0_Y2" (shape passive) (at 155.72 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1d7eca7d-b5c8-52bb-9f08-4e506f39b847"))
+(global_label "GRID_Q180_X0_Y3" (shape passive) (at 155.72 163.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2b9f1289-dec2-5051-a8ca-719e1956ee0d"))
+(global_label "GRID_Q180_X0_Y4" (shape passive) (at 155.72 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5d516df1-7a26-54a5-a9aa-2d217aa7ab80"))
+(global_label "GRID_Q180_X1_Y0" (shape passive) (at 158.26 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "17e8c25f-516b-528b-9341-40e6c4c9960d"))
+(global_label "GRID_Q180_X1_Y1" (shape passive) (at 158.26 158.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "3b5cb3ee-653b-5eab-af41-ac301f4dc06d"))
+(global_label "GRID_Q180_X1_Y2" (shape passive) (at 158.26 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "30ac6b40-9cf3-5d13-9c19-13f68512f6d9"))
+(global_label "GRID_Q180_X1_Y3" (shape passive) (at 158.26 163.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ad003691-858b-5509-9bd4-919c514a2219"))
+(global_label "GRID_Q180_X1_Y4" (shape passive) (at 158.26 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "3a197875-8f7a-5ef4-aabf-065096ac90e9"))
+(global_label "GRID_Q180_X2_Y0" (shape passive) (at 160.8 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "834e48bf-ca2c-52d3-8c50-181cd5015824"))
+(global_label "GRID_Q180_X2_Y1" (shape passive) (at 160.8 158.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7fdab973-df2b-58a4-9f46-ee36de9ce247"))
+(global_label "GRID_Q180_X2_Y2" (shape passive) (at 160.8 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "8b41a5ef-6204-588a-af51-c87ce0784d8a"))
+(global_label "GRID_Q180_X2_Y3" (shape passive) (at 160.8 163.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "92424bcb-d64d-5314-9c7c-8a24df180f7c"))
+(global_label "GRID_Q180_X2_Y4" (shape passive) (at 160.8 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7744ae82-dd6a-56ff-89e2-0f8703b1962e"))
+(global_label "GRID_Q180_X3_Y0" (shape passive) (at 163.34 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d748f38f-f551-5041-9a27-4ce5f0df9885"))
+(global_label "GRID_Q180_X3_Y1" (shape passive) (at 163.34 158.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "94517071-afdb-551e-aa53-85a54cfa9824"))
+(global_label "GRID_Q180_X3_Y2" (shape passive) (at 163.34 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5252f51e-bbdf-5b52-af10-921a4dc34b2e"))
+(global_label "GRID_Q180_X3_Y3" (shape passive) (at 163.34 163.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "e0bb1430-7d1a-5b2a-b8c8-008262184429"))
+(global_label "GRID_Q180_X3_Y4" (shape passive) (at 163.34 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "e1dcf487-d47e-51da-b5f9-fd11e9a320b7"))
+(global_label "GRID_Q180_X4_Y0" (shape passive) (at 165.88 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "6cc182ac-c8b8-5fda-82e3-4a0dc56ac4e8"))
+(global_label "GRID_Q180_X4_Y1" (shape passive) (at 165.88 158.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d3a3f29d-7738-5f9d-84b6-7b27f7f2f104"))
+(global_label "GRID_Q180_X4_Y2" (shape passive) (at 165.88 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "56d45b7a-cdb1-5ea5-ba0c-d4d893d3dfd9"))
+(global_label "GRID_Q180_X4_Y3" (shape passive) (at 165.88 163.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ffc96cb6-d091-5a99-94cc-4ce25995cba9"))
+(global_label "GRID_Q180_X4_Y4" (shape passive) (at 165.88 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7ad2f1af-3b08-5bfe-bc1c-faa7e09ae3a3"))
+(symbol (lib_id "Transistor_FET:Q_NMOS_GSD") (at 160.8 220.64 270) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "745a3882-a19c-5e37-b015-558cd90de398") (property "Reference" "Q270" (at 160.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "DMG1012T" (at 160.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "44b07d9b-f1f7-51ec-9ca9-f5d1e38ba700")) (pin "2" (uuid "50dbeaad-fe6c-5df7-9f35-43ad3993705b")) (pin "3" (uuid "f3a816a9-ce52-5eb8-b132-e1f9edb5f5f7")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Q270") (unit 1)))))
+(global_label "GRID_Q270_X0_Y0" (shape passive) (at 155.72 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "80ae728b-a209-5580-ad1f-3932a6d43d3e"))
+(global_label "GRID_Q270_X0_Y1" (shape passive) (at 155.72 218.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9fa3b1e0-1f47-518e-83b4-927dd7486899"))
+(global_label "GRID_Q270_X0_Y2" (shape passive) (at 155.72 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "42c54fa5-a280-5d5a-b137-11c86f395740"))
+(global_label "GRID_Q270_X0_Y3" (shape passive) (at 155.72 223.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "aeb49335-07be-58b6-af7b-7d54685dd44b"))
+(global_label "GRID_Q270_X0_Y4" (shape passive) (at 155.72 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5a5ac934-7c6c-5ada-a037-865ba0e55a96"))
+(global_label "GRID_Q270_X1_Y0" (shape passive) (at 158.26 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "030e5241-887d-5f84-94e1-dbbd402db166"))
+(global_label "GRID_Q270_X1_Y1" (shape passive) (at 158.26 218.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "6cbe98e2-e185-5189-aacf-59bcbce1c3d4"))
+(global_label "GRID_Q270_X1_Y2" (shape passive) (at 158.26 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "719af2ab-ce48-5c63-bbe0-8e8a21867072"))
+(global_label "GRID_Q270_X1_Y3" (shape passive) (at 158.26 223.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "be719963-1b81-5532-bae0-11a89bfc1fd5"))
+(global_label "GRID_Q270_X1_Y4" (shape passive) (at 158.26 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "94e75860-4016-5117-9fe4-9d8e0ecf3b3d"))
+(global_label "GRID_Q270_X2_Y0" (shape passive) (at 160.8 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "716f559e-cef7-501f-a010-e4b7ee1e6a40"))
+(global_label "GRID_Q270_X2_Y1" (shape passive) (at 160.8 218.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1f3f5b94-1a12-5944-a37c-7e6cfe260915"))
+(global_label "GRID_Q270_X2_Y2" (shape passive) (at 160.8 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a7055de5-4c83-53fe-8c71-226e0e9cea20"))
+(global_label "GRID_Q270_X2_Y3" (shape passive) (at 160.8 223.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b917f52b-99e4-518b-be52-cc281d12781e"))
+(global_label "GRID_Q270_X2_Y4" (shape passive) (at 160.8 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "4e60ae50-4a00-51e7-a926-b5452b5efcd5"))
+(global_label "GRID_Q270_X3_Y0" (shape passive) (at 163.34 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2ff3ec9c-3f81-566f-bab7-f6386b338237"))
+(global_label "GRID_Q270_X3_Y1" (shape passive) (at 163.34 218.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "659ce3c1-083c-5c62-8b78-c9c4d2e9257f"))
+(global_label "GRID_Q270_X3_Y2" (shape passive) (at 163.34 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "fcf2662e-738d-53f6-bcc9-a6aa44b4eb44"))
+(global_label "GRID_Q270_X3_Y3" (shape passive) (at 163.34 223.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1f95c23c-930d-5d96-ad53-4ef754ec75ab"))
+(global_label "GRID_Q270_X3_Y4" (shape passive) (at 163.34 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a0e77bad-3015-5a52-87ac-543d9e770912"))
+(global_label "GRID_Q270_X4_Y0" (shape passive) (at 165.88 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a80c9310-26f2-5428-98ea-4603efd9f793"))
+(global_label "GRID_Q270_X4_Y1" (shape passive) (at 165.88 218.1 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "56d6e45a-338f-5bb0-8245-9fad8898ae13"))
+(global_label "GRID_Q270_X4_Y2" (shape passive) (at 165.88 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "02895436-d5b2-5627-900d-ddd911f5e95a"))
+(global_label "GRID_Q270_X4_Y3" (shape passive) (at 165.88 223.18 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "37089cce-97e9-55d7-bfde-eb6ecdf4cfa0"))
+(global_label "GRID_Q270_X4_Y4" (shape passive) (at 165.88 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bcfa1996-a733-5322-91e4-325e29318d08"))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 40.64 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "7031b34f-d907-527a-92c4-4d935d2f14b7") (property "Reference" "Y0" (at 270.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 40.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "eb7a28af-2f1e-5d78-936a-cd31b07575de")) (pin "2" (uuid "4466c8d2-696a-5d05-9fd4-d21b29ecb55f")) (pin "3" (uuid "20c3f126-e99f-584d-b46c-877d4d449896")) (pin "4" (uuid "fc4bebb0-ddd3-519c-9b02-9a9923c7ee08")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y0") (unit 1)))))
+(global_label "GRID_Y0_X0_Y0" (shape passive) (at 265.72 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d018f5d2-af5b-5eda-8f56-cd1eaadb1e57"))
+(global_label "GRID_Y0_X0_Y1" (shape passive) (at 265.72 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bc975152-6901-5327-b069-3cbb7a7d72c3"))
+(global_label "GRID_Y0_X0_Y2" (shape passive) (at 265.72 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c7848f96-65e2-5f34-a6a2-18482c93898d"))
+(global_label "GRID_Y0_X0_Y3" (shape passive) (at 265.72 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "4430d774-c765-5c40-91e1-ff1e8a6fcce1"))
+(global_label "GRID_Y0_X0_Y4" (shape passive) (at 265.72 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "32eca9d6-7426-54c3-8419-937010402286"))
+(global_label "GRID_Y0_X1_Y0" (shape passive) (at 266.99 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "33910ef4-1bc0-5f4e-b1e7-3305e4e827e3"))
+(global_label "GRID_Y0_X1_Y1" (shape passive) (at 266.99 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "28b1f194-f318-5983-8668-a71ff1fda56c"))
+(global_label "GRID_Y0_X1_Y2" (shape passive) (at 266.99 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "70cbc449-ed23-5793-aaa3-4eca6da3760c"))
+(global_label "GRID_Y0_X1_Y3" (shape passive) (at 266.99 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "e04cb0b0-ff49-5428-92fc-6a94c4fcee12"))
+(global_label "GRID_Y0_X1_Y4" (shape passive) (at 266.99 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b6e4ff15-6c7e-5a62-8f1c-5beaaab794d0"))
+(global_label "GRID_Y0_X2_Y0" (shape passive) (at 270.8 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5cd2e5f8-eda3-563c-878e-e76ec0a37d36"))
+(global_label "GRID_Y0_X2_Y1" (shape passive) (at 270.8 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "48c8e3db-ef1d-5231-ada7-da91b60db5ec"))
+(global_label "GRID_Y0_X2_Y2" (shape passive) (at 270.8 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c6a59f22-5efb-5bee-b64f-eb791dd31b50"))
+(global_label "GRID_Y0_X2_Y3" (shape passive) (at 270.8 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "369ab114-2cd4-559c-98be-aed43299e65c"))
+(global_label "GRID_Y0_X2_Y4" (shape passive) (at 270.8 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f6c51f77-f408-581e-abd6-e45d46599a52"))
+(global_label "GRID_Y0_X3_Y0" (shape passive) (at 274.61 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "84c66f77-cd18-55a3-bd51-55c2a23c2f47"))
+(global_label "GRID_Y0_X3_Y1" (shape passive) (at 274.61 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f03adb72-0d42-526d-be3e-a51b3ade9faf"))
+(global_label "GRID_Y0_X3_Y2" (shape passive) (at 274.61 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "39994085-7fad-5988-8fea-a37d75f18537"))
+(global_label "GRID_Y0_X3_Y3" (shape passive) (at 274.61 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "484b39a2-8f17-54ad-a046-fd865a7e3025"))
+(global_label "GRID_Y0_X3_Y4" (shape passive) (at 274.61 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "efa80550-106d-5909-9f01-71dea490de2d"))
+(global_label "GRID_Y0_X4_Y0" (shape passive) (at 275.88 35.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "6f7dd7f7-8a35-5486-a765-f52938591bd3"))
+(global_label "GRID_Y0_X4_Y1" (shape passive) (at 275.88 36.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ba6bcbc7-7155-5d68-ac07-b4545746116f"))
+(global_label "GRID_Y0_X4_Y2" (shape passive) (at 275.88 40.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d875dcbd-c30d-525f-a1c7-f460cfeb4f57"))
+(global_label "GRID_Y0_X4_Y3" (shape passive) (at 275.88 44.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "cc62cdcf-f241-5504-8af8-62399495cca8"))
+(global_label "GRID_Y0_X4_Y4" (shape passive) (at 275.88 45.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "23cb59c2-fb03-5574-9bcf-ba8e0efd81f3"))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 100.64 90) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "6c76ca3e-7d5c-5acf-a20c-e7b2c9acde4b") (property "Reference" "Y90" (at 270.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 100.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "581975ba-d045-5177-bf03-c800049b3d1c")) (pin "2" (uuid "c7e61e2e-8cf3-55c6-9430-5127da7c6e30")) (pin "3" (uuid "c57b63d8-9358-5197-a02f-67ebaf02d61a")) (pin "4" (uuid "209e9c5a-2f63-5148-a43e-e62bdad6af15")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y90") (unit 1)))))
+(global_label "GRID_Y90_X0_Y0" (shape passive) (at 265.72 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "de16aeb3-6eb0-53ed-990b-dcd832dbac87"))
+(global_label "GRID_Y90_X0_Y1" (shape passive) (at 265.72 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "0fe4e960-8738-56f8-a59f-c5aa8b68dbaa"))
+(global_label "GRID_Y90_X0_Y2" (shape passive) (at 265.72 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bfbac546-3c69-5c2b-8fa9-23538008ebf3"))
+(global_label "GRID_Y90_X0_Y3" (shape passive) (at 265.72 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "de04f14c-dbfe-557c-b008-d8dd1d457eac"))
+(global_label "GRID_Y90_X0_Y4" (shape passive) (at 265.72 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "043e8c53-9767-5dc3-8174-8684b19bc32a"))
+(global_label "GRID_Y90_X1_Y0" (shape passive) (at 266.99 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f13db461-d68d-5620-ba5a-464b78bcf544"))
+(global_label "GRID_Y90_X1_Y1" (shape passive) (at 266.99 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "dbd99c65-4605-5017-a354-e2e4d1f7f432"))
+(global_label "GRID_Y90_X1_Y2" (shape passive) (at 266.99 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "046d5cbf-f7c2-5684-bd0a-e50afd2e6207"))
+(global_label "GRID_Y90_X1_Y3" (shape passive) (at 266.99 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2a68d709-63a4-5964-80f8-13c79a667378"))
+(global_label "GRID_Y90_X1_Y4" (shape passive) (at 266.99 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ef70dc10-131c-5f17-bf59-855621ae1f40"))
+(global_label "GRID_Y90_X2_Y0" (shape passive) (at 270.8 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "24bcce4f-5772-5731-a615-335160633cbc"))
+(global_label "GRID_Y90_X2_Y1" (shape passive) (at 270.8 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "414d04ef-c852-5f8f-b4a6-8bab324371c8"))
+(global_label "GRID_Y90_X2_Y2" (shape passive) (at 270.8 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d3bfafa4-e3e7-5651-b5a7-64f7aea78228"))
+(global_label "GRID_Y90_X2_Y3" (shape passive) (at 270.8 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9a528279-96f4-57a6-a404-cbaa1441ee97"))
+(global_label "GRID_Y90_X2_Y4" (shape passive) (at 270.8 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2c14cef9-7040-5206-8ae3-f0c246f2c2b9"))
+(global_label "GRID_Y90_X3_Y0" (shape passive) (at 274.61 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "4e3559af-235a-550a-90df-33309168e9ba"))
+(global_label "GRID_Y90_X3_Y1" (shape passive) (at 274.61 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7d51ed08-891f-5789-91b7-74566ddaa05b"))
+(global_label "GRID_Y90_X3_Y2" (shape passive) (at 274.61 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "59e87c12-3b0e-54ac-b21d-2bd89cb5cf94"))
+(global_label "GRID_Y90_X3_Y3" (shape passive) (at 274.61 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "3fc3c2bd-d8cc-5f45-93ca-6acbdfd51e93"))
+(global_label "GRID_Y90_X3_Y4" (shape passive) (at 274.61 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "abc9e532-e510-5ca0-8fcf-3050dafca720"))
+(global_label "GRID_Y90_X4_Y0" (shape passive) (at 275.88 95.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "4a9a58df-071d-5e01-adc5-849636727531"))
+(global_label "GRID_Y90_X4_Y1" (shape passive) (at 275.88 96.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a1adb1b2-2ef5-511d-87bb-9b26945d583d"))
+(global_label "GRID_Y90_X4_Y2" (shape passive) (at 275.88 100.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "51f59cdc-4a8f-5200-ace2-fa2c6ecf052a"))
+(global_label "GRID_Y90_X4_Y3" (shape passive) (at 275.88 104.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "db3b6ae7-6da3-507b-88fa-bc446f0d3221"))
+(global_label "GRID_Y90_X4_Y4" (shape passive) (at 275.88 105.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d9e93e39-7c33-5e51-9240-2289a5794230"))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 160.64 180) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "a1e23763-c996-5a5e-a960-1b245dbe9252") (property "Reference" "Y180" (at 270.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 160.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "520d73e4-648b-5809-ae59-7d8299dcd163")) (pin "2" (uuid "6b6dd09f-93d5-5888-8ba2-dc2bd2c9844f")) (pin "3" (uuid "18d0788f-7fef-51c8-bb14-ea21ce68f085")) (pin "4" (uuid "4e72f9a5-5c10-57c1-9c3e-746a47aa82fc")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y180") (unit 1)))))
+(global_label "GRID_Y180_X0_Y0" (shape passive) (at 265.72 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9266ac5e-45b4-5330-8765-fcaef2103933"))
+(global_label "GRID_Y180_X0_Y1" (shape passive) (at 265.72 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "0d7561df-5297-5111-9aef-99465905e451"))
+(global_label "GRID_Y180_X0_Y2" (shape passive) (at 265.72 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "e670d364-3b7b-515b-b6e2-a2c5f2966f26"))
+(global_label "GRID_Y180_X0_Y3" (shape passive) (at 265.72 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "99030b1d-6109-5f1c-aeb2-2516d9bd9a45"))
+(global_label "GRID_Y180_X0_Y4" (shape passive) (at 265.72 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "8901c3e4-bfb0-5163-bf80-e262e44d6de3"))
+(global_label "GRID_Y180_X1_Y0" (shape passive) (at 266.99 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a6fb925e-d78e-5fe6-a3e2-c5224477dad2"))
+(global_label "GRID_Y180_X1_Y1" (shape passive) (at 266.99 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1f0bebeb-fce0-510c-ae2a-347a34debd44"))
+(global_label "GRID_Y180_X1_Y2" (shape passive) (at 266.99 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "52681cc8-d37f-5140-8f4c-0b281a665b59"))
+(global_label "GRID_Y180_X1_Y3" (shape passive) (at 266.99 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "db008dd9-9939-5b85-b765-1c180f79835c"))
+(global_label "GRID_Y180_X1_Y4" (shape passive) (at 266.99 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "94549b61-fcf9-5656-ba89-18b048ff054e"))
+(global_label "GRID_Y180_X2_Y0" (shape passive) (at 270.8 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d1959ee3-8f27-5f89-bfa7-63b21eed943a"))
+(global_label "GRID_Y180_X2_Y1" (shape passive) (at 270.8 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b90a1849-376d-58bf-8b20-8124366caa3f"))
+(global_label "GRID_Y180_X2_Y2" (shape passive) (at 270.8 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "973c9076-29d8-5213-8f9a-50b0f99f4794"))
+(global_label "GRID_Y180_X2_Y3" (shape passive) (at 270.8 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "90ae8f77-7381-580c-b58c-d85ee230dd72"))
+(global_label "GRID_Y180_X2_Y4" (shape passive) (at 270.8 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b847527f-8e18-5a5d-b809-23c4b04f8630"))
+(global_label "GRID_Y180_X3_Y0" (shape passive) (at 274.61 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "4c6efe29-f9d5-5be6-a105-17e16e635797"))
+(global_label "GRID_Y180_X3_Y1" (shape passive) (at 274.61 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "becbe78a-c6cc-582f-aea4-e8abbcd96b6d"))
+(global_label "GRID_Y180_X3_Y2" (shape passive) (at 274.61 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ebabb19d-a3a8-5df1-a3fe-52a27b0832fe"))
+(global_label "GRID_Y180_X3_Y3" (shape passive) (at 274.61 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c8157f37-28da-54f0-827a-32f72d7861d3"))
+(global_label "GRID_Y180_X3_Y4" (shape passive) (at 274.61 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "8f69a377-d1bd-5fc4-a48d-bdd22bbea978"))
+(global_label "GRID_Y180_X4_Y0" (shape passive) (at 275.88 155.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "19e7fe34-d61c-5099-95c2-7c096dae19e8"))
+(global_label "GRID_Y180_X4_Y1" (shape passive) (at 275.88 156.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c2a0872a-5ffd-50fa-a6a2-eb31f30efd49"))
+(global_label "GRID_Y180_X4_Y2" (shape passive) (at 275.88 160.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "cd27381f-9bcb-5c2a-8f62-89407718b8a2"))
+(global_label "GRID_Y180_X4_Y3" (shape passive) (at 275.88 164.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "24f94b5e-324a-5fea-801c-e532fbbb6425"))
+(global_label "GRID_Y180_X4_Y4" (shape passive) (at 275.88 165.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "61ce113c-e6cd-5092-af34-abe910a72088"))
+(symbol (lib_id "Device:Crystal_GND24") (at 270.8 220.64 270) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid "e6018680-6433-53ad-9586-2221a302aff5") (property "Reference" "Y270" (at 270.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Value" "Crystal_GND24" (at 270.8 220.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "08609784-f52a-5f74-9a49-2103779747d2")) (pin "2" (uuid "915d925b-11a4-5cc3-b253-ba5191504ecc")) (pin "3" (uuid "88bca507-e564-5578-964f-c5906b834b08")) (pin "4" (uuid "c5ffb8a9-fbb6-56ca-87c4-1f9b3f65bf57")) (instances (project "cardinal-labelled" (path "/f37616c3-6664-5cd1-bf57-2a7de4615c10" (reference "Y270") (unit 1)))))
+(global_label "GRID_Y270_X0_Y0" (shape passive) (at 265.72 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c1e98598-bbdd-59ed-89f9-691ea44c1308"))
+(global_label "GRID_Y270_X0_Y1" (shape passive) (at 265.72 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "25c1c1ce-aac5-507c-bf31-4bb6c2f788c5"))
+(global_label "GRID_Y270_X0_Y2" (shape passive) (at 265.72 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "abefa92a-bf4f-568d-85ec-e2f1f8385c51"))
+(global_label "GRID_Y270_X0_Y3" (shape passive) (at 265.72 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f5e40161-bfeb-548e-9d69-3e184fd0d34a"))
+(global_label "GRID_Y270_X0_Y4" (shape passive) (at 265.72 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "eac89ac8-5b53-5e6c-913f-48e919fa5503"))
+(global_label "GRID_Y270_X1_Y0" (shape passive) (at 266.99 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1c296c78-559b-5dfa-a442-128499ec9729"))
+(global_label "GRID_Y270_X1_Y1" (shape passive) (at 266.99 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "65e0eb1d-b086-54e0-9929-2df0e084adf7"))
+(global_label "GRID_Y270_X1_Y2" (shape passive) (at 266.99 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "45a160c6-7e05-58a7-8b42-c67f419372e6"))
+(global_label "GRID_Y270_X1_Y3" (shape passive) (at 266.99 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a163d205-76de-5f38-92d5-32252a37f7bd"))
+(global_label "GRID_Y270_X1_Y4" (shape passive) (at 266.99 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2b63ac91-6ba8-5e83-89ca-2d2742c39894"))
+(global_label "GRID_Y270_X2_Y0" (shape passive) (at 270.8 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "8078b7e8-b8e6-5881-afcf-1f76b37c7968"))
+(global_label "GRID_Y270_X2_Y1" (shape passive) (at 270.8 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "68a917f1-2aa1-5a8f-b888-f61d21011dc5"))
+(global_label "GRID_Y270_X2_Y2" (shape passive) (at 270.8 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "bae9fb88-9d4b-56ee-8c04-7c72a9255e38"))
+(global_label "GRID_Y270_X2_Y3" (shape passive) (at 270.8 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "2fe4f19f-bbec-5623-b1e0-9ffe25cae64e"))
+(global_label "GRID_Y270_X2_Y4" (shape passive) (at 270.8 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b30e1381-8056-533d-85c8-79c923ee1cfe"))
+(global_label "GRID_Y270_X3_Y0" (shape passive) (at 274.61 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "9c319c82-733c-5da5-b05d-71f3320969dd"))
+(global_label "GRID_Y270_X3_Y1" (shape passive) (at 274.61 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "f0dba070-452a-53b0-be3a-5e97d4849a8b"))
+(global_label "GRID_Y270_X3_Y2" (shape passive) (at 274.61 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d97bbfb2-514b-5ed2-bdc6-0f835555d378"))
+(global_label "GRID_Y270_X3_Y3" (shape passive) (at 274.61 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "a7fba510-1a98-502f-9acb-7e3fcb74a6cf"))
+(global_label "GRID_Y270_X3_Y4" (shape passive) (at 274.61 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "af739136-f6f7-5ee0-837b-a967e2180ec0"))
+(global_label "GRID_Y270_X4_Y0" (shape passive) (at 275.88 215.56 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "417ac7ed-2c81-5826-8f11-367b4df701ea"))
+(global_label "GRID_Y270_X4_Y1" (shape passive) (at 275.88 216.83 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d7468148-f115-5756-9f66-3f7a9022a563"))
+(global_label "GRID_Y270_X4_Y2" (shape passive) (at 275.88 220.64 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "fe3ed1e6-b343-509f-b968-2915182b74f3"))
+(global_label "GRID_Y270_X4_Y3" (shape passive) (at 275.88 224.45 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "24b302aa-ce8d-51b4-ade4-f47829a6b111"))
+(global_label "GRID_Y270_X4_Y4" (shape passive) (at 275.88 225.72 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid "93f4a08f-fed8-5a60-9291-995e0319b983"))
+(embedded_fonts no))

@@ -114,17 +114,20 @@ const rejected = (budget: FreshSchematicWorkBudget, code: FreshSchematicTerminal
 });
 
 /**
- * Pure geometry convention used by the pinned schematic helper: rotate(x,-y,r).
+ * Native schematic convention: rotate library (x,y) counterclockwise, then
+ * invert Y for the sheet. Pin direction remains a library-space angle (a+r).
  * This is NOT the PCB footprint transform. Values are not snapped or repaired.
- * Native source/live adapters must corroborate the same convention independently.
+ * Qualified by independent KiCad 10 CLI labelled-pin netlists and SVG strokes;
+ * the older DOC9 source-derived helper rotates after Y inversion and is wrong
+ * for quarter turns. Its observations must fail independent corroboration.
  */
 export function transformFreshSchematicSourcePin(pin: FreshSchematicSourcePin, placement: FreshSchematicSourceComponent["placement"]): Readonly<{ at: FreshSchematicPoint; angleDeg: FreshSchematicCardinalAngle }> {
   const x = pin.at.xMm;
   const y = pin.at.yMm;
   const [dx, dy] = placement.rotationDeg === 0 ? [x, -y]
-    : placement.rotationDeg === 90 ? [y, x]
-      : placement.rotationDeg === 180 ? [-x, y] : [-y, -x];
-  return freeze({ at: { xMm: placement.at.xMm + dx!, yMm: placement.at.yMm + dy! }, angleDeg: ((pin.angleDeg - placement.rotationDeg + 360) % 360) as FreshSchematicCardinalAngle });
+    : placement.rotationDeg === 90 ? [-y, -x]
+      : placement.rotationDeg === 180 ? [-x, y] : [y, x];
+  return freeze({ at: { xMm: placement.at.xMm + dx!, yMm: placement.at.yMm + dy! }, angleDeg: ((pin.angleDeg + placement.rotationDeg) % 360) as FreshSchematicCardinalAngle });
 }
 
 /**

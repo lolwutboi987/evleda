@@ -2,6 +2,8 @@ import { mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import { randomUUID } from "node:crypto";
+import { boardFeature, holeSource } from "./board-feature-fixture.js";
+import type { PcbBoardFeature } from "../../src/harness/pcb-board-features.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { createKiCad10StockCatalog } from "../../src/harness/kicad-stock-catalog.js";
 import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
@@ -20,6 +22,16 @@ const footprint = (name: string, count: number) => `(footprint "${name}" (versio
   (fp_rect (start -2 -2) (end 4 2) (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))
   ${Array.from({ length: count }, (_, index) => `(pad "${index + 1}" smd rect (at ${index * 2} 0) (size 1 1) (layers "F.Cu" "F.Mask"))`).join(" ")})`;
 
+/** Synthetic ready geometry revision; no native or physical qualification. */
+export function unwiredPlaneSeedGeometryDraft(widthMm = 21, heightMm = 51) {
+  const draft = planeDividerDraft();
+  Object.assign(draft.scope.board, { widthMm, heightMm });
+  for (const constraint of draft.placementConstraints) Object.assign(constraint.regionMm, { maxXmm: widthMm - 1, maxYmm: heightMm - 1 });
+  Object.assign(draft.planes[0]!.boundary, { maxXmm: widthMm - 0.5, maxYmm: heightMm - 0.5 });
+  const boardFeatures: PcbBoardFeature[] = [boardFeature(), boardFeature("H2", widthMm - 3, heightMm - 3)];
+  return { ...draft, boardFeatures };
+}
+
 /** Synthetic filesystem/adapter fixture; production allocation/compilation/seed guards remain real. */
 export async function unwiredPlaneSeedFixture() {
   const root = await mkdtemp(path.join(os.tmpdir(), "evleda-unwired-seed-"));
@@ -32,9 +44,11 @@ export async function unwiredPlaneSeedFixture() {
     await put(`symbols/${id.split(":")[0]}.kicad_sym`, source); librarySources.set(id, { source, identity: contentIdentity(source) }); }
   await put("footprints/Resistor_SMD.pretty/R_0603_1608Metric.kicad_mod", footprint("R_0603_1608Metric", 2));
   await put("footprints/Connector_PinHeader_2.54mm.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod", footprint("PinHeader_1x03_P2.54mm_Vertical", 3));
+  await put("footprints/MountingHole.pretty/Hole_D2.1.kicad_mod", holeSource);
+  await put("footprints/MountingHole.pretty/Hole_D2.1_Alternate.kicad_mod", holeSource.replace('"Hole_D2.1"', '"Hole_D2.1_Alternate"'));
   const symbolRoot = path.join(stock, "symbols"), footprintRoot = path.join(stock, "footprints");
   const resolver = createKiCad10StockCatalog({ symbolRoot, footprintRoot, stockSymbolNicknames: ["Connector_Generic", "Device"],
-    stockFootprintNicknames: ["Connector_PinHeader_2.54mm", "Resistor_SMD"] });
+    stockFootprintNicknames: ["Connector_PinHeader_2.54mm", "MountingHole", "Resistor_SMD"] });
   const dependencies = { libraryResolver: resolver, deepRuleCatalog: loadDeepRuleCatalog() };
   const profilePath = path.join(root, "native-profile.json"), profileBytes = '{"syntheticNativeProfile":true}\n';
   await writeFile(profilePath, profileBytes);

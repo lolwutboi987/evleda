@@ -3,6 +3,8 @@ import { writeFileSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { afterEach, describe, expect, it } from "vitest";
+import { Client, InMemoryTransport } from "@modelcontextprotocol/client";
+import { createKicadToolboxMcpServer } from "../../src/mcp/toolbox-server.js";
 import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js";
 import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
 import { compilePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-compiler.js";
@@ -20,6 +22,7 @@ import { usbChannelBundle } from "../helpers/usb-channel-bundle.js";
 import { usbChannelPcb, usbChannelSourceId } from "../helpers/usb-channel-source.js";
 import { routeMmToNativeNm } from "../../src/harness/fresh-route-native-units.js";
 import { planFreshFootprintFields } from "../../src/harness/fresh-footprint-field.js";
+import { planFreshFootprintPoses } from "../../src/harness/fresh-footprint-pose-batch.js";
 
 // Offline source/native-port simulation only. No plane, route, or native KiCad qualification is asserted.
 const roots=new Set<string>();
@@ -214,6 +217,101 @@ describe('bounded V2 whole-board route inventory', () => {
       net: 'GND', deleteItemIds: [], tracks: [{ x1Mm: 2, y1Mm: 1, x2Mm: 3, y2Mm: 1, layer: 'F.Cu' }], vias: [] } })).rejects.toThrow(/whole-board route inventory exceeds/);
     expect(f.calls).not.toContain('pcb_begin_commit');
     expect(await readFile(f.project.pcbPath, 'utf8')).toBe(routedBoard(1024));
+  });
+});
+
+describe('atomic V2 footprint pose batch', () => {
+  const poseSource = () => pcb.replace(/\(property "(Reference|Value)" "([^"]*)"\)/gu, (_match, field: string, text: string) =>
+    `(property "${field}" "${text}" (at 0 ${field === 'Reference' ? -2 : 2} 0) (layer "${field === 'Reference' ? 'F.SilkS' : 'F.Fab'}") (effects (font (size 1 1) (thickness 0.15))))`);
+  const placements = [{ reference: 'R1', x_mm: 13, y_mm: 7, rotation_deg: 90 }, { reference: 'R2', x_mm: 17, y_mm: 13, rotation_deg: 270 }];
+  const edit = { id: 'pose-batch', name: 'fresh_set_footprint_poses' as const, arguments: { placements } };
+  const save = { id: 'pose-save', name: 'pcb_save', arguments: {} };
+
+  it('uses one reload/save and four complete physical snapshots for the entire batch, including exact no-op replay', async () => {
+    const source = poseSource(), current = await fixture({ initial: source, physicalSource: source });
+    expect(current.bridge.tools.find(tool => tool.name === edit.name)).toMatchObject({ inputSchema: { additionalProperties: false,
+      properties: { placements: { minItems: 1, maxItems: 64, items: { additionalProperties: false } } } } });
+    const planned = planFreshFootprintPoses(source, edit.arguments, current.bundle.contract);
+    const result = JSON.parse((await current.bridge.execute(edit)).content);
+    expect(result).toMatchObject({ schemaVersion: 'evleda.fresh-footprint-poses-result.v1', applied: true, mutated: true, placementCount: 2, persistence: 'native-save-required' });
+    expect(result.placements.map((p: { reference: string }) => p.reference)).toEqual(['R1', 'R2']);
+    expect(current.calls.filter(name => name === 'pcb_revert')).toHaveLength(1);
+    expect(current.calls).not.toContain('pcb_save'); expect(current.calls).not.toContain('pcb_move_footprint');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(planned.source);
+    const saved = await current.bridge.internal.saveAfterMutation(save);
+    expect(saved.isError).not.toBe(true); expect(JSON.parse(saved.content)).toMatchObject({ status: 'saved-and-native-footprint-poses-verified', placementCount: 2 });
+    expect(current.physicalReads()).toBe(4); expect(current.calls.filter(name => name === 'pcb_save')).toHaveLength(1);
+    const repeat = JSON.parse((await current.bridge.execute({ ...edit, id: 'pose-repeat' })).content);
+    expect(repeat).toMatchObject({ mutated: false, idempotent: true });
+    expect((await current.bridge.internal.saveAfterMutation({ ...save, id: 'repeat-save' })).isError).not.toBe(true);
+    expect(current.calls.filter(name => name === 'pcb_revert')).toHaveLength(1);
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(planned.source);
+  });
+
+  it('publishes the batch through MCP with one automatic save and no partial publication for invalid arguments', async () => {
+    const source = poseSource(), current = await fixture({ initial: source, physicalSource: source });
+    const toolbox = createKicadToolboxMcpServer({ access: 'edit', cad: { tools: current.bridge, assertCurrent: async () => {},
+      captureSources: async () => contentIdentity(await readFile(current.project.pcbPath)).digest, close: async () => {} } });
+    const client = new Client({ name: 'pose-batch-test', version: '1' }), [left, right] = InMemoryTransport.createLinkedPair();
+    await toolbox.server.connect(right); await client.connect(left);
+    try {
+      expect((await client.listTools()).tools.find(tool => tool.name === edit.name)?.annotations).toMatchObject({ readOnlyHint: false });
+      const invalid = await client.callTool({ name: edit.name, arguments: { placements: [placements[0]!, { ...placements[1]!, layer: 'B.Cu' }] } });
+      expect(invalid.isError).toBe(true); expect(current.calls).toEqual([]);
+      const result = await client.callTool({ name: edit.name, arguments: edit.arguments });
+      expect(result.isError, JSON.stringify(result.structuredContent)).not.toBe(true);
+      expect(current.calls.filter(name => ['pcb_revert', 'pcb_save'].includes(name))).toEqual(['pcb_revert', 'pcb_save']);
+      expect(current.physicalReads()).toBe(4);
+      expect(await readFile(current.project.pcbPath, 'utf8')).toBe(planFreshFootprintPoses(source, edit.arguments, current.bundle.contract).source);
+    } finally { await client.close(); await toolbox.close(); }
+  });
+
+  it('rejects any invalid member or duplicate before writing a partial batch', async () => {
+    const source = poseSource(), current = await fixture({ initial: source, physicalSource: source });
+    for (const last of [{ ...placements[1]!, reference: 'H1' }, { ...placements[1]!, reference: 'R1' },
+      { ...placements[1]!, x_mm: 30 }, { ...placements[1]!, rotation_deg: 45 }]) {
+      await expect(current.bridge.execute({ ...edit, arguments: { placements: [placements[0]!, last] } })).rejects.toThrow();
+      expect(current.calls).not.toContain('pcb_revert'); expect(current.calls).not.toContain('pcb_save');
+      expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+    }
+  });
+
+  it.each(['pcb_move_footprint', 'pcb_revert', 'pcb_save'])('requires %s write authority for advertisement and dispatch', async required => {
+    const source = poseSource(), current = await fixture({ initial: source, physicalSource: source }), original = current.session.listTools;
+    current.session.listTools = () => original().map(tool => tool.name === required ? { ...tool, permission: 'read' as const } : tool);
+    expect(createKicadHarnessTools(current.session, current.toolOptions).tools.some(tool => tool.name === edit.name)).toBe(false);
+    await expect(current.bridge.execute(edit)).rejects.toThrow(/write authorization/);
+    expect(current.calls).not.toContain('pcb_revert'); expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+  });
+
+  it('rechecks native move authority after planning and before the single source stage', async () => {
+    const source = poseSource(), current = await fixture({ initial: source, physicalSource: source }), original = current.session.listTools;
+    current.session.listTools = () => original().map(tool => tool.name === 'pcb_move_footprint' && current.physicalReads() > 0 ? { ...tool, permission: 'read' as const } : tool);
+    await expect(current.bridge.execute(edit)).rejects.toThrow(/write authorization/);
+    expect(current.calls).not.toContain('pcb_revert'); expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+  });
+
+  it('rolls the complete batch back on a negative save and makes the session terminal', async () => {
+    const source = poseSource(), current = await fixture({ initial: source, physicalSource: source }), original = current.session.callTool;
+    current.session.callTool = async (name, args) => { const result = await original(name, args);
+      return name === 'pcb_save' ? { isError: true, content: [{ type: 'text', text: 'synthetic negative save' }] } : result; };
+    await current.bridge.execute(edit); const saved = await current.bridge.internal.saveAfterMutation(save);
+    expect(saved.isError).toBe(true); expect(saved.content).toContain('ROLLED_BACK_TERMINAL');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+    expect(current.calls.filter(name => ['pcb_revert', 'pcb_save'].includes(name))).toEqual(['pcb_revert', 'pcb_save', 'pcb_revert']);
+    await expect(current.bridge.execute(edit)).rejects.toThrow(/recovery|close/i);
+  });
+
+  it('preserves unknown save drift and reports uncertain rollback instead of publishing a partial success', async () => {
+    const source = poseSource(), current = await fixture({ initial: source, physicalSource: source }), original = current.session.callTool;
+    let unknown = '';
+    current.session.callTool = async (name, args) => { const result = await original(name, args);
+      if (name === 'pcb_save') { unknown = (await readFile(current.project.pcbPath, 'utf8')).replace('(thickness 1.6)', '(thickness 1.7)'); await current.replaceOwnedSource(unknown); }
+      return result; };
+    await current.bridge.execute(edit); const saved = await current.bridge.internal.saveAfterMutation(save);
+    expect(saved.isError).toBe(true); expect(saved.content).toContain('ROLLBACK_FAILED_TERMINAL');
+    expect(await readFile(current.project.pcbPath, 'utf8')).toBe(unknown);
+    expect(current.calls.filter(name => name === 'pcb_revert')).toHaveLength(1);
   });
 });
 

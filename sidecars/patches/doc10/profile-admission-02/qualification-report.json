@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "evleda.schematic-cardinal-runtime-qualification-report.v1",
+  "sourceProfile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc9-rp2350-v4-01.json",
+    "sha256": "2f79bd2ddb855d446676f104482068b634aa406d85d1722c010e2ef5642572c0",
+    "sizeBytes": 16669
+  },
+  "targetProfile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc10-rp2350-v4-02.json",
+    "sha256": "a30a63aa6ada7ed57fc57c1ced9e3f7837b33e75f33c9daf1c42757a8cc9f400",
+    "sizeBytes": 16672
+  },
+  "sourceRuntime": {
+    "root": "C:\\EvlEDA-DOC9-20260917",
+    "manifest": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc9.json",
+      "sha256": "28be8d5a44cf635fbb0e50609b8a0ae72e2051f68b7cd9897e78b676cb036738",
+      "sizeBytes": 1574798
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "21cdd9a8f3949f5ac2e7ed143932cf2153da140d12959773b34554d980bb1d73",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+    },
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "7f5120eca970b135eb52aa49a9f4936e7bc6871f68184b127425414bd004addf",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+    },
+    "fileCount": 8467,
+    "totalBytes": 150429066
+  },
+  "targetRuntime": {
+    "root": "C:\\EvlEDA-DOC10-20260918",
+    "manifest": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc10.json",
+      "sha256": "46bfefbc9e9b34df3b48941f36ebcbe0f08940f23cfd916437c4c745727ed9de",
+      "sizeBytes": 1574798
+    },
+    "manifestIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "556fb19ee6acb229d15c929c805805f8525f448859d8e9a6d9038e975cd97423",
+      "schemaVersion": "evleda.kicad-mcp-runtime-manifest.v2"
+    },
+    "treeIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "20dff51d35485423f54c665c7b1f492df166892db1fed8dd845b8eb02d0c7594",
+      "schemaVersion": "evleda.kicad-mcp-inspection-runtime-tree.v1"
+    },
+    "fileCount": 8467,
+    "totalBytes": 150429274
+  },
+  "oracle": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\native-oracle\\oracle.json",
+    "sha256": "7beab39f21f337b4fe870ef4a4761a76eb7c49c1e3e8ca02ddb2cffcd32edb2e",
+    "sizeBytes": 27833,
+    "cliIdentity": {
+      "algorithm": "sha256",
+      "digest": "4e1910666330fa8f2321d4e616957dacab218a0d835c343c869a87757481c2f4",
+      "size": 2696544
+    }
+  },
+  "checks": {
+    "passed": true,
+    "publicPinPositions": true,
+    "exactPinAliases": true,
+    "publicConnectivityGraph": true,
+    "visualBounds": true,
+    "oldNegativeControl": true
+  },
+  "sourceObservations": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc9-public-observations.json",
+    "sha256": "bbaa42c287852ea8d6116f36663ec689f1f35e87682d5039e9deaa9bd8ce15e0",
+    "sizeBytes": 76637
+  },
+  "targetObservations": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc10-public-observations.json",
+    "sha256": "22c280f4528cf6772a445bbdd27a2a03b2c1f097878da34db05184c482704a9b",
+    "sizeBytes": 76565
+  },
+  "driver": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\qualify-runtime.py",
+    "sha256": "713c470e14dd4c642796e9398486f25c343cb626a215d60a2c412824017ac07c",
+    "sizeBytes": 14278
+  },
+  "nativeStrictRecapture": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\strict-native-recapture-comparison.json",
+    "sha256": "279c37932803da367daa61d3ecc9292f8bd6dfc0aba287f95d1e9058bc5c068a",
+    "sizeBytes": 613
+  },
+  "sourceSummary": {
+    "publicPinPositions": false,
+    "exactPinAliases": false,
+    "publicConnectivityGraph": false,
+    "visualBounds": false,
+    "pinMismatches": 18,
+    "aliasMismatches": 42,
+    "graphMismatches": 18,
+    "visualPinMismatches": 18,
+    "visualStrokeMismatches": 18,
+    "visualBoxFailures": 4
+  },
+  "targetSummary": {
+    "publicPinPositions": true,
+    "exactPinAliases": true,
+    "publicConnectivityGraph": true,
+    "visualBounds": true,
+    "pinMismatches": 0,
+    "aliasMismatches": 0,
+    "graphMismatches": 0,
+    "visualPinMismatches": 0,
+    "visualStrokeMismatches": 0,
+    "visualBoxFailures": 0
+  },
+  "graphScope": {
+    "source": {
+      "totalSourceGroups": 236,
+      "pinBearingGroups": 32,
+      "terminalFreeLabelGroups": 204,
+      "nativePinEndpointAssociations": 36,
+      "wholeSourceGraphNetCountEqualsNativeXML": "not_claimed"
+    },
+    "target": {
+      "totalSourceGroups": 236,
+      "pinBearingGroups": 32,
+      "terminalFreeLabelGroups": 204,
+      "nativePinEndpointAssociations": 36,
+      "wholeSourceGraphNetCountEqualsNativeXML": "not_claimed"
+    }
+  },
+  "closureChecks": {
+    "source": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-02\\doc9-current-closure.json",
+      "sha256": "5e585b8fcdd03863aab25e9f809910eec01e2da908c2eba3ced821e64efc6f8b",
+      "sizeBytes": 1914
+    },
+    "target": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-02\\doc10-current-closure.json",
+      "sha256": "666d8b2a1270935fba45cf496759095f7be0c45067029e2a0df76737413ba1e6",
+      "sizeBytes": 2394
+    }
+  },
+  "recovery": {
+    "authorizedBy": "root task",
+    "initialFinding": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc9-initial-verification-failure.json",
+      "sha256": "1fe01c210d5e49353c560978c3edda69baf8031ccb0f2d14f23b2cac899c8ead",
+      "sizeBytes": 651
+    },
+    "quarantinedFiles": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc9-bytecode-quarantine-map.json",
+      "sha256": "c0aa224108fa36c5f00aa13b7b4f29027fb38daa913a34ce837f2d1a734fc74c",
+      "sizeBytes": 34972
+    },
+    "quarantinedDirectories": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc9-empty-directory-quarantine-map.json",
+      "sha256": "19a3fd63cfa423f669310738dfcb339e09b6659dbbcb816d6abe6dbdf3c99431",
+      "sizeBytes": 6029
+    },
+    "restoredExactClosure": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc9-restored-verification.json",
+      "sha256": "5e585b8fcdd03863aab25e9f809910eec01e2da908c2eba3ced821e64efc6f8b",
+      "sizeBytes": 1914
+    }
+  },
+  "limitations": [
+    "Registered FastMCP read tools are called through in-process argument validation; no stdio/IPC/GUI or managed-board lifecycle is qualified.",
+    "Exact aliases use the real runtime alias helper; no separate public alias-read tool exists.",
+    "Visual bounds qualification checks native pin tips/full strokes and conservative body/presentation containment, not all glyph/readability geometry.",
+    "Cartesian probe labels without pins remain in source graph counts and are not asserted to be native XML nets.",
+    "The audit denies all process launches/network connections; one urllib3 import-time IPv6 capability bind probe was blocked in each process, with no socket bind executed.",
+    "No native acceptance, connectivity completion, ERC/DRC result, or electrical qualification transfers to the target runtime.",
+    "Qualification01 did not establish native profile admission and its DOC10-01 profile is incompatible; only the new DOC10-02 profile is admitted by both real readers."
+  ],
+  "artifactRevision": 2,
+  "profilePolicyComparison": {
+    "allowedPaths": [
+      "kicadMcpRuntime.runtimeBundle",
+      "kicadMcpRuntime.processTreeSupervision.terminator.path",
+      "kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentsSha256"
+    ],
+    "othersEqual": true
+  },
+  "profileAdmission": {
+    "passed": true,
+    "evidence": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-02\\profile-admission.json",
+      "sha256": "3273370050019aef03d37e6d33e9a6ed2f9f3834153c819266c8e72d738589dd",
+      "sizeBytes": 9122
+    },
+    "driver": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-02\\create-and-admit.mts",
+      "sha256": "e75bd3066c5ddbd9edd8649ff5297e5f3818690431445b037bff21efe0a93a50",
+      "sizeBytes": 7620
+    },
+    "sourceAndTargetNativeReadersPassed": true,
+    "sourceAndTargetFreshProfileLoadersPassed": true,
+    "previousTargetNativeReaderRejected": true,
+    "previousTargetFreshProfileLoaderPassed": true,
+    "flagsUnchanged": true,
+    "argumentCountUnchanged": true,
+    "bytecodePolicyUnchanged": true,
+    "arguments": [
+      "-I",
+      "-s",
+      "-E",
+      "-B",
+      "C:\\EvlEDA-DOC10-20260918\\kicad-inspection-launcher.py"
+    ],
+    "argumentsSha256": "74ebcfbc536a5a3d8fa9b6870ead109c9dfa2bae80e948cbd87073be543f7ad9",
+    "nativeImportRetried": false,
+    "storeCreated": false
+  },
+  "supersedes": {
+    "receipt": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\qualification-receipt.json",
+      "sha256": "f13c753aa20aa19f411f67f0ab23563ba085a41028878d5c7bbd00eace7a5b42",
+      "sizeBytes": 5030
+    },
+    "report": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\qualification-report.json",
+      "sha256": "baff5dcd0e29a95f71409cca152d459a6fea05f0a76578a6f59a22d1e9c4cc05",
+      "sizeBytes": 8105
+    },
+    "targetProfile": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc10-rp2350-v4-01.json",
+      "sha256": "f7924b6184331368d3a52cfc83004b71431f2696aa5f4854dfed2a8c96f4d3fa",
+      "sizeBytes": 16672
+    },
+    "scopeGap": "Qualification01 verified runtime geometry and closure but omitted real profile admission. The DOC10-01 profile retained the DOC9 path-bound launcher argument hash and is rejected by the real native profile reader. Geometry observations remain valid; native profile admission was not previously established."
+  },
+  "geometryEvidenceReuse": {
+    "runtimeUnchanged": true,
+    "sourceObservations": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc9-public-observations.json",
+      "sha256": "bbaa42c287852ea8d6116f36663ec689f1f35e87682d5039e9deaa9bd8ce15e0",
+      "sizeBytes": 76637
+    },
+    "targetObservations": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\doc10-public-observations.json",
+      "sha256": "22c280f4528cf6772a445bbdd27a2a03b2c1f097878da34db05184c482704a9b",
+      "sizeBytes": 76565
+    },
+    "oracle": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\doc10-runtime-qualification-01\\native-oracle\\oracle.json",
+      "sha256": "7beab39f21f337b4fe870ef4a4761a76eb7c49c1e3e8ca02ddb2cffcd32edb2e",
+      "sizeBytes": 27833,
+      "cliIdentity": {
+        "algorithm": "sha256",
+        "digest": "4e1910666330fa8f2321d4e616957dacab218a0d835c343c869a87757481c2f4",
+        "size": 2696544
+      }
+    },
+    "qualificationMeaning": "Existing independently reviewed geometry evidence is retained for the byte-identical runtime; new real profile-admission evidence is added. No new geometry, GUI or managed-board observation is claimed."
+  }
+}

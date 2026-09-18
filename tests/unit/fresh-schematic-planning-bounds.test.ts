@@ -36,13 +36,14 @@ describe("pure schematic planning bounds composition (no native authority)", () 
     expect(reservation.minX).toBeLessThan(covered.minX);
     expect(reservation.maxY).toBeGreaterThan(covered.maxY);
     expect(result.find(box => box.reference === "@native-text:1")!.nativeText!.coveringLabel).toBeNull();
-    const crossing = { ...glyphs, bounds: [{ ...glyphs.bounds[0]!, maxX: 30.01 }] };
+    const crossing = { ...glyphs, bounds: [{ ...glyphs.bounds[0]!, maxX: 30.1 }] };
     expect(composeFreshSchematicPlanningBounds([], crossing, svgIdentity, source).find(box => box.reference === "@native-text:0")!.nativeText!.coveringLabel).toBeNull();
   });
 
   it("does not subsume glyphs using unsupported or ambiguous source label presentation", () => {
     for (const changed of [source.replace("1.524 1.524", "1.27 1.27"), source.replace("(justify right)", "(justify right) (hide yes)"),
-      source.replace("(shape passive)", "(shape input)")]) {
+      source.replace("(shape passive)", "(shape input)"), source.replace("(size 1.524 1.524)", '(size 1.524 1.524) (face "Arial")'),
+      source.replace("(justify right)", "(justify right) (color 1 1 1 0)"), source.replace('"NET"', '"N_{ET}"')]) {
       const result = composeFreshSchematicPlanningBounds([], glyphs, svgIdentity, changed);
       expect(result).toHaveLength(4);
       expect(result.every(box => box.nativeText?.coveringLabel === null)).toBe(true);

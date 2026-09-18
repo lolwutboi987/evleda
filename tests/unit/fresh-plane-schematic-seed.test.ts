@@ -7,10 +7,14 @@ import { validateUnwiredPlaneSchematicSeed, assertFreshPlaneSchematicSeedProfile
 import { captureFreshProjectOpenPreparedSourceAuthority, checkpointPlaneFreshProjectOpenNormalization, preparePlaneFreshProject,
   FRESH_PROJECT_MARKER_NAME } from "../../src/harness/fresh-project.js";
 import { createPcbPlaneCompilationBundleRef } from "../../src/harness/pcb-design-plane-bundle.js";
+import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
+import { parseFreshPcbSource } from "../../src/harness/fresh-kicad-parser.js";
+import { seedFreshBoardFeatures } from "../../src/harness/fresh-board-features.js";
 import { qualifyClosedPlaneSchematicSeed, assertClosedPlaneSchematicSeedSourceCurrent,
   captureClosedPlaneSchematicSeedSource } from "../../src/mcp/toolbox-schematic-seed.js";
 import { resumeKicadToolboxPlaneProject } from "../../src/mcp/toolbox-plane-preparation.js";
-import { unwiredPlaneSeedFixture } from "../helpers/unwired-plane-seed.js";
+import { unwiredPlaneSeedFixture, unwiredPlaneSeedGeometryDraft } from "../helpers/unwired-plane-seed.js";
+import { boardFeature } from "../helpers/board-feature-fixture.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 
 const fixtures: Awaited<ReturnType<typeof unwiredPlaneSeedFixture>>[] = [];
@@ -114,6 +118,71 @@ describe("qualified unwired V2 schematic seeding", () => {
     await assertClosedPlaneSchematicSeedSourceCurrent(q.source.receipt);
   });
 
+  it.each([[22, 51], [21, 52], [22, 52]])("permits a ready %s x %s board and feature-pose revision while copying only the schematic", async (widthMm, heightMm) => {
+    const f = await fixture(), q = await qualified(f, unwiredPlaneSeedGeometryDraft()), revised = unwiredPlaneSeedGeometryDraft(widthMm, heightMm);
+    Object.assign(revised.boardFeatures[0]!.pose, { xMm: 4, yMm: 4, rotationDeg: 90 });
+    Object.assign(revised.boardFeatures[1]!.pose, { xMm: 18.5, yMm: 47.5, rotationDeg: 270 });
+    const paths = [q.source.preparation.project.schematicPath, q.source.preparation.project.pcbPath, q.source.preparation.project.markerPath,
+      q.source.preparation.project.checkpointPath, q.source.preparation.reportPath, path.join(q.source.allocation.outputDir, "toolbox-design-bundle.json")];
+    const before = await Promise.all(paths.map(file => readFile(file))), bundle = f.compile(revised);
+    const selected = await qualifyClosedPlaneSchematicSeed({ ...q.input, targetBundle: bundle });
+    const target = await f.prepare(path.join(f.root, "geometry-revision"), revised, { schematicSeed: selected.seed });
+    const targetPcb = await readFile(target.project.pcbPath, "utf8");
+    expect(await readFile(target.project.schematicPath, "utf8")).toBe(q.source.bytes);
+    expect(target.project.pcbPath).not.toBe(q.source.preparation.project.pcbPath);
+    expect(targetPcb).toBe(createInterfaceConstructionBoardSeed(target.bundle));
+    expect(parseFreshPcbSource(targetPcb)).toMatchObject({ footprints: [], segments: [], vias: [], zoneNetNames: [] });
+    expect(target.bundle.identity).not.toEqual(q.source.preparation.bundle.identity);
+    expect(target.bundle.contract.scope.board).toMatchObject({ widthMm, heightMm });
+    expect(target.bundle.contract.boardFeatures).toEqual(revised.boardFeatures);
+    // Pure feature generation uses the revised bundle; the destination file
+    // remains its empty baseline until ordinary board materialization.
+    const holes = parseFreshPcbSource(seedFreshBoardFeatures(target.bundle, targetPcb)).footprints;
+    expect(holes.map(hole => [hole.reference, hole.at.x, hole.at.y, hole.rotationDeg])).toEqual([["H1", 4, 4, 90], ["H2", 18.5, 47.5, -90]]);
+    expect(await readFile(target.project.pcbPath, "utf8")).toBe(targetPcb);
+    await target.project.checkpointAfterReport(target.reportPath, "needs_review");
+    const resumed = await resumeKicadToolboxPlaneProject({ outputDir: target.project.outputPath, name: "seeded", dependencies: f.dependencies,
+      expectedKicadCli: f.expectedKicadCli, createKicadCliAdapter: f.createKicadCliAdapter });
+    expect(await readFile(resumed.project.schematicPath, "utf8")).toBe(q.source.bytes);
+    expect(resumed.bundle.contract.scope.board).toMatchObject({ widthMm, heightMm });
+    expect(await Promise.all(paths.map(file => readFile(file)))).toEqual(before);
+    expect(q.source.preparation.bundle.contract.scope.board).toMatchObject({ widthMm: 21, heightMm: 51 });
+    await assertClosedPlaneSchematicSeedSourceCurrent(q.source.receipt);
+  });
+
+  it.each(["reference", "value", "library", "copper-clearance", "edge-clearance", "add", "remove"])("rejects a ready adjacent board-feature %s change", async change => {
+    const f = await fixture(), q = await qualified(f, unwiredPlaneSeedGeometryDraft()), revised = unwiredPlaneSeedGeometryDraft(22, 51);
+    const feature = revised.boardFeatures[0]!;
+    if (change === "reference") feature.reference = "H3";
+    else if (change === "value") feature.value = "Different mounting hole declaration";
+    else if (change === "library") feature.footprintLibId = "MountingHole:Hole_D2.1_Alternate";
+    else if (change === "copper-clearance") feature.minimumHoleToCopperMm = 0.6;
+    else if (change === "edge-clearance") feature.minimumHoleToEdgeMm = 0.6;
+    else if (change === "add") revised.boardFeatures.push(boardFeature("H3", 10, 25));
+    else revised.boardFeatures.pop();
+    const targetBundle = f.compile(revised);
+    await expect(qualifyClosedPlaneSchematicSeed({ ...q.input, targetBundle })).rejects.toThrow(/only PCB/);
+  });
+
+  it.each([false, true])("retains absent-versus-present board-feature inventory; source-present=%s", async sourcePresent => {
+    const f = await fixture(), present = unwiredPlaneSeedGeometryDraft(), { boardFeatures: _features, ...absent } = present;
+    const q = await qualified(f, sourcePresent ? present : absent);
+    await expect(qualifyClosedPlaneSchematicSeed({ ...q.input, targetBundle: f.compile(sourcePresent ? absent : present) })).rejects.toThrow(/only PCB/);
+  });
+
+  it.each(["shape", "layers", "side", "kind", "bore", "feature-edge", "placement-edge", "plane-edge"])("still requires a ready target with valid %s geometry", async change => {
+    const f = await fixture(), revised = unwiredPlaneSeedGeometryDraft(22, 51), feature = revised.boardFeatures[0]!;
+    if (change === "shape") Object.assign(revised.scope.board, { shape: "circle" });
+    else if (change === "layers") revised.scope.board.layerCount = 4;
+    else if (change === "side") Object.assign(feature.pose, { side: "back" });
+    else if (change === "kind") Object.assign(feature, { kind: "plated_mounting_hole" });
+    else if (change === "bore") feature.boreDiameterMm = 2.2;
+    else if (change === "feature-edge") feature.pose.xMm = 0.5;
+    else if (change === "placement-edge") revised.placementConstraints[0]!.regionMm.maxXmm = 23;
+    else revised.planes[0]!.boundary.maxXmm = 23;
+    expect(() => f.compile(revised)).toThrow();
+  });
+
   it.each(["id", "layer", "clearance", "minimum-copper", "thermal", "islands"])("rejects a valid adjacent plane %s revision", async change => {
     const f = await fixture(), q = await qualified(f), revised = structuredClone(q.draft), p = revised.planes[0]!;
     if (change === "id") {
@@ -154,13 +223,12 @@ describe("qualified unwired V2 schematic seeding", () => {
     expect(() => f.compile(changed)).toThrow();
   });
 
-  it.each(["value", "role", "voltage", "current", "board", "plane"])("rejects adjacent %s changes while permitting original prompt metadata", async change => {
+  it.each(["value", "role", "voltage", "current", "plane"])("rejects adjacent %s changes while permitting original prompt metadata", async change => {
     const f = await fixture(), q = await qualified(f), draft = changedDraft();
     if (change === "value") draft.components[0]!.value = "changed";
     else if (change === "role") draft.nets[0]!.role = "power";
     else if (change === "voltage") draft.nets[0]!.electrical.voltage = { minimumV: 3.2, nominalV: 3.2, maximumV: 3.2 };
     else if (change === "current") draft.nets[0]!.electrical.current.peakA = 0.002;
-    else if (change === "board") draft.scope.board.widthMm += 1;
     else draft.planes[0]!.islandPolicy.minimumAreaMm2 = 0.1;
     await expect(qualifyClosedPlaneSchematicSeed({ ...q.input, targetBundle: f.compile(draft) })).rejects.toThrow(/only PCB/);
     await expect(qualifyClosedPlaneSchematicSeed({ ...q.input, targetBundle: f.compile(q.draft, "Updated placement rationale") })).resolves.toHaveProperty("seed");

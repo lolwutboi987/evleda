@@ -20,9 +20,9 @@ function fixture(options: { count?: number; separated?: boolean; blocker?: Block
   const points = components.flatMap((component, index) => component.reference === "U1" ? [
     { reference: "U1", pin: "1", x: 50.8, y: 50.8, angleDeg: 180 as FreshSchematicCardinalAngle, net: "GPIO23_SMPS_PS" },
     // An intervening NC is deliberately present in partition order.
-    { reference: "U1", pin: "2", x: blocker === "pin" ? 90.17 : 45.72, y: blocker === "pin" ? 50.8 : 40.64, angleDeg: 180 as FreshSchematicCardinalAngle, net: null },
+    { reference: "U1", pin: "2", x: blocker === "pin" ? 99.06 : 45.72, y: blocker === "pin" ? 50.8 : 40.64, angleDeg: 180 as FreshSchematicCardinalAngle, net: null },
     { reference: "U1", pin: "3", x: 50.8, y: separated ? 63.5 : 53.34, angleDeg: 180 as FreshSchematicCardinalAngle, net: "GPIO24_VBUS_SENSE" },
-  ] : component.reference === "A1" ? [{ reference: "A1", pin: "1", x: blocker === "planned-label" ? 96.52 : 90.17,
+  ] : component.reference === "A1" ? [{ reference: "A1", pin: "1", x: blocker === "planned-label" ? 106.68 : 99.06,
     y: blocker === "planned-label" ? 50.8 : 48.26, angleDeg: (blocker === "planned-label" ? 0 : 90) as FreshSchematicCardinalAngle,
     net: blocker === "planned-label" ? "N" : "CROSSING" }]
     : [{ reference: component.reference, pin: "1", x: round(20.32 + index * 7.62), y: 80.01, angleDeg: 180 as FreshSchematicCardinalAngle, net: null }]);
@@ -51,16 +51,18 @@ function fixture(options: { count?: number; separated?: boolean; blocker?: Block
   boxes.push(
     // Ink above the first row forces its greedy label out to distance 20.32.
     { reference: "@first-row-ink", nativeText: { coveringLabel: null }, minX: 50.9, maxX: 67, minY: 49.5, maxY: 49.7 },
+    // Full native label frames extend farther than the old 0.66 estimate; the
+    // slot is widened accordingly, preserving the need for the previous retry.
     // Ink below the second row permits its shortest label only. Its wire is clear.
-    { reference: "@second-row-ink", nativeText: { coveringLabel: null }, minX: 72, maxX: blocker === "planned-wire" ? 88 : 99, minY: separated ? 64.5 : 54.3, maxY: separated ? 64.7 : 54.5 },
+    { reference: "@second-row-ink", nativeText: { coveringLabel: null }, minX: 78, maxX: blocker === "planned-wire" ? 88 : 99, minY: separated ? 64.5 : 54.3, maxY: separated ? 64.7 : 54.5 },
   );
-  if (blocker === "planned-wire") boxes.push({ reference: "@vertical-label-ink", nativeText: { coveringLabel: null }, minX: 91, maxX: 91.2, minY: 52.5, maxY: 54.5 });
-  const obstruction: FreshTerminalLabelObstacle = { reference: "@intrusion", minX: 90, maxX: 90.2, minY: 50.7, maxY: 50.9,
+  if (blocker === "planned-wire") boxes.push({ reference: "@vertical-label-ink", nativeText: { coveringLabel: null }, minX: 100, maxX: 100.2, minY: 52.5, maxY: 54.5 });
+  const obstruction: FreshTerminalLabelObstacle = { reference: "@intrusion", minX: 99, maxX: 99.2, minY: 50.7, maxY: 50.9,
     ...(blocker === "native-glyph" ? { nativeText: { coveringLabel: null } } : {}) };
   if (blocker === "native-glyph" || blocker === "body") boxes.push(obstruction);
-  if (blocker === "label-envelope") boxes.push({ reference: "@label-ink", nativeText: { coveringLabel: null }, minX: 90, maxX: 90.2, minY: 51, maxY: 51.2 });
+  if (blocker === "label-envelope") boxes.push({ reference: "@label-ink", nativeText: { coveringLabel: null }, minX: 99, maxX: 99.2, minY: 51, maxY: 51.2 });
   const input: Input = { contract, sourceIdentity, partition: partition.value, pins, boxes,
-    sheet: { minX: 15.24, minY: 15.24, maxX: blocker === "sheet" ? 90 : 99.06, maxY: 100.33 },
+    sheet: { minX: 15.24, minY: 15.24, maxX: blocker === "sheet" ? 99.06 : 109.22, maxY: 100.33 },
     ...(blocker === "source-body" ? { sourceBodyBoxes: [obstruction] } : {}) };
   return { input, run: (budget = new FreshSchematicWorkBudget()) => planFreshTerminalGlobalLabels(input, budget) };
 }
@@ -71,7 +73,7 @@ describe("bounded previous functional terminal retry (synthetic, no native proof
     const result = f.run(budget);
     expect(result.issues).toEqual([]);
     expect(result.labels.map(label => [label.endpointId, label.at.x, label.at.y, label.fontMm])).toEqual([
-      ["U1:1", 76.2, 50.8, 1.524], ["U1:3", 52.07, 53.34, 1.524],
+      ["U1:1", 81.28, 50.8, 1.524], ["U1:3", 52.07, 53.34, 1.524],
     ]);
     expect(result.wires.map(wire => wire.edgeEndpoints)).toEqual([["U1:1"], ["U1:3"]]);
     expect(result.routes).toEqual(["GPIO23_SMPS_PS:U1:1", "GPIO24_VBUS_SENSE:U1:3"]);

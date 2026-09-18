@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "evleda.doc10-schematic-cardinal-runtime.v1",
+  "predecessor": "DOC9",
+  "sourceManifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc9.json",
+    "sha256": "28be8d5a44cf635fbb0e50609b8a0ae72e2051f68b7cd9897e78b676cb036738",
+    "sizeBytes": 1574798
+  },
+  "targetManifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc10.json",
+    "sha256": "46bfefbc9e9b34df3b48941f36ebcbe0f08940f23cfd916437c4c745727ed9de",
+    "sizeBytes": 1574798
+  },
+  "runtimeDelta": [
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "before": {
+        "sha256": "2611e416652e458325110301c206f77ff6080f627efa31a2328bf1aad22c68b1",
+        "sizeBytes": 238532
+      },
+      "after": {
+        "sha256": "8b0d3707777314fdcc5aff3e47f9e9343a89cbf13171c99b8490f1ae8beb24a1",
+        "sizeBytes": 238727
+      },
+      "reason": "KiCad library rotation before sheet Y inversion, independently established by CLI cardinal oracle"
+    },
+    {
+      "path": "environment/Lib/site-packages/kicad_mcp/models/visual_qa.py",
+      "before": {
+        "sha256": "2e225cc287d6297b1e2444bd5bf9b8722aa66aa10736cbd31b82ef88aad31de0",
+        "sizeBytes": 41551
+      },
+      "after": {
+        "sha256": "38090b29e1b5ccc7302c72e82f9960e4c163fc4f9b9be2eaa120abf748354cf7",
+        "sizeBytes": 41563
+      },
+      "reason": "KiCad library rotation before sheet Y inversion, independently established by CLI cardinal oracle"
+    },
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "sha256": "7aa74f5c95bce9300ad069a12f843acbd0b4b8e78383c0edc68d760169bc1270",
+        "sizeBytes": 155
+      },
+      "after": {
+        "sha256": "8f417d8aca78ddacc4b33afcd6930beaf06c8b74054d3968155de4e1dbaea250",
+        "sizeBytes": 156
+      },
+      "reason": "New immutable runtime home relocation only"
+    }
+  ],
+  "sourceRestoreMapping": [
+    {
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/tools/schematic.py",
+      "source": {
+        "sha256": "8b0d3707777314fdcc5aff3e47f9e9343a89cbf13171c99b8490f1ae8beb24a1",
+        "sizeBytes": 238727
+      }
+    },
+    {
+      "runtimeRelativePath": "environment/Lib/site-packages/kicad_mcp/models/visual_qa.py",
+      "source": {
+        "sha256": "38090b29e1b5ccc7302c72e82f9960e4c163fc4f9b9be2eaa120abf748354cf7",
+        "sizeBytes": 41563
+      }
+    }
+  ],
+  "patch": {
+    "path": "schematic-cardinal.patch",
+    "sha256": "f2a4c28b88c9d1dc5d4197908d0f08e1e81e2d57ffe1e82f430578b5ed241290",
+    "sizeBytes": 2151
+  },
+  "qualificationReceipt": {
+    "path": "qualification-receipt.json",
+    "sha256": "f13c753aa20aa19f411f67f0ab23563ba085a41028878d5c7bbd00eace7a5b42",
+    "sizeBytes": 5030
+  },
+  "qualificationReport": {
+    "path": "qualification-report.json",
+    "sha256": "baff5dcd0e29a95f71409cca152d459a6fea05f0a76578a6f59a22d1e9c4cc05",
+    "sizeBytes": 8105
+  },
+  "nativeEvidenceTransferred": false,
+  "qualificationScope": "Registered public read-tool bodies, exact aliases, graph endpoint associations and visual geometry against an independent native CLI cardinal oracle. No GUI, IPC or project-import lifecycle acceptance is implied."
+}

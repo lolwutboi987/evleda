@@ -1,8 +1,8 @@
 # Schematic revisions and contract-derived native rules
 
-This page describes the source and public schemas frozen in
-`integration-doc9-build-12`. Use the tools and schemas advertised by the active
-workspace; these additions do not change an existing project's bound contract.
+Protocol and evidence snapshot: 2026-09-18. Use the tools and schemas advertised
+by the active workspace. New source capabilities do not change an existing
+project's bound contract, runtime or evidence.
 
 ## Move existing schematic fields
 
@@ -89,6 +89,51 @@ file consumption through export/render checks, not a GUI schematic reload. On
 failure, the host restores only its owned preimage; unknown source bytes or a
 replaced/shared file are preserved and further edits require session recovery.
 
+## Place existing PCB footprints in one batch
+
+`fresh_set_footprint_poses` accepts the closed object
+`{placements: [{reference, x_mm, y_mm, rotation_deg}]}`. Supply 1–64 unique
+existing electrical component references. All four fields are required;
+`rotation_deg` is 0, 90, 180 or 270. Coordinates must be finite, within ±2000 mm,
+and exact integer nanometres. Each target must also satisfy its bound front-side
+placement region and allowed rotations. Board-only mounting features retain
+their immutable contract poses and cannot be selected through this list.
+
+The host validates the whole batch, complete physical library/pad inventory and
+matching saved/live preimage before writing. It composes the existing preserving
+footprint transforms in memory, retaining UUIDs, qualified library IDs, values,
+pad properties, models, board features and unrelated source. A changed batch
+uses one owned source staging and one native reload, followed by the mandatory
+native save and full readback. An unchanged batch skips reload but retains its
+save/readback requirement. Public toolbox callers receive the completed save
+workflow; direct harness callers must finish the pending save before another
+operation. Failed or unknown state follows the existing guarded recovery path.
+
+This operation applies reviewed poses; it does not solve placement or establish
+clearance. Previous plane-fill evidence becomes stale after placement changes.
+See the [batch schema and planner](../src/harness/fresh-footprint-pose-batch.ts).
+
+## Schematic pin geometry and label frames
+
+Schematic library coordinates have upward-positive Y. Rotate them in library
+space, then invert Y for the sheet: offsets are `(x,-y)`, `(-y,-x)`, `(-x,y)` and
+`(y,x)` at 0, 90, 180 and 270 degrees. The pin's inward angle is its local angle
+plus the symbol rotation, modulo 360. PCB transforms are separate.
+
+Frozen DOC9 applied the quarter turns in the opposite order in pin lookup,
+aliases, connectivity and visual geometry. Corrected host geometry rejects those
+old observations. Independent KiCad CLI spatial-label netlists and SVG pin
+strokes qualify all four rotations, including actual Q1 and crystal pin stacks;
+agreement between source-derived helpers alone is insufficient. See
+[DOC10 qualification and its current limits](../sidecars/doc10-runtime.md).
+
+Terminal label planning uses the full native frame and stroke envelope around
+the label anchor. It preserves the frame behind the connection port and admits
+only the intended straight incoming lead at that port. Other wire/label/body
+collisions still reject; legacy tree branches stop before the port rather than
+crossing its frame. Cardinal label justification is explicit, and current native
+glyph evidence remains separate from approximate planning bounds.
+
 ## Seed a new V2 candidate from a healthy close
 
 When advertised, `evleda_create_project` accepts optional `sourceProjectId`:
@@ -126,7 +171,9 @@ target draft changes are deliberately limited:
 | --- | --- |
 | PCB `placementConstraints` | Component references, values, symbol/footprint IDs and pin inventory |
 | `netClasses` and each net's `netClassId` | Electrical net names, roles and endpoint membership |
-| `routingConstraints`, including hole spacing when admitted | Board geometry/layers, board features and construction/interface requirements |
+| `routingConstraints`, including hole spacing when admitted | Board shape/layers and construction/interface requirements |
+| Board `widthMm` and `heightMm` | Every other board/scope field |
+| Existing board-feature pose `xMm`, `yMm`, `rotationDeg` | Feature inventory, reference, kind, library ID, value, side, bore diameter and clearance requirements |
 | `nativeRuleMode` | Source selection policy and symbol/footprint library authority |
 | Plane rectangle `minXmm`, `maxXmm`, `minYmm`, `maxYmm` | Plane identity, net, layer, boundary kind, fill/thermal/island settings and every other plane field |
 | Original-prompt metadata | External/derived power declarations and all other draft/contract content |
@@ -136,6 +183,14 @@ does not waive them. The host copies exact schematic bytes, records immutable
 source/checkpoint/bundle/profile lineage, and generates the target PCB, project
 settings and canonical rules from the new bundle. It does not copy authored
 copper or overwrite the source project.
+
+Dimension and mechanical-pose revisions retain target bounds, bore separation,
+edge-clearance and approved-footprint checks. They do not imply that connector
+pitch or enclosure compatibility is preserved; verify those design relationships
+explicitly. Mechanical feature UUIDs are generated from the new bundle when the
+new PCB is synchronized. There are no source feature UUIDs to migrate from the
+required empty PCB. The 21-to-22 mm lifecycle has software coverage; its actual
+native RP2350 revision remains pending.
 
 Submit the revised complete draft normally, close the source while retaining the
 workspace connection, then create with the target `draftId` and source ID. Retry
@@ -188,38 +243,65 @@ submit a new candidate and use the eligible seed path above when its strict
 conditions hold. Numerical agreement and native DRC do not establish fabrication
 capability, ampacity, impedance, thermal performance or whole-board completion.
 
+## Host-only DOC9 to DOC10 unwired import
+
+The separately qualified runtime transition uses a trusted administration path,
+[not a model-callable tool](../src/mcp/toolbox-runtime-source-import.ts). It
+requires a normally closed source with current allocation, lease, checkpoint,
+report, bundle and library custody; the exact supported unwired schematic; and
+an authenticated empty PCB baseline. Old and new profiles/runtime closures must
+match the narrow published correction. This transition retains the same bundle
+and circuit; ordinary same-profile design revision remains the separate seed
+path above.
+
+The importer copies source bytes into a distinct allocation and records pinned
+lineage with `nativeEvidenceTransferred: false`. The target must complete its own
+normal new-project open, save, checkpoint and close before success is recorded.
+It retains no DOC9 pin/graph/readability/acceptance claims and does not repair or
+overwrite the source project. Provider paths, copied markers or replacement
+receipts cannot establish this host authority.
+
 ## Qualification status at this documentation snapshot
 
-The build12 implementation includes reviewed source-preservation, source
-restriction, native-equivalence, save/rollback and schema regression coverage.
-The actual native07 session has saved the two header poses with unchanged field
-tokens, then saved the seven-field update. Native netlists remained equivalent,
-all 90 unwired terminal groups were retained, and five non-schematic sources
-remained byte-identical. The resulting 12-symbol schematic was exported and
-visually reviewed: header poses and Q1 fields are correct. U2 at X=72.39 mm is
-still provisional; the planned X=69.85 mm revision precedes final connectivity.
+The earlier same-profile native07→native08 unwired seed and normal close/reopen
+passed; evidence remains in `destination-verification/rp2350-native-seed-01`
+under the transfer root. Native08 has since reached **62 unwired symbols with an
+empty PCB**. It has no completed connectivity, placement, routing or acceptance
+claim.
 
-Evidence is retained in
-`destination-verification/rp2350-schematic-field-pose-native-01` under the
-transfer root. The resulting schematic is 46,513 bytes with SHA-256
-`78dcbcd386be29976380459e8ce0f00d9c01233d56145089d8f047ce6f0e97dc`.
-Actual seeded-project creation and its normal close/edit-reopen cycle also passed.
-Candidate08 (`2d2cd5b0-5fda-488d-8424-fe0a4e708c8a`) retained that exact schematic,
-including UUIDs, from candidate07. The original six sources remained unchanged.
-The new project received its own contract-derived native settings and rules,
-including 0.50 mm copper-edge and hole spacing, 0.15 mm QSPI track allowance,
-and via-only 0.60 mm diameter / 0.25 mm drill / 0.15 mm annular minima. All six
-new source files remained byte-identical through normal close and edit reopen.
-The bound context matched the compiled candidate before further authoring.
-Evidence is retained in `destination-verification/rp2350-native-seed-01` under
-the transfer root. This proves the unwired revision lifecycle; no full-sheet
-clearance, completed routing, accepted plane, whole-board clearance or
-manufacturing claim follows from it.
+The first DOC10 `-01` administrative import failed profile admission before
+allocation because its relocated launcher retained DOC9's argument hash. The
+original evidence is preserved. Corrected profile `-02` passes the real native
+and design readers; its runtime geometry qualification remains scoped to the
+recorded fixtures. An independent full-design diagnostic also matches all 262
+pin identities at 248 terminal anchors against a native CLI netlist. These facts
+establish scoped geometry evidence; full-sheet label readability remains separate.
+
+**Actual DOC9→DOC10 unwired import passed on `integration-doc10-build-02`.**
+The driver exited 0 at 2026-09-18 09:14:28 UTC. New target
+`3fa025b9-b9fe-4c74-9773-a6d8e15416b3` completed its normal native save,
+checkpoint and close with the exact 62-symbol source. All ten pinned source
+artifacts stayed unchanged, seven target artifacts matched custody, and source/target
+leases, unsafe markers and locks were absent at import completion.
+`nativeEvidenceTransferred` remains `false`.
+
+The import retained the exact **21 mm bundle and empty PCB**. The 22 mm revision
+has software-test coverage only. Public resume on build03/session13 observed
+62 symbols, 248 unwired groups and corrected Q1 pin positions, then closed
+normally. All seven source/bundle artifacts remained byte-identical and the
+lease was released; the operator client confirmed an idle workspace and exited.
+Evidence is in
+`destination-verification/rp2350-doc10-import-02/driver-exit.json` and
+`post-import-verification.json`, with custody SHA-256
+`d84e1242b52da82f74a21b405a952cccfd2271dd97ccabdc444c730564461da8`.
+The same directory's `public-reopen-read-verification.json` and
+`public-reopen-close-verification.json` record the separate public lifecycle.
 
 Implementation references: [pose helper](../src/harness/fresh-schematic-symbol-pose.ts),
 [field helper](../src/harness/fresh-schematic-field-position.ts),
 [owned lifecycle](../src/harness/kicad-tools.ts),
 [workspace seed qualification](../src/mcp/toolbox-schematic-seed.ts),
+[runtime source import](../src/mcp/toolbox-runtime-source-import.ts),
 [seed source envelope](../src/harness/fresh-plane-schematic-seed.ts),
 [V2 schema](../src/harness/pcb-design-plane-contract.ts), and
 [numeric rule projection](../src/harness/pcb-native-numeric-rules.ts).

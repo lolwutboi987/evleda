@@ -1,5 +1,33 @@
 # Current status and roadmap
 
+Latest continuation, 18 September 2026: **all 62 RP2350 component instances are
+saved in a normally closed native schematic; connectivity and PCB layout remain
+unfinished.** The PCB is still its empty baseline. RP2350 work is maintained on
+`codex/rp2350-pico`. This source snapshot adds corrected schematic geometry and
+label layout, preserving footprint batches, scoped runtime migration and
+unwired schematic revisions with bounded board-dimension/mechanical-pose changes.
+
+Independent KiCad exports exposed incorrect quarter-turn pin transforms in the
+old host/runtime and incorrect vertical global-label framing. Corrected source
+and a separate DOC10 runtime now agree with the native geometry fixtures.
+DOC10 profile `-01` failed native-profile admission because its relocated
+launcher retained the old argument hash; preserved `-02` corrects that derived
+hash and passes both real profile readers. The new DOC10 project now completes
+native import, save, checkpoint and normal close, with the exact 62-symbol
+schematic retained and all ten pinned source artifacts unchanged. Public reopen
+also preserves all seven target source/bundle artifacts, observes the corrected
+pins and completes normal close. The existing DOC9 project and first failed,
+unallocated import are preserved; no old native acceptance evidence is transferred.
+
+The physical proposal keeps straight/45-degree copper, actual pad and paste
+geometry, local supply bypasses, and explicit return paths. A future uniform
+0.55/0.20 mm via option retains 0.50 mm edge/hole spacing and 0.15 mm minimum
+annular ring. This proposal does not change the current project's 0.60/0.25 mm
+via rules. Partial source-routing screens and targeted native rule controls
+are not a complete-board DRC or electrical acceptance result.
+
+The snapshots below retain their historical scope.
+
 Latest continuation, 17 September 2026: **the reviewed baseline is published to
 `codex/destination-resume`; RP2350 circuit and toolbox progress is on `codex/rp2350-pico`.**
 The 62-part RP2350 candidate now compiles and has U1/J2 observed through public

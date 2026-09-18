@@ -1,0 +1,37 @@
+diff --git "a/..\\destination-verification\\doc10-runtime-qualification-01\\schematic.py.before" "b/..\\destination-verification\\doc10-runtime-qualification-01\\schematic.py.after"
+index 7c3ae04..98dc0ca 100644
+--- "a/..\\destination-verification\\doc10-runtime-qualification-01\\schematic.py.before"
++++ "b/..\\destination-verification\\doc10-runtime-qualification-01\\schematic.py.after"
+@@ -2873,8 +2873,12 @@ def _symbol_library_file(library: str) -> Path | None:
+ 
+ 
+ def rotate_point(x: float, y: float, angle_deg: float) -> tuple[float, float]:
+-    """Rotate a point around the origin."""
+-    radians = math.radians(angle_deg)
++    """Rotate an already Y-inverted library offset into schematic sheet space.
++
++    KiCad applies placement rotation before library-to-sheet Y inversion;
++    callers have already inverted Y, so the remaining rotation is negative.
++    """
++    radians = math.radians(-angle_deg)
+     cos_a = math.cos(radians)
+     sin_a = math.sin(radians)
+     return (round(x * cos_a - y * sin_a, 4), round(x * sin_a + y * cos_a, 4))
+diff --git "a/..\\destination-verification\\doc10-runtime-qualification-01\\visual_qa.py.before" "b/..\\destination-verification\\doc10-runtime-qualification-01\\visual_qa.py.after"
+index e3d090b..43becad 100644
+--- "a/..\\destination-verification\\doc10-runtime-qualification-01\\visual_qa.py.before"
++++ "b/..\\destination-verification\\doc10-runtime-qualification-01\\visual_qa.py.after"
+@@ -162,10 +162,10 @@ def _is_number(token: str) -> bool:
+ def _rotate_local(x: float, y: float, angle_deg: float) -> tuple[float, float]:
+     """Map a symbol-library local point to a placement-relative offset.
+ 
+-    Mirrors ``get_pin_positions``: schematic space inverts the library y axis, so
+-    the relative offset is ``rotate(x, -y, angle)``.
++    KiCad rotates in library space before inverting the Y axis for the sheet.
++    Equivalently, the relative offset is ``rotate(x, -y, -angle)``.
+     """
+-    radians = math.radians(angle_deg)
++    radians = math.radians(-angle_deg)
+     cos_a = math.cos(radians)
+     sin_a = math.sin(radians)
+     ly = -y

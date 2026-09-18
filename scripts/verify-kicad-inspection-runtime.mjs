@@ -34,6 +34,24 @@ const DOC9 = Object.freeze({
   sha256: "543f36faf8747907c4044906b6a24cb48cf43bf399bc8986cd4d2192a748c93e", sizeBytes: 25847,
   patch: "bounded-arc-field-layout.patch", patchSha256: "798c369c022018d4fe88d6c93979995f0aa5c9992193db689b34d23c471b034e", patchBytes: 7159,
 });
+const DOC10 = Object.freeze({
+  provenanceSha256: "01a9f1887849a58605643fc8391793cb7554ce7491189f48731ed8ddb3583c27",
+  predecessorManifestSha256: "28be8d5a44cf635fbb0e50609b8a0ae72e2051f68b7cd9897e78b676cb036738",
+  patchSha256: "f2a4c28b88c9d1dc5d4197908d0f08e1e81e2d57ffe1e82f430578b5ed241290", patchBytes: 2151,
+  receiptSha256: "f13c753aa20aa19f411f67f0ab23563ba085a41028878d5c7bbd00eace7a5b42", receiptBytes: 5030,
+  reportSha256: "baff5dcd0e29a95f71409cca152d459a6fea05f0a76578a6f59a22d1e9c4cc05", reportBytes: 8105,
+  sources: Object.freeze([
+    { path: "environment/Lib/site-packages/kicad_mcp/tools/schematic.py", sha256: "8b0d3707777314fdcc5aff3e47f9e9343a89cbf13171c99b8490f1ae8beb24a1", sizeBytes: 238727 },
+    { path: "environment/Lib/site-packages/kicad_mcp/models/visual_qa.py", sha256: "38090b29e1b5ccc7302c72e82f9960e4c163fc4f9b9be2eaa120abf748354cf7", sizeBytes: 41563 },
+  ]),
+});
+const DOC10_ADMISSION_02 = Object.freeze({
+  provenanceSha256: "e0e6906e4d4aba182b2f513f598a353b7e703750d3e5e9ffd638181f763cf3a8",
+  receiptSha256: "87b10d6a85a6c8dbd8072be608be015b5ef0df92e87a2f911c500f9f1ac6998d", receiptBytes: 5099,
+  reportSha256: "5c333161933082327b0ea62ec0a46f5b26374b7751086170d9857056870b78af", reportBytes: 12366,
+  admissionSha256: "3273370050019aef03d37e6d33e9a6ed2f9f3834153c819266c8e72d738589dd", admissionBytes: 9122,
+  allowedProfileDelta: Object.freeze(["kicadMcpRuntime.runtimeBundle", "kicadMcpRuntime.processTreeSupervision.terminator.path", "kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentsSha256"]),
+});
 export const originalRuntimeRoot = String.raw`D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc5`;
 export const sha256 = bytes => createHash("sha256").update(bytes).digest("hex");
 export const pyvenvText = root => `home = ${path.join(root, "python")}\nimplementation = CPython\nuv = 0.11.31\nversion_info = 3.13.12\ninclude-system-site-packages = false\nrelocatable = true\n`;
@@ -207,6 +225,92 @@ async function doc9Reference(doc7) {
     files: doc7.files.map(file => file.path === DOC9.path ? after : file) };
 }
 
+/** Exactly the independently reviewed cardinal-coordinate correction on DOC9.
+ * Published custody paths are data only; no provenance-selected code executes. */
+async function doc10Reference(doc9) {
+  const directory = path.join(repositoryRoot, "sidecars", "patches", "doc10");
+  const bytes = await readFile(path.join(directory, "provenance.json"));
+  assert.equal(sha256(bytes), DOC10.provenanceSha256, "DOC10 provenance differs from its published pin");
+  const provenance = JSON.parse(bytes);
+  assert.equal(provenance.schemaVersion, "evleda.doc10-schematic-cardinal-runtime.v1");
+  assert.equal(provenance.predecessor, "DOC9");
+  assert.equal(provenance.sourceManifest.sha256, DOC10.predecessorManifestSha256, "DOC10 must derive from frozen DOC9");
+  assert.equal(provenance.nativeEvidenceTransferred, false);
+  assert.deepEqual(provenance.runtimeDelta.map(delta => delta.path), [...DOC10.sources.map(source => source.path), "environment/pyvenv.cfg"], "DOC10 contains an unapproved runtime delta");
+  assert.deepEqual(provenance.sourceRestoreMapping, DOC10.sources.map(source => ({ runtimeRelativePath: source.path,
+    source: { sha256: source.sha256, sizeBytes: source.sizeBytes } })), "DOC10 source restoration exceeds its two qualified Python leaves");
+  const replacements = new Map(); let totalBytes = doc9.totalBytes;
+  for (const [index, source] of DOC10.sources.entries()) {
+    const before = doc9.files.find(file => file.path === source.path);
+    assert.ok(before, "DOC10 source has no published DOC9 predecessor");
+    assert.deepEqual(provenance.runtimeDelta[index].before, { sha256: before.sha256, sizeBytes: before.sizeBytes }, "DOC10 source delta differs from DOC9");
+    assert.deepEqual(provenance.runtimeDelta[index].after, { sha256: source.sha256, sizeBytes: source.sizeBytes });
+    const restored = await readFile(path.join(directory, ...source.path.replace(/^environment\/Lib\/site-packages\//u, "").split("/")));
+    assert.equal(sha256(restored), source.sha256, "DOC10 source differs from its published pin");
+    assert.equal(restored.length, source.sizeBytes);
+    replacements.set(source.path, { ...before, sha256: source.sha256, sizeBytes: source.sizeBytes });
+    totalBytes += source.sizeBytes - before.sizeBytes;
+  }
+  const publication = [
+    ["schematic-cardinal.patch", DOC10.patchSha256, DOC10.patchBytes, provenance.patch],
+    ["qualification-receipt.json", DOC10.receiptSha256, DOC10.receiptBytes, provenance.qualificationReceipt],
+    ["qualification-report.json", DOC10.reportSha256, DOC10.reportBytes, provenance.qualificationReport],
+  ];
+  for (const [file, expectedSha256, expectedBytes, pin] of publication) {
+    assert.deepEqual(pin, { path: file, sha256: expectedSha256, sizeBytes: expectedBytes });
+    const published = await readFile(path.join(directory, file));
+    assert.equal(sha256(published), expectedSha256, "DOC10 qualification/patch differs from its published pin");
+    assert.equal(published.length, expectedBytes);
+  }
+  await doc10ProfileAdmissionPublication(doc9, provenance);
+  return { ...doc9, totalBytes, files: doc9.files.map(file => replacements.get(file.path) ?? file) };
+}
+
+/** Revision02 adds real profile-reader admission; it does not change runtime
+ * geometry or claim that the failed -01 profile was ever admitted. */
+async function doc10ProfileAdmissionPublication(reference, geometryProvenance) {
+  const directory = path.join(repositoryRoot, "sidecars", "patches", "doc10", "profile-admission-02");
+  const bytes = await readFile(path.join(directory, "provenance.json"));
+  assert.equal(sha256(bytes), DOC10_ADMISSION_02.provenanceSha256, "DOC10 admission provenance differs from its published pin");
+  const provenance = JSON.parse(bytes), artifacts = [
+    { path: "qualification-receipt.json", sha256: DOC10_ADMISSION_02.receiptSha256, sizeBytes: DOC10_ADMISSION_02.receiptBytes },
+    { path: "qualification-report.json", sha256: DOC10_ADMISSION_02.reportSha256, sizeBytes: DOC10_ADMISSION_02.reportBytes },
+    { path: "profile-admission.json", sha256: DOC10_ADMISSION_02.admissionSha256, sizeBytes: DOC10_ADMISSION_02.admissionBytes },
+  ];
+  assert.equal(provenance.schemaVersion, "evleda.doc10-profile-admission-publication.v1");
+  assert.equal(provenance.supersedesQualificationReceiptSha256, DOC10.receiptSha256);
+  assert.equal(provenance.runtimeUnchanged, true); assert.equal(provenance.nativeImportQualified, false);
+  assert.deepEqual(provenance.allowedProfileDelta, DOC10_ADMISSION_02.allowedProfileDelta);
+  assert.deepEqual(provenance.artifacts, artifacts);
+  const documents = [];
+  for (const artifact of artifacts) {
+    const source = await readFile(path.join(directory, artifact.path));
+    assert.equal(sha256(source), artifact.sha256, "DOC10 admission artifact differs from its published pin"); assert.equal(source.length, artifact.sizeBytes);
+    documents.push(JSON.parse(source));
+  }
+  const [receipt, report, admission] = documents;
+  assert.equal(receipt.schemaVersion, "evleda.schematic-cardinal-runtime-qualification.v1");
+  assert.deepEqual(receipt.allowedRuntimeChanges, geometryProvenance.runtimeDelta);
+  assert.deepEqual(receipt.profilePolicyComparison, { allowedPaths: DOC10_ADMISSION_02.allowedProfileDelta, othersEqual: true });
+  assert.equal(receipt.noNativeAcceptanceTransferred, true);
+  assert.equal(report.profileAdmission.passed, true); assert.equal(report.profileAdmission.evidence.sha256, DOC10_ADMISSION_02.admissionSha256);
+  assert.equal(report.supersedes.receipt.sha256, DOC10.receiptSha256);
+  assert.equal(admission.schemaVersion, "evleda.doc10-profile-admission.v1");
+  assert.equal(admission.realReadersUsed, true); assert.equal(admission.dependencySeamsInjected, false);
+  assert.equal(admission.storeCreated, false); assert.equal(admission.nativeImportRetried, false);
+  assert.equal(admission.onlyChangedFromPreviousProfile, DOC10_ADMISSION_02.allowedProfileDelta[2]);
+  for (const [name, profile, runtime] of [["DOC9", receipt.sourceProfile, receipt.sourceRuntime], ["DOC10-02", receipt.targetProfile, receipt.targetRuntime]]) {
+    const row = admission.results.find(row => row.name === name);
+    assert.deepEqual(row.profile, profile); assert.equal(row.readKicadNativeProfile.passed, true); assert.equal(row.loadKicadToolboxFreshProfile.passed, true);
+    const launch = row.readKicadNativeProfile.pythonLaunch, arguments_ = ["-I", "-s", "-E", "-B", path.win32.resolve(runtime.root, reference.entrypoint.relativePath)];
+    assert.deepEqual(launch.flags, arguments_.slice(0, 4)); assert.equal(launch.argumentCount, 5); assert.equal(launch.bytecodeWrites, "disabled");
+    assert.equal(launch.argumentsSha256, sha256(`evleda.kicad-mcp-arguments.v1\0${JSON.stringify(arguments_)}`));
+    if (name === "DOC10-02") assert.deepEqual(admission.derivation.arguments, arguments_);
+  }
+  const rejected = admission.results.find(row => row.name === "DOC10-01");
+  assert.equal(rejected.readKicadNativeProfile.passed, false); assert.equal(rejected.loadKicadToolboxFreshProfile.passed, true);
+}
+
 export function runManifestHelper(mode, root, manifest, finalRoot = root) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [path.join(repositoryRoot, "scripts", "build-kicad-inspection-runtime-manifest.mjs"), mode, root, manifest, finalRoot], {
@@ -229,25 +333,33 @@ export async function verifyRuntime(paths) {
   const isDoc8 = pcb?.sha256 === DOC8.sha256 && pcb?.sizeBytes === DOC8.sizeBytes;
   const isDoc6 = isDoc8 || pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
   const graph = candidate.files?.find(file => file.path === DOC7.sources[0].path);
-  const isDoc7 = isDoc6 && graph?.sha256 === DOC7.sources[0].sha256 && graph?.sizeBytes === DOC7.sources[0].sizeBytes;
+  const doc10Matches = DOC10.sources.map(source => candidate.files?.some(file => file.path === source.path && file.sha256 === source.sha256 && file.sizeBytes === source.sizeBytes) === true);
+  const isDoc10 = doc10Matches.every(Boolean);
+  const isDoc7 = isDoc6 && (isDoc10 || graph?.sha256 === DOC7.sources[0].sha256 && graph?.sizeBytes === DOC7.sources[0].sizeBytes);
   const fieldLayout = candidate.files?.find(file => file.path === DOC9.path);
   const isDoc9 = fieldLayout?.sha256 === DOC9.sha256 && fieldLayout?.sizeBytes === DOC9.sizeBytes;
+  assert.ok(!doc10Matches.some(Boolean) || (isDoc10 && isDoc9 && isDoc6 && !isDoc8), "DOC10 requires both qualified cardinal leaves on the complete DOC9/DOC7 lineage; DOC8 cannot be its predecessor");
   assert.ok(!isDoc9 || (isDoc7 && !isDoc8), "DOC9 requires the DOC7 graph and PCB behavior; DOC8 cannot be its predecessor");
   const doc6 = isDoc6 ? await doc6Reference(original) : original;
   const doc7 = isDoc7 ? await doc7Reference(doc6) : doc6;
-  const reference = isDoc9 ? await doc9Reference(doc7) : isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
+  const doc9 = isDoc9 ? await doc9Reference(doc7) : isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
+  const reference = isDoc10 ? await doc10Reference(doc9) : doc9;
   assertDoc5Relocation(reference, candidate, paths.root);
   const result = await runManifestHelper("verify", paths.root, paths.manifest);
-  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
+  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
     doc5SourcePinsVerified: true, ...(isDoc6 ? { doc6SourcePinsVerified: true, doc6ProvenanceSha256: DOC6.provenanceSha256 } : {}),
     ...(isDoc7 ? { doc7SourcePinsVerified: true, doc7ProvenanceSha256: DOC7.provenanceSha256 } : {}),
     ...(isDoc8 ? { doc8SourcePinsVerified: true, doc8ProvenanceSha256: DOC8.provenanceSha256 } : {}),
     ...(isDoc9 ? { doc9SourcePinsVerified: true, doc9ProvenanceSha256: DOC9.provenanceSha256 } : {}),
+    ...(isDoc10 ? { doc10SourcePinsVerified: true, doc10ProvenanceSha256: DOC10.provenanceSha256,
+      doc10GeometryQualificationReceiptSha256: DOC10.receiptSha256, doc10QualificationReceiptSha256: DOC10_ADMISSION_02.receiptSha256,
+      doc10ProfileAdmissionPublicationSha256: DOC10_ADMISSION_02.provenanceSha256 } : {}),
     allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only",
       ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : []),
       ...(isDoc7 ? DOC7.sources.map(source => `${source.path}: published DOC7 power-flag graph overlay only`) : []),
       ...(isDoc8 ? [`${DOC8.path}: published DOC8 singleton no-connect transfer overlay only`] : []),
-      ...(isDoc9 ? [`${DOC9.path}: published DOC9 bounded ARC field-layout overlay only`] : [])] };
+      ...(isDoc9 ? [`${DOC9.path}: published DOC9 bounded ARC field-layout overlay only`] : []),
+      ...(isDoc10 ? DOC10.sources.map(source => `${source.path}: published DOC10 schematic-cardinal correction only`) : [])] };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

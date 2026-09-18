@@ -62,9 +62,9 @@ function adapterInput(libraryId: string, rotation = 0) {
     // These are not native observations and cannot authorize a live mutation.
     livePins: fixturePins.map((pin) => {
       const x = pin.at.xMm; const y = pin.at.yMm;
-      const offset = rotation === 0 ? [x, -y] : rotation === 90 ? [y, x] : rotation === 180 ? [-x, y] : [-y, -x];
+      const offset = rotation === 0 ? [x, -y] : rotation === 90 ? [-y, -x] : rotation === 180 ? [-x, y] : [y, x];
       return { reference: "U1", pin: pin.number, at: { xMm: 101.6 + offset[0]!, yMm: 101.6 + offset[1]! },
-        angleDeg: ((pin.angleDeg - rotation + 360) % 360) as FreshSchematicCardinalAngle };
+        angleDeg: ((pin.angleDeg + rotation) % 360) as FreshSchematicCardinalAngle };
     }) };
 }
 
@@ -111,7 +111,7 @@ describe("bounded exact-source schematic terminal adapter", () => {
       expect(body.coverage).toMatchObject({ renderedStrokeVerified: false, strokeStyleIdentity: null });
       const localCorners = index === 0 ? [[-21.845, -42.165], [21.845, 42.165]] : [[-21.845, -54.865], [21.845, 52.325]];
       const transformed = localCorners.map(([x, y]) => rotation === 0 ? [101.6 + x!, 101.6 - y!]
-        : rotation === 90 ? [101.6 + y!, 101.6 + x!] : rotation === 180 ? [101.6 - x!, 101.6 + y!] : [101.6 - y!, 101.6 - x!]);
+        : rotation === 90 ? [101.6 - y!, 101.6 - x!] : rotation === 180 ? [101.6 - x!, 101.6 + y!] : [101.6 + y!, 101.6 + x!]);
       expect(body.bounds!.minXmm).toBeCloseTo(Math.min(...transformed.map((point) => point[0]!)), 8);
       expect(body.bounds!.maxXmm).toBeCloseTo(Math.max(...transformed.map((point) => point[0]!)), 8);
       expect(body.bounds!.minYmm).toBeCloseTo(Math.min(...transformed.map((point) => point[1]!)), 8);

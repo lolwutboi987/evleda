@@ -70,7 +70,26 @@ function assertCompleteGeometry(c: FreshConnectivityContract, pins: Map<string, 
       const enters = wire.x === wire.endX
         ? wire.x > b.minX && wire.x < b.maxX && Math.max(Math.min(wire.y, wire.endY), b.minY) < Math.min(Math.max(wire.y, wire.endY), b.maxY)
         : wire.y > b.minY && wire.y < b.maxY && Math.max(Math.min(wire.x, wire.endX), b.minX) < Math.min(Math.max(wire.x, wire.endX), b.maxX);
-      expect(enters).toBe(false);
+      if (enters) {
+        // The full stroke extends behind its connection anchor. The sole
+        // intended intersection is the explicit one-grid incoming label lead.
+        expect(wire.net).toBe(label.name);
+        expect(wire.edgeEndpoints).toContain(label.endpointId);
+        const portFirst = wire.x === label.at.x && wire.y === label.at.y;
+        const portLast = wire.endX === label.at.x && wire.endY === label.at.y;
+        expect(portFirst || portLast).toBe(true);
+        const other = portFirst ? { x: wire.endX, y: wire.endY } : wire;
+        expect(Math.abs(other.x - label.at.x) + Math.abs(other.y - label.at.y)).toBeCloseTo(1.27, 8);
+        if (label.rotationDeg === 0 || label.rotationDeg === 180) {
+          expect(other.y).toBe(label.at.y);
+          expect((other.x - label.at.x) * (label.rotationDeg === 0 ? -1 : 1)).toBeGreaterThan(0);
+          expect(Math.min(Math.max(wire.x, wire.endX), b.maxX) - Math.max(Math.min(wire.x, wire.endX), b.minX)).toBeLessThanOrEqual(0.07631);
+        } else {
+          expect(other.x).toBe(label.at.x);
+          expect((other.y - label.at.y) * (label.rotationDeg === 90 ? 1 : -1)).toBeGreaterThan(0);
+          expect(Math.min(Math.max(wire.y, wire.endY), b.maxY) - Math.max(Math.min(wire.y, wire.endY), b.minY)).toBeLessThanOrEqual(0.07631);
+        }
+      }
     }
     for (const [id, pin] of pins) if (!wire.edgeEndpoints.includes(id)) expect(onSegment(pin, wire)).toBe(false);
   }
@@ -106,11 +125,11 @@ describe("bounded joint schematic label and wire planning", () => {
   it("routes the stock facing three-pin fixture with one passive global terminal and a complete wire tree per net", () => {
     const { pins, boxes } = fixture();
     const original = planFreshGlobalLabelTerminals(contract, pins, boxes);
-    expect(original.labels.find(label => label.name === "DN")!.at).toEqual({ x: 113.03, y: 101.6 });
+    expect(original.labels.find(label => label.name === "DN")!.at).toEqual({ x: 114.3, y: 101.6 });
     const plan = assertCompleteGeometry(contract, pins, boxes);
-    expect(plan.labels.find(label => label.name === "DN")!.at).toEqual({ x: 119.38, y: 101.6 });
-    expect(plan.wireCount).toBe(16);
-    expect(plan.wires.some(wire => wire.net === "DN" && wire.x === 124.46 && wire.endX === 124.46)).toBe(true);
+    expect(plan.labels.find(label => label.name === "DN")!.at).toEqual({ x: 121.92, y: 101.6 });
+    expect(plan.wireCount).toBe(19);
+    expect(plan.wires.some(wire => wire.net === "DN" && wire.x === 127 && wire.endX === 127)).toBe(true);
   });
 
   it.each([[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]])("completes with net order %j,%j,%j", (...order) => {
@@ -124,13 +143,14 @@ describe("bounded joint schematic label and wire planning", () => {
     assertCompleteGeometry(renamed, pins, boxes);
   });
 
-  it("retains the successful legacy label and five-segment outer route exactly", () => {
+  it("retains the legacy five-segment outer route with one straight lead before the native label frame", () => {
     const { pins, boxes } = fixture();
     const single = { ...contract, nets: [contract.nets.find(net => net.name === "DP")!] };
     const plan = inspectFreshConnectivityWirePlan(single, pins, boxes, true);
     expect(plan.issues).toEqual([]);
     expect(plan.labels).toEqual(planFreshGlobalLabelTerminals(single, pins, boxes).labels);
     expect(plan.wires.map(w => [w.x, w.y, w.endX, w.endY])).toEqual([
+      [113.03, 99.06, 114.3, 99.06],
       [106.68, 99.06, 113.03, 99.06], [113.03, 99.06, 113.03, 92.71], [113.03, 92.71, 140.97, 92.71],
       [140.97, 92.71, 140.97, 99.06], [140.97, 99.06, 147.32, 99.06],
     ]);
@@ -232,7 +252,7 @@ describe("bounded joint schematic label and wire planning", () => {
         verifyPersistedMutation: async () => true });
       const apply = JSON.parse((await bridge.execute({ id: "apply", name: "fresh_apply_contract_connectivity", arguments: {} })).content);
       expect(apply).toMatchObject({ applied: true, mutated: true, issues: [] });
-      expect(labels.find(label => label.name === "DN")).toMatchObject({ x_mm: 119.38, y_mm: 101.6, kind: "global", shape: "passive" });
+      expect(labels.find(label => label.name === "DN")).toMatchObject({ x_mm: 121.92, y_mm: 101.6, kind: "global", shape: "passive" });
       await bridge.internal.saveAfterMutation({ id: "save", name: "pcb_save", arguments: {} });
       const replay = JSON.parse((await bridge.execute({ id: "replay", name: "fresh_apply_contract_connectivity", arguments: {} })).content);
       expect(replay).toMatchObject({ applied: true, mutated: false, idempotent: true, issues: [] });
