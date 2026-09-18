@@ -4,6 +4,7 @@
  * node --import tsx scripts/toolbox-workspace-client.ts --profile <file>
  *   --profile-sha256 <sha256> --profile-bytes <bytes> --workspace-root <existing-dir>
  *   --evidence-dir <dir> [--edit]
+ *   [--call-timeout-ms <30000..1800000>]
  *   [--initial-command <json-file> --initial-command-sha256 <sha256> --initial-command-bytes <bytes>]
  *
  * Keep stdin open (for example an exec TTY); send one JSON command per line:
@@ -36,7 +37,7 @@ const MAX_OUTPUT_BYTES = 16 * 1024;
 // Large source-bound native edits can exceed three minutes. This is only the
 // client's observation window; it does not change native admission, ownership,
 // source checks or recovery deadlines. A timeout still has an unknown outcome.
-const CALL_TIMEOUT_MS = 600_000;
+const DEFAULT_CALL_TIMEOUT_MS = 600_000;
 type OperatorId = string | number;
 type Command = { id: OperatorId } & ({ operation: "tools" | "close" }
   | { operation: "call"; name: string; arguments: Record<string, unknown> }
@@ -111,12 +112,19 @@ async function main() {
   const { values } = parseArgs({ strict: true, allowPositionals: false, options: {
     profile: { type: "string" }, "profile-sha256": { type: "string" }, "profile-bytes": { type: "string" },
     "workspace-root": { type: "string" }, "evidence-dir": { type: "string" }, edit: { type: "boolean", default: false },
+    "call-timeout-ms": { type: "string" },
     "initial-command": { type: "string" }, "initial-command-sha256": { type: "string" }, "initial-command-bytes": { type: "string" },
     help: { type: "boolean", default: false },
   } });
   if (values.help) {
-    process.stdout.write("Usage: node --import tsx scripts/toolbox-workspace-client.ts --profile <file> --profile-sha256 <sha256> --profile-bytes <bytes> --workspace-root <existing-dir> --evidence-dir <dir> [--edit] [--initial-command <json-file> --initial-command-sha256 <sha256> --initial-command-bytes <bytes>]\nCommands: {id,operation:'tools'|'close'}, {id,operation:'call',name,arguments}, {id,operation:'resource',uri}; JSON lines, unique IDs, <=1 MiB each. The optional pinned initial file contains exactly one command; all subsequent actions remain operator-selected. Keep stdin open.\n");
+    process.stdout.write("Usage: node --import tsx scripts/toolbox-workspace-client.ts --profile <file> --profile-sha256 <sha256> --profile-bytes <bytes> --workspace-root <existing-dir> --evidence-dir <dir> [--edit] [--call-timeout-ms <milliseconds>] [--initial-command <json-file> --initial-command-sha256 <sha256> --initial-command-bytes <bytes>]\n--call-timeout-ms: positive integer 30000..1800000; default 600000. Caller observation only; startup stays 30000 ms and native deadlines are unchanged. Timeout leaves the native outcome unknown; no automatic retries.\nCommands: {id,operation:'tools'|'close'}, {id,operation:'call',name,arguments}, {id,operation:'resource',uri}; JSON lines, unique IDs, <=1 MiB each. The optional pinned initial file contains exactly one command; all subsequent actions remain operator-selected. Keep stdin open.\n");
     return;
+  }
+  const callTimeoutValue = values["call-timeout-ms"] ?? String(DEFAULT_CALL_TIMEOUT_MS);
+  const callTimeoutMs = Number(callTimeoutValue);
+  if (!/^[1-9][0-9]*$/u.test(callTimeoutValue) || !Number.isSafeInteger(callTimeoutMs)
+      || callTimeoutMs < 30_000 || callTimeoutMs > 1_800_000) {
+    throw new Error("--call-timeout-ms must be a positive integer from 30000 through 1800000.");
   }
   for (const key of ["profile", "profile-sha256", "profile-bytes", "workspace-root", "evidence-dir"] as const) {
     if (!values[key]?.trim()) throw new Error(`Missing --${key}.`);
@@ -256,7 +264,7 @@ async function main() {
     const session = await retainJson("session", { startedAt: new Date().toISOString(), command: process.execPath, host, serverArgs,
       environment: { explicitKeys: Object.keys(environment).sort(), sdkDefaultKeys: Object.keys(getDefaultEnvironment()).sort(),
         note: "SDK defaults plus explicit system directories; the Windows runtime may also supply required OS variables. Values are not recorded." },
-      timeoutsMs: { startup: 30_000, call: CALL_TIMEOUT_MS }, maxInputBytes: MAX_INPUT_BYTES, maxOutputBytes: MAX_OUTPUT_BYTES });
+      timeoutsMs: { startup: 30_000, call: callTimeoutMs }, maxInputBytes: MAX_INPUT_BYTES, maxOutputBytes: MAX_OUTPUT_BYTES });
     if (closing !== undefined || cancellation.signal.aborted) return;
     const startupSignal = AbortSignal.any([cancellation.signal, AbortSignal.timeout(30_000)]);
     connecting = client.connect(transport, { timeout: 30_000, signal: startupSignal });
@@ -282,8 +290,8 @@ async function main() {
         }
         command = parseCommand(parsed);
         cancellation.signal.throwIfAborted();
-        const requestOptions = { timeout: CALL_TIMEOUT_MS, maxTotalTimeout: CALL_TIMEOUT_MS,
-          signal: AbortSignal.any([cancellation.signal, AbortSignal.timeout(CALL_TIMEOUT_MS)]) };
+        const requestOptions = { timeout: callTimeoutMs, maxTotalTimeout: callTimeoutMs,
+          signal: AbortSignal.any([cancellation.signal, AbortSignal.timeout(callTimeoutMs)]) };
         switch (command.operation) {
           case "tools": outcome = { disposition: "response", result: await client.listTools({}, { ...requestOptions, cacheMode: "refresh" }) }; break;
           case "resource": outcome = { disposition: "response", result: await client.readResource({ uri: command.uri }, { ...requestOptions, cacheMode: "refresh" }) }; break;

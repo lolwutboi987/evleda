@@ -1,6 +1,6 @@
 import { Client, InMemoryTransport } from "@modelcontextprotocol/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { canonicalIdentity } from "../../src/core/canonical.js";
+import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js";
 import type { HarnessToolCall, HarnessToolResult } from "../../src/harness/contracts.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { serializeFreshContractConnectivityResult } from "../../src/harness/kicad-tools.js";
@@ -20,12 +20,19 @@ function boundDesign(mixed = true) {
   return { ...f, contract };
 }
 type Design = ReturnType<typeof boundDesign>;
-function payloadFor(f: Design, idempotent = false): Record<string, unknown> {
+function payloadFor(f: Design, idempotent = false, advisories = false): Record<string, unknown> {
   return JSON.parse(serializeFreshContractConnectivityResult(f.contract, {
     applied: true, mutated: !idempotent, idempotent, issues: [],
     ...(idempotent ? { nativeNetlistSha256: "a".repeat(64), nativeNetCount: f.contract.nets.length, nativeComponentCount: f.contract.components.length } : {
       powerAnnotations: f.bundle.derivedPowerBinding!.flags.map((flag, index) => ({ reference: flag.reference, x: 25.4 * (index + 1), y: 25.4, rotation: 0 as const })),
       powerAnnotationBindingIdentity: f.bundle.derivedPowerBinding!.identity,
+      ...(advisories ? { powerFlagPlacementAdvisories: f.bundle.derivedPowerBinding!.flags.map((flag, index) => {
+        const x = 25.4 * (index + 1), y = 25.4, nearX = x + 8.89, nearY = y + 2.54;
+        return { code: "NATIVE_SYMBOL_CENTER_PROXIMITY" as const, reference: flag.reference, at: { x, y }, nearReference: "R3", nearAt: { x: nearX, y: nearY },
+          warning: `WARNING: coordinate (${x.toFixed(2)}, ${y.toFixed(2)}) is 9.2 mm from 'R3' at (${nearX.toFixed(2)}, ${nearY.toFixed(2)}) — symbols may overlap. Use sch_find_free_placement to get a safe coordinate.`,
+          beforeSchematicContentIdentity: contentIdentity(`synthetic before ${index}`), afterSchematicContentIdentity: contentIdentity(`synthetic after ${index}`),
+          nativeReplyContentIdentity: contentIdentity(`synthetic reply ${index}`) };
+      }) } : {}),
     }),
   }));
 }
@@ -87,6 +94,17 @@ const faults: ReadonlyArray<{ name: string; corrupt(payload: Record<string, unkn
 ];
 
 describe("public toolbox combined derived power receipt boundary", () => {
+  it.each([false, true])("accepts complete or truncated production advisories for mixed=%s through save/readback/checkpoint", async mixed => {
+    const d = boundDesign(mixed), payload = payloadFor(d, false, true), f = await fixture(d, payload);
+    try {
+      const result = await f.client.callTool({ name: toolName, arguments: {} });
+      expect(result.isError).not.toBe(true);
+      expect(f.order).toEqual([toolName, "save", "sch_get_connectivity_graph"]);
+      expect(JSON.parse((result.structuredContent as { result: HarnessToolResult }).result.content).powerFlagPlacementAdvisories).toEqual(payload.powerFlagPlacementAdvisories);
+      expect((await f.client.callTool({ name: "evleda_toolbox_status", arguments: {} })).structuredContent).toMatchObject({ recoveryRequired: false });
+    } finally { await f.close(); }
+    expect(f.publish).toHaveBeenCalledOnce(); expect(f.recordRecoveryRequired).not.toHaveBeenCalled();
+  });
   it.each([false, true])("accepts %s mixed binding, saves and reads back before checkpoint publication", async mixed => {
     const f = await fixture(boundDesign(mixed));
     try {
@@ -137,7 +155,7 @@ describe("public toolbox combined derived power receipt boundary", () => {
     expect(f.publish).not.toHaveBeenCalled();
   });
   it.each(["save", "readback"] as const)("requires recovery when %s fails after accepted combined receipt", async boundary => {
-    const f = await fixture(boundDesign());
+    const d = boundDesign(), f = await fixture(d, payloadFor(d, false, true));
     f[boundary].mockImplementation(async call => ({ toolCallId: call.id, content: "synthetic boundary failure", isError: true }));
     try {
       expect((await f.client.callTool({ name: toolName, arguments: {} })).isError).toBe(true);
@@ -146,7 +164,7 @@ describe("public toolbox combined derived power receipt boundary", () => {
     expect(f.publish).not.toHaveBeenCalled(); expect(f.recordRecoveryRequired).toHaveBeenCalledOnce();
   });
   it.each([false, true])("validates derived receipts in the provider harness after a preceding mutation: malformed=%s", async malformed => {
-    const d = boundDesign(), payload = payloadFor(d), calls: string[] = [];
+    const d = boundDesign(), payload = payloadFor(d, false, true), calls: string[] = [];
     if (malformed) { delete payload.powerAnnotations; delete payload.powerAnnotationBindingIdentity; }
     const compound = { name: toolName, description: "Apply connectivity", inputSchema: { type: "object" } };
     const earlier = { name: "pcb_place_component", description: "Synthetic earlier mutation", inputSchema: { type: "object" } };

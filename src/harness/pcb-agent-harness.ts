@@ -264,6 +264,55 @@ const recommendationSearchEvidenceSchema = z.object({
   if (value.candidateCount > value.limits.maxTotalCandidates) context.addIssue({ code: "custom", message: "candidateCount exceeds its deterministic limit" });
   if ((value.status === "found") !== (value.exhaustionReason === "none")) context.addIssue({ code: "custom", message: "found status must correspond exactly to exhaustionReason=none" });
 });
+const contentIdentitySchema = z.object({
+  algorithm: z.literal("sha256"), digest: z.string().regex(/^[a-f0-9]{64}$/u), size: z.number().int().nonnegative(),
+}).strict();
+const powerFlagAdvisoryPointSchema = z.object({ x: z.number().finite().min(-2_000).max(2_000), y: z.number().finite().min(-2_000).max(2_000) }).strict();
+const powerFlagAdvisorySourceIdentitySchema = contentIdentitySchema.extend({ size: z.number().int().positive().max(24 * 1024 * 1024) }).strict();
+const powerFlagAdvisoryWarningPattern = /^WARNING: coordinate \((-?\d{1,4}\.\d{2}), (-?\d{1,4}\.\d{2})\) is ((?:\d|10)\.\d) mm from '(#FLG\d{3}|[A-Z][A-Z0-9_-]{0,31})' at \((-?\d{1,4}\.\d{2}), (-?\d{1,4}\.\d{2})\) — symbols may overlap\. Use sch_find_free_placement to get a safe coordinate\.$/u;
+const powerFlagPlacementAdvisorySchema = z.object({
+  code: z.literal("NATIVE_SYMBOL_CENTER_PROXIMITY"),
+  warning: z.string().min(1).max(512).regex(powerFlagAdvisoryWarningPattern),
+  reference: z.string().regex(/^#FLG[0-9]{3}$/u), at: powerFlagAdvisoryPointSchema,
+  nearReference: z.string().regex(/^(?:#FLG[0-9]{3}|[A-Z][A-Z0-9_-]{0,31})$/u), nearAt: powerFlagAdvisoryPointSchema,
+  beforeSchematicContentIdentity: powerFlagAdvisorySourceIdentitySchema,
+  afterSchematicContentIdentity: powerFlagAdvisorySourceIdentitySchema,
+  nativeReplyContentIdentity: contentIdentitySchema.extend({ size: z.number().int().positive().max(16 * 1024) }).strict(),
+}).strict().superRefine((value, context) => {
+  const displayed = value.warning.match(powerFlagAdvisoryWarningPattern), distance = Math.hypot(value.at.x - value.nearAt.x, value.at.y - value.nearAt.y);
+  // This consumer checks rounded display consistency. Exact Python formatting
+  // and current-source qualification remain the guarded producer's obligation.
+  if (value.reference === value.nearReference || displayed?.[4] !== value.nearReference || distance >= 10.16
+    || [[displayed?.[1], value.at.x], [displayed?.[2], value.at.y], [displayed?.[5], value.nearAt.x], [displayed?.[6], value.nearAt.y]]
+      .some(([shown, actual]) => Math.abs(Number(shown) - Number(actual)) > 0.005 + 1e-9)
+    || Math.abs(Number(displayed?.[3]) - distance) > 0.05 + 1e-9) context.addIssue({ code: "custom", message: "Power flag advisory must consistently describe a distinct nearby source symbol." });
+  if (value.beforeSchematicContentIdentity.digest === value.afterSchematicContentIdentity.digest) context.addIssue({ code: "custom", message: "A placed-flag advisory requires distinct before/after source digests." });
+});
+// Every required key is present with its shortest schema-valid value: fixed
+// code/hash lengths, one-character physical ref, zero numeric coordinates,
+// shortest formatted warning, and positive one-digit content sizes. Omitted
+// items cannot serialize more cheaply; this is a lower bound, not a digest proof.
+const minimumPowerFlagPlacementAdvisoryBytes = contentIdentity(canonicalJson(powerFlagPlacementAdvisorySchema.parse({
+  code: "NATIVE_SYMBOL_CENTER_PROXIMITY", reference: "#FLG001", at: { x: 0, y: 0 }, nearReference: "A", nearAt: { x: 0, y: 0 },
+  warning: "WARNING: coordinate (0.00, 0.00) is 0.0 mm from 'A' at (0.00, 0.00) — symbols may overlap. Use sch_find_free_placement to get a safe coordinate.",
+  beforeSchematicContentIdentity: { algorithm: "sha256", digest: "0".repeat(64), size: 1 },
+  afterSchematicContentIdentity: { algorithm: "sha256", digest: "1".repeat(64), size: 1 },
+  nativeReplyContentIdentity: { algorithm: "sha256", digest: "2".repeat(64), size: 1 },
+}))).size;
+const powerFlagPlacementAdvisorySummarySchema = z.object({
+  total: z.number().int().min(1).max(16), returned: z.number().int().min(0).max(2), truncated: z.boolean(),
+  identity: contentIdentitySchema.extend({ size: z.number().int().positive().max(64 * 1024) }).strict(),
+  items: z.array(powerFlagPlacementAdvisorySchema).max(2),
+}).strict().superRefine((value, context) => {
+  if (value.returned !== value.items.length || value.returned > value.total || value.truncated !== (value.total > value.returned)) context.addIssue({ code: "custom", message: "Power flag advisory summary counts must exactly describe its bounded items." });
+  const visibleIdentity = contentIdentity(canonicalJson(value.items));
+  const hidden = Math.max(0, value.total - value.returned);
+  const minimumFullBytes = visibleIdentity.size + hidden * minimumPowerFlagPlacementAdvisoryBytes + Math.max(0, hidden - (value.returned === 0 ? 1 : 0));
+  if (!value.truncated && canonicalJson(value.identity) !== canonicalJson(visibleIdentity)
+    || value.truncated && (value.identity.digest === visibleIdentity.digest || value.identity.size < minimumFullBytes)) context.addIssue({ code: "custom", message: "Power flag advisory full-list identity must reproduce complete items or bound the required hidden items." });
+  const references = value.items.map(item => item.reference);
+  if (new Set(references).size !== references.length || references.some((reference, index) => index > 0 && references[index - 1]! >= reference)) context.addIssue({ code: "custom", message: "Power flag advisories must be unique and in annotation order." });
+});
 const compoundMutationResultSchema = z.object({
   schemaVersion: z.literal("evleda.fresh-contract-connectivity-result.v1"),
   contractIdentity: compoundIdentitySchema,
@@ -296,6 +345,7 @@ const compoundMutationResultSchema = z.object({
   powerAnnotationBindingIdentity: canonicalIdentityBaseSchema.extend({
     schemaVersion: z.literal(PCB_DERIVED_POWER_BINDING_SCHEMA_VERSION),
   }).strict().optional(),
+  powerFlagPlacementAdvisories: powerFlagPlacementAdvisorySummarySchema.optional(),
   nativeNetlistSha256: z.string().regex(/^[a-f0-9]{64}$/u).optional(),
   nativeNetCount: z.number().int().nonnegative().optional(),
   nativeComponentCount: z.number().int().nonnegative().optional(),
@@ -314,6 +364,16 @@ const compoundMutationResultSchema = z.object({
   }).strict()).max(64).optional(),
   blockingEdgeEvidence: issueEvidenceSchema.optional(),
 }).strict().superRefine((value, context) => {
+  if (value.powerFlagPlacementAdvisories !== undefined) {
+    const annotations = value.powerAnnotations ?? value.externalPowerAnnotations;
+    if (!value.applied || !value.mutated || value.idempotent || annotations === undefined
+      || value.powerFlagPlacementAdvisories.total > annotations.length) context.addIssue({ code: "custom", message: "Power flag advisory provenance requires the mutated bound annotation inventory." });
+    for (const item of value.powerFlagPlacementAdvisories.items) {
+      const annotation = annotations?.find(annotation => annotation.reference === item.reference);
+      if (annotation === undefined || annotation.x !== item.at.x || annotation.y !== item.at.y
+        || item.nearReference.startsWith("#") && !annotations?.some(annotation => annotation.reference === item.nearReference)) context.addIssue({ code: "custom", message: "Power flag advisory reference and pose must match the returned bound annotation inventory." });
+    }
+  }
   if ((value.externalPowerAnnotations === undefined) !== (value.externalPowerBindingIdentity === undefined)) {
     context.addIssue({ code: "custom", message: "external power annotations and binding identity must be supplied together" });
   }
@@ -382,9 +442,6 @@ const recommendedPlacementMutationResultSchema = z.object({
   if (value.applied && value.issues.length !== 0) context.addIssue({ code: "custom", message: "successful atomic placement requires zero issues" });
   if (!value.applied && value.issues.length === 0) context.addIssue({ code: "custom", message: "rejected atomic placement requires an issue" });
 });
-const contentIdentitySchema = z.object({
-  algorithm: z.literal("sha256"), digest: z.string().regex(/^[a-f0-9]{64}$/u), size: z.number().int().nonnegative(),
-}).strict();
 const freshSchematicFieldsResultSchema = z.object({
   schemaVersion: z.literal("evleda.fresh-schematic-fields-result.v1"), contractIdentity: compoundIdentitySchema,
   applied: z.literal(true), mutated: z.boolean(), idempotent: z.boolean(),

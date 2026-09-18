@@ -1,7 +1,27 @@
 # Current status and roadmap
 
-Latest continuation, 18 September 2026: **the RP2350 native board remains
-unfinished.** V7 project `3666e11a-44e9-4387-b30d-6465aaca2d9a` saved and
+Latest continuation, 18 September 2026: **the complete RP2350 schematic is now
+confirmed through public native readback and normal checkpoint/close.** V9
+project `d9435dc1-27b9-4fff-8af6-f6a2cfe897e8` has 67 functional nets, 260
+endpoints, two intended NCs, 62 physical components and six power flags matching
+the bound circuit and checked presentation. Its PCB remains the empty baseline;
+PCB placement, routing and design acceptance are unfinished.
+
+The connectivity call exceeded the client's ten-minute observation window.
+The host continued, and its queued current-state check subsequently reported no
+recovery requirement. Fresh public graph/symbol reads matched the contract;
+normal workspace close then published a checkpoint and released the lease.
+Eight source/bundle/checkpoint files are pinned in the retained close evidence,
+with no current-project lease, unsafe marker or lock remaining. The original
+mutation response is unavailable; this milestone relies on the later observed
+state and confirmed lifecycle, not an invented successful response.
+
+The operator client now supports a bounded `--call-timeout-ms` override
+(30000–1800000, default 600000). This changes observation time only; native
+admission, source checks, recovery deadlines and no-retry behavior remain intact.
+
+Earlier same-day attempts remain preserved. V7 project
+`3666e11a-44e9-4387-b30d-6465aaca2d9a` saved and
 verified 34 schematic symbol-pose updates and 73 field-position updates through
 the public toolbox. Both operations preserved the native netlist; their final
 unwired source matches the independently checked presentation exactly.
@@ -13,6 +33,20 @@ Finalization did not publish a checkpoint or release the project lease; the
 project remains quarantined for review. No retry or manual lease/marker cleanup
 was performed. Its PCB still has no outline, footprints or copper.
 
+A subsequent V8 attempt in project `d14efc74-96ef-4e9c-bd29-2dd83de34e2e`
+passed that reply qualification and authored the schematic source. The public
+mutation-status schema then rejected the new advisory field before mandatory
+save/readback. That authored source is preserved as diagnostic evidence; this
+second project also retained its lease without a successful checkpoint. The
+strict public-schema integration is being corrected with wrapper-level tests.
+Neither failed project is a healthy seed or an accepted native board.
+
+Independent native checks of the preserved V8 artifact match 67 functional nets,
+260 endpoints, two intended NCs, all six flags and 62 physical components. Its
+255 wires, 246 labels, pin geometry and rendered glyphs match the checked plan;
+configured ERC reports zero violations. These are artifact facts and do not
+replace the missing managed save, checkpoint or lease release.
+
 The separate complete schematic diagnostic has 246 labels, six power flags,
 255 wires, 67 functional nets/260 endpoints and two intentional NCs. Native
 glyph, field, worksheet and configured ERC checks pass; the unchanged ignored
@@ -20,9 +54,9 @@ ERC categories remain recorded in the diagnostic. This is preflight evidence,
 not a successful managed connectivity operation. See the
 [released schematic plan](../designs/rp2350-pico/schematic-layout.md).
 
-The reviewed PCB proposal has 795 trace segments and 92 vias, with 53
-non-ground nets connected in its source model and 13 routes still open. Native
-placement, routing, filled-ground and complete-board DRC remain pending. The V8 draft
+The reviewed PCB proposal has 858 trace segments and 101 vias, with 55
+non-ground nets connected in its source model and 11 routes still open. Native
+placement, routing, filled-ground and complete-board DRC remain pending. The V9 draft
 declares a 22 × 51 mm board, 143 total via reservations, mixed-layer GND access
 and the same 0.55/0.20 mm vias with 0.50 mm hole spacing; these declarations are
 not authored copper or design acceptance. Current work is on

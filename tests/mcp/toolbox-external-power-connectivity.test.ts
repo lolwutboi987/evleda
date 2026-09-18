@@ -1,6 +1,6 @@
 import { Client, InMemoryTransport } from "@modelcontextprotocol/client";
 import { describe, expect, it, vi } from "vitest";
-import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js";
+import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import type { HarnessToolCall, HarnessToolResult } from "../../src/harness/contracts.js";
 import { serializeFreshContractConnectivityResult } from "../../src/harness/kicad-tools.js";
 import { PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION, parsePcbExternalPowerBinding } from "../../src/harness/pcb-external-power.js";
@@ -32,16 +32,22 @@ const externalPowerBinding = parsePcbExternalPowerBinding({
   ...bindingPayload, identity: canonicalIdentity(bindingPayload, PCB_EXTERNAL_POWER_BINDING_SCHEMA_VERSION),
 }, sourceContractIdentity);
 
-function connectivityPayload(options: { annotations?: boolean; idempotent?: boolean } = {}): Record<string, unknown> {
+function connectivityPayload(options: { annotations?: boolean; idempotent?: boolean; advisories?: boolean } = {}): Record<string, unknown> {
   const fields = {
     applied: true, mutated: !options.idempotent, idempotent: options.idempotent ?? false, issues: [],
     ...(options.annotations === false ? {} : {
       externalPowerAnnotations: [
-        { reference: "#FLG001", x: 25.4, y: 25.4, rotation: 0 as const },
+        { reference: "#FLG001", x: options.advisories ? 57.15 : 25.4, y: options.advisories ? 88.9 : 25.4, rotation: 0 as const },
         { reference: "#FLG002", x: 50.8, y: 25.4, rotation: 0 as const },
       ],
       externalPowerBindingIdentity: externalPowerBinding.identity,
     }),
+    ...(options.advisories ? { powerFlagPlacementAdvisories: [{ code: "NATIVE_SYMBOL_CENTER_PROXIMITY" as const,
+      warning: "WARNING: coordinate (57.15, 88.90) is 9.2 mm from 'R3' at (66.04, 91.44) — symbols may overlap. Use sch_find_free_placement to get a safe coordinate.",
+      reference: "#FLG001", at: { x: 57.15, y: 88.9 }, nearReference: "R3", nearAt: { x: 66.04, y: 91.44 },
+      beforeSchematicContentIdentity: contentIdentity("synthetic flag preimage"), afterSchematicContentIdentity: contentIdentity("synthetic flag postimage"),
+      nativeReplyContentIdentity: contentIdentity("synthetic source-qualified native reply"),
+    }] } : {}),
   };
   return JSON.parse(serializeFreshContractConnectivityResult({ identity: connectivityIdentity }, fields)) as Record<string, unknown>;
 }
@@ -140,6 +146,106 @@ const rejectionCases: readonly RejectionCase[] = [
 ];
 
 describe("public toolbox external-power connectivity result boundary", () => {
+  it("passes the production advisory-bearing result through the real public wrapper, mandatory save, readback and close", async () => {
+    const payload = connectivityPayload({ advisories: true }), f = await fixture({ payload });
+    f.save.mockImplementation(async call => { f.order.push("save"); return { toolCallId: call.id, content: JSON.stringify({
+      status: "saved-and-native-connectivity-verified", powerFlagPlacementAdvisories: payload.powerFlagPlacementAdvisories }) }; });
+    try {
+      const result = await f.client.callTool({ name: toolName, arguments: {} });
+      expect(result.isError).not.toBe(true);
+      expect(f.order).toEqual([toolName, "save", "sch_get_connectivity_graph"]);
+      const body = result.structuredContent as { result: HarnessToolResult; persistence: HarnessToolResult };
+      expect(JSON.parse(body.result.content).powerFlagPlacementAdvisories).toEqual(payload.powerFlagPlacementAdvisories);
+      expect(JSON.parse(body.persistence.content).powerFlagPlacementAdvisories).toEqual(payload.powerFlagPlacementAdvisories);
+      expect((await f.client.callTool({ name: "evleda_toolbox_status", arguments: {} })).structuredContent).toMatchObject({ recoveryRequired: false });
+    } finally { await f.close(); }
+    expect(f.save).toHaveBeenCalledOnce(); expect(f.readback).toHaveBeenCalledOnce(); expect(f.publish).toHaveBeenCalledOnce();
+    expect(f.recordRecoveryRequired).not.toHaveBeenCalled();
+  });
+
+  it("accepts a byte-bounded empty visible subset while retaining its full advisory-list hash", async () => {
+    const payload = connectivityPayload({ advisories: true });
+    Object.assign(payload.powerFlagPlacementAdvisories as object, { returned: 0, truncated: true, items: [] });
+    const f = await fixture({ payload });
+    try { expect((await f.client.callTool({ name: toolName, arguments: {} })).isError).not.toBe(true); expect(f.save).toHaveBeenCalledOnce(); }
+    finally { await f.close(); }
+  });
+
+  it("accepts one visible advisory with a genuine producer full-list identity for two records", async () => {
+    const payload = connectivityPayload({ advisories: true }), summary = payload.powerFlagPlacementAdvisories as any;
+    const second = { ...structuredClone(summary.items[0]), reference: "#FLG002", at: { x: 50.8, y: 25.4 }, nearAt: { x: 59.69, y: 27.94 },
+      warning: "WARNING: coordinate (50.80, 25.40) is 9.2 mm from 'R3' at (59.69, 27.94) — symbols may overlap. Use sch_find_free_placement to get a safe coordinate." };
+    const produced = JSON.parse(serializeFreshContractConnectivityResult({ identity: connectivityIdentity }, {
+      applied: true, mutated: true, idempotent: false, issues: [],
+      externalPowerAnnotations: annotations(payload) as Array<{ reference: string; x: number; y: number; rotation: 0 }>,
+      externalPowerBindingIdentity: externalPowerBinding.identity, powerFlagPlacementAdvisories: [summary.items[0], second],
+    })).powerFlagPlacementAdvisories;
+    Object.assign(summary, { ...produced, returned: 1, truncated: true, items: produced.items.slice(0, 1) });
+    const f = await fixture({ payload });
+    try { expect((await f.client.callTool({ name: toolName, arguments: {} })).isError).not.toBe(true); expect(f.save).toHaveBeenCalledOnce(); expect(f.readback).toHaveBeenCalledOnce(); }
+    finally { await f.close(); }
+    expect(f.publish).toHaveBeenCalledOnce();
+  });
+
+  it.each(["empty-digest", "tiny-hidden-item", "visible-digest", "partial-hidden-item"])("rejects impossible truncated advisory identity %s before save/readback", async fault => {
+    const payload = connectivityPayload({ advisories: true }), summary = payload.powerFlagPlacementAdvisories as any;
+    if (fault === "empty-digest" || fault === "tiny-hidden-item") {
+      Object.assign(summary, { returned: 0, truncated: true, items: [], identity: { ...contentIdentity("[]"), size: 3 } });
+      if (fault === "tiny-hidden-item") summary.identity.digest = "f".repeat(64);
+    } else {
+      const visible = contentIdentity(canonicalJson(summary.items));
+      Object.assign(summary, { total: 2, returned: 1, truncated: true, identity: { ...visible, size: visible.size + (fault === "visible-digest" ? 10_000 : 1) } });
+      if (fault === "partial-hidden-item") summary.identity.digest = "f".repeat(64);
+    }
+    const f = await fixture({ payload });
+    try {
+      expect((await f.client.callTool({ name: toolName, arguments: {} })).isError).toBe(true);
+      expect(f.order).toEqual([toolName]); expect(f.save).not.toHaveBeenCalled(); expect(f.readback).not.toHaveBeenCalled();
+      expect((await f.client.callTool({ name: "evleda_toolbox_status", arguments: {} })).structuredContent).toMatchObject({ recoveryRequired: true });
+    } finally { await f.close(); }
+    expect(f.prepareCheckpoint).not.toHaveBeenCalled(); expect(f.publish).not.toHaveBeenCalled(); expect(f.recordRecoveryRequired).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    "top-level", "summary-key", "item-key", "point-key", "identity-key", "wrong-code", "wrong-warning", "raw-reply", "wrong-ref", "wrong-pose", "wrong-neighbor",
+    "missing-after-source", "unchanged-source", "unchanged-digest-different-size", "bad-hash", "bad-size", "count-mismatch", "wrong-truncation", "unbounded-count", "idempotent", "no-annotations", "contradictory-warning-pose",
+  ])("strictly rejects advisory %s after dispatch, before save/readback, without publishing a checkpoint", async fault => {
+    const payload = connectivityPayload({ advisories: true }), summary = payload.powerFlagPlacementAdvisories as any, item = summary.items[0];
+    if (fault === "top-level") payload.unrecognized = true;
+    if (fault === "summary-key") summary.extra = true;
+    if (fault === "item-key") item.extra = true;
+    if (fault === "point-key") item.at.z = 0;
+    if (fault === "identity-key") item.nativeReplyContentIdentity.path = "private";
+    if (fault === "wrong-code") item.code = "OVERLAP_ACCEPTED";
+    if (fault === "wrong-warning") item.warning += "\nERROR: actual overlap";
+    if (fault === "raw-reply") item.nativeReply = { result: "private" };
+    if (fault === "wrong-ref") item.reference = "#FLG999";
+    if (fault === "wrong-pose") item.at.x += 1.27;
+    if (fault === "wrong-neighbor") { item.nearReference = "#FLG999"; item.warning = item.warning.replace("'R3'", "'#FLG999'"); }
+    if (fault === "contradictory-warning-pose") item.warning = item.warning.replace("57.15, 88.90", "57.16, 88.90");
+    if (fault === "missing-after-source") delete item.afterSchematicContentIdentity;
+    if (fault === "unchanged-source") item.afterSchematicContentIdentity = item.beforeSchematicContentIdentity;
+    if (fault === "unchanged-digest-different-size") item.afterSchematicContentIdentity = { ...item.beforeSchematicContentIdentity, size: item.beforeSchematicContentIdentity.size + 1 };
+    if (fault === "bad-hash") summary.identity.digest = "f".repeat(64);
+    if (fault === "bad-size") summary.identity.size = 0;
+    if (fault === "count-mismatch") summary.returned = 0;
+    if (fault === "wrong-truncation") summary.truncated = true;
+    if (fault === "unbounded-count") summary.total = 17;
+    if (fault === "idempotent") Object.assign(payload, { mutated: false, idempotent: true });
+    if (fault === "no-annotations") { delete payload.externalPowerAnnotations; delete payload.externalPowerBindingIdentity; }
+    if (!["bad-hash", "bad-size"].includes(fault)) summary.identity = contentIdentity(canonicalJson(summary.items));
+    let staged = false;
+    const f = await fixture({ payload });
+    f.execute.mockImplementation(async call => { staged = true; f.order.push(call.name); return { toolCallId: call.id, content: JSON.stringify(payload) }; });
+    try {
+      expect((await f.client.callTool({ name: toolName, arguments: {} })).isError).toBe(true);
+      expect(staged).toBe(true); // The public contract failure is after CAD work, not an automatic rollback.
+      expect((await f.client.callTool({ name: "evleda_toolbox_status", arguments: {} })).structuredContent).toMatchObject({ recoveryRequired: true });
+      expect(f.order).toEqual([toolName]); expect(f.save).not.toHaveBeenCalled(); expect(f.readback).not.toHaveBeenCalled();
+    } finally { await f.close(); }
+    expect(f.prepareCheckpoint).not.toHaveBeenCalled(); expect(f.publish).not.toHaveBeenCalled(); expect(f.recordRecoveryRequired).toHaveBeenCalledOnce();
+    expect(staged).toBe(true);
+  });
   it("accepts the production serialized annotated success, saves, and reads back connectivity", async () => {
     const payload = connectivityPayload();
     const f = await fixture({ payload });
