@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "evleda.native-placement-delivery.v1",
+  "createdAt": "2026-09-18T21:54:06.278833+00:00",
+  "classification": "historical-native-placement-and-workflow-qualification-not-design-acceptance",
+  "projectId": "d9435dc1-27b9-4fff-8af6-f6a2cfe897e8",
+  "sourceSession": "mcp-session-26",
+  "board": {
+    "widthMm": 22,
+    "heightMm": 51,
+    "electricalComponents": 62,
+    "boardOnlyMountingFeatures": 4,
+    "totalFootprints": 66,
+    "physicalPadPrimitives": 281,
+    "logicalTerminals": 262,
+    "tracks": 0,
+    "ordinaryVias": 0,
+    "zones": 0
+  },
+  "normalCloseRecordedAt": "2026-09-18T21:37:38.991Z",
+  "nativeSourceBytesRewritten": false,
+  "copiedFileCount": 11,
+  "files": [
+    {
+      "path": "project/rp2350-pico.kicad_pcb",
+      "role": "native-authored-source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\d9435dc1-27b9-4fff-8af6-f6a2cfe897e8\\output\\project\\rp2350-pico.kicad_pcb",
+      "sizeBytes": 251637,
+      "sha256": "0f7df58b79c3169b689b4f4ec230791cb414db4b6f981d3aa695221ed1aff531",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "project/rp2350-pico.kicad_sch",
+      "role": "native-authored-source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\d9435dc1-27b9-4fff-8af6-f6a2cfe897e8\\output\\project\\rp2350-pico.kicad_sch",
+      "sizeBytes": 221590,
+      "sha256": "2c3f0e5ec3bbc5379c39118fa4530a1bb816dcb4370d02814b36921a6e9ed110",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "project/rp2350-pico.kicad_pro",
+      "role": "native-authored-source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\d9435dc1-27b9-4fff-8af6-f6a2cfe897e8\\output\\project\\rp2350-pico.kicad_pro",
+      "sizeBytes": 21307,
+      "sha256": "b0cffea1b03b8e2eabdb7611d050088e47893085fdaa59e8bd1414c0d6420111",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "project/rp2350-pico.kicad_dru",
+      "role": "native-authored-source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\d9435dc1-27b9-4fff-8af6-f6a2cfe897e8\\output\\project\\rp2350-pico.kicad_dru",
+      "sizeBytes": 13300,
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "project/sym-lib-table",
+      "role": "native-authored-source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\d9435dc1-27b9-4fff-8af6-f6a2cfe897e8\\output\\project\\sym-lib-table",
+      "sizeBytes": 1275,
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "project/fp-lib-table",
+      "role": "native-authored-source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\d9435dc1-27b9-4fff-8af6-f6a2cfe897e8\\output\\project\\fp-lib-table",
+      "sizeBytes": 2025,
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "previews/top.png",
+      "role": "native-preview",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000074-image-962983b1164735900a7fc53297d317a0fe6fa0681eb08f8c09a3678651c06206.png",
+      "sizeBytes": 124946,
+      "sha256": "962983b1164735900a7fc53297d317a0fe6fa0681eb08f8c09a3678651c06206",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "previews/assembly.png",
+      "role": "native-preview",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000079-image-59f483079cef9ebc63012ef594eb85edde80485d2476c3c6035804bc9d1f2430.png",
+      "sizeBytes": 198775,
+      "sha256": "59f483079cef9ebc63012ef594eb85edde80485d2476c3c6035804bc9d1f2430",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "evidence/verification-result-host16-02.json",
+      "role": "independent-placement-verification",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-01\\verification-result-host16-02.json",
+      "sizeBytes": 42749,
+      "sha256": "5f8f5b809f19448ec9f8c061348a224b1f35e4419fb63a92ac58fcf45cd5300c",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "evidence/v9-normal-close-verification-01.json",
+      "role": "normal-close-verification",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\v9-normal-close-verification-01.json",
+      "sizeBytes": 2761,
+      "sha256": "c4f00a79516326b769aaa4862d719a23c7223562e4fc8d0b8f838c2434900e47",
+      "beforeCopyAfterBytesEqual": true
+    },
+    {
+      "path": "evidence/normal-close-response.json",
+      "role": "public-normal-close-response",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000134-response-185046fcafbefdf8ff9606048e203c988838d3003080a79d1165be01bab2c837.json",
+      "sizeBytes": 19978,
+      "sha256": "185046fcafbefdf8ff9606048e203c988838d3003080a79d1165be01bab2c837",
+      "beforeCopyAfterBytesEqual": true
+    }
+  ],
+  "jsonReview": {
+    "inspectedBeforeCopy": [
+      "project/rp2350-pico.kicad_pro",
+      "evidence/verification-result-host16-02.json",
+      "evidence/v9-normal-close-verification-01.json",
+      "evidence/normal-close-response.json"
+    ],
+    "nestedPublicResponseJsonInspected": true,
+    "credentialLikeFieldsOrValuesFound": false,
+    "scope": "Structural field and value inspection of exactly the selected records; opaque project IDs and hashes are evidence identities, not access credentials."
+  },
+  "portability": {
+    "libraryTablesContainAbsoluteWindowsPaths": true,
+    "sourceProfilesAndLibrariesPackaged": false,
+    "pathsRewritten": false,
+    "managedWorkspaceOrPortableInstallationClaim": false
+  },
+  "limitations": [
+    "Old V9 placement is historical under the newer header-side constraint",
+    "Label overlaps and off-board assembly text remain unresolved",
+    "New60mm routing/layout rework remains pending",
+    "No route completion, clearance, plane fill, impedance, fabrication or electrical suitability acceptance"
+  ],
+  "excludedFromDelivery": [
+    "PRL files",
+    "locks",
+    "session credentials or tokens",
+    "private child logs",
+    "runtimes",
+    "native profiles",
+    "workspace lease/checkpoint authority",
+    "toolbox bundle",
+    "library package"
+  ]
+}

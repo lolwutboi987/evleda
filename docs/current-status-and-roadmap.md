@@ -4,10 +4,11 @@ Latest verified native milestone, 18 September 2026: **the 22 × 51 mm V9 projec
 completed real public schematic-to-PCB sync, the reviewed 62-component placement
 batch, mandatory native save/readback, and normal close under DOC11 host16 in
 session26.** Project `d9435dc1-27b9-4fff-8af6-f6a2cfe897e8` now retains its connected
-schematic and placed PCB. The earlier sync failures below remain preserved;
+schematic and placed PCB. The [native files and original previews](../designs/rp2350-pico/native-placement-v9/README.md)
+are published with their exact identities and limitations. Earlier sync failures remain preserved;
 they no longer describe the latest verified native state.
 
-The independent [placement/readback verification](../../destination-verification/rp2350-native-placement-readback-01/verification-result-host16-02.json)
+The independent [placement/readback verification](../designs/rp2350-pico/native-placement-v9/evidence/verification-result-host16-02.json)
 matches all **66 footprint poses, 281 physical pad members and 53 drills** to
 the selected model, contract and complete pinned library definitions. Those
 members include 265 numbered copper pads, 10 anonymous paste pads and 6 NPTH
@@ -18,8 +19,8 @@ UUID, geometry, layers and drills; the bounded aggregate read reports the full
 inventory without exposing every row. Raw private native snapshots were not
 independently replayed. All verification inputs remained unchanged.
 
-The [normal-close response](../../destination-rp2350-native-01/mcp-session-26/workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85/000134-response-185046fcafbefdf8ff9606048e203c988838d3003080a79d1165be01bab2c837.json)
-reports the project closed. Separate [post-close disk verification](../../destination-rp2350-native-01/mcp-session-26/v9-normal-close-verification-01.json)
+The [normal-close response](../designs/rp2350-pico/native-placement-v9/evidence/normal-close-response.json)
+reports the project closed. Separate [post-close disk verification](../designs/rp2350-pico/native-placement-v9/evidence/v9-normal-close-verification-01.json)
 matches all 6 authored source files and the report to checkpoint
 `7bd6cf8d71944e6adb132f2035b445e3dc5fc0693e37df69995953e73a45eb36`.
 No lease, unsafe marker or editor-lock artifact remains under the project.
