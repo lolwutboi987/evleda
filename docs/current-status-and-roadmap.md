@@ -1,23 +1,32 @@
 # Current status and roadmap
 
-Latest continuation, 18 September 2026: **native PCB work is stopped after disk
-exhaustion interrupted an outline operation.** A separate offline-router JDK
-extraction exhausted C: during the resumed V9 session. The previously empty PCB
-is now zero bytes; the connected schematic, project settings, rules, library
-tables, bundle and prior checkpoint still match their last normal-close hashes.
+Latest continuation, 18 September 2026: **V9 has been recovered and reopened
+through the normal native toolbox path.** The resumed project has the expected
+bundle, edit access and no recovery requirement. PCB outline authoring has
+resumed; placement, routing and design acceptance remain unfinished.
+
+Earlier, a separate offline-router JDK extraction exhausted C: during a V9
+outline operation. The previously empty PCB became zero bytes; the connected
+schematic, project settings, rules, library tables, bundle and prior checkpoint
+remained unchanged. A reviewed offline recovery archived the failed state and
+restored only the exact checkpoint PCB. A separate readback confirmed all eight
+last normal-close hashes and preservation of the other captured files.
 The client could not retain its response or terminal record. The host exited,
 but its PCB editor remained running. An earlier absence claim was incorrect:
 mixed PowerShell table output was ambiguous. Fresh structured process inspection
 identified the exact orphaned editor, which was then terminated after checking
 its executable, project argument and creation time. This discarded the failed
-outline's in-memory state; it was not a normal save or close. The lease and
-locks remain retained. No uncertain mutation was retried and no checkpoint,
-lease or lock was manually changed. Recovery is pending; this is not a placed board.
+outline's in-memory state; it was not a normal save or close. The offline utility
+then archived and released the exact reviewed orphan locks, with the lease
+last. The checkpoint, history, rules and schematic were not rewritten. The
+outline was attempted again only after exact restoration and normal native
+resume, not as a blind retry of an uncertain operation.
 The failure observation is retained under
 `destination-verification/rp2350-native-disk-full-01/` outside the repository.
 The original observation and its explicit correction are both preserved there.
 The intact [connected schematic and native preview](../designs/rp2350-pico/schematic-v9/README.md)
-are also published separately from the failed working PCB.
+are also published separately as a stable schematic milestone.
+See [the scoped recovery procedure](toolbox-offline-recovery.md) for its limits.
 
 Before this failure, **the complete RP2350 schematic was confirmed through
 public native readback and normal checkpoint/close.** V9
