@@ -1,10 +1,22 @@
 # Current status and roadmap
 
-Latest continuation, 18 September 2026: **the complete RP2350 schematic is now
-confirmed through public native readback and normal checkpoint/close.** V9
+Latest continuation, 18 September 2026: **native PCB work is stopped after disk
+exhaustion interrupted an outline operation.** A separate offline-router JDK
+extraction exhausted C: during the resumed V9 session. The previously empty PCB
+is now zero bytes; the connected schematic, project settings, rules, library
+tables, bundle and prior checkpoint still match their last normal-close hashes.
+The client could not retain its response or terminal record. The owned host and
+native editors were subsequently observed absent, with the project lease and
+locks retained. No uncertain mutation was retried and no checkpoint, lease or
+lock was manually changed. Recovery is pending; this is not a placed board.
+The failure observation is retained under
+`destination-verification/rp2350-native-disk-full-01/` outside the repository.
+
+Before this failure, **the complete RP2350 schematic was confirmed through
+public native readback and normal checkpoint/close.** V9
 project `d9435dc1-27b9-4fff-8af6-f6a2cfe897e8` has 67 functional nets, 260
 endpoints, two intended NCs, 62 physical components and six power flags matching
-the bound circuit and checked presentation. Its PCB remains the empty baseline;
+the bound circuit and checked presentation. Its PCB was the empty baseline;
 PCB placement, routing and design acceptance are unfinished.
 
 The connectivity call exceeded the client's ten-minute observation window.
@@ -12,7 +24,7 @@ The host continued, and its queued current-state check subsequently reported no
 recovery requirement. Fresh public graph/symbol reads matched the contract;
 normal workspace close then published a checkpoint and released the lease.
 Eight source/bundle/checkpoint files are pinned in the retained close evidence,
-with no current-project lease, unsafe marker or lock remaining. The original
+with no project lease, unsafe marker or lock remaining at that close. The original
 mutation response is unavailable; this milestone relies on the later observed
 state and confirmed lifecycle, not an invented successful response.
 
