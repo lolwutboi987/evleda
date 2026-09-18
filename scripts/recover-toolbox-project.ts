@@ -1,5 +1,6 @@
-/** Offline, operator-reviewed exception for one zero-byte PCB after a recorded
- * disk-full failure. This is NOT stale-lock reclamation or normal resume.
+/** Offline, separately typed operator exceptions for the recorded zero-byte
+ * disk-full failure or exact outlined pre-native-sync rejection. These are NOT
+ * generic unsafe-marker clearing, stale-lock reclamation or normal resume.
  * Inspection prints a plan and writes nothing. Apply requires that exact plan's
  * SHA-256, explicit maintenance exclusion, and fresh process/source checks.
  * Never invoke apply against a live host. Partial failures require review of
@@ -14,9 +15,13 @@ import { parseArgs, promisify } from "node:util";
 import { z } from "zod";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../src/core/canonical.js";
 import { parsePortableJsonBytes } from "../src/core/portable-artifact.js";
+import { createFreshConnectivityContract } from "../src/harness/fresh-connectivity-contract.js";
+import { parseFreshPcbSourceDocument } from "../src/harness/fresh-kicad-parser.js";
+import { freshBoardSerializationsEqual } from "../src/harness/fresh-board-serialization.js";
 
 const MAX_FILE = 2 * 1024 * 1024, MAX_TOTAL = 8 * 1024 * 1024, RESERVE = 100 * 1024 * 1024;
 const VERSION = "evleda.offline-zero-pcb-recovery-plan.v1";
+const SYNC_VERSION = "evleda.offline-outlined-pre-sync-recovery-plan.v1";
 const uuid = z.string().uuid(), digest = z.string().regex(/^[a-f0-9]{64}$/u);
 const pin = z.object({ path: z.string().min(1), sha256: digest, bytes: z.number().int().min(0).max(MAX_FILE) }).strict();
 const requestSchema = z.object({ schemaVersion: z.literal("evleda.offline-zero-pcb-recovery-request.v1"),
@@ -25,14 +30,27 @@ const requestSchema = z.object({ schemaVersion: z.literal("evleda.offline-zero-p
   failedSession: pin, resumeRequest: pin, resumeResponse: pin, outlineRequest: pin, failureWire: pin, failedResponse: pin, failedTerminal: pin,
   expectedLease: pin, expectedBoardLock: pin, expectedProjectLock: pin }).strict();
 export type RecoveryRequest = z.infer<typeof requestSchema>;
+const absentPin = z.object({ path: z.string().min(1), absent: z.literal(true) }).strict();
+const syncRequestSchema = requestSchema.pick({ projectRoot: true, projectId: true, archiveRoot: true, backup: true,
+  normalCloseVerification: true, normalCloseResponse: true, failureObservation: true, failedSession: true, resumeRequest: true,
+  resumeResponse: true, outlineRequest: true, expectedLease: true }).extend({
+  schemaVersion: z.literal("evleda.offline-outlined-pre-sync-recovery-request.v1"), outlineResponse: pin,
+  syncRequest: pin, syncResponse: pin, syncDiagnostic: pin, closeRequest: pin, closeResponse: pin,
+  statusRequest: pin, statusResponse: pin, shutdownObservation: pin, expectedUnsafeMarker: pin,
+  expectedBoardLock: absentPin, expectedProjectLock: absentPin }).strict();
+export type OutlinedSyncRecoveryRequest = z.infer<typeof syncRequestSchema>;
+const anyRequestSchema = z.discriminatedUnion("schemaVersion", [requestSchema, syncRequestSchema]);
+type AnyRequest = RecoveryRequest | OutlinedSyncRecoveryRequest;
+const isSyncRequest = (request: AnyRequest): request is OutlinedSyncRecoveryRequest => request.schemaVersion === "evleda.offline-outlined-pre-sync-recovery-request.v1";
 type Pin = z.infer<typeof pin>;
 type Physical = { dev: string; ino: string; size: string; mode: string; mtimeNs: string; ctimeNs: string; birthtimeNs: string };
 type Capture = { path: string; sha256: string; bytes: number; physical: Physical; data: Buffer };
 type Witness = Omit<Capture, "data">;
 type Directory = { path: string; dev: string; ino: string };
 export interface RecoveryPlan {
-  schemaVersion: typeof VERSION; request: RecoveryRequest; pcbPath: string;
+  schemaVersion: typeof VERSION | typeof SYNC_VERSION; request: AnyRequest; pcbPath: string;
   files: Witness[]; directories: Directory[]; requiredFreeBytes: number;
+  absentPaths?: string[];
   ownershipBasis: "operator-approved exact orphan artifacts; not original nonce ownership";
   identity: ReturnType<typeof canonicalIdentity>;
 }
@@ -92,6 +110,12 @@ async function pinned(value: Pin): Promise<Capture> {
   const parsed = pin.parse(value), current = await capture(parsed.path);
   need(current.sha256 === parsed.sha256 && current.bytes === parsed.bytes, "supplied evidence pin differs from current bytes");
   return current;
+}
+async function assertAbsent(file: string): Promise<void> {
+  need(path.isAbsolute(file) && path.resolve(file) === file, "absence path must be normalized and absolute");
+  await directoryChain(path.dirname(file));
+  try { await lstat(file); } catch (error) { if ((error as NodeJS.ErrnoException).code === "ENOENT") return; throw error; }
+  throw new Error(`Offline recovery refused: expected absent artifact reappeared: ${file}`);
 }
 function checkIdentity(value: Record<string, any>): void {
   const { identity, ...payload } = value;
@@ -167,19 +191,20 @@ async function diskRoom(directory: string, required: number, hooks: RecoveryHook
   const available = hooks.availableBytes === undefined ? await statfs(directory, { bigint: true }).then(s => s.bavail * s.bsize) : await hooks.availableBytes(directory);
   need(available >= BigInt(required), "insufficient disk headroom for bounded archive, restore and 100 MiB reserve");
 }
-async function inspect(requestValue: unknown): Promise<{ request: RecoveryRequest; captures: Capture[]; directories: Directory[]; pcbPath: string }> {
-  const request = requestSchema.parse(requestValue), root = request.projectRoot, output = path.join(root, "output"), project = path.join(output, "project");
+async function inspect(requestValue: unknown): Promise<{ request: AnyRequest; captures: Capture[]; directories: Directory[]; pcbPath: string; absentPaths?: string[] }> {
+  const request = anyRequestSchema.parse(requestValue), root = request.projectRoot, output = path.join(root, "output"), project = path.join(output, "project");
+  const sync = isSyncRequest(request);
   need(path.basename(root) === request.projectId && path.basename(path.dirname(root)) === "projects", "project allocation path differs from its exact ID");
   need(!contains(root, request.archiveRoot) && !contains(request.archiveRoot, root), "recovery archive must be disjoint from the allocation");
   await directoryChain(request.archiveRoot);
   const captures = new Map<string, Capture>();
   const remember = (value: Capture) => { const prior = captures.get(value.path); need(prior === undefined || same(witness(prior), witness(value)), "previously authenticated source changed during inspection"); captures.set(value.path, value); return value; };
   const artifacts: Record<string, Capture> = {};
-  for (const [key, value] of Object.entries(request)) if (typeof value === "object") artifacts[key] = remember(await pinned(value as Pin));
+  for (const [key, value] of Object.entries(request)) if (typeof value === "object" && !("absent" in value)) artifacts[key] = remember(await pinned(value as Pin));
   const close = json(artifacts.normalCloseVerification!.data), closed = json(artifacts.normalCloseResponse!.data);
   const failure = json(artifacts.failureObservation!.data), session = json(artifacts.failedSession!.data);
   const resumeRequest = json(artifacts.resumeRequest!.data), resumed = json(artifacts.resumeResponse!.data);
-  const outline = json(artifacts.outlineRequest!.data), wire = json(artifacts.failureWire!.data);
+  const outline = json(artifacts.outlineRequest!.data);
   need(close.projectId === request.projectId && close.checkpointExists === true && Array.isArray(close.remainingLeaseUnsafeLocks)
     && close.remainingLeaseUnsafeLocks.length === 0 && close.nativeBoardMaterialized === false, "prior normal-close evidence does not establish a clean unmaterialized PCB");
   need(closed.isError === false && closed.result?.structuredContent?.status === "closed" && closed.result.structuredContent.projectId === request.projectId, "normal-close response is not successful for this project");
@@ -192,9 +217,14 @@ async function inspect(requestValue: unknown): Promise<{ request: RecoveryReques
   need(resumed.request?.path === artifacts.resumeRequest!.path && resumed.request.identity?.digest === artifacts.resumeRequest!.sha256
     && resumed.request.identity?.size === artifacts.resumeRequest!.bytes, "resume response does not bind its request bytes");
   const sessionDir = path.dirname(artifacts.failedSession!.path);
-  need(["resumeRequest", "resumeResponse", "outlineRequest", "failureWire", "failedResponse", "failedTerminal"].every(key => path.dirname(artifacts[key]!.path) === sessionDir)
+  const sessionRoles = sync ? ["resumeRequest", "resumeResponse", "outlineRequest", "outlineResponse", "syncRequest", "syncResponse", "closeRequest", "closeResponse", "statusRequest", "statusResponse"]
+    : ["resumeRequest", "resumeResponse", "outlineRequest", "failureWire", "failedResponse", "failedTerminal"];
+  need(sessionRoles.every(key => path.dirname(artifacts[key]!.path) === sessionDir)
     && Array.isArray(session.serverArgs) && session.serverArgs.includes("--edit")
     && session.serverArgs[session.serverArgs.indexOf("--workspace-root") + 1] === path.dirname(path.dirname(root)), "session/project authority paths differ");
+  let times: number[];
+  if (!sync) {
+  const wire = json(artifacts.failureWire!.data);
   need(outline.operation === "call" && outline.name === "pcb_set_board_outline" && failure.projectId === request.projectId
     && failure.operation === outline.name && failure.requestId === outline.id && failure.mutationsRetried === false
     && failure.leaseOrLocksRemoved === false && failure.sourceOrCheckpointManuallyRestored === false
@@ -205,7 +235,40 @@ async function inspect(requestValue: unknown): Promise<{ request: RecoveryReques
     && failure.responseAndTerminalEvidenceFilesEmpty === true && artifacts.failedResponse!.bytes === 0 && artifacts.failedTerminal!.bytes === 0,
   "failed host/session or damaged response artifacts differ");
   need(wire.message?.result?.isError === true && wire.message.result.structuredContent?.error === "The existing CAD save/readback boundary failed.", "missing exact native save/readback failure receipt");
-  const times = [closed.recordedAt, close.recordedAt, session.startedAt, resumed.recordedAt, wire.receivedAt, failure.recordedAt].map(value => Date.parse(value));
+  times = [closed.recordedAt, close.recordedAt, session.startedAt, resumed.recordedAt, wire.receivedAt, failure.recordedAt].map(value => Date.parse(value));
+  } else {
+    const roles = [["outlineRequest", "outlineResponse", "pcb_set_board_outline"], ["syncRequest", "syncResponse", "fresh_sync_from_schematic"],
+      ["closeRequest", "closeResponse", "evleda_close_project"], ["statusRequest", "statusResponse", "evleda_workspace_status"]] as const;
+    for (const [input, response, name] of roles) {
+      const requested = json(artifacts[input]!.data), returned = json(artifacts[response]!.data);
+      need(requested.operation === "call" && requested.name === name && returned.disposition === "response"
+        && returned.request?.path === artifacts[input]!.path && returned.request.identity?.digest === artifacts[input]!.sha256
+        && returned.request.identity?.size === artifacts[input]!.bytes, "pre-sync response does not bind its exact public request");
+      if (name === "evleda_close_project") need(requested.arguments?.projectId === request.projectId, "failed close names another project");
+      if (["fresh_sync_from_schematic", "evleda_workspace_status"].includes(name)) need(same(requested.arguments, {}), "unexpected pre-sync/status arguments");
+    }
+    const outlined = json(artifacts.outlineResponse!.data), failed = json(artifacts.syncResponse!.data), closeFailed = json(artifacts.closeResponse!.data);
+    const status = json(artifacts.statusResponse!.data), shutdown = json(artifacts.shutdownObservation!.data);
+    const body = outlined.result?.structuredContent;
+    need(outlined.isError === false && body?.operation === "pcb_set_board_outline" && body.noGovernedEffect === false
+      && body.result?.isError !== true && body.persistence?.isError !== true
+      && same(json(Buffer.from(body.result.content)), { result: "Board outline added successfully." })
+      && same(json(Buffer.from(body.persistence.content)), { result: "Board saved." }), "outline has no exact positive native save receipt");
+    need(failed.isError === true && closeFailed.isError === true && closeFailed.result?.structuredContent?.error === "Project lease retained because native finalization/checkpoint requires review."
+      && status.isError === false && status.result?.structuredContent?.nativeState === "uncertain"
+      && status.result.structuredContent.activeProject?.projectId === request.projectId && status.result.structuredContent.activeProject.phase === "needs-review",
+    "pre-sync failure has no failed-close/needs-review chain");
+    need(shutdown.projectId === request.projectId && shutdown.ownedHostObservedAbsent === true && Number.isSafeInteger(shutdown.ownedHostPid)
+      && Array.isArray(shutdown.nativeEditors) && shutdown.nativeEditors.length === 0 && shutdown.clientInterruptedAfterFailedNormalClose === true
+      && shutdown.normalNativeCheckpointClose === false && shutdown.leaseAndUnsafeMarkerRetained === true && shutdown.editorLocksObservedAbsentAfterClose === true,
+    "pre-sync operator shutdown evidence is incomplete or claims normal checkpoint closure");
+    need(failure.projectId === request.projectId && failure.failedOperation === "fresh_sync_from_schematic" && failure.failureStage === "contract-board-feature-staging"
+      && failure.nativeElectricalSyncCalled === false && failure.noMutationRetried === true && failure.noRecoveryApplied === true
+      && failure.publicResult === failed.result?.structuredContent?.error && failure.normalCloseResult === closeFailed.result.structuredContent.error,
+    "unsupported pre-native-sync failure observation");
+    times = [closed.recordedAt, close.recordedAt, session.startedAt, resumed.recordedAt, outlined.recordedAt, failed.recordedAt,
+      closeFailed.recordedAt, status.recordedAt, failure.recordedAt, shutdown.recordedAt].map(value => Date.parse(value));
+  }
   need(times.every(Number.isFinite) && times.every((value, index) => index === 0 || value >= times[index - 1]!), "ownership evidence chronology differs");
   const take = async (file: string) => remember(await capture(file));
   const marker = json((await take(path.join(output, ".evleda-pcb-agent-fresh.json"))).data);
@@ -215,6 +278,7 @@ async function inspect(requestValue: unknown): Promise<{ request: RecoveryReques
   const projectDirectory = (await directoryChain(project))[0]!;
   need(same(marker.projectIdentity, { canonicalPath: project, dev: projectDirectory.dev, ino: projectDirectory.ino }) && resumed.result.structuredContent.name === marker.name, "marker directory identity or resumed project name differs");
   const pcbPath = path.join(project, `${marker.name}.kicad_pcb`);
+  if (!sync) {
   const amendment = json(artifacts.processAmendment!.data), editor = amendment.editor;
   need(amendment.schemaVersion === "evleda.offline-recovery-process-amendment.v1" && amendment.projectId === request.projectId
     && same(amendment.originalFailureObservation, request.failureObservation) && amendment.correctedAssertion === "nativeEditorsObservedAbsent"
@@ -226,14 +290,20 @@ async function inspect(requestValue: unknown): Promise<{ request: RecoveryReques
     && exited.observedExited === true && exited.normalNativeClose === false && exited.checkpointChangedByOperator === false
     && exited.leaseOrLocksRemoved === false && exited.sourceRestored === false
     && Date.parse(exited.recordedAt) >= times[5]! && Date.parse(amendment.recordedAt) >= Date.parse(exited.recordedAt), "exact owned-editor exit receipt is absent or inconsistent");
+  }
   const sourcePaths = ["fp-lib-table", `${marker.name}.kicad_dru`, `${marker.name}.kicad_pcb`, `${marker.name}.kicad_pro`, `${marker.name}.kicad_sch`, "sym-lib-table"].map(file => path.join(project, file));
   const expectedFiles = [...sourcePaths, bundlePath, checkpointPath].sort();
   need(Array.isArray(close.files) && Array.isArray(failure.files) && same(close.files.map((f: any) => f.path).sort(), expectedFiles)
     && same(failure.files.map((f: any) => f.path).sort(), expectedFiles), "normal-close/failure source inventory is incomplete or unexpected");
   for (const row of close.files) {
     const failed = failure.files.find((f: any) => f.path === row.path), current = await take(row.path);
-    need(failed.sha256 === row.sha256 && failed.bytes === row.bytes && failed.observedSha256 === current.sha256 && failed.observedBytes === current.bytes, "failure observation or baseline source differs");
-    need(row.path === pcbPath ? current.bytes === 0 && failed.matchesLastNormalClose === false : current.sha256 === row.sha256 && current.bytes === row.bytes && failed.matchesLastNormalClose === true, "another governed file changed or PCB is not the supported zero-byte failure");
+    if (sync) {
+      need(failed.lastNormalCloseSha256 === row.sha256 && failed.sha256 === current.sha256 && failed.bytes === current.bytes, "pre-sync failure source differs from its pinned observation");
+      need(row.path === pcbPath ? current.bytes > 0 && current.sha256 !== row.sha256 && failed.matchesLastNormalClose === false : current.sha256 === row.sha256 && current.bytes === row.bytes && failed.matchesLastNormalClose === true, "another governed file changed or outlined preimage is missing");
+    } else {
+      need(failed.sha256 === row.sha256 && failed.bytes === row.bytes && failed.observedSha256 === current.sha256 && failed.observedBytes === current.bytes, "failure observation or baseline source differs");
+      need(row.path === pcbPath ? current.bytes === 0 && failed.matchesLastNormalClose === false : current.sha256 === row.sha256 && current.bytes === row.bytes && failed.matchesLastNormalClose === true, "another governed file changed or PCB is not the supported zero-byte failure");
+    }
   }
   const checkpoint = json(captures.get(checkpointPath)!.data), bundle = json(captures.get(bundlePath)!.data);
   need(checkpoint.schemaVersion === "evleda.pcb-agent-fresh-project-checkpoint.v3" && checkpoint.reason === "run_exit"
@@ -254,13 +324,57 @@ async function inspect(requestValue: unknown): Promise<{ request: RecoveryReques
   need(artifacts.backup!.sha256 === checkpoint.files.pcb.sha256 && artifacts.backup!.bytes === close.files.find((f: any) => f.path === pcbPath).bytes
     && artifacts.backup!.bytes > 0 && !contains(root, artifacts.backup!.path), "backup is not the exact independent checkpoint PCB");
   const lockPaths = [path.join(project, `~${marker.name}.kicad_pcb.lck`), path.join(project, `~${marker.name}.kicad_pro.lck`), path.join(root, ".toolbox-lease.json")];
-  need(same([artifacts.expectedBoardLock!.path, artifacts.expectedProjectLock!.path, artifacts.expectedLease!.path], lockPaths), "reviewed lease/lock paths differ");
+  need(same([request.expectedBoardLock.path, request.expectedProjectLock.path, request.expectedLease.path], lockPaths), "reviewed lease/lock paths differ");
   const lease = json(artifacts.expectedLease!.data);
   need(same(Object.keys(lease).sort(), ["nonce", "schemaVersion"]) && lease.schemaVersion === "evleda.toolbox-owned-lock.v1" && uuid.safeParse(lease.nonce).success, "unsupported lease contents");
-  for (const file of lockPaths) {
+  for (const file of sync ? [lockPaths[2]!] : lockPaths) {
     const owned = captures.get(file)!;
     const born = Number(BigInt(owned.physical.birthtimeNs) / 1_000_000n);
-    need(owned.bytes > 0 && owned.bytes <= 16_384 && born >= times[1]! && born <= times[5]!, "retained lock is outside the reviewed ownership interval");
+    need(owned.bytes > 0 && owned.bytes <= 16_384 && born >= times[sync ? 2 : 1]! && born <= times[sync ? 3 : 5]!, "retained lock is outside the reviewed ownership interval");
+  }
+  let allowedUnsafe: string | undefined;
+  if (sync) {
+    const diagnostic = json(artifacts.syncDiagnostic!.data); checkIdentity(diagnostic);
+    need(artifacts.syncDiagnostic!.path === path.join(output, ".evleda-mcp-output", path.basename(artifacts.syncDiagnostic!.path))
+      && /^sync-diagnostic-primary-failure-[a-f0-9-]{36}\.json$/u.test(path.basename(artifacts.syncDiagnostic!.path))
+      && same(failure.privateDiagnostic, request.syncDiagnostic), "private sync diagnostic is not its exact retained artifact");
+    need(diagnostic.schemaVersion === "evleda.fresh-sync-failure-diagnostic.v1" && diagnostic.phase === "primary-failure"
+      && diagnostic.stage === "contract-board-feature-staging" && same(diagnostic.projectBindingIdentity, marker.planeBinding.identity)
+      && same(diagnostic.freshMarkerContentIdentity, contentIdentity(captures.get(path.join(output, ".evleda-pcb-agent-fresh.json"))!.data))
+      && same(diagnostic.contractIdentity, createFreshConnectivityContract(bundle.contract, bundle.externalPowerBinding, bundle.derivedPowerBinding).identity),
+    "diagnostic stage or complete project/contract authority differs");
+    const capturedSlot = z.object({ status: z.literal("captured"), text: z.string().refine(text => text.isWellFormed()),
+      contentIdentity: z.object({ algorithm: z.literal("sha256"), digest, size: z.number().int().min(0).max(MAX_FILE) }).strict() }).strict();
+    const unavailableSlot = z.object({ status: z.literal("unavailable"), reason: z.string().min(1).max(4096) }).strict();
+    const capturedText = (role: string): Buffer => { const value = capturedSlot.parse(diagnostic[role]);
+      need(same(contentIdentity(value.text), value.contentIdentity), `diagnostic ${role} has no exact complete capture`); return Buffer.from(value.text); };
+    const before = capturedText("beforePcb"), failedPcb = capturedText("savedPcbAtFailure"), primary = json(capturedText("primary"));
+    need(before.equals(failedPcb) && before.equals(captures.get(pcbPath)!.data)
+      && capturedText("schematicInput").equals(captures.get(path.join(project, `${marker.name}.kicad_sch`))!.data), "diagnostic preimage/current PCB or schematic differs");
+    capturedText("nativeNetlistBefore");
+    need(["nativeResponseJson", "nativeNetlistAfter", "savedPcb", "livePcb"].every(role => unavailableSlot.safeParse(diagnostic[role]).success)
+      && primary.name === "Error" && primary.message === "Board features: missing board feature H1"
+      && bundle.contract.boardFeatures?.some((feature: any) => feature.reference === "H1")
+      && failure.publicResult === `FRESH_SYNC_ROLLED_BACK_TERMINAL: ${primary.message} Exact disk and live board preimage restored; close this editing session.`,
+    "failure is not the supported pre-native-sync rejection with explicit restored-preimage result");
+    const source = before.toString("utf8"), rectangles = parseFreshPcbSourceDocument(source).children.filter(node => node.name === "gr_rect");
+    need(rectangles.length === 1, "pre-sync preimage must contain one exact added outline");
+    const rectangle = rectangles[0]!, ids = rectangle.children.filter(node => node.name === "uuid"), id = ids[0]?.values[0]?.value;
+    need(ids.length === 1 && id !== undefined && /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u.test(id), "outline has no exact native identity");
+    const board = bundle.contract.scope.board, expected = `(gr_rect (start 0 0) (end ${board.widthMm} ${board.heightMm}) (stroke (width 0.05) (type default)) (fill no) (layer "Edge.Cuts") (uuid "${id}"))`;
+    need(same(outline.arguments, { width_mm: board.widthMm, height_mm: board.heightMm, origin_x_mm: 0, origin_y_mm: 0 })
+      && freshBoardSerializationsEqual(`(kicad_pcb ${source.slice(rectangle.start, rectangle.end)})`, `(kicad_pcb ${expected})`)
+      && freshBoardSerializationsEqual(source.slice(0, rectangle.start) + source.slice(rectangle.end), artifacts.backup!.data.toString("utf8")),
+    "outlined preimage differs from checkpoint by more than its one exact contract rectangle");
+    allowedUnsafe = path.join(output, ".evleda-pcb-agent-unsafe-terminal.json");
+    need(request.expectedUnsafeMarker.path === allowedUnsafe, "unsafe marker is not the exact reviewed project marker");
+    z.object({ schemaVersion: z.literal("evleda.pcb-agent-unsafe-terminal.v1"), projectPath: z.literal(project), reportPath: z.literal(checkpoint.reportPath),
+      reportSha256: z.literal(checkpoint.reportSha256), reason: z.literal("Toolbox checkpoint or owned teardown was not confirmed; explicit recovery is required.") }).strict().parse(json(artifacts.expectedUnsafeMarker!.data));
+    const unsafeBorn = Number(BigInt(artifacts.expectedUnsafeMarker!.physical.birthtimeNs) / 1_000_000n);
+    const closeRequested = Number(BigInt(artifacts.closeRequest!.physical.birthtimeNs) / 1_000_000n);
+    need(unsafeBorn >= closeRequested && unsafeBorn <= times[9]! && same(failure.retainedArtifacts,
+      [request.expectedLease, request.expectedUnsafeMarker, request.expectedBoardLock, request.expectedProjectLock]), "retained marker/lease/absence evidence or close interval differs");
+    for (const file of lockPaths.slice(0, 2)) await assertAbsent(file);
   }
   const allocation = json((await take(path.join(root, "allocation.json"))).data);
   need(allocation.schemaVersion === "evleda.toolbox-workspace-allocation.v1" && allocation.projectId === request.projectId && allocation.name === marker.name, "workspace allocation differs");
@@ -280,18 +394,20 @@ async function inspect(requestValue: unknown): Promise<{ request: RecoveryReques
       need(captures.size <= 512 && [...captures.values()].reduce((sum, f) => sum + f.bytes, 0) <= MAX_TOTAL, "inspection inventory exceeds bounded recovery scope");
     }
   };
-  for (const folder of [root, output]) for (const item of await readdir(folder)) need(!/unsafe|recovery/iu.test(item), "unsafe/recovery marker blocks offline recovery");
+  for (const folder of [root, output]) for (const item of await readdir(folder)) need(!/unsafe|recovery/iu.test(item) || path.join(folder, item) === allowedUnsafe, "unsafe/recovery marker blocks offline recovery");
   await scan(project); await scan(path.join(root, "input"));
   for (const file of captures.values()) for (const dir of await directoryChain(path.dirname(file.path))) if (!directories.some(old => old.path === dir.path)) directories.push(dir);
-  return { request, pcbPath, captures: [...captures.values()].sort((a, b) => a.path.localeCompare(b.path)), directories: directories.sort((a, b) => a.path.localeCompare(b.path)) };
+  return { request, pcbPath, captures: [...captures.values()].sort((a, b) => a.path.localeCompare(b.path)), directories: directories.sort((a, b) => a.path.localeCompare(b.path)),
+    ...(sync ? { absentPaths: lockPaths.slice(0, 2) } : {}) };
 }
 export async function inspectRecovery(request: unknown, hooks: RecoveryHooks = {}): Promise<RecoveryPlan> {
-  const parsed = requestSchema.parse(request), workspaceRoot = path.dirname(path.dirname(parsed.projectRoot));
+  const parsed = anyRequestSchema.parse(request), workspaceRoot = path.dirname(path.dirname(parsed.projectRoot));
   await quiescent(hooks, workspaceRoot); const state = await inspect(parsed); await quiescent(hooks, workspaceRoot);
   const requiredFreeBytes = RESERVE + 3 * state.captures.reduce((sum, f) => sum + f.bytes, 0) + 2 * state.captures.find(f => f.path === state.request.backup.path)!.bytes + 1024 * 1024;
-  const payload = { schemaVersion: VERSION as typeof VERSION, request: state.request, pcbPath: state.pcbPath, files: state.captures.map(witness), directories: state.directories,
-    requiredFreeBytes, ownershipBasis: "operator-approved exact orphan artifacts; not original nonce ownership" as const };
-  return { ...payload, identity: canonicalIdentity(payload, VERSION) };
+  const version = isSyncRequest(parsed) ? SYNC_VERSION : VERSION;
+  const payload = { schemaVersion: version as RecoveryPlan["schemaVersion"], request: state.request, pcbPath: state.pcbPath, files: state.captures.map(witness), directories: state.directories,
+    ...(state.absentPaths === undefined ? {} : { absentPaths: state.absentPaths }), requiredFreeBytes, ownershipBasis: "operator-approved exact orphan artifacts; not original nonce ownership" as const };
+  return { ...payload, identity: canonicalIdentity(payload, version) };
 }
 async function writeExclusive(file: string, bytes: Buffer): Promise<void> {
   const handle = await open(file, "wx", 0o600);
@@ -299,7 +415,8 @@ async function writeExclusive(file: string, bytes: Buffer): Promise<void> {
   const copied = await capture(file); need(copied.sha256 === contentIdentity(bytes).digest && copied.bytes === bytes.length, "archive/write readback differs");
 }
 export async function applyRecovery(plan: RecoveryPlan, approval: { planIdentity: string; maintenanceConfirmed: true }, hooks: RecoveryHooks = {}): Promise<{ status: "restored-exact-checkpoint-pcb"; archive: string }> {
-  checkIdentity(plan); need(plan.schemaVersion === VERSION && approval.maintenanceConfirmed === true && approval.planIdentity === plan.identity.digest, "exact reviewed plan and exclusive maintenance confirmation are required");
+  checkIdentity(plan); need([VERSION, SYNC_VERSION].includes(plan.schemaVersion) && approval.maintenanceConfirmed === true && approval.planIdentity === plan.identity.digest, "exact reviewed plan and exclusive maintenance confirmation are required");
+  const syncRequest = isSyncRequest(plan.request) ? plan.request : undefined;
   const fresh = await inspectRecovery(plan.request, hooks); need(same(fresh, plan), "plan no longer matches every source, evidence, lock or physical identity");
   await diskRoom(plan.request.archiveRoot, plan.requiredFreeBytes, hooks); await diskRoom(path.dirname(plan.pcbPath), plan.requiredFreeBytes, hooks);
   const archive = path.join(plan.request.archiveRoot, `recovery-${plan.request.projectId}-${plan.identity.digest}`);
@@ -314,7 +431,10 @@ export async function applyRecovery(plan: RecoveryPlan, approval: { planIdentity
   let stage = "archive", temporary: string | undefined;
   const removed = new Set<string>();
   const assertInventory = async () => {
-    for (const folder of [plan.request.projectRoot, path.join(plan.request.projectRoot, "output")]) for (const name of await readdir(folder)) need(!/unsafe|recovery/iu.test(name), "new unsafe/recovery marker blocks recovery");
+    for (const file of plan.absentPaths ?? []) await assertAbsent(file);
+    for (const file of removed) await assertAbsent(file);
+    for (const folder of [plan.request.projectRoot, path.join(plan.request.projectRoot, "output")]) for (const name of await readdir(folder)) need(!/unsafe|recovery/iu.test(name)
+      || syncRequest !== undefined && path.join(folder, name) === syncRequest.expectedUnsafeMarker.path && !removed.has(path.join(folder, name)), "new unsafe/recovery marker blocks recovery");
     const roots = [path.dirname(plan.pcbPath), path.join(plan.request.projectRoot, "input")];
     const files: string[] = [], dirs: string[] = []; let entries = 0;
     const walk = async (folder: string, depth = 0): Promise<void> => {
@@ -363,16 +483,24 @@ export async function applyRecovery(plan: RecoveryPlan, approval: { planIdentity
       const file = path.join(archive, name);
       await hooks.beforeStep?.(`before-${name}`);
       await writeExclusive(file, Buffer.from(canonicalJson({ state, planIdentity: plan.identity, pcbIdentity: contentIdentity(backup.data),
-        removedEditorLocks: [...removed], checkpointUnchanged: true, normalResumeRequired: true, restoredSchematic: false })));
+        ...(syncRequest === undefined ? { removedEditorLocks: [...removed] } : { retiredArtifacts: [...removed], editorLocksRemainAbsent: true }),
+        checkpointUnchanged: true, normalResumeRequired: true, restoredSchematic: false })));
       archived.push(witness(await capture(file)));
     };
-    await receipt("restore-verified.json", "PCB restored and verified; original orphan locks retained");
-    for (const [index, lock] of [plan.request.expectedBoardLock, plan.request.expectedProjectLock, plan.request.expectedLease].entries()) {
-      if (index === 2) {
+    await receipt("restore-verified.json", syncRequest === undefined ? "PCB restored and verified; original orphan locks retained"
+      : "Old checkpoint PCB restored and verified, discarding the archived saved outline; reviewed unsafe marker and lease retained; editor locks remain absent");
+    const retirements: Pin[] = syncRequest === undefined
+      ? [(plan.request as RecoveryRequest).expectedBoardLock, (plan.request as RecoveryRequest).expectedProjectLock, plan.request.expectedLease]
+      : [syncRequest.expectedUnsafeMarker, syncRequest.expectedLease];
+    for (const [index, lock] of retirements.entries()) {
+      const last = index === retirements.length - 1;
+      if (last) {
         stage = "release-lease-last";
-        await receipt("lease-release-intent.json", "PCB verified and editor locks released; exact original lease removal intended, not yet observed");
+        await receipt("lease-release-intent.json", syncRequest === undefined ? "PCB verified and editor locks released; exact original lease removal intended, not yet observed"
+          : "Old checkpoint PCB verified; only reviewed unsafe marker retired; editor locks remained absent; exact lease removal intended, not yet observed; no normal close claimed");
       }
-      await hooks.beforeStep?.(index === 2 ? "before-lease-release" : `before-editor-lock-${index + 1}-release`);
+      if (!last && syncRequest !== undefined) await receipt("unsafe-marker-retirement-intent.json", "Exact checkpoint PCB verified; only the archived pre-sync unsafe marker is scheduled for retirement");
+      await hooks.beforeStep?.(last ? "before-lease-release" : syncRequest === undefined ? `before-editor-lock-${index + 1}-release` : "before-unsafe-marker-retirement");
       await quiescent(hooks, path.dirname(path.dirname(plan.request.projectRoot)));
       await assertArchiveAndDirectories();
       await assertInventory();
@@ -382,9 +510,10 @@ export async function applyRecovery(plan: RecoveryPlan, approval: { planIdentity
         need(file.path === plan.pcbPath ? current.sha256 === plan.request.backup.sha256 && current.bytes === plan.request.backup.bytes : same(witness(current), file), "source or reviewed orphan changed before release");
       }
       await unlink(lock.path);
-      if (index === 2) return { status: "restored-exact-checkpoint-pcb", archive }; // Last fallible operation; no later receipt/callback.
+      if (last) return { status: "restored-exact-checkpoint-pcb", archive }; // Last fallible operation; no later receipt/callback.
       removed.add(lock.path);
-      await receipt(`editor-lock-${index + 1}-released.json`, "One reviewed editor lock released; exact original lease retained");
+      await receipt(syncRequest === undefined ? `editor-lock-${index + 1}-released.json` : "unsafe-marker-retired.json",
+        syncRequest === undefined ? "One reviewed editor lock released; exact original lease retained" : "Only the archived pre-sync unsafe marker retired; exact original lease retained; no normal close is claimed");
     }
     throw new Error("Unreachable recovery release state");
   } catch (error) {

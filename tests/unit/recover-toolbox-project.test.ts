@@ -1,12 +1,15 @@
 import { randomUUID } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
+import { lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, unlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it } from "vitest";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
-import { applyRecovery, classifyRecoveryProcesses, inspectRecovery, type RecoveryHooks, type RecoveryRequest } from "../../scripts/recover-toolbox-project.js";
+import { applyRecovery, classifyRecoveryProcesses, inspectRecovery, type RecoveryHooks, type RecoveryRequest, type OutlinedSyncRecoveryRequest } from "../../scripts/recover-toolbox-project.js";
+import { closePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-contract.js";
+import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
+import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 
 const owned = new Set<string>();
 const hooks: RecoveryHooks = { assertQuiescent: async () => {}, availableBytes: async () => 1024n * 1024n * 1024n };
@@ -14,7 +17,7 @@ const jsonBytes = (value: unknown) => Buffer.from(canonicalJson(value));
 const identified = <T extends { schemaVersion: string }>(value: T) => ({ ...value, identity: canonicalIdentity(value, value.schemaVersion) });
 afterEach(async () => { for (const root of owned) { expect(path.resolve(root).startsWith(path.resolve(os.tmpdir()) + path.sep)).toBe(true); await rm(root, { recursive: true, force: true }); owned.delete(root); } });
 
-async function fixture() {
+async function fixture(outlined = false) {
   const base = await mkdtemp(path.join(os.tmpdir(), "evleda-offline-recovery-test-")); owned.add(base);
   const evidenceBase = path.join(base, "case"), projectId = randomUUID(), projectRoot = path.join(evidenceBase, "workspace", "projects", projectId);
   const output = path.join(projectRoot, "output"), project = path.join(output, "project"), input = path.join(projectRoot, "input");
@@ -22,13 +25,18 @@ async function fixture() {
   for (const folder of [project, input, archiveRoot, session, closedSession, path.join(project, ".history")]) await mkdir(folder, { recursive: true });
   const put = async (file: string, data: Buffer | string | object) => { const bytes = Buffer.isBuffer(data) ? data : typeof data === "string" ? Buffer.from(data) : jsonBytes(data); await writeFile(file, bytes); const id = contentIdentity(bytes); return { path: file, sha256: id.digest, bytes: id.size }; };
   const prompt = "Synthetic offline recovery test; no CAD process.";
-  const draft = { schemaVersion: "synthetic-test-draft", value: 1 }, draftPin = await put(path.join(input, "draft.json"), draft);
+  const draft = outlined ? { ...planeDividerDraft(), boardFeatures: [{ kind: "npth_mounting_hole", reference: "H1", footprintLibId: "MountingHole:Hole_D2.1", value: "Mounting hole",
+    pose: { side: "front", xMm: 3, yMm: 3, rotationDeg: 0 }, boreDiameterMm: 2.1, minimumHoleToCopperMm: .5, minimumHoleToEdgeMm: .5 }] }
+    : { schemaVersion: "synthetic-test-draft", value: 1 };
+  const draftPin = await put(path.join(input, "draft.json"), draft);
   await put(path.join(projectRoot, "allocation.json"), { schemaVersion: "evleda.toolbox-workspace-allocation.v1", projectId, name: "test", originalPrompt: prompt, draftIdentity: { algorithm: "sha256", digest: draftPin.sha256, size: draftPin.bytes } });
-  const bundle = identified({ schemaVersion: "evleda.pcb-design-compilation-bundle.v2", originalPromptContentIdentity: contentIdentity(prompt), draft });
+  const bundle = identified({ schemaVersion: "evleda.pcb-design-compilation-bundle.v2", originalPromptContentIdentity: contentIdentity(prompt), draft,
+    ...(outlined ? { contract: closePcbPlaneDesignIntentDraft(draft) } : {}) });
   const bundlePin = await put(path.join(output, "toolbox-design-bundle.json"), bundle);
   const bundleRef = identified({ schemaVersion: "evleda.pcb-design-compilation-bundle-ref.v2", bundleIdentity: bundle.identity, contentIdentity: { algorithm: "sha256", digest: bundlePin.sha256, size: bundlePin.bytes } });
   const planeBinding = identified({ schemaVersion: "evleda.pcb-agent-plane-fresh-binding.v1", family: "plane-v2", bundleRef });
-  const sourcePins = await Promise.all(["fp-lib-table", "test.kicad_dru", "test.kicad_pcb", "test.kicad_pro", "test.kicad_sch", "sym-lib-table"].map(name => put(path.join(project, name), `Original ${name}\n`)));
+  const sourcePins = await Promise.all(["fp-lib-table", "test.kicad_dru", "test.kicad_pcb", "test.kicad_pro", "test.kicad_sch", "sym-lib-table"].map(name => put(path.join(project, name),
+    outlined && name === "test.kicad_pcb" ? '(kicad_pcb (version 20260206) (generator "pcbnew") (generator_version "10.0") (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))\n' : `Original ${name}\n`)));
   const byLeaf = (leaf: string) => sourcePins.find(file => path.basename(file.path) === leaf)!;
   const files = Object.fromEntries(Object.entries({ pro: "test.kicad_pro", sch: "test.kicad_sch", pcb: "test.kicad_pcb", symLibTable: "sym-lib-table", fpLibTable: "fp-lib-table", dru: "test.kicad_dru" }).map(([key, leaf]) => [key, { path: byLeaf(leaf).path, sha256: byLeaf(leaf).sha256 }]));
   const dir = await lstat(project, { bigint: true });
@@ -66,7 +74,58 @@ async function fixture() {
     originalFailureObservation: failureObservation, correctedAssertion: "nativeEditorsObservedAbsent", originalAssertionWasIncorrect: true, editor, exitReceipt, recordedAt: at(90_000) });
   const request: RecoveryRequest = { schemaVersion: "evleda.offline-zero-pcb-recovery-request.v1", projectRoot, projectId, archiveRoot, backup, normalCloseVerification, normalCloseResponse, processAmendment,
     failureObservation, failedSession, resumeRequest, resumeResponse, outlineRequest, failureWire, failedResponse, failedTerminal, expectedLease, expectedBoardLock, expectedProjectLock };
-  return { base, request, put, project, output, goodBoard, sourcePins, markerPin, checkpointPin, reportPin, pcb: byLeaf("test.kicad_pcb").path };
+  return { base, request, put, project, output, goodBoard, sourcePins, markerPin, checkpointPin, reportPin, bundle, planeBinding, baseline, pcb: byLeaf("test.kicad_pcb").path };
+}
+
+async function outlinedFixture() {
+  const f = await fixture(true), originalRequest = f.request, sessionDir = path.dirname(originalRequest.failedSession.path);
+  const leaseBirth = Number((await lstat(originalRequest.expectedLease.path, { bigint: true })).birthtimeNs / 1_000_000n);
+  const at = (offset: number) => new Date(leaseBirth + offset).toISOString();
+  const session = JSON.parse(await readFile(originalRequest.failedSession.path, "utf8")); session.startedAt = at(-1000);
+  const failedSession = await f.put(originalRequest.failedSession.path, session);
+  const resume = JSON.parse(await readFile(originalRequest.resumeResponse.path, "utf8")); resume.recordedAt = at(1000);
+  const resumeResponse = await f.put(originalRequest.resumeResponse.path, resume);
+  const response = async (name: string, requested: { path: string; sha256: string; bytes: number }, isError: boolean, structuredContent: unknown, time: string) => f.put(path.join(sessionDir, name),
+    { recordedAt: time, disposition: "response", isError, request: { path: requested.path, identity: { algorithm: "sha256", digest: requested.sha256, size: requested.bytes } }, result: { structuredContent } });
+  const outlineRequest = await f.put(originalRequest.outlineRequest.path, { id: "outlined-once", operation: "call", name: "pcb_set_board_outline", arguments: { width_mm: 30, height_mm: 20, origin_x_mm: 0, origin_y_mm: 0 } });
+  const outlineResponse = await response("outline-response.json", outlineRequest, false, { operation: "pcb_set_board_outline", noGovernedEffect: false,
+    result: { content: JSON.stringify({ result: "Board outline added successfully." }) }, persistence: { content: JSON.stringify({ result: "Board saved." }) } }, at(2000));
+  const source = f.goodBoard.toString("utf8").trimEnd().slice(0, -1) + ` (gr_rect (start 0 0) (end 30 20) (stroke (width 0.05) (type default)) (fill no) (layer "Edge.Cuts") (uuid "${randomUUID()}")))\n`;
+  await writeFile(f.pcb, source); const outlinedPin = { path: f.pcb, sha256: contentIdentity(source).digest, bytes: Buffer.byteLength(source) };
+  const syncRequest = await f.put(path.join(sessionDir, "sync-request.json"), { operation: "call", name: "fresh_sync_from_schematic", arguments: {}, id: "sync-once" });
+  const message = "FRESH_SYNC_ROLLED_BACK_TERMINAL: Board features: missing board feature H1 Exact disk and live board preimage restored; close this editing session.";
+  const syncResponse = await response("sync-response.json", syncRequest, true, { error: message }, at(3000));
+  const closeRequest = await f.put(path.join(sessionDir, "close-request.json"), { operation: "call", name: "evleda_close_project", arguments: { projectId: originalRequest.projectId } });
+  const closeResponse = await response("close-response.json", closeRequest, true, { error: "Project lease retained because native finalization/checkpoint requires review." }, at(5000));
+  const statusRequest = await f.put(path.join(sessionDir, "status-request.json"), { operation: "call", name: "evleda_workspace_status", arguments: {} });
+  const statusResponse = await response("status-response.json", statusRequest, false, { nativeState: "uncertain", activeProject: { projectId: originalRequest.projectId, phase: "needs-review" } }, at(6000));
+  const capture = (text: string) => ({ status: "captured", text, contentIdentity: contentIdentity(text) });
+  const unavailable = { status: "unavailable", reason: "Synthetic pre-native-sync fixture" };
+  const diagnostic = identified({ schemaVersion: "evleda.fresh-sync-failure-diagnostic.v1", phase: "primary-failure", stage: "contract-board-feature-staging", toolCallId: `toolbox:${randomUUID()}`,
+    contractIdentity: createFreshConnectivityContract(f.bundle.contract!).identity, projectBindingIdentity: f.planeBinding.identity,
+    freshMarkerContentIdentity: { algorithm: "sha256", digest: f.markerPin.sha256, size: f.markerPin.bytes },
+    beforePcb: capture(source), savedPcbAtFailure: capture(source), schematicInput: capture(await readFile(path.join(f.project, "test.kicad_sch"), "utf8")),
+    primary: capture(JSON.stringify({ name: "Error", message: "Board features: missing board feature H1" })), nativeNetlistBefore: capture("Synthetic pre-sync native netlist"),
+    nativeResponseJson: unavailable, nativeNetlistAfter: unavailable, savedPcb: unavailable, livePcb: unavailable });
+  await mkdir(path.join(f.output, ".evleda-mcp-output"));
+  const syncDiagnostic = await f.put(path.join(f.output, ".evleda-mcp-output", `sync-diagnostic-primary-failure-${randomUUID()}.json`), diagnostic);
+  const expectedUnsafeMarker = await f.put(path.join(f.output, ".evleda-pcb-agent-unsafe-terminal.json"), { schemaVersion: "evleda.pcb-agent-unsafe-terminal.v1", projectPath: f.project,
+    reportPath: f.reportPin.path, reportSha256: f.reportPin.sha256, reason: "Toolbox checkpoint or owned teardown was not confirmed; explicit recovery is required." });
+  await unlink(originalRequest.expectedBoardLock.path); await unlink(originalRequest.expectedProjectLock.path);
+  const expectedBoardLock = { path: originalRequest.expectedBoardLock.path, absent: true as const }, expectedProjectLock = { path: originalRequest.expectedProjectLock.path, absent: true as const };
+  const failure = { recordedAt: at(7000), projectId: originalRequest.projectId, failedOperation: "fresh_sync_from_schematic", failureStage: "contract-board-feature-staging",
+    nativeElectricalSyncCalled: false, noMutationRetried: true, noRecoveryApplied: true, publicResult: message,
+    normalCloseResult: "Project lease retained because native finalization/checkpoint requires review.",
+    files: f.baseline.map(file => ({ ...(file.path === f.pcb ? outlinedPin : file), lastNormalCloseSha256: file.sha256, matchesLastNormalClose: file.path !== f.pcb })),
+    retainedArtifacts: [originalRequest.expectedLease, expectedUnsafeMarker, expectedBoardLock, expectedProjectLock], privateDiagnostic: syncDiagnostic };
+  const failureObservation = await f.put(path.join(f.base, "sync-failure.json"), failure);
+  const shutdownObservation = await f.put(path.join(f.base, "shutdown.json"), { recordedAt: at(8000), projectId: originalRequest.projectId, ownedHostPid: 1234, ownedHostObservedAbsent: true,
+    nativeEditors: [], clientInterruptedAfterFailedNormalClose: true, normalNativeCheckpointClose: false, leaseAndUnsafeMarkerRetained: true, editorLocksObservedAbsentAfterClose: true });
+  const request: OutlinedSyncRecoveryRequest = { schemaVersion: "evleda.offline-outlined-pre-sync-recovery-request.v1", projectRoot: originalRequest.projectRoot, projectId: originalRequest.projectId,
+    archiveRoot: originalRequest.archiveRoot, backup: originalRequest.backup, normalCloseVerification: originalRequest.normalCloseVerification, normalCloseResponse: originalRequest.normalCloseResponse,
+    failureObservation, failedSession, resumeRequest: originalRequest.resumeRequest, resumeResponse, outlineRequest, outlineResponse, syncRequest, syncResponse, syncDiagnostic,
+    closeRequest, closeResponse, statusRequest, statusResponse, shutdownObservation, expectedUnsafeMarker, expectedLease: originalRequest.expectedLease, expectedBoardLock, expectedProjectLock };
+  return { ...f, request, originalRequest, source, diagnostic, failure };
 }
 
 describe("bounded offline zero-PCB recovery", () => {
@@ -192,5 +251,97 @@ describe("bounded offline zero-PCB recovery", () => {
     const observed = JSON.parse(result.stdout);
     expect(observed.quiescent).toBe(observed.blocking.length === 0);
     expect([...observed.blocking, ...observed.disjointHosts].some((row: { ProcessId: number }) => row.ProcessId === observed.inspectorPid)).toBe(false);
+  });
+});
+
+describe("separately typed outlined pre-native-sync recovery", () => {
+  const approve = (plan: Awaited<ReturnType<typeof inspectRecovery>>) => ({ planIdentity: plan.identity.digest, maintenanceConfirmed: true as const });
+  async function reviseDiagnostic(f: Awaited<ReturnType<typeof outlinedFixture>>, change: (value: Record<string, any>) => void) {
+    const diagnostic = JSON.parse(await readFile(f.request.syncDiagnostic.path, "utf8")); change(diagnostic);
+    const { identity: _identity, ...body } = diagnostic;
+    const syncDiagnostic = await f.put(f.request.syncDiagnostic.path, identified(body as { schemaVersion: string }));
+    const failure = JSON.parse(await readFile(f.request.failureObservation.path, "utf8")); failure.privateDiagnostic = syncDiagnostic;
+    const failureObservation = await f.put(f.request.failureObservation.path, failure);
+    return { ...f.request, syncDiagnostic, failureObservation };
+  }
+  it("archives the saved outline and exact unsafe marker, restores the old checkpoint and retires only marker then lease", async () => {
+    const f = await outlinedFixture(), plan = await inspectRecovery(f.request, hooks);
+    expect(plan.schemaVersion).toBe("evleda.offline-outlined-pre-sync-recovery-plan.v1");
+    expect(plan.absentPaths).toEqual([f.request.expectedBoardLock.path, f.request.expectedProjectLock.path]);
+    const steps: string[] = [];
+    const result = await applyRecovery(plan, approve(plan), { ...hooks, beforeStep: async step => { steps.push(step); } });
+    expect(await readFile(f.pcb)).toEqual(f.goodBoard);
+    expect(steps.indexOf("before-unsafe-marker-retirement")).toBeLessThan(steps.indexOf("before-lease-release"));
+    for (const pin of [f.request.expectedUnsafeMarker, f.request.expectedLease]) {
+      await expect(lstat(pin.path)).rejects.toMatchObject({ code: "ENOENT" });
+      const index = plan.files.findIndex(file => file.path === pin.path);
+      expect(contentIdentity(await readFile(path.join(result.archive, `${String(index).padStart(4, "0")}.bin`))).digest).toBe(pin.sha256);
+    }
+    const boardIndex = plan.files.findIndex(file => file.path === f.pcb);
+    expect((await readFile(path.join(result.archive, `${String(boardIndex).padStart(4, "0")}.bin`))).toString()).toBe(f.source);
+    for (const pin of [f.markerPin, f.checkpointPin, f.reportPin, ...f.sourcePins.filter(pin => pin.path !== f.pcb)]) expect(contentIdentity(await readFile(pin.path)).digest).toBe(pin.sha256);
+    expect((await readFile(path.join(f.project, ".history", "test.kicad_pcb"))).length).toBe(0);
+    for (const file of plan.absentPaths!) await expect(lstat(file)).rejects.toMatchObject({ code: "ENOENT" });
+    expect(JSON.parse(await readFile(path.join(result.archive, "unsafe-marker-retired.json"), "utf8")).state).toContain("no normal close is claimed");
+  });
+  it.each(["stage", "nativeResponseJson", "nativeNetlistAfter", "preimage", "projectBinding", "schematic"])("rejects contradictory private diagnostic %s even with newly pinned evidence", async field => {
+    const f = await outlinedFixture();
+    const request = await reviseDiagnostic(f, diagnostic => {
+      if (field === "stage") diagnostic.stage = "post-native-sync";
+      else if (field === "projectBinding") diagnostic.projectBindingIdentity.digest = "0".repeat(64);
+      else if (field === "nativeResponseJson" || field === "nativeNetlistAfter") diagnostic[field] = { status: "captured", text: "native ran", contentIdentity: contentIdentity("native ran") };
+      else { const role = field === "schematic" ? "schematicInput" : "beforePcb"; diagnostic[role].text += " "; diagnostic[role].contentIdentity = contentIdentity(diagnostic[role].text); }
+    });
+    await expect(inspectRecovery(request, hooks)).rejects.toThrow();
+    expect(await readdir(f.request.archiveRoot)).toEqual([]);
+  });
+  it.each(["nativeResponseJson", "nativeNetlistAfter", "savedPcb", "livePcb"])("rejects captured data hidden in unavailable diagnostic slot %s", async role => {
+    const f = await outlinedFixture();
+    const request = await reviseDiagnostic(f, diagnostic => { diagnostic[role] = { status: "unavailable", reason: "Contradictory fixture",
+      text: "native ran", contentIdentity: contentIdentity("native ran") }; });
+    await expect(inspectRecovery(request, hooks)).rejects.toThrow(/pre-native-sync rejection/);
+  });
+  it.each(["outline", "save", "inner-error"])("rejects contradictory %s acknowledgement even when the success text is present", async kind => {
+    const f = await outlinedFixture(), returned = JSON.parse(await readFile(f.request.outlineResponse.path, "utf8")), body = returned.result.structuredContent;
+    if (kind === "inner-error") body.persistence.isError = true;
+    else { const part = kind === "outline" ? body.result : body.persistence; part.content = JSON.stringify({ ...JSON.parse(part.content), error: "native failure" }); }
+    const outlineResponse = await f.put(f.request.outlineResponse.path, returned);
+    await expect(inspectRecovery({ ...f.request, outlineResponse }, hooks)).rejects.toThrow(/exact positive native save receipt/);
+  });
+  it.each(["settings", "outline"])("rejects additional %s changes beyond the one authorized rectangle", async kind => {
+    const f = await outlinedFixture(), source = kind === "settings" ? f.source.replace('(generator "pcbnew")', '(generator "other")') : f.source.replace("(end 30 20)", "(end 31 20)");
+    await writeFile(f.pcb, source);
+    const request = await reviseDiagnostic(f, diagnostic => { for (const role of ["beforePcb", "savedPcbAtFailure"]) diagnostic[role] = { status: "captured", text: source, contentIdentity: contentIdentity(source) }; });
+    const failure = JSON.parse(await readFile(request.failureObservation.path, "utf8")), row = failure.files.find((file: { path: string }) => file.path === f.pcb);
+    row.sha256 = contentIdentity(source).digest; row.bytes = Buffer.byteLength(source);
+    const failureObservation = await f.put(request.failureObservation.path, failure);
+    await expect(inspectRecovery({ ...request, failureObservation }, hooks)).rejects.toThrow(/exact contract rectangle/);
+  });
+  it.each(["reason", "reportSha256"])("refuses a different unsafe marker %s rather than generically clearing it", async field => {
+    const f = await outlinedFixture(), marker = JSON.parse(await readFile(f.request.expectedUnsafeMarker.path, "utf8"));
+    marker[field] = field === "reason" ? "Other recovery required" : "0".repeat(64);
+    const expectedUnsafeMarker = await f.put(f.request.expectedUnsafeMarker.path, marker);
+    await expect(inspectRecovery({ ...f.request, expectedUnsafeMarker }, hooks)).rejects.toThrow();
+  });
+  it.each(["foreign-marker", "recreated-lock", "changed-report"])("refuses %s without source or marker retirement", async kind => {
+    const f = await outlinedFixture(), plan = await inspectRecovery(f.request, hooks);
+    await writeFile(kind === "foreign-marker" ? path.join(f.output, ".other-unsafe.json") : kind === "recreated-lock" ? f.request.expectedBoardLock.path : f.reportPin.path, "changed");
+    await expect(applyRecovery(plan, approve(plan), hooks)).rejects.toThrow();
+    expect(await readFile(f.pcb, "utf8")).toBe(f.source);
+    expect(contentIdentity(await readFile(f.request.expectedUnsafeMarker.path)).digest).toBe(f.request.expectedUnsafeMarker.sha256);
+  });
+  it.each(["before-unsafe-marker-retirement", "before-lease-release"])("keeps the lease and durable outlined/marker evidence on partial failure at %s", async stop => {
+    const f = await outlinedFixture(), plan = await inspectRecovery(f.request, hooks);
+    await expect(applyRecovery(plan, approve(plan), { ...hooks, beforeStep: async step => { if (step === stop) throw new Error("simulated retirement failure"); } })).rejects.toThrow(/stopped/);
+    expect(await readFile(f.pcb)).toEqual(f.goodBoard);
+    expect(contentIdentity(await readFile(f.request.expectedLease.path)).digest).toBe(f.request.expectedLease.sha256);
+    if (stop === "before-unsafe-marker-retirement") expect(contentIdentity(await readFile(f.request.expectedUnsafeMarker.path)).digest).toBe(f.request.expectedUnsafeMarker.sha256);
+    else await expect(lstat(f.request.expectedUnsafeMarker.path)).rejects.toMatchObject({ code: "ENOENT" });
+    expect(contentIdentity(await readFile(f.checkpointPin.path)).digest).toBe(f.checkpointPin.sha256);
+  });
+  it("keeps the old zero-byte mode's unsafe-marker refusal unchanged", async () => {
+    const f = await fixture(); await writeFile(path.join(f.output, ".evleda-pcb-agent-unsafe-terminal.json"), "unsupported");
+    await expect(inspectRecovery(f.request, hooks)).rejects.toThrow(/unsafe\/recovery marker/);
+    expect((await readFile(f.pcb)).length).toBe(0); expect(await readdir(f.request.archiveRoot)).toEqual([]);
   });
 });

@@ -15,8 +15,12 @@ contract-sized native outline. It preserves outline UUID/style and all other
 source forms, verifies checkpoint bytes before classifying a resumed pre-sync
 board, and retains strict feature/library/UUID checks after materialization.
 Two focused suites passed 52 tests; the final strengthened deletion regression,
-source typecheck and independent review also passed. The failed session still
-requires separately reviewed recovery before an updated native run.
+source typecheck and independent review also passed. Frozen build13 (build12
+plus exactly those three reviewed files) passed source/UI typechecks, build and
+DOC9/DOC10 verification. A separate reviewed recovery archived the failed sync
+state and rolled only its saved outline back to the older checkpoint PCB. All
+eight prior close hashes match again; the exact terminal marker and lease were
+retired after verification. The fixed host is now starting a fresh native run.
 Evidence is retained under
 `destination-verification/rp2350-native-sync-failure-01/` outside the repository.
 
