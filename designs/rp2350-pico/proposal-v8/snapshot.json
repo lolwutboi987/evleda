@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-09-18T12:59:38.080Z",
+  "modelSha256": "ef6548030e67c456ccd46949502ad294bbd4e5c684f41f558275d4c79f6ae369",
+  "geometryIdentity": {
+    "algorithm": "sha256",
+    "digest": "0e4077180ccab042146580bb2bb7f3bb7d9e8f03b50e6b8ca7459059128245e8",
+    "size": 42211,
+    "serialization": "UTF-8 JSON.stringify"
+  },
+  "draftCompactSha256": "8705aa5e1b017768780d8fb75ffc52357816c33f1c1694b02bc5cfc8b458f7ff",
+  "nativeBundleDigest": "07096746e92a7ca5b92333a3f04ed30b69954e5e40528ccf0288cf8830be333b",
+  "componentCount": 62,
+  "trackCount": 795,
+  "viaCount": 92,
+  "completeNonGroundSourceMembershipCount": 53,
+  "unroutedNets": [
+    "GPIO1",
+    "GPIO16",
+    "GPIO17",
+    "GPIO18",
+    "GPIO19",
+    "GPIO2",
+    "GPIO20",
+    "GPIO21",
+    "GPIO22",
+    "GPIO26",
+    "GPIO27",
+    "GPIO28",
+    "GPIO3"
+  ],
+  "nativeBoardMaterialized": false,
+  "groundAndReturnAcceptance": false,
+  "files": [
+    {
+      "name": "draft.json",
+      "size": 186270,
+      "sha256": "96e2832dfb694b4c696fcd7c4556573d2f1c4ca4b7b72187bb797ea5c0972894"
+    },
+    {
+      "name": "placements.json",
+      "size": 3562,
+      "sha256": "8e631f4e7911daefc20db8d0c941bad7eef556148b8a54945b3faf7f0b9f9779"
+    },
+    {
+      "name": "copper-proposal.json",
+      "size": 184800,
+      "sha256": "ebc29993e4fc1bd93a0c4375bbff7d4ec71cffdb71cc5e79186c415aabac1c19"
+    },
+    {
+      "name": "routing-proposal.svg",
+      "size": 168600,
+      "sha256": "ab8719101da3ec91e7a60680eacae2bd4ea5206da2142c10bf0432794a399bc6"
+    },
+    {
+      "name": "routing-proposal.png",
+      "size": 328606,
+      "sha256": "98685964c8e5ace6a002fd720b95d41d358131f6617c1ba18b98de91a8d72698"
+    }
+  ]
+}
