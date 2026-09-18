@@ -101,6 +101,122 @@ async function fixture(options:{initial?:string;physicalSource?:string;compilati
   return {bundle:b,project,session,toolOptions,bridge,calls,viaNetFaults,physicalReads:()=>physicalReads,replaceOwnedSource:async(source:string)=>{live=source;await writeFile(project.pcbPath,source,'utf8');}};
 }
 
+describe('bounded V2 whole-board route inventory', () => {
+  const routedBoard = (tracks: number, vias = 0) => pcb.slice(0, -1)
+    + Array.from({ length: tracks }, (_, index) => `\n(segment (start 1 ${(1 + index / 100).toFixed(2)}) (end 1.05 ${(1 + index / 100).toFixed(2)}) (width 0.5) (layer "F.Cu") (net "GND") (uuid "${fixtureUuid(20000 + index)}"))`).join('')
+    + Array.from({ length: vias }, (_, index) => `\n(via (at ${(20 + index % 10 / 10).toFixed(1)} ${(2 + Math.floor(index / 10) / 10).toFixed(1)}) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${fixtureUuid(30000 + index)}"))`).join('') + '\n)';
+
+  it('reads and incrementally saves more than 96 retained routes without changing small reply shape', async () => {
+    const f = await fixture({ initial: routedBoard(107) });
+    const selection = JSON.parse((await f.bridge.execute({ id: 'large-read', name: 'fresh_get_route_items', arguments: {} })).content);
+    expect(selection.schemaVersion).toBe('evleda.fresh-plane-route-selection.v1');
+    expect(selection.items).toHaveLength(107); expect(selection.pagination).toBeUndefined();
+    const call = { id: 'large-append', name: 'fresh_replace_route_items' as const, arguments: { selectionIdentity: selection.identity,
+      net: 'GND', deleteItemIds: [], tracks: [{ x1Mm: 2, y1Mm: 1, x2Mm: 3, y2Mm: 1, layer: 'F.Cu' }], vias: [] } };
+    expect(JSON.parse((await f.bridge.execute(call)).content)).toMatchObject({ mutationValidity: 'verified', addedTrackCount: 1, completion: 'not_evaluated' });
+    expect((await f.bridge.internal.saveAfterMutation({ id: 'large-save', name: 'pcb_save', arguments: {} })).isError).not.toBe(true);
+    const next = JSON.parse((await f.bridge.execute({ id: 'large-next', name: 'fresh_get_route_items', arguments: {} })).content);
+    expect(next.items).toHaveLength(108); expect(next.identity).not.toEqual(selection.identity);
+    expect(next.items.filter((item: any) => selection.items.some((before: any) => before.id === item.id))).toEqual(selection.items);
+  });
+
+  it('pages all 1280 exact items under 32k while retaining one independently reproducible full selection identity', async () => {
+    const f = await fixture({ initial: routedBoard(1024, 256) });
+    let result = await f.bridge.execute({ id: 'capacity-read', name: 'fresh_get_route_items', arguments: {} });
+    const first = JSON.parse(result.content), gathered: any[] = [];
+    expect(first).toMatchObject({ schemaVersion: 'evleda.fresh-plane-route-selection-page.v1',
+      selectionSchemaVersion: 'evleda.fresh-plane-route-selection.v1', pagination: { offset: 0, totalItemCount: 1280, returnedItemCount: 32, completeInventoryReturned: false } });
+    for (let pageIndex = 0; pageIndex < 40; pageIndex++) {
+      expect(result.content.length).toBeLessThanOrEqual(32000);
+      const page = JSON.parse(result.content), { pageIdentity, ...pagePayload } = page;
+      expect(pageIdentity).toEqual(canonicalIdentity(pagePayload, page.schemaVersion));
+      expect(page.identity).toEqual(first.identity); expect(page.pcbContentIdentity).toEqual(first.pcbContentIdentity);
+      expect(page.pagination.offset).toBe(gathered.length); gathered.push(...page.items);
+      if (page.pagination.nextPage === null) { expect(pageIndex).toBe(39); break; }
+      result = await f.bridge.execute({ id: `capacity-page-${pageIndex + 1}`, name: 'fresh_get_route_items', arguments: { page: page.pagination.nextPage } });
+    }
+    expect(gathered).toHaveLength(1280); expect(new Set(gathered.map(item => item.id)).size).toBe(1280);
+    expect(gathered.filter(item => item.kind === 'track')).toHaveLength(1024);
+    expect(gathered.filter(item => item.kind === 'via')).toHaveLength(256);
+    const { pagination: _page, pageIdentity: _pageIdentity, selectionSchemaVersion, schemaVersion: _schema, identity, ...fields } = first;
+    expect(identity).toEqual(canonicalIdentity({ ...fields, schemaVersion: selectionSchemaVersion, items: gathered }, selectionSchemaVersion));
+    expect(f.calls).not.toContain('pcb_begin_commit');
+  }, 20_000);
+
+  it('rejects forged, skipped, replayed and source-drifted continuation pages', async () => {
+    const f = await fixture({ initial: routedBoard(256) });
+    const first = JSON.parse((await f.bridge.execute({ id: 'page-start', name: 'fresh_get_route_items', arguments: {} })).content);
+    const continuation = first.pagination.nextPage;
+    await expect(f.bridge.execute({ id: 'page-id-is-not-selection', name: 'fresh_replace_route_items', arguments: {
+      selectionIdentity: first.pageIdentity, net: 'GND', deleteItemIds: [], tracks: [{ x1Mm: 2, y1Mm: 1, x2Mm: 3, y2Mm: 1, layer: 'F.Cu' }], vias: [],
+    } })).rejects.toThrow();
+    for (const page of [{ ...continuation, offset: 64 }, { ...continuation, selectionIdentity: { ...continuation.selectionIdentity, digest: '0'.repeat(64) } }]) {
+      await expect(f.bridge.execute({ id: 'bad-page', name: 'fresh_get_route_items', arguments: { page } })).rejects.toThrow(/previous exact selection/);
+    }
+    await f.bridge.execute({ id: 'page-two', name: 'fresh_get_route_items', arguments: { page: continuation } });
+    await expect(f.bridge.execute({ id: 'replayed-page', name: 'fresh_get_route_items', arguments: { page: continuation } })).rejects.toThrow(/previous exact selection/);
+    const restart = JSON.parse((await f.bridge.execute({ id: 'restart', name: 'fresh_get_route_items', arguments: {} })).content);
+    await f.replaceOwnedSource(routedBoard(256).replace('(thickness 1.6)', '(thickness 1.7)'));
+    await expect(f.bridge.execute({ id: 'drifted-page', name: 'fresh_get_route_items', arguments: { page: restart.pagination.nextPage } })).rejects.toThrow(/changed between pages/);
+    expect(f.calls).not.toContain('pcb_begin_commit');
+  });
+
+  it('uses the complete private selection for a paged mutation and its mandatory save', async () => {
+    const f = await fixture({ initial: routedBoard(200) });
+    const first = JSON.parse((await f.bridge.execute({ id: 'paged-edit-read', name: 'fresh_get_route_items', arguments: {} })).content);
+    const farId = fixtureUuid(20199);
+    expect(first.items).toHaveLength(32); expect(first.items.some((item: any) => item.id === farId)).toBe(false);
+    const result = JSON.parse((await f.bridge.execute({ id: 'paged-edit', name: 'fresh_replace_route_items', arguments: {
+      selectionIdentity: first.identity, net: 'GND', deleteItemIds: [farId],
+      tracks: [{ x1Mm: 2, y1Mm: 1, x2Mm: 2.03125, y2Mm: 1, layer: 'F.Cu' }], vias: [],
+    } })).content);
+    expect(result).toMatchObject({ mutationValidity: 'verified', deletedItemIds: [farId], addedTrackCount: 1 });
+    expect((await f.bridge.internal.saveAfterMutation({ id: 'paged-edit-save', name: 'pcb_save', arguments: {} })).isError).not.toBe(true);
+    const saved = parseFreshPcbSource(await readFile(f.project.pcbPath, 'utf8'));
+    expect(saved.segments).toHaveLength(200); expect(saved.segments.some(track => track.id === farId)).toBe(false);
+  });
+
+  it('does not omit invalid retained geometry outside the returned page during mutation checks', async () => {
+    const badId = fixtureUuid(20199), source = routedBoard(200).replace(
+      `(width 0.5) (layer "F.Cu") (net "GND") (uuid "${badId}")`, `(width 0.1) (layer "F.Cu") (net "GND") (uuid "${badId}")`);
+    const f = await fixture({ initial: source });
+    const first = JSON.parse((await f.bridge.execute({ id: 'hidden-invalid-read', name: 'fresh_get_route_items', arguments: {} })).content);
+    expect(first.items.some((item: any) => item.id === badId)).toBe(false);
+    await expect(f.bridge.execute({ id: 'hidden-invalid-edit', name: 'fresh_replace_route_items', arguments: {
+      selectionIdentity: first.identity, net: 'GND', deleteItemIds: [fixtureUuid(20000)],
+      tracks: [{ x1Mm: 2, y1Mm: 1, x2Mm: 2.03125, y2Mm: 1, layer: 'F.Cu' }], vias: [],
+    } })).rejects.toThrow(/width/);
+    expect(f.calls).not.toContain('pcb_begin_commit');
+  });
+
+  it('retains the per-mutation 128-track, 32-via and 128-deletion limits', async () => {
+    const f = await fixture({ initial: pcb });
+    const selection = JSON.parse((await f.bridge.execute({ id: 'batch-bound-read', name: 'fresh_get_route_items', arguments: {} })).content);
+    const base = { selectionIdentity: selection.identity, net: 'GND', deleteItemIds: [], tracks: [], vias: [] };
+    for (const extra of [
+      { tracks: Array.from({ length: 129 }, () => ({ x1Mm: 2, y1Mm: 1, x2Mm: 3, y2Mm: 1, layer: 'F.Cu' })) },
+      { vias: Array.from({ length: 33 }, () => ({ xMm: 3, yMm: 3 })) },
+      { deleteItemIds: Array.from({ length: 129 }, (_, index) => fixtureUuid(20000 + index)) },
+    ]) await expect(f.bridge.execute({ id: 'batch-bound-reject', name: 'fresh_replace_route_items', arguments: { ...base, ...extra } })).rejects.toThrow();
+    expect(f.calls).not.toContain('pcb_begin_commit');
+  });
+
+  it.each([[1025, 0], [0, 257]])('rejects over-capacity readback with %d tracks and %d vias without truncation', async (tracks, vias) => {
+    const f = await fixture({ initial: routedBoard(tracks, vias) });
+    await expect(f.bridge.execute({ id: 'over-capacity', name: 'fresh_get_route_items', arguments: {} })).rejects.toThrow(/whole-board route inventory exceeds/);
+    expect(f.calls).not.toContain('pcb_begin_commit');
+  });
+
+  it('rejects a projected 1025th track before starting the native transaction', async () => {
+    const f = await fixture({ initial: routedBoard(1024) });
+    const first = JSON.parse((await f.bridge.execute({ id: 'full-read', name: 'fresh_get_route_items', arguments: {} })).content);
+    await expect(f.bridge.execute({ id: 'overflow-add', name: 'fresh_replace_route_items', arguments: { selectionIdentity: first.identity,
+      net: 'GND', deleteItemIds: [], tracks: [{ x1Mm: 2, y1Mm: 1, x2Mm: 3, y2Mm: 1, layer: 'F.Cu' }], vias: [] } })).rejects.toThrow(/whole-board route inventory exceeds/);
+    expect(f.calls).not.toContain('pcb_begin_commit');
+    expect(await readFile(f.project.pcbPath, 'utf8')).toBe(routedBoard(1024));
+  });
+});
+
 describe('atomic V2 footprint field presentation', () => {
   const fieldSource = () => {
     let index = 0;

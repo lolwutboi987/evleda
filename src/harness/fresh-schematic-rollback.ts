@@ -56,6 +56,7 @@ async function syncDirectory(directory: string): Promise<void> {
 /** Marker-root-confined exact preimage capture and atomic rollback for fresh schematics. */
 export class FreshSchematicRollback {
   readonly #freshProject: FreshProject;
+  readonly #owned = new WeakMap<FreshSchematicPreimage, Readonly<{ source: string; physical: FreshFilesystemIdentity }>>();
 
   constructor(freshProject: FreshProject) {
     if (!isVerifiedFreshProject(freshProject)) throw new Error("Fresh schematic rollback requires a marker-bound fresh project.");
@@ -69,7 +70,71 @@ export class FreshSchematicRollback {
     const bytes = await readFile(this.#freshProject.schematicPath);
     const source = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
     if (source !== expectedSource) throw new Error("Fresh schematic changed between preflight and rollback-checkpoint capture.");
-    return Object.freeze({ source, ...identity(bytes), projectIdentity: root, schematicPath: this.#freshProject.schematicPath });
+    const checkpoint = Object.freeze({ source, ...identity(bytes), projectIdentity: root, schematicPath: this.#freshProject.schematicPath });
+    this.#owned.set(checkpoint, { source, physical: physicalIdentity(checkpoint.schematicPath, await lstat(checkpoint.schematicPath, { bigint: true })) });
+    return checkpoint;
+  }
+
+  /** Position-only host edits use this guarded replacement, never blind restore. */
+  async stageOwnedSource(checkpoint: FreshSchematicPreimage, plannedSource: string): Promise<void> {
+    if (this.#owned.get(checkpoint)?.source !== checkpoint.source) throw new Error("Schematic stage requires its original owned preimage.");
+    await this.#replaceOwnedSource(checkpoint, plannedSource);
+  }
+
+  /** Unknown current bytes or a replaced file are preserved for explicit recovery. */
+  async restoreOwnedSource(checkpoint: FreshSchematicPreimage): Promise<void> {
+    await this.#replaceOwnedSource(checkpoint, checkpoint.source);
+  }
+
+  /** Read-only currentness proof; equal bytes alone cannot replace file ownership. */
+  async assertOwnedSource(checkpoint: FreshSchematicPreimage, expectedSource: string): Promise<void> {
+    if (this.#owned.get(checkpoint)?.source !== expectedSource) throw new Error("Schematic expected source differs from this owned stage.");
+    await this.#replaceOwnedSource(checkpoint, expectedSource); // Equal-source path only; never creates a temporary or renames.
+  }
+
+  async #replaceOwnedSource(checkpoint: FreshSchematicPreimage, replacement: string): Promise<void> {
+    const owned = this.#owned.get(checkpoint);
+    if (owned === undefined || checkpoint.schematicPath !== this.#freshProject.schematicPath) throw new Error("Schematic replacement lacks this host's exact owned checkpoint.");
+    parseFreshSchematicSource(replacement);
+    const expected = Buffer.from(owned.source, "utf8"), bytes = Buffer.from(replacement, "utf8");
+    if (bytes.length > 8 * 1024 * 1024 || !replacement.isWellFormed()) throw new Error("Schematic replacement exceeds its bounded UTF-8 source authority.");
+    const assertCurrent = async (): Promise<FreshFilesystemIdentity> => {
+      if (owned.physical.dev === null || owned.physical.ino === null) throw new Error("Guarded schematic replacement requires observable physical file identity.");
+      await this.#freshProject.assertMarkerCurrent();
+      const root = await assertFreshProjectDirectoryChain(this.#freshProject);
+      if (!sameRoot(root, checkpoint.projectIdentity) || this.#owned.get(checkpoint) !== owned) throw new Error("Schematic root/checkpoint authority changed; current state was preserved.");
+      await assertDirectRegularFile(checkpoint.schematicPath, root);
+      const before = await lstat(checkpoint.schematicPath, { bigint: true });
+      if (!sameRoot(physicalIdentity(checkpoint.schematicPath, before), owned.physical) || before.size !== BigInt(expected.length)) throw new Error("Schematic file identity or bytes changed; current state was preserved.");
+      const current = await readFile(checkpoint.schematicPath), after = await lstat(checkpoint.schematicPath, { bigint: true });
+      if (!current.equals(expected) || !after.isFile() || after.isSymbolicLink() || after.nlink !== 1n
+          || before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size
+          || before.mtimeNs !== after.mtimeNs || before.ctimeNs !== after.ctimeNs) throw new Error("Unknown concurrent schematic source was preserved.");
+      return root;
+    };
+    const root = await assertCurrent();
+    if (bytes.equals(expected)) return;
+    const temporary = path.join(root.canonicalPath, `.${path.basename(checkpoint.schematicPath)}.${process.pid}.${randomUUID()}.evleda-position.tmp`);
+    let stagedIdentity: FreshFilesystemIdentity | undefined;
+    try {
+      const handle = await open(temporary, "wx", 0o600);
+      try { await handle.writeFile(bytes); await handle.sync(); stagedIdentity = physicalIdentity(checkpoint.schematicPath, await handle.stat({ bigint: true })); }
+      finally { await handle.close(); }
+      await assertCurrent();
+      const metadata = await lstat(temporary, { bigint: true });
+      if (!metadata.isFile() || metadata.isSymbolicLink() || metadata.nlink !== 1n || await realpath(temporary) !== temporary
+          || stagedIdentity === undefined || !sameRoot(stagedIdentity, physicalIdentity(checkpoint.schematicPath, metadata))
+          || !(await readFile(temporary)).equals(bytes)) throw new Error("Owned schematic temporary identity/source changed.");
+      await assertCurrent();
+      await rename(temporary, checkpoint.schematicPath);
+      this.#owned.set(checkpoint, Object.freeze({ source: replacement, physical: stagedIdentity }));
+      await syncDirectory(root.canonicalPath);
+    } finally { await rm(temporary, { force: true }).catch(() => undefined); }
+    const afterRoot = await assertFreshProjectDirectoryChain(this.#freshProject);
+    await assertDirectRegularFile(checkpoint.schematicPath, afterRoot);
+    if (!sameRoot(afterRoot, checkpoint.projectIdentity)
+        || !sameRoot(physicalIdentity(checkpoint.schematicPath, await lstat(checkpoint.schematicPath, { bigint: true })), stagedIdentity!)
+        || !(await readFile(checkpoint.schematicPath)).equals(bytes)) throw new Error("Owned schematic replacement readback changed; preserve current source.");
   }
 
   async restore(checkpoint: FreshSchematicPreimage): Promise<void> {

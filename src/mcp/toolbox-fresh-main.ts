@@ -15,6 +15,8 @@ import { normalizePcbPlaneSelectionPolicy } from "../harness/pcb-design-plane-co
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 import { assertPcbExternalPowerBindingCurrent } from "../harness/pcb-external-power.js";
 import { assertPcbDerivedPowerBindingCurrent } from "../harness/pcb-derived-power.js";
+import { assertFreshPlaneSchematicSeedProfile, type FreshPlaneSchematicSeed } from "../harness/fresh-plane-schematic-seed.js";
+import { captureClosedPlaneSchematicSeedSource, type ClosedPlaneSchematicSeedSource } from "./toolbox-schematic-seed.js";
 
 export interface FreshNativeToolboxOptions {
   readonly profile: KicadMcpPinnedFileInput;
@@ -24,18 +26,25 @@ export interface FreshNativeToolboxOptions {
   readonly resume?: boolean;
   /** Host-selected input data; never a source of native paths or executable authority. */
   readonly fresh: Readonly<{ name: string; intentPath?: string; originalPrompt?: string; draft?: unknown;
-    expectedBundleIdentity?: CanonicalIdentity }>;
+    expectedBundleIdentity?: CanonicalIdentity; schematicSeed?: FreshPlaneSchematicSeed }>;
 }
 
 export type FreshNativeToolboxBinding = Required<Pick<KicadToolboxServerOptions,
   "cad" | "access" | "compoundContractIdentity" | "designContext">>
-  & Pick<KicadToolboxServerOptions, "transmissionLine">;
+  & Pick<KicadToolboxServerOptions, "transmissionLine">
+  & { readonly captureClosedSchematicSeedSource?: () => Promise<ClosedPlaneSchematicSeedSource | undefined> };
 
 const INTENT_LIMITS = Object.freeze({ maxBytes: 256 * 1024, maxDepth: 32, maxNodes: 100_000,
   maxArrayLength: 1024, maxOwnKeys: 1024, maxKeyBytes: 512, maxStringBytes: 64 * 1024 });
 
 /** Host-only preparation/opening, suitable for attaching CAD to an existing MCP server. */
 export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxOptions): Promise<FreshNativeToolboxBinding> {
+  const nativeSourceProfile = Object.freeze({ path: options.profile.path, contentIdentity: Object.freeze({ ...options.profile.contentIdentity }) });
+  const seed = options.fresh.schematicSeed;
+  if (seed !== undefined) {
+    if (options.resume) throw new Error("A seeded allocation cannot replace an existing project during resume.");
+    assertFreshPlaneSchematicSeedProfile(seed, nativeSourceProfile);
+  }
   if (options.resume && options.fresh.expectedBundleIdentity !== undefined) throw new Error("Fresh resume cannot accept a previewed compilation identity; it uses the saved bundle.");
   const expectedBundleIdentity = options.fresh.expectedBundleIdentity === undefined ? undefined
     : validateCanonicalIdentity(hardenPortableValue(options.fresh.expectedBundleIdentity), "Previewed compilation identity");
@@ -62,13 +71,13 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
       draft = parsePortableJsonBytes(bytes, INTENT_LIMITS);
     }
   }
-  const design = await loadKicadToolboxFreshProfile(options.profile);
+  const design = await loadKicadToolboxFreshProfile(nativeSourceProfile);
   if (!options.resume) await mkdir(options.outputDir, { recursive: true });
   const outputMetadata = await lstat(options.outputDir);
   if (!outputMetadata.isDirectory() || outputMetadata.isSymbolicLink() || !options.resume && (await readdir(options.outputDir)).length !== 0) {
     throw new Error("Fresh toolbox output must be an ordinary directory, empty for a new design.");
   }
-  const native = await loadKicadToolboxNativeProfile({ profile: options.profile, sourceRoot, outputRoot: options.outputDir,
+  const native = await loadKicadToolboxNativeProfile({ profile: nativeSourceProfile, sourceRoot, outputRoot: options.outputDir,
     additionalProtectedRoots: design.protectedRoots });
   const stock = path.resolve(native.editorSuite.profile.binRoot, "..", "share", "kicad");
   for (const [configured, expected] of [
@@ -91,13 +100,14 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
     throw new Error("Saved fresh bundle family is unsupported; resume cannot replace its contract.");
   }
   const plane = schema === (options.resume ? "evleda.pcb-design-compilation-bundle.v2" : "evleda.pcb-design-intent-draft.v2");
+  if (seed !== undefined && !plane) throw new Error("Unwired schematic seeds require the V2 plane family.");
   const planePreparationInput = () => ({ ...nativePreparationInput,
     dependencies: { ...design.dependencies, deepRuleSelectionOptions: normalizePcbPlaneSelectionPolicy(design.deepRuleSelectionOptions) } });
   const newInput = { ...nativePreparationInput, draft, originalPrompt: options.fresh.originalPrompt!,
     ...(expectedBundleIdentity === undefined ? {} : { expectedBundleIdentity }), deepRuleSelectionOptions: design.deepRuleSelectionOptions };
   const outcome = plane
     ? options.resume ? { status: "prepared" as const, preparation: await resumeKicadToolboxPlaneProject(planePreparationInput()) }
-      : await prepareKicadToolboxPlaneProject({ ...newInput, dependencies: planePreparationInput().dependencies })
+      : await prepareKicadToolboxPlaneProject({ ...newInput, dependencies: planePreparationInput().dependencies, ...(seed === undefined ? {} : { schematicSeed: seed }) })
     : options.resume ? { status: "prepared" as const, preparation: await resumeKicadToolboxFreshProject(nativePreparationInput) }
       : await prepareKicadToolboxFreshProject(newInput);
   if (outcome.status !== "prepared") {
@@ -135,6 +145,10 @@ export async function openFreshNativeToolboxBinding(options: FreshNativeToolboxO
     } : { originalPrompt: preparation.bundle.executionPrompt.originalPrompt, contract: preparation.bundle.contract,
       executionGuidance: preparation.bundle.executionPrompt.text, acceptancePlan: preparation.bundle.acceptancePlan, bundleIdentity: preparation.bundle.identity };
     return Object.freeze({ cad, access: options.edit ? "edit" : "read-only",
+      ...("family" in preparation ? { captureClosedSchematicSeedSource: () => captureClosedPlaneSchematicSeedSource({
+        project: preparation.project, bundle: preparation.bundle, profile: nativeSourceProfile, dependencies: preparation.dependencies,
+        symbolRoot: design.libraryEnvironment.KICAD10_SYMBOL_DIR!,
+      }) } : {}),
       ...(native.transmissionLine === undefined ? {} : { transmissionLine: native.transmissionLine }),
       compoundContractIdentity: createFreshConnectivityContract(preparation.bundle.contract,
         "family" in preparation && preparation.family === "plane-v2" ? preparation.bundle.externalPowerBinding : undefined,

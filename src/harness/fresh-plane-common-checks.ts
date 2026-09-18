@@ -16,8 +16,8 @@ import { isPcbChannelFeedThroughOutputFork } from "./pcb-channel-feed-through.js
 import { validatedNativePadPositionMm } from "./fresh-route-native-units.js";
 
 export const FRESH_PLANE_COMMON_CHECKS_SCHEMA_VERSION = "evleda.fresh-plane-common-checks.v1" as const;
-export const FRESH_PLANE_COMMON_CHECKS_LIMITS = Object.freeze({ maximumPcbBytes: 2 * 1024 * 1024, maximumSegments: 256,
-  maximumVias: 64, maximumPhysicalPads: 512, maximumCoordinateNm: 2_000_000_000 });
+export const FRESH_PLANE_COMMON_CHECKS_LIMITS = Object.freeze({ maximumPcbBytes: 2 * 1024 * 1024, maximumSegments: 1024,
+  maximumVias: 256, maximumPhysicalPads: 512, maximumCoordinateNm: 2_000_000_000 });
 export interface FreshPlaneCommonChecksInput {
   readonly compilationBundle: PcbPlaneCompilationBundle;
   readonly savedEvidence: SavedFreshPlaneEvidence;

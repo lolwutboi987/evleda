@@ -1,0 +1,7 @@
+{
+  "source": "../destination-verification/rp2350-contract-native-rules-01/source-snapshot/rp2350-pico.kicad_pro",
+  "sourceSha256": "9e905d673aecef61711bdc7a7f40b85dda41125acf0de437074c39c7dd105706",
+  "sourceBytes": 20747,
+  "derivation": "Removed only net_settings; replaced exact project stem rp2350-pico with __EVLEDA_FRESH_NAME__; JSON pretty serialization. Read-only replay fixture, no new native execution.",
+  "fixtureSha256": "47962eb0397a0ab91d88392a0fd5f108a08d8bedcd2604ae4e07013e2170058b"
+}

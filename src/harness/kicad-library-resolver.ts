@@ -224,6 +224,11 @@ type ParsedLibrary = ParsedSymbolLibrary | ParsedFootprintLibrary;
 interface CachedParsedLibrary {
   readonly identity: ContentIdentity;
   readonly parsed: ParsedLibrary;
+  /** Raw-source parser products only; never a role inspection or admission. */
+  readonly powerFlagSource?: Readonly<{
+    geometry: FreshSymbolTerminalGeometry;
+    definitionSemanticIdentity: ContentIdentity;
+  }>;
 }
 
 const syntaxCacheBrand: unique symbol = Symbol("kicad-stock-syntax-cache");
@@ -1219,9 +1224,12 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     const asset = locateSymbol(this.#symbolRoot, "power", libraryId, this.#limits);
     if (asset === null) return null;
     const loaded = loadAsset(asset);
-    // Keep this parse separate from ordinary exact-ID symbol inspection and caches.
-    // Unselected native +/- power names cannot become approved path/library IDs.
-    const parsed = parseSymbolLibrary(loaded.bytes, libraryId, this.#limits, true);
+    // A dedicated role key keeps signed native neighbors out of ordinary exact
+    // symbol parsing. Every lookup follows the full fresh guarded source read.
+    const cacheKey = `${this.#syntaxPolicyIdentity}\u0000power-flag-source:${libraryId}\u0000${this.#externalPowerPolicyIdentity.digest}\u0000${loaded.canonicalPath}\u0000${loaded.identity.digest}\u0000${loaded.identity.size}`;
+    const cached = this.#syntaxCache.entries.get(cacheKey);
+    const parsed = cached?.parsed ?? parseSymbolLibrary(loaded.bytes, libraryId, this.#limits, true);
+    if (parsed.kind !== "symbol") return resolverError("MALFORMED_LIBRARY", libraryId, "Cached power source has a different syntax kind.");
     const definition = parsed.definitions.get("PWR_FLAG");
     if (definition === undefined) return null;
     const approved = buildSymbolInspection(parsed, libraryId, "power", "PWR_FLAG", loaded.identity, this.#limits);
@@ -1234,8 +1242,8 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
         || approved.pins[0]!.electricalType !== "power_out" || approved.resolverRecord.unitCount !== 1) {
       return resolverError("MALFORMED_LIBRARY", libraryId, "Approved PWR_FLAG source has unsupported power annotation semantics.");
     }
-    const source = decodeUtf8(loaded.bytes, libraryId);
-    const geometry = parseFreshSymbolLibraryTerminalGeometrySource(source, loaded.identity, libraryId);
+    const source = cached?.powerFlagSource === undefined ? decodeUtf8(loaded.bytes, libraryId) : undefined;
+    const geometry = cached?.powerFlagSource?.geometry ?? parseFreshSymbolLibraryTerminalGeometrySource(source!, loaded.identity, libraryId);
     const pins = geometry.representations.flatMap(representation => representation.pins);
     if (pins.length !== 1 || pins[0]!.number !== "1" || pins[0]!.electricalType !== "power_out" || pins[0]!.lengthMm !== 0
         || pins[0]!.at.xMm !== 0 || pins[0]!.at.yMm !== 0 || pins[0]!.hidden || pins[0]!.graphicalShape !== "line"
@@ -1243,11 +1251,15 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
         || [...geometry.rootGraphics, ...geometry.representations.flatMap(representation => representation.graphics)].some(graphic => graphic.centerlineBounds === null)) {
       return resolverError("MALFORMED_LIBRARY", libraryId, "Approved PWR_FLAG source has unsupported terminal or body geometry.");
     }
-    const definitionSemanticIdentity = freshPowerFlagDefinitionSemanticIdentity(source, loaded.identity, false);
+    const definitionSemanticIdentity = cached?.powerFlagSource?.definitionSemanticIdentity
+      ?? freshPowerFlagDefinitionSemanticIdentity(source!, loaded.identity, false);
     const after = loadAsset(asset);
     if (loaded.identity.digest !== after.identity.digest || loaded.identity.size !== after.identity.size) {
       return resolverError("MALFORMED_LIBRARY", libraryId, "Approved power flag source changed during role capture.");
     }
+    if (cached === undefined) this.#rememberSyntax(cacheKey, {
+      identity: loaded.identity, parsed, powerFlagSource: deepFreeze({ geometry, definitionSemanticIdentity }),
+    });
     const payload = { schemaVersion: PCB_EXTERNAL_POWER_FLAG_INSPECTION_SCHEMA_VERSION, symbolLibId: libraryId,
       sourceIdentity: loaded.identity, definitionIdentity: geometry.definitionIdentity, definitionSemanticIdentity,
       policyIdentity: this.#externalPowerPolicyIdentity, powerScope: "global" as const, footprint: "" as const,
@@ -1303,6 +1315,15 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     const parsed = kind === "symbol"
       ? parseSymbolLibrary(loaded.bytes, logicalAsset, this.#limits)
       : parseFootprintLibrary(loaded.bytes, logicalAsset, this.#limits);
+    this.#rememberSyntax(cacheKey, { identity: loaded.identity, parsed });
+    return parsed;
+  }
+
+  #rememberSyntax(cacheKey: string, entry: CachedParsedLibrary): void {
+    const cache = this.#syntaxCache, { parsed, identity } = entry;
+    // A nested synchronous capture may have stored the same immutable syntax
+    // while the outer capture completed its final read. Never double-charge it.
+    if (cache.entries.has(cacheKey)) return;
     // Maps stay module-private; freeze every syntax node that could be aliased
     // by a footprint inspection, without exposing any mutable parser storage.
     if (parsed.kind === "symbol") for (const definition of parsed.definitions.values()) deepFreeze(definition);
@@ -1310,18 +1331,22 @@ export class KiCad10StockLibraryResolver implements PcbReadOnlyLibraryResolver {
     Object.freeze(parsed);
     while (
       cache.entries.size >= cache.maximumFiles
-      || (cache.sourceBytes + loaded.identity.size > cache.maximumSourceBytes && cache.entries.size > 0)
+      || (cache.sourceBytes + identity.size > cache.maximumSourceBytes && cache.entries.size > 0)
     ) {
-      const oldest = cache.entries.entries().next().value as [string, CachedParsedLibrary] | undefined;
+      // A full stock selection can occupy all slots. Keep its large symbol
+      // trees warm when a role parse joins it, while retaining the same shared
+      // file/byte ceilings. Ordinary caches without role syntax stay FIFO.
+      const rolePresent = entry.powerFlagSource !== undefined || [...cache.entries.values()].some(value => value.powerFlagSource !== undefined);
+      const oldest = (rolePresent ? [...cache.entries].find(([, value]) => value.parsed.kind === "footprint") : undefined)
+        ?? cache.entries.entries().next().value as [string, CachedParsedLibrary] | undefined;
       if (oldest === undefined) break;
       cache.entries.delete(oldest[0]);
       cache.sourceBytes -= oldest[1].identity.size;
     }
-    if (loaded.identity.size <= cache.maximumSourceBytes) {
-      cache.entries.set(cacheKey, { identity: loaded.identity, parsed });
-      cache.sourceBytes += loaded.identity.size;
+    if (identity.size <= cache.maximumSourceBytes) {
+      cache.entries.set(cacheKey, Object.freeze(entry));
+      cache.sourceBytes += identity.size;
     }
-    return parsed;
   }
 
   #setRecord<Value>(cache: Map<string, Value>, key: string, value: Value): void {

@@ -387,6 +387,19 @@ describe("fresh generic board authoring compounds", () => {
     await expect(blindVia.bridge.execute({ id: "route-blind-via", name: "fresh_get_route_items", arguments: {} })).rejects.toThrow(/via .* malformed/iu);
   });
 
+  it("retains the V1 96-item ceiling and empty route-read arguments", async () => {
+    const tracks = Array.from({ length: 96 }, (_, index): TrackSpec => ({
+      id: `77777777-7777-4777-8777-${String(index).padStart(12, "0")}`, net: "VIN", x1: 2, y1: 1 + index / 100, x2: 3, y2: 1 + index / 100,
+    }));
+    const current = await authoringFixture(populatedBoard(tracks));
+    const read = JSON.parse((await current.bridge.execute({ id: "v1-limit", name: "fresh_get_route_items", arguments: {} })).content);
+    expect(read.items).toHaveLength(96); expect(read.schemaVersion).toBe("evleda.fresh-route-selection.v1");
+    expect(current.bridge.tools.find(tool => tool.name === "fresh_get_route_items")!.inputSchema).toMatchObject({ additionalProperties: false, properties: {} });
+    await expect(current.bridge.execute({ id: "v1-page", name: "fresh_get_route_items", arguments: { page: { offset: 32, selectionIdentity: read.identity } } })).rejects.toThrow();
+    const excessive = await authoringFixture(populatedBoard([...tracks, { ...tracks[0]!, id: "77777777-7777-4777-8777-999999999999" }]));
+    await expect(excessive.bridge.execute({ id: "v1-over", name: "fresh_get_route_items", arguments: {} })).rejects.toThrow(/exceeds 96 items/);
+  });
+
   it("forces compound sync, verifies 3 footprints/7 pads/zero unresolved mappings, reloads, and saves", async () => {
     const synced = populatedBoard([]);
     const current = await authoringFixture(emptyBoard(), { syncBoard: synced });

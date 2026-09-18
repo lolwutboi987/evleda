@@ -6,6 +6,10 @@ import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
 import { seedFreshBoardFeatures, verifyFreshBoardFeatures, assertFreshBoardFeatureState, type FreshBoardFeatureState } from "./fresh-board-features.js";
 import { captureFreshSchematicFieldError, createFreshSchematicFieldDiagnostic, publishFreshSchematicFieldDiagnostic,
   schematicFieldDiagnosticReferenceText, type FreshSchematicFieldDiagnosticObserver } from "./fresh-schematic-field-diagnostics.js";
+import { FRESH_SCHEMATIC_FIELD_POSITION_TOOL, planFreshSchematicFieldPositions, schematicFieldPositionGlyphDiagnostic,
+  type FreshSchematicFieldPositionUpdate } from "./fresh-schematic-field-position.js";
+import { FRESH_SCHEMATIC_SYMBOL_POSE_TOOL, planFreshSchematicSymbolPoses,
+  type FreshSchematicSymbolPoseUpdate } from "./fresh-schematic-symbol-pose.js";
 import { lstat, readFile, realpath } from "node:fs/promises";
 import path from "node:path";
 import type { PcbReadOnlyLibraryResolver } from "./pcb-design-compiler.js";
@@ -32,6 +36,9 @@ import { analyzeKicadPcbPractices, type PcbPracticeAnalysisProfile } from "../in
 import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
 import {
   FRESH_INCREMENTAL_INPUT_SCHEMAS,
+  FRESH_PLANE_ROUTE_PAGE_SIZE,
+  FRESH_PLANE_ROUTE_READ_INPUT_SCHEMA,
+  parseFreshPlaneRouteReadArguments,
   assertFreshProjectDirectoryChain,
   isVerifiedFreshProject,
   isVerifiedPlaneFreshProject,
@@ -99,6 +106,7 @@ import { validateFreshPlaneStageObservation, isValidatedFreshPlaneStageObservati
 import { prepareFreshPlaneConnectivity, assessFreshPlaneConnectivity, type FreshPlaneConnectivityAssessment } from "./fresh-plane-connectivity.js";
 import { createSavedFreshPlaneEvidence, assertSavedFreshPlaneEvidenceCurrent, type SavedFreshPlaneEvidence } from "./fresh-plane-evidence.js";
 import type { FreshPlaneAcceptanceAssessment, FreshPlaneAcceptanceInput } from "./fresh-plane-acceptance.js";
+import { FRESH_PLANE_COMMON_CHECKS_LIMITS } from "./fresh-plane-common-checks.js";
 import { assessSavedInterface, type SavedInterfaceAssessment } from "./saved-interface-assessment.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import { routeMmToNativeNm, routeNativeNmToMm, routeNativeNmToKipyMm, routeSourceMmToNativeNm, validatedNativePadPositionMm } from "./fresh-route-native-units.js";
@@ -144,6 +152,8 @@ export const KICAD_FRESH_HARNESS_TOOL_NAMES = Object.freeze([
   "fresh_apply_contract_connectivity",
   "fresh_apply_recommended_schematic_placement",
   "fresh_autoplace_schematic_fields",
+  FRESH_SCHEMATIC_FIELD_POSITION_TOOL,
+  FRESH_SCHEMATIC_SYMBOL_POSE_TOOL,
   "fresh_get_contract_pad_positions",
   "fresh_get_route_items",
   "fresh_replace_route_items",
@@ -191,6 +201,8 @@ const BOUNDING_BOX_ROUNDING_MARGIN_MM = 0.02;
 const MAX_CONFIDENT_SCHEMATIC_BOUNDING_BOX_MM = 50;
 const supportedToolNames = new Set<string>(KICAD_FRESH_HARNESS_TOOL_NAMES);
 const FRESH_HOST_TOOL_NAMES = new Set([
+  FRESH_SCHEMATIC_FIELD_POSITION_TOOL,
+  FRESH_SCHEMATIC_SYMBOL_POSE_TOOL,
   FRESH_FOOTPRINT_FIELD_TOOL,
   "fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement",
   "fresh_autoplace_schematic_fields",
@@ -205,6 +217,8 @@ const PCB_MUTATION_TOOL_NAMES = new Set([
   "pcb_set_board_outline", "pcb_add_track", "pcb_add_via", "pcb_place_component", "pcb_move_component", "pcb_move_footprint", "pcb_sync_from_schematic", "pcb_add_zone",
 ]);
 const PROVIDER_MUTATION_TOOL_NAMES = new Set([
+  FRESH_SCHEMATIC_FIELD_POSITION_TOOL,
+  FRESH_SCHEMATIC_SYMBOL_POSE_TOOL,
   "sch_apply_plan", "sch_add_symbol", "sch_modify_property", "lib_assign_footprint", "fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields", "fresh_replace_route_items", "fresh_sync_from_schematic", "fresh_apply_contract_plane", "sch_move_symbol",
   ...PCB_MUTATION_TOOL_NAMES,
 ]);
@@ -216,6 +230,8 @@ export function kicadHarnessToolEffect(name: string): "read" | "mutation" | unde
 }
 /** Locked sidecar synchronous calls that can only govern the authoritative schematic file. */
 const SYNCHRONOUS_SCHEMATIC_FILE_MUTATION_TOOL_NAMES = new Set([
+  FRESH_SCHEMATIC_FIELD_POSITION_TOOL,
+  FRESH_SCHEMATIC_SYMBOL_POSE_TOOL,
   "sch_apply_plan", "sch_add_symbol", "sch_modify_property", "lib_assign_footprint", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields", "sch_move_symbol",
 ]);
 const READ_TO_WRITE_LAYER = new Map<string, string>([
@@ -607,6 +623,7 @@ function parseFreshPlaneApplyArguments(value:Readonly<Record<string,unknown>>):R
 const MAX_FRESH_PCB_SOURCE_BYTES = 64 * 1024 * 1024;
 const MAX_FRESH_PAD_POSITIONS = 192;
 const MAX_FRESH_ROUTE_SELECTION_ITEMS = 96;
+const FRESH_PLANE_ROUTE_PAGE_SCHEMA_VERSION = "evleda.fresh-plane-route-selection-page.v1";
 const KICAD_SELECTION_ID = /^(?:[0-9a-f]{8,64}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/iu;
 
 interface FreshPcbCapture {
@@ -1010,7 +1027,18 @@ function exactContractPadPositions(
     left.reference.localeCompare(right.reference, "en-US") || left.pad.localeCompare(right.pad, "en-US") || (left.physical?.id??"").localeCompare(right.physical?.id??"","en-US")));
 }
 
+function assertRouteInventoryCapacity(plane: boolean, tracks: number, vias: number): void {
+  if (plane) {
+    if (tracks > FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumSegments || vias > FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumVias) {
+      throw new Error(`Plane whole-board route inventory exceeds ${FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumSegments} tracks or ${FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumVias} vias; no items were truncated.`);
+    }
+  } else if (tracks + vias > MAX_FRESH_ROUTE_SELECTION_ITEMS) throw new Error(`Fresh route selection exceeds ${MAX_FRESH_ROUTE_SELECTION_ITEMS} items.`);
+}
+
 function buildRouteSelection(contract: FreshConnectivityContract, capture: FreshPcbCapture): AuthoringRouteSelection {
+  const plane = capture.projectBindingIdentity.schemaVersion === "evleda.pcb-agent-plane-fresh-binding.v1";
+  assertRouteInventoryCapacity(plane, capture.parsed.segments.length, capture.parsed.vias.length);
+  if (plane && capture.contentIdentity.size > FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumPcbBytes) throw new Error("Plane route source exceeds the 2 MiB common-check boundary.");
   const contractNets = new Set(contract.nets.map((net) => net.name));
   const items: FreshRouteSelectionItem[] = [];
   const addTrack = (track: FreshPcbSegment): void => {
@@ -1027,10 +1055,9 @@ function buildRouteSelection(contract: FreshConnectivityContract, capture: Fresh
   };
   capture.parsed.segments.forEach(addTrack);
   capture.parsed.vias.forEach(addVia);
-  if (items.length > MAX_FRESH_ROUTE_SELECTION_ITEMS) throw new Error(`Fresh route selection exceeds ${MAX_FRESH_ROUTE_SELECTION_ITEMS} items.`);
   if (new Set(items.map((item) => item.id)).size !== items.length) throw new Error("Fresh route selection contains duplicate track/via UUIDs.");
   items.sort((left, right) => left.id.localeCompare(right.id, "en-US"));
-  if(capture.projectBindingIdentity.schemaVersion==="evleda.pcb-agent-plane-fresh-binding.v1"){
+  if(plane){
     const sourceRoutes=parseFreshPcbRouteSourceSpans(capture.source);
     if(sourceRoutes.length!==items.length||sourceRoutes.some(span=>!items.some(item=>item.id===span.id&&item.kind===span.kind)))throw new Error("Plane route selection differs from its exact complete source-span inventory.");
     const payload={schemaVersion:FRESH_PLANE_ROUTE_SELECTION_SCHEMA_VERSION,contractIdentity:contract.identity,
@@ -2762,7 +2789,7 @@ function assertFreshGenericSchematicSource(schematic: ReturnType<typeof parseFre
  * This intentionally omits any sidecar capability not in the frozen reviewed name list.
  */
 export function projectKicadHarnessToolDefinitions(
-  session: Pick<KicadHarnessSession, "listTools"|"supportsPlaneStage"|"stagePlane"|"supportsNativeRouteTransactions"|"supportsQualifiedFootprintIdentitySync">,
+  session: Pick<KicadHarnessSession, "listTools"|"supportsPlaneStage"|"stagePlane"|"supportsNativeRouteTransactions"|"supportsQualifiedFootprintIdentitySync"|"supportsSchematicConnectivityBatch">,
   freshProject?: FreshProject,
   freshConnectivityContract?: FreshConnectivityContractSource,
 ): readonly HarnessToolDefinition[] {
@@ -2771,6 +2798,9 @@ export function projectKicadHarnessToolDefinitions(
   const names = isVerifiedFreshProject(freshProject) ? KICAD_FRESH_HARNESS_TOOL_NAMES : KICAD_HARNESS_TOOL_NAMES;
   for (const name of names) {
     const tool = found.get(name);
+    if ((name === FRESH_SCHEMATIC_FIELD_POSITION_TOOL || name === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL) && (!contractAuthoringProject(freshProject)
+        || session.supportsSchematicConnectivityBatch?.() !== true
+        || ["sch_modify_property", "pcb_save"].some(required => found.get(required)?.permission !== "write"))) continue;
     if((name==="fresh_sync_from_schematic"||name==="pcb_sync_from_schematic")&&session.supportsQualifiedFootprintIdentitySync?.()!==true)continue;
     if(name==="fresh_replace_route_items"&&session.supportsNativeRouteTransactions?.()!==true)continue;
     if(name==="fresh_apply_contract_plane"&&(!isVerifiedPlaneFreshProject(freshProject)||session.supportsPlaneStage?.()!==true||typeof session.stagePlane!=="function"))continue;
@@ -2785,6 +2815,16 @@ export function projectKicadHarnessToolDefinitions(
         && !contractAuthoringProject(freshProject)) continue;
     if (tool === undefined && !FRESH_HOST_TOOL_NAMES.has(name)) continue;
     if (HOST_INTERNAL_TOOL_NAMES.has(name)) continue;
+    if (name === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL) {
+      definitions.push(harnessToolDefinitionSchema.parse({ name, inputSchema: FRESH_INCREMENTAL_INPUT_SCHEMAS.fresh_set_schematic_symbol_poses,
+        description: "Atomically set existing instance X/Y/cardinal rotation for 1–64 unique contract symbols in an unwired fresh schematic. Partial component inventory is allowed; all placed refs must belong to the contract. Refuses wires, labels, NCs, flags, junctions, buses, child sheets, mirrors and unknown electrical forms. Supply reference, x_mm, y_mm, rotation (0/90/180/270); coordinates must fit exact 0.0001 mm native units. Every field's text, position, angle, font, visibility and justification, plus library/pin/UUID/unrelated source, stays exact. Native before/after netlist equivalence forbids new or broken coincident-pin connectivity. Mandatory save/readback and glyph diagnostics follow. Use fresh_set_schematic_field_positions separately to reposition retained fields." }));
+      continue;
+    }
+    if (name === FRESH_SCHEMATIC_FIELD_POSITION_TOOL) {
+      definitions.push(harnessToolDefinitionSchema.parse({ name, inputSchema: FRESH_INCREMENTAL_INPUT_SCHEMAS.fresh_set_schematic_field_positions,
+        description: "Atomically move only the existing X/Y source coordinates of 1–128 unique schematic Reference/Value fields. Usable before connectivity and with a partial component inventory. Supply exact contract reference, field, x_mm and y_mm in stored schematic sheet coordinates (0.0001 mm native units). Strings, angles, fonts, justification, visibility, symbols, pins, UUIDs and all other source bytes remain unchanged. Native before/after netlists must be equivalent, followed by mandatory save/readback and a native glyph-position diagnostic. This does not certify whole-sheet readability or completed connectivity." }));
+      continue;
+    }
     if (name === FRESH_FOOTPRINT_FIELD_TOOL) {
       definitions.push(harnessToolDefinitionSchema.parse({ name, inputSchema: FRESH_FOOTPRINT_FIELD_SCHEMA,
         description: "Atomically update 1–128 unique existing PCB footprint Reference/Value fields. Select exact contract references and field names. Position uses absolute board x_mm/y_mm and cardinal absolute rotation_deg; visible, uniform size_mm, thickness_mm and F.SilkS/F.Fab layer are optional. Strings, UUIDs, footprint identities, pads, nets and all unrelated source stay unchanged. Visible fields require at least 0.8 mm size and 0.08 mm stroke. The complete list validates before one owned source stage/reload and mandatory native save/readback. This is presentation editing, not a silkscreen clearance pass." }));
@@ -2807,11 +2847,11 @@ export function projectKicadHarnessToolDefinitions(
                   ? "Atomically replace only selected current track/via UUIDs on one contract net. Widths and via dimensions are derived by the host; arbitrary object deletion is impossible."
                   : "Synchronize the exact host-bound schematic into the PCB with forced open-board reload and complete footprint/pad/net readback. Arguments must be empty."
         : providerToolDescription(tool),
-      inputSchema: name==="fresh_apply_contract_plane"?FRESH_PLANE_APPLY_INPUT_SCHEMA:freshProject?.workflowKind==="plane"&&name==="fresh_replace_route_items"?PLANE_ROUTE_MUTATION_INPUT_SCHEMA:name === "pcb_add_text" ? PCB_SILKSCREEN_TEXT_SCHEMA : name in FRESH_INCREMENTAL_INPUT_SCHEMAS
+      inputSchema: freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?FRESH_PLANE_ROUTE_READ_INPUT_SCHEMA:name==="fresh_apply_contract_plane"?FRESH_PLANE_APPLY_INPUT_SCHEMA:freshProject?.workflowKind==="plane"&&name==="fresh_replace_route_items"?PLANE_ROUTE_MUTATION_INPUT_SCHEMA:name === "pcb_add_text" ? PCB_SILKSCREEN_TEXT_SCHEMA : name in FRESH_INCREMENTAL_INPUT_SCHEMAS
         ? FRESH_INCREMENTAL_INPUT_SCHEMAS[name as keyof typeof FRESH_INCREMENTAL_INPUT_SCHEMAS]
         : inputSchemaFor(tool!),
     });
-    definitions.push(name==="fresh_apply_contract_plane"?{...definition,description:"Apply and refill one exact declared V2 plane using only its optional planeId. The host derives every setting and native UUID; arbitrary geometry is not accepted. Complete stage/source/physical inventory is validated before mandatory native save. DC connectivity, reference coverage, thermal and island-area acceptance remain unevaluated."}:definition);
+    definitions.push(freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?{...definition,description:"Read the complete source-bound V2 track/via inventory. Start with empty arguments. Large replies contain 32-item pages: pass pagination.nextPage as the next call's page until it is null. Each page rechecks the same complete source; drift rejects. identity always binds the full private selection and authorizes bounded fresh_replace_route_items edits; pageIdentity binds only that returned page. Routing completion and clearance remain unevaluated."}:name==="fresh_apply_contract_plane"?{...definition,description:"Apply and refill one exact declared V2 plane using only its optional planeId. The host derives every setting and native UUID; arbitrary geometry is not accepted. Complete stage/source/physical inventory is validated before mandatory native save. DC connectivity, reference coverage, thermal and island-area acceptance remain unevaluated."}:definition);
   }
   return Object.freeze(definitions);
 }
@@ -2823,6 +2863,13 @@ interface FreshPlacementSnapshot {
   readonly pins: ReadonlyMap<string, FreshPoint & { readonly angleDeg: 0 | 90 | 180 | 270 }>;
   readonly identity: ReturnType<typeof canonicalIdentity>;
   readonly sourceTerminals?: ReturnType<typeof buildFreshSchematicSourceTerminalGroups>;
+}
+interface PendingFreshSchematicFieldPositions {
+  readonly operation: typeof FRESH_SCHEMATIC_FIELD_POSITION_TOOL | typeof FRESH_SCHEMATIC_SYMBOL_POSE_TOOL;
+  readonly baseline: FreshSchematicPreimage;
+  readonly plan: ReturnType<typeof planFreshSchematicFieldPositions> | ReturnType<typeof planFreshSchematicSymbolPoses>;
+  readonly nativeBefore: string;
+  readonly pcbBefore: FreshPcbCapture;
 }
 
 interface PendingFreshPlacementRecommendation {
@@ -2883,6 +2930,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   readonly #freshPhysicalFootprintSourcePins: KicadHarnessToolsOptions["freshPhysicalFootprintSourcePins"];
   readonly #freshBoardPersistence: FreshBoardPersistence | undefined;
   readonly #freshSchematicRollback: FreshSchematicRollback | undefined;
+  #pendingFreshSchematicFieldPositions: PendingFreshSchematicFieldPositions | undefined;
+  #schematicFieldPositionRecoveryRequired = false;
+  readonly #schematicFieldPositionSaveResults = new WeakSet<HarnessToolResult>();
   #pendingFreshConnectivity: {
     readonly contract: FreshConnectivityContract;
     readonly baseline: FreshSchematicPreimage | undefined;
@@ -2896,6 +2946,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   #pendingFreshPlacementRecommendation: PendingFreshPlacementRecommendation | undefined;
   #pendingFreshPlacementCommit: PendingFreshPlacementCommit | undefined;
   #pendingFreshRouteSelection: AuthoringRouteSelection | undefined;
+  #nextFreshRoutePageOffset: number | undefined;
   #planeRecoveryRequired = false;
   #savedFreshPlaneEvidence: SavedFreshPlaneEvidence | undefined;
   readonly #assessFreshPlaneEvidence: KicadHarnessToolsOptions["assessFreshPlaneEvidence"];
@@ -3454,6 +3505,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #classifyPendingSchematicFileMutationBatch(): Promise<HarnessMutationBatchDisposition | undefined> {
+    if(this.#pendingFreshSchematicFieldPositions!==undefined)return undefined;
     if(this.#pendingFreshBoardPostSave?.kind==="plane")return undefined;
     const pending = this.#pendingSchematicFileMutationBatch;
     if (this.#pendingFreshPlacementCommit !== undefined && (pending === undefined || !pending.hasSchematicMutation || pending.hasPcbMutation)) {
@@ -3567,6 +3619,12 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #queuedPlaneCallGuard(call:HarnessToolCall):Promise<HarnessToolResult|undefined>{
+    if(this.#schematicFieldPositionRecoveryRequired&&(PROVIDER_MUTATION_TOOL_NAMES.has(call.name)||call.name==="pcb_save"))throw new Error("SCHEMATIC_FIELD_POSITION_RECOVERY_REQUIRED: close the editing session before further writes/save.");
+    if(this.#pendingFreshSchematicFieldPositions!==undefined) {
+      const pending=this.#pendingFreshSchematicFieldPositions;
+      if(call.name==="pcb_save")return await this.#saveFreshSchematicFieldPositions(call,pending);
+      return await this.#schematicFieldPositionFailure(call,pending,"mandatory-save-order",new Error("Save the atomic schematic field positions before any subsequent tool call."));
+    }
     // A source-equivalent edit can still dirty/refill native copper. Invalidate
     // on dispatch, before native execution; byte equality never restores authority.
     if(PROVIDER_MUTATION_TOOL_NAMES.has(call.name)||call.name==="pcb_save")this.#savedFreshPlaneEvidence=undefined;
@@ -3587,6 +3645,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
 
   async #call(call: HarnessToolCall, providerCallable: boolean, normalize = false): Promise<HarnessToolResult> {
     const parsed = harnessToolCallSchema.parse(detachedJson(call, "Harness tool call", MAX_ARGUMENT_BYTES));
+    if(this.#schematicFieldPositionRecoveryRequired&&(PROVIDER_MUTATION_TOOL_NAMES.has(parsed.name)||parsed.name==="pcb_save"))throw new Error("SCHEMATIC_FIELD_POSITION_RECOVERY_REQUIRED: close the editing session before further writes/save.");
+    if(this.#pendingFreshSchematicFieldPositions!==undefined) {
+      const pending=this.#pendingFreshSchematicFieldPositions;
+      const run=this.#tail.then(async()=>!providerCallable&&parsed.name==="pcb_save"?await this.#saveFreshSchematicFieldPositions(parsed,pending)
+        :await this.#schematicFieldPositionFailure(parsed,pending,"mandatory-save-order",new Error("Save the atomic schematic field positions before any subsequent tool call.")));
+      this.#tail=run.then(()=>undefined,()=>undefined);return await run;
+    }
     if(this.#footprintPlacementRecoveryRequired&&(PROVIDER_MUTATION_TOOL_NAMES.has(parsed.name)||parsed.name==="pcb_save"))throw new Error("FOOTPRINT_PLACEMENT_RECOVERY_REQUIRED: Writes/save are refused after a failed preserving placement; close this editing session.");
     if(!providerCallable&&parsed.name==="pcb_save"&&this.#pendingFreshBoardPostSave?.kind==="footprint-placement"){
       const pending=this.#pendingFreshBoardPostSave;
@@ -3653,9 +3718,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
               `a queued provider host call (${parsed.name}) reached execution after atomic placement but before its mandatory save/readback commit`,
             );
           }
-          await this.#captureSchematicFileMutationBatch(parsed.name);
-          capturedByThisCall = await this.#captureSaveBaseline(parsed.name);
-          const result = parsed.name === FRESH_FOOTPRINT_FIELD_TOOL
+          if(parsed.name!==FRESH_SCHEMATIC_FIELD_POSITION_TOOL&&parsed.name!==FRESH_SCHEMATIC_SYMBOL_POSE_TOOL){
+            await this.#captureSchematicFileMutationBatch(parsed.name);
+            capturedByThisCall = await this.#captureSaveBaseline(parsed.name);
+          }
+          const result = parsed.name === FRESH_SCHEMATIC_FIELD_POSITION_TOOL || parsed.name === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL
+            ? await this.#freshSetSchematicFieldPositions(parsed)
+            : parsed.name === FRESH_FOOTPRINT_FIELD_TOOL
             ? await this.#freshSetFootprintFields(parsed)
             : parsed.name === "fresh_apply_contract_connectivity"
             ? await this.#freshApplyContractConnectivity(parsed)
@@ -3678,9 +3747,11 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
             }
           }
           if(result.isError!==true)this.#assertLibrarySources();
+          if(result.isError!==true&&this.#pendingFreshSchematicFieldPositions!==undefined)await this.#assertSchematicFieldPositionState(this.#pendingFreshSchematicFieldPositions);
           if(this.#freshProject?.workflowKind==="plane"&&result.isError!==true)await this.#assertFreshCompoundAuthority();
           return result;
         } catch (error) {
+          if(this.#pendingFreshSchematicFieldPositions!==undefined)return await this.#schematicFieldPositionFailure(parsed,this.#pendingFreshSchematicFieldPositions,"result-authority",error);
           if(this.#pendingFreshBoardPostSave?.kind==="footprint-placement")return await this.#freshFootprintPlacementFailure(parsed,this.#pendingFreshBoardPostSave,"result-authority",error);
           if(this.#pendingFreshBoardPostSave?.kind==="plane")return await this.#planeApplyFailure(parsed,this.#pendingFreshBoardPostSave.before,this.#pendingFreshBoardPostSave.observation,"result-authority",error);
           if(this.#pendingFreshBoardPostSave?.kind==="plane-route")return await this.#routeMutationFailure(parsed,this.#pendingFreshBoardPostSave.net,this.#pendingFreshBoardPostSave.before,this.#pendingFreshBoardPostSave.physicalPcbSource,"result-authority",error,true,true);
@@ -4095,7 +4166,14 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #freshGetRouteItems(call: HarnessToolCall): Promise<HarnessToolResult> {
-    parseFreshIncrementalArguments(call.name, call.arguments);
+    const page = this.#freshPlaneDesignContract === undefined
+      ? (parseFreshIncrementalArguments(call.name, call.arguments), undefined)
+      : parseFreshPlaneRouteReadArguments(call.arguments).page;
+    if (page !== undefined && (this.#pendingFreshRouteSelection === undefined
+        || page.offset !== this.#nextFreshRoutePageOffset
+        || canonicalJson(page.selectionIdentity) !== canonicalJson(this.#pendingFreshRouteSelection.identity))) {
+      throw new Error("Plane route page does not continue the previous exact selection and next offset.");
+    }
     const contract = this.#freshConnectivityContract!;
     const first = await captureFreshPcb(this.#freshProject!);
     await this.#exactContractPadPositions(this.#freshProject!, contract, first.parsed,this.#freshPhysicalFootprintResolver!==undefined);
@@ -4108,8 +4186,29 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         || canonicalJson(firstSelection) !== canonicalJson(secondSelection)) {
       throw new Error("Fresh route selection changed during independent source rebind.");
     }
+    if (page !== undefined && canonicalJson(firstSelection.identity) !== canonicalJson(page.selectionIdentity)) {
+      throw new Error("Plane route source or complete inventory changed between pages.");
+    }
+    const completeJson = JSON.stringify(firstSelection);
+    if (page === undefined && completeJson.length <= MAX_RESULT_BYTES) {
+      this.#pendingFreshRouteSelection = firstSelection;
+      this.#nextFreshRoutePageOffset = undefined;
+      return harnessToolResultSchema.parse({ toolCallId: call.id, content: completeJson });
+    }
+    if (firstSelection.schemaVersion !== FRESH_PLANE_ROUTE_SELECTION_SCHEMA_VERSION) throw new Error("Complete V1 route feedback exceeds its unchanged result boundary.");
+    const offset = page?.offset ?? 0;
+    if (offset >= firstSelection.items.length) throw new Error("Plane route page offset is outside the complete inventory.");
+    const items = firstSelection.items.slice(offset, offset + FRESH_PLANE_ROUTE_PAGE_SIZE);
+    const nextOffset = offset + items.length < firstSelection.items.length ? offset + items.length : undefined;
+    const payload = { ...firstSelection, schemaVersion: FRESH_PLANE_ROUTE_PAGE_SCHEMA_VERSION,
+      selectionSchemaVersion: firstSelection.schemaVersion, items,
+      pagination: { offset, totalItemCount: firstSelection.items.length, returnedItemCount: items.length,
+        completeInventoryReturned: false, nextPage: nextOffset === undefined ? null : { selectionIdentity: firstSelection.identity, offset: nextOffset } } };
+    const result = harnessToolResultSchema.parse({ toolCallId: call.id,
+      content: JSON.stringify({ ...payload, pageIdentity: canonicalIdentity(payload, FRESH_PLANE_ROUTE_PAGE_SCHEMA_VERSION) }) });
     this.#pendingFreshRouteSelection = firstSelection;
-    return harnessToolResultSchema.parse({ toolCallId: call.id, content: JSON.stringify(firstSelection) });
+    this.#nextFreshRoutePageOffset = nextOffset;
+    return result;
   }
 
   async #freshReplaceRouteItems(call: HarnessToolCall): Promise<HarnessToolResult> {
@@ -4138,6 +4237,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       vias:nativeVias.map(via=>({xMm:routeNativeNmToMm(via.xNm),yMm:routeNativeNmToMm(via.yNm)}))};
     const pending = this.#pendingFreshRouteSelection;
     this.#pendingFreshRouteSelection = undefined;
+    this.#nextFreshRoutePageOffset = undefined;
     if (pending === undefined || canonicalJson(argumentsValue.selectionIdentity) !== canonicalJson(pending.identity)) {
       throw new Error("Route replacement selection identity is missing, stale, replayed, or does not match the last host readback.");
     }
@@ -4199,6 +4299,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const proposed:FreshRouteSelectionItem[]=[...currentSelection.items.filter(item=>!argumentsValue.deleteItemIds.includes(item.id)),
         ...argumentsValue.tracks.map((track,index):FreshRouteSelectionItem=>({kind:"track",id:`proposed-track-${index}`,net:net.name,start:{xMm:track.x1Mm,yMm:track.y1Mm},end:{xMm:track.x2Mm,yMm:track.y2Mm},layer:track.layer,widthMm:track.widthMm})),
         ...argumentsValue.vias.map((via,index):FreshRouteSelectionItem=>({kind:"via",id:`proposed-via-${index}`,net:net.name,at:{xMm:via.xMm,yMm:via.yMm},layers:["F.Cu","B.Cu"],diameterMm:viaPolicy.mode==="bounded"?viaPolicy.diameterMm:0,drillMm:viaPolicy.mode==="bounded"?viaPolicy.drillMm:0}))];
+      assertRouteInventoryCapacity(true, proposed.filter(item => item.kind === "track").length, proposed.filter(item => item.kind === "via").length);
       assertPlaneIncrementalRouteGeometry(planeDesign,net.name,proposed,currentPhysical!.pads);
     }
 
@@ -4348,6 +4449,123 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       });
     } catch (error) {
       return await this.#routeMutationFailure(call,net.name,currentCapture,acceptedStagedSource,firstOperation,error,transactionStarted,transactionPushed);
+    }
+  }
+
+  #assertSchematicFieldPositionWriteAdmission(): void {
+    if (this.#session.supportsSchematicConnectivityBatch?.() !== true
+        || ["sch_modify_property", "pcb_save"].some(name => !this.#session.listTools().some(tool => tool.name === name && tool.permission === "write"))) {
+      throw new Error("Schematic field positions require current qualified native schematic write and save authority.");
+    }
+  }
+
+  async #assertSchematicFieldPositionState(pending: PendingFreshSchematicFieldPositions): Promise<void> {
+    this.#assertSchematicFieldPositionWriteAdmission();
+    await this.#assertFreshCompoundAuthority();
+    await this.#freshSchematicRollback!.assertOwnedSource(pending.baseline, pending.plan.source);
+    const pcb = await captureFreshPcb(this.#freshProject!);
+    const live = await freshActiveBoardSource(this.#session, this.#freshProject!.pcbPath);
+    if (pcb.source !== pending.pcbBefore.source || !freshBoardSerializationsEqual(pcb.source, live)
+        || (await captureFreshPcb(this.#freshProject!)).source !== pcb.source) throw new Error("Unrelated saved/live PCB source changed during schematic field positioning.");
+    await this.#freshSchematicRollback!.assertOwnedSource(pending.baseline, pending.plan.source);
+  }
+
+  async #freshSetSchematicFieldPositions(call: HarnessToolCall): Promise<HarnessToolResult> {
+    if (!contractAuthoringProject(this.#freshProject) || this.#freshConnectivityContract === undefined || this.#freshSchematicRollback === undefined
+        || this.#captureFreshNativeNetlist === undefined || this.#captureFreshSchematicStrokeStyle === undefined) throw new Error("Position-only schematic editing requires a marker-bound contract and native netlist/glyph capture authority.");
+    if (this.#pendingFreshConnectivity !== undefined || this.#pendingFreshPlacementRecommendation !== undefined || this.#pendingFreshPlacementCommit !== undefined
+        || this.#pendingFreshBoardPostSave !== undefined || this.#pendingSchematicFileMutationBatch !== undefined) throw new Error("Save or finish the prior mutation/recommendation before editing schematic field positions.");
+    this.#assertSchematicFieldPositionWriteAdmission();
+    const poseOperation = call.name === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL;
+    const updates = parseFreshIncrementalArguments(call.name, call.arguments).updates as readonly FreshSchematicFieldPositionUpdate[] | readonly FreshSchematicSymbolPoseUpdate[];
+    if (updates.some(update => !this.#freshConnectivityContract!.components.some(component => component.reference === update.reference))) throw new Error("Schematic field position updates must select declared physical contract references.");
+    const source = await readFile(this.#freshProject!.schematicPath, "utf8");
+    const posePlan = poseOperation ? planFreshSchematicSymbolPoses(source, updates as readonly FreshSchematicSymbolPoseUpdate[]) : undefined;
+    const plan: PendingFreshSchematicFieldPositions["plan"] = posePlan ?? planFreshSchematicFieldPositions(source, updates as readonly FreshSchematicFieldPositionUpdate[]);
+    if (posePlan !== undefined && posePlan.observedReferences.some(reference => !this.#freshConnectivityContract!.components.some(component => component.reference === reference))) throw new Error("Unwired pose editing requires the entire placed inventory to be a subset of the contract references.");
+    const pcbBefore = await captureFreshPcb(this.#freshProject!);
+    if (!freshBoardSerializationsEqual(pcbBefore.source, await freshActiveBoardSource(this.#session, this.#freshProject!.pcbPath))) throw new Error("Schematic field positioning preserves unsaved PCB changes; save them first.");
+    const nativeBefore = await this.#captureFreshNativeNetlist();
+    compareFreshNativeNetlists(nativeBefore, nativeBefore); // Validate native grammar even for a source no-op.
+    if (await readFile(this.#freshProject!.schematicPath, "utf8") !== source || (await captureFreshPcb(this.#freshProject!)).source !== pcbBefore.source) throw new Error("Source changed during pre-mutation native netlist capture.");
+    await this.#assertFreshCompoundAuthority();
+    const baseline = await this.#freshSchematicRollback.capture(source);
+    await this.#captureSchematicFileMutationBatch(call.name);
+    await this.#captureSaveBaseline(call.name);
+    const pending = Object.freeze({ operation: poseOperation ? FRESH_SCHEMATIC_SYMBOL_POSE_TOOL : FRESH_SCHEMATIC_FIELD_POSITION_TOOL, baseline, plan, nativeBefore, pcbBefore });
+    this.#pendingFreshSchematicFieldPositions = pending;
+    let firstOperation = "owned-source-stage";
+    try {
+      this.#assertSchematicFieldPositionWriteAdmission();
+      await this.#freshSchematicRollback.stageOwnedSource(baseline, plan.source);
+      await this.#assertSchematicFieldPositionState(pending);
+      firstOperation = "native-netlist-after-positions";
+      const comparison = compareFreshNativeNetlists(nativeBefore, await this.#captureFreshNativeNetlist());
+      if (!comparison.equal) throw new Error("Partial-state native netlist changed outside its export timestamp after position-only edits.");
+      await this.#assertSchematicFieldPositionState(pending);
+      firstOperation = "native-glyph-after-positions";
+      const style = await this.#captureFreshSchematicStrokeStyle(plan.afterIdentity);
+      assertFreshSchematicStrokeStyleEvidence(style, plan.afterIdentity);
+      await this.#assertSchematicFieldPositionState(pending);
+      const presentation = "poses" in plan ? { schemaVersion: "evleda.fresh-schematic-symbol-poses-result.v1", poses: plan.poses,
+        assurance: "Only selected instance X/Y/angle tokens changed; all field tokens stayed exact. Native glyph candidates are diagnostic, not whole-sheet readability or completed-connectivity evidence." }
+        : { schemaVersion: "evleda.fresh-schematic-field-positions-result.v1", fields: plan.fields.map(field => ({ reference: field.reference, field: field.field, at: field.after, changed: field.changed })),
+          assurance: "Only selected source X/Y coordinates changed. Native glyph candidates are diagnostic; whole-sheet readability and completed connectivity are not established." };
+      const payload = { ...presentation, applied: true, mutated: plan.changed, idempotent: !plan.changed,
+        beforeSchematicContentIdentity: plan.beforeIdentity, afterSchematicContentIdentity: plan.afterIdentity,
+        nativeNetlistComparison: comparison, nativeGlyphDiagnostic: schematicFieldPositionGlyphDiagnostic(plan, style), persistence: "native-save-required" };
+      return harnessToolResultSchema.parse({ toolCallId: call.id, content: JSON.stringify({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) }) });
+    } catch (error) { return await this.#schematicFieldPositionFailure(call, pending, firstOperation, error); }
+  }
+
+  async #schematicFieldPositionFailure(call: HarnessToolCall, pending: PendingFreshSchematicFieldPositions, firstOperation: string, error: unknown): Promise<never> {
+    this.#schematicFieldPositionRecoveryRequired = true;
+    this.#pendingFreshSchematicFieldPositions = undefined;
+    this.#pendingSchematicFileMutationBatch = undefined; this.#pendingPersistedMutationBaseline = undefined;
+    const primary = createFreshSchematicFieldDiagnostic({ failureId: randomUUID(), phase: "primary-failure", toolCallId: call.id.slice(0, 256), firstOperation: pending.operation === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL ? `${pending.operation}/${firstOperation}` : firstOperation,
+      beforeSchematicContentIdentity: pending.plan.beforeIdentity, primary: captureFreshSchematicFieldError(error), sessionResponse: null,
+      schematicRollback: "not-attempted", rollbackFailure: null, nativeSchematicState: "unproven", nativeClose: null, primaryArtifact: null, recoveryArtifact: null });
+    const primaryArtifact = await publishFreshSchematicFieldDiagnostic(this.#observeFreshSchematicFieldDiagnostic, primary);
+    let failed = false, rollbackFailure: unknown;
+    try { await this.#freshSchematicRollback!.restoreOwnedSource(pending.baseline); }
+    catch (fault) { failed = true; rollbackFailure = fault; }
+    const { schemaVersion: _schema, identity: _identity, ...body } = primary;
+    const recovery = createFreshSchematicFieldDiagnostic({ ...body, phase: "recovery-finished", primaryArtifact, schematicRollback: failed ? "failed" : "verified",
+      rollbackFailure: failed ? captureFreshSchematicFieldError(rollbackFailure) : null });
+    const recoveryArtifact = await publishFreshSchematicFieldDiagnostic(this.#observeFreshSchematicFieldDiagnostic, recovery);
+    const prefix = pending.operation === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL ? "SCHEMATIC_SYMBOL_POSE" : "SCHEMATIC_FIELD_POSITION";
+    throw new Error(`${prefix}_${failed ? "ROLLBACK_FAILED" : "ROLLED_BACK"}_TERMINAL: Owned schematic position edit failed; ${failed ? "unknown current source was preserved or exact rollback remains unconfirmed" : "exact owned schematic preimage restored"}. Native editor state is unproven; close the editing session.`
+      + schematicFieldDiagnosticReferenceText("primary", primaryArtifact) + schematicFieldDiagnosticReferenceText("recovery", recoveryArtifact), { cause: error });
+  }
+
+  async #saveFreshSchematicFieldPositions(call: HarnessToolCall, pending: PendingFreshSchematicFieldPositions): Promise<HarnessToolResult> {
+    if (this.#pendingFreshSchematicFieldPositions !== pending) throw new Error("Schematic field position save no longer owns a pending stage.");
+    let firstOperation = "pre-save-source-fence";
+    try {
+      if (call.name !== "pcb_save" || Object.keys(call.arguments).length !== 0) throw new Error("Schematic field position save requires the exact empty native save call.");
+      await this.#assertSchematicFieldPositionState(pending);
+      firstOperation = "native-save";
+      const saved = await this.#callSourceBoundTool("pcb_save", {});
+      if (!hasQualifiedNativeBoardReply(saved, "Board saved.")) throw new Error("Schematic field position native save lacks its qualified acknowledgement.", { cause: nativeReplyCause("pcb_save", saved) });
+      await this.#assertSchematicFieldPositionState(pending);
+      firstOperation = "post-save-native-netlist";
+      const comparison = compareFreshNativeNetlists(pending.nativeBefore, await this.#captureFreshNativeNetlist!());
+      if (!comparison.equal) throw new Error("Saved partial-state netlist no longer matches the exact pre-position electrical export.");
+      await this.#assertSchematicFieldPositionState(pending);
+      firstOperation = "post-save-native-glyph";
+      const style = await this.#captureFreshSchematicStrokeStyle!(pending.plan.afterIdentity);
+      assertFreshSchematicStrokeStyleEvidence(style, pending.plan.afterIdentity);
+      await this.#assertSchematicFieldPositionState(pending);
+      this.#pendingFreshSchematicFieldPositions = undefined;
+      this.#pendingSchematicFileMutationBatch = undefined; this.#pendingPersistedMutationBaseline = undefined;
+      const result = harnessToolResultSchema.parse({ toolCallId: call.id, content: JSON.stringify({ status: pending.operation === FRESH_SCHEMATIC_SYMBOL_POSE_TOOL ? "saved-and-native-schematic-symbol-poses-verified" : "saved-and-native-schematic-field-positions-verified",
+        schematicContentIdentity: pending.plan.afterIdentity, nativeNetlistComparison: comparison,
+        nativeGlyphDiagnostic: schematicFieldPositionGlyphDiagnostic(pending.plan, style) }) });
+      this.#schematicFieldPositionSaveResults.add(result); return result;
+    } catch (error) {
+      try { return await this.#schematicFieldPositionFailure(call, pending, firstOperation, error); }
+      catch (terminal) { const result = harnessToolResultSchema.parse({ toolCallId: call.id, isError: true, content: terminal instanceof Error ? terminal.message : String(terminal) });
+        this.#schematicFieldPositionSaveResults.add(result); return result; }
     }
   }
 
@@ -5819,6 +6037,11 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #saveAfterMutation(call: HarnessToolCall): Promise<HarnessToolResult> {
+    if(this.#pendingFreshSchematicFieldPositions!==undefined){
+      const pending=this.#pendingFreshSchematicFieldPositions;
+      const run=this.#tail.then(async()=>await this.#saveFreshSchematicFieldPositions(call,pending));this.#tail=run.then(()=>undefined,()=>undefined);return await run;
+    }
+    if(this.#schematicFieldPositionRecoveryRequired)return harnessToolResultSchema.parse({toolCallId:call.id,isError:true,content:"SCHEMATIC_FIELD_POSITION_RECOVERY_REQUIRED: close this editing session."});
     if(this.#pendingFreshBoardPostSave?.kind==="footprint-placement"){
       const pending=this.#pendingFreshBoardPostSave;
       const run=this.#tail.then(async()=>await this.#saveFreshFootprintPlacement(call,pending));
@@ -5839,7 +6062,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         const saved = await this.#call(call, false);
         // Identity is private host provenance, never inferred from native text.
         // The execution-time dispatch may already have completed this save.
-        if(this.#freshFootprintPlacementSaveResults.has(saved))return saved;
+        if(this.#freshFootprintPlacementSaveResults.has(saved)||this.#schematicFieldPositionSaveResults.has(saved))return saved;
         if (saved.isError) return await this.#terminalSaveFailure(call, `KiCad pcb_save returned an MCP error: ${saved.content}`);
         const genericPersisted = this.#verifyPersistedMutation !== undefined
           && await this.#verifyPersistedMutation(this.#pendingPersistedMutationBaseline);

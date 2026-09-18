@@ -7,6 +7,7 @@ import { createSavedFreshPlaneEvidence } from "../../src/harness/fresh-plane-evi
 import { validateFreshPlaneStageObservation } from "../../src/harness/fresh-plane-stage-observation.js";
 import { prepareFreshPlaneMutation } from "../../src/harness/fresh-plane-mutation.js";
 import { createFreshPlaneRules } from "../../src/harness/fresh-plane-rules.js";
+import { derivePcbNativeNumericRules } from "../../src/harness/pcb-native-numeric-rules.js";
 import { parseFreshPcbReferenceGeometry, parseFreshPcbSource } from "../../src/harness/fresh-kicad-parser.js";
 import { compilePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-plane-compiler.js";
 import { createPcbPlaneCompilationBundle } from "../../src/harness/pcb-design-plane-bundle.js";
@@ -43,12 +44,13 @@ function projectSettings() {
   } } };
 }
 async function fixture(options: { padFields?: string; footprintFields?: string; project?: ReturnType<typeof projectSettings>;
+  numericRules?: boolean; numericSettingsEdit?: (settings: Record<string, any>) => void;
   minimumSpokes?: number; rawPadOverride?: "global" | "layer"; extraPad?: string;
   rawPadZoneConnection?: { number: string; value: unknown } } = {}): Promise<FreshPlaneNativeChecksInput> {
   const draft = planeDividerDraft();
   if (options.minimumSpokes !== undefined) draft.planes[0]!.padConnection.minimumConnectedSpokes = options.minimumSpokes;
-  const compilationBundle = options.minimumSpokes === undefined ? bundle : createPcbPlaneCompilationBundle({ originalPrompt: "Synthetic four-spoke rule fixture",
-    compilation: compilePcbPlaneDesignIntentDraft(draft, dependencies) }, dependencies);
+  const compilationBundle = options.minimumSpokes === undefined && !options.numericRules ? bundle : createPcbPlaneCompilationBundle({ originalPrompt: "Synthetic four-spoke rule fixture",
+    compilation: compilePcbPlaneDesignIntentDraft({ ...draft, ...(options.numericRules ? { nativeRuleMode: "contract-derived-v1" } : {}) }, dependencies) }, dependencies);
   const before = boardSource(options.padFields, options.footprintFields, options.extraPad);
   const prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, operation: "create" });
   const staged = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
@@ -76,7 +78,13 @@ async function fixture(options: { padFields?: string; footprintFields?: string; 
   }
   const stage = validateFreshPlaneStageObservation(staged.receipt, { ...staged, prepared });
   const projectRoot = "D:\\evleda-offline-pad-fixture", pcbPath = `${projectRoot}\\fixture.kicad_pcb`;
-  const projectSource = JSON.stringify(options.project ?? projectSettings()), rulesSource = createFreshPlaneRules(compilationBundle).source;
+  const project = options.project ?? projectSettings(), numeric = derivePcbNativeNumericRules(compilationBundle.contract);
+  if (numeric !== undefined) {
+    Object.assign(project.board.design_settings.rules, numeric.boardRules);
+    Object.assign(project.board.design_settings.rule_severities, numeric.requiredNativeCheckSeverities);
+  }
+  options.numericSettingsEdit?.(project);
+  const projectSource = JSON.stringify(project), rulesSource = createFreshPlaneRules(compilationBundle).source;
   const sources = { projectRoot, pcbPath, pcbSource: staged.stagedSource,
     projectPath: `${projectRoot}\\fixture.kicad_pro`, projectSource, rulesPath: `${projectRoot}\\fixture.kicad_dru`, rulesSource };
   const savedEvidence = createSavedFreshPlaneEvidence({ compilationBundle, stage, ...current,
@@ -265,6 +273,26 @@ describe("original V2 ERC native evidence", () => {
 });
 
 describe("source-bound native plane policy evidence", () => {
+  it.each([undefined, "error"])("supports only the qualified via diameter default or explicit error (%s)", async severity => {
+    const input = await fixture({ numericRules: true, numericSettingsEdit: project => {
+      if (severity !== undefined) project.board.design_settings.rule_severities.via_diameter = severity;
+    } });
+    expect(assessFreshPlaneNativeChecks(input).checks.drcClearanceShorts.status).toBe("verified");
+  });
+  it.each(["ignore", "warning", "unknown", null])("rejects an explicit weakened via diameter severity %s", async severity => {
+    const input = await fixture({ numericRules: true, numericSettingsEdit: project => { project.board.design_settings.rule_severities.via_diameter = severity; } });
+    expect(() => assessFreshPlaneNativeChecks(input)).toThrow(/via_diameter.*severity/);
+  });
+  it.each(["track_width", "track_angle", "via_diameter"])("rejects ignored numeric native category %s even when project intent is exact", async key => {
+    const input = changeNative(await fixture({ numericRules: true }), n => { n.drc.report.ignored_checks = [{ key, description: "Ignored numeric check" }]; });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.drcClearanceShorts.status).toBe("failed");
+    expect(result.checks.drcClearanceShorts.reasons).toContain(`required-native-check-disabled:${key}`);
+  });
+  it("rejects wrong current projected rules independently of byte freshness", async () => {
+    const input = await fixture({ numericRules: true, numericSettingsEdit: project => { project.board.design_settings.rules.min_track_width = 0.01; } });
+    expect(() => assessFreshPlaneNativeChecks(input)).toThrow(/min_track_width/);
+  });
   it("verifies scoped native DRC while missing direct contacts cannot pass thermal policy", async () => {
     const result = assessFreshPlaneNativeChecks(await fixture());
     expect(result.checks.drcClearanceShorts.status).toBe("verified");

@@ -2,6 +2,7 @@ import { pcbExternalPowerInputsDraftSchema, pcbExternalPowerInputsSchema, valida
 import { pcbDerivedPowerSourcesDraftSchema, pcbDerivedPowerSourcesSchema, validatePcbDerivedPowerRelationships } from "./pcb-derived-power.js";
 import { z } from "zod";
 import { pcbBoardFeaturesSchema, validatePcbBoardFeatureRelationships } from "./pcb-board-features.js";
+import { routeSourceMmToNativeNm } from "./fresh-route-native-units.js";
 import { canonicalIdentity, canonicalJson } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import { pcbInterfaceRequirementsDraftSchema, pcbInterfaceRequirementsSchema,
@@ -70,24 +71,32 @@ const referenceDraft = z.discriminatedUnion("mode", [noReference, continuousRefe
   planeId: identifier.nullable(), signalLayer: layer.nullable(), coverageMarginMm: number(0, 50).nullable(),
   terminalReferences: z.array(terminalReference).max(PCB_PLANE_CONTRACT_LIMITS.maxEndpoints).nullable(),
 }).strict()]).nullable();
-const accessRouting = z.object({ preferredLayer: layer, maxVias: closedRoute.shape.maxVias,
+// Plane access may serve many local return terminals; ordinary trace routes keep their V1 ceiling.
+const accessRouting = z.object({ preferredLayer: layer, maxVias: z.number().finite().int().min(0).max(64).refine(value => !Object.is(value, -0), "Negative zero is not canonical"),
   routeLength: closedRoute.shape.routeLength }).strict();
-const accessDraft = accessRouting.extend({ preferredLayer: layer.nullable(), maxVias: closedRoute.shape.maxVias.nullable(),
+const accessDraft = accessRouting.extend({ preferredLayer: layer.nullable(), maxVias: accessRouting.shape.maxVias.nullable(),
   routeLength: closedRoute.shape.routeLength.nullable() }).strict();
 const routed = closedRoute.extend({ referencePath: z.discriminatedUnion("mode", [noReference, continuousReference]) }).strict();
 const planeRoute = z.object({ net: netName, topology: z.literal("plane"), planeId: identifier, accessRouting }).strict();
 const routedDraft = draftRoute.extend({ referencePath: referenceDraft }).strict();
 const planeRouteDraft = planeRoute.extend({ planeId: identifier.nullable(), accessRouting: accessDraft.nullable() }).strict();
-const routing = closed.routingConstraints.extend({ nets: z.array(z.discriminatedUnion("topology", [routed, planeRoute])).min(1).max(128) }).strict();
-const routingDraft = draft.routingConstraints.extend({ nets: z.array(z.discriminatedUnion("topology", [routedDraft, planeRouteDraft])).max(128) }).strict();
+const minimumHoleToHoleMm = number(0.05, 10).refine(value => {
+  try { routeSourceMmToNativeNm(value); return true; } catch { return false; }
+}, "Hole spacing must be exact integer nanometres");
+const routing = closed.routingConstraints.extend({ minimumHoleToHoleMm: minimumHoleToHoleMm.optional(),
+  nets: z.array(z.discriminatedUnion("topology", [routed, planeRoute])).min(1).max(128) }).strict();
+const routingDraft = draft.routingConstraints.extend({ minimumHoleToHoleMm: minimumHoleToHoleMm.nullable().optional(),
+  nets: z.array(z.discriminatedUnion("topology", [routedDraft, planeRouteDraft])).max(128) }).strict();
 
 const draftBase = z.object({ ...draft, schemaVersion: z.literal(PCB_PLANE_DRAFT_SCHEMA_VERSION),
+  nativeRuleMode: z.literal("contract-derived-v1").describe("Opt in to contract-derived native numeric floors and exact per-net/via rules; omission preserves legacy native settings. This does not qualify manufacturing or channel escape locality.").nullable().optional(),
   routingConstraints: routingDraft, planes: z.array(planeDraft).max(1),
   externalPowerInputs: pcbExternalPowerInputsDraftSchema.nullable().optional(),
   derivedPowerSources: pcbDerivedPowerSourcesDraftSchema.nullable().optional(),
   boardFeatures: pcbBoardFeaturesSchema.nullable().optional(),
   interfaceRequirements: pcbInterfaceRequirementsDraftSchema.nullable().optional() }).strict();
 const payloadBase = z.object({ ...closed, schemaVersion: z.literal(PCB_PLANE_CONTRACT_SCHEMA_VERSION),
+  nativeRuleMode: z.literal("contract-derived-v1").optional(),
   routingConstraints: routing, planes: z.array(plane).length(1),
   externalPowerInputs: pcbExternalPowerInputsSchema.optional(),
   derivedPowerSources: pcbDerivedPowerSourcesSchema.optional(),
@@ -144,6 +153,9 @@ export function normalizePcbPlaneUnresolvedPath(document: unknown, pointer: stri
 }
 
 function relationships(document: DraftValue | PayloadValue, context: z.RefinementCtx, closedContract: boolean): void {
+  if (document.routingConstraints.minimumHoleToHoleMm !== undefined && document.nativeRuleMode !== "contract-derived-v1") {
+    context.addIssue({ code: "custom", path: ["routingConstraints", "minimumHoleToHoleMm"], message: "Explicit hole spacing requires nativeRuleMode=contract-derived-v1" });
+  }
   validatePcbDesignCommonRelationships(document, context, closedContract);
   validatePcbInterfaceRelationships(document, context, closedContract);
   validatePcbExternalPowerRelationships(document, context);

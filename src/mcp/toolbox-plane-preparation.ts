@@ -20,6 +20,7 @@ import { readResumeFile } from "./toolbox-fresh-preparation.js";
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
 import { assertPcbExternalPowerBindingCurrent } from "../harness/pcb-external-power.js";
 import { assertPcbDerivedPowerBindingCurrent } from "../harness/pcb-derived-power.js";
+import type { FreshPlaneSchematicSeed } from "../harness/fresh-plane-schematic-seed.js";
 
 function assertPlaneSources(bundle: PcbPlaneCompilationBundle, dependencies: PcbPlaneCompilerOptions): void {
   assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
@@ -28,6 +29,7 @@ function assertPlaneSources(bundle: PcbPlaneCompilationBundle, dependencies: Pcb
 }
 
 export interface KicadToolboxPlanePreparationInput {
+  readonly schematicSeed?: FreshPlaneSchematicSeed;
   readonly draft: unknown;
   readonly originalPrompt: string;
   readonly outputDir: string;
@@ -106,7 +108,8 @@ export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePr
   if (preview !== undefined && canonicalJson(preview) !== canonicalJson(bundle.identity)) throw new Error("Plane compilation changed since preview; review it before project creation.");
   const bundleRef = createPcbPlaneCompilationBundleRef(bundle);
   assertPlaneSources(bundle, dependencies);
-  const project = await preparePlaneFreshProject({ outputDir: input.outputDir, name: input.name, resume: false, compilationBundle: bundle, compilationBundleRef: bundleRef });
+  const project = await preparePlaneFreshProject({ outputDir: input.outputDir, name: input.name, resume: false, compilationBundle: bundle, compilationBundleRef: bundleRef,
+    ...(input.schematicSeed === undefined ? {} : { schematicSeed: input.schematicSeed }) });
   const boardFeatureState = bundle.contract.boardFeatures === undefined ? undefined
     : createFreshBoardFeatureState(bundle, await captureFreshProjectOpenPreparedSourceAuthority(project));
   assertPlaneSources(bundle, dependencies);

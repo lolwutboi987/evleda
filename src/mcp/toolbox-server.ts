@@ -36,7 +36,7 @@ const GUIDE_QUERY = z.object({ topic: z.string().trim().min(1).max(128) }).stric
 const READ_ANNOTATIONS = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } as const;
 const PLANE_APPLY = "fresh_apply_contract_plane";
 const COMPOUNDS = new Set(["fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields", "fresh_replace_route_items", "fresh_sync_from_schematic", PLANE_APPLY]);
-const SCHEMATIC_MUTATIONS = new Set(["sch_apply_plan", "sch_add_symbol", "sch_modify_property", "lib_assign_footprint", "sch_move_symbol", "fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields"]);
+const SCHEMATIC_MUTATIONS = new Set(["sch_apply_plan", "sch_add_symbol", "sch_modify_property", "lib_assign_footprint", "sch_move_symbol", "fresh_apply_contract_connectivity", "fresh_apply_recommended_schematic_placement", "fresh_autoplace_schematic_fields", "fresh_set_schematic_field_positions", "fresh_set_schematic_symbol_poses"]);
 
 export interface KicadToolboxServerOptions {
   /** Already-bound host capability; never constructed from a model tool argument. */

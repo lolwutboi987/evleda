@@ -9,6 +9,7 @@ import { compilePcbPlaneDesignIntentDraft } from "../../src/harness/pcb-design-p
 import { createPcbPlaneCompilationBundle, createPcbPlaneCompilationBundleRef, type PcbPlaneCompilationBundle } from "../../src/harness/pcb-design-plane-bundle.js";
 import { preparePlaneFreshProject } from "../../src/harness/fresh-project.js";
 import { createFreshPlaneRules } from "../../src/harness/fresh-plane-rules.js";
+import { derivePcbNativeNumericRules } from "../../src/harness/pcb-native-numeric-rules.js";
 import { FRESH_NETCLASS_ASSIGNMENT_MODEL } from "../../src/harness/fresh-netclass-assignment.js";
 import { materializeFreshNetClasses, parseFreshNetClassSemanticAuthority, parseFreshNetClassPreparationEvidence, readFreshClearanceEvidence,
   assertFreshPlaneReferenceCopperScope } from "../../src/harness/fresh-clearance-evidence.js";
@@ -105,6 +106,33 @@ async function noConnectFixture(nativeName = noConnectName, repeated = false) {
 }
 
 describe("actual V2 plane net-class preparation", () => {
+  it.each([undefined, 0.5])("retains opt-in numeric issuance/spacing %s through materialization and refuses drift without rewriting it", async spacing => {
+    const draft = { ...planeDividerDraft(), nativeRuleMode: "contract-derived-v1" };
+    draft.netClasses.find(c => c.id === "SENSE")!.traceWidthMm = 0.15;
+    draft.netClasses.find(c => c.id === "SENSE")!.copperToEdgeMm = 0.25;
+    draft.routingConstraints.viaPolicy.drillMm = 0.25;
+    const compilation = compilePcbPlaneDesignIntentDraft({ ...draft, routingConstraints: { ...draft.routingConstraints,
+      ...(spacing === undefined ? {} : { minimumHoleToHoleMm: spacing }) } }, dependencies);
+    expect(compilation.disposition, JSON.stringify(compilation.issues)).toBe("ready");
+    const b = createPcbPlaneCompilationBundle({ originalPrompt: "Opt-in native numerical rules", compilation }, dependencies);
+    const f = await fixture(false, b), initialRules = await readFile(f.druPath), expected = derivePcbNativeNumericRules(b.contract)!;
+    const before = JSON.parse(await readFile(f.proPath, "utf8"));
+    expect(before.board.design_settings.rules).toMatchObject(expected.boardRules);
+    expect(before.board.design_settings.rules.min_hole_to_hole).toBe(spacing ?? 0.25);
+    await materializeFreshPlaneNetClasses(f.options);
+    const authority = await readFreshPlaneNetClassSemanticAuthority(f.options);
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(authority, f.options)).toEqual(authority);
+    for (const key of Object.keys(expected.boardRules)) {
+      const original = await readFile(f.proPath, "utf8"), changed = JSON.parse(original);
+      changed.board.design_settings.rules[key] += 0.001;
+      await writeFile(f.proPath, JSON.stringify(changed)); const drifted = await readFile(f.proPath);
+      await expect(readFreshPlaneNetClassSemanticAuthority(f.options)).rejects.toThrow(/numeric rule/);
+      await expect(materializeFreshPlaneNetClasses(f.options)).rejects.toThrow(/numeric rule/);
+      expect(await readFile(f.proPath)).toEqual(drifted);
+      await writeFile(f.proPath, original);
+    }
+    expect(await readFile(f.druPath)).toEqual(initialRules);
+  });
   it("preserves pristine and partial functional-only NC preparation without an authored native export", async () => {
     const f=await fixture(false,noConnectBundle());
     const captureNativeNetlist=vi.fn(async()=>{throw new Error("Schematic is intentionally not authored yet.");});

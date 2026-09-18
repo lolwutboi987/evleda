@@ -1,4 +1,5 @@
 import path from "node:path";
+import { assertPcbNativeNumericProjectSettings } from "./pcb-native-numeric-rules.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { hardenPortableValue, parsePortableJsonBytes } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -402,6 +403,7 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
   const nativeInput=hardenPortableValue(input.nativeChecks,{maxBytes:8*1024*1024,maxDepth:64,maxNodes:500000,
     maxArrayLength:100000,maxOwnKeys:4096,maxStringBytes:1048576}) as KicadCheckResult;
   const settings = object(parsePortableJsonBytes(Buffer.from(sources.projectSource), { maxBytes: 1_048_576, maxDepth: 64, maxNodes: 100_000 }), "project");
+  assertPcbNativeNumericProjectSettings(bundle.contract, settings);
   const erc = inspectErc(input, nativeInput, settings);
   const design = object(object(settings.board, "project board").design_settings, "project design settings");
   const severities = object(design.rule_severities, "project rule severities"), boardRules = object(design.rules, "project rules");
@@ -410,6 +412,12 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
   const commonIssues = [...native.issues];
   if (array(design.drc_exclusions, "project DRC exclusions").length > 0) commonIssues.push("project-drc-exclusions-present");
   const drcIssues = [...commonIssues];
+  if (bundle.contract.nativeRuleMode !== undefined) for (const name of ["track_width", "track_angle"]) {
+    if (severities[name] !== "error" || native.ignored.has(name)) drcIssues.push(`required-native-check-disabled:${name}`);
+  }
+  // inspectNativeChecks pins the exact native version/commit. Its qualified
+  // via-diameter default is error even though the saved key is absent.
+  if (bundle.contract.nativeRuleMode !== undefined && native.ignored.has("via_diameter")) drcIssues.push("required-native-check-disabled:via_diameter");
   for (const name of FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredClearanceShortChecks) {
     if (severities[name] !== "error" || native.ignored.has(name)) drcIssues.push(`required-native-check-disabled:${name}`);
   }

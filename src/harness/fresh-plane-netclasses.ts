@@ -1,4 +1,5 @@
 import path from "node:path";
+import { assertPcbNativeNumericProjectSettings } from "./pcb-native-numeric-rules.js";
 import { assertFreshBoardFeatureState, type FreshBoardFeatureState } from "./fresh-board-features.js";
 import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
 import { createFreshConnectivityContract } from "./fresh-connectivity-contract.js";
@@ -106,6 +107,9 @@ function operation(input: FreshPlaneNetClassOperationOptions) {
   };
   return {
     project, compilationBundle, kicad, zones: "not-evaluated" as const,qualifyNativeTerminals,assertNativeTerminalSourcesCurrent,
+    ...(compilationBundle.contract.nativeRuleMode === undefined ? {} : {
+      assertProjectSettings: (settings: Readonly<Record<string, unknown>>) => assertPcbNativeNumericProjectSettings(compilationBundle.contract, settings),
+    }),
     authenticateMarker: async (bytes: Buffer): Promise<void> => {
       const actual = await project.assertMarkerCurrent();
       if (!same(actual, contentIdentity(bytes))) return fail("UNVERIFIED_PROJECT", "Captured V3 marker differs from the original PlaneFreshProject authority.");

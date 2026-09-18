@@ -11,7 +11,7 @@ import { PCB_DESIGN_INTENT_TOOL } from "../harness/pcb-design-interpreter.js";
 import { PCB_DESIGN_INTENT_MODEL_GUIDE, PCB_DESIGN_INTENT_VALID_EXAMPLE } from "../harness/pcb-design-intent-model-guide.js";
 import { PCB_PLANE_DRAFT_SCHEMA_VERSION } from "../harness/pcb-design-plane-contract.js";
 import { compilePcbPlaneDesignIntentDraft, normalizePcbPlaneSelectionPolicy } from "../harness/pcb-design-plane-compiler.js";
-import { createPcbPlaneCompilationBundle } from "../harness/pcb-design-plane-bundle.js";
+import { createPcbPlaneCompilationBundle, isAuthenticatedPcbPlaneCompilationBundle } from "../harness/pcb-design-plane-bundle.js";
 import { PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, getPcbPlaneDesignIntentModelGuide,
   PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES, PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE } from "../harness/pcb-design-plane-model-guide.js";
 import { PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION } from "../harness/pcb-interface-requirements.js";
@@ -23,6 +23,8 @@ import type { KiCadApprovedPackageDescription } from "../harness/kicad-approved-
 import { openFreshNativeToolboxBinding } from "./toolbox-fresh-main.js";
 import { createKicadToolboxMcpServer } from "./toolbox-server.js";
 import type { ToolboxWorkspaceStore } from "./toolbox-workspace-store.js";
+import type { FreshPlaneSchematicSeed } from "../harness/fresh-plane-schematic-seed.js";
+import { assertClosedPlaneSchematicSeedSourceCurrent, qualifyClosedPlaneSchematicSeed, type ClosedPlaneSchematicSeedSource } from "./toolbox-schematic-seed.js";
 
 export interface KicadToolboxWorkspaceOptions {
   readonly profile: KicadMcpPinnedFileInput;
@@ -66,6 +68,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
   const toolbox = createKicadToolboxMcpServer({ access,
     ...(options.transmissionLine === undefined ? {} : { transmissionLine: options.transmissionLine }) });
   const pending = new Map<string, PendingDraft>();
+  const closedSeedSources = new Map<string, ClosedPlaneSchematicSeedSource>();
   let active: { projectId: string; phase: "opening" | "active" | "needs-review"; error: string | undefined;
     lease: { release(): Promise<void> } } | undefined;
   let lifecycle: Promise<void> = Promise.resolve();
@@ -93,7 +96,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
           deepRuleCatalog: dependencies.deepRuleCatalog, ...(selection === undefined ? {} : { deepRuleSelectionOptions: selection }) });
         if (compilation.disposition !== "ready") return { status: compilation.disposition, compilation };
         const bundle = createPcbDesignCompilationBundle({ originalPrompt, compilation }, dependencies);
-        return { status: "ready" as const, compilation, bundleIdentity: bundle.identity };
+        return { status: "ready" as const, compilation, bundleIdentity: bundle.identity, bundle };
       }
       case PCB_PLANE_DRAFT_SCHEMA_VERSION: {
         // V2 has its own bounded selection policy and no V1 compiler profile.
@@ -102,7 +105,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
         const compilation = compilePcbPlaneDesignIntentDraft(draft, planeDependencies);
         if (compilation.disposition !== "ready") return { status: compilation.disposition, compilation };
         const bundle = createPcbPlaneCompilationBundle({ originalPrompt, compilation }, planeDependencies);
-        return { status: "ready" as const, compilation, bundleIdentity: bundle.identity };
+        return { status: "ready" as const, compilation, bundleIdentity: bundle.identity, bundle };
       }
       default: throw new Error(`Unsupported or missing draft schemaVersion; use ${PCB_DESIGN_INTENT_DRAFT_SCHEMA_VERSION} or ${PCB_PLANE_DRAFT_SCHEMA_VERSION}.`);
     }
@@ -120,24 +123,33 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     if (state === "closed") toolbox.detachCad();
     else if (state !== "absent") throw new Error(`Native binding is ${state}; host review or confirmed finish is required.`);
   }
-  async function openProject(projectId: string, resume: boolean, expectedBundleIdentity?: CanonicalIdentity) {
+  async function openProject(projectId: string, resume: boolean, expectedBundleIdentity?: CanonicalIdentity, schematicSeed?: FreshPlaneSchematicSeed,
+    beforeAttach?: () => Promise<void>) {
     ensureIdle();
     const record = await store.lookup(projectId);
     if (record === undefined) throw new Error("Unknown workspace project.");
+    closedSeedSources.delete(projectId);
     const owned = { projectId, phase: "opening" as "opening" | "active" | "needs-review", lease: await store.acquireLease(projectId), error: undefined as string | undefined };
     active = owned;
     try {
       const binding = await openBinding({ profile, projectDir: record.inputDir, outputDir: record.outputDir,
         edit: access === "edit", resume,
         fresh: resume ? { name: record.name } : { name: record.name, draft: record.draft,
-          originalPrompt: record.originalPrompt, ...(expectedBundleIdentity === undefined ? {} : { expectedBundleIdentity }) } });
+          originalPrompt: record.originalPrompt, ...(expectedBundleIdentity === undefined ? {} : { expectedBundleIdentity }),
+          ...(schematicSeed === undefined ? {} : { schematicSeed }) } });
       try {
+        await beforeAttach?.();
         if (binding.cad.prepareCheckpoint === undefined) throw new Error("Workspace projects require a checkpoint-capable native binding.");
         toolbox.attachCad({ cad: binding.cad, access: binding.access, compoundContractIdentity: binding.compoundContractIdentity,
-          designContext: binding.designContext, onFinished: async outcome => {
+          designContext: () => ({ ...binding.designContext(), ...(record.schematicSeedLineage === undefined ? {} : { schematicSeedLineage: record.schematicSeedLineage }) }), onFinished: async outcome => {
             if (!outcome.nativeSessionClosed || !outcome.checkpointPublished || outcome.recoveryRequired) throw new Error("Project lease retained because native finalization/checkpoint requires review.");
+            const seedSource = await binding.captureClosedSchematicSeedSource?.();
             try { await owned.lease.release(); }
             catch (error) { owned.phase = "needs-review"; throw error; }
+            if (seedSource !== undefined) {
+              while (closedSeedSources.size >= 16) closedSeedSources.delete(closedSeedSources.keys().next().value!);
+              closedSeedSources.set(projectId, seedSource);
+            }
             if (active === owned) active = undefined;
           } });
       } catch (error) {
@@ -146,8 +158,11 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
         try {
           if (toolbox.getCadState() !== "absent") await toolbox.finishCad();
           else {
-            await binding.cad.recordRecoveryRequired?.("Workspace attachment failed before a checkpointed session was established.");
-            await binding.cad.close();
+            const failures: unknown[] = [];
+            try { await binding.cad.recordRecoveryRequired?.("Workspace attachment failed before a checkpointed session was established."); }
+            catch (failure) { failures.push(failure); }
+            try { await binding.cad.close(); } catch (failure) { failures.push(failure); }
+            if (failures.length) throw new AggregateError(failures, "Unused workspace binding recovery/close requires review.");
           }
         } catch (cleanupError) {
           throw new AggregateError([error, cleanupError], "Workspace CAD attachment failed and guarded cleanup was not confirmed.");
@@ -156,6 +171,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       }
       owned.phase = "active";
       return { status: "opened", projectId, name: record.name, resumed: resume, access,
+        ...(record.schematicSeedLineage === undefined ? {} : { schematicSeedLineage: record.schematicSeedLineage }),
         outputPath: record.outputDir, projectPath: path.join(record.outputDir, "project"),
         instruction: "Refresh the tool list, read evleda_design_context, then author and verify the native project. Opening is not design completion." };
     } catch (error) {
@@ -211,12 +227,15 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     }));
   toolbox.server.registerTool("evleda_discard_draft", { description: "Forget one uncreated in-memory draft. Does not remove native projects or files.",
     inputSchema: z.object({ draftId: ID }).strict(), annotations: WRITE }, async args => respond(() => ({ discarded: pending.delete(args.draftId) })));
-  toolbox.server.registerTool("evleda_create_project", { description: "Create and open a ready draft in this host-approved workspace. Reuse the same draft ID after a timeout; repeated creation never allocates a second project. Requires host edit access; native startup may take over a minute.",
-    inputSchema: z.object({ draftId: ID }).strict(), annotations: WRITE }, async args => respond(() => serialize(async () => {
+  toolbox.server.registerTool("evleda_create_project", { description: "Create and open a ready draft in this host-approved workspace. Optional sourceProjectId copies exact unwired V2 schematic bytes after a healthy close in this connection/profile. The same project name and circuit are required; only PCB placement, plane rectangle coordinates, net-class settings/assignments, routing constraints, native numeric mode and prompt metadata may differ. Board, plane identity/settings, interface/construction, components, values, electrical nets and libraries remain exact. Source PCB must be its authenticated unmaterialized baseline. New PCB/rules are generated normally. Retry with the same draft/source IDs; no allocation is overwritten. Requires edit access; native startup may take over a minute.",
+    inputSchema: z.object({ draftId: ID, sourceProjectId: ID.optional() }).strict(), annotations: WRITE }, async args => respond(() => serialize(async () => {
       reconcileNativeState();
       const existing = await store.lookup(args.draftId);
-      if (existing !== undefined) return { status: "already_created", projectId: existing.projectId,
-        active: active?.projectId === existing.projectId && active.phase === "active" && toolbox.getCadState() === "active", instruction: "Resume this project if it is not already active; do not recreate it." };
+      if (existing !== undefined) {
+        if (existing.schematicSeedLineage?.sourceProjectId !== args.sourceProjectId) throw new Error("Existing allocation has a conflicting schematic source selection; nothing was overwritten.");
+        return { status: "already_created", projectId: existing.projectId,
+          active: active?.projectId === existing.projectId && active.phase === "active" && toolbox.getCadState() === "active", instruction: "Resume this project if it is not already active; do not recreate it." };
+      }
       if (access !== "edit") throw new Error("Project creation requires host-configured edit access.");
       ensureIdle();
       const draft = pending.get(args.draftId);
@@ -224,10 +243,34 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       const preview = compileDraft(draft.draft, draft.originalPrompt);
       if (preview.status !== "ready") return { status: preview.status, compilation: preview.compilation, projectCreated: false };
       if (canonicalJson(preview.bundleIdentity) !== canonicalJson(draft.bundleIdentity)) throw new Error("Compilation changed since preview; resubmit and review the new result before creation.");
-      const allocation = await store.allocate(draft);
-      pending.delete(args.draftId);
-      if (!allocation.created) return { status: "already_created", projectId: allocation.projectId, active: false };
-      return await openProject(allocation.projectId, false, draft.bundleIdentity);
+      if (args.sourceProjectId === undefined) {
+        const allocation = await store.allocate(draft);
+        pending.delete(args.draftId);
+        if (!allocation.created) return { status: "already_created", projectId: allocation.projectId, active: false };
+        return await openProject(allocation.projectId, false, draft.bundleIdentity);
+      }
+      if (!isAuthenticatedPcbPlaneCompilationBundle(preview.bundle)) throw new Error("Schematic seeding is limited to the V2 plane family.");
+      const receipt = closedSeedSources.get(args.sourceProjectId), source = await store.lookup(args.sourceProjectId);
+      if (receipt === undefined || source === undefined) throw new Error("Source needs a genuine successful close in this current workspace connection/profile.");
+      const lease = await store.acquireLease(args.sourceProjectId);
+      let primary: unknown;
+      let sourceReleased = false;
+      const releaseSource = async () => {
+        await assertClosedPlaneSchematicSeedSourceCurrent(receipt); await lease.assertCurrent?.(); await lease.release(); sourceReleased = true;
+      };
+      try {
+        if (lease.assertCurrent === undefined) throw new Error("Schematic seeding requires a source lease with current ownership verification.");
+        const qualified = await qualifyClosedPlaneSchematicSeed({ receipt, sourceProjectId: source.projectId, sourceOutputDir: source.outputDir,
+          targetProjectId: draft.projectId, name: draft.name, targetBundle: preview.bundle, profile, assertLeaseCurrent: lease.assertCurrent });
+        const allocation = await store.allocate({ ...draft, schematicSeedLineage: qualified.lineage });
+        pending.delete(args.draftId);
+        if (!allocation.created) return { status: "already_created", projectId: allocation.projectId, active: false };
+        return await openProject(allocation.projectId, false, draft.bundleIdentity, qualified.seed, releaseSource);
+      } catch (error) { primary = error; throw error; }
+      finally {
+        try { if (!sourceReleased) await releaseSource(); }
+        catch (error) { closedSeedSources.delete(args.sourceProjectId); throw new AggregateError(primary === undefined ? [error] : [primary, error], "Source currentness could not be confirmed; its lease and any new allocation were retained for review."); }
+      }
     })));
   toolbox.server.registerTool("evleda_list_projects", { description: "List immutable allocations in this approved workspace. A listed project is not proof of a valid checkpoint or a completed design.",
     inputSchema: z.object({ offset: z.number().int().min(0).optional(), limit: z.number().int().min(1).max(100).optional() }).strict(), annotations: READ },

@@ -2,6 +2,7 @@ import { createPcbExternalPowerBinding, assertPcbExternalPowerBindingCurrent, ty
 import { createPcbDerivedPowerBinding, assertPcbDerivedPowerBindingCurrent, type PcbDerivedPowerBinding } from "./pcb-derived-power.js";
 import { assertPcbChannelFeedThroughSources } from "./pcb-channel-feed-through.js";
 import { z } from "zod";
+import { derivePcbNativeNumericRules, pcbNativeNumericRuleLines } from "./pcb-native-numeric-rules.js";
 import { resolvePcbBoardFeatureLibraries } from "./pcb-board-feature-libraries.js";
 import type { PcbBoardFeatureLibrarySource } from "./pcb-board-features.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
@@ -123,6 +124,8 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
   const add = (id: string, kind: PcbPlaneVerificationRequirement["kind"], contractPath: string, description: string) =>
     requirements.push({ id, kind, contractPath, mandatory: true, description });
   add("contract:integrity", "contract", "/", "Reproduce the complete V2 contract and all exact child identities.");
+  if (contract.nativeRuleMode !== undefined) add("native-numeric-rules", "netclass_configuration", "/nativeRuleMode",
+    "Verify exact contract-derived global minima and canonical per-net/via native rules, preserved unmatched-copper/pad defaults and enabled DRC checks; source route/escape/corner checks remain independent.");
   for (const component of contract.components) {
     const path = `/components/${token(component.reference)}`;
     add(`library:${component.reference}`, "library", path, "Verify exact stock symbol, footprint, pin/pad inventory and physical geometry.");
@@ -200,6 +203,7 @@ export function compilePcbPlaneDesignIntentDraft(input: unknown, options: PcbPla
   if (libraries.disposition !== "ready") return diagnostics(libraries.disposition, draft, libraries.issues, libraries.questions);
   try {
     const contract = closePcbPlaneDesignIntentDraft(draft);
+    derivePcbNativeNumericRules(contract); pcbNativeNumericRuleLines(contract);
     const physicalLibraries = resolvePcbBoardFeatureLibraries(contract.boardFeatures, libraries, options.libraryResolver);
     const libraryPayload = { schemaVersion: PCB_LIBRARY_BINDING_SCHEMA_VERSION, contractIdentity: contract.identity,
       symbols: libraries.symbols, footprints: physicalLibraries.footprints,

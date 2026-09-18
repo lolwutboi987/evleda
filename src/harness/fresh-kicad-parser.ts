@@ -280,6 +280,11 @@ const children = (node: Node, name: string): readonly Node[] => node.children.fi
 export function parseFreshPcbSourceDocument(source: string): FreshKicadSourceNode {
   return parseDocument(source, "kicad_pcb");
 }
+
+/** Bounded raw spans for narrowly preserving host schematic edits. */
+export function parseFreshSchematicSourceDocument(source: string): FreshKicadSourceNode {
+  return parseDocument(source, "kicad_sch");
+}
 const one = (node: Node, name: string): Node | null => children(node, name).length === 1 ? children(node, name)[0]! : null;
 const scalar = (node: Node, name: string): string | null => {
   const child = one(node, name);

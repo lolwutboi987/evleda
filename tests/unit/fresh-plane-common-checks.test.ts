@@ -1,6 +1,6 @@
 import { afterEach, beforeAll, describe, expect, it } from "vitest";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
-import { assessFreshPlaneCommonChecks, isFreshPlaneCommonChecksAssessment } from "../../src/harness/fresh-plane-common-checks.js";
+import { assessFreshPlaneCommonChecks, isFreshPlaneCommonChecksAssessment, FRESH_PLANE_COMMON_CHECKS_LIMITS } from "../../src/harness/fresh-plane-common-checks.js";
 import { prepareFreshPlaneConnectivity, assessFreshPlaneConnectivity } from "../../src/harness/fresh-plane-connectivity.js";
 import { createSavedFreshPlaneEvidence } from "../../src/harness/fresh-plane-evidence.js";
 import { prepareFreshPlaneMutation } from "../../src/harness/fresh-plane-mutation.js";
@@ -22,7 +22,7 @@ afterEach(cleanupDerivedPowerFixtures);
 type Raw = Record<string, any>;
 const id = (n: number) => `44444444-4444-4444-8444-${String(n).padStart(12, "0")}`;
 let bundle: ReturnType<typeof createPcbPlaneCompilationBundle>, forbiddenBundle: typeof bundle;
-interface ConstraintOptions { forbidden?: boolean; maximumTurnAngleDeg?: number; minimumStraightMm?: number; maximumVinLengthMm?: number }
+interface ConstraintOptions { forbidden?: boolean; maximumTurnAngleDeg?: number; minimumStraightMm?: number; maximumVinLengthMm?: number; largerViaInventory?: boolean }
 function buildBundle(options: ConstraintOptions = {}) {
   const dependencies = { libraryResolver: genericDividerLibraryResolver, deepRuleCatalog: loadDeepRuleCatalog() };
   const draft: Raw = planeDividerDraft();
@@ -33,6 +33,14 @@ function buildBundle(options: ConstraintOptions = {}) {
   if (options.maximumTurnAngleDeg !== undefined) draft.routingConstraints.maximumTurnAngleDeg = options.maximumTurnAngleDeg;
   if (options.minimumStraightMm !== undefined) draft.routingConstraints.minimumStraightBeforeTurnMm = options.minimumStraightMm;
   if (options.maximumVinLengthMm !== undefined) draft.routingConstraints.nets.find((net: Raw) => net.net === "VIN").routeLength = { mode: "bounded", maximumMm: options.maximumVinLengthMm };
+  if (options.largerViaInventory) {
+    draft.routingConstraints.viaPolicy.maxTotal = 256;
+    for (const netClass of draft.netClasses) netClass.allowedLayers = ["F.Cu", "B.Cu"];
+    for (const route of draft.routingConstraints.nets) {
+      if (route.topology === "plane") route.accessRouting.maxVias = 64;
+      else { route.maxVias = 32; route.referencePath = { mode: "none" }; }
+    }
+  }
   const compilation = compilePcbPlaneDesignIntentDraft(draft, dependencies);
   if (compilation.disposition !== "ready") throw new Error(JSON.stringify(compilation.issues));
   return createPcbPlaneCompilationBundle({ compilation, originalPrompt: "Synthetic common-source test fixture; no electrical qualification." }, dependencies);
@@ -80,6 +88,37 @@ async function fixture(options: FixtureOptions = {}) {
 const row = (value: ReturnType<typeof assessFreshPlaneCommonChecks>, name: string) => value.rows.find(row => row.id === name)!;
 
 describe("authenticated V2 common numerical source checks", () => {
+  it("counts 65 actual routed vias across nets without waiving per-net or global policy", async () => {
+    const compilationBundle = buildBundle({ largerViaInventory: true });
+    const vias = Array.from({ length: 65 }, (_, index) => via({ n: 1000 + index,
+      at: `${(2 + index % 15 * 1.3).toFixed(1)} ${(8 + Math.floor(index / 15) * 1.3).toFixed(1)}`, net: index < 64 ? "GND" : "VIN" })).join("\n");
+    const result = assessFreshPlaneCommonChecks(await fixture({ compilationBundle, vias }));
+    expect(result.sourceInventory).toMatchObject({ complete: true, viaCount: 65 });
+    expect(result.rows.filter(row => row.kind === "via_policy").every(row => row.status === "pass")).toBe(true);
+    expect(row(result, "vias:GND").observations).toMatchObject({ viaCount: 64, globalViaCount: 65, perNetMaximum: 64, globalMaximum: 256 });
+    expect(row(result, "vias:VIN").observations).toMatchObject({ viaCount: 1, globalViaCount: 65, perNetMaximum: 32 });
+    expect(result.accepted).toBe(false);
+    const excessPerNet = assessFreshPlaneCommonChecks(await fixture({ compilationBundle, vias: vias.replace('(net "VIN")', '(net "GND")') }));
+    expect(excessPerNet.sourceInventory.complete).toBe(true);
+    expect(row(excessPerNet, "vias:GND").status).toBe("fail");
+  });
+
+  it("admits 1024 tracks as complete source inventory and retains other common bounds", async () => {
+    const tracks = Array.from({ length: 1024 }, (_, index) => track(1000 + index, `1 ${(1 + index / 100).toFixed(2)}`, `1.05 ${(1 + index / 100).toFixed(2)}`)).join("\n");
+    const result = assessFreshPlaneCommonChecks(await fixture({ tracks }));
+    expect(result.sourceInventory).toMatchObject({ complete: true, trackCount: 1024 });
+    expect(FRESH_PLANE_COMMON_CHECKS_LIMITS).toMatchObject({ maximumPcbBytes: 2 * 1024 * 1024, maximumPhysicalPads: 512, maximumSegments: 1024, maximumVias: 256 });
+  });
+
+  it.each(["tracks", "vias"] as const)("rejects common inventory beyond the whole-board %s cap", async kind => {
+    const input = await fixture(kind === "tracks"
+      ? { tracks: Array.from({ length: 1025 }, (_, index) => track(1000 + index, `1 ${(1 + index / 100).toFixed(2)}`, `1.05 ${(1 + index / 100).toFixed(2)}`)).join("\n") }
+      : { vias: Array.from({ length: 257 }, (_, index) => via({ n: 1000 + index, at: `${2 + index % 15} ${2 + Math.floor(index / 15)}` })).join("\n") });
+    const result = assessFreshPlaneCommonChecks(input);
+    expect(result.sourceInventory.complete).toBe(false);
+    expect(result.rows.every(row => row.status === "unknown" && row.reasons.join(" ").includes("work bounds; no items were truncated"))).toBe(true);
+  });
+
   it("assesses a qualified transfer-output fork independently from an adjacent forbidden serial turn", async () => {
     const draft = usbFeedThroughDraft(); draft.interfaceRequirements.construction = { mode: "none" }; draft.interfaceRequirements.interfaces[0].impedance = { mode: "none" };
     const compilationBundle = usbFeedThroughFixture(draft).bundle;

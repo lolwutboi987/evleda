@@ -7,6 +7,7 @@ import { canonicalJson, contentIdentity } from "../core/canonical.js";
 import { hardenPortableValue, parsePortableJsonBytes, validateContentIdentity } from "../core/portable-artifact.js";
 import type { ContentIdentity } from "../domain/types.js";
 import { validateFreshProjectName } from "../harness/fresh-project.js";
+import { schematicSeedLineageSchema, parseSchematicSeedLineage, type SchematicSeedLineage } from "./toolbox-schematic-seed.js";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u;
 const DRAFT_LIMIT = 256 * 1024;
@@ -21,7 +22,7 @@ const jsonLimits = { maxBytes: DRAFT_LIMIT, maxDepth: 40, maxNodes: 120_000,
 const manifestSchema = z.object({ schemaVersion: z.literal(SCHEMA), projectId: z.string().regex(UUID),
   name: z.string(), originalPrompt: z.string().min(1), draftIdentity: z.object({
     algorithm: z.literal("sha256"), digest: z.string().regex(/^[0-9a-f]{64}$/u), size: z.number().int().min(1).max(DRAFT_LIMIT),
-  }).strict() }).strict();
+  }).strict(), schematicSeedLineage: schematicSeedLineageSchema.optional() }).strict();
 
 export class ToolboxWorkspaceStoreError extends Error {
   public constructor(public readonly code: "INVALID_ARGUMENT" | "NEEDS_REVIEW" | "LEASE_HELD", message: string) {
@@ -35,6 +36,7 @@ export interface ToolboxWorkspaceAllocationInput {
   readonly originalPrompt: string;
   /** SHA-256 identity of canonicalJson(draft), UTF-8, without a trailing newline. */
   readonly draftIdentity: ContentIdentity;
+  readonly schematicSeedLineage?: SchematicSeedLineage;
 }
 export interface ToolboxWorkspaceProject {
   readonly projectId: string;
@@ -46,6 +48,7 @@ export interface ToolboxWorkspaceRecord extends ToolboxWorkspaceProject {
   readonly originalPrompt: string;
   readonly draftIdentity: ContentIdentity;
   readonly draft: unknown;
+  readonly schematicSeedLineage?: SchematicSeedLineage;
 }
 export interface ToolboxWorkspaceStore {
   allocate(input: ToolboxWorkspaceAllocationInput): Promise<ToolboxWorkspaceProject & { readonly created: boolean }>;
@@ -53,7 +56,7 @@ export interface ToolboxWorkspaceStore {
   list(options?: { readonly offset?: number; readonly limit?: number }): Promise<{
     readonly projects: readonly ToolboxWorkspaceProject[]; readonly offset: number; readonly limit: number; readonly total: number;
   }>;
-  acquireLease(projectId: string): Promise<{ release(): Promise<void> }>;
+  acquireLease(projectId: string): Promise<{ release(): Promise<void>; assertCurrent?(): Promise<void> }>;
 }
 
 const missing = (error: unknown): boolean => (error as NodeJS.ErrnoException)?.code === "ENOENT";
@@ -158,14 +161,18 @@ async function ownedLock(file: string, assertScope: () => Promise<void>, heldCod
     await assertScope();
     let released = false;
     let releasing: Promise<void> | undefined;
-    return Object.freeze({ release: (): Promise<void> => {
+    const assertCurrent = async () => {
+      if (released) review("Owned lock has already been released.");
+      await assertScope();
+      const current = await lstat(file, { bigint: true });
+      if (!sameFile(identity, current) || current.nlink !== 1n || current.isSymbolicLink()
+          || (await readOrdinary(file, 1024)).toString("utf8") !== bytes) review("Lock is no longer the exact owned file; it was retained.");
+    };
+    return Object.freeze({ assertCurrent, release: (): Promise<void> => {
       if (released) return Promise.resolve();
       return releasing ??= (async () => {
         try {
-          await assertScope();
-          const current = await lstat(file, { bigint: true });
-          if (!sameFile(identity, current) || current.nlink !== 1n || current.isSymbolicLink()
-            || (await readOrdinary(file, 1024)).toString("utf8") !== bytes) review("Lock is no longer the exact owned file; it was retained.");
+          await assertCurrent();
           await unlink(file);
           released = true;
         } catch (error) {
@@ -202,7 +209,7 @@ export async function createToolboxWorkspaceStore(options: {
     const projectRoot = path.join(projects, projectId(id));
     return { projectRoot, inputDir: path.join(projectRoot, "input"), outputDir: path.join(projectRoot, "output") };
   };
-  const publicRecord = (record: ToolboxWorkspaceRecord): ToolboxWorkspaceProject => Object.freeze({
+  const publicRecord = (record: ToolboxWorkspaceProject): ToolboxWorkspaceProject => Object.freeze({
     projectId: record.projectId, name: record.name, inputDir: record.inputDir, outputDir: record.outputDir,
   });
   const catalogIds = async (): Promise<string[]> => {
@@ -226,6 +233,8 @@ export async function createToolboxWorkspaceStore(options: {
       const outputIdentity = await directory(locations.outputDir);
       const manifestBytes = await readOrdinary(path.join(locations.projectRoot, MANIFEST), MANIFEST_LIMIT);
       const manifest = manifestSchema.parse(parsePortableJsonBytes(manifestBytes, { ...jsonLimits, maxBytes: MANIFEST_LIMIT }));
+      const lineage = manifest.schematicSeedLineage === undefined ? undefined : parseSchematicSeedLineage(manifest.schematicSeedLineage);
+      if (lineage !== undefined && (lineage.targetProjectId !== id || lineage.sourceProjectId === id)) review("Seed lineage differs from its immutable allocation.");
       if (manifest.projectId !== id || safeName(manifest.name) !== manifest.name || Buffer.byteLength(manifest.originalPrompt, "utf8") > 32 * 1024
         || !manifest.originalPrompt.trim() || canonicalJson(manifest) !== manifestBytes.toString("utf8")) review("Workspace allocation manifest is inconsistent.");
       const draftBytes = await readOrdinary(path.join(locations.inputDir, DRAFT), DRAFT_LIMIT);
@@ -238,8 +247,8 @@ export async function createToolboxWorkspaceStore(options: {
         review("Project input/output directory changed during lookup.");
       }
       await assertProjects();
-      return Object.freeze({ ...publicRecord({ ...manifest, ...locations, draft }), originalPrompt: manifest.originalPrompt,
-        draftIdentity: Object.freeze({ ...manifest.draftIdentity }), draft });
+      return Object.freeze({ ...publicRecord({ ...manifest, ...locations }), originalPrompt: manifest.originalPrompt,
+        draftIdentity: Object.freeze({ ...manifest.draftIdentity }), draft, ...(lineage === undefined ? {} : { schematicSeedLineage: lineage }) });
     } catch (error) {
       if (error instanceof ToolboxWorkspaceStoreError && error.code === "NEEDS_REVIEW") throw error;
       return review("Workspace allocation is incomplete or inconsistent; existing files were retained for review.");
@@ -257,12 +266,16 @@ export async function createToolboxWorkspaceStore(options: {
     if (typeof input.originalPrompt !== "string" || !input.originalPrompt.trim() || Buffer.byteLength(input.originalPrompt, "utf8") > 32 * 1024) {
       throw new ToolboxWorkspaceStoreError("INVALID_ARGUMENT", "Original prompt must be nonempty and at most 32 KiB.");
     }
-    const manifest = { schemaVersion: SCHEMA, projectId: id, name, originalPrompt: input.originalPrompt, draftIdentity: identity };
+    const lineage = input.schematicSeedLineage === undefined ? undefined : parseSchematicSeedLineage(input.schematicSeedLineage);
+    if (lineage !== undefined && (lineage.targetProjectId !== id || lineage.sourceProjectId === id)) throw new ToolboxWorkspaceStoreError("INVALID_ARGUMENT", "Seed lineage must identify this new allocation and a different source.");
+    const manifest = { schemaVersion: SCHEMA, projectId: id, name, originalPrompt: input.originalPrompt, draftIdentity: identity,
+      ...(lineage === undefined ? {} : { schematicSeedLineage: lineage }) };
     const manifestBytes = canonicalJson(hardenPortableValue(manifest, { ...jsonLimits, maxBytes: MANIFEST_LIMIT }));
     const locations = paths(id);
     const replay = (previous: ToolboxWorkspaceRecord | undefined) => {
       if (previous === undefined || previous.name !== name || previous.originalPrompt !== input.originalPrompt
-        || canonicalJson(previous.draftIdentity) !== canonicalJson(identity) || canonicalJson(previous.draft) !== draftBytes) {
+        || canonicalJson(previous.draftIdentity) !== canonicalJson(identity) || canonicalJson(previous.draft) !== draftBytes
+        || canonicalJson(previous.schematicSeedLineage ?? null) !== canonicalJson(lineage ?? null)) {
         return review("Existing project ID has a conflicting or incomplete allocation; nothing was overwritten.");
       }
       return Object.freeze({ ...publicRecord(previous), created: false });

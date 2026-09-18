@@ -347,6 +347,8 @@ interface SharedNetClassOperationOptions {
   readonly authenticateMarker: (bytes: Buffer) => Promise<void>;
   /** Exact family-owned rule source validation; omission preserves V1 absent/empty rules. */
   readonly validateCustomRules?: (source: CapturedFile | null) => void;
+  /** Optional family-owned exact numeric policy; never repairs or overrides current source drift. */
+  readonly assertProjectSettings?: (settings: Readonly<Record<string, unknown>>) => void;
   /** Family-owned current native parity; never a provider list of extra names. */
   readonly qualifyNativeTerminals?: (pcbSource: string) => Promise<FreshNativeTerminalBinding | undefined>;
   readonly assertNativeTerminalSourcesCurrent?: () => Promise<void>;
@@ -1770,7 +1772,9 @@ async function materializeNetClassSources<Result>(
     const beforeNativeTerminals=await options.qualifyNativeTerminals?.(before.pcb.bytes.toString("utf8"));
     parsePcbFacts(before.pcb.bytes, false, options.zones,beforeNativeTerminals);
     const projectJson = strictProjectJson(before.projectSettings.bytes);
+    options.assertProjectSettings?.(projectJson);
     const nextProject = preparedProjectSettings(projectJson, options.project, options.compilationBundle, bindings);
+    options.assertProjectSettings?.(nextProject);
     const nextBytes = Buffer.from(`${JSON.stringify(nextProject, null, 2)}\n`, "utf8");
     if (nextBytes.byteLength > FRESH_CLEARANCE_EVIDENCE_LIMITS.maximumProjectBytes) {
       return fail("INVALID_PROJECT_JSON", "Materialized KiCad project settings exceed the source-size bound.");
@@ -1814,6 +1818,7 @@ async function materializeNetClassSources<Result>(
     }
     await options.authenticateMarker(after.marker.bytes);
     (options.validateCustomRules ?? parseCustomRuleSource)(after.customRules);
+    options.assertProjectSettings?.(strictProjectJson(after.projectSettings.bytes));
     const afterNativeTerminals=await options.qualifyNativeTerminals?.(after.pcb.bytes.toString("utf8"));
     parsePcbFacts(after.pcb.bytes, false, options.zones,afterNativeTerminals);
     readProjectConfiguration(
@@ -1874,6 +1879,7 @@ async function readNetClassSources(options: SharedNetClassOperationOptions) {
   const first = await captureSourceSet(paths);
   await options.authenticateMarker(first.marker.bytes);
   (options.validateCustomRules ?? parseCustomRuleSource)(first.customRules);
+  options.assertProjectSettings?.(strictProjectJson(first.projectSettings.bytes));
   const nativeTerminals=await options.qualifyNativeTerminals?.(first.pcb.bytes.toString("utf8"));
   const pcb = parsePcbFacts(first.pcb.bytes, false, options.zones,nativeTerminals);
   if (pcb.generatorVersion !== null) assertGeneratorMatchesKicad(pcb.generatorVersion, kicad);

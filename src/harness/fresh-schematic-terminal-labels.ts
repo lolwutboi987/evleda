@@ -97,15 +97,19 @@ export function planFreshTerminalGlobalLabels(input: {
   const obstacles = [...input.boxes, ...(input.sourceBodyBoxes ?? [])];
   const pinTipMargin = input.strokeStyle === undefined ? 0
     : Math.max(input.strokeStyle.symbolDefaultStrokeWidthMm, input.strokeStyle.minimumPlotStrokeWidthMm) + 0.001;
-  for (const group of input.partition.groups) {
-    if (group.assignment.kind === "no_connect") continue;
+  const distances = [1.27, 2.54, 3.81, 5.08, 7.62, 10.16, 12.7, 15.24, 20.32, 25.4, 30.48, 38.1, 50.8];
+  type Group = FreshSchematicTerminalPartition["groups"][number];
+  type Selection = { label: FreshPlannedGlobalLabel; wire: FreshTerminalLabelWire; distanceIndex: number };
+  const choices: { group: Group; distanceIndex: number }[] = [];
+  const select = (group: Group, startIndex = 0): Selection | undefined => {
+    if (group.assignment.kind === "no_connect") return undefined;
     const pin = input.pins.get(group.memberEndpointIds[0]!)!, orientation = freshGlobalLabelOrientation(pin.angleDeg);
     const members = new Set(group.memberEndpointIds), name = group.assignment.net;
     const escapeGeometry = input.escapeGeometry?.find(value => value.reference === group.reference);
     const dx = pin.angleDeg === 0 ? -1 : pin.angleDeg === 180 ? 1 : 0, dy = pin.angleDeg === 90 ? 1 : pin.angleDeg === 270 ? -1 : 0;
-    let selected: { label: FreshPlannedGlobalLabel; wire: FreshTerminalLabelWire } | undefined;
-    for (const distance of [1.27, 2.54, 3.81, 5.08, 7.62, 10.16, 12.7, 15.24, 20.32, 25.4, 30.48, 38.1, 50.8]) {
+    for (let distanceIndex = startIndex; distanceIndex < distances.length; distanceIndex++) {
       if (!budget.charge("label")) break;
+      const distance = distances[distanceIndex]!;
       const at = { x: Number((pin.x + dx * distance).toFixed(4)), y: Number((pin.y + dy * distance).toFixed(4)) };
       if ([pin.x, pin.y, at.x, at.y].some(value => Math.abs(value / 1.27 - Math.round(value / 1.27)) > 1e-7)) continue;
       const bounds = approximateFreshGlobalLabelBounds(name, at, orientation.rotationDeg);
@@ -138,12 +142,42 @@ export function planFreshTerminalGlobalLabels(input: {
         || onWire(other, segment) && !(members.has(endpoint) && same(other, pin)))
         || labels.some(label => !budget.charge("collision") || boxesConflict(bounds, label.bounds) || wireEntersBox(segment, label.bounds))
         || wires.some(previous => !budget.charge("collision") || wiresTouch(segment, asWire(previous)) || wireEntersBox(asWire(previous), bounds))) continue;
-      selected = { label: { name, endpointId: group.id, at, ...orientation, fontMm: 1.524, bounds }, wire };
-      break;
+      return { label: { name, endpointId: group.id, at, ...orientation, fontMm: 1.524, bounds }, wire, distanceIndex };
+    }
+    return undefined;
+  };
+  const append = (group: Group, selected: Selection): void => {
+    labels.push(selected.label); wires.push(selected.wire); routes.push(`${selected.label.name}:${group.memberEndpointIds.join(",")}`);
+    choices.push({ group, distanceIndex: selected.distanceIndex });
+  };
+  const removeLast = (): void => { labels.pop(); wires.pop(); routes.pop(); choices.pop(); };
+  for (const group of input.partition.groups) {
+    if (group.assignment.kind === "no_connect") continue;
+    let selected = select(group);
+    // Keep successful greedy plans and the legacy <=8-component path unchanged.
+    // On a dead end, vary only the preceding functional choice. Each candidate
+    // pair is tried once, in distance order, against the unchanged earlier prefix
+    // and every original source/ink/pin/wire constraint. There is no recursive
+    // search: a local retry visits at most distances.length squared candidates.
+    if (selected === undefined && input.contract.components.length > 8 && choices.length > 0 && budget.snapshot().status !== "exhausted") {
+      const previous = choices.at(-1)!;
+      removeLast();
+      for (let nextIndex = previous.distanceIndex + 1; nextIndex < distances.length;) {
+        // Charge retry bookkeeping as well as every candidate/collision below.
+        if (!budget.charge("label")) break;
+        const alternate = select(previous.group, nextIndex);
+        if (alternate === undefined) break;
+        append(previous.group, alternate);
+        selected = select(group);
+        if (selected !== undefined) break;
+        removeLast();
+        if (budget.snapshot().status === "exhausted") break;
+        nextIndex = alternate.distanceIndex + 1;
+      }
     }
     if (budget.snapshot().status === "exhausted") return empty("PLANNING_WORK_LIMIT", "Terminal label planning exhausted the shared work budget.");
-    if (selected === undefined) return empty("TERMINAL_LABEL_SPACE_UNAVAILABLE", `No bounded outward stub and label fits ${group.id} on ${name}.`, group.memberEndpointIds);
-    labels.push(selected.label); wires.push(selected.wire); routes.push(`${name}:${group.memberEndpointIds.join(",")}`);
+    if (selected === undefined) return empty("TERMINAL_LABEL_SPACE_UNAVAILABLE", `No bounded outward stub and label fits ${group.id} on ${group.assignment.net}.`, group.memberEndpointIds);
+    append(group, selected);
   }
   return { wires, labels, routes, issues: [] };
 }

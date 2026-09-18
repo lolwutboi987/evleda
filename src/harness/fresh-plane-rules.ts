@@ -1,4 +1,5 @@
 import { contentIdentity } from "../core/canonical.js";
+import { pcbNativeNumericRuleLines } from "./pcb-native-numeric-rules.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 
 /** Canonical generated rules only, not arbitrary user-authored rule evaluation. */
@@ -13,6 +14,7 @@ export function createFreshPlaneRules(bundle: PcbPlaneCompilationBundle) {
       gapMm: plane.padConnection.gapMm, spokeWidthMm: plane.padConnection.spokeWidthMm,
     }) }));
   const lines = ["(version 1)"];
+  lines.push(...pcbNativeNumericRuleLines(bundle.contract));
   for (const feature of bundle.contract.boardFeatures ?? []) {
     // Schema-bound H references contain no expression metacharacters. The
     // companion physical constraint also checks intentionally netless copper.

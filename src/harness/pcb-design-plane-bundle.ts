@@ -2,6 +2,7 @@ import { PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE } from "./pcb-external-power.js";
 import { PCB_DERIVED_POWER_EXECUTION_GUIDANCE, PCB_EXTERNAL_DIODE_POWER_EXECUTION_GUIDANCE } from "./pcb-derived-power.js";
 import { PCB_FEED_THROUGH_EXECUTION_GUIDANCE } from "./pcb-channel-feed-through.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import { PCB_NATIVE_NUMERIC_RULE_GUIDANCE, PCB_NATIVE_HOLE_SPACING_GUIDANCE } from "./pcb-native-numeric-rules.js";
 import { capturePortableRawBytes, decodeCapturedPortableUtf8, parseCapturedPortableJsonBytes } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import {
@@ -82,7 +83,9 @@ function build(originalPrompt: unknown, compilation: PcbPlaneReadyCompilation): 
     foundationOnly: true as const, nativeAuthoringPerformed: false as const, acceptanceEvaluated: false as const,
     fabricationAuthorized: false as const, qualificationEstablished: false as const, releaseAuthorized: false as const,
     compilerId: PCB_PLANE_COMPILER_ID, originalPrompt, originalPromptContentIdentity: contentIdentity(originalPrompt),
-    executionGuidance: guidance + (compilation.contract.interfaceRequirements === undefined ? "" : ` ${PCB_INTERFACE_EXECUTION_GUIDANCE}`)
+    executionGuidance: guidance + (compilation.contract.nativeRuleMode === undefined ? "" : ` ${PCB_NATIVE_NUMERIC_RULE_GUIDANCE}`)
+      + (compilation.contract.routingConstraints.minimumHoleToHoleMm === undefined ? "" : ` ${PCB_NATIVE_HOLE_SPACING_GUIDANCE}`)
+      + (compilation.contract.interfaceRequirements === undefined ? "" : ` ${PCB_INTERFACE_EXECUTION_GUIDANCE}`)
       + (compilation.contract.interfaceRequirements?.interfaces.some(pair => pair.channel?.feedThrough) ? ` ${PCB_FEED_THROUGH_EXECUTION_GUIDANCE}`
         : compilation.contract.interfaceRequirements?.interfaces.some(pair => pair.channel) ? ` ${PCB_CHANNEL_EXECUTION_GUIDANCE}` : "")
       + (compilation.externalPowerBinding === undefined ? "" : ` ${PCB_EXTERNAL_POWER_EXECUTION_GUIDANCE}`)

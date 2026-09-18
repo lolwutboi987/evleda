@@ -341,6 +341,9 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       && same(nativeChecks.savedEvidenceIdentity, saved.identity) && same(nativeChecks.sourceIdentities, identities), "native validation facts are unbranded or stale");
     const drc = nativeChecks.checks.drcClearanceShorts;
     setRow("drc", fact(drc.status === "verified" ? "verified" : drc.status === "failed" ? "failed" : "unknown", ...drc.reasons));
+    if (bundle.contract.nativeRuleMode !== undefined) setRow("native-numeric-rules",
+      fact(drc.status === "verified" ? "verified" : drc.status === "failed" ? "failed" : "unknown",
+        "Current authenticated native assessment checks exact projected settings, canonical numeric DRU and enabled required categories; route/escape/locality and complete design acceptance remain separate.", ...drc.reasons));
     const erc = nativeChecks.checks.erc;
     setRow("erc", fact(erc.status === "verified" ? "verified" : erc.status === "failed" ? "failed" : "unknown", ...erc.reasons));
   }
