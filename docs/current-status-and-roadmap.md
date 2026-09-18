@@ -46,9 +46,16 @@ A new source-only header-service audit checks the full copper envelope of tracks
 vias, non-header pads and stored fill against the two protected header strips.
 Only exact pad-specific inward leads are exempt; shared GND does not exempt
 unrelated copper. Unsupported geometry and unfilled zones remain unknown.
-The helper passed 134 relevant tests, source typechecking, isolated backend
-TypeScript compilation and independent review. It is not yet a public tool or
-native clearance/return-path acceptance.
+An actual saved-V9 replay exposed two supported-source gaps: the explicit
+false duplicate-pad jumper flag and KiCad's roundrect radius materialization.
+The corrected helper reproduces the pinned KiCad 10.0.3 rounding rule, checked
+against a read-only native PAD oracle; odd and near-circle cases without
+qualified geometry remain unknown. The unchanged unrouted V9 now returns clear
+for this strip audit, with 40 actual header-pad UUIDs and zero unknowns. This does
+not qualify routed copper or the new 60 mm placement. The final helper passed
+152 relevant tests, source typechecking, isolated backend TypeScript compilation
+and independent review. It is not yet a public tool or native clearance/return-
+path acceptance.
 
 ## Earlier failure and recovery evidence
 

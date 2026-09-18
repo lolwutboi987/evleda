@@ -54,6 +54,19 @@ function values(node: Node, count: number, scale = 6): number[] {
   check(node.children.length === 0 && node.values.length === count && node.values.every(a => !a.quoted), `Unsupported ${node.name} geometry`);
   return node.values.map(atom => scalar(atom.value, scale));
 }
+/** KiCad 10.0.3 / 146a4f2a: PADSTACK::RoundRectRadius (padstack.cpp:953)
+ * uses KiROUND(min(size) * parsed double ratio); math/util.h:102 uses llround.
+ * For admitted nonnegative ratios Math.round has the same halfway-away rule.
+ * This is native radius materialization, never a geometric tolerance or rounding
+ * of saved coordinates. The ratio grammar remains bounded to exact six decimals.
+ * https://gitlab.com/kicad/code/kicad/-/blob/146a4f2a7585c65bc580427a19b6fe2ec4a3f622/pcbnew/padstack.cpp#L953
+ */
+export function headerServiceRoundRectRadiusNm(minimumSizeNm: number, sourceRatio: string): number {
+  check(Number.isSafeInteger(minimumSizeNm) && minimumSizeNm > 0 && minimumSizeNm <= 2_000_000_000, "Invalid native pad dimension");
+  const scaled = scalar(sourceRatio), ratio = Number(sourceRatio);
+  check(scaled >= 0 && scaled <= 500000 && !Object.is(ratio, -0), "Invalid rounded rectangle ratio");
+  return Math.round(minimumSizeNm * ratio);
+}
 function at(node: Node): { point: Point; angle: number } {
   check(node.values.length === 2 || node.values.length === 3, "Unsupported placement");
   check(node.children.length === 0 && node.values.every(a => !a.quoted), "Unsupported placement fields");
@@ -80,10 +93,19 @@ function sourcePad(node: Node, fp: Node, known: ReturnType<typeof parseFreshPcbS
   check(shape !== "circle" || width === height, "Noncircular circle pad");
   let radius2 = shape === "circle" || shape === "oval" ? Math.min(width, height) : 0;
   if (shape === "roundrect") {
-    const ratio = values(field(node, "roundrect_rratio")!, 1)[0]!;
-    check(ratio >= 0 && ratio <= 500000, "Invalid rounded rectangle ratio");
-    const numerator = BigInt(Math.min(width, height)) * BigInt(ratio) * 2n;
-    check(numerator % 1_000_000n === 0n, "Rounded rectangle radius exceeds exact half-nanometre support"); radius2 = Number(numerator / 1_000_000n);
+    // PAD::buildEffectiveShapes uses integer half-sizes. Keep odd-size shape
+    // materialization unqualified, including .5 ratios whose rounded diameter
+    // exceeds the source minimum by one nm. Radius computation alone is no proof.
+    check(width % 2 === 0 && height % 2 === 0, "Odd-size roundrect geometry requires native half-size qualification");
+    const ratio = field(node, "roundrect_rratio")!;
+    values(ratio, 1); // Reject quoted, compound or inexact source scalars before materialization.
+    radius2 = 2 * headerServiceRoundRectRadiusNm(Math.min(width, height), ratio.values[0]!.value);
+    check(radius2 <= Math.min(width, height), "Materialized roundrect radius exceeds the supported core");
+    // Pinned pad.cpp:1195-1203 substitutes a circle when BOTH remaining
+    // half-sizes are below100nm. Only its already-exact circle case is admitted;
+    // no near-circle approximation is borrowed for an own-pad exemption.
+    check(radius2 === 0 || width-radius2 >= 200 || height-radius2 >= 200 || width === height && radius2 === width,
+      "Near-circle roundrect simplification requires separate native geometry qualification");
   } else check(field(node, "roundrect_rratio", true) === undefined, "Unexpected rounded rectangle field");
   const drillNode = field(node, "drill", true); let drill: Pad["drill"] = null;
   if (drillNode !== undefined) {
@@ -145,6 +167,7 @@ export function auditFreshHeaderServiceRegions(input: { readonly pcbSource: stri
     status: violations.length ? "violations" : unknown.length ? "unknown" : "clear", complete: unknown.length === 0,
     violations, unknown, permittedTrackIds, counts, limits: FRESH_HEADER_SERVICE_LIMITS,
     scope: "saved-source-copper-in-two-full-height-side-strips", nativeAuthority: false, fillFreshness: "unverified",
+    roundrectRadiusModel: "KiCad-10.0.3-KiROUND-binary64-product-halfway-away-from-zero; coordinates remain exact source nanometres",
     notAssessed: ["complete-intent", "routing-completion", "contract-numerical-rules", "library-identity", "clearance", "ampacity", "fabrication", "soldering-or-rework-safety"] });
   if (canonicalJson(sourceIdentity) !== canonicalJson(input.expectedSourceIdentity)) { unknown.push({ code: "SOURCE_IDENTITY_MISMATCH", id: null, detail: "Exact expected saved source differs" }); return finish(); }
   const width = routeSourceMmToNativeNm(policy.board.widthMm), height = routeSourceMmToNativeNm(policy.board.heightMm);
@@ -173,7 +196,10 @@ export function auditFreshHeaderServiceRegions(input: { readonly pcbSource: stri
     for (const fp of board.footprints) {
       const node = tree.children.find(n => n.name === "footprint" && field(n, "uuid", true)?.values[0]?.value === fp.id);
       check(node !== undefined && ["F.Cu", "B.Cu"].includes(fp.layer), "Footprint source identity/layer unsupported");
-      const safe = new Set(["uuid", "tstamp", "layer", "at", "descr", "tags", "property", "path", "sheetname", "sheetfile", "attr", "model", "pad", "fp_text", "fp_line", "fp_rect", "fp_circle", "fp_arc", "fp_poly", "fp_curve", "embedded_fonts"]);
+      const jumpers = field(node, "duplicate_pad_numbers_are_jumpers", true);
+      if (jumpers !== undefined && (jumpers.children.length !== 0 || jumpers.values.length !== 1 || jumpers.values[0]!.quoted || jumpers.values[0]!.value !== "no"))
+        unknown.push({ code: "UNSUPPORTED_FOOTPRINT_COPPER", id: fp.id, detail: "Only the explicit duplicate-pad-jumpers no scalar is supported; no internal tie is inferred" });
+      const safe = new Set(["uuid", "tstamp", "layer", "at", "descr", "tags", "property", "path", "sheetname", "sheetfile", "attr", "model", "pad", "fp_text", "fp_line", "fp_rect", "fp_circle", "fp_arc", "fp_poly", "fp_curve", "embedded_fonts", "duplicate_pad_numbers_are_jumpers"]);
       for (const child of node.children) if (!safe.has(child.name) || child.name !== "pad" && child.name !== "layer"
           && (/\.Cu$/u.test(field(child, "layer", true)?.values[0]?.value??"") || field(child, "layer", true)?.values[0]?.value === "Edge.Cuts"))
         unknown.push({ code: "UNSUPPORTED_FOOTPRINT_COPPER", id: fp.id, detail: `Unmodeled footprint field/graphic ${child.name}` });

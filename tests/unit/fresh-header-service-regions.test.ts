@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { contentIdentity } from "../../src/core/canonical.js";
-import { auditFreshHeaderServiceRegions, type FreshHeaderServicePolicy } from "../../src/harness/fresh-header-service-regions.js";
+import { auditFreshHeaderServiceRegions, headerServiceRoundRectRadiusNm, type FreshHeaderServicePolicy } from "../../src/harness/fresh-header-service-regions.js";
 
 // Pure saved-source fixtures, with no native observations or clearance claims.
 const id = (n: number) => `88888888-8888-4888-8888-${String(n).padStart(12,"0")}`;
@@ -27,6 +27,36 @@ const audit = (source: string, p = policy()) => auditFreshHeaderServiceRegions({
 const codes = (r: ReturnType<typeof audit>) => [...r.violations,...r.unknown].map(f => f.code);
 
 describe("source-only header service strip audit", () => {
+  it.each([
+    [1200000,"0.208333",250000], [1000001,"0.25",250000], [1000002,"0.25",250001], [1000003,"0.25",250001],
+    [1000001,"0.499999",499999], [1000000,"0",0], [1000000,"0.5",500000],
+  ] as const)("matches the pinned read-only KiCad PAD radius oracle for %i nm × %s", (minimum,ratio,expected) => {
+    // Independent native10.0.3 observations retained under
+    // destination-verification/header-service-source-compatibility-02/radius-oracle.json.
+    expect(headerServiceRoundRectRadiusNm(minimum,ratio)).toBe(expected);
+  });
+  it.each(["-0.1","0.500001","NaN","-0","0.208333000001"])("does not broaden radius source admission for %s", ratio => {
+    expect(()=>headerServiceRoundRectRadiusNm(1200000,ratio)).toThrow();
+  });
+  it("admits the exact saved benign footprint scalar and fractional-product Y1 roundrect without changing bounds", () => {
+    const extra=fp("Y1",20,5,12,'(duplicate_pad_numbers_are_jumpers no)',"smd","roundrect","1.4 1.2","")
+      .replace('(size 1.4 1.2)','(size 1.4 1.2) (roundrect_rratio 0.208333)');
+    const result=audit(board("",extra));expect(result.status).toBe("clear");
+    expect(result.roundrectRadiusModel).toContain("KiCad-10.0.3");
+    expect(codes(audit(board("",extra.replace('(at 5 12)','(at 3.5 12)'))))).toContain("PAD_IN_SERVICE_STRIP");
+    expect(audit(board("",extra.replace('(size 1.4 1.2)','(size 1.4000001 1.2)'))).status).toBe("unknown");
+    // Radius rounding is defined; the odd-size native effective-shape core is
+    // separately unqualified and must never become a negative-core exemption.
+    expect(headerServiceRoundRectRadiusNm(1000001,"0.5")).toBe(500001);
+    const odd=extra.replace('(size 1.4 1.2)','(size 1.000001 1.2)').replace('0.208333','0.5');
+    expect(audit(board("",odd)).status).toBe("unknown");
+    const nearCircle=extra.replace('(size 1.4 1.2)','(size 1 1)').replace('0.208333','0.499999');
+    expect(audit(board("",nearCircle)).status).toBe("unknown");
+    expect(audit(board("",nearCircle.replace('0.499999','0.5'))).status).toBe("clear");
+  });
+  it.each(['yes','"no"','','no extra','no (unknown yes)'])("keeps unsupported duplicate-pad-jumper setting %s unknown", value => {
+    expect(audit(board("",fp("R1",20,10,12,`(duplicate_pad_numbers_are_jumpers ${value})`))).status).toBe("unknown");
+  });
   it("replays the candidate60 forty exact header entries, including RUN's checked offset, in a header-only source fixture", () => {
     // Frozen candidate60 local-entry-proposal.json SHA256
     // 0fec4576e5165e0600e5fe4e649c8f0cd9e62d46d9c156cd5f0a5f34662f274c;
