@@ -115,12 +115,28 @@ export function projectNativeCheckReport(operation: Operation, response: unknown
   return { full, summary };
 }
 
+interface NativeCheckCaptureInput {
+  outputPath: string; operation: Operation; toolCallId: string; response: unknown; expectedSource: string;
+  sourceHashes: Readonly<Record<string, string>>; assertCurrent: () => Promise<void>;
+}
+
+function rejectedError(error: unknown, depth = 0): unknown {
+  if (!(error instanceof Error)) return { thrown: error };
+  const result: Record<string, unknown> = { name: error.name, message: error.message, stack: error.stack ?? null };
+  for (const key of ["code", "errno", "syscall", "path", "dest", "issues", "details", "cause"] as const) {
+    const value = Object.getOwnPropertyDescriptor(error, key)?.value as unknown;
+    if (value !== undefined) {
+      requireValue(depth < 8 || key !== "cause", "private cause chain exceeds its bound");
+      result[key] = key === "cause" ? rejectedError(value, depth + 1) : value;
+    }
+  }
+  return result;
+}
+
 /** Existing private-artifact pattern: immutable exclusive write and exact readback. */
-export async function captureNativeCheckReport(input: { outputPath: string; operation: Operation; toolCallId: string;
-  response: unknown; expectedSource: string; sourceHashes: Readonly<Record<string, string>>; assertCurrent: () => Promise<void> }) {
-  const projected = projectNativeCheckReport(input.operation, input.response, input.expectedSource);
-  const bytes = Buffer.from(`${canonicalJson({ schemaVersion: "evleda.native-check-private.v1", operation: input.operation,
-    toolCallId: input.toolCallId, sourceHashes: input.sourceHashes, response: projected.full })}\n`, "utf8");
+async function writeNativeCheckArtifact(input: Pick<NativeCheckCaptureInput, "outputPath" | "operation" | "assertCurrent">,
+  bytes: Buffer, rejected = false) {
+  requireValue(input.operation === "run_erc" || input.operation === "run_drc", "unsupported private artifact operation");
   requireValue(bytes.length <= MAX_BYTES, "complete private response exceeds its fixed artifact bound");
   const base = path.resolve(input.outputPath), initial = await lstat(base, { bigint: true });
   requireValue(path.isAbsolute(input.outputPath) && base === input.outputPath && initial.isDirectory() && !initial.isSymbolicLink()
@@ -135,7 +151,7 @@ export async function captureNativeCheckReport(input: { outputPath: string; oper
     "private directory changed or is linked");
   };
   await assertRoot(); await input.assertCurrent();
-  const filename = `native-check-${input.operation}-${randomUUID()}.json`, target = path.join(root, filename), handle = await open(target, "wx+", 0o600);
+  const filename = `native-check-${rejected ? "rejected-" : ""}${input.operation}-${randomUUID()}.json`, target = path.join(root, filename), handle = await open(target, "wx+", 0o600);
   try {
     const reserved = await handle.stat({ bigint: true });
     requireValue(reserved.isFile() && reserved.nlink === 1n && reserved.size === 0n, "artifact reservation is not exclusive");
@@ -155,6 +171,35 @@ export async function captureNativeCheckReport(input: { outputPath: string; oper
     requireValue(final.isFile() && !final.isSymbolicLink() && final.dev === written.dev && final.ino === written.ino && final.nlink === 1n
       && final.size === written.size && final.mtimeNs === physical.mtimeNs && final.ctimeNs === physical.ctimeNs && await realpath(target) === target,
     "artifact changed during final source guard");
-    return { ...projected.summary, diagnostic: { filename, identity: contentIdentity(bytes) } };
+    return { filename, identity: contentIdentity(bytes) };
   } finally { await handle.close(); }
+}
+
+export async function captureNativeCheckReport(input: NativeCheckCaptureInput) {
+  let phase: "qualification" | "publication" = "qualification";
+  try {
+    const projected = projectNativeCheckReport(input.operation, input.response, input.expectedSource);
+    const bytes = Buffer.from(`${canonicalJson({ schemaVersion: "evleda.native-check-private.v1", operation: input.operation,
+      toolCallId: input.toolCallId, sourceHashes: input.sourceHashes, response: projected.full })}\n`, "utf8");
+    phase = "publication";
+    const diagnostic = await writeNativeCheckArtifact(input, bytes);
+    return { ...projected.summary, diagnostic };
+  } catch (error) {
+    // This is the already-received, host-sanitized response, not a replay or a
+    // qualified report. Do not issue more native/source reads after rejection.
+    try {
+      const rejected = hardenPortableValue({ schemaVersion: "evleda.native-check-rejected.v1", qualification: "REJECTED",
+        reportQualified: false, replay: false, phase, operation: input.operation, toolCallId: input.toolCallId,
+        sourceHashesBefore: input.sourceHashes, expectedSource: input.expectedSource,
+        response: input.response, rejection: rejectedError(error) }, { maxBytes: MAX_BYTES, maxStringBytes: 1024 * 1024,
+        maxDepth: 32, maxNodes: 100_000, maxArrayLength: 10_000, maxOwnKeys: 64, maxKeyBytes: 256 });
+      const bytes = Buffer.from(`${canonicalJson(rejected)}\n`, "utf8");
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      try {
+        await Promise.race([writeNativeCheckArtifact({ ...input, assertCurrent: async () => {} }, bytes, true),
+          new Promise<void>(resolve => { timer = setTimeout(resolve, 5_000); })]);
+      } finally { if (timer !== undefined) clearTimeout(timer); }
+    } catch { /* A secondary capture failure cannot replace the exact primary rejection. */ }
+    throw error;
+  }
 }

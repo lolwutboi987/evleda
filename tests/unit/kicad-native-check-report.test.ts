@@ -7,8 +7,24 @@ import { captureNativeCheckReport, projectNativeCheckReport } from "../../src/ha
 import { actualNativeDrc, nativeCheckReply, nativeErcReport } from "../helpers/native-check-verdict.js";
 
 vi.mock("node:crypto", async original => ({ ...await original<typeof import("node:crypto")>(), randomUUID: () => "12345678-1234-4234-8234-123456789abc" }));
+const captureIo = vi.hoisted(() => ({ stallRejected: false, partialRejected: false, entered: undefined as (() => void) | undefined,
+  rejectLate: undefined as ((error: Error) => void) | undefined }));
+vi.mock("node:fs/promises", async original => {
+  const actual = await original<typeof import("node:fs/promises")>();
+  return { ...actual, open: (...args: unknown[]) => {
+    if (captureIo.stallRejected && String(args[0]).includes("native-check-rejected-")) {
+      return new Promise<never>((_resolve, reject) => { captureIo.rejectLate = reject; captureIo.entered?.(); });
+    }
+    if (captureIo.partialRejected && String(args[0]).includes("native-check-rejected-")) return Reflect.apply(actual.open, actual, args).then((handle: import("node:fs/promises").FileHandle) => ({
+      stat: handle.stat.bind(handle), close: handle.close.bind(handle),
+      writeFile: async (bytes: Buffer) => { await handle.writeFile(bytes.subarray(0, 80)); throw new Error("secondary partial write"); },
+    }));
+    return Reflect.apply(actual.open, actual, args);
+  } };
+});
 const roots: string[] = [];
-afterEach(async () => { for (const root of roots.splice(0)) { expect(path.resolve(root).startsWith(path.resolve(tmpdir()) + path.sep)).toBe(true); await rm(root, { recursive: true, force: true }); } });
+afterEach(async () => { captureIo.stallRejected = false; captureIo.partialRejected = false; captureIo.entered = undefined; captureIo.rejectLate = undefined; vi.useRealTimers();
+  for (const root of roots.splice(0)) { expect(path.resolve(root).startsWith(path.resolve(tmpdir()) + path.sep)).toBe(true); await rm(root, { recursive: true, force: true }); } });
 async function directory() { const root = await mkdtemp(path.join(tmpdir(), "evleda-check-report-")); roots.push(root); return root; }
 const input = (outputPath: string, response = nativeCheckReply()) => ({ outputPath, operation: "run_drc" as const, toolCallId: "host-check-1", response,
   expectedSource: "rp2350-pico.kicad_pcb", sourceHashes: { "rp2350-pico.kicad_pcb": "a".repeat(64) }, assertCurrent: async () => {} });
@@ -57,9 +73,52 @@ describe("bounded host native-check reports", () => {
     ["unknown native form", (r: any) => { r.evidence[0].violations.future_violations = []; }],
     ["unprojected parity", (r: any) => { r.evidence[0].violations.schematic_parity = [structuredClone(actualNativeDrc.unconnected_items[0])]; }],
     ["unavailable report", (r: any) => { r.metadata.available = false; }],
-  ] as const)("rejects %s without publishing a partial substitute", async (_name, mutate) => {
+  ] as const)("rejects %s while privately preserving the unqualified response", async (_name, mutate) => {
     const root = await directory(), response = structuredClone(nativeCheckReply()); mutate(response.structuredContent);
-    await expect(captureNativeCheckReport(input(root, response))).rejects.toThrow(); expect(await readdir(root)).toEqual([]);
+    await expect(captureNativeCheckReport(input(root, response))).rejects.toThrow();
+    const [filename] = await readdir(path.join(root, ".evleda-mcp-output")); expect(filename).toContain("native-check-rejected-");
+    const saved = JSON.parse(await readFile(path.join(root, ".evleda-mcp-output", filename!), "utf8"));
+    expect(saved).toMatchObject({ qualification: "REJECTED", reportQualified: false, replay: false, phase: "qualification" });
+    expect(saved.response).toEqual(response); expect(saved.rejection.message).toBeTypeOf("string");
+  });
+
+  it("retains exact schema issue paths and never replaces a primary rejection with a capture failure", async () => {
+    const root = await directory(), response = nativeCheckReply(); response.structuredContent.evidence[0].violations.$schema = "http[redacted path]";
+    await expect(captureNativeCheckReport(input(root, response))).rejects.toThrow();
+    const [filename] = await readdir(path.join(root, ".evleda-mcp-output"));
+    const saved = JSON.parse(await readFile(path.join(root, ".evleda-mcp-output", filename!), "utf8"));
+    expect(saved.rejection.name).toBe("ZodError"); expect(saved.rejection.issues).toEqual(expect.arrayContaining([expect.objectContaining({ path: ["$schema"] })]));
+    expect(saved.response).toEqual(response);
+    const blocked = await directory(), primary = new Error("original source rejection");
+    const collision = path.join(blocked, ".evleda-mcp-output", "native-check-rejected-run_drc-12345678-1234-4234-8234-123456789abc.json");
+    await expect(captureNativeCheckReport({ ...input(blocked), assertCurrent: async () => {
+      await writeFile(collision, "occupied", { flag: "wx" }); throw primary;
+    } })).rejects.toBe(primary);
+    expect(await readFile(collision, "utf8")).toBe("occupied");
+  });
+
+  it("bounds a stalled rejected-artifact write without masking the original schema rejection", async () => {
+    const root = await directory(), response = nativeCheckReply(); response.structuredContent.evidence[0].violations.$schema = "http[redacted path]";
+    const entered = new Promise<void>(resolve => { captureIo.entered = resolve; }); captureIo.stallRejected = true;
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    const pending = captureNativeCheckReport(input(root, response)).catch(error => error);
+    await entered; await vi.advanceTimersByTimeAsync(5_000);
+    const failure = await pending;
+    expect(failure.name).toBe("ZodError"); expect(failure.issues).toEqual(expect.arrayContaining([expect.objectContaining({ path: ["$schema"] })]));
+    expect(await readdir(path.join(root, ".evleda-mcp-output"))).toEqual([]);
+    const unhandled = vi.fn(); process.on("unhandledRejection", unhandled);
+    try { captureIo.rejectLate?.(new Error("late secondary failure")); await new Promise<void>(resolve => setImmediate(resolve)); expect(unhandled).not.toHaveBeenCalled(); }
+    finally { process.removeListener("unhandledRejection", unhandled); }
+  });
+
+  it("retains a partial rejected reservation as unqualified without masking the primary error", async () => {
+    const root = await directory(), response = nativeCheckReply(); response.structuredContent.evidence[0].violations.$schema = "http[redacted path]";
+    captureIo.partialRejected = true;
+    const failure = await captureNativeCheckReport(input(root, response)).catch(error => error);
+    expect(failure.name).toBe("ZodError"); expect(failure.message).not.toContain("secondary partial write");
+    const [filename] = await readdir(path.join(root, ".evleda-mcp-output")); expect(filename).toContain("native-check-rejected-");
+    const bytes = await readFile(path.join(root, ".evleda-mcp-output", filename!)); expect(bytes.length).toBe(80);
+    expect(() => JSON.parse(bytes.toString())).toThrow();
   });
 
   it("keeps an error beyond the inline sample blocking and covers current courtyard rows", () => {

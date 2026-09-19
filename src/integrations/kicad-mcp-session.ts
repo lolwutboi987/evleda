@@ -1384,6 +1384,11 @@ function sanitizeEvidenceValue(
   }
   if (typeof value === "string") {
     if (sensitiveOutputKey(key)) return redactedForKey(key);
+    // Public KiCad schema identifiers are not filesystem paths. Keep only
+    // these exact identifiers in their exact schema field; every other string
+    // still passes through the existing secret/path filters below.
+    if (key === "$schema" && (value === "https://schemas.kicad.org/drc.v1.json"
+        || value === "https://schemas.kicad.org/erc.v1.json")) return value;
     return sanitizeEvidenceText(value, roots);
   }
   if (Array.isArray(value)) {

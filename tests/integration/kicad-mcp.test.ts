@@ -18,6 +18,8 @@ import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/cor
 import { bindKicadStartupEvidence, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import type { BoundedProcessRunner } from "../../src/integrations/bounded-process.js";
 import { resolveRuntimeCheckPaths, verifyRuntime } from "../../scripts/verify-kicad-inspection-runtime.mjs";
+import { projectNativeCheckReport } from "../../src/harness/kicad-native-check-report.js";
+import { nativeCheckReply, nativeErcReport } from "../helpers/native-check-verdict.js";
 
 import {
   DEFAULT_KICAD_MCP_COMMAND,
@@ -144,6 +146,7 @@ rl.on("line", (line) => {
         ...(liveFixture.batchTool === undefined ? [] : [liveFixture.batchTool]),
         ...(liveFixture.syncTool === undefined ? [] : [liveFixture.syncTool]),
         ...(liveFixture.graphTool === undefined ? [] : [liveFixture.graphTool]),
+        ...Object.keys(liveFixture.nativeChecks ?? {}).map(name => ({ name, inputSchema: { type: "object", properties: {}, additionalProperties: false } })),
       ];
       send({ jsonrpc: "2.0", id: message.id, result: { tools: liveTools } });
       return;
@@ -190,6 +193,10 @@ rl.on("line", (line) => {
   if (message.method === "tools/call") {
     if (liveFixture !== undefined) {
       require("node:fs").appendFileSync(liveFixturePath + ".calls", JSON.stringify(message.params) + "\n");
+      if (Object.hasOwn(liveFixture.nativeChecks ?? {}, message.params.name)) {
+        send({ jsonrpc: "2.0", id: message.id, result: liveFixture.nativeChecks[message.params.name] });
+        return;
+      }
       if (message.params.name === "evleda_get_live_pcb_document") {
         const result = liveFixture.results[Math.min(liveRead++, liveFixture.results.length - 1)];
         if (result === "hang") return;
@@ -435,6 +442,7 @@ const livePcbFixture = async (project: string, results: readonly unknown[], opti
   batchProjectAfter?: string;
   syncTool?: Readonly<Record<string, unknown>>;
   syncHang?: boolean;
+  nativeChecks?: Readonly<Record<string, unknown>>;
   graphTool?: Readonly<Record<string, unknown>>;
 } = {}) => {
   const fixturePath = path.join(project, "live-pcb-fixture.json");
@@ -3533,6 +3541,40 @@ describe("KiCad MCP subprocess session", () => {
     } finally { await session.close(); }
     expect(session.supportsQualifiedFootprintIdentitySync()).toBe(false);
     expect(session.supportsQualifiedFootprintPoseSync()).toBe(false);
+  });
+
+  it.each(["run_drc", "run_erc"] as const)("preserves the exact public schema through actual session sanitization and projects all192 %s errors", async operation => {
+    const { workspace, project } = await roots();
+    const response = operation === "run_drc" ? nativeCheckReply() : nativeCheckReply(operation, nativeErcReport());
+    const fixture = await livePcbFixture(project, [], { nativeChecks: { [operation]: response } });
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, command: fixture.command });
+    try {
+      const sanitized = await session.callTool(operation, {});
+      const report = projectNativeCheckReport(operation, sanitized, operation === "run_drc" ? "rp2350-pico.kicad_pcb" : "rp2350-pico.kicad_sch");
+      expect(report.summary).toMatchObject({ verdict: "FAIL", status: "failed", findingEvidence: { total: 192, counts: { error: 192 }, omitted: 184 } });
+      expect((sanitized.structuredContent as any).evidence[0].violations.$schema).toBe(`https://schemas.kicad.org/${operation === "run_drc" ? "drc" : "erc"}.v1.json`);
+    } finally { await session.close(); }
+  });
+
+  it("keeps every non-exact URL, other-key schema string, filesystem path and secret filtered", async () => {
+    const { workspace, project } = await roots(), schema = "https://schemas.kicad.org/drc.v1.json";
+    const variants = ["https://schemas.kicad.org/unknown.v1.json", "https://schemas.kicad.org/erc.v1.json", `${schema}?query=1`, `prefix ${schema}`, `${schema} suffix`,
+      "https://schemas.kicad.org/%64rc.v1.json", "HTTPS://schemas.kicad.org/drc.v1.json", "C:/private/schema.json", "http[redacted path]"];
+    const response = { content: [], structuredContent: { $schema: schema, other: schema,
+      cases: variants.map(value => ({ $schema: value })), privatePath: "C:/private/native.json", token: "sk-private-schema-test" } };
+    const fixture = await livePcbFixture(project, [], { nativeChecks: { run_drc: response } });
+    const session = await KicadMcpSession.connect({ workspaceRoot: workspace, projectRoot: project, command: fixture.command });
+    try {
+      const result = await session.callTool("run_drc", {}), value = result.structuredContent as any;
+      expect(value.$schema).toBe(schema); expect(value.other).not.toBe(schema);
+      expect(value.privatePath).toBe("[redacted path]"); expect(value.token).toBe("[redacted sensitive sidecar value]");
+      for (let index = 0; index < variants.length; index++) {
+        expect(value.cases[index].$schema).not.toBe(schema);
+        const invalid = nativeCheckReply(); invalid.structuredContent.evidence[0].violations.$schema = value.cases[index].$schema;
+        expect(() => projectNativeCheckReport("run_drc", invalid, "rp2350-pico.kicad_pcb")).toThrow();
+      }
+      expect(JSON.stringify(value)).not.toMatch(/sk-private|C:[\\/]|schemas\.kicad\.org\/unknown|query=1/);
+    } finally { await session.close(); }
   });
 
   it("applies a host per-call sync budget to both SDK deadlines without changing other requests", async () => {

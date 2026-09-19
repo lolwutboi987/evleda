@@ -119,7 +119,11 @@ describe("direct KiCad toolbox MCP", () => {
       const response = await f.connection.client.callTool({ name: "evleda_validate_design", arguments: {} });
       expect(response.isError).toBe(true); expect(payload(response)).not.toHaveProperty("checks");
       expect(f.calls).toEqual(["run_erc", "run_drc"]);
-      if (fault !== "artifact-failure") expect(await readdir(f.root)).not.toContain(".evleda-mcp-output");
+      if (fault === "bad-count") {
+        const [file] = await readdir(path.join(f.root, ".evleda-mcp-output"));
+        const rejected = JSON.parse(await readFile(path.join(f.root, ".evleda-mcp-output", file!), "utf8"));
+        expect(rejected).toMatchObject({ qualification: "REJECTED", reportQualified: false }); expect(rejected.response).toEqual(f.drc);
+      } else if (fault !== "artifact-failure") expect(await readdir(f.root)).not.toContain(".evleda-mcp-output");
     });
   });
 
@@ -154,6 +158,10 @@ describe("direct KiCad toolbox MCP", () => {
       if (fault === "other-overflow") {
         expect(payload(response).error).toBe("KiCad MCP result exceeds the 32000-byte limit.");
         const files = await readdir(path.join(f.root, ".evleda-mcp-output")); expect(files).toHaveLength(1);
+      } else if (fault === "malformed") {
+        const [file] = await readdir(path.join(f.root, ".evleda-mcp-output"));
+        const rejected = JSON.parse(await readFile(path.join(f.root, ".evleda-mcp-output", file!), "utf8"));
+        expect(rejected).toMatchObject({ qualification: "REJECTED", reportQualified: false }); expect(rejected.response).toEqual(f.drc);
       } else expect(await readdir(f.root)).not.toContain(".evleda-mcp-output");
     }, true);
   });
