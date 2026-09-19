@@ -1,0 +1,239 @@
+{
+  "sourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "925932668345459d30820625d8be202f99ec71c7ad6d7f34f6f5fb9cb6244205",
+    "size": 311097
+  },
+  "nativeResponseSha256": "63af8c8b9577dd1d282ebd46b91a3162ae8b2f3ab48a1366aa3ca7d14ca765ac",
+  "rows": [
+    {
+      "nativeReportedTurn": {
+        "vertex": {
+          "x": 10.2,
+          "y": 28.65
+        },
+        "netName": "3V3",
+        "netClassId": null,
+        "layer": "F.Cu",
+        "segmentOrdinals": [
+          35,
+          100
+        ],
+        "interiorAngleDeg": 179.99999914622634,
+        "directionChangeDeg": 8.537736562175269e-7,
+        "classification": "obtuse"
+      },
+      "segments": [
+        {
+          "id": "64f90f9c-4155-45e6-919c-25cc4bee0404",
+          "start": {
+            "x": 10.2,
+            "y": 28.65
+          },
+          "end": {
+            "x": 10.4,
+            "y": 28.85
+          },
+          "widthMm": 0.2
+        },
+        {
+          "id": "f6be28c9-44fe-461f-8d14-a99d3567fca8",
+          "start": {
+            "x": 9.95,
+            "y": 28.4
+          },
+          "end": {
+            "x": 10.2,
+            "y": 28.65
+          },
+          "widthMm": 0.3
+        }
+      ],
+      "vectorsNm": [
+        [
+          "200000",
+          "200000"
+        ],
+        [
+          "-250000",
+          "-250000"
+        ]
+      ],
+      "crossNmSquared": "0",
+      "dotNmSquared": "-100000000000",
+      "exactDirectionChangeDeg": 0
+    },
+    {
+      "nativeReportedTurn": {
+        "vertex": {
+          "x": 14.55,
+          "y": 32.75
+        },
+        "netName": "3V3",
+        "netClassId": null,
+        "layer": "F.Cu",
+        "segmentOrdinals": [
+          65,
+          71
+        ],
+        "interiorAngleDeg": 179.99999914622634,
+        "directionChangeDeg": 8.537736562175269e-7,
+        "classification": "obtuse"
+      },
+      "segments": [
+        {
+          "id": "a8df3d5c-2cb5-41a1-8cbf-a6817c42f7cc",
+          "start": {
+            "x": 14.3,
+            "y": 32.5
+          },
+          "end": {
+            "x": 14.55,
+            "y": 32.75
+          },
+          "widthMm": 0.2
+        },
+        {
+          "id": "b7b4b200-3093-4db1-9c43-8e587673cb81",
+          "start": {
+            "x": 14.55,
+            "y": 32.75
+          },
+          "end": {
+            "x": 15.51,
+            "y": 33.71
+          },
+          "widthMm": 0.3
+        }
+      ],
+      "vectorsNm": [
+        [
+          "-250000",
+          "-250000"
+        ],
+        [
+          "960000",
+          "960000"
+        ]
+      ],
+      "crossNmSquared": "0",
+      "dotNmSquared": "-480000000000",
+      "exactDirectionChangeDeg": 0
+    },
+    {
+      "nativeReportedTurn": {
+        "vertex": {
+          "x": 9.95,
+          "y": 28.4
+        },
+        "netName": "3V3",
+        "netClassId": null,
+        "layer": "F.Cu",
+        "segmentOrdinals": [
+          80,
+          100
+        ],
+        "interiorAngleDeg": 179.99999879258172,
+        "directionChangeDeg": 0.0000012074182791366184,
+        "classification": "obtuse"
+      },
+      "segments": [
+        {
+          "id": "cd748007-cd76-4e1a-b5bb-638832e415b6",
+          "start": {
+            "x": 9.3,
+            "y": 27.75
+          },
+          "end": {
+            "x": 9.95,
+            "y": 28.4
+          },
+          "widthMm": 0.25
+        },
+        {
+          "id": "f6be28c9-44fe-461f-8d14-a99d3567fca8",
+          "start": {
+            "x": 9.95,
+            "y": 28.4
+          },
+          "end": {
+            "x": 10.2,
+            "y": 28.65
+          },
+          "widthMm": 0.3
+        }
+      ],
+      "vectorsNm": [
+        [
+          "-650000",
+          "-650000"
+        ],
+        [
+          "250000",
+          "250000"
+        ]
+      ],
+      "crossNmSquared": "0",
+      "dotNmSquared": "-325000000000",
+      "exactDirectionChangeDeg": 0
+    },
+    {
+      "nativeReportedTurn": {
+        "vertex": {
+          "x": 14.7,
+          "y": 32.25
+        },
+        "netName": "1V1",
+        "netClassId": null,
+        "layer": "F.Cu",
+        "segmentOrdinals": [
+          231,
+          234
+        ],
+        "interiorAngleDeg": 179.99999852122068,
+        "directionChangeDeg": 0.000001478779324770585,
+        "classification": "obtuse"
+      },
+      "segments": [
+        {
+          "id": "2fda9160-835e-4d5c-a612-47d6856da57d",
+          "start": {
+            "x": 14.55,
+            "y": 32.1
+          },
+          "end": {
+            "x": 14.7,
+            "y": 32.25
+          },
+          "widthMm": 0.2
+        },
+        {
+          "id": "6c7079c3-7b1a-44b0-88e9-0600e9eadaf6",
+          "start": {
+            "x": 14.7,
+            "y": 32.25
+          },
+          "end": {
+            "x": 15.03,
+            "y": 32.58
+          },
+          "widthMm": 0.3
+        }
+      ],
+      "vectorsNm": [
+        [
+          "-150000",
+          "-150000"
+        ],
+        [
+          "330000",
+          "330000"
+        ]
+      ],
+      "crossNmSquared": "0",
+      "dotNmSquared": "-99000000000",
+      "exactDirectionChangeDeg": 0
+    }
+  ],
+  "scope": "Exact integer-nanometre cross/dot products establish these four measured source junctions are straight. Historical native report remains unchanged; four other multi-segment junctions and electrical suitability remain unresolved."
+}

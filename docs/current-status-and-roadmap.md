@@ -1,6 +1,21 @@
 # Current status and roadmap
 
 Latest native milestone, 19 September 2026: the
+[60-06 power-routing snapshot](../designs/rp2350-pico/native-power-routing-60-06/README.md)
+is normally closed with **319 segments, 58 vias and no zones** through routing
+batch 10. Both GPIO service strips are clear. Native ERC has zero findings;
+configured DRC reports 135 unconnected errors, 34 dangling vias and nine dangling
+tracks, with no clearance findings. Its ignored categories remain explicit.
+Four near-zero turn flags were proved exactly straight and corrected in the
+working-source angle calculation; the frozen native report remains unchanged.
+Four branched junctions still lack complete bend coverage. The fix preserves the
+angle tolerance, passes the four reproductions and small-real-deviation tests,
+and retains the unresolved junctions. Backend/UI typechecks and isolated backend
+compilation pass. Of 65 selected tests, 64 pass; one unchanged workflow test is
+blocked by its missing Rev-A PCB fixture. **Routing and board acceptance remain
+incomplete**, including the EN connection and ground-plane verification.
+
+Earlier native milestone, 19 September 2026: the
 [60-05 ground-routing snapshot](../designs/rp2350-pico/native-ground-routing-60-05/README.md)
 saved and read back **92 ground-track segments and 38 vias** under DOC12/host20,
 including the exact batch that previously exceeded the native snapshot limit.

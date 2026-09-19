@@ -2332,9 +2332,10 @@ function analyzeTurns(
       const secondVector = subtract(secondMember.other, secondMember.point);
       const denominator = Math.hypot(firstVector.x, firstVector.y) * Math.hypot(secondVector.x, secondVector.y);
       if (denominator <= tolerance * tolerance) continue;
-      const cosine = Math.max(-1, Math.min(1, dot(firstVector, secondVector) / denominator));
-    const interiorAngleDeg = Math.acos(cosine) * DEG_PER_RAD;
-    const directionChangeDeg = 180 - interiorAngleDeg;
+      // atan2 avoids acos amplifying roundoff near a straight continuation.
+      // Endpoint vectors point outward, hence the negated dot for the turn.
+    const directionChangeDeg = Math.atan2(Math.abs(cross(firstVector, secondVector)), -dot(firstVector, secondVector)) * DEG_PER_RAD;
+    const interiorAngleDeg = 180 - directionChangeDeg;
     const classification: PcbTurnClassification =
       interiorAngleDeg <= profile.advisories.reversal.maximumInteriorAngleDeg + 1e-9
         ? "reversal-candidate"

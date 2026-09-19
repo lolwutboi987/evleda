@@ -47,6 +47,28 @@ describe("host-bound toolbox practice analysis", () => {
     expect(result.turnPolicy.violations[0]!.directionChangeDeg).toBeCloseTo(angle);
   });
 
+  it.each([
+    ["9.95 28.4", "10.2 28.65", "10.4 28.85"],
+    ["14.3 32.5", "14.55 32.75", "15.51 33.71"],
+    ["9.3 27.75", "9.95 28.4", "10.2 28.65"],
+    ["14.55 32.1", "14.7 32.25", "15.03 32.58"],
+  ])("recognizes the saved diagonal continuation %s -> %s -> %s as straight", async (start, vertex, end) => {
+    const f = await bind(board(`${segment(start, vertex, "a")} ${segment(vertex, end, "b")}`));
+    const result = await f.run();
+    expect(result.turnPolicy.measuredTurnCount).toBe(1);
+    expect(result.turnPolicy.violations).toEqual([]);
+    expect(result.geometry.turns[0]!.classification).toBe("straight");
+    expect(result.geometry.turns[0]!.directionChangeDeg).toBeCloseTo(0, 10);
+    expect(result.turnPolicy.numericalToleranceDeg).toBe(1e-7);
+  });
+
+  it.each(["2 0.000001", "2 1.000001"])("still rejects the small real deviation ending at %s", async end => {
+    const f = await bind(board(`${segment("0 0", "1 0", "a")} ${segment("1 0", end, "b")}`));
+    const result = await f.run();
+    expect(result.turnPolicy.measuredTurnCount).toBe(1);
+    expect(result.turnPolicy.violations).toHaveLength(1);
+  });
+
   it("retains overlap error when a 180-degree reversal cannot be treated as a sequential turn", async () => {
     const f = await bind(board(`${segment("0 0", "1 0", "a")} ${segment("1 0", "0.5 0", "b")}`));
     const result = await f.run();

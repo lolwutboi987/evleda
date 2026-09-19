@@ -1,0 +1,46 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "widthMm": 22,
+  "heightMm": 60,
+  "layers": 2,
+  "tracks": 319,
+  "vias": 58,
+  "zones": 0,
+  "throughBatch": 10,
+  "pcbSha256": "925932668345459d30820625d8be202f99ec71c7ad6d7f34f6f5fb9cb6244205",
+  "checkpointSha256": "1d45dd5a5af111c336e7a90ed6284e861fb96e19908e5ebb8426d0413d55396d",
+  "ercFindings": 0,
+  "drc": {
+    "total": 178,
+    "returned": 8,
+    "omitted": 170,
+    "partial": true,
+    "counts": {
+      "error": 135,
+      "warning": 43
+    },
+    "byType": {
+      "via_dangling": 34,
+      "track_dangling": 9,
+      "unconnected_items": 135
+    },
+    "orderedRowsPreserved": true,
+    "stableIdsMayRepeat": true
+  },
+  "ignoredDrcChecks": [
+    "missing_courtyard",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries",
+    "footprint_filters_mismatch",
+    "footprint_type_mismatch"
+  ],
+  "headerStrips": "clear",
+  "nativeTurnFlags": 4,
+  "exactStraightFlags": 4,
+  "correctedSourceAnalyzerViolations": 0,
+  "unresolvedJunctions": 4,
+  "correctedAnalyzerDeployedToHost": false,
+  "normalClose": true,
+  "routingComplete": false,
+  "designAccepted": false
+}

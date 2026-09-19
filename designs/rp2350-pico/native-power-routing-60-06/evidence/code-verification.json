@@ -1,0 +1,19 @@
+{
+  "change": "Stable atan2 turn calculation; numerical tolerance unchanged at 1e-7 degree.",
+  "regressionBeforeFix": {
+    "failed": 4,
+    "passed": 11
+  },
+  "afterFix": {
+    "tests": 65,
+    "passed": 64,
+    "failed": 1,
+    "failure": "Unchanged workflow test cannot open missing reference-designs/robotics-controller-v0/robotics-controller-v0.kicad_pcb; no fixture was substituted."
+  },
+  "backendTypecheck": "passed",
+  "uiTypecheck": "passed",
+  "isolatedBackendBuild": "passed",
+  "fullPackageBuild": "not rerun",
+  "sameSavedBoardComparison": "232 measured turns; four false flags removed; four unresolved junctions identical.",
+  "nativeHost": "Frozen host20 unchanged; corrected source not deployed to this native session."
+}
