@@ -1,0 +1,220 @@
+{
+  "projectId": "914f7760-c4c2-4bb8-9b51-b481242878a5",
+  "access": "read-only",
+  "openedResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000033-response-83e9f8a19b4bb9d2fdd030c5e35abbec8fedc7cbdc502719811ed30eb3e0122c.json",
+  "contextResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000039-response-4201f046afa98f0f02f535eb49849fd73c602bcb0a532a262841aae32cb54c6e.json",
+  "endpointResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000042-response-4c8b83cec59350734bffbc8233ad02ab57f9a85486fa0365abe8c64ddbb86803.json",
+  "planeResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000045-response-3f97293554209b81cc67d8942e5b1ee87f1d9dcc42792de37ed8d8f3d2db1165.json",
+  "closeResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000081-response-c78891206f182c5a43b193d5eb2c2a01126ee1e9c212d3ecb80a562972fcfb0c.json",
+  "previews": [
+    {
+      "view": "top",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000048-response-01a066da10ea5956a883fd6cb6c18860c8860904d69bf32b328f016c7de8be1f.json",
+      "png": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-5dc2c675-847c-4ef8-be70-09d891ba897c\\board-top.png",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "93fb655312ab20567b25c9af7cf39860fa71d627fa87a577bee6415d446821bd",
+          "size": 122676
+        },
+        "width": 1800,
+        "height": 1273,
+        "mimeType": "image/png",
+        "sourceSvgSha256": "da2ab35274625d2d89939c2c9e309447e0a3c6c0f914355e64ce4a84dd05021a"
+      },
+      "svg": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-5dc2c675-847c-4ef8-be70-09d891ba897c\\board-top.svg",
+        "relativePath": "board-top.svg",
+        "sizeBytes": 188482,
+        "sha256": "da2ab35274625d2d89939c2c9e309447e0a3c6c0f914355e64ce4a84dd05021a"
+      },
+      "comparison": {
+        "pngByteIdentical": true,
+        "svgRawByteIdentical": false,
+        "svgDrawingByteIdenticalAfterTimestampExclusion": true,
+        "excludedScope": "Only the complete native title element containing the export timestamp; all other bytes compared exactly.",
+        "changedLines": [
+          {
+            "line": 11,
+            "before": "<title>SVG Image created as board-top.svg date 2026-09-19T14:57:36 </title>\r",
+            "after": "<title>SVG Image created as board-top.svg date 2026-09-19T15:06:13 </title>\r"
+          }
+        ],
+        "editSvgSha256": "665e7b142e8bfcf61509ee43cc055851ba0fd107d675b0cc3edefc135fbbfc55",
+        "readonlySvgSha256": "da2ab35274625d2d89939c2c9e309447e0a3c6c0f914355e64ce4a84dd05021a"
+      }
+    },
+    {
+      "view": "assembly",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000053-response-5df25ec5877202c8a95f9eb89d8ec9eabc7d2de01a1aa44c70564cfc03b514f9.json",
+      "png": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-acc4098c-0a74-4375-a135-5afc08849764\\board-assembly.png",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "a4038c62498a7158f04fbc99a40f609c87e52cde31c151e30b7dfeb746edcd00",
+          "size": 131742
+        },
+        "width": 1800,
+        "height": 1273,
+        "mimeType": "image/png",
+        "sourceSvgSha256": "815579c8aefd33b88a4f76dd17bf37c7066f98ed494bc72e202222167d367392"
+      },
+      "svg": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-acc4098c-0a74-4375-a135-5afc08849764\\board-assembly.svg",
+        "relativePath": "board-assembly.svg",
+        "sizeBytes": 573595,
+        "sha256": "815579c8aefd33b88a4f76dd17bf37c7066f98ed494bc72e202222167d367392"
+      },
+      "comparison": {
+        "pngByteIdentical": true,
+        "svgRawByteIdentical": false,
+        "svgDrawingByteIdenticalAfterTimestampExclusion": true,
+        "excludedScope": "Only the complete native title element containing the export timestamp; all other bytes compared exactly.",
+        "changedLines": [
+          {
+            "line": 11,
+            "before": "<title>SVG Image created as board-assembly.svg date 2026-09-19T14:58:06 </title>\r",
+            "after": "<title>SVG Image created as board-assembly.svg date 2026-09-19T15:08:24 </title>\r"
+          }
+        ],
+        "editSvgSha256": "e02a6cbdcd508308d49699c208b533a219189e4db4aeaa665fd4005ddf8b5a87",
+        "readonlySvgSha256": "815579c8aefd33b88a4f76dd17bf37c7066f98ed494bc72e202222167d367392"
+      }
+    }
+  ],
+  "files": {
+    "pro": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "7b118440711ccd30fe4fbc945766c335e57fe7c81e5b8e40fa050ad942a69fde"
+    },
+    "sch": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+    },
+    "pcb": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60"
+    },
+    "symLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+    },
+    "fpLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+    },
+    "dru": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+    }
+  },
+  "sourceFiles": {
+    "pro": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15"
+    },
+    "sch": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+    },
+    "pcb": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "505551e53c6c7fc6bff88848153ae7db75fa4aed45744dbffe9affcb5f44c8db"
+    },
+    "symLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+    },
+    "fpLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+    },
+    "dru": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+    }
+  },
+  "checkpoint": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\.evleda-pcb-agent-checkpoint.json",
+    "sha256": "182ab3f73e77b135eb84f1176f74acc7616e882576d9c55fe5e18e5f2a4ad5b0"
+  },
+  "storedLineageVerified": true,
+  "targetSixSourcesUnchanged": true,
+  "originalSixSourcesUnchanged": true,
+  "connectedNets": [
+    "1V1",
+    "3V3",
+    "ADC_AVDD",
+    "ADC_VREF",
+    "BOOT_SW",
+    "CORE_LX",
+    "GPIO0",
+    "GPIO1",
+    "GPIO10",
+    "GPIO11",
+    "GPIO12",
+    "GPIO13",
+    "GPIO14",
+    "GPIO15",
+    "GPIO19",
+    "GPIO2",
+    "GPIO20",
+    "GPIO21",
+    "GPIO23_SMPS_PS",
+    "GPIO25_LED",
+    "GPIO27",
+    "GPIO28",
+    "GPIO6",
+    "GPIO8",
+    "GPIO9",
+    "LED_A",
+    "QSPI_CS",
+    "QSPI_SCLK",
+    "QSPI_SD0",
+    "QSPI_SD1",
+    "QSPI_SD2",
+    "QSPI_SD3",
+    "RT_LX1",
+    "RT_LX2",
+    "SWCLK_HDR",
+    "SWCLK_MCU",
+    "SWDIO_HDR",
+    "SWDIO_MCU",
+    "USB_CC1",
+    "USB_CC2",
+    "USB_DM_ESD",
+    "USB_DM_MCU",
+    "USB_DM_PORT",
+    "USB_DP_ESD",
+    "USB_DP_MCU",
+    "USB_DP_PORT",
+    "VBUS",
+    "VREG_AVDD",
+    "VSYS",
+    "VSYS_DIV",
+    "XIN",
+    "XOUT_MCU",
+    "XTAL_OUT"
+  ],
+  "disconnectedNets": [
+    "3V3_EN",
+    "GND",
+    "GPIO16",
+    "GPIO17",
+    "GPIO18",
+    "GPIO22",
+    "GPIO24_VBUS_SENSE",
+    "GPIO26",
+    "GPIO29_VSYS_SENSE",
+    "GPIO3",
+    "GPIO4",
+    "GPIO5",
+    "GPIO7",
+    "RUN"
+  ],
+  "groundGroups": 8,
+  "largestGroundGroup": 52,
+  "fillAuthorityAfterReopen": "unknown",
+  "normalCloseConfirmed": true,
+  "designAccepted": false
+}

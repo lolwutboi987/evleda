@@ -1,0 +1,84 @@
+{
+  "projectId": "914f7760-c4c2-4bb8-9b51-b481242878a5",
+  "plan": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\reviewed-two-via-wide-bridge.json",
+    "sha256": "bf4b2925e94ccaf17067570e789a3a17e2a7ecbdc3ff5863122b72e059eb9e24"
+  },
+  "beforePcbSha256": "6652eeb08db813382593dd8af0af00b7210ec758b4f78b3fbb7b4983b8bcd69b",
+  "afterPcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+  "selection": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-47\\workspace-client-ea55081f-938f-49b8-8d29-f215f15c4eb7\\000067-response-7a9db513a9d25682f9d0881ee4c97dae494c1acfcebbdc71169594572bf8ac46.json",
+  "mutation": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-47\\workspace-client-ea55081f-938f-49b8-8d29-f215f15c4eb7\\000070-response-a7fd23e7c6cc288c88ee4effb8bf16f03b3bcad606c4b1b1382d583de5407018.json",
+  "savedRead": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-47\\workspace-client-ea55081f-938f-49b8-8d29-f215f15c4eb7\\000073-response-cd1d08d2b395f36eb666a4c3f6dd378ab7d88956870fda16ad5fef1eddd5c0d5.json",
+  "result": {
+    "schemaVersion": "evleda.fresh-plane-route-mutation-result.v1",
+    "contractIdentity": {
+      "algorithm": "sha256",
+      "digest": "46654b3c27a5e5c2ad8c8a3064384c2b3825e685eda52b85f3dba191f0896660",
+      "schemaVersion": "evleda.fresh-connectivity-contract.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "planeProjectBindingIdentity": {
+      "algorithm": "sha256",
+      "digest": "cc41b36141b77c771a494e37ca310607913314093d78da9d8a8242c60cd7c181",
+      "schemaVersion": "evleda.pcb-agent-plane-fresh-binding.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "sourceContractIdentity": {
+      "algorithm": "sha256",
+      "digest": "727fb658fab29f289bfa94289606a5fa2e067bbff7ceeaa36b22404c187a828e",
+      "schemaVersion": "evleda.pcb-design-contract.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "completion": "not_evaluated",
+    "connection": "not_evaluated",
+    "mutationValidity": "verified",
+    "scope": "selected-net-incremental-route-geometry",
+    "notEvaluated": [
+      "plane_contact",
+      "clearance",
+      "reference_coverage",
+      "completed_route_topology"
+    ],
+    "freshMarkerContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "76d8638092cd78a982947347bb99a58a27f93048b794a8022c309b75d844cae1",
+      "size": 5715
+    },
+    "applied": true,
+    "mutated": true,
+    "idempotent": false,
+    "selectionIdentity": {
+      "algorithm": "sha256",
+      "digest": "82609d1162b1075e4064f6e47fd7bfa9087ec8d33a8db777cf689b25ddf3f741",
+      "schemaVersion": "evleda.fresh-plane-route-selection.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "beforePcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "6652eeb08db813382593dd8af0af00b7210ec758b4f78b3fbb7b4983b8bcd69b",
+      "size": 457703
+    },
+    "livePcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "1200dcb7626a74d8324ba292e31f5d3b4a280b85f8848e4d4865494966917c0f",
+      "size": 432183
+    },
+    "net": "GND",
+    "deletedItemIds": [],
+    "addedTrackCount": 2,
+    "addedViaCount": 2,
+    "issues": [],
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "881f8e4fa8302a3bd13e8012ab8b9b6a2cf2011795d0efc594c8b5f7ddba4048",
+      "schemaVersion": "evleda.fresh-plane-route-mutation-result.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "tracks": 831,
+  "vias": 106,
+  "footprints": 66,
+  "priorRoutesAndFootprintsPreserved": true,
+  "nonPcbSourcesPreserved": true,
+  "planeRefillRequired": true
+}

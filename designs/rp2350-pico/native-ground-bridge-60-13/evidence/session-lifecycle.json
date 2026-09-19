@@ -1,0 +1,40 @@
+[
+  {
+    "session": "mcp-session-47",
+    "terminal": {
+      "endedAt": "2026-09-19T21:59:48.841Z",
+      "reason": "operator_close",
+      "sdkCloseReturned": true,
+      "nativeCleanup": "workspace_idle_confirmed_before_shutdown",
+      "instruction": "SDK shutdown is best-effort and may escalate termination; it does not prove a native checkpoint, lease release, or design acceptance.",
+      "stderr": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-47\\workspace-client-ea55081f-938f-49b8-8d29-f215f15c4eb7\\host-stderr.log",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "ce2a23241c4d42f787c0434a8d78131b0b9ceecfe38550a2ceecb94f63e1bf3e",
+          "size": 76
+        }
+      },
+      "stderrComplete": true
+    }
+  },
+  {
+    "session": "mcp-session-48",
+    "terminal": {
+      "endedAt": "2026-09-19T22:09:15.745Z",
+      "reason": "operator_close",
+      "sdkCloseReturned": true,
+      "nativeCleanup": "workspace_idle_confirmed_before_shutdown",
+      "instruction": "SDK shutdown is best-effort and may escalate termination; it does not prove a native checkpoint, lease release, or design acceptance.",
+      "stderr": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\host-stderr.log",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "ce2a23241c4d42f787c0434a8d78131b0b9ceecfe38550a2ceecb94f63e1bf3e",
+          "size": 76
+        }
+      },
+      "stderrComplete": true
+    }
+  }
+]

@@ -2,17 +2,7 @@
 
 Latest toolbox milestone, 19 September 2026: [native placement revision](../proofs/native-placement-revision-20260919/README.md) now preserves a fully authored V2 board while creating a separate project with changed placement constraints. The real 829-track RP2350 board passed creation, mandatory save/refill, native checks, normal close and read-only reopening with stored lineage. This enables the next coordinated USB/regulator placement change; it does not move components or complete routing.
 
-Latest native milestone, 19 September 2026: [ground and USB revision 60-12](../designs/rp2350-pico/native-ground-usb-60-12/README.md)
-is normally closed with **829 tracks, 104 vias and one B.Cu ground zone**.
-Nineteen added front ground segments reduce GND from 12 to **nine physical-pad
-groups**, with **49 of 64 pads** in the main group. A coordinated USB adjustment
-removes the prior sharp bend while preserving the existing source-assessed width,
-gap, length and skew limits. There are **631 measured turns with zero violations
-and eight unresolved junctions**. Both GPIO service strips are clear, with 40
-exact own-pad leads permitted. Native checks still report **24 unconnected errors
-and 13 dangling-item warnings**; 53 functional nets are connected and 14 remain
-disconnected. USB resistor placement, remaining routing, labels and electrical/DFM
-review are unfinished. Host25 live geometry qualification has passed.
+Latest native milestone, 19 September 2026: [ground bridge revision 60-13](../designs/rp2350-pico/native-ground-bridge-60-13/README.md) is normally closed and read-only reopened with **831 tracks, 106 vias and one B.Cu ground zone**. A 0.6 mm front bridge and two vias join the C8/C20/C22 ground group to the main region: **eight groups, 52 of 64 ground pads in the main group**. Native unconnected errors fall from 24 to **23**, with the same 13 dangling-item warnings; 53 nets are connected and 14 remain disconnected. The source audit has 632 measured turns, zero violations and eight unresolved junctions. Both GPIO service strips are clear with 40 exact own-pad leads. Source hashes and native top/assembly views persist through read-only reopening. No component moves were applied; USB placement, remaining routing, labels and electrical/DFM review remain unfinished. Overall acceptance is false.
 
 Earlier native milestone, 19 September 2026: [ground connections 60-11](../designs/rp2350-pico/native-ground-links-60-11/README.md)
 is normally closed with **807 tracks, 104 vias and one ground zone**. Ten added

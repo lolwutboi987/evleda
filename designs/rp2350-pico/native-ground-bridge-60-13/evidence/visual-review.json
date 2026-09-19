@@ -1,0 +1,25 @@
+{
+  "reviewed": true,
+  "sourcePcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+  "views": [
+    {
+      "view": "top",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-913dc269-e181-4004-9550-f72fd22064bd\\board-top.png",
+      "sha256": "93fb655312ab20567b25c9af7cf39860fa71d627fa87a577bee6415d446821bd"
+    },
+    {
+      "view": "assembly",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-d03cb569-759f-440e-88ad-a7d4dbabd832\\board-assembly.png",
+      "sha256": "a4038c62498a7158f04fbc99a40f609c87e52cde31c151e30b7dfeb746edcd00"
+    }
+  ],
+  "observations": [
+    "The short, wide front ground bridge and two vias are visible to the right of the lower regulator capacitor group.",
+    "The bridge stays inside the protected GPIO boundaries and does not pass between header pads.",
+    "Native top and assembly views retain the existing component arrangement, outline and mechanical features; no placement change was made.",
+    "The bridge adds no measured turn violation or unresolved junction. Dense MCU routing and unfinished functional labels remain broader layout-review work."
+  ],
+  "groundGroups": 8,
+  "largestGroundGroup": 52,
+  "fullBoardAcceptance": false
+}

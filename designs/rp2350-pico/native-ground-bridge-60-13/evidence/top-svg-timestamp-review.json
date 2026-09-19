@@ -1,0 +1,39 @@
+{
+  "initialExactSvgAssertionFailed": true,
+  "sourceFilesUnchanged": true,
+  "view": "top",
+  "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-48\\workspace-client-b0dfb5e8-543c-45fb-8f63-957dc7757e32\\000048-response-01a066da10ea5956a883fd6cb6c18860c8860904d69bf32b328f016c7de8be1f.json",
+  "png": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-5dc2c675-847c-4ef8-be70-09d891ba897c\\board-top.png",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "93fb655312ab20567b25c9af7cf39860fa71d627fa87a577bee6415d446821bd",
+      "size": 122676
+    },
+    "width": 1800,
+    "height": 1273,
+    "mimeType": "image/png",
+    "sourceSvgSha256": "da2ab35274625d2d89939c2c9e309447e0a3c6c0f914355e64ce4a84dd05021a"
+  },
+  "svg": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\914f7760-c4c2-4bb8-9b51-b481242878a5\\output\\toolbox-preview-5dc2c675-847c-4ef8-be70-09d891ba897c\\board-top.svg",
+    "relativePath": "board-top.svg",
+    "sizeBytes": 188482,
+    "sha256": "da2ab35274625d2d89939c2c9e309447e0a3c6c0f914355e64ce4a84dd05021a"
+  },
+  "comparison": {
+    "pngByteIdentical": true,
+    "svgRawByteIdentical": false,
+    "svgDrawingByteIdenticalAfterTimestampExclusion": true,
+    "excludedScope": "Only the complete native title element containing the export timestamp; all other bytes compared exactly.",
+    "changedLines": [
+      {
+        "line": 11,
+        "before": "<title>SVG Image created as board-top.svg date 2026-09-19T14:57:36 </title>\r",
+        "after": "<title>SVG Image created as board-top.svg date 2026-09-19T15:06:13 </title>\r"
+      }
+    ],
+    "editSvgSha256": "665e7b142e8bfcf61509ee43cc055851ba0fd107d675b0cc3edefc135fbbfc55",
+    "readonlySvgSha256": "da2ab35274625d2d89939c2c9e309447e0a3c6c0f914355e64ce4a84dd05021a"
+  }
+}

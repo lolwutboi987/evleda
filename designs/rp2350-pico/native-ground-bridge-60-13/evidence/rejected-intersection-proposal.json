@@ -1,0 +1,998 @@
+{
+  "adopted": false,
+  "nativeOperations": 0,
+  "reason": "Rejected because the additional route intersects existing front ground tracks and adds two unresolved junctions.",
+  "turnPolicy": {
+    "allowedDirectionChangesDeg": [
+      0,
+      45
+    ],
+    "numericalToleranceDeg": 1e-7,
+    "measuredTurnCount": 635,
+    "violations": [],
+    "unresolvedFindings": [
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 6,
+              "uuid": "0ec49273-dca3-45a9-9431-db23e369a984",
+              "startOffset": 253959,
+              "endOffset": 254110,
+              "line": 11972,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 10.4,
+                "y": 28.85
+              },
+              "end": {
+                "x": 10.4,
+                "y": 29.05
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 31,
+              "uuid": "562607f1-3faa-4c63-8794-ebb478fbd113",
+              "startOffset": 257790,
+              "endOffset": 257940,
+              "line": 12172,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 10.4,
+                "y": 29.05
+              },
+              "end": {
+                "x": 10.4,
+                "y": 29.6
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 93,
+              "uuid": "e7f1993d-f1bd-4a4d-aeb6-e94a689c034a",
+              "startOffset": 267290,
+              "endOffset": 267441,
+              "line": 12668,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 10.4,
+                "y": 29.05
+              },
+              "end": {
+                "x": 10.25,
+                "y": 29.2
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 10.4,
+            "y": 29.05
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-988ca2deb7840fe3f01bdd6d"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 20,
+              "uuid": "329f1588-d11a-464e-8952-8e6ae08935a7",
+              "startOffset": 256107,
+              "endOffset": 256258,
+              "line": 12084,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "end": {
+                "x": 15.5,
+                "y": 36.94
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 86,
+              "uuid": "de69abfd-1dd9-4550-abfb-b74349eb1707",
+              "startOffset": 266216,
+              "endOffset": 266367,
+              "line": 12612,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.2,
+                "y": 37.14
+              },
+              "end": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 92,
+              "uuid": "e5ecd455-c59c-4011-b28d-cd10b1422df6",
+              "startOffset": 267136,
+              "endOffset": 267287,
+              "line": 12660,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.16,
+                "y": 36.8
+              },
+              "end": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 15.5,
+            "y": 37.14
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-b762c586a8cb20c908e280c4"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 200,
+              "uuid": "940b5b74-cf9a-437d-9886-976b6681e0b6",
+              "startOffset": 285312,
+              "endOffset": 285463,
+              "line": 13612,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.6,
+                "y": 45.4
+              },
+              "end": {
+                "x": 14.55,
+                "y": 46.45
+              },
+              "netName": "GND",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 832,
+              "uuid": "812d4bf2-f457-44e7-b296-124ed597896c",
+              "startOffset": 457967,
+              "endOffset": 458103,
+              "line": 20012,
+              "column": 1
+            },
+            "geometry": {
+              "start": {
+                "x": 12.375,
+                "y": 46.075
+              },
+              "end": {
+                "x": 15.675,
+                "y": 46.075
+              },
+              "netName": "GND",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "kind": "interior-crossing"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-f0f5cb576b9442601f0cb8a0"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 232,
+              "uuid": "f2642e87-ea11-4593-9437-63b6bb60d5c4",
+              "startOffset": 290231,
+              "endOffset": 290377,
+              "line": 13868,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14,
+                "y": 46.31
+              },
+              "end": {
+                "x": 14,
+                "y": 45.5
+              },
+              "netName": "GND",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 832,
+              "uuid": "812d4bf2-f457-44e7-b296-124ed597896c",
+              "startOffset": 457967,
+              "endOffset": 458103,
+              "line": 20012,
+              "column": 1
+            },
+            "geometry": {
+              "start": {
+                "x": 12.375,
+                "y": 46.075
+              },
+              "end": {
+                "x": 15.675,
+                "y": 46.075
+              },
+              "netName": "GND",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "kind": "interior-crossing"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-ed8833316aa853ea146c2b3f"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 243,
+              "uuid": "2e17dc88-34d5-4052-947f-9ac5bf7d146b",
+              "startOffset": 297602,
+              "endOffset": 297755,
+              "line": 14260,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 12.84,
+                "y": 27.19
+              },
+              "end": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 250,
+              "uuid": "a562b0b4-048a-4509-b7a2-e79d63d132d2",
+              "startOffset": 298686,
+              "endOffset": 298839,
+              "line": 14316,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "end": {
+                "x": 12.65,
+                "y": 27.74
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 251,
+              "uuid": "a7b8692b-e528-4021-a34f-a2b96f95c6be",
+              "startOffset": 298842,
+              "endOffset": 298994,
+              "line": 14324,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "end": {
+                "x": 13.39,
+                "y": 27.9
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 13.39,
+            "y": 27.74
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-8702cc92f891513a7153fbc0"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 297,
+              "uuid": "18edf24a-e857-48af-8883-b9a21be77b51",
+              "startOffset": 306781,
+              "endOffset": 306930,
+              "line": 14732,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.9,
+                "y": 33
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 306,
+              "uuid": "5fac0d44-cdcf-489b-968b-1b54ecd8c8be",
+              "startOffset": 308162,
+              "endOffset": 308315,
+              "line": 14804,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.025,
+                "y": 31.2
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 307,
+              "uuid": "6add2f55-0af2-4fc2-a109-6ea4f0b91b7a",
+              "startOffset": 308318,
+              "endOffset": 308471,
+              "line": 14812,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 12.075,
+                "y": 30.5
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 313,
+              "uuid": "9d8101b9-7622-4fe3-9d2f-2c54edb6e760",
+              "startOffset": 309244,
+              "endOffset": 309397,
+              "line": 14860,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.2,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 11.9,
+            "y": 30.325
+          },
+          "connectedSegmentCount": 4,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-0b8c87c190e143498ec90111"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 331,
+              "uuid": "9f211ef1-9ce9-4900-b1f5-7815dff8a4fd",
+              "startOffset": 312306,
+              "endOffset": 312462,
+              "line": 15012,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.78,
+                "y": 24.3
+              },
+              "end": {
+                "x": 17.78,
+                "y": 27.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 333,
+              "uuid": "ab242cc5-3367-4cf0-910c-707348f62392",
+              "startOffset": 312624,
+              "endOffset": 312780,
+              "line": 15028,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.18,
+                "y": 24.9
+              },
+              "end": {
+                "x": 17.78,
+                "y": 25.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "kind": "endpoint-on-segment-interior"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-8a7b49633ebdca1127f89a2c"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 341,
+              "uuid": "639fa7ed-cfb1-4e85-b680-1778ffdb93cf",
+              "startOffset": 313868,
+              "endOffset": 314019,
+              "line": 15092,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14.39,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 49.61
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 347,
+              "uuid": "8be21a7f-ec14-45cc-9edc-be70b1a988ce",
+              "startOffset": 314794,
+              "endOffset": 314946,
+              "line": 15140,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 12.215,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 49.61
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 352,
+              "uuid": "afac6393-fb54-429f-b747-b0de9d19a52d",
+              "startOffset": 315561,
+              "endOffset": 315709,
+              "line": 15180,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 51.28
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 355,
+              "uuid": "e1acc1e1-27f1-4576-8352-40a9e9c37913",
+              "startOffset": 316017,
+              "endOffset": 316164,
+              "line": 15204,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 48.9
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 14,
+            "y": 49.61
+          },
+          "connectedSegmentCount": 4,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-aeeda3e31617ccb408d4519d"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 397,
+              "uuid": "19255456-3410-49a3-bba6-eb4e7e1ea776",
+              "startOffset": 323370,
+              "endOffset": 323520,
+              "line": 15580,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.9,
+                "y": 12.8
+              },
+              "end": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 402,
+              "uuid": "73586e7b-c41a-460c-be0f-9d28158bc3b6",
+              "startOffset": 324137,
+              "endOffset": 324287,
+              "line": 15620,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 16.9,
+                "y": 6.07
+              },
+              "end": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 404,
+              "uuid": "8c6c2232-086b-4647-9c62-46cb827138e2",
+              "startOffset": 324445,
+              "endOffset": 324595,
+              "line": 15636,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "end": {
+                "x": 16.9,
+                "y": 12.4
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 16.9,
+            "y": 11.800000000000002
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-0860e6da86065efa1f8b7948"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 401,
+              "uuid": "695578d3-6f40-4977-9235-66c7eb8fa87d",
+              "startOffset": 323980,
+              "endOffset": 324134,
+              "line": 15612,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.04,
+                "y": 12.25
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 411,
+              "uuid": "d405d42e-cfb6-4a77-bb66-0afe0025aa73",
+              "startOffset": 325520,
+              "endOffset": 325674,
+              "line": 15692,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.44,
+                "y": 11.55
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-02\\one-bridge-analytical.kicad_pcb",
+              "form": "segment",
+              "ordinal": 414,
+              "uuid": "e168ecc6-7876-4701-a806-2e919d8fc7da",
+              "startOffset": 325989,
+              "endOffset": 326143,
+              "line": 15716,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.15,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 13.04,
+            "y": 11.949999999999998
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-f9a0e12fc85347058e636dea"
+      }
+    ],
+    "coverage": "Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.",
+    "unresolvedNetSegmentCount": 0
+  }
+}

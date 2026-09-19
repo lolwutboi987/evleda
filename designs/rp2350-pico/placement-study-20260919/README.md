@@ -1,10 +1,10 @@
 # Local placement study — not applied
 
-The native 22 × 60 mm, two-layer board is unchanged: **829 tracks, 104 vias, 24 unconnected DRC errors**. This is planning evidence, not a native board revision or manufacturing candidate. No native session was opened and no component was moved during this study.
+The native 22 × 60 mm, two-layer board was unchanged by this study: **829 tracks, 104 vias, 24 unconnected DRC errors**. This is planning evidence, not a native board revision or manufacturing candidate. No native session was opened and no component was moved during this study.
 
 ## USB-only result
 
-The analytical proposal rotates the two 0603 USB resistors horizontally and keeps both pads of each resistor within the existing 2 mm MCU distance bound. All four distances are 1.28–1.82 mm. The two complete connector-path copper skews are **0.942355 mm** and **0.865297 mm**, within the 1 mm bound. Source checks pass polarity mapping, topology, width, minimum opposite-polarity gap, length, skew, branch/escape budgets and signal-layer transitions. The aggregate coupled-gap row remains **not_assessed**. There are zero measured turn violations and seven unresolved junction findings in this deliberately incomplete analytical source.
+The analytical proposal rotates the two 0402 USB resistors horizontally and keeps both pads of each resistor within the existing 2 mm MCU distance bound. All four distances are 1.28–1.82 mm. The two complete connector-path copper skews are **0.942355 mm** and **0.865297 mm**, within the 1 mm bound. Source checks pass polarity mapping, topology, width, minimum opposite-polarity gap, length, skew, branch/escape budgets and signal-layer transitions. The aggregate coupled-gap row remains **not_assessed**. There are zero measured turn violations and seven unresolved junction findings in this deliberately incomplete analytical source.
 
 The D+ body has an early 45-degree offset adding 0.787006 mm. The proposal retains the original USB connector-side routing. It passed the source clearance and reference-obstruction screen against the retained scene, but **omits 88 tracks and six vias** for the coordinated local reroute. Its missing power, ground and QSPI replacements prevent adoption. Fresh plane geometry, native DRC and electrical/impedance acceptance were not assessed.
 

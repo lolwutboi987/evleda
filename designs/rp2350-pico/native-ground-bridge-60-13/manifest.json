@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "evleda.native-candidate-artifact-manifest.v1",
+  "sourceProjectId": "914f7760-c4c2-4bb8-9b51-b481242878a5",
+  "pcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+  "designAccepted": false,
+  "files": [
+    {
+      "path": "evidence/ground-bridge-close-proof.json",
+      "sha256": "c824596caa8447902dac0666acd0467b5add0a79b914c900c1b96e690a992c52",
+      "sizeBytes": 5934
+    },
+    {
+      "path": "evidence/ground-bridge-qualified.json",
+      "sha256": "ffaa56ee8b67f3005ff76a260e0300310c95b3f901be2c7ad37ef6f902eb5222",
+      "sizeBytes": 68489
+    },
+    {
+      "path": "evidence/ground-bridge-refilled.json",
+      "sha256": "05c59810eeccf89c96c98567c8ed5ad1fc8db3476e13bc1ada1f955be3f2b359",
+      "sizeBytes": 6408
+    },
+    {
+      "path": "evidence/ground-bridge-saved.json",
+      "sha256": "0e96e0b22b0fab512a494315391f969a9dbe24503bc6f2be533930b42fc07831",
+      "sizeBytes": 3859
+    },
+    {
+      "path": "evidence/native-endpoints.json",
+      "sha256": "c51fbf633fb5fc0e767e0d1eb9ae16a5e7557a7fc22e9634d4e63d8bdbadf988",
+      "sizeBytes": 230755
+    },
+    {
+      "path": "evidence/native-plane-assessment.json",
+      "sha256": "0a5d9bfdd97a8ee0952642f1af6f02ae1e7b1dfed84e33941aac584a5b4aa8e3",
+      "sizeBytes": 1495840
+    },
+    {
+      "path": "evidence/readonly-endpoints.json",
+      "sha256": "20ac6612cba25e25e9e97677225f4c7b01e5503f2aa657ae100cc7f19f5318c8",
+      "sizeBytes": 230755
+    },
+    {
+      "path": "evidence/readonly-plane-assessment.json",
+      "sha256": "f6fda801ce2633d042e71efe1b1dbd690658b17bcdcbf6bb6b06c21d17f84132",
+      "sizeBytes": 1286035
+    },
+    {
+      "path": "evidence/readonly-reopen-proof.json",
+      "sha256": "fdbfac734771bdf1edf6be11395336bbd5c0550c98b0a5796ed6e9c1b04072a1",
+      "sizeBytes": 11022
+    },
+    {
+      "path": "evidence/rejected-intersection-proposal.json",
+      "sha256": "5bd1f30605cf32a56450b4f0e54a33478916c9c0ee9be66840c5368b5608a85e",
+      "sizeBytes": 32623
+    },
+    {
+      "path": "evidence/reviewed-route-proposal.json",
+      "sha256": "bf4b2925e94ccaf17067570e789a3a17e2a7ecbdc3ff5863122b72e059eb9e24",
+      "sizeBytes": 29549
+    },
+    {
+      "path": "evidence/session-lifecycle.json",
+      "sha256": "95cb554d6fe0272b8d86d767e25a31ff22baaa54efcac6e53e840cc5efdc527d",
+      "sizeBytes": 1653
+    },
+    {
+      "path": "evidence/top-svg-timestamp-review.json",
+      "sha256": "2f4ba9f3c478d06acdf24018646fed97eb55967b7b5b2ac92e9cd010595ed317",
+      "sizeBytes": 2040
+    },
+    {
+      "path": "evidence/visual-review.json",
+      "sha256": "fa6593274bcec5876385dbb70e57927d427fce4c4913e47b89581e362bd2b829",
+      "sizeBytes": 1480
+    },
+    {
+      "path": "native/fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "sizeBytes": 2025
+    },
+    {
+      "path": "native/rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "sizeBytes": 13300
+    },
+    {
+      "path": "native/rp2350-pico.kicad_pcb",
+      "sha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+      "sizeBytes": 458301
+    },
+    {
+      "path": "native/rp2350-pico.kicad_pro",
+      "sha256": "7b118440711ccd30fe4fbc945766c335e57fe7c81e5b8e40fa050ad942a69fde",
+      "sizeBytes": 21251
+    },
+    {
+      "path": "native/rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+      "sizeBytes": 221594
+    },
+    {
+      "path": "native/sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "sizeBytes": 1275
+    },
+    {
+      "path": "previews/board-assembly.png",
+      "sha256": "a4038c62498a7158f04fbc99a40f609c87e52cde31c151e30b7dfeb746edcd00",
+      "sizeBytes": 131742
+    },
+    {
+      "path": "previews/board-assembly.svg",
+      "sha256": "e02a6cbdcd508308d49699c208b533a219189e4db4aeaa665fd4005ddf8b5a87",
+      "sizeBytes": 573595
+    },
+    {
+      "path": "previews/board-top.png",
+      "sha256": "93fb655312ab20567b25c9af7cf39860fa71d627fa87a577bee6415d446821bd",
+      "sizeBytes": 122676
+    },
+    {
+      "path": "previews/board-top.svg",
+      "sha256": "665e7b142e8bfcf61509ee43cc055851ba0fd107d675b0cc3edefc135fbbfc55",
+      "sizeBytes": 188482
+    },
+    {
+      "path": "previews/readonly-board-assembly.svg",
+      "sha256": "815579c8aefd33b88a4f76dd17bf37c7066f98ed494bc72e202222167d367392",
+      "sizeBytes": 573595
+    },
+    {
+      "path": "previews/readonly-board-top.svg",
+      "sha256": "da2ab35274625d2d89939c2c9e309447e0a3c6c0f914355e64ce4a84dd05021a",
+      "sizeBytes": 188482
+    },
+    {
+      "path": "README.md",
+      "sha256": "4d8dcdfc82e9012e365b7ef7df645ef76fdd88b5e191249432533a4a6eb0140a",
+      "sizeBytes": 4594
+    }
+  ]
+}
