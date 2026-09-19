@@ -32,6 +32,7 @@ import {
   type HarnessToolResult,
 } from "./contracts.js";
 import { KicadMcpSession, type KicadMcpSessionOptions, type KicadMcpToolDescriptor, type KicadMcpToolCallOptions } from "../integrations/kicad-mcp-session.js";
+import { captureNativeCheckReport } from "./kicad-native-check-report.js";
 import { analyzeKicadPcbPractices, type PcbPracticeAnalysisProfile } from "../integrations/pcb-practice-analyzer.js";
 import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
 import {
@@ -4083,6 +4084,11 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         : parsed.arguments;
       if(parsed.name==="pcb_save"&&this.#pendingFreshBoardPostSave?.kind==="plane-route")await this.#knownBoardMutationState(this.#pendingFreshBoardPostSave.before,this.#pendingFreshBoardPostSave.physicalPcbSource,true);
       if(parsed.name==="pcb_save"&&this.#freshProject?.workflowKind==="plane"&&this.#pendingFreshBoardPostSave?.kind==="text")await this.#knownBoardMutationState(this.#pendingFreshBoardPostSave.beforeCapture,this.#pendingFreshBoardPostSave.expectedAfter,true);
+      // Only host-internal ERC/DRC on an authenticated fresh project may use
+      // the complete-private / bounded-public report path. No public selector.
+      const nativeCheckProject = !providerCallable && (parsed.name === "run_erc" || parsed.name === "run_drc") ? this.#freshProject : undefined;
+      if (nativeCheckProject !== undefined) await assertFreshProjectDirectoryChain(nativeCheckProject);
+      const nativeCheckSources = nativeCheckProject === undefined ? undefined : await captureKicadNativeSourceHashes(nativeCheckProject.projectPath);
       const result = await this.#callSourceBoundTool(parsed.name, structuredClone(argumentsValue));
       if(parsed.name==="pcb_save"&&this.#pendingFreshBoardPostSave?.kind==="plane-route"&&!hasQualifiedNativeBoardReply(result,"Board saved."))throw new Error("Native route save lacks its qualified positive acknowledgement.",{cause:nativeReplyCause("pcb_save",result)});
       if(parsed.name==="pcb_save"&&this.#freshProject?.workflowKind==="plane"&&this.#pendingFreshBoardPostSave?.kind==="text"&&!hasQualifiedNativeBoardReply(result,"Board saved."))throw new Error("Native PCB text save lacks its qualified positive acknowledgement.",{cause:nativeReplyCause("pcb_save",result)});
@@ -4100,6 +4106,29 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       }
       if (!providerCallable && HOST_INTERNAL_TOOL_NAMES.has(parsed.name) && this.#fallback !== undefined && unavailableValidationResult(result.structuredContent ?? result.content)) {
         return await this.#fallback.execute(parsed);
+      }
+      if (nativeCheckProject !== undefined && nativeCheckSources !== undefined && result.isError !== true
+          && Buffer.byteLength(JSON.stringify(normalizeValidationPayload(result.structuredContent ?? result.content)), "utf8") > MAX_RESULT_BYTES) {
+        const assertCurrent = async () => {
+          await assertFreshProjectDirectoryChain(nativeCheckProject);
+          this.#assertLibrarySources();
+          if (nativeCheckProject.workflowKind === "plane") await this.#assertFreshCompoundAuthority();
+          if (canonicalJson(await captureKicadNativeSourceHashes(nativeCheckProject.projectPath)) !== canonicalJson(nativeCheckSources)) {
+            throw new Error("Native check source inventory changed across validation or private capture.");
+          }
+        };
+        await assertCurrent();
+        let report: Awaited<ReturnType<typeof captureNativeCheckReport>>;
+        try {
+          report = await captureNativeCheckReport({ outputPath: nativeCheckProject.outputPath,
+            operation: parsed.name as "run_erc" | "run_drc", toolCallId: parsed.id, response: result,
+            expectedSource: path.basename(parsed.name === "run_drc" ? nativeCheckProject.pcbPath : nativeCheckProject.schematicPath),
+            sourceHashes: nativeCheckSources, assertCurrent });
+        } catch (error) {
+          // File-system paths and rejected raw diagnostics stay in the private cause.
+          throw new Error("Native check full evidence could not be qualified and captured.", { cause: error });
+        }
+        return harnessToolResultSchema.parse({ toolCallId: parsed.id, content: JSON.stringify(detachedJson(report, "KiCad MCP result", MAX_RESULT_BYTES)) });
       }
       const normalizedResult = harnessToolResultSchema.parse({
         toolCallId: parsed.id,

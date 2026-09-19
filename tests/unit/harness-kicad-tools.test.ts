@@ -242,6 +242,17 @@ describe("KiCad harness tools", () => {
     expect(Object.keys(result)).toEqual(["erc", "drc", "boardSummary", "visualQa"]);
   });
 
+  it("retains the generic 32K limit for other tools and unbound native checks", async () => {
+    const oversized = { content: [], structuredContent: { text: "x".repeat(32_001) } };
+    const generic = createKicadHarnessTools({ listTools: () => fakeSession().listTools(), callTool: async () => oversized });
+    await expect(generic.execute({ id: "large-generic", name: "pcb_get_tracks", arguments: {} })).rejects.toThrow("KiCad MCP result exceeds the 32000-byte limit.");
+    await expect(generic.internal.execute({ id: "unbound-large-check", name: "run_drc", arguments: {} })).rejects.toThrow("KiCad MCP result exceeds the 32000-byte limit.");
+    await withFreshProject(async freshProject => {
+      const fresh = createKicadHarnessTools({ ...freshSession(), callTool: async () => oversized }, { freshProject });
+      await expect(fresh.internal.execute({ id: "large-summary", name: "pcb_get_board_summary", arguments: {} })).rejects.toThrow("KiCad MCP result exceeds the 32000-byte limit.");
+    });
+  });
+
   it("uses host-only fallback validation when checks are not provider-advertised and normalizes captured verdict shapes", async () => {
     const calls: string[] = [];
     const session: KicadHarnessSession = {
