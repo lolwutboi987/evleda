@@ -1,0 +1,15 @@
+{
+  "sourcePcbSha256": "1b4b816146922ad06d0065334286c5e7c3bd06bb0682d3e4b05c726266078de0",
+  "inspectedViews": [
+    "native top PNG",
+    "native assembly PNG",
+    "native CLI bottom SVG raster"
+  ],
+  "observations": [
+    "Own-header leads and the retained interior routing are visible on both faces; exact strip exclusion is established separately by the source audit.",
+    "Placement is unchanged from the prior native snapshot.",
+    "No ground fill is present.",
+    "Functional GPIO labels and final silkscreen legibility/layout remain unfinished; visual inspection is not a clearance measurement."
+  ],
+  "designAccepted": false
+}

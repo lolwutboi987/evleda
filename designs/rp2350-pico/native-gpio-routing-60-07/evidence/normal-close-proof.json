@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-09-19T10:22:04.447Z",
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "normalCloseConfirmed": true,
+  "files": {
+    "pro": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15"
+    },
+    "sch": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+    },
+    "pcb": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "1b4b816146922ad06d0065334286c5e7c3bd06bb0682d3e4b05c726266078de0"
+    },
+    "symLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+    },
+    "fpLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+    },
+    "dru": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+    }
+  },
+  "sourceUnchangedThroughChecksPreviewsAndClose": true,
+  "checkpoint": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-checkpoint.json",
+    "sha256": "d7be18a2968c63cffa9cbed8f33198de2816fe0a3abf8c305d60fed5fe22804c"
+  },
+  "closeResponse": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-35\\workspace-client-8e422e6e-767f-446b-9c5a-ab84678921a0\\000311-response-514a2f8a3dea7dc105d8806dffa46688bd978c0e725ab5cec77af831b247815f.json",
+    "sha256": "514a2f8a3dea7dc105d8806dffa46688bd978c0e725ab5cec77af831b247815f"
+  },
+  "leaseLockUnsafeArtifacts": [],
+  "throughBatch": 30,
+  "savedTracks": 512,
+  "savedVias": 87,
+  "savedZones": 0,
+  "routingComplete": false,
+  "designAccepted": false,
+  "scope": "Saved partial GPIO routing through batch30; persistence and lifecycle evidence, not complete design acceptance."
+}
