@@ -1,0 +1,19 @@
+{
+  "reviewed": true,
+  "sourcePcbSha256": "5eda3ec274a9d4e778ca3a0c576bdcd47c99f7abe4f86750489c79cc3cd45d8c",
+  "views": [
+    "native top PNG",
+    "native assembly PNG",
+    "read-only native bottom PNG"
+  ],
+  "observations": [
+    "Ten added ground segments join the LED return, both RUN-button grounds, the USB-shield ground group and the C15/header ground group.",
+    "Component placement, original routes and all vias are preserved.",
+    "The new R14 approach uses straight/45-degree turns; the original USB flag and eight unresolved junctions remain.",
+    "GPIO service strips remain clear in the complete source audit.",
+    "Functional labels and remaining ground/signal routing are unfinished."
+  ],
+  "groundGroups": 12,
+  "largestGroundGroup": 48,
+  "fullBoardAcceptance": false
+}

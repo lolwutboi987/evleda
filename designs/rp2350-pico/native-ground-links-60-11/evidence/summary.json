@@ -1,0 +1,354 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "pcbSha256": "5eda3ec274a9d4e778ca3a0c576bdcd47c99f7abe4f86750489c79cc3cd45d8c",
+  "checkpointSha256": "9a5d08a5e09fd623c094d1ef65b85ffc3ef06b8ac47b34ec0153f61f768dd127",
+  "widthMm": 22,
+  "heightMm": 60,
+  "layers": 2,
+  "tracks": 807,
+  "vias": 104,
+  "zones": 1,
+  "footprints": 66,
+  "physicalPads": 281,
+  "addedTracks": 10,
+  "addedVias": 0,
+  "componentMoves": 0,
+  "connectedNets": [
+    "1V1",
+    "3V3",
+    "ADC_AVDD",
+    "ADC_VREF",
+    "BOOT_SW",
+    "CORE_LX",
+    "GPIO0",
+    "GPIO1",
+    "GPIO10",
+    "GPIO11",
+    "GPIO12",
+    "GPIO13",
+    "GPIO14",
+    "GPIO15",
+    "GPIO19",
+    "GPIO2",
+    "GPIO20",
+    "GPIO21",
+    "GPIO23_SMPS_PS",
+    "GPIO25_LED",
+    "GPIO27",
+    "GPIO28",
+    "GPIO6",
+    "GPIO8",
+    "GPIO9",
+    "LED_A",
+    "QSPI_CS",
+    "QSPI_SCLK",
+    "QSPI_SD0",
+    "QSPI_SD1",
+    "QSPI_SD2",
+    "QSPI_SD3",
+    "RT_LX1",
+    "RT_LX2",
+    "SWCLK_HDR",
+    "SWCLK_MCU",
+    "SWDIO_HDR",
+    "SWDIO_MCU",
+    "USB_CC1",
+    "USB_CC2",
+    "USB_DM_ESD",
+    "USB_DM_MCU",
+    "USB_DM_PORT",
+    "USB_DP_ESD",
+    "USB_DP_MCU",
+    "USB_DP_PORT",
+    "VBUS",
+    "VREG_AVDD",
+    "VSYS",
+    "VSYS_DIV",
+    "XIN",
+    "XOUT_MCU",
+    "XTAL_OUT"
+  ],
+  "disconnectedNets": [
+    "3V3_EN",
+    "GND",
+    "GPIO16",
+    "GPIO17",
+    "GPIO18",
+    "GPIO22",
+    "GPIO24_VBUS_SENSE",
+    "GPIO26",
+    "GPIO29_VSYS_SENSE",
+    "GPIO3",
+    "GPIO4",
+    "GPIO5",
+    "GPIO7",
+    "RUN"
+  ],
+  "groundGroups": [
+    {
+      "physicalPadUuids": [
+        "4e6cad29-728f-42c3-9ef7-3f8869d10f26",
+        "57495e81-0c8b-4c7f-be26-7f317abed14f",
+        "cd969fef-23f5-41ea-9000-14fa3c0a43a9",
+        "d4b4dded-4e78-413a-8b41-5680875d0a1c"
+      ],
+      "endpoints": [
+        "C17.2",
+        "C16.2",
+        "C10.2",
+        "C23.2"
+      ],
+      "size": 4
+    },
+    {
+      "physicalPadUuids": [
+        "0d4dd7c9-9d96-45d3-b31c-2c2b8f6b32c0",
+        "16299af1-ebc5-4542-b2db-35b9209c30c8",
+        "1781e7de-105d-4e8a-88dd-c699c57bcd72",
+        "1bd735a1-17ae-4706-92d9-14f847a09fb3",
+        "202e60a7-76af-4458-b990-25ff72340931",
+        "275f42f7-f3aa-4694-818f-d062a5eca394",
+        "28e75189-50c0-4065-a00e-e1abb5cc4e6b",
+        "34335ef5-754e-404c-a498-45a7524a6f2f",
+        "3467b190-8af0-48e6-8001-d8a9f93b740b",
+        "35603db2-7858-452d-90f0-c991ba6d7717",
+        "365bf158-3652-44dc-b8ee-1840ba24583f",
+        "459f1dd2-bdf3-42b7-90b5-3a348e329704",
+        "4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+        "5a384944-0633-423d-95db-eac023edfd76",
+        "5d1ee221-cff3-4362-9cf7-d9dae1d6c19f",
+        "61905d5c-8ce4-4c8b-8db1-ba68f9a4728b",
+        "629ef0d1-c46b-4175-a50f-8a65d2976bc2",
+        "69937cf7-1173-4431-80a1-fd040923baa0",
+        "6a8af92a-66ec-4429-b364-6c69de6a7f23",
+        "6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+        "78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+        "7ba867dc-1b1f-4eba-859b-7b78a32b206a",
+        "888ac83c-3403-4746-8d0f-9d80b36587f1",
+        "8f5000fa-1893-41a8-beaa-5259ce2844cc",
+        "9186e189-4f60-4225-9538-5b0db14606e6",
+        "920f6f09-ec59-4ea7-b14c-1d83dafa8706",
+        "9a8b63aa-89ec-4ab0-a03a-afd58b3c9e34",
+        "aed8f3b3-540c-4f75-9a6e-45e5ee75e05b",
+        "b5c73cce-52ab-4075-86bd-83f8362dc714",
+        "b7da0387-7496-4280-8a8c-c9762910701e",
+        "b99fa03c-e63a-439e-be0b-8bf740346c57",
+        "b9ec50db-9cfd-4544-aa01-2dffa8c8bc64",
+        "bdc9f5b1-1751-4ef0-bc26-79f6286fb7dd",
+        "c15bf172-54ff-45a1-a28e-cabd356f31c2",
+        "c19d1a57-b4c1-4caa-b0a3-5443f6f2e446",
+        "c5fdd99b-e42f-41ba-941a-5e8ff68f18b8",
+        "c703800f-2796-453b-841c-07354323c7a3",
+        "cba8b006-e352-4d0d-b21c-9e0c75ac8f2b",
+        "d0ed9591-bf97-4f4b-b42c-fa3a592eb008",
+        "d35d4fba-245c-4ada-b006-7e5706114eee",
+        "d43cf6b0-9968-4093-bf8e-4be4c79cbc4f",
+        "dee6d28b-703e-4348-84f8-d033afa97698",
+        "dfec7ffe-b8ac-4084-8ddf-3483acd1d2d8",
+        "e0a4ae09-cd57-4a23-adab-f8daf69fd4c8",
+        "f5592606-4e9d-4b62-afac-565ec9879275",
+        "f77c0269-8e68-4dce-909b-5e5655a3e962",
+        "f7a6e8f2-0527-4e44-bbec-63ed2b2306ba",
+        "fe64ed71-95ad-499b-b6a7-465385b5d886"
+      ],
+      "endpoints": [
+        "U2.11",
+        "C15.2",
+        "C18.2",
+        "U1.47",
+        "J1.A12",
+        "C1.2",
+        "C5.2",
+        "R12.2",
+        "R14.2",
+        "J1.SH",
+        "C2.2",
+        "D2.1",
+        "J1.B12",
+        "C26.2",
+        "Y1.2",
+        "J3.3",
+        "U4.2",
+        "SW2.2",
+        "J1.SH",
+        "J1.A1",
+        "J1.SH",
+        "R4.2",
+        "U2.9",
+        "C6.2",
+        "J1.B1",
+        "J3.8",
+        "C12.2",
+        "J4.2",
+        "C3.2",
+        "J2.3",
+        "C4.2",
+        "C19.2",
+        "C21.2",
+        "U3.9",
+        "C25.2",
+        "Y1.4",
+        "J3.18",
+        "C7.2",
+        "SW2.1",
+        "U1.61",
+        "U3.4",
+        "R15.2",
+        "C14.2",
+        "C11.2",
+        "J1.SH",
+        "C24.2",
+        "R3.2",
+        "U2.3"
+      ],
+      "size": 48
+    },
+    {
+      "physicalPadUuids": [
+        "08695ff5-c27d-4f52-9f5f-c1e4185c8f2c",
+        "6bee61a5-ab9f-4740-864c-7d179fbda881"
+      ],
+      "endpoints": [
+        "C9.2",
+        "C13.2"
+      ],
+      "size": 2
+    },
+    {
+      "physicalPadUuids": [
+        "8a1bc4ac-3835-4017-bb63-fa7356e287a2",
+        "e8032744-71b7-450b-b0aa-0fa3bbdfb866"
+      ],
+      "endpoints": [
+        "C22.2",
+        "C20.2"
+      ],
+      "size": 2
+    },
+    {
+      "physicalPadUuids": [
+        "957a11a8-b6f1-49b8-8874-5f98a6321a1b"
+      ],
+      "endpoints": [
+        "C8.2"
+      ],
+      "size": 1
+    },
+    {
+      "physicalPadUuids": [
+        "a3a97873-3f1b-4875-af0e-113f4303ed85"
+      ],
+      "endpoints": [
+        "J2.13"
+      ],
+      "size": 1
+    },
+    {
+      "physicalPadUuids": [
+        "7f046dcb-9632-482f-999c-c1c2366dac47"
+      ],
+      "endpoints": [
+        "J2.18"
+      ],
+      "size": 1
+    },
+    {
+      "physicalPadUuids": [
+        "e72ca636-3491-4cc7-9c1d-edd5c9f4ba79"
+      ],
+      "endpoints": [
+        "J2.8"
+      ],
+      "size": 1
+    },
+    {
+      "physicalPadUuids": [
+        "7995cc36-a5bf-416b-af72-25dfe2c8b76d"
+      ],
+      "endpoints": [
+        "J3.13"
+      ],
+      "size": 1
+    },
+    {
+      "physicalPadUuids": [
+        "f61cd2e1-ab77-4cd2-a8b1-10d70c94e1da"
+      ],
+      "endpoints": [
+        "R10.2"
+      ],
+      "size": 1
+    },
+    {
+      "physicalPadUuids": [
+        "ed1f2a6b-579f-4b32-b74d-990a683fffde"
+      ],
+      "endpoints": [
+        "SW1.1"
+      ],
+      "size": 1
+    },
+    {
+      "physicalPadUuids": [
+        "535442ef-5d3a-4990-9ab8-9e1d25f499bc"
+      ],
+      "endpoints": [
+        "SW1.2"
+      ],
+      "size": 1
+    }
+  ],
+  "largestGroundGroup": 48,
+  "drc": {
+    "total": 40,
+    "returned": 8,
+    "omitted": 32,
+    "partial": true,
+    "counts": {
+      "error": 27,
+      "warning": 13
+    },
+    "byType": {
+      "track_dangling": 11,
+      "via_dangling": 2,
+      "unconnected_items": 27
+    },
+    "orderedRowsPreserved": true,
+    "stableIdsMayRepeat": true
+  },
+  "ignoredDrcChecks": [
+    "missing_courtyard",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries",
+    "footprint_filters_mismatch",
+    "footprint_type_mismatch"
+  ],
+  "measuredTurns": 608,
+  "turnViolations": [
+    {
+      "vertex": {
+        "x": 9.9,
+        "y": 10.8625
+      },
+      "netName": "USB_DP_PORT",
+      "netClassId": null,
+      "layer": "F.Cu",
+      "segmentOrdinals": [
+        608,
+        612
+      ],
+      "interiorAngleDeg": 44.99999999999986,
+      "directionChangeDeg": 135.00000000000014,
+      "classification": "acute"
+    }
+  ],
+  "unresolvedJunctions": 8,
+  "headerServiceStatus": "clear",
+  "planeAcceptanceNotRepeated": true,
+  "geometryReplayVerifiedFor60_10": true,
+  "nativeGeometryHostStill24": true,
+  "normalClose": true,
+  "routingComplete": false,
+  "designAccepted": false,
+  "geometryReplayVerifiedFor60_11": true
+}

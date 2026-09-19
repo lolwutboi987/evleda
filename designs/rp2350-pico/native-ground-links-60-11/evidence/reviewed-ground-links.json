@@ -1,0 +1,1673 @@
+{
+  "sourcePcbSha256": "243038ff17433da64f76314af6591ee7edb43148a27df81aad3df7da8bfc9ab2",
+  "paths": [
+    {
+      "id": "ground-finish/link-719",
+      "net": "GND",
+      "layer": "F.Cu",
+      "width": 0.3,
+      "points": [
+        [
+          6.2125,
+          44.8
+        ],
+        [
+          7,
+          45.5875
+        ],
+        [
+          7,
+          46.44
+        ]
+      ]
+    },
+    {
+      "id": "ground-finish/link-858",
+      "net": "GND",
+      "layer": "F.Cu",
+      "width": 0.3,
+      "points": [
+        [
+          12.775,
+          21.775
+        ],
+        [
+          12.775,
+          21.975
+        ],
+        [
+          14.29,
+          23.49
+        ],
+        [
+          15.05,
+          23.49
+        ],
+        [
+          15.45,
+          23.09
+        ]
+      ]
+    },
+    {
+      "id": "ground-finish/link-849",
+      "net": "GND",
+      "layer": "F.Cu",
+      "width": 0.3,
+      "points": [
+        [
+          12.775,
+          21.775
+        ],
+        [
+          12.775,
+          17.625
+        ]
+      ]
+    },
+    {
+      "id": "ground-finish/link-309",
+      "net": "GND",
+      "layer": "F.Cu",
+      "width": 0.3,
+      "points": [
+        [
+          15.32,
+          8.08
+        ],
+        [
+          15.32,
+          3.9
+        ]
+      ]
+    }
+  ],
+  "vias": [],
+  "changedTracks": 8,
+  "sourceScreen": {
+    "scope": "Changed paths/vias against complete retained scene only; full host topology, annular contact, physical graph, return planes, current, thermal and native acceptance not assessed.",
+    "issues": [],
+    "metrics": {
+      "minPaste": null,
+      "minDrill": null,
+      "minReferenceExcess": null
+    },
+    "budgets": [
+      {
+        "net": "GND",
+        "lengthMm": 68.02212966299889,
+        "viaCount": 38,
+        "maximumLengthMm": 160,
+        "maximumVias": 48
+      }
+    ],
+    "globalVias": 104
+  },
+  "turnPolicy": {
+    "allowedDirectionChangesDeg": [
+      0,
+      45
+    ],
+    "numericalToleranceDeg": 1e-7,
+    "measuredTurnCount": 605,
+    "violations": [
+      {
+        "vertex": {
+          "x": 9.9,
+          "y": 10.8625
+        },
+        "netName": "USB_DP_PORT",
+        "netClassId": null,
+        "layer": "F.Cu",
+        "segmentOrdinals": [
+          598,
+          602
+        ],
+        "interiorAngleDeg": 44.99999999999986,
+        "directionChangeDeg": 135.00000000000014,
+        "classification": "acute"
+      }
+    ],
+    "unresolvedFindings": [
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 6,
+              "uuid": "0ec49273-dca3-45a9-9431-db23e369a984",
+              "startOffset": 253959,
+              "endOffset": 254110,
+              "line": 11972,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 10.4,
+                "y": 28.85
+              },
+              "end": {
+                "x": 10.4,
+                "y": 29.05
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 31,
+              "uuid": "562607f1-3faa-4c63-8794-ebb478fbd113",
+              "startOffset": 257790,
+              "endOffset": 257940,
+              "line": 12172,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 10.4,
+                "y": 29.05
+              },
+              "end": {
+                "x": 10.4,
+                "y": 29.6
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 93,
+              "uuid": "e7f1993d-f1bd-4a4d-aeb6-e94a689c034a",
+              "startOffset": 267290,
+              "endOffset": 267441,
+              "line": 12668,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 10.4,
+                "y": 29.05
+              },
+              "end": {
+                "x": 10.25,
+                "y": 29.2
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 10.4,
+            "y": 29.05
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-e0d3605ff6a14c789aa19a05"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 20,
+              "uuid": "329f1588-d11a-464e-8952-8e6ae08935a7",
+              "startOffset": 256107,
+              "endOffset": 256258,
+              "line": 12084,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "end": {
+                "x": 15.5,
+                "y": 36.94
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 86,
+              "uuid": "de69abfd-1dd9-4550-abfb-b74349eb1707",
+              "startOffset": 266216,
+              "endOffset": 266367,
+              "line": 12612,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.2,
+                "y": 37.14
+              },
+              "end": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 92,
+              "uuid": "e5ecd455-c59c-4011-b28d-cd10b1422df6",
+              "startOffset": 267136,
+              "endOffset": 267287,
+              "line": 12660,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.16,
+                "y": 36.8
+              },
+              "end": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 15.5,
+            "y": 37.14
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-dfaf140652728587c2b9df75"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 214,
+              "uuid": "2e17dc88-34d5-4052-947f-9ac5bf7d146b",
+              "startOffset": 293152,
+              "endOffset": 293305,
+              "line": 14028,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 12.84,
+                "y": 27.19
+              },
+              "end": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 221,
+              "uuid": "a562b0b4-048a-4509-b7a2-e79d63d132d2",
+              "startOffset": 294236,
+              "endOffset": 294389,
+              "line": 14084,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "end": {
+                "x": 12.65,
+                "y": 27.74
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 222,
+              "uuid": "a7b8692b-e528-4021-a34f-a2b96f95c6be",
+              "startOffset": 294392,
+              "endOffset": 294544,
+              "line": 14092,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "end": {
+                "x": 13.39,
+                "y": 27.9
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 13.39,
+            "y": 27.74
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-0c4d18605c531ef1270cfa43"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 268,
+              "uuid": "18edf24a-e857-48af-8883-b9a21be77b51",
+              "startOffset": 302331,
+              "endOffset": 302480,
+              "line": 14500,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.9,
+                "y": 33
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 277,
+              "uuid": "5fac0d44-cdcf-489b-968b-1b54ecd8c8be",
+              "startOffset": 303712,
+              "endOffset": 303865,
+              "line": 14572,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.025,
+                "y": 31.2
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 278,
+              "uuid": "6add2f55-0af2-4fc2-a109-6ea4f0b91b7a",
+              "startOffset": 303868,
+              "endOffset": 304021,
+              "line": 14580,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 12.075,
+                "y": 30.5
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 284,
+              "uuid": "9d8101b9-7622-4fe3-9d2f-2c54edb6e760",
+              "startOffset": 304794,
+              "endOffset": 304947,
+              "line": 14628,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.2,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 11.9,
+            "y": 30.325
+          },
+          "connectedSegmentCount": 4,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-bd233df4e40c3044feb8d978"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 302,
+              "uuid": "9f211ef1-9ce9-4900-b1f5-7815dff8a4fd",
+              "startOffset": 307856,
+              "endOffset": 308012,
+              "line": 14780,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.78,
+                "y": 24.3
+              },
+              "end": {
+                "x": 17.78,
+                "y": 27.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 304,
+              "uuid": "ab242cc5-3367-4cf0-910c-707348f62392",
+              "startOffset": 308174,
+              "endOffset": 308330,
+              "line": 14796,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.18,
+                "y": 24.9
+              },
+              "end": {
+                "x": 17.78,
+                "y": 25.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "kind": "endpoint-on-segment-interior"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-7c002b1fdfbcac08178c4cfe"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 312,
+              "uuid": "639fa7ed-cfb1-4e85-b680-1778ffdb93cf",
+              "startOffset": 309418,
+              "endOffset": 309569,
+              "line": 14860,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14.39,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 49.61
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 318,
+              "uuid": "8be21a7f-ec14-45cc-9edc-be70b1a988ce",
+              "startOffset": 310344,
+              "endOffset": 310496,
+              "line": 14908,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 12.215,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 49.61
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 323,
+              "uuid": "afac6393-fb54-429f-b747-b0de9d19a52d",
+              "startOffset": 311111,
+              "endOffset": 311259,
+              "line": 14948,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 51.28
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 326,
+              "uuid": "e1acc1e1-27f1-4576-8352-40a9e9c37913",
+              "startOffset": 311567,
+              "endOffset": 311714,
+              "line": 14972,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 48.9
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 14,
+            "y": 49.61
+          },
+          "connectedSegmentCount": 4,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-65fc104711b85c45841e1660"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 368,
+              "uuid": "19255456-3410-49a3-bba6-eb4e7e1ea776",
+              "startOffset": 318920,
+              "endOffset": 319070,
+              "line": 15348,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.9,
+                "y": 12.8
+              },
+              "end": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 373,
+              "uuid": "73586e7b-c41a-460c-be0f-9d28158bc3b6",
+              "startOffset": 319687,
+              "endOffset": 319837,
+              "line": 15388,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 16.9,
+                "y": 6.07
+              },
+              "end": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 375,
+              "uuid": "8c6c2232-086b-4647-9c62-46cb827138e2",
+              "startOffset": 319995,
+              "endOffset": 320145,
+              "line": 15404,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "end": {
+                "x": 16.9,
+                "y": 12.4
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 16.9,
+            "y": 11.800000000000002
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-5c74a430d6e720f3bcf29107"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 372,
+              "uuid": "695578d3-6f40-4977-9235-66c7eb8fa87d",
+              "startOffset": 319530,
+              "endOffset": 319684,
+              "line": 15380,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.04,
+                "y": 12.25
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 382,
+              "uuid": "d405d42e-cfb6-4a77-bb66-0afe0025aa73",
+              "startOffset": 321070,
+              "endOffset": 321224,
+              "line": 15460,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.44,
+                "y": 11.55
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\analytical-ground-links.kicad_pcb",
+              "form": "segment",
+              "ordinal": 385,
+              "uuid": "e168ecc6-7876-4701-a806-2e919d8fc7da",
+              "startOffset": 321539,
+              "endOffset": 321693,
+              "line": 15484,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.15,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 13.04,
+            "y": 11.949999999999998
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-0a009741638607092876f042"
+      }
+    ],
+    "coverage": "Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.",
+    "unresolvedNetSegmentCount": 0
+  },
+  "trials": [
+    {
+      "down": 0.2,
+      "approach": 0.4,
+      "length": 3.6682189719444764,
+      "issues": []
+    },
+    {
+      "down": 0.2,
+      "approach": 0.5,
+      "length": 3.7510616844190965,
+      "issues": []
+    },
+    {
+      "down": 0.2,
+      "approach": 0.6,
+      "length": 3.8339043968937183,
+      "issues": []
+    },
+    {
+      "down": 0.2,
+      "approach": 0.7,
+      "length": 3.916747109368334,
+      "issues": []
+    },
+    {
+      "down": 0.3,
+      "approach": 0.4,
+      "length": 3.7267976157071665,
+      "issues": []
+    },
+    {
+      "down": 0.3,
+      "approach": 0.5,
+      "length": 3.809640328181787,
+      "issues": []
+    },
+    {
+      "down": 0.3,
+      "approach": 0.6,
+      "length": 3.8924830406564075,
+      "issues": []
+    },
+    {
+      "down": 0.3,
+      "approach": 0.7,
+      "length": 3.975325753131024,
+      "issues": []
+    },
+    {
+      "down": 0.4,
+      "approach": 0.4,
+      "length": 3.785376259469857,
+      "issues": []
+    },
+    {
+      "down": 0.4,
+      "approach": 0.5,
+      "length": 3.868218971944478,
+      "issues": []
+    },
+    {
+      "down": 0.4,
+      "approach": 0.6,
+      "length": 3.9510616844190993,
+      "issues": []
+    },
+    {
+      "down": 0.4,
+      "approach": 0.7,
+      "length": 4.033904396893715,
+      "issues": []
+    },
+    {
+      "down": 0.4,
+      "approach": 0.8,
+      "length": 4.116747109368336,
+      "issues": []
+    },
+    {
+      "down": 0.5,
+      "approach": 0.4,
+      "length": 3.8439549032325466,
+      "issues": []
+    },
+    {
+      "down": 0.5,
+      "approach": 0.5,
+      "length": 3.926797615707167,
+      "issues": []
+    },
+    {
+      "down": 0.5,
+      "approach": 0.6,
+      "length": 4.0096403281817885,
+      "issues": []
+    },
+    {
+      "down": 0.5,
+      "approach": 0.7,
+      "length": 4.092483040656405,
+      "issues": []
+    },
+    {
+      "down": 0.5,
+      "approach": 0.8,
+      "length": 4.175325753131026,
+      "issues": []
+    },
+    {
+      "down": 0.6,
+      "approach": 0.4,
+      "length": 3.9025335469952376,
+      "issues": []
+    },
+    {
+      "down": 0.6,
+      "approach": 0.5,
+      "length": 3.985376259469858,
+      "issues": []
+    },
+    {
+      "down": 0.6,
+      "approach": 0.6,
+      "length": 4.0682189719444795,
+      "issues": []
+    },
+    {
+      "down": 0.6,
+      "approach": 0.7,
+      "length": 4.151061684419096,
+      "issues": []
+    },
+    {
+      "down": 0.6,
+      "approach": 0.8,
+      "length": 4.233904396893717,
+      "issues": []
+    },
+    {
+      "down": 0.6,
+      "approach": 0.9,
+      "length": 4.3167471093683325,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135089,
+          "required": 0.15
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": 0.13500000000000226
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": 0.13508927859762024
+        }
+      ]
+    },
+    {
+      "down": 0.8,
+      "approach": 0.4,
+      "length": 4.019690834520619,
+      "issues": []
+    },
+    {
+      "down": 0.8,
+      "approach": 0.5,
+      "length": 4.1025335469952395,
+      "issues": []
+    },
+    {
+      "down": 0.8,
+      "approach": 0.6,
+      "length": 4.1853762594698605,
+      "issues": []
+    },
+    {
+      "down": 0.8,
+      "approach": 0.7,
+      "length": 4.268218971944476,
+      "issues": []
+    },
+    {
+      "down": 0.8,
+      "approach": 0.8,
+      "length": 4.351061684419097,
+      "issues": []
+    },
+    {
+      "down": 0.8,
+      "approach": 0.9,
+      "length": 4.433904396893714,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135089,
+          "required": 0.15
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": 0.13500000000000226
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": 0.13508927859762024
+        }
+      ]
+    },
+    {
+      "down": 0.8,
+      "approach": 1,
+      "length": 4.5167471093683345,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:1",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.098546,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.043722,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:2",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.218722,
+          "required": 0.25
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.043722,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:3",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.218722,
+          "required": 0.25
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:1",
+          "via": "core/core-r8-rail",
+          "gap": 0.09854560450833774
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": 0.043721665810319416
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": 0.043721665810319416
+        }
+      ]
+    },
+    {
+      "down": 1,
+      "approach": 0.4,
+      "length": 4.136848122046,
+      "issues": []
+    },
+    {
+      "down": 1,
+      "approach": 0.5,
+      "length": 4.2196908345206205,
+      "issues": []
+    },
+    {
+      "down": 1,
+      "approach": 0.6,
+      "length": 4.3025335469952415,
+      "issues": []
+    },
+    {
+      "down": 1,
+      "approach": 0.7,
+      "length": 4.385376259469857,
+      "issues": []
+    },
+    {
+      "down": 1,
+      "approach": 0.8,
+      "length": 4.468218971944478,
+      "issues": []
+    },
+    {
+      "down": 1,
+      "approach": 0.9,
+      "length": 4.5510616844190945,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135089,
+          "required": 0.15
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": 0.13500000000000226
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": 0.13508927859762024
+        }
+      ]
+    },
+    {
+      "down": 1,
+      "approach": 1,
+      "length": 4.633904396893715,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.043722,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:2",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.218722,
+          "required": 0.25
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.043722,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:3",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.218722,
+          "required": 0.25
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": 0.043721665810319416
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": 0.043721665810319416
+        }
+      ]
+    },
+    {
+      "down": 1.2,
+      "approach": 0.4,
+      "length": 4.2540054095713815,
+      "issues": []
+    },
+    {
+      "down": 1.2,
+      "approach": 0.5,
+      "length": 4.336848122046002,
+      "issues": []
+    },
+    {
+      "down": 1.2,
+      "approach": 0.6,
+      "length": 4.419690834520623,
+      "issues": []
+    },
+    {
+      "down": 1.2,
+      "approach": 0.7,
+      "length": 4.502533546995239,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:1",
+          "pad": "L1.2",
+          "gap": 0.078473,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "L1.2",
+          "gap": 0.078473,
+          "required": 0.15
+        }
+      ]
+    },
+    {
+      "down": 1.2,
+      "approach": 0.8,
+      "length": 4.58537625946986,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:1",
+          "pad": "L1.2",
+          "gap": 0.062132,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "L1.2",
+          "gap": 0.069545,
+          "required": 0.15
+        }
+      ]
+    },
+    {
+      "down": 1.2,
+      "approach": 0.9,
+      "length": 4.668218971944476,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:1",
+          "pad": "L1.2",
+          "gap": 0.062132,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "L1.2",
+          "gap": 0.140172,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.135089,
+          "required": 0.15
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": 0.13500000000000226
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": 0.13508927859762024
+        }
+      ]
+    },
+    {
+      "down": 1.2,
+      "approach": 1,
+      "length": 4.7510616844190965,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:1",
+          "pad": "L1.2",
+          "gap": 0.062132,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.043722,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:2",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.218722,
+          "required": 0.25
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.043722,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:3",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.218722,
+          "required": 0.25
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": 0.043721665810319416
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": 0.043721665810319416
+        }
+      ]
+    },
+    {
+      "down": 1.2,
+      "approach": 1.2,
+      "length": 4.916747109368334,
+      "issues": [
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:1",
+          "pad": "L1.2",
+          "gap": 0.062132,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:1",
+          "pad": "core/core-r8-rail.",
+          "gap": 0.094711,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:2",
+          "pad": "core/core-r8-rail.",
+          "gap": -0.035513,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:2",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.139487,
+          "required": 0.25
+        },
+        {
+          "type": "existing-trace-clearance",
+          "a": "ground-finish/link-858:2",
+          "b": "core/core-r8-source:0",
+          "gap": 0.089487,
+          "required": 0.15
+        },
+        {
+          "type": "pad-clearance",
+          "trace": "ground-finish/link-858:3",
+          "pad": "core/core-r8-rail.",
+          "gap": -0.036091,
+          "required": 0.15
+        },
+        {
+          "type": "hole-clearance",
+          "trace": "ground-finish/link-858:3",
+          "hole": "core/core-r8-rail.",
+          "gap": 0.138909,
+          "required": 0.25
+        },
+        {
+          "type": "existing-trace-clearance",
+          "a": "ground-finish/link-858:3",
+          "b": "core/core-r8-source:0",
+          "gap": 0.088909,
+          "required": 0.15
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:1",
+          "via": "core/core-r8-rail",
+          "gap": 0.09471145840745157
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:2",
+          "via": "core/core-r8-rail",
+          "gap": -0.03551315811699071
+        },
+        {
+          "type": "trace-via",
+          "trace": "ground-finish/link-858:3",
+          "via": "core/core-r8-rail",
+          "gap": -0.03609127034739837
+        }
+      ]
+    }
+  ],
+  "componentLinks": [
+    {
+      "from": {
+        "reference": "D2",
+        "pin": "1",
+        "uuid": "459f1dd2-bdf3-42b7-90b5-3a348e329704"
+      },
+      "to": {
+        "reference": "C21",
+        "pin": "2",
+        "uuid": "bdc9f5b1-1751-4ef0-bc26-79f6286fb7dd"
+      }
+    },
+    {
+      "from": {
+        "reference": "SW2",
+        "pin": "1",
+        "uuid": "d0ed9591-bf97-4f4b-b42c-fa3a592eb008"
+      },
+      "to": {
+        "reference": "R14",
+        "pin": "2",
+        "uuid": "3467b190-8af0-48e6-8001-d8a9f93b740b"
+      }
+    },
+    {
+      "from": {
+        "reference": "SW2",
+        "pin": "1",
+        "uuid": "d0ed9591-bf97-4f4b-b42c-fa3a592eb008"
+      },
+      "to": {
+        "reference": "SW2",
+        "pin": "2",
+        "uuid": "69937cf7-1173-4431-80a1-fd040923baa0"
+      }
+    },
+    {
+      "from": {
+        "reference": "J1",
+        "pin": "SH",
+        "uuid": "f5592606-4e9d-4b62-afac-565ec9879275"
+      },
+      "to": {
+        "reference": "J1",
+        "pin": "SH",
+        "uuid": "35603db2-7858-452d-90f0-c991ba6d7717"
+      }
+    }
+  ],
+  "scope": "Four short front-copper ground connections, no added vias or moved components. The R14 approach preserves 45-degree/straight turns at its existing ground lead. Synthetic source is analytical only; its old fill cache is not fresh or native authoring authority.",
+  "nativeOperations": 0,
+  "adopted": false
+}

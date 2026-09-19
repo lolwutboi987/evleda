@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "evleda.host25-build-release.v1",
+  "recordedAt": "2026-09-19T17:25:25.203Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-plane-geometry-build-25",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-stage-pad-envelope-01\\host24-release.json",
+    "sha256": "3a429f125093f5b7f7b15771b6ea47a4bc734ad0aaacf52f64c26a1ae20e7295",
+    "sizeBytes": 2124
+  },
+  "sourcePins": [
+    {
+      "relative": "src/harness/fresh-plane-filled-geometry.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-filled-geometry.ts",
+      "sha256": "917fec144526d060ad69b8b972d38b0a6432c51b9c3878345fb54dea3938f347",
+      "sizeBytes": 23560
+    },
+    {
+      "relative": "tests/unit/fresh-plane-filled-geometry.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-filled-geometry.test.ts",
+      "sha256": "a0740a2f8e3ec9e27c4c3430ffc25c4e05d1f846b8b1bd8ded9652d883e28d82",
+      "sizeBytes": 16533
+    },
+    {
+      "relative": "src/harness/fresh-header-service-regions.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-header-service-regions.ts",
+      "sha256": "c49a202d48e21914b5f849d7d0c6da9cb8011103393aa703706bb8a636262c9f",
+      "sizeBytes": 29821
+    },
+    {
+      "relative": "tests/unit/fresh-header-service-regions.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-header-service-regions.test.ts",
+      "sha256": "efc6887e3dda04255e7457d55b95596c6fead807b66eaa1858c71f5da1e5e796",
+      "sizeBytes": 18674
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-geometry-spatial-01\\host25-build-manifest.json",
+    "sha256": "c771122a0be7424826ebf77c55ca06a4a396964a8a3017dfb046f61c712e2b2d",
+    "sizeBytes": 867601
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "plane-geometry-and-evidence-tests",
+      "exitCode": 0
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTestsPassed": true,
+  "baseHost24Preserved": true,
+  "uiOutputPreserved": true,
+  "runtimeChanged": false,
+  "nativeQualificationPending": true,
+  "scope": "Host24 plus an exact inclusive spatial broad phase for filled geometry and the published header service audits. All predicate checks and work/input caps remain; runtime and native authoring code are unchanged."
+}

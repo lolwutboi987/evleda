@@ -1,0 +1,997 @@
+{
+  "sourcePcbSha256": "8251f11adc1e03e9fd008294ceb97892214bd73efae4e57175fdfbfee1eda9d0",
+  "endpointResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-40\\workspace-client-ec7b4e17-9142-4276-a0ce-60c84fc6a975\\000079-response-82876f21e9b5a4f86300e403def41be1e419b91ee3b96e36f67b218996a5a8b6.json",
+  "nativeGroundGroups": 13,
+  "anchors": [
+    {
+      "id": "U1.47:1bd735a1-17ae-4706-92d9-14f847a09fb3",
+      "p": [
+        12.8,
+        29.05
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "U1.61:d35d4fba-245c-4ada-b006-7e5706114eee",
+      "p": [
+        10.4,
+        32.5
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "U2.3:fe64ed71-95ad-499b-b6a7-465385b5d886",
+      "p": [
+        10.5,
+        49.825
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "U2.9:888ac83c-3403-4746-8d0f-9d80b36587f1",
+      "p": [
+        10,
+        47.375
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "U2.11:0d4dd7c9-9d96-45d3-b31c-2c2b8f6b32c0",
+      "p": [
+        10.5,
+        48.6
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "U3.4:d43cf6b0-9968-4093-bf8e-4be4c79cbc4f",
+      "p": [
+        6.8,
+        25.425
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "U3.9:c15bf172-54ff-45a1-a28e-cabd356f31c2",
+      "p": [
+        6.05,
+        24
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "U4.2:629ef0d1-c46b-4175-a50f-8a65d2976bc2",
+      "p": [
+        10.85,
+        13.1375
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.A1:6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+      "p": [
+        14.2,
+        8.655
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.A12:202e60a7-76af-4458-b990-25ff72340931",
+      "p": [
+        7.8,
+        8.655
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.B1:9186e189-4f60-4225-9538-5b0db14606e6",
+      "p": [
+        7.8,
+        8.655
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.B12:4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+      "p": [
+        14.2,
+        8.655
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.SH:f5592606-4e9d-4b62-afac-565ec9879275",
+      "p": [
+        15.32,
+        8.08
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.SH:35603db2-7858-452d-90f0-c991ba6d7717",
+      "p": [
+        15.32,
+        3.9
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.SH:6a8af92a-66ec-4429-b364-6c69de6a7f23",
+      "p": [
+        6.68,
+        8.08
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J1.SH:78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+      "p": [
+        6.68,
+        3.9
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J2.3:b7da0387-7496-4280-8a8c-c9762910701e",
+      "p": [
+        2.11,
+        10.95
+      ],
+      "group": 3,
+      "kind": "pad"
+    },
+    {
+      "id": "J2.8:e72ca636-3491-4cc7-9c1d-edd5c9f4ba79",
+      "p": [
+        2.11,
+        23.65
+      ],
+      "group": 8,
+      "kind": "pad"
+    },
+    {
+      "id": "J2.13:a3a97873-3f1b-4875-af0e-113f4303ed85",
+      "p": [
+        2.11,
+        36.35
+      ],
+      "group": 6,
+      "kind": "pad"
+    },
+    {
+      "id": "J2.18:7f046dcb-9632-482f-999c-c1c2366dac47",
+      "p": [
+        2.11,
+        49.05
+      ],
+      "group": 7,
+      "kind": "pad"
+    },
+    {
+      "id": "J3.3:61905d5c-8ce4-4c8b-8db1-ba68f9a4728b",
+      "p": [
+        19.89,
+        49.05
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J3.8:920f6f09-ec59-4ea7-b14c-1d83dafa8706",
+      "p": [
+        19.89,
+        36.35
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J3.13:7995cc36-a5bf-416b-af72-25dfe2c8b76d",
+      "p": [
+        19.89,
+        23.65
+      ],
+      "group": 9,
+      "kind": "pad"
+    },
+    {
+      "id": "J3.18:c703800f-2796-453b-841c-07354323c7a3",
+      "p": [
+        19.89,
+        10.95
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "J4.2:aed8f3b3-540c-4f75-9a6e-45e5ee75e05b",
+      "p": [
+        11,
+        57.2
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "D2.1:459f1dd2-bdf3-42b7-90b5-3a348e329704",
+      "p": [
+        6.2125,
+        44.8
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "SW1.1:ed1f2a6b-579f-4b32-b74d-990a683fffde",
+      "p": [
+        4.425,
+        41.575
+      ],
+      "group": 11,
+      "kind": "pad"
+    },
+    {
+      "id": "SW1.2:535442ef-5d3a-4990-9ab8-9e1d25f499bc",
+      "p": [
+        4.425,
+        37.425
+      ],
+      "group": 12,
+      "kind": "pad"
+    },
+    {
+      "id": "SW2.1:d0ed9591-bf97-4f4b-b42c-fa3a592eb008",
+      "p": [
+        12.775,
+        21.775
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "SW2.2:69937cf7-1173-4431-80a1-fd040923baa0",
+      "p": [
+        12.775,
+        17.625
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "Y1.2:5d1ee221-cff3-4362-9cf7-d9dae1d6c19f",
+      "p": [
+        10.7,
+        41.65
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "Y1.4:c5fdd99b-e42f-41ba-941a-5e8ff68f18b8",
+      "p": [
+        8.5,
+        39.95
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "R3.2:f7a6e8f2-0527-4e44-bbec-63ed2b2306ba",
+      "p": [
+        14.11,
+        10.35
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "R4.2:7ba867dc-1b1f-4eba-859b-7b78a32b206a",
+      "p": [
+        7.49,
+        10.35
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "R10.2:f61cd2e1-ab77-4cd2-a8b1-10d70c94e1da",
+      "p": [
+        15,
+        50.99
+      ],
+      "group": 10,
+      "kind": "pad"
+    },
+    {
+      "id": "R12.2:34335ef5-754e-404c-a498-45a7524a6f2f",
+      "p": [
+        17.26,
+        18.1
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "R14.2:3467b190-8af0-48e6-8001-d8a9f93b740b",
+      "p": [
+        15.45,
+        23.09
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "R15.2:dee6d28b-703e-4348-84f8-d033afa97698",
+      "p": [
+        17.98,
+        36.86
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C1.2:275f42f7-f3aa-4694-818f-d062a5eca394",
+      "p": [
+        12.88,
+        27.74
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C2.2:365bf158-3652-44dc-b8ee-1840ba24583f",
+      "p": [
+        12.98,
+        26.65
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C3.2:b5c73cce-52ab-4075-86bd-83f8362dc714",
+      "p": [
+        14.6,
+        27.93
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C4.2:b99fa03c-e63a-439e-be0b-8bf740346c57",
+      "p": [
+        12.27,
+        38.88
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C5.2:28e75189-50c0-4065-a00e-e1abb5cc4e6b",
+      "p": [
+        4.72,
+        30.32
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C6.2:8f5000fa-1893-41a8-beaa-5259ce2844cc",
+      "p": [
+        4.52,
+        33.7
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C7.2:cba8b006-e352-4d0d-b21c-9e0c75ac8f2b",
+      "p": [
+        7.88,
+        37.34
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C8.2:957a11a8-b6f1-49b8-8874-5f98a6321a1b",
+      "p": [
+        15.5,
+        38.1
+      ],
+      "group": 5,
+      "kind": "pad"
+    },
+    {
+      "id": "C9.2:08695ff5-c27d-4f52-9f5f-c1e4185c8f2c",
+      "p": [
+        16.93,
+        33.71
+      ],
+      "group": 2,
+      "kind": "pad"
+    },
+    {
+      "id": "C10.2:cd969fef-23f5-41ea-9000-14fa3c0a43a9",
+      "p": [
+        16.98,
+        29.3
+      ],
+      "group": 0,
+      "kind": "pad"
+    },
+    {
+      "id": "C11.2:e0a4ae09-cd57-4a23-adab-f8daf69fd4c8",
+      "p": [
+        4.72,
+        31.8
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C12.2:9a8b63aa-89ec-4ab0-a03a-afd58b3c9e34",
+      "p": [
+        10.89,
+        38.5
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C13.2:6bee61a5-ab9f-4740-864c-7d179fbda881",
+      "p": [
+        16.98,
+        32.58
+      ],
+      "group": 2,
+      "kind": "pad"
+    },
+    {
+      "id": "C14.2:dfec7ffe-b8ac-4084-8ddf-3483acd1d2d8",
+      "p": [
+        8.965,
+        26.12
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C15.2:16299af1-ebc5-4542-b2db-35b9209c30c8",
+      "p": [
+        5.3,
+        20.37
+      ],
+      "group": 3,
+      "kind": "pad"
+    },
+    {
+      "id": "C16.2:57495e81-0c8b-4c7f-be26-7f317abed14f",
+      "p": [
+        16.98,
+        30.32
+      ],
+      "group": 0,
+      "kind": "pad"
+    },
+    {
+      "id": "C17.2:4e6cad29-728f-42c3-9ef7-3f8869d10f26",
+      "p": [
+        16.98,
+        31.45
+      ],
+      "group": 0,
+      "kind": "pad"
+    },
+    {
+      "id": "C18.2:1781e7de-105d-4e8a-88dd-c699c57bcd72",
+      "p": [
+        5.6,
+        18.02
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C19.2:b9ec50db-9cfd-4544-aa01-2dffa8c8bc64",
+      "p": [
+        6.8,
+        18.02
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C20.2:e8032744-71b7-450b-b0aa-0fa3bbdfb866",
+      "p": [
+        14,
+        46.31
+      ],
+      "group": 4,
+      "kind": "pad"
+    },
+    {
+      "id": "C21.2:bdc9f5b1-1751-4ef0-bc26-79f6286fb7dd",
+      "p": [
+        7,
+        46.44
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C22.2:8a1bc4ac-3835-4017-bb63-fa7356e287a2",
+      "p": [
+        11.48,
+        45.96
+      ],
+      "group": 4,
+      "kind": "pad"
+    },
+    {
+      "id": "C23.2:d4b4dded-4e78-413a-8b41-5680875d0a1c",
+      "p": [
+        16.82,
+        25.5
+      ],
+      "group": 0,
+      "kind": "pad"
+    },
+    {
+      "id": "C24.2:f77c0269-8e68-4dce-909b-5e5655a3e962",
+      "p": [
+        6.01,
+        42.92
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C25.2:c19d1a57-b4c1-4caa-b0a3-5443f6f2e446",
+      "p": [
+        12.27,
+        41.23
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "C26.2:5a384944-0633-423d-95db-eac023edfd76",
+      "p": [
+        14.4,
+        11.55
+      ],
+      "group": 1,
+      "kind": "pad"
+    },
+    {
+      "id": "core/core-cin-ground",
+      "p": [
+        13.39,
+        27.74
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/core-cout-ground",
+      "p": [
+        12.84,
+        27.19
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/core-pgnd-local-via",
+      "p": [
+        12.8,
+        29.725
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/clock-c24-ground",
+      "p": [
+        5.5,
+        42.92
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/clock-c25-ground",
+      "p": [
+        11.9,
+        41.65
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/clock-y1-ground2",
+      "p": [
+        10.7,
+        42.5
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/clock-y1-ground4",
+      "p": [
+        8.2,
+        39
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c7-local-ground",
+      "p": [
+        7.35,
+        37.66
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c4-dedicated-ground-via",
+      "p": [
+        12.27,
+        39.5
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c5-ground",
+      "p": [
+        4.32,
+        30.72
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c6-ground",
+      "p": [
+        4.32,
+        33.15
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c11-ground",
+      "p": [
+        4.32,
+        32.2
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c8-ground",
+      "p": [
+        15.9,
+        38.7
+      ],
+      "group": 5,
+      "kind": "via"
+    },
+    {
+      "id": "core/c9-c13-shared-ground-via",
+      "p": [
+        16.7,
+        33.2
+      ],
+      "group": 2,
+      "kind": "via"
+    },
+    {
+      "id": "core/c10-ground-via",
+      "p": [
+        16.98,
+        28.7
+      ],
+      "group": 0,
+      "kind": "via"
+    },
+    {
+      "id": "core/c3-quiet-ground-via",
+      "p": [
+        14.6,
+        28.46
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c12-ground-via",
+      "p": [
+        11.55,
+        38.65
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/qspi-shared-ground",
+      "p": [
+        8.427,
+        26.26
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/flash-c15-ground",
+      "p": [
+        4.9,
+        19.97
+      ],
+      "group": 3,
+      "kind": "via"
+    },
+    {
+      "id": "core/flash-chip-ground",
+      "p": [
+        6.05,
+        23.6
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/flash-bulk-ground",
+      "p": [
+        6.2,
+        17.5
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/core-main-ep-access-via",
+      "p": [
+        10.7,
+        30.5
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-pgnd",
+      "p": [
+        10.5,
+        51.45
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-C20",
+      "p": [
+        14,
+        45.5
+      ],
+      "group": 4,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-C21",
+      "p": [
+        7,
+        47.23
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-R10",
+      "p": [
+        15.45,
+        50.54
+      ],
+      "group": 10,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-C22",
+      "p": [
+        11.9,
+        45.75
+      ],
+      "group": 4,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-esd",
+      "p": [
+        10.3,
+        12
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-C26",
+      "p": [
+        14.85,
+        11.55
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-j1-right",
+      "p": [
+        14.4,
+        9.6
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-j1-left",
+      "p": [
+        7.65,
+        9.5
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "power/gnd-R12",
+      "p": [
+        16.8,
+        18.9
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "sense/r14-quiet-return",
+      "p": [
+        15.55,
+        22.65
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "sense/c23-quiet-return",
+      "p": [
+        16.82,
+        26.2
+      ],
+      "group": 0,
+      "kind": "via"
+    },
+    {
+      "id": "east-study/r15-right-ground-via",
+      "p": [
+        18.225,
+        37.35
+      ],
+      "group": 1,
+      "kind": "via"
+    },
+    {
+      "id": "core/c16-quiet-ground-via",
+      "p": [
+        16.6,
+        30.9
+      ],
+      "group": 0,
+      "kind": "via"
+    }
+  ],
+  "unmappedVias": [
+    "core/u1-ep-main",
+    "core/u1-ep-secondary"
+  ],
+  "clearEdges": 1,
+  "selected": [
+    {
+      "from": {
+        "id": "C18.2:1781e7de-105d-4e8a-88dd-c699c57bcd72",
+        "p": [
+          5.6,
+          18.02
+        ],
+        "group": 1,
+        "kind": "pad"
+      },
+      "to": {
+        "id": "core/flash-c15-ground",
+        "p": [
+          4.9,
+          19.97
+        ],
+        "group": 3,
+        "kind": "via"
+      },
+      "path": {
+        "id": "ground-via-link-2232",
+        "net": "GND",
+        "layer": "F.Cu",
+        "width": 0.3,
+        "points": [
+          [
+            5.6,
+            18.02
+          ],
+          [
+            4.9,
+            18.72
+          ],
+          [
+            4.9,
+            19.97
+          ]
+        ]
+      },
+      "length": 2.2399494936611655,
+      "check": {
+        "scope": "Changed paths/vias against complete retained scene only; full host topology, annular contact, physical graph, return planes, current, thermal and native acceptance not assessed.",
+        "issues": [],
+        "metrics": {
+          "minPaste": null,
+          "minDrill": null,
+          "minReferenceExcess": null
+        },
+        "budgets": [
+          {
+            "net": "GND",
+            "lengthMm": 70.26207915666006,
+            "viaCount": 38,
+            "maximumLengthMm": 160,
+            "maximumVias": 48
+          }
+        ],
+        "globalVias": 104
+      }
+    }
+  ],
+  "checked": {
+    "scope": "Changed paths/vias against complete retained scene only; full host topology, annular contact, physical graph, return planes, current, thermal and native acceptance not assessed.",
+    "issues": [],
+    "metrics": {
+      "minPaste": null,
+      "minDrill": null,
+      "minReferenceExcess": null
+    },
+    "budgets": [
+      {
+        "net": "GND",
+        "lengthMm": 70.26207915666006,
+        "viaCount": 38,
+        "maximumLengthMm": 160,
+        "maximumVias": 48
+      }
+    ],
+    "globalVias": 104
+  },
+  "predictedGroups": 12,
+  "nativeOperations": 0,
+  "adopted": false,
+  "scope": "Source-derived via attribution is consistent with the observed native PAD partition but is not a native via query. Native save/refill/connectivity must verify every proposed connection."
+}

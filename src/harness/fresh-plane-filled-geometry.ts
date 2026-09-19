@@ -47,6 +47,36 @@ class Work {
   step() { check(++this.operations <= FRESH_PLANE_FILLED_GEOMETRY_LIMITS.predicateOperations, "Filled geometry predicate work bound exhausted"); }
   points(count: number) { this.vertices += count; check(this.vertices <= FRESH_PLANE_FILLED_GEOMETRY_LIMITS.aggregateVertices, "Aggregate source/native vertex bound exceeded"); }
 }
+interface Box { minX: number; maxX: number; minY: number; maxY: number }
+const edgeBox = (e: Edge): Box => ({ minX: Math.min(e.a.x, e.b.x), maxX: Math.max(e.a.x, e.b.x), minY: Math.min(e.a.y, e.b.y), maxY: Math.max(e.a.y, e.b.y) });
+const boxesMeet = (a: Box, b: Box) => a.minX <= b.maxX && b.minX <= a.maxX && a.minY <= b.maxY && b.minY <= a.maxY;
+/** Exact inclusive broad phase. Sorting, node visits and candidate tests are
+ * charged to the existing work budget; touching boxes are never discarded.
+ * Full geometric predicates below remain the final authority.
+ */
+function spatialIndex<T>(items: readonly T[], bounds: (item: T) => Box, work: Work) {
+  type Entry = { item: T; index: number; box: Box };
+  type Tree = { box: Box; entries: Entry[] } | { box: Box; left: Tree; right: Tree };
+  function build(entries: Entry[]): Tree {
+    work.step();
+    const box: Box = { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity };
+    for (const e of entries) { work.step(); box.minX = Math.min(box.minX, e.box.minX); box.maxX = Math.max(box.maxX, e.box.maxX); box.minY = Math.min(box.minY, e.box.minY); box.maxY = Math.max(box.maxY, e.box.maxY); }
+    if (entries.length <= 8) return { box, entries };
+    const x = box.maxX - box.minX >= box.maxY - box.minY;
+    entries.sort((a, b) => { work.step(); return (x ? a.box.minX + a.box.maxX - b.box.minX - b.box.maxX : a.box.minY + a.box.maxY - b.box.minY - b.box.maxY) || a.index - b.index; });
+    const middle = Math.floor(entries.length / 2); return { box, left: build(entries.slice(0, middle)), right: build(entries.slice(middle)) };
+  }
+  const tree = build(items.map((item, index) => ({ item, index, box: bounds(item) })));
+  return (box: Box): Entry[] => {
+    const result: Entry[] = [], pending = [tree];
+    while (pending.length) {
+      const node = pending.pop()!; work.step(); if (!boxesMeet(box, node.box)) continue;
+      if ("entries" in node) for (const entry of node.entries) { work.step(); if (boxesMeet(box, entry.box)) result.push(entry); }
+      else pending.push(node.left, node.right);
+    }
+    return result;
+  };
+}
 const key = (p: Point) => `${p.x},${p.y}`;
 const equal = (a: Point, b: Point) => a.x === b.x && a.y === b.y;
 const compare = (a: Point, b: Point) => a.x - b.x || a.y - b.y;
@@ -125,12 +155,13 @@ function unfracture(input: readonly Point[], work: Work): Ring[] {
   if (points.length > 1 && equal(points[0]!, points.at(-1)!)) points.pop();
   check(points.length >= 3, "Contour requires at least three vertices");
   const vertices = [...new Map(points.map(p => [key(p), p])).values()];
+  const verticesIn = spatialIndex(vertices, p => ({ minX: p.x, maxX: p.x, minY: p.y, maxY: p.y }), work);
   const traversals = new Map<string, Edge[]>();
   let splitCount = 0;
   for (const edge of edges(points)) {
     check(!equal(edge.a, edge.b), "Repeated consecutive vertex or zero-length edge");
     const splits: Point[] = [];
-    for (const p of vertices) { work.step(); if (onSegment(p, edge.a, edge.b)) splits.push(p); }
+    for (const { item: p } of verticesIn(edgeBox(edge))) { work.step(); if (onSegment(p, edge.a, edge.b)) splits.push(p); }
     const direction = compare(edge.a, edge.b) < 0 ? 1 : -1;
     splits.sort((a, b) => direction * compare(a, b));
     for (let i = 1; i < splits.length; i++) {
@@ -163,15 +194,18 @@ function unfracture(input: readonly Point[], work: Work): Ring[] {
     rings.push({ points: cycle, area });
   }
   // Simple cycles, including no contacts between distinct cycles.
-  for (let i = 0; i < boundary.length; i++) for (let j = 0; j < i; j++) {
-    work.step(); const a = boundary[i]!, b = boundary[j]!;
+  const boundaryIn = spatialIndex(boundary, edgeBox, work), bridgesIn = spatialIndex(bridges, edgeBox, work);
+  for (let i = 0; i < boundary.length; i++) for (const { item: b, index: j } of boundaryIn(edgeBox(boundary[i]!))) {
+    if (j >= i) continue;
+    work.step(); const a = boundary[i]!;
     check(!intersects(a, b) || owner.get(key(a.a)) === owner.get(key(b.a)) && endpointOnly(a, b), "Boundary cycles cross, overlap, or touch");
   }
-  for (const bridge of bridges) for (const edge of boundary) {
+  for (const bridge of bridges) for (const { item: edge } of boundaryIn(edgeBox(bridge))) {
     work.step(); check(!intersects(bridge, edge) || endpointOnly(bridge, edge), "Cancelled bridge crosses or overlaps a filled boundary");
   }
-  for (let i = 0; i < bridges.length; i++) for (let j = 0; j < i; j++) {
-    work.step(); check(!intersects(bridges[i]!, bridges[j]!) || endpointOnly(bridges[i]!, bridges[j]!), "Cancelled bridges cross or overlap ambiguously");
+  for (let i = 0; i < bridges.length; i++) for (const { item: other, index: j } of bridgesIn(edgeBox(bridges[i]!))) {
+    if (j >= i) continue;
+    work.step(); check(!intersects(bridges[i]!, other) || endpointOnly(bridges[i]!, other), "Cancelled bridges cross or overlap ambiguously");
   }
   // Contract each residual cycle. Fracture links must form a tree with no
   // bridge-only leaves; otherwise cancellation could silently erase a spur.
@@ -194,10 +228,10 @@ function unfracture(input: readonly Point[], work: Work): Ring[] {
 }
 
 function disjointBoundaries(rings: readonly (readonly Point[])[], work: Work) {
-  for (let i = 0; i < rings.length; i++) for (let j = 0; j < i; j++) {
-    for (const a of edges(rings[i]!)) for (const b of edges(rings[j]!)) {
-      work.step(); check(!intersects(a, b), "Distinct boundaries cross, overlap, or have a zero-width touch");
-    }
+  const all = rings.flatMap((ring, owner) => edges(ring).map(edge => ({ edge, owner }))), query = spatialIndex(all, item => edgeBox(item.edge), work);
+  for (const [index, a] of all.entries()) for (const { item: b, index: other } of query(edgeBox(a.edge))) {
+    if (other >= index || a.owner === b.owner) continue;
+    work.step(); check(!intersects(a.edge, b.edge), "Distinct boundaries cross, overlap, or have a zero-width touch");
   }
 }
 function regionsFromRings(rings: Ring[], index: number, work: Work): Region[] {

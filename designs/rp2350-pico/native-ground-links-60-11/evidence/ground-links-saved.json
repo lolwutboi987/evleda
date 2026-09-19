@@ -1,0 +1,132 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "sourcePlan": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\reviewed-ground-links.json",
+    "sha256": "6e36724ef52c07ab3c19408d9c76a75836a6b65074476a6c70855ec9672ac67b"
+  },
+  "beforePcbSha256": "243038ff17433da64f76314af6591ee7edb43148a27df81aad3df7da8bfc9ab2",
+  "afterPcbSha256": "8251f11adc1e03e9fd008294ceb97892214bd73efae4e57175fdfbfee1eda9d0",
+  "selection": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-40\\workspace-client-ec7b4e17-9142-4276-a0ce-60c84fc6a975\\000067-response-dbe757ff5a8efd558d24ea1ca4fb5123549b025e8e77869be44354ffdfd7c3f3.json",
+  "mutation": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-40\\workspace-client-ec7b4e17-9142-4276-a0ce-60c84fc6a975\\000070-response-af5e2d78c6baa580a75b0f5c026899ee9044a5972febf07f63de6eb8b9becd7d.json",
+  "savedRead": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-40\\workspace-client-ec7b4e17-9142-4276-a0ce-60c84fc6a975\\000073-response-da14dff085a0ffe7cd466e5de0bb80cb9882caa25fd74a6aec006b2d1c624ff7.json",
+  "addedTracks": [
+    {
+      "id": "36a3cfb6-2448-43ae-9b2f-9d66c805bc79",
+      "start": {
+        "x": 12.775,
+        "y": 21.975
+      },
+      "end": {
+        "x": 14.29,
+        "y": 23.49
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    },
+    {
+      "id": "38c1143a-db92-4b5f-8dec-885b727cf778",
+      "start": {
+        "x": 15.05,
+        "y": 23.49
+      },
+      "end": {
+        "x": 15.45,
+        "y": 23.09
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    },
+    {
+      "id": "477f01a9-4c70-4900-8530-0eb2b3376e6f",
+      "start": {
+        "x": 6.2125,
+        "y": 44.8
+      },
+      "end": {
+        "x": 7,
+        "y": 45.5875
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    },
+    {
+      "id": "6435a996-2218-4ff8-8740-346f8a45fc76",
+      "start": {
+        "x": 15.32,
+        "y": 8.08
+      },
+      "end": {
+        "x": 15.32,
+        "y": 3.9
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    },
+    {
+      "id": "96e96341-7b08-440e-bf0f-4e1c16313576",
+      "start": {
+        "x": 14.29,
+        "y": 23.49
+      },
+      "end": {
+        "x": 15.05,
+        "y": 23.49
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    },
+    {
+      "id": "ab2c211c-7f48-45cc-95db-a7945657081c",
+      "start": {
+        "x": 12.775,
+        "y": 21.775
+      },
+      "end": {
+        "x": 12.775,
+        "y": 21.975
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    },
+    {
+      "id": "d2af4ece-7ba8-4867-bb73-627e7e1bd078",
+      "start": {
+        "x": 12.775,
+        "y": 21.775
+      },
+      "end": {
+        "x": 12.775,
+        "y": 17.625
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    },
+    {
+      "id": "f4d7f692-84d0-440e-be16-ea5e79dc6494",
+      "start": {
+        "x": 7,
+        "y": 45.5875
+      },
+      "end": {
+        "x": 7,
+        "y": 46.44
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu",
+      "netName": "GND"
+    }
+  ],
+  "tracks": 805,
+  "vias": 104,
+  "footprints": 66,
+  "priorRoutesAndFootprintsPreserved": true,
+  "nonPcbSourcesPreserved": true,
+  "planeRefillRequired": true
+}

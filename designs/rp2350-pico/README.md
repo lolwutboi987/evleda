@@ -11,17 +11,18 @@ preserved. This directory currently holds design work, not a completed PCB.
 The approved board is now **22 × 60 mm on two layers**, retaining 2.54 mm GPIO
 pitch and 17.78 mm row spacing. The original 51 mm brief below is historical.
 The latest normally closed native project is
-[first ground plane 60-10](native-ground-plane-60-10/README.md): 797 segments,
-104 vias and one B.Cu ground zone. Native endpoint checks
+[ground connections 60-11](native-ground-links-60-11/README.md): 807 segments,
+104 vias and one B.Cu ground zone. Ten new front ground segments connect five
+previously separate ground groups without moving components. Native endpoint checks
 confirm **53 connected nets and 14 disconnected nets**. Both GPIO service strips
-exclude unrelated copper under the combined primitive/bounds checks; full fill
-topology remains unverified. Configured ERC has zero findings. DRC reports 32
+exclude unrelated copper under the complete source audit. Configured ERC has zero findings. DRC reports 27
 unconnected errors and 13 dangling-item warnings, with no reported clearance
-findings. GND is still split into 17 physical-pad groups. Among 598
+findings. GND is still split into 12 physical-pad groups. Among 608
 measured turns, one USB protection-pad fork is flagged; eight junctions remain
 unresolved. Both USB line-side series-resistor pads exceed their declared 2 mm
 placement limit.
 **The board is unfinished.** The earlier
+[ground-plane snapshot 60-10](native-ground-plane-60-10/README.md),
 [route-plan snapshot 60-09](native-route-plan-60-09/README.md),
 [signal snapshot 60-08](native-signal-routing-60-08/README.md),
 [GPIO snapshot 60-07](native-gpio-routing-60-07/README.md),

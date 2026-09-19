@@ -222,10 +222,18 @@ describe("bounded exact native/saved plane filled geometry", () => {
     expect(FRESH_PLANE_FILLED_GEOMETRY_LIMITS.aggregateVertices).toBe(8192);
   });
 
-  it("terminates explicitly when bounded predicate work is exhausted", () => {
+  it("verifies a large simple contour within the unchanged work budget", () => {
     // A simple parabola closed by its chord; many exact collinear-free vertices.
     const curve = Array.from({ length: 2200 }, (_, x) => ({ x, y: x * x }));
     const result = assess([curve]);
+    expect(result.status).toBe("verified");
+    expect(result.geometryEquivalent).toBe(true);
+    expect(result.bounds.predicateOperations).toBeLessThan(FRESH_PLANE_FILLED_GEOMETRY_LIMITS.predicateOperations);
+    expect(result.components[0]!.outer).toHaveLength(2200);
+  });
+  it("still terminates when overlapping broad-phase candidates exhaust the work bound", () => {
+    const crossing = Array.from({ length: 7000 }, (_, i) => i % 2 ? { x: 1_000_000 - i, y: 1_000_000 + i } : { x: i, y: i });
+    const result = assess([crossing]);
     expectUnverified(result, /work bound exhausted/i);
     expect(result.bounds.predicateOperations).toBe(FRESH_PLANE_FILLED_GEOMETRY_LIMITS.predicateOperations + 1);
   });
