@@ -445,5 +445,19 @@ export async function verifyRuntime(paths) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  console.log(JSON.stringify(await verifyRuntime(resolveRuntimeCheckPaths(process.argv.slice(2))), null, 2));
+  try {
+    console.log(JSON.stringify(await verifyRuntime(resolveRuntimeCheckPaths(process.argv.slice(2))), null, 2));
+  } catch (error) {
+    if (process.env.GITHUB_ACTIONS === "true") {
+      // Publish fixed, nonsensitive diagnostics in the job annotations. Keep
+      // the original exception and every native integrity check unchanged.
+      const missingManifest = error instanceof Error
+        && error.message.startsWith("Destination runtime manifest is unavailable.")
+        && error.cause?.code === "ENOENT";
+      console.error(missingManifest
+        ? "::error title=Native KiCad runtime not provisioned::This verification requires the separately installed, pinned KiCad runtime and its matching manifest. The checkout alone is insufficient. See docs/destination-setup.md for setup and both runtime environment overrides. Verification was not skipped."
+        : "::error title=Native KiCad runtime verification failed::The pinned native runtime did not pass verification. Inspect the original failure in this job log; no integrity check was disabled.");
+    }
+    throw error;
+  }
 }
