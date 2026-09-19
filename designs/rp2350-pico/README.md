@@ -11,13 +11,14 @@ preserved. This directory currently holds design work, not a completed PCB.
 The approved board is now **22 × 60 mm on two layers**, retaining 2.54 mm GPIO
 pitch and 17.78 mm row spacing. The original 51 mm brief below is historical.
 The latest normally closed native project is
-[partial GPIO routing 60-07](native-gpio-routing-60-07/README.md): 512 segments,
-87 vias and no zones. Native endpoint checks confirm **20 connected nets and
-47 disconnected nets**. Both GPIO service strips are clear; configured ERC has
-zero findings. DRC reports 119 unconnected errors and 49 dangling-item warnings,
-with no reported clearance findings. Corrected analysis checks 376 sequential
+[partial signal routing 60-08](native-signal-routing-60-08/README.md): 630 segments,
+96 vias and no zones. Native endpoint checks confirm **35 connected nets and
+32 disconnected nets**. Both GPIO service strips are clear; configured ERC has
+zero findings. DRC reports 102 unconnected errors and 55 dangling-item warnings,
+with no reported clearance findings. Corrected analysis checks 465 sequential
 turns without violations; four branch junctions remain unresolved.
 **The board is unfinished.** The earlier
+[GPIO snapshot 60-07](native-gpio-routing-60-07/README.md),
 [power snapshot 60-06](native-power-routing-60-06/README.md) and
 [ground snapshot 60-05](native-ground-routing-60-05/README.md) are preserved.
 

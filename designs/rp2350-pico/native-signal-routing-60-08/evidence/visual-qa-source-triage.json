@@ -1,0 +1,265 @@
+{
+  "sourceSha256": "70314bc44da7f9b496c4d1b549bcf93a4c3659876a06924623b3da6bfc2c890c",
+  "rawVisualQaStatus": "WARN",
+  "rawFindingsRetained": true,
+  "headerBounds": [
+    {
+      "reference": "J2",
+      "bounds": {
+        "minX": 1.0099999999999998,
+        "minY": 4.77,
+        "maxX": 3.21,
+        "maxY": 55.23
+      },
+      "insideBoard": true
+    },
+    {
+      "reference": "J3",
+      "bounds": {
+        "minX": 18.79,
+        "minY": 4.770000000000003,
+        "maxX": 20.990000000000002,
+        "maxY": 55.230000000000004
+      },
+      "insideBoard": true
+    },
+    {
+      "reference": "J4",
+      "bounds": {
+        "minX": 6.690000000000001,
+        "minY": 55.43,
+        "maxX": 15.31,
+        "maxY": 58.970000000000006
+      },
+      "insideBoard": true
+    }
+  ],
+  "referencePairs": [
+    {
+      "pair": [
+        "C1",
+        "R2"
+      ],
+      "fields": [
+        {
+          "reference": "C1",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        },
+        {
+          "reference": "R2",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        }
+      ]
+    },
+    {
+      "pair": [
+        "C18",
+        "C19"
+      ],
+      "fields": [
+        {
+          "reference": "C18",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        },
+        {
+          "reference": "C19",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        }
+      ]
+    },
+    {
+      "pair": [
+        "C6",
+        "U1"
+      ],
+      "fields": [
+        {
+          "reference": "C6",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        },
+        {
+          "reference": "U1",
+          "hidden": false,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": true
+        }
+      ]
+    },
+    {
+      "pair": [
+        "R13",
+        "R14"
+      ],
+      "fields": [
+        {
+          "reference": "R13",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        },
+        {
+          "reference": "R14",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        }
+      ]
+    },
+    {
+      "pair": [
+        "R18",
+        "Y1"
+      ],
+      "fields": [
+        {
+          "reference": "R18",
+          "hidden": true,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": false
+        },
+        {
+          "reference": "Y1",
+          "hidden": false,
+          "layer": "F.SilkS",
+          "visibleOnFrontSilk": true
+        }
+      ]
+    }
+  ],
+  "bodyPairs": [
+    {
+      "pair": [
+        "C20",
+        "U2"
+      ],
+      "sourceFabBounds": [
+        {
+          "minX": 12.75,
+          "minY": 46.36,
+          "maxX": 15.25,
+          "maxY": 49.56
+        },
+        {
+          "minX": 9.25,
+          "minY": 47.35,
+          "maxX": 11.75,
+          "maxY": 49.85
+        }
+      ],
+      "gap": {
+        "xMm": 1,
+        "yMm": 0
+      }
+    },
+    {
+      "pair": [
+        "C21",
+        "U2"
+      ],
+      "sourceFabBounds": [
+        {
+          "minX": 5.75,
+          "minY": 46.49,
+          "maxX": 8.25,
+          "maxY": 49.690000000000005
+        },
+        {
+          "minX": 9.25,
+          "minY": 47.35,
+          "maxX": 11.75,
+          "maxY": 49.85
+        }
+      ],
+      "gap": {
+        "xMm": 1,
+        "yMm": 0
+      }
+    },
+    {
+      "pair": [
+        "H1",
+        "J2"
+      ],
+      "sourceFabBounds": [
+        null,
+        {
+          "minX": 1.2599999999999998,
+          "minY": 5.0200000000000005,
+          "maxX": 2.96,
+          "maxY": 6.72
+        }
+      ],
+      "gap": null
+    },
+    {
+      "pair": [
+        "H4",
+        "J3"
+      ],
+      "sourceFabBounds": [
+        null,
+        {
+          "minX": 19.04,
+          "minY": 53.28,
+          "maxX": 20.740000000000002,
+          "maxY": 54.980000000000004
+        }
+      ],
+      "gap": null
+    },
+    {
+      "pair": [
+        "J4",
+        "L2"
+      ],
+      "sourceFabBounds": [
+        {
+          "minX": 7.190000000000001,
+          "minY": 55.93,
+          "maxX": 14.81,
+          "maxY": 58.470000000000006
+        },
+        {
+          "minX": 8.5,
+          "minY": 51.01,
+          "maxX": 12.5,
+          "maxY": 55.01
+        }
+      ],
+      "gap": {
+        "xMm": 0,
+        "yMm": 0.9200000000000017
+      }
+    },
+    {
+      "pair": [
+        "SW1",
+        "Y1"
+      ],
+      "sourceFabBounds": [
+        {
+          "minX": 3.9,
+          "minY": 37.4,
+          "maxX": 7.1,
+          "maxY": 41.6
+        },
+        null
+      ],
+      "gap": null
+    }
+  ],
+  "nativeCourtyardFindingCount": 0,
+  "scope": "Source bounds and visibility explain heuristic warnings; F.Fab bounds are drawing envelopes, not measured package bodies or mechanical qualification.",
+  "priorSourceSha256": "1b4b816146922ad06d0065334286c5e7c3bd06bb0682d3e4b05c726266078de0",
+  "nonRoutingSourcePreservation": "Verified for each routing-only batch. Footprint placement/fields are unchanged and the complete native visual-QA result is identical to 60-07."
+}

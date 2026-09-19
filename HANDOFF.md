@@ -6,7 +6,7 @@ Current note: 2026-09-19. The active work is the reusable chat-driven KiCad/EE t
 
 The approved candidate is 22 × 60 mm with two copper layers, 2.54 mm GPIO pitch and 17.78 mm header-row spacing. PCB trace turns must be straight or 45 degrees. Both external GPIO service strips exclude unrelated tracks, vias and plane fill; only exact own-pad inward leads are permitted.
 
-The latest published, normally closed native snapshot is [native-gpio-routing-60-07](designs/rp2350-pico/native-gpio-routing-60-07/README.md). It contains 512 saved track segments, 87 vias and no ground fill. Native endpoint observation reported 20 connected and 47 disconnected functional nets. It is incomplete. Later local routing batches must be checked and published before being treated as a newer delivered snapshot.
+The latest published, normally closed native snapshot is [native-signal-routing-60-08](designs/rp2350-pico/native-signal-routing-60-08/README.md). It contains 630 saved track segments, 96 vias and no ground fill. Native endpoint observation reported 35 connected and 32 disconnected functional nets. It is incomplete. Later local routing batches must be checked and published before being treated as a newer delivered snapshot.
 
 The guarded front-silkscreen operation now supports 0/90/180/270-degree text and explicit integer-nanometre materialization. Exact native readback and source preservation remain mandatory. The focused text/serialization/native-unit suites passed 152 tests; separate angle suites passed 52 tests and V2 authoring/save-policy suites passed 186 tests. Source/UI typechecks and an isolated backend build passed. These are scoped results, not a full-suite or native-text-qualification claim; the latter is pending.
 

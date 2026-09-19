@@ -1,6 +1,20 @@
 # Current status and roadmap
 
 Latest native milestone, 19 September 2026: the
+[60-08 signal-routing snapshot](../designs/rp2350-pico/native-signal-routing-60-08/README.md)
+is normally closed with **630 segments, 96 vias and no zones** through batch 50.
+Native endpoint checks confirm **35 of 67 nets connected**, with every eligible
+physical member reachable on those nets; 32 remain disconnected. The six flash
+nets, LED_A, RT_LX1/2, SWCLK_HDR and five additional GPIO nets are now connected.
+Both GPIO service strips remain clear with 37 exact own-pad leads. Configured
+ERC has zero findings. DRC reports 102 unconnected errors, 36 dangling vias and
+19 dangling tracks, with no reported clearance/courtyard/parity findings and its
+exclusions retained. Corrected source analysis checks 465 sequential turns
+without violations; four branch junctions remain unresolved. All six sources
+match the closed checkpoint. **Routing, ground fill, labels, return-path
+verification and design acceptance remain incomplete.**
+
+Earlier native milestone, 19 September 2026: the
 [60-07 GPIO-routing snapshot](../designs/rp2350-pico/native-gpio-routing-60-07/README.md)
 is normally closed with **512 segments, 87 vias and no zones** through batch 30.
 The public native endpoint checker confirms **20 of 67 nets connected**, with

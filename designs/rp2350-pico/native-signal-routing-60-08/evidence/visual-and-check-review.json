@@ -1,0 +1,159 @@
+{
+  "reviewedBy": "/root",
+  "independent": false,
+  "sourcePcbSha256": "70314bc44da7f9b496c4d1b549bcf93a4c3659876a06924623b3da6bfc2c890c",
+  "throughBatch": 50,
+  "tracks": 630,
+  "vias": 96,
+  "zones": 0,
+  "connectedNets": 35,
+  "disconnectedNets": 32,
+  "configuredErcFindings": 0,
+  "drc": {
+    "total": 157,
+    "returned": 8,
+    "omitted": 149,
+    "partial": true,
+    "counts": {
+      "error": 102,
+      "warning": 55
+    },
+    "byType": {
+      "via_dangling": 36,
+      "track_dangling": 19,
+      "unconnected_items": 102
+    },
+    "orderedRowsPreserved": true,
+    "stableIdsMayRepeat": true
+  },
+  "ignoredDrcChecks": [
+    "missing_courtyard",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries",
+    "footprint_filters_mismatch",
+    "footprint_type_mismatch"
+  ],
+  "headerServiceStripsClear": true,
+  "permittedOwnLeads": 37,
+  "measuredSequentialTurns": 465,
+  "correctedSequentialTurnViolations": 0,
+  "unresolvedJunctions": 4,
+  "visualQaUnchanged": true,
+  "visuals": [
+    {
+      "view": "top",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-36\\workspace-client-23ff216b-e776-4a8a-8f01-e6fa008c5e35\\000259-response-a14d0c022c6ebccf0c6375e4958b520869e348c8cdab56ddaf327144d8dded97.json",
+      "png": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\toolbox-preview-b4020d79-7869-4dc4-8eff-1e501317d221\\board-top.png",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "02a192afb9f1bd950dedc490972ad148ff1bc28905abdd9171d9a969ed67ed79",
+          "size": 114660
+        },
+        "width": 1800,
+        "height": 1273,
+        "mimeType": "image/png",
+        "sourceSvgSha256": "f1e10ec1b10d0f7679038b39aba04f0b9edf9fce01ce2fac2b11f36ed0817601"
+      },
+      "svg": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\toolbox-preview-b4020d79-7869-4dc4-8eff-1e501317d221\\board-top.svg",
+        "relativePath": "board-top.svg",
+        "sizeBytes": 174733,
+        "sha256": "f1e10ec1b10d0f7679038b39aba04f0b9edf9fce01ce2fac2b11f36ed0817601"
+      }
+    },
+    {
+      "view": "assembly",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-36\\workspace-client-23ff216b-e776-4a8a-8f01-e6fa008c5e35\\000264-response-cff7bd1b28e578e8bf8900a25fcc18c1c1ccc8de6d28b1030db9514858eb26b2.json",
+      "png": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\toolbox-preview-19dbf24c-8e2f-48cb-96f4-fae957bb1cb9\\board-assembly.png",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "a4038c62498a7158f04fbc99a40f609c87e52cde31c151e30b7dfeb746edcd00",
+          "size": 131742
+        },
+        "width": 1800,
+        "height": 1273,
+        "mimeType": "image/png",
+        "sourceSvgSha256": "a654062fdf6cc1d7eba7024182cba0155d35fdfdc3137261759843fb5eccc560"
+      },
+      "svg": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\toolbox-preview-19dbf24c-8e2f-48cb-96f4-fae957bb1cb9\\board-assembly.svg",
+        "relativePath": "board-assembly.svg",
+        "sizeBytes": 573595,
+        "sha256": "a654062fdf6cc1d7eba7024182cba0155d35fdfdc3137261759843fb5eccc560"
+      }
+    }
+  ],
+  "bottom": {
+    "executable": "C:/Program Files/KiCad/10.0/bin/kicad-cli.exe",
+    "args": [
+      "pcb",
+      "export",
+      "svg",
+      "--layers",
+      "B.Cu,Edge.Cuts",
+      "--page-size-mode",
+      "2",
+      "--scale",
+      "1",
+      "--exclude-drawing-sheet",
+      "--drill-shape-opt",
+      "2",
+      "--mode-single",
+      "--output",
+      "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-36\\native-bottom.svg",
+      "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb"
+    ],
+    "exitCode": 0,
+    "stdout": "Plotted to 'C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-36\\native-bottom.svg'.\r\nDone.\r\n",
+    "stderr": "",
+    "sources": [
+      {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+        "sha256": "70314bc44da7f9b496c4d1b549bcf93a4c3659876a06924623b3da6bfc2c890c"
+      },
+      {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+        "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+      },
+      {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+        "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15"
+      },
+      {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+        "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+      },
+      {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+        "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+      },
+      {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+        "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+      }
+    ],
+    "sourceUnchanged": true,
+    "svg": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-36\\native-bottom.svg",
+      "sha256": "97ef02615f1c8af9edd0df46e4e5b1cb9e4c418a744461ad2e722f75b7470d10",
+      "sizeBytes": 32118
+    },
+    "png": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-36\\native-bottom.png",
+      "sha256": "6208eb6f70135079f0141e7a4ef846c5496cab28a17e3e82d74194dd159cce3d"
+    },
+    "scope": "Read-only KiCad CLI bottom-copper/outline export and lossless white-background rasterization. Visual review is separate; no native project mutation."
+  },
+  "visualObservations": [
+    "Native top, assembly and bottom PNGs inspected.",
+    "Header pad rows remain separated from unrelated routing; exact source exclusion is established by the separate complete audit.",
+    "Flash fanout and the added regulator/debug routes are visible; placement is unchanged.",
+    "Ground fill is absent and functional pin labels remain unfinished.",
+    "Four branch junctions remain unresolved; no full-board bend-policy pass is claimed."
+  ],
+  "routingComplete": false,
+  "designAccepted": false,
+  "normalCloseStillRequired": true
+}
