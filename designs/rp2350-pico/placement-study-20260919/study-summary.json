@@ -1,0 +1,2232 @@
+{
+  "schemaVersion": "evleda.rp2350-placement-study.v1",
+  "nativeProjectId": "914f7760-c4c2-4bb8-9b51-b481242878a5",
+  "nativeOperations": 0,
+  "adopted": false,
+  "completedBoard": false,
+  "managedFilesUnchanged": {
+    "pro": {
+      "sha256": "7b118440711ccd30fe4fbc945766c335e57fe7c81e5b8e40fa050ad942a69fde",
+      "sizeBytes": 21251
+    },
+    "sch": {
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+      "sizeBytes": 221594
+    },
+    "pcb": {
+      "sha256": "6652eeb08db813382593dd8af0af00b7210ec758b4f78b3fbb7b4983b8bcd69b",
+      "sizeBytes": 457703
+    },
+    "symLibTable": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "sizeBytes": 1275
+    },
+    "fpLibTable": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "sizeBytes": 2025
+    },
+    "dru": {
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "sizeBytes": 13300
+    }
+  },
+  "usbOnly": {
+    "termination": "matched_source_facts",
+    "pinDistancesMm": [
+      {
+        "reference": "R1",
+        "pin": "1",
+        "distanceMm": 1.2831991271817482,
+        "maximumMm": 2
+      },
+      {
+        "reference": "R1",
+        "pin": "2",
+        "distanceMm": 1.8106904760339355,
+        "maximumMm": 2
+      },
+      {
+        "reference": "R2",
+        "pin": "1",
+        "distanceMm": 1.3633048081775403,
+        "maximumMm": 2
+      },
+      {
+        "reference": "R2",
+        "pin": "2",
+        "distanceMm": 1.8128982321134302,
+        "maximumMm": 2
+      }
+    ],
+    "checks": {
+      "sourcePolarity": {
+        "status": "pass",
+        "reasons": [
+          "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY"
+        ]
+      },
+      "topology": {
+        "status": "pass",
+        "reasons": [
+          "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+          "EVERY_DECLARED_ANCHOR_REACHED"
+        ]
+      },
+      "width": {
+        "status": "pass",
+        "reasons": [
+          "EXACT_TERMINAL_ROUTED_ESCAPE_DISTANCE",
+          "BODY_WIDTH_INTERVAL"
+        ]
+      },
+      "minimumGap": {
+        "status": "pass",
+        "reasons": [
+          "ALL_SIX_NET_OPPOSITE_POLARITY_CAPSULES"
+        ]
+      },
+      "coupledGap": {
+        "status": "not_assessed",
+        "reasons": [
+          "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS"
+        ]
+      },
+      "length": {
+        "status": "pass",
+        "reasons": [
+          "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH",
+          "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_ETCH_BUDGET"
+        ]
+      },
+      "skew": {
+        "status": "pass",
+        "reasons": [
+          "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_SKEW_BUDGET"
+        ]
+      },
+      "stubs": {
+        "status": "pass",
+        "reasons": [
+          "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS"
+        ]
+      },
+      "uncoupled": {
+        "status": "pass",
+        "reasons": [
+          "COMBINED_INPUT_AND_OUTPUT_UNCOUPLED_PCB_BUDGET"
+        ]
+      },
+      "transitions": {
+        "status": "pass",
+        "reasons": [
+          "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL"
+        ]
+      }
+    },
+    "paths": [
+      {
+        "receiver": {
+          "positive": {
+            "reference": "J1",
+            "pin": "A6"
+          },
+          "negative": {
+            "reference": "J1",
+            "pin": "A7"
+          }
+        },
+        "positiveLengthMm": 21.35722004875697,
+        "negativeLengthMm": 22.2995750288788,
+        "skewMm": 0.9423549801218286
+      },
+      {
+        "receiver": {
+          "positive": {
+            "reference": "J1",
+            "pin": "B6"
+          },
+          "negative": {
+            "reference": "J1",
+            "pin": "B7"
+          }
+        },
+        "positiveLengthMm": 20.692912870188287,
+        "negativeLengthMm": 19.82761543394987,
+        "skewMm": 0.8652974362384184
+      }
+    ],
+    "turnViolations": 0,
+    "unresolvedJunctions": 7
+  },
+  "limitations": [
+    "USB-only analytical source deliberately omits removed power/ground/QSPI paths.",
+    "The aggregate coupled-gap row remains not_assessed.",
+    "Stored fill is stale; no native DRC, fresh reference coverage or electrical acceptance was established.",
+    "All sampled combined placement/routing attempts remain unselected.",
+    "Narrow 3V3 planning necks in later attempts have not received current/thermal review.",
+    "QSPI source fanout, complete capacitor returns and replacement supply/ground vias remain unresolved.",
+    "Bounded searches do not establish impossibility or an optimum."
+  ],
+  "combinedAttempts": [
+    {
+      "file": "power-critical-routes.json",
+      "sha256": "27fd79640a2c989e295b753d366d4819e0ea7045a712cc3631af8dbf1740abf9",
+      "selected": false,
+      "rows": [
+        {
+          "rotation": 90,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 3161,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "unresolved",
+              "expanded": 720,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 1.686690475583121,
+              "expanded": 1300
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8256349186104046,
+              "expanded": 752
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.5291020894901646,
+              "expanded": 57093
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 52937,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 200000,
+              "frontier": 15103
+            }
+          ]
+        },
+        {
+          "rotation": 270,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 3161,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "unresolved",
+              "expanded": 720,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 3.958858223313769,
+              "expanded": 131836
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8256349186104046,
+              "expanded": 752
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.5291020894901646,
+              "expanded": 57093
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 52937,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 200000,
+              "frontier": 15103
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v3.json",
+      "sha256": "303be93089b4957cc7cd8ca8634fd86d61b6715cff8542074d4995f6abc73bdd",
+      "selected": false,
+      "rows": [
+        {
+          "ry": 27.5,
+          "cy": 25,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 14672,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1496
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            }
+          ]
+        },
+        {
+          "ry": 27.5,
+          "cy": 25.2,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 14672,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1496
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 3.9381475451951147,
+              "expanded": 130761
+            }
+          ]
+        },
+        {
+          "ry": 27.5,
+          "cy": 25.4,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 14672,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1496
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 3.958858223313769,
+              "expanded": 131836
+            }
+          ]
+        },
+        {
+          "ry": 27.55,
+          "cy": 25,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.5787005768508886,
+              "expanded": 694
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9135028842544415,
+              "expanded": 3136
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 12033,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.0335891039679583,
+              "expanded": 1277
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            }
+          ]
+        },
+        {
+          "ry": 27.55,
+          "cy": 25.2,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.5787005768508886,
+              "expanded": 694
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9135028842544415,
+              "expanded": 3136
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 12033,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.0335891039679583,
+              "expanded": 1277
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 3.9381475451951147,
+              "expanded": 130761
+            }
+          ]
+        },
+        {
+          "ry": 27.55,
+          "cy": 25.4,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.5787005768508886,
+              "expanded": 694
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9135028842544415,
+              "expanded": 3136
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 12033,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.0335891039679583,
+              "expanded": 1277
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 3.958858223313769,
+              "expanded": 131836
+            }
+          ]
+        },
+        {
+          "ry": 27.6,
+          "cy": 25,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9342135623730965,
+              "expanded": 2987
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 9382,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1021
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            }
+          ]
+        },
+        {
+          "ry": 27.6,
+          "cy": 25.2,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9342135623730965,
+              "expanded": 2987
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 9382,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1021
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 3.9381475451951147,
+              "expanded": 130761
+            }
+          ]
+        },
+        {
+          "ry": 27.6,
+          "cy": 25.4,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9342135623730965,
+              "expanded": 2987
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 9382,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1021
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 3.958858223313769,
+              "expanded": 131836
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v4.json",
+      "sha256": "8326de06f686770755fc70b216259403731f6d1020550595857d9b1319dfb352",
+      "selected": false,
+      "rows": [
+        {
+          "cy": 27.3,
+          "c3x": 14.6,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R8",
+              "R14"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "cy": 27.3,
+          "c3x": 14.8,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R8",
+              "R14"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "cy": 27.2,
+          "c3x": 14.6,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R8",
+              "R14"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "cy": 27.2,
+          "c3x": 14.8,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R8",
+              "R14"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "cy": 27.4,
+          "c3x": 14.6,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R8",
+              "R14"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "cy": 27.4,
+          "c3x": 14.8,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R8",
+              "R14"
+            ]
+          ],
+          "results": []
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v5.json",
+      "sha256": "843eada8238c88b2b21d0fe48497513895e7167910cb2a8448c5d515034dce1d",
+      "selected": false,
+      "rows": [
+        {
+          "cy": 27.3,
+          "c3x": 14.6,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "proposed",
+              "lengthMm": 5.506675682618971,
+              "expanded": 28574
+            },
+            {
+              "id": "cin",
+              "status": "unresolved",
+              "expanded": 9858,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.9432085117392135,
+              "expanded": 1664
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 40603
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 64797,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 400000,
+              "frontier": 2200
+            }
+          ]
+        },
+        {
+          "cy": 27.3,
+          "c3x": 14.8,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "proposed",
+              "lengthMm": 5.506675682618971,
+              "expanded": 31272
+            },
+            {
+              "id": "cin",
+              "status": "unresolved",
+              "expanded": 9858,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 2.084629867976524,
+              "expanded": 518
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.6734523779156074,
+              "expanded": 35208
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 64797,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 400000,
+              "frontier": 2200
+            }
+          ]
+        },
+        {
+          "cy": 27.2,
+          "c3x": 14.6,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "proposed",
+              "lengthMm": 5.506675682618971,
+              "expanded": 35378
+            },
+            {
+              "id": "cin",
+              "status": "unresolved",
+              "expanded": 9795,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 190
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 40603
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 64797,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 400000,
+              "frontier": 2200
+            }
+          ]
+        },
+        {
+          "cy": 27.2,
+          "c3x": 14.8,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "proposed",
+              "lengthMm": 5.506675682618971,
+              "expanded": 39259
+            },
+            {
+              "id": "cin",
+              "status": "unresolved",
+              "expanded": 9795,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 2.084629867976524,
+              "expanded": 1106
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.6734523779156074,
+              "expanded": 35208
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 64797,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 400000,
+              "frontier": 2200
+            }
+          ]
+        },
+        {
+          "cy": 27.4,
+          "c3x": 14.6,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 14672,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1496
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44402
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 64797,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 400000,
+              "frontier": 2200
+            }
+          ]
+        },
+        {
+          "cy": 27.4,
+          "c3x": 14.8,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 14672,
+              "frontier": 0
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.033589103967958,
+              "expanded": 1496
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 2.084629867976524,
+              "expanded": 1490
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.6734523779156074,
+              "expanded": 36594
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 64797,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 400000,
+              "frontier": 2200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v6.json",
+      "sha256": "bf107abdd1382f2fe76cd29e58dca7cefb3a5f8aa0e6d4671af67e408edd1b46",
+      "selected": false,
+      "rows": [
+        {
+          "cy": 27.3,
+          "c3x": 14.6,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.060365799264593,
+              "expanded": 1356
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 37,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44402
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 71435,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 538431,
+              "frontier": 0
+            }
+          ]
+        },
+        {
+          "cy": 27.3,
+          "c3x": 14.8,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.060365799264593,
+              "expanded": 1356
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 37,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 2.084629867976524,
+              "expanded": 1490
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.6734523779156074,
+              "expanded": 36594
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 71435,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 538431,
+              "frontier": 0
+            }
+          ]
+        },
+        {
+          "cy": 27.2,
+          "c3x": 14.6,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.101787155501904,
+              "expanded": 804
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 37,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44402
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 71435,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 538431,
+              "frontier": 0
+            }
+          ]
+        },
+        {
+          "cy": 27.2,
+          "c3x": 14.8,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.101787155501904,
+              "expanded": 804
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 37,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 2.084629867976524,
+              "expanded": 1490
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.6734523779156074,
+              "expanded": 36594
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 71435,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 538431,
+              "frontier": 0
+            }
+          ]
+        },
+        {
+          "cy": 27.4,
+          "c3x": 14.6,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.0189444430272854,
+              "expanded": 1864
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 37,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44402
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 71435,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 538431,
+              "frontier": 0
+            }
+          ]
+        },
+        {
+          "cy": 27.4,
+          "c3x": 14.8,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6287005768508893,
+              "expanded": 719
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8927922061357854,
+              "expanded": 3116
+            },
+            {
+              "id": "cin",
+              "status": "proposed",
+              "lengthMm": 2.0189444430272854,
+              "expanded": 1864
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 37,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 2.084629867976524,
+              "expanded": 1490
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.6734523779156074,
+              "expanded": 36594
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 71435,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 538431,
+              "frontier": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v7.json",
+      "sha256": "03d60d5a1ba6d3467346798708db6b76c823ca2832425097ea01d7eebbb45252",
+      "selected": false,
+      "rows": [
+        {
+          "c14x": 8.45,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R2",
+              "C1"
+            ],
+            [
+              "courtyard",
+              "C1",
+              "R2"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "c14x": 8.55,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R2",
+              "C1"
+            ],
+            [
+              "courtyard",
+              "C1",
+              "R2"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "c14x": 8.65,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R2",
+              "C1"
+            ],
+            [
+              "courtyard",
+              "C1",
+              "R2"
+            ]
+          ],
+          "results": []
+        },
+        {
+          "c14x": 8.7,
+          "placementIssues": [
+            [
+              "courtyard",
+              "R2",
+              "C1"
+            ],
+            [
+              "courtyard",
+              "C1",
+              "R2"
+            ]
+          ],
+          "results": []
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v8.json",
+      "sha256": "0bda4b0b1418ead2921dc0aa11eb81bc02ad279e238964779d1533051738b55a",
+      "selected": false,
+      "rows": [
+        {
+          "c14x": 8.45,
+          "sourceIssues": [
+            {
+              "type": "pad-clearance",
+              "trace": "local-v8/cin:2",
+              "pad": "R2.2",
+              "gap": 0.18,
+              "required": 0.2
+            }
+          ],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2574011537017784,
+              "expanded": 537
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6201219330881984,
+              "expanded": 1733
+            },
+            {
+              "id": "dm-tail",
+              "status": "unresolved",
+              "expanded": 6050,
+              "frontier": 0
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 186,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44380
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 58126,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "proposed",
+              "lengthMm": 10.465128060534576,
+              "expanded": 170615
+            }
+          ]
+        },
+        {
+          "c14x": 8.55,
+          "sourceIssues": [
+            {
+              "type": "pad-clearance",
+              "trace": "local-v8/cin:2",
+              "pad": "R2.2",
+              "gap": 0.18,
+              "required": 0.2
+            }
+          ],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2574011537017784,
+              "expanded": 537
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6201219330881984,
+              "expanded": 1733
+            },
+            {
+              "id": "dm-tail",
+              "status": "unresolved",
+              "expanded": 6050,
+              "frontier": 0
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 186,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44380
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 56848,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "proposed",
+              "lengthMm": 10.527260094890542,
+              "expanded": 195200
+            }
+          ]
+        },
+        {
+          "c14x": 8.65,
+          "sourceIssues": [
+            {
+              "type": "pad-clearance",
+              "trace": "local-v8/cin:2",
+              "pad": "R2.2",
+              "gap": 0.18,
+              "required": 0.2
+            }
+          ],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2574011537017784,
+              "expanded": 537
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6201219330881984,
+              "expanded": 1733
+            },
+            {
+              "id": "dm-tail",
+              "status": "unresolved",
+              "expanded": 6050,
+              "frontier": 0
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 186,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44380
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 57286,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 512519,
+              "frontier": 0
+            }
+          ]
+        },
+        {
+          "c14x": 8.7,
+          "sourceIssues": [
+            {
+              "type": "pad-clearance",
+              "trace": "local-v8/cin:2",
+              "pad": "R2.2",
+              "gap": 0.18,
+              "required": 0.2
+            }
+          ],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2574011537017784,
+              "expanded": 537
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6201219330881984,
+              "expanded": 1733
+            },
+            {
+              "id": "dm-tail",
+              "status": "unresolved",
+              "expanded": 6050,
+              "frontier": 0
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 186,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44380
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 58112,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 514088,
+              "frontier": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v9.json",
+      "sha256": "a5e448c1353aa5ca34683beecbc0e0e6b1f12ba5d3e62187bcc62370043072a0",
+      "selected": false,
+      "rows": [
+        {
+          "c14x": 8.45,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2574011537017784,
+              "expanded": 537
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6368376618407379,
+              "expanded": 1578
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9417261889578021,
+              "expanded": 3113
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 186,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44380
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 58126,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "proposed",
+              "lengthMm": 10.465128060534576,
+              "expanded": 170615
+            }
+          ]
+        },
+        {
+          "c14x": 8.55,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.528700576850888,
+              "expanded": 661
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2574011537017784,
+              "expanded": 537
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.6368376618407379,
+              "expanded": 1578
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.9417261889578021,
+              "expanded": 3113
+            },
+            {
+              "id": "lx",
+              "status": "unresolved",
+              "expanded": 186,
+              "frontier": 0
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.8846298679765228,
+              "expanded": 101
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 44380
+            },
+            {
+              "id": "c14",
+              "status": "unresolved",
+              "expanded": 56848,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "proposed",
+              "lengthMm": 10.527260094890542,
+              "expanded": 195200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v10.json",
+      "sha256": "c396d3f03497a9a8e753819e3f341a6b0e4ce9daccb48a6bc01e633660fd0c10",
+      "selected": false,
+      "rows": [
+        {
+          "c14x": 8.45,
+          "sourceIssues": [
+            {
+              "type": "pad-clearance",
+              "trace": "revision/dm-body:2",
+              "pad": "R2.1",
+              "gap": 0.194138,
+              "required": 0.2
+            },
+            {
+              "type": "existing-trace-clearance",
+              "a": "local-v10/c14:0",
+              "b": "core/qspi-sd0:2",
+              "gap": 0.143198,
+              "required": 0.15
+            },
+            {
+              "type": "existing-trace-clearance",
+              "a": "local-v10/c14:0",
+              "b": "core/qspi-sclk:5",
+              "gap": -0.157322,
+              "required": 0.15
+            },
+            {
+              "type": "existing-trace-clearance",
+              "a": "local-v10/c14:1",
+              "b": "core/qspi-sd0:2",
+              "gap": 0.143198,
+              "required": 0.15
+            },
+            {
+              "type": "existing-trace-clearance",
+              "a": "local-v10/c14:1",
+              "b": "core/qspi-sclk:5",
+              "gap": -0.157322,
+              "required": 0.15
+            },
+            {
+              "type": "existing-trace-clearance",
+              "a": "local-v10/c14:2",
+              "b": "core/qspi-sd0:2",
+              "gap": 0.143198,
+              "required": 0.15
+            },
+            {
+              "type": "existing-trace-clearance",
+              "a": "local-v10/c14:2",
+              "b": "core/qspi-sclk:5",
+              "gap": -0.157322,
+              "required": 0.15
+            }
+          ],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.5701219330881977,
+              "expanded": 1583
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.298822509939087,
+              "expanded": 900
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.653700576850888,
+              "expanded": 733
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8410155108391495,
+              "expanded": 2308
+            },
+            {
+              "id": "lx",
+              "status": "proposed",
+              "lengthMm": 5.506675682618972,
+              "expanded": 12798
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.9432085117392135,
+              "expanded": 1558
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 40603
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 515959,
+              "frontier": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v11.json",
+      "sha256": "81cd5b19fa4528ddf7f9cf65147914dd764756e7ebde90f25f3c362803dda4f0",
+      "selected": false,
+      "rows": [
+        {
+          "c14x": 8.45,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.6347665940288716,
+              "expanded": 1507
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2134671708797562,
+              "expanded": 695
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.653700576850888,
+              "expanded": 733
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8513708498984782,
+              "expanded": 2496
+            },
+            {
+              "id": "lx",
+              "status": "proposed",
+              "lengthMm": 5.506675682618972,
+              "expanded": 12798
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.9432085117392135,
+              "expanded": 1558
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 40603
+            },
+            {
+              "id": "sd0",
+              "status": "proposed",
+              "lengthMm": 7.303427124746192,
+              "expanded": 145673
+            },
+            {
+              "id": "sclk",
+              "status": "unresolved",
+              "expanded": 614988,
+              "frontier": 0
+            },
+            {
+              "id": "qspi",
+              "status": "unresolved",
+              "expanded": 519858,
+              "frontier": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "power-revision-search-v12.json",
+      "sha256": "a221aaec7c3f29cd919e00e3b41140f057b609a69d729803909e0c961a674b4a",
+      "selected": false,
+      "rows": [
+        {
+          "c14x": 8.45,
+          "sourceIssues": [],
+          "results": [
+            {
+              "id": "dp-launch",
+              "status": "proposed",
+              "lengthMm": 1.6347665940288716,
+              "expanded": 1507
+            },
+            {
+              "id": "dp-tail",
+              "status": "proposed",
+              "lengthMm": 1.2134671708797562,
+              "expanded": 695
+            },
+            {
+              "id": "dm-launch",
+              "status": "proposed",
+              "lengthMm": 1.653700576850888,
+              "expanded": 733
+            },
+            {
+              "id": "dm-tail",
+              "status": "proposed",
+              "lengthMm": 1.8513708498984782,
+              "expanded": 2496
+            },
+            {
+              "id": "lx",
+              "status": "proposed",
+              "lengthMm": 5.506675682618972,
+              "expanded": 12798
+            },
+            {
+              "id": "cout",
+              "status": "proposed",
+              "lengthMm": 2.1624116139070444,
+              "expanded": 3386
+            },
+            {
+              "id": "avdd-pin",
+              "status": "proposed",
+              "lengthMm": 1.9432085117392135,
+              "expanded": 1558
+            },
+            {
+              "id": "avdd-filter",
+              "status": "proposed",
+              "lengthMm": 3.7562950903902257,
+              "expanded": 40603
+            },
+            {
+              "id": "qspi",
+              "status": "proposed",
+              "lengthMm": 10.175178566873415,
+              "expanded": 373277
+            },
+            {
+              "id": "sclk",
+              "status": "unresolved",
+              "expanded": 114536,
+              "frontier": 0
+            },
+            {
+              "id": "sd0",
+              "status": "unresolved",
+              "expanded": 127773,
+              "frontier": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

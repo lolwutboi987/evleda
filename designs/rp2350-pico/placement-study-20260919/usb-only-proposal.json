@@ -1,0 +1,351 @@
+{
+  "sourcePcbSha256": "6652eeb08db813382593dd8af0af00b7210ec758b4f78b3fbb7b4983b8bcd69b",
+  "selected": {
+    "index": 0,
+    "poses": {
+      "R1": {
+        "x": 10,
+        "y": 27.8,
+        "r": 180
+      },
+      "C14": {
+        "x": 8.965,
+        "y": 26.4,
+        "r": 90
+      },
+      "R2": {
+        "x": 11.9,
+        "y": 27.7,
+        "r": 0
+      },
+      "C3": {
+        "x": 14.4,
+        "y": 27.3,
+        "r": 90
+      },
+      "R8": {
+        "x": 15.4,
+        "y": 26,
+        "r": 90
+      },
+      "C1": {
+        "x": 13.3,
+        "y": 27.4,
+        "r": 90
+      },
+      "L1": {
+        "x": 12.45,
+        "y": 24.85,
+        "r": 90
+      },
+      "C2": {
+        "x": 14,
+        "y": 25.4,
+        "r": 90
+      }
+    },
+    "dx": 0.2,
+    "bendY": 24.8,
+    "endY": 26.5,
+    "paths": [
+      {
+        "id": "revision/USB_DP_MCU",
+        "net": "USB_DP_MCU",
+        "layer": "F.Cu",
+        "width": 0.2,
+        "points": [
+          [
+            10.51,
+            27.8
+          ],
+          [
+            10.51,
+            28.085
+          ],
+          [
+            10.8,
+            28.375
+          ],
+          [
+            10.8,
+            29.05
+          ]
+        ]
+      },
+      {
+        "id": "revision/USB_DM_MCU",
+        "net": "USB_DM_MCU",
+        "layer": "F.Cu",
+        "width": 0.2,
+        "points": [
+          [
+            11.39,
+            27.7
+          ],
+          [
+            11.275,
+            27.815
+          ],
+          [
+            11.275,
+            28.475
+          ],
+          [
+            11.2,
+            28.55
+          ],
+          [
+            11.2,
+            29.05
+          ]
+        ]
+      },
+      {
+        "id": "usb/dp-esd-fan",
+        "net": "USB_DP_ESD",
+        "layer": "F.Cu",
+        "width": 0.2,
+        "points": [
+          [
+            9.9,
+            13.1375
+          ],
+          [
+            9.4,
+            13.1375
+          ],
+          [
+            9,
+            13.5375
+          ],
+          [
+            9,
+            13.6375
+          ],
+          [
+            9.77,
+            14.4075
+          ],
+          [
+            9.77,
+            14.5075
+          ]
+        ],
+        "originalId": "dp-esd-fan",
+        "group": "usb",
+        "owner": "schematic_seed_revision"
+      },
+      {
+        "id": "usb/dm-esd-fan",
+        "net": "USB_DM_ESD",
+        "layer": "F.Cu",
+        "width": 0.2,
+        "points": [
+          [
+            11.8,
+            13.1375
+          ],
+          [
+            11.8,
+            14
+          ],
+          [
+            10.79,
+            15.01
+          ],
+          [
+            10.79,
+            15.2
+          ]
+        ],
+        "originalId": "dm-esd-fan",
+        "group": "usb",
+        "owner": "schematic_seed_revision"
+      },
+      {
+        "id": "revision/dp-body",
+        "net": "USB_DP_ESD",
+        "layer": "F.Cu",
+        "width": 0.82,
+        "points": [
+          [
+            9.77,
+            14.5075
+          ],
+          [
+            9.77,
+            14.7
+          ],
+          [
+            8.82,
+            15.65
+          ],
+          [
+            8.82,
+            16.25
+          ],
+          [
+            9.77,
+            17.2
+          ],
+          [
+            9.77,
+            24.8
+          ],
+          [
+            9.97,
+            25
+          ],
+          [
+            9.97,
+            26.5
+          ]
+        ]
+      },
+      {
+        "id": "revision/dm-body",
+        "net": "USB_DM_ESD",
+        "layer": "F.Cu",
+        "width": 0.82,
+        "points": [
+          [
+            10.79,
+            15.2
+          ],
+          [
+            10.79,
+            24.37
+          ],
+          [
+            10.99,
+            24.57
+          ],
+          [
+            10.99,
+            26.5
+          ]
+        ]
+      },
+      {
+        "id": "revision/R1-line",
+        "net": "USB_DP_ESD",
+        "layer": "F.Cu",
+        "width": 0.2,
+        "points": [
+          [
+            9.97,
+            26.5
+          ],
+          [
+            9.775,
+            26.695
+          ],
+          [
+            9.775,
+            27.275
+          ],
+          [
+            9.49,
+            27.56
+          ],
+          [
+            9.49,
+            27.8
+          ]
+        ]
+      },
+      {
+        "id": "revision/R2-line",
+        "net": "USB_DM_ESD",
+        "layer": "F.Cu",
+        "width": 0.2,
+        "points": [
+          [
+            10.99,
+            26.5
+          ],
+          [
+            11.19,
+            26.7
+          ],
+          [
+            11.35,
+            26.7
+          ],
+          [
+            12.075,
+            27.425
+          ],
+          [
+            12.075,
+            27.525
+          ],
+          [
+            12.25,
+            27.7
+          ],
+          [
+            12.41,
+            27.7
+          ]
+        ]
+      }
+    ],
+    "checked": {
+      "scope": "Changed paths/vias against complete retained scene only; full host topology, annular contact, physical graph, return planes, current, thermal and native acceptance not assessed.",
+      "issues": [],
+      "metrics": {
+        "minPaste": null,
+        "minDrill": null,
+        "minReferenceExcess": null
+      },
+      "budgets": [
+        {
+          "net": "USB_DP_MCU",
+          "lengthMm": 1.3701219330881984,
+          "viaCount": 0,
+          "maximumLengthMm": 3,
+          "maximumVias": 0
+        },
+        {
+          "net": "USB_DM_MCU",
+          "lengthMm": 1.42870057685089,
+          "viaCount": 0,
+          "maximumLengthMm": 3,
+          "maximumVias": 0
+        },
+        {
+          "net": "USB_DP_ESD",
+          "lengthMm": 16.715800858899104,
+          "viaCount": 0,
+          "maximumLengthMm": 22,
+          "maximumVias": 0
+        },
+        {
+          "net": "USB_DM_ESD",
+          "lengthMm": 15.839333329081851,
+          "viaCount": 0,
+          "maximumLengthMm": 22,
+          "maximumVias": 0
+        }
+      ],
+      "globalVias": 98
+    }
+  },
+  "rows": [
+    {
+      "index": 0,
+      "tested": 3,
+      "bodyPassed": 3,
+      "tailPassed": 1,
+      "selected": true
+    }
+  ],
+  "failures": {
+    "R2-tail-unresolved": 2
+  },
+  "nativeOperations": 0,
+  "adopted": false,
+  "scope": "Complete replacement of the two MCU launches and two ESD input nets against retained copper and reference obstructions. All port-side routes are retained. Full source interface assessment and all removed power/ground/QSPI replacements remain required.",
+  "revision": "Early D+ offset adds 0.787006 mm with straight/45 degree joins; full-channel assessment follows."
+}

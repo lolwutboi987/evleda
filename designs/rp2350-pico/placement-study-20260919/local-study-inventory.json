@@ -1,0 +1,271 @@
+{
+  "directory": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-usb-regulator-reroute-01",
+  "scope": "Local retained study files, including rejected proposals; this inventory does not claim the scripts are standalone repository tools.",
+  "files": [
+    {
+      "name": "assess-channel-v2.mjs",
+      "sha256": "e5ddd52805ef8572d07a6e5efc1b7751be658cfc2bdf39da700f8866031f38d8",
+      "sizeBytes": 4151
+    },
+    {
+      "name": "assess-channel.mjs",
+      "sha256": "5e66d072a98f435a11a558506e8ac945209fb7bfe7c0dfa5aa3e023061b7df7f",
+      "sizeBytes": 4142
+    },
+    {
+      "name": "balance-channel.mjs",
+      "sha256": "ef746c602a5056e34c679945ddb0deece6426d69b56f937b09a9a4233beae817",
+      "sizeBytes": 1322
+    },
+    {
+      "name": "channel-assessment-v2.json",
+      "sha256": "0e54158bf98917dc6920d1c6014255bc3cfb15e6cb2bd49abab5777c94bfb77c",
+      "sizeBytes": 1270481
+    },
+    {
+      "name": "channel-assessment.json",
+      "sha256": "33e6dd6480f6c2d85001a25b65b47921aba2a879f528b6b5cb043e96489f2896",
+      "sizeBytes": 1185572
+    },
+    {
+      "name": "channel-candidate-v2.json",
+      "sha256": "da4426526875035dca4daee8b07cefc0df2dc21236959174d11a6f4fc31a623b",
+      "sizeBytes": 6663
+    },
+    {
+      "name": "channel-candidate.json",
+      "sha256": "fbaee878336e320980b8c59fd12678f501a69ef66efcf4c0c9232256229e6a1a",
+      "sizeBytes": 6307
+    },
+    {
+      "name": "channel-only-v2.kicad_pcb",
+      "sha256": "fcb2b8077ff52e1c7d613daaedbab7ad0065dba79a1d677ff59b1c959932a01f",
+      "sizeBytes": 448068
+    },
+    {
+      "name": "channel-only.kicad_pcb",
+      "sha256": "d29b82156770dec4402645734592b0f2eb16e692761d8f58e1ed3abd39d5833a",
+      "sizeBytes": 447516
+    },
+    {
+      "name": "channel-source-model-v2.json",
+      "sha256": "d8080cfa455ca93d4d17ed84f4714d966206d604ddedead90cc5ab5ff1364f58",
+      "sizeBytes": 1013233
+    },
+    {
+      "name": "channel-source-model.json",
+      "sha256": "90df8a39f6b5619dc368fc6f117c47a8c1c015a05f78ae495f21945c0c5e45c6",
+      "sizeBytes": 1011011
+    },
+    {
+      "name": "front-router.mjs",
+      "sha256": "f1034c2edf7340f6d33ddefa3bc34515b23bc14f85380256c4dbbb9a414042a3",
+      "sizeBytes": 6758
+    },
+    {
+      "name": "launch-candidates-r1-180.json",
+      "sha256": "c42cc144b9e09a2afad4b391df8bfea2e985bbace2e0c0b2f7afa36804d5a99b",
+      "sizeBytes": 301673
+    },
+    {
+      "name": "launch-candidates.json",
+      "sha256": "64bb161b697b6de5936985e8559a8f74fb9e3468764115a7b0360788d7f29b13",
+      "sizeBytes": 35670
+    },
+    {
+      "name": "models.mjs",
+      "sha256": "e51a557dedb671d8f1f861fb6474692fcbe58f43d62a784837949004671b296f",
+      "sizeBytes": 4629
+    },
+    {
+      "name": "power-critical-routes.json",
+      "sha256": "27fd79640a2c989e295b753d366d4819e0ea7045a712cc3631af8dbf1740abf9",
+      "sizeBytes": 9869
+    },
+    {
+      "name": "power-revision-search-v10.json",
+      "sha256": "c396d3f03497a9a8e753819e3f341a6b0e4ce9daccb48a6bc01e633660fd0c10",
+      "sizeBytes": 10611
+    },
+    {
+      "name": "power-revision-search-v11.json",
+      "sha256": "81cd5b19fa4528ddf7f9cf65147914dd764756e7ebde90f25f3c362803dda4f0",
+      "sizeBytes": 10610
+    },
+    {
+      "name": "power-revision-search-v12.json",
+      "sha256": "a221aaec7c3f29cd919e00e3b41140f057b609a69d729803909e0c961a674b4a",
+      "sizeBytes": 10996
+    },
+    {
+      "name": "power-revision-search-v3.json",
+      "sha256": "303be93089b4957cc7cd8ca8634fd86d61b6715cff8542074d4995f6abc73bdd",
+      "sizeBytes": 30141
+    },
+    {
+      "name": "power-revision-search-v4.json",
+      "sha256": "8326de06f686770755fc70b216259403731f6d1020550595857d9b1319dfb352",
+      "sizeBytes": 1000
+    },
+    {
+      "name": "power-revision-search-v5.json",
+      "sha256": "843eada8238c88b2b21d0fe48497513895e7167910cb2a8448c5d515034dce1d",
+      "sizeBytes": 46247
+    },
+    {
+      "name": "power-revision-search-v6.json",
+      "sha256": "bf107abdd1382f2fe76cd29e58dca7cefb3a5f8aa0e6d4671af67e408edd1b46",
+      "sizeBytes": 45121
+    },
+    {
+      "name": "power-revision-search-v7.json",
+      "sha256": "03d60d5a1ba6d3467346798708db6b76c823ca2832425097ea01d7eebbb45252",
+      "sizeBytes": 911
+    },
+    {
+      "name": "power-revision-search-v8.json",
+      "sha256": "0bda4b0b1418ead2921dc0aa11eb81bc02ad279e238964779d1533051738b55a",
+      "sizeBytes": 33002
+    },
+    {
+      "name": "power-revision-search-v9.json",
+      "sha256": "a5e448c1353aa5ca34683beecbc0e0e6b1f12ba5d3e62187bcc62370043072a0",
+      "sizeBytes": 18677
+    },
+    {
+      "name": "power-source-model-r270.json",
+      "sha256": "68fd49bc5f253b05eb82e21e3ac6772e9ba7b7ef0261d73e1a47c481cbbe9a6b",
+      "sizeBytes": 1018648
+    },
+    {
+      "name": "power-source-model-r90.json",
+      "sha256": "555f12a7fc5d87c9633922a08a0790e42894fbe295ffec463ecf9dc749f523d3",
+      "sizeBytes": 1017833
+    },
+    {
+      "name": "power-source-model-v10-8.45.json",
+      "sha256": "15a1f251327b20fb078891e7a0e428b70c2b49dfc26dcb6ff37e537d0ef00cea",
+      "sizeBytes": 1024969
+    },
+    {
+      "name": "power-source-model-v11-8.45.json",
+      "sha256": "2a8fc7d7e874e006b8101733000c6215779dbb95891bb00384735b746b61aa72",
+      "sizeBytes": 1022417
+    },
+    {
+      "name": "power-source-model-v12-8.45.json",
+      "sha256": "ab06d107a2a7d72ab3bf8745e513a2c7e270c97ecfb2b0f8d6b7ba7a3d0a8e71",
+      "sizeBytes": 1025181
+    },
+    {
+      "name": "power-source-model-v8-8.45.json",
+      "sha256": "4ddd27108e77a08db7d2b12a21ce7d66a83eb976f9eb258f773e89595c690b9b",
+      "sizeBytes": 1021638
+    },
+    {
+      "name": "power-source-model-v8-8.55.json",
+      "sha256": "416ae2c82d7e21d198adc46643dd3db5606780a13a279e1e9c26adf3f29b1145",
+      "sizeBytes": 1023887
+    },
+    {
+      "name": "power-source-model-v8-8.65.json",
+      "sha256": "24f490e2987d85492867f967195855db751d5fcfc1615e7cd8aa4493e3b71fab",
+      "sizeBytes": 1015938
+    },
+    {
+      "name": "power-source-model-v8-8.7.json",
+      "sha256": "59ecace450ba79a06a64d3a3e70f203d9c1ce2b81e9c1b42f833fc2729f680a0",
+      "sizeBytes": 1015932
+    },
+    {
+      "name": "power-source-model-v9-8.45.json",
+      "sha256": "e17fb3801befaaa0cb773657b96588552a92704ce5e9458a1a290fce782c2d2e",
+      "sizeBytes": 1025263
+    },
+    {
+      "name": "power-source-model-v9-8.55.json",
+      "sha256": "79709c2c8df42e11633fd3714d3d1d1e7c47c142a75d809d5f0ee583425ca3d1",
+      "sizeBytes": 1027512
+    },
+    {
+      "name": "prepare-power-v7.mjs",
+      "sha256": "a3a6a6503d7095fae27f06449b3d27fc5af66be40749a6db60c33ad630dc80eb",
+      "sizeBytes": 2579
+    },
+    {
+      "name": "preserve-study.mjs",
+      "sha256": "153929f974abff96a21a9a70a6f8392b65667f41a2313eaeb4a9601364216682",
+      "sizeBytes": 8185
+    },
+    {
+      "name": "route-critical-power.mjs",
+      "sha256": "da41b09ceeeda125d91d103d2f4b2b0a9c9ed3ec5fd16bbbcd3ffe23f43c19c8",
+      "sizeBytes": 1742
+    },
+    {
+      "name": "search-channel.mjs",
+      "sha256": "0f8baab4c84a9f63ad6e31370c80fcccea09f35b88cb02b5713735d7f7327f45",
+      "sizeBytes": 3677
+    },
+    {
+      "name": "search-launches-r1-180.mjs",
+      "sha256": "85f5260ebbe35f1ed4c0e3240ab54c45710ab717e56eb3163934a89c19e38d58",
+      "sizeBytes": 1899
+    },
+    {
+      "name": "search-launches.mjs",
+      "sha256": "e5e1ad307501e01da510bb7012d62119cde095a6f149ccfc4de3fc59574f0ac3",
+      "sizeBytes": 1833
+    },
+    {
+      "name": "search-power-v10.mjs",
+      "sha256": "8c9d0d504edaf509a40ab5bd68c1a070824935a553bcbffca116bb73413b99cb",
+      "sizeBytes": 4454
+    },
+    {
+      "name": "search-power-v11.mjs",
+      "sha256": "60da52f0ca25d7cc5d76e559e4b959fa84177166646627db25d3d14fe823fbde",
+      "sizeBytes": 4722
+    },
+    {
+      "name": "search-power-v12.mjs",
+      "sha256": "5c834d4709c1429b4bfbaf6742379b90767242adc3bf4c31ebd173fae57c7db7",
+      "sizeBytes": 4724
+    },
+    {
+      "name": "search-power-v3.mjs",
+      "sha256": "96220ff7baf9acc9095cd2038ebd22af8fe0e6ecca9990062310e729c12ccae9",
+      "sizeBytes": 1943
+    },
+    {
+      "name": "search-power-v4.mjs",
+      "sha256": "01d0cb986297a7edcac586924e49dd050d042e8fd4461f392fb102e3d4ae622a",
+      "sizeBytes": 4029
+    },
+    {
+      "name": "search-power-v5.mjs",
+      "sha256": "7d9b1820ad818239f86f3a3fc779f40a1474ae04cfd80338950140b86fdc935e",
+      "sizeBytes": 4031
+    },
+    {
+      "name": "search-power-v6.mjs",
+      "sha256": "743a28b24e80da64e441883742588f91001906497c6d0a6a021c63e8c569b50e",
+      "sizeBytes": 4036
+    },
+    {
+      "name": "search-power-v7.mjs",
+      "sha256": "e1156546525c378a517f210f6f93875d3524b5ca0314f7a4eb2c45d881bfa320",
+      "sizeBytes": 4316
+    },
+    {
+      "name": "search-power-v8.mjs",
+      "sha256": "577572702e26046acb47a5767f95fa3e6eb82e5c87d21c79e49bb555379766a7",
+      "sizeBytes": 4318
+    },
+    {
+      "name": "search-power-v9.mjs",
+      "sha256": "ca56817a30304adc13e21484f0c1083ee40ce4e995c39cf0f09b74ead3dadafd",
+      "sizeBytes": 4382
+    }
+  ]
+}
