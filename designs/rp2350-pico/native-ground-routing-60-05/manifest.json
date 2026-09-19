@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "evleda.native-ground-routing-delivery.v1",
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "createdAt": "2026-09-19T07:27:10.803Z",
+  "files": [
+    {
+      "path": "evidence/assembly-preview-response.json",
+      "sha256": "f87f14cabc4a21c0dc050aa5373831e1e4aa4459e9c5c8b9deaa375e390b78fc",
+      "sizeBytes": 188092
+    },
+    {
+      "path": "evidence/client-terminal.json",
+      "sha256": "ea22f9e3b8de43c7f7b497c2b32b4861bdca5cd4f85696ac6cb9b6da297b1162",
+      "sizeBytes": 707
+    },
+    {
+      "path": "evidence/copy-lineage.json",
+      "sha256": "05264d9396c8755f2578061aad1b0e1d571141a5048c1efa2944ce9468c45745",
+      "sizeBytes": 15242
+    },
+    {
+      "path": "evidence/delivery-summary.json",
+      "sha256": "f0374187a1a6ac11795318e4c3f41955be39a82e31bfbadb52a017ec44cbab3f",
+      "sizeBytes": 6492
+    },
+    {
+      "path": "evidence/fields-reviewed.json",
+      "sha256": "8a872e6c867ed5c0b6674f1dfba9b8ac11ffa690105ac0e1aa88a9b7872cfb4b",
+      "sizeBytes": 1205
+    },
+    {
+      "path": "evidence/first-route-mutation.json",
+      "sha256": "64edcae9bc6ad89af8d5cfd255cbb75fafb5f9c0bbcf768242a52e5789d9460b",
+      "sizeBytes": 6718
+    },
+    {
+      "path": "evidence/first-route-result.json",
+      "sha256": "f59d73b66019cb410937c839ae791eaeb095323bf64055065beda6591c01876b",
+      "sizeBytes": 3121
+    },
+    {
+      "path": "evidence/first-route-saved-read.json",
+      "sha256": "17938ff0aa440f98340c09859eae8355bbeab6d36fbb1109b3452aa1a000d565",
+      "sizeBytes": 18347
+    },
+    {
+      "path": "evidence/ground-route-plan.json",
+      "sha256": "807c102f905160958b663cfe36d8336324e00504af8e596512af8755731e2825",
+      "sizeBytes": 31447
+    },
+    {
+      "path": "evidence/header-service-strip-audit.json",
+      "sha256": "54e7017fd191c785c3fce1452126228eac1b79f9b92fb632959a63f236348ed8",
+      "sizeBytes": 18741
+    },
+    {
+      "path": "evidence/native-checks.json",
+      "sha256": "51f1533cf38bb9efba8819e4a4097d9ccfc2cee125ff3b9db4844bddfecfafb9",
+      "sizeBytes": 42176
+    },
+    {
+      "path": "evidence/native-validation-response.json",
+      "sha256": "d1755df9ee01d3c85583e4070a8fdb8a50cd3c91458504a492bbe310c128b741",
+      "sizeBytes": 77348
+    },
+    {
+      "path": "evidence/normal-close-proof.json",
+      "sha256": "28b6fc9498cba61179636babc98d50a5143a44083fa8f5a1a831b9371f9c7d25",
+      "sizeBytes": 2966
+    },
+    {
+      "path": "evidence/normal-close-response.json",
+      "sha256": "224dec1d1146c022046e72f9fce125d3608d8d9732cfdbcedb5cabde5cbb96fa",
+      "sizeBytes": 19978
+    },
+    {
+      "path": "evidence/pad-read-C12.json",
+      "sha256": "8bfa0a3917dea764435b5f4ee8461c96895a13e0aa09474ccab2ef15e48e9199",
+      "sizeBytes": 18999
+    },
+    {
+      "path": "evidence/pad-read-J1.json",
+      "sha256": "eefae6358664fb4337aad3cd5de1ed49cce12d74003ade9ce9d33ec4641a76d8",
+      "sizeBytes": 37155
+    },
+    {
+      "path": "evidence/pad-read-R5.json",
+      "sha256": "9ef582158c9fa0a2200fa07da7b32ab22f135854e58224153b0f1e7f7fed425f",
+      "sizeBytes": 19013
+    },
+    {
+      "path": "evidence/pad-read-R7.json",
+      "sha256": "40dd94165be37435c86af7c863834dcf1dcb4ec070e3cb33985f0f160092c858",
+      "sizeBytes": 19025
+    },
+    {
+      "path": "evidence/pad-read-SW2.json",
+      "sha256": "ae6cccce72c952f3415bdaf09ad60857b47957897841f14864c777ca3ed02f2f",
+      "sizeBytes": 21113
+    },
+    {
+      "path": "evidence/pad-read-U1.json",
+      "sha256": "44be9dd48a84a7c431dd0ffee4ece85547e8c014a3397fb08b1c41d14a22cd36",
+      "sizeBytes": 82283
+    },
+    {
+      "path": "evidence/pad-read-U2.json",
+      "sha256": "f3a6f4c31324e49d7b6e43f7c9e57240deb65b4fd17af62084249245c5035482",
+      "sizeBytes": 28505
+    },
+    {
+      "path": "evidence/placement-and-pads.json",
+      "sha256": "00367c6a11dbd95d26dd1318f209f62276e79607620893eb4cfb85951b927828",
+      "sizeBytes": 2783
+    },
+    {
+      "path": "evidence/placement-response.json",
+      "sha256": "03c6e4b7071f4f9f83bad8f3eae3f5e63f8e971f022244539007bc39eb746c1d",
+      "sizeBytes": 35299
+    },
+    {
+      "path": "evidence/placement-verification.json",
+      "sha256": "4f3eae670f91665b4f2ffcc3c07b9fe1ad3551f70b7e66bf3098f60e69ee9c77",
+      "sizeBytes": 47487
+    },
+    {
+      "path": "evidence/route-batch-2-result.jsonl",
+      "sha256": "9d428776c7f88929f2a66a7f6a97ae971c53624b52465aad1d0b24f711cccc2b",
+      "sizeBytes": 1572
+    },
+    {
+      "path": "evidence/schematic-label-repair.json",
+      "sha256": "0a40c8dc75da965056f1c9d2a5e0c20288d5ad1a4f3fcf9f7bc95eb802b1d0b3",
+      "sizeBytes": 1744
+    },
+    {
+      "path": "evidence/second-batch-activation.json",
+      "sha256": "cf385e225ff779e7a8917e39d09597b35dffb552ef67785ff35446cb24162f1b",
+      "sizeBytes": 3411
+    },
+    {
+      "path": "evidence/second-route-mutation.json",
+      "sha256": "94a5b5c130f1ed7d6d82a61c3904e4d65c755d84678f05ea760f5f641d06cb62",
+      "sizeBytes": 6718
+    },
+    {
+      "path": "evidence/second-route-saved-read.json",
+      "sha256": "2174f58e64d8085501612901a2327cf55d7f77a580b87018e430ffd4dc44c9b8",
+      "sizeBytes": 62431
+    },
+    {
+      "path": "evidence/top-preview-response.json",
+      "sha256": "2af620506e6b935b2cc4ffa8c3cfa0ab1d2253e43fc90a64de72b17d935816fe",
+      "sizeBytes": 135513
+    },
+    {
+      "path": "evidence/unwired-seed-close-proof.json",
+      "sha256": "d0c41ff16662104ac8a8241216659e4340e66a5492a9a1b66109d4d797cf49a7",
+      "sizeBytes": 28950
+    },
+    {
+      "path": "evidence/visual-qa-source-triage.json",
+      "sha256": "1f817d8d1613a4d02c63402e483be3d1e65918e5e4a38e617b7e1c7d1c0f58fc",
+      "sizeBytes": 4987
+    },
+    {
+      "path": "native/fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "sizeBytes": 2025
+    },
+    {
+      "path": "native/rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "sizeBytes": 13300
+    },
+    {
+      "path": "native/rp2350-pico.kicad_pcb",
+      "sha256": "602e4d25ae6b0ed33474ed8ad68ac9f637f8940ba1642d5fd248d922464ee394",
+      "sizeBytes": 273043
+    },
+    {
+      "path": "native/rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15",
+      "sizeBytes": 21307
+    },
+    {
+      "path": "native/rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+      "sizeBytes": 221594
+    },
+    {
+      "path": "native/sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "sizeBytes": 1275
+    },
+    {
+      "path": "previews/board-assembly.png",
+      "sha256": "a4038c62498a7158f04fbc99a40f609c87e52cde31c151e30b7dfeb746edcd00",
+      "sizeBytes": 131742
+    },
+    {
+      "path": "previews/board-assembly.svg",
+      "sha256": "7a76940f5c37b878bf5fee44c29bf96f2db10b056dd6433791e85eb4d56468b0",
+      "sizeBytes": 573595
+    },
+    {
+      "path": "previews/board-bottom.png",
+      "sha256": "376470da117d4835cbe61fc9f0d59e5299760ff4ce394adf80aef1239cdfa10d",
+      "sizeBytes": 663386
+    },
+    {
+      "path": "previews/board-bottom.svg",
+      "sha256": "385ec3574034a8c6472b550ddb850eaeb1138c09133bd8e6a240d20b0282c3e3",
+      "sizeBytes": 15972
+    },
+    {
+      "path": "previews/board-top.png",
+      "sha256": "f42cbd005887f3b70e414f2d086d70c731157cc4b1f87e396f10ec4472790942",
+      "sizeBytes": 92427
+    },
+    {
+      "path": "previews/board-top.svg",
+      "sha256": "e0f32d55953e2fec14bf195c5fe4011415c6d83e132b8dc203164d9c023d5106",
+      "sizeBytes": 139493
+    },
+    {
+      "path": "previews/ground-junction-crop.png",
+      "sha256": "87ca7f7fd55e353cf57497f1f0538ba6e43d115133768a74ad7e6f40a5d0201d",
+      "sizeBytes": 19434
+    },
+    {
+      "path": "README.md",
+      "sha256": "98c4d99e0464d8524dc99025699457e934f2f6adde034dc75ab4f5dc35ea41b6",
+      "sizeBytes": 6679
+    }
+  ],
+  "totalBytes": 3164840,
+  "pcbSha256": "602e4d25ae6b0ed33474ed8ad68ac9f637f8940ba1642d5fd248d922464ee394",
+  "normalCloseConfirmed": true,
+  "routingComplete": false,
+  "designAccepted": false,
+  "scope": "Every delivery file before this manifest; no self-hash claim. Exact source/preview/public-evidence copies plus explicitly derived summaries. Private raw capture and authority markers are excluded."
+}

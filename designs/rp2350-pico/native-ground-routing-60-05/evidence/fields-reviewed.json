@@ -1,0 +1,22 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "responsePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\workspace-client-58ecb65d-c212-4fbf-95ad-83427d855eff\\000373-response-90a73b4188d1862d19089e840349e74674285ca5059e46f798abbdb117dc637c.json",
+  "responseSha256": "90a73b4188d1862d19089e840349e74674285ca5059e46f798abbdb117dc637c",
+  "beforePcbSha256": "d2b555d85501000724f1a9d889343ca24f6ae206b0ed85f9f6ad3a7709232ca9",
+  "pcbSha256": "a17994b308b9c402053965e82201f05f60c4beb959d73a0731d56ca6f13985d9",
+  "placementVerification": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-05-01\\verification-result.json",
+    "sha256": "4f3eae670f91665b4f2ffcc3c07b9fe1ad3551f70b7e66bf3098f60e69ee9c77"
+  },
+  "persistence": {
+    "status": "saved-and-native-footprint-fields-verified",
+    "updateCount": 124,
+    "pcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "a17994b308b9c402053965e82201f05f60c4beb959d73a0731d56ca6f13985d9",
+      "size": 253222
+    }
+  },
+  "fieldUpdates": 124,
+  "reviewed": true
+}

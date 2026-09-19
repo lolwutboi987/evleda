@@ -1,0 +1,210 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "widthMm": 22,
+  "heightMm": 60,
+  "layers": 2,
+  "tracks": 92,
+  "vias": 38,
+  "zones": 0,
+  "footprints": 66,
+  "physicalPads": 281,
+  "drillMembers": 53,
+  "pcbSha256": "602e4d25ae6b0ed33474ed8ad68ac9f637f8940ba1642d5fd248d922464ee394",
+  "schematicSha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+  "normalClose": true,
+  "checkpointSha256": "c2515394d4010f36a6b68e6fd0c57345dddb5eb5d76295daca18f90a77a3e0c3",
+  "ercFindings": 0,
+  "drc": {
+    "total": 223,
+    "returned": 8,
+    "omitted": 215,
+    "partial": true,
+    "counts": {
+      "error": 181,
+      "warning": 42
+    },
+    "byType": {
+      "via_dangling": 34,
+      "track_dangling": 8,
+      "unconnected_items": 181
+    },
+    "orderedRowsPreserved": true,
+    "stableIdsMayRepeat": true
+  },
+  "ignoredDrcChecks": [
+    "missing_courtyard",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries",
+    "footprint_filters_mismatch",
+    "footprint_type_mismatch"
+  ],
+  "headerService": {
+    "schemaVersion": "evleda.header-service-source-audit.v1",
+    "sourceIdentity": {
+      "algorithm": "sha256",
+      "digest": "602e4d25ae6b0ed33474ed8ad68ac9f637f8940ba1642d5fd248d922464ee394",
+      "size": 273043
+    },
+    "policyIdentity": {
+      "algorithm": "sha256",
+      "digest": "a760f6e295846b5becaae3165fc50ffd795ef82d45958fdf279c7365b5337e06",
+      "schemaVersion": "evleda.header-service-policy.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "status": "clear",
+    "complete": true,
+    "violations": [],
+    "unknown": [],
+    "permittedTrackIds": [
+      "2a59c276-27d5-4ffc-9f0b-9296050e6c0c",
+      "31806bee-402a-4c47-af1b-70e0da13b953",
+      "b3b68331-0b23-4273-a357-e2872d74e153",
+      "9b7ea7f7-6ade-4664-b60f-01e73e838f94",
+      "e1c32280-a6af-4764-aad6-4b1a0d68ea87",
+      "15dbbd46-a137-448c-87cc-a94922ac01fd",
+      "59e91a95-2b52-492d-85af-b8781c320a21",
+      "219f73a9-8d58-4586-bbf3-c60c64808aa7"
+    ],
+    "counts": {
+      "tracks": 92,
+      "vias": 38,
+      "pads": 281,
+      "zones": 0,
+      "storedFillVertices": 0
+    },
+    "limits": {
+      "sourceBytes": 2097152,
+      "tracks": 1280,
+      "vias": 256,
+      "pads": 1024,
+      "zones": 4,
+      "contourVertices": 8192
+    },
+    "scope": "saved-source-copper-in-two-full-height-side-strips",
+    "nativeAuthority": false,
+    "fillFreshness": "unverified",
+    "roundrectRadiusModel": "KiCad-10.0.3-KiROUND-binary64-product-halfway-away-from-zero; coordinates remain exact source nanometres",
+    "notAssessed": [
+      "complete-intent",
+      "routing-completion",
+      "contract-numerical-rules",
+      "library-identity",
+      "clearance",
+      "ampacity",
+      "fabrication",
+      "soldering-or-rework-safety"
+    ]
+  },
+  "turns": {
+    "measured": 44,
+    "violations": [],
+    "unresolved": [
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+              "form": "segment",
+              "ordinal": 82,
+              "uuid": "2e17dc88-34d5-4052-947f-9ac5bf7d146b",
+              "startOffset": 271314,
+              "endOffset": 271467,
+              "line": 12884,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 12.84,
+                "y": 27.19
+              },
+              "end": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+              "form": "segment",
+              "ordinal": 89,
+              "uuid": "a562b0b4-048a-4509-b7a2-e79d63d132d2",
+              "startOffset": 272398,
+              "endOffset": 272551,
+              "line": 12940,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "end": {
+                "x": 12.65,
+                "y": 27.74
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+              "form": "segment",
+              "ordinal": 90,
+              "uuid": "a7b8692b-e528-4021-a34f-a2b96f95c6be",
+              "startOffset": 272554,
+              "endOffset": 272706,
+              "line": 12948,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.39,
+                "y": 27.74
+              },
+              "end": {
+                "x": 13.39,
+                "y": 27.9
+              },
+              "netName": "GND",
+              "layer": "B.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 13.39,
+            "y": 27.74
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-cb33d47811ac92801f659596"
+      }
+    ]
+  },
+  "snapshotFailureBoundaryPassed": true,
+  "routingComplete": false,
+  "designAccepted": false,
+  "privateDiagnosticPublished": false
+}

@@ -1,0 +1,48 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "fieldUpdates": [
+    {
+      "reference": "J2",
+      "field": "Reference",
+      "x_mm": 228.6,
+      "y_mm": 62.484
+    },
+    {
+      "reference": "J2",
+      "field": "Value",
+      "x_mm": 228.6,
+      "y_mm": 64.516
+    },
+    {
+      "reference": "J3",
+      "field": "Reference",
+      "x_mm": 228.6,
+      "y_mm": 120.904
+    },
+    {
+      "reference": "J3",
+      "field": "Value",
+      "x_mm": 228.6,
+      "y_mm": 122.936
+    },
+    {
+      "reference": "Y1",
+      "field": "Reference",
+      "x_mm": 156.21,
+      "y_mm": 180.34
+    },
+    {
+      "reference": "Y1",
+      "field": "Value",
+      "x_mm": 156.21,
+      "y_mm": 182.88
+    }
+  ],
+  "fieldResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\workspace-client-58ecb65d-c212-4fbf-95ad-83427d855eff\\000337-response-396f36f1e12adb65cb6a3fb7249d2f6e81f1e909a3408ac3d2a3f46f88c59525.json",
+  "schematicAfterFields": "25ecb42c9a941d45acbf59048a5d9fb24d211b3ae27009f5bb5bf122e48aafde",
+  "connectivityResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\workspace-client-58ecb65d-c212-4fbf-95ad-83427d855eff\\000340-response-9992697b03bb83aa445c164d5c0d314bfa068b2c835dee3931dda0eb4d5a4273.json",
+  "schematicAfterConnectivity": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+  "autoplacementExecuted": false,
+  "pcbSyncExecuted": false,
+  "basis": "Current native SVG visibly overlaps J2 pin 10 with its field text. Header fields move to a clear left block; Y1 right-justified fields move into a clear right-side block. Only X/Y presentation coordinates change."
+}

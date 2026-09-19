@@ -1,0 +1,1032 @@
+{
+  "recordedAt": "2026-09-19T07:05:02.997Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\workspace-client-58ecb65d-c212-4fbf-95ad-83427d855eff\\000398-request-3f825c9b964d6e658829a90e9055251108149de48cf05b091d287b9cf894f91e.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "3f825c9b964d6e658829a90e9055251108149de48cf05b091d287b9cf894f91e",
+      "size": 107
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\workspace-client-58ecb65d-c212-4fbf-95ad-83427d855eff\\000399-mcp-received-9047ee7346dfd667581ca670c8683336e95ea2dacf1d8388b402a7e0dad325a9.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "9047ee7346dfd667581ca670c8683336e95ea2dacf1d8388b402a7e0dad325a9",
+        "size": 78469
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"checks\":[{\"name\":\"run_erc\",\"result\":{\"toolCallId\":\"toolbox-check:41ba7a7c-8a1f-4e05-b0eb-a6d09186215c\",\"content\":\"{\\\"schema_version\\\":\\\"verdict.v1\\\",\\\"text\\\":\\\"ERC summary:\\\\n- Violations: 0\\\",\\\"summary\\\":\\\"ERC is clean.\\\",\\\"verdict\\\":\\\"PASS\\\",\\\"severity\\\":\\\"info\\\",\\\"failure_mode\\\":\\\"none\\\",\\\"retryable\\\":false,\\\"evidence\\\":[{\\\"report_path\\\":\\\"[redacted path]\\\",\\\"violations\\\":{\\\"$schema\\\":\\\"https://schemas.kicad.org/erc.v1.json\\\",\\\"coordinate_units\\\":\\\"mm\\\",\\\"date\\\":\\\"2026-09-19T00:01:58\\\",\\\"ignored_checks\\\":[{\\\"description\\\":\\\"Global label only appears once in the schematic\\\",\\\"key\\\":\\\"single_global_label\\\"},{\\\"description\\\":\\\"Four connection points are joined together\\\",\\\"key\\\":\\\"four_way_junction\\\"},{\\\"description\\\":\\\"SPICE model issue\\\",\\\"key\\\":\\\"simulation_model_issue\\\"},{\\\"description\\\":\\\"Assigned footprint doesn't match footprint filters\\\",\\\"key\\\":\\\"footprint_filter\\\"}],\\\"included_severities\\\":[\\\"error\\\",\\\"warning\\\",\\\"exclusion\\\"],\\\"kicad_version\\\":\\\"10.0.3\\\",\\\"sheets\\\":[{\\\"path\\\":\\\"[redacted path]\\\",\\\"uuid_path\\\":\\\"[redacted path]\\\",\\\"violations\\\":[]}],\\\"source\\\":\\\"rp2350-pico.kicad_sch\\\"}}],\\\"remediation\\\":\\\"\\\",\\\"findings\\\":[],\\\"next_action\\\":\\\"No ERC action required.\\\",\\\"metadata\\\":{\\\"report_path\\\":\\\"[redacted path]\\\",\\\"available\\\":true,\\\"violation_count\\\":0,\\\"violations\\\":[],\\\"summary\\\":{}},\\\"status\\\":\\\"clean\\\"}\"}},{\"name\":\"run_drc\",\"result\":{\"toolCallId\":\"toolbox-check:6c706f53-3346-497c-9d5b-462900c924a2\",\"content\":\"{\\\"schemaVersion\\\":\\\"evleda.native-check-summary.v1\\\",\\\"operation\\\":\\\"run_drc\\\",\\\"verdict\\\":\\\"FAIL\\\",\\\"status\\\":\\\"failed\\\",\\\"severity\\\":\\\"error\\\",\\\"failure_mode\\\":\\\"design\\\",\\\"retryable\\\":false,\\\"summary\\\":\\\"DRC: 223 findings (181 error, 42 warning).\\\",\\\"metadata\\\":{\\\"available\\\":true,\\\"report_status\\\":\\\"findings\\\",\\\"violations\\\":42,\\\"unconnected_items\\\":181,\\\"courtyard_issues\\\":0,\\\"schematic_parity\\\":0},\\\"findings\\\":[{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"},{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"},{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"},{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"},{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"},{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"},{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"},{\\\"id\\\":\\\"48d3eb7b7651\\\",\\\"severity\\\":\\\"warning\\\",\\\"type\\\":\\\"via_dangling\\\",\\\"description\\\":\\\"via_dangling: warning; 1 native item witnesses.\\\"}],\\\"findingEvidence\\\":{\\\"total\\\":223,\\\"returned\\\":8,\\\"omitted\\\":215,\\\"partial\\\":true,\\\"counts\\\":{\\\"error\\\":181,\\\"warning\\\":42},\\\"byType\\\":{\\\"via_dangling\\\":34,\\\"track_dangling\\\":8,\\\"unconnected_items\\\":181},\\\"orderedRowsPreserved\\\":true,\\\"stableIdsMayRepeat\\\":true},\\\"coverage\\\":{\\\"includedSeverities\\\":[\\\"error\\\",\\\"warning\\\",\\\"exclusion\\\"],\\\"ignoredChecks\\\":[\\\"missing_courtyard\\\",\\\"track_not_centered_on_via\\\",\\\"tuning_profile_track_geometries\\\",\\\"footprint_filters_mismatch\\\",\\\"footprint_type_mismatch\\\"],\\\"ignoredCheckCount\\\":5,\\\"nativeReportIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"e214e1efa3fd4cceec15013216bc172c83d87ac7d2630248b6926907898f3407\\\",\\\"size\\\":73663}},\\\"diagnostic\\\":{\\\"filename\\\":\\\"native-check-run_drc-56ddb5c3-97ac-405c-aaa4-7102e3b80868.json\\\",\\\"identity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"1a09a27d9251962b54ecf8707a2d3e97f1b993ba33a3eab0ce1ce23431e43307\\\",\\\"size\\\":255618}}}\"}},{\"name\":\"pcb_get_board_summary\",\"result\":{\"toolCallId\":\"toolbox-check:7eb7c503-bbee-4b85-9399-56f259e1d666\",\"content\":\"{\\\"schema_version\\\":\\\"verdict.v1\\\",\\\"text\\\":\\\"Board summary:\\\\n- Source: live-gui\\\\n- Tracks: 92\\\\n- Vias: 38\\\\n- Footprints: 66\\\\n- Zones: 0\\\\n- Nets: 70\\\\n- Shapes: 1\\\",\\\"summary\\\":\\\"Board summary from live-gui: 66 footprint(s), 70 net(s).\\\",\\\"verdict\\\":\\\"PASS\\\",\\\"severity\\\":\\\"info\\\",\\\"failure_mode\\\":\\\"none\\\",\\\"retryable\\\":false,\\\"evidence\\\":[],\\\"remediation\\\":\\\"\\\",\\\"findings\\\":[],\\\"next_action\\\":\\\"Use pcb_get_tracks(), pcb_get_footprints(), or run_drc() for details.\\\",\\\"metadata\\\":{\\\"source\\\":\\\"live-gui\\\",\\\"tracks\\\":92,\\\"vias\\\":38,\\\"footprints\\\":66,\\\"zones\\\":0,\\\"nets\\\":70,\\\"shapes\\\":1},\\\"status\\\":\\\"clean\\\"}\"}},{\"name\":\"pcb_visual_qa\",\"result\":{\"toolCallId\":\"toolbox-check:5bc879f8-cb1e-4664-93f3-7e8e0459abae\",\"content\":\"{\\\"footprint_count\\\":66,\\\"board_bounds\\\":[0,0,22,60],\\\"status\\\":\\\"WARN\\\",\\\"findings\\\":[{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"offboard_component\\\",\\\"message\\\":\\\"Footprint J2 extends outside the board outline (at 2.1, 5.9).\\\",\\\"ref\\\":\\\"J2\\\",\\\"position\\\":[2.11,5.87]},{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"offboard_component\\\",\\\"message\\\":\\\"Footprint J3 extends outside the board outline (at 19.9, 54.1).\\\",\\\"ref\\\":\\\"J3\\\",\\\"position\\\":[19.89,54.13]},{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"offboard_component\\\",\\\"message\\\":\\\"Footprint J4 extends outside the board outline (at 8.5, 57.2).\\\",\\\"ref\\\":\\\"J4\\\",\\\"position\\\":[8.46,57.2]},{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"ref_silk_overlap\\\",\\\"message\\\":\\\"Reference designators C1 and R2 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.\\\",\\\"ref\\\":\\\"C1\\\"},{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"ref_silk_overlap\\\",\\\"message\\\":\\\"Reference designators C18 and C19 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.\\\",\\\"ref\\\":\\\"C18\\\"},{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"ref_silk_overlap\\\",\\\"message\\\":\\\"Reference designators C6 and U1 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.\\\",\\\"ref\\\":\\\"C6\\\"},{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"ref_silk_overlap\\\",\\\"message\\\":\\\"Reference designators R13 and R14 overlap on the silkscreen (~0.7 mm²). Move or hide one so both stay legible.\\\",\\\"ref\\\":\\\"R13\\\"},{\\\"level\\\":\\\"WARN\\\",\\\"code\\\":\\\"ref_silk_overlap\\\",\\\"message\\\":\\\"Reference designators R18 and Y1 overlap on the silkscreen (~0.6 mm²). Move or hide one so both stay legible.\\\",\\\"ref\\\":\\\"R18\\\"},{\\\"level\\\":\\\"INFO\\\",\\\"code\\\":\\\"body_overlap\\\",\\\"message\\\":\\\"Footprints C20 and U2 bodies overlap (~2.4 mm²); confirm courtyard clearance in DRC.\\\",\\\"ref\\\":\\\"C20\\\"},{\\\"level\\\":\\\"INFO\\\",\\\"code\\\":\\\"body_overlap\\\",\\\"message\\\":\\\"Footprints C21 and U2 bodies overlap (~2.5 mm²); confirm courtyard clearance in DRC.\\\",\\\"ref\\\":\\\"C21\\\"},{\\\"level\\\":\\\"INFO\\\",\\\"code\\\":\\\"body_overlap\\\",\\\"message\\\":\\\"Footprints H1 and J2 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.\\\",\\\"ref\\\":\\\"H1\\\"},{\\\"level\\\":\\\"INFO\\\",\\\"code\\\":\\\"body_overlap\\\",\\\"message\\\":\\\"Footprints H4 and J3 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.\\\",\\\"ref\\\":\\\"H4\\\"},{\\\"level\\\":\\\"INFO\\\",\\\"code\\\":\\\"body_overlap\\\",\\\"message\\\":\\\"Footprints J4 and L2 bodies overlap (~4.7 mm²); confirm courtyard clearance in DRC.\\\",\\\"ref\\\":\\\"J4\\\"},{\\\"level\\\":\\\"INFO\\\",\\\"code\\\":\\\"body_overlap\\\",\\\"message\\\":\\\"Footprints SW1 and Y1 bodies overlap (~2.0 mm²); confirm courtyard clearance in DRC.\\\",\\\"ref\\\":\\\"SW1\\\"}],\\\"result\\\":\\\"{\\\\n  \\\\\\\"footprint_count\\\\\\\": 66,\\\\n  \\\\\\\"board_bounds\\\\\\\": [\\\\n    0.0,\\\\n    0.0,\\\\n    22.0,\\\\n    60.0\\\\n  ],\\\\n  \\\\\\\"status\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n  \\\\\\\"findings\\\\\\\": [\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"offboard_component\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprint J2 extends outside the board outline (at 2.1, 5.9).\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"J2\\\\\\\",\\\\n      \\\\\\\"position\\\\\\\": [\\\\n        2.11,\\\\n        5.87\\\\n      ]\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"offboard_component\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprint J3 extends outside the board outline (at 19.9, 54.1).\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"J3\\\\\\\",\\\\n      \\\\\\\"position\\\\\\\": [\\\\n        19.89,\\\\n        54.13\\\\n      ]\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"offboard_component\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprint J4 extends outside the board outline (at 8.5, 57.2).\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"J4\\\\\\\",\\\\n      \\\\\\\"position\\\\\\\": [\\\\n        8.46,\\\\n        57.2\\\\n      ]\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"ref_silk_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Reference designators C1 and R2 overlap on the silkscreen (~0.8 mm\\\\\\\\u00b2). Move or hide one so both stay legible.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"C1\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"ref_silk_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Reference designators C18 and C19 overlap on the silkscreen (~0.8 mm\\\\\\\\u00b2). Move or hide one so both stay legible.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"C18\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"ref_silk_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Reference designators C6 and U1 overlap on the silkscreen (~0.8 mm\\\\\\\\u00b2). Move or hide one so both stay legible.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"C6\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"ref_silk_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Reference designators R13 and R14 overlap on the silkscreen (~0.7 mm\\\\\\\\u00b2). Move or hide one so both stay legible.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"R13\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"WARN\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"ref_silk_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Reference designators R18 and Y1 overlap on the silkscreen (~0.6 mm\\\\\\\\u00b2). Move or hide one so both stay legible.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"R18\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"INFO\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"body_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprints C20 and U2 bodies overlap (~2.4 mm\\\\\\\\u00b2); confirm courtyard clearance in DRC.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"C20\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"INFO\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"body_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprints C21 and U2 bodies overlap (~2.5 mm\\\\\\\\u00b2); confirm courtyard clearance in DRC.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"C21\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"INFO\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"body_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprints H1 and J2 bodies overlap (~1.5 mm\\\\\\\\u00b2); confirm courtyard clearance in DRC.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"H1\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"INFO\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"body_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprints H4 and J3 bodies overlap (~1.5 mm\\\\\\\\u00b2); confirm courtyard clearance in DRC.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"H4\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"INFO\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"body_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprints J4 and L2 bodies overlap (~4.7 mm\\\\\\\\u00b2); confirm courtyard clearance in DRC.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"J4\\\\\\\"\\\\n    },\\\\n    {\\\\n      \\\\\\\"level\\\\\\\": \\\\\\\"INFO\\\\\\\",\\\\n      \\\\\\\"code\\\\\\\": \\\\\\\"body_overlap\\\\\\\",\\\\n      \\\\\\\"message\\\\\\\": \\\\\\\"Footprints SW1 and Y1 bodies overlap (~2.0 mm\\\\\\\\u00b2); confirm courtyard clearance in DRC.\\\\\\\",\\\\n      \\\\\\\"ref\\\\\\\": \\\\\\\"SW1\\\\\\\"\\\\n    }\\\\n  ]\\\\n}\\\"}\"}}],\"practices\":{\"available\":true,\"result\":{\"schemaVersion\":\"evleda.toolbox-practices.v1\",\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-rp2350-native-01\\\\workspace\\\\projects\\\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\\\output\\\\project\\\\rp2350-pico.kicad_pcb\",\"sourceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"602e4d25ae6b0ed33474ed8ad68ac9f637f8940ba1642d5fd248d922464ee394\",\"size\":273043},\"reviewedProfileIdentity\":null,\"analysis\":null,\"geometry\":{\"turns\":[{\"vertex\":{\"x\":6.05,\"y\":24},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[1,14],\"interiorAngleDeg\":135.00000000000006,\"directionChangeDeg\":44.99999999999994,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":18.225,\"y\":37.105},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[4,44],\"interiorAngleDeg\":134.9999999999996,\"directionChangeDeg\":45.0000000000004,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":4.32,\"y\":33.5},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[8,58],\"interiorAngleDeg\":135.0000000000005,\"directionChangeDeg\":44.99999999999949,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":12.84,\"y\":27.19},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[9,13],\"interiorAngleDeg\":134.99999999999983,\"directionChangeDeg\":45.00000000000017,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":12.84,\"y\":26.94},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[9,54],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":10.5,\"y\":49.825},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[10,48],\"interiorAngleDeg\":180,\"directionChangeDeg\":0,\"classification\":\"straight\"},{\"vertex\":{\"x\":6.725,\"y\":24.675},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[14,74],\"interiorAngleDeg\":135.00000000000006,\"directionChangeDeg\":44.99999999999994,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":11.15,\"y\":38.65},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[15,30],\"interiorAngleDeg\":135.00000000000037,\"directionChangeDeg\":44.99999999999963,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":12.1,\"y\":41.65},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[16,39],\"interiorAngleDeg\":134.9999999999997,\"directionChangeDeg\":45.00000000000031,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":12.27,\"y\":41.48},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[16,59],\"interiorAngleDeg\":135.0000000000003,\"directionChangeDeg\":44.99999999999969,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":7.76,\"y\":37.46},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[17,49],\"interiorAngleDeg\":135.00000000000065,\"directionChangeDeg\":44.999999999999346,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":7.55,\"y\":37.46},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[18,49],\"interiorAngleDeg\":135.00000000000065,\"directionChangeDeg\":44.999999999999346,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":10.85,\"y\":12.55},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[19,46],\"interiorAngleDeg\":135.0000000000001,\"directionChangeDeg\":44.999999999999886,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":6.725,\"y\":25.35},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[20,74],\"interiorAngleDeg\":134.99999999999966,\"directionChangeDeg\":45.00000000000034,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":14.11,\"y\":10.09},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[21,37],\"interiorAngleDeg\":134.99999999999986,\"directionChangeDeg\":45.00000000000014,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":15.45,\"y\":22.75},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[22,42],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":7.8,\"y\":9.35},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[23,38],\"interiorAngleDeg\":135.00000000000014,\"directionChangeDeg\":44.99999999999986,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":6.4,\"y\":17.5},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[24,28],\"interiorAngleDeg\":135.00000000000009,\"directionChangeDeg\":44.999999999999915,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":6.2,\"y\":17.5},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[24,64],\"interiorAngleDeg\":180,\"directionChangeDeg\":0,\"classification\":\"straight\"},{\"vertex\":{\"x\":16.93,\"y\":33.43},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[25,26],\"interiorAngleDeg\":134.99999999999957,\"directionChangeDeg\":45.000000000000426,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":16.7,\"y\":33.2},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[26,56],\"interiorAngleDeg\":134.99999999999955,\"directionChangeDeg\":45.000000000000455,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":6.8,\"y\":17.9},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[28,57],\"interiorAngleDeg\":134.99999999999994,\"directionChangeDeg\":45.00000000000006,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":7.65,\"y\":9.5},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[29,38],\"interiorAngleDeg\":135.00000000000017,\"directionChangeDeg\":44.99999999999983,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":7.65,\"y\":9.79},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[29,65],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":12.98,\"y\":26.8},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[31,54],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":8.5,\"y\":39.45},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[32,76],\"interiorAngleDeg\":135.00000000000037,\"directionChangeDeg\":44.99999999999963,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":14.4,\"y\":9.6},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[33,34],\"interiorAngleDeg\":134.99999999999974,\"directionChangeDeg\":45.000000000000256,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":14.2,\"y\":9.4},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[33,51],\"interiorAngleDeg\":134.99999999999974,\"directionChangeDeg\":45.000000000000256,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":14.4,\"y\":9.8},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[34,37],\"interiorAngleDeg\":134.99999999999986,\"directionChangeDeg\":45.00000000000014,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":5.6,\"y\":17.9},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[35,55],\"interiorAngleDeg\":134.9999999999999,\"directionChangeDeg\":45.000000000000114,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":6,\"y\":17.5},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[35,64],\"interiorAngleDeg\":135.0000000000001,\"directionChangeDeg\":44.999999999999886,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":8.567,\"y\":26.12},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[36,53],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":17.26,\"y\":18.44},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[41,66],\"interiorAngleDeg\":134.9999999999998,\"directionChangeDeg\":45.0000000000002,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":15.9,\"y\":38.5},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[43,61],\"interiorAngleDeg\":134.9999999999999,\"directionChangeDeg\":45.000000000000114,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":16.98,\"y\":32.68},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[47,70],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":7.49,\"y\":9.95},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[50,65],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":16.7,\"y\":32.96},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[56,70],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":16.6,\"y\":30.62},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[60,77],\"interiorAngleDeg\":135.00000000000037,\"directionChangeDeg\":44.99999999999963,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":11.69,\"y\":45.96},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[63,75],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":8.2,\"y\":39.15},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[71,76],\"interiorAngleDeg\":135.00000000000037,\"directionChangeDeg\":44.99999999999963,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":10.7,\"y\":29.69},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"B.Cu\",\"segmentOrdinals\":[78,86],\"interiorAngleDeg\":135.00000000000006,\"directionChangeDeg\":44.99999999999994,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":12.8,\"y\":28.49},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"B.Cu\",\"segmentOrdinals\":[84,87],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":12.65,\"y\":27.74},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"B.Cu\",\"segmentOrdinals\":[86,89],\"interiorAngleDeg\":134.99999999999997,\"directionChangeDeg\":45.00000000000003,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":13.39,\"y\":27.9},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"B.Cu\",\"segmentOrdinals\":[87,90],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"}],\"findings\":[{\"code\":\"TURN_JUNCTION_COVERAGE_UNRESOLVED\",\"severity\":\"error\",\"message\":\"A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.\",\"sourceRuleIds\":[\"toolbox.geometry\"],\"evidence\":[{\"role\":\"junction-segment\",\"location\":{\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-rp2350-native-01\\\\workspace\\\\projects\\\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\\\output\\\\project\\\\rp2350-pico.kicad_pcb\",\"form\":\"segment\",\"ordinal\":82,\"uuid\":\"2e17dc88-34d5-4052-947f-9ac5bf7d146b\",\"startOffset\":271314,\"endOffset\":271467,\"line\":12884,\"column\":2},\"geometry\":{\"start\":{\"x\":12.84,\"y\":27.19},\"end\":{\"x\":13.39,\"y\":27.74},\"netName\":\"GND\",\"layer\":\"B.Cu\"}},{\"role\":\"junction-segment\",\"location\":{\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-rp2350-native-01\\\\workspace\\\\projects\\\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\\\output\\\\project\\\\rp2350-pico.kicad_pcb\",\"form\":\"segment\",\"ordinal\":89,\"uuid\":\"a562b0b4-048a-4509-b7a2-e79d63d132d2\",\"startOffset\":272398,\"endOffset\":272551,\"line\":12940,\"column\":2},\"geometry\":{\"start\":{\"x\":13.39,\"y\":27.74},\"end\":{\"x\":12.65,\"y\":27.74},\"netName\":\"GND\",\"layer\":\"B.Cu\"}},{\"role\":\"junction-segment\",\"location\":{\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-rp2350-native-01\\\\workspace\\\\projects\\\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\\\output\\\\project\\\\rp2350-pico.kicad_pcb\",\"form\":\"segment\",\"ordinal\":90,\"uuid\":\"a7b8692b-e528-4021-a34f-a2b96f95c6be\",\"startOffset\":272554,\"endOffset\":272706,\"line\":12948,\"column\":2},\"geometry\":{\"start\":{\"x\":13.39,\"y\":27.74},\"end\":{\"x\":13.39,\"y\":27.9},\"netName\":\"GND\",\"layer\":\"B.Cu\"}}],\"observed\":{\"vertex\":{\"x\":13.39,\"y\":27.74},\"connectedSegmentCount\":3,\"kind\":\"endpoint-junction\"},\"required\":{\"fullyResolvedSequentialBends\":true,\"minimumInteriorAngleDeg\":0},\"assumptions\":[\"No compliant angle is inferred at a branched or interior-intersection junction.\"],\"gates\":[],\"id\":\"PCB-PRACTICE-cb33d47811ac92801f659596\"}],\"segmentCount\":92,\"routedArcCount\":0,\"unresolvedNetSegmentCount\":0,\"coordinateToleranceMm\":0.000001,\"limitations\":[\"Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.\",\"Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.\"]},\"turnPolicy\":{\"allowedDirectionChangesDeg\":[0,45],\"numericalToleranceDeg\":1e-7,\"measuredTurnCount\":44,\"violations\":[],\"unresolvedFindings\":[{\"code\":\"TURN_JUNCTION_COVERAGE_UNRESOLVED\",\"severity\":\"error\",\"message\":\"A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.\",\"sourceRuleIds\":[\"toolbox.geometry\"],\"evidence\":[{\"role\":\"junction-segment\",\"location\":{\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-rp2350-native-01\\\\workspace\\\\projects\\\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\\\output\\\\project\\\\rp2350-pico.kicad_pcb\",\"form\":\"segment\",\"ordinal\":82,\"uuid\":\"2e17dc88-34d5-4052-947f-9ac5bf7d146b\",\"startOffset\":271314,\"endOffset\":271467,\"line\":12884,\"column\":2},\"geometry\":{\"start\":{\"x\":12.84,\"y\":27.19},\"end\":{\"x\":13.39,\"y\":27.74},\"netName\":\"GND\",\"layer\":\"B.Cu\"}},{\"role\":\"junction-segment\",\"location\":{\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-rp2350-native-01\\\\workspace\\\\projects\\\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\\\output\\\\project\\\\rp2350-pico.kicad_pcb\",\"form\":\"segment\",\"ordinal\":89,\"uuid\":\"a562b0b4-048a-4509-b7a2-e79d63d132d2\",\"startOffset\":272398,\"endOffset\":272551,\"line\":12940,\"column\":2},\"geometry\":{\"start\":{\"x\":13.39,\"y\":27.74},\"end\":{\"x\":12.65,\"y\":27.74},\"netName\":\"GND\",\"layer\":\"B.Cu\"}},{\"role\":\"junction-segment\",\"location\":{\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-rp2350-native-01\\\\workspace\\\\projects\\\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\\\output\\\\project\\\\rp2350-pico.kicad_pcb\",\"form\":\"segment\",\"ordinal\":90,\"uuid\":\"a7b8692b-e528-4021-a34f-a2b96f95c6be\",\"startOffset\":272554,\"endOffset\":272706,\"line\":12948,\"column\":2},\"geometry\":{\"start\":{\"x\":13.39,\"y\":27.74},\"end\":{\"x\":13.39,\"y\":27.9},\"netName\":\"GND\",\"layer\":\"B.Cu\"}}],\"observed\":{\"vertex\":{\"x\":13.39,\"y\":27.74},\"connectedSegmentCount\":3,\"kind\":\"endpoint-junction\"},\"required\":{\"fullyResolvedSequentialBends\":true,\"minimumInteriorAngleDeg\":0},\"assumptions\":[\"No compliant angle is inferred at a branched or interior-intersection junction.\"],\"gates\":[],\"id\":\"PCB-PRACTICE-cb33d47811ac92801f659596\"}],\"coverage\":\"Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.\",\"unresolvedNetSegmentCount\":0},\"checks\":{\"literalTurnGeometry\":\"measured-subset\",\"reviewedProfileConstraints\":\"unverified-no-profile\",\"widthAndNetClass\":\"unverified-no-profile\",\"vias\":\"unverified-no-profile\",\"electricalSuitability\":\"unverified\",\"manufacturingReadiness\":\"unverified\"},\"limitations\":[\"Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.\",\"Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.\",\"Zero direction change means a straight continuation; 180 degrees means reversal and is not permitted. Overlaps may prevent sequential-turn inference.\",\"No automatic design acceptance: original findings and incomplete coverage remain authoritative.\",\"Reviewed numerical width/via/net-class constraints do not supply current, voltage, temperature rise, impedance or fabricator qualification evidence.\"]}},\"sourceBefore\":\"0bec6aebbfa7f4bc55bba70c8140ade94aeb3d8c9135edc7b3f8de6373b3d46d\",\"sourceAfter\":\"0bec6aebbfa7f4bc55bba70c8140ade94aeb3d8c9135edc7b3f8de6373b3d46d\",\"sourceUnchanged\":true,\"recoveryRequired\":false,\"assurance\":\"Native result collection only; individual findings and applicable engineering requirements remain authoritative.\"}"
+      }
+    ],
+    "structuredContent": {
+      "checks": [
+        {
+          "name": "run_erc",
+          "result": {
+            "toolCallId": "toolbox-check:41ba7a7c-8a1f-4e05-b0eb-a6d09186215c",
+            "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"ERC summary:\\n- Violations: 0\",\"summary\":\"ERC is clean.\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[{\"report_path\":\"[redacted path]\",\"violations\":{\"$schema\":\"https://schemas.kicad.org/erc.v1.json\",\"coordinate_units\":\"mm\",\"date\":\"2026-09-19T00:01:58\",\"ignored_checks\":[{\"description\":\"Global label only appears once in the schematic\",\"key\":\"single_global_label\"},{\"description\":\"Four connection points are joined together\",\"key\":\"four_way_junction\"},{\"description\":\"SPICE model issue\",\"key\":\"simulation_model_issue\"},{\"description\":\"Assigned footprint doesn't match footprint filters\",\"key\":\"footprint_filter\"}],\"included_severities\":[\"error\",\"warning\",\"exclusion\"],\"kicad_version\":\"10.0.3\",\"sheets\":[{\"path\":\"[redacted path]\",\"uuid_path\":\"[redacted path]\",\"violations\":[]}],\"source\":\"rp2350-pico.kicad_sch\"}}],\"remediation\":\"\",\"findings\":[],\"next_action\":\"No ERC action required.\",\"metadata\":{\"report_path\":\"[redacted path]\",\"available\":true,\"violation_count\":0,\"violations\":[],\"summary\":{}},\"status\":\"clean\"}"
+          }
+        },
+        {
+          "name": "run_drc",
+          "result": {
+            "toolCallId": "toolbox-check:6c706f53-3346-497c-9d5b-462900c924a2",
+            "content": "{\"schemaVersion\":\"evleda.native-check-summary.v1\",\"operation\":\"run_drc\",\"verdict\":\"FAIL\",\"status\":\"failed\",\"severity\":\"error\",\"failure_mode\":\"design\",\"retryable\":false,\"summary\":\"DRC: 223 findings (181 error, 42 warning).\",\"metadata\":{\"available\":true,\"report_status\":\"findings\",\"violations\":42,\"unconnected_items\":181,\"courtyard_issues\":0,\"schematic_parity\":0},\"findings\":[{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"},{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"},{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"},{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"},{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"},{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"},{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"},{\"id\":\"48d3eb7b7651\",\"severity\":\"warning\",\"type\":\"via_dangling\",\"description\":\"via_dangling: warning; 1 native item witnesses.\"}],\"findingEvidence\":{\"total\":223,\"returned\":8,\"omitted\":215,\"partial\":true,\"counts\":{\"error\":181,\"warning\":42},\"byType\":{\"via_dangling\":34,\"track_dangling\":8,\"unconnected_items\":181},\"orderedRowsPreserved\":true,\"stableIdsMayRepeat\":true},\"coverage\":{\"includedSeverities\":[\"error\",\"warning\",\"exclusion\"],\"ignoredChecks\":[\"missing_courtyard\",\"track_not_centered_on_via\",\"tuning_profile_track_geometries\",\"footprint_filters_mismatch\",\"footprint_type_mismatch\"],\"ignoredCheckCount\":5,\"nativeReportIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"e214e1efa3fd4cceec15013216bc172c83d87ac7d2630248b6926907898f3407\",\"size\":73663}},\"diagnostic\":{\"filename\":\"native-check-run_drc-56ddb5c3-97ac-405c-aaa4-7102e3b80868.json\",\"identity\":{\"algorithm\":\"sha256\",\"digest\":\"1a09a27d9251962b54ecf8707a2d3e97f1b993ba33a3eab0ce1ce23431e43307\",\"size\":255618}}}"
+          }
+        },
+        {
+          "name": "pcb_get_board_summary",
+          "result": {
+            "toolCallId": "toolbox-check:7eb7c503-bbee-4b85-9399-56f259e1d666",
+            "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"Board summary:\\n- Source: live-gui\\n- Tracks: 92\\n- Vias: 38\\n- Footprints: 66\\n- Zones: 0\\n- Nets: 70\\n- Shapes: 1\",\"summary\":\"Board summary from live-gui: 66 footprint(s), 70 net(s).\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[],\"remediation\":\"\",\"findings\":[],\"next_action\":\"Use pcb_get_tracks(), pcb_get_footprints(), or run_drc() for details.\",\"metadata\":{\"source\":\"live-gui\",\"tracks\":92,\"vias\":38,\"footprints\":66,\"zones\":0,\"nets\":70,\"shapes\":1},\"status\":\"clean\"}"
+          }
+        },
+        {
+          "name": "pcb_visual_qa",
+          "result": {
+            "toolCallId": "toolbox-check:5bc879f8-cb1e-4664-93f3-7e8e0459abae",
+            "content": "{\"footprint_count\":66,\"board_bounds\":[0,0,22,60],\"status\":\"WARN\",\"findings\":[{\"level\":\"WARN\",\"code\":\"offboard_component\",\"message\":\"Footprint J2 extends outside the board outline (at 2.1, 5.9).\",\"ref\":\"J2\",\"position\":[2.11,5.87]},{\"level\":\"WARN\",\"code\":\"offboard_component\",\"message\":\"Footprint J3 extends outside the board outline (at 19.9, 54.1).\",\"ref\":\"J3\",\"position\":[19.89,54.13]},{\"level\":\"WARN\",\"code\":\"offboard_component\",\"message\":\"Footprint J4 extends outside the board outline (at 8.5, 57.2).\",\"ref\":\"J4\",\"position\":[8.46,57.2]},{\"level\":\"WARN\",\"code\":\"ref_silk_overlap\",\"message\":\"Reference designators C1 and R2 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.\",\"ref\":\"C1\"},{\"level\":\"WARN\",\"code\":\"ref_silk_overlap\",\"message\":\"Reference designators C18 and C19 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.\",\"ref\":\"C18\"},{\"level\":\"WARN\",\"code\":\"ref_silk_overlap\",\"message\":\"Reference designators C6 and U1 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.\",\"ref\":\"C6\"},{\"level\":\"WARN\",\"code\":\"ref_silk_overlap\",\"message\":\"Reference designators R13 and R14 overlap on the silkscreen (~0.7 mm²). Move or hide one so both stay legible.\",\"ref\":\"R13\"},{\"level\":\"WARN\",\"code\":\"ref_silk_overlap\",\"message\":\"Reference designators R18 and Y1 overlap on the silkscreen (~0.6 mm²). Move or hide one so both stay legible.\",\"ref\":\"R18\"},{\"level\":\"INFO\",\"code\":\"body_overlap\",\"message\":\"Footprints C20 and U2 bodies overlap (~2.4 mm²); confirm courtyard clearance in DRC.\",\"ref\":\"C20\"},{\"level\":\"INFO\",\"code\":\"body_overlap\",\"message\":\"Footprints C21 and U2 bodies overlap (~2.5 mm²); confirm courtyard clearance in DRC.\",\"ref\":\"C21\"},{\"level\":\"INFO\",\"code\":\"body_overlap\",\"message\":\"Footprints H1 and J2 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.\",\"ref\":\"H1\"},{\"level\":\"INFO\",\"code\":\"body_overlap\",\"message\":\"Footprints H4 and J3 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.\",\"ref\":\"H4\"},{\"level\":\"INFO\",\"code\":\"body_overlap\",\"message\":\"Footprints J4 and L2 bodies overlap (~4.7 mm²); confirm courtyard clearance in DRC.\",\"ref\":\"J4\"},{\"level\":\"INFO\",\"code\":\"body_overlap\",\"message\":\"Footprints SW1 and Y1 bodies overlap (~2.0 mm²); confirm courtyard clearance in DRC.\",\"ref\":\"SW1\"}],\"result\":\"{\\n  \\\"footprint_count\\\": 66,\\n  \\\"board_bounds\\\": [\\n    0.0,\\n    0.0,\\n    22.0,\\n    60.0\\n  ],\\n  \\\"status\\\": \\\"WARN\\\",\\n  \\\"findings\\\": [\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"offboard_component\\\",\\n      \\\"message\\\": \\\"Footprint J2 extends outside the board outline (at 2.1, 5.9).\\\",\\n      \\\"ref\\\": \\\"J2\\\",\\n      \\\"position\\\": [\\n        2.11,\\n        5.87\\n      ]\\n    },\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"offboard_component\\\",\\n      \\\"message\\\": \\\"Footprint J3 extends outside the board outline (at 19.9, 54.1).\\\",\\n      \\\"ref\\\": \\\"J3\\\",\\n      \\\"position\\\": [\\n        19.89,\\n        54.13\\n      ]\\n    },\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"offboard_component\\\",\\n      \\\"message\\\": \\\"Footprint J4 extends outside the board outline (at 8.5, 57.2).\\\",\\n      \\\"ref\\\": \\\"J4\\\",\\n      \\\"position\\\": [\\n        8.46,\\n        57.2\\n      ]\\n    },\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"ref_silk_overlap\\\",\\n      \\\"message\\\": \\\"Reference designators C1 and R2 overlap on the silkscreen (~0.8 mm\\\\u00b2). Move or hide one so both stay legible.\\\",\\n      \\\"ref\\\": \\\"C1\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"ref_silk_overlap\\\",\\n      \\\"message\\\": \\\"Reference designators C18 and C19 overlap on the silkscreen (~0.8 mm\\\\u00b2). Move or hide one so both stay legible.\\\",\\n      \\\"ref\\\": \\\"C18\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"ref_silk_overlap\\\",\\n      \\\"message\\\": \\\"Reference designators C6 and U1 overlap on the silkscreen (~0.8 mm\\\\u00b2). Move or hide one so both stay legible.\\\",\\n      \\\"ref\\\": \\\"C6\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"ref_silk_overlap\\\",\\n      \\\"message\\\": \\\"Reference designators R13 and R14 overlap on the silkscreen (~0.7 mm\\\\u00b2). Move or hide one so both stay legible.\\\",\\n      \\\"ref\\\": \\\"R13\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"WARN\\\",\\n      \\\"code\\\": \\\"ref_silk_overlap\\\",\\n      \\\"message\\\": \\\"Reference designators R18 and Y1 overlap on the silkscreen (~0.6 mm\\\\u00b2). Move or hide one so both stay legible.\\\",\\n      \\\"ref\\\": \\\"R18\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"INFO\\\",\\n      \\\"code\\\": \\\"body_overlap\\\",\\n      \\\"message\\\": \\\"Footprints C20 and U2 bodies overlap (~2.4 mm\\\\u00b2); confirm courtyard clearance in DRC.\\\",\\n      \\\"ref\\\": \\\"C20\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"INFO\\\",\\n      \\\"code\\\": \\\"body_overlap\\\",\\n      \\\"message\\\": \\\"Footprints C21 and U2 bodies overlap (~2.5 mm\\\\u00b2); confirm courtyard clearance in DRC.\\\",\\n      \\\"ref\\\": \\\"C21\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"INFO\\\",\\n      \\\"code\\\": \\\"body_overlap\\\",\\n      \\\"message\\\": \\\"Footprints H1 and J2 bodies overlap (~1.5 mm\\\\u00b2); confirm courtyard clearance in DRC.\\\",\\n      \\\"ref\\\": \\\"H1\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"INFO\\\",\\n      \\\"code\\\": \\\"body_overlap\\\",\\n      \\\"message\\\": \\\"Footprints H4 and J3 bodies overlap (~1.5 mm\\\\u00b2); confirm courtyard clearance in DRC.\\\",\\n      \\\"ref\\\": \\\"H4\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"INFO\\\",\\n      \\\"code\\\": \\\"body_overlap\\\",\\n      \\\"message\\\": \\\"Footprints J4 and L2 bodies overlap (~4.7 mm\\\\u00b2); confirm courtyard clearance in DRC.\\\",\\n      \\\"ref\\\": \\\"J4\\\"\\n    },\\n    {\\n      \\\"level\\\": \\\"INFO\\\",\\n      \\\"code\\\": \\\"body_overlap\\\",\\n      \\\"message\\\": \\\"Footprints SW1 and Y1 bodies overlap (~2.0 mm\\\\u00b2); confirm courtyard clearance in DRC.\\\",\\n      \\\"ref\\\": \\\"SW1\\\"\\n    }\\n  ]\\n}\"}"
+          }
+        }
+      ],
+      "practices": {
+        "available": true,
+        "result": {
+          "schemaVersion": "evleda.toolbox-practices.v1",
+          "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+          "sourceIdentity": {
+            "algorithm": "sha256",
+            "digest": "602e4d25ae6b0ed33474ed8ad68ac9f637f8940ba1642d5fd248d922464ee394",
+            "size": 273043
+          },
+          "reviewedProfileIdentity": null,
+          "analysis": null,
+          "geometry": {
+            "turns": [
+              {
+                "vertex": {
+                  "x": 6.05,
+                  "y": 24
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  1,
+                  14
+                ],
+                "interiorAngleDeg": 135.00000000000006,
+                "directionChangeDeg": 44.99999999999994,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 18.225,
+                  "y": 37.105
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  4,
+                  44
+                ],
+                "interiorAngleDeg": 134.9999999999996,
+                "directionChangeDeg": 45.0000000000004,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 4.32,
+                  "y": 33.5
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  8,
+                  58
+                ],
+                "interiorAngleDeg": 135.0000000000005,
+                "directionChangeDeg": 44.99999999999949,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 12.84,
+                  "y": 27.19
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  9,
+                  13
+                ],
+                "interiorAngleDeg": 134.99999999999983,
+                "directionChangeDeg": 45.00000000000017,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 12.84,
+                  "y": 26.94
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  9,
+                  54
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 10.5,
+                  "y": 49.825
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  10,
+                  48
+                ],
+                "interiorAngleDeg": 180,
+                "directionChangeDeg": 0,
+                "classification": "straight"
+              },
+              {
+                "vertex": {
+                  "x": 6.725,
+                  "y": 24.675
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  14,
+                  74
+                ],
+                "interiorAngleDeg": 135.00000000000006,
+                "directionChangeDeg": 44.99999999999994,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 11.15,
+                  "y": 38.65
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  15,
+                  30
+                ],
+                "interiorAngleDeg": 135.00000000000037,
+                "directionChangeDeg": 44.99999999999963,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 12.1,
+                  "y": 41.65
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  16,
+                  39
+                ],
+                "interiorAngleDeg": 134.9999999999997,
+                "directionChangeDeg": 45.00000000000031,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 12.27,
+                  "y": 41.48
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  16,
+                  59
+                ],
+                "interiorAngleDeg": 135.0000000000003,
+                "directionChangeDeg": 44.99999999999969,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 7.76,
+                  "y": 37.46
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  17,
+                  49
+                ],
+                "interiorAngleDeg": 135.00000000000065,
+                "directionChangeDeg": 44.999999999999346,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 7.55,
+                  "y": 37.46
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  18,
+                  49
+                ],
+                "interiorAngleDeg": 135.00000000000065,
+                "directionChangeDeg": 44.999999999999346,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 10.85,
+                  "y": 12.55
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  19,
+                  46
+                ],
+                "interiorAngleDeg": 135.0000000000001,
+                "directionChangeDeg": 44.999999999999886,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 6.725,
+                  "y": 25.35
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  20,
+                  74
+                ],
+                "interiorAngleDeg": 134.99999999999966,
+                "directionChangeDeg": 45.00000000000034,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 14.11,
+                  "y": 10.09
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  21,
+                  37
+                ],
+                "interiorAngleDeg": 134.99999999999986,
+                "directionChangeDeg": 45.00000000000014,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 15.45,
+                  "y": 22.75
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  22,
+                  42
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 7.8,
+                  "y": 9.35
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  23,
+                  38
+                ],
+                "interiorAngleDeg": 135.00000000000014,
+                "directionChangeDeg": 44.99999999999986,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 6.4,
+                  "y": 17.5
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  24,
+                  28
+                ],
+                "interiorAngleDeg": 135.00000000000009,
+                "directionChangeDeg": 44.999999999999915,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 6.2,
+                  "y": 17.5
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  24,
+                  64
+                ],
+                "interiorAngleDeg": 180,
+                "directionChangeDeg": 0,
+                "classification": "straight"
+              },
+              {
+                "vertex": {
+                  "x": 16.93,
+                  "y": 33.43
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  25,
+                  26
+                ],
+                "interiorAngleDeg": 134.99999999999957,
+                "directionChangeDeg": 45.000000000000426,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 16.7,
+                  "y": 33.2
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  26,
+                  56
+                ],
+                "interiorAngleDeg": 134.99999999999955,
+                "directionChangeDeg": 45.000000000000455,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 6.8,
+                  "y": 17.9
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  28,
+                  57
+                ],
+                "interiorAngleDeg": 134.99999999999994,
+                "directionChangeDeg": 45.00000000000006,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 7.65,
+                  "y": 9.5
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  29,
+                  38
+                ],
+                "interiorAngleDeg": 135.00000000000017,
+                "directionChangeDeg": 44.99999999999983,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 7.65,
+                  "y": 9.79
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  29,
+                  65
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 12.98,
+                  "y": 26.8
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  31,
+                  54
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 8.5,
+                  "y": 39.45
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  32,
+                  76
+                ],
+                "interiorAngleDeg": 135.00000000000037,
+                "directionChangeDeg": 44.99999999999963,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 14.4,
+                  "y": 9.6
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  33,
+                  34
+                ],
+                "interiorAngleDeg": 134.99999999999974,
+                "directionChangeDeg": 45.000000000000256,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 14.2,
+                  "y": 9.4
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  33,
+                  51
+                ],
+                "interiorAngleDeg": 134.99999999999974,
+                "directionChangeDeg": 45.000000000000256,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 14.4,
+                  "y": 9.8
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  34,
+                  37
+                ],
+                "interiorAngleDeg": 134.99999999999986,
+                "directionChangeDeg": 45.00000000000014,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 5.6,
+                  "y": 17.9
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  35,
+                  55
+                ],
+                "interiorAngleDeg": 134.9999999999999,
+                "directionChangeDeg": 45.000000000000114,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 6,
+                  "y": 17.5
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  35,
+                  64
+                ],
+                "interiorAngleDeg": 135.0000000000001,
+                "directionChangeDeg": 44.999999999999886,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 8.567,
+                  "y": 26.12
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  36,
+                  53
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 17.26,
+                  "y": 18.44
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  41,
+                  66
+                ],
+                "interiorAngleDeg": 134.9999999999998,
+                "directionChangeDeg": 45.0000000000002,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 15.9,
+                  "y": 38.5
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  43,
+                  61
+                ],
+                "interiorAngleDeg": 134.9999999999999,
+                "directionChangeDeg": 45.000000000000114,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 16.98,
+                  "y": 32.68
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  47,
+                  70
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 7.49,
+                  "y": 9.95
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  50,
+                  65
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 16.7,
+                  "y": 32.96
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  56,
+                  70
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 16.6,
+                  "y": 30.62
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  60,
+                  77
+                ],
+                "interiorAngleDeg": 135.00000000000037,
+                "directionChangeDeg": 44.99999999999963,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 11.69,
+                  "y": 45.96
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  63,
+                  75
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 8.2,
+                  "y": 39.15
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  71,
+                  76
+                ],
+                "interiorAngleDeg": 135.00000000000037,
+                "directionChangeDeg": 44.99999999999963,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 10.7,
+                  "y": 29.69
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "B.Cu",
+                "segmentOrdinals": [
+                  78,
+                  86
+                ],
+                "interiorAngleDeg": 135.00000000000006,
+                "directionChangeDeg": 44.99999999999994,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 12.8,
+                  "y": 28.49
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "B.Cu",
+                "segmentOrdinals": [
+                  84,
+                  87
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 12.65,
+                  "y": 27.74
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "B.Cu",
+                "segmentOrdinals": [
+                  86,
+                  89
+                ],
+                "interiorAngleDeg": 134.99999999999997,
+                "directionChangeDeg": 45.00000000000003,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 13.39,
+                  "y": 27.9
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "B.Cu",
+                "segmentOrdinals": [
+                  87,
+                  90
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              }
+            ],
+            "findings": [
+              {
+                "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+                "severity": "error",
+                "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+                "sourceRuleIds": [
+                  "toolbox.geometry"
+                ],
+                "evidence": [
+                  {
+                    "role": "junction-segment",
+                    "location": {
+                      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+                      "form": "segment",
+                      "ordinal": 82,
+                      "uuid": "2e17dc88-34d5-4052-947f-9ac5bf7d146b",
+                      "startOffset": 271314,
+                      "endOffset": 271467,
+                      "line": 12884,
+                      "column": 2
+                    },
+                    "geometry": {
+                      "start": {
+                        "x": 12.84,
+                        "y": 27.19
+                      },
+                      "end": {
+                        "x": 13.39,
+                        "y": 27.74
+                      },
+                      "netName": "GND",
+                      "layer": "B.Cu"
+                    }
+                  },
+                  {
+                    "role": "junction-segment",
+                    "location": {
+                      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+                      "form": "segment",
+                      "ordinal": 89,
+                      "uuid": "a562b0b4-048a-4509-b7a2-e79d63d132d2",
+                      "startOffset": 272398,
+                      "endOffset": 272551,
+                      "line": 12940,
+                      "column": 2
+                    },
+                    "geometry": {
+                      "start": {
+                        "x": 13.39,
+                        "y": 27.74
+                      },
+                      "end": {
+                        "x": 12.65,
+                        "y": 27.74
+                      },
+                      "netName": "GND",
+                      "layer": "B.Cu"
+                    }
+                  },
+                  {
+                    "role": "junction-segment",
+                    "location": {
+                      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+                      "form": "segment",
+                      "ordinal": 90,
+                      "uuid": "a7b8692b-e528-4021-a34f-a2b96f95c6be",
+                      "startOffset": 272554,
+                      "endOffset": 272706,
+                      "line": 12948,
+                      "column": 2
+                    },
+                    "geometry": {
+                      "start": {
+                        "x": 13.39,
+                        "y": 27.74
+                      },
+                      "end": {
+                        "x": 13.39,
+                        "y": 27.9
+                      },
+                      "netName": "GND",
+                      "layer": "B.Cu"
+                    }
+                  }
+                ],
+                "observed": {
+                  "vertex": {
+                    "x": 13.39,
+                    "y": 27.74
+                  },
+                  "connectedSegmentCount": 3,
+                  "kind": "endpoint-junction"
+                },
+                "required": {
+                  "fullyResolvedSequentialBends": true,
+                  "minimumInteriorAngleDeg": 0
+                },
+                "assumptions": [
+                  "No compliant angle is inferred at a branched or interior-intersection junction."
+                ],
+                "gates": [],
+                "id": "PCB-PRACTICE-cb33d47811ac92801f659596"
+              }
+            ],
+            "segmentCount": 92,
+            "routedArcCount": 0,
+            "unresolvedNetSegmentCount": 0,
+            "coordinateToleranceMm": 0.000001,
+            "limitations": [
+              "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+              "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability."
+            ]
+          },
+          "turnPolicy": {
+            "allowedDirectionChangesDeg": [
+              0,
+              45
+            ],
+            "numericalToleranceDeg": 1e-7,
+            "measuredTurnCount": 44,
+            "violations": [],
+            "unresolvedFindings": [
+              {
+                "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+                "severity": "error",
+                "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+                "sourceRuleIds": [
+                  "toolbox.geometry"
+                ],
+                "evidence": [
+                  {
+                    "role": "junction-segment",
+                    "location": {
+                      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+                      "form": "segment",
+                      "ordinal": 82,
+                      "uuid": "2e17dc88-34d5-4052-947f-9ac5bf7d146b",
+                      "startOffset": 271314,
+                      "endOffset": 271467,
+                      "line": 12884,
+                      "column": 2
+                    },
+                    "geometry": {
+                      "start": {
+                        "x": 12.84,
+                        "y": 27.19
+                      },
+                      "end": {
+                        "x": 13.39,
+                        "y": 27.74
+                      },
+                      "netName": "GND",
+                      "layer": "B.Cu"
+                    }
+                  },
+                  {
+                    "role": "junction-segment",
+                    "location": {
+                      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+                      "form": "segment",
+                      "ordinal": 89,
+                      "uuid": "a562b0b4-048a-4509-b7a2-e79d63d132d2",
+                      "startOffset": 272398,
+                      "endOffset": 272551,
+                      "line": 12940,
+                      "column": 2
+                    },
+                    "geometry": {
+                      "start": {
+                        "x": 13.39,
+                        "y": 27.74
+                      },
+                      "end": {
+                        "x": 12.65,
+                        "y": 27.74
+                      },
+                      "netName": "GND",
+                      "layer": "B.Cu"
+                    }
+                  },
+                  {
+                    "role": "junction-segment",
+                    "location": {
+                      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+                      "form": "segment",
+                      "ordinal": 90,
+                      "uuid": "a7b8692b-e528-4021-a34f-a2b96f95c6be",
+                      "startOffset": 272554,
+                      "endOffset": 272706,
+                      "line": 12948,
+                      "column": 2
+                    },
+                    "geometry": {
+                      "start": {
+                        "x": 13.39,
+                        "y": 27.74
+                      },
+                      "end": {
+                        "x": 13.39,
+                        "y": 27.9
+                      },
+                      "netName": "GND",
+                      "layer": "B.Cu"
+                    }
+                  }
+                ],
+                "observed": {
+                  "vertex": {
+                    "x": 13.39,
+                    "y": 27.74
+                  },
+                  "connectedSegmentCount": 3,
+                  "kind": "endpoint-junction"
+                },
+                "required": {
+                  "fullyResolvedSequentialBends": true,
+                  "minimumInteriorAngleDeg": 0
+                },
+                "assumptions": [
+                  "No compliant angle is inferred at a branched or interior-intersection junction."
+                ],
+                "gates": [],
+                "id": "PCB-PRACTICE-cb33d47811ac92801f659596"
+              }
+            ],
+            "coverage": "Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.",
+            "unresolvedNetSegmentCount": 0
+          },
+          "checks": {
+            "literalTurnGeometry": "measured-subset",
+            "reviewedProfileConstraints": "unverified-no-profile",
+            "widthAndNetClass": "unverified-no-profile",
+            "vias": "unverified-no-profile",
+            "electricalSuitability": "unverified",
+            "manufacturingReadiness": "unverified"
+          },
+          "limitations": [
+            "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+            "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.",
+            "Zero direction change means a straight continuation; 180 degrees means reversal and is not permitted. Overlaps may prevent sequential-turn inference.",
+            "No automatic design acceptance: original findings and incomplete coverage remain authoritative.",
+            "Reviewed numerical width/via/net-class constraints do not supply current, voltage, temperature rise, impedance or fabricator qualification evidence."
+          ]
+        }
+      },
+      "sourceBefore": "0bec6aebbfa7f4bc55bba70c8140ade94aeb3d8c9135edc7b3f8de6373b3d46d",
+      "sourceAfter": "0bec6aebbfa7f4bc55bba70c8140ade94aeb3d8c9135edc7b3f8de6373b3d46d",
+      "sourceUnchanged": true,
+      "recoveryRequired": false,
+      "assurance": "Native result collection only; individual findings and applicable engineering requirements remain authoritative."
+    }
+  }
+}

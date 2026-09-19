@@ -1,0 +1,53 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "endBatch": 2,
+  "startBatch": 2,
+  "firstBatchReviewed": true,
+  "nonPcbSources": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+    }
+  ],
+  "baselinePcbSha256": "a17994b308b9c402053965e82201f05f60c4beb959d73a0731d56ca6f13985d9",
+  "purpose": "Repeat the exact failed GND batch through the corrected complete native snapshot envelope; no acceptance transfer.",
+  "nativePlacementVerified": true,
+  "evidencePins": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\first-route-result.json",
+      "sha256": "f59d73b66019cb410937c839ae791eaeb095323bf64055065beda6591c01876b"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\fields-reviewed.json",
+      "sha256": "8a872e6c867ed5c0b6674f1dfba9b8ac11ffa690105ac0e1aa88a9b7872cfb4b"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-05-01\\verification-result.json",
+      "sha256": "4f3eae670f91665b4f2ffcc3c07b9fe1ad3551f70b7e66bf3098f60e69ee9c77"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\workspace-client-58ecb65d-c212-4fbf-95ad-83427d855eff\\000379-response-64edcae9bc6ad89af8d5cfd255cbb75fafb5f9c0bbcf768242a52e5789d9460b.json",
+      "sha256": "64edcae9bc6ad89af8d5cfd255cbb75fafb5f9c0bbcf768242a52e5789d9460b"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-33\\workspace-client-58ecb65d-c212-4fbf-95ad-83427d855eff\\000382-response-17938ff0aa440f98340c09859eae8355bbeab6d36fbb1109b3452aa1a000d565.json",
+      "sha256": "17938ff0aa440f98340c09859eae8355bbeab6d36fbb1109b3452aa1a000d565"
+    }
+  ]
+}

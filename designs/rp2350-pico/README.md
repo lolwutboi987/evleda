@@ -10,8 +10,13 @@ preserved. This directory currently holds design work, not a completed PCB.
 
 The approved board is now **22 × 60 mm on two layers**, retaining 2.54 mm GPIO
 pitch and 17.78 mm row spacing. The original 51 mm brief below is historical.
-The latest published, normally closed native project is
-[placement 60-03](native-placement-60-03/README.md), with a
+The latest normally closed native project is
+[partial ground routing 60-05](native-ground-routing-60-05/README.md): 92 ground
+segments, 38 vias and no zones. The GPIO service-strip audit is clear; native
+ERC has zero findings. DRC still reports unconnected/dangling items, and one
+ground junction lacks complete bend-rule coverage. **The board is unfinished.**
+
+The earlier [placement 60-03](native-placement-60-03/README.md) has a
 [placement-intent map](placement-intent-60-03.md) and
 [native validation results](native-validation-60-03/README.md).
 It contains 66 footprints but no routed copper: ERC has zero findings and DRC
@@ -23,7 +28,8 @@ out. Straight/45-degree routing, actual via clearances and return paths still
 need verification on the completed native layout. A later routing attempt saved
 32 ground vias, then rolled back the next batch after a native snapshot exceeded
 its message limit. The [snapshot fix and verification scope](../../docs/rp2350-native-pad-envelope-fix.md)
-are recorded separately; that failed allocation is not a delivery checkpoint.
+now include successful native execution of that batch in 60-05. The earlier
+failed allocation remains preserved and is not a delivery checkpoint.
 
 ## Working brief
 

@@ -1,15 +1,27 @@
 # Current status and roadmap
 
-Current routing development, 18 September 2026: a later 60 mm candidate saved
+Latest native milestone, 19 September 2026: the
+[60-05 ground-routing snapshot](../designs/rp2350-pico/native-ground-routing-60-05/README.md)
+saved and read back **92 ground-track segments and 38 vias** under DOC12/host20,
+including the exact batch that previously exceeded the native snapshot limit.
+All 66 footprints, 281 physical pad members and 53 drills matched independent
+placement verification. The two GPIO service strips are clear in the actual
+saved-source audit. Native ERC has zero findings; configured DRC reports only
+181 unconnected errors, 34 dangling vias and eight dangling tracks. Its five
+ignored categories remain explicit. There are no zones yet. Forty-four measured
+turns have no violations; one ground-via junction remains unresolved. All six
+sources match the normally closed checkpoint. **Full routing, plane/reference
+verification and board acceptance remain incomplete.**
+
+Earlier routing development, 18 September 2026: a later 60 mm candidate saved
 32 ground vias, but the next 92-track/six-via batch exceeded the complete native
 PAD snapshot message bound. Automatic recovery verified the exact 32-via saved
 preimage; normal close failed and the allocation remains retained for review.
 The [DOC12 compact-envelope fix](rp2350-native-pad-envelope-fix.md) preserves every
 observation and the existing limits, and passes offline, installed-producer and
-compiled-host checks. Live routing qualification remains pending. Candidate
-60-03 below remains the latest published, normally closed native delivery.
+compiled-host checks. The live failure boundary is now cleared by 60-05 above.
 
-Latest verified native milestone, 18 September 2026: **candidate 60-03 is saved
+Earlier verified native milestone, 18 September 2026: **candidate 60-03 is saved
 and normally closed as a native 22 × 60 mm, two-layer KiCad project**, retaining
 the original 2.54 mm header pitch and 17.78 mm row spacing. Its
 [native files, original previews and evidence](../designs/rp2350-pico/native-placement-60-03/README.md)

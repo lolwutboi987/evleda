@@ -1,0 +1,1351 @@
+{
+  "sourcePlanSha256": "9409e605f17fa7634b97708e746ec8292ca3bbb616a89f4bb5b0ded0ae0a3d37",
+  "sourceContractIdentity": {
+    "algorithm": "sha256",
+    "digest": "f4d71fcdd5e24aa5728954255503b25bc3e6c381fd07e05b62f6337cbbab7127",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "batches": [
+    {
+      "batch": 1,
+      "tool": "fresh_replace_route_items",
+      "net": "GND",
+      "argumentTemplate": {
+        "net": "GND",
+        "deleteItemIds": [],
+        "tracks": [],
+        "vias": [
+          {
+            "xMm": 13.39,
+            "yMm": 27.74
+          },
+          {
+            "xMm": 12.84,
+            "yMm": 27.19
+          },
+          {
+            "xMm": 9.835,
+            "yMm": 31.935
+          },
+          {
+            "xMm": 10.965,
+            "yMm": 33.065
+          },
+          {
+            "xMm": 12.8,
+            "yMm": 29.725
+          },
+          {
+            "xMm": 5.5,
+            "yMm": 42.92
+          },
+          {
+            "xMm": 11.9,
+            "yMm": 41.65
+          },
+          {
+            "xMm": 10.7,
+            "yMm": 42.5
+          },
+          {
+            "xMm": 8.2,
+            "yMm": 39
+          },
+          {
+            "xMm": 7.35,
+            "yMm": 37.66
+          },
+          {
+            "xMm": 12.27,
+            "yMm": 39.5
+          },
+          {
+            "xMm": 4.32,
+            "yMm": 30.72
+          },
+          {
+            "xMm": 4.32,
+            "yMm": 33.15
+          },
+          {
+            "xMm": 4.32,
+            "yMm": 32.2
+          },
+          {
+            "xMm": 15.9,
+            "yMm": 38.7
+          },
+          {
+            "xMm": 16.7,
+            "yMm": 33.2
+          },
+          {
+            "xMm": 16.98,
+            "yMm": 28.7
+          },
+          {
+            "xMm": 14.6,
+            "yMm": 28.46
+          },
+          {
+            "xMm": 11.55,
+            "yMm": 38.65
+          },
+          {
+            "xMm": 8.427,
+            "yMm": 26.26
+          },
+          {
+            "xMm": 4.9,
+            "yMm": 19.97
+          },
+          {
+            "xMm": 6.05,
+            "yMm": 23.6
+          },
+          {
+            "xMm": 6.2,
+            "yMm": 17.5
+          },
+          {
+            "xMm": 10.7,
+            "yMm": 30.5
+          },
+          {
+            "xMm": 10.5,
+            "yMm": 51.45
+          },
+          {
+            "xMm": 14,
+            "yMm": 45.5
+          },
+          {
+            "xMm": 7,
+            "yMm": 47.23
+          },
+          {
+            "xMm": 15.45,
+            "yMm": 50.54
+          },
+          {
+            "xMm": 11.9,
+            "yMm": 45.75
+          },
+          {
+            "xMm": 10.3,
+            "yMm": 12
+          },
+          {
+            "xMm": 14.85,
+            "yMm": 11.55
+          },
+          {
+            "xMm": 14.4,
+            "yMm": 9.6
+          }
+        ]
+      },
+      "selectionIdentity": {
+        "binding": "Copy identity from a fresh public fresh_get_route_items reply immediately before this call. No placeholder digest is executable.",
+        "singleUse": true
+      },
+      "sourceTracks": [],
+      "sourceVias": [
+        "core/core-cin-ground",
+        "core/core-cout-ground",
+        "core/u1-ep-main",
+        "core/u1-ep-secondary",
+        "core/core-pgnd-local-via",
+        "core/clock-c24-ground",
+        "core/clock-c25-ground",
+        "core/clock-y1-ground2",
+        "core/clock-y1-ground4",
+        "core/c7-local-ground",
+        "core/c4-dedicated-ground-via",
+        "core/c5-ground",
+        "core/c6-ground",
+        "core/c11-ground",
+        "core/c8-ground",
+        "core/c9-c13-shared-ground-via",
+        "core/c10-ground-via",
+        "core/c3-quiet-ground-via",
+        "core/c12-ground-via",
+        "core/qspi-shared-ground",
+        "core/flash-c15-ground",
+        "core/flash-chip-ground",
+        "core/flash-bulk-ground",
+        "core/core-main-ep-access-via",
+        "power/gnd-pgnd",
+        "power/gnd-C20",
+        "power/gnd-C21",
+        "power/gnd-R10",
+        "power/gnd-C22",
+        "power/gnd-esd",
+        "power/gnd-C26",
+        "power/gnd-j1-right"
+      ],
+      "mandatoryNativeSaveAndReadback": true
+    },
+    {
+      "batch": 2,
+      "tool": "fresh_replace_route_items",
+      "net": "GND",
+      "argumentTemplate": {
+        "net": "GND",
+        "deleteItemIds": [],
+        "tracks": [
+          {
+            "x1Mm": 12.98,
+            "y1Mm": 26.65,
+            "x2Mm": 12.98,
+            "y2Mm": 26.8,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.98,
+            "y1Mm": 26.8,
+            "x2Mm": 12.84,
+            "y2Mm": 26.94,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.84,
+            "y1Mm": 26.94,
+            "x2Mm": 12.84,
+            "y2Mm": 27.19,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.84,
+            "y1Mm": 27.19,
+            "x2Mm": 13.39,
+            "y2Mm": 27.74,
+            "widthMm": 0.6,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.8,
+            "y1Mm": 29.05,
+            "x2Mm": 12.8,
+            "y2Mm": 29.725,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.84,
+            "y1Mm": 27.19,
+            "x2Mm": 13.39,
+            "y2Mm": 27.74,
+            "widthMm": 0.6,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 13.39,
+            "y1Mm": 27.74,
+            "x2Mm": 13.39,
+            "y2Mm": 27.9,
+            "widthMm": 0.6,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 13.39,
+            "y1Mm": 27.9,
+            "x2Mm": 12.8,
+            "y2Mm": 28.49,
+            "widthMm": 0.6,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 12.8,
+            "y1Mm": 28.49,
+            "x2Mm": 12.8,
+            "y2Mm": 29.725,
+            "widthMm": 0.6,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 6.01,
+            "y1Mm": 42.92,
+            "x2Mm": 5.5,
+            "y2Mm": 42.92,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.27,
+            "y1Mm": 41.23,
+            "x2Mm": 12.27,
+            "y2Mm": 41.48,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.27,
+            "y1Mm": 41.48,
+            "x2Mm": 12.1,
+            "y2Mm": 41.65,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.1,
+            "y1Mm": 41.65,
+            "x2Mm": 11.9,
+            "y2Mm": 41.65,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 10.7,
+            "y1Mm": 41.65,
+            "x2Mm": 10.7,
+            "y2Mm": 42.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 11,
+            "y1Mm": 38.5,
+            "x2Mm": 11.15,
+            "y2Mm": 38.65,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 11.15,
+            "y1Mm": 38.65,
+            "x2Mm": 11.55,
+            "y2Mm": 38.65,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 8.5,
+            "y1Mm": 39.95,
+            "x2Mm": 8.5,
+            "y2Mm": 39.45,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 8.5,
+            "y1Mm": 39.45,
+            "x2Mm": 8.2,
+            "y2Mm": 39.15,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 8.2,
+            "y1Mm": 39.15,
+            "x2Mm": 8.2,
+            "y2Mm": 39,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.88,
+            "y1Mm": 37.34,
+            "x2Mm": 7.76,
+            "y2Mm": 37.46,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.76,
+            "y1Mm": 37.46,
+            "x2Mm": 7.55,
+            "y2Mm": 37.46,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.55,
+            "y1Mm": 37.46,
+            "x2Mm": 7.35,
+            "y2Mm": 37.66,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 12.27,
+            "y1Mm": 38.88,
+            "x2Mm": 12.27,
+            "y2Mm": 39.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 4.72,
+            "y1Mm": 30.32,
+            "x2Mm": 4.32,
+            "y2Mm": 30.72,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 4.52,
+            "y1Mm": 33.7,
+            "x2Mm": 4.32,
+            "y2Mm": 33.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 4.32,
+            "y1Mm": 33.5,
+            "x2Mm": 4.32,
+            "y2Mm": 33.15,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 4.72,
+            "y1Mm": 31.8,
+            "x2Mm": 4.32,
+            "y2Mm": 32.2,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 15.5,
+            "y1Mm": 38.1,
+            "x2Mm": 15.9,
+            "y2Mm": 38.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 15.9,
+            "y1Mm": 38.5,
+            "x2Mm": 15.9,
+            "y2Mm": 38.7,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.98,
+            "y1Mm": 29.3,
+            "x2Mm": 16.98,
+            "y2Mm": 28.7,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.98,
+            "y1Mm": 31.45,
+            "x2Mm": 16.98,
+            "y2Mm": 30.32,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.98,
+            "y1Mm": 32.58,
+            "x2Mm": 16.98,
+            "y2Mm": 32.68,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.98,
+            "y1Mm": 32.68,
+            "x2Mm": 16.7,
+            "y2Mm": 32.96,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.7,
+            "y1Mm": 32.96,
+            "x2Mm": 16.7,
+            "y2Mm": 33.2,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.93,
+            "y1Mm": 33.71,
+            "x2Mm": 16.93,
+            "y2Mm": 33.43,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.93,
+            "y1Mm": 33.43,
+            "x2Mm": 16.7,
+            "y2Mm": 33.2,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14.6,
+            "y1Mm": 27.93,
+            "x2Mm": 14.6,
+            "y2Mm": 28.46,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 8.965,
+            "y1Mm": 26.12,
+            "x2Mm": 8.567,
+            "y2Mm": 26.12,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 8.567,
+            "y1Mm": 26.12,
+            "x2Mm": 8.427,
+            "y2Mm": 26.26,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 5.3,
+            "y1Mm": 20.37,
+            "x2Mm": 4.9,
+            "y2Mm": 19.97,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6.8,
+            "y1Mm": 25.425,
+            "x2Mm": 6.725,
+            "y2Mm": 25.35,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6.725,
+            "y1Mm": 25.35,
+            "x2Mm": 6.725,
+            "y2Mm": 24.675,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6.725,
+            "y1Mm": 24.675,
+            "x2Mm": 6.05,
+            "y2Mm": 24,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6.05,
+            "y1Mm": 24,
+            "x2Mm": 6.05,
+            "y2Mm": 23.6,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 5.6,
+            "y1Mm": 18.02,
+            "x2Mm": 5.6,
+            "y2Mm": 17.9,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 5.6,
+            "y1Mm": 17.9,
+            "x2Mm": 6,
+            "y2Mm": 17.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6,
+            "y1Mm": 17.5,
+            "x2Mm": 6.2,
+            "y2Mm": 17.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6.8,
+            "y1Mm": 18.02,
+            "x2Mm": 6.8,
+            "y2Mm": 17.9,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6.8,
+            "y1Mm": 17.9,
+            "x2Mm": 6.4,
+            "y2Mm": 17.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 6.4,
+            "y1Mm": 17.5,
+            "x2Mm": 6.2,
+            "y2Mm": 17.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 13.39,
+            "y1Mm": 27.74,
+            "x2Mm": 12.65,
+            "y2Mm": 27.74,
+            "widthMm": 0.6,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 12.65,
+            "y1Mm": 27.74,
+            "x2Mm": 10.7,
+            "y2Mm": 29.69,
+            "widthMm": 0.6,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 10.7,
+            "y1Mm": 29.69,
+            "x2Mm": 10.7,
+            "y2Mm": 30.5,
+            "widthMm": 0.6,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 10.7,
+            "y1Mm": 30.5,
+            "x2Mm": 10.7,
+            "y2Mm": 31.15,
+            "widthMm": 0.6,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 10.5,
+            "y1Mm": 48.6,
+            "x2Mm": 10.5,
+            "y2Mm": 49.825,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 10.5,
+            "y1Mm": 49.825,
+            "x2Mm": 10.5,
+            "y2Mm": 51.45,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 10,
+            "y1Mm": 47.375,
+            "x2Mm": 10,
+            "y2Mm": 48.6,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14,
+            "y1Mm": 46.31,
+            "x2Mm": 14,
+            "y2Mm": 45.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7,
+            "y1Mm": 46.44,
+            "x2Mm": 7,
+            "y2Mm": 47.23,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 15,
+            "y1Mm": 50.99,
+            "x2Mm": 15.45,
+            "y2Mm": 50.54,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 11.48,
+            "y1Mm": 45.96,
+            "x2Mm": 11.69,
+            "y2Mm": 45.96,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 11.69,
+            "y1Mm": 45.96,
+            "x2Mm": 11.9,
+            "y2Mm": 45.75,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 10.85,
+            "y1Mm": 13.1375,
+            "x2Mm": 10.85,
+            "y2Mm": 12.55,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 10.85,
+            "y1Mm": 12.55,
+            "x2Mm": 10.3,
+            "y2Mm": 12,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14.4,
+            "y1Mm": 11.55,
+            "x2Mm": 14.85,
+            "y2Mm": 11.55,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14.2,
+            "y1Mm": 8.655,
+            "x2Mm": 14.2,
+            "y2Mm": 9.4,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14.2,
+            "y1Mm": 9.4,
+            "x2Mm": 14.4,
+            "y2Mm": 9.6,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.8,
+            "y1Mm": 8.655,
+            "x2Mm": 7.8,
+            "y2Mm": 9.35,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.8,
+            "y1Mm": 9.35,
+            "x2Mm": 7.65,
+            "y2Mm": 9.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 17.26,
+            "y1Mm": 18.1,
+            "x2Mm": 17.26,
+            "y2Mm": 18.44,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 17.26,
+            "y1Mm": 18.44,
+            "x2Mm": 16.8,
+            "y2Mm": 18.9,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14.11,
+            "y1Mm": 10.35,
+            "x2Mm": 14.11,
+            "y2Mm": 10.09,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14.11,
+            "y1Mm": 10.09,
+            "x2Mm": 14.4,
+            "y2Mm": 9.8,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 14.4,
+            "y1Mm": 9.8,
+            "x2Mm": 14.4,
+            "y2Mm": 9.6,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.49,
+            "y1Mm": 10.35,
+            "x2Mm": 7.49,
+            "y2Mm": 9.95,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.49,
+            "y1Mm": 9.95,
+            "x2Mm": 7.65,
+            "y2Mm": 9.79,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 7.65,
+            "y1Mm": 9.79,
+            "x2Mm": 7.65,
+            "y2Mm": 9.5,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 15.45,
+            "y1Mm": 23.09,
+            "x2Mm": 15.45,
+            "y2Mm": 22.75,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 15.45,
+            "y1Mm": 22.75,
+            "x2Mm": 15.55,
+            "y2Mm": 22.65,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.82,
+            "y1Mm": 25.5,
+            "x2Mm": 16.82,
+            "y2Mm": 26.2,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 2.11,
+            "y1Mm": 10.95,
+            "x2Mm": 3.61,
+            "y2Mm": 10.95,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 2.11,
+            "y1Mm": 23.65,
+            "x2Mm": 3.61,
+            "y2Mm": 23.65,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 2.11,
+            "y1Mm": 36.35,
+            "x2Mm": 3.61,
+            "y2Mm": 36.35,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 2.11,
+            "y1Mm": 49.05,
+            "x2Mm": 3.61,
+            "y2Mm": 49.05,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 19.89,
+            "y1Mm": 49.05,
+            "x2Mm": 18.39,
+            "y2Mm": 49.05,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 19.89,
+            "y1Mm": 36.35,
+            "x2Mm": 18.39,
+            "y2Mm": 36.35,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 19.89,
+            "y1Mm": 23.65,
+            "x2Mm": 18.39,
+            "y2Mm": 23.65,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 19.89,
+            "y1Mm": 10.95,
+            "x2Mm": 18.39,
+            "y2Mm": 10.95,
+            "widthMm": 0.3,
+            "layer": "B.Cu"
+          },
+          {
+            "x1Mm": 17.98,
+            "y1Mm": 36.86,
+            "x2Mm": 18.225,
+            "y2Mm": 37.105,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 18.225,
+            "y1Mm": 37.105,
+            "x2Mm": 18.225,
+            "y2Mm": 37.35,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.9,
+            "y1Mm": 30.32,
+            "x2Mm": 16.6,
+            "y2Mm": 30.62,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          },
+          {
+            "x1Mm": 16.6,
+            "y1Mm": 30.62,
+            "x2Mm": 16.6,
+            "y2Mm": 30.9,
+            "widthMm": 0.3,
+            "layer": "F.Cu"
+          }
+        ],
+        "vias": [
+          {
+            "xMm": 7.65,
+            "yMm": 9.5
+          },
+          {
+            "xMm": 16.8,
+            "yMm": 18.9
+          },
+          {
+            "xMm": 15.55,
+            "yMm": 22.65
+          },
+          {
+            "xMm": 16.82,
+            "yMm": 26.2
+          },
+          {
+            "xMm": 18.225,
+            "yMm": 37.35
+          },
+          {
+            "xMm": 16.6,
+            "yMm": 30.9
+          }
+        ]
+      },
+      "selectionIdentity": {
+        "binding": "Copy identity from a fresh public fresh_get_route_items reply immediately before this call. No placeholder digest is executable.",
+        "singleUse": true
+      },
+      "sourceTracks": [
+        {
+          "pathId": "core/core-cout-ground-stub",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/core-cout-ground-stub",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/core-cout-ground-stub",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/core-paired-ground-link",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/core-pgnd-local-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/core-cap-pair-bottom-link",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/core-local-bottom-return",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/core-local-bottom-return",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/core-local-bottom-return",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/c24-ground-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c25-ground-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c25-ground-access",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/c25-ground-access",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/y1-ground2-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c12-shared-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c12-shared-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/y1-ground4-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/y1-ground4-access",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/y1-ground4-access",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/c7-local-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c7-local-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/c7-local-ground",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/c4-dedicated-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c5-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c6-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c6-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/c11-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c8-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c8-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/c10-ground-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c17-quiet-ground-share",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c13-shared-ground-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c13-shared-ground-access",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/c13-shared-ground-access",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/c9-shared-ground-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c9-shared-ground-access",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/c3-quiet-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c14-quiet-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c14-quiet-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/flash-c15-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/flash-chip-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/flash-chip-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/flash-chip-ground",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/flash-chip-ground",
+          "segmentIndex": 3
+        },
+        {
+          "pathId": "core/flash-c18-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/flash-c18-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/flash-c18-ground",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/flash-c19-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/flash-c19-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/flash-c19-ground",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/core-pgnd-main-ground-link",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/core-pgnd-main-ground-link",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/core-pgnd-main-ground-link",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "core/core-main-ep-access",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-ep-pgnd",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-ep-pgnd",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-agnd-ep",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-C20",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-C21",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-R10",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-C22",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-C22",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-esd",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-esd",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-C26",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-j1-right",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-j1-right",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-j1-left",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-j1-left",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-R12",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-R12",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-R3-short",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-R3-short",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-R3-short",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "power/gnd-R4-short",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "power/gnd-R4-short",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "power/gnd-R4-short",
+          "segmentIndex": 2
+        },
+        {
+          "pathId": "sense/r14-quiet-return",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "sense/r14-quiet-return",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "sense/c23-quiet-return",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J2.3",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J2.8",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J2.13",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J2.18",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J3.3",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J3.8",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J3.13",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "entries/J3.18",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "east-study/r15-right-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "east-study/r15-right-ground",
+          "segmentIndex": 1
+        },
+        {
+          "pathId": "core/c16-quiet-ground",
+          "segmentIndex": 0
+        },
+        {
+          "pathId": "core/c16-quiet-ground",
+          "segmentIndex": 1
+        }
+      ],
+      "sourceVias": [
+        "power/gnd-j1-left",
+        "power/gnd-R12",
+        "sense/r14-quiet-return",
+        "sense/c23-quiet-return",
+        "east-study/r15-right-ground-via",
+        "core/c16-quiet-ground-via"
+      ],
+      "mandatoryNativeSaveAndReadback": true
+    }
+  ],
+  "omittedBatches": 66,
+  "expectedTracks": 92,
+  "expectedVias": 38,
+  "scope": "Only the two authored ground batches from the larger incomplete plan; this expectation is not native evidence."
+}

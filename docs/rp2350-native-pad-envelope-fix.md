@@ -59,7 +59,12 @@ DOC12 profile SHA-256:
 Compiled decoder SHA-256:
 `d6977cc026afb30a2b27264254f491ab4434457b41c75baac6c6dacb05c08a26`.
 
-Live routing under DOC12 remains pending. The failed allocation was not reopened
-or rewritten; fresh candidate `767f74fa-73dd-4d81-bb19-da5f8d138379` has opened
-under the unchanged design contract. Full routing, native clearance checks,
-plane/reference continuity and board acceptance remain unfinished.
+The live failure boundary now passes in the
+[60-05 native snapshot](../designs/rp2350-pico/native-ground-routing-60-05/README.md).
+Its 92 ground segments and 38 vias completed mandatory Save and exact fresh
+readback, followed by native checks and normal close. The failed allocation was
+not reopened or rewritten. Project `767f74fa-73dd-4d81-bb19-da5f8d138379` became a
+normally closed 62-symbol unwired source; child
+`b2e1adba-cf6c-4ccf-a51f-00f63320d6eb` holds the routed snapshot under the same
+design contract. This verifies the snapshot fix on the real routed prefix;
+full routing, plane/reference continuity and board acceptance remain unfinished.
