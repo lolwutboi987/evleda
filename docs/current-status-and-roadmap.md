@@ -1,5 +1,14 @@
 # Current status and roadmap
 
+Current routing development, 18 September 2026: a later 60 mm candidate saved
+32 ground vias, but the next 92-track/six-via batch exceeded the complete native
+PAD snapshot message bound. Automatic recovery verified the exact 32-via saved
+preimage; normal close failed and the allocation remains retained for review.
+The [DOC12 compact-envelope fix](rp2350-native-pad-envelope-fix.md) preserves every
+observation and the existing limits, and passes offline, installed-producer and
+compiled-host checks. Live routing qualification remains pending. Candidate
+60-03 below remains the latest published, normally closed native delivery.
+
 Latest verified native milestone, 18 September 2026: **candidate 60-03 is saved
 and normally closed as a native 22 × 60 mm, two-layer KiCad project**, retaining
 the original 2.54 mm header pitch and 17.78 mm row spacing. Its

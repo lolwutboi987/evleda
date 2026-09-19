@@ -6,6 +6,25 @@ baseline. Work is on `codex/rp2350-pico`; the published baseline is commit
 on `codex/destination-resume`. The existing Python implementation on `main` was
 preserved. This directory currently holds design work, not a completed PCB.
 
+## Current candidate
+
+The approved board is now **22 × 60 mm on two layers**, retaining 2.54 mm GPIO
+pitch and 17.78 mm row spacing. The original 51 mm brief below is historical.
+The latest published, normally closed native project is
+[placement 60-03](native-placement-60-03/README.md), with a
+[placement-intent map](placement-intent-60-03.md) and
+[native validation results](native-validation-60-03/README.md).
+It contains 66 footprints but no routed copper: ERC has zero findings and DRC
+reports 192 unconnected errors. It is not a finished board.
+
+Routing work reserves the GPIO service strips on both faces for each header
+pad's own inward connection; unrelated traces, vias and plane copper must stay
+out. Straight/45-degree routing, actual via clearances and return paths still
+need verification on the completed native layout. A later routing attempt saved
+32 ground vias, then rolled back the next batch after a native snapshot exceeded
+its message limit. The [snapshot fix and verification scope](../../docs/rp2350-native-pad-envelope-fix.md)
+are recorded separately; that failed allocation is not a delivery checkpoint.
+
 ## Working brief
 
 Develop an original RP2350A board with the familiar 21 x 51 mm Pico header
