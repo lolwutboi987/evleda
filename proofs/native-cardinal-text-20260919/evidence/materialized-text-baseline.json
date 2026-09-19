@@ -1,0 +1,70 @@
+{
+  "projectId": "456b436a-60de-43d1-a369-a97af0819285",
+  "files": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace\\projects\\456b436a-60de-43d1-a369-a97af0819285\\output\\project\\cardinal-text-qualification.kicad_pcb",
+      "sha256": "637eb0e2f46afd11eafad63ec69e0181a7adce89f97f2fdbebfacfda27b21e2c",
+      "sizeBytes": 12684
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace\\projects\\456b436a-60de-43d1-a369-a97af0819285\\output\\project\\cardinal-text-qualification.kicad_pro",
+      "sha256": "d4002f09528244994e55859b78a7a29ea86979ad1854ff9b36a4e7bbb0cb4276",
+      "sizeBytes": 11380
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace\\projects\\456b436a-60de-43d1-a369-a97af0819285\\output\\project\\cardinal-text-qualification.kicad_sch",
+      "sha256": "c615b8c7dcd4097e18a5cb18104ca2e8cebd1799e516922f4ff75b966d79a1a1",
+      "sizeBytes": 11363
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace\\projects\\456b436a-60de-43d1-a369-a97af0819285\\output\\project\\fp-lib-table",
+      "sha256": "46b138d4edfa14567c1a2f84f7d7cbf6ab50ab40ce03c7fde708832710468cff",
+      "sizeBytes": 410
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace\\projects\\456b436a-60de-43d1-a369-a97af0819285\\output\\project\\sym-lib-table",
+      "sha256": "407135ab05709f05c8b0f408eda1a2247436f160045e081783a39d8872c805ec",
+      "sizeBytes": 360
+    }
+  ],
+  "poses": [
+    {
+      "reference": "J1",
+      "x_mm": 4,
+      "y_mm": 7,
+      "rotation_deg": 0
+    },
+    {
+      "reference": "R1",
+      "x_mm": 14,
+      "y_mm": 7,
+      "rotation_deg": 0
+    },
+    {
+      "reference": "R2",
+      "x_mm": 14,
+      "y_mm": 13,
+      "rotation_deg": 0
+    }
+  ],
+  "placementResponses": [
+    {
+      "reference": "J1",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace-client-70872bc8-de4b-48a3-8806-5dcbe4779229\\000105-response-87850581daf67fa812e8b734e33e0e0a382dda672e30b86e9343ebc2fd336c6c.json"
+    },
+    {
+      "reference": "R1",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace-client-70872bc8-de4b-48a3-8806-5dcbe4779229\\000108-response-bc876a5e86a252201a53ba45bad17278bde6346ebf802342df5df983ffa38a5b.json"
+    },
+    {
+      "reference": "R2",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace-client-70872bc8-de4b-48a3-8806-5dcbe4779229\\000111-response-07e7651e08a620695ea5acde090d18469345eb2cb14fbbd7b3dd8789e1870016.json"
+    }
+  ],
+  "completePadInventory": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace-client-70872bc8-de4b-48a3-8806-5dcbe4779229\\000114-response-f2b4e33cd8261c9f68d7d406fe38b7b515098d51451a7e69e8c43491111e8819.json",
+  "physicalPadCount": 7,
+  "footprints": 3,
+  "allPadPositionsVerified": true,
+  "allPadUuidsPreserved": true,
+  "textNotYetAdded": true
+}

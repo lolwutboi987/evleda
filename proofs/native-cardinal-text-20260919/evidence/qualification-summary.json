@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "evleda.native-cardinal-text-qualification.v1",
+  "projectId": "456b436a-60de-43d1-a369-a97af0819285",
+  "hostReleaseSha256": "4877b68adfab04c70f8c908742719cb8f7d3a5efea364bec72cb5ffc2e61970b",
+  "nativeRuntime": "DOC12",
+  "kicadVersion": "10.0.3",
+  "kicadCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+  "family": "routed-v1",
+  "footprintsPreserved": 3,
+  "physicalPadsPreserved": 7,
+  "rotations": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "exactCoordinateMm": 4.000004,
+  "exactFontSizeMm": 0.800249,
+  "sourcePcbSha256": "beaa8e33fc16ec23d17efb299715a3dfc8083120f2b3867aa6e087da682fcae3",
+  "normalClose": true,
+  "allFourOtherSourceFilesUnchanged": true,
+  "visualReview": {
+    "reviewedBy": "/root",
+    "independent": false,
+    "views": [
+      "original native top PNG"
+    ],
+    "observations": [
+      "All four labels render at their requested orientations.",
+      "Existing footprints and reference text remain visible and preserved.",
+      "The fixture is deliberately unrouted and has no Edge.Cuts outline; it is not a completed divider or RP2350 board."
+    ]
+  },
+  "nativeQualificationScope": "Literal front-silkscreen insertion, exact coordinate/font/rotation preservation and normal lifecycle on this materialized three-component V1 fixture. V2 RP2350 label placement and final board fit remain pending.",
+  "circuitOrBoardAcceptance": false
+}

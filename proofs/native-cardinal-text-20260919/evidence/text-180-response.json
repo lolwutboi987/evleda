@@ -1,0 +1,45 @@
+{
+  "recordedAt": "2026-09-19T13:09:36.057Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace-client-70872bc8-de4b-48a3-8806-5dcbe4779229\\000121-request-45ad7dd40e6f16dd58a2ba61f7bc169b89fdd7a3a20718982b032102bdacb897.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "45ad7dd40e6f16dd58a2ba61f7bc169b89fdd7a3a20718982b032102bdacb897",
+      "size": 200
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace-client-70872bc8-de4b-48a3-8806-5dcbe4779229\\000122-mcp-received-ee8ceef368e11418b25dd34e19e34532cbcb1d3e2cc905206198d22d89e297fd.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ee8ceef368e11418b25dd34e19e34532cbcb1d3e2cc905206198d22d89e297fd",
+        "size": 1317
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"operation\":\"pcb_add_text\",\"result\":{\"toolCallId\":\"toolbox:9e2ec84a-88ba-4b50-b512-d500fc3d30dc\",\"content\":\"{\\\"result\\\":\\\"Board text added successfully.\\\"}\"},\"persistence\":{\"toolCallId\":\"toolbox:9e2ec84a-88ba-4b50-b512-d500fc3d30dc:save\",\"content\":\"{\\\"result\\\":\\\"Board saved.\\\"}\"},\"readback\":null,\"noGovernedEffect\":false,\"assurance\":\"Operation and persistence results only; run applicable design checks before declaring the design complete.\"}"
+      }
+    ],
+    "structuredContent": {
+      "operation": "pcb_add_text",
+      "result": {
+        "toolCallId": "toolbox:9e2ec84a-88ba-4b50-b512-d500fc3d30dc",
+        "content": "{\"result\":\"Board text added successfully.\"}"
+      },
+      "persistence": {
+        "toolCallId": "toolbox:9e2ec84a-88ba-4b50-b512-d500fc3d30dc:save",
+        "content": "{\"result\":\"Board saved.\"}"
+      },
+      "readback": null,
+      "noGovernedEffect": false,
+      "assurance": "Operation and persistence results only; run applicable design checks before declaring the design complete."
+    }
+  }
+}

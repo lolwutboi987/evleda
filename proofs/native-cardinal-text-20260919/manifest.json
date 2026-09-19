@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "evleda.native-cardinal-text-proof-delivery.v1",
+  "createdAt": "2026-09-19T13:24:58.203Z",
+  "files": [
+    {
+      "path": "evidence/after-0.kicad_pcb",
+      "sha256": "b74c53a62d025cc613893c4173b160e4d0dc92aa4ad706df127102ff19e24742",
+      "sizeBytes": 12905
+    },
+    {
+      "path": "evidence/after-180.kicad_pcb",
+      "sha256": "eb68794686b8581b50f30b48f2bc2d48011342eb56cbadbc4c11bec34bcd2b0e",
+      "sizeBytes": 13334
+    },
+    {
+      "path": "evidence/after-270.kicad_pcb",
+      "sha256": "beaa8e33fc16ec23d17efb299715a3dfc8083120f2b3867aa6e087da682fcae3",
+      "sizeBytes": 13540
+    },
+    {
+      "path": "evidence/after-90.kicad_pcb",
+      "sha256": "46f1ddaed2b106ab96cfdf42955d212cd6a41f22a9bd7a48f572e778bf9c2bc8",
+      "sizeBytes": 13114
+    },
+    {
+      "path": "evidence/client-terminal.json",
+      "sha256": "58bf66e1ef63e01f8678a6db36234e7b9f09a101b6c0fd99485a6dbc2ccd2256",
+      "sizeBytes": 698
+    },
+    {
+      "path": "evidence/complete-pad-inventory-response.json",
+      "sha256": "f2b4e33cd8261c9f68d7d406fe38b7b515098d51451a7e69e8c43491111e8819",
+      "sizeBytes": 14449
+    },
+    {
+      "path": "evidence/copy-identities.json",
+      "sha256": "0dd6e168fbb2dd02d1b6d437fff3aaaf623227b0ad45a85963a0ca431abdb325",
+      "sizeBytes": 4308
+    },
+    {
+      "path": "evidence/materialized-baseline.kicad_pcb",
+      "sha256": "637eb0e2f46afd11eafad63ec69e0181a7adce89f97f2fdbebfacfda27b21e2c",
+      "sizeBytes": 12684
+    },
+    {
+      "path": "evidence/materialized-text-baseline.json",
+      "sha256": "d1db0864f74267510f0ae2c5e27fac04d32cadee1edadadfbbc33245eb53e562",
+      "sizeBytes": 3376
+    },
+    {
+      "path": "evidence/native-preview-response.json",
+      "sha256": "597fc4532f51cadf268eecd0259ec3aeabf492ec75d8718132f823baefedc138",
+      "sizeBytes": 61596
+    },
+    {
+      "path": "evidence/native-text-ink-metrics.json",
+      "sha256": "2e8f04ec81b8f9bcd4b0e18cafad123765df56887106d007ee3d5292701ae5d6",
+      "sizeBytes": 2870
+    },
+    {
+      "path": "evidence/normal-close-proof.json",
+      "sha256": "1c8a22b2afdaf999fe4abdd0fa2ac7c2e42bdda72584f8669eec798fa649ea84",
+      "sizeBytes": 2513
+    },
+    {
+      "path": "evidence/normal-close-response.json",
+      "sha256": "6bdba9b7fd7caa2e9ad5e08b94502a8779adbee5ad702be17f138001cd16fc83",
+      "sizeBytes": 19148
+    },
+    {
+      "path": "evidence/qualification-summary.json",
+      "sha256": "0bffe7b00d67d03666ab80ebf5ab0d67a748c5dfcc8afd53ab9622d97633c524",
+      "sizeBytes": 1397
+    },
+    {
+      "path": "evidence/text-0-response.json",
+      "sha256": "f1347f9abf9b201a3a4755f08524c0b77e4bd6189784d293496571a0031b45dd",
+      "sizeBytes": 2151
+    },
+    {
+      "path": "evidence/text-180-response.json",
+      "sha256": "2aa34a87dfd46130ce844ba97f1258b7ae73272388a2a58ef9d3aeecf7d6588f",
+      "sizeBytes": 2151
+    },
+    {
+      "path": "evidence/text-270-response.json",
+      "sha256": "a72466d2a19fcca16cbc14f0ecdda973343fc5cf0eeb8daf79a99ad4db4cd73c",
+      "sizeBytes": 2151
+    },
+    {
+      "path": "evidence/text-90-response.json",
+      "sha256": "962690b6893140dd88540e857287eb9c9100866f272a798a723533e4cd69a583",
+      "sizeBytes": 2151
+    },
+    {
+      "path": "evidence/text-check-completed.json",
+      "sha256": "63b3560c8b4f26429221e98e61a61288c7040e4902567d3a544bd6e089968a3c",
+      "sizeBytes": 5106
+    },
+    {
+      "path": "evidence/text-progress.jsonl",
+      "sha256": "070527bc439a54715e82b852830c57e8907ee3c9aef4a50c36d7fdf27d7739a6",
+      "sizeBytes": 2401
+    },
+    {
+      "path": "native/cardinal-text-qualification.kicad_pcb",
+      "sha256": "beaa8e33fc16ec23d17efb299715a3dfc8083120f2b3867aa6e087da682fcae3",
+      "sizeBytes": 13540
+    },
+    {
+      "path": "native/cardinal-text-qualification.kicad_pro",
+      "sha256": "d4002f09528244994e55859b78a7a29ea86979ad1854ff9b36a4e7bbb0cb4276",
+      "sizeBytes": 11380
+    },
+    {
+      "path": "native/cardinal-text-qualification.kicad_sch",
+      "sha256": "c615b8c7dcd4097e18a5cb18104ca2e8cebd1799e516922f4ff75b966d79a1a1",
+      "sizeBytes": 11363
+    },
+    {
+      "path": "native/fp-lib-table",
+      "sha256": "46b138d4edfa14567c1a2f84f7d7cbf6ab50ab40ce03c7fde708832710468cff",
+      "sizeBytes": 410
+    },
+    {
+      "path": "native/sym-lib-table",
+      "sha256": "407135ab05709f05c8b0f408eda1a2247436f160045e081783a39d8872c805ec",
+      "sizeBytes": 360
+    },
+    {
+      "path": "previews/board-top.png",
+      "sha256": "0a59cb8e2fabff1ce96d275cd33691fb4268d87b464fd5290f63bc775dc44d13",
+      "sizeBytes": 36968
+    },
+    {
+      "path": "previews/board-top.svg",
+      "sha256": "fe3c8caa353d14cb1890b1fd231b54e1df900680c25b1f1c33ca6d5ca8588fe1",
+      "sizeBytes": 16753
+    },
+    {
+      "path": "README.md",
+      "sha256": "bc53d96e6270462d8b9ea4dcdd60650ecfaacd32d8fa4d397fb66546614633e6",
+      "sizeBytes": 2443
+    }
+  ]
+}

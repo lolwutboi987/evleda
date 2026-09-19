@@ -1,0 +1,16 @@
+{
+  "endedAt": "2026-09-19T13:15:34.499Z",
+  "reason": "operator_close",
+  "sdkCloseReturned": true,
+  "nativeCleanup": "workspace_idle_confirmed_before_shutdown",
+  "instruction": "SDK shutdown is best-effort and may escalate termination; it does not prove a native checkpoint, lease release, or design acceptance.",
+  "stderr": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-cardinal-text-native-02\\workspace-client-70872bc8-de4b-48a3-8806-5dcbe4779229\\host-stderr.log",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "ce2a23241c4d42f787c0434a8d78131b0b9ceecfe38550a2ceecb94f63e1bf3e",
+      "size": 76
+    }
+  },
+  "stderrComplete": true
+}

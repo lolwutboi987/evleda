@@ -1,0 +1,101 @@
+{
+  "svgSha256": "fe3c8caa353d14cb1890b1fd231b54e1df900680c25b1f1c33ca6d5ca8588fe1",
+  "pcbSha256": "beaa8e33fc16ec23d17efb299715a3dfc8083120f2b3867aa6e087da682fcae3",
+  "calibration": {
+    "svgUnitsPerMm": 9.698039798693198,
+    "translationX": 30.91240201306801,
+    "translationY": 21.560441811761212
+  },
+  "text": [
+    {
+      "text": "GP22",
+      "inkBoundsMm": {
+        "minX": 4.168172004447638,
+        "maxX": 7.087225811982499,
+        "minY": 2.046904178606658,
+        "maxY": 2.9469004851980296
+      },
+      "widthMm": 2.919053807534861,
+      "heightMm": 0.8999963065913716,
+      "strokeMm": 0.09999958962126343,
+      "request": {
+        "text": "GP22",
+        "x_mm": 4.000004,
+        "y_mm": 3.000004,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      }
+    },
+    {
+      "text": "GP22",
+      "inkBoundsMm": {
+        "minX": 9.046889867244563,
+        "maxX": 9.946896485198028,
+        "minY": 5.9127884993796,
+        "maxY": 8.831831995552363
+      },
+      "widthMm": 0.9000066179534656,
+      "heightMm": 2.9190434961727636,
+      "strokeMm": 0.09999958962126343,
+      "request": {
+        "text": "GP22",
+        "x_mm": 10,
+        "y_mm": 9,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      }
+    },
+    {
+      "text": "3V3",
+      "inkBoundsMm": {
+        "minX": 17.826380544471217,
+        "maxX": 19.869875973585714,
+        "minY": 12.053116981845116,
+        "maxY": 12.95339169521312
+      },
+      "widthMm": 2.043495429114497,
+      "heightMm": 0.9002747133680042,
+      "strokeMm": 0.10003052370755583,
+      "request": {
+        "text": "3V3",
+        "x_mm": 20,
+        "y_mm": 12,
+        "layer": "F_SilkS",
+        "size_mm": 0.800249,
+        "rotation_deg": 180,
+        "bold": false,
+        "italic": false
+      }
+    },
+    {
+      "text": "GND",
+      "inkBoundsMm": {
+        "minX": 23.066367289715096,
+        "maxX": 24.19136782863536,
+        "minY": 12.210210583400071,
+        "maxY": 15.001877823582788
+      },
+      "widthMm": 1.1250005389202649,
+      "heightMm": 2.7916672401827167,
+      "strokeMm": 0.125004642707628,
+      "request": {
+        "text": "GND",
+        "x_mm": 23,
+        "y_mm": 12,
+        "layer": "F_SilkS",
+        "size_mm": 1,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      }
+    }
+  ],
+  "precision": "Derived from native SVG coordinates/stroke widths rounded to four decimals; not nanometre or DRC evidence.",
+  "scope": "Bounding native round-capped/round-joined line-stroke ink only. No font substitution, raster editing, board-fit or fabrication acceptance."
+}
