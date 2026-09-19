@@ -1,6 +1,18 @@
 # Current status and roadmap
 
-Latest native milestone, 19 September 2026: [ground connections 60-11](../designs/rp2350-pico/native-ground-links-60-11/README.md)
+Latest native milestone, 19 September 2026: [ground and USB revision 60-12](../designs/rp2350-pico/native-ground-usb-60-12/README.md)
+is normally closed with **829 tracks, 104 vias and one B.Cu ground zone**.
+Nineteen added front ground segments reduce GND from 12 to **nine physical-pad
+groups**, with **49 of 64 pads** in the main group. A coordinated USB adjustment
+removes the prior sharp bend while preserving the existing source-assessed width,
+gap, length and skew limits. There are **631 measured turns with zero violations
+and eight unresolved junctions**. Both GPIO service strips are clear, with 40
+exact own-pad leads permitted. Native checks still report **24 unconnected errors
+and 13 dangling-item warnings**; 53 functional nets are connected and 14 remain
+disconnected. USB resistor placement, remaining routing, labels and electrical/DFM
+review are unfinished. Host25 live geometry qualification has passed.
+
+Earlier native milestone, 19 September 2026: [ground connections 60-11](../designs/rp2350-pico/native-ground-links-60-11/README.md)
 is normally closed with **807 tracks, 104 vias and one ground zone**. Ten added
 front segments join five ground groups, leaving **12 groups with 48 of 64 ground
 pads in the largest group**. There are still 53 connected and 14 disconnected
@@ -10,7 +22,7 @@ preserved. Header service regions are clear in the complete source audit.
 The existing USB placement/turn and junction findings remain, and the board is
 unfinished. The [spatial geometry checker](plane-geometry-spatial-filtering.md)
 now verifies captured native/saved fill within the unchanged work bound;
-live host25 qualification is separate and pending.
+live host25 qualification was separate and pending at that checkpoint.
 
 Earlier native milestone, 19 September 2026: [ground plane 60-10](../designs/rp2350-pico/native-ground-plane-60-10/README.md)
 is normally closed with **797 tracks, 104 vias and one B.Cu zone**. Existing

@@ -1,0 +1,114 @@
+{
+  "sourcePcbSha256": "505551e53c6c7fc6bff88848153ae7db75fa4aed45744dbffe9affcb5f44c8db",
+  "priorPcbSha256": "cc879f5f1c80def1be9527dc7ea57ae1321db20818105bac1c9f9db22e607176",
+  "priorNativeVisualQa": {
+    "footprint_count": 66,
+    "board_bounds": [
+      0,
+      0,
+      22,
+      60
+    ],
+    "status": "WARN",
+    "findings": [
+      {
+        "level": "WARN",
+        "code": "offboard_component",
+        "message": "Footprint J2 extends outside the board outline (at 2.1, 5.9).",
+        "ref": "J2",
+        "position": [
+          2.11,
+          5.87
+        ]
+      },
+      {
+        "level": "WARN",
+        "code": "offboard_component",
+        "message": "Footprint J3 extends outside the board outline (at 19.9, 54.1).",
+        "ref": "J3",
+        "position": [
+          19.89,
+          54.13
+        ]
+      },
+      {
+        "level": "WARN",
+        "code": "offboard_component",
+        "message": "Footprint J4 extends outside the board outline (at 8.5, 57.2).",
+        "ref": "J4",
+        "position": [
+          8.46,
+          57.2
+        ]
+      },
+      {
+        "level": "WARN",
+        "code": "ref_silk_overlap",
+        "message": "Reference designators C1 and R2 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.",
+        "ref": "C1"
+      },
+      {
+        "level": "WARN",
+        "code": "ref_silk_overlap",
+        "message": "Reference designators C18 and C19 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.",
+        "ref": "C18"
+      },
+      {
+        "level": "WARN",
+        "code": "ref_silk_overlap",
+        "message": "Reference designators C6 and U1 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.",
+        "ref": "C6"
+      },
+      {
+        "level": "WARN",
+        "code": "ref_silk_overlap",
+        "message": "Reference designators R13 and R14 overlap on the silkscreen (~0.7 mm²). Move or hide one so both stay legible.",
+        "ref": "R13"
+      },
+      {
+        "level": "WARN",
+        "code": "ref_silk_overlap",
+        "message": "Reference designators R18 and Y1 overlap on the silkscreen (~0.6 mm²). Move or hide one so both stay legible.",
+        "ref": "R18"
+      },
+      {
+        "level": "INFO",
+        "code": "body_overlap",
+        "message": "Footprints C20 and U2 bodies overlap (~2.4 mm²); confirm courtyard clearance in DRC.",
+        "ref": "C20"
+      },
+      {
+        "level": "INFO",
+        "code": "body_overlap",
+        "message": "Footprints C21 and U2 bodies overlap (~2.5 mm²); confirm courtyard clearance in DRC.",
+        "ref": "C21"
+      },
+      {
+        "level": "INFO",
+        "code": "body_overlap",
+        "message": "Footprints H1 and J2 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.",
+        "ref": "H1"
+      },
+      {
+        "level": "INFO",
+        "code": "body_overlap",
+        "message": "Footprints H4 and J3 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.",
+        "ref": "H4"
+      },
+      {
+        "level": "INFO",
+        "code": "body_overlap",
+        "message": "Footprints J4 and L2 bodies overlap (~4.7 mm²); confirm courtyard clearance in DRC.",
+        "ref": "J4"
+      },
+      {
+        "level": "INFO",
+        "code": "body_overlap",
+        "message": "Footprints SW1 and Y1 bodies overlap (~2.0 mm²); confirm courtyard clearance in DRC.",
+        "ref": "SW1"
+      }
+    ],
+    "result": "{\n  \"footprint_count\": 66,\n  \"board_bounds\": [\n    0.0,\n    0.0,\n    22.0,\n    60.0\n  ],\n  \"status\": \"WARN\",\n  \"findings\": [\n    {\n      \"level\": \"WARN\",\n      \"code\": \"offboard_component\",\n      \"message\": \"Footprint J2 extends outside the board outline (at 2.1, 5.9).\",\n      \"ref\": \"J2\",\n      \"position\": [\n        2.11,\n        5.87\n      ]\n    },\n    {\n      \"level\": \"WARN\",\n      \"code\": \"offboard_component\",\n      \"message\": \"Footprint J3 extends outside the board outline (at 19.9, 54.1).\",\n      \"ref\": \"J3\",\n      \"position\": [\n        19.89,\n        54.13\n      ]\n    },\n    {\n      \"level\": \"WARN\",\n      \"code\": \"offboard_component\",\n      \"message\": \"Footprint J4 extends outside the board outline (at 8.5, 57.2).\",\n      \"ref\": \"J4\",\n      \"position\": [\n        8.46,\n        57.2\n      ]\n    },\n    {\n      \"level\": \"WARN\",\n      \"code\": \"ref_silk_overlap\",\n      \"message\": \"Reference designators C1 and R2 overlap on the silkscreen (~0.8 mm\\u00b2). Move or hide one so both stay legible.\",\n      \"ref\": \"C1\"\n    },\n    {\n      \"level\": \"WARN\",\n      \"code\": \"ref_silk_overlap\",\n      \"message\": \"Reference designators C18 and C19 overlap on the silkscreen (~0.8 mm\\u00b2). Move or hide one so both stay legible.\",\n      \"ref\": \"C18\"\n    },\n    {\n      \"level\": \"WARN\",\n      \"code\": \"ref_silk_overlap\",\n      \"message\": \"Reference designators C6 and U1 overlap on the silkscreen (~0.8 mm\\u00b2). Move or hide one so both stay legible.\",\n      \"ref\": \"C6\"\n    },\n    {\n      \"level\": \"WARN\",\n      \"code\": \"ref_silk_overlap\",\n      \"message\": \"Reference designators R13 and R14 overlap on the silkscreen (~0.7 mm\\u00b2). Move or hide one so both stay legible.\",\n      \"ref\": \"R13\"\n    },\n    {\n      \"level\": \"WARN\",\n      \"code\": \"ref_silk_overlap\",\n      \"message\": \"Reference designators R18 and Y1 overlap on the silkscreen (~0.6 mm\\u00b2). Move or hide one so both stay legible.\",\n      \"ref\": \"R18\"\n    },\n    {\n      \"level\": \"INFO\",\n      \"code\": \"body_overlap\",\n      \"message\": \"Footprints C20 and U2 bodies overlap (~2.4 mm\\u00b2); confirm courtyard clearance in DRC.\",\n      \"ref\": \"C20\"\n    },\n    {\n      \"level\": \"INFO\",\n      \"code\": \"body_overlap\",\n      \"message\": \"Footprints C21 and U2 bodies overlap (~2.5 mm\\u00b2); confirm courtyard clearance in DRC.\",\n      \"ref\": \"C21\"\n    },\n    {\n      \"level\": \"INFO\",\n      \"code\": \"body_overlap\",\n      \"message\": \"Footprints H1 and J2 bodies overlap (~1.5 mm\\u00b2); confirm courtyard clearance in DRC.\",\n      \"ref\": \"H1\"\n    },\n    {\n      \"level\": \"INFO\",\n      \"code\": \"body_overlap\",\n      \"message\": \"Footprints H4 and J3 bodies overlap (~1.5 mm\\u00b2); confirm courtyard clearance in DRC.\",\n      \"ref\": \"H4\"\n    },\n    {\n      \"level\": \"INFO\",\n      \"code\": \"body_overlap\",\n      \"message\": \"Footprints J4 and L2 bodies overlap (~4.7 mm\\u00b2); confirm courtyard clearance in DRC.\",\n      \"ref\": \"J4\"\n    },\n    {\n      \"level\": \"INFO\",\n      \"code\": \"body_overlap\",\n      \"message\": \"Footprints SW1 and Y1 bodies overlap (~2.0 mm\\u00b2); confirm courtyard clearance in DRC.\",\n      \"ref\": \"SW1\"\n    }\n  ]\n}"
+  },
+  "scope": "Native visual QA was collected at 826 tracks. Subsequent USB replacement preserves all footprints, text, outline and mechanical geometry; final native top/assembly/bottom views were separately inspected."
+}

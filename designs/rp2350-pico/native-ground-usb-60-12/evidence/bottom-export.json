@@ -1,0 +1,61 @@
+{
+  "executable": "C:/Program Files/KiCad/10.0/bin/kicad-cli.exe",
+  "args": [
+    "pcb",
+    "export",
+    "svg",
+    "--layers",
+    "B.Cu,Edge.Cuts",
+    "--page-size-mode",
+    "2",
+    "--scale",
+    "1",
+    "--exclude-drawing-sheet",
+    "--drill-shape-opt",
+    "2",
+    "--mode-single",
+    "--output",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\native-bottom.svg",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb"
+  ],
+  "exitCode": 0,
+  "stdout": "Plotted to 'C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\native-bottom.svg'.\r\nDone.\r\n",
+  "stderr": "",
+  "sources": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "505551e53c6c7fc6bff88848153ae7db75fa4aed45744dbffe9affcb5f44c8db"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+    }
+  ],
+  "sourceUnchanged": true,
+  "svg": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\native-bottom.svg",
+    "sha256": "7cb37c75ec808f7d5022704fc2ec9de14759b17a6b4aafd42370637f36725014",
+    "sizeBytes": 74920
+  },
+  "png": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\native-bottom.png",
+    "sha256": "8629e6fea2ec2f3e311d03c05277f0058aa74c4588dea9852900cc1744e33de9"
+  },
+  "scope": "Read-only KiCad CLI bottom-copper/outline export and lossless white-background rasterization. Visual review is separate; no native project mutation."
+}

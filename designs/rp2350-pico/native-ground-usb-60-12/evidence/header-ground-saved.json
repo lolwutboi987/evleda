@@ -1,0 +1,17 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "plan": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-ground-connections-01\\reviewed-front-header-link.json",
+    "sha256": "d9efb95c06c3fc89f65a1a461e1a3a96590f2b8ed535021db8bb31bf55f531fe"
+  },
+  "selection": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000073-response-57c7d026e29a4cd94f829c4e9134adbc0ed31c1831357fb723b32f369b27fea8.json",
+  "mutation": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000076-response-869b95e163caf4b2fdd74540e0569887f5ba285294906d0522b4c64acf37d6f8.json",
+  "savedRead": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000079-response-13249f7c1821bc02289bb7c969d13a26d82fad527b2a58f1a03de311462ba0c4.json",
+  "afterPcbSha256": "18989eefdb4caef3e39e3eacea60e0b92a91d1705ec406a8956c0249b8634a1c",
+  "tracks": 810,
+  "vias": 104,
+  "addedTracks": 3,
+  "originalGeometryPreserved": true,
+  "nonPcbSourcesPreserved": true,
+  "refillRequired": true
+}

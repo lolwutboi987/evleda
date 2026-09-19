@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-09-19T17:41:03.933Z",
+  "hostRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-geometry-spatial-01\\host25-release.json",
+    "sha256": "10073d814220eb4387957cb2538cda5b4c4adcbba87287c882e56374a1dd13e3"
+  },
+  "profile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc14-rp2350-v4-01.json",
+    "sha256": "7ed147b284b0037b57e1cdb732e84614d379259a55152cec5a7027a95df59bfd",
+    "sizeBytes": 16672
+  },
+  "sourceCloseProof": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-40\\ground-links-close-proof.json",
+    "sha256": "19578b9e21f508ef8671d012a66a45504cb26e89b404dc59fa70ecf2361f8bcb"
+  },
+  "checkpoint": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-checkpoint.json",
+    "sha256": "9a5d08a5e09fd623c094d1ef65b85ffc3ef06b8ac47b34ec0153f61f768dd127"
+  },
+  "savedFiles": {
+    "pro": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15"
+    },
+    "sch": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+    },
+    "pcb": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "5eda3ec274a9d4e778ca3a0c576bdcd47c99f7abe4f86750489c79cc3cd45d8c"
+    },
+    "symLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+    },
+    "fpLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+    },
+    "dru": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+    }
+  },
+  "nativeCalls": 0,
+  "scope": "Resume unchanged 60-11, reapply the same plane for current-session fill, and qualify the bounded geometry checker. Further routing requires a separately checked proposal."
+}

@@ -1,0 +1,73 @@
+{
+  "sourcePcbSha256": "5eda3ec274a9d4e778ca3a0c576bdcd47c99f7abe4f86750489c79cc3cd45d8c",
+  "contractIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "f4d71fcdd5e24aa5728954255503b25bc3e6c381fd07e05b62f6337cbbab7127",
+    "schemaVersion": "evleda.pcb-design-contract.v2"
+  },
+  "rows": [
+    {
+      "reference": "R1",
+      "linePin": "2",
+      "sourcePin": "U1.52",
+      "sourceAt": {
+        "x": 10.8,
+        "y": 29.05
+      },
+      "currentPose": {
+        "x": 10.025,
+        "y": 26.99
+      },
+      "linePinOffset": {
+        "x": 0,
+        "y": -0.5100000000000016
+      },
+      "allowedRegion": {
+        "maxXmm": 10.15,
+        "maxYmm": 27.45,
+        "minXmm": 9.9,
+        "minYmm": 26.75
+      },
+      "closestAllowedPose": {
+        "x": 10.15,
+        "y": 27.45
+      },
+      "minimumPossibleLinePadDistanceMm": 2.2078496325610613,
+      "declaredMaximumMm": 2,
+      "feasibleWithinCurrentRegion": false
+    },
+    {
+      "reference": "R2",
+      "linePin": "2",
+      "sourcePin": "U1.51",
+      "sourceAt": {
+        "x": 11.200000000000001,
+        "y": 29.05
+      },
+      "currentPose": {
+        "x": 10.985,
+        "y": 26.8
+      },
+      "linePinOffset": {
+        "x": 0,
+        "y": -0.5100000000000016
+      },
+      "allowedRegion": {
+        "maxXmm": 11.085,
+        "maxYmm": 27.2,
+        "minXmm": 10.885,
+        "minYmm": 26.8
+      },
+      "closestAllowedPose": {
+        "x": 11.085,
+        "y": 27.2
+      },
+      "minimumPossibleLinePadDistanceMm": 2.3628002454714645,
+      "declaredMaximumMm": 2,
+      "feasibleWithinCurrentRegion": false
+    }
+  ],
+  "nativeOperations": 0,
+  "scope": "Geometric lower bound over the existing cardinal-only placement rectangles. Both declared line-pad distance bounds require an explicit placement-intent revision; routing alone cannot satisfy them. No current rule or source is changed."
+}

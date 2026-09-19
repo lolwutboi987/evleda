@@ -1,0 +1,16 @@
+{
+  "endedAt": "2026-09-19T18:34:22.868Z",
+  "reason": "operator_close",
+  "sdkCloseReturned": true,
+  "nativeCleanup": "workspace_idle_confirmed_before_shutdown",
+  "instruction": "SDK shutdown is best-effort and may escalate termination; it does not prove a native checkpoint, lease release, or design acceptance.",
+  "stderr": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\host-stderr.log",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "ce2a23241c4d42f787c0434a8d78131b0b9ceecfe38550a2ceecb94f63e1bf3e",
+      "size": 76
+    }
+  },
+  "stderrComplete": true
+}

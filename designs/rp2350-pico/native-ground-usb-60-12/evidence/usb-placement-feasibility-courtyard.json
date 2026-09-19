@@ -1,0 +1,58 @@
+{
+  "baselineSourcePcbSha256": "5eda3ec274a9d4e778ca3a0c576bdcd47c99f7abe4f86750489c79cc3cd45d8c",
+  "contractIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "f4d71fcdd5e24aa5728954255503b25bc3e6c381fd07e05b62f6337cbbab7127",
+    "schemaVersion": "evleda.pcb-design-contract.v2"
+  },
+  "rows": [
+    {
+      "reference": "R1",
+      "sourcePin": "U1.52",
+      "currentRotationDeg": 90,
+      "minimumCourtyardClearanceNm": 10000,
+      "sourcePadToMcuCourtyardTopNm": 650000,
+      "resistorCourtyardBottomOffsetNm": 930000,
+      "linePadOffsetYNm": -510000,
+      "maximumNorthSidePoseYNm": 27460000,
+      "minimumNorthSideLinePadDistanceNm": 2100000,
+      "declaredMaximumDistanceNm": 2000000,
+      "northSide90DegreePlacementFeasible": false,
+      "rotation270AtCurrentPose": {
+        "linePad": {
+          "x": 10.025,
+          "y": 27.499999999999996
+        },
+        "straightDistanceMm": 1.7329526825623411,
+        "withinDistanceBound": true,
+        "routingAndClearanceNotEvaluated": true
+      }
+    },
+    {
+      "reference": "R2",
+      "sourcePin": "U1.51",
+      "currentRotationDeg": 90,
+      "minimumCourtyardClearanceNm": 10000,
+      "sourcePadToMcuCourtyardTopNm": 650000,
+      "resistorCourtyardBottomOffsetNm": 930000,
+      "linePadOffsetYNm": -510000,
+      "maximumNorthSidePoseYNm": 27460000,
+      "minimumNorthSideLinePadDistanceNm": 2100000,
+      "declaredMaximumDistanceNm": 2000000,
+      "northSide90DegreePlacementFeasible": false,
+      "rotation270AtCurrentPose": {
+        "linePad": {
+          "x": 10.985,
+          "y": 27.310000000000002
+        },
+        "straightDistanceMm": 1.7532327284191325,
+        "withinDistanceBound": true,
+        "routingAndClearanceNotEvaluated": true
+      }
+    }
+  ],
+  "nativeOperations": 0,
+  "adopted": false,
+  "scope": "Exact integer-nanometre north-side courtyard lower bound. Expanding the resistor placement rectangles alone cannot satisfy the 2 mm line-pad bound at rotation 90 while preserving stock courtyards. Rotation 270 removes this particular distance contradiction at the current poses, but changes both copper land positions and still requires a complete launch, body, decoupling and clearance plan under an explicit new intent."
+}

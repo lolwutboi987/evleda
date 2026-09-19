@@ -1,0 +1,10 @@
+{
+  "part": "dp",
+  "net": "USB_DP_PORT",
+  "selection": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000109-response-4ae3f80ef161091d406db9c448f52b732484fca215d0ebdd7876f503558a5ea6.json",
+  "mutation": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000112-response-a3c25b1425b3931772e2c54753f5f1247ed1e556cc3bbfda988ed45ba51ccda5.json",
+  "deletedTracks": 9,
+  "addedTracks": 13,
+  "afterPcbSha256": "675c110b0c9ccbfd235b4f6d7c1f307b46158ed1b7ae296584340560613c19ab",
+  "savedTrackCount": 830
+}

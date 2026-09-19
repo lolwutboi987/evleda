@@ -10,18 +10,9 @@ preserved. This directory currently holds design work, not a completed PCB.
 
 The approved board is now **22 × 60 mm on two layers**, retaining 2.54 mm GPIO
 pitch and 17.78 mm row spacing. The original 51 mm brief below is historical.
-The latest normally closed native project is
-[ground connections 60-11](native-ground-links-60-11/README.md): 807 segments,
-104 vias and one B.Cu ground zone. Ten new front ground segments connect five
-previously separate ground groups without moving components. Native endpoint checks
-confirm **53 connected nets and 14 disconnected nets**. Both GPIO service strips
-exclude unrelated copper under the complete source audit. Configured ERC has zero findings. DRC reports 27
-unconnected errors and 13 dangling-item warnings, with no reported clearance
-findings. GND is still split into 12 physical-pad groups. Among 608
-measured turns, one USB protection-pad fork is flagged; eight junctions remain
-unresolved. Both USB line-side series-resistor pads exceed their declared 2 mm
-placement limit.
+The latest normally closed native snapshot is [ground and USB revision 60-12](native-ground-usb-60-12/README.md): **829 tracks, 104 vias and one B.Cu ground zone**. Nineteen added front ground segments reduce GND from 12 to **nine physical-pad groups**, with **49 of 64 pads** in the main group. A coordinated three-branch USB adjustment removes the prior sharp bend while preserving the existing source-assessed width, gap, length and skew limits. There are **631 measured turns with zero violations and eight unresolved junctions**. Both GPIO service strips are clear, with 40 exact own-pad leads permitted. Native checks still report **24 unconnected errors and 13 dangling-item warnings**; 53 functional nets are connected and 14 remain disconnected. USB resistor placement, remaining routing, labels and electrical/DFM review are unfinished.
 **The board is unfinished.** The earlier
+[ground-connections snapshot 60-11](native-ground-links-60-11/README.md),
 [ground-plane snapshot 60-10](native-ground-plane-60-10/README.md),
 [route-plan snapshot 60-09](native-route-plan-60-09/README.md),
 [signal snapshot 60-08](native-signal-routing-60-08/README.md),

@@ -1,0 +1,107 @@
+{
+  "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000067-response-15b3c8ac071aa890084a6e8f2be239b12879631d837e91eb85d5d782485fe5b3.json",
+  "result": {
+    "schemaVersion": "evleda.fresh-plane-apply-result.v1",
+    "contractIdentity": {
+      "algorithm": "sha256",
+      "digest": "914359bf1ba51f1137355a179734fff0a00aa1366efd2331cde0939ee8b8ada8",
+      "schemaVersion": "evleda.fresh-connectivity-contract.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "sourceContractIdentity": {
+      "algorithm": "sha256",
+      "digest": "f4d71fcdd5e24aa5728954255503b25bc3e6c381fd07e05b62f6337cbbab7127",
+      "schemaVersion": "evleda.pcb-design-contract.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "planeProjectBindingIdentity": {
+      "algorithm": "sha256",
+      "digest": "40897cfa882349f30ff0ce6df92d1dca642dc3bc628579e3c120ea57a8cb735a",
+      "schemaVersion": "evleda.pcb-agent-plane-fresh-binding.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "freshMarkerContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "1169552b8e2c2eb27197e0c0768802839e8ce35ae3bce4bd80d82b2db3a716f3",
+      "size": 5715
+    },
+    "planeId": "GND_PLANE",
+    "targetZoneUuid": "3d66c48d-738f-4869-b998-1552343bb759",
+    "operation": "update",
+    "preparedSpecIdentity": {
+      "algorithm": "sha256",
+      "digest": "22dcf0548ebfc501ccde2456238d19851c529c5c57244fa9c4a294c467209970",
+      "schemaVersion": "evleda.fresh-plane-mutation-spec.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "beforePcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "5eda3ec274a9d4e778ca3a0c576bdcd47c99f7abe4f86750489c79cc3cd45d8c",
+      "size": 454320
+    },
+    "stagedPcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "199fd1a186e7c8e739224dc1913a654b137ded57bdd26438e9f39bddf757ff1f",
+      "size": 428410
+    },
+    "stageReceiptIdentity": {
+      "algorithm": "sha256",
+      "digest": "2d738df2fc078096ee606cebeaee7a8aa714df76b30387eac34b01ae1fb660b9",
+      "size": 3624187
+    },
+    "mutationComparisonIdentity": {
+      "algorithm": "sha256",
+      "digest": "24e42456ba7c359118782c8fc8a3a9f587137c19614187a7316c82514bca5e1d",
+      "schemaVersion": "evleda.fresh-plane-mutation-comparison.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "requirements": {
+      "minimumIslandAreaMm2": 1,
+      "minimumAreaEnforcement": "not-enforced-by-always-mode",
+      "minimumSpokes": null,
+      "spokeEnforcement": "not-applicable"
+    },
+    "applied": true,
+    "mutated": true,
+    "idempotent": false,
+    "nativeActionsPerformed": true,
+    "sourceChanged": true,
+    "completion": "not_evaluated",
+    "connection": "not_evaluated",
+    "referenceCoverage": "not_evaluated",
+    "thermalAcceptance": "not_evaluated",
+    "islandAreaAcceptance": "not_evaluated",
+    "nativeSaveCalledByStage": false,
+    "acceptanceEvaluated": false,
+    "issues": [],
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "c5e8073d6317a0be4bad5282789a715a5272eb056574727a1cc52a3c744b58b4",
+      "schemaVersion": "evleda.fresh-plane-apply-result.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "persistence": {
+    "status": "plane-native-saved-and-source-verified",
+    "nativeSaveCalled": true,
+    "savedPcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "5eda3ec274a9d4e778ca3a0c576bdcd47c99f7abe4f86750489c79cc3cd45d8c",
+      "size": 454320
+    },
+    "stageObservationIdentity": {
+      "algorithm": "sha256",
+      "digest": "d371a0018dee246219d6702c800fa50fed1069a4ae8e32521080c54bf707a2ce",
+      "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "currentSessionFillEvidenceIdentity": {
+      "algorithm": "sha256",
+      "digest": "5258c02fac59f724918a7f7e6da492c547a97608ddbee3509739ce44a8f973cc",
+      "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "acceptanceEvaluated": false
+  },
+  "sixSavedSourcesUnchanged": true
+}

@@ -1,0 +1,45 @@
+{
+  "recordedAt": "2026-09-19T18:22:28.579Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000110-request-711feca160cde2960435b5d271bb21d6a78ecf0bdf442dbc08400419ed600441.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "711feca160cde2960435b5d271bb21d6a78ecf0bdf442dbc08400419ed600441",
+      "size": 1801
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-41\\workspace-client-425d8f32-0d3c-4f88-9cb0-6352ea1bc8a0\\000111-mcp-received-223cfad3381e36f92823a931124234806b6ab5e4da98f5554e94cbeac97ff562.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "223cfad3381e36f92823a931124234806b6ab5e4da98f5554e94cbeac97ff562",
+        "size": 6653
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"operation\":\"fresh_replace_route_items\",\"result\":{\"toolCallId\":\"toolbox:6f1e8c80-1d8b-4f1e-8a43-64a1678ec51f\",\"content\":\"{\\\"schemaVersion\\\":\\\"evleda.fresh-plane-route-mutation-result.v1\\\",\\\"contractIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"914359bf1ba51f1137355a179734fff0a00aa1366efd2331cde0939ee8b8ada8\\\",\\\"schemaVersion\\\":\\\"evleda.fresh-connectivity-contract.v1\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"},\\\"planeProjectBindingIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"40897cfa882349f30ff0ce6df92d1dca642dc3bc628579e3c120ea57a8cb735a\\\",\\\"schemaVersion\\\":\\\"evleda.pcb-agent-plane-fresh-binding.v1\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"},\\\"sourceContractIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"f4d71fcdd5e24aa5728954255503b25bc3e6c381fd07e05b62f6337cbbab7127\\\",\\\"schemaVersion\\\":\\\"evleda.pcb-design-contract.v2\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"},\\\"completion\\\":\\\"not_evaluated\\\",\\\"connection\\\":\\\"not_evaluated\\\",\\\"mutationValidity\\\":\\\"verified\\\",\\\"scope\\\":\\\"selected-net-incremental-route-geometry\\\",\\\"notEvaluated\\\":[\\\"plane_contact\\\",\\\"clearance\\\",\\\"reference_coverage\\\",\\\"completed_route_topology\\\"],\\\"freshMarkerContentIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"1169552b8e2c2eb27197e0c0768802839e8ce35ae3bce4bd80d82b2db3a716f3\\\",\\\"size\\\":5715},\\\"applied\\\":true,\\\"mutated\\\":true,\\\"idempotent\\\":false,\\\"selectionIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"577941692af846cdd9d788e888a6f254af516bcccd1e0bc4c934287707464161\\\",\\\"schemaVersion\\\":\\\"evleda.fresh-plane-route-selection.v1\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"},\\\"beforePcbContentIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"cc879f5f1c80def1be9527dc7ea57ae1321db20818105bac1c9f9db22e607176\\\",\\\"size\\\":457219},\\\"livePcbContentIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"a22c650e63629373772775b45545eafbb359c311a50760e4e5348ccd50f58f7f\\\",\\\"size\\\":431779},\\\"net\\\":\\\"USB_DP_PORT\\\",\\\"deletedItemIds\\\":[\\\"245bdb02-9890-48df-8c54-ce080977603d\\\",\\\"718ea734-a394-4b21-ada2-66dec49fc21c\\\",\\\"746d0850-d9bf-43e3-b4c0-250835deb3df\\\",\\\"75563ca4-c763-4533-b3c3-4a32af74c2df\\\",\\\"7e7c7679-2830-4718-9ba7-1302ec4e3deb\\\",\\\"8730556a-7fc8-424e-bd69-dcc9b87bcd9f\\\",\\\"903cfcb1-64a9-4012-af0b-7f2dd95ead60\\\",\\\"c8682d8a-595d-4e5f-898f-ed2cfcb89034\\\",\\\"ec35c9be-ebb8-4219-8fc1-8b1c8a629823\\\"],\\\"addedTrackCount\\\":13,\\\"addedViaCount\\\":0,\\\"issues\\\":[],\\\"identity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"84e7fec8b903d92d28f76bf5ac3b1c00152011012c2e5a7a7aadfa742ecd54d9\\\",\\\"schemaVersion\\\":\\\"evleda.fresh-plane-route-mutation-result.v1\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"}}\"},\"persistence\":{\"toolCallId\":\"toolbox:6f1e8c80-1d8b-4f1e-8a43-64a1678ec51f:save\",\"content\":\"{\\\"result\\\":\\\"Board saved.\\\"}\"},\"readback\":null,\"noGovernedEffect\":false,\"assurance\":\"Operation and persistence results only; run applicable design checks before declaring the design complete.\"}"
+      }
+    ],
+    "structuredContent": {
+      "operation": "fresh_replace_route_items",
+      "result": {
+        "toolCallId": "toolbox:6f1e8c80-1d8b-4f1e-8a43-64a1678ec51f",
+        "content": "{\"schemaVersion\":\"evleda.fresh-plane-route-mutation-result.v1\",\"contractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"914359bf1ba51f1137355a179734fff0a00aa1366efd2331cde0939ee8b8ada8\",\"schemaVersion\":\"evleda.fresh-connectivity-contract.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"planeProjectBindingIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"40897cfa882349f30ff0ce6df92d1dca642dc3bc628579e3c120ea57a8cb735a\",\"schemaVersion\":\"evleda.pcb-agent-plane-fresh-binding.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"sourceContractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"f4d71fcdd5e24aa5728954255503b25bc3e6c381fd07e05b62f6337cbbab7127\",\"schemaVersion\":\"evleda.pcb-design-contract.v2\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"completion\":\"not_evaluated\",\"connection\":\"not_evaluated\",\"mutationValidity\":\"verified\",\"scope\":\"selected-net-incremental-route-geometry\",\"notEvaluated\":[\"plane_contact\",\"clearance\",\"reference_coverage\",\"completed_route_topology\"],\"freshMarkerContentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"1169552b8e2c2eb27197e0c0768802839e8ce35ae3bce4bd80d82b2db3a716f3\",\"size\":5715},\"applied\":true,\"mutated\":true,\"idempotent\":false,\"selectionIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"577941692af846cdd9d788e888a6f254af516bcccd1e0bc4c934287707464161\",\"schemaVersion\":\"evleda.fresh-plane-route-selection.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"beforePcbContentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"cc879f5f1c80def1be9527dc7ea57ae1321db20818105bac1c9f9db22e607176\",\"size\":457219},\"livePcbContentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"a22c650e63629373772775b45545eafbb359c311a50760e4e5348ccd50f58f7f\",\"size\":431779},\"net\":\"USB_DP_PORT\",\"deletedItemIds\":[\"245bdb02-9890-48df-8c54-ce080977603d\",\"718ea734-a394-4b21-ada2-66dec49fc21c\",\"746d0850-d9bf-43e3-b4c0-250835deb3df\",\"75563ca4-c763-4533-b3c3-4a32af74c2df\",\"7e7c7679-2830-4718-9ba7-1302ec4e3deb\",\"8730556a-7fc8-424e-bd69-dcc9b87bcd9f\",\"903cfcb1-64a9-4012-af0b-7f2dd95ead60\",\"c8682d8a-595d-4e5f-898f-ed2cfcb89034\",\"ec35c9be-ebb8-4219-8fc1-8b1c8a629823\"],\"addedTrackCount\":13,\"addedViaCount\":0,\"issues\":[],\"identity\":{\"algorithm\":\"sha256\",\"digest\":\"84e7fec8b903d92d28f76bf5ac3b1c00152011012c2e5a7a7aadfa742ecd54d9\",\"schemaVersion\":\"evleda.fresh-plane-route-mutation-result.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"}}"
+      },
+      "persistence": {
+        "toolCallId": "toolbox:6f1e8c80-1d8b-4f1e-8a43-64a1678ec51f:save",
+        "content": "{\"result\":\"Board saved.\"}"
+      },
+      "readback": null,
+      "noGovernedEffect": false,
+      "assurance": "Operation and persistence results only; run applicable design checks before declaring the design complete."
+    }
+  }
+}

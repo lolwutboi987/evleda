@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "evleda.native-ground-usb-delivery.v1",
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "files": [
+    {
+      "path": "evidence/assembly-response.json",
+      "sha256": "ad05003ac911a50a4eb4763f92060236bea2ebde77f592e4af5ad28b4c046fee",
+      "sizeBytes": 188092
+    },
+    {
+      "path": "evidence/bottom-export.json",
+      "sha256": "888d6c956c9bdc8f2e204bc6820bc9b09cf821d7d8041c3d225cd5a0092556d1",
+      "sizeBytes": 3303
+    },
+    {
+      "path": "evidence/client-terminal.json",
+      "sha256": "6beb35bfdd9051964a5e0dd2df6705620a59693097bff2be6bf351d25ac7889e",
+      "sizeBytes": 707
+    },
+    {
+      "path": "evidence/copy-lineage.json",
+      "sha256": "3319c9fe6ca2c62fbb795c68a9b7ca0200de1a0e6bf3a899c556adb8197bdb30",
+      "sizeBytes": 22026
+    },
+    {
+      "path": "evidence/final-close-proof.json",
+      "sha256": "efbb53b7ad1f06acd6eea741bf9b8b29248f8e2ff691fcba419b1371d8cddd05",
+      "sizeBytes": 2956
+    },
+    {
+      "path": "evidence/final-collection.json",
+      "sha256": "864b08ecf733f0c2cecc600e5e88212d364ae1e3e806f450e6058866403236d9",
+      "sizeBytes": 102806
+    },
+    {
+      "path": "evidence/final-endpoint.json",
+      "sha256": "e985da1a7c53c9f1b55e9ea0a007cb2b4529e781c0abf535ab94b40873dd5a7d",
+      "sizeBytes": 244926
+    },
+    {
+      "path": "evidence/final-plane-assessment.json",
+      "sha256": "ddb6dbc0268b6eb9d6b9d9bee70792e8434a9fdb1efe8c5a97afdb8eecccad62",
+      "sizeBytes": 1574255
+    },
+    {
+      "path": "evidence/front-ground-checks-response.json",
+      "sha256": "2c4cfa301e18000762b3ea1340b4b6408d5624a5813e53e77af06cc9125810af",
+      "sizeBytes": 592841
+    },
+    {
+      "path": "evidence/front-ground-checks.json",
+      "sha256": "33d37406cf29989c21d47b016a2e7f61fac41a826a811a1f21bb7991708556e6",
+      "sizeBytes": 8836
+    },
+    {
+      "path": "evidence/front-ground-endpoint-response.json",
+      "sha256": "b6539f4186a81c6898300486fb1d4fb3908db4dab6c80e57322d27d4d493b8bf",
+      "sizeBytes": 406149
+    },
+    {
+      "path": "evidence/front-ground-mutation-response.json",
+      "sha256": "56f39449f31a1527640d4c6bdc9cdb6b6e25263ef16e0182b190d70f22ad413f",
+      "sizeBytes": 6718
+    },
+    {
+      "path": "evidence/front-ground-refill-response.json",
+      "sha256": "6ab0e3e94925e54d119b683d32b7d6e9cd2dc8c6eb3eba2eca3dfc0dccaf2538",
+      "sizeBytes": 9673
+    },
+    {
+      "path": "evidence/front-ground-refilled.json",
+      "sha256": "90dcd34f58651009032dad704e8bcd74cec0289c77d64d782a5e5a60ef89d5d8",
+      "sizeBytes": 23336
+    },
+    {
+      "path": "evidence/front-ground-saved.json",
+      "sha256": "e74ff1a396842be8e479587b3b2e1b9075bce715079c138d21ee1808424cfa3c",
+      "sizeBytes": 1343
+    },
+    {
+      "path": "evidence/front-ground-savedRead-response.json",
+      "sha256": "7865cad0fe3d6356e9c10fc4f1fb7036a35befb7c210bb7834758db271ebf22e",
+      "sizeBytes": 20842
+    },
+    {
+      "path": "evidence/front-ground-selection-response.json",
+      "sha256": "9fd8f4d5414670d972276c7737505b316c14e1f8df721e4fd509d84dd22d13d7",
+      "sizeBytes": 20838
+    },
+    {
+      "path": "evidence/geometry-assessment.json",
+      "sha256": "89c50f58b9b91553c3a324985b3c0ed59227c0325a3d45e289cc60c79a88b9c8",
+      "sizeBytes": 1461347
+    },
+    {
+      "path": "evidence/geometry-refill.json",
+      "sha256": "70c73708144a02c90f13466a3eef473ac1c287b8c3db2c343499bc5409ce6594",
+      "sizeBytes": 4287
+    },
+    {
+      "path": "evidence/header-ground-checks-response.json",
+      "sha256": "a5a1ac74f0f85c1cd7b978b99fa4934c0fd71ff8713a75724b78fec45cf5e0b9",
+      "sizeBytes": 579929
+    },
+    {
+      "path": "evidence/header-ground-checks.json",
+      "sha256": "a4b8d2df60db3443db23eefb8f12bc7c098da5dd591c2788ef12823f99d6c3cc",
+      "sizeBytes": 9024
+    },
+    {
+      "path": "evidence/header-ground-endpoint-response.json",
+      "sha256": "cdb9320446f2dc71a5324abfb2a35d924449aea3bb1632a9b9d0c81441c7faa5",
+      "sizeBytes": 406217
+    },
+    {
+      "path": "evidence/header-ground-mutation-response.json",
+      "sha256": "869b95e163caf4b2fdd74540e0569887f5ba285294906d0522b4c64acf37d6f8",
+      "sizeBytes": 6715
+    },
+    {
+      "path": "evidence/header-ground-refill-response.json",
+      "sha256": "49f8f91a311bf56a8572d9d602f6ef21fcf02ff7044e490011aecfb1c9346220",
+      "sizeBytes": 9673
+    },
+    {
+      "path": "evidence/header-ground-refilled.json",
+      "sha256": "d9ebb8ec9432c099306e22b1d89f1768331a17db065effeabcd749d7e301d1c4",
+      "sizeBytes": 23336
+    },
+    {
+      "path": "evidence/header-ground-saved.json",
+      "sha256": "6011af281a14f5d05fe5ec2e5aa74c4f6e0f2599de55d7857962039243110972",
+      "sizeBytes": 1338
+    },
+    {
+      "path": "evidence/header-ground-savedRead-response.json",
+      "sha256": "13249f7c1821bc02289bb7c969d13a26d82fad527b2a58f1a03de311462ba0c4",
+      "sizeBytes": 20839
+    },
+    {
+      "path": "evidence/header-ground-selection-response.json",
+      "sha256": "57c7d026e29a4cd94f829c4e9134adbc0ed31c1831357fb723b32f369b27fea8",
+      "sizeBytes": 20838
+    },
+    {
+      "path": "evidence/host25-release.json",
+      "sha256": "10073d814220eb4387957cb2538cda5b4c4adcbba87287c882e56374a1dd13e3",
+      "sizeBytes": 2800
+    },
+    {
+      "path": "evidence/normal-close-response.json",
+      "sha256": "7de7975a254fe38ecd5cef0957afcaa7fc7a03d4cb923c1a32e1488eedb1a5c8",
+      "sizeBytes": 19978
+    },
+    {
+      "path": "evidence/pre-resume-proof.json",
+      "sha256": "1e9d71bf379707505dc4ca57cd7a43b620629184fe76388ab5bd4cde3550270a",
+      "sizeBytes": 3171
+    },
+    {
+      "path": "evidence/resume-proof.json",
+      "sha256": "cf353808e7f8b86411c6add2554478cdf41c97c837172372bb8ab64226ecf93c",
+      "sizeBytes": 916
+    },
+    {
+      "path": "evidence/reviewed-front-ground-links-v3.json",
+      "sha256": "b130119ffb14fb12350f91d6b07e5f4dc3abb799ee48f7ece179bcc38dde0e31",
+      "sizeBytes": 82045
+    },
+    {
+      "path": "evidence/reviewed-front-header-link.json",
+      "sha256": "d9efb95c06c3fc89f65a1a461e1a3a96590f2b8ed535021db8bb31bf55f531fe",
+      "sizeBytes": 50247
+    },
+    {
+      "path": "evidence/reviewed-usb-balanced-turn-v5.json",
+      "sha256": "14db12456d6cf66ba23b547e2bdb1a3ec9766ead9c24638d3dfb5e9483474a3b",
+      "sizeBytes": 1913379
+    },
+    {
+      "path": "evidence/summary.json",
+      "sha256": "067103678afba357442a7eae38071206ea3dd6c9f6a6d362afa6e843aa2739d9",
+      "sizeBytes": 2292
+    },
+    {
+      "path": "evidence/top-response.json",
+      "sha256": "9e19588669a19b3925f05f7dd48fe9b0705f1f8406924da235da1448583f98bf",
+      "sizeBytes": 175475
+    },
+    {
+      "path": "evidence/usb-balanced-dm-saved.json",
+      "sha256": "16373d855c203651388d6179705cb7d36ccff27c31b986acee2d8fbb23ec3dae",
+      "sizeBytes": 722
+    },
+    {
+      "path": "evidence/usb-balanced-dp-saved.json",
+      "sha256": "a15ea19e695ac0580ff2ea2cc73999894937b62c0feb2f5dbb9d43790979a4a5",
+      "sizeBytes": 723
+    },
+    {
+      "path": "evidence/usb-balanced-refilled.json",
+      "sha256": "b5720b6122fe1398d0167646ea25e5f0afc31913dd0d26b5a63971998152b25e",
+      "sizeBytes": 25141
+    },
+    {
+      "path": "evidence/usb-dm-mutation-response.json",
+      "sha256": "988d6ef0eabeb22023c2387c6ac5c0b1fb5201516a981195b60021a7a98da83a",
+      "sizeBytes": 7159
+    },
+    {
+      "path": "evidence/usb-dm-selection-response.json",
+      "sha256": "535783b3aa7e8d82a5b7adaa429e3c69c9a1533400bacb746319f0fd17f96e1f",
+      "sizeBytes": 20843
+    },
+    {
+      "path": "evidence/usb-dp-mutation-response.json",
+      "sha256": "a3c25b1425b3931772e2c54753f5f1247ed1e556cc3bbfda988ed45ba51ccda5",
+      "sizeBytes": 7506
+    },
+    {
+      "path": "evidence/usb-dp-selection-response.json",
+      "sha256": "4ae3f80ef161091d406db9c448f52b732484fca215d0ebdd7876f503558a5ea6",
+      "sizeBytes": 20843
+    },
+    {
+      "path": "evidence/usb-placement-feasibility-courtyard.json",
+      "sha256": "59ab671c7322e1c29d451a284e0e876952c869c1d2e25a29bbfd9963fd8f660f",
+      "sizeBytes": 2302
+    },
+    {
+      "path": "evidence/usb-placement-feasibility.json",
+      "sha256": "081ab8fd481ee3be8565a42b9a786236a90c5cadb28a8870bf99e668b96a742f",
+      "sizeBytes": 1950
+    },
+    {
+      "path": "evidence/usb-refill-response.json",
+      "sha256": "75ec369d4f7da4238d07970a43c30aa9270127ecd62ff230860ace65fd4e67a6",
+      "sizeBytes": 9673
+    },
+    {
+      "path": "evidence/visual-qa-preservation.json",
+      "sha256": "0a9a151d79857d0091b2586cd324e11d3cee885eaa1b1999cf6858a6f9c2db8e",
+      "sizeBytes": 7163
+    },
+    {
+      "path": "evidence/visual-review.json",
+      "sha256": "f1425f2ecc1e12d164203566be251ef2f17cec47bb47453ccf3747b65e6c50f1",
+      "sizeBytes": 1249
+    },
+    {
+      "path": "native/fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "sizeBytes": 2025
+    },
+    {
+      "path": "native/rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "sizeBytes": 13300
+    },
+    {
+      "path": "native/rp2350-pico.kicad_pcb",
+      "sha256": "505551e53c6c7fc6bff88848153ae7db75fa4aed45744dbffe9affcb5f44c8db",
+      "sizeBytes": 457703
+    },
+    {
+      "path": "native/rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15",
+      "sizeBytes": 21307
+    },
+    {
+      "path": "native/rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+      "sizeBytes": 221594
+    },
+    {
+      "path": "native/sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "sizeBytes": 1275
+    },
+    {
+      "path": "previews/board-assembly.png",
+      "sha256": "a4038c62498a7158f04fbc99a40f609c87e52cde31c151e30b7dfeb746edcd00",
+      "sizeBytes": 131742
+    },
+    {
+      "path": "previews/board-assembly.svg",
+      "sha256": "d8a567e71b9f332f595f9d1ea6ce173a160d570dcf4f4bf974a2af70d246ff0a",
+      "sizeBytes": 573595
+    },
+    {
+      "path": "previews/board-top.png",
+      "sha256": "13098ad542c6ff68f88c26e0e48af744cd069d8f2bcebdab4892cc34ec3796c2",
+      "sizeBytes": 122396
+    },
+    {
+      "path": "previews/board-top.svg",
+      "sha256": "9f80408830b10af90582c85bde21732d02e2cbd6abf32431cefa300fb9d31114",
+      "sizeBytes": 187561
+    },
+    {
+      "path": "previews/native-bottom.png",
+      "sha256": "8629e6fea2ec2f3e311d03c05277f0058aa74c4588dea9852900cc1744e33de9",
+      "sizeBytes": 1480478
+    },
+    {
+      "path": "previews/native-bottom.svg",
+      "sha256": "7cb37c75ec808f7d5022704fc2ec9de14759b17a6b4aafd42370637f36725014",
+      "sizeBytes": 74920
+    },
+    {
+      "path": "README.md",
+      "sha256": "80e15feed0886fc219a42b5d349467e382bb8d227c64aaab1511ea428fd56996",
+      "sizeBytes": 4801
+    }
+  ]
+}
