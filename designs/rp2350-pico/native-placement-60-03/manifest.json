@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "rp2350.native-placement-delivery.v1",
+  "createdAt": "2026-09-19T00:06:05.887Z",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "session": "26",
+  "candidate": "60-03",
+  "status": "normally-closed-saved-placement-snapshot",
+  "releaseAuthorized": false,
+  "designAcceptance": false,
+  "validationPass": false,
+  "nativeSourcesReformatted": false,
+  "nativeSourcesRepathed": false,
+  "portableInstallation": false,
+  "resumableAllocation": false,
+  "files": [
+    {
+      "file": "evidence/before-close-source-check.json",
+      "sha256": "d2c535b6051ba4568b809466d4830de9068494dbc162e3fe3495a03ebf8903b0",
+      "bytes": 2126,
+      "category": "post-validation source evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\candidate60-03-before-close-source-check.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/final-saved-source-census.json",
+      "sha256": "1c9e72abbc0edb65741b819a68cd8da9e550456209a1d158498eaeeaceb8c8a3",
+      "bytes": 2073,
+      "category": "delivery documentation / derived saved-source observations"
+    },
+    {
+      "file": "evidence/placement-preparation.json",
+      "sha256": "69060043885b7a903a57a4fb599144e833349df48304449097491e16bce0d0a5",
+      "bytes": 2900,
+      "category": "independent pre-field placement evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\preparation.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/placement-verification-summary.json",
+      "sha256": "fadca2f399d4225df529249330c192ecb2cb0c7c84dc13cffcd5bf22c211ed66",
+      "bytes": 2898,
+      "category": "independent pre-field placement evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\verification-summary.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/placement-verification-v2.json",
+      "sha256": "01ac5351b138969c6fd897ff4e4efd6278558b7c48d64b3f97c6534ab9505419",
+      "bytes": 42259,
+      "category": "independent pre-field placement evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\verification-result-v2.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/post-close-verification.json",
+      "sha256": "af003901ceeab4b60dbe7ebde9cf995d682138051facda02275e3435d9df319e",
+      "bytes": 3916,
+      "category": "post-close disk evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\candidate60-03-normal-close-verification-01.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/public-assembly-preview-response-337.json",
+      "sha256": "718b56da00473801e198c9640155532f6a0c5e4a46fec224857f04b99eac98b4",
+      "bytes": 187936,
+      "category": "public native saved-source render receipt",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000337-response-718b56da00473801e198c9640155532f6a0c5e4a46fec224857f04b99eac98b4.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/public-fields-response-329.json",
+      "sha256": "96b5145c1d2dabfdd0d64d420e89c613c98f96cc4c2446f33def18a609a8a2f2",
+      "bytes": 37611,
+      "category": "public field and save receipt",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000329-response-96b5145c1d2dabfdd0d64d420e89c613c98f96cc4c2446f33def18a609a8a2f2.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/public-normal-close-response-390.json",
+      "sha256": "8e0343cb5bf3d8420b787c8d0800d41eadb6177ac194faa20925a476426b6d16",
+      "bytes": 19978,
+      "category": "public close receipt",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000390-response-8e0343cb5bf3d8420b787c8d0800d41eadb6177ac194faa20925a476426b6d16.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/public-top-preview-response-332.json",
+      "sha256": "988516c839e969ad7c41a9caed65f8aed4fd675d26c6c248830f5f386e9ed433",
+      "bytes": 126273,
+      "category": "public native saved-source render receipt",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000332-response-988516c839e969ad7c41a9caed65f8aed4fd675d26c6c248830f5f386e9ed433.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/validation/copied-evidence.json",
+      "sha256": "0c64c6d1f250cfd7a59c72f54b8d671b6aeec9802aaa1525727920b530805b75",
+      "bytes": 1919,
+      "category": "preserved validation evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-validation-output-limit-01\\copied-evidence.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/validation/findings.json",
+      "sha256": "f4a7cf051e236211c6c9e113769733c9b8edd1ccd54ce9dc6af75bdd5a4ec40a",
+      "bytes": 2349,
+      "category": "preserved validation evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-validation-output-limit-01\\findings.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/validation/native-drc-report.json",
+      "sha256": "2a93afdab1100cdc37d0b8846df91db28fc9439a2e5d2e6571668181699435de",
+      "bytes": 155034,
+      "category": "preserved validation evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-validation-output-limit-01\\native-drc-report.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/validation/native-erc-report.json",
+      "sha256": "778023c3daa74948b5331055578a43770156fcdc87e89b0a59de6535859cb359",
+      "bytes": 1042,
+      "category": "preserved validation evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-validation-output-limit-01\\native-erc-report.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/validation/public-status-after.json",
+      "sha256": "6adbec3534c65e239f3369cb7a974ac435b13d63876a4e03297d6cc447c5f681",
+      "bytes": 3741,
+      "category": "preserved validation evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-validation-output-limit-01\\public-status-after.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "evidence/validation/public-validation-response.json",
+      "sha256": "08873656795f7726ea61a54ec30df565734aa736f414c52bc9dab5baa0577e13",
+      "bytes": 1278,
+      "category": "preserved validation evidence",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-validation-output-limit-01\\public-validation-response.json",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "native/fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "bytes": 2025,
+      "category": "authored native source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\fp-lib-table",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "native/rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "bytes": 13300,
+      "category": "authored native source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_dru",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "native/rp2350-pico.kicad_pcb",
+      "sha256": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "bytes": 253192,
+      "category": "authored native source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_pcb",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "native/rp2350-pico.kicad_pro",
+      "sha256": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+      "bytes": 21307,
+      "category": "authored native source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_pro",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "native/rp2350-pico.kicad_sch",
+      "sha256": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+      "bytes": 221590,
+      "category": "authored native source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_sch",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "native/sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "bytes": 1275,
+      "category": "authored native source",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\sym-lib-table",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "previews/board-assembly.png",
+      "sha256": "cc8d1bef84ad5172aa3a670009d4e926f6ea1fd7cfc9a17234a9a101ad15d090",
+      "bytes": 131625,
+      "category": "original native SVG raster",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\toolbox-preview-7d8100e1-8ab4-4e0d-90a2-a2c3cdb8ce85\\board-assembly.png",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "previews/board-assembly.svg",
+      "sha256": "e7f4001865a2ee9254403e397f590b81652703144c369910e36a46f2a403adaf",
+      "bytes": 573690,
+      "category": "original native SVG",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\toolbox-preview-7d8100e1-8ab4-4e0d-90a2-a2c3cdb8ce85\\board-assembly.svg",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "previews/board-top.png",
+      "sha256": "5b696d0d6e02f45dd5739f6627ecf3ad712e03f0fa832ac758c0c57df567b17a",
+      "bytes": 85496,
+      "category": "original native SVG raster",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\toolbox-preview-22d823cc-9323-4867-9fdf-10fbddd86fab\\board-top.png",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "previews/board-top.svg",
+      "sha256": "b12e77d1b74881e5b935f9c3e1ef9f330a655c31c7baa6bd05b8f0b11cbceb4e",
+      "bytes": 130753,
+      "category": "original native SVG",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\toolbox-preview-22d823cc-9323-4867-9fdf-10fbddd86fab\\board-top.svg",
+      "copy": "exact original bytes; source hash unchanged after copy"
+    },
+    {
+      "file": "README.md",
+      "sha256": "40ecad8e2855dc89d910f6e07ee8d29f17e5d540dd21d861c28097c56327273d",
+      "bytes": 7263,
+      "category": "delivery documentation / derived saved-source observations"
+    }
+  ],
+  "copyVerification": {
+    "copiedFiles": 25,
+    "exactBytes": true,
+    "sourceHashesUnchangedAfterCopy": true,
+    "credentialScreening": {
+      "textAndDecodedJsonKeys": true,
+      "credentialFlags": [],
+      "limitation": "Bounded key/pattern screen on whitelisted files; not a general secret-detector guarantee."
+    }
+  },
+  "proofChain": {
+    "independentPlacementPcb": {
+      "algorithm": "sha256",
+      "digest": "115a4565a62d0a904ee20f5d51b3752f8d070b6b914b754f9278a7598c20bf61",
+      "size": 251683
+    },
+    "independentPhysicalMembers": 281,
+    "selectedPublicNativePadRows": 92,
+    "fieldOperationBefore": {
+      "algorithm": "sha256",
+      "digest": "115a4565a62d0a904ee20f5d51b3752f8d070b6b914b754f9278a7598c20bf61",
+      "size": 251683
+    },
+    "fieldOperationStaged": {
+      "algorithm": "sha256",
+      "digest": "a7f0df38ec8682c70f0b970a4ba48a439d008ecf64d8b91446cdbb247235e9d6",
+      "size": 252804
+    },
+    "fieldMandatorySave": {
+      "status": "saved-and-native-footprint-fields-verified",
+      "updateCount": 124,
+      "pcbContentIdentity": {
+        "algorithm": "sha256",
+        "digest": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+        "size": 253192
+      }
+    },
+    "finalIndependentAllPadModelReplay": false,
+    "finalCensus": "evidence/final-saved-source-census.json",
+    "normalCloseResponseSha256": "8e0343cb5bf3d8420b787c8d0800d41eadb6177ac194faa20925a476426b6d16",
+    "postCloseDiskVerificationSha256": "af003901ceeab4b60dbe7ebde9cf995d682138051facda02275e3435d9df319e"
+  },
+  "validation": {
+    "publicResult": "failed: KiCad MCP result exceeds the 32000-byte limit.",
+    "nativeCliErcViolations": 0,
+    "nativeCliDrcUnconnectedErrors": 192,
+    "nativeCliDrcOtherViolations": 0,
+    "nativeCliDrcSchematicParityRows": 0,
+    "includedSeverities": [
+      "error",
+      "warning",
+      "exclusion"
+    ],
+    "ignoredChecks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "originalNativeMcpEnvelopeCaptured": false,
+    "diagnosticSourceManifestSha256": "7334de8bb498e808680014160fee3796187f0cbffece0d1ef924310b04072e47",
+    "unreachedCombinedWrapperSteps": [
+      "board summary",
+      "visual QA",
+      "practice analysis",
+      "final source fingerprint"
+    ],
+    "intrinsicJ1PadToNpthFinding": "Approximately 0.194 mm against 0.25 mm requirement; unwaived and not detected by this native report."
+  },
+  "remainingWork": [
+    "routing",
+    "return paths and reference planes",
+    "small stock Fab label review",
+    "functional GPIO / connector / button / power labels",
+    "combined validation",
+    "electrical and manufacturing qualification"
+  ],
+  "excluded": [
+    "source checkpoint files",
+    "leases and editor locks",
+    "unsafe-state records",
+    "private child logs",
+    "runtime/profile installations",
+    "credentials",
+    "vendor PDFs",
+    "fabrication release"
+  ],
+  "manifestSelfHash": "Not self-referential; obtain SHA-256 of this manifest separately."
+}

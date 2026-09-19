@@ -1,6 +1,23 @@
 # Current status and roadmap
 
-Latest verified native milestone, 18 September 2026: **the 22 × 51 mm V9 project
+Latest verified native milestone, 18 September 2026: **candidate 60-03 is saved
+and normally closed as a native 22 × 60 mm, two-layer KiCad project**, retaining
+the original 2.54 mm header pitch and 17.78 mm row spacing. Its
+[native files, original previews and evidence](../designs/rp2350-pico/native-placement-60-03/README.md)
+are published. Independent pre-field verification matches all 66 footprints,
+281 physical pad members and 53 drills, including 92 selected public native pad
+rows. The guarded field/save chain links that placement to the final PCB;
+post-close verification matches all six authored source files and the report.
+
+**The PCB remains unrouted: zero tracks, vias and zones.** Native ERC reported
+zero findings; native DRC reported 192 unconnected errors and no other violation
+rows, with five ignored check categories retained in the evidence. Combined
+public validation failed because its DRC result exceeded the host's 32,000-byte
+projection limit. A bounded host fix is in progress; no combined validation pass
+is claimed. Routing, return paths, functional labels and fabrication acceptance
+remain unfinished. The intrinsic USB pad-to-NPTH source finding remains unwaived.
+
+Earlier native milestone, 18 September 2026: **the 22 × 51 mm V9 project
 completed real public schematic-to-PCB sync, the reviewed 62-component placement
 batch, mandatory native save/readback, and normal close under DOC11 host16 in
 session26.** Project `d9435dc1-27b9-4fff-8af6-f6a2cfe897e8` now retains its connected
@@ -33,14 +50,14 @@ Its older proposed copper remains historical under the user's requirement to
 keep GPIO header gaps clear for soldering and rework. Full routing, native DRC,
 plane/reference continuity and fabrication acceptance remain unfinished.
 
-The approved **22 × 60 mm next-candidate packet** is [prepared and compiles
+The initial **22 × 60 mm candidate packet** was [prepared and compiled
 READY](../designs/rp2350-pico/candidate-60/README.md), with
 separate [draft](../designs/rp2350-pico/candidate-60/candidate-draft.json),
 [target poses](../designs/rp2350-pico/candidate-60/target-poses.json)
 and source-model/local-entry proposals. It retains the circuit and two-layer
-construction but revises placement and mechanical geometry. The public creation
-recipe is being started; no completed native 22 × 60 mm authoring, placement or
-routing is established by the session26 V9 evidence above.
+construction but revises placement and mechanical geometry. That planning
+snapshot is historical; native candidate 60-03 above supersedes its placement.
+Routing is still incomplete.
 
 A new source-only header-service audit checks the full copper envelope of tracks,
 vias, non-header pads and stored fill against the two protected header strips.

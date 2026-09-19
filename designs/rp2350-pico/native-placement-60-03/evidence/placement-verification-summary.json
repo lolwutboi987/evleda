@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "savedPcbIdentity": {
+    "algorithm": "sha256",
+    "digest": "115a4565a62d0a904ee20f5d51b3752f8d070b6b914b754f9278a7598c20bf61",
+    "size": 251683
+  },
+  "actualContractIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "fea0a25b2fa2265572d193fab4c8ecdb81e99bca50cb03aaf7fb83e901149b8a",
+    "schemaVersion": "evleda.pcb-design-contract.v2"
+  },
+  "savedSource": {
+    "footprints": 66,
+    "physicalPads": 281,
+    "copperMembers": 265,
+    "anonymousPasteMembers": 10,
+    "npth": 6,
+    "drillMembers": 53,
+    "libraryMultisets": 66,
+    "poses": "exact integer nanometres and cardinal orientation",
+    "modelShapes": "exact",
+    "routes": 0,
+    "vias": 0,
+    "zones": 0
+  },
+  "hostNative": {
+    "placementCount": 62,
+    "batchIdentity": {
+      "algorithm": "sha256",
+      "digest": "199de506f5a3f55dba86bd5ba6c3654539d60f65ee688f86e475424a085865eb",
+      "schemaVersion": "evleda.fresh-footprint-poses-result.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "savedStatus": "saved-and-native-footprint-poses-verified"
+  },
+  "publicNative": [
+    {
+      "selection": {
+        "reference": "U1",
+        "pad": null
+      },
+      "status": "complete-selection",
+      "independentlyComparedRows": 61
+    },
+    {
+      "selection": {
+        "reference": "U2",
+        "pad": null
+      },
+      "status": "complete-selection",
+      "independentlyComparedRows": 11
+    },
+    {
+      "selection": {
+        "reference": "C12",
+        "pad": null
+      },
+      "status": "complete-selection",
+      "independentlyComparedRows": 2
+    },
+    {
+      "selection": {
+        "reference": "J1",
+        "pad": null
+      },
+      "status": "complete-selection",
+      "independentlyComparedRows": 18
+    }
+  ],
+  "publicRows": 92,
+  "inputsUnchangedAtEnd": true,
+  "actualSourcesStillUnchanged": true,
+  "verifierUnchanged": true,
+  "originalModelIdentity": {
+    "algorithm": "sha256",
+    "digest": "c2f642616c6ebaddefeec4b08bab45700a2852cedce947132b4dd38e7dc87456",
+    "size": 237851
+  },
+  "adaptedModelSha": "8cc582883d494c98d1f8b955c6eb3fe4cc732e5cc329e669d2e802dce82beefa",
+  "metadataOnlySourcePathAdaptation": true,
+  "verificationReport": {
+    "algorithm": "sha256",
+    "digest": "01ac5351b138969c6fd897ff4e4efd6278558b7c48d64b3f97c6534ab9505419",
+    "size": 42259
+  },
+  "scope": {
+    "native": "Host placement/save receipt and supplied public native-pad reads only; no private snapshot reconstructed or native calls performed.",
+    "independent": "Saved PCB source versus pinned placement/model, complete physical source-library multiset and contract board features.",
+    "excluded": "Copper route completion, fabrication acceptance, clearance, plane fill, impedance and electrical suitability."
+  }
+}

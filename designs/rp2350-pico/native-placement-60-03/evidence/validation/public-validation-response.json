@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-09-18T23:47:20.308Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000340-request-a1eb2af40f8ad06ad14ec8feebec123d174cf39baa2c6d84138dd3207980e714.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "a1eb2af40f8ad06ad14ec8feebec123d174cf39baa2c6d84138dd3207980e714",
+      "size": 112
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000341-mcp-received-49f18012f2d9090ef0f00621c5a4186931ef008f59a0cc6a29e9f09c37ba9df8.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "49f18012f2d9090ef0f00621c5a4186931ef008f59a0cc6a29e9f09c37ba9df8",
+        "size": 408
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": true,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"error\":\"KiCad MCP result exceeds the 32000-byte limit.\"}"
+      }
+    ],
+    "structuredContent": {
+      "error": "KiCad MCP result exceeds the 32000-byte limit."
+    },
+    "isError": true
+  }
+}

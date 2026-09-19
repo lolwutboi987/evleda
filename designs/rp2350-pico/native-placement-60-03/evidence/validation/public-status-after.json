@@ -1,0 +1,77 @@
+{
+  "recordedAt": "2026-09-18T23:55:15.079Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000343-request-85edcf6c02f8f11a1c6b5a93604ca02e98703d11e1e24e19ecdf232290bcf159.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "85edcf6c02f8f11a1c6b5a93604ca02e98703d11e1e24e19ecdf232290bcf159",
+      "size": 123
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000344-mcp-received-0b0213d8f252de5744aaaaf8a4b115e56a5a76d44dc730be216647362fa476bf.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0b0213d8f252de5744aaaaf8a4b115e56a5a76d44dc730be216647362fa476bf",
+        "size": 2953
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"cadBound\":true,\"cadConnected\":true,\"connectionProblem\":null,\"access\":\"edit\",\"recoveryRequired\":false,\"closed\":false,\"cadTools\":[\"pcb_add_text\",\"fresh_set_footprint_fields\",\"fresh_set_footprint_poses\",\"pcb_get_design_rules\",\"pcb_get_tracks\",\"pcb_get_vias\",\"pcb_get_zones\",\"pcb_get_footprints\",\"pcb_set_board_outline\",\"pcb_place_component\",\"pcb_move_component\",\"pcb_move_footprint\",\"sch_get_symbols\",\"sch_get_connectivity_graph\",\"sch_get_bounding_boxes\",\"sch_get_pin_positions\",\"lib_verify_component_contract\",\"sch_add_symbol\",\"sch_modify_property\",\"lib_assign_footprint\",\"fresh_apply_contract_connectivity\",\"fresh_apply_recommended_schematic_placement\",\"fresh_autoplace_schematic_fields\",\"fresh_set_schematic_field_positions\",\"fresh_set_schematic_symbol_poses\",\"fresh_get_contract_pad_positions\",\"fresh_get_route_items\",\"fresh_replace_route_items\",\"fresh_sync_from_schematic\",\"fresh_apply_contract_plane\",\"sch_move_symbol\"],\"cadState\":\"active\",\"calculationTools\":[\"evleda_transmission_line\"],\"assurance\":\"Capability availability only; not a design acceptance result.\"}"
+      }
+    ],
+    "structuredContent": {
+      "cadBound": true,
+      "cadConnected": true,
+      "connectionProblem": null,
+      "access": "edit",
+      "recoveryRequired": false,
+      "closed": false,
+      "cadTools": [
+        "pcb_add_text",
+        "fresh_set_footprint_fields",
+        "fresh_set_footprint_poses",
+        "pcb_get_design_rules",
+        "pcb_get_tracks",
+        "pcb_get_vias",
+        "pcb_get_zones",
+        "pcb_get_footprints",
+        "pcb_set_board_outline",
+        "pcb_place_component",
+        "pcb_move_component",
+        "pcb_move_footprint",
+        "sch_get_symbols",
+        "sch_get_connectivity_graph",
+        "sch_get_bounding_boxes",
+        "sch_get_pin_positions",
+        "lib_verify_component_contract",
+        "sch_add_symbol",
+        "sch_modify_property",
+        "lib_assign_footprint",
+        "fresh_apply_contract_connectivity",
+        "fresh_apply_recommended_schematic_placement",
+        "fresh_autoplace_schematic_fields",
+        "fresh_set_schematic_field_positions",
+        "fresh_set_schematic_symbol_poses",
+        "fresh_get_contract_pad_positions",
+        "fresh_get_route_items",
+        "fresh_replace_route_items",
+        "fresh_sync_from_schematic",
+        "fresh_apply_contract_plane",
+        "sch_move_symbol"
+      ],
+      "cadState": "active",
+      "calculationTools": [
+        "evleda_transmission_line"
+      ],
+      "assurance": "Capability availability only; not a design acceptance result."
+    }
+  }
+}

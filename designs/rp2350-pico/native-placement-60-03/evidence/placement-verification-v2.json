@@ -1,0 +1,1168 @@
+{
+  "schemaVersion": "evleda.rp2350-independent-placement-readback.v1",
+  "status": "passed",
+  "scope": {
+    "native": "Host placement/save receipt and supplied public native-pad reads only; no private snapshot reconstructed or native calls performed.",
+    "independent": "Saved PCB source versus pinned placement/model, complete physical source-library multiset and contract board features.",
+    "excluded": "Copper route completion, fabrication acceptance, clearance, plane fill, impedance and electrical suitability."
+  },
+  "failures": [],
+  "inputs": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\expected-input-adapter-v2.json",
+      "sha256": "a0304b92c81c994e7e24b2bf492a4771dfd30720de6cee1326bf33adb29a4d6b",
+      "bytes": 280989
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\actual-toolbox-design-bundle.json",
+      "sha256": "903156ffe4b519f5295cee22e95ee181965c3bc826f5ef445d8eb689e67dac8b",
+      "bytes": 419771
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\saved-placement.kicad_pcb",
+      "sha256": "115a4565a62d0a904ee20f5d51b3752f8d070b6b914b754f9278a7598c20bf61",
+      "bytes": 251683
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Capacitor_SMD.pretty\\C_0402_1005Metric.kicad_mod",
+      "sha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+      "bytes": 2048
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4\\footprints\\EvlEDA_Pico2350.pretty\\C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod",
+      "sha256": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+      "bytes": 1130
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Diode_SMD.pretty\\Nexperia_CFP3_SOD-123W.kicad_mod",
+      "sha256": "e0867bfd9057e4ed44483786d9d8809eab12909401240f9f7ee7de141cd7be7c",
+      "bytes": 4768
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\LED_SMD.pretty\\LED_0603_1608Metric.kicad_mod",
+      "sha256": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+      "bytes": 2593
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_USB.pretty\\USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sha256": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+      "bytes": 7170
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4\\footprints\\EvlEDA_Pico2350.pretty\\Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod",
+      "sha256": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+      "bytes": 5332
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Connector_PinHeader_2.54mm.pretty\\PinHeader_1x03_P2.54mm_Vertical.kicad_mod",
+      "sha256": "6a7dba97d6e733fd9d5f12d2d57f2cde29e8393e15b08d8b3e41bf2b430d83ed",
+      "bytes": 3129
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4\\footprints\\EvlEDA_Pico2350.pretty\\AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+      "sha256": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+      "bytes": 1456
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Inductor_SMD.pretty\\L_Coilcraft_XxL4020.kicad_mod",
+      "sha256": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+      "bytes": 3525
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_TO_SOT_SMD.pretty\\SOT-523.kicad_mod",
+      "sha256": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+      "bytes": 4144
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Resistor_SMD.pretty\\R_0402_1005Metric.kicad_mod",
+      "sha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+      "bytes": 2049
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4\\footprints\\EvlEDA_Pico2350.pretty\\Wuerth_434133025816_4Terminal.kicad_mod",
+      "sha256": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+      "bytes": 1398
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_DFN_QFN.pretty\\QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sha256": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+      "bytes": 14069
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4\\footprints\\EvlEDA_Pico2350.pretty\\RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+      "sha256": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+      "bytes": 2284
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4\\footprints\\EvlEDA_Pico2350.pretty\\W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+      "sha256": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+      "bytes": 4261
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Package_TO_SOT_SMD.pretty\\SOT-23-6.kicad_mod",
+      "sha256": "ea29040bed73e5dfa455e36f2c9324b0de7782c5a6cf79040b7d885ff766fdb4",
+      "bytes": 4568
+    },
+    {
+      "path": "C:\\Program Files\\KiCad\\10.0\\share\\kicad\\footprints\\Crystal.pretty\\Crystal_SMD_3225-4Pin_3.2x2.5mm.kicad_mod",
+      "sha256": "0efc1a86f641a5e4d27a4483811386c23ddfa5b416c628f65cef963ef7edbb62",
+      "bytes": 2278
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\resources\\pcb-libraries\\rp2350-pico\\v4\\footprints\\EvlEDA_Pico2350.pretty\\MountingHole_D2.1_Pico.kicad_mod",
+      "sha256": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+      "bytes": 796
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\placement-response.json",
+      "sha256": "9833b1cf70184179dd90aa1d5d6c7e788b939199faddc61aef6c95c3092e4aee",
+      "bytes": 35281
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\pads-U1-response.json",
+      "sha256": "74d28c56d51ff95a9cf4409e2a6e728ecfb11b0d4a534b06125c64c9d7545988",
+      "bytes": 82285
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\pads-U2-response.json",
+      "sha256": "1738cfbc59538a270ab64a044e768457c08662310f2cb3f128d062f8f79ae60d",
+      "bytes": 28507
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\pads-C12-response.json",
+      "sha256": "a5f8dbdbd9b1171c4e0a3a2a2ceb7a4c5cf8f7d31729f5e0dd714706044a1041",
+      "bytes": 18989
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-60-03-01\\pads-J1-response.json",
+      "sha256": "8778593c03059703700949f5ba0c82d6a8629bf23933852a9999bf27efed80ff",
+      "bytes": 37157
+    }
+  ],
+  "checks": {
+    "savedSource": {
+      "footprints": [
+        {
+          "reference": "C1",
+          "uuid": "1e644c65-8b7e-41fd-809b-bd073bc04e4c",
+          "xNm": 12400000,
+          "yNm": 27740000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C10",
+          "uuid": "6f16f473-ea7e-4f7b-8adf-cb3b5e864495",
+          "xNm": 16500000,
+          "yNm": 29300000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C11",
+          "uuid": "5e2cbccb-e626-46b0-a471-5f803eac27fe",
+          "xNm": 5200000,
+          "yNm": 31800000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "C12",
+          "uuid": "4475f48a-102c-4817-b595-ed7bc4ef4e66",
+          "xNm": 11000000,
+          "yNm": 38020000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "C13",
+          "uuid": "db36dfbb-1608-47ac-b881-5a6c2a5f360a",
+          "xNm": 16500000,
+          "yNm": 32580000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C14",
+          "uuid": "cd4589b6-341c-421f-9a4b-7d6362d676af",
+          "xNm": 8965000,
+          "yNm": 26600000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "C15",
+          "uuid": "cbe195e6-52ad-4157-89df-8158ae6f6cc5",
+          "xNm": 5300000,
+          "yNm": 20850000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "C16",
+          "uuid": "5aa55ddc-d6af-4bae-963d-2e1845d0e5bd",
+          "xNm": 16500000,
+          "yNm": 30320000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C17",
+          "uuid": "cc1d99b6-4c84-458b-a4e5-4dd2f698dd93",
+          "xNm": 16500000,
+          "yNm": 31450000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C18",
+          "uuid": "d1439b16-78ff-4639-9802-d448894e6466",
+          "xNm": 5600000,
+          "yNm": 18500000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "C19",
+          "uuid": "72cc2e37-359d-4525-b577-917407851217",
+          "xNm": 6800000,
+          "yNm": 18500000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "C2",
+          "uuid": "c7d14c7a-dd70-47ec-942d-9c8d475cb656",
+          "xNm": 12500000,
+          "yNm": 26650000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C20",
+          "uuid": "1d6f1440-d9f5-4118-9b69-7dd42b1aac39",
+          "xNm": 14000000,
+          "yNm": 47960000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "C21",
+          "uuid": "b419c255-0b0a-44a6-9901-42e142cb3eea",
+          "xNm": 7000000,
+          "yNm": 48090000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "C22",
+          "uuid": "bdf5d245-7267-43fb-9daa-dfd10e6114a5",
+          "xNm": 11000000,
+          "yNm": 45960000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C23",
+          "uuid": "720a36c0-553c-43c5-afd3-b13c93ff54ed",
+          "xNm": 17300000,
+          "yNm": 25500000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "C24",
+          "uuid": "d81ecf4f-463a-40a2-b24b-0533e92d4d5c",
+          "xNm": 6490000,
+          "yNm": 42920000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "C25",
+          "uuid": "9ed213f2-7d5c-480c-b7e5-fb52d3f1f7f3",
+          "xNm": 12270000,
+          "yNm": 40750000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "C26",
+          "uuid": "898ed27a-e877-48da-b83d-975e2ea35d18",
+          "xNm": 13920000,
+          "yNm": 11550000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "C3",
+          "uuid": "eaad1792-486c-44b9-a3a8-09d06a681d1a",
+          "xNm": 14600000,
+          "yNm": 27450000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "C4",
+          "uuid": "d19146cc-adb1-48e4-a612-2e084a2f7574",
+          "xNm": 12270000,
+          "yNm": 38400000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "C5",
+          "uuid": "a2be098e-d64f-4dc8-b1e1-98e91de5b767",
+          "xNm": 5200000,
+          "yNm": 30320000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "C6",
+          "uuid": "cad12873-017a-44fa-acac-a308e032c5e1",
+          "xNm": 5000000,
+          "yNm": 33700000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "C7",
+          "uuid": "ca13e848-d658-4f59-b42a-b9c1cd31814d",
+          "xNm": 8360000,
+          "yNm": 37340000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "C8",
+          "uuid": "70489c8e-f949-440a-9674-0aa17243bd95",
+          "xNm": 15500000,
+          "yNm": 37620000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "C9",
+          "uuid": "eca8bd7e-a02b-4f0b-8f69-3abc42fa01f8",
+          "xNm": 16450000,
+          "yNm": 33710000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "D1",
+          "uuid": "42300b4b-983b-4c2a-8718-b6b6cb4e25ef",
+          "xNm": 16900000,
+          "yNm": 13200000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "D2",
+          "uuid": "48aef01a-7894-441b-9f12-051befa14486",
+          "xNm": 7000000,
+          "yNm": 44800000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "J1",
+          "uuid": "b6b9151b-a826-4ff5-890d-6176ffd7aa2f",
+          "xNm": 11000000,
+          "yNm": 4975000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "J2",
+          "uuid": "0a1655b5-5502-4147-9cda-0213bf09b039",
+          "xNm": 2110000,
+          "yNm": 5870000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "J3",
+          "uuid": "a641869a-2dc2-4918-bb0c-2d12fc4ebf4d",
+          "xNm": 19890000,
+          "yNm": 54130000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "J4",
+          "uuid": "d8cf7289-ca68-46b0-9599-7338e38dc588",
+          "xNm": 8460000,
+          "yNm": 57200000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "L1",
+          "uuid": "7f1b7c91-2177-4888-991c-ae83fcd16b79",
+          "xNm": 12450000,
+          "yNm": 24850000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "L2",
+          "uuid": "bf2ece36-eb2b-4bea-b29d-579e253e19bc",
+          "xNm": 10500000,
+          "yNm": 53010000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "Q1",
+          "uuid": "0fe9f72c-9b2a-4adf-8fe8-64e161de8b90",
+          "xNm": 17140000,
+          "yNm": 27500000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R1",
+          "uuid": "65019b39-b044-4ab0-8833-a75d90d1164a",
+          "xNm": 10025000,
+          "yNm": 26990000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "R10",
+          "uuid": "b4a84a2d-6380-4dbf-abbf-726391f92c58",
+          "xNm": 15000000,
+          "yNm": 51500000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "R11",
+          "uuid": "49827d65-d2f1-4ae0-b54a-4a6dfba44312",
+          "xNm": 16750000,
+          "yNm": 16900000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R12",
+          "uuid": "f77a0946-49b9-4d3b-b4be-29dc24ac8180",
+          "xNm": 16750000,
+          "yNm": 18100000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R13",
+          "uuid": "8ef299a0-993b-4058-86ab-55aa3e0122c3",
+          "xNm": 17300000,
+          "yNm": 24300000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R14",
+          "uuid": "96057cb2-f90d-4d94-b4a8-1bf1f8358a3f",
+          "xNm": 15450000,
+          "yNm": 23600000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "R15",
+          "uuid": "e4e52228-67d6-488b-85ed-de275406c839",
+          "xNm": 17980000,
+          "yNm": 36350000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "R16",
+          "uuid": "8547896e-3354-4e6f-8485-83446239b09d",
+          "xNm": 16600000,
+          "yNm": 34850000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R17",
+          "uuid": "6a01f2a2-2fb3-47a0-9ded-a5bb684ef447",
+          "xNm": 18000000,
+          "yNm": 32900000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "R18",
+          "uuid": "9351ea11-ac5d-49a5-89c8-0c9009ef715b",
+          "xNm": 10500000,
+          "yNm": 44800000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R19",
+          "uuid": "8eaa347a-082e-4f37-b77e-3ca814242e83",
+          "xNm": 13300000,
+          "yNm": 39700000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "R2",
+          "uuid": "f0b94e73-e204-4320-a966-e502c8b27dc3",
+          "xNm": 10985000,
+          "yNm": 26800000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "R20",
+          "uuid": "1db952eb-10ae-41e0-b73d-8486af2cbcfb",
+          "xNm": 13200000,
+          "yNm": 42700000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "R3",
+          "uuid": "bfe3d8e7-97e4-46a1-a964-71f25537c1c8",
+          "xNm": 13600000,
+          "yNm": 10350000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R4",
+          "uuid": "6714b4d6-2c88-43f5-9bb5-406b85eeb547",
+          "xNm": 8000000,
+          "yNm": 10350000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "R5",
+          "uuid": "d40a7c5f-4ac4-4529-9603-6190d2db7756",
+          "xNm": 5810000,
+          "yNm": 27200000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R6",
+          "uuid": "bf1e36d1-dbed-40f5-9a3b-433e251ea777",
+          "xNm": 5270000,
+          "yNm": 29000000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "R7",
+          "uuid": "e5e20a5f-d48c-4691-8ad5-bebcd514611b",
+          "xNm": 9500000,
+          "yNm": 38480000,
+          "rotationDeg": 180
+        },
+        {
+          "reference": "R8",
+          "uuid": "76275f43-8cd2-4e09-9ae6-2c8e428e183e",
+          "xNm": 14690000,
+          "yNm": 25600000,
+          "rotationDeg": 270
+        },
+        {
+          "reference": "R9",
+          "uuid": "2afd0a36-4f35-4c01-a22b-1d69e7766f9d",
+          "xNm": 13330000,
+          "yNm": 51440000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "SW1",
+          "uuid": "66ff256a-2a41-4f0c-9757-addf35bc35b4",
+          "xNm": 5500000,
+          "yNm": 39500000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "SW2",
+          "uuid": "8370843d-c308-458e-b65f-013ba58085f5",
+          "xNm": 16200000,
+          "yNm": 42000000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "U1",
+          "uuid": "b9f636d5-b5c2-40f5-a87b-0411c2b04352",
+          "xNm": 10400000,
+          "yNm": 32500000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "U2",
+          "uuid": "a0e21d04-0e1e-460f-9e91-c57e5998f29e",
+          "xNm": 10500000,
+          "yNm": 48600000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "U3",
+          "uuid": "a48d2aa5-9739-4cc0-a9bf-d17373ee3df2",
+          "xNm": 6050000,
+          "yNm": 24000000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "U4",
+          "uuid": "2a2c9c29-bbab-460f-93cd-1135f5cd31ed",
+          "xNm": 10850000,
+          "yNm": 12000000,
+          "rotationDeg": 90
+        },
+        {
+          "reference": "Y1",
+          "uuid": "cd24f744-8cdb-4854-9db5-2046b9c5d55f",
+          "xNm": 9600000,
+          "yNm": 40800000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "H1",
+          "uuid": "1928187d-5c8e-4fbb-89b4-674a837b9cfa",
+          "xNm": 3530000,
+          "yNm": 2000000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "H2",
+          "uuid": "b122a64b-3864-4b07-8ef8-6984c92ca779",
+          "xNm": 18470000,
+          "yNm": 2000000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "H3",
+          "uuid": "a4ecdb6b-f026-445f-83e3-9f0294accfef",
+          "xNm": 3530000,
+          "yNm": 58000000,
+          "rotationDeg": 0
+        },
+        {
+          "reference": "H4",
+          "uuid": "58b9512f-6f49-49f2-8ba0-0b07f2c39703",
+          "xNm": 18470000,
+          "yNm": 58000000,
+          "rotationDeg": 0
+        }
+      ],
+      "physicalPads": 281,
+      "copperMembers": 265,
+      "anonymousPasteMembers": 10,
+      "npth": 6,
+      "drillMembers": 53,
+      "fullLibraryPhysicalMultisets": [
+        {
+          "reference": "C1",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C10",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C11",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C12",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C13",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C14",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C15",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C16",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C17",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C18",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C19",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C2",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C20",
+          "libraryId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+          "sourceSha256": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C21",
+          "libraryId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+          "sourceSha256": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C22",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C23",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C24",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C25",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C26",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C3",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C4",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C5",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C6",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C7",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C8",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "C9",
+          "libraryId": "Capacitor_SMD:C_0402_1005Metric",
+          "sourceSha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "D1",
+          "libraryId": "Diode_SMD:Nexperia_CFP3_SOD-123W",
+          "sourceSha256": "e0867bfd9057e4ed44483786d9d8809eab12909401240f9f7ee7de141cd7be7c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "D2",
+          "libraryId": "LED_SMD:LED_0603_1608Metric",
+          "sourceSha256": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "J1",
+          "libraryId": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+          "sourceSha256": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691",
+          "physicalPadCount": 22
+        },
+        {
+          "reference": "J2",
+          "libraryId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+          "sourceSha256": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+          "physicalPadCount": 20
+        },
+        {
+          "reference": "J3",
+          "libraryId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+          "sourceSha256": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+          "physicalPadCount": 20
+        },
+        {
+          "reference": "J4",
+          "libraryId": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+          "sourceSha256": "6a7dba97d6e733fd9d5f12d2d57f2cde29e8393e15b08d8b3e41bf2b430d83ed",
+          "physicalPadCount": 3
+        },
+        {
+          "reference": "L1",
+          "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+          "sourceSha256": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "L2",
+          "libraryId": "Inductor_SMD:L_Coilcraft_XxL4020",
+          "sourceSha256": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "Q1",
+          "libraryId": "Package_TO_SOT_SMD:SOT-523",
+          "sourceSha256": "abffafd4aeb4100b48a70752570a2577fd6dae8ec10f9656231fe7d48c036838",
+          "physicalPadCount": 3
+        },
+        {
+          "reference": "R1",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R10",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R11",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R12",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R13",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R14",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R15",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R16",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R17",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R18",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R19",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R2",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R20",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R3",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R4",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R5",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R6",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R7",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R8",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "R9",
+          "libraryId": "Resistor_SMD:R_0402_1005Metric",
+          "sourceSha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+          "physicalPadCount": 2
+        },
+        {
+          "reference": "SW1",
+          "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+          "sourceSha256": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+          "physicalPadCount": 4
+        },
+        {
+          "reference": "SW2",
+          "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+          "sourceSha256": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+          "physicalPadCount": 4
+        },
+        {
+          "reference": "U1",
+          "libraryId": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+          "sourceSha256": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63",
+          "physicalPadCount": 70
+        },
+        {
+          "reference": "U2",
+          "libraryId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+          "sourceSha256": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+          "physicalPadCount": 11
+        },
+        {
+          "reference": "U3",
+          "libraryId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+          "sourceSha256": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+          "physicalPadCount": 10
+        },
+        {
+          "reference": "U4",
+          "libraryId": "Package_TO_SOT_SMD:SOT-23-6",
+          "sourceSha256": "ea29040bed73e5dfa455e36f2c9324b0de7782c5a6cf79040b7d885ff766fdb4",
+          "physicalPadCount": 6
+        },
+        {
+          "reference": "Y1",
+          "libraryId": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+          "sourceSha256": "0efc1a86f641a5e4d27a4483811386c23ddfa5b416c628f65cef963ef7edbb62",
+          "physicalPadCount": 4
+        },
+        {
+          "reference": "H1",
+          "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+          "sourceSha256": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+          "physicalPadCount": 1
+        },
+        {
+          "reference": "H2",
+          "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+          "sourceSha256": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+          "physicalPadCount": 1
+        },
+        {
+          "reference": "H3",
+          "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+          "sourceSha256": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+          "physicalPadCount": 1
+        },
+        {
+          "reference": "H4",
+          "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+          "sourceSha256": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+          "physicalPadCount": 1
+        }
+      ],
+      "modelCopperShapesAndRadii": "exact",
+      "poses": "exact integer nanometres and cardinal orientation",
+      "routes": 0,
+      "vias": 0,
+      "zones": 0
+    },
+    "hostNative": {
+      "batchIdentity": {
+        "algorithm": "sha256",
+        "digest": "199de506f5a3f55dba86bd5ba6c3654539d60f65ee688f86e475424a085865eb",
+        "schemaVersion": "evleda.fresh-footprint-poses-result.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      },
+      "saved": {
+        "status": "saved-and-native-footprint-poses-verified",
+        "placementCount": 62,
+        "pcbContentIdentity": {
+          "algorithm": "sha256",
+          "digest": "115a4565a62d0a904ee20f5d51b3752f8d070b6b914b754f9278a7598c20bf61",
+          "size": 251683
+        }
+      },
+      "placementCount": 62,
+      "scope": "Actual supplied host result attests its complete native/load/save checks; raw private snapshots are not independently replayed."
+    },
+    "publicNativeRead": [
+      {
+        "status": "complete-selection",
+        "selection": {
+          "reference": "U1",
+          "pad": null
+        },
+        "nativePadSnapshotIdentity": {
+          "algorithm": "sha256",
+          "digest": "a6456d6af2a5e2f47677d3f0f0df28013c92c04ad5d82f87660c991268adea55",
+          "size": 1908296
+        },
+        "physicalPadExpectedIdentity": {
+          "algorithm": "sha256",
+          "digest": "958b30790142e8acfa05d3e6dba8141eb877a5d4b0869f7359eba8d8222f9921",
+          "schemaVersion": "evleda.kicad-native-pad-expected.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "boardCounts": {
+          "physicalPadCount": 281,
+          "logicalTerminalCount": 262,
+          "numberedCopperPrimitiveCount": 265,
+          "namedCopperPrimitiveCount": 265,
+          "noConnectCopperPrimitiveCount": 2,
+          "netlessCopperPrimitiveCount": 0,
+          "functionalCopperPrimitiveCount": 263,
+          "logicalNamedTerminalCount": 260,
+          "logicalNoConnectTerminalCount": 2,
+          "nonElectricalFeatureCount": 16,
+          "platedFootprintHoleCount": 47
+        },
+        "independentlyComparedPublicRows": 61
+      },
+      {
+        "status": "complete-selection",
+        "selection": {
+          "reference": "U2",
+          "pad": null
+        },
+        "nativePadSnapshotIdentity": {
+          "algorithm": "sha256",
+          "digest": "a6456d6af2a5e2f47677d3f0f0df28013c92c04ad5d82f87660c991268adea55",
+          "size": 1908296
+        },
+        "physicalPadExpectedIdentity": {
+          "algorithm": "sha256",
+          "digest": "a154fa02810bde381cb886680fee6b6ad393d3a14bfe8b929a102732064cacd4",
+          "schemaVersion": "evleda.kicad-native-pad-expected.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "boardCounts": {
+          "physicalPadCount": 281,
+          "logicalTerminalCount": 262,
+          "numberedCopperPrimitiveCount": 265,
+          "namedCopperPrimitiveCount": 265,
+          "noConnectCopperPrimitiveCount": 2,
+          "netlessCopperPrimitiveCount": 0,
+          "functionalCopperPrimitiveCount": 263,
+          "logicalNamedTerminalCount": 260,
+          "logicalNoConnectTerminalCount": 2,
+          "nonElectricalFeatureCount": 16,
+          "platedFootprintHoleCount": 47
+        },
+        "independentlyComparedPublicRows": 11
+      },
+      {
+        "status": "complete-selection",
+        "selection": {
+          "reference": "C12",
+          "pad": null
+        },
+        "nativePadSnapshotIdentity": {
+          "algorithm": "sha256",
+          "digest": "a6456d6af2a5e2f47677d3f0f0df28013c92c04ad5d82f87660c991268adea55",
+          "size": 1908296
+        },
+        "physicalPadExpectedIdentity": {
+          "algorithm": "sha256",
+          "digest": "e0539c0f00fd1412b6e91cc9039b0c7aaf71a6d8344ef7c1f2dcfab6e5aef3a4",
+          "schemaVersion": "evleda.kicad-native-pad-expected.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "boardCounts": {
+          "physicalPadCount": 281,
+          "logicalTerminalCount": 262,
+          "numberedCopperPrimitiveCount": 265,
+          "namedCopperPrimitiveCount": 265,
+          "noConnectCopperPrimitiveCount": 2,
+          "netlessCopperPrimitiveCount": 0,
+          "functionalCopperPrimitiveCount": 263,
+          "logicalNamedTerminalCount": 260,
+          "logicalNoConnectTerminalCount": 2,
+          "nonElectricalFeatureCount": 16,
+          "platedFootprintHoleCount": 47
+        },
+        "independentlyComparedPublicRows": 2
+      },
+      {
+        "status": "complete-selection",
+        "selection": {
+          "reference": "J1",
+          "pad": null
+        },
+        "nativePadSnapshotIdentity": {
+          "algorithm": "sha256",
+          "digest": "a6456d6af2a5e2f47677d3f0f0df28013c92c04ad5d82f87660c991268adea55",
+          "size": 1908296
+        },
+        "physicalPadExpectedIdentity": {
+          "algorithm": "sha256",
+          "digest": "5ab1a1b5025d76fc537a1351c977ef1a9f32df9761ab88c8d160b8bf5622d6bc",
+          "schemaVersion": "evleda.kicad-native-pad-expected.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "boardCounts": {
+          "physicalPadCount": 281,
+          "logicalTerminalCount": 262,
+          "numberedCopperPrimitiveCount": 265,
+          "namedCopperPrimitiveCount": 265,
+          "noConnectCopperPrimitiveCount": 2,
+          "netlessCopperPrimitiveCount": 0,
+          "functionalCopperPrimitiveCount": 263,
+          "logicalNamedTerminalCount": 260,
+          "logicalNoConnectTerminalCount": 2,
+          "nonElectricalFeatureCount": 16,
+          "platedFootprintHoleCount": 47
+        },
+        "independentlyComparedPublicRows": 18
+      }
+    ]
+  },
+  "inputsUnchangedAtEnd": true
+}

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rp2350.native-placement-verification-preparation.v1",
+  "status": "prepared-awaiting-root-completed-placement-and-saved-read-evidence",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "expectedCandidate": "rp2350-candidate-60-03",
+  "candidateManifest": {
+    "algorithm": "sha256",
+    "digest": "3a708198696724a5a3891955a64a9b9d90b362a595feda537f777432f60a83e3",
+    "size": 19301
+  },
+  "sourceModel": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-03\\source-physical-model.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "c2f642616c6ebaddefeec4b08bab45700a2852cedce947132b4dd38e7dc87456",
+      "size": 237851
+    }
+  },
+  "sourceTargets": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-03\\target-poses.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "3945fb4e96410f2fbcbe50ef78a167c0bf2cbb56af7cbfe3c6a87e4ea1b70d96",
+      "size": 3572
+    }
+  },
+  "sourceContract": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-03\\closed-contract.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "a7db4c2de9ed0b560e3bce22f1f0f0f2eca8bfba3d8642b86486956eb8ef2fc4",
+      "size": 100402
+    },
+    "contractIdentity": {
+      "algorithm": "sha256",
+      "canonicalizationVersion": "evleda-c14n-json-v1",
+      "digest": "fea0a25b2fa2265572d193fab4c8ecdb81e99bca50cb03aaf7fb83e901149b8a",
+      "schemaVersion": "evleda.pcb-design-contract.v2"
+    }
+  },
+  "helper": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-native-placement-readback-01\\verify-placement-v2.mjs",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "82b9decdccab31e18c00c4bdb370944009e4e8fcb9c6002bd839c70ddd602c9b",
+      "size": 19547
+    }
+  },
+  "adapter": {
+    "file": "expected-input-adapter.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "262a885afc30608c02e01f89d6eb8f353a1a0fd7c393265acde7ec579a628d5e",
+      "size": 239976
+    },
+    "scope": "Data-only legacy reader envelope; exact current03 model and targets; no V9 values or identities"
+  },
+  "explicitCliPins": {
+    "modelSha": "c2f642616c6ebaddefeec4b08bab45700a2852cedce947132b4dd38e7dc87456",
+    "targetsSha": "03f61cd5850d608a0ae13914b77e754291d047acaafdb9ac2400f5218662747c"
+  },
+  "nativeCallsPerformed": false,
+  "liveProjectRead": false,
+  "remaining": [
+    "Root ready receipt for completed62-pose mandatory save",
+    "Actual project bundle equal to candidate03 closed contract",
+    "SavedPCB exact identity and batch/save result",
+    "Selected nonempty public pad results bound to same source",
+    "Run unchanged verifier and inspect output"
+  ]
+}

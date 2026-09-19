@@ -1,0 +1,78 @@
+{
+  "operation": "run_drc",
+  "nativeReportIdentity": {
+    "algorithm": "sha256",
+    "digest": "2a93afdab1100cdc37d0b8846df91db28fc9439a2e5d2e6571668181699435de",
+    "size": 155034
+  },
+  "reportTime": "2026-09-18T16:47:20",
+  "rawReportCompactBytes": 67020,
+  "unconnectedArrayCompactBytes": 66262,
+  "unconnectedItems": 192,
+  "unconnectedSeverityCounts": {
+    "error": 192
+  },
+  "otherViolations": 0,
+  "schematicParity": 0,
+  "includedSeverities": [
+    "error",
+    "warning",
+    "exclusion"
+  ],
+  "ignoredChecks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "Footprint component type doesn't match footprint pads",
+      "key": "footprint_type_mismatch"
+    }
+  ],
+  "erc": {
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "778023c3daa74948b5331055578a43770156fcdc87e89b0a59de6535859cb359",
+      "size": 1042
+    },
+    "reportTime": "2026-09-18T16:46:48",
+    "violations": 0
+  },
+  "limits": {
+    "harnessResultBytes": 32000,
+    "nativeSessionDefaultMessageBytes": 2097152
+  },
+  "pcbReadback": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_pcb",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "size": 253192
+    }
+  },
+  "scope": {
+    "nativeValidationRepeated": false,
+    "managedSourceModified": false,
+    "exactNativeMcpEnvelopeRetained": false,
+    "nativeCliReportsPreservedCompletely": true
+  },
+  "producerIdProjection": {
+    "formula": "sha256(source|type|location|description).slice(0,12)",
+    "uniqueIdGroups": 1,
+    "largestMultiplicity": 192,
+    "scope": "Derived from retained native rows and inspected producer formula; original full MCP envelope not captured",
+    "deduplicationPermitted": false
+  }
+}

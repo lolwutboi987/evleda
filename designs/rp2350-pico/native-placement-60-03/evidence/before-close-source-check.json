@@ -1,0 +1,55 @@
+{
+  "recordedAt": "2026-09-18T23:56:08.536Z",
+  "status": "sources-unchanged-after-validation-output-limit",
+  "rows": [
+    {
+      "file": ".history/rp2350-pico.kicad_pcb",
+      "expected": "7c38a017b9d0547a836b8643643edad32f5fd130637a259e28bd2c090868aa40",
+      "actual": "7c38a017b9d0547a836b8643643edad32f5fd130637a259e28bd2c090868aa40",
+      "bytes": 241259
+    },
+    {
+      "file": ".kicad-mcp/visual-diff-15d0d6ceb636a0bb-before.kicad_sch",
+      "expected": "85bcf6db59733d16791cae3289350ac46d772158eaaf994fb7ef942c80a8d216",
+      "actual": "85bcf6db59733d16791cae3289350ac46d772158eaaf994fb7ef942c80a8d216",
+      "bytes": 219543
+    },
+    {
+      "file": "fp-lib-table",
+      "expected": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "actual": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "bytes": 2025
+    },
+    {
+      "file": "rp2350-pico.kicad_dru",
+      "expected": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "actual": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "bytes": 13300
+    },
+    {
+      "file": "rp2350-pico.kicad_pcb",
+      "expected": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "actual": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "bytes": 253192
+    },
+    {
+      "file": "rp2350-pico.kicad_pro",
+      "expected": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+      "actual": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+      "bytes": 21307
+    },
+    {
+      "file": "rp2350-pico.kicad_sch",
+      "expected": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+      "actual": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+      "bytes": 221590
+    },
+    {
+      "file": "sym-lib-table",
+      "expected": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "actual": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "bytes": 1275
+    }
+  ],
+  "validationPass": false
+}

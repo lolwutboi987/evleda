@@ -1,0 +1,70 @@
+{
+  "recordedAt": "2026-09-19T00:00:07.088Z",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "status": "normal-close-and-saved-sources-verified",
+  "designAcceptance": false,
+  "validationPass": false,
+  "validationLimitation": "public evleda_validate_design failed host32000-byte output limit; no combined validation pass claimed",
+  "checkpoint": {
+    "sha256": "561b9d10dd8bfe2a7dcc1a1e2823d1f2bd97910a095816ebbaffcca690342ab1",
+    "bytes": 3138,
+    "reason": "run_exit",
+    "attempt": 3
+  },
+  "closeResponse": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-26\\workspace-client-a774cc4b-d0c1-469b-9fd6-800035f62c85\\000390-response-8e0343cb5bf3d8420b787c8d0800d41eadb6177ac194faa20925a476426b6d16.json",
+    "sha256": "8e0343cb5bf3d8420b787c8d0800d41eadb6177ac194faa20925a476426b6d16"
+  },
+  "files": [
+    {
+      "name": "pro",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_pro",
+      "expected": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+      "actual": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+      "bytes": 21307
+    },
+    {
+      "name": "sch",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_sch",
+      "expected": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+      "actual": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+      "bytes": 221590
+    },
+    {
+      "name": "pcb",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_pcb",
+      "expected": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "actual": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "bytes": 253192
+    },
+    {
+      "name": "symLibTable",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\sym-lib-table",
+      "expected": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "actual": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "bytes": 1275
+    },
+    {
+      "name": "fpLibTable",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\fp-lib-table",
+      "expected": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "actual": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "bytes": 2025
+    },
+    {
+      "name": "dru",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_dru",
+      "expected": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "actual": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "bytes": 13300
+    },
+    {
+      "name": "report",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\pcb-agent-report.json",
+      "expected": "8da22ab3131eba67118e044ac2fb5cf2512d6578c2e9d9bab8cd1a2b03135f09",
+      "actual": "8da22ab3131eba67118e044ac2fb5cf2512d6578c2e9d9bab8cd1a2b03135f09",
+      "bytes": 33369
+    }
+  ],
+  "remainingLeaseUnsafeEditorLocks": []
+}
