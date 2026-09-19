@@ -3333,7 +3333,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     assertPcbLibrarySourcesCurrent(binding, this.#freshLibraryResolver);
   }
 
-  async #callSourceBoundTool(name: string, argumentsValue: Readonly<Record<string, unknown>>, observeResponse?: (result: CallToolResult) => void, options?: KicadMcpToolCallOptions): ReturnType<KicadHarnessSession["callTool"]> {
+  async #callSourceBoundTool(name: string, argumentsValue: Readonly<Record<string, unknown>>, observeResponse?: (result: CallToolResult) => void, options?: KicadMcpToolCallOptions,
+    internalNativeCheck?: "run_erc" | "run_drc"): ReturnType<KicadHarnessSession["callTool"]> {
+    if (internalNativeCheck !== undefined && internalNativeCheck !== name) throw new Error("Internal native check role differs from its dispatched operation.");
     this.#assertLibrarySources();
     const invoke = () => options === undefined
       ? this.#session.callTool(name, argumentsValue)
@@ -3348,9 +3350,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const result = await invoke();
     observeResponse?.(result);
     // Preserve a native failure as the primary cause even if sources also drifted.
-    const success = result.isError !== true && !/\b(?:failed|failure|error|aborted|unable|refused)\b|\bcould not\b|\bwas not found\b/iu.test(preferredResultText(result));
-    if (powerAnnotationBindingOf(this.#freshPlaneCompilationBundle ?? {}) !== undefined && success) this.#assertLibrarySources();
-    if (externalGraph && success && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE: native graph authority changed across its read.");
+    // Authenticated host-internal ERC/DRC replies have a separate full-report
+    // verifier below. Even a design FAIL must pass the post-reply source guard;
+    // do not run its complete findings through the generic 32K text classifier.
+    const verifySourcesAfter = result.isError !== true && (internalNativeCheck !== undefined
+      || !/\b(?:failed|failure|error|aborted|unable|refused)\b|\bcould not\b|\bwas not found\b/iu.test(preferredResultText(result)));
+    if (powerAnnotationBindingOf(this.#freshPlaneCompilationBundle ?? {}) !== undefined && verifySourcesAfter) this.#assertLibrarySources();
+    if (externalGraph && verifySourcesAfter && this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE: native graph authority changed across its read.");
     return result;
   }
 
@@ -4089,7 +4095,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const nativeCheckProject = !providerCallable && (parsed.name === "run_erc" || parsed.name === "run_drc") ? this.#freshProject : undefined;
       if (nativeCheckProject !== undefined) await assertFreshProjectDirectoryChain(nativeCheckProject);
       const nativeCheckSources = nativeCheckProject === undefined ? undefined : await captureKicadNativeSourceHashes(nativeCheckProject.projectPath);
-      const result = await this.#callSourceBoundTool(parsed.name, structuredClone(argumentsValue));
+      const result = await this.#callSourceBoundTool(parsed.name, structuredClone(argumentsValue), undefined, undefined,
+        nativeCheckProject === undefined ? undefined : parsed.name as "run_erc" | "run_drc");
       if(parsed.name==="pcb_save"&&this.#pendingFreshBoardPostSave?.kind==="plane-route"&&!hasQualifiedNativeBoardReply(result,"Board saved."))throw new Error("Native route save lacks its qualified positive acknowledgement.",{cause:nativeReplyCause("pcb_save",result)});
       if(parsed.name==="pcb_save"&&this.#freshProject?.workflowKind==="plane"&&this.#pendingFreshBoardPostSave?.kind==="text"&&!hasQualifiedNativeBoardReply(result,"Board saved."))throw new Error("Native PCB text save lacks its qualified positive acknowledgement.",{cause:nativeReplyCause("pcb_save",result)});
       // Preserve the native error or missing save acknowledgement as the first

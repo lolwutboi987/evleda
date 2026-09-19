@@ -1,14 +1,16 @@
 import { Client, InMemoryTransport } from "@modelcontextprotocol/client";
 import { describe, expect, it, vi } from "vitest";
-import { createKicadHarnessTools, type KicadHarnessSession } from "../../src/harness/kicad-tools.js";
+import { createKicadHarnessTools, type KicadHarnessSession, type KicadHarnessToolsOptions } from "../../src/harness/kicad-tools.js";
 import { createKicadToolboxMcpServer } from "../../src/mcp/toolbox-server.js";
 import { canonicalIdentity } from "../../src/core/canonical.js";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { tmpdir } from "node:os";
-import { prepareFreshProject } from "../../src/harness/fresh-project.js";
+import { prepareFreshProject, preparePlaneFreshProject } from "../../src/harness/fresh-project.js";
 import { captureKicadNativeSourceHashes } from "../../src/integrations/kicad-cli.js";
 import { nativeCheckReply, nativeErcReport } from "../helpers/native-check-verdict.js";
+import { cleanupDerivedPowerFixtures, derivedPowerFixture } from "../helpers/derived-power-bundle.js";
+import { createPcbPlaneCompilationBundleRef } from "../../src/harness/pcb-design-plane-bundle.js";
 
 const payload = (result: unknown): Record<string, unknown> => (result as { structuredContent: Record<string, unknown> }).structuredContent;
 
@@ -50,19 +52,43 @@ function makeCad() {
 describe("direct KiCad toolbox MCP", () => {
   async function withActualNativeReport(body: (f: { root: string; project: Awaited<ReturnType<typeof prepareFreshProject>>;
     connection: Awaited<ReturnType<typeof connect>>; calls: string[]; drc: ReturnType<typeof nativeCheckReply>;
-    onDrc: { run?: () => Promise<void> } }) => Promise<void>) {
+    onDrc: { run?: () => Promise<void>; oversizedSummary?: boolean }; postDrcSourceChecks: () => number;
+    libraryPath?: string }) => Promise<void>, annotated = false) {
     const root = await mkdtemp(path.join(tmpdir(), "evleda-toolbox-check-report-"));
     let connection: Awaited<ReturnType<typeof connect>> | undefined;
     try {
-      const project = await prepareFreshProject({ outputDir: root, name: "rp2350-pico", resume: false });
-      const calls: string[] = [], drc = nativeCheckReply(), onDrc: { run?: () => Promise<void> } = {};
+      const power = annotated ? derivedPowerFixture() : undefined;
+      const project = power === undefined ? await prepareFreshProject({ outputDir: root, name: "rp2350-pico", resume: false })
+        : await preparePlaneFreshProject({ outputDir: root, name: "rp2350-pico", resume: false,
+          compilationBundle: power.bundle, compilationBundleRef: createPcbPlaneCompilationBundleRef(power.bundle) });
+      const calls: string[] = [], drc = nativeCheckReply(), onDrc: { run?: () => Promise<void>; oversizedSummary?: boolean } = {};
+      let postDrcSourceChecks = 0;
+      const annotationOptions: Partial<KicadHarnessToolsOptions> = power === undefined ? {} : {
+        freshPlaneCompilationBundle: power.bundle, freshConnectivityContract: power.bundle.contract,
+        freshLibraryResolver: {
+          resolveSymbol: power.resolver.resolveSymbol.bind(power.resolver), resolveFootprint: power.resolver.resolveFootprint.bind(power.resolver),
+          inspectSymbol: power.resolver.inspectSymbol.bind(power.resolver), inspectFootprint: power.resolver.inspectFootprint.bind(power.resolver),
+          inspectSymbolTerminalGeometry: power.resolver.inspectSymbolTerminalGeometry.bind(power.resolver),
+          inspectExternalPowerFlag: power.resolver.inspectExternalPowerFlag.bind(power.resolver),
+          captureSourceSelection: request => { if (calls.at(-1) === "run_drc") postDrcSourceChecks++; return power.resolver.captureSourceSelection(request); },
+        }, freshPhysicalFootprintResolver: power.resolver,
+        freshPhysicalFootprintSourcePins: power.bundle.contract.components.map(c => ({ reference: c.reference, libraryId: c.footprintLibId,
+          sourceIdentity: power.resolver.inspectFootprint(c.footprintLibId)!.sourceIdentity })),
+        captureFreshNativeNetlist: async () => { throw new Error("Unexpected netlist operation in validation regression"); },
+      };
       const session: KicadHarnessSession = { listTools: () => ["run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa"].map(name => ({ name, permission: "read", inputSchema: { type: "object", properties: {} } })),
+        supportsExternalPowerFlagConnectivity: () => true, supportsQualifiedFootprintIdentitySync: () => true,
+        readActivePcbSource: async () => await readFile(project.pcbPath, "utf8"), assertActivePcb: async () => {},
+        readLivePcbPadSnapshot: async () => { throw new Error("Unexpected physical pad operation in validation regression"); },
         callTool: async name => { calls.push(name); if (name === "run_drc") { await onDrc.run?.(); return structuredClone(drc); }
+          if (name === "pcb_get_board_summary" && onDrc.oversizedSummary) return { content: [], structuredContent: { result: "x".repeat(32_001) } };
           return name === "run_erc" ? nativeCheckReply("run_erc", nativeErcReport([])) : { content: [], structuredContent: { status: "ok", operation: name } }; } };
-      const tools = createKicadHarnessTools(session, { freshProject: project });
+      const tools = createKicadHarnessTools(session, { freshProject: project, ...annotationOptions });
       connection = await connect({ cad: { tools, assertCurrent: async () => {}, captureSources: async () => JSON.stringify(await captureKicadNativeSourceHashes(project.projectPath)), close: async () => {} } });
-      await body({ root, project, connection, calls, drc, onDrc });
-    } finally { await connection?.close(); expect(path.resolve(root).startsWith(path.resolve(tmpdir()) + path.sep)).toBe(true); await rm(root, { recursive: true, force: true }); }
+      if (power !== undefined) { expect(power.bundle.derivedPowerBinding).toBeDefined(); expect(power.bundle.externalPowerBinding).toBeDefined(); }
+      await body({ root, project, connection, calls, drc, onDrc, postDrcSourceChecks: () => postDrcSourceChecks,
+        ...(power === undefined ? {} : { libraryPath: power.symbolFiles.Device! }) });
+    } finally { await connection?.close(); cleanupDerivedPowerFixtures(); expect(path.resolve(root).startsWith(path.resolve(tmpdir()) + path.sep)).toBe(true); await rm(root, { recursive: true, force: true }); }
   }
 
   it("completes public validation with all 192 DRC errors retained privately and blocking in its bounded report", async () => {
@@ -95,6 +121,41 @@ describe("direct KiCad toolbox MCP", () => {
       expect(f.calls).toEqual(["run_erc", "run_drc"]);
       if (fault !== "artifact-failure") expect(await readdir(f.root)).not.toContain(".evleda-mcp-output");
     });
+  });
+
+  it("projects the actual 192-row report through annotated V2 public validation and all post-reply source guards", async () => {
+    await withActualNativeReport(async f => {
+      expect(f.project.workflowKind).toBe("plane");
+      const response = await f.connection.client.callTool({ name: "evleda_validate_design", arguments: {} });
+      expect(response.isError, JSON.stringify(response.structuredContent)).not.toBe(true);
+      const checks = payload(response).checks as Array<{ name: string; result: { content: string } }>;
+      const report = JSON.parse(checks.find(c => c.name === "run_drc")!.result.content);
+      expect(report).toMatchObject({ verdict: "FAIL", status: "failed", metadata: { unconnected_items: 192 }, findingEvidence: { total: 192, counts: { error: 192 } } });
+      expect(f.calls).toEqual(["run_erc", "run_drc", "pcb_get_board_summary", "pcb_visual_qa"]);
+      expect(f.postDrcSourceChecks()).toBeGreaterThan(0);
+      const saved = JSON.parse(await readFile(path.join(f.root, ".evleda-mcp-output", report.diagnostic.filename), "utf8"));
+      expect(saved.response).toEqual(f.drc); expect(saved.response.structuredContent.findings).toHaveLength(192);
+      expect(payload(response).sourceUnchanged).toBe(true);
+    }, true);
+  });
+
+  it.each(["malformed", "source-drift", "library-drift", "native-error", "other-overflow"] as const)("retains annotated V2 public validation rejection for %s", async fault => {
+    await withActualNativeReport(async f => {
+      if (fault === "malformed") f.drc.structuredContent.metadata.unconnected_items = 0;
+      if (fault === "source-drift") f.onDrc.run = async () => { await writeFile(f.project.schematicPath, `${await readFile(f.project.schematicPath, "utf8")}\n`); };
+      if (fault === "library-drift") f.onDrc.run = async () => { await writeFile(f.libraryPath!, `${await readFile(f.libraryPath!, "utf8")}\n`); };
+      if (fault === "native-error") f.onDrc.run = async () => { await writeFile(f.libraryPath!, `${await readFile(f.libraryPath!, "utf8")}\n`); throw new Error("primary native report failure"); };
+      if (fault === "other-overflow") f.onDrc.oversizedSummary = true;
+      const response = await f.connection.client.callTool({ name: "evleda_validate_design", arguments: {} });
+      expect(response.isError).toBe(true); expect(payload(response)).not.toHaveProperty("checks");
+      if (fault === "native-error") { expect(payload(response).error).toBe("primary native report failure"); expect(f.postDrcSourceChecks()).toBe(0); }
+      else expect(f.postDrcSourceChecks()).toBeGreaterThan(0);
+      expect(f.calls).toEqual(fault === "other-overflow" ? ["run_erc", "run_drc", "pcb_get_board_summary"] : ["run_erc", "run_drc"]);
+      if (fault === "other-overflow") {
+        expect(payload(response).error).toBe("KiCad MCP result exceeds the 32000-byte limit.");
+        const files = await readdir(path.join(f.root, ".evleda-mcp-output")); expect(files).toHaveLength(1);
+      } else expect(await readdir(f.root)).not.toContain(".evleda-mcp-output");
+    }, true);
   });
 
   it("finishes native state over MCP before the client disconnects, without certifying the design", async () => {
