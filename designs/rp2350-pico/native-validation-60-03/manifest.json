@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "rp2350.native-validation-delivery.v1",
+  "recordedAt": "2026-09-19T01:28:52.206Z",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "session": "29",
+  "hostReleaseSha256": "5bd3a5d09f9abd6c8f5ac5ef2e3fccee0ebb7ff0dee8b4f9a9b50d0ba9e1df8f",
+  "status": "native-check-collection-completed-and-normally-closed",
+  "nativeCollectionCompleted": true,
+  "boardDrcPass": false,
+  "designAcceptance": false,
+  "releaseAuthorized": false,
+  "files": [
+    {
+      "file": "README.md",
+      "sha256": "20ecd6ced2476b0928b9ed7ece930b8585b0e16fb21635c2c6c69c3835d7368f",
+      "bytes": 5618,
+      "kind": "derived delivery prose"
+    },
+    {
+      "file": "evidence/after-host19-validation-source-check.json",
+      "sha256": "2926825a0946803d0122c5c961d00fbea71d46f970385181a9ae93b1c7adae1a",
+      "bytes": 3400,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\after-host19-validation-source-check.json"
+    },
+    {
+      "file": "evidence/before-host19-source-check.json",
+      "sha256": "2c019bd9190030aabf59d3a34cccfbe52e68ff9b63370ee20c9688a12e8139c0",
+      "bytes": 3086,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\before-host19-source-check.json"
+    },
+    {
+      "file": "evidence/host19-release.json",
+      "sha256": "5bd3a5d09f9abd6c8f5ac5ef2e3fccee0ebb7ff0dee8b4f9a9b50d0ba9e1df8f",
+      "bytes": 8245,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-doc11-34\\host19-release.json"
+    },
+    {
+      "file": "evidence/native-drc-report.json",
+      "sha256": "8cc90849601d0c9f2683540bf500374545d3b7398fc7abef278b338f310d34b4",
+      "bytes": 155034,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\live-validation-verification\\native-drc-report.json"
+    },
+    {
+      "file": "evidence/native-erc-report.json",
+      "sha256": "210c59ba5527782b8a69d2dfefed6f78bab889b5b5c560923bfa710017c4234d",
+      "bytes": 1042,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\live-validation-verification\\native-erc-report.json"
+    },
+    {
+      "file": "evidence/normal-close-summary.json",
+      "sha256": "3ac9627b5f6dcd901c48dfe89ecaf11d156aa6829a69e5d91c8b439c56b626eb",
+      "bytes": 656,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\live-validation-verification\\normal-close-summary.json"
+    },
+    {
+      "file": "evidence/normal-close-verification.json",
+      "sha256": "f3e03faab2f3a9c4b5f395bc8503d5228b1c3a4da6e0f42918c0f6f41713f38c",
+      "bytes": 3607,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\normal-close-verification.json"
+    },
+    {
+      "file": "evidence/public-normal-close-response-106.json",
+      "sha256": "84e350d105a18bb53a7046ca2aaaf55e48cd5ebde6202917a77d71d0469569f3",
+      "bytes": 19978,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000106-response-84e350d105a18bb53a7046ca2aaaf55e48cd5ebde6202917a77d71d0469569f3.json"
+    },
+    {
+      "file": "evidence/public-validation-response.json",
+      "sha256": "3da2159b3ccb8e41286288fd0389c6bf2c9b7a56effbb5b3b941b6a3fc0ae218",
+      "bytes": 32837,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000061-response-3da2159b3ccb8e41286288fd0389c6bf2c9b7a56effbb5b3b941b6a3fc0ae218.json"
+    },
+    {
+      "file": "evidence/source-continuity.json",
+      "sha256": "a7f212f0c2af2159cb8b3e849e01c4a978c53a2c4ceb87a27d8a253ded537e91",
+      "bytes": 5624,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\live-validation-verification\\source-continuity.json"
+    },
+    {
+      "file": "evidence/verification-receipt.json",
+      "sha256": "d37eeaf3d4cac7c97d3abd85c3857bc9276a44ddfb1be5eaf13ae8aa92eaf00b",
+      "bytes": 5017,
+      "kind": "exact source-byte copy",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\live-validation-verification\\verification-receipt.json"
+    },
+    {
+      "file": "visual-qa-triage.md",
+      "sha256": "194212ecf7e94c2f89b3a9a8d5820b85feb99e8439e6b29b24c1e60f554f07f2",
+      "bytes": 2864,
+      "kind": "derived delivery prose"
+    }
+  ],
+  "results": {
+    "erc": {
+      "verdict": "PASS",
+      "violations": 0
+    },
+    "drc": {
+      "verdict": "FAIL",
+      "unconnectedErrors": 192,
+      "otherViolations": 0,
+      "schematicParityRows": 0,
+      "publicSample": {
+        "returned": 8,
+        "omitted": 184,
+        "total": 192
+      },
+      "orderedFullFindingsRetainedPrivatelyAndVerified": true,
+      "privateFullResponsePublished": false,
+      "privateArtifactIdentity": {
+        "algorithm": "sha256",
+        "digest": "99a85bdf0d42bdc0c8b32db89fb28e641f0108e3ce56359cebe8bb839311133f",
+        "size": 228285
+      },
+      "compactReportIdentity": {
+        "algorithm": "sha256",
+        "digest": "c30090bc131f23eaa8d08d2cfe91a0e4b93ae6e83913b7dd0286b4597c71ad11",
+        "size": 67020
+      }
+    },
+    "boardSummary": {
+      "footprints": 66,
+      "tracks": 0,
+      "vias": 0,
+      "zones": 0,
+      "liveNetCount": 70
+    },
+    "savedSourceNetCensus": {
+      "savedNamedNets": 69,
+      "functionalContractNets": 67,
+      "allFunctionalNamesPresent": true,
+      "generatedNoConnectNames": [
+        "unconnected-(J1-SBU1-PadA8)",
+        "unconnected-(J1-SBU2-PadB8)"
+      ],
+      "generatedNoConnectAssignments": [
+        {
+          "reference": "J1",
+          "pad": "A8",
+          "type": "smd",
+          "net": "unconnected-(J1-SBU1-PadA8)"
+        },
+        {
+          "reference": "J1",
+          "pad": "B8",
+          "type": "smd",
+          "net": "unconnected-(J1-SBU2-PadB8)"
+        }
+      ],
+      "liveSummaryCount": 70,
+      "unrepresentedLiveEntryDifference": 1,
+      "explicitNumericNetTableInSavedSource": 0,
+      "observedNet0Row": false,
+      "interpretation": "Saved source proves67 functional names plus2 exact declared NC names. The extra live-count entry is not identified by the retained summary; no observed net0 row is claimed."
+    },
+    "visualQa": {
+      "status": "WARN",
+      "rows": 14,
+      "WARN": 8,
+      "INFO": 6,
+      "allOriginalRowsPreserved": true,
+      "triage": "Reviewer-reported read-only source/preview comparison in visual-qa-triage.md; no general clearance/readability acceptance."
+    },
+    "practices": {
+      "collected": true,
+      "reviewedProfileIdentity": null,
+      "manufacturingReadiness": "unverified"
+    }
+  },
+  "sourceContinuity": {
+    "fingerprint": "dbef292b2e873ebaa5451bedcc3fab5224c61433b7a4f88b306dd4bca539b3f9",
+    "matchedProtectedSources": 8,
+    "matchedAuthoredSources": 6,
+    "workflowReportUnchanged": true,
+    "publicSourceUnchanged": true,
+    "recoveryRequired": false,
+    "postCloseReceiptSha256": "f3e03faab2f3a9c4b5f395bc8503d5228b1c3a4da6e0f42918c0f6f41713f38c",
+    "remainingLeaseUnsafeEditorLockPaths": []
+  },
+  "earlierDelivery": {
+    "path": "../native-placement-60-03/README.md",
+    "manifestSha256": "0b2f9c72cbb625a48b188d777c622feffabba8ea2aab5b4ef73ac2a948eb2ec5",
+    "allFilesUnchanged": true,
+    "historicalFailuresRemainFailures": true
+  },
+  "verification": {
+    "exactCopiedFiles": 11,
+    "allCopyHashesMatched": true,
+    "allSourceCopiesStillMatchedAtFinalRead": true,
+    "credentialScreen": {
+      "decodedJsonKeysAndTextPatterns": true,
+      "flags": [],
+      "limitation": "Bounded screen on whitelist; not a general secret-detector guarantee."
+    },
+    "noNativeCallsForPackaging": true
+  },
+  "exclusions": [
+    "private full native MCP response",
+    "private protected-source snapshots",
+    "source checkpoints",
+    "leases and editor locks",
+    "unsafe-state files",
+    "runtime and profile installations",
+    "process or child logs",
+    "credentials",
+    "vendor files"
+  ],
+  "scope": "Preserve exact public/native report evidence. Successful collection and normal close do not imply board validation, routing, clearance, thermal, electrical or manufacturing acceptance.",
+  "manifestSelfHash": "Obtain separately; not self-referential."
+}

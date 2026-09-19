@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "rp2350.live-validation-verification.v1",
+  "status": "collection-and-evidence-verified",
+  "recordedAt": "2026-09-19T01:26:30.855Z",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "nativeCollectionCompleted": true,
+  "designAcceptance": false,
+  "boardDrcPass": false,
+  "checks": [
+    {
+      "name": "run_erc",
+      "toolCallId": "toolbox-check:359c453a-ea70-47c6-9149-831ef8ac9fdb",
+      "status": "clean",
+      "verdict": "PASS",
+      "publicContentBytes": 1092
+    },
+    {
+      "name": "run_drc",
+      "toolCallId": "toolbox-check:e5f348c4-4e1b-4345-8531-0241960c3776",
+      "status": "failed",
+      "verdict": "FAIL",
+      "publicContentBytes": 2244
+    },
+    {
+      "name": "pcb_get_board_summary",
+      "toolCallId": "toolbox-check:6442b76b-2116-4514-bdce-2d34ac8b87e5",
+      "status": "clean",
+      "verdict": "PASS",
+      "publicContentBytes": 546
+    },
+    {
+      "name": "pcb_visual_qa",
+      "toolCallId": "toolbox-check:f0f5f3f4-0a3b-40a1-b351-200ee217ca8b",
+      "status": "WARN",
+      "verdict": null,
+      "publicContentBytes": 5788
+    }
+  ],
+  "responseIdentity": {
+    "algorithm": "sha256",
+    "digest": "3da2159b3ccb8e41286288fd0389c6bf2c9b7a56effbb5b3b941b6a3fc0ae218",
+    "size": 32837
+  },
+  "privateDrcArtifact": {
+    "filename": "native-check-run_drc-9526818e-91a9-4936-a14c-384efb39bcb6.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "99a85bdf0d42bdc0c8b32db89fb28e641f0108e3ce56359cebe8bb839311133f",
+      "size": 228285
+    },
+    "completeSanitizedResponse": true,
+    "orderedFindings": 192,
+    "orderedRawNativeRows": 192,
+    "fullRawDrcSemanticMatch": true,
+    "originalVerdict": "FAIL",
+    "errorCount": 192,
+    "distinctStableFindingIds": 1,
+    "idsNotDeduplicated": true
+  },
+  "publicDrcProjection": {
+    "bytes": 2244,
+    "total": 192,
+    "returned": 8,
+    "omitted": 184,
+    "verdict": "FAIL",
+    "nativeReportIdentity": {
+      "algorithm": "sha256",
+      "digest": "c30090bc131f23eaa8d08d2cfe91a0e4b93ae6e83913b7dd0286b4597c71ad11",
+      "size": 67020
+    },
+    "coverage": {
+      "includedSeverities": [
+        "error",
+        "warning",
+        "exclusion"
+      ],
+      "ignoredChecks": [
+        "missing_courtyard",
+        "track_not_centered_on_via",
+        "tuning_profile_track_geometries",
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch"
+      ],
+      "ignoredCheckCount": 5,
+      "nativeReportIdentity": {
+        "algorithm": "sha256",
+        "digest": "c30090bc131f23eaa8d08d2cfe91a0e4b93ae6e83913b7dd0286b4597c71ad11",
+        "size": 67020
+      }
+    }
+  },
+  "rawReports": {
+    "erc": {
+      "algorithm": "sha256",
+      "digest": "210c59ba5527782b8a69d2dfefed6f78bab889b5b5c560923bfa710017c4234d",
+      "size": 1042
+    },
+    "drc": {
+      "algorithm": "sha256",
+      "digest": "8cc90849601d0c9f2683540bf500374545d3b7398fc7abef278b338f310d34b4",
+      "size": 155034
+    }
+  },
+  "ercRawComparison": "Exact match after the two known sheet path/uuid_path redactions; zero violations",
+  "visualQa": {
+    "status": "WARN",
+    "findings": 14,
+    "byLevel": {
+      "WARN": 8,
+      "INFO": 6
+    },
+    "retainedWithoutWaiver": true
+  },
+  "practicesCollected": true,
+  "sourceContinuity": {
+    "fingerprint": "dbef292b2e873ebaa5451bedcc3fab5224c61433b7a4f88b306dd4bca539b3f9",
+    "matchedPrivateSourceFiles": 8,
+    "matchedAuthoredFiles": 6,
+    "reportAlsoUnchanged": true,
+    "normalCloseStatus": "normal-close-and-saved-sources-verified",
+    "normalCloseReceiptIdentity": {
+      "algorithm": "sha256",
+      "digest": "f3e03faab2f3a9c4b5f395bc8503d5228b1c3a4da6e0f42918c0f6f41713f38c",
+      "size": 3607
+    }
+  },
+  "netCensus": {
+    "savedNamedNets": 69,
+    "functionalContractNets": 67,
+    "allFunctionalNamesPresent": true,
+    "generatedNoConnectNames": [
+      "unconnected-(J1-SBU1-PadA8)",
+      "unconnected-(J1-SBU2-PadB8)"
+    ],
+    "generatedNoConnectAssignments": [
+      {
+        "reference": "J1",
+        "pad": "A8",
+        "type": "smd",
+        "net": "unconnected-(J1-SBU1-PadA8)"
+      },
+      {
+        "reference": "J1",
+        "pad": "B8",
+        "type": "smd",
+        "net": "unconnected-(J1-SBU2-PadB8)"
+      }
+    ],
+    "liveSummaryCount": 70,
+    "unrepresentedLiveEntryDifference": 1,
+    "explicitNumericNetTableInSavedSource": 0,
+    "observedNet0Row": false,
+    "interpretation": "Saved source proves67 functional names plus2 exact declared NC names. The extra live-count entry is not identified by the retained summary; no observed net0 row is claimed."
+  },
+  "scope": {
+    "additionalNativeCalls": 0,
+    "managedFilesChanged": false,
+    "codeChanged": false,
+    "routingAcceptance": false,
+    "manufacturingAcceptance": false
+  },
+  "publicCopyWhitelist": [
+    "public-validation-response.json",
+    "native-erc-report.json",
+    "native-drc-report.json",
+    "verification-receipt.json",
+    "source-continuity.json",
+    "normal-close-summary.json"
+  ]
+}

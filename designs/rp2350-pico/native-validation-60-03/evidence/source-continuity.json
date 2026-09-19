@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "rp2350.live-validation-source-continuity.v1",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "publicBefore": "dbef292b2e873ebaa5451bedcc3fab5224c61433b7a4f88b306dd4bca539b3f9",
+  "publicAfter": "dbef292b2e873ebaa5451bedcc3fab5224c61433b7a4f88b306dd4bca539b3f9",
+  "independentlyReproducedFingerprint": "dbef292b2e873ebaa5451bedcc3fab5224c61433b7a4f88b306dd4bca539b3f9",
+  "privateSourceInventoryMatched": [
+    {
+      "file": ".history/rp2350-pico.kicad_pcb",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "7c38a017b9d0547a836b8643643edad32f5fd130637a259e28bd2c090868aa40",
+        "size": 241259
+      }
+    },
+    {
+      "file": ".kicad-mcp/visual-diff-15d0d6ceb636a0bb-before.kicad_sch",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "85bcf6db59733d16791cae3289350ac46d772158eaaf994fb7ef942c80a8d216",
+        "size": 219543
+      }
+    },
+    {
+      "file": "fp-lib-table",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+        "size": 2025
+      }
+    },
+    {
+      "file": "rp2350-pico.kicad_dru",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+        "size": 13300
+      }
+    },
+    {
+      "file": "rp2350-pico.kicad_pcb",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+        "size": 253192
+      }
+    },
+    {
+      "file": "rp2350-pico.kicad_pro",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+        "size": 21307
+      }
+    },
+    {
+      "file": "rp2350-pico.kicad_sch",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+        "size": 221590
+      }
+    },
+    {
+      "file": "sym-lib-table",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+        "size": 1275
+      }
+    }
+  ],
+  "authoredFilesAndReport": [
+    {
+      "name": "pro",
+      "file": "rp2350-pico.kicad_pro",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+        "size": 21307
+      },
+      "matchedBeforeAfterAndPostClose": true
+    },
+    {
+      "name": "sch",
+      "file": "rp2350-pico.kicad_sch",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+        "size": 221590
+      },
+      "matchedBeforeAfterAndPostClose": true
+    },
+    {
+      "name": "pcb",
+      "file": "rp2350-pico.kicad_pcb",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+        "size": 253192
+      },
+      "matchedBeforeAfterAndPostClose": true
+    },
+    {
+      "name": "symLibTable",
+      "file": "sym-lib-table",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+        "size": 1275
+      },
+      "matchedBeforeAfterAndPostClose": true
+    },
+    {
+      "name": "fpLibTable",
+      "file": "fp-lib-table",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+        "size": 2025
+      },
+      "matchedBeforeAfterAndPostClose": true
+    },
+    {
+      "name": "dru",
+      "file": "rp2350-pico.kicad_dru",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+        "size": 13300
+      },
+      "matchedBeforeAfterAndPostClose": true
+    },
+    {
+      "name": "report",
+      "file": "pcb-agent-report.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0ce94dc3ef25118d34597439f2d54d11a7b15ab84e1e3aafb2da8d830d5e567c",
+        "size": 33369
+      },
+      "matchedBeforeAfterAndPostClose": true
+    }
+  ],
+  "rootBeforeReceipt": {
+    "algorithm": "sha256",
+    "digest": "2c019bd9190030aabf59d3a34cccfbe52e68ff9b63370ee20c9688a12e8139c0",
+    "size": 3086
+  },
+  "rootAfterReceipt": {
+    "algorithm": "sha256",
+    "digest": "2926825a0946803d0122c5c961d00fbea71d46f970385181a9ae93b1c7adae1a",
+    "size": 3400
+  },
+  "rootNormalCloseReceipt": {
+    "algorithm": "sha256",
+    "digest": "f3e03faab2f3a9c4b5f395bc8503d5228b1c3a4da6e0f42918c0f6f41713f38c",
+    "size": 3607
+  },
+  "netCensus": {
+    "savedNamedNets": 69,
+    "functionalContractNets": 67,
+    "allFunctionalNamesPresent": true,
+    "generatedNoConnectNames": [
+      "unconnected-(J1-SBU1-PadA8)",
+      "unconnected-(J1-SBU2-PadB8)"
+    ],
+    "generatedNoConnectAssignments": [
+      {
+        "reference": "J1",
+        "pad": "A8",
+        "type": "smd",
+        "net": "unconnected-(J1-SBU1-PadA8)"
+      },
+      {
+        "reference": "J1",
+        "pad": "B8",
+        "type": "smd",
+        "net": "unconnected-(J1-SBU2-PadB8)"
+      }
+    ],
+    "liveSummaryCount": 70,
+    "unrepresentedLiveEntryDifference": 1,
+    "explicitNumericNetTableInSavedSource": 0,
+    "observedNet0Row": false,
+    "interpretation": "Saved source proves67 functional names plus2 exact declared NC names. The extra live-count entry is not identified by the retained summary; no observed net0 row is claimed."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "rp2350.normal-close-summary.v1",
+  "status": "normal-close-and-saved-sources-verified",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "nativeCollectionCompleted": true,
+  "designAcceptance": false,
+  "boardDrcPass": false,
+  "drcUnconnectedErrors": 192,
+  "visualQaStatus": "WARN",
+  "rootReceiptIdentity": {
+    "algorithm": "sha256",
+    "digest": "f3e03faab2f3a9c4b5f395bc8503d5228b1c3a4da6e0f42918c0f6f41713f38c",
+    "size": 3607
+  },
+  "remainingLeaseUnsafeEditorLocks": [],
+  "sourceContinuityVerified": true,
+  "scope": "Summarizes root normal-close proof; this verifier made no native or process-control calls."
+}

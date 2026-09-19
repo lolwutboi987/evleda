@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "evleda.host19-build-release.v1",
+  "recordedAtUtc": "2026-09-19T01:09:34.310Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19",
+  "sourceKind": "Released immutable host18 plus exactly the approved reviewed overlays; not a full current repository snapshot",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-doc11-33\\host18-release.json",
+    "sha256": "69432272a981fe18101d57144b287bc043da1255e3a14eb790e7a9bad9fcd836",
+    "sizeBytes": 6291
+  },
+  "successfulBuildEvidence": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-doc11-34\\checks-result.json",
+    "sha256": "56f616b89c46419820b99e7728c6a94b53054525db49fdb1e5f155a4ef66baf8",
+    "sizeBytes": 9466
+  },
+  "copyLineage": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-doc11-34\\lineage.json",
+    "sha256": "6887adac1057cebe5712205705edde4a0ca70e6e04654eb9261c67c0ff384b9c",
+    "sizeBytes": 2036
+  },
+  "budget": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-doc11-34\\budget.json",
+    "sha256": "77fc2afc6fce0dd5b99b6134902ea5b3989a4a082a1e316880c7223362d7cc25",
+    "sizeBytes": 239
+  },
+  "compilerPin": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-doc11-34\\compiler-pin.json",
+    "sha256": "d175d702900d2e3e306077e0e7fecf3e623957958352193207708e5e91e3fa8e",
+    "sizeBytes": 307
+  },
+  "identities": {
+    "sourceSnapshotSha256": "03727f8ab335e6a7564af3e8b56a902cbae715bf90ee918a47f17ec556e4a9db",
+    "backendOutputManifestSha256": "308aadd2e35bf03d4c070d2be3c4b364606dde22a87b305393a2806933aacf42",
+    "reusedUiManifestSha256": "20db9529e1409a05fab906e676d6d6d2b31f02017b4006699090d64d15116623",
+    "finalBuildManifestSha256": "446a3bc4fabb028cee3fea49974759f9d092b1bd98603adba81b2ed1fcece09c",
+    "logicalFiles": 2530,
+    "logicalBytes": 120591033
+  },
+  "sourcePins": [
+    {
+      "relativePath": "src/harness/kicad-native-check-report.ts",
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\kicad-native-check-report.ts",
+        "sha256": "5c1535f702be0d734f24b2df2320e4ebf2c7866ccaa99df925c9605941cb2253",
+        "sizeBytes": 17704
+      },
+      "copied": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\src\\harness\\kicad-native-check-report.ts",
+        "sha256": "5c1535f702be0d734f24b2df2320e4ebf2c7866ccaa99df925c9605941cb2253",
+        "sizeBytes": 17704
+      }
+    },
+    {
+      "relativePath": "src/integrations/kicad-mcp-session.ts",
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\integrations\\kicad-mcp-session.ts",
+        "sha256": "f3b71cefb94b1d88b523076225bdcd8dd6915ca240def1cc42cffb3ab0152977",
+        "sizeBytes": 269412
+      },
+      "copied": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\src\\integrations\\kicad-mcp-session.ts",
+        "sha256": "f3b71cefb94b1d88b523076225bdcd8dd6915ca240def1cc42cffb3ab0152977",
+        "sizeBytes": 269412
+      }
+    },
+    {
+      "relativePath": "tests/unit/kicad-native-check-report.test.ts",
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\kicad-native-check-report.test.ts",
+        "sha256": "47a21b0d7b95bf48e4319df6760c765f2f1c0025ea66c9ba8282ee2f4801d8fb",
+        "sizeBytes": 14544
+      },
+      "copied": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\tests\\unit\\kicad-native-check-report.test.ts",
+        "sha256": "47a21b0d7b95bf48e4319df6760c765f2f1c0025ea66c9ba8282ee2f4801d8fb",
+        "sizeBytes": 14544
+      }
+    },
+    {
+      "relativePath": "tests/mcp/toolbox.test.ts",
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\mcp\\toolbox.test.ts",
+        "sha256": "f6789ac9c4d928ef65c334772044906fb08d05fd4207fffe530a58026dbc6a84",
+        "sizeBytes": 30128
+      },
+      "copied": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\tests\\mcp\\toolbox.test.ts",
+        "sha256": "f6789ac9c4d928ef65c334772044906fb08d05fd4207fffe530a58026dbc6a84",
+        "sizeBytes": 30128
+      }
+    },
+    {
+      "relativePath": "tests/integration/kicad-mcp.test.ts",
+      "source": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\integration\\kicad-mcp.test.ts",
+        "sha256": "77b151a644436bf3de67271360e8bac700e0634a1a77d9d942d9565aa46abd47",
+        "sizeBytes": 237493
+      },
+      "copied": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\tests\\integration\\kicad-mcp.test.ts",
+        "sha256": "77b151a644436bf3de67271360e8bac700e0634a1a77d9d942d9565aa46abd47",
+        "sizeBytes": 237493
+      }
+    }
+  ],
+  "compiledEntryPins": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\dist\\src\\harness\\kicad-tools.js",
+      "sha256": "f3f434a8a2cfd58881ae7a79d02f0eaa74483b48ac3cc96930ae057570173eba",
+      "sizeBytes": 476652
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\dist\\src\\harness\\kicad-native-check-report.js",
+      "sha256": "4a7432d76b62903fe5e2dff4f4c549e493cab422dfcf54b85b5f849e398a4099",
+      "sizeBytes": 17771
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\dist\\src\\integrations\\kicad-mcp-session.js",
+      "sha256": "409cf19ca79e42accd713a6142533ac76aa599fa900f5a5c2337e4c9eef627c7",
+      "sizeBytes": 260733
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\dist\\src\\harness\\kicad-library-resolver.js",
+      "sha256": "51bec1a799d88d32055b845016cd9640cbe443eb47897e0572efa5212484f3e8",
+      "sizeBytes": 72018
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-doc11-build-19\\dist\\src\\mcp\\toolbox-workspace-main.js",
+      "sha256": "d0a6c1138ad03bf9c7d52104788e5be780b3c9ab5989222938f0aa8fa2996536",
+      "sizeBytes": 7716
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendEmissionAndFivePackagingChecksPassed": true,
+  "assetPrerequisiteChecksPassed": true,
+  "runtimeBeforeAfterPassed": [
+    "DOC10",
+    "DOC11"
+  ],
+  "uiOutputReusedUnchanged": true,
+  "base18OriginalDistProfilesRuntimeAndApprovedSourcePinsPreserved": true,
+  "oldEvidencePreserved": true,
+  "minimumObservedFreeBytes": 4328116224,
+  "finalObservedFreeBytes": 4336828416,
+  "minimumReserveBytes": 157286400,
+  "spaceReserveInterruption": false,
+  "compression": "Only the new empty build19 root marked NTFS compressed before copy; dependency junction never traversed",
+  "monitoring": "Per-file reserve plus remaining-write guards, exclusive base copy, authenticated overlay replacement, direct local compiler, and settled/exitCode/signalCode child monitoring",
+  "compiler": "Read-only pin accepts existing authenticated pnpm hardlinks and is rechecked after compiler/package execution",
+  "approvedOverlay": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-doc11-34\\approved-overlay.json",
+    "sha256": "387968febc1907f8adcb23355ccafe5a0d5373ea028fde9a61df61b88a45d0ec",
+    "sizeBytes": 5307
+  },
+  "overlayCount": 5,
+  "noViteRebuild": true,
+  "noFocusedTestReruns": true,
+  "nativeOperationsPerformed": false,
+  "projectOperationsPerformed": false,
+  "scope": "Build qualification only for the reviewed exact public schema-URL preservation and private native-check rejection capture. No native or session operations, no live client switch, and no native verdict or board acceptance is asserted."
+}

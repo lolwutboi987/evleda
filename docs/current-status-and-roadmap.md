@@ -10,13 +10,24 @@ Independent pre-field verification matches all 66 footprints,
 rows. The guarded field/save chain links that placement to the final PCB;
 post-close verification matches all six authored source files and the report.
 
-**The PCB remains unrouted: zero tracks, vias and zones.** Native ERC reported
-zero findings; native DRC reported 192 unconnected errors and no other violation
-rows, with five ignored check categories retained in the evidence. Combined
-public validation failed because its DRC result exceeded the host's 32,000-byte
-projection limit. A bounded host fix is in progress; no combined validation pass
-is claimed. Routing, return paths, functional labels and fabrication acceptance
-remain unfinished. The intrinsic USB pad-to-NPTH source finding remains unwaived.
+**The PCB remains unrouted: zero tracks, vias and zones.** The subsequent
+[live native validation collection](../designs/rp2350-pico/native-validation-60-03/README.md)
+now completes all four checks under host19, with unchanged source fingerprints.
+ERC reports zero findings. DRC remains **FAIL with 192 unconnected errors** and
+no other violation rows; all 192 findings are retained, with an explicitly
+partial eight-row inline sample. Five ignored DRC categories remain recorded.
+Visual QA reports eight warnings and six informational rows, retained with
+source-based triage. Successful collection does not approve the board. Routing,
+return paths, functional labels and fabrication acceptance remain unfinished;
+the intrinsic USB pad-to-NPTH source finding remains unwaived.
+
+Earlier collection failures remain preserved. The fixes retain complete large
+ERC/DRC evidence privately, keep the annotated source guards active without an
+early 32,000-byte text conversion, and preserve only the two exact public KiCad
+schema URLs in their `$schema` field. Other path/secret filters and report
+validation predicates remain enforced. Rejected reports now retain bounded
+private diagnostics. The native host19 result verifies the complete collection
+path; the original placement snapshot records its earlier failed run unchanged.
 
 Earlier native milestone, 18 September 2026: **the 22 × 51 mm V9 project
 completed real public schematic-to-PCB sync, the reviewed 62-component placement

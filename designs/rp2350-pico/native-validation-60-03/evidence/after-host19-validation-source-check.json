@@ -1,0 +1,67 @@
+{
+  "recordedAt": "2026-09-19T01:21:18.835Z",
+  "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+  "collectionCompleted": true,
+  "designAcceptance": false,
+  "ercFindings": 0,
+  "drcUnconnectedErrors": 192,
+  "visualQaStatus": "WARN",
+  "files": [
+    {
+      "name": "pro",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+      "actual": "aae513d8a9cc7cf305b6fbba6d9abf8d5829959dac6a1707755cdee5b9a99e7c",
+      "bytes": 21307,
+      "unchanged": true
+    },
+    {
+      "name": "sch",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+      "actual": "f75ee87d2c05a7ff894fa1f5aad97a0d2da96dc42cca0ee621e1350d8516adfd",
+      "bytes": 221590,
+      "unchanged": true
+    },
+    {
+      "name": "pcb",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "actual": "f2444cd203bea55d68a24a309992b8ef88a665dba5466cebd39d306110e3bed3",
+      "bytes": 253192,
+      "unchanged": true
+    },
+    {
+      "name": "symLibTable",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "actual": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "bytes": 1275,
+      "unchanged": true
+    },
+    {
+      "name": "fpLibTable",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "actual": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "bytes": 2025,
+      "unchanged": true
+    },
+    {
+      "name": "dru",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "actual": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "bytes": 13300,
+      "unchanged": true
+    },
+    {
+      "name": "report",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\6f574d2e-a2f3-4957-bf74-fe3c4878424c\\output\\pcb-agent-report.json",
+      "sha256": "0ce94dc3ef25118d34597439f2d54d11a7b15ab84e1e3aafb2da8d830d5e567c",
+      "actual": "0ce94dc3ef25118d34597439f2d54d11a7b15ab84e1e3aafb2da8d830d5e567c",
+      "bytes": 33369,
+      "unchanged": true
+    }
+  ]
+}

@@ -1,0 +1,372 @@
+{
+  "recordedAt": "2026-09-19T01:22:36.178Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000062-request-832ce26301fd523b01789adb61129fa8508071c99aa8d4f021f4c3e3d1177ce0.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "832ce26301fd523b01789adb61129fa8508071c99aa8d4f021f4c3e3d1177ce0",
+      "size": 156
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000063-mcp-received-2c2017dc9e784377a0659fd4ac590ffcaaacda943bbb43a6b1130f20e91290ec.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "2c2017dc9e784377a0659fd4ac590ffcaaacda943bbb43a6b1130f20e91290ec",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000064-mcp-received-e01d62e4661438948c8dec29dd395cfe723d985c1ac991a7605a4dbef6fae0f3.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e01d62e4661438948c8dec29dd395cfe723d985c1ac991a7605a4dbef6fae0f3",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000065-mcp-received-6ac92a5f3a4e7d99cb0b89783d6b14ee9cc36ba09fccc66fb8c1d6e9e310266e.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6ac92a5f3a4e7d99cb0b89783d6b14ee9cc36ba09fccc66fb8c1d6e9e310266e",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000066-mcp-received-a9cef730ba6267c31d3b7e4a3e8d75f5531d33710b07f33219a23a80a8f4e49a.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "a9cef730ba6267c31d3b7e4a3e8d75f5531d33710b07f33219a23a80a8f4e49a",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000067-mcp-received-18350f1b29a7b1c7c46a41b70d1009f62036d38eb83b91d4e726dde72ad087d5.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "18350f1b29a7b1c7c46a41b70d1009f62036d38eb83b91d4e726dde72ad087d5",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000068-mcp-received-37e9a1e5fabf10030627aa1e4ae33ffccc3515a17877d93ee36bd50bd8d4b0b5.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "37e9a1e5fabf10030627aa1e4ae33ffccc3515a17877d93ee36bd50bd8d4b0b5",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000069-mcp-received-855b086910355bc942cc0ea5bb848df3c01cb773d98be50a1a67cc609c89f79c.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "855b086910355bc942cc0ea5bb848df3c01cb773d98be50a1a67cc609c89f79c",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000070-mcp-received-ce6e14f6da32ffb4d290a29a03d4a75b588008f2678d5627766631a6e2d5569d.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ce6e14f6da32ffb4d290a29a03d4a75b588008f2678d5627766631a6e2d5569d",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000071-mcp-received-50e04773e115e0ff22cd2ba5a56604e53ec1734d1c38e300333429185334f1e6.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "50e04773e115e0ff22cd2ba5a56604e53ec1734d1c38e300333429185334f1e6",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000072-mcp-received-471deace8952f1bc8e21f11d19c26125fa54096d8725679d0cd35201ae55afd3.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "471deace8952f1bc8e21f11d19c26125fa54096d8725679d0cd35201ae55afd3",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000073-mcp-received-55d30a98da456ca4cd936c23c65de4847bf3f0ffe436968685adff86af4b4eb0.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "55d30a98da456ca4cd936c23c65de4847bf3f0ffe436968685adff86af4b4eb0",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000074-mcp-received-23e141541aecd080b56f06290be23fe7843a4c59c7409813652d5b981ac8d8ed.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "23e141541aecd080b56f06290be23fe7843a4c59c7409813652d5b981ac8d8ed",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000075-mcp-received-4403a75ca2e516b1337ce18ada5cecce41dd1322a3f2fd66f6fc4df403c60a7d.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "4403a75ca2e516b1337ce18ada5cecce41dd1322a3f2fd66f6fc4df403c60a7d",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000076-mcp-received-5660944b7e5ddd5bd001f7d7167b8b9710ce5aa113c90c9ffd8af3a2c02a02ea.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "5660944b7e5ddd5bd001f7d7167b8b9710ce5aa113c90c9ffd8af3a2c02a02ea",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000077-mcp-received-58f8c02b75ac9b43a373e2422ae9d33564698ab9d716c479b1c5a2839e010a81.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "58f8c02b75ac9b43a373e2422ae9d33564698ab9d716c479b1c5a2839e010a81",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000078-mcp-received-d899feefe2c79a518a471c371a1ffe1af11d516dc82f968e132d04017a4fe80e.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d899feefe2c79a518a471c371a1ffe1af11d516dc82f968e132d04017a4fe80e",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000079-mcp-received-82e064bb60c76ff9ce91d6543a5f67085c573c3af3f2a0863bfd14413f87e8ef.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "82e064bb60c76ff9ce91d6543a5f67085c573c3af3f2a0863bfd14413f87e8ef",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000080-mcp-received-82e064bb60c76ff9ce91d6543a5f67085c573c3af3f2a0863bfd14413f87e8ef.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "82e064bb60c76ff9ce91d6543a5f67085c573c3af3f2a0863bfd14413f87e8ef",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000081-mcp-received-523ae9f33772651932b8416ec45093812d3c74760d0b5cb5f35fcd4188bf0cdd.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "523ae9f33772651932b8416ec45093812d3c74760d0b5cb5f35fcd4188bf0cdd",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000082-mcp-received-81151d5f092b398ce9627ed8244a3df0bccddd45f23efca664e53d8dcafdb9a1.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "81151d5f092b398ce9627ed8244a3df0bccddd45f23efca664e53d8dcafdb9a1",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000083-mcp-received-d37b5af8841d0da067c42b7eca82c707f620257471701ea12acdc5b3ea6bf275.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d37b5af8841d0da067c42b7eca82c707f620257471701ea12acdc5b3ea6bf275",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000084-mcp-received-cf6424efd289c972f4de25e540513b9b11d055f370218d2c54a6c28b0f76e0fa.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "cf6424efd289c972f4de25e540513b9b11d055f370218d2c54a6c28b0f76e0fa",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000085-mcp-received-46be11a0b5d2dd00056c530ecd681d5f4e5516c5c485ab8434cff282d4bd3c0a.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "46be11a0b5d2dd00056c530ecd681d5f4e5516c5c485ab8434cff282d4bd3c0a",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000086-mcp-received-618d6f7a3fa801a649168c63f744328f8afd6dd64be64da182dd89967580d4aa.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "618d6f7a3fa801a649168c63f744328f8afd6dd64be64da182dd89967580d4aa",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000087-mcp-received-e6f3a250da1ae37fa6d1583302e7215e2f43c8cc9e88c83e612647e4f4246e65.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e6f3a250da1ae37fa6d1583302e7215e2f43c8cc9e88c83e612647e4f4246e65",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000088-mcp-received-7a6a0d17eaaee8bd5321a085fe74eb2ab6e02d36378e8efb43bf13bcf6dbae9a.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "7a6a0d17eaaee8bd5321a085fe74eb2ab6e02d36378e8efb43bf13bcf6dbae9a",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000089-mcp-received-1beaff0d3f1f66b407ea8347e84800e21f8c7d9b9b32bfef5a493266a36784bb.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "1beaff0d3f1f66b407ea8347e84800e21f8c7d9b9b32bfef5a493266a36784bb",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000090-mcp-received-a8071d89708dc9ed3ad607b061a9e1897bcc223855a44db4f38a0724c211e984.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "a8071d89708dc9ed3ad607b061a9e1897bcc223855a44db4f38a0724c211e984",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000091-mcp-received-5a82cbdf2277c4226eeaedfee869eb70a15dbd0f04727d7990bb1832a85211e9.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "5a82cbdf2277c4226eeaedfee869eb70a15dbd0f04727d7990bb1832a85211e9",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000092-mcp-received-d6d10684709bc582f79a6fdb4e77a6670a83d16411213bb452009560fb51df2b.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d6d10684709bc582f79a6fdb4e77a6670a83d16411213bb452009560fb51df2b",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000093-mcp-received-d6d10684709bc582f79a6fdb4e77a6670a83d16411213bb452009560fb51df2b.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d6d10684709bc582f79a6fdb4e77a6670a83d16411213bb452009560fb51df2b",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000094-mcp-received-b2c813576cb54f7c7b5335dd8c5181581c524fdd692d982eec2e926011824b1c.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "b2c813576cb54f7c7b5335dd8c5181581c524fdd692d982eec2e926011824b1c",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000095-mcp-received-84f9651d661bef05a88f96c0f603e455ec71b4be4eab2569450f3882dd1945f7.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "84f9651d661bef05a88f96c0f603e455ec71b4be4eab2569450f3882dd1945f7",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000096-mcp-received-e7648bef79fa4b91b99ae2c96196f59b6fbc922ed10ffd79342eafef1f38e715.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e7648bef79fa4b91b99ae2c96196f59b6fbc922ed10ffd79342eafef1f38e715",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000097-mcp-received-5e0ce39190b2826d10a8b82d75c0f1eea6de7427a5c47bd0a99ce45f53521c5b.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "5e0ce39190b2826d10a8b82d75c0f1eea6de7427a5c47bd0a99ce45f53521c5b",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000098-mcp-received-0baacbf52e729ef30aba60fc7f2f36663558535b7e42cf1db82385da50113ad4.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0baacbf52e729ef30aba60fc7f2f36663558535b7e42cf1db82385da50113ad4",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000099-mcp-received-0baacbf52e729ef30aba60fc7f2f36663558535b7e42cf1db82385da50113ad4.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0baacbf52e729ef30aba60fc7f2f36663558535b7e42cf1db82385da50113ad4",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000100-mcp-received-246ca22109bd04d265b7876cf8002b5a916928772ed0799fe48502d8dc619681.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "246ca22109bd04d265b7876cf8002b5a916928772ed0799fe48502d8dc619681",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000101-mcp-received-1fccf52f62eb0fd0bc9ca36d2eab1aefc28472d3c43b92c48217e5a96b76b249.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "1fccf52f62eb0fd0bc9ca36d2eab1aefc28472d3c43b92c48217e5a96b76b249",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000102-mcp-received-9542e139c7f35e7191949711ce36441b41438d5ef525c2dd584980e2346907e2.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "9542e139c7f35e7191949711ce36441b41438d5ef525c2dd584980e2346907e2",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000103-mcp-received-5e9db385821541f4f25ce680339b8996eb9525771adcce3717e79b3dea9d0011.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "5e9db385821541f4f25ce680339b8996eb9525771adcce3717e79b3dea9d0011",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000104-mcp-received-6a4264b43772265dc9e1c2ec84a8f7c13b16f2e872507b033439a0f653c9a5a0.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "6a4264b43772265dc9e1c2ec84a8f7c13b16f2e872507b033439a0f653c9a5a0",
+        "size": 138
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-29\\workspace-client-0d0d4ea9-a879-4ef5-92a8-8cb759bea172\\000105-mcp-received-a8bf339110a475af19dc28851bb9e57771767dd1cbab15a00d0ae19500b233fa.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "a8bf339110a475af19dc28851bb9e57771767dd1cbab15a00d0ae19500b233fa",
+        "size": 502
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"status\":\"closed\",\"projectId\":\"6f574d2e-a2f3-4957-bf74-fe3c4878424c\",\"designAcceptance\":\"not_implied\"}"
+      }
+    ],
+    "structuredContent": {
+      "status": "closed",
+      "projectId": "6f574d2e-a2f3-4957-bf74-fe3c4878424c",
+      "designAcceptance": "not_implied"
+    }
+  }
+}
