@@ -1,0 +1,277 @@
+{
+  "sourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+    "size": 393431
+  },
+  "nativeResponse": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-37\\workspace-client-fb3ec3a0-0100-402c-ac1c-7db69d467b0d\\000235-response-4b45ffdceac33f81bf0c8839096bdf920478d9966740d4922a77b503da3fe13e.json",
+    "sha256": "4b45ffdceac33f81bf0c8839096bdf920478d9966740d4922a77b503da3fe13e"
+  },
+  "measuredSequentialTurns": 598,
+  "nativeViolations": [
+    {
+      "vertex": {
+        "x": 9.9,
+        "y": 10.8625
+      },
+      "netName": "USB_DP_PORT",
+      "netClassId": null,
+      "layer": "F.Cu",
+      "segmentOrdinals": [
+        598,
+        602
+      ],
+      "interiorAngleDeg": 44.99999999999986,
+      "directionChangeDeg": 135.00000000000014,
+      "classification": "acute"
+    }
+  ],
+  "sites": [
+    {
+      "findingId": "PCB-PRACTICE-bf9e58a90550daadabcb8bde",
+      "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+      "vertex": {
+        "x": 10.4,
+        "y": 29.05
+      },
+      "net": "3V3",
+      "layer": "F.Cu",
+      "connectedSegmentCount": 3,
+      "exactCentreMatches": [
+        {
+          "kind": "pad",
+          "reference": "U1",
+          "pad": "53",
+          "uuid": "dbbde2e5-158f-4c5d-bd5b-dc347daf3b9f",
+          "net": "3V3",
+          "at": {
+            "x": 10.4,
+            "y": 29.05
+          },
+          "shape": "roundrect",
+          "sizeMm": {
+            "x": 0.2,
+            "y": 0.8
+          }
+        }
+      ],
+      "classification": "terminal-centred-branch"
+    },
+    {
+      "findingId": "PCB-PRACTICE-51224e73bcce393c118280a7",
+      "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+      "vertex": {
+        "x": 15.5,
+        "y": 37.14
+      },
+      "net": "3V3",
+      "layer": "F.Cu",
+      "connectedSegmentCount": 3,
+      "exactCentreMatches": [
+        {
+          "kind": "pad",
+          "reference": "C8",
+          "pad": "1",
+          "uuid": "d6dc4acc-fe44-414d-bb8c-e7fb19fcaf19",
+          "net": "3V3",
+          "at": {
+            "x": 15.5,
+            "y": 37.14
+          },
+          "shape": "roundrect",
+          "sizeMm": {
+            "x": 0.56,
+            "y": 0.62
+          }
+        }
+      ],
+      "classification": "terminal-centred-branch"
+    },
+    {
+      "findingId": "PCB-PRACTICE-cb33d47811ac92801f659596",
+      "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+      "vertex": {
+        "x": 13.39,
+        "y": 27.74
+      },
+      "net": "GND",
+      "layer": "B.Cu",
+      "connectedSegmentCount": 3,
+      "exactCentreMatches": [
+        {
+          "kind": "via",
+          "uuid": "bcfc05e8-13e6-4865-8da1-6674c6d86f7f",
+          "net": "GND",
+          "at": {
+            "x": 13.39,
+            "y": 27.74
+          },
+          "diameterMm": 0.55,
+          "drillMm": 0.2
+        }
+      ],
+      "classification": "terminal-centred-branch"
+    },
+    {
+      "findingId": "PCB-PRACTICE-93cbea81313364685a2fb31d",
+      "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+      "vertex": {
+        "x": 11.9,
+        "y": 30.325
+      },
+      "net": "1V1",
+      "layer": "B.Cu",
+      "connectedSegmentCount": 4,
+      "exactCentreMatches": [
+        {
+          "kind": "via",
+          "uuid": "3f8c130b-f53f-4209-9329-3abb061a711a",
+          "net": "1V1",
+          "at": {
+            "x": 11.9,
+            "y": 30.325
+          },
+          "diameterMm": 0.55,
+          "drillMm": 0.2
+        }
+      ],
+      "classification": "terminal-centred-branch"
+    },
+    {
+      "finding": {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+              "form": "segment",
+              "ordinal": 302,
+              "uuid": "9f211ef1-9ce9-4900-b1f5-7815dff8a4fd",
+              "startOffset": 307856,
+              "endOffset": 308012,
+              "line": 14780,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.78,
+                "y": 24.3
+              },
+              "end": {
+                "x": 17.78,
+                "y": 27.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+              "form": "segment",
+              "ordinal": 304,
+              "uuid": "ab242cc5-3367-4cf0-910c-707348f62392",
+              "startOffset": 308174,
+              "endOffset": 308330,
+              "line": 14796,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.18,
+                "y": 24.9
+              },
+              "end": {
+                "x": 17.78,
+                "y": 25.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "kind": "endpoint-on-segment-interior"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-9b098f1285720e09ae576c93"
+      },
+      "classification": "not-classified"
+    },
+    {
+      "findingId": "PCB-PRACTICE-e082e99488e8d51f2dfea277",
+      "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+      "vertex": {
+        "x": 14,
+        "y": 49.61
+      },
+      "net": "VSYS",
+      "layer": "F.Cu",
+      "connectedSegmentCount": 4,
+      "exactCentreMatches": [
+        {
+          "kind": "pad",
+          "reference": "C20",
+          "pad": "1",
+          "uuid": "9686c116-1f48-495f-a109-063bab598a81",
+          "net": "VSYS",
+          "at": {
+            "x": 14,
+            "y": 49.61
+          },
+          "shape": "rect",
+          "sizeMm": {
+            "x": 1.1,
+            "y": 2.2
+          }
+        }
+      ],
+      "classification": "terminal-centred-branch"
+    },
+    {
+      "findingId": "PCB-PRACTICE-df65d716eb2c74093cf1a53c",
+      "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+      "vertex": {
+        "x": 16.9,
+        "y": 11.800000000000002
+      },
+      "net": "VBUS",
+      "layer": "F.Cu",
+      "connectedSegmentCount": 3,
+      "exactCentreMatches": [],
+      "classification": "not-centre-classified"
+    },
+    {
+      "findingId": "PCB-PRACTICE-6ab5d444cfbd516391f8b753",
+      "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+      "vertex": {
+        "x": 13.04,
+        "y": 11.949999999999998
+      },
+      "net": "VBUS",
+      "layer": "F.Cu",
+      "connectedSegmentCount": 3,
+      "exactCentreMatches": [],
+      "classification": "not-centre-classified"
+    }
+  ],
+  "nativeUnresolvedFindingsPreserved": true,
+  "analyzerChanged": false,
+  "policyWaiver": false,
+  "scope": "Exact centre co-location identifies pad/via branch sites for engineering review. It does not prove that the entire junction copper envelope is inside a terminal, resolve all pairwise directions, or supply whole-board bend acceptance."
+}

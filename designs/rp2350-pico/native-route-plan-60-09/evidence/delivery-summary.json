@@ -1,0 +1,153 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "widthMm": 22,
+  "heightMm": 60,
+  "layers": 2,
+  "throughBatch": 68,
+  "tracks": 797,
+  "vias": 104,
+  "zones": 0,
+  "footprints": 66,
+  "physicalPads": 281,
+  "pcbSha256": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+  "checkpointSha256": "f1405017b10462b2cdeca52a80fa847a1f3ada0483301c7df818b792dc59b077",
+  "connectedNets": [
+    "1V1",
+    "3V3",
+    "ADC_AVDD",
+    "ADC_VREF",
+    "BOOT_SW",
+    "CORE_LX",
+    "GPIO0",
+    "GPIO1",
+    "GPIO10",
+    "GPIO11",
+    "GPIO12",
+    "GPIO13",
+    "GPIO14",
+    "GPIO15",
+    "GPIO19",
+    "GPIO2",
+    "GPIO20",
+    "GPIO21",
+    "GPIO23_SMPS_PS",
+    "GPIO25_LED",
+    "GPIO27",
+    "GPIO28",
+    "GPIO6",
+    "GPIO8",
+    "GPIO9",
+    "LED_A",
+    "QSPI_CS",
+    "QSPI_SCLK",
+    "QSPI_SD0",
+    "QSPI_SD1",
+    "QSPI_SD2",
+    "QSPI_SD3",
+    "RT_LX1",
+    "RT_LX2",
+    "SWCLK_HDR",
+    "SWCLK_MCU",
+    "SWDIO_HDR",
+    "SWDIO_MCU",
+    "USB_CC1",
+    "USB_CC2",
+    "USB_DM_ESD",
+    "USB_DM_MCU",
+    "USB_DM_PORT",
+    "USB_DP_ESD",
+    "USB_DP_MCU",
+    "USB_DP_PORT",
+    "VBUS",
+    "VREG_AVDD",
+    "VSYS",
+    "VSYS_DIV",
+    "XIN",
+    "XOUT_MCU",
+    "XTAL_OUT"
+  ],
+  "disconnectedNets": [
+    "3V3_EN",
+    "GND",
+    "GPIO16",
+    "GPIO17",
+    "GPIO18",
+    "GPIO22",
+    "GPIO24_VBUS_SENSE",
+    "GPIO26",
+    "GPIO29_VSYS_SENSE",
+    "GPIO3",
+    "GPIO4",
+    "GPIO5",
+    "GPIO7",
+    "RUN"
+  ],
+  "nativeEndpointObservationOnly": true,
+  "ercFindings": 0,
+  "drc": {
+    "total": 121,
+    "returned": 8,
+    "omitted": 113,
+    "partial": true,
+    "counts": {
+      "error": 66,
+      "warning": 55
+    },
+    "byType": {
+      "via_dangling": 36,
+      "track_dangling": 19,
+      "unconnected_items": 66
+    },
+    "orderedRowsPreserved": true,
+    "stableIdsMayRepeat": true
+  },
+  "ignoredDrcChecks": [
+    "missing_courtyard",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries",
+    "footprint_filters_mismatch",
+    "footprint_type_mismatch"
+  ],
+  "headerStripStatus": "clear",
+  "permittedOwnLeads": 39,
+  "measuredTurns": 598,
+  "turnViolations": [
+    {
+      "vertex": {
+        "x": 9.9,
+        "y": 10.8625
+      },
+      "netName": "USB_DP_PORT",
+      "netClassId": null,
+      "layer": "F.Cu",
+      "segmentOrdinals": [
+        598,
+        602
+      ],
+      "interiorAngleDeg": 44.99999999999986,
+      "directionChangeDeg": 135.00000000000014,
+      "classification": "acute"
+    }
+  ],
+  "unresolvedJunctions": 8,
+  "terminationFailures": [
+    {
+      "reference": "R1",
+      "pin": "2",
+      "distanceSquaredNm2": "7205525000000",
+      "distanceMm": 2.684310898536159,
+      "maximumMm": 2
+    },
+    {
+      "reference": "R2",
+      "pin": "2",
+      "distanceSquaredNm2": "7663825000000",
+      "distanceMm": 2.76836142871555,
+      "maximumMm": 2
+    }
+  ],
+  "planeApplied": false,
+  "normalClose": true,
+  "routingComplete": false,
+  "designAccepted": false
+}

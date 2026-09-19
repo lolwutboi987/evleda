@@ -1,0 +1,46 @@
+{
+  "sourcePcbSha256": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+  "savedPcbBytes": 393431,
+  "nativeBeforeBytes": 368226,
+  "groundPhysicalPads": 64,
+  "groundTypeCounts": {
+    "smd": 51,
+    "thru_hole": 13
+  },
+  "sampleNativeReceipt": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\proof\\EvlEDA-toolbox-plane-complete-20260909-01\\evidence-plane-complete-01\\fresh-before-finish\\.evleda-mcp-output\\evleda-plane-stage-af3f4fe1-f78f-4dda-9419-9d467f34370a.json",
+    "sha256": "c683673de3c2fb1b0953f549ec120ba6b815a7aa2e9b5602fbc74fece8d30970"
+  },
+  "sampledPadBytes": [
+    {
+      "type": "PT_PTH",
+      "bytes": 1230
+    },
+    {
+      "type": "PT_SMD",
+      "bytes": 808
+    }
+  ],
+  "sourceCopyCounts": {
+    "saved": 2,
+    "nativeBefore": 3,
+    "nativeUnfilled": 2,
+    "nativeStaged": 7,
+    "total": 14
+  },
+  "optimisticSourceCopiesBytes": 5205574,
+  "sampleItemsPerFullGroundReplyBytes": 57198,
+  "estimatedRepeatedGroundItemsBytes": 3660672,
+  "estimatedSubtotalBytes": 8866246,
+  "existingArtifactCapBytes": 8388608,
+  "estimatedOverCapBytes": 477638,
+  "nativeOperations": 0,
+  "planeApplied": false,
+  "assumptions": [
+    "All 64 GND physical pads become connected, so the stage records 64 full 64-pad RPC responses.",
+    "Current saved/native source lengths are used for every source copy; added zone/fill bytes are omitted.",
+    "PAD item sizes are measured from the transferred real native receipt by SMD/PTH type, not measured from the current post-fill board.",
+    "RPC/header, complete PAD/footprint inventories, padstack presence, zone protos and JSON string escaping are omitted."
+  ],
+  "conclusion": "This is a capacity estimate, not an observed native failure. The repeated source/PAD representation approaches or exceeds the unchanged 8 MiB artifact cap before other required data. Do not claim that a fill was attempted or succeeded. Preserve all evidence and use lossless compact storage rather than truncating observations."
+}

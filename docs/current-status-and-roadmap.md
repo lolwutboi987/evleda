@@ -1,6 +1,19 @@
 # Current status and roadmap
 
 Latest native milestone, 19 September 2026: the
+[60-09 frozen-plan snapshot](../designs/rp2350-pico/native-route-plan-60-09/README.md)
+is normally closed with **797 segments, 104 vias and no zones** through all 68
+planned batches. Native endpoint checks report **53 connected and 14 disconnected
+nets**. Both GPIO service strips remain clear with 39 exact own-pad leads.
+Configured ERC has zero findings; DRC reports 66 unconnected errors and 55
+dangling-item warnings, with no reported clearance/courtyard/parity findings.
+The angle checker measures 598 turns with one USB protection-pad fork flag;
+eight junctions remain unresolved. Both USB line-side resistor pads exceed the
+declared 2 mm placement bound. No plane fill was attempted: repeated source/PAD
+evidence is estimated to exceed the existing artifact limit and needs lossless
+compaction. **Routing, plane fill, labels and design acceptance remain incomplete.**
+
+Earlier native milestone, 19 September 2026: the
 [60-08 signal-routing snapshot](../designs/rp2350-pico/native-signal-routing-60-08/README.md)
 is normally closed with **630 segments, 96 vias and no zones** through batch 50.
 Native endpoint checks confirm **35 of 67 nets connected**, with every eligible

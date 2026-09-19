@@ -1,0 +1,434 @@
+{
+  "reviewedBy": "/root",
+  "independent": false,
+  "sourcePcbSha256": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+  "throughBatch": 68,
+  "tracks": 797,
+  "vias": 104,
+  "zones": 0,
+  "sourceUnchanged": true,
+  "headerServiceStripsClear": true,
+  "permittedOwnLeads": 39,
+  "clearanceFindingTypes": 0,
+  "ercFindings": 0,
+  "drc": {
+    "total": 121,
+    "returned": 8,
+    "omitted": 113,
+    "partial": true,
+    "counts": {
+      "error": 66,
+      "warning": 55
+    },
+    "byType": {
+      "via_dangling": 36,
+      "track_dangling": 19,
+      "unconnected_items": 66
+    },
+    "orderedRowsPreserved": true,
+    "stableIdsMayRepeat": true
+  },
+  "ignoredDrcChecks": [
+    "missing_courtyard",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries",
+    "footprint_filters_mismatch",
+    "footprint_type_mismatch"
+  ],
+  "connectedNets": [
+    "1V1",
+    "3V3",
+    "ADC_AVDD",
+    "ADC_VREF",
+    "BOOT_SW",
+    "CORE_LX",
+    "GPIO0",
+    "GPIO1",
+    "GPIO10",
+    "GPIO11",
+    "GPIO12",
+    "GPIO13",
+    "GPIO14",
+    "GPIO15",
+    "GPIO19",
+    "GPIO2",
+    "GPIO20",
+    "GPIO21",
+    "GPIO23_SMPS_PS",
+    "GPIO25_LED",
+    "GPIO27",
+    "GPIO28",
+    "GPIO6",
+    "GPIO8",
+    "GPIO9",
+    "LED_A",
+    "QSPI_CS",
+    "QSPI_SCLK",
+    "QSPI_SD0",
+    "QSPI_SD1",
+    "QSPI_SD2",
+    "QSPI_SD3",
+    "RT_LX1",
+    "RT_LX2",
+    "SWCLK_HDR",
+    "SWCLK_MCU",
+    "SWDIO_HDR",
+    "SWDIO_MCU",
+    "USB_CC1",
+    "USB_CC2",
+    "USB_DM_ESD",
+    "USB_DM_MCU",
+    "USB_DM_PORT",
+    "USB_DP_ESD",
+    "USB_DP_MCU",
+    "USB_DP_PORT",
+    "VBUS",
+    "VREG_AVDD",
+    "VSYS",
+    "VSYS_DIV",
+    "XIN",
+    "XOUT_MCU",
+    "XTAL_OUT"
+  ],
+  "disconnectedNets": [
+    "3V3_EN",
+    "GND",
+    "GPIO16",
+    "GPIO17",
+    "GPIO18",
+    "GPIO22",
+    "GPIO24_VBUS_SENSE",
+    "GPIO26",
+    "GPIO29_VSYS_SENSE",
+    "GPIO3",
+    "GPIO4",
+    "GPIO5",
+    "GPIO7",
+    "RUN"
+  ],
+  "measuredSequentialTurns": 598,
+  "nativeTurnViolations": [
+    {
+      "vertex": {
+        "x": 9.9,
+        "y": 10.8625
+      },
+      "netName": "USB_DP_PORT",
+      "netClassId": null,
+      "layer": "F.Cu",
+      "segmentOrdinals": [
+        598,
+        602
+      ],
+      "interiorAngleDeg": 44.99999999999986,
+      "directionChangeDeg": 135.00000000000014,
+      "classification": "acute"
+    }
+  ],
+  "unresolvedJunctions": 8,
+  "exactTerminalCentredJunctions": 5,
+  "interfaceReview": {
+    "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-37\\workspace-client-fb3ec3a0-0100-402c-ac1c-7db69d467b0d\\000251-response-3685427dbec13cb1ffeaf49011a4483a1b3aa03cdc0f8af74164f7dd4a216927.json",
+    "rows": [
+      {
+        "id": "interface-construction",
+        "kind": "interface_construction",
+        "status": "pass",
+        "reasons": []
+      },
+      {
+        "id": "interface-topology:USB_FS",
+        "kind": "interface_topology",
+        "status": "fail",
+        "reasons": [
+          "Every selected saved-source primitive is retained in the complete pair assessment.",
+          "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY",
+          "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+          "EVERY_DECLARED_ANCHOR_REACHED",
+          "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS",
+          "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL",
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated.",
+          "Declared channel anchor U1:52 must contact its exact net graph.",
+          "Declared channel anchor U1:51 must contact its exact net graph.",
+          "Declared channel anchor R1:1 must contact its exact net graph.",
+          "Declared channel anchor R2:1 must contact its exact net graph.",
+          "Declared channel anchor R1:2 must contact its exact net graph.",
+          "Declared channel anchor R2:2 must contact its exact net graph.",
+          "Declared channel anchor U4:1 must contact its exact net graph.",
+          "Declared channel anchor U4:3 must contact its exact net graph.",
+          "Declared channel anchor U4:6 must contact its exact net graph.",
+          "Declared channel anchor U4:4 must contact its exact net graph.",
+          "Declared channel anchor J1:A6 must contact its exact net graph.",
+          "Declared channel anchor J1:A7 must contact its exact net graph.",
+          "Declared channel anchor J1:B6 must contact its exact net graph.",
+          "Declared channel anchor J1:B7 must contact its exact net graph.",
+          "Protection return U4:2 must match its exact declared net.",
+          "Protection return U4:5 must match its exact declared net.",
+          "No termination anchor is declared on this interface side."
+        ]
+      },
+      {
+        "id": "interface-geometry:USB_FS",
+        "kind": "interface_pair_geometry",
+        "status": "fail",
+        "reasons": [
+          "Every selected saved-source primitive is retained in the complete pair assessment.",
+          "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY",
+          "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+          "EVERY_DECLARED_ANCHOR_REACHED",
+          "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS",
+          "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL",
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated.",
+          "Declared channel anchor U1:52 must contact its exact net graph.",
+          "Declared channel anchor U1:51 must contact its exact net graph.",
+          "Declared channel anchor R1:1 must contact its exact net graph.",
+          "Declared channel anchor R2:1 must contact its exact net graph.",
+          "Declared channel anchor R1:2 must contact its exact net graph.",
+          "Declared channel anchor R2:2 must contact its exact net graph.",
+          "Declared channel anchor U4:1 must contact its exact net graph.",
+          "Declared channel anchor U4:3 must contact its exact net graph.",
+          "Declared channel anchor U4:6 must contact its exact net graph.",
+          "Declared channel anchor U4:4 must contact its exact net graph.",
+          "Declared channel anchor J1:A6 must contact its exact net graph.",
+          "Declared channel anchor J1:A7 must contact its exact net graph.",
+          "Declared channel anchor J1:B6 must contact its exact net graph.",
+          "Declared channel anchor J1:B7 must contact its exact net graph.",
+          "Protection return U4:2 must match its exact declared net.",
+          "Protection return U4:5 must match its exact declared net.",
+          "No termination anchor is declared on this interface side.",
+          "EXACT_TERMINAL_ROUTED_ESCAPE_DISTANCE",
+          "BODY_WIDTH_INTERVAL",
+          "ALL_SIX_NET_OPPOSITE_POLARITY_CAPSULES",
+          "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS",
+          "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH",
+          "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_ETCH_BUDGET",
+          "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_SKEW_BUDGET",
+          "COMBINED_INPUT_AND_OUTPUT_UNCOUPLED_PCB_BUDGET",
+          "Current saved-fill reference coverage is unavailable for interface member USB_DP_PORT.",
+          "Current saved-fill reference coverage is unavailable for interface member USB_DM_PORT.",
+          "Current saved-fill reference coverage is unavailable for interface member USB_DP_MCU.",
+          "Current saved-fill reference coverage is unavailable for interface member USB_DM_MCU.",
+          "Current saved-fill reference coverage is unavailable for interface member USB_DP_ESD.",
+          "Current saved-fill reference coverage is unavailable for interface member USB_DM_ESD."
+        ]
+      },
+      {
+        "id": "interface-termination:USB_FS",
+        "kind": "interface_termination",
+        "status": "fail",
+        "reasons": [
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated."
+        ]
+      },
+      {
+        "id": "interface-impedance:USB_FS",
+        "kind": "interface_impedance",
+        "status": "unknown",
+        "reasons": [
+          "NO_SUPPORTED_PAIRED_INTERVALS: There are no complete source-derived paired intervals to evaluate.",
+          "Private diagnostic detail retained in the complete assessment.",
+          "FINITE_THICKNESS_APPLICABILITY_UNASSESSED: The empirical finite-thickness correction assumes S is much greater than 2*T. No numeric sufficiency threshold is published here; this assessment does not establish that applicability or physical accuracy.",
+          "Every selected saved-source primitive is retained in the complete pair assessment.",
+          "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY",
+          "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+          "EVERY_DECLARED_ANCHOR_REACHED",
+          "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS",
+          "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL",
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "TERMINATION_ENDPOINT_DISTANCE_EXCEEDED: Series pin planar distance exceeds the explicit source placement bound.",
+          "Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated.",
+          "Declared channel anchor U1:52 must contact its exact net graph.",
+          "Declared channel anchor U1:51 must contact its exact net graph.",
+          "Declared channel anchor R1:1 must contact its exact net graph.",
+          "Declared channel anchor R2:1 must contact its exact net graph.",
+          "Declared channel anchor R1:2 must contact its exact net graph.",
+          "Declared channel anchor R2:2 must contact its exact net graph.",
+          "Declared channel anchor U4:1 must contact its exact net graph.",
+          "Declared channel anchor U4:3 must contact its exact net graph.",
+          "Declared channel anchor U4:6 must contact its exact net graph.",
+          "Declared channel anchor U4:4 must contact its exact net graph.",
+          "Declared channel anchor J1:A6 must contact its exact net graph.",
+          "Declared channel anchor J1:A7 must contact its exact net graph.",
+          "Declared channel anchor J1:B6 must contact its exact net graph.",
+          "Declared channel anchor J1:B7 must contact its exact net graph.",
+          "Protection return U4:2 must match its exact declared net.",
+          "Protection return U4:5 must match its exact declared net.",
+          "No termination anchor is declared on this interface side.",
+          "EXACT_TERMINAL_ROUTED_ESCAPE_DISTANCE",
+          "BODY_WIDTH_INTERVAL",
+          "ALL_SIX_NET_OPPOSITE_POLARITY_CAPSULES",
+          "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS",
+          "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH",
+          "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_ETCH_BUDGET",
+          "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_SKEW_BUDGET",
+          "COMBINED_INPUT_AND_OUTPUT_UNCOUPLED_PCB_BUDGET",
+          "Every required route interval must have complete applicable model coverage."
+        ]
+      }
+    ],
+    "terminationFailures": [
+      {
+        "reference": "R1",
+        "pin": "2",
+        "distanceSquaredNm2": "7205525000000",
+        "distanceMm": 2.684310898536159,
+        "maximumMm": 2
+      },
+      {
+        "reference": "R2",
+        "pin": "2",
+        "distanceSquaredNm2": "7663825000000",
+        "distanceMm": 2.76836142871555,
+        "maximumMm": 2
+      }
+    ],
+    "channelChecks": {
+      "sourcePolarity": {
+        "status": "pass",
+        "reasons": [
+          "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY"
+        ]
+      },
+      "topology": {
+        "status": "pass",
+        "reasons": [
+          "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+          "EVERY_DECLARED_ANCHOR_REACHED"
+        ]
+      },
+      "width": {
+        "status": "pass",
+        "reasons": [
+          "EXACT_TERMINAL_ROUTED_ESCAPE_DISTANCE",
+          "BODY_WIDTH_INTERVAL"
+        ]
+      },
+      "minimumGap": {
+        "status": "pass",
+        "reasons": [
+          "ALL_SIX_NET_OPPOSITE_POLARITY_CAPSULES"
+        ]
+      },
+      "coupledGap": {
+        "status": "not_assessed",
+        "reasons": [
+          "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS"
+        ]
+      },
+      "length": {
+        "status": "pass",
+        "reasons": [
+          "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH",
+          "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_ETCH_BUDGET"
+        ]
+      },
+      "skew": {
+        "status": "pass",
+        "reasons": [
+          "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY",
+          "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW",
+          "COMBINED_INPUT_AND_OUTPUT_PCB_SKEW_BUDGET"
+        ]
+      },
+      "stubs": {
+        "status": "pass",
+        "reasons": [
+          "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS"
+        ]
+      },
+      "uncoupled": {
+        "status": "pass",
+        "reasons": [
+          "COMBINED_INPUT_AND_OUTPUT_UNCOUPLED_PCB_BUDGET"
+        ]
+      },
+      "transitions": {
+        "status": "pass",
+        "reasons": [
+          "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL"
+        ]
+      }
+    }
+  },
+  "planeReceiptCapacity": {
+    "sourcePcbSha256": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+    "savedPcbBytes": 393431,
+    "nativeBeforeBytes": 368226,
+    "groundPhysicalPads": 64,
+    "groundTypeCounts": {
+      "smd": 51,
+      "thru_hole": 13
+    },
+    "sampleNativeReceipt": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\proof\\EvlEDA-toolbox-plane-complete-20260909-01\\evidence-plane-complete-01\\fresh-before-finish\\.evleda-mcp-output\\evleda-plane-stage-af3f4fe1-f78f-4dda-9419-9d467f34370a.json",
+      "sha256": "c683673de3c2fb1b0953f549ec120ba6b815a7aa2e9b5602fbc74fece8d30970"
+    },
+    "sampledPadBytes": [
+      {
+        "type": "PT_PTH",
+        "bytes": 1230
+      },
+      {
+        "type": "PT_SMD",
+        "bytes": 808
+      }
+    ],
+    "sourceCopyCounts": {
+      "saved": 2,
+      "nativeBefore": 3,
+      "nativeUnfilled": 2,
+      "nativeStaged": 7,
+      "total": 14
+    },
+    "optimisticSourceCopiesBytes": 5205574,
+    "sampleItemsPerFullGroundReplyBytes": 57198,
+    "estimatedRepeatedGroundItemsBytes": 3660672,
+    "estimatedSubtotalBytes": 8866246,
+    "existingArtifactCapBytes": 8388608,
+    "estimatedOverCapBytes": 477638,
+    "nativeOperations": 0,
+    "planeApplied": false,
+    "assumptions": [
+      "All 64 GND physical pads become connected, so the stage records 64 full 64-pad RPC responses.",
+      "Current saved/native source lengths are used for every source copy; added zone/fill bytes are omitted.",
+      "PAD item sizes are measured from the transferred real native receipt by SMD/PTH type, not measured from the current post-fill board.",
+      "RPC/header, complete PAD/footprint inventories, padstack presence, zone protos and JSON string escaping are omitted."
+    ],
+    "conclusion": "This is a capacity estimate, not an observed native failure. The repeated source/PAD representation approaches or exceeds the unchanged 8 MiB artifact cap before other required data. Do not claim that a fill was attempted or succeeded. Preserve all evidence and use lossless compact storage rather than truncating observations."
+  },
+  "planeApplied": false,
+  "planeApplicationReady": false,
+  "visualReview": {
+    "views": [
+      "original native top PNG",
+      "original native assembly PNG",
+      "read-only native bottom PNG"
+    ],
+    "observations": [
+      "All frozen route batches are present; source verification separately checked exact route geometry.",
+      "The top USB pair and power/crystal routing are visible. Placement is unchanged.",
+      "GPIO service strips remain clear of unrelated copper under the complete saved-source audit.",
+      "Ground fill and functional silkscreen labels are absent.",
+      "The USB pad-centred fork and unresolved branch sites remain explicit; no angle-policy waiver is made."
+    ]
+  },
+  "visualQaUnchanged": true,
+  "routingComplete": false,
+  "designAccepted": false
+}
