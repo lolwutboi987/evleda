@@ -4,7 +4,8 @@ Latest verified native milestone, 18 September 2026: **candidate 60-03 is saved
 and normally closed as a native 22 × 60 mm, two-layer KiCad project**, retaining
 the original 2.54 mm header pitch and 17.78 mm row spacing. Its
 [native files, original previews and evidence](../designs/rp2350-pico/native-placement-60-03/README.md)
-are published. Independent pre-field verification matches all 66 footprints,
+are published, with a separate [placement-intent map](../designs/rp2350-pico/placement-intent-60-03.md).
+Independent pre-field verification matches all 66 footprints,
 281 physical pad members and 53 drills, including 92 selected public native pad
 rows. The guarded field/save chain links that placement to the final PCB;
 post-close verification matches all six authored source files and the report.
