@@ -84,7 +84,7 @@ describe("published DOC6 runtime verification", () => {
   let original: Doc5Manifest;
   const pcbPath = "environment/Lib/site-packages/kicad_mcp/tools/pcb.py";
   beforeAll(async () => { original = await readDoc5Source(); });
-  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false, doc10 = false, doc11 = false, doc12 = false) {
+  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false, doc10 = false, doc11 = false, doc12 = false, doc13 = false, doc14 = false) {
     // Manifests stay in memory: zero test temp bytes and no copied runtime tree.
     const directory = path.join(tmpdir(), `evleda-runtime-policy-${process.pid}-${++fixtureSequence}`);
     const root = path.join(directory, "runtime"), manifest = path.join(directory, "manifest.json");
@@ -142,6 +142,23 @@ describe("published DOC6 runtime verification", () => {
       const leaf = candidate.files.find(file => file.path === "evleda_live_pcb_pad_snapshot.py")!;
       candidate.totalBytes += 21804 - leaf.sizeBytes;
       Object.assign(leaf, { sha256: "80abe9675ff5cd81d9fb15ff18b05e7be3fa433a12bfcf9eb3445ccdb7f1f754", sizeBytes: 21804 });
+    }
+    if (doc13) {
+      for (const name of ["__init__.py", "plane_stage.py", "compact_receipt.py"]) {
+        const source = await readFile(path.resolve("sidecars/patches/doc13/evleda_plane_stage", name));
+        const relative = "evleda_plane_stage/" + name, leaf = candidate.files.find(file => file.path === relative);
+        candidate.totalBytes += source.length - (leaf?.sizeBytes ?? 0);
+        const record = { path: relative, sha256: sha256(source), sizeBytes: source.length, mode: 438 };
+        if (leaf) Object.assign(leaf, record); else candidate.files.push(record);
+      }
+      candidate.fileCount = candidate.files.length;
+      candidate.files.sort((a, b) => a.path.localeCompare(b.path, "en-US"));
+    }
+    if (doc14) {
+      const source = await readFile(path.resolve("sidecars/patches/doc14/evleda_plane_stage/compact_receipt.py"));
+      const leaf = candidate.files.find(file => file.path === "evleda_plane_stage/compact_receipt.py")!;
+      candidate.totalBytes += source.length - leaf.sizeBytes;
+      Object.assign(leaf, { sha256: sha256(source), sizeBytes: source.length });
     }
     control.spawn.mockImplementation(() => {
       const child = Object.assign(new EventEmitter(), { stdout: new EventEmitter(), stderr: new EventEmitter() });
@@ -234,6 +251,39 @@ describe("published DOC6 runtime verification", () => {
     expect(control.spawn).toHaveBeenCalledOnce();
     control.helperExitCode = 1;
     await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it("authenticates DOC13 only with complete source pins and a passing runtime tree check", async () => {
+    const f = await fixture(true, true, false, true, true, true, true, true);
+    await expect(verifyRuntime(f)).resolves.toMatchObject({ generation: "DOC13", doc12SourcePinsVerified: true,
+      doc13SourcePinsVerified: true, doc13NativePlaneQualified: false });
+    expect(control.spawn).toHaveBeenCalledOnce();
+    control.helperExitCode = 1;
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it("authenticates DOC14 on the exact DOC13 predecessor and still checks the real tree", async () => {
+    const f = await fixture(true, true, false, true, true, true, true, true, true);
+    await expect(verifyRuntime(f)).resolves.toMatchObject({ generation: "DOC14", doc13SourcePinsVerified: true,
+      doc14SourcePinsVerified: true, doc14NativePlaneQualified: false });
+    control.helperExitCode = 1;
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it.each(["source", "old-stage", "unknown-helper"])("rejects DOC14 %s drift", async kind => {
+    const f = await fixture(true, true, false, true, true, true, true, true, true);
+    if (kind === "source") control.tamper = "sidecars/patches/doc14/evleda_plane_stage/compact_receipt.py";
+    if (kind === "old-stage") f.candidate.files.find(file => file.path === "evleda_plane_stage/plane_stage.py")!.sha256 = "96d14de0befe74b5fe4a26664a3580ab824de82b0cf48a515073ef1f22c699d1";
+    if (kind === "unknown-helper") f.candidate.files.find(file => file.path === "evleda_plane_stage/compact_receipt.py")!.sha256 = "a".repeat(64);
+    await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(); expect(control.spawn).not.toHaveBeenCalled();
+  });
+  it.each(["source", "missing-helper", "old-adapter", "missing-DOC12", "extra-file", "mode", "count"])("rejects DOC13 %s drift before the tree checker", async kind => {
+    const f = await fixture(true, true, false, true, true, true, kind !== "missing-DOC12", true);
+    if (kind === "source") control.tamper = "sidecars/patches/doc13/evleda_plane_stage/compact_receipt.py";
+    if (kind === "missing-helper") f.candidate.files = f.candidate.files.filter(file => !file.path.endsWith("compact_receipt.py"));
+    if (kind === "old-adapter") Object.assign(f.candidate.files.find(file => file.path === "evleda_plane_stage/__init__.py")!,
+      { sha256: "64214fb427349f76340bec667783f0a7de59d62d97ef11532f5443d1f6a493a7" });
+    if (kind === "extra-file") f.candidate.files.push({ path: "unbound.py", sha256: "a".repeat(64), sizeBytes: 1, mode: 438 });
+    if (kind === "mode") f.candidate.files.find(file => file.path.endsWith("compact_receipt.py"))!.mode = 420;
+    if (kind === "count") f.candidate.fileCount = 0;
+    await f.save(); await expect(verifyRuntime(f)).rejects.toThrow(); expect(control.spawn).not.toHaveBeenCalled();
   });
   it.each(["source", "producer", "missing-DOC11", "unrelated-leaf"])("rejects DOC12 %s drift before executing the tree checker", async kind => {
     const f = await fixture(true, true, false, true, true, kind !== "missing-DOC11", true);

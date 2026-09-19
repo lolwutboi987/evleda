@@ -1,0 +1,354 @@
+{
+  "recordedAt": "2026-09-19T15:17:20.474Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000151-request-7aea7de6c483fcfe2256ecf664d7743f29c64386accc2767bc9af396a18a6955.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "7aea7de6c483fcfe2256ecf664d7743f29c64386accc2767bc9af396a18a6955",
+      "size": 103
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000152-mcp-received-361e3ea6fbbc51747051ec0eb9fb5e93c3d8a72a47e7b874f3340cd02194a26f.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "361e3ea6fbbc51747051ec0eb9fb5e93c3d8a72a47e7b874f3340cd02194a26f",
+        "size": 20996
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"report\":{\"schemaVersion\":\"evleda.toolbox-endpoint-connectivity.v1\",\"assessmentSchemaVersion\":\"evleda.fresh-plane-connectivity.v1\",\"assessmentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"e02bed55e2a7ad89fa3e9a9e2dede45b66d50977fe98c7e06353ce34d74b2ea3\",\"schemaVersion\":\"evleda.fresh-plane-connectivity.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"family\":\"plane-v2\",\"status\":\"connected\",\"bundleIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"d37e2a971df9a61af6dc383cb0b6074a34fa5940140723567ac46e9393c2a554\",\"schemaVersion\":\"evleda.pcb-design-compilation-bundle.v2\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"contractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"302b8db0af86f5f3cf8f5e0f12d4c947672dca9ad163323475d8f11f8ab81637\",\"schemaVersion\":\"evleda.pcb-design-contract.v2\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"verificationPlanIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"b08f5809d6311f5c18152c06d8664b88f85b22d24144b465c34a8ae6d2ca4733\",\"schemaVersion\":\"evleda.pcb-plane-verification-plan.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"savedSourceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38\",\"size\":19827},\"nativeSourceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"7515d55dc894a5482e34a854f02250311f478a2889673f28c866744f8a06eda8\",\"size\":18710},\"nativeObservationIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"1e5393521264f0ffee2f62672798d87ab1b21e75b7700a571ac647e47824444c\",\"size\":58885},\"physicalLibraryBindingIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"107cb7c22e4b8919ddaeb9b0d9c4ada13e4608d4624f4b0a9fe52d798ba18f5a\",\"schemaVersion\":\"evleda.fresh-plane-connectivity-physical-libraries.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"nets\":[{\"net\":\"GND\",\"topology\":\"plane\",\"status\":\"connected\",\"reasons\":[],\"endpoints\":[{\"reference\":\"J1\",\"pin\":\"3\",\"physicalPadUuids\":[\"02e69418-c010-4eff-9680-1af68d7cca3f\"],\"eligiblePhysicalPadUuids\":[\"02e69418-c010-4eff-9680-1af68d7cca3f\"],\"ineligiblePhysicalPadUuids\":[],\"copperCommonStatus\":\"connected\",\"componentInternalConnectivity\":\"not-inferred\"},{\"reference\":\"R2\",\"pin\":\"2\",\"physicalPadUuids\":[\"e2c6f71b-6174-4e90-b097-f8eb7d022e85\"],\"eligiblePhysicalPadUuids\":[\"e2c6f71b-6174-4e90-b097-f8eb7d022e85\"],\"ineligiblePhysicalPadUuids\":[],\"copperCommonStatus\":\"connected\",\"componentInternalConnectivity\":\"not-inferred\"}],\"logicalEndpointReachability\":{\"status\":\"reachable\",\"commonComponents\":[{\"physicalPadUuids\":[\"02e69418-c010-4eff-9680-1af68d7cca3f\",\"e2c6f71b-6174-4e90-b097-f8eb7d022e85\"],\"endpoints\":[{\"reference\":\"J1\",\"pin\":\"3\",\"contributingPhysicalPadUuids\":[\"02e69418-c010-4eff-9680-1af68d7cca3f\"],\"separatedPhysicalPadUuids\":[]},{\"reference\":\"R2\",\"pin\":\"2\",\"contributingPhysicalPadUuids\":[\"e2c6f71b-6174-4e90-b097-f8eb7d022e85\"],\"separatedPhysicalPadUuids\":[]}]}]},\"everyEligiblePhysicalMemberReachable\":true,\"observedComponents\":[[\"02e69418-c010-4eff-9680-1af68d7cca3f\",\"e2c6f71b-6174-4e90-b097-f8eb7d022e85\"]],\"invalidReturnedPhysicalPadUuids\":[],\"nativeQueryCount\":2},{\"net\":\"VIN\",\"topology\":\"point_to_point\",\"status\":\"connected\",\"reasons\":[],\"endpoints\":[{\"reference\":\"J1\",\"pin\":\"1\",\"physicalPadUuids\":[\"05358db7-bfa8-414c-a5de-cd765a2120c6\"],\"eligiblePhysicalPadUuids\":[\"05358db7-bfa8-414c-a5de-cd765a2120c6\"],\"ineligiblePhysicalPadUuids\":[],\"copperCommonStatus\":\"connected\",\"componentInternalConnectivity\":\"not-inferred\"},{\"reference\":\"R1\",\"pin\":\"1\",\"physicalPadUuids\":[\"91a86517-2ef9-4af9-a94f-9ed69aa52e4a\"],\"eligiblePhysicalPadUuids\":[\"91a86517-2ef9-4af9-a94f-9ed69aa52e4a\"],\"ineligiblePhysicalPadUuids\":[],\"copperCommonStatus\":\"connected\",\"componentInternalConnectivity\":\"not-inferred\"}],\"logicalEndpointReachability\":{\"status\":\"reachable\",\"commonComponents\":[{\"physicalPadUuids\":[\"05358db7-bfa8-414c-a5de-cd765a2120c6\",\"91a86517-2ef9-4af9-a94f-9ed69aa52e4a\"],\"endpoints\":[{\"reference\":\"J1\",\"pin\":\"1\",\"contributingPhysicalPadUuids\":[\"05358db7-bfa8-414c-a5de-cd765a2120c6\"],\"separatedPhysicalPadUuids\":[]},{\"reference\":\"R1\",\"pin\":\"1\",\"contributingPhysicalPadUuids\":[\"91a86517-2ef9-4af9-a94f-9ed69aa52e4a\"],\"separatedPhysicalPadUuids\":[]}]}]},\"everyEligiblePhysicalMemberReachable\":true,\"observedComponents\":[[\"05358db7-bfa8-414c-a5de-cd765a2120c6\",\"91a86517-2ef9-4af9-a94f-9ed69aa52e4a\"]],\"invalidReturnedPhysicalPadUuids\":[],\"nativeQueryCount\":2},{\"net\":\"VOUT\",\"topology\":\"tree\",\"status\":\"connected\",\"reasons\":[],\"endpoints\":[{\"reference\":\"J1\",\"pin\":\"2\",\"physicalPadUuids\":[\"0ceef41e-be64-45b6-b53b-0008ce958c89\"],\"eligiblePhysicalPadUuids\":[\"0ceef41e-be64-45b6-b53b-0008ce958c89\"],\"ineligiblePhysicalPadUuids\":[],\"copperCommonStatus\":\"connected\",\"componentInternalConnectivity\":\"not-inferred\"},{\"reference\":\"R1\",\"pin\":\"2\",\"physicalPadUuids\":[\"a3c24841-a9d4-46d2-be37-52caa101fd9e\"],\"eligiblePhysicalPadUuids\":[\"a3c24841-a9d4-46d2-be37-52caa101fd9e\"],\"ineligiblePhysicalPadUuids\":[],\"copperCommonStatus\":\"connected\",\"componentInternalConnectivity\":\"not-inferred\"},{\"reference\":\"R2\",\"pin\":\"1\",\"physicalPadUuids\":[\"6a8e3b03-ceb9-477d-bb28-c9352c0f17c1\"],\"eligiblePhysicalPadUuids\":[\"6a8e3b03-ceb9-477d-bb28-c9352c0f17c1\"],\"ineligiblePhysicalPadUuids\":[],\"copperCommonStatus\":\"connected\",\"componentInternalConnectivity\":\"not-inferred\"}],\"logicalEndpointReachability\":{\"status\":\"reachable\",\"commonComponents\":[{\"physicalPadUuids\":[\"0ceef41e-be64-45b6-b53b-0008ce958c89\",\"6a8e3b03-ceb9-477d-bb28-c9352c0f17c1\",\"a3c24841-a9d4-46d2-be37-52caa101fd9e\"],\"endpoints\":[{\"reference\":\"J1\",\"pin\":\"2\",\"contributingPhysicalPadUuids\":[\"0ceef41e-be64-45b6-b53b-0008ce958c89\"],\"separatedPhysicalPadUuids\":[]},{\"reference\":\"R1\",\"pin\":\"2\",\"contributingPhysicalPadUuids\":[\"a3c24841-a9d4-46d2-be37-52caa101fd9e\"],\"separatedPhysicalPadUuids\":[]},{\"reference\":\"R2\",\"pin\":\"1\",\"contributingPhysicalPadUuids\":[\"6a8e3b03-ceb9-477d-bb28-c9352c0f17c1\"],\"separatedPhysicalPadUuids\":[]}]}]},\"everyEligiblePhysicalMemberReachable\":true,\"observedComponents\":[[\"0ceef41e-be64-45b6-b53b-0008ce958c89\",\"6a8e3b03-ceb9-477d-bb28-c9352c0f17c1\",\"a3c24841-a9d4-46d2-be37-52caa101fd9e\"]],\"invalidReturnedPhysicalPadUuids\":[],\"nativeQueryCount\":3}],\"limitations\":{\"evidence\":\"host-collected-native-PAD-reachability-on-exact-saved-source\",\"currentFileGuard\":\"required-of-caller\",\"intendedPlaneContact\":\"not_evaluated\",\"fillFreshness\":\"not_established\",\"singlePlaneComponent\":\"not_evaluated\",\"thermalContacts\":\"not_evaluated\",\"islandPolicy\":\"not_evaluated\",\"routeTopologyAndGeometry\":\"not_evaluated\",\"crossNetShortAbsence\":\"not_established-by-native-connectivity-traversal\",\"nativeDrcAndClearance\":\"not_evaluated\",\"highFrequencyValidity\":\"not_established\",\"componentInternalConnectivity\":\"not_inferred\"},\"verificationPlanRowsPassed\":[],\"acceptanceEvaluated\":false,\"fabricationAuthorized\":false},\"diagnostic\":{\"filename\":\"endpoint-connectivity-d2d4f396-ebca-4ff7-bbbd-3333c6302f9a.json\",\"identity\":{\"algorithm\":\"sha256\",\"digest\":\"a69b4335a1c90a582576703b2b9e69db606ecfe2fd3fbef79421953e9bacdac6\",\"size\":19968}},\"sourceBefore\":\"d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61\",\"sourceAfter\":\"d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61\",\"sourceUnchanged\":true,\"recoveryRequired\":false}"
+      }
+    ],
+    "structuredContent": {
+      "report": {
+        "schemaVersion": "evleda.toolbox-endpoint-connectivity.v1",
+        "assessmentSchemaVersion": "evleda.fresh-plane-connectivity.v1",
+        "assessmentIdentity": {
+          "algorithm": "sha256",
+          "digest": "e02bed55e2a7ad89fa3e9a9e2dede45b66d50977fe98c7e06353ce34d74b2ea3",
+          "schemaVersion": "evleda.fresh-plane-connectivity.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "family": "plane-v2",
+        "status": "connected",
+        "bundleIdentity": {
+          "algorithm": "sha256",
+          "digest": "d37e2a971df9a61af6dc383cb0b6074a34fa5940140723567ac46e9393c2a554",
+          "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "contractIdentity": {
+          "algorithm": "sha256",
+          "digest": "302b8db0af86f5f3cf8f5e0f12d4c947672dca9ad163323475d8f11f8ab81637",
+          "schemaVersion": "evleda.pcb-design-contract.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "verificationPlanIdentity": {
+          "algorithm": "sha256",
+          "digest": "b08f5809d6311f5c18152c06d8664b88f85b22d24144b465c34a8ae6d2ca4733",
+          "schemaVersion": "evleda.pcb-plane-verification-plan.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "savedSourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38",
+          "size": 19827
+        },
+        "nativeSourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7515d55dc894a5482e34a854f02250311f478a2889673f28c866744f8a06eda8",
+          "size": 18710
+        },
+        "nativeObservationIdentity": {
+          "algorithm": "sha256",
+          "digest": "1e5393521264f0ffee2f62672798d87ab1b21e75b7700a571ac647e47824444c",
+          "size": 58885
+        },
+        "physicalLibraryBindingIdentity": {
+          "algorithm": "sha256",
+          "digest": "107cb7c22e4b8919ddaeb9b0d9c4ada13e4608d4624f4b0a9fe52d798ba18f5a",
+          "schemaVersion": "evleda.fresh-plane-connectivity-physical-libraries.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "nets": [
+          {
+            "net": "GND",
+            "topology": "plane",
+            "status": "connected",
+            "reasons": [],
+            "endpoints": [
+              {
+                "reference": "J1",
+                "pin": "3",
+                "physicalPadUuids": [
+                  "02e69418-c010-4eff-9680-1af68d7cca3f"
+                ],
+                "eligiblePhysicalPadUuids": [
+                  "02e69418-c010-4eff-9680-1af68d7cca3f"
+                ],
+                "ineligiblePhysicalPadUuids": [],
+                "copperCommonStatus": "connected",
+                "componentInternalConnectivity": "not-inferred"
+              },
+              {
+                "reference": "R2",
+                "pin": "2",
+                "physicalPadUuids": [
+                  "e2c6f71b-6174-4e90-b097-f8eb7d022e85"
+                ],
+                "eligiblePhysicalPadUuids": [
+                  "e2c6f71b-6174-4e90-b097-f8eb7d022e85"
+                ],
+                "ineligiblePhysicalPadUuids": [],
+                "copperCommonStatus": "connected",
+                "componentInternalConnectivity": "not-inferred"
+              }
+            ],
+            "logicalEndpointReachability": {
+              "status": "reachable",
+              "commonComponents": [
+                {
+                  "physicalPadUuids": [
+                    "02e69418-c010-4eff-9680-1af68d7cca3f",
+                    "e2c6f71b-6174-4e90-b097-f8eb7d022e85"
+                  ],
+                  "endpoints": [
+                    {
+                      "reference": "J1",
+                      "pin": "3",
+                      "contributingPhysicalPadUuids": [
+                        "02e69418-c010-4eff-9680-1af68d7cca3f"
+                      ],
+                      "separatedPhysicalPadUuids": []
+                    },
+                    {
+                      "reference": "R2",
+                      "pin": "2",
+                      "contributingPhysicalPadUuids": [
+                        "e2c6f71b-6174-4e90-b097-f8eb7d022e85"
+                      ],
+                      "separatedPhysicalPadUuids": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "everyEligiblePhysicalMemberReachable": true,
+            "observedComponents": [
+              [
+                "02e69418-c010-4eff-9680-1af68d7cca3f",
+                "e2c6f71b-6174-4e90-b097-f8eb7d022e85"
+              ]
+            ],
+            "invalidReturnedPhysicalPadUuids": [],
+            "nativeQueryCount": 2
+          },
+          {
+            "net": "VIN",
+            "topology": "point_to_point",
+            "status": "connected",
+            "reasons": [],
+            "endpoints": [
+              {
+                "reference": "J1",
+                "pin": "1",
+                "physicalPadUuids": [
+                  "05358db7-bfa8-414c-a5de-cd765a2120c6"
+                ],
+                "eligiblePhysicalPadUuids": [
+                  "05358db7-bfa8-414c-a5de-cd765a2120c6"
+                ],
+                "ineligiblePhysicalPadUuids": [],
+                "copperCommonStatus": "connected",
+                "componentInternalConnectivity": "not-inferred"
+              },
+              {
+                "reference": "R1",
+                "pin": "1",
+                "physicalPadUuids": [
+                  "91a86517-2ef9-4af9-a94f-9ed69aa52e4a"
+                ],
+                "eligiblePhysicalPadUuids": [
+                  "91a86517-2ef9-4af9-a94f-9ed69aa52e4a"
+                ],
+                "ineligiblePhysicalPadUuids": [],
+                "copperCommonStatus": "connected",
+                "componentInternalConnectivity": "not-inferred"
+              }
+            ],
+            "logicalEndpointReachability": {
+              "status": "reachable",
+              "commonComponents": [
+                {
+                  "physicalPadUuids": [
+                    "05358db7-bfa8-414c-a5de-cd765a2120c6",
+                    "91a86517-2ef9-4af9-a94f-9ed69aa52e4a"
+                  ],
+                  "endpoints": [
+                    {
+                      "reference": "J1",
+                      "pin": "1",
+                      "contributingPhysicalPadUuids": [
+                        "05358db7-bfa8-414c-a5de-cd765a2120c6"
+                      ],
+                      "separatedPhysicalPadUuids": []
+                    },
+                    {
+                      "reference": "R1",
+                      "pin": "1",
+                      "contributingPhysicalPadUuids": [
+                        "91a86517-2ef9-4af9-a94f-9ed69aa52e4a"
+                      ],
+                      "separatedPhysicalPadUuids": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "everyEligiblePhysicalMemberReachable": true,
+            "observedComponents": [
+              [
+                "05358db7-bfa8-414c-a5de-cd765a2120c6",
+                "91a86517-2ef9-4af9-a94f-9ed69aa52e4a"
+              ]
+            ],
+            "invalidReturnedPhysicalPadUuids": [],
+            "nativeQueryCount": 2
+          },
+          {
+            "net": "VOUT",
+            "topology": "tree",
+            "status": "connected",
+            "reasons": [],
+            "endpoints": [
+              {
+                "reference": "J1",
+                "pin": "2",
+                "physicalPadUuids": [
+                  "0ceef41e-be64-45b6-b53b-0008ce958c89"
+                ],
+                "eligiblePhysicalPadUuids": [
+                  "0ceef41e-be64-45b6-b53b-0008ce958c89"
+                ],
+                "ineligiblePhysicalPadUuids": [],
+                "copperCommonStatus": "connected",
+                "componentInternalConnectivity": "not-inferred"
+              },
+              {
+                "reference": "R1",
+                "pin": "2",
+                "physicalPadUuids": [
+                  "a3c24841-a9d4-46d2-be37-52caa101fd9e"
+                ],
+                "eligiblePhysicalPadUuids": [
+                  "a3c24841-a9d4-46d2-be37-52caa101fd9e"
+                ],
+                "ineligiblePhysicalPadUuids": [],
+                "copperCommonStatus": "connected",
+                "componentInternalConnectivity": "not-inferred"
+              },
+              {
+                "reference": "R2",
+                "pin": "1",
+                "physicalPadUuids": [
+                  "6a8e3b03-ceb9-477d-bb28-c9352c0f17c1"
+                ],
+                "eligiblePhysicalPadUuids": [
+                  "6a8e3b03-ceb9-477d-bb28-c9352c0f17c1"
+                ],
+                "ineligiblePhysicalPadUuids": [],
+                "copperCommonStatus": "connected",
+                "componentInternalConnectivity": "not-inferred"
+              }
+            ],
+            "logicalEndpointReachability": {
+              "status": "reachable",
+              "commonComponents": [
+                {
+                  "physicalPadUuids": [
+                    "0ceef41e-be64-45b6-b53b-0008ce958c89",
+                    "6a8e3b03-ceb9-477d-bb28-c9352c0f17c1",
+                    "a3c24841-a9d4-46d2-be37-52caa101fd9e"
+                  ],
+                  "endpoints": [
+                    {
+                      "reference": "J1",
+                      "pin": "2",
+                      "contributingPhysicalPadUuids": [
+                        "0ceef41e-be64-45b6-b53b-0008ce958c89"
+                      ],
+                      "separatedPhysicalPadUuids": []
+                    },
+                    {
+                      "reference": "R1",
+                      "pin": "2",
+                      "contributingPhysicalPadUuids": [
+                        "a3c24841-a9d4-46d2-be37-52caa101fd9e"
+                      ],
+                      "separatedPhysicalPadUuids": []
+                    },
+                    {
+                      "reference": "R2",
+                      "pin": "1",
+                      "contributingPhysicalPadUuids": [
+                        "6a8e3b03-ceb9-477d-bb28-c9352c0f17c1"
+                      ],
+                      "separatedPhysicalPadUuids": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "everyEligiblePhysicalMemberReachable": true,
+            "observedComponents": [
+              [
+                "0ceef41e-be64-45b6-b53b-0008ce958c89",
+                "6a8e3b03-ceb9-477d-bb28-c9352c0f17c1",
+                "a3c24841-a9d4-46d2-be37-52caa101fd9e"
+              ]
+            ],
+            "invalidReturnedPhysicalPadUuids": [],
+            "nativeQueryCount": 3
+          }
+        ],
+        "limitations": {
+          "evidence": "host-collected-native-PAD-reachability-on-exact-saved-source",
+          "currentFileGuard": "required-of-caller",
+          "intendedPlaneContact": "not_evaluated",
+          "fillFreshness": "not_established",
+          "singlePlaneComponent": "not_evaluated",
+          "thermalContacts": "not_evaluated",
+          "islandPolicy": "not_evaluated",
+          "routeTopologyAndGeometry": "not_evaluated",
+          "crossNetShortAbsence": "not_established-by-native-connectivity-traversal",
+          "nativeDrcAndClearance": "not_evaluated",
+          "highFrequencyValidity": "not_established",
+          "componentInternalConnectivity": "not_inferred"
+        },
+        "verificationPlanRowsPassed": [],
+        "acceptanceEvaluated": false,
+        "fabricationAuthorized": false
+      },
+      "diagnostic": {
+        "filename": "endpoint-connectivity-d2d4f396-ebca-4ff7-bbbd-3333c6302f9a.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "a69b4335a1c90a582576703b2b9e69db606ecfe2fd3fbef79421953e9bacdac6",
+          "size": 19968
+        }
+      },
+      "sourceBefore": "d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61",
+      "sourceAfter": "d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61",
+      "sourceUnchanged": true,
+      "recoveryRequired": false
+    }
+  }
+}

@@ -74,6 +74,11 @@ describe("closed native plane mutation arguments", () => {
 });
 
 describe("complete native plane artifact reading", () => {
+  it("preserves the compact header and pools for the semantic decoder", async () => {
+    const value = { ...receipt(), schemaVersion: "evleda.native-plane-stage.v2", sourcePool: ["source"], rpcPadPool: [] };
+    const f = await artifact(Buffer.from(JSON.stringify(value)));
+    expect(await readKicadPlaneStageArtifact(f.root, f.reference, request)).toEqual(value);
+  });
   it("uses a tiny filename/hash reference, preserves raw data, and makes no full-source acceptance inference", async () => {
     const f = await artifact();
     expect(Buffer.byteLength(JSON.stringify(f.reference))).toBeLessThan(1024);

@@ -12,6 +12,7 @@ import { genericDividerLibraryResolver } from "../helpers/generic-divider-bundle
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { planeStageObservationFixture } from "../helpers/plane-stage-observation-fixture.js";
 import { withNativePadFixtureIds } from "../helpers/native-pad-observation-fixture.js";
+import { compactPlaneStageFixture } from "../helpers/compact-plane-stage-fixture.js";
 
 const source = withNativePadFixtureIds(`(kicad_pcb (version 20260206) (generator "pcbnew") (generator_version "10.0")
   (general (thickness 1.6)) (layers (0 "F.Cu" signal) (2 "B.Cu" signal) (25 "Edge.Cuts" user))
@@ -28,9 +29,11 @@ async function fixture() {
   const f = await planeStageObservationFixture({ beforePcbSource: source, mutation: prepared.mutation });
   return { ...f, prepared, compilationBundle };
 }
-describe("source-bound plane stage adapter", () => {
+describe.each(["v1", "v2"])("source-bound plane stage adapter %s", encoding => {
+  const validate = (receipt: Record<string, any>, expected: Parameters<typeof validateFreshPlaneStageObservation>[1]) =>
+    validateFreshPlaneStageObservation(encoding === "v2" ? compactPlaneStageFixture(receipt) : receipt, expected);
   it("validates authenticated CREATE then source-equivalent UPDATE without minting saved/PAD host authority", async () => {
-    const f = await fixture(), first = validateFreshPlaneStageObservation(f.receipt, f);
+    const f = await fixture(), first = validate(f.receipt, f);
     expect(isValidatedFreshPlaneStageObservation(first)).toBe(true);
     expect(isValidatedFreshPlaneStageObservation(structuredClone(first))).toBe(false);
     expect(first).toMatchObject({ savedAuthorityMinted: false, acceptanceEvaluated: false, nativePadsSource: "validated-staged-native-not-saved", beforeZoneProto: null,
@@ -39,14 +42,14 @@ describe("source-bound plane stage adapter", () => {
     expect(first.savedSourceIdentity).toEqual(contentIdentity(source));
     const prepared = prepareFreshPlaneMutation({ compilationBundle: f.compilationBundle, beforePcbSource: f.stagedSource, operation: "update", zoneId: first.targetZoneUuid });
     const update = await planeStageObservationFixture({ beforePcbSource: f.stagedSource, mutation: prepared.mutation, beforeZoneProtos: [f.stagedZoneProto] });
-    const result = validateFreshPlaneStageObservation(update.receipt, { ...update, prepared });
+    const result = validate(update.receipt, { ...update, prepared });
     expect(result.beforeZoneProto).toEqual(f.stagedZoneProto); expect(result.nativeSourceStaged).toBe(f.stagedSource);
   });
   it("binds explicit board path and a source-owned PAD selection, without decoder mocks", async () => {
     const f = await fixture();
     const request = { ...f.request, board_file: "D:\\owned-stage-test\\exact-board.kicad_pcb" };
     const rebound = await planeStageObservationFixture({ beforePcbSource: source, request });
-    expect(validateFreshPlaneStageObservation(rebound.receipt, { ...rebound, prepared: f.prepared }).comparison.valid).toBe(true);
+    expect(validate(rebound.receipt, { ...rebound, prepared: f.prepared }).comparison.valid).toBe(true);
   });
   it.each([
     ["disk changed", (r: any) => { r.savedSourceStaged += "\n"; }],
@@ -66,25 +69,25 @@ describe("source-bound plane stage adapter", () => {
     ["inactive area promoted", (r: any) => { r.zoneMutation.islandMinimumArea.enforced = true; }],
   ])("rejects %s", async (_name, change) => {
     const f = await fixture(), receipt = structuredClone(f.receipt); change(receipt);
-    expect(() => validateFreshPlaneStageObservation(receipt, f)).toThrow();
+    expect(() => validate(receipt, f)).toThrow();
   });
   it("requires ordered raw unfill before fill even when both acknowledgements are present", async () => {
     const f = await fixture(), receipt = structuredClone(f.receipt), actions = receipt.rpc.filter((call: any) => call.requestType.endsWith("RunAction"));
     [actions[0].request, actions[1].request] = [actions[1].request, actions[0].request];
-    expect(() => validateFreshPlaneStageObservation(receipt, f)).toThrow("epoch actions");
+    expect(() => validate(receipt, f)).toThrow("epoch actions");
   });
   it("allows only bounded AS_BUSY zone polling between fill and observed filled inventory", async () => {
     const f = await fixture(), receipt = structuredClone(f.receipt), fill = receipt.rpc.findIndex((call: any) => call.request.action === "pcbnew.ZoneFiller.zoneFillAll");
     const error = { requestType: "kiapi.common.commands.GetItems", request: { header: { document: receipt.document }, types: ["KOT_PCB_ZONE"] }, error: { type: "ApiError", code: 7, message: "busy" } };
     receipt.rpc.splice(fill + 1, 0, error); receipt.epoch.busyPollCount = 1;
-    expect(validateFreshPlaneStageObservation(receipt, f).epochStatus).toBe("raw-transcript-observed-unfill-fill");
-    error.error.code = 2; expect(() => validateFreshPlaneStageObservation(receipt, f)).toThrow("unqualified RPC error");
+    expect(validate(receipt, f).epochStatus).toBe("raw-transcript-observed-unfill-fill");
+    error.error.code = 2; expect(() => validate(receipt, f)).toThrow("unqualified RPC error");
   });
   it("does not accept copied preparation tokens or mismatched PAD ownership", async () => {
     const f = await fixture();
-    expect(() => validateFreshPlaneStageObservation(f.receipt, { ...f, prepared: structuredClone(f.prepared) })).toThrow("original in-process");
+    expect(() => validate(f.receipt, { ...f, prepared: structuredClone(f.prepared) })).toThrow("original in-process");
     const request = structuredClone(f.request); request.reference_pads[0]!.reference = "J999";
-    expect(() => validateFreshPlaneStageObservation(f.receipt, { ...f, request })).toThrow("ownership");
+    expect(() => validate(f.receipt, { ...f, request })).toThrow("ownership");
   });
 });
 

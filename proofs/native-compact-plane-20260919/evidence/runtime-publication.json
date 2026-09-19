@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "evleda.doc14-runtime-publication.v1",
+  "recordedAt": "2026-09-19T15:10:09.077Z",
+  "root": "C:\\EvlEDA-DOC14-20260919",
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\kicad-inspection-runtime-manifest-doc14.json",
+    "sha256": "4fcce9c01851dd7b8e1a0f18e131da034c5bbc3dc2687a2838660912df58dd3d",
+    "sizeBytes": 1575130
+  },
+  "profile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc14-rp2350-v4-01.json",
+    "sha256": "7ed147b284b0037b57e1cdb732e84614d379259a55152cec5a7027a95df59bfd",
+    "sizeBytes": 16672
+  },
+  "sourcePins": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc14\\evleda_plane_stage\\compact_receipt.py",
+      "sha256": "716dd527f827b3b7e0c715d60944cd02693f704878b19f8f1e391b401d1e9d74",
+      "sizeBytes": 3550
+    }
+  ],
+  "changed": [
+    {
+      "path": "environment/pyvenv.cfg",
+      "before": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "379744dc27a13ff456e86772ec432ecd671f9242bb42a6e964cb19a6db0ed730",
+        "sizeBytes": 156
+      },
+      "after": {
+        "mode": 438,
+        "path": "environment/pyvenv.cfg",
+        "sha256": "8cc8a36fca7ddc0d09164545b8d969af044c84afbb517af16807708170ce6609",
+        "sizeBytes": 156
+      }
+    },
+    {
+      "path": "evleda_plane_stage/compact_receipt.py",
+      "before": {
+        "mode": 438,
+        "path": "evleda_plane_stage/compact_receipt.py",
+        "sha256": "e177997c04be2724d39bcd260f80c5a9d375459651a6987426943a9dc4bc24ca",
+        "sizeBytes": 3538
+      },
+      "after": {
+        "mode": 438,
+        "path": "evleda_plane_stage/compact_receipt.py",
+        "sha256": "716dd527f827b3b7e0c715d60944cd02693f704878b19f8f1e391b401d1e9d74",
+        "sizeBytes": 3550
+      }
+    }
+  ],
+  "predecessorClosurePreserved": true,
+  "allOtherProfilePoliciesUnchanged": true,
+  "managedProjectsModified": false,
+  "nativeOperations": 0,
+  "nativeQualificationPending": true
+}

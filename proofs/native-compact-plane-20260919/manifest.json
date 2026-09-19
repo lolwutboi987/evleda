@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "evleda.native-compact-plane-proof.v1",
+  "files": [
+    {
+      "path": "evidence/assembly-response.json",
+      "sha256": "d81553830c895a3074c12d8b45013e23d37d7809688b42334be0c9df4b03ca03",
+      "sizeBytes": 67857
+    },
+    {
+      "path": "evidence/capacity-exercise.json",
+      "sha256": "48141bb73ad311e2e60f337658edf14f4f2b94deb4f7a135aaa448b046de7144",
+      "sizeBytes": 488
+    },
+    {
+      "path": "evidence/checks-response.json",
+      "sha256": "dfd8b2677f17048af817aa07c4418d3e97c302c523307fdbe0102485a4514555",
+      "sizeBytes": 19595
+    },
+    {
+      "path": "evidence/client-terminal.json",
+      "sha256": "a858f0b0cb49cddd9e7f81703db0e91be75c9824b6eb57d5436606a573f33858",
+      "sizeBytes": 696
+    },
+    {
+      "path": "evidence/copy-lineage.json",
+      "sha256": "28e39888529bf93a3a94281ed4463e27267b6b5970707fa8c457a5c84ed905fb",
+      "sizeBytes": 15355
+    },
+    {
+      "path": "evidence/endpoint-response.json",
+      "sha256": "7360607cf44db1f4fa238b436837229cec126a463d7f6a01071cd83ffa4a077d",
+      "sizeBytes": 21209
+    },
+    {
+      "path": "evidence/failed-doc13-recovery-closure.json",
+      "sha256": "25dee09c36e9826b4e0bf599c1733e450187da964ecfa87e514012cdf9679021",
+      "sizeBytes": 1912
+    },
+    {
+      "path": "evidence/failed-doc13-rejected-stage-review.json",
+      "sha256": "959a2f385123b1dd312fadbfe1f025190e44c4ecf5245d2ed61c901d7f4079f5",
+      "sizeBytes": 1166
+    },
+    {
+      "path": "evidence/host23-release.json",
+      "sha256": "3fe20528bda739b41737be48c0a332288080719cf8c02fff7c45a146d9c30371",
+      "sizeBytes": 6214
+    },
+    {
+      "path": "evidence/installed-qualification.json",
+      "sha256": "752b0884dbf695e3e851c07e6de52d6563a103b28dbf14ddb0a2f3d18d867257",
+      "sizeBytes": 37992
+    },
+    {
+      "path": "evidence/normal-close-proof.json",
+      "sha256": "e3ac7b4ada3a1d90c211fd10fbff6cbf3f125848e26553c07b24452cab2cf557",
+      "sizeBytes": 2791
+    },
+    {
+      "path": "evidence/normal-close-response.json",
+      "sha256": "6dc5e451244a12f6eb526b341d809223f6678f3e87a038f71ebdc859007a8061",
+      "sizeBytes": 19062
+    },
+    {
+      "path": "evidence/plane-assessment-response.json",
+      "sha256": "2bdbba12e706ea9f957d0a34c3f4806d70fc3f40a58bcbe3178a38b33a7a7b05",
+      "sizeBytes": 66805
+    },
+    {
+      "path": "evidence/plane-create-response.json",
+      "sha256": "7a545ee8c022838837143143e1a5d2878524c83abe864d1d1a608424ae69f779",
+      "sizeBytes": 9687
+    },
+    {
+      "path": "evidence/plane-qualification.json",
+      "sha256": "ada56182fbdb98285b70d15261156ab3ea27cf6214070a7913cc0b6b579fad6b",
+      "sizeBytes": 15547
+    },
+    {
+      "path": "evidence/plane-update-response.json",
+      "sha256": "51b4589a573185a3c0e53757d630d1e1aec63996ed596f0b3fdc3aa2bb38bedb",
+      "sizeBytes": 9687
+    },
+    {
+      "path": "evidence/preparation.json",
+      "sha256": "0741bae8aefae7b24329c2e69ff4a43860e3dd705357ff675364cb29b5ecff32",
+      "sizeBytes": 676
+    },
+    {
+      "path": "evidence/recorded-native-replay.json",
+      "sha256": "1cf80642d4c6312e1843fdc25c505ceee265bfbf1a1e4830ceca7c093ee9fa12",
+      "sizeBytes": 1345
+    },
+    {
+      "path": "evidence/route-GND-mutation.json",
+      "sha256": "c57b23a9fc2643d04c2748bd0dcfe836846240b6cdcf4b3f3116d2f41ba16305",
+      "sizeBytes": 6689
+    },
+    {
+      "path": "evidence/route-GND-saved.json",
+      "sha256": "a3226acc59c61a6a57ce4c1c30fe20d075314b8121da478f332f0e9d864b833c",
+      "sizeBytes": 6431
+    },
+    {
+      "path": "evidence/route-GND-selection.json",
+      "sha256": "311ae798e7a7961e4274830089d0fb86e6f8b75928c062c62c0f53071828eeb9",
+      "sizeBytes": 5077
+    },
+    {
+      "path": "evidence/route-VIN-mutation.json",
+      "sha256": "62d908f4e458cbbf65c0220b92ddbf162072577880bcaaeac10e678cc7287de9",
+      "sizeBytes": 6689
+    },
+    {
+      "path": "evidence/route-VIN-saved.json",
+      "sha256": "96e0c7b5d4cbd36d8353da41f03249cd37b822ebe151ed2e52868c10f21a7d37",
+      "sizeBytes": 5077
+    },
+    {
+      "path": "evidence/route-VIN-selection.json",
+      "sha256": "e561d0b65543741fe3313b5c7aad61666ba07fa8eb73e3c75c48a5b6bbb8c24f",
+      "sizeBytes": 4653
+    },
+    {
+      "path": "evidence/route-VOUT-mutation.json",
+      "sha256": "bfef169c691e1d43b89a541f40f78d72025559e5639bb1f88bc74f2f19de501d",
+      "sizeBytes": 6691
+    },
+    {
+      "path": "evidence/route-VOUT-saved.json",
+      "sha256": "605ab0e43ac78da1719ca7c397166343a196278a9d933cdd207d617aa04db978",
+      "sizeBytes": 8675
+    },
+    {
+      "path": "evidence/route-VOUT-selection.json",
+      "sha256": "4fa07a46a02e49222892dbc3ca4650cef1c0f25673da4b30b1b6296f2522be68",
+      "sizeBytes": 6431
+    },
+    {
+      "path": "evidence/runtime-publication.json",
+      "sha256": "6c699e9a1482832b91e5fe8cce5f63880867f475326b0ef51acc2958763415bf",
+      "sizeBytes": 2105
+    },
+    {
+      "path": "evidence/runtime-verification.json",
+      "sha256": "9eaaa3b6a50b4e2026762871a169faa5533e665e960ee684ca5f5529373e0910",
+      "sizeBytes": 4026
+    },
+    {
+      "path": "evidence/summary.json",
+      "sha256": "1c85c7997e8ae84f7295a2a8daf031846fd9677fce9146b08a2d78fb0836ac24",
+      "sizeBytes": 2561
+    },
+    {
+      "path": "evidence/top-response.json",
+      "sha256": "5f1f682e7aab59a07aa48cdce8ab5607aebfb0e791fe9114a4eaf9c962c61a3a",
+      "sizeBytes": 51277
+    },
+    {
+      "path": "evidence/visual-review.json",
+      "sha256": "1ed5316de7ab12d876d4c2c63ce3a2c304bb6dbd8403a909f7074bd2d1a2e067",
+      "sizeBytes": 871
+    },
+    {
+      "path": "native/fp-lib-table",
+      "sha256": "46b138d4edfa14567c1a2f84f7d7cbf6ab50ab40ce03c7fde708832710468cff",
+      "sizeBytes": 410
+    },
+    {
+      "path": "native/plane-stage-doc14.kicad_dru",
+      "sha256": "65233baec349f5789aaaca0499f4a59a897e3127b8fd399edd5597f2e37f0d04",
+      "sizeBytes": 329
+    },
+    {
+      "path": "native/plane-stage-doc14.kicad_pcb",
+      "sha256": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38",
+      "sizeBytes": 19827
+    },
+    {
+      "path": "native/plane-stage-doc14.kicad_pro",
+      "sha256": "0b3735dc20820da3a613be36976388b81dfe66cf47ea7ac8bc7a8c05fc16bb7d",
+      "sizeBytes": 11330
+    },
+    {
+      "path": "native/plane-stage-doc14.kicad_sch",
+      "sha256": "74084ee191b44d0c025a2f8f91415097b43c5c23aef373cd2954ffb11963e253",
+      "sizeBytes": 11323
+    },
+    {
+      "path": "native/sym-lib-table",
+      "sha256": "407135ab05709f05c8b0f408eda1a2247436f160045e081783a39d8872c805ec",
+      "sizeBytes": 360
+    },
+    {
+      "path": "previews/assembly.png",
+      "sha256": "0a4d596ea49b23598dee322a33c198caf2c0388434c99785b71b709cc07e92fe",
+      "sizeBytes": 41485
+    },
+    {
+      "path": "previews/assembly.svg",
+      "sha256": "6c8a062cb0c8ba2557ad4d3c404446a40342f637eb9a599b14e2ed94c633f5c6",
+      "sizeBytes": 25036
+    },
+    {
+      "path": "previews/top.png",
+      "sha256": "226e4e483b2cfd99d03205567191b1a2fced51eecee368968b5d60b22a20bd82",
+      "sizeBytes": 29171
+    },
+    {
+      "path": "previews/top.svg",
+      "sha256": "0f8a917b68266cda4fb70239100c89beecc94ccbe3b2d83e4522b42858a08704",
+      "sizeBytes": 8455
+    },
+    {
+      "path": "README.md",
+      "sha256": "a22fdea6114d9c40c34d527a63ebdf816d911f6c96c5c2d49ebc09b1471fb1e1",
+      "sizeBytes": 3990
+    }
+  ]
+}

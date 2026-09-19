@@ -1,6 +1,6 @@
 import path from "node:path";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
-import { hardenPortableValue } from "../core/portable-artifact.js";
+import { decodePlaneStageReceipt } from "../integrations/kicad-plane-stage-receipt.js";
 import { kicadPlaneStageInputSchema, type KicadPlaneStageInput } from "../integrations/kicad-plane-stage.js";
 import { decodeKicadNativePadObservation, type KicadNativePadObservationExpected } from "../integrations/kicad-native-pad-observation.js";
 import { freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
@@ -9,7 +9,6 @@ import { compareFreshPlaneLiteralMutation, compareFreshPlaneMutation, type Prepa
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 
 type Obj = Record<string, unknown>;
-const MAX = 8 * 1024 * 1024;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/u;
 const COMMON = "kiapi.common.commands.", BOARD = "kiapi.board.commands.", TYPE = "type.googleapis.com/kiapi.board.types.";
 const same = (a: unknown, b: unknown) => canonicalJson(a) === canonicalJson(b);
@@ -63,9 +62,9 @@ export interface FreshPlaneStageObservationExpected {
   readonly padExpected: KicadNativePadObservationExpected;
 }
 
-/** Validate the existing private producer transcript, not a replacement wire protocol. */
+/** Both receipt encodings pass the same complete native transcript checks. */
 function decodeStage(receiptInput: unknown, expected: FreshPlaneStageObservationExpected) {
-  const receipt = obj(hardenPortableValue(receiptInput, { maxBytes: MAX, maxStringBytes: 1024 * 1024, maxDepth: 64, maxNodes: 500_000, maxArrayLength: 100_000, maxOwnKeys: 256, maxKeyBytes: 1024 }), "receipt");
+  const decoded = decodePlaneStageReceipt(receiptInput), receipt = decoded.receipt;
   keys(receipt, ["schemaVersion", "complete", "nativeSaveCalled", "mutationDispatched", "recoveryRequired", "request", "assurance", "document", "savedSourceBefore", "nativeSourceBefore", "zonesBefore", "zoneMutation", "zonesBeforeUnfill", "zonesUnfilled", "nativeSourceUnfilled", "zonesStaged", "epoch", "nativeSourceStaged", "padSnapshot", "savedSourceStaged", "identities", "counts", "rpc"]);
   const request = kicadPlaneStageInputSchema.parse(expected.request), mutation = request.request.mutation;
   check(mutation !== undefined && receipt.schemaVersion === "evleda.native-plane-stage.v1" && receipt.complete === true && receipt.nativeSaveCalled === false && receipt.mutationDispatched === true && receipt.recoveryRequired === false, "receipt is not a complete unsaved mutation stage");
@@ -200,14 +199,14 @@ function decodeStage(receiptInput: unknown, expected: FreshPlaneStageObservation
     const query = queries[ordinal]!, call = calls[index]!;
     check(same(call.request, query.request) && same(itemResponse(call).items.map(value => withoutType(value, "Pad")), arr(query.padRecordIndexes, "query indexes").map(value => rawPads[value as number])), "individual source PAD query differs from raw ordered response");
   });
-  return { receipt, request, before, staged, saved, targetZoneUuid, returned, beforeZoneProto, nativePads, refill, expectedIds,
+  return { receiptIdentity: decoded.receiptIdentity, receiptIdentityEncoding: decoded.receiptIdentityEncoding, request, before, staged, saved, targetZoneUuid, returned, beforeZoneProto, nativePads, refill, expectedIds,
     nativeFilledZones: filled.map(zone => ({ uuid: zone.uuid, raw: zone.raw })) };
 }
 
 function finish(stage: ReturnType<typeof decodeStage>, comparison: ReturnType<typeof compareFreshPlaneLiteralMutation> | ReturnType<typeof compareFreshPlaneMutation>) {
   check(comparison.valid, "requested mutation source/proto comparison failed");
-  const payload = { schemaVersion: "evleda.fresh-plane-stage-observation.v1" as const, receiptIdentity: contentIdentity(canonicalJson(stage.receipt)),
-    receiptIdentityEncoding: "canonical-json-observation" as const, nativeSourceBefore: stage.before, nativeSourceStaged: stage.staged,
+  const payload = { schemaVersion: "evleda.fresh-plane-stage-observation.v1" as const, receiptIdentity: stage.receiptIdentity,
+    receiptIdentityEncoding: stage.receiptIdentityEncoding, nativeSourceBefore: stage.before, nativeSourceStaged: stage.staged,
     savedSourceIdentity: contentIdentity(stage.saved), targetZoneUuid: stage.targetZoneUuid, beforeZoneProto: stage.beforeZoneProto, comparison, nativePads: stage.nativePads,
     nativePadsSource: "validated-staged-native-not-saved" as const, zoneUuids: stage.expectedIds, refillSourcePreservation: stage.refill,
     nativeFilledZones: stage.nativeFilledZones,

@@ -1,0 +1,42 @@
+{
+  "projectId": "4277b2c6-def4-4138-ac5a-07a7e090a603",
+  "normalCloseConfirmed": true,
+  "files": {
+    "pro": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\project\\plane-stage-doc14.kicad_pro",
+      "sha256": "0b3735dc20820da3a613be36976388b81dfe66cf47ea7ac8bc7a8c05fc16bb7d"
+    },
+    "sch": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\project\\plane-stage-doc14.kicad_sch",
+      "sha256": "74084ee191b44d0c025a2f8f91415097b43c5c23aef373cd2954ffb11963e253"
+    },
+    "pcb": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\project\\plane-stage-doc14.kicad_pcb",
+      "sha256": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38"
+    },
+    "symLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\project\\sym-lib-table",
+      "sha256": "407135ab05709f05c8b0f408eda1a2247436f160045e081783a39d8872c805ec"
+    },
+    "fpLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\project\\fp-lib-table",
+      "sha256": "46b138d4edfa14567c1a2f84f7d7cbf6ab50ab40ce03c7fde708832710468cff"
+    },
+    "dru": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\project\\plane-stage-doc14.kicad_dru",
+      "sha256": "65233baec349f5789aaaca0499f4a59a897e3127b8fd399edd5597f2e37f0d04"
+    }
+  },
+  "checkpoint": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\.evleda-pcb-agent-checkpoint.json",
+    "sha256": "fb01b4ca6ee1ae0282776a2ca3cd7ff9a6b10262d165153007dd43909afb623a"
+  },
+  "closeResponse": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000213-response-6dc5e451244a12f6eb526b341d809223f6678f3e87a038f71ebdc859007a8061.json",
+    "sha256": "6dc5e451244a12f6eb526b341d809223f6678f3e87a038f71ebdc859007a8061"
+  },
+  "leaseLockUnsafeArtifacts": [],
+  "sourceUnchanged": true,
+  "rp2350SixSourcesUnchanged": true,
+  "circuitOrBoardAcceptance": false
+}

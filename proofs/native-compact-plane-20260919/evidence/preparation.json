@@ -1,0 +1,14 @@
+{
+  "hostRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-stage-doc13-01\\host23-release.json",
+    "sha256": "3fe20528bda739b41737be48c0a332288080719cf8c02fff7c45a146d9c30371"
+  },
+  "profile": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\working-profiles\\toolbox-native-doc14-rp2350-v4-01.json",
+    "sha256": "7ed147b284b0037b57e1cdb732e84614d379259a55152cec5a7027a95df59bfd",
+    "sizeBytes": 16672
+  },
+  "verifiedHostFiles": 2544,
+  "workspace": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace",
+  "nativeOperations": 0
+}

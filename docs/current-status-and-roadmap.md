@@ -1,5 +1,14 @@
 # Current status and roadmap
 
+Latest toolbox milestone, 19 September 2026: [lossless compact plane receipts](plane-receipt-compaction.md)
+now pass native CREATE, UPDATE, mandatory save/readback and normal close with
+host23/DOC14 on a separate three-component fixture. The first DOC13 live attempt
+exposed a native OrderedDict case; its failed state is preserved. DOC14 corrects
+that producer case while keeping the artifact/work limits and full host checks.
+The successful fixture's reference-ribbon failure and unknown acceptance rows
+remain explicit. This enables the next RP2350 plane trial; it does not establish
+RP2350 fill, return paths or complete routing.
+
 Latest native milestone, 19 September 2026: the
 [60-09 frozen-plan snapshot](../designs/rp2350-pico/native-route-plan-60-09/README.md)
 is normally closed with **797 segments, 104 vias and no zones** through all 68

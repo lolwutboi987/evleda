@@ -1,0 +1,16 @@
+{
+  "scope": "Synthetic storage/work exercise only. Source text, physical ownership, query ordering and geometry are not a valid native board or acceptance receipt.",
+  "physicalGroundSampleMix": {
+    "smd": 51,
+    "pth": 13
+  },
+  "individualReplies": 64,
+  "padsPerReply": 64,
+  "expandedBytes": 10940135,
+  "compactBytes": 1977594,
+  "unchangedCapBytes": 8388608,
+  "logical500000NodeBudgetPassed": true,
+  "sourcePool": 4,
+  "padPool": 71,
+  "nativeOperations": 0
+}

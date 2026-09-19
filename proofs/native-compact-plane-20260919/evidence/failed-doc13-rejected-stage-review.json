@@ -1,0 +1,14 @@
+{
+  "projectId": "d9124bc4-e316-4128-89b9-26dac392a4ae",
+  "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-01\\workspace-client-7b81ec12-764d-46f5-99b6-600916b4553f\\000147-response-cc815b25e7a91ee3e788badab02a59701f520e4c09430378f8e201689de241d0.json",
+  "responseSha256": "cc815b25e7a91ee3e788badab02a59701f520e4c09430378f8e201689de241d0",
+  "status": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-01\\workspace-client-7b81ec12-764d-46f5-99b6-600916b4553f\\000150-response-fbbaa01771600f897d2357baf389ded0314a40e96f5eee460d5a4eb23514413a.json",
+  "savedPcbUnchanged": true,
+  "savedPcbSha256": "e8093959cf5f02e8eccd929389a7fe81c201fc717879203e150fa161f1d08d02",
+  "nonPcbSourcesUnchanged": true,
+  "nativeMutationAttempted": true,
+  "nativeSaveDidNotRun": true,
+  "normalClosePending": true,
+  "cause": "Native protobuf Any PAD records are OrderedDict values. The Python encoder used type(item) is dict, skipped them, and emitted no PAD pool members. The host correctly rejected inline PADs; no acceptance or save was issued.",
+  "rootCauseConfirmedByReceipt": true
+}

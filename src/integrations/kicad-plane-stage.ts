@@ -54,7 +54,7 @@ export type KicadPlaneStageArtifact = z.infer<typeof kicadPlaneStageArtifactSche
 export const KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA = z.toJSONSchema(kicadPlaneStageInputSchema);
 export const KICAD_PLANE_STAGE_OUTPUT_JSON_SCHEMA = z.toJSONSchema(kicadPlaneStageArtifactSchema);
 
-const receiptHeader = z.object({ schemaVersion: z.literal("evleda.native-plane-stage.v1"), complete: z.boolean(), nativeSaveCalled: z.literal(false),
+const receiptHeader = z.object({ schemaVersion: z.enum(["evleda.native-plane-stage.v1", "evleda.native-plane-stage.v2"]), complete: z.boolean(), nativeSaveCalled: z.literal(false),
   mutationDispatched: z.boolean(), recoveryRequired: z.boolean(), request: planeStageRequestSchema, rpc: z.array(z.unknown()).max(1024),
   assurance: z.object({ accepted: z.literal(false), minimumSpokes: z.literal("not_configured_by_zone_api"), highFrequencyValidity: z.literal("not_established") }).strict(),
 }).passthrough();

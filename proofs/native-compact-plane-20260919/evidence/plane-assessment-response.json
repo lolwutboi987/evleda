@@ -1,0 +1,1056 @@
+{
+  "recordedAt": "2026-09-19T15:18:16.367Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000157-request-38daea12bc9a2334daaf3918ba263e40ae59c5ebe23319ebcb1959fba2949091.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "38daea12bc9a2334daaf3918ba263e40ae59c5ebe23319ebcb1959fba2949091",
+      "size": 106
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000158-mcp-received-2f41eff9dfbd073dc98d8f398c9a9187a45335e15e9d8c576313b1c17aec7100.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "2f41eff9dfbd073dc98d8f398c9a9187a45335e15e9d8c576313b1c17aec7100",
+        "size": 67996
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"report\":{\"schemaVersion\":\"evleda.toolbox-plane-acceptance.v1\",\"assessmentSchemaVersion\":\"evleda.fresh-plane-acceptance.v1\",\"assessmentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"397a8e44cc20bb213ddbe6a8c8e6e3b3d56d3221c1dd1fc3cbbd479692e4c656\",\"schemaVersion\":\"evleda.fresh-plane-acceptance.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"family\":\"plane-v2\",\"status\":\"failed\",\"bundleIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"d37e2a971df9a61af6dc383cb0b6074a34fa5940140723567ac46e9393c2a554\",\"schemaVersion\":\"evleda.pcb-design-compilation-bundle.v2\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"contractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"302b8db0af86f5f3cf8f5e0f12d4c947672dca9ad163323475d8f11f8ab81637\",\"schemaVersion\":\"evleda.pcb-design-contract.v2\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"verificationPlanIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"b08f5809d6311f5c18152c06d8664b88f85b22d24144b465c34a8ae6d2ca4733\",\"schemaVersion\":\"evleda.pcb-plane-verification-plan.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"sourceIdentities\":{\"pcb\":{\"algorithm\":\"sha256\",\"digest\":\"b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38\",\"size\":19827},\"project\":{\"algorithm\":\"sha256\",\"digest\":\"0b3735dc20820da3a613be36976388b81dfe66cf47ea7ac8bc7a8c05fc16bb7d\",\"size\":11330},\"rules\":{\"algorithm\":\"sha256\",\"digest\":\"65233baec349f5789aaaca0499f4a59a897e3127b8fd399edd5597f2e37f0d04\",\"size\":329}},\"savedEvidenceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"76980e5011c84b12b04fcffe6fe012125126ae085ceebabae26aebf1b361b53d\",\"schemaVersion\":\"evleda.saved-fresh-plane-evidence.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"endpointConnectivityIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"e02bed55e2a7ad89fa3e9a9e2dede45b66d50977fe98c7e06353ce34d74b2ea3\",\"schemaVersion\":\"evleda.fresh-plane-connectivity.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"endpointConnectivity\":{\"status\":\"connected\",\"nets\":[{\"net\":\"GND\",\"status\":\"connected\",\"everyEligiblePhysicalMemberReachable\":true},{\"net\":\"VIN\",\"status\":\"connected\",\"everyEligiblePhysicalMemberReachable\":true},{\"net\":\"VOUT\",\"status\":\"connected\",\"everyEligiblePhysicalMemberReachable\":true}]},\"authority\":{\"status\":\"verified\",\"reasons\":[\"Authenticated V2 bundle, current saved fill, exact source and rules, and physical endpoint scope agree.\"]},\"sourceScope\":{\"status\":\"verified\",\"reasons\":[\"Complete supported source route, footprint and layered-copper scope; through-vias retained separately from straight reference ribbons.\"]},\"nativeInventory\":{\"status\":\"verified\",\"reasons\":[\"All native zone, footprint, pad and route UUIDs, nets and layers match the complete saved source.\"]},\"nativeChecks\":{\"assessmentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"3ff01f5a8d50d2a36527f372f648420601505bc09cb562558de4c1f8ca74a1ba\",\"schemaVersion\":\"evleda.fresh-plane-native-checks.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"status\":\"unsupported\",\"nativeDrcIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"41b49ecaac70d80cd876ac1cfdb78c3c8c02d9172d154a285cf80ec734d6d754\",\"schemaVersion\":\"evleda.fresh-plane-native-drc-input.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"checks\":{\"erc\":{\"status\":\"unsupported\",\"reasons\":[\"erc-project-has-ignored-checks\",\"native-erc-has-ignored-checks\"]},\"drcClearanceShorts\":{\"status\":\"verified\",\"reasons\":[]},\"thermalPolicy\":{\"status\":\"verified\",\"reasons\":[]}},\"nativeErcIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"17f0b31be3b0c2485ecd23eb8b2c0d45e2a2ebc9e68b7be8051e4f4cbe28a050\",\"schemaVersion\":\"evleda.fresh-plane-native-erc-input.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"ercSourceSetIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"91424fa9fc8d18e7887692ad9dc13ab3a8169d64eeb9b5085f1f8864f58424fb\",\"schemaVersion\":\"evleda.fresh-plane-native-source-set.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"ercCoverage\":{\"ignoredChecks\":[{\"key\":\"single_global_label\",\"description\":\"Global label only appears once in the schematic\"},{\"key\":\"four_way_junction\",\"description\":\"Four connection points are joined together\"},{\"key\":\"simulation_model_issue\",\"description\":\"SPICE model issue\"},{\"key\":\"footprint_filter\",\"description\":\"Assigned footprint doesn't match footprint filters\"}],\"projectIgnoredCheckKeys\":[\"footprint_filter\",\"four_way_junction\",\"simulation_model_issue\",\"single_global_label\"],\"projectExclusionCount\":0,\"reportExcludedViolationCount\":0,\"unexcludedViolationCount\":0,\"sheetCount\":1,\"pinMapApplicability\":\"native-default-absent\",\"pinMapIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"808579e604ca597d12d6db7e822386b8e3de74cbf3db2382950fd39809cf7e56\",\"schemaVersion\":\"evleda.kicad10-erc-pin-map.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"}},\"drc\":{\"status\":\"clean\",\"violationCount\":0,\"schematicParityCount\":0,\"coordinateUnits\":\"mm\",\"includedSeverities\":[\"error\",\"warning\",\"exclusion\"],\"ignoredChecks\":[{\"key\":\"missing_courtyard\",\"description\":\"Footprint has no courtyard defined\",\"severity\":null},{\"key\":\"track_not_centered_on_via\",\"description\":\"Track endpoint not centered on via\",\"severity\":null},{\"key\":\"tuning_profile_track_geometries\",\"description\":\"Tuning profile track geometries\",\"severity\":null},{\"key\":\"footprint_filters_mismatch\",\"description\":\"Footprint doesn't match symbol's footprint filters\",\"severity\":null},{\"key\":\"footprint_type_mismatch\",\"description\":\"Footprint component type doesn't match footprint pads\",\"severity\":null}],\"violations\":[],\"unconnectedItems\":[],\"schematicParity\":[]},\"thermalPads\":[{\"physicalPadUuid\":\"02e69418-c010-4eff-9680-1af68d7cca3f\",\"footprintUuid\":\"001843cf-b0dc-423c-8718-6e71cc5a8f58\",\"reference\":\"J1\",\"number\":\"3\",\"layer\":\"B.Cu\",\"zoneUuid\":\"af1744d0-994b-44b3-b9e3-92dd03791185\",\"applicability\":\"direct-native-zone-contact\",\"minimumResolvedSpokes\":2,\"proof\":\"native-drc-lower-bound-with-source-derived-applicability\"},{\"physicalPadUuid\":\"e2c6f71b-6174-4e90-b097-f8eb7d022e85\",\"footprintUuid\":\"88b6108a-cf30-4637-8f55-bcbe9d453f63\",\"reference\":\"R2\",\"number\":\"2\",\"layer\":\"B.Cu\",\"zoneUuid\":\"af1744d0-994b-44b3-b9e3-92dd03791185\",\"applicability\":\"no-pad-copper-on-plane-layer\",\"minimumResolvedSpokes\":null,\"proof\":\"not-applicable\"}],\"minimumResolvedSpokesMeaning\":\"declared-lower-bound-requires-qualified-proof\",\"ruleApplicability\":\"source-derived-under-pinned-native-semantics\",\"drcScope\":\"configured-native-clearance-short-checks-not-complete-plane-acceptance\",\"nativeProviderCompletion\":\"stock-cli-process-evidence-not-explicit-provider-telemetry\",\"physicalSpokeCount\":\"not_measured\",\"physicalThermalWidth\":\"not_measured\",\"actualMinimumPlaneCopperWidth\":\"not_evaluated\"},\"commonChecks\":{\"assessmentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"393d67e3cd788f0fcd6b7b565cee7ab8984614ba8e454b100d150be01854bb67\",\"schemaVersion\":\"evleda.fresh-plane-common-checks.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"schemaVersion\":\"evleda.fresh-plane-common-checks.v1\",\"scope\":\"saved-source-numerical-contract-checks-not-electrical-sizing\",\"pcbSourceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38\",\"size\":19827},\"savedEvidenceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"76980e5011c84b12b04fcffe6fe012125126ae085ceebabae26aebf1b361b53d\",\"schemaVersion\":\"evleda.saved-fresh-plane-evidence.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"sourceInventory\":{\"complete\":true,\"footprintCount\":3,\"physicalPadCount\":7,\"trackCount\":8,\"viaCount\":1,\"zoneCount\":1},\"numericalPolicy\":{\"outlineAndViaDimensions\":\"exact-integer-nanometres\",\"traceValidatorToleranceMm\":0.000001},\"evaluatedRowIds\":[\"board:outline\",\"vias:GND\",\"vias:VIN\",\"trace-geometry:VIN\",\"vias:VOUT\",\"trace-geometry:VOUT\"],\"notEvaluated\":[\"trace-connectivity\",\"drill-clipped-contact-continuity\",\"plane-access\",\"placement\",\"ampacity\",\"impedance\",\"manufacturing\"],\"accepted\":false},\"planes\":[{\"planeId\":\"GND_PLANE\",\"zoneUuid\":\"af1744d0-994b-44b3-b9e3-92dd03791185\",\"configuration\":{\"status\":\"verified\",\"reasons\":[\"The sole saved and native zone retains the exact authenticated contract mutation, owned name and settings.\"]},\"geometry\":{\"status\":\"verified\",\"issues\":[],\"geometryEquivalent\":true,\"areaMeaning\":\"stored-zone-fill-geometry\",\"sourceGeometryIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00\",\"schemaVersion\":\"evleda.fresh-plane-normalized-filled-geometry.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"nativeGeometryIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00\",\"schemaVersion\":\"evleda.fresh-plane-normalized-filled-geometry.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"components\":[{\"nativePolygonIndex\":0,\"areaTwiceNm2\":\"1078418742011869\",\"holeCount\":1,\"topologyCertificate\":\"simple_outer_minus_strict_disjoint_holes\"}]},\"nativeGeometry\":{\"status\":\"verified\",\"issues\":[],\"geometryEquivalent\":true,\"areaMeaning\":\"stored-zone-fill-geometry\",\"sourceGeometryIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00\",\"schemaVersion\":\"evleda.fresh-plane-normalized-filled-geometry.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"nativeGeometryIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00\",\"schemaVersion\":\"evleda.fresh-plane-normalized-filled-geometry.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"components\":[{\"nativePolygonIndex\":0,\"areaTwiceNm2\":\"1078418742011869\",\"holeCount\":1,\"topologyCertificate\":\"simple_outer_minus_strict_disjoint_holes\"}]},\"componentCount\":1,\"drillTopology\":{\"schemaVersion\":\"evleda.fresh-plane-drill-topology.v1\",\"identity\":{\"algorithm\":\"sha256\",\"digest\":\"ebc5c66b33a9d96fcd978b5c78c3bd76447fdd41d6e44a635e9c10db1a3c4322\",\"schemaVersion\":\"evleda.fresh-plane-drill-topology.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"status\":\"unknown\",\"issues\":[\"Bore 02e69418-c010-4eff-9680-1af68d7cca3f: Bore enclosure intersects or touches a cached boundary or hole\"],\"savedEvidenceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"76980e5011c84b12b04fcffe6fe012125126ae085ceebabae26aebf1b361b53d\",\"schemaVersion\":\"evleda.saved-fresh-plane-evidence.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"savedPcbIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38\",\"size\":19827},\"cachedGeometryIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00\",\"schemaVersion\":\"evleda.fresh-plane-normalized-filled-geometry.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"zoneUuid\":\"af1744d0-994b-44b3-b9e3-92dd03791185\",\"layer\":\"B.Cu\",\"planarInteriorConnected\":null,\"classificationComplete\":false,\"cachedAreaTwiceNm2\":\"1078418742011869\",\"conservativeAreaLowerBoundTwiceNm2\":null,\"areaMeaning\":\"stored-zone-fill-and-conservative-drill-subtracted-lower-bound\",\"bores\":[{\"uuid\":\"05358db7-bfa8-414c-a5de-cd765a2120c6\",\"kind\":\"pad\",\"netName\":\"VIN\",\"centerNm\":{\"x\":3000000,\"y\":7000000},\"diameterNm\":1000000,\"enclosureNm\":{\"minX\":2500000,\"minY\":6500000,\"maxX\":3500000,\"maxY\":7500000},\"classification\":\"inside_cached_hole\",\"classificationBasis\":\"exact_circle_inside_cached_hole\",\"issues\":[],\"geometrySource\":\"exact-source-and-native-pad\"},{\"uuid\":\"0ceef41e-be64-45b6-b53b-0008ce958c89\",\"kind\":\"pad\",\"netName\":\"VOUT\",\"centerNm\":{\"x\":3000000,\"y\":9540000},\"diameterNm\":1000000,\"enclosureNm\":{\"minX\":2500000,\"minY\":9040000,\"maxX\":3500000,\"maxY\":10040000},\"classification\":\"inside_cached_hole\",\"classificationBasis\":\"exact_circle_inside_cached_hole\",\"issues\":[],\"geometrySource\":\"exact-source-and-native-pad\"},{\"uuid\":\"02e69418-c010-4eff-9680-1af68d7cca3f\",\"kind\":\"pad\",\"netName\":\"GND\",\"centerNm\":{\"x\":3000000,\"y\":12080000},\"diameterNm\":1000000,\"enclosureNm\":{\"minX\":2500000,\"minY\":11580000,\"maxX\":3500000,\"maxY\":12580000},\"classification\":\"unknown\",\"classificationBasis\":\"not_certified\",\"issues\":[\"Bore enclosure intersects or touches a cached boundary or hole\"],\"geometrySource\":\"exact-source-and-native-pad\"},{\"uuid\":\"68fc9de3-0e20-428b-bc01-2109a35c1299\",\"kind\":\"via\",\"netName\":\"GND\",\"centerNm\":{\"x\":20825000,\"y\":10475000},\"diameterNm\":300000,\"enclosureNm\":{\"minX\":20675000,\"minY\":10325000,\"maxX\":20975000,\"maxY\":10625000},\"classification\":\"new_interior_void\",\"classificationBasis\":\"strict_outward_enclosure\",\"issues\":[],\"geometrySource\":\"exact-saved-through-via\"}],\"inventory\":{\"sourcePadCount\":7,\"nativePadCount\":7,\"sourceViaCount\":1,\"boreCount\":4,\"complete\":true},\"physicalConnectivity\":\"not_assessed\",\"actualMinimumCopperWidth\":\"not_assessed\",\"terminalContactContinuity\":\"not_assessed\",\"bounds\":{\"predicateOperations\":2375,\"maximumBores\":4096,\"maximumPredicateOperations\":4000000}},\"nativePolygonAttribution\":{\"status\":\"verified\",\"reasons\":[\"One native subpolygon matches one connected copper component in the saved and staged geometry; direct contacts have an unambiguous scope.\"]},\"minimumArea\":{\"status\":\"unknown\",\"reasons\":[\"A complete bore-aware retained-area certificate is unavailable.\"],\"requiredAreaTwiceNm2\":\"0\",\"observedAreaTwiceNm2\":[\"1078418742011869\"],\"observedAreaMeaning\":\"stored-zone-fill-components\",\"conservativeAreaLowerBoundTwiceNm2\":null},\"intendedPlaneConnectivity\":{\"status\":\"verified\",\"reasons\":[\"Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component.\"],\"scope\":\"native-pad-reachability-to-stored-zone-component\",\"directEligiblePadAnchors\":[\"02e69418-c010-4eff-9680-1af68d7cca3f\"],\"nativeDirectVias\":[\"68fc9de3-0e20-428b-bc01-2109a35c1299\"]},\"islandPolicy\":{\"status\":\"unknown\",\"reasons\":[\"Native retained-island classification and connected intended-component attribution are required.\"]},\"actualMinimumCopperWidth\":{\"status\":\"unknown\",\"reasons\":[\"Configured native minimum thickness does not measure actual filled copper width.\"]},\"thermalPolicy\":{\"status\":\"verified\",\"reasons\":[]},\"actualThermalWidth\":{\"status\":\"unknown\",\"reasons\":[\"Actual physical thermal spoke width has not been measured; native configuration and DRC do not measure this dimension.\"]}}],\"references\":[{\"net\":\"VIN\",\"planeId\":\"GND_PLANE\",\"status\":\"failed\",\"reasons\":[\"The required reference ribbon intersects a source-verified round drill bore.\"],\"segmentIds\":[\"c33ab615-9567-447a-baf8-6871ca3c0b93\"],\"marginNm\":500000,\"geometricStatus\":\"uncovered\",\"referenceTerminals\":{\"status\":\"verified\",\"reasons\":[\"Each explicit signal and reference terminal is current and reaches its required native net or intended plane component.\"]},\"intersectingBoreUuids\":[\"05358db7-bfa8-414c-a5de-cd765a2120c6\"],\"tangentBoreUuids\":[]}],\"rows\":[{\"id\":\"contract:integrity\",\"kind\":\"contract\",\"status\":\"pass\",\"reasons\":[\"Authenticated V2 bundle, current saved fill, exact source and rules, and physical endpoint scope agree.\"]},{\"id\":\"library:J1\",\"kind\":\"library\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"schematic:J1\",\"kind\":\"schematic\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"pcb:J1\",\"kind\":\"pcb_component\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"placement:J1\",\"kind\":\"placement\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"library:R1\",\"kind\":\"library\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"schematic:R1\",\"kind\":\"schematic\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"pcb:R1\",\"kind\":\"pcb_component\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"placement:R1\",\"kind\":\"placement\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"library:R2\",\"kind\":\"library\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"schematic:R2\",\"kind\":\"schematic\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"pcb:R2\",\"kind\":\"pcb_component\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"placement:R2\",\"kind\":\"placement\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"schematic-net:GND\",\"kind\":\"schematic\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"schematic-net:VIN\",\"kind\":\"schematic\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"schematic-net:VOUT\",\"kind\":\"schematic\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"board:outline\",\"kind\":\"outline\",\"status\":\"pass\",\"reasons\":[\"The complete extracted edges are exactly the declared rectangle at (0,0), with the verified two-layer source scope.\"],\"observations\":{\"completeAnalyzedOutline\":true,\"primitiveCount\":4,\"sourcePrimitiveKinds\":[\"gr_rect\"],\"footprintLocalOutlineContributors\":false,\"widthNm\":30000000,\"heightNm\":20000000,\"edgeKeysNm\":[\"0,0;30000000,0\",\"30000000,0;30000000,20000000\",\"0,20000000;30000000,20000000\",\"0,0;0,20000000\"]}},{\"id\":\"netclass:POWER\",\"kind\":\"netclass_configuration\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"netclass:SENSE\",\"kind\":\"netclass_configuration\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"vias:GND\",\"kind\":\"via_policy\",\"status\":\"pass\",\"reasons\":[\"Every exact saved through-via satisfies the declared per-net and global budgets, dimensions, layer span and edge bound.\"],\"observations\":{\"net\":\"GND\",\"viaCount\":1,\"globalViaCount\":1,\"perNetMaximum\":2,\"globalMaximum\":2,\"footprintDrillsAreNotRoutedVias\":true,\"dimensions\":[{\"uuid\":\"68fc9de3-0e20-428b-bc01-2109a35c1299\",\"diameterNm\":600000,\"drillNm\":300000,\"annularRingTwiceNm\":300000,\"xNm\":20825000,\"yNm\":10475000,\"layers\":[\"F.Cu\",\"B.Cu\"]}]}},{\"id\":\"plane-net:GND\",\"kind\":\"plane_connectivity\",\"status\":\"unknown\",\"reasons\":[\"Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component.\",\"Native endpoint reachability and planar interior topology do not yet prove every terminal contact through drill-clipped pad, track and barrel copper.\"]},{\"id\":\"plane-access:GND\",\"kind\":\"plane_access\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"vias:VIN\",\"kind\":\"via_policy\",\"status\":\"pass\",\"reasons\":[\"Every exact saved through-via satisfies the declared per-net and global budgets, dimensions, layer span and edge bound.\"],\"observations\":{\"net\":\"VIN\",\"viaCount\":0,\"globalViaCount\":1,\"perNetMaximum\":0,\"globalMaximum\":2,\"footprintDrillsAreNotRoutedVias\":true,\"dimensions\":[]}},{\"id\":\"trace-net:VIN\",\"kind\":\"trace_connectivity\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"trace-geometry:VIN\",\"kind\":\"trace_geometry\",\"status\":\"pass\",\"reasons\":[\"Complete saved tracks satisfy the existing V2 numerical width, layer, length, turn and intersection checks; connectivity and drill-clipped contacts are separate.\"],\"observations\":{\"net\":\"VIN\",\"trackUuids\":[\"c33ab615-9567-447a-baf8-6871ca3c0b93\"],\"fullRouteInventorySupplied\":true,\"padExemptionsSource\":\"current-source-and-qualified-native-pad-inventory\",\"numericalToleranceMm\":0.000001}},{\"id\":\"reference:VIN\",\"kind\":\"reference_path\",\"status\":\"fail\",\"reasons\":[\"The required reference ribbon intersects a source-verified round drill bore.\"]},{\"id\":\"vias:VOUT\",\"kind\":\"via_policy\",\"status\":\"pass\",\"reasons\":[\"Every exact saved through-via satisfies the declared per-net and global budgets, dimensions, layer span and edge bound.\"],\"observations\":{\"net\":\"VOUT\",\"viaCount\":0,\"globalViaCount\":1,\"perNetMaximum\":0,\"globalMaximum\":2,\"footprintDrillsAreNotRoutedVias\":true,\"dimensions\":[]}},{\"id\":\"trace-net:VOUT\",\"kind\":\"trace_connectivity\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"trace-geometry:VOUT\",\"kind\":\"trace_geometry\",\"status\":\"pass\",\"reasons\":[\"Complete saved tracks satisfy the existing V2 numerical width, layer, length, turn and intersection checks; connectivity and drill-clipped contacts are separate.\"],\"observations\":{\"net\":\"VOUT\",\"trackUuids\":[\"03eb8c3d-6fa8-46ec-a8fd-002af871f6e6\",\"43b65ebb-14b5-4cbc-905b-42341c29149f\",\"5b94b274-23fb-4965-9c7d-91a67a9c42c7\",\"d717762c-d2c6-43e6-a5e1-9c4b8fb26953\",\"f510497a-a874-4704-8f4b-0b87254f1b93\"],\"fullRouteInventorySupplied\":true,\"padExemptionsSource\":\"current-source-and-qualified-native-pad-inventory\",\"numericalToleranceMm\":0.000001}},{\"id\":\"plane-config:GND_PLANE\",\"kind\":\"plane_configuration\",\"status\":\"pass\",\"reasons\":[\"The sole saved and native zone retains the exact authenticated contract mutation, owned name and settings.\"]},{\"id\":\"plane-fill:GND_PLANE\",\"kind\":\"plane_fill\",\"status\":\"unknown\",\"reasons\":[\"Configured native minimum thickness does not measure actual filled copper width.\"]},{\"id\":\"plane-clearance:GND_PLANE\",\"kind\":\"plane_clearance\",\"status\":\"unknown\",\"reasons\":[\"Effective zone and edge clearance rule interaction needs its complete plane-specific evaluator.\"]},{\"id\":\"plane-policy:GND_PLANE\",\"kind\":\"plane_thermal_islands\",\"status\":\"unknown\",\"reasons\":[\"Native retained-island classification and connected intended-component attribution are required.\",\"Actual physical thermal spoke width has not been measured; native configuration and DRC do not measure this dimension.\",\"The complete thermal or solid contact row remains unevaluated.\"]},{\"id\":\"erc\",\"kind\":\"erc\",\"status\":\"unknown\",\"reasons\":[\"erc-project-has-ignored-checks\",\"native-erc-has-ignored-checks\"]},{\"id\":\"drc\",\"kind\":\"drc\",\"status\":\"pass\",\"reasons\":[]},{\"id\":\"schematic_ink\",\"kind\":\"schematic_ink\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]},{\"id\":\"visual\",\"kind\":\"visual\",\"status\":\"unknown\",\"reasons\":[\"This mandatory V2 requirement has no complete evaluator in this bounded plane assessment.\"]}],\"verificationPlanRowsPassed\":[\"contract:integrity\",\"board:outline\",\"vias:GND\",\"vias:VIN\",\"trace-geometry:VIN\",\"vias:VOUT\",\"trace-geometry:VOUT\",\"plane-config:GND_PLANE\",\"drc\"],\"mandatoryRowsRemaining\":[\"library:J1\",\"schematic:J1\",\"pcb:J1\",\"placement:J1\",\"library:R1\",\"schematic:R1\",\"pcb:R1\",\"placement:R1\",\"library:R2\",\"schematic:R2\",\"pcb:R2\",\"placement:R2\",\"schematic-net:GND\",\"schematic-net:VIN\",\"schematic-net:VOUT\",\"netclass:POWER\",\"netclass:SENSE\",\"plane-net:GND\",\"plane-access:GND\",\"trace-net:VIN\",\"reference:VIN\",\"trace-net:VOUT\",\"plane-fill:GND_PLANE\",\"plane-clearance:GND_PLANE\",\"plane-policy:GND_PLANE\",\"erc\",\"schematic_ink\",\"visual\"],\"acceptanceEvaluated\":true,\"accepted\":false,\"fabricationAuthorized\":false,\"limitations\":{\"overallAcceptance\":\"requires-every-mandatory-V2-row-and-independent-general-gates\",\"physicalThermalWidth\":\"not-measured\",\"actualMinimumCopperWidth\":\"not-measured\",\"terminalContactContinuity\":\"native-model-only-not-drill-clipped-global-copper\",\"highFrequencyElectricalValidity\":\"not-established\",\"impedance\":\"not-evaluated\",\"currentSourceGuards\":\"required-of-owning-host-before-and-after-assessment\"}},\"diagnostic\":{\"filename\":\"plane-acceptance-0c8025c3-9514-4ddc-bfe3-2d1b17b0c6fc.json\",\"identity\":{\"algorithm\":\"sha256\",\"digest\":\"082f40b0d3752d57794ad30009855f88ca2ba4623a2159cf7fcc0f00b0f6f882\",\"size\":299247}},\"sourceBefore\":\"d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61\",\"sourceAfter\":\"d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61\",\"sourceUnchanged\":true,\"recoveryRequired\":false}"
+      }
+    ],
+    "structuredContent": {
+      "report": {
+        "schemaVersion": "evleda.toolbox-plane-acceptance.v1",
+        "assessmentSchemaVersion": "evleda.fresh-plane-acceptance.v1",
+        "assessmentIdentity": {
+          "algorithm": "sha256",
+          "digest": "397a8e44cc20bb213ddbe6a8c8e6e3b3d56d3221c1dd1fc3cbbd479692e4c656",
+          "schemaVersion": "evleda.fresh-plane-acceptance.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "family": "plane-v2",
+        "status": "failed",
+        "bundleIdentity": {
+          "algorithm": "sha256",
+          "digest": "d37e2a971df9a61af6dc383cb0b6074a34fa5940140723567ac46e9393c2a554",
+          "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "contractIdentity": {
+          "algorithm": "sha256",
+          "digest": "302b8db0af86f5f3cf8f5e0f12d4c947672dca9ad163323475d8f11f8ab81637",
+          "schemaVersion": "evleda.pcb-design-contract.v2",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "verificationPlanIdentity": {
+          "algorithm": "sha256",
+          "digest": "b08f5809d6311f5c18152c06d8664b88f85b22d24144b465c34a8ae6d2ca4733",
+          "schemaVersion": "evleda.pcb-plane-verification-plan.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "sourceIdentities": {
+          "pcb": {
+            "algorithm": "sha256",
+            "digest": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38",
+            "size": 19827
+          },
+          "project": {
+            "algorithm": "sha256",
+            "digest": "0b3735dc20820da3a613be36976388b81dfe66cf47ea7ac8bc7a8c05fc16bb7d",
+            "size": 11330
+          },
+          "rules": {
+            "algorithm": "sha256",
+            "digest": "65233baec349f5789aaaca0499f4a59a897e3127b8fd399edd5597f2e37f0d04",
+            "size": 329
+          }
+        },
+        "savedEvidenceIdentity": {
+          "algorithm": "sha256",
+          "digest": "76980e5011c84b12b04fcffe6fe012125126ae085ceebabae26aebf1b361b53d",
+          "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "endpointConnectivityIdentity": {
+          "algorithm": "sha256",
+          "digest": "e02bed55e2a7ad89fa3e9a9e2dede45b66d50977fe98c7e06353ce34d74b2ea3",
+          "schemaVersion": "evleda.fresh-plane-connectivity.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "endpointConnectivity": {
+          "status": "connected",
+          "nets": [
+            {
+              "net": "GND",
+              "status": "connected",
+              "everyEligiblePhysicalMemberReachable": true
+            },
+            {
+              "net": "VIN",
+              "status": "connected",
+              "everyEligiblePhysicalMemberReachable": true
+            },
+            {
+              "net": "VOUT",
+              "status": "connected",
+              "everyEligiblePhysicalMemberReachable": true
+            }
+          ]
+        },
+        "authority": {
+          "status": "verified",
+          "reasons": [
+            "Authenticated V2 bundle, current saved fill, exact source and rules, and physical endpoint scope agree."
+          ]
+        },
+        "sourceScope": {
+          "status": "verified",
+          "reasons": [
+            "Complete supported source route, footprint and layered-copper scope; through-vias retained separately from straight reference ribbons."
+          ]
+        },
+        "nativeInventory": {
+          "status": "verified",
+          "reasons": [
+            "All native zone, footprint, pad and route UUIDs, nets and layers match the complete saved source."
+          ]
+        },
+        "nativeChecks": {
+          "assessmentIdentity": {
+            "algorithm": "sha256",
+            "digest": "3ff01f5a8d50d2a36527f372f648420601505bc09cb562558de4c1f8ca74a1ba",
+            "schemaVersion": "evleda.fresh-plane-native-checks.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "status": "unsupported",
+          "nativeDrcIdentity": {
+            "algorithm": "sha256",
+            "digest": "41b49ecaac70d80cd876ac1cfdb78c3c8c02d9172d154a285cf80ec734d6d754",
+            "schemaVersion": "evleda.fresh-plane-native-drc-input.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "checks": {
+            "erc": {
+              "status": "unsupported",
+              "reasons": [
+                "erc-project-has-ignored-checks",
+                "native-erc-has-ignored-checks"
+              ]
+            },
+            "drcClearanceShorts": {
+              "status": "verified",
+              "reasons": []
+            },
+            "thermalPolicy": {
+              "status": "verified",
+              "reasons": []
+            }
+          },
+          "nativeErcIdentity": {
+            "algorithm": "sha256",
+            "digest": "17f0b31be3b0c2485ecd23eb8b2c0d45e2a2ebc9e68b7be8051e4f4cbe28a050",
+            "schemaVersion": "evleda.fresh-plane-native-erc-input.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "ercSourceSetIdentity": {
+            "algorithm": "sha256",
+            "digest": "91424fa9fc8d18e7887692ad9dc13ab3a8169d64eeb9b5085f1f8864f58424fb",
+            "schemaVersion": "evleda.fresh-plane-native-source-set.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "ercCoverage": {
+            "ignoredChecks": [
+              {
+                "key": "single_global_label",
+                "description": "Global label only appears once in the schematic"
+              },
+              {
+                "key": "four_way_junction",
+                "description": "Four connection points are joined together"
+              },
+              {
+                "key": "simulation_model_issue",
+                "description": "SPICE model issue"
+              },
+              {
+                "key": "footprint_filter",
+                "description": "Assigned footprint doesn't match footprint filters"
+              }
+            ],
+            "projectIgnoredCheckKeys": [
+              "footprint_filter",
+              "four_way_junction",
+              "simulation_model_issue",
+              "single_global_label"
+            ],
+            "projectExclusionCount": 0,
+            "reportExcludedViolationCount": 0,
+            "unexcludedViolationCount": 0,
+            "sheetCount": 1,
+            "pinMapApplicability": "native-default-absent",
+            "pinMapIdentity": {
+              "algorithm": "sha256",
+              "digest": "808579e604ca597d12d6db7e822386b8e3de74cbf3db2382950fd39809cf7e56",
+              "schemaVersion": "evleda.kicad10-erc-pin-map.v1",
+              "canonicalizationVersion": "evleda-c14n-json-v1"
+            }
+          },
+          "drc": {
+            "status": "clean",
+            "violationCount": 0,
+            "schematicParityCount": 0,
+            "coordinateUnits": "mm",
+            "includedSeverities": [
+              "error",
+              "warning",
+              "exclusion"
+            ],
+            "ignoredChecks": [
+              {
+                "key": "missing_courtyard",
+                "description": "Footprint has no courtyard defined",
+                "severity": null
+              },
+              {
+                "key": "track_not_centered_on_via",
+                "description": "Track endpoint not centered on via",
+                "severity": null
+              },
+              {
+                "key": "tuning_profile_track_geometries",
+                "description": "Tuning profile track geometries",
+                "severity": null
+              },
+              {
+                "key": "footprint_filters_mismatch",
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "severity": null
+              },
+              {
+                "key": "footprint_type_mismatch",
+                "description": "Footprint component type doesn't match footprint pads",
+                "severity": null
+              }
+            ],
+            "violations": [],
+            "unconnectedItems": [],
+            "schematicParity": []
+          },
+          "thermalPads": [
+            {
+              "physicalPadUuid": "02e69418-c010-4eff-9680-1af68d7cca3f",
+              "footprintUuid": "001843cf-b0dc-423c-8718-6e71cc5a8f58",
+              "reference": "J1",
+              "number": "3",
+              "layer": "B.Cu",
+              "zoneUuid": "af1744d0-994b-44b3-b9e3-92dd03791185",
+              "applicability": "direct-native-zone-contact",
+              "minimumResolvedSpokes": 2,
+              "proof": "native-drc-lower-bound-with-source-derived-applicability"
+            },
+            {
+              "physicalPadUuid": "e2c6f71b-6174-4e90-b097-f8eb7d022e85",
+              "footprintUuid": "88b6108a-cf30-4637-8f55-bcbe9d453f63",
+              "reference": "R2",
+              "number": "2",
+              "layer": "B.Cu",
+              "zoneUuid": "af1744d0-994b-44b3-b9e3-92dd03791185",
+              "applicability": "no-pad-copper-on-plane-layer",
+              "minimumResolvedSpokes": null,
+              "proof": "not-applicable"
+            }
+          ],
+          "minimumResolvedSpokesMeaning": "declared-lower-bound-requires-qualified-proof",
+          "ruleApplicability": "source-derived-under-pinned-native-semantics",
+          "drcScope": "configured-native-clearance-short-checks-not-complete-plane-acceptance",
+          "nativeProviderCompletion": "stock-cli-process-evidence-not-explicit-provider-telemetry",
+          "physicalSpokeCount": "not_measured",
+          "physicalThermalWidth": "not_measured",
+          "actualMinimumPlaneCopperWidth": "not_evaluated"
+        },
+        "commonChecks": {
+          "assessmentIdentity": {
+            "algorithm": "sha256",
+            "digest": "393d67e3cd788f0fcd6b7b565cee7ab8984614ba8e454b100d150be01854bb67",
+            "schemaVersion": "evleda.fresh-plane-common-checks.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "schemaVersion": "evleda.fresh-plane-common-checks.v1",
+          "scope": "saved-source-numerical-contract-checks-not-electrical-sizing",
+          "pcbSourceIdentity": {
+            "algorithm": "sha256",
+            "digest": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38",
+            "size": 19827
+          },
+          "savedEvidenceIdentity": {
+            "algorithm": "sha256",
+            "digest": "76980e5011c84b12b04fcffe6fe012125126ae085ceebabae26aebf1b361b53d",
+            "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+            "canonicalizationVersion": "evleda-c14n-json-v1"
+          },
+          "sourceInventory": {
+            "complete": true,
+            "footprintCount": 3,
+            "physicalPadCount": 7,
+            "trackCount": 8,
+            "viaCount": 1,
+            "zoneCount": 1
+          },
+          "numericalPolicy": {
+            "outlineAndViaDimensions": "exact-integer-nanometres",
+            "traceValidatorToleranceMm": 0.000001
+          },
+          "evaluatedRowIds": [
+            "board:outline",
+            "vias:GND",
+            "vias:VIN",
+            "trace-geometry:VIN",
+            "vias:VOUT",
+            "trace-geometry:VOUT"
+          ],
+          "notEvaluated": [
+            "trace-connectivity",
+            "drill-clipped-contact-continuity",
+            "plane-access",
+            "placement",
+            "ampacity",
+            "impedance",
+            "manufacturing"
+          ],
+          "accepted": false
+        },
+        "planes": [
+          {
+            "planeId": "GND_PLANE",
+            "zoneUuid": "af1744d0-994b-44b3-b9e3-92dd03791185",
+            "configuration": {
+              "status": "verified",
+              "reasons": [
+                "The sole saved and native zone retains the exact authenticated contract mutation, owned name and settings."
+              ]
+            },
+            "geometry": {
+              "status": "verified",
+              "issues": [],
+              "geometryEquivalent": true,
+              "areaMeaning": "stored-zone-fill-geometry",
+              "sourceGeometryIdentity": {
+                "algorithm": "sha256",
+                "digest": "29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00",
+                "schemaVersion": "evleda.fresh-plane-normalized-filled-geometry.v1",
+                "canonicalizationVersion": "evleda-c14n-json-v1"
+              },
+              "nativeGeometryIdentity": {
+                "algorithm": "sha256",
+                "digest": "29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00",
+                "schemaVersion": "evleda.fresh-plane-normalized-filled-geometry.v1",
+                "canonicalizationVersion": "evleda-c14n-json-v1"
+              },
+              "components": [
+                {
+                  "nativePolygonIndex": 0,
+                  "areaTwiceNm2": "1078418742011869",
+                  "holeCount": 1,
+                  "topologyCertificate": "simple_outer_minus_strict_disjoint_holes"
+                }
+              ]
+            },
+            "nativeGeometry": {
+              "status": "verified",
+              "issues": [],
+              "geometryEquivalent": true,
+              "areaMeaning": "stored-zone-fill-geometry",
+              "sourceGeometryIdentity": {
+                "algorithm": "sha256",
+                "digest": "29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00",
+                "schemaVersion": "evleda.fresh-plane-normalized-filled-geometry.v1",
+                "canonicalizationVersion": "evleda-c14n-json-v1"
+              },
+              "nativeGeometryIdentity": {
+                "algorithm": "sha256",
+                "digest": "29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00",
+                "schemaVersion": "evleda.fresh-plane-normalized-filled-geometry.v1",
+                "canonicalizationVersion": "evleda-c14n-json-v1"
+              },
+              "components": [
+                {
+                  "nativePolygonIndex": 0,
+                  "areaTwiceNm2": "1078418742011869",
+                  "holeCount": 1,
+                  "topologyCertificate": "simple_outer_minus_strict_disjoint_holes"
+                }
+              ]
+            },
+            "componentCount": 1,
+            "drillTopology": {
+              "schemaVersion": "evleda.fresh-plane-drill-topology.v1",
+              "identity": {
+                "algorithm": "sha256",
+                "digest": "ebc5c66b33a9d96fcd978b5c78c3bd76447fdd41d6e44a635e9c10db1a3c4322",
+                "schemaVersion": "evleda.fresh-plane-drill-topology.v1",
+                "canonicalizationVersion": "evleda-c14n-json-v1"
+              },
+              "status": "unknown",
+              "issues": [
+                "Bore 02e69418-c010-4eff-9680-1af68d7cca3f: Bore enclosure intersects or touches a cached boundary or hole"
+              ],
+              "savedEvidenceIdentity": {
+                "algorithm": "sha256",
+                "digest": "76980e5011c84b12b04fcffe6fe012125126ae085ceebabae26aebf1b361b53d",
+                "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+                "canonicalizationVersion": "evleda-c14n-json-v1"
+              },
+              "savedPcbIdentity": {
+                "algorithm": "sha256",
+                "digest": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38",
+                "size": 19827
+              },
+              "cachedGeometryIdentity": {
+                "algorithm": "sha256",
+                "digest": "29e0f11a927b4f936758cfb9a17b953ef2bdbb9afe2ee9a8a5ff093e61a81f00",
+                "schemaVersion": "evleda.fresh-plane-normalized-filled-geometry.v1",
+                "canonicalizationVersion": "evleda-c14n-json-v1"
+              },
+              "zoneUuid": "af1744d0-994b-44b3-b9e3-92dd03791185",
+              "layer": "B.Cu",
+              "planarInteriorConnected": null,
+              "classificationComplete": false,
+              "cachedAreaTwiceNm2": "1078418742011869",
+              "conservativeAreaLowerBoundTwiceNm2": null,
+              "areaMeaning": "stored-zone-fill-and-conservative-drill-subtracted-lower-bound",
+              "bores": [
+                {
+                  "uuid": "05358db7-bfa8-414c-a5de-cd765a2120c6",
+                  "kind": "pad",
+                  "netName": "VIN",
+                  "centerNm": {
+                    "x": 3000000,
+                    "y": 7000000
+                  },
+                  "diameterNm": 1000000,
+                  "enclosureNm": {
+                    "minX": 2500000,
+                    "minY": 6500000,
+                    "maxX": 3500000,
+                    "maxY": 7500000
+                  },
+                  "classification": "inside_cached_hole",
+                  "classificationBasis": "exact_circle_inside_cached_hole",
+                  "issues": [],
+                  "geometrySource": "exact-source-and-native-pad"
+                },
+                {
+                  "uuid": "0ceef41e-be64-45b6-b53b-0008ce958c89",
+                  "kind": "pad",
+                  "netName": "VOUT",
+                  "centerNm": {
+                    "x": 3000000,
+                    "y": 9540000
+                  },
+                  "diameterNm": 1000000,
+                  "enclosureNm": {
+                    "minX": 2500000,
+                    "minY": 9040000,
+                    "maxX": 3500000,
+                    "maxY": 10040000
+                  },
+                  "classification": "inside_cached_hole",
+                  "classificationBasis": "exact_circle_inside_cached_hole",
+                  "issues": [],
+                  "geometrySource": "exact-source-and-native-pad"
+                },
+                {
+                  "uuid": "02e69418-c010-4eff-9680-1af68d7cca3f",
+                  "kind": "pad",
+                  "netName": "GND",
+                  "centerNm": {
+                    "x": 3000000,
+                    "y": 12080000
+                  },
+                  "diameterNm": 1000000,
+                  "enclosureNm": {
+                    "minX": 2500000,
+                    "minY": 11580000,
+                    "maxX": 3500000,
+                    "maxY": 12580000
+                  },
+                  "classification": "unknown",
+                  "classificationBasis": "not_certified",
+                  "issues": [
+                    "Bore enclosure intersects or touches a cached boundary or hole"
+                  ],
+                  "geometrySource": "exact-source-and-native-pad"
+                },
+                {
+                  "uuid": "68fc9de3-0e20-428b-bc01-2109a35c1299",
+                  "kind": "via",
+                  "netName": "GND",
+                  "centerNm": {
+                    "x": 20825000,
+                    "y": 10475000
+                  },
+                  "diameterNm": 300000,
+                  "enclosureNm": {
+                    "minX": 20675000,
+                    "minY": 10325000,
+                    "maxX": 20975000,
+                    "maxY": 10625000
+                  },
+                  "classification": "new_interior_void",
+                  "classificationBasis": "strict_outward_enclosure",
+                  "issues": [],
+                  "geometrySource": "exact-saved-through-via"
+                }
+              ],
+              "inventory": {
+                "sourcePadCount": 7,
+                "nativePadCount": 7,
+                "sourceViaCount": 1,
+                "boreCount": 4,
+                "complete": true
+              },
+              "physicalConnectivity": "not_assessed",
+              "actualMinimumCopperWidth": "not_assessed",
+              "terminalContactContinuity": "not_assessed",
+              "bounds": {
+                "predicateOperations": 2375,
+                "maximumBores": 4096,
+                "maximumPredicateOperations": 4000000
+              }
+            },
+            "nativePolygonAttribution": {
+              "status": "verified",
+              "reasons": [
+                "One native subpolygon matches one connected copper component in the saved and staged geometry; direct contacts have an unambiguous scope."
+              ]
+            },
+            "minimumArea": {
+              "status": "unknown",
+              "reasons": [
+                "A complete bore-aware retained-area certificate is unavailable."
+              ],
+              "requiredAreaTwiceNm2": "0",
+              "observedAreaTwiceNm2": [
+                "1078418742011869"
+              ],
+              "observedAreaMeaning": "stored-zone-fill-components",
+              "conservativeAreaLowerBoundTwiceNm2": null
+            },
+            "intendedPlaneConnectivity": {
+              "status": "verified",
+              "reasons": [
+                "Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component."
+              ],
+              "scope": "native-pad-reachability-to-stored-zone-component",
+              "directEligiblePadAnchors": [
+                "02e69418-c010-4eff-9680-1af68d7cca3f"
+              ],
+              "nativeDirectVias": [
+                "68fc9de3-0e20-428b-bc01-2109a35c1299"
+              ]
+            },
+            "islandPolicy": {
+              "status": "unknown",
+              "reasons": [
+                "Native retained-island classification and connected intended-component attribution are required."
+              ]
+            },
+            "actualMinimumCopperWidth": {
+              "status": "unknown",
+              "reasons": [
+                "Configured native minimum thickness does not measure actual filled copper width."
+              ]
+            },
+            "thermalPolicy": {
+              "status": "verified",
+              "reasons": []
+            },
+            "actualThermalWidth": {
+              "status": "unknown",
+              "reasons": [
+                "Actual physical thermal spoke width has not been measured; native configuration and DRC do not measure this dimension."
+              ]
+            }
+          }
+        ],
+        "references": [
+          {
+            "net": "VIN",
+            "planeId": "GND_PLANE",
+            "status": "failed",
+            "reasons": [
+              "The required reference ribbon intersects a source-verified round drill bore."
+            ],
+            "segmentIds": [
+              "c33ab615-9567-447a-baf8-6871ca3c0b93"
+            ],
+            "marginNm": 500000,
+            "geometricStatus": "uncovered",
+            "referenceTerminals": {
+              "status": "verified",
+              "reasons": [
+                "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+              ]
+            },
+            "intersectingBoreUuids": [
+              "05358db7-bfa8-414c-a5de-cd765a2120c6"
+            ],
+            "tangentBoreUuids": []
+          }
+        ],
+        "rows": [
+          {
+            "id": "contract:integrity",
+            "kind": "contract",
+            "status": "pass",
+            "reasons": [
+              "Authenticated V2 bundle, current saved fill, exact source and rules, and physical endpoint scope agree."
+            ]
+          },
+          {
+            "id": "library:J1",
+            "kind": "library",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "schematic:J1",
+            "kind": "schematic",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "pcb:J1",
+            "kind": "pcb_component",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "placement:J1",
+            "kind": "placement",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "library:R1",
+            "kind": "library",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "schematic:R1",
+            "kind": "schematic",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "pcb:R1",
+            "kind": "pcb_component",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "placement:R1",
+            "kind": "placement",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "library:R2",
+            "kind": "library",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "schematic:R2",
+            "kind": "schematic",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "pcb:R2",
+            "kind": "pcb_component",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "placement:R2",
+            "kind": "placement",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "schematic-net:GND",
+            "kind": "schematic",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "schematic-net:VIN",
+            "kind": "schematic",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "schematic-net:VOUT",
+            "kind": "schematic",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "board:outline",
+            "kind": "outline",
+            "status": "pass",
+            "reasons": [
+              "The complete extracted edges are exactly the declared rectangle at (0,0), with the verified two-layer source scope."
+            ],
+            "observations": {
+              "completeAnalyzedOutline": true,
+              "primitiveCount": 4,
+              "sourcePrimitiveKinds": [
+                "gr_rect"
+              ],
+              "footprintLocalOutlineContributors": false,
+              "widthNm": 30000000,
+              "heightNm": 20000000,
+              "edgeKeysNm": [
+                "0,0;30000000,0",
+                "30000000,0;30000000,20000000",
+                "0,20000000;30000000,20000000",
+                "0,0;0,20000000"
+              ]
+            }
+          },
+          {
+            "id": "netclass:POWER",
+            "kind": "netclass_configuration",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "netclass:SENSE",
+            "kind": "netclass_configuration",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "vias:GND",
+            "kind": "via_policy",
+            "status": "pass",
+            "reasons": [
+              "Every exact saved through-via satisfies the declared per-net and global budgets, dimensions, layer span and edge bound."
+            ],
+            "observations": {
+              "net": "GND",
+              "viaCount": 1,
+              "globalViaCount": 1,
+              "perNetMaximum": 2,
+              "globalMaximum": 2,
+              "footprintDrillsAreNotRoutedVias": true,
+              "dimensions": [
+                {
+                  "uuid": "68fc9de3-0e20-428b-bc01-2109a35c1299",
+                  "diameterNm": 600000,
+                  "drillNm": 300000,
+                  "annularRingTwiceNm": 300000,
+                  "xNm": 20825000,
+                  "yNm": 10475000,
+                  "layers": [
+                    "F.Cu",
+                    "B.Cu"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "plane-net:GND",
+            "kind": "plane_connectivity",
+            "status": "unknown",
+            "reasons": [
+              "Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component.",
+              "Native endpoint reachability and planar interior topology do not yet prove every terminal contact through drill-clipped pad, track and barrel copper."
+            ]
+          },
+          {
+            "id": "plane-access:GND",
+            "kind": "plane_access",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "vias:VIN",
+            "kind": "via_policy",
+            "status": "pass",
+            "reasons": [
+              "Every exact saved through-via satisfies the declared per-net and global budgets, dimensions, layer span and edge bound."
+            ],
+            "observations": {
+              "net": "VIN",
+              "viaCount": 0,
+              "globalViaCount": 1,
+              "perNetMaximum": 0,
+              "globalMaximum": 2,
+              "footprintDrillsAreNotRoutedVias": true,
+              "dimensions": []
+            }
+          },
+          {
+            "id": "trace-net:VIN",
+            "kind": "trace_connectivity",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "trace-geometry:VIN",
+            "kind": "trace_geometry",
+            "status": "pass",
+            "reasons": [
+              "Complete saved tracks satisfy the existing V2 numerical width, layer, length, turn and intersection checks; connectivity and drill-clipped contacts are separate."
+            ],
+            "observations": {
+              "net": "VIN",
+              "trackUuids": [
+                "c33ab615-9567-447a-baf8-6871ca3c0b93"
+              ],
+              "fullRouteInventorySupplied": true,
+              "padExemptionsSource": "current-source-and-qualified-native-pad-inventory",
+              "numericalToleranceMm": 0.000001
+            }
+          },
+          {
+            "id": "reference:VIN",
+            "kind": "reference_path",
+            "status": "fail",
+            "reasons": [
+              "The required reference ribbon intersects a source-verified round drill bore."
+            ]
+          },
+          {
+            "id": "vias:VOUT",
+            "kind": "via_policy",
+            "status": "pass",
+            "reasons": [
+              "Every exact saved through-via satisfies the declared per-net and global budgets, dimensions, layer span and edge bound."
+            ],
+            "observations": {
+              "net": "VOUT",
+              "viaCount": 0,
+              "globalViaCount": 1,
+              "perNetMaximum": 0,
+              "globalMaximum": 2,
+              "footprintDrillsAreNotRoutedVias": true,
+              "dimensions": []
+            }
+          },
+          {
+            "id": "trace-net:VOUT",
+            "kind": "trace_connectivity",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "trace-geometry:VOUT",
+            "kind": "trace_geometry",
+            "status": "pass",
+            "reasons": [
+              "Complete saved tracks satisfy the existing V2 numerical width, layer, length, turn and intersection checks; connectivity and drill-clipped contacts are separate."
+            ],
+            "observations": {
+              "net": "VOUT",
+              "trackUuids": [
+                "03eb8c3d-6fa8-46ec-a8fd-002af871f6e6",
+                "43b65ebb-14b5-4cbc-905b-42341c29149f",
+                "5b94b274-23fb-4965-9c7d-91a67a9c42c7",
+                "d717762c-d2c6-43e6-a5e1-9c4b8fb26953",
+                "f510497a-a874-4704-8f4b-0b87254f1b93"
+              ],
+              "fullRouteInventorySupplied": true,
+              "padExemptionsSource": "current-source-and-qualified-native-pad-inventory",
+              "numericalToleranceMm": 0.000001
+            }
+          },
+          {
+            "id": "plane-config:GND_PLANE",
+            "kind": "plane_configuration",
+            "status": "pass",
+            "reasons": [
+              "The sole saved and native zone retains the exact authenticated contract mutation, owned name and settings."
+            ]
+          },
+          {
+            "id": "plane-fill:GND_PLANE",
+            "kind": "plane_fill",
+            "status": "unknown",
+            "reasons": [
+              "Configured native minimum thickness does not measure actual filled copper width."
+            ]
+          },
+          {
+            "id": "plane-clearance:GND_PLANE",
+            "kind": "plane_clearance",
+            "status": "unknown",
+            "reasons": [
+              "Effective zone and edge clearance rule interaction needs its complete plane-specific evaluator."
+            ]
+          },
+          {
+            "id": "plane-policy:GND_PLANE",
+            "kind": "plane_thermal_islands",
+            "status": "unknown",
+            "reasons": [
+              "Native retained-island classification and connected intended-component attribution are required.",
+              "Actual physical thermal spoke width has not been measured; native configuration and DRC do not measure this dimension.",
+              "The complete thermal or solid contact row remains unevaluated."
+            ]
+          },
+          {
+            "id": "erc",
+            "kind": "erc",
+            "status": "unknown",
+            "reasons": [
+              "erc-project-has-ignored-checks",
+              "native-erc-has-ignored-checks"
+            ]
+          },
+          {
+            "id": "drc",
+            "kind": "drc",
+            "status": "pass",
+            "reasons": []
+          },
+          {
+            "id": "schematic_ink",
+            "kind": "schematic_ink",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          },
+          {
+            "id": "visual",
+            "kind": "visual",
+            "status": "unknown",
+            "reasons": [
+              "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+            ]
+          }
+        ],
+        "verificationPlanRowsPassed": [
+          "contract:integrity",
+          "board:outline",
+          "vias:GND",
+          "vias:VIN",
+          "trace-geometry:VIN",
+          "vias:VOUT",
+          "trace-geometry:VOUT",
+          "plane-config:GND_PLANE",
+          "drc"
+        ],
+        "mandatoryRowsRemaining": [
+          "library:J1",
+          "schematic:J1",
+          "pcb:J1",
+          "placement:J1",
+          "library:R1",
+          "schematic:R1",
+          "pcb:R1",
+          "placement:R1",
+          "library:R2",
+          "schematic:R2",
+          "pcb:R2",
+          "placement:R2",
+          "schematic-net:GND",
+          "schematic-net:VIN",
+          "schematic-net:VOUT",
+          "netclass:POWER",
+          "netclass:SENSE",
+          "plane-net:GND",
+          "plane-access:GND",
+          "trace-net:VIN",
+          "reference:VIN",
+          "trace-net:VOUT",
+          "plane-fill:GND_PLANE",
+          "plane-clearance:GND_PLANE",
+          "plane-policy:GND_PLANE",
+          "erc",
+          "schematic_ink",
+          "visual"
+        ],
+        "acceptanceEvaluated": true,
+        "accepted": false,
+        "fabricationAuthorized": false,
+        "limitations": {
+          "overallAcceptance": "requires-every-mandatory-V2-row-and-independent-general-gates",
+          "physicalThermalWidth": "not-measured",
+          "actualMinimumCopperWidth": "not-measured",
+          "terminalContactContinuity": "native-model-only-not-drill-clipped-global-copper",
+          "highFrequencyElectricalValidity": "not-established",
+          "impedance": "not-evaluated",
+          "currentSourceGuards": "required-of-owning-host-before-and-after-assessment"
+        }
+      },
+      "diagnostic": {
+        "filename": "plane-acceptance-0c8025c3-9514-4ddc-bfe3-2d1b17b0c6fc.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "082f40b0d3752d57794ad30009855f88ca2ba4623a2159cf7fcc0f00b0f6f882",
+          "size": 299247
+        }
+      },
+      "sourceBefore": "d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61",
+      "sourceAfter": "d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61",
+      "sourceUnchanged": true,
+      "recoveryRequired": false
+    }
+  }
+}

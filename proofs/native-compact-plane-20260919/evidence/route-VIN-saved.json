@@ -1,0 +1,38 @@
+{
+  "recordedAt": "2026-09-19T15:16:49.207Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000124-request-f40d33c671bbb77209da3003d6c0b6f07d65d469a914f1a5ad96b100ce7925c8.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "f40d33c671bbb77209da3003d6c0b6f07d65d469a914f1a5ad96b100ce7925c8",
+      "size": 90
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000125-mcp-received-c7f710cfe4cea74905d31f5c9cd94cc2447d34db1d0a14633829ab24410681ec.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "c7f710cfe4cea74905d31f5c9cd94cc2447d34db1d0a14633829ab24410681ec",
+        "size": 4234
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"operation\":\"fresh_get_route_items\",\"result\":{\"toolCallId\":\"toolbox:2f4f36e7-9891-4fd2-a987-12f806ec9184\",\"content\":\"{\\\"schemaVersion\\\":\\\"evleda.fresh-plane-route-selection.v1\\\",\\\"contractIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"34f8e98e0f578a6ddbcb30a14a2e2ed3f09aec32b892dd40cf01f54ed7e1a624\\\",\\\"schemaVersion\\\":\\\"evleda.fresh-connectivity-contract.v1\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"},\\\"sourceContractIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"302b8db0af86f5f3cf8f5e0f12d4c947672dca9ad163323475d8f11f8ab81637\\\",\\\"schemaVersion\\\":\\\"evleda.pcb-design-contract.v2\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"},\\\"planeProjectBindingIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"a8ce5f03c6391773d3f5ed05ee586fae5ea0404cb239bbf670ea9bd7cb61baaf\\\",\\\"schemaVersion\\\":\\\"evleda.pcb-agent-plane-fresh-binding.v1\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"},\\\"freshMarkerContentIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"ef2a6af6b14a18221ee5c67180959db915e18c6ac516d1c7a0edae52e97d87e7\\\",\\\"size\\\":5782},\\\"pcbContentIdentity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"af92f499817fc3a2bb77ace2dd754d85068c7841579a55b0f058ee88f14b2df3\\\",\\\"size\\\":13038},\\\"items\\\":[{\\\"kind\\\":\\\"track\\\",\\\"id\\\":\\\"c33ab615-9567-447a-baf8-6871ca3c0b93\\\",\\\"net\\\":\\\"VIN\\\",\\\"start\\\":{\\\"xMm\\\":3,\\\"yMm\\\":7},\\\"end\\\":{\\\"xMm\\\":10,\\\"yMm\\\":7},\\\"widthMm\\\":0.5,\\\"layer\\\":\\\"F.Cu\\\"}],\\\"completion\\\":\\\"not_evaluated\\\",\\\"connection\\\":\\\"not_evaluated\\\",\\\"notEvaluated\\\":[\\\"plane_contact\\\",\\\"clearance\\\",\\\"reference_coverage\\\",\\\"completed_route_topology\\\"],\\\"identity\\\":{\\\"algorithm\\\":\\\"sha256\\\",\\\"digest\\\":\\\"8dc4040ea23365f40d37d6b4d72d924edc2d93e1ad427be623dab9259975d89f\\\",\\\"schemaVersion\\\":\\\"evleda.fresh-plane-route-selection.v1\\\",\\\"canonicalizationVersion\\\":\\\"evleda-c14n-json-v1\\\"}}\"}}"
+      }
+    ],
+    "structuredContent": {
+      "operation": "fresh_get_route_items",
+      "result": {
+        "toolCallId": "toolbox:2f4f36e7-9891-4fd2-a987-12f806ec9184",
+        "content": "{\"schemaVersion\":\"evleda.fresh-plane-route-selection.v1\",\"contractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"34f8e98e0f578a6ddbcb30a14a2e2ed3f09aec32b892dd40cf01f54ed7e1a624\",\"schemaVersion\":\"evleda.fresh-connectivity-contract.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"sourceContractIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"302b8db0af86f5f3cf8f5e0f12d4c947672dca9ad163323475d8f11f8ab81637\",\"schemaVersion\":\"evleda.pcb-design-contract.v2\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"planeProjectBindingIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"a8ce5f03c6391773d3f5ed05ee586fae5ea0404cb239bbf670ea9bd7cb61baaf\",\"schemaVersion\":\"evleda.pcb-agent-plane-fresh-binding.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"},\"freshMarkerContentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"ef2a6af6b14a18221ee5c67180959db915e18c6ac516d1c7a0edae52e97d87e7\",\"size\":5782},\"pcbContentIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"af92f499817fc3a2bb77ace2dd754d85068c7841579a55b0f058ee88f14b2df3\",\"size\":13038},\"items\":[{\"kind\":\"track\",\"id\":\"c33ab615-9567-447a-baf8-6871ca3c0b93\",\"net\":\"VIN\",\"start\":{\"xMm\":3,\"yMm\":7},\"end\":{\"xMm\":10,\"yMm\":7},\"widthMm\":0.5,\"layer\":\"F.Cu\"}],\"completion\":\"not_evaluated\",\"connection\":\"not_evaluated\",\"notEvaluated\":[\"plane_contact\",\"clearance\",\"reference_coverage\",\"completed_route_topology\"],\"identity\":{\"algorithm\":\"sha256\",\"digest\":\"8dc4040ea23365f40d37d6b4d72d924edc2d93e1ad427be623dab9259975d89f\",\"schemaVersion\":\"evleda.fresh-plane-route-selection.v1\",\"canonicalizationVersion\":\"evleda-c14n-json-v1\"}}"
+      }
+    }
+  }
+}

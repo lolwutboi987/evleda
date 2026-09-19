@@ -64,6 +64,13 @@ const DOC12 = Object.freeze({
   predecessorSha256: "706d682a368449dd8a0423d7c4a4cb56d5458a440e3641caabe4b6251ab917cc",
   sha256: "80abe9675ff5cd81d9fb15ff18b05e7be3fa433a12bfcf9eb3445ccdb7f1f754", sizeBytes: 21804,
 });
+const DOC13 = Object.freeze([
+  { path: "evleda_plane_stage/__init__.py", predecessorSha256: "64214fb427349f76340bec667783f0a7de59d62d97ef11532f5443d1f6a493a7", sha256: "6416f48bc2a0a2f3ac5451dee1ba862e4a75cc4ddf0070945b3bf2785c02029d", sizeBytes: 14317 },
+  { path: "evleda_plane_stage/plane_stage.py", predecessorSha256: "96d14de0befe74b5fe4a26664a3580ab824de82b0cf48a515073ef1f22c699d1", sha256: "19cf6b0ef4cdfec71a290084fcd3f3cbda15d0f31c546d25ef925aa50d9640b7", sizeBytes: 12636 },
+  { path: "evleda_plane_stage/compact_receipt.py", predecessorSha256: null, sha256: "e177997c04be2724d39bcd260f80c5a9d375459651a6987426943a9dc4bc24ca", sizeBytes: 3538 },
+]);
+const DOC14 = Object.freeze({ path: "evleda_plane_stage/compact_receipt.py",
+  sha256: "716dd527f827b3b7e0c715d60944cd02693f704878b19f8f1e391b401d1e9d74", sizeBytes: 3550 });
 export const originalRuntimeRoot = String.raw`D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc5`;
 export const sha256 = bytes => createHash("sha256").update(bytes).digest("hex");
 export const pyvenvText = root => `home = ${path.join(root, "python")}\nimplementation = CPython\nuv = 0.11.31\nversion_info = 3.13.12\ninclude-system-site-packages = false\nrelocatable = true\n`;
@@ -391,6 +398,24 @@ async function doc12Reference(doc11) {
     totalBytes: doc11.totalBytes - before.sizeBytes + DOC12.sizeBytes };
 }
 
+async function doc13Reference(doc12) {
+  const files = doc12.files.map(file => ({ ...file }));
+  let totalBytes = doc12.totalBytes;
+  for (const source of DOC13) {
+    const before = files.find(file => file.path === source.path);
+    assert.ok(source.predecessorSha256 === null ? before === undefined : before?.sha256 === source.predecessorSha256,
+      "DOC13 requires its exact DOC12 predecessor leaves");
+    const bytes = await readFile(path.join(repositoryRoot, "sidecars/patches/doc13", source.path));
+    assert.equal(sha256(bytes), source.sha256, "DOC13 source differs from its published pin");
+    assert.equal(bytes.length, source.sizeBytes, "DOC13 source size differs from its published pin");
+    totalBytes += source.sizeBytes - (before?.sizeBytes ?? 0);
+    if (before) Object.assign(before, { sha256: source.sha256, sizeBytes: source.sizeBytes });
+    else files.push({ path: source.path, sha256: source.sha256, sizeBytes: source.sizeBytes, mode: 438 });
+  }
+  files.sort((a, b) => a.path.localeCompare(b.path, "en-US"));
+  return { ...doc12, files, totalBytes, fileCount: files.length };
+}
+
 export async function verifyRuntime(paths) {
   const original = await readDoc5Source();
   let candidate;
@@ -401,6 +426,11 @@ export async function verifyRuntime(paths) {
   const isDoc11 = doc11Matches.every(Boolean);
   const padSnapshot = candidate.files?.find(file => file.path === DOC12.path);
   const isDoc12 = padSnapshot?.sha256 === DOC12.sha256 && padSnapshot?.sizeBytes === DOC12.sizeBytes;
+  const isDoc14 = candidate.files?.some(file => file.path === DOC14.path && file.sha256 === DOC14.sha256 && file.sizeBytes === DOC14.sizeBytes) === true;
+  const doc13Matches = DOC13.map(source => candidate.files?.some(file => file.path === source.path
+    && (file.sha256 === source.sha256 && file.sizeBytes === source.sizeBytes || source.path === DOC14.path && isDoc14)) === true);
+  const isDoc13 = doc13Matches.every(Boolean);
+  const hasDoc13Leaf = doc13Matches.some(Boolean) || candidate.files?.some(file => file.path === DOC13[2].path);
   const hasDoc11Leaf = doc11Matches.some(Boolean) || candidate.files?.some(file => file.path === DOC11.sources[1].path);
   const isDoc8 = pcb?.sha256 === DOC8.sha256 && pcb?.sizeBytes === DOC8.sizeBytes;
   const isDoc6 = isDoc11 || isDoc8 || pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
@@ -412,6 +442,7 @@ export async function verifyRuntime(paths) {
   const isDoc9 = fieldLayout?.sha256 === DOC9.sha256 && fieldLayout?.sizeBytes === DOC9.sizeBytes;
   assert.ok(!hasDoc11Leaf || (isDoc11 && isDoc10 && isDoc9 && !isDoc8), "DOC11 requires both qualified pose leaves on the complete DOC10 lineage; partial or mixed overlays are forbidden");
   assert.ok(!isDoc12 || isDoc11, "DOC12 requires the complete DOC11 lineage");
+  assert.ok(!hasDoc13Leaf || (isDoc13 && isDoc12), "DOC13 requires all three compact-stage leaves on the complete DOC12 lineage");
   assert.ok(!doc10Matches.some(Boolean) || (isDoc10 && isDoc9 && isDoc6 && !isDoc8), "DOC10 requires both qualified cardinal leaves on the complete DOC9/DOC7 lineage; DOC8 cannot be its predecessor");
   assert.ok(!isDoc9 || (isDoc7 && !isDoc8), "DOC9 requires the DOC7 graph and PCB behavior; DOC8 cannot be its predecessor");
   const doc6 = isDoc6 ? await doc6Reference(original) : original;
@@ -419,10 +450,22 @@ export async function verifyRuntime(paths) {
   const doc9 = isDoc9 ? await doc9Reference(doc7) : isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
   const doc10 = isDoc10 ? await doc10Reference(doc9) : doc9;
   const doc11 = isDoc11 ? await doc11Reference(doc10) : doc10;
-  const reference = isDoc12 ? await doc12Reference(doc11) : doc11;
+  const doc12 = isDoc12 ? await doc12Reference(doc11) : doc11;
+  const doc13 = isDoc13 ? await doc13Reference(doc12) : doc12;
+  let reference = doc13;
+  if (isDoc14) {
+    assert.ok(isDoc13 && isDoc12, "DOC14 requires the complete DOC13/DOC12 lineage");
+    const bytes = await readFile(path.join(repositoryRoot, "sidecars/patches/doc14", DOC14.path));
+    assert.equal(sha256(bytes), DOC14.sha256, "DOC14 source differs from its published pin");
+    assert.equal(bytes.length, DOC14.sizeBytes, "DOC14 source size differs from its published pin");
+    const before = doc13.files.find(file => file.path === DOC14.path);
+    assert.equal(before?.sha256, DOC13[2].sha256, "DOC14 requires the exact DOC13 encoder predecessor");
+    reference = { ...doc13, totalBytes: doc13.totalBytes - before.sizeBytes + DOC14.sizeBytes,
+      files: doc13.files.map(file => file.path === DOC14.path ? { ...file, sha256: DOC14.sha256, sizeBytes: DOC14.sizeBytes } : file) };
+  }
   assertDoc5Relocation(reference, candidate, paths.root);
   const result = await runManifestHelper("verify", paths.root, paths.manifest);
-  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc12 ? "DOC12" : isDoc11 ? "DOC11" : isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
+  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc14 ? "DOC14" : isDoc13 ? "DOC13" : isDoc12 ? "DOC12" : isDoc11 ? "DOC11" : isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
     doc5SourcePinsVerified: true, ...(isDoc6 ? { doc6SourcePinsVerified: true, doc6ProvenanceSha256: DOC6.provenanceSha256 } : {}),
     ...(isDoc7 ? { doc7SourcePinsVerified: true, doc7ProvenanceSha256: DOC7.provenanceSha256 } : {}),
     ...(isDoc8 ? { doc8SourcePinsVerified: true, doc8ProvenanceSha256: DOC8.provenanceSha256 } : {}),
@@ -434,6 +477,8 @@ export async function verifyRuntime(paths) {
       doc11QualificationScope: "published-source-and-isolated-footprint-oracle-only", doc11NativePublicSyncQualified: false } : {}),
     ...(isDoc12 ? { doc12SourcePinsVerified: true, doc12ProducerSha256: DOC12.sha256,
       doc12QualificationScope: "source-and-offline-envelope-only", doc12NativeRoutingQualified: false } : {}),
+    ...(isDoc13 ? { doc13SourcePinsVerified: true, doc13QualificationScope: "source-and-offline-receipt-only", doc13NativePlaneQualified: false } : {}),
+    ...(isDoc14 ? { doc14SourcePinsVerified: true, doc14QualificationScope: "source-and-native-mapping-regressions-only", doc14NativePlaneQualified: false } : {}),
     allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only",
       ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : []),
       ...(isDoc7 ? DOC7.sources.map(source => `${source.path}: published DOC7 power-flag graph overlay only`) : []),
@@ -441,7 +486,9 @@ export async function verifyRuntime(paths) {
       ...(isDoc9 ? [`${DOC9.path}: published DOC9 bounded ARC field-layout overlay only`] : []),
       ...(isDoc10 ? DOC10.sources.map(source => `${source.path}: published DOC10 schematic-cardinal correction only`) : []),
       ...(isDoc11 ? DOC11.sources.map(source => `${source.path}: published DOC11 footprint-pose overlay only`) : []),
-      ...(isDoc12 ? [`${DOC12.path}: published DOC12 compact complete PAD envelope only`] : [])] };
+      ...(isDoc12 ? [`${DOC12.path}: published DOC12 compact complete PAD envelope only`] : []),
+      ...(isDoc13 ? DOC13.map(source => `${source.path}: published DOC13 lossless plane receipt only`) : []),
+      ...(isDoc14 ? [`${DOC14.path}: published DOC14 native ordered-mapping correction only`] : [])] };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

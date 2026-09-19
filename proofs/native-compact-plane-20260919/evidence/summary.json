@@ -1,0 +1,90 @@
+{
+  "nativeCreationAndUpdatePassed": true,
+  "sourceEquivalentUpdateSaved": true,
+  "compactReceipts": [
+    {
+      "filename": "evleda-plane-stage-01e88189-6931-42c1-876c-3179e1ddc8c1.json",
+      "sha256": "4435845344ef022ad8a69787003dbad458d0e9733f7dbaebe4441db217354148",
+      "sizeBytes": 178961,
+      "canonicalIdentity": {
+        "algorithm": "sha256",
+        "digest": "20deaa9319e876e0eeb2a5f60f9a4dce9f5844818b45bde864f25231f3f83ddd",
+        "size": 178831
+      },
+      "encoding": "canonical-json-compact-observation",
+      "sourcePoolSize": 4,
+      "padPoolSize": 7,
+      "allRpcCalls": 30
+    },
+    {
+      "filename": "evleda-plane-stage-c485f830-9933-434f-b7e9-ffb1ec09f667.json",
+      "sha256": "6e0ac7980fc5df8e9f0e1bc9dd2dec8d43cd973d55b9b23585e46af0f1acad7e",
+      "sizeBytes": 201314,
+      "canonicalIdentity": {
+        "algorithm": "sha256",
+        "digest": "586d01c764f5771599d766976b4ab7e82544f3b030ca16d69a29275bd394d87f",
+        "size": 201184
+      },
+      "encoding": "canonical-json-compact-observation",
+      "sourcePoolSize": 3,
+      "padPoolSize": 7,
+      "allRpcCalls": 30
+    }
+  ],
+  "tracks": 8,
+  "vias": 1,
+  "zones": 1,
+  "footprints": 3,
+  "physicalPads": 7,
+  "configuredErcFindings": 0,
+  "configuredDrcFindings": 0,
+  "visualQaFindings": 0,
+  "measuredTurns": 5,
+  "turnViolations": 0,
+  "unresolvedJunctions": 0,
+  "allThreeNetsConnected": true,
+  "normalClose": true,
+  "rp2350Unchanged": true,
+  "planeAssessmentAccepted": false,
+  "failedRows": [
+    {
+      "id": "reference:VIN",
+      "kind": "reference_path",
+      "status": "fail",
+      "reasons": [
+        "The required reference ribbon intersects a source-verified round drill bore."
+      ]
+    }
+  ],
+  "unknownRows": [
+    "library:J1",
+    "schematic:J1",
+    "pcb:J1",
+    "placement:J1",
+    "library:R1",
+    "schematic:R1",
+    "pcb:R1",
+    "placement:R1",
+    "library:R2",
+    "schematic:R2",
+    "pcb:R2",
+    "placement:R2",
+    "schematic-net:GND",
+    "schematic-net:VIN",
+    "schematic-net:VOUT",
+    "netclass:POWER",
+    "netclass:SENSE",
+    "plane-net:GND",
+    "plane-access:GND",
+    "trace-net:VIN",
+    "trace-net:VOUT",
+    "plane-fill:GND_PLANE",
+    "plane-clearance:GND_PLANE",
+    "plane-policy:GND_PLANE",
+    "erc",
+    "schematic_ink",
+    "visual"
+  ],
+  "nativeCheckCoverage": {},
+  "scope": "Native plane-stage storage, mutation, mandatory save/readback and close qualification on one software fixture. Not fixture electrical approval, RP2350 plane validation, or manufacturing qualification."
+}

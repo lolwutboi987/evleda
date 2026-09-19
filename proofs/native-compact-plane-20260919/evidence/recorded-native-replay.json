@@ -1,0 +1,32 @@
+{
+  "recordedAt": "2026-09-19T15:11:58.562Z",
+  "legacyReceipt": {
+    "algorithm": "sha256",
+    "digest": "a5c841bd2966069063cfd48afa74f7640b623a1cd8c4ed1a862b1dbd512577ca",
+    "size": 377013
+  },
+  "compactReceipt": {
+    "algorithm": "sha256",
+    "digest": "19d64c71bcc0a14224f279a393cdf28fdc5435a5ce438eff207ba1d31965684d",
+    "size": 178961
+  },
+  "exactRoundTrip": true,
+  "independentTestEncoderMatchesPython": true,
+  "completeSourceGeometryRpcAndPadValidation": true,
+  "semanticObservationsEqual": true,
+  "legacyObservation": {
+    "algorithm": "sha256",
+    "digest": "c6dd787a981132e6b9c68713da20b7ebcab85d125ff590bb7cde8b7ef7f18fe6",
+    "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "compactObservation": {
+    "algorithm": "sha256",
+    "digest": "fd2d12d0c1d78f0c328921223ec592308a6a8ba1d172ae25ab1fb92fc7f301d2",
+    "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "nativeOperations": 0,
+  "newRuntimeQualified": false,
+  "scope": "Offline replay of the complete failed live DOC13 stage reconstructed from its exact source pool and raw RPC records, using native-shaped OrderedDict mappings in the corrected Python encoder. This does not qualify a new live mutation or save."
+}

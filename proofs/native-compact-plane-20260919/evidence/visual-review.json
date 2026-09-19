@@ -1,0 +1,19 @@
+{
+  "reviewed": true,
+  "sourcePcbSha256": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38",
+  "views": [
+    "native top PNG",
+    "native assembly PNG"
+  ],
+  "observations": [
+    "Three correctly placed fixture components and eight routed segments are visible.",
+    "The routed turns are straight or 45 degrees; native analysis separately reports five measured turns with no violations or unresolved findings.",
+    "References are visible; the top export does not show the bottom GND plane.",
+    "This is a protocol fixture, with no functional pin labels or board-acceptance claim."
+  ],
+  "nativeConfiguredErcFindings": 0,
+  "nativeConfiguredDrcFindings": 0,
+  "nativeVisualQaFindings": 0,
+  "planeAssessmentFailure": "reference:VIN: required ribbon intersects a source-verified round drill bore",
+  "planeAcceptance": false
+}

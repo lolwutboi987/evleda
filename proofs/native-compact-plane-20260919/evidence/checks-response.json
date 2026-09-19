@@ -1,0 +1,202 @@
+{
+  "recordedAt": "2026-09-19T15:17:52.788Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000154-request-d02f776cda20e14345d58a53c52d1599f50cdc487952ec74bcb031c8d68ee1fc.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "d02f776cda20e14345d58a53c52d1599f50cdc487952ec74bcb031c8d68ee1fc",
+      "size": 89
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace-client-03c8174c-cd8a-4a79-8fd6-2fa27d818c9d\\000155-mcp-received-e7c4f9d14121f60f53d2d84a753910382a11f0acc40dffe721797b450fe67961.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e7c4f9d14121f60f53d2d84a753910382a11f0acc40dffe721797b450fe67961",
+        "size": 19079
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": false,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"checks\":[{\"name\":\"run_erc\",\"result\":{\"toolCallId\":\"toolbox-check:6f714ede-a578-468d-88df-fbea0141ff19\",\"content\":\"{\\\"schema_version\\\":\\\"verdict.v1\\\",\\\"text\\\":\\\"ERC summary:\\\\n- Violations: 0\\\",\\\"summary\\\":\\\"ERC is clean.\\\",\\\"verdict\\\":\\\"PASS\\\",\\\"severity\\\":\\\"info\\\",\\\"failure_mode\\\":\\\"none\\\",\\\"retryable\\\":false,\\\"evidence\\\":[{\\\"report_path\\\":\\\"[redacted path]\\\",\\\"violations\\\":{\\\"$schema\\\":\\\"https://schemas.kicad.org/erc.v1.json\\\",\\\"coordinate_units\\\":\\\"mm\\\",\\\"date\\\":\\\"2026-09-19T08:17:46\\\",\\\"ignored_checks\\\":[{\\\"description\\\":\\\"Global label only appears once in the schematic\\\",\\\"key\\\":\\\"single_global_label\\\"},{\\\"description\\\":\\\"Four connection points are joined together\\\",\\\"key\\\":\\\"four_way_junction\\\"},{\\\"description\\\":\\\"SPICE model issue\\\",\\\"key\\\":\\\"simulation_model_issue\\\"},{\\\"description\\\":\\\"Assigned footprint doesn't match footprint filters\\\",\\\"key\\\":\\\"footprint_filter\\\"}],\\\"included_severities\\\":[\\\"error\\\",\\\"warning\\\",\\\"exclusion\\\"],\\\"kicad_version\\\":\\\"10.0.3\\\",\\\"sheets\\\":[{\\\"path\\\":\\\"[redacted path]\\\",\\\"uuid_path\\\":\\\"[redacted path]\\\",\\\"violations\\\":[]}],\\\"source\\\":\\\"plane-stage-doc14.kicad_sch\\\"}}],\\\"remediation\\\":\\\"\\\",\\\"findings\\\":[],\\\"next_action\\\":\\\"No ERC action required.\\\",\\\"metadata\\\":{\\\"report_path\\\":\\\"[redacted path]\\\",\\\"available\\\":true,\\\"violation_count\\\":0,\\\"violations\\\":[],\\\"summary\\\":{}},\\\"status\\\":\\\"clean\\\"}\"}},{\"name\":\"run_drc\",\"result\":{\"toolCallId\":\"toolbox-check:3bf34936-1d1b-46c4-8abe-40d9c1ba2eac\",\"content\":\"{\\\"schema_version\\\":\\\"verdict.v1\\\",\\\"text\\\":\\\"DRC summary:\\\\n- Violations: 0\\\\n- Unconnected items: 0\\\\n- Courtyard issues: 0\\\",\\\"summary\\\":\\\"DRC is clean.\\\",\\\"verdict\\\":\\\"PASS\\\",\\\"severity\\\":\\\"info\\\",\\\"failure_mode\\\":\\\"none\\\",\\\"retryable\\\":false,\\\"evidence\\\":[{\\\"report_path\\\":\\\"[redacted path]\\\",\\\"violations\\\":{\\\"$schema\\\":\\\"https://schemas.kicad.org/drc.v1.json\\\",\\\"coordinate_units\\\":\\\"mm\\\",\\\"date\\\":\\\"2026-09-19T08:17:49\\\",\\\"ignored_checks\\\":[{\\\"description\\\":\\\"Footprint has no courtyard defined\\\",\\\"key\\\":\\\"missing_courtyard\\\"},{\\\"description\\\":\\\"Track endpoint not centered on via\\\",\\\"key\\\":\\\"track_not_centered_on_via\\\"},{\\\"description\\\":\\\"Tuning profile track geometries\\\",\\\"key\\\":\\\"tuning_profile_track_geometries\\\"},{\\\"description\\\":\\\"Footprint doesn't match symbol's footprint filters\\\",\\\"key\\\":\\\"footprint_filters_mismatch\\\"},{\\\"description\\\":\\\"Footprint component type doesn't match footprint pads\\\",\\\"key\\\":\\\"footprint_type_mismatch\\\"}],\\\"included_severities\\\":[\\\"error\\\",\\\"warning\\\",\\\"exclusion\\\"],\\\"kicad_version\\\":\\\"10.0.3\\\",\\\"schematic_parity\\\":[],\\\"source\\\":\\\"plane-stage-doc14.kicad_pcb\\\",\\\"unconnected_items\\\":[],\\\"violations\\\":[]}}],\\\"remediation\\\":\\\"\\\",\\\"findings\\\":[],\\\"next_action\\\":\\\"No DRC action required.\\\",\\\"metadata\\\":{\\\"report_path\\\":\\\"[redacted path]\\\",\\\"available\\\":true,\\\"violations\\\":0,\\\"unconnected_items\\\":0,\\\"courtyard_issues\\\":0,\\\"report_status\\\":\\\"clean\\\"},\\\"status\\\":\\\"clean\\\"}\"}},{\"name\":\"pcb_get_board_summary\",\"result\":{\"toolCallId\":\"toolbox-check:cf7eb2ca-6117-4233-817b-9647c728b6f8\",\"content\":\"{\\\"schema_version\\\":\\\"verdict.v1\\\",\\\"text\\\":\\\"Board summary:\\\\n- Source: live-gui\\\\n- Tracks: 8\\\\n- Vias: 1\\\\n- Footprints: 3\\\\n- Zones: 1\\\\n- Nets: 4\\\\n- Shapes: 1\\\",\\\"summary\\\":\\\"Board summary from live-gui: 3 footprint(s), 4 net(s).\\\",\\\"verdict\\\":\\\"PASS\\\",\\\"severity\\\":\\\"info\\\",\\\"failure_mode\\\":\\\"none\\\",\\\"retryable\\\":false,\\\"evidence\\\":[],\\\"remediation\\\":\\\"\\\",\\\"findings\\\":[],\\\"next_action\\\":\\\"Use pcb_get_tracks(), pcb_get_footprints(), or run_drc() for details.\\\",\\\"metadata\\\":{\\\"source\\\":\\\"live-gui\\\",\\\"tracks\\\":8,\\\"vias\\\":1,\\\"footprints\\\":3,\\\"zones\\\":1,\\\"nets\\\":4,\\\"shapes\\\":1},\\\"status\\\":\\\"clean\\\"}\"}},{\"name\":\"pcb_visual_qa\",\"result\":{\"toolCallId\":\"toolbox-check:b39f7a1c-f95d-4996-a7c1-c96bda395668\",\"content\":\"{\\\"footprint_count\\\":3,\\\"board_bounds\\\":[0,0,30,20],\\\"status\\\":\\\"PASS\\\",\\\"findings\\\":[],\\\"result\\\":\\\"{\\\\n  \\\\\\\"footprint_count\\\\\\\": 3,\\\\n  \\\\\\\"board_bounds\\\\\\\": [\\\\n    0.0,\\\\n    0.0,\\\\n    30.0,\\\\n    20.0\\\\n  ],\\\\n  \\\\\\\"status\\\\\\\": \\\\\\\"PASS\\\\\\\",\\\\n  \\\\\\\"findings\\\\\\\": []\\\\n}\\\"}\"}}],\"practices\":{\"available\":true,\"result\":{\"schemaVersion\":\"evleda.toolbox-practices.v1\",\"sourcePath\":\"C:\\\\Users\\\\kidch\\\\Documents\\\\EvlEDA-Transfer-2026-09-09\\\\destination-plane-stage-native-02\\\\workspace\\\\projects\\\\4277b2c6-def4-4138-ac5a-07a7e090a603\\\\output\\\\project\\\\plane-stage-doc14.kicad_pcb\",\"sourceIdentity\":{\"algorithm\":\"sha256\",\"digest\":\"b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38\",\"size\":19827},\"reviewedProfileIdentity\":null,\"analysis\":null,\"geometry\":{\"turns\":[{\"vertex\":{\"x\":7.89,\"y\":8.65},\"netName\":\"VOUT\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[2,3],\"interiorAngleDeg\":135.00000000000003,\"directionChangeDeg\":44.999999999999964,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":10,\"y\":8.65},\"netName\":\"VOUT\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[2,5],\"interiorAngleDeg\":180,\"directionChangeDeg\":0,\"classification\":\"straight\"},{\"vertex\":{\"x\":7,\"y\":9.54},\"netName\":\"VOUT\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[3,6],\"interiorAngleDeg\":135.00000000000003,\"directionChangeDeg\":44.99999999999997,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":16.35,\"y\":8.65},\"netName\":\"VOUT\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[4,5],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"},{\"vertex\":{\"x\":19.825,\"y\":9.475},\"netName\":\"GND\",\"netClassId\":null,\"layer\":\"F.Cu\",\"segmentOrdinals\":[7,8],\"interiorAngleDeg\":135,\"directionChangeDeg\":45,\"classification\":\"obtuse\"}],\"findings\":[],\"segmentCount\":8,\"routedArcCount\":0,\"unresolvedNetSegmentCount\":0,\"coordinateToleranceMm\":0.000001,\"limitations\":[\"Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.\",\"Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.\"]},\"turnPolicy\":{\"allowedDirectionChangesDeg\":[0,45],\"numericalToleranceDeg\":1e-7,\"measuredTurnCount\":5,\"violations\":[],\"unresolvedFindings\":[],\"coverage\":\"Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.\",\"unresolvedNetSegmentCount\":0},\"checks\":{\"literalTurnGeometry\":\"measured-subset\",\"reviewedProfileConstraints\":\"unverified-no-profile\",\"widthAndNetClass\":\"unverified-no-profile\",\"vias\":\"unverified-no-profile\",\"electricalSuitability\":\"unverified\",\"manufacturingReadiness\":\"unverified\"},\"limitations\":[\"Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.\",\"Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.\",\"Zero direction change means a straight continuation; 180 degrees means reversal and is not permitted. Overlaps may prevent sequential-turn inference.\",\"No automatic design acceptance: original findings and incomplete coverage remain authoritative.\",\"Reviewed numerical width/via/net-class constraints do not supply current, voltage, temperature rise, impedance or fabricator qualification evidence.\"]}},\"sourceBefore\":\"d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61\",\"sourceAfter\":\"d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61\",\"sourceUnchanged\":true,\"recoveryRequired\":false,\"assurance\":\"Native result collection only; individual findings and applicable engineering requirements remain authoritative.\"}"
+      }
+    ],
+    "structuredContent": {
+      "checks": [
+        {
+          "name": "run_erc",
+          "result": {
+            "toolCallId": "toolbox-check:6f714ede-a578-468d-88df-fbea0141ff19",
+            "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"ERC summary:\\n- Violations: 0\",\"summary\":\"ERC is clean.\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[{\"report_path\":\"[redacted path]\",\"violations\":{\"$schema\":\"https://schemas.kicad.org/erc.v1.json\",\"coordinate_units\":\"mm\",\"date\":\"2026-09-19T08:17:46\",\"ignored_checks\":[{\"description\":\"Global label only appears once in the schematic\",\"key\":\"single_global_label\"},{\"description\":\"Four connection points are joined together\",\"key\":\"four_way_junction\"},{\"description\":\"SPICE model issue\",\"key\":\"simulation_model_issue\"},{\"description\":\"Assigned footprint doesn't match footprint filters\",\"key\":\"footprint_filter\"}],\"included_severities\":[\"error\",\"warning\",\"exclusion\"],\"kicad_version\":\"10.0.3\",\"sheets\":[{\"path\":\"[redacted path]\",\"uuid_path\":\"[redacted path]\",\"violations\":[]}],\"source\":\"plane-stage-doc14.kicad_sch\"}}],\"remediation\":\"\",\"findings\":[],\"next_action\":\"No ERC action required.\",\"metadata\":{\"report_path\":\"[redacted path]\",\"available\":true,\"violation_count\":0,\"violations\":[],\"summary\":{}},\"status\":\"clean\"}"
+          }
+        },
+        {
+          "name": "run_drc",
+          "result": {
+            "toolCallId": "toolbox-check:3bf34936-1d1b-46c4-8abe-40d9c1ba2eac",
+            "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"DRC summary:\\n- Violations: 0\\n- Unconnected items: 0\\n- Courtyard issues: 0\",\"summary\":\"DRC is clean.\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[{\"report_path\":\"[redacted path]\",\"violations\":{\"$schema\":\"https://schemas.kicad.org/drc.v1.json\",\"coordinate_units\":\"mm\",\"date\":\"2026-09-19T08:17:49\",\"ignored_checks\":[{\"description\":\"Footprint has no courtyard defined\",\"key\":\"missing_courtyard\"},{\"description\":\"Track endpoint not centered on via\",\"key\":\"track_not_centered_on_via\"},{\"description\":\"Tuning profile track geometries\",\"key\":\"tuning_profile_track_geometries\"},{\"description\":\"Footprint doesn't match symbol's footprint filters\",\"key\":\"footprint_filters_mismatch\"},{\"description\":\"Footprint component type doesn't match footprint pads\",\"key\":\"footprint_type_mismatch\"}],\"included_severities\":[\"error\",\"warning\",\"exclusion\"],\"kicad_version\":\"10.0.3\",\"schematic_parity\":[],\"source\":\"plane-stage-doc14.kicad_pcb\",\"unconnected_items\":[],\"violations\":[]}}],\"remediation\":\"\",\"findings\":[],\"next_action\":\"No DRC action required.\",\"metadata\":{\"report_path\":\"[redacted path]\",\"available\":true,\"violations\":0,\"unconnected_items\":0,\"courtyard_issues\":0,\"report_status\":\"clean\"},\"status\":\"clean\"}"
+          }
+        },
+        {
+          "name": "pcb_get_board_summary",
+          "result": {
+            "toolCallId": "toolbox-check:cf7eb2ca-6117-4233-817b-9647c728b6f8",
+            "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"Board summary:\\n- Source: live-gui\\n- Tracks: 8\\n- Vias: 1\\n- Footprints: 3\\n- Zones: 1\\n- Nets: 4\\n- Shapes: 1\",\"summary\":\"Board summary from live-gui: 3 footprint(s), 4 net(s).\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[],\"remediation\":\"\",\"findings\":[],\"next_action\":\"Use pcb_get_tracks(), pcb_get_footprints(), or run_drc() for details.\",\"metadata\":{\"source\":\"live-gui\",\"tracks\":8,\"vias\":1,\"footprints\":3,\"zones\":1,\"nets\":4,\"shapes\":1},\"status\":\"clean\"}"
+          }
+        },
+        {
+          "name": "pcb_visual_qa",
+          "result": {
+            "toolCallId": "toolbox-check:b39f7a1c-f95d-4996-a7c1-c96bda395668",
+            "content": "{\"footprint_count\":3,\"board_bounds\":[0,0,30,20],\"status\":\"PASS\",\"findings\":[],\"result\":\"{\\n  \\\"footprint_count\\\": 3,\\n  \\\"board_bounds\\\": [\\n    0.0,\\n    0.0,\\n    30.0,\\n    20.0\\n  ],\\n  \\\"status\\\": \\\"PASS\\\",\\n  \\\"findings\\\": []\\n}\"}"
+          }
+        }
+      ],
+      "practices": {
+        "available": true,
+        "result": {
+          "schemaVersion": "evleda.toolbox-practices.v1",
+          "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-02\\workspace\\projects\\4277b2c6-def4-4138-ac5a-07a7e090a603\\output\\project\\plane-stage-doc14.kicad_pcb",
+          "sourceIdentity": {
+            "algorithm": "sha256",
+            "digest": "b8639f5ca87174878ddd201ebdd898c3b403d885b3ed4f57292c70195265dc38",
+            "size": 19827
+          },
+          "reviewedProfileIdentity": null,
+          "analysis": null,
+          "geometry": {
+            "turns": [
+              {
+                "vertex": {
+                  "x": 7.89,
+                  "y": 8.65
+                },
+                "netName": "VOUT",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  2,
+                  3
+                ],
+                "interiorAngleDeg": 135.00000000000003,
+                "directionChangeDeg": 44.999999999999964,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 10,
+                  "y": 8.65
+                },
+                "netName": "VOUT",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  2,
+                  5
+                ],
+                "interiorAngleDeg": 180,
+                "directionChangeDeg": 0,
+                "classification": "straight"
+              },
+              {
+                "vertex": {
+                  "x": 7,
+                  "y": 9.54
+                },
+                "netName": "VOUT",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  3,
+                  6
+                ],
+                "interiorAngleDeg": 135.00000000000003,
+                "directionChangeDeg": 44.99999999999997,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 16.35,
+                  "y": 8.65
+                },
+                "netName": "VOUT",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  4,
+                  5
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              },
+              {
+                "vertex": {
+                  "x": 19.825,
+                  "y": 9.475
+                },
+                "netName": "GND",
+                "netClassId": null,
+                "layer": "F.Cu",
+                "segmentOrdinals": [
+                  7,
+                  8
+                ],
+                "interiorAngleDeg": 135,
+                "directionChangeDeg": 45,
+                "classification": "obtuse"
+              }
+            ],
+            "findings": [],
+            "segmentCount": 8,
+            "routedArcCount": 0,
+            "unresolvedNetSegmentCount": 0,
+            "coordinateToleranceMm": 0.000001,
+            "limitations": [
+              "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+              "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability."
+            ]
+          },
+          "turnPolicy": {
+            "allowedDirectionChangesDeg": [
+              0,
+              45
+            ],
+            "numericalToleranceDeg": 1e-7,
+            "measuredTurnCount": 5,
+            "violations": [],
+            "unresolvedFindings": [],
+            "coverage": "Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.",
+            "unresolvedNetSegmentCount": 0
+          },
+          "checks": {
+            "literalTurnGeometry": "measured-subset",
+            "reviewedProfileConstraints": "unverified-no-profile",
+            "widthAndNetClass": "unverified-no-profile",
+            "vias": "unverified-no-profile",
+            "electricalSuitability": "unverified",
+            "manufacturingReadiness": "unverified"
+          },
+          "limitations": [
+            "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+            "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.",
+            "Zero direction change means a straight continuation; 180 degrees means reversal and is not permitted. Overlaps may prevent sequential-turn inference.",
+            "No automatic design acceptance: original findings and incomplete coverage remain authoritative.",
+            "Reviewed numerical width/via/net-class constraints do not supply current, voltage, temperature rise, impedance or fabricator qualification evidence."
+          ]
+        }
+      },
+      "sourceBefore": "d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61",
+      "sourceAfter": "d92e0f1d767d2ec09617a91e31f10b1c4eb119afe925b357b8da69391d412f61",
+      "sourceUnchanged": true,
+      "recoveryRequired": false,
+      "assurance": "Native result collection only; individual findings and applicable engineering requirements remain authoritative."
+    }
+  }
+}

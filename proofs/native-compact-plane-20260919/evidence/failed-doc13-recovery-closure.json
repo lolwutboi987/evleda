@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-09-19T15:09:52.852Z",
+  "projectId": "d9124bc4-e316-4128-89b9-26dac392a4ae",
+  "publicCloseResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-01\\workspace-client-7b81ec12-764d-46f5-99b6-600916b4553f\\000153-response-d509e67674c83d73cce1b4a6f5684e7c6b1eec8743c52e3414e5a7ab81963f05.json",
+  "publicCloseSucceeded": false,
+  "normalCheckpointClaim": false,
+  "editorAndSupervisorAbsent": true,
+  "editorPid": 52548,
+  "supervisorPid": 50828,
+  "manualDialogAction": "Verified the owned Save Changes dialog, retained the full unsaved stage source, and clicked its Discard Changes button. Unsupported UIA Invoke and an accelerator-text guard mismatch dispatched no click; the subsequent exact observed button click closed the editor.",
+  "savedPcbSha256": "e8093959cf5f02e8eccd929389a7fe81c201fc717879203e150fa161f1d08d02",
+  "savedSourcesPreserved": true,
+  "retainedStage": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-01\\retained-unsaved-stage.kicad_pcb",
+    "sha256": "81d7d6c5dc0b3d1292a2a81baff6875c37df44da28ed7e182e921ed267737912"
+  },
+  "retainedAuthorityArtifacts": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-01\\workspace\\projects\\d9124bc4-e316-4128-89b9-26dac392a4ae\\.toolbox-lease.json",
+      "sha256": "9523e484dac6164f77ad5e30cb88591e777aff4335035adb1571cb518e7db50a"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-plane-stage-native-01\\workspace\\projects\\d9124bc4-e316-4128-89b9-26dac392a4ae\\output\\.evleda-pcb-agent-unsafe-terminal.json",
+      "sha256": "7e609e3fa040e55aa3dc3bc95d140f5e109afd76dafd110e68ee36c5eea4438e"
+    }
+  ],
+  "authorityArtifactsEdited": false,
+  "rp2350SixSourcesUnchanged": true,
+  "sdkShutdownPending": true
+}

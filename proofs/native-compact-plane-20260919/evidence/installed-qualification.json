@@ -1,0 +1,1079 @@
+{
+  "passed": true,
+  "runtimeRoot": "C:\\EvlEDA-DOC14-20260919",
+  "descriptor": {
+    "name": "evleda_stage_plane",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "board_file": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "type": "string"
+        },
+        "reference_pads": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "pad": {
+                "maxLength": 64,
+                "minLength": 1,
+                "pattern": "^[^\\x00-\\x1f]+$",
+                "type": "string"
+              },
+              "primitiveId": {
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "type": "string"
+              },
+              "reference": {
+                "maxLength": 64,
+                "minLength": 1,
+                "pattern": "^[^\\x00-\\x1f]+$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "reference",
+              "pad",
+              "primitiveId"
+            ],
+            "type": "object"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "type": "array"
+        },
+        "request": {
+          "additionalProperties": false,
+          "properties": {
+            "expectedLiveIdentity": {
+              "additionalProperties": false,
+              "properties": {
+                "algorithm": {
+                  "const": "sha256",
+                  "type": "string"
+                },
+                "digest": {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                "size": {
+                  "maximum": 1048576,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "algorithm",
+                "digest",
+                "size"
+              ],
+              "type": "object"
+            },
+            "expectedSavedIdentity": {
+              "additionalProperties": false,
+              "properties": {
+                "algorithm": {
+                  "const": "sha256",
+                  "type": "string"
+                },
+                "digest": {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                "size": {
+                  "maximum": 1048576,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "algorithm",
+                "digest",
+                "size"
+              ],
+              "type": "object"
+            },
+            "mutation": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "thermal",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "const": "area",
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minIslandAreaNm2": {
+                      "pattern": "^(?:0|[1-9][0-9]{0,18})$",
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "minimumSpokes": {
+                      "maximum": 4,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "create",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    },
+                    "thermalGapNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "thermalSpokeWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "connection",
+                    "thermalGapNm",
+                    "thermalSpokeWidthNm",
+                    "minimumSpokes",
+                    "islandPolicy",
+                    "minIslandAreaNm2"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "thermal",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "enum": [
+                        "always",
+                        "never"
+                      ],
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "minimumSpokes": {
+                      "maximum": 4,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "create",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    },
+                    "thermalGapNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "thermalSpokeWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "connection",
+                    "thermalGapNm",
+                    "thermalSpokeWidthNm",
+                    "minimumSpokes",
+                    "islandPolicy"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "full",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "const": "area",
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minIslandAreaNm2": {
+                      "pattern": "^(?:0|[1-9][0-9]{0,18})$",
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "create",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "connection",
+                    "islandPolicy",
+                    "minIslandAreaNm2"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "full",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "enum": [
+                        "always",
+                        "never"
+                      ],
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "create",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "connection",
+                    "islandPolicy"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "thermal",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "const": "area",
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minIslandAreaNm2": {
+                      "pattern": "^(?:0|[1-9][0-9]{0,18})$",
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "minimumSpokes": {
+                      "maximum": 4,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "update",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    },
+                    "thermalGapNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "thermalSpokeWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "zoneId": {
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "zoneId",
+                    "connection",
+                    "thermalGapNm",
+                    "thermalSpokeWidthNm",
+                    "minimumSpokes",
+                    "islandPolicy",
+                    "minIslandAreaNm2"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "thermal",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "enum": [
+                        "always",
+                        "never"
+                      ],
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "minimumSpokes": {
+                      "maximum": 4,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "update",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    },
+                    "thermalGapNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "thermalSpokeWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "zoneId": {
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "zoneId",
+                    "connection",
+                    "thermalGapNm",
+                    "thermalSpokeWidthNm",
+                    "minimumSpokes",
+                    "islandPolicy"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "full",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "const": "area",
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minIslandAreaNm2": {
+                      "pattern": "^(?:0|[1-9][0-9]{0,18})$",
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "update",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    },
+                    "zoneId": {
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "zoneId",
+                    "connection",
+                    "islandPolicy",
+                    "minIslandAreaNm2"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clearanceNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "connection": {
+                      "const": "full",
+                      "type": "string"
+                    },
+                    "islandPolicy": {
+                      "enum": [
+                        "always",
+                        "never"
+                      ],
+                      "type": "string"
+                    },
+                    "layer": {
+                      "enum": [
+                        "F.Cu",
+                        "B.Cu"
+                      ],
+                      "type": "string"
+                    },
+                    "minWidthNm": {
+                      "maximum": 50000000,
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "netName": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[^\\x00-\\x1f]+$",
+                      "type": "string"
+                    },
+                    "operation": {
+                      "const": "update",
+                      "type": "string"
+                    },
+                    "priority": {
+                      "maximum": 100,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "rectangleNm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "x1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "x2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y1": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        },
+                        "y2": {
+                          "maximum": 2000000000,
+                          "minimum": -2000000000,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x1",
+                        "y1",
+                        "x2",
+                        "y2"
+                      ],
+                      "type": "object"
+                    },
+                    "zoneId": {
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "netName",
+                    "layer",
+                    "rectangleNm",
+                    "clearanceNm",
+                    "minWidthNm",
+                    "priority",
+                    "name",
+                    "operation",
+                    "zoneId",
+                    "connection",
+                    "islandPolicy"
+                  ],
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "required": [
+            "expectedSavedIdentity",
+            "expectedLiveIdentity"
+          ],
+          "type": "object"
+        },
+        "zone_ids": {
+          "items": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "maxItems": 32,
+          "type": "array"
+        }
+      },
+      "required": [
+        "board_file",
+        "zone_ids",
+        "reference_pads",
+        "request"
+      ],
+      "type": "object"
+    },
+    "outputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "filename": {
+          "pattern": "^evleda-plane-stage-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.json$",
+          "type": "string"
+        },
+        "identity": {
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": {
+              "const": "sha256",
+              "type": "string"
+            },
+            "digest": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            "size": {
+              "maximum": 8388608,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "algorithm",
+            "digest",
+            "size"
+          ],
+          "type": "object"
+        },
+        "schemaVersion": {
+          "const": "evleda.native-plane-stage-artifact.v1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "filename",
+        "identity"
+      ],
+      "type": "object"
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false
+    }
+  },
+  "recordedPayloadMatchesSourceEncoder": true,
+  "nativeCalls": 0,
+  "nativeQualificationPending": true,
+  "blockedAutomaticNativeDiscovery": 0,
+  "registrationScope": "Installed registration descriptor with an isolated write-mode configuration stub; not a live MCP session.",
+  "installedSources": {
+    "__init__.py": "6416f48bc2a0a2f3ac5451dee1ba862e4a75cc4ddf0070945b3bf2785c02029d",
+    "plane_stage.py": "19cf6b0ef4cdfec71a290084fcd3f3cbda15d0f31c546d25ef925aa50d9640b7",
+    "compact_receipt.py": "716dd527f827b3b7e0c715d60944cd02693f704878b19f8f1e391b401d1e9d74"
+  }
+}

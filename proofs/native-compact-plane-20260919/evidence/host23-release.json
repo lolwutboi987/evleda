@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "evleda.host23-build-release.v1",
+  "recordedAt": "2026-09-19T14:55:09.815Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-plane-build-23",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\integration-cardinal22-01\\host22-release.json",
+    "sha256": "4877b68adfab04c70f8c908742719cb8f7d3a5efea364bec72cb5ffc2e61970b",
+    "sizeBytes": 6012
+  },
+  "sourcePins": [
+    {
+      "relative": "src/integrations/kicad-plane-stage-receipt.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\integrations\\kicad-plane-stage-receipt.ts",
+      "sha256": "87598a6ddddd3ff17d1c2ac0eb06c7809e4118344968cae40fcf4b80d538aa43",
+      "sizeBytes": 5139
+    },
+    {
+      "relative": "src/integrations/kicad-plane-stage.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\integrations\\kicad-plane-stage.ts",
+      "sha256": "f11a842f22a51992a1119c9d7d70a51c943960f2a4d402846ac8c7586ca89c7e",
+      "sizeBytes": 8195
+    },
+    {
+      "relative": "src/harness/fresh-plane-stage-observation.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-stage-observation.ts",
+      "sha256": "993d9295656c874966310c22a49dfea7ef21e81faeb816ab751860707298e433",
+      "sizeBytes": 28658
+    },
+    {
+      "relative": "tests/helpers/compact-plane-stage-fixture.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\helpers\\compact-plane-stage-fixture.ts",
+      "sha256": "ac4f3c9fa08a9e30c69fa602dae280e83bc957653851db3fbe853014cba9b369",
+      "sizeBytes": 1755
+    },
+    {
+      "relative": "tests/unit/kicad-plane-stage-receipt.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\kicad-plane-stage-receipt.test.ts",
+      "sha256": "28ed3d2e189b95e3300a83270bb1e1e3883f8855120135f055804c5cdcf8fdf9",
+      "sizeBytes": 6431
+    },
+    {
+      "relative": "tests/unit/fresh-plane-stage-observation.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-stage-observation.test.ts",
+      "sha256": "b0a4c980df058a5c66e541b9d9991fc13d1f88df31eae0729593c57c5439bd28",
+      "sizeBytes": 10028
+    },
+    {
+      "relative": "tests/unit/kicad-plane-stage.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\kicad-plane-stage.test.ts",
+      "sha256": "ba0746b88bdaabad10da09993c076c5ff75c3e01f5791c2f8b9ee9706af73e1f",
+      "sizeBytes": 10925
+    },
+    {
+      "relative": "sidecars/patches/doc13/evleda_plane_stage/__init__.py",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc13\\evleda_plane_stage\\__init__.py",
+      "sha256": "6416f48bc2a0a2f3ac5451dee1ba862e4a75cc4ddf0070945b3bf2785c02029d",
+      "sizeBytes": 14317
+    },
+    {
+      "relative": "sidecars/patches/doc13/evleda_plane_stage/plane_stage.py",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc13\\evleda_plane_stage\\plane_stage.py",
+      "sha256": "19cf6b0ef4cdfec71a290084fcd3f3cbda15d0f31c546d25ef925aa50d9640b7",
+      "sizeBytes": 12636
+    },
+    {
+      "relative": "sidecars/patches/doc13/evleda_plane_stage/compact_receipt.py",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc13\\evleda_plane_stage\\compact_receipt.py",
+      "sha256": "e177997c04be2724d39bcd260f80c5a9d375459651a6987426943a9dc4bc24ca",
+      "sizeBytes": 3538
+    },
+    {
+      "relative": "sidecars/patches/doc13/test_compact_receipt.py",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\sidecars\\patches\\doc13\\test_compact_receipt.py",
+      "sha256": "71003170773120d2b678f97870a66bd55187d7a1fcc9e597a508e602403a8004",
+      "sizeBytes": 4092
+    }
+  ],
+  "checks": [
+    {
+      "name": "host23-source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "host23-ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "host23-backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "host23-plane-tests",
+      "exitCode": 0
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-stage-doc13-01\\host23-build-manifest.json",
+    "sha256": "439da756aa44988a96b83bbc11f3cae42114d42ddc1fe873a029513115f92578",
+    "sizeBytes": 842639
+  },
+  "changedFiles": [
+    "dist/src/harness/fresh-plane-acceptance.d.ts",
+    "dist/src/harness/fresh-plane-stage-observation.d.ts",
+    "dist/src/harness/fresh-plane-stage-observation.d.ts.map",
+    "dist/src/harness/fresh-plane-stage-observation.js",
+    "dist/src/harness/fresh-plane-stage-observation.js.map",
+    "dist/src/integrations/kicad-plane-stage-receipt.d.ts",
+    "dist/src/integrations/kicad-plane-stage-receipt.d.ts.map",
+    "dist/src/integrations/kicad-plane-stage-receipt.js",
+    "dist/src/integrations/kicad-plane-stage-receipt.js.map",
+    "dist/src/integrations/kicad-plane-stage.d.ts",
+    "dist/src/integrations/kicad-plane-stage.d.ts.map",
+    "dist/src/integrations/kicad-plane-stage.js",
+    "dist/src/integrations/kicad-plane-stage.js.map",
+    "sidecars/patches/doc13/evleda_plane_stage/__init__.py",
+    "sidecars/patches/doc13/evleda_plane_stage/compact_receipt.py",
+    "sidecars/patches/doc13/evleda_plane_stage/plane_stage.py",
+    "sidecars/patches/doc13/test_compact_receipt.py",
+    "src/harness/fresh-plane-stage-observation.ts",
+    "src/integrations/kicad-plane-stage-receipt.ts",
+    "src/integrations/kicad-plane-stage.ts",
+    "tests/helpers/compact-plane-stage-fixture.ts",
+    "tests/unit/fresh-plane-stage-observation.test.ts",
+    "tests/unit/kicad-plane-stage-receipt.test.ts",
+    "tests/unit/kicad-plane-stage.test.ts"
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTestsPassed": true,
+  "uiReusedUnchanged": true,
+  "baseHostPreserved": true,
+  "nativeQualificationPending": true,
+  "independentReview": false
+}
