@@ -1,0 +1,148 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-39\\workspace-client-f0522bd4-4d2c-447d-a9d8-8d28788dee1a\\000070-response-64870b5a77a263c067cdebd298e9ae029ccf5621c47ab9b2f4064ad89877efc6.json",
+  "result": {
+    "schemaVersion": "evleda.fresh-plane-apply-result.v1",
+    "contractIdentity": {
+      "algorithm": "sha256",
+      "digest": "914359bf1ba51f1137355a179734fff0a00aa1366efd2331cde0939ee8b8ada8",
+      "schemaVersion": "evleda.fresh-connectivity-contract.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "sourceContractIdentity": {
+      "algorithm": "sha256",
+      "digest": "f4d71fcdd5e24aa5728954255503b25bc3e6c381fd07e05b62f6337cbbab7127",
+      "schemaVersion": "evleda.pcb-design-contract.v2",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "planeProjectBindingIdentity": {
+      "algorithm": "sha256",
+      "digest": "40897cfa882349f30ff0ce6df92d1dca642dc3bc628579e3c120ea57a8cb735a",
+      "schemaVersion": "evleda.pcb-agent-plane-fresh-binding.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "freshMarkerContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "1169552b8e2c2eb27197e0c0768802839e8ce35ae3bce4bd80d82b2db3a716f3",
+      "size": 5715
+    },
+    "planeId": "GND_PLANE",
+    "targetZoneUuid": "3d66c48d-738f-4869-b998-1552343bb759",
+    "operation": "create",
+    "preparedSpecIdentity": {
+      "algorithm": "sha256",
+      "digest": "7d535d33690accacaf67d2aefcb14f3b595d84e5f6ef79578a24ac66c2de0cce",
+      "schemaVersion": "evleda.fresh-plane-mutation-spec.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "beforePcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+      "size": 393431
+    },
+    "stagedPcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "16f9625cecd8fe07200ca1e3b37bf883c69714f4b99712a035552d3cd61365ec",
+      "size": 426939
+    },
+    "stageReceiptIdentity": {
+      "algorithm": "sha256",
+      "digest": "f3516fd318f4c13b3c7eb13505a3114ba29e3ee08794737a2fda3c1691f8c483",
+      "size": 3641749
+    },
+    "mutationComparisonIdentity": {
+      "algorithm": "sha256",
+      "digest": "3bae618a09f6db4499eb26ee87692801f08729314e1f1f45647bc3867ed8078b",
+      "schemaVersion": "evleda.fresh-plane-mutation-comparison.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "requirements": {
+      "minimumIslandAreaMm2": 1,
+      "minimumAreaEnforcement": "not-enforced-by-always-mode",
+      "minimumSpokes": null,
+      "spokeEnforcement": "not-applicable"
+    },
+    "applied": true,
+    "mutated": true,
+    "idempotent": false,
+    "nativeActionsPerformed": true,
+    "sourceChanged": true,
+    "completion": "not_evaluated",
+    "connection": "not_evaluated",
+    "referenceCoverage": "not_evaluated",
+    "thermalAcceptance": "not_evaluated",
+    "islandAreaAcceptance": "not_evaluated",
+    "nativeSaveCalledByStage": false,
+    "acceptanceEvaluated": false,
+    "issues": [],
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "15d1b178666b5f937267d262d31342cd5c44fd4853bee5e7a498df587b9600af",
+      "schemaVersion": "evleda.fresh-plane-apply-result.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    }
+  },
+  "persistence": {
+    "status": "plane-native-saved-and-source-verified",
+    "nativeSaveCalled": true,
+    "savedPcbContentIdentity": {
+      "algorithm": "sha256",
+      "digest": "243038ff17433da64f76314af6591ee7edb43148a27df81aad3df7da8bfc9ab2",
+      "size": 452769
+    },
+    "stageObservationIdentity": {
+      "algorithm": "sha256",
+      "digest": "3c6ff3aefd204c1c420c4bfef105d82fd00b7ab134e82e75194f01ea282da4cd",
+      "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "currentSessionFillEvidenceIdentity": {
+      "algorithm": "sha256",
+      "digest": "061ae8cc9e8c0d79b50506d3a01f56b0d5589f686879c2e1102c4063ce41a6c6",
+      "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "acceptanceEvaluated": false
+  },
+  "files": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15",
+      "sizeBytes": 21307
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+      "sizeBytes": 221594
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "243038ff17433da64f76314af6591ee7edb43148a27df81aad3df7da8bfc9ab2",
+      "sizeBytes": 452769
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "sizeBytes": 1275
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "sizeBytes": 2025
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "sizeBytes": 13300
+    }
+  ],
+  "tracks": 797,
+  "vias": 104,
+  "zones": 1,
+  "routeAndFootprintGeometryPreserved": true,
+  "nonPcbSourcesPreserved": true,
+  "endpointChecksPending": true,
+  "nativeDrcPending": true,
+  "planeAcceptancePending": true,
+  "designAccepted": false
+}

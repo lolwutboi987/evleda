@@ -30,6 +30,45 @@ const policySchema = z.object({
 });
 export type FreshHeaderServicePolicy = z.infer<typeof policySchema>;
 export const FRESH_HEADER_SERVICE_LIMITS = Object.freeze({ sourceBytes: 2 * 1024 * 1024, tracks: 1280, vias: 256, pads: 1024, zones: 4, contourVertices: 8192 });
+
+/** Independent conservative containment check. Straight-edge fill cannot extend
+ * outside the bounding rectangle of all its vertices, including fracture walks.
+ * This does not normalize holes or establish that the fill is topologically valid.
+ */
+export function auditFreshStoredFillHeaderBounds(input: { pcbSource: string; expectedSourceIdentity: ContentIdentity; policy: FreshHeaderServicePolicy }) {
+  const policy = policySchema.parse(input.policy), sourceIdentity = contentIdentity(input.pcbSource);
+  const unknown: string[] = [], zones: { id: string; vertices: number; minXnm: number; maxXnm: number; minYnm: number; maxYnm: number; contained: boolean }[] = [];
+  let vertices = 0;
+  try {
+    check(sameIdentity(sourceIdentity, input.expectedSourceIdentity), "Exact saved source identity differs");
+    check(sourceIdentity.size <= FRESH_HEADER_SERVICE_LIMITS.sourceBytes, "Source byte bound exceeded");
+    check(parseFreshPcbSource(input.pcbSource).version === 20260206, "Only the inspected KiCad 10 saved-fill format is supported");
+    const parsed = parseFreshPcbReferenceGeometry(input.pcbSource);
+    check(parsed.zones.length > 0 && parsed.zones.length <= FRESH_HEADER_SERVICE_LIMITS.zones, "Missing or excessive zone inventory");
+    const left = routeSourceMmToNativeNm(policy.left.innerXmm), right = routeSourceMmToNativeNm(policy.right.innerXmm), height = routeSourceMmToNativeNm(policy.board.heightMm);
+    for (const zone of parsed.zones) {
+      const fill = zone.settings.find(setting => setting.name === "fill");
+      check(zone.status === "supported" && zone.uuid !== null && zone.kind === "copper" && zone.layers.length === 1 && ["F.Cu", "B.Cu"].includes(zone.layers[0]!)
+        && zone.filledCachePresent && zone.filledPolygons.length > 0 && fill?.values.length === 1 && !fill.values[0]!.quoted && fill.values[0]!.value === "yes", "Unsupported or unfilled zone");
+      const points = zone.filledPolygons.flatMap(group => {
+        check(group.status === "supported" && group.contourGroup.length === 1 && group.contourGroup[0]!.status === "supported"
+          && group.contourGroup[0]!.pointsNm !== null && group.contourGroup[0]!.pointsNm!.length >= 3, "Incomplete or non-straight stored contour");
+        return group.contourGroup[0]!.pointsNm!;
+      });
+      vertices += points.length; check(vertices <= FRESH_HEADER_SERVICE_LIMITS.contourVertices, "Stored fill vertex bound exceeded");
+      let minXnm = Infinity, maxXnm = -Infinity, minYnm = Infinity, maxYnm = -Infinity;
+      for (const p of points) { minXnm = Math.min(minXnm, p.x); maxXnm = Math.max(maxXnm, p.x); minYnm = Math.min(minYnm, p.y); maxYnm = Math.max(maxYnm, p.y); }
+      zones.push({ id: zone.uuid, vertices: points.length, minXnm, maxXnm, minYnm, maxYnm,
+        contained: minXnm >= left && maxXnm <= right && minYnm >= 0 && maxYnm <= height });
+    }
+  } catch (error) { unknown.push(error instanceof Error ? error.message : "Source bounds could not be read"); }
+  return freezePcbPlaneArtifact({ schemaVersion: "evleda.stored-fill-header-bounds.v1", sourceIdentity,
+    policyIdentity: canonicalIdentity(policy, "evleda.header-service-policy.v1"), status: unknown.length ? "unknown" : zones.every(z => z.contained) ? "contained" : "bounds-cross-service-region",
+    complete: unknown.length === 0, zones, unknown, vertices, nativeAuthority: false,
+    scope: "conservative-enclosure-of-all-straight-stored-fill-vertices-only", topologyVerified: false, fillFreshness: "unverified",
+    notAssessed: ["other-copper-primitives", "polygon-validity", "holes-and-islands", "connectivity", "clearance", "return-path-quality", "fabrication"] });
+}
+const sameIdentity = (a: ContentIdentity, b: ContentIdentity) => canonicalJson(a) === canonicalJson(b);
 type Point = { x: number; y: number };
 type Pad = { id: string; reference: string; pin: string; net: string | null; layers: string[];
   center: Point; width: number; height: number; radius2: number; drill: { width: number; height: number } | null; copper: boolean };

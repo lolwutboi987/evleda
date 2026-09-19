@@ -2,7 +2,7 @@ import path from "node:path";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { decodePlaneStageReceipt } from "../integrations/kicad-plane-stage-receipt.js";
 import { kicadPlaneStageInputSchema, type KicadPlaneStageInput } from "../integrations/kicad-plane-stage.js";
-import { decodeKicadNativePadObservation, type KicadNativePadObservationExpected } from "../integrations/kicad-native-pad-observation.js";
+import { decodeKicadNativePadObservation, KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT, type KicadNativePadObservationExpected } from "../integrations/kicad-native-pad-observation.js";
 import { freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
 import { compareFreshPlaneRefillPreservation, parseFreshPcbDirectZoneSourceSpans, parseFreshPcbReferenceGeometry } from "./fresh-kicad-parser.js";
 import { compareFreshPlaneLiteralMutation, compareFreshPlaneMutation, type PreparedFreshPlaneMutation } from "./fresh-plane-mutation.js";
@@ -112,7 +112,7 @@ function decodeStage(receiptInput: unknown, expected: FreshPlaneStageObservation
   const snapshot = obj(receipt.padSnapshot, "PAD snapshot");
   check(snapshot.boardSourceBefore === staged && snapshot.boardSourceAfter === staged && same(snapshot.documentBefore, document) && same(snapshot.documentAfter, document), "PAD snapshot belongs to another source/document epoch");
   check(same(expected.padExpected.requestedPrimitiveIds, request.reference_pads.map(pad => pad.primitiveId)), "host PAD selection differs from stage request");
-  const nativePads = decodeKicadNativePadObservation({ isError: false, content: [{ type: "text", text: JSON.stringify(snapshot) }], structuredContent: snapshot }, { ...expected.padExpected, pcbSource: staged });
+  const nativePads = decodeKicadNativePadObservation({ isError: false, content: [{ type: "text", text: KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT }], structuredContent: snapshot }, { ...expected.padExpected, pcbSource: staged });
   for (const pad of request.reference_pads) {
     const owners = nativePads.parsedBoard.footprints.filter(fp => fp.reference === pad.reference).flatMap(fp => fp.pads.filter(p => p.physical.id === pad.primitiveId && p.number === pad.pad));
     check(owners.length === 1, "host individual PAD reference/number/UUID ownership differs");

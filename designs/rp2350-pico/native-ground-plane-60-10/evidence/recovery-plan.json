@@ -1,0 +1,448 @@
+{
+  "schemaVersion": "evleda.unchanged-plane-session-recovery.v1",
+  "request": {
+    "schemaVersion": "evleda.unchanged-plane-session-recovery-request.v1",
+    "projectRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+    "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+    "archiveRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\recovery-archives",
+    "checkpoint": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-checkpoint.json",
+      "sha256": "f1405017b10462b2cdeca52a80fa847a1f3ada0483301c7df818b792dc59b077",
+      "bytes": 3138
+    },
+    "normalCloseProof": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-37\\route68-close-proof.json",
+      "sha256": "97108477a137a1e7bc10a404ebf6f688d17854643e7108154abe9222865323f8",
+      "bytes": 3006
+    },
+    "normalCloseResponse": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-37\\workspace-client-fb3ec3a0-0100-402c-ac1c-7db69d467b0d\\000296-response-d0e591b814cc9c8802ba916c8d73c97631756ba042fe01bfb56914ac825dffc2.json",
+      "sha256": "d0e591b814cc9c8802ba916c8d73c97631756ba042fe01bfb56914ac825dffc2",
+      "bytes": 19978
+    },
+    "failedSession": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000001-session-7247bd1a63d78334af609f802ea957a9436968703e04692976398b38a6dd52fa.json",
+      "sha256": "7247bd1a63d78334af609f802ea957a9436968703e04692976398b38a6dd52fa",
+      "bytes": 1261
+    },
+    "resumeResponse": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000055-response-7c2b95c7b2e7cb9added6ddca0863ab2f70865ae5d471e1b875a7be8faba6626.json",
+      "sha256": "7c2b95c7b2e7cb9added6ddca0863ab2f70865ae5d471e1b875a7be8faba6626",
+      "bytes": 25621
+    },
+    "planeResponse": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000070-response-84fb25282377f547adfd96b5b53ac90d0128e9ec99b3c962cf78d6ee16b4b499.json",
+      "sha256": "84fb25282377f547adfd96b5b53ac90d0128e9ec99b3c962cf78d6ee16b4b499",
+      "bytes": 3108
+    },
+    "closeResponse": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000076-response-27abd5cb07586a4def59cb23a94f6b6b2d713584c073f5a2c954c27a08fb45a5.json",
+      "sha256": "27abd5cb07586a4def59cb23a94f6b6b2d713584c073f5a2c954c27a08fb45a5",
+      "bytes": 1320
+    },
+    "stageArtifact": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-mcp-output\\evleda-plane-stage-2daa25da-a30e-450e-8074-31387e3880a8.json",
+      "sha256": "f2959e8f8a9bfb174586204838e68ef9b925929af073fc9ea0a59f8010c9f2d2",
+      "bytes": 3645999
+    },
+    "expectedLease": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\.toolbox-lease.json",
+      "sha256": "78f5e43cb51e64a6253a13a66d7b9542a7bc1b1f7be82f8ebf4d3c00a3f7b824",
+      "bytes": 95
+    },
+    "expectedUnsafeMarker": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-unsafe-terminal.json",
+      "sha256": "d715146ed3ec9518c39cf061b78e0c2c54db74ca7e3552742a95c5202982d9e5",
+      "bytes": 626
+    }
+  },
+  "files": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-37\\route68-close-proof.json",
+      "sha256": "97108477a137a1e7bc10a404ebf6f688d17854643e7108154abe9222865323f8",
+      "bytes": 3006,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "4785074605040441",
+        "size": "3006",
+        "mtimeNs": "1789828521732970200",
+        "ctimeNs": "1789828521732970200",
+        "birthtimeNs": "1789828521732970200",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-37\\workspace-client-fb3ec3a0-0100-402c-ac1c-7db69d467b0d\\000296-response-d0e591b814cc9c8802ba916c8d73c97631756ba042fe01bfb56914ac825dffc2.json",
+      "sha256": "d0e591b814cc9c8802ba916c8d73c97631756ba042fe01bfb56914ac825dffc2",
+      "bytes": 19978,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "4503599628329783",
+        "size": "19978",
+        "mtimeNs": "1789828521230265800",
+        "ctimeNs": "1789828521230265800",
+        "birthtimeNs": "1789828521230265800",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000001-session-7247bd1a63d78334af609f802ea957a9436968703e04692976398b38a6dd52fa.json",
+      "sha256": "7247bd1a63d78334af609f802ea957a9436968703e04692976398b38a6dd52fa",
+      "bytes": 1261,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "1125899909652707",
+        "size": "1261",
+        "mtimeNs": "1789831619960159900",
+        "ctimeNs": "1789831619960159900",
+        "birthtimeNs": "1789831619959142700",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000009-request-d1f51d5bc57fd4b71520743ce60c2b1e2d4d4d38c092fcf25af63539d0cb6825.jsonl",
+      "sha256": "d1f51d5bc57fd4b71520743ce60c2b1e2d4d4d38c092fcf25af63539d0cb6825",
+      "bytes": 148,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "844424932942063",
+        "size": "148",
+        "mtimeNs": "1789831630672003200",
+        "ctimeNs": "1789831630672003200",
+        "birthtimeNs": "1789831630672003200",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000055-response-7c2b95c7b2e7cb9added6ddca0863ab2f70865ae5d471e1b875a7be8faba6626.json",
+      "sha256": "7c2b95c7b2e7cb9added6ddca0863ab2f70865ae5d471e1b875a7be8faba6626",
+      "bytes": 25621,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "281474979551420",
+        "size": "25621",
+        "mtimeNs": "1789831786066302500",
+        "ctimeNs": "1789831786066302500",
+        "birthtimeNs": "1789831786064964200",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000068-request-2266e1a6eee4dc9a69f859bf1afb312ca5d7c9151ef14e0f8b1b7d0d97483933.jsonl",
+      "sha256": "2266e1a6eee4dc9a69f859bf1afb312ca5d7c9151ef14e0f8b1b7d0d97483933",
+      "bytes": 130,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "562949956248549",
+        "size": "130",
+        "mtimeNs": "1789831817858392200",
+        "ctimeNs": "1789831817858392200",
+        "birthtimeNs": "1789831817858392200",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000070-response-84fb25282377f547adfd96b5b53ac90d0128e9ec99b3c962cf78d6ee16b4b499.json",
+      "sha256": "84fb25282377f547adfd96b5b53ac90d0128e9ec99b3c962cf78d6ee16b4b499",
+      "bytes": 3108,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "844424932941691",
+        "size": "3108",
+        "mtimeNs": "1789831880174217200",
+        "ctimeNs": "1789831880174217200",
+        "birthtimeNs": "1789831880171868300",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000074-request-060d9117d628f82cd140565dc8cdd166efae82cd76e8836aaca73b5ae4e28f2e.jsonl",
+      "sha256": "060d9117d628f82cd140565dc8cdd166efae82cd76e8836aaca73b5ae4e28f2e",
+      "bytes": 148,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "1125899909597874",
+        "size": "148",
+        "mtimeNs": "1789832225676785300",
+        "ctimeNs": "1789832225676785300",
+        "birthtimeNs": "1789832225676785300",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000076-response-27abd5cb07586a4def59cb23a94f6b6b2d713584c073f5a2c954c27a08fb45a5.json",
+      "sha256": "27abd5cb07586a4def59cb23a94f6b6b2d713584c073f5a2c954c27a08fb45a5",
+      "bytes": 1320,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "1970324839729790",
+        "size": "1320",
+        "mtimeNs": "1789832257630268600",
+        "ctimeNs": "1789832257630268600",
+        "birthtimeNs": "1789832257630268600",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\.toolbox-lease.json",
+      "sha256": "78f5e43cb51e64a6253a13a66d7b9542a7bc1b1f7be82f8ebf4d3c00a3f7b824",
+      "bytes": 95,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "1125899909652720",
+        "size": "95",
+        "mtimeNs": "1789831630914792200",
+        "ctimeNs": "1789831630914792200",
+        "birthtimeNs": "1789831630913725100",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\allocation.json",
+      "sha256": "4ecf974bff322f4fd5373a4e2bb34e5ee43ae5edb703e3aff3b9207b4f28d82f",
+      "bytes": 6280,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "2814749768314166",
+        "size": "6280",
+        "mtimeNs": "1789797896000583100",
+        "ctimeNs": "1789797896000583100",
+        "birthtimeNs": "1789797895999570900",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-mcp-output\\evleda-plane-stage-2daa25da-a30e-450e-8074-31387e3880a8.json",
+      "sha256": "f2959e8f8a9bfb174586204838e68ef9b925929af073fc9ea0a59f8010c9f2d2",
+      "bytes": 3645999,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "3659174699443277",
+        "size": "3645999",
+        "mtimeNs": "1789831877791522000",
+        "ctimeNs": "1789831877791522000",
+        "birthtimeNs": "1789831875679559200",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-checkpoint.json",
+      "sha256": "f1405017b10462b2cdeca52a80fa847a1f3ada0483301c7df818b792dc59b077",
+      "bytes": 3138,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "50384020831217158",
+        "size": "3138",
+        "mtimeNs": "1789828520018024400",
+        "ctimeNs": "1789828520021114200",
+        "birthtimeNs": "1789828520016944800",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-fresh.json",
+      "sha256": "1169552b8e2c2eb27197e0c0768802839e8ce35ae3bce4bd80d82b2db3a716f3",
+      "bytes": 5715,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "3377699721735445",
+        "size": "5715",
+        "mtimeNs": "1789797932669310400",
+        "ctimeNs": "1789797932669310400",
+        "birthtimeNs": "1789797932668301000",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-unsafe-terminal.json",
+      "sha256": "d715146ed3ec9518c39cf061b78e0c2c54db74ca7e3552742a95c5202982d9e5",
+      "bytes": 626,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "37436171902741750",
+        "size": "626",
+        "mtimeNs": "1789832257624033600",
+        "ctimeNs": "1789832257625088700",
+        "birthtimeNs": "1789832257624033600",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\pcb-agent-report.json",
+      "sha256": "ca138dc0e714ec39419b30206c887076e6f4fd3d019a85dde4e4caf1542730aa",
+      "bytes": 33368,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "19703248369772944",
+        "size": "33368",
+        "mtimeNs": "1789828519987355800",
+        "ctimeNs": "1789828519997743600",
+        "birthtimeNs": "1789828519986339300",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "bytes": 2025,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "2533274791603460",
+        "size": "2025",
+        "mtimeNs": "1789797930706947900",
+        "ctimeNs": "1789797930706947900",
+        "birthtimeNs": "1789797930706443700",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17",
+      "bytes": 13300,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "2533274791603463",
+        "size": "13300",
+        "mtimeNs": "1789797930706947900",
+        "ctimeNs": "1789797930706947900",
+        "birthtimeNs": "1789797930706947900",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+      "bytes": 393431,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "12947848929366729",
+        "size": "393431",
+        "mtimeNs": "1789826638100966900",
+        "ctimeNs": "1789826638100966900",
+        "birthtimeNs": "1789800119244479300",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15",
+      "bytes": 21307,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "3940649675156760",
+        "size": "21307",
+        "mtimeNs": "1789802055436586600",
+        "ctimeNs": "1789802055436586600",
+        "birthtimeNs": "1789797939066189400",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb",
+      "bytes": 221594,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "58828270132544242",
+        "size": "221594",
+        "mtimeNs": "1789798957824081200",
+        "ctimeNs": "1789798957825084700",
+        "birthtimeNs": "1789798957823060600",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "bytes": 1275,
+      "physical": {
+        "dev": "2186993326",
+        "ino": "2533274791603459",
+        "size": "1275",
+        "mtimeNs": "1789797930706443700",
+        "ctimeNs": "1789797930706443700",
+        "birthtimeNs": "1789797930705441000",
+        "mode": "33206",
+        "nlink": "1"
+      }
+    }
+  ],
+  "directories": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01",
+      "dev": "2186993326",
+      "ino": "8444249301501728"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace",
+      "dev": "2186993326",
+      "ino": "4222124652346649"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects",
+      "dev": "2186993326",
+      "ino": "2251799815372063"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+      "dev": "2186993326",
+      "ino": "3096224745024819"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output",
+      "dev": "2186993326",
+      "ino": "2814749768314164"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project",
+      "dev": "2186993326",
+      "ino": "3659174698446065"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\input",
+      "dev": "2186993326",
+      "ino": "4785074605288682"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\recovery-archives",
+      "dev": "2186993326",
+      "ino": "1688849863019193"
+    }
+  ],
+  "requiredFreeBytes": 162737849,
+  "sourceFilesRewritten": false,
+  "checkpointRewritten": false,
+  "stageObservationIdentity": {
+    "algorithm": "sha256",
+    "digest": "57bea2e6381fa1c634765fcb34d3652e8bc410419a7463b31568a972742a8ce0",
+    "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "identity": {
+    "algorithm": "sha256",
+    "digest": "d5e08f1ea9325f53c7776282e243ad2604b3d5e83972a2814c44d99bf0c53581",
+    "schemaVersion": "evleda.unchanged-plane-session-recovery.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  }
+}

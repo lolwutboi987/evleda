@@ -1,5 +1,10 @@
 # Lossless native plane receipts
 
+The subsequent RP2350 trial exposed a second duplication point inside the host
+PAD adapter. The host24 fix and source-preserving recovery are documented in
+[unchanged plane-session recovery](unchanged-plane-session-recovery.md). The
+small DOC14 fixture proof below retains its original scope.
+
 Large routed boards repeat substantial data in a plane-stage receipt: several
 complete PCB serializations, a full physical-pad inventory, and each individual
 PAD-connectivity response. The RP2350 capacity estimate exceeded the existing

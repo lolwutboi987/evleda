@@ -13,6 +13,7 @@ import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { planeStageObservationFixture } from "../helpers/plane-stage-observation-fixture.js";
 import { withNativePadFixtureIds } from "../helpers/native-pad-observation-fixture.js";
 import { compactPlaneStageFixture } from "../helpers/compact-plane-stage-fixture.js";
+import { decodeKicadNativePadObservation } from "../../src/integrations/kicad-native-pad-observation.js";
 
 const source = withNativePadFixtureIds(`(kicad_pcb (version 20260206) (generator "pcbnew") (generator_version "10.0")
   (general (thickness 1.6)) (layers (0 "F.Cu" signal) (2 "B.Cu" signal) (25 "Edge.Cuts" user))
@@ -89,6 +90,26 @@ describe.each(["v1", "v2"])("source-bound plane stage adapter %s", encoding => {
     const request = structuredClone(f.request); request.reference_pads[0]!.reference = "J999";
     expect(() => validate(f.receipt, { ...f, request })).toThrow("ownership");
   });
+});
+
+it("does not recreate the oversized legacy PAD text envelope inside a compact plane stage", async () => {
+  const f = await fixture(), receipt = structuredClone(f.receipt), padding = " ".repeat(550_000);
+  const sourceFields = ["savedSourceBefore", "nativeSourceBefore", "nativeSourceUnfilled", "savedSourceStaged", "nativeSourceStaged"];
+  for (const key of sourceFields) { receipt[key] += padding; receipt.identities[key] = contentIdentity(receipt[key]); }
+  receipt.padSnapshot.boardSourceBefore += padding; receipt.padSnapshot.boardSourceAfter += padding;
+  for (const call of receipt.rpc) if (call.requestType === "kiapi.common.commands.SaveDocumentToString") call.response.contents += padding;
+  receipt.request.expectedSavedIdentity = contentIdentity(receipt.savedSourceBefore);
+  receipt.request.expectedLiveIdentity = contentIdentity(receipt.nativeSourceBefore);
+  const expected = { ...f, request: { ...f.request, request: receipt.request }, padExpected: { ...f.padExpected, pcbSource: receipt.savedSourceBefore } };
+  const text = JSON.stringify(receipt.padSnapshot);
+  expect(Buffer.byteLength(text)).toBeGreaterThan(1024 * 1024);
+  expect(() => decodeKicadNativePadObservation({ isError: false, content: [{ type: "text", text }], structuredContent: receipt.padSnapshot },
+    { ...expected.padExpected, pcbSource: receipt.nativeSourceStaged })).toThrow("string budget");
+  const result = validateFreshPlaneLiteralStageObservation(compactPlaneStageFixture(receipt), expected);
+  expect(result.comparison.valid).toBe(true);
+  expect(result.nativePadsSource).toBe("validated-staged-native-not-saved");
+  expect(result.savedAuthorityMinted).toBe(false);
+  expect(result.nativeSourceStaged).toBe(receipt.nativeSourceStaged);
 });
 
 // Independent recorded producer receipts. Reading these never launches native KiCad.

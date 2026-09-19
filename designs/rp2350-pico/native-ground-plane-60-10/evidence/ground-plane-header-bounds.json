@@ -1,0 +1,57 @@
+{
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "bounds": {
+    "schemaVersion": "evleda.stored-fill-header-bounds.v1",
+    "sourceIdentity": {
+      "algorithm": "sha256",
+      "digest": "243038ff17433da64f76314af6591ee7edb43148a27df81aad3df7da8bfc9ab2",
+      "size": 452769
+    },
+    "policyIdentity": {
+      "algorithm": "sha256",
+      "digest": "a760f6e295846b5becaae3165fc50ffd795ef82d45958fdf279c7365b5337e06",
+      "schemaVersion": "evleda.header-service-policy.v1",
+      "canonicalizationVersion": "evleda-c14n-json-v1"
+    },
+    "status": "contained",
+    "complete": true,
+    "zones": [
+      {
+        "id": "3d66c48d-738f-4869-b998-1552343bb759",
+        "vertices": 2344,
+        "minXnm": 3460000,
+        "maxXnm": 18540000,
+        "minYnm": 500500,
+        "maxYnm": 59499500,
+        "contained": true
+      }
+    ],
+    "unknown": [],
+    "vertices": 2344,
+    "nativeAuthority": false,
+    "scope": "conservative-enclosure-of-all-straight-stored-fill-vertices-only",
+    "topologyVerified": false,
+    "fillFreshness": "unverified",
+    "notAssessed": [
+      "other-copper-primitives",
+      "polygon-validity",
+      "holes-and-islands",
+      "connectivity",
+      "clearance",
+      "return-path-quality",
+      "fabrication"
+    ]
+  },
+  "originalFullAuditStatus": "unknown",
+  "originalFullAuditUnknown": [
+    {
+      "code": "UNSUPPORTED_FILL",
+      "id": "3d66c48d-738f-4869-b998-1552343bb759",
+      "detail": "Filled geometry not verified: Filled geometry predicate work bound exhausted"
+    }
+  ],
+  "nonFillUnknown": [],
+  "nonFillViolations": [],
+  "geometricServiceStripExclusionEstablished": true,
+  "scope": "Combine the complete non-fill primitive checks with a conservative enclosure of every stored straight fill vertex. Full fill topology/geometry normalization remains unknown; no fresh-fill, clearance, connectivity or acceptance claim is added."
+}

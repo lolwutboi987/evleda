@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { contentIdentity } from "../../src/core/canonical.js";
-import { auditFreshHeaderServiceRegions, headerServiceRoundRectRadiusNm, type FreshHeaderServicePolicy } from "../../src/harness/fresh-header-service-regions.js";
+import { auditFreshHeaderServiceRegions, auditFreshStoredFillHeaderBounds, headerServiceRoundRectRadiusNm, type FreshHeaderServicePolicy } from "../../src/harness/fresh-header-service-regions.js";
 
 // Pure saved-source fixtures, with no native observations or clearance claims.
 const id = (n: number) => `88888888-8888-4888-8888-${String(n).padStart(12,"0")}`;
@@ -27,6 +27,26 @@ const audit = (source: string, p = policy()) => auditFreshHeaderServiceRegions({
 const codes = (r: ReturnType<typeof audit>) => [...r.violations,...r.unknown].map(f => f.code);
 
 describe("source-only header service strip audit", () => {
+  it("can prove conservative fill containment without claiming polygon validity", () => {
+    const source = board(zone('(xy 4 1) (xy 16 39) (xy 16 1) (xy 4 39)'));
+    expect(audit(source).status).toBe("unknown"); // Existing topology policy is unchanged.
+    const bounds = auditFreshStoredFillHeaderBounds({ pcbSource: source, expectedSourceIdentity: contentIdentity(source), policy: policy() });
+    expect(bounds.status).toBe("contained"); expect(bounds.topologyVerified).toBe(false); expect(bounds.nativeAuthority).toBe(false);
+    expect(bounds.zones[0]).toMatchObject({ minXnm: 4000000, maxXnm: 16000000 });
+    const old = source.replace("20260206", "20240101");
+    expect(auditFreshStoredFillHeaderBounds({ pcbSource: old, expectedSourceIdentity: contentIdentity(old), policy: policy() }).status).toBe("unknown");
+  });
+  it("keeps outlying bounds, arcs and absent fill distinct", () => {
+    for (const [points, expected] of [['(xy 2 1) (xy 17 1) (xy 17 39)', 'bounds-cross-service-region'], ['(xy 3 1) (arc (start 3 2) (mid 3 3) (end 4 3)) (xy 17 39)', 'unknown'], [null, 'unknown']] as const) {
+      const source = board(zone(points)); expect(auditFreshStoredFillHeaderBounds({ pcbSource: source, expectedSourceIdentity: contentIdentity(source), policy: policy() }).status).toBe(expected);
+    }
+  });
+  it("bounds a large complete contour within the existing vertex limit", () => {
+    const points = Array.from({ length: 4000 }, (_, i) => `(xy ${i % 2 ? 16 : 4} ${1 + i % 38})`).join(" "), source = board(zone(points));
+    const result = auditFreshStoredFillHeaderBounds({ pcbSource: source, expectedSourceIdentity: contentIdentity(source), policy: policy() });
+    expect(result.status).toBe("contained"); expect(result.vertices).toBe(4000); expect(result.topologyVerified).toBe(false);
+    expect(auditFreshStoredFillHeaderBounds({ pcbSource: source, expectedSourceIdentity: contentIdentity(source + " "), policy: policy() }).status).toBe("unknown");
+  });
   it.each([
     [1200000,"0.208333",250000], [1000001,"0.25",250000], [1000002,"0.25",250001], [1000003,"0.25",250001],
     [1000001,"0.499999",499999], [1000000,"0",0], [1000000,"0.5",500000],

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "evleda.host24-build-release.v1",
+  "recordedAt": "2026-09-19T15:43:59.292Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-plane-envelope-build-24",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-stage-doc13-01\\host23-release.json",
+    "sha256": "3fe20528bda739b41737be48c0a332288080719cf8c02fff7c45a146d9c30371",
+    "sizeBytes": 6214
+  },
+  "sourcePins": [
+    {
+      "relative": "src/harness/fresh-plane-stage-observation.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-stage-observation.ts",
+      "sha256": "16325e433a7ee75cbb03406227f8f82136d513fa58bc1c2f2f64f81e9de9df46",
+      "sizeBytes": 28712
+    },
+    {
+      "relative": "tests/unit/fresh-plane-stage-observation.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-stage-observation.test.ts",
+      "sha256": "45fa1710d34ffb78fa3fd04404518ce49dfd18b67ced8ddda8278403f0c930e5",
+      "sizeBytes": 11872
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-stage-pad-envelope-01\\host24-build-manifest.json",
+    "sha256": "fc3b1ae01c14b23fda014b584734ec891f0bb3935f1ece6f22030c6b421d44cb",
+    "sizeBytes": 865535
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "plane-and-pad-tests",
+      "exitCode": 0
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTestsPassed": true,
+  "baseHost23Preserved": true,
+  "uiOutputPreserved": true,
+  "runtimeChanged": false,
+  "nativeQualificationPending": true,
+  "scope": "Host23 plus the already-supported compact PAD envelope inside plane validation and an oversized-stage regression. No cap, source, geometry, native-call or recovery-policy relaxation."
+}

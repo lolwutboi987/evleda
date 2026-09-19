@@ -1,6 +1,19 @@
 # Current status and roadmap
 
-Latest toolbox milestone, 19 September 2026: [lossless compact plane receipts](plane-receipt-compaction.md)
+Latest native milestone, 19 September 2026: [ground plane 60-10](../designs/rp2350-pico/native-ground-plane-60-10/README.md)
+is normally closed with **797 tracks, 104 vias and one B.Cu zone**. Existing
+routes and footprints were preserved. Native DRC unconnected findings fell from
+66 to 32, with 13 dangling-item warnings and no reported clearance violations.
+There are still **53 connected and 14 disconnected nets**; GND has 17 physical-pad
+groups, with 40 of 64 pads in the largest group. Primitive checks plus bounds of
+all 2,344 stored fill vertices establish GPIO service-strip exclusion, while
+full fill topology remains unverified. The USB placement/turn findings, ground
+ties, remaining signals, labels and electrical/DFM work remain unfinished.
+Host24 fixes the plane adapter's duplicated PAD envelope. A narrowly scoped,
+tested recovery archived the earlier failure metadata without rewriting any
+source or checkpoint before the successful new native session.
+
+Earlier toolbox milestone, 19 September 2026: [lossless compact plane receipts](plane-receipt-compaction.md)
 now pass native CREATE, UPDATE, mandatory save/readback and normal close with
 host23/DOC14 on a separate three-component fixture. The first DOC13 live attempt
 exposed a native OrderedDict case; its failed state is preserved. DOC14 corrects
@@ -9,7 +22,7 @@ The successful fixture's reference-ribbon failure and unknown acceptance rows
 remain explicit. This enables the next RP2350 plane trial; it does not establish
 RP2350 fill, return paths or complete routing.
 
-Latest native milestone, 19 September 2026: the
+Earlier native milestone, 19 September 2026: the
 [60-09 frozen-plan snapshot](../designs/rp2350-pico/native-route-plan-60-09/README.md)
 is normally closed with **797 segments, 104 vias and no zones** through all 68
 planned batches. Native endpoint checks report **53 connected and 14 disconnected

@@ -1,0 +1,63 @@
+{
+  "recordedAt": "2026-09-19T15:41:14.289Z",
+  "projectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "files": {
+    "pro": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pro",
+      "sha256": "87966134fe3b669c205f42824e214c1e1bab4aa89a3c6176e82235ce5450dc15"
+    },
+    "sch": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_sch",
+      "sha256": "fd5f6e9cfbe046d2a1ce35ad8d17723405e727a5e7e89ffe8493fb1474e5b0eb"
+    },
+    "pcb": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_pcb",
+      "sha256": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b"
+    },
+    "symLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\sym-lib-table",
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+    },
+    "fpLibTable": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\fp-lib-table",
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461"
+    },
+    "dru": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\project\\rp2350-pico.kicad_dru",
+      "sha256": "d6f681335e21d8d271dbeb6d8fff1f6cdce9d9ef738bc49151b52ceec4cc1f17"
+    }
+  },
+  "checkpoint": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-checkpoint.json",
+    "sha256": "f1405017b10462b2cdeca52a80fa847a1f3ada0483301c7df818b792dc59b077"
+  },
+  "publicCloseResponse": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\workspace-client-ded40ee7-d5ef-471a-8dcf-61f7e9bcd96f\\000076-response-27abd5cb07586a4def59cb23a94f6b6b2d713584c073f5a2c954c27a08fb45a5.json",
+    "sha256": "27abd5cb07586a4def59cb23a94f6b6b2d713584c073f5a2c954c27a08fb45a5",
+    "bytes": 1320
+  },
+  "normalCloseConfirmed": false,
+  "ownedEditorAndSupervisorAbsent": true,
+  "editorPid": 45604,
+  "supervisorPid": 63292,
+  "manualDialogAction": "Retained the exact complete staged PCB source and clicked the observed owned Discard Changes button after verifying all six saved sources. No staged plane was saved.",
+  "stagedSource": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-38\\retained-unsaved-ground-plane.kicad_pcb",
+    "sha256": "fbed9a2888e2cc9be58d7a18011cf8ccbbd1a40532b43a8d9263481e66a9a2ad",
+    "bytes": 426939
+  },
+  "retainedUnsafeMarker": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-pcb-agent-unsafe-terminal.json",
+    "sha256": "d715146ed3ec9518c39cf061b78e0c2c54db74ca7e3552742a95c5202982d9e5",
+    "bytes": 626
+  },
+  "retainedLease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\.toolbox-lease.json",
+    "sha256": "78f5e43cb51e64a6253a13a66d7b9542a7bc1b1f7be82f8ebf4d3c00a3f7b824",
+    "bytes": 95
+  },
+  "authorityArtifactsEdited": false,
+  "checkpointAndSixSavedSourcesUnchanged": true,
+  "sdkShutdownPending": true,
+  "recoveryApplied": false
+}

@@ -1,0 +1,33 @@
+{
+  "recordedAt": "2026-09-19T15:38:28.523Z",
+  "artifact": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\b2e1adba-cf6c-4ccf-a51f-00f63320d6eb\\output\\.evleda-mcp-output\\evleda-plane-stage-2daa25da-a30e-450e-8074-31387e3880a8.json",
+    "algorithm": "sha256",
+    "digest": "f2959e8f8a9bfb174586204838e68ef9b925929af073fc9ea0a59f8010c9f2d2",
+    "size": 3645999
+  },
+  "completeStageValidationPassed": true,
+  "comparison": "conformant",
+  "observationIdentity": {
+    "algorithm": "sha256",
+    "digest": "2e601caaa1659a0b670410d9bfb42058500a68c506ac3e7fe9c20d6205ba4c6b",
+    "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "sourceBefore": {
+    "algorithm": "sha256",
+    "digest": "549e054104125fc48c5d1417e9d6ea948c81f1a3bcfda1e4e2b04bc9161afa8b",
+    "size": 393431
+  },
+  "sourceStaged": {
+    "algorithm": "sha256",
+    "digest": "fbed9a2888e2cc9be58d7a18011cf8ccbbd1a40532b43a8d9263481e66a9a2ad",
+    "size": 426939
+  },
+  "physicalPads": 281,
+  "individualQueries": 64,
+  "nativeCalls": 0,
+  "liveRecovery": false,
+  "savedFillAuthority": false,
+  "scope": "Retained native stage replay through the full source/geometry/RPC/PAD adapter with only the existing compact PAD envelope selected. This does not reopen the allocation, retire quarantine or save the staged plane."
+}
