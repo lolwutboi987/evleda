@@ -1,0 +1,143 @@
+{
+  "sourcePcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+  "sourceViolations": [],
+  "extraObstructions": [
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:3",
+      "reference": "swd-swdio_mcu:3",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:3",
+      "reference": "swd-swdio_mcu:4",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:3",
+      "reference": "swd-swdio_mcu:5",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:4",
+      "reference": "swd-dio-hdr:0",
+      "exact": 0.0010407640085630943,
+      "exported": -0.005816229466413608
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:4",
+      "reference": "swd-dio-hdr:1",
+      "exact": 0.00104076400856154,
+      "exported": -0.005816229466415329
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:4",
+      "reference": "swd-dio-hdr:2",
+      "exact": 0.00104076400856154,
+      "exported": -0.005816229466415329
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:5",
+      "reference": "swd-dio-hdr:1",
+      "exact": -5.689893001203927e-15,
+      "exported": -0.006857000000003666
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:5",
+      "reference": "swd-dio-hdr:2",
+      "exact": -5.689893001203927e-15,
+      "exported": -0.006857000000003666
+    },
+    {
+      "kind": "track",
+      "net": "GPIO25_LED",
+      "id": "led-extended-bridge-back-1:6",
+      "reference": "swd-dio-hdr:2",
+      "exact": -5.689893001203927e-15,
+      "exported": -0.006857000000003666
+    },
+    {
+      "kind": "track",
+      "net": "GPIO14",
+      "id": "west/gpio-GPIO14-stage1:3",
+      "reference": "swd-clk-hdr:9",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    },
+    {
+      "kind": "track",
+      "net": "GPIO14",
+      "id": "west/gpio-GPIO14-stage1:4",
+      "reference": "swd-clk-hdr:9",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    },
+    {
+      "kind": "track",
+      "net": "GPIO14",
+      "id": "west/gpio-GPIO14-stage1:5",
+      "reference": "swd-clk-hdr:9",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    },
+    {
+      "kind": "track",
+      "net": "GPIO0",
+      "id": "west/gpio-GPIO0-stage1:1",
+      "reference": "core/qspi-cs-chain:0",
+      "exact": 0.0010407640085649816,
+      "exported": -0.005816229466411887
+    },
+    {
+      "kind": "track",
+      "net": "GPIO0",
+      "id": "west/gpio-GPIO0-stage1:1",
+      "reference": "core/qspi-cs-chain:1",
+      "exact": 0.0010407640085649816,
+      "exported": -0.005816229466411887
+    },
+    {
+      "kind": "track",
+      "net": "GPIO0",
+      "id": "west/gpio-GPIO0-stage1:1",
+      "reference": "core/qspi-cs-chain:2",
+      "exact": 0.001040764008566536,
+      "exported": -0.005816229466410944
+    },
+    {
+      "kind": "track",
+      "net": "GPIO0",
+      "id": "west/gpio-GPIO0-stage1:2",
+      "reference": "core/qspi-cs-chain:0",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    },
+    {
+      "kind": "track",
+      "net": "GPIO0",
+      "id": "west/gpio-GPIO0-stage1:2",
+      "reference": "core/qspi-cs-chain:1",
+      "exact": -3.608224830031759e-16,
+      "exported": -0.006857000000000113
+    }
+  ],
+  "scope": "Compare original saved GPIO tracks/vias against exact declared reference capsules and the exported circumscribed polygons, excluding header-port keepouts. No new routing or authority is inferred."
+}

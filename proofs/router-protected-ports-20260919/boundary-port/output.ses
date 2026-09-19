@@ -1,0 +1,32 @@
+(session "scoped-local-input.ses"
+  (base_design "scoped-local-input.dsn")
+  (placement
+    (resolution um 10)
+    (component "PinHeader_1x01_P2.54mm_Vertical"
+      (place J2 110000 -100000 front 0)
+      (place J1 21100 -100000 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "10.0.3")
+    )
+    (library_out 
+      (padstack "Via[0-1]_550:200_um"
+        (shape
+          (circle F.Cu 5500 0 0)
+        )
+        (shape
+          (circle B.Cu 5500 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+    )
+  )
+)

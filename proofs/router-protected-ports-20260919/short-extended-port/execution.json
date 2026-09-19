@@ -1,0 +1,32 @@
+{
+  "args": [
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\offline-router-dependencies-01\\java\\jdk-25.0.4.1+1-jre\\bin\\java.exe",
+    "-Xmx512m",
+    "-XX:MaxMetaspaceSize=128m",
+    "-XX:-UsePerfData",
+    "-Djava.awt.headless=true",
+    "-Djava.net.useSystemProxies=false",
+    "-Dhttp.proxyHost=127.0.0.1",
+    "-Dhttp.proxyPort=9",
+    "-Dhttps.proxyHost=127.0.0.1",
+    "-Dhttps.proxyPort=9",
+    "-DsocksProxyHost=127.0.0.1",
+    "-DsocksProxyPort=9",
+    "-Dhttp.nonProxyHosts=",
+    "-DsocksNonProxyHosts=",
+    "-Duser.home=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\short-extended-port\\home",
+    "-Djava.io.tmpdir=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\short-extended-port\\temp",
+    "-Dlog4j2.configurationFile=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\log4j2-local.xml",
+    "-cp",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03;C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\offline-router-dependencies-01\\freerouting-2.4.1.jar",
+    "ScopedRouter",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\short-extended-port\\input.dsn",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\short-extended-port\\output.ses",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\short-extended-port\\adapter-audit.json",
+    "N",
+    "5"
+  ],
+  "code": 0,
+  "stdout": "2026-09-19 15:59:32.484 INFO   [89EEA2] Auto-routing stage started on board '247ea9ab6ef3255b10afaeba3c26070c' for 1 unrouted item.\n2026-09-19 15:59:32.580 INFO   [89EEA2] Auto-routing pass #1 on board '247ea9ab6ef3255b10afaeba3c26070c' was completed in 0.07 seconds with score 800.00 (0 unrouted and 1 violation).\n2026-09-19 15:59:32.584 INFO   [89EEA2] Auto-routing pass #2 on board 'c19c6fb332f4d8cd49f70939cab3b21d' was completed in 0.00 seconds with score 800.00 (0 unrouted and 1 violation).\nSCOPED_ROUTER_FINISHED\n",
+  "stderr": ""
+}

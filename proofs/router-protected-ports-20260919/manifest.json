@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "evleda.router-port-regression.v1",
+  "managedNativeOperations": 0,
+  "files": [
+    {
+      "path": "boundary-port/adapter-audit.json",
+      "sha256": "530ac45736363c332da2b2d5ff383768ed684b83ecf63988e40f80cd81a5f576",
+      "sizeBytes": 565
+    },
+    {
+      "path": "boundary-port/execution.json",
+      "sha256": "ecb13055d8feb782af993073932dc0c8c602024916b0a0f3117332b14a4d095a",
+      "sizeBytes": 5748
+    },
+    {
+      "path": "boundary-port/input.dsn",
+      "sha256": "8621795c3dc76957d19df07d0daddcaf98073fa3f9a7ece49d39764ba6932672",
+      "sizeBytes": 3121
+    },
+    {
+      "path": "boundary-port/input.kicad_pcb",
+      "sha256": "426fb987831b7931bf48c7f3b5d5241a9ee631df6287361ad946d357876fd1da",
+      "sizeBytes": 11563
+    },
+    {
+      "path": "boundary-port/native-connectivity.json",
+      "sha256": "17ef7fc5cef7efdd10f77ae048945f4dfc1eda1c63ddf2f8ec4437b7336d159d",
+      "sizeBytes": 217
+    },
+    {
+      "path": "boundary-port/native-result.kicad_pcb",
+      "sha256": "426fb987831b7931bf48c7f3b5d5241a9ee631df6287361ad946d357876fd1da",
+      "sizeBytes": 11563
+    },
+    {
+      "path": "boundary-port/output.ses",
+      "sha256": "035859b1ed5289ca0e729c650ed1f86bd957f13b18a0a753b8e8e1eb973669ce",
+      "sizeBytes": 615
+    },
+    {
+      "path": "extended-port/adapter-audit.json",
+      "sha256": "394e295d700d2b9fdede4b79ea4fd62bf0b391c6d873b4087a81e0dd09fd2171",
+      "sizeBytes": 565
+    },
+    {
+      "path": "extended-port/execution.json",
+      "sha256": "d1413d50bcf0b97180a845faa447d1bb8ffc82f33ba37595072a2793bf35b727",
+      "sizeBytes": 2436
+    },
+    {
+      "path": "extended-port/input.dsn",
+      "sha256": "4eff53a5a8e7454568c3b269fef4cc0aeb9b83b2affcd32f99ff51b01fec259c",
+      "sizeBytes": 3121
+    },
+    {
+      "path": "extended-port/input.kicad_pcb",
+      "sha256": "34cfbe53695de42e74b13f52bb9214a1fbc5025ff0eff232828d8bcaf861aade",
+      "sizeBytes": 11563
+    },
+    {
+      "path": "extended-port/native-connectivity.json",
+      "sha256": "9476eaa9f27dffc4c616542e7887b355f98f30e7d18e13fa84bef330abcb4a28",
+      "sizeBytes": 202
+    },
+    {
+      "path": "extended-port/native-result.kicad_pcb",
+      "sha256": "fb2f8699b96ff65f3b5b4012ad2086a0a95c7d6c67c26d457a7c6e0209a29b97",
+      "sizeBytes": 11707
+    },
+    {
+      "path": "extended-port/output.ses",
+      "sha256": "3fe07dd781a5fc62937ccbb5d839e02839a3827b71f8ebf01281ed1b56c5be2b",
+      "sizeBytes": 751
+    },
+    {
+      "path": "header-port-control.json",
+      "sha256": "04dd6acd2f8d586b97acbf16592dfed26c115d406f85f55b3c46ec93b4af46c0",
+      "sizeBytes": 505
+    },
+    {
+      "path": "header-port-native-control.json",
+      "sha256": "63671504ac4d537e71371aa0235187e11bcaf1cbdf8433353d75c85c103d7bcf",
+      "sizeBytes": 567
+    },
+    {
+      "path": "header-port-short-control.json",
+      "sha256": "491dd6e4a7564236c326b03f2e34cfc4bf6850a042a3f5d81869fc760cfdb87a",
+      "sizeBytes": 368
+    },
+    {
+      "path": "prepare-dsn-v8.py",
+      "sha256": "1823777bbc970ea81e30d26e5bb16c1c1c9fd3eddc4528ce54f7fa8f7e46ded9",
+      "sizeBytes": 6137
+    },
+    {
+      "path": "probe-header-ports.py",
+      "sha256": "8699ab38e2ceb71fa5b631e0ba0e80d3d71a27c09979a641f507e29c4a122de9",
+      "sizeBytes": 3435
+    },
+    {
+      "path": "probe-short-header-port.py",
+      "sha256": "f416a60db5b287f2219cf30c55fb5ef9612df2cc1826763557eaac6aa7ae34b3",
+      "sizeBytes": 3426
+    },
+    {
+      "path": "README.md",
+      "sha256": "a1cc8355d3768180e025b5780286442dc62a501654f24d7731ce4e17f609e777",
+      "sizeBytes": 2248
+    },
+    {
+      "path": "router-invocation.json",
+      "sha256": "af84ad296055f2761a2df3c5300afe77e69a49fdeff9d6345a762cc825006679",
+      "sizeBytes": 2246
+    },
+    {
+      "path": "ScopedRouter.java",
+      "sha256": "78d31f7e01d3a2643a66db7fb59af85648ad57f9f362ee29b6c509e9740ca30f",
+      "sizeBytes": 5544
+    },
+    {
+      "path": "short-extended-port/adapter-audit.json",
+      "sha256": "394e295d700d2b9fdede4b79ea4fd62bf0b391c6d873b4087a81e0dd09fd2171",
+      "sizeBytes": 565
+    },
+    {
+      "path": "short-extended-port/execution.json",
+      "sha256": "49eac5f55698dfee3bd18fdf04ad9f2392806f140a24499536c8cfe1c2686b94",
+      "sizeBytes": 2466
+    },
+    {
+      "path": "short-extended-port/input.dsn",
+      "sha256": "4d56b2c9f4bd37a38b535151f52a2118bb88bf1c872c9a08e31d8743e988e57b",
+      "sizeBytes": 3127
+    },
+    {
+      "path": "short-extended-port/input.kicad_pcb",
+      "sha256": "0ba379b19618e6607231a7bca5550f906741038a4a34bc3f783113e9a0caf801",
+      "sizeBytes": 11563
+    },
+    {
+      "path": "short-extended-port/native-connectivity.json",
+      "sha256": "d719836c5d007d41453f691f98bb7f36d8140cb5ec5748199112707054bcdae5",
+      "sizeBytes": 202
+    },
+    {
+      "path": "short-extended-port/native-result.kicad_pcb",
+      "sha256": "36b37fdef4ab91637a2da42b8e6fb1e228768415153b26036e9234dd5ac21087",
+      "sizeBytes": 11707
+    },
+    {
+      "path": "short-extended-port/output.ses",
+      "sha256": "cfabb1f4a0e6ca6490f0ed2d90763220377d3278c5e768f836bd57c08cdb7fa8",
+      "sizeBytes": 751
+    },
+    {
+      "path": "verify-header-ports-native.py",
+      "sha256": "13181e9d782498baedaf84661bf0c4e8dd1620e7fba66f2ed0f8cadc155c61cf",
+      "sizeBytes": 2306
+    },
+    {
+      "path": "compare-port-inputs.py",
+      "sha256": "fd1e2a0c09a5b7006ef4bb52115d7380972a2631cce9d633efd06975542bfea3",
+      "sizeBytes": 1353
+    },
+    {
+      "path": "header-port-input-comparison.json",
+      "sha256": "7d2d6a1cecf97d244f91a56dc40c921f81f4e77f9e693334bf2f372af318ea8a",
+      "sizeBytes": 1402
+    }
+  ]
+}

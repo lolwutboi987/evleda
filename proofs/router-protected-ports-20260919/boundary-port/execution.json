@@ -1,0 +1,32 @@
+{
+  "args": [
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\offline-router-dependencies-01\\java\\jdk-25.0.4.1+1-jre\\bin\\java.exe",
+    "-Xmx512m",
+    "-XX:MaxMetaspaceSize=128m",
+    "-XX:-UsePerfData",
+    "-Djava.awt.headless=true",
+    "-Djava.net.useSystemProxies=false",
+    "-Dhttp.proxyHost=127.0.0.1",
+    "-Dhttp.proxyPort=9",
+    "-Dhttps.proxyHost=127.0.0.1",
+    "-Dhttps.proxyPort=9",
+    "-DsocksProxyHost=127.0.0.1",
+    "-DsocksProxyPort=9",
+    "-Dhttp.nonProxyHosts=",
+    "-DsocksNonProxyHosts=",
+    "-Duser.home=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\boundary-port\\home",
+    "-Djava.io.tmpdir=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\boundary-port\\temp",
+    "-Dlog4j2.configurationFile=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\log4j2-local.xml",
+    "-cp",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03;C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\offline-router-dependencies-01\\freerouting-2.4.1.jar",
+    "ScopedRouter",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\boundary-port\\input.dsn",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\boundary-port\\output.ses",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\boundary-port\\adapter-audit.json",
+    "N",
+    "5"
+  ],
+  "code": 0,
+  "stdout": "2026-09-19 15:56:33.740 INFO   [F2881A] Auto-routing stage started on board 'b93c2d98c06c58f069cf9602dec6b704' for 1 unrouted item.\n2026-09-19 15:56:33.847 INFO   [F2881A] Auto-routing pass #1 on board 'b93c2d98c06c58f069cf9602dec6b704' was completed in 0.08 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:33.878 INFO   [F2881A] Auto-routing pass #2 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.03 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:33.899 INFO   [F2881A] Auto-routing pass #3 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.02 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:33.923 INFO   [F2881A] Auto-routing pass #4 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.02 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:33.952 INFO   [F2881A] Auto-routing pass #5 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.02 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:33.970 INFO   [F2881A] Auto-routing pass #6 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.02 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:33.985 INFO   [F2881A] Auto-routing pass #7 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.002 INFO   [F2881A] Auto-routing pass #8 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.02 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.014 INFO   [F2881A] Auto-routing pass #9 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.025 INFO   [F2881A] Auto-routing pass #10 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.038 INFO   [F2881A] Auto-routing pass #11 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.052 INFO   [F2881A] Auto-routing pass #12 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.063 INFO   [F2881A] Auto-routing pass #13 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.075 INFO   [F2881A] Auto-routing pass #14 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.089 INFO   [F2881A] Auto-routing pass #15 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.100 INFO   [F2881A] Auto-routing pass #16 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.117 INFO   [F2881A] Auto-routing pass #17 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.125 INFO   [F2881A] Auto-routing pass #18 on board '27d036894865d32b6f7124a66d0c9f06' was completed in 0.01 seconds with score 0.00 (1 unrouted and 1 violation).\n2026-09-19 15:56:34.127 INFO   [F2881A] The router's score (0.00) has not improved by more than 0.5 points in the last 10 passes (1 item still unconnected). Stopping the auto-router.\nThe following connections could not be routed -- please review your design (e.g. check pad clearances, trace width rules, and available routing space):\n  Net 'N' (1 unrouted connection):\n    - J1-1  ->  J2-1\nSCOPED_ROUTER_FINISHED\n",
+  "stderr": ""
+}

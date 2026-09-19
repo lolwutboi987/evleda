@@ -1,0 +1,23 @@
+{
+  "scope": "Saved and reloaded disposable KiCad connectivity only; no managed project, plane qualification or manufacturing claim.",
+  "results": [
+    {
+      "case": "boundary-port",
+      "physicalPadGroups": 2,
+      "addedTracks": 0,
+      "nativeConnected": false
+    },
+    {
+      "case": "extended-port",
+      "physicalPadGroups": 1,
+      "addedTracks": 1,
+      "nativeConnected": true
+    },
+    {
+      "case": "short-extended-port",
+      "physicalPadGroups": 1,
+      "addedTracks": 1,
+      "nativeConnected": true
+    }
+  ]
+}

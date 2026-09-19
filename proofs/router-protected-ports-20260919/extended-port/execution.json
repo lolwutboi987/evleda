@@ -1,0 +1,32 @@
+{
+  "args": [
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\offline-router-dependencies-01\\java\\jdk-25.0.4.1+1-jre\\bin\\java.exe",
+    "-Xmx512m",
+    "-XX:MaxMetaspaceSize=128m",
+    "-XX:-UsePerfData",
+    "-Djava.awt.headless=true",
+    "-Djava.net.useSystemProxies=false",
+    "-Dhttp.proxyHost=127.0.0.1",
+    "-Dhttp.proxyPort=9",
+    "-Dhttps.proxyHost=127.0.0.1",
+    "-Dhttps.proxyPort=9",
+    "-DsocksProxyHost=127.0.0.1",
+    "-DsocksProxyPort=9",
+    "-Dhttp.nonProxyHosts=",
+    "-DsocksNonProxyHosts=",
+    "-Duser.home=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\extended-port\\home",
+    "-Djava.io.tmpdir=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\extended-port\\temp",
+    "-Dlog4j2.configurationFile=C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\log4j2-local.xml",
+    "-cp",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03;C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\offline-router-dependencies-01\\freerouting-2.4.1.jar",
+    "ScopedRouter",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\extended-port\\input.dsn",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\extended-port\\output.ses",
+    "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\extended-port\\adapter-audit.json",
+    "N",
+    "5"
+  ],
+  "code": 0,
+  "stdout": "2026-09-19 15:56:35.128 INFO   [DA35CC] Auto-routing stage started on board '892fc0db7183c53ff9068213ce558f99' for 1 unrouted item.\n2026-09-19 15:56:35.239 INFO   [DA35CC] Auto-routing pass #1 on board '892fc0db7183c53ff9068213ce558f99' was completed in 0.08 seconds with score 800.00 (0 unrouted and 1 violation).\n2026-09-19 15:56:35.244 INFO   [DA35CC] Auto-routing pass #2 on board '720b05d3028c0ea44bf73734fb6550b2' was completed in 0.00 seconds with score 800.00 (0 unrouted and 1 violation).\nSCOPED_ROUTER_FINISHED\n",
+  "stderr": ""
+}

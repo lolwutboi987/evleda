@@ -1,0 +1,1553 @@
+{
+  "gridNm": 100,
+  "capsules": [
+    {
+      "id": "core/xin-cap:0",
+      "start": {
+        "xNm": 8500000,
+        "yNm": 41650000
+      },
+      "end": {
+        "xNm": 8650000,
+        "yNm": 41650000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-cap:1",
+      "start": {
+        "xNm": 8650000,
+        "yNm": 41650000
+      },
+      "end": {
+        "xNm": 8900000,
+        "yNm": 41900000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-cap:2",
+      "start": {
+        "xNm": 8900000,
+        "yNm": 41900000
+      },
+      "end": {
+        "xNm": 8900000,
+        "yNm": 42300000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-cap:3",
+      "start": {
+        "xNm": 8900000,
+        "yNm": 42300000
+      },
+      "end": {
+        "xNm": 8480000,
+        "yNm": 42720000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-cap:4",
+      "start": {
+        "xNm": 8480000,
+        "yNm": 42720000
+      },
+      "end": {
+        "xNm": 7170000,
+        "yNm": 42720000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-cap:5",
+      "start": {
+        "xNm": 7170000,
+        "yNm": 42720000
+      },
+      "end": {
+        "xNm": 6970000,
+        "yNm": 42920000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xtal-out-cap:0",
+      "start": {
+        "xNm": 10700000,
+        "yNm": 39950000
+      },
+      "end": {
+        "xNm": 10850000,
+        "yNm": 39950000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xtal-out-cap:1",
+      "start": {
+        "xNm": 10850000,
+        "yNm": 39950000
+      },
+      "end": {
+        "xNm": 11170000,
+        "yNm": 40270000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xtal-out-cap:2",
+      "start": {
+        "xNm": 11170000,
+        "yNm": 40270000
+      },
+      "end": {
+        "xNm": 12270000,
+        "yNm": 40270000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xtal-out-main:0",
+      "start": {
+        "xNm": 8990000,
+        "yNm": 38480000
+      },
+      "end": {
+        "xNm": 8990000,
+        "yNm": 38580000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xtal-out-main:1",
+      "start": {
+        "xNm": 8990000,
+        "yNm": 38580000
+      },
+      "end": {
+        "xNm": 10070000,
+        "yNm": 39660000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xtal-out-main:2",
+      "start": {
+        "xNm": 10070000,
+        "yNm": 39660000
+      },
+      "end": {
+        "xNm": 10410000,
+        "yNm": 39660000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xtal-out-main:3",
+      "start": {
+        "xNm": 10410000,
+        "yNm": 39660000
+      },
+      "end": {
+        "xNm": 10700000,
+        "yNm": 39950000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-main:0",
+      "start": {
+        "xNm": 9600000,
+        "yNm": 35950000
+      },
+      "end": {
+        "xNm": 9600000,
+        "yNm": 37450000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-main:1",
+      "start": {
+        "xNm": 9600000,
+        "yNm": 37450000
+      },
+      "end": {
+        "xNm": 9150000,
+        "yNm": 37900000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-main:2",
+      "start": {
+        "xNm": 9150000,
+        "yNm": 37900000
+      },
+      "end": {
+        "xNm": 7875000,
+        "yNm": 37900000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-main:3",
+      "start": {
+        "xNm": 7875000,
+        "yNm": 37900000
+      },
+      "end": {
+        "xNm": 7500000,
+        "yNm": 38275000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-main:4",
+      "start": {
+        "xNm": 7500000,
+        "yNm": 38275000
+      },
+      "end": {
+        "xNm": 7500000,
+        "yNm": 41275000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-main:5",
+      "start": {
+        "xNm": 7500000,
+        "yNm": 41275000
+      },
+      "end": {
+        "xNm": 7875000,
+        "yNm": 41650000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xin-main:6",
+      "start": {
+        "xNm": 7875000,
+        "yNm": 41650000
+      },
+      "end": {
+        "xNm": 8500000,
+        "yNm": 41650000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/xout-mcu:0",
+      "start": {
+        "xNm": 10000000,
+        "yNm": 35950000
+      },
+      "end": {
+        "xNm": 10000000,
+        "yNm": 38480000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/qspi-cs-chain:0",
+      "start": {
+        "xNm": 5300000,
+        "yNm": 25425000
+      },
+      "end": {
+        "xNm": 5300000,
+        "yNm": 28300000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/qspi-cs-chain:1",
+      "start": {
+        "xNm": 5300000,
+        "yNm": 28300000
+      },
+      "end": {
+        "xNm": 5900000,
+        "yNm": 28900000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/qspi-cs-chain:2",
+      "start": {
+        "xNm": 5900000,
+        "yNm": 28900000
+      },
+      "end": {
+        "xNm": 7450000,
+        "yNm": 28900000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/qspi-cs-chain:3",
+      "start": {
+        "xNm": 7450000,
+        "yNm": 28900000
+      },
+      "end": {
+        "xNm": 7600000,
+        "yNm": 29050000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "core/qspi-sd1:0",
+      "start": {
+        "xNm": 5800000,
+        "yNm": 25425000
+      },
+      "end": {
+        "xNm": 5800000,
+        "yNm": 27800000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd1:1",
+      "start": {
+        "xNm": 5800000,
+        "yNm": 27800000
+      },
+      "end": {
+        "xNm": 6400000,
+        "yNm": 28400000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd1:2",
+      "start": {
+        "xNm": 6400000,
+        "yNm": 28400000
+      },
+      "end": {
+        "xNm": 7750000,
+        "yNm": 28400000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd1:3",
+      "start": {
+        "xNm": 7750000,
+        "yNm": 28400000
+      },
+      "end": {
+        "xNm": 8000000,
+        "yNm": 28650000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd1:4",
+      "start": {
+        "xNm": 8000000,
+        "yNm": 28650000
+      },
+      "end": {
+        "xNm": 8000000,
+        "yNm": 29050000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd2:0",
+      "start": {
+        "xNm": 6300000,
+        "yNm": 25425000
+      },
+      "end": {
+        "xNm": 6300000,
+        "yNm": 26350000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd2:1",
+      "start": {
+        "xNm": 6300000,
+        "yNm": 26350000
+      },
+      "end": {
+        "xNm": 6850000,
+        "yNm": 26900000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd2:2",
+      "start": {
+        "xNm": 6850000,
+        "yNm": 26900000
+      },
+      "end": {
+        "xNm": 6850000,
+        "yNm": 27075000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd2:3",
+      "start": {
+        "xNm": 6850000,
+        "yNm": 27075000
+      },
+      "end": {
+        "xNm": 8400000,
+        "yNm": 28625000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd2:4",
+      "start": {
+        "xNm": 8400000,
+        "yNm": 28625000
+      },
+      "end": {
+        "xNm": 8400000,
+        "yNm": 29050000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd0:0",
+      "start": {
+        "xNm": 6800000,
+        "yNm": 22575000
+      },
+      "end": {
+        "xNm": 7175000,
+        "yNm": 22950000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd0:1",
+      "start": {
+        "xNm": 7175000,
+        "yNm": 22950000
+      },
+      "end": {
+        "xNm": 7175000,
+        "yNm": 26975000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd0:2",
+      "start": {
+        "xNm": 7175000,
+        "yNm": 26975000
+      },
+      "end": {
+        "xNm": 8800000,
+        "yNm": 28600000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd0:3",
+      "start": {
+        "xNm": 8800000,
+        "yNm": 28600000
+      },
+      "end": {
+        "xNm": 8800000,
+        "yNm": 29050000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sclk:0",
+      "start": {
+        "xNm": 6300000,
+        "yNm": 22575000
+      },
+      "end": {
+        "xNm": 6300000,
+        "yNm": 22200000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sclk:1",
+      "start": {
+        "xNm": 6300000,
+        "yNm": 22200000
+      },
+      "end": {
+        "xNm": 6650000,
+        "yNm": 21850000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sclk:2",
+      "start": {
+        "xNm": 6650000,
+        "yNm": 21850000
+      },
+      "end": {
+        "xNm": 6950000,
+        "yNm": 21850000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sclk:3",
+      "start": {
+        "xNm": 6950000,
+        "yNm": 21850000
+      },
+      "end": {
+        "xNm": 7475000,
+        "yNm": 22375000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sclk:4",
+      "start": {
+        "xNm": 7475000,
+        "yNm": 22375000
+      },
+      "end": {
+        "xNm": 7475000,
+        "yNm": 26850000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sclk:5",
+      "start": {
+        "xNm": 7475000,
+        "yNm": 26850000
+      },
+      "end": {
+        "xNm": 9200000,
+        "yNm": 28575000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sclk:6",
+      "start": {
+        "xNm": 9200000,
+        "yNm": 28575000
+      },
+      "end": {
+        "xNm": 9200000,
+        "yNm": 29050000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd3:0",
+      "start": {
+        "xNm": 5800000,
+        "yNm": 22575000
+      },
+      "end": {
+        "xNm": 5800000,
+        "yNm": 22075000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd3:1",
+      "start": {
+        "xNm": 5800000,
+        "yNm": 22075000
+      },
+      "end": {
+        "xNm": 6350000,
+        "yNm": 21525000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd3:2",
+      "start": {
+        "xNm": 6350000,
+        "yNm": 21525000
+      },
+      "end": {
+        "xNm": 7050000,
+        "yNm": 21525000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd3:3",
+      "start": {
+        "xNm": 7050000,
+        "yNm": 21525000
+      },
+      "end": {
+        "xNm": 7800000,
+        "yNm": 22275000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd3:4",
+      "start": {
+        "xNm": 7800000,
+        "yNm": 22275000
+      },
+      "end": {
+        "xNm": 7800000,
+        "yNm": 26750000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd3:5",
+      "start": {
+        "xNm": 7800000,
+        "yNm": 26750000
+      },
+      "end": {
+        "xNm": 9600000,
+        "yNm": 28550000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "core/qspi-sd3:6",
+      "start": {
+        "xNm": 9600000,
+        "yNm": 28550000
+      },
+      "end": {
+        "xNm": 9600000,
+        "yNm": 29050000
+      },
+      "radiusNm": 325000
+    },
+    {
+      "id": "usb/dp-launch:0",
+      "start": {
+        "xNm": 10800000,
+        "yNm": 29050000
+      },
+      "end": {
+        "xNm": 10800000,
+        "yNm": 28075000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-launch:1",
+      "start": {
+        "xNm": 10800000,
+        "yNm": 28075000
+      },
+      "end": {
+        "xNm": 10225000,
+        "yNm": 27500000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-launch:2",
+      "start": {
+        "xNm": 10225000,
+        "yNm": 27500000
+      },
+      "end": {
+        "xNm": 10025000,
+        "yNm": 27500000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-launch:0",
+      "start": {
+        "xNm": 11200000,
+        "yNm": 29050000
+      },
+      "end": {
+        "xNm": 11200000,
+        "yNm": 27890000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-launch:1",
+      "start": {
+        "xNm": 11200000,
+        "yNm": 27890000
+      },
+      "end": {
+        "xNm": 10985000,
+        "yNm": 27675000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-launch:2",
+      "start": {
+        "xNm": 10985000,
+        "yNm": 27675000
+      },
+      "end": {
+        "xNm": 10985000,
+        "yNm": 27310000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-esd-fan:0",
+      "start": {
+        "xNm": 9900000,
+        "yNm": 13137500
+      },
+      "end": {
+        "xNm": 9400000,
+        "yNm": 13137500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-esd-fan:1",
+      "start": {
+        "xNm": 9400000,
+        "yNm": 13137500
+      },
+      "end": {
+        "xNm": 9000000,
+        "yNm": 13537500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-esd-fan:2",
+      "start": {
+        "xNm": 9000000,
+        "yNm": 13537500
+      },
+      "end": {
+        "xNm": 9000000,
+        "yNm": 13637500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-esd-fan:3",
+      "start": {
+        "xNm": 9000000,
+        "yNm": 13637500
+      },
+      "end": {
+        "xNm": 9770000,
+        "yNm": 14407500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-esd-fan:4",
+      "start": {
+        "xNm": 9770000,
+        "yNm": 14407500
+      },
+      "end": {
+        "xNm": 9770000,
+        "yNm": 14507500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-esd-fan:0",
+      "start": {
+        "xNm": 11800000,
+        "yNm": 13137500
+      },
+      "end": {
+        "xNm": 11800000,
+        "yNm": 14000000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-esd-fan:1",
+      "start": {
+        "xNm": 11800000,
+        "yNm": 14000000
+      },
+      "end": {
+        "xNm": 10790000,
+        "yNm": 15010000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-esd-fan:2",
+      "start": {
+        "xNm": 10790000,
+        "yNm": 15010000
+      },
+      "end": {
+        "xNm": 10790000,
+        "yNm": 15200000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-esd-body:0",
+      "start": {
+        "xNm": 9770000,
+        "yNm": 14507500
+      },
+      "end": {
+        "xNm": 9770000,
+        "yNm": 24700000
+      },
+      "radiusNm": 1310000
+    },
+    {
+      "id": "usb/dm-esd-body:0",
+      "start": {
+        "xNm": 10790000,
+        "yNm": 15200000
+      },
+      "end": {
+        "xNm": 10790000,
+        "yNm": 24700000
+      },
+      "radiusNm": 1310000
+    },
+    {
+      "id": "usb/dp-resistor-entry:0",
+      "start": {
+        "xNm": 9770000,
+        "yNm": 24700000
+      },
+      "end": {
+        "xNm": 9770000,
+        "yNm": 25100000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-resistor-entry:1",
+      "start": {
+        "xNm": 9770000,
+        "yNm": 25100000
+      },
+      "end": {
+        "xNm": 10025000,
+        "yNm": 25355000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-resistor-entry:2",
+      "start": {
+        "xNm": 10025000,
+        "yNm": 25355000
+      },
+      "end": {
+        "xNm": 10025000,
+        "yNm": 26480000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-resistor-entry:0",
+      "start": {
+        "xNm": 10790000,
+        "yNm": 24700000
+      },
+      "end": {
+        "xNm": 10790000,
+        "yNm": 25500000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-resistor-entry:1",
+      "start": {
+        "xNm": 10790000,
+        "yNm": 25500000
+      },
+      "end": {
+        "xNm": 10985000,
+        "yNm": 25695000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-resistor-entry:2",
+      "start": {
+        "xNm": 10985000,
+        "yNm": 25695000
+      },
+      "end": {
+        "xNm": 10985000,
+        "yNm": 26290000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-b6:0",
+      "start": {
+        "xNm": 10250000,
+        "yNm": 8655000
+      },
+      "end": {
+        "xNm": 10250000,
+        "yNm": 9700000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-b6:1",
+      "start": {
+        "xNm": 10250000,
+        "yNm": 9700000
+      },
+      "end": {
+        "xNm": 9690000,
+        "yNm": 10260000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-b6:2",
+      "start": {
+        "xNm": 9690000,
+        "yNm": 10260000
+      },
+      "end": {
+        "xNm": 9690000,
+        "yNm": 10790000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-b6:3",
+      "start": {
+        "xNm": 9690000,
+        "yNm": 10790000
+      },
+      "end": {
+        "xNm": 9762500,
+        "yNm": 10862500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-b6:4",
+      "start": {
+        "xNm": 9762500,
+        "yNm": 10862500
+      },
+      "end": {
+        "xNm": 9900000,
+        "yNm": 10862500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:0",
+      "start": {
+        "xNm": 11250000,
+        "yNm": 8655000
+      },
+      "end": {
+        "xNm": 11250000,
+        "yNm": 9300000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:1",
+      "start": {
+        "xNm": 11250000,
+        "yNm": 9300000
+      },
+      "end": {
+        "xNm": 11350000,
+        "yNm": 9400000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:2",
+      "start": {
+        "xNm": 11350000,
+        "yNm": 9400000
+      },
+      "end": {
+        "xNm": 11350000,
+        "yNm": 9700000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:3",
+      "start": {
+        "xNm": 11350000,
+        "yNm": 9700000
+      },
+      "end": {
+        "xNm": 11170000,
+        "yNm": 9880000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:4",
+      "start": {
+        "xNm": 11170000,
+        "yNm": 9880000
+      },
+      "end": {
+        "xNm": 10450000,
+        "yNm": 9880000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:5",
+      "start": {
+        "xNm": 10450000,
+        "yNm": 9880000
+      },
+      "end": {
+        "xNm": 10250000,
+        "yNm": 10080000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:6",
+      "start": {
+        "xNm": 10250000,
+        "yNm": 10080000
+      },
+      "end": {
+        "xNm": 10250000,
+        "yNm": 10512500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dp-port-a6:7",
+      "start": {
+        "xNm": 10250000,
+        "yNm": 10512500
+      },
+      "end": {
+        "xNm": 9900000,
+        "yNm": 10862500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-b7:0",
+      "start": {
+        "xNm": 11750000,
+        "yNm": 8655000
+      },
+      "end": {
+        "xNm": 11750000,
+        "yNm": 9750000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-b7:1",
+      "start": {
+        "xNm": 11750000,
+        "yNm": 9750000
+      },
+      "end": {
+        "xNm": 12200000,
+        "yNm": 10200000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-b7:2",
+      "start": {
+        "xNm": 12200000,
+        "yNm": 10200000
+      },
+      "end": {
+        "xNm": 12200000,
+        "yNm": 10462500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-b7:3",
+      "start": {
+        "xNm": 12200000,
+        "yNm": 10462500
+      },
+      "end": {
+        "xNm": 11800000,
+        "yNm": 10862500
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-a7-tie:0",
+      "start": {
+        "xNm": 11750000,
+        "yNm": 8655000
+      },
+      "end": {
+        "xNm": 11750000,
+        "yNm": 8035000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-a7-tie:1",
+      "start": {
+        "xNm": 11750000,
+        "yNm": 8035000
+      },
+      "end": {
+        "xNm": 11470000,
+        "yNm": 7755000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-a7-tie:2",
+      "start": {
+        "xNm": 11470000,
+        "yNm": 7755000
+      },
+      "end": {
+        "xNm": 11030000,
+        "yNm": 7755000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-a7-tie:3",
+      "start": {
+        "xNm": 11030000,
+        "yNm": 7755000
+      },
+      "end": {
+        "xNm": 10750000,
+        "yNm": 8035000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "usb/dm-port-a7-tie:4",
+      "start": {
+        "xNm": 10750000,
+        "yNm": 8035000
+      },
+      "end": {
+        "xNm": 10750000,
+        "yNm": 8655000
+      },
+      "radiusNm": 1000000
+    },
+    {
+      "id": "swd-clk-hdr:0",
+      "start": {
+        "xNm": 13300000,
+        "yNm": 40210000
+      },
+      "end": {
+        "xNm": 12950000,
+        "yNm": 40560000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:1",
+      "start": {
+        "xNm": 12950000,
+        "yNm": 40560000
+      },
+      "end": {
+        "xNm": 12950000,
+        "yNm": 41550000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:2",
+      "start": {
+        "xNm": 12950000,
+        "yNm": 41550000
+      },
+      "end": {
+        "xNm": 12550000,
+        "yNm": 41950000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:3",
+      "start": {
+        "xNm": 12550000,
+        "yNm": 41950000
+      },
+      "end": {
+        "xNm": 12550000,
+        "yNm": 43200000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:4",
+      "start": {
+        "xNm": 12550000,
+        "yNm": 43200000
+      },
+      "end": {
+        "xNm": 12150000,
+        "yNm": 43600000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:5",
+      "start": {
+        "xNm": 12150000,
+        "yNm": 43600000
+      },
+      "end": {
+        "xNm": 5250000,
+        "yNm": 43600000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:6",
+      "start": {
+        "xNm": 5250000,
+        "yNm": 43600000
+      },
+      "end": {
+        "xNm": 5150000,
+        "yNm": 43700000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:7",
+      "start": {
+        "xNm": 5150000,
+        "yNm": 43700000
+      },
+      "end": {
+        "xNm": 5150000,
+        "yNm": 45775000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:8",
+      "start": {
+        "xNm": 5150000,
+        "yNm": 45775000
+      },
+      "end": {
+        "xNm": 5250000,
+        "yNm": 45875000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:9",
+      "start": {
+        "xNm": 5250000,
+        "yNm": 45875000
+      },
+      "end": {
+        "xNm": 5250000,
+        "yNm": 53990000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-clk-hdr:10",
+      "start": {
+        "xNm": 5250000,
+        "yNm": 53990000
+      },
+      "end": {
+        "xNm": 8460000,
+        "yNm": 57200000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:0",
+      "start": {
+        "xNm": 13200000,
+        "yNm": 43210000
+      },
+      "end": {
+        "xNm": 13200000,
+        "yNm": 43350000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:1",
+      "start": {
+        "xNm": 13200000,
+        "yNm": 43350000
+      },
+      "end": {
+        "xNm": 12600000,
+        "yNm": 43950000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:2",
+      "start": {
+        "xNm": 12600000,
+        "yNm": 43950000
+      },
+      "end": {
+        "xNm": 5600000,
+        "yNm": 43950000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:3",
+      "start": {
+        "xNm": 5600000,
+        "yNm": 43950000
+      },
+      "end": {
+        "xNm": 5500000,
+        "yNm": 44050000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:4",
+      "start": {
+        "xNm": 5500000,
+        "yNm": 44050000
+      },
+      "end": {
+        "xNm": 5500000,
+        "yNm": 45525000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:5",
+      "start": {
+        "xNm": 5500000,
+        "yNm": 45525000
+      },
+      "end": {
+        "xNm": 5600000,
+        "yNm": 45625000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:6",
+      "start": {
+        "xNm": 5600000,
+        "yNm": 45625000
+      },
+      "end": {
+        "xNm": 5600000,
+        "yNm": 53700000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:7",
+      "start": {
+        "xNm": 5600000,
+        "yNm": 53700000
+      },
+      "end": {
+        "xNm": 7700000,
+        "yNm": 55800000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:8",
+      "start": {
+        "xNm": 7700000,
+        "yNm": 55800000
+      },
+      "end": {
+        "xNm": 12140000,
+        "yNm": 55800000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-dio-hdr:9",
+      "start": {
+        "xNm": 12140000,
+        "yNm": 55800000
+      },
+      "end": {
+        "xNm": 13540000,
+        "yNm": 57200000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swclk_mcu:0",
+      "start": {
+        "xNm": 10800000,
+        "yNm": 35950000
+      },
+      "end": {
+        "xNm": 10800000,
+        "yNm": 36580000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swclk_mcu:1",
+      "start": {
+        "xNm": 10800000,
+        "yNm": 36580000
+      },
+      "end": {
+        "xNm": 11595000,
+        "yNm": 37375000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swclk_mcu:2",
+      "start": {
+        "xNm": 11595000,
+        "yNm": 37375000
+      },
+      "end": {
+        "xNm": 12700000,
+        "yNm": 37375000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swclk_mcu:3",
+      "start": {
+        "xNm": 12700000,
+        "yNm": 37375000
+      },
+      "end": {
+        "xNm": 13300000,
+        "yNm": 37975000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swclk_mcu:4",
+      "start": {
+        "xNm": 13300000,
+        "yNm": 37975000
+      },
+      "end": {
+        "xNm": 13300000,
+        "yNm": 39190000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swdio_mcu:0",
+      "start": {
+        "xNm": 11200000,
+        "yNm": 35950000
+      },
+      "end": {
+        "xNm": 11200000,
+        "yNm": 36480000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swdio_mcu:1",
+      "start": {
+        "xNm": 11200000,
+        "yNm": 36480000
+      },
+      "end": {
+        "xNm": 11745000,
+        "yNm": 37025000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swdio_mcu:2",
+      "start": {
+        "xNm": 11745000,
+        "yNm": 37025000
+      },
+      "end": {
+        "xNm": 13000000,
+        "yNm": 37025000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swdio_mcu:3",
+      "start": {
+        "xNm": 13000000,
+        "yNm": 37025000
+      },
+      "end": {
+        "xNm": 13900000,
+        "yNm": 37925000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swdio_mcu:4",
+      "start": {
+        "xNm": 13900000,
+        "yNm": 37925000
+      },
+      "end": {
+        "xNm": 13900000,
+        "yNm": 41490000
+      },
+      "radiusNm": 350000
+    },
+    {
+      "id": "swd-swdio_mcu:5",
+      "start": {
+        "xNm": 13900000,
+        "yNm": 41490000
+      },
+      "end": {
+        "xNm": 13200000,
+        "yNm": 42190000
+      },
+      "radiusNm": 350000
+    }
+  ]
+}

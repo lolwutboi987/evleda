@@ -1,0 +1,25 @@
+{
+  "tests": {
+    "command": "pnpm exec vitest run tests/unit/router-reference-capsule.test.ts --maxWorkers=1",
+    "passed": 14,
+    "failed": 0
+  },
+  "typechecks": {
+    "sourceAndUi": true,
+    "exporterStrict": true
+  },
+  "backendTypeScriptBuild": {
+    "passed": true,
+    "compiledHelperSha256": "8c8672db932baa185eafa9fc518d794c21544a876c579628ecdd4baffbdaeb32"
+  },
+  "realSourceReplay": {
+    "polygons": 129,
+    "exactVertexSetsMatch": true
+  },
+  "cli": {
+    "existingOutputPreserved": true,
+    "invalidLaterRowCreatesNoPartialOutput": true,
+    "explicitNullGridRejected": true
+  },
+  "scope": "Focused geometry/CLI checks, full source/UI type checks and isolated backend TypeScript build. No full-suite, native board routing completion or manufacturing claim."
+}

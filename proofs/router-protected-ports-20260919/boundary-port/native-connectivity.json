@@ -1,0 +1,13 @@
+{
+  "padGroups": [
+    [
+      "J1.1"
+    ],
+    [
+      "J2.1"
+    ]
+  ],
+  "connected": false,
+  "addedTracks": 0,
+  "savedPcbSha256": "426fb987831b7931bf48c7f3b5d5241a9ee631df6287361ad946d357876fd1da"
+}

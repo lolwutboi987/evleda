@@ -4,6 +4,8 @@ Current note: 2026-09-19. The active work is the reusable chat-driven KiCad/EE t
 
 ## Current candidate and tooling
 
+Routing-input corrections are now verified in the [protected-port and reference-shape workflow](docs/router-protected-ports.md). Native fixtures show that an inward lead extension fixes a boundary attachment failure. The new reusable capsule exporter preserves the entire required region with integer containment checks while removing 17 spurious reference obstructions on the current RP2350 source. Its 14 focused tests, CLI checks, source/UI type checks and isolated backend build passed. These are exporter improvements; the broader routing proposals were rejected and the native board remains 60-13.
+
 The [placement-revision workflow](proofs/native-placement-revision-20260919/README.md) is now natively qualified. Continue physical layout work on revised project `914f7760-c4c2-4bb8-9b51-b481242878a5` using host30/DOC14; original project `b2e1adba-cf6c-4ccf-a51f-00f63320d6eb` remains preserved. The revision was initially qualified with the original 829-track geometry; subsequent routing is recorded below. The revised constraints permit reorienting/repositioning R1/R2 without changing the circuit or USB limits. No component moves have been applied.
 
 The [September 19 local placement study](designs/rp2350-pico/placement-study-20260919/README.md) now has a USB-only source proposal meeting termination distance and copper length/skew limits. It is **not adopted**: combined regulator/flash routing and capacitor returns remain incomplete. That study changed no managed native sources. Review the recorded failed samples before further placement work.

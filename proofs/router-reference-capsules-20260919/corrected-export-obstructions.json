@@ -1,0 +1,6 @@
+{
+  "sourcePcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+  "sourceViolations": [],
+  "extraObstructions": [],
+  "scope": "Compare original saved GPIO tracks/vias against exact declared reference capsules and the exported circumscribed polygons, excluding header-port keepouts. No new routing or authority is inferred."
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "evleda.router-reference-capsule-proof.v1",
+  "implementationSha256": "4be5dd2fcda942cc8bbbda4f8b80add5e15ba9b91e9027061ad236e862e111b3",
+  "managedNativeOperations": 0,
+  "files": [
+    {
+      "path": "capsules-export.json",
+      "sha256": "804a198e8974c668b41f9c95a2aa19344411c88cb97b2c919cfb078803ecea9a",
+      "sizeBytes": 184366
+    },
+    {
+      "path": "capsules-request.json",
+      "sha256": "5d16b297bc8d8c3634c9fed22aa38b7f3005668530cd5a58b2a70302a75343ba",
+      "sizeBytes": 28025
+    },
+    {
+      "path": "cli-checks.json",
+      "sha256": "4493ab4adcc8889c6ead09238cb93cd6ec4f58b56ff99a34852d61906ab903fc",
+      "sizeBytes": 209
+    },
+    {
+      "path": "corrected-export-obstructions.json",
+      "sha256": "413f54b21b95e10d6f210b7b5fd0905cfb17b1b203c779de5da5ba7ac1ae006e",
+      "sizeBytes": 355
+    },
+    {
+      "path": "integer-containment-certificate.json",
+      "sha256": "b9284e40107d12db92e7e7e4c5965a6387f7bc18d3920d805bddf311fdf59a5f",
+      "sizeBytes": 165845
+    },
+    {
+      "path": "library-replay.json",
+      "sha256": "d938c2c860f769509783d128c1a8c9d059af5cb8cbc258f6cc55a3dc65361e5d",
+      "sizeBytes": 211907
+    },
+    {
+      "path": "previous-export-obstructions.json",
+      "sha256": "da952b4478a7ab5dcb152dcf5fc758e1fb440aafd92f4132caa33715febe864e",
+      "sizeBytes": 4095
+    },
+    {
+      "path": "README.md",
+      "sha256": "1fd86bb82d2727d5962a467a5884d63bd48259c2ace62f2449a525dacb9410c1",
+      "sizeBytes": 1910
+    },
+    {
+      "path": "cli-null-grid-check.json",
+      "sha256": "8b669201304af9eaa2e010c9a27b443d7566e067713868fd58258bd6f48d784d",
+      "sizeBytes": 66
+    },
+    {
+      "path": "verification.json",
+      "sha256": "66c3f50c21d2446657cc0c078fdcfebe97d6b6f7b7ea544d58db778f4b214fad",
+      "sizeBytes": 782
+    }
+  ]
+}

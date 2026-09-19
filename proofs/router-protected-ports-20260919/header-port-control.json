@@ -1,0 +1,19 @@
+{
+  "scope": "Two isolated routing-adapter fixtures only. No managed source is loaded or changed; the copper/service-band geometry is identical except for a 0.30 mm inward fixed-lead extension.",
+  "results": [
+    {
+      "case": "boundary-port",
+      "fixedLeadEndXmm": 3.56,
+      "before": 1,
+      "after": 1,
+      "timedOut": false
+    },
+    {
+      "case": "extended-port",
+      "fixedLeadEndXmm": 3.86,
+      "before": 1,
+      "after": 0,
+      "timedOut": false
+    }
+  ]
+}

@@ -1,0 +1,9684 @@
+{
+  "sourcePcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+  "sourceDsnSha256": "e07ce811dac3f053ef60d62f8ee7f9fc5df59e2d0b307875cd005004f5b6d4c9",
+  "resultDsnSha256": "169fec939260e130da4631b304f54c500cbb49a63fa5f842cc69034fc453dfa3",
+  "radiiUnchanged": true,
+  "allCapsulesConservativelyContained": true,
+  "polygons": [
+    {
+      "index": 0,
+      "sourceTrackId": "core/xin-cap:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8719700,
+          41300000
+        ],
+        [
+          8848300,
+          41353200
+        ],
+        [
+          8946800,
+          41451700
+        ],
+        [
+          9000000,
+          41580300
+        ],
+        [
+          9000000,
+          41719700
+        ],
+        [
+          8946800,
+          41848300
+        ],
+        [
+          8848300,
+          41946800
+        ],
+        [
+          8719700,
+          42000000
+        ],
+        [
+          8430300,
+          42000000
+        ],
+        [
+          8301700,
+          41946800
+        ],
+        [
+          8203200,
+          41848300
+        ],
+        [
+          8150000,
+          41719700
+        ],
+        [
+          8150000,
+          41580300
+        ],
+        [
+          8203200,
+          41451700
+        ],
+        [
+          8301700,
+          41353200
+        ],
+        [
+          8430300,
+          41300000
+        ]
+      ]
+    },
+    {
+      "index": 1,
+      "sourceTrackId": "core/xin-cap:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9196800,
+          41701700
+        ],
+        [
+          9250000,
+          41830300
+        ],
+        [
+          9250000,
+          41969700
+        ],
+        [
+          9196800,
+          42098300
+        ],
+        [
+          9098300,
+          42196800
+        ],
+        [
+          8969700,
+          42250000
+        ],
+        [
+          8830300,
+          42250000
+        ],
+        [
+          8701700,
+          42196800
+        ],
+        [
+          8353200,
+          41848300
+        ],
+        [
+          8300000,
+          41719700
+        ],
+        [
+          8300000,
+          41580300
+        ],
+        [
+          8353200,
+          41451700
+        ],
+        [
+          8451700,
+          41353200
+        ],
+        [
+          8580300,
+          41300000
+        ],
+        [
+          8719700,
+          41300000
+        ],
+        [
+          8848300,
+          41353200
+        ]
+      ]
+    },
+    {
+      "index": 2,
+      "sourceTrackId": "core/xin-cap:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9250000,
+          42369700
+        ],
+        [
+          9196800,
+          42498300
+        ],
+        [
+          9098300,
+          42596800
+        ],
+        [
+          8969700,
+          42650000
+        ],
+        [
+          8830300,
+          42650000
+        ],
+        [
+          8701700,
+          42596800
+        ],
+        [
+          8603200,
+          42498300
+        ],
+        [
+          8550000,
+          42369700
+        ],
+        [
+          8550000,
+          41830300
+        ],
+        [
+          8603200,
+          41701700
+        ],
+        [
+          8701700,
+          41603200
+        ],
+        [
+          8830300,
+          41550000
+        ],
+        [
+          8969700,
+          41550000
+        ],
+        [
+          9098300,
+          41603200
+        ],
+        [
+          9196800,
+          41701700
+        ],
+        [
+          9250000,
+          41830300
+        ]
+      ]
+    },
+    {
+      "index": 3,
+      "sourceTrackId": "core/xin-cap:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8678300,
+          43016800
+        ],
+        [
+          8549700,
+          43070000
+        ],
+        [
+          8410300,
+          43070000
+        ],
+        [
+          8281700,
+          43016800
+        ],
+        [
+          8183200,
+          42918300
+        ],
+        [
+          8130000,
+          42789700
+        ],
+        [
+          8130000,
+          42650300
+        ],
+        [
+          8183200,
+          42521700
+        ],
+        [
+          8701700,
+          42003200
+        ],
+        [
+          8830300,
+          41950000
+        ],
+        [
+          8969700,
+          41950000
+        ],
+        [
+          9098300,
+          42003200
+        ],
+        [
+          9196800,
+          42101700
+        ],
+        [
+          9250000,
+          42230300
+        ],
+        [
+          9250000,
+          42369700
+        ],
+        [
+          9196800,
+          42498300
+        ]
+      ]
+    },
+    {
+      "index": 4,
+      "sourceTrackId": "core/xin-cap:4",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7100300,
+          43070000
+        ],
+        [
+          6971700,
+          43016800
+        ],
+        [
+          6873200,
+          42918300
+        ],
+        [
+          6820000,
+          42789700
+        ],
+        [
+          6820000,
+          42650300
+        ],
+        [
+          6873200,
+          42521700
+        ],
+        [
+          6971700,
+          42423200
+        ],
+        [
+          7100300,
+          42370000
+        ],
+        [
+          8549700,
+          42370000
+        ],
+        [
+          8678300,
+          42423200
+        ],
+        [
+          8776800,
+          42521700
+        ],
+        [
+          8830000,
+          42650300
+        ],
+        [
+          8830000,
+          42789700
+        ],
+        [
+          8776800,
+          42918300
+        ],
+        [
+          8678300,
+          43016800
+        ],
+        [
+          8549700,
+          43070000
+        ]
+      ]
+    },
+    {
+      "index": 5,
+      "sourceTrackId": "core/xin-cap:5",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7168300,
+          43216800
+        ],
+        [
+          7039700,
+          43270000
+        ],
+        [
+          6900300,
+          43270000
+        ],
+        [
+          6771700,
+          43216800
+        ],
+        [
+          6673200,
+          43118300
+        ],
+        [
+          6620000,
+          42989700
+        ],
+        [
+          6620000,
+          42850300
+        ],
+        [
+          6673200,
+          42721700
+        ],
+        [
+          6971700,
+          42423200
+        ],
+        [
+          7100300,
+          42370000
+        ],
+        [
+          7239700,
+          42370000
+        ],
+        [
+          7368300,
+          42423200
+        ],
+        [
+          7466800,
+          42521700
+        ],
+        [
+          7520000,
+          42650300
+        ],
+        [
+          7520000,
+          42789700
+        ],
+        [
+          7466800,
+          42918300
+        ]
+      ]
+    },
+    {
+      "index": 6,
+      "sourceTrackId": "core/xtal-out-cap:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10919700,
+          39600000
+        ],
+        [
+          11048300,
+          39653200
+        ],
+        [
+          11146800,
+          39751700
+        ],
+        [
+          11200000,
+          39880300
+        ],
+        [
+          11200000,
+          40019700
+        ],
+        [
+          11146800,
+          40148300
+        ],
+        [
+          11048300,
+          40246800
+        ],
+        [
+          10919700,
+          40300000
+        ],
+        [
+          10630300,
+          40300000
+        ],
+        [
+          10501700,
+          40246800
+        ],
+        [
+          10403200,
+          40148300
+        ],
+        [
+          10350000,
+          40019700
+        ],
+        [
+          10350000,
+          39880300
+        ],
+        [
+          10403200,
+          39751700
+        ],
+        [
+          10501700,
+          39653200
+        ],
+        [
+          10630300,
+          39600000
+        ]
+      ]
+    },
+    {
+      "index": 7,
+      "sourceTrackId": "core/xtal-out-cap:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11466800,
+          40071700
+        ],
+        [
+          11520000,
+          40200300
+        ],
+        [
+          11520000,
+          40339700
+        ],
+        [
+          11466800,
+          40468300
+        ],
+        [
+          11368300,
+          40566800
+        ],
+        [
+          11239700,
+          40620000
+        ],
+        [
+          11100300,
+          40620000
+        ],
+        [
+          10971700,
+          40566800
+        ],
+        [
+          10553200,
+          40148300
+        ],
+        [
+          10500000,
+          40019700
+        ],
+        [
+          10500000,
+          39880300
+        ],
+        [
+          10553200,
+          39751700
+        ],
+        [
+          10651700,
+          39653200
+        ],
+        [
+          10780300,
+          39600000
+        ],
+        [
+          10919700,
+          39600000
+        ],
+        [
+          11048300,
+          39653200
+        ]
+      ]
+    },
+    {
+      "index": 8,
+      "sourceTrackId": "core/xtal-out-cap:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12339700,
+          39920000
+        ],
+        [
+          12468300,
+          39973200
+        ],
+        [
+          12566800,
+          40071700
+        ],
+        [
+          12620000,
+          40200300
+        ],
+        [
+          12620000,
+          40339700
+        ],
+        [
+          12566800,
+          40468300
+        ],
+        [
+          12468300,
+          40566800
+        ],
+        [
+          12339700,
+          40620000
+        ],
+        [
+          11100300,
+          40620000
+        ],
+        [
+          10971700,
+          40566800
+        ],
+        [
+          10873200,
+          40468300
+        ],
+        [
+          10820000,
+          40339700
+        ],
+        [
+          10820000,
+          40200300
+        ],
+        [
+          10873200,
+          40071700
+        ],
+        [
+          10971700,
+          39973200
+        ],
+        [
+          11100300,
+          39920000
+        ]
+      ]
+    },
+    {
+      "index": 9,
+      "sourceTrackId": "core/xtal-out-main:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9340000,
+          38649700
+        ],
+        [
+          9286800,
+          38778300
+        ],
+        [
+          9188300,
+          38876800
+        ],
+        [
+          9059700,
+          38930000
+        ],
+        [
+          8920300,
+          38930000
+        ],
+        [
+          8791700,
+          38876800
+        ],
+        [
+          8693200,
+          38778300
+        ],
+        [
+          8640000,
+          38649700
+        ],
+        [
+          8640000,
+          38410300
+        ],
+        [
+          8693200,
+          38281700
+        ],
+        [
+          8791700,
+          38183200
+        ],
+        [
+          8920300,
+          38130000
+        ],
+        [
+          9059700,
+          38130000
+        ],
+        [
+          9188300,
+          38183200
+        ],
+        [
+          9286800,
+          38281700
+        ],
+        [
+          9340000,
+          38410300
+        ]
+      ]
+    },
+    {
+      "index": 10,
+      "sourceTrackId": "core/xtal-out-main:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10366800,
+          39461700
+        ],
+        [
+          10420000,
+          39590300
+        ],
+        [
+          10420000,
+          39729700
+        ],
+        [
+          10366800,
+          39858300
+        ],
+        [
+          10268300,
+          39956800
+        ],
+        [
+          10139700,
+          40010000
+        ],
+        [
+          10000300,
+          40010000
+        ],
+        [
+          9871700,
+          39956800
+        ],
+        [
+          8693200,
+          38778300
+        ],
+        [
+          8640000,
+          38649700
+        ],
+        [
+          8640000,
+          38510300
+        ],
+        [
+          8693200,
+          38381700
+        ],
+        [
+          8791700,
+          38283200
+        ],
+        [
+          8920300,
+          38230000
+        ],
+        [
+          9059700,
+          38230000
+        ],
+        [
+          9188300,
+          38283200
+        ]
+      ]
+    },
+    {
+      "index": 11,
+      "sourceTrackId": "core/xtal-out-main:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10479700,
+          39310000
+        ],
+        [
+          10608300,
+          39363200
+        ],
+        [
+          10706800,
+          39461700
+        ],
+        [
+          10760000,
+          39590300
+        ],
+        [
+          10760000,
+          39729700
+        ],
+        [
+          10706800,
+          39858300
+        ],
+        [
+          10608300,
+          39956800
+        ],
+        [
+          10479700,
+          40010000
+        ],
+        [
+          10000300,
+          40010000
+        ],
+        [
+          9871700,
+          39956800
+        ],
+        [
+          9773200,
+          39858300
+        ],
+        [
+          9720000,
+          39729700
+        ],
+        [
+          9720000,
+          39590300
+        ],
+        [
+          9773200,
+          39461700
+        ],
+        [
+          9871700,
+          39363200
+        ],
+        [
+          10000300,
+          39310000
+        ]
+      ]
+    },
+    {
+      "index": 12,
+      "sourceTrackId": "core/xtal-out-main:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10996800,
+          39751700
+        ],
+        [
+          11050000,
+          39880300
+        ],
+        [
+          11050000,
+          40019700
+        ],
+        [
+          10996800,
+          40148300
+        ],
+        [
+          10898300,
+          40246800
+        ],
+        [
+          10769700,
+          40300000
+        ],
+        [
+          10630300,
+          40300000
+        ],
+        [
+          10501700,
+          40246800
+        ],
+        [
+          10113200,
+          39858300
+        ],
+        [
+          10060000,
+          39729700
+        ],
+        [
+          10060000,
+          39590300
+        ],
+        [
+          10113200,
+          39461700
+        ],
+        [
+          10211700,
+          39363200
+        ],
+        [
+          10340300,
+          39310000
+        ],
+        [
+          10479700,
+          39310000
+        ],
+        [
+          10608300,
+          39363200
+        ]
+      ]
+    },
+    {
+      "index": 13,
+      "sourceTrackId": "core/xin-main:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9950000,
+          37519700
+        ],
+        [
+          9896800,
+          37648300
+        ],
+        [
+          9798300,
+          37746800
+        ],
+        [
+          9669700,
+          37800000
+        ],
+        [
+          9530300,
+          37800000
+        ],
+        [
+          9401700,
+          37746800
+        ],
+        [
+          9303200,
+          37648300
+        ],
+        [
+          9250000,
+          37519700
+        ],
+        [
+          9250000,
+          35880300
+        ],
+        [
+          9303200,
+          35751700
+        ],
+        [
+          9401700,
+          35653200
+        ],
+        [
+          9530300,
+          35600000
+        ],
+        [
+          9669700,
+          35600000
+        ],
+        [
+          9798300,
+          35653200
+        ],
+        [
+          9896800,
+          35751700
+        ],
+        [
+          9950000,
+          35880300
+        ]
+      ]
+    },
+    {
+      "index": 14,
+      "sourceTrackId": "core/xin-main:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9348300,
+          38196800
+        ],
+        [
+          9219700,
+          38250000
+        ],
+        [
+          9080300,
+          38250000
+        ],
+        [
+          8951700,
+          38196800
+        ],
+        [
+          8853200,
+          38098300
+        ],
+        [
+          8800000,
+          37969700
+        ],
+        [
+          8800000,
+          37830300
+        ],
+        [
+          8853200,
+          37701700
+        ],
+        [
+          9401700,
+          37153200
+        ],
+        [
+          9530300,
+          37100000
+        ],
+        [
+          9669700,
+          37100000
+        ],
+        [
+          9798300,
+          37153200
+        ],
+        [
+          9896800,
+          37251700
+        ],
+        [
+          9950000,
+          37380300
+        ],
+        [
+          9950000,
+          37519700
+        ],
+        [
+          9896800,
+          37648300
+        ]
+      ]
+    },
+    {
+      "index": 15,
+      "sourceTrackId": "core/xin-main:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7805300,
+          38250000
+        ],
+        [
+          7676700,
+          38196800
+        ],
+        [
+          7578200,
+          38098300
+        ],
+        [
+          7525000,
+          37969700
+        ],
+        [
+          7525000,
+          37830300
+        ],
+        [
+          7578200,
+          37701700
+        ],
+        [
+          7676700,
+          37603200
+        ],
+        [
+          7805300,
+          37550000
+        ],
+        [
+          9219700,
+          37550000
+        ],
+        [
+          9348300,
+          37603200
+        ],
+        [
+          9446800,
+          37701700
+        ],
+        [
+          9500000,
+          37830300
+        ],
+        [
+          9500000,
+          37969700
+        ],
+        [
+          9446800,
+          38098300
+        ],
+        [
+          9348300,
+          38196800
+        ],
+        [
+          9219700,
+          38250000
+        ]
+      ]
+    },
+    {
+      "index": 16,
+      "sourceTrackId": "core/xin-main:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7698300,
+          38571800
+        ],
+        [
+          7569700,
+          38625000
+        ],
+        [
+          7430300,
+          38625000
+        ],
+        [
+          7301700,
+          38571800
+        ],
+        [
+          7203200,
+          38473300
+        ],
+        [
+          7150000,
+          38344700
+        ],
+        [
+          7150000,
+          38205300
+        ],
+        [
+          7203200,
+          38076700
+        ],
+        [
+          7676700,
+          37603200
+        ],
+        [
+          7805300,
+          37550000
+        ],
+        [
+          7944700,
+          37550000
+        ],
+        [
+          8073300,
+          37603200
+        ],
+        [
+          8171800,
+          37701700
+        ],
+        [
+          8225000,
+          37830300
+        ],
+        [
+          8225000,
+          37969700
+        ],
+        [
+          8171800,
+          38098300
+        ]
+      ]
+    },
+    {
+      "index": 17,
+      "sourceTrackId": "core/xin-main:4",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7850000,
+          41344700
+        ],
+        [
+          7796800,
+          41473300
+        ],
+        [
+          7698300,
+          41571800
+        ],
+        [
+          7569700,
+          41625000
+        ],
+        [
+          7430300,
+          41625000
+        ],
+        [
+          7301700,
+          41571800
+        ],
+        [
+          7203200,
+          41473300
+        ],
+        [
+          7150000,
+          41344700
+        ],
+        [
+          7150000,
+          38205300
+        ],
+        [
+          7203200,
+          38076700
+        ],
+        [
+          7301700,
+          37978200
+        ],
+        [
+          7430300,
+          37925000
+        ],
+        [
+          7569700,
+          37925000
+        ],
+        [
+          7698300,
+          37978200
+        ],
+        [
+          7796800,
+          38076700
+        ],
+        [
+          7850000,
+          38205300
+        ]
+      ]
+    },
+    {
+      "index": 18,
+      "sourceTrackId": "core/xin-main:5",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8171800,
+          41451700
+        ],
+        [
+          8225000,
+          41580300
+        ],
+        [
+          8225000,
+          41719700
+        ],
+        [
+          8171800,
+          41848300
+        ],
+        [
+          8073300,
+          41946800
+        ],
+        [
+          7944700,
+          42000000
+        ],
+        [
+          7805300,
+          42000000
+        ],
+        [
+          7676700,
+          41946800
+        ],
+        [
+          7203200,
+          41473300
+        ],
+        [
+          7150000,
+          41344700
+        ],
+        [
+          7150000,
+          41205300
+        ],
+        [
+          7203200,
+          41076700
+        ],
+        [
+          7301700,
+          40978200
+        ],
+        [
+          7430300,
+          40925000
+        ],
+        [
+          7569700,
+          40925000
+        ],
+        [
+          7698300,
+          40978200
+        ]
+      ]
+    },
+    {
+      "index": 19,
+      "sourceTrackId": "core/xin-main:6",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8569700,
+          41300000
+        ],
+        [
+          8698300,
+          41353200
+        ],
+        [
+          8796800,
+          41451700
+        ],
+        [
+          8850000,
+          41580300
+        ],
+        [
+          8850000,
+          41719700
+        ],
+        [
+          8796800,
+          41848300
+        ],
+        [
+          8698300,
+          41946800
+        ],
+        [
+          8569700,
+          42000000
+        ],
+        [
+          7805300,
+          42000000
+        ],
+        [
+          7676700,
+          41946800
+        ],
+        [
+          7578200,
+          41848300
+        ],
+        [
+          7525000,
+          41719700
+        ],
+        [
+          7525000,
+          41580300
+        ],
+        [
+          7578200,
+          41451700
+        ],
+        [
+          7676700,
+          41353200
+        ],
+        [
+          7805300,
+          41300000
+        ]
+      ]
+    },
+    {
+      "index": 20,
+      "sourceTrackId": "core/xout-mcu:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10350000,
+          38549700
+        ],
+        [
+          10296800,
+          38678300
+        ],
+        [
+          10198300,
+          38776800
+        ],
+        [
+          10069700,
+          38830000
+        ],
+        [
+          9930300,
+          38830000
+        ],
+        [
+          9801700,
+          38776800
+        ],
+        [
+          9703200,
+          38678300
+        ],
+        [
+          9650000,
+          38549700
+        ],
+        [
+          9650000,
+          35880300
+        ],
+        [
+          9703200,
+          35751700
+        ],
+        [
+          9801700,
+          35653200
+        ],
+        [
+          9930300,
+          35600000
+        ],
+        [
+          10069700,
+          35600000
+        ],
+        [
+          10198300,
+          35653200
+        ],
+        [
+          10296800,
+          35751700
+        ],
+        [
+          10350000,
+          35880300
+        ]
+      ]
+    },
+    {
+      "index": 21,
+      "sourceTrackId": "core/qspi-cs-chain:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5650000,
+          28369700
+        ],
+        [
+          5596800,
+          28498300
+        ],
+        [
+          5498300,
+          28596800
+        ],
+        [
+          5369700,
+          28650000
+        ],
+        [
+          5230300,
+          28650000
+        ],
+        [
+          5101700,
+          28596800
+        ],
+        [
+          5003200,
+          28498300
+        ],
+        [
+          4950000,
+          28369700
+        ],
+        [
+          4950000,
+          25355300
+        ],
+        [
+          5003200,
+          25226700
+        ],
+        [
+          5101700,
+          25128200
+        ],
+        [
+          5230300,
+          25075000
+        ],
+        [
+          5369700,
+          25075000
+        ],
+        [
+          5498300,
+          25128200
+        ],
+        [
+          5596800,
+          25226700
+        ],
+        [
+          5650000,
+          25355300
+        ]
+      ]
+    },
+    {
+      "index": 22,
+      "sourceTrackId": "core/qspi-cs-chain:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          6196800,
+          28701700
+        ],
+        [
+          6250000,
+          28830300
+        ],
+        [
+          6250000,
+          28969700
+        ],
+        [
+          6196800,
+          29098300
+        ],
+        [
+          6098300,
+          29196800
+        ],
+        [
+          5969700,
+          29250000
+        ],
+        [
+          5830300,
+          29250000
+        ],
+        [
+          5701700,
+          29196800
+        ],
+        [
+          5003200,
+          28498300
+        ],
+        [
+          4950000,
+          28369700
+        ],
+        [
+          4950000,
+          28230300
+        ],
+        [
+          5003200,
+          28101700
+        ],
+        [
+          5101700,
+          28003200
+        ],
+        [
+          5230300,
+          27950000
+        ],
+        [
+          5369700,
+          27950000
+        ],
+        [
+          5498300,
+          28003200
+        ]
+      ]
+    },
+    {
+      "index": 23,
+      "sourceTrackId": "core/qspi-cs-chain:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7519700,
+          28550000
+        ],
+        [
+          7648300,
+          28603200
+        ],
+        [
+          7746800,
+          28701700
+        ],
+        [
+          7800000,
+          28830300
+        ],
+        [
+          7800000,
+          28969700
+        ],
+        [
+          7746800,
+          29098300
+        ],
+        [
+          7648300,
+          29196800
+        ],
+        [
+          7519700,
+          29250000
+        ],
+        [
+          5830300,
+          29250000
+        ],
+        [
+          5701700,
+          29196800
+        ],
+        [
+          5603200,
+          29098300
+        ],
+        [
+          5550000,
+          28969700
+        ],
+        [
+          5550000,
+          28830300
+        ],
+        [
+          5603200,
+          28701700
+        ],
+        [
+          5701700,
+          28603200
+        ],
+        [
+          5830300,
+          28550000
+        ]
+      ]
+    },
+    {
+      "index": 24,
+      "sourceTrackId": "core/qspi-cs-chain:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7896800,
+          28851700
+        ],
+        [
+          7950000,
+          28980300
+        ],
+        [
+          7950000,
+          29119700
+        ],
+        [
+          7896800,
+          29248300
+        ],
+        [
+          7798300,
+          29346800
+        ],
+        [
+          7669700,
+          29400000
+        ],
+        [
+          7530300,
+          29400000
+        ],
+        [
+          7401700,
+          29346800
+        ],
+        [
+          7153200,
+          29098300
+        ],
+        [
+          7100000,
+          28969700
+        ],
+        [
+          7100000,
+          28830300
+        ],
+        [
+          7153200,
+          28701700
+        ],
+        [
+          7251700,
+          28603200
+        ],
+        [
+          7380300,
+          28550000
+        ],
+        [
+          7519700,
+          28550000
+        ],
+        [
+          7648300,
+          28603200
+        ]
+      ]
+    },
+    {
+      "index": 25,
+      "sourceTrackId": "core/qspi-sd1:0",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          6125000,
+          27864700
+        ],
+        [
+          6075600,
+          27984100
+        ],
+        [
+          5984100,
+          28075600
+        ],
+        [
+          5864700,
+          28125000
+        ],
+        [
+          5735300,
+          28125000
+        ],
+        [
+          5615900,
+          28075600
+        ],
+        [
+          5524400,
+          27984100
+        ],
+        [
+          5475000,
+          27864700
+        ],
+        [
+          5475000,
+          25360300
+        ],
+        [
+          5524400,
+          25240900
+        ],
+        [
+          5615900,
+          25149400
+        ],
+        [
+          5735300,
+          25100000
+        ],
+        [
+          5864700,
+          25100000
+        ],
+        [
+          5984100,
+          25149400
+        ],
+        [
+          6075600,
+          25240900
+        ],
+        [
+          6125000,
+          25360300
+        ]
+      ]
+    },
+    {
+      "index": 26,
+      "sourceTrackId": "core/qspi-sd1:1",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          6675600,
+          28215900
+        ],
+        [
+          6725000,
+          28335300
+        ],
+        [
+          6725000,
+          28464700
+        ],
+        [
+          6675600,
+          28584100
+        ],
+        [
+          6584100,
+          28675600
+        ],
+        [
+          6464700,
+          28725000
+        ],
+        [
+          6335300,
+          28725000
+        ],
+        [
+          6215900,
+          28675600
+        ],
+        [
+          5524400,
+          27984100
+        ],
+        [
+          5475000,
+          27864700
+        ],
+        [
+          5475000,
+          27735300
+        ],
+        [
+          5524400,
+          27615900
+        ],
+        [
+          5615900,
+          27524400
+        ],
+        [
+          5735300,
+          27475000
+        ],
+        [
+          5864700,
+          27475000
+        ],
+        [
+          5984100,
+          27524400
+        ]
+      ]
+    },
+    {
+      "index": 27,
+      "sourceTrackId": "core/qspi-sd1:2",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7814700,
+          28075000
+        ],
+        [
+          7934100,
+          28124400
+        ],
+        [
+          8025600,
+          28215900
+        ],
+        [
+          8075000,
+          28335300
+        ],
+        [
+          8075000,
+          28464700
+        ],
+        [
+          8025600,
+          28584100
+        ],
+        [
+          7934100,
+          28675600
+        ],
+        [
+          7814700,
+          28725000
+        ],
+        [
+          6335300,
+          28725000
+        ],
+        [
+          6215900,
+          28675600
+        ],
+        [
+          6124400,
+          28584100
+        ],
+        [
+          6075000,
+          28464700
+        ],
+        [
+          6075000,
+          28335300
+        ],
+        [
+          6124400,
+          28215900
+        ],
+        [
+          6215900,
+          28124400
+        ],
+        [
+          6335300,
+          28075000
+        ]
+      ]
+    },
+    {
+      "index": 28,
+      "sourceTrackId": "core/qspi-sd1:3",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8275600,
+          28465900
+        ],
+        [
+          8325000,
+          28585300
+        ],
+        [
+          8325000,
+          28714700
+        ],
+        [
+          8275600,
+          28834100
+        ],
+        [
+          8184100,
+          28925600
+        ],
+        [
+          8064700,
+          28975000
+        ],
+        [
+          7935300,
+          28975000
+        ],
+        [
+          7815900,
+          28925600
+        ],
+        [
+          7474400,
+          28584100
+        ],
+        [
+          7425000,
+          28464700
+        ],
+        [
+          7425000,
+          28335300
+        ],
+        [
+          7474400,
+          28215900
+        ],
+        [
+          7565900,
+          28124400
+        ],
+        [
+          7685300,
+          28075000
+        ],
+        [
+          7814700,
+          28075000
+        ],
+        [
+          7934100,
+          28124400
+        ]
+      ]
+    },
+    {
+      "index": 29,
+      "sourceTrackId": "core/qspi-sd1:4",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8325000,
+          29114700
+        ],
+        [
+          8275600,
+          29234100
+        ],
+        [
+          8184100,
+          29325600
+        ],
+        [
+          8064700,
+          29375000
+        ],
+        [
+          7935300,
+          29375000
+        ],
+        [
+          7815900,
+          29325600
+        ],
+        [
+          7724400,
+          29234100
+        ],
+        [
+          7675000,
+          29114700
+        ],
+        [
+          7675000,
+          28585300
+        ],
+        [
+          7724400,
+          28465900
+        ],
+        [
+          7815900,
+          28374400
+        ],
+        [
+          7935300,
+          28325000
+        ],
+        [
+          8064700,
+          28325000
+        ],
+        [
+          8184100,
+          28374400
+        ],
+        [
+          8275600,
+          28465900
+        ],
+        [
+          8325000,
+          28585300
+        ]
+      ]
+    },
+    {
+      "index": 30,
+      "sourceTrackId": "core/qspi-sd2:0",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          6625000,
+          26414700
+        ],
+        [
+          6575600,
+          26534100
+        ],
+        [
+          6484100,
+          26625600
+        ],
+        [
+          6364700,
+          26675000
+        ],
+        [
+          6235300,
+          26675000
+        ],
+        [
+          6115900,
+          26625600
+        ],
+        [
+          6024400,
+          26534100
+        ],
+        [
+          5975000,
+          26414700
+        ],
+        [
+          5975000,
+          25360300
+        ],
+        [
+          6024400,
+          25240900
+        ],
+        [
+          6115900,
+          25149400
+        ],
+        [
+          6235300,
+          25100000
+        ],
+        [
+          6364700,
+          25100000
+        ],
+        [
+          6484100,
+          25149400
+        ],
+        [
+          6575600,
+          25240900
+        ],
+        [
+          6625000,
+          25360300
+        ]
+      ]
+    },
+    {
+      "index": 31,
+      "sourceTrackId": "core/qspi-sd2:1",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7125600,
+          26715900
+        ],
+        [
+          7175000,
+          26835300
+        ],
+        [
+          7175000,
+          26964700
+        ],
+        [
+          7125600,
+          27084100
+        ],
+        [
+          7034100,
+          27175600
+        ],
+        [
+          6914700,
+          27225000
+        ],
+        [
+          6785300,
+          27225000
+        ],
+        [
+          6665900,
+          27175600
+        ],
+        [
+          6024400,
+          26534100
+        ],
+        [
+          5975000,
+          26414700
+        ],
+        [
+          5975000,
+          26285300
+        ],
+        [
+          6024400,
+          26165900
+        ],
+        [
+          6115900,
+          26074400
+        ],
+        [
+          6235300,
+          26025000
+        ],
+        [
+          6364700,
+          26025000
+        ],
+        [
+          6484100,
+          26074400
+        ]
+      ]
+    },
+    {
+      "index": 32,
+      "sourceTrackId": "core/qspi-sd2:2",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7175000,
+          27139700
+        ],
+        [
+          7125600,
+          27259100
+        ],
+        [
+          7034100,
+          27350600
+        ],
+        [
+          6914700,
+          27400000
+        ],
+        [
+          6785300,
+          27400000
+        ],
+        [
+          6665900,
+          27350600
+        ],
+        [
+          6574400,
+          27259100
+        ],
+        [
+          6525000,
+          27139700
+        ],
+        [
+          6525000,
+          26835300
+        ],
+        [
+          6574400,
+          26715900
+        ],
+        [
+          6665900,
+          26624400
+        ],
+        [
+          6785300,
+          26575000
+        ],
+        [
+          6914700,
+          26575000
+        ],
+        [
+          7034100,
+          26624400
+        ],
+        [
+          7125600,
+          26715900
+        ],
+        [
+          7175000,
+          26835300
+        ]
+      ]
+    },
+    {
+      "index": 33,
+      "sourceTrackId": "core/qspi-sd2:3",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8675600,
+          28440900
+        ],
+        [
+          8725000,
+          28560300
+        ],
+        [
+          8725000,
+          28689700
+        ],
+        [
+          8675600,
+          28809100
+        ],
+        [
+          8584100,
+          28900600
+        ],
+        [
+          8464700,
+          28950000
+        ],
+        [
+          8335300,
+          28950000
+        ],
+        [
+          8215900,
+          28900600
+        ],
+        [
+          6574400,
+          27259100
+        ],
+        [
+          6525000,
+          27139700
+        ],
+        [
+          6525000,
+          27010300
+        ],
+        [
+          6574400,
+          26890900
+        ],
+        [
+          6665900,
+          26799400
+        ],
+        [
+          6785300,
+          26750000
+        ],
+        [
+          6914700,
+          26750000
+        ],
+        [
+          7034100,
+          26799400
+        ]
+      ]
+    },
+    {
+      "index": 34,
+      "sourceTrackId": "core/qspi-sd2:4",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8725000,
+          29114700
+        ],
+        [
+          8675600,
+          29234100
+        ],
+        [
+          8584100,
+          29325600
+        ],
+        [
+          8464700,
+          29375000
+        ],
+        [
+          8335300,
+          29375000
+        ],
+        [
+          8215900,
+          29325600
+        ],
+        [
+          8124400,
+          29234100
+        ],
+        [
+          8075000,
+          29114700
+        ],
+        [
+          8075000,
+          28560300
+        ],
+        [
+          8124400,
+          28440900
+        ],
+        [
+          8215900,
+          28349400
+        ],
+        [
+          8335300,
+          28300000
+        ],
+        [
+          8464700,
+          28300000
+        ],
+        [
+          8584100,
+          28349400
+        ],
+        [
+          8675600,
+          28440900
+        ],
+        [
+          8725000,
+          28560300
+        ]
+      ]
+    },
+    {
+      "index": 35,
+      "sourceTrackId": "core/qspi-sd0:0",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7450600,
+          22765900
+        ],
+        [
+          7500000,
+          22885300
+        ],
+        [
+          7500000,
+          23014700
+        ],
+        [
+          7450600,
+          23134100
+        ],
+        [
+          7359100,
+          23225600
+        ],
+        [
+          7239700,
+          23275000
+        ],
+        [
+          7110300,
+          23275000
+        ],
+        [
+          6990900,
+          23225600
+        ],
+        [
+          6524400,
+          22759100
+        ],
+        [
+          6475000,
+          22639700
+        ],
+        [
+          6475000,
+          22510300
+        ],
+        [
+          6524400,
+          22390900
+        ],
+        [
+          6615900,
+          22299400
+        ],
+        [
+          6735300,
+          22250000
+        ],
+        [
+          6864700,
+          22250000
+        ],
+        [
+          6984100,
+          22299400
+        ]
+      ]
+    },
+    {
+      "index": 36,
+      "sourceTrackId": "core/qspi-sd0:1",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7500000,
+          27039700
+        ],
+        [
+          7450600,
+          27159100
+        ],
+        [
+          7359100,
+          27250600
+        ],
+        [
+          7239700,
+          27300000
+        ],
+        [
+          7110300,
+          27300000
+        ],
+        [
+          6990900,
+          27250600
+        ],
+        [
+          6899400,
+          27159100
+        ],
+        [
+          6850000,
+          27039700
+        ],
+        [
+          6850000,
+          22885300
+        ],
+        [
+          6899400,
+          22765900
+        ],
+        [
+          6990900,
+          22674400
+        ],
+        [
+          7110300,
+          22625000
+        ],
+        [
+          7239700,
+          22625000
+        ],
+        [
+          7359100,
+          22674400
+        ],
+        [
+          7450600,
+          22765900
+        ],
+        [
+          7500000,
+          22885300
+        ]
+      ]
+    },
+    {
+      "index": 37,
+      "sourceTrackId": "core/qspi-sd0:2",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9075600,
+          28415900
+        ],
+        [
+          9125000,
+          28535300
+        ],
+        [
+          9125000,
+          28664700
+        ],
+        [
+          9075600,
+          28784100
+        ],
+        [
+          8984100,
+          28875600
+        ],
+        [
+          8864700,
+          28925000
+        ],
+        [
+          8735300,
+          28925000
+        ],
+        [
+          8615900,
+          28875600
+        ],
+        [
+          6899400,
+          27159100
+        ],
+        [
+          6850000,
+          27039700
+        ],
+        [
+          6850000,
+          26910300
+        ],
+        [
+          6899400,
+          26790900
+        ],
+        [
+          6990900,
+          26699400
+        ],
+        [
+          7110300,
+          26650000
+        ],
+        [
+          7239700,
+          26650000
+        ],
+        [
+          7359100,
+          26699400
+        ]
+      ]
+    },
+    {
+      "index": 38,
+      "sourceTrackId": "core/qspi-sd0:3",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9125000,
+          29114700
+        ],
+        [
+          9075600,
+          29234100
+        ],
+        [
+          8984100,
+          29325600
+        ],
+        [
+          8864700,
+          29375000
+        ],
+        [
+          8735300,
+          29375000
+        ],
+        [
+          8615900,
+          29325600
+        ],
+        [
+          8524400,
+          29234100
+        ],
+        [
+          8475000,
+          29114700
+        ],
+        [
+          8475000,
+          28535300
+        ],
+        [
+          8524400,
+          28415900
+        ],
+        [
+          8615900,
+          28324400
+        ],
+        [
+          8735300,
+          28275000
+        ],
+        [
+          8864700,
+          28275000
+        ],
+        [
+          8984100,
+          28324400
+        ],
+        [
+          9075600,
+          28415900
+        ],
+        [
+          9125000,
+          28535300
+        ]
+      ]
+    },
+    {
+      "index": 39,
+      "sourceTrackId": "core/qspi-sclk:0",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5975000,
+          22135300
+        ],
+        [
+          6024400,
+          22015900
+        ],
+        [
+          6115900,
+          21924400
+        ],
+        [
+          6235300,
+          21875000
+        ],
+        [
+          6364700,
+          21875000
+        ],
+        [
+          6484100,
+          21924400
+        ],
+        [
+          6575600,
+          22015900
+        ],
+        [
+          6625000,
+          22135300
+        ],
+        [
+          6625000,
+          22639700
+        ],
+        [
+          6575600,
+          22759100
+        ],
+        [
+          6484100,
+          22850600
+        ],
+        [
+          6364700,
+          22900000
+        ],
+        [
+          6235300,
+          22900000
+        ],
+        [
+          6115900,
+          22850600
+        ],
+        [
+          6024400,
+          22759100
+        ],
+        [
+          5975000,
+          22639700
+        ]
+      ]
+    },
+    {
+      "index": 40,
+      "sourceTrackId": "core/qspi-sclk:1",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          6465900,
+          21574400
+        ],
+        [
+          6585300,
+          21525000
+        ],
+        [
+          6714700,
+          21525000
+        ],
+        [
+          6834100,
+          21574400
+        ],
+        [
+          6925600,
+          21665900
+        ],
+        [
+          6975000,
+          21785300
+        ],
+        [
+          6975000,
+          21914700
+        ],
+        [
+          6925600,
+          22034100
+        ],
+        [
+          6484100,
+          22475600
+        ],
+        [
+          6364700,
+          22525000
+        ],
+        [
+          6235300,
+          22525000
+        ],
+        [
+          6115900,
+          22475600
+        ],
+        [
+          6024400,
+          22384100
+        ],
+        [
+          5975000,
+          22264700
+        ],
+        [
+          5975000,
+          22135300
+        ],
+        [
+          6024400,
+          22015900
+        ]
+      ]
+    },
+    {
+      "index": 41,
+      "sourceTrackId": "core/qspi-sclk:2",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7014700,
+          21525000
+        ],
+        [
+          7134100,
+          21574400
+        ],
+        [
+          7225600,
+          21665900
+        ],
+        [
+          7275000,
+          21785300
+        ],
+        [
+          7275000,
+          21914700
+        ],
+        [
+          7225600,
+          22034100
+        ],
+        [
+          7134100,
+          22125600
+        ],
+        [
+          7014700,
+          22175000
+        ],
+        [
+          6585300,
+          22175000
+        ],
+        [
+          6465900,
+          22125600
+        ],
+        [
+          6374400,
+          22034100
+        ],
+        [
+          6325000,
+          21914700
+        ],
+        [
+          6325000,
+          21785300
+        ],
+        [
+          6374400,
+          21665900
+        ],
+        [
+          6465900,
+          21574400
+        ],
+        [
+          6585300,
+          21525000
+        ]
+      ]
+    },
+    {
+      "index": 42,
+      "sourceTrackId": "core/qspi-sclk:3",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7750600,
+          22190900
+        ],
+        [
+          7800000,
+          22310300
+        ],
+        [
+          7800000,
+          22439700
+        ],
+        [
+          7750600,
+          22559100
+        ],
+        [
+          7659100,
+          22650600
+        ],
+        [
+          7539700,
+          22700000
+        ],
+        [
+          7410300,
+          22700000
+        ],
+        [
+          7290900,
+          22650600
+        ],
+        [
+          6674400,
+          22034100
+        ],
+        [
+          6625000,
+          21914700
+        ],
+        [
+          6625000,
+          21785300
+        ],
+        [
+          6674400,
+          21665900
+        ],
+        [
+          6765900,
+          21574400
+        ],
+        [
+          6885300,
+          21525000
+        ],
+        [
+          7014700,
+          21525000
+        ],
+        [
+          7134100,
+          21574400
+        ]
+      ]
+    },
+    {
+      "index": 43,
+      "sourceTrackId": "core/qspi-sclk:4",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7800000,
+          26914700
+        ],
+        [
+          7750600,
+          27034100
+        ],
+        [
+          7659100,
+          27125600
+        ],
+        [
+          7539700,
+          27175000
+        ],
+        [
+          7410300,
+          27175000
+        ],
+        [
+          7290900,
+          27125600
+        ],
+        [
+          7199400,
+          27034100
+        ],
+        [
+          7150000,
+          26914700
+        ],
+        [
+          7150000,
+          22310300
+        ],
+        [
+          7199400,
+          22190900
+        ],
+        [
+          7290900,
+          22099400
+        ],
+        [
+          7410300,
+          22050000
+        ],
+        [
+          7539700,
+          22050000
+        ],
+        [
+          7659100,
+          22099400
+        ],
+        [
+          7750600,
+          22190900
+        ],
+        [
+          7800000,
+          22310300
+        ]
+      ]
+    },
+    {
+      "index": 44,
+      "sourceTrackId": "core/qspi-sclk:5",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9475600,
+          28390900
+        ],
+        [
+          9525000,
+          28510300
+        ],
+        [
+          9525000,
+          28639700
+        ],
+        [
+          9475600,
+          28759100
+        ],
+        [
+          9384100,
+          28850600
+        ],
+        [
+          9264700,
+          28900000
+        ],
+        [
+          9135300,
+          28900000
+        ],
+        [
+          9015900,
+          28850600
+        ],
+        [
+          7199400,
+          27034100
+        ],
+        [
+          7150000,
+          26914700
+        ],
+        [
+          7150000,
+          26785300
+        ],
+        [
+          7199400,
+          26665900
+        ],
+        [
+          7290900,
+          26574400
+        ],
+        [
+          7410300,
+          26525000
+        ],
+        [
+          7539700,
+          26525000
+        ],
+        [
+          7659100,
+          26574400
+        ]
+      ]
+    },
+    {
+      "index": 45,
+      "sourceTrackId": "core/qspi-sclk:6",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9525000,
+          29114700
+        ],
+        [
+          9475600,
+          29234100
+        ],
+        [
+          9384100,
+          29325600
+        ],
+        [
+          9264700,
+          29375000
+        ],
+        [
+          9135300,
+          29375000
+        ],
+        [
+          9015900,
+          29325600
+        ],
+        [
+          8924400,
+          29234100
+        ],
+        [
+          8875000,
+          29114700
+        ],
+        [
+          8875000,
+          28510300
+        ],
+        [
+          8924400,
+          28390900
+        ],
+        [
+          9015900,
+          28299400
+        ],
+        [
+          9135300,
+          28250000
+        ],
+        [
+          9264700,
+          28250000
+        ],
+        [
+          9384100,
+          28299400
+        ],
+        [
+          9475600,
+          28390900
+        ],
+        [
+          9525000,
+          28510300
+        ]
+      ]
+    },
+    {
+      "index": 46,
+      "sourceTrackId": "core/qspi-sd3:0",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5475000,
+          22010300
+        ],
+        [
+          5524400,
+          21890900
+        ],
+        [
+          5615900,
+          21799400
+        ],
+        [
+          5735300,
+          21750000
+        ],
+        [
+          5864700,
+          21750000
+        ],
+        [
+          5984100,
+          21799400
+        ],
+        [
+          6075600,
+          21890900
+        ],
+        [
+          6125000,
+          22010300
+        ],
+        [
+          6125000,
+          22639700
+        ],
+        [
+          6075600,
+          22759100
+        ],
+        [
+          5984100,
+          22850600
+        ],
+        [
+          5864700,
+          22900000
+        ],
+        [
+          5735300,
+          22900000
+        ],
+        [
+          5615900,
+          22850600
+        ],
+        [
+          5524400,
+          22759100
+        ],
+        [
+          5475000,
+          22639700
+        ]
+      ]
+    },
+    {
+      "index": 47,
+      "sourceTrackId": "core/qspi-sd3:1",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          6165900,
+          21249400
+        ],
+        [
+          6285300,
+          21200000
+        ],
+        [
+          6414700,
+          21200000
+        ],
+        [
+          6534100,
+          21249400
+        ],
+        [
+          6625600,
+          21340900
+        ],
+        [
+          6675000,
+          21460300
+        ],
+        [
+          6675000,
+          21589700
+        ],
+        [
+          6625600,
+          21709100
+        ],
+        [
+          5984100,
+          22350600
+        ],
+        [
+          5864700,
+          22400000
+        ],
+        [
+          5735300,
+          22400000
+        ],
+        [
+          5615900,
+          22350600
+        ],
+        [
+          5524400,
+          22259100
+        ],
+        [
+          5475000,
+          22139700
+        ],
+        [
+          5475000,
+          22010300
+        ],
+        [
+          5524400,
+          21890900
+        ]
+      ]
+    },
+    {
+      "index": 48,
+      "sourceTrackId": "core/qspi-sd3:2",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7114700,
+          21200000
+        ],
+        [
+          7234100,
+          21249400
+        ],
+        [
+          7325600,
+          21340900
+        ],
+        [
+          7375000,
+          21460300
+        ],
+        [
+          7375000,
+          21589700
+        ],
+        [
+          7325600,
+          21709100
+        ],
+        [
+          7234100,
+          21800600
+        ],
+        [
+          7114700,
+          21850000
+        ],
+        [
+          6285300,
+          21850000
+        ],
+        [
+          6165900,
+          21800600
+        ],
+        [
+          6074400,
+          21709100
+        ],
+        [
+          6025000,
+          21589700
+        ],
+        [
+          6025000,
+          21460300
+        ],
+        [
+          6074400,
+          21340900
+        ],
+        [
+          6165900,
+          21249400
+        ],
+        [
+          6285300,
+          21200000
+        ]
+      ]
+    },
+    {
+      "index": 49,
+      "sourceTrackId": "core/qspi-sd3:3",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8075600,
+          22090900
+        ],
+        [
+          8125000,
+          22210300
+        ],
+        [
+          8125000,
+          22339700
+        ],
+        [
+          8075600,
+          22459100
+        ],
+        [
+          7984100,
+          22550600
+        ],
+        [
+          7864700,
+          22600000
+        ],
+        [
+          7735300,
+          22600000
+        ],
+        [
+          7615900,
+          22550600
+        ],
+        [
+          6774400,
+          21709100
+        ],
+        [
+          6725000,
+          21589700
+        ],
+        [
+          6725000,
+          21460300
+        ],
+        [
+          6774400,
+          21340900
+        ],
+        [
+          6865900,
+          21249400
+        ],
+        [
+          6985300,
+          21200000
+        ],
+        [
+          7114700,
+          21200000
+        ],
+        [
+          7234100,
+          21249400
+        ]
+      ]
+    },
+    {
+      "index": 50,
+      "sourceTrackId": "core/qspi-sd3:4",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8125000,
+          26814700
+        ],
+        [
+          8075600,
+          26934100
+        ],
+        [
+          7984100,
+          27025600
+        ],
+        [
+          7864700,
+          27075000
+        ],
+        [
+          7735300,
+          27075000
+        ],
+        [
+          7615900,
+          27025600
+        ],
+        [
+          7524400,
+          26934100
+        ],
+        [
+          7475000,
+          26814700
+        ],
+        [
+          7475000,
+          22210300
+        ],
+        [
+          7524400,
+          22090900
+        ],
+        [
+          7615900,
+          21999400
+        ],
+        [
+          7735300,
+          21950000
+        ],
+        [
+          7864700,
+          21950000
+        ],
+        [
+          7984100,
+          21999400
+        ],
+        [
+          8075600,
+          22090900
+        ],
+        [
+          8125000,
+          22210300
+        ]
+      ]
+    },
+    {
+      "index": 51,
+      "sourceTrackId": "core/qspi-sd3:5",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9875600,
+          28365900
+        ],
+        [
+          9925000,
+          28485300
+        ],
+        [
+          9925000,
+          28614700
+        ],
+        [
+          9875600,
+          28734100
+        ],
+        [
+          9784100,
+          28825600
+        ],
+        [
+          9664700,
+          28875000
+        ],
+        [
+          9535300,
+          28875000
+        ],
+        [
+          9415900,
+          28825600
+        ],
+        [
+          7524400,
+          26934100
+        ],
+        [
+          7475000,
+          26814700
+        ],
+        [
+          7475000,
+          26685300
+        ],
+        [
+          7524400,
+          26565900
+        ],
+        [
+          7615900,
+          26474400
+        ],
+        [
+          7735300,
+          26425000
+        ],
+        [
+          7864700,
+          26425000
+        ],
+        [
+          7984100,
+          26474400
+        ]
+      ]
+    },
+    {
+      "index": 52,
+      "sourceTrackId": "core/qspi-sd3:6",
+      "sourceRadiusNm": 325000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9925000,
+          29114700
+        ],
+        [
+          9875600,
+          29234100
+        ],
+        [
+          9784100,
+          29325600
+        ],
+        [
+          9664700,
+          29375000
+        ],
+        [
+          9535300,
+          29375000
+        ],
+        [
+          9415900,
+          29325600
+        ],
+        [
+          9324400,
+          29234100
+        ],
+        [
+          9275000,
+          29114700
+        ],
+        [
+          9275000,
+          28485300
+        ],
+        [
+          9324400,
+          28365900
+        ],
+        [
+          9415900,
+          28274400
+        ],
+        [
+          9535300,
+          28225000
+        ],
+        [
+          9664700,
+          28225000
+        ],
+        [
+          9784100,
+          28274400
+        ],
+        [
+          9875600,
+          28365900
+        ],
+        [
+          9925000,
+          28485300
+        ]
+      ]
+    },
+    {
+      "index": 53,
+      "sourceTrackId": "usb/dp-launch:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9800000,
+          27876000
+        ],
+        [
+          9952200,
+          27508500
+        ],
+        [
+          10233500,
+          27227200
+        ],
+        [
+          10601000,
+          27075000
+        ],
+        [
+          10999000,
+          27075000
+        ],
+        [
+          11366500,
+          27227200
+        ],
+        [
+          11647800,
+          27508500
+        ],
+        [
+          11800000,
+          27876000
+        ],
+        [
+          11800000,
+          29249000
+        ],
+        [
+          11647800,
+          29616500
+        ],
+        [
+          11366500,
+          29897800
+        ],
+        [
+          10999000,
+          30050000
+        ],
+        [
+          10601000,
+          30050000
+        ],
+        [
+          10233500,
+          29897800
+        ],
+        [
+          9952200,
+          29616500
+        ],
+        [
+          9800000,
+          29249000
+        ]
+      ]
+    },
+    {
+      "index": 54,
+      "sourceTrackId": "usb/dp-launch:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9377200,
+          28066500
+        ],
+        [
+          9225000,
+          27699000
+        ],
+        [
+          9225000,
+          27301000
+        ],
+        [
+          9377200,
+          26933500
+        ],
+        [
+          9658500,
+          26652200
+        ],
+        [
+          10026000,
+          26500000
+        ],
+        [
+          10424000,
+          26500000
+        ],
+        [
+          10791500,
+          26652200
+        ],
+        [
+          11647800,
+          27508500
+        ],
+        [
+          11800000,
+          27876000
+        ],
+        [
+          11800000,
+          28274000
+        ],
+        [
+          11647800,
+          28641500
+        ],
+        [
+          11366500,
+          28922800
+        ],
+        [
+          10999000,
+          29075000
+        ],
+        [
+          10601000,
+          29075000
+        ],
+        [
+          10233500,
+          28922800
+        ]
+      ]
+    },
+    {
+      "index": 55,
+      "sourceTrackId": "usb/dp-launch:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9826000,
+          28500000
+        ],
+        [
+          9458500,
+          28347800
+        ],
+        [
+          9177200,
+          28066500
+        ],
+        [
+          9025000,
+          27699000
+        ],
+        [
+          9025000,
+          27301000
+        ],
+        [
+          9177200,
+          26933500
+        ],
+        [
+          9458500,
+          26652200
+        ],
+        [
+          9826000,
+          26500000
+        ],
+        [
+          10424000,
+          26500000
+        ],
+        [
+          10791500,
+          26652200
+        ],
+        [
+          11072800,
+          26933500
+        ],
+        [
+          11225000,
+          27301000
+        ],
+        [
+          11225000,
+          27699000
+        ],
+        [
+          11072800,
+          28066500
+        ],
+        [
+          10791500,
+          28347800
+        ],
+        [
+          10424000,
+          28500000
+        ]
+      ]
+    },
+    {
+      "index": 56,
+      "sourceTrackId": "usb/dm-launch:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10200000,
+          27691000
+        ],
+        [
+          10352200,
+          27323500
+        ],
+        [
+          10633500,
+          27042200
+        ],
+        [
+          11001000,
+          26890000
+        ],
+        [
+          11399000,
+          26890000
+        ],
+        [
+          11766500,
+          27042200
+        ],
+        [
+          12047800,
+          27323500
+        ],
+        [
+          12200000,
+          27691000
+        ],
+        [
+          12200000,
+          29249000
+        ],
+        [
+          12047800,
+          29616500
+        ],
+        [
+          11766500,
+          29897800
+        ],
+        [
+          11399000,
+          30050000
+        ],
+        [
+          11001000,
+          30050000
+        ],
+        [
+          10633500,
+          29897800
+        ],
+        [
+          10352200,
+          29616500
+        ],
+        [
+          10200000,
+          29249000
+        ]
+      ]
+    },
+    {
+      "index": 57,
+      "sourceTrackId": "usb/dm-launch:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10137200,
+          28241500
+        ],
+        [
+          9985000,
+          27874000
+        ],
+        [
+          9985000,
+          27476000
+        ],
+        [
+          10137200,
+          27108500
+        ],
+        [
+          10418500,
+          26827200
+        ],
+        [
+          10786000,
+          26675000
+        ],
+        [
+          11184000,
+          26675000
+        ],
+        [
+          11551500,
+          26827200
+        ],
+        [
+          12047800,
+          27323500
+        ],
+        [
+          12200000,
+          27691000
+        ],
+        [
+          12200000,
+          28089000
+        ],
+        [
+          12047800,
+          28456500
+        ],
+        [
+          11766500,
+          28737800
+        ],
+        [
+          11399000,
+          28890000
+        ],
+        [
+          11001000,
+          28890000
+        ],
+        [
+          10633500,
+          28737800
+        ]
+      ]
+    },
+    {
+      "index": 58,
+      "sourceTrackId": "usb/dm-launch:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9985000,
+          27111000
+        ],
+        [
+          10137200,
+          26743500
+        ],
+        [
+          10418500,
+          26462200
+        ],
+        [
+          10786000,
+          26310000
+        ],
+        [
+          11184000,
+          26310000
+        ],
+        [
+          11551500,
+          26462200
+        ],
+        [
+          11832800,
+          26743500
+        ],
+        [
+          11985000,
+          27111000
+        ],
+        [
+          11985000,
+          27874000
+        ],
+        [
+          11832800,
+          28241500
+        ],
+        [
+          11551500,
+          28522800
+        ],
+        [
+          11184000,
+          28675000
+        ],
+        [
+          10786000,
+          28675000
+        ],
+        [
+          10418500,
+          28522800
+        ],
+        [
+          10137200,
+          28241500
+        ],
+        [
+          9985000,
+          27874000
+        ]
+      ]
+    },
+    {
+      "index": 59,
+      "sourceTrackId": "usb/dp-esd-fan:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9201000,
+          14137500
+        ],
+        [
+          8833500,
+          13985300
+        ],
+        [
+          8552200,
+          13704000
+        ],
+        [
+          8400000,
+          13336500
+        ],
+        [
+          8400000,
+          12938500
+        ],
+        [
+          8552200,
+          12571000
+        ],
+        [
+          8833500,
+          12289700
+        ],
+        [
+          9201000,
+          12137500
+        ],
+        [
+          10099000,
+          12137500
+        ],
+        [
+          10466500,
+          12289700
+        ],
+        [
+          10747800,
+          12571000
+        ],
+        [
+          10900000,
+          12938500
+        ],
+        [
+          10900000,
+          13336500
+        ],
+        [
+          10747800,
+          13704000
+        ],
+        [
+          10466500,
+          13985300
+        ],
+        [
+          10099000,
+          14137500
+        ]
+      ]
+    },
+    {
+      "index": 60,
+      "sourceTrackId": "usb/dp-esd-fan:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          9566500,
+          14385300
+        ],
+        [
+          9199000,
+          14537500
+        ],
+        [
+          8801000,
+          14537500
+        ],
+        [
+          8433500,
+          14385300
+        ],
+        [
+          8152200,
+          14104000
+        ],
+        [
+          8000000,
+          13736500
+        ],
+        [
+          8000000,
+          13338500
+        ],
+        [
+          8152200,
+          12971000
+        ],
+        [
+          8833500,
+          12289700
+        ],
+        [
+          9201000,
+          12137500
+        ],
+        [
+          9599000,
+          12137500
+        ],
+        [
+          9966500,
+          12289700
+        ],
+        [
+          10247800,
+          12571000
+        ],
+        [
+          10400000,
+          12938500
+        ],
+        [
+          10400000,
+          13336500
+        ],
+        [
+          10247800,
+          13704000
+        ]
+      ]
+    },
+    {
+      "index": 61,
+      "sourceTrackId": "usb/dp-esd-fan:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10000000,
+          13836500
+        ],
+        [
+          9847800,
+          14204000
+        ],
+        [
+          9566500,
+          14485300
+        ],
+        [
+          9199000,
+          14637500
+        ],
+        [
+          8801000,
+          14637500
+        ],
+        [
+          8433500,
+          14485300
+        ],
+        [
+          8152200,
+          14204000
+        ],
+        [
+          8000000,
+          13836500
+        ],
+        [
+          8000000,
+          13338500
+        ],
+        [
+          8152200,
+          12971000
+        ],
+        [
+          8433500,
+          12689700
+        ],
+        [
+          8801000,
+          12537500
+        ],
+        [
+          9199000,
+          12537500
+        ],
+        [
+          9566500,
+          12689700
+        ],
+        [
+          9847800,
+          12971000
+        ],
+        [
+          10000000,
+          13338500
+        ]
+      ]
+    },
+    {
+      "index": 62,
+      "sourceTrackId": "usb/dp-esd-fan:3",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10617800,
+          13841000
+        ],
+        [
+          10770000,
+          14208500
+        ],
+        [
+          10770000,
+          14606500
+        ],
+        [
+          10617800,
+          14974000
+        ],
+        [
+          10336500,
+          15255300
+        ],
+        [
+          9969000,
+          15407500
+        ],
+        [
+          9571000,
+          15407500
+        ],
+        [
+          9203500,
+          15255300
+        ],
+        [
+          8152200,
+          14204000
+        ],
+        [
+          8000000,
+          13836500
+        ],
+        [
+          8000000,
+          13438500
+        ],
+        [
+          8152200,
+          13071000
+        ],
+        [
+          8433500,
+          12789700
+        ],
+        [
+          8801000,
+          12637500
+        ],
+        [
+          9199000,
+          12637500
+        ],
+        [
+          9566500,
+          12789700
+        ]
+      ]
+    },
+    {
+      "index": 63,
+      "sourceTrackId": "usb/dp-esd-fan:4",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10770000,
+          14706500
+        ],
+        [
+          10617800,
+          15074000
+        ],
+        [
+          10336500,
+          15355300
+        ],
+        [
+          9969000,
+          15507500
+        ],
+        [
+          9571000,
+          15507500
+        ],
+        [
+          9203500,
+          15355300
+        ],
+        [
+          8922200,
+          15074000
+        ],
+        [
+          8770000,
+          14706500
+        ],
+        [
+          8770000,
+          14208500
+        ],
+        [
+          8922200,
+          13841000
+        ],
+        [
+          9203500,
+          13559700
+        ],
+        [
+          9571000,
+          13407500
+        ],
+        [
+          9969000,
+          13407500
+        ],
+        [
+          10336500,
+          13559700
+        ],
+        [
+          10617800,
+          13841000
+        ],
+        [
+          10770000,
+          14208500
+        ]
+      ]
+    },
+    {
+      "index": 64,
+      "sourceTrackId": "usb/dm-esd-fan:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12800000,
+          14199000
+        ],
+        [
+          12647800,
+          14566500
+        ],
+        [
+          12366500,
+          14847800
+        ],
+        [
+          11999000,
+          15000000
+        ],
+        [
+          11601000,
+          15000000
+        ],
+        [
+          11233500,
+          14847800
+        ],
+        [
+          10952200,
+          14566500
+        ],
+        [
+          10800000,
+          14199000
+        ],
+        [
+          10800000,
+          12938500
+        ],
+        [
+          10952200,
+          12571000
+        ],
+        [
+          11233500,
+          12289700
+        ],
+        [
+          11601000,
+          12137500
+        ],
+        [
+          11999000,
+          12137500
+        ],
+        [
+          12366500,
+          12289700
+        ],
+        [
+          12647800,
+          12571000
+        ],
+        [
+          12800000,
+          12938500
+        ]
+      ]
+    },
+    {
+      "index": 65,
+      "sourceTrackId": "usb/dm-esd-fan:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11356500,
+          15857800
+        ],
+        [
+          10989000,
+          16010000
+        ],
+        [
+          10591000,
+          16010000
+        ],
+        [
+          10223500,
+          15857800
+        ],
+        [
+          9942200,
+          15576500
+        ],
+        [
+          9790000,
+          15209000
+        ],
+        [
+          9790000,
+          14811000
+        ],
+        [
+          9942200,
+          14443500
+        ],
+        [
+          11233500,
+          13152200
+        ],
+        [
+          11601000,
+          13000000
+        ],
+        [
+          11999000,
+          13000000
+        ],
+        [
+          12366500,
+          13152200
+        ],
+        [
+          12647800,
+          13433500
+        ],
+        [
+          12800000,
+          13801000
+        ],
+        [
+          12800000,
+          14199000
+        ],
+        [
+          12647800,
+          14566500
+        ]
+      ]
+    },
+    {
+      "index": 66,
+      "sourceTrackId": "usb/dm-esd-fan:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11790000,
+          15399000
+        ],
+        [
+          11637800,
+          15766500
+        ],
+        [
+          11356500,
+          16047800
+        ],
+        [
+          10989000,
+          16200000
+        ],
+        [
+          10591000,
+          16200000
+        ],
+        [
+          10223500,
+          16047800
+        ],
+        [
+          9942200,
+          15766500
+        ],
+        [
+          9790000,
+          15399000
+        ],
+        [
+          9790000,
+          14811000
+        ],
+        [
+          9942200,
+          14443500
+        ],
+        [
+          10223500,
+          14162200
+        ],
+        [
+          10591000,
+          14010000
+        ],
+        [
+          10989000,
+          14010000
+        ],
+        [
+          11356500,
+          14162200
+        ],
+        [
+          11637800,
+          14443500
+        ],
+        [
+          11790000,
+          14811000
+        ]
+      ]
+    },
+    {
+      "index": 67,
+      "sourceTrackId": "usb/dp-esd-body:0",
+      "sourceRadiusNm": 1310000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11080000,
+          24960600
+        ],
+        [
+          10880600,
+          25442100
+        ],
+        [
+          10512100,
+          25810600
+        ],
+        [
+          10030600,
+          26010000
+        ],
+        [
+          9509400,
+          26010000
+        ],
+        [
+          9027900,
+          25810600
+        ],
+        [
+          8659400,
+          25442100
+        ],
+        [
+          8460000,
+          24960600
+        ],
+        [
+          8460000,
+          14246900
+        ],
+        [
+          8659400,
+          13765400
+        ],
+        [
+          9027900,
+          13396900
+        ],
+        [
+          9509400,
+          13197500
+        ],
+        [
+          10030600,
+          13197500
+        ],
+        [
+          10512100,
+          13396900
+        ],
+        [
+          10880600,
+          13765400
+        ],
+        [
+          11080000,
+          14246900
+        ]
+      ]
+    },
+    {
+      "index": 68,
+      "sourceTrackId": "usb/dm-esd-body:0",
+      "sourceRadiusNm": 1310000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12100000,
+          24960600
+        ],
+        [
+          11900600,
+          25442100
+        ],
+        [
+          11532100,
+          25810600
+        ],
+        [
+          11050600,
+          26010000
+        ],
+        [
+          10529400,
+          26010000
+        ],
+        [
+          10047900,
+          25810600
+        ],
+        [
+          9679400,
+          25442100
+        ],
+        [
+          9480000,
+          24960600
+        ],
+        [
+          9480000,
+          14939400
+        ],
+        [
+          9679400,
+          14457900
+        ],
+        [
+          10047900,
+          14089400
+        ],
+        [
+          10529400,
+          13890000
+        ],
+        [
+          11050600,
+          13890000
+        ],
+        [
+          11532100,
+          14089400
+        ],
+        [
+          11900600,
+          14457900
+        ],
+        [
+          12100000,
+          14939400
+        ]
+      ]
+    },
+    {
+      "index": 69,
+      "sourceTrackId": "usb/dp-resistor-entry:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10770000,
+          25299000
+        ],
+        [
+          10617800,
+          25666500
+        ],
+        [
+          10336500,
+          25947800
+        ],
+        [
+          9969000,
+          26100000
+        ],
+        [
+          9571000,
+          26100000
+        ],
+        [
+          9203500,
+          25947800
+        ],
+        [
+          8922200,
+          25666500
+        ],
+        [
+          8770000,
+          25299000
+        ],
+        [
+          8770000,
+          24501000
+        ],
+        [
+          8922200,
+          24133500
+        ],
+        [
+          9203500,
+          23852200
+        ],
+        [
+          9571000,
+          23700000
+        ],
+        [
+          9969000,
+          23700000
+        ],
+        [
+          10336500,
+          23852200
+        ],
+        [
+          10617800,
+          24133500
+        ],
+        [
+          10770000,
+          24501000
+        ]
+      ]
+    },
+    {
+      "index": 70,
+      "sourceTrackId": "usb/dp-resistor-entry:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10872800,
+          24788500
+        ],
+        [
+          11025000,
+          25156000
+        ],
+        [
+          11025000,
+          25554000
+        ],
+        [
+          10872800,
+          25921500
+        ],
+        [
+          10591500,
+          26202800
+        ],
+        [
+          10224000,
+          26355000
+        ],
+        [
+          9826000,
+          26355000
+        ],
+        [
+          9458500,
+          26202800
+        ],
+        [
+          8922200,
+          25666500
+        ],
+        [
+          8770000,
+          25299000
+        ],
+        [
+          8770000,
+          24901000
+        ],
+        [
+          8922200,
+          24533500
+        ],
+        [
+          9203500,
+          24252200
+        ],
+        [
+          9571000,
+          24100000
+        ],
+        [
+          9969000,
+          24100000
+        ],
+        [
+          10336500,
+          24252200
+        ]
+      ]
+    },
+    {
+      "index": 71,
+      "sourceTrackId": "usb/dp-resistor-entry:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11025000,
+          26679000
+        ],
+        [
+          10872800,
+          27046500
+        ],
+        [
+          10591500,
+          27327800
+        ],
+        [
+          10224000,
+          27480000
+        ],
+        [
+          9826000,
+          27480000
+        ],
+        [
+          9458500,
+          27327800
+        ],
+        [
+          9177200,
+          27046500
+        ],
+        [
+          9025000,
+          26679000
+        ],
+        [
+          9025000,
+          25156000
+        ],
+        [
+          9177200,
+          24788500
+        ],
+        [
+          9458500,
+          24507200
+        ],
+        [
+          9826000,
+          24355000
+        ],
+        [
+          10224000,
+          24355000
+        ],
+        [
+          10591500,
+          24507200
+        ],
+        [
+          10872800,
+          24788500
+        ],
+        [
+          11025000,
+          25156000
+        ]
+      ]
+    },
+    {
+      "index": 72,
+      "sourceTrackId": "usb/dm-resistor-entry:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11790000,
+          25699000
+        ],
+        [
+          11637800,
+          26066500
+        ],
+        [
+          11356500,
+          26347800
+        ],
+        [
+          10989000,
+          26500000
+        ],
+        [
+          10591000,
+          26500000
+        ],
+        [
+          10223500,
+          26347800
+        ],
+        [
+          9942200,
+          26066500
+        ],
+        [
+          9790000,
+          25699000
+        ],
+        [
+          9790000,
+          24501000
+        ],
+        [
+          9942200,
+          24133500
+        ],
+        [
+          10223500,
+          23852200
+        ],
+        [
+          10591000,
+          23700000
+        ],
+        [
+          10989000,
+          23700000
+        ],
+        [
+          11356500,
+          23852200
+        ],
+        [
+          11637800,
+          24133500
+        ],
+        [
+          11790000,
+          24501000
+        ]
+      ]
+    },
+    {
+      "index": 73,
+      "sourceTrackId": "usb/dm-resistor-entry:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11832800,
+          25128500
+        ],
+        [
+          11985000,
+          25496000
+        ],
+        [
+          11985000,
+          25894000
+        ],
+        [
+          11832800,
+          26261500
+        ],
+        [
+          11551500,
+          26542800
+        ],
+        [
+          11184000,
+          26695000
+        ],
+        [
+          10786000,
+          26695000
+        ],
+        [
+          10418500,
+          26542800
+        ],
+        [
+          9942200,
+          26066500
+        ],
+        [
+          9790000,
+          25699000
+        ],
+        [
+          9790000,
+          25301000
+        ],
+        [
+          9942200,
+          24933500
+        ],
+        [
+          10223500,
+          24652200
+        ],
+        [
+          10591000,
+          24500000
+        ],
+        [
+          10989000,
+          24500000
+        ],
+        [
+          11356500,
+          24652200
+        ]
+      ]
+    },
+    {
+      "index": 74,
+      "sourceTrackId": "usb/dm-resistor-entry:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11985000,
+          26489000
+        ],
+        [
+          11832800,
+          26856500
+        ],
+        [
+          11551500,
+          27137800
+        ],
+        [
+          11184000,
+          27290000
+        ],
+        [
+          10786000,
+          27290000
+        ],
+        [
+          10418500,
+          27137800
+        ],
+        [
+          10137200,
+          26856500
+        ],
+        [
+          9985000,
+          26489000
+        ],
+        [
+          9985000,
+          25496000
+        ],
+        [
+          10137200,
+          25128500
+        ],
+        [
+          10418500,
+          24847200
+        ],
+        [
+          10786000,
+          24695000
+        ],
+        [
+          11184000,
+          24695000
+        ],
+        [
+          11551500,
+          24847200
+        ],
+        [
+          11832800,
+          25128500
+        ],
+        [
+          11985000,
+          25496000
+        ]
+      ]
+    },
+    {
+      "index": 75,
+      "sourceTrackId": "usb/dp-port-b6:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11250000,
+          9899000
+        ],
+        [
+          11097800,
+          10266500
+        ],
+        [
+          10816500,
+          10547800
+        ],
+        [
+          10449000,
+          10700000
+        ],
+        [
+          10051000,
+          10700000
+        ],
+        [
+          9683500,
+          10547800
+        ],
+        [
+          9402200,
+          10266500
+        ],
+        [
+          9250000,
+          9899000
+        ],
+        [
+          9250000,
+          8456000
+        ],
+        [
+          9402200,
+          8088500
+        ],
+        [
+          9683500,
+          7807200
+        ],
+        [
+          10051000,
+          7655000
+        ],
+        [
+          10449000,
+          7655000
+        ],
+        [
+          10816500,
+          7807200
+        ],
+        [
+          11097800,
+          8088500
+        ],
+        [
+          11250000,
+          8456000
+        ]
+      ]
+    },
+    {
+      "index": 76,
+      "sourceTrackId": "usb/dp-port-b6:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10256500,
+          11107800
+        ],
+        [
+          9889000,
+          11260000
+        ],
+        [
+          9491000,
+          11260000
+        ],
+        [
+          9123500,
+          11107800
+        ],
+        [
+          8842200,
+          10826500
+        ],
+        [
+          8690000,
+          10459000
+        ],
+        [
+          8690000,
+          10061000
+        ],
+        [
+          8842200,
+          9693500
+        ],
+        [
+          9683500,
+          8852200
+        ],
+        [
+          10051000,
+          8700000
+        ],
+        [
+          10449000,
+          8700000
+        ],
+        [
+          10816500,
+          8852200
+        ],
+        [
+          11097800,
+          9133500
+        ],
+        [
+          11250000,
+          9501000
+        ],
+        [
+          11250000,
+          9899000
+        ],
+        [
+          11097800,
+          10266500
+        ]
+      ]
+    },
+    {
+      "index": 77,
+      "sourceTrackId": "usb/dp-port-b6:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10690000,
+          10989000
+        ],
+        [
+          10537800,
+          11356500
+        ],
+        [
+          10256500,
+          11637800
+        ],
+        [
+          9889000,
+          11790000
+        ],
+        [
+          9491000,
+          11790000
+        ],
+        [
+          9123500,
+          11637800
+        ],
+        [
+          8842200,
+          11356500
+        ],
+        [
+          8690000,
+          10989000
+        ],
+        [
+          8690000,
+          10061000
+        ],
+        [
+          8842200,
+          9693500
+        ],
+        [
+          9123500,
+          9412200
+        ],
+        [
+          9491000,
+          9260000
+        ],
+        [
+          9889000,
+          9260000
+        ],
+        [
+          10256500,
+          9412200
+        ],
+        [
+          10537800,
+          9693500
+        ],
+        [
+          10690000,
+          10061000
+        ]
+      ]
+    },
+    {
+      "index": 78,
+      "sourceTrackId": "usb/dp-port-b6:3",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10610300,
+          10296000
+        ],
+        [
+          10762500,
+          10663500
+        ],
+        [
+          10762500,
+          11061500
+        ],
+        [
+          10610300,
+          11429000
+        ],
+        [
+          10329000,
+          11710300
+        ],
+        [
+          9961500,
+          11862500
+        ],
+        [
+          9563500,
+          11862500
+        ],
+        [
+          9196000,
+          11710300
+        ],
+        [
+          8842200,
+          11356500
+        ],
+        [
+          8690000,
+          10989000
+        ],
+        [
+          8690000,
+          10591000
+        ],
+        [
+          8842200,
+          10223500
+        ],
+        [
+          9123500,
+          9942200
+        ],
+        [
+          9491000,
+          9790000
+        ],
+        [
+          9889000,
+          9790000
+        ],
+        [
+          10256500,
+          9942200
+        ]
+      ]
+    },
+    {
+      "index": 79,
+      "sourceTrackId": "usb/dp-port-b6:4",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10099000,
+          9862500
+        ],
+        [
+          10466500,
+          10014700
+        ],
+        [
+          10747800,
+          10296000
+        ],
+        [
+          10900000,
+          10663500
+        ],
+        [
+          10900000,
+          11061500
+        ],
+        [
+          10747800,
+          11429000
+        ],
+        [
+          10466500,
+          11710300
+        ],
+        [
+          10099000,
+          11862500
+        ],
+        [
+          9563500,
+          11862500
+        ],
+        [
+          9196000,
+          11710300
+        ],
+        [
+          8914700,
+          11429000
+        ],
+        [
+          8762500,
+          11061500
+        ],
+        [
+          8762500,
+          10663500
+        ],
+        [
+          8914700,
+          10296000
+        ],
+        [
+          9196000,
+          10014700
+        ],
+        [
+          9563500,
+          9862500
+        ]
+      ]
+    },
+    {
+      "index": 80,
+      "sourceTrackId": "usb/dp-port-a6:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12250000,
+          9499000
+        ],
+        [
+          12097800,
+          9866500
+        ],
+        [
+          11816500,
+          10147800
+        ],
+        [
+          11449000,
+          10300000
+        ],
+        [
+          11051000,
+          10300000
+        ],
+        [
+          10683500,
+          10147800
+        ],
+        [
+          10402200,
+          9866500
+        ],
+        [
+          10250000,
+          9499000
+        ],
+        [
+          10250000,
+          8456000
+        ],
+        [
+          10402200,
+          8088500
+        ],
+        [
+          10683500,
+          7807200
+        ],
+        [
+          11051000,
+          7655000
+        ],
+        [
+          11449000,
+          7655000
+        ],
+        [
+          11816500,
+          7807200
+        ],
+        [
+          12097800,
+          8088500
+        ],
+        [
+          12250000,
+          8456000
+        ]
+      ]
+    },
+    {
+      "index": 81,
+      "sourceTrackId": "usb/dp-port-a6:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12197800,
+          8833500
+        ],
+        [
+          12350000,
+          9201000
+        ],
+        [
+          12350000,
+          9599000
+        ],
+        [
+          12197800,
+          9966500
+        ],
+        [
+          11916500,
+          10247800
+        ],
+        [
+          11549000,
+          10400000
+        ],
+        [
+          11151000,
+          10400000
+        ],
+        [
+          10783500,
+          10247800
+        ],
+        [
+          10402200,
+          9866500
+        ],
+        [
+          10250000,
+          9499000
+        ],
+        [
+          10250000,
+          9101000
+        ],
+        [
+          10402200,
+          8733500
+        ],
+        [
+          10683500,
+          8452200
+        ],
+        [
+          11051000,
+          8300000
+        ],
+        [
+          11449000,
+          8300000
+        ],
+        [
+          11816500,
+          8452200
+        ]
+      ]
+    },
+    {
+      "index": 82,
+      "sourceTrackId": "usb/dp-port-a6:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12350000,
+          9899000
+        ],
+        [
+          12197800,
+          10266500
+        ],
+        [
+          11916500,
+          10547800
+        ],
+        [
+          11549000,
+          10700000
+        ],
+        [
+          11151000,
+          10700000
+        ],
+        [
+          10783500,
+          10547800
+        ],
+        [
+          10502200,
+          10266500
+        ],
+        [
+          10350000,
+          9899000
+        ],
+        [
+          10350000,
+          9201000
+        ],
+        [
+          10502200,
+          8833500
+        ],
+        [
+          10783500,
+          8552200
+        ],
+        [
+          11151000,
+          8400000
+        ],
+        [
+          11549000,
+          8400000
+        ],
+        [
+          11916500,
+          8552200
+        ],
+        [
+          12197800,
+          8833500
+        ],
+        [
+          12350000,
+          9201000
+        ]
+      ]
+    },
+    {
+      "index": 83,
+      "sourceTrackId": "usb/dp-port-a6:3",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11736500,
+          10727800
+        ],
+        [
+          11369000,
+          10880000
+        ],
+        [
+          10971000,
+          10880000
+        ],
+        [
+          10603500,
+          10727800
+        ],
+        [
+          10322200,
+          10446500
+        ],
+        [
+          10170000,
+          10079000
+        ],
+        [
+          10170000,
+          9681000
+        ],
+        [
+          10322200,
+          9313500
+        ],
+        [
+          10783500,
+          8852200
+        ],
+        [
+          11151000,
+          8700000
+        ],
+        [
+          11549000,
+          8700000
+        ],
+        [
+          11916500,
+          8852200
+        ],
+        [
+          12197800,
+          9133500
+        ],
+        [
+          12350000,
+          9501000
+        ],
+        [
+          12350000,
+          9899000
+        ],
+        [
+          12197800,
+          10266500
+        ]
+      ]
+    },
+    {
+      "index": 84,
+      "sourceTrackId": "usb/dp-port-a6:4",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10251000,
+          10880000
+        ],
+        [
+          9883500,
+          10727800
+        ],
+        [
+          9602200,
+          10446500
+        ],
+        [
+          9450000,
+          10079000
+        ],
+        [
+          9450000,
+          9681000
+        ],
+        [
+          9602200,
+          9313500
+        ],
+        [
+          9883500,
+          9032200
+        ],
+        [
+          10251000,
+          8880000
+        ],
+        [
+          11369000,
+          8880000
+        ],
+        [
+          11736500,
+          9032200
+        ],
+        [
+          12017800,
+          9313500
+        ],
+        [
+          12170000,
+          9681000
+        ],
+        [
+          12170000,
+          10079000
+        ],
+        [
+          12017800,
+          10446500
+        ],
+        [
+          11736500,
+          10727800
+        ],
+        [
+          11369000,
+          10880000
+        ]
+      ]
+    },
+    {
+      "index": 85,
+      "sourceTrackId": "usb/dp-port-a6:5",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10816500,
+          10927800
+        ],
+        [
+          10449000,
+          11080000
+        ],
+        [
+          10051000,
+          11080000
+        ],
+        [
+          9683500,
+          10927800
+        ],
+        [
+          9402200,
+          10646500
+        ],
+        [
+          9250000,
+          10279000
+        ],
+        [
+          9250000,
+          9881000
+        ],
+        [
+          9402200,
+          9513500
+        ],
+        [
+          9883500,
+          9032200
+        ],
+        [
+          10251000,
+          8880000
+        ],
+        [
+          10649000,
+          8880000
+        ],
+        [
+          11016500,
+          9032200
+        ],
+        [
+          11297800,
+          9313500
+        ],
+        [
+          11450000,
+          9681000
+        ],
+        [
+          11450000,
+          10079000
+        ],
+        [
+          11297800,
+          10446500
+        ]
+      ]
+    },
+    {
+      "index": 86,
+      "sourceTrackId": "usb/dp-port-a6:6",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11250000,
+          10711500
+        ],
+        [
+          11097800,
+          11079000
+        ],
+        [
+          10816500,
+          11360300
+        ],
+        [
+          10449000,
+          11512500
+        ],
+        [
+          10051000,
+          11512500
+        ],
+        [
+          9683500,
+          11360300
+        ],
+        [
+          9402200,
+          11079000
+        ],
+        [
+          9250000,
+          10711500
+        ],
+        [
+          9250000,
+          9881000
+        ],
+        [
+          9402200,
+          9513500
+        ],
+        [
+          9683500,
+          9232200
+        ],
+        [
+          10051000,
+          9080000
+        ],
+        [
+          10449000,
+          9080000
+        ],
+        [
+          10816500,
+          9232200
+        ],
+        [
+          11097800,
+          9513500
+        ],
+        [
+          11250000,
+          9881000
+        ]
+      ]
+    },
+    {
+      "index": 87,
+      "sourceTrackId": "usb/dp-port-a6:7",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10466500,
+          11710300
+        ],
+        [
+          10099000,
+          11862500
+        ],
+        [
+          9701000,
+          11862500
+        ],
+        [
+          9333500,
+          11710300
+        ],
+        [
+          9052200,
+          11429000
+        ],
+        [
+          8900000,
+          11061500
+        ],
+        [
+          8900000,
+          10663500
+        ],
+        [
+          9052200,
+          10296000
+        ],
+        [
+          9683500,
+          9664700
+        ],
+        [
+          10051000,
+          9512500
+        ],
+        [
+          10449000,
+          9512500
+        ],
+        [
+          10816500,
+          9664700
+        ],
+        [
+          11097800,
+          9946000
+        ],
+        [
+          11250000,
+          10313500
+        ],
+        [
+          11250000,
+          10711500
+        ],
+        [
+          11097800,
+          11079000
+        ]
+      ]
+    },
+    {
+      "index": 88,
+      "sourceTrackId": "usb/dm-port-b7:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12750000,
+          9949000
+        ],
+        [
+          12597800,
+          10316500
+        ],
+        [
+          12316500,
+          10597800
+        ],
+        [
+          11949000,
+          10750000
+        ],
+        [
+          11551000,
+          10750000
+        ],
+        [
+          11183500,
+          10597800
+        ],
+        [
+          10902200,
+          10316500
+        ],
+        [
+          10750000,
+          9949000
+        ],
+        [
+          10750000,
+          8456000
+        ],
+        [
+          10902200,
+          8088500
+        ],
+        [
+          11183500,
+          7807200
+        ],
+        [
+          11551000,
+          7655000
+        ],
+        [
+          11949000,
+          7655000
+        ],
+        [
+          12316500,
+          7807200
+        ],
+        [
+          12597800,
+          8088500
+        ],
+        [
+          12750000,
+          8456000
+        ]
+      ]
+    },
+    {
+      "index": 89,
+      "sourceTrackId": "usb/dm-port-b7:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13047800,
+          9633500
+        ],
+        [
+          13200000,
+          10001000
+        ],
+        [
+          13200000,
+          10399000
+        ],
+        [
+          13047800,
+          10766500
+        ],
+        [
+          12766500,
+          11047800
+        ],
+        [
+          12399000,
+          11200000
+        ],
+        [
+          12001000,
+          11200000
+        ],
+        [
+          11633500,
+          11047800
+        ],
+        [
+          10902200,
+          10316500
+        ],
+        [
+          10750000,
+          9949000
+        ],
+        [
+          10750000,
+          9551000
+        ],
+        [
+          10902200,
+          9183500
+        ],
+        [
+          11183500,
+          8902200
+        ],
+        [
+          11551000,
+          8750000
+        ],
+        [
+          11949000,
+          8750000
+        ],
+        [
+          12316500,
+          8902200
+        ]
+      ]
+    },
+    {
+      "index": 90,
+      "sourceTrackId": "usb/dm-port-b7:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13200000,
+          10661500
+        ],
+        [
+          13047800,
+          11029000
+        ],
+        [
+          12766500,
+          11310300
+        ],
+        [
+          12399000,
+          11462500
+        ],
+        [
+          12001000,
+          11462500
+        ],
+        [
+          11633500,
+          11310300
+        ],
+        [
+          11352200,
+          11029000
+        ],
+        [
+          11200000,
+          10661500
+        ],
+        [
+          11200000,
+          10001000
+        ],
+        [
+          11352200,
+          9633500
+        ],
+        [
+          11633500,
+          9352200
+        ],
+        [
+          12001000,
+          9200000
+        ],
+        [
+          12399000,
+          9200000
+        ],
+        [
+          12766500,
+          9352200
+        ],
+        [
+          13047800,
+          9633500
+        ],
+        [
+          13200000,
+          10001000
+        ]
+      ]
+    },
+    {
+      "index": 91,
+      "sourceTrackId": "usb/dm-port-b7:3",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12366500,
+          11710300
+        ],
+        [
+          11999000,
+          11862500
+        ],
+        [
+          11601000,
+          11862500
+        ],
+        [
+          11233500,
+          11710300
+        ],
+        [
+          10952200,
+          11429000
+        ],
+        [
+          10800000,
+          11061500
+        ],
+        [
+          10800000,
+          10663500
+        ],
+        [
+          10952200,
+          10296000
+        ],
+        [
+          11633500,
+          9614700
+        ],
+        [
+          12001000,
+          9462500
+        ],
+        [
+          12399000,
+          9462500
+        ],
+        [
+          12766500,
+          9614700
+        ],
+        [
+          13047800,
+          9896000
+        ],
+        [
+          13200000,
+          10263500
+        ],
+        [
+          13200000,
+          10661500
+        ],
+        [
+          13047800,
+          11029000
+        ]
+      ]
+    },
+    {
+      "index": 92,
+      "sourceTrackId": "usb/dm-port-a7-tie:0",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10750000,
+          7836000
+        ],
+        [
+          10902200,
+          7468500
+        ],
+        [
+          11183500,
+          7187200
+        ],
+        [
+          11551000,
+          7035000
+        ],
+        [
+          11949000,
+          7035000
+        ],
+        [
+          12316500,
+          7187200
+        ],
+        [
+          12597800,
+          7468500
+        ],
+        [
+          12750000,
+          7836000
+        ],
+        [
+          12750000,
+          8854000
+        ],
+        [
+          12597800,
+          9221500
+        ],
+        [
+          12316500,
+          9502800
+        ],
+        [
+          11949000,
+          9655000
+        ],
+        [
+          11551000,
+          9655000
+        ],
+        [
+          11183500,
+          9502800
+        ],
+        [
+          10902200,
+          9221500
+        ],
+        [
+          10750000,
+          8854000
+        ]
+      ]
+    },
+    {
+      "index": 93,
+      "sourceTrackId": "usb/dm-port-a7-tie:1",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10622200,
+          8321500
+        ],
+        [
+          10470000,
+          7954000
+        ],
+        [
+          10470000,
+          7556000
+        ],
+        [
+          10622200,
+          7188500
+        ],
+        [
+          10903500,
+          6907200
+        ],
+        [
+          11271000,
+          6755000
+        ],
+        [
+          11669000,
+          6755000
+        ],
+        [
+          12036500,
+          6907200
+        ],
+        [
+          12597800,
+          7468500
+        ],
+        [
+          12750000,
+          7836000
+        ],
+        [
+          12750000,
+          8234000
+        ],
+        [
+          12597800,
+          8601500
+        ],
+        [
+          12316500,
+          8882800
+        ],
+        [
+          11949000,
+          9035000
+        ],
+        [
+          11551000,
+          9035000
+        ],
+        [
+          11183500,
+          8882800
+        ]
+      ]
+    },
+    {
+      "index": 94,
+      "sourceTrackId": "usb/dm-port-a7-tie:2",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          10831000,
+          8755000
+        ],
+        [
+          10463500,
+          8602800
+        ],
+        [
+          10182200,
+          8321500
+        ],
+        [
+          10030000,
+          7954000
+        ],
+        [
+          10030000,
+          7556000
+        ],
+        [
+          10182200,
+          7188500
+        ],
+        [
+          10463500,
+          6907200
+        ],
+        [
+          10831000,
+          6755000
+        ],
+        [
+          11669000,
+          6755000
+        ],
+        [
+          12036500,
+          6907200
+        ],
+        [
+          12317800,
+          7188500
+        ],
+        [
+          12470000,
+          7556000
+        ],
+        [
+          12470000,
+          7954000
+        ],
+        [
+          12317800,
+          8321500
+        ],
+        [
+          12036500,
+          8602800
+        ],
+        [
+          11669000,
+          8755000
+        ]
+      ]
+    },
+    {
+      "index": 95,
+      "sourceTrackId": "usb/dm-port-a7-tie:3",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11316500,
+          8882800
+        ],
+        [
+          10949000,
+          9035000
+        ],
+        [
+          10551000,
+          9035000
+        ],
+        [
+          10183500,
+          8882800
+        ],
+        [
+          9902200,
+          8601500
+        ],
+        [
+          9750000,
+          8234000
+        ],
+        [
+          9750000,
+          7836000
+        ],
+        [
+          9902200,
+          7468500
+        ],
+        [
+          10463500,
+          6907200
+        ],
+        [
+          10831000,
+          6755000
+        ],
+        [
+          11229000,
+          6755000
+        ],
+        [
+          11596500,
+          6907200
+        ],
+        [
+          11877800,
+          7188500
+        ],
+        [
+          12030000,
+          7556000
+        ],
+        [
+          12030000,
+          7954000
+        ],
+        [
+          11877800,
+          8321500
+        ]
+      ]
+    },
+    {
+      "index": 96,
+      "sourceTrackId": "usb/dm-port-a7-tie:4",
+      "sourceRadiusNm": 1000000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11750000,
+          8854000
+        ],
+        [
+          11597800,
+          9221500
+        ],
+        [
+          11316500,
+          9502800
+        ],
+        [
+          10949000,
+          9655000
+        ],
+        [
+          10551000,
+          9655000
+        ],
+        [
+          10183500,
+          9502800
+        ],
+        [
+          9902200,
+          9221500
+        ],
+        [
+          9750000,
+          8854000
+        ],
+        [
+          9750000,
+          7836000
+        ],
+        [
+          9902200,
+          7468500
+        ],
+        [
+          10183500,
+          7187200
+        ],
+        [
+          10551000,
+          7035000
+        ],
+        [
+          10949000,
+          7035000
+        ],
+        [
+          11316500,
+          7187200
+        ],
+        [
+          11597800,
+          7468500
+        ],
+        [
+          11750000,
+          7836000
+        ]
+      ]
+    },
+    {
+      "index": 97,
+      "sourceTrackId": "swd-clk-hdr:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13148300,
+          40856800
+        ],
+        [
+          13019700,
+          40910000
+        ],
+        [
+          12880300,
+          40910000
+        ],
+        [
+          12751700,
+          40856800
+        ],
+        [
+          12653200,
+          40758300
+        ],
+        [
+          12600000,
+          40629700
+        ],
+        [
+          12600000,
+          40490300
+        ],
+        [
+          12653200,
+          40361700
+        ],
+        [
+          13101700,
+          39913200
+        ],
+        [
+          13230300,
+          39860000
+        ],
+        [
+          13369700,
+          39860000
+        ],
+        [
+          13498300,
+          39913200
+        ],
+        [
+          13596800,
+          40011700
+        ],
+        [
+          13650000,
+          40140300
+        ],
+        [
+          13650000,
+          40279700
+        ],
+        [
+          13596800,
+          40408300
+        ]
+      ]
+    },
+    {
+      "index": 98,
+      "sourceTrackId": "swd-clk-hdr:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13300000,
+          41619700
+        ],
+        [
+          13246800,
+          41748300
+        ],
+        [
+          13148300,
+          41846800
+        ],
+        [
+          13019700,
+          41900000
+        ],
+        [
+          12880300,
+          41900000
+        ],
+        [
+          12751700,
+          41846800
+        ],
+        [
+          12653200,
+          41748300
+        ],
+        [
+          12600000,
+          41619700
+        ],
+        [
+          12600000,
+          40490300
+        ],
+        [
+          12653200,
+          40361700
+        ],
+        [
+          12751700,
+          40263200
+        ],
+        [
+          12880300,
+          40210000
+        ],
+        [
+          13019700,
+          40210000
+        ],
+        [
+          13148300,
+          40263200
+        ],
+        [
+          13246800,
+          40361700
+        ],
+        [
+          13300000,
+          40490300
+        ]
+      ]
+    },
+    {
+      "index": 99,
+      "sourceTrackId": "swd-clk-hdr:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12748300,
+          42246800
+        ],
+        [
+          12619700,
+          42300000
+        ],
+        [
+          12480300,
+          42300000
+        ],
+        [
+          12351700,
+          42246800
+        ],
+        [
+          12253200,
+          42148300
+        ],
+        [
+          12200000,
+          42019700
+        ],
+        [
+          12200000,
+          41880300
+        ],
+        [
+          12253200,
+          41751700
+        ],
+        [
+          12751700,
+          41253200
+        ],
+        [
+          12880300,
+          41200000
+        ],
+        [
+          13019700,
+          41200000
+        ],
+        [
+          13148300,
+          41253200
+        ],
+        [
+          13246800,
+          41351700
+        ],
+        [
+          13300000,
+          41480300
+        ],
+        [
+          13300000,
+          41619700
+        ],
+        [
+          13246800,
+          41748300
+        ]
+      ]
+    },
+    {
+      "index": 100,
+      "sourceTrackId": "swd-clk-hdr:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12900000,
+          43269700
+        ],
+        [
+          12846800,
+          43398300
+        ],
+        [
+          12748300,
+          43496800
+        ],
+        [
+          12619700,
+          43550000
+        ],
+        [
+          12480300,
+          43550000
+        ],
+        [
+          12351700,
+          43496800
+        ],
+        [
+          12253200,
+          43398300
+        ],
+        [
+          12200000,
+          43269700
+        ],
+        [
+          12200000,
+          41880300
+        ],
+        [
+          12253200,
+          41751700
+        ],
+        [
+          12351700,
+          41653200
+        ],
+        [
+          12480300,
+          41600000
+        ],
+        [
+          12619700,
+          41600000
+        ],
+        [
+          12748300,
+          41653200
+        ],
+        [
+          12846800,
+          41751700
+        ],
+        [
+          12900000,
+          41880300
+        ]
+      ]
+    },
+    {
+      "index": 101,
+      "sourceTrackId": "swd-clk-hdr:4",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12348300,
+          43896800
+        ],
+        [
+          12219700,
+          43950000
+        ],
+        [
+          12080300,
+          43950000
+        ],
+        [
+          11951700,
+          43896800
+        ],
+        [
+          11853200,
+          43798300
+        ],
+        [
+          11800000,
+          43669700
+        ],
+        [
+          11800000,
+          43530300
+        ],
+        [
+          11853200,
+          43401700
+        ],
+        [
+          12351700,
+          42903200
+        ],
+        [
+          12480300,
+          42850000
+        ],
+        [
+          12619700,
+          42850000
+        ],
+        [
+          12748300,
+          42903200
+        ],
+        [
+          12846800,
+          43001700
+        ],
+        [
+          12900000,
+          43130300
+        ],
+        [
+          12900000,
+          43269700
+        ],
+        [
+          12846800,
+          43398300
+        ]
+      ]
+    },
+    {
+      "index": 102,
+      "sourceTrackId": "swd-clk-hdr:5",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5180300,
+          43950000
+        ],
+        [
+          5051700,
+          43896800
+        ],
+        [
+          4953200,
+          43798300
+        ],
+        [
+          4900000,
+          43669700
+        ],
+        [
+          4900000,
+          43530300
+        ],
+        [
+          4953200,
+          43401700
+        ],
+        [
+          5051700,
+          43303200
+        ],
+        [
+          5180300,
+          43250000
+        ],
+        [
+          12219700,
+          43250000
+        ],
+        [
+          12348300,
+          43303200
+        ],
+        [
+          12446800,
+          43401700
+        ],
+        [
+          12500000,
+          43530300
+        ],
+        [
+          12500000,
+          43669700
+        ],
+        [
+          12446800,
+          43798300
+        ],
+        [
+          12348300,
+          43896800
+        ],
+        [
+          12219700,
+          43950000
+        ]
+      ]
+    },
+    {
+      "index": 103,
+      "sourceTrackId": "swd-clk-hdr:6",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5348300,
+          43996800
+        ],
+        [
+          5219700,
+          44050000
+        ],
+        [
+          5080300,
+          44050000
+        ],
+        [
+          4951700,
+          43996800
+        ],
+        [
+          4853200,
+          43898300
+        ],
+        [
+          4800000,
+          43769700
+        ],
+        [
+          4800000,
+          43630300
+        ],
+        [
+          4853200,
+          43501700
+        ],
+        [
+          5051700,
+          43303200
+        ],
+        [
+          5180300,
+          43250000
+        ],
+        [
+          5319700,
+          43250000
+        ],
+        [
+          5448300,
+          43303200
+        ],
+        [
+          5546800,
+          43401700
+        ],
+        [
+          5600000,
+          43530300
+        ],
+        [
+          5600000,
+          43669700
+        ],
+        [
+          5546800,
+          43798300
+        ]
+      ]
+    },
+    {
+      "index": 104,
+      "sourceTrackId": "swd-clk-hdr:7",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5500000,
+          45844700
+        ],
+        [
+          5446800,
+          45973300
+        ],
+        [
+          5348300,
+          46071800
+        ],
+        [
+          5219700,
+          46125000
+        ],
+        [
+          5080300,
+          46125000
+        ],
+        [
+          4951700,
+          46071800
+        ],
+        [
+          4853200,
+          45973300
+        ],
+        [
+          4800000,
+          45844700
+        ],
+        [
+          4800000,
+          43630300
+        ],
+        [
+          4853200,
+          43501700
+        ],
+        [
+          4951700,
+          43403200
+        ],
+        [
+          5080300,
+          43350000
+        ],
+        [
+          5219700,
+          43350000
+        ],
+        [
+          5348300,
+          43403200
+        ],
+        [
+          5446800,
+          43501700
+        ],
+        [
+          5500000,
+          43630300
+        ]
+      ]
+    },
+    {
+      "index": 105,
+      "sourceTrackId": "swd-clk-hdr:8",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5546800,
+          45676700
+        ],
+        [
+          5600000,
+          45805300
+        ],
+        [
+          5600000,
+          45944700
+        ],
+        [
+          5546800,
+          46073300
+        ],
+        [
+          5448300,
+          46171800
+        ],
+        [
+          5319700,
+          46225000
+        ],
+        [
+          5180300,
+          46225000
+        ],
+        [
+          5051700,
+          46171800
+        ],
+        [
+          4853200,
+          45973300
+        ],
+        [
+          4800000,
+          45844700
+        ],
+        [
+          4800000,
+          45705300
+        ],
+        [
+          4853200,
+          45576700
+        ],
+        [
+          4951700,
+          45478200
+        ],
+        [
+          5080300,
+          45425000
+        ],
+        [
+          5219700,
+          45425000
+        ],
+        [
+          5348300,
+          45478200
+        ]
+      ]
+    },
+    {
+      "index": 106,
+      "sourceTrackId": "swd-clk-hdr:9",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5600000,
+          54059700
+        ],
+        [
+          5546800,
+          54188300
+        ],
+        [
+          5448300,
+          54286800
+        ],
+        [
+          5319700,
+          54340000
+        ],
+        [
+          5180300,
+          54340000
+        ],
+        [
+          5051700,
+          54286800
+        ],
+        [
+          4953200,
+          54188300
+        ],
+        [
+          4900000,
+          54059700
+        ],
+        [
+          4900000,
+          45805300
+        ],
+        [
+          4953200,
+          45676700
+        ],
+        [
+          5051700,
+          45578200
+        ],
+        [
+          5180300,
+          45525000
+        ],
+        [
+          5319700,
+          45525000
+        ],
+        [
+          5448300,
+          45578200
+        ],
+        [
+          5546800,
+          45676700
+        ],
+        [
+          5600000,
+          45805300
+        ]
+      ]
+    },
+    {
+      "index": 107,
+      "sourceTrackId": "swd-clk-hdr:10",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          8756800,
+          57001700
+        ],
+        [
+          8810000,
+          57130300
+        ],
+        [
+          8810000,
+          57269700
+        ],
+        [
+          8756800,
+          57398300
+        ],
+        [
+          8658300,
+          57496800
+        ],
+        [
+          8529700,
+          57550000
+        ],
+        [
+          8390300,
+          57550000
+        ],
+        [
+          8261700,
+          57496800
+        ],
+        [
+          4953200,
+          54188300
+        ],
+        [
+          4900000,
+          54059700
+        ],
+        [
+          4900000,
+          53920300
+        ],
+        [
+          4953200,
+          53791700
+        ],
+        [
+          5051700,
+          53693200
+        ],
+        [
+          5180300,
+          53640000
+        ],
+        [
+          5319700,
+          53640000
+        ],
+        [
+          5448300,
+          53693200
+        ]
+      ]
+    },
+    {
+      "index": 108,
+      "sourceTrackId": "swd-dio-hdr:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13550000,
+          43419700
+        ],
+        [
+          13496800,
+          43548300
+        ],
+        [
+          13398300,
+          43646800
+        ],
+        [
+          13269700,
+          43700000
+        ],
+        [
+          13130300,
+          43700000
+        ],
+        [
+          13001700,
+          43646800
+        ],
+        [
+          12903200,
+          43548300
+        ],
+        [
+          12850000,
+          43419700
+        ],
+        [
+          12850000,
+          43140300
+        ],
+        [
+          12903200,
+          43011700
+        ],
+        [
+          13001700,
+          42913200
+        ],
+        [
+          13130300,
+          42860000
+        ],
+        [
+          13269700,
+          42860000
+        ],
+        [
+          13398300,
+          42913200
+        ],
+        [
+          13496800,
+          43011700
+        ],
+        [
+          13550000,
+          43140300
+        ]
+      ]
+    },
+    {
+      "index": 109,
+      "sourceTrackId": "swd-dio-hdr:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12798300,
+          44246800
+        ],
+        [
+          12669700,
+          44300000
+        ],
+        [
+          12530300,
+          44300000
+        ],
+        [
+          12401700,
+          44246800
+        ],
+        [
+          12303200,
+          44148300
+        ],
+        [
+          12250000,
+          44019700
+        ],
+        [
+          12250000,
+          43880300
+        ],
+        [
+          12303200,
+          43751700
+        ],
+        [
+          13001700,
+          43053200
+        ],
+        [
+          13130300,
+          43000000
+        ],
+        [
+          13269700,
+          43000000
+        ],
+        [
+          13398300,
+          43053200
+        ],
+        [
+          13496800,
+          43151700
+        ],
+        [
+          13550000,
+          43280300
+        ],
+        [
+          13550000,
+          43419700
+        ],
+        [
+          13496800,
+          43548300
+        ]
+      ]
+    },
+    {
+      "index": 110,
+      "sourceTrackId": "swd-dio-hdr:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5530300,
+          44300000
+        ],
+        [
+          5401700,
+          44246800
+        ],
+        [
+          5303200,
+          44148300
+        ],
+        [
+          5250000,
+          44019700
+        ],
+        [
+          5250000,
+          43880300
+        ],
+        [
+          5303200,
+          43751700
+        ],
+        [
+          5401700,
+          43653200
+        ],
+        [
+          5530300,
+          43600000
+        ],
+        [
+          12669700,
+          43600000
+        ],
+        [
+          12798300,
+          43653200
+        ],
+        [
+          12896800,
+          43751700
+        ],
+        [
+          12950000,
+          43880300
+        ],
+        [
+          12950000,
+          44019700
+        ],
+        [
+          12896800,
+          44148300
+        ],
+        [
+          12798300,
+          44246800
+        ],
+        [
+          12669700,
+          44300000
+        ]
+      ]
+    },
+    {
+      "index": 111,
+      "sourceTrackId": "swd-dio-hdr:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5698300,
+          44346800
+        ],
+        [
+          5569700,
+          44400000
+        ],
+        [
+          5430300,
+          44400000
+        ],
+        [
+          5301700,
+          44346800
+        ],
+        [
+          5203200,
+          44248300
+        ],
+        [
+          5150000,
+          44119700
+        ],
+        [
+          5150000,
+          43980300
+        ],
+        [
+          5203200,
+          43851700
+        ],
+        [
+          5401700,
+          43653200
+        ],
+        [
+          5530300,
+          43600000
+        ],
+        [
+          5669700,
+          43600000
+        ],
+        [
+          5798300,
+          43653200
+        ],
+        [
+          5896800,
+          43751700
+        ],
+        [
+          5950000,
+          43880300
+        ],
+        [
+          5950000,
+          44019700
+        ],
+        [
+          5896800,
+          44148300
+        ]
+      ]
+    },
+    {
+      "index": 112,
+      "sourceTrackId": "swd-dio-hdr:4",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5850000,
+          45594700
+        ],
+        [
+          5796800,
+          45723300
+        ],
+        [
+          5698300,
+          45821800
+        ],
+        [
+          5569700,
+          45875000
+        ],
+        [
+          5430300,
+          45875000
+        ],
+        [
+          5301700,
+          45821800
+        ],
+        [
+          5203200,
+          45723300
+        ],
+        [
+          5150000,
+          45594700
+        ],
+        [
+          5150000,
+          43980300
+        ],
+        [
+          5203200,
+          43851700
+        ],
+        [
+          5301700,
+          43753200
+        ],
+        [
+          5430300,
+          43700000
+        ],
+        [
+          5569700,
+          43700000
+        ],
+        [
+          5698300,
+          43753200
+        ],
+        [
+          5796800,
+          43851700
+        ],
+        [
+          5850000,
+          43980300
+        ]
+      ]
+    },
+    {
+      "index": 113,
+      "sourceTrackId": "swd-dio-hdr:5",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5896800,
+          45426700
+        ],
+        [
+          5950000,
+          45555300
+        ],
+        [
+          5950000,
+          45694700
+        ],
+        [
+          5896800,
+          45823300
+        ],
+        [
+          5798300,
+          45921800
+        ],
+        [
+          5669700,
+          45975000
+        ],
+        [
+          5530300,
+          45975000
+        ],
+        [
+          5401700,
+          45921800
+        ],
+        [
+          5203200,
+          45723300
+        ],
+        [
+          5150000,
+          45594700
+        ],
+        [
+          5150000,
+          45455300
+        ],
+        [
+          5203200,
+          45326700
+        ],
+        [
+          5301700,
+          45228200
+        ],
+        [
+          5430300,
+          45175000
+        ],
+        [
+          5569700,
+          45175000
+        ],
+        [
+          5698300,
+          45228200
+        ]
+      ]
+    },
+    {
+      "index": 114,
+      "sourceTrackId": "swd-dio-hdr:6",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          5950000,
+          53769700
+        ],
+        [
+          5896800,
+          53898300
+        ],
+        [
+          5798300,
+          53996800
+        ],
+        [
+          5669700,
+          54050000
+        ],
+        [
+          5530300,
+          54050000
+        ],
+        [
+          5401700,
+          53996800
+        ],
+        [
+          5303200,
+          53898300
+        ],
+        [
+          5250000,
+          53769700
+        ],
+        [
+          5250000,
+          45555300
+        ],
+        [
+          5303200,
+          45426700
+        ],
+        [
+          5401700,
+          45328200
+        ],
+        [
+          5530300,
+          45275000
+        ],
+        [
+          5669700,
+          45275000
+        ],
+        [
+          5798300,
+          45328200
+        ],
+        [
+          5896800,
+          45426700
+        ],
+        [
+          5950000,
+          45555300
+        ]
+      ]
+    },
+    {
+      "index": 115,
+      "sourceTrackId": "swd-dio-hdr:7",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          7996800,
+          55601700
+        ],
+        [
+          8050000,
+          55730300
+        ],
+        [
+          8050000,
+          55869700
+        ],
+        [
+          7996800,
+          55998300
+        ],
+        [
+          7898300,
+          56096800
+        ],
+        [
+          7769700,
+          56150000
+        ],
+        [
+          7630300,
+          56150000
+        ],
+        [
+          7501700,
+          56096800
+        ],
+        [
+          5303200,
+          53898300
+        ],
+        [
+          5250000,
+          53769700
+        ],
+        [
+          5250000,
+          53630300
+        ],
+        [
+          5303200,
+          53501700
+        ],
+        [
+          5401700,
+          53403200
+        ],
+        [
+          5530300,
+          53350000
+        ],
+        [
+          5669700,
+          53350000
+        ],
+        [
+          5798300,
+          53403200
+        ]
+      ]
+    },
+    {
+      "index": 116,
+      "sourceTrackId": "swd-dio-hdr:8",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12209700,
+          55450000
+        ],
+        [
+          12338300,
+          55503200
+        ],
+        [
+          12436800,
+          55601700
+        ],
+        [
+          12490000,
+          55730300
+        ],
+        [
+          12490000,
+          55869700
+        ],
+        [
+          12436800,
+          55998300
+        ],
+        [
+          12338300,
+          56096800
+        ],
+        [
+          12209700,
+          56150000
+        ],
+        [
+          7630300,
+          56150000
+        ],
+        [
+          7501700,
+          56096800
+        ],
+        [
+          7403200,
+          55998300
+        ],
+        [
+          7350000,
+          55869700
+        ],
+        [
+          7350000,
+          55730300
+        ],
+        [
+          7403200,
+          55601700
+        ],
+        [
+          7501700,
+          55503200
+        ],
+        [
+          7630300,
+          55450000
+        ]
+      ]
+    },
+    {
+      "index": 117,
+      "sourceTrackId": "swd-dio-hdr:9",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13836800,
+          57001700
+        ],
+        [
+          13890000,
+          57130300
+        ],
+        [
+          13890000,
+          57269700
+        ],
+        [
+          13836800,
+          57398300
+        ],
+        [
+          13738300,
+          57496800
+        ],
+        [
+          13609700,
+          57550000
+        ],
+        [
+          13470300,
+          57550000
+        ],
+        [
+          13341700,
+          57496800
+        ],
+        [
+          11843200,
+          55998300
+        ],
+        [
+          11790000,
+          55869700
+        ],
+        [
+          11790000,
+          55730300
+        ],
+        [
+          11843200,
+          55601700
+        ],
+        [
+          11941700,
+          55503200
+        ],
+        [
+          12070300,
+          55450000
+        ],
+        [
+          12209700,
+          55450000
+        ],
+        [
+          12338300,
+          55503200
+        ]
+      ]
+    },
+    {
+      "index": 118,
+      "sourceTrackId": "swd-swclk_mcu:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11150000,
+          36649700
+        ],
+        [
+          11096800,
+          36778300
+        ],
+        [
+          10998300,
+          36876800
+        ],
+        [
+          10869700,
+          36930000
+        ],
+        [
+          10730300,
+          36930000
+        ],
+        [
+          10601700,
+          36876800
+        ],
+        [
+          10503200,
+          36778300
+        ],
+        [
+          10450000,
+          36649700
+        ],
+        [
+          10450000,
+          35880300
+        ],
+        [
+          10503200,
+          35751700
+        ],
+        [
+          10601700,
+          35653200
+        ],
+        [
+          10730300,
+          35600000
+        ],
+        [
+          10869700,
+          35600000
+        ],
+        [
+          10998300,
+          35653200
+        ],
+        [
+          11096800,
+          35751700
+        ],
+        [
+          11150000,
+          35880300
+        ]
+      ]
+    },
+    {
+      "index": 119,
+      "sourceTrackId": "swd-swclk_mcu:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11891800,
+          37176700
+        ],
+        [
+          11945000,
+          37305300
+        ],
+        [
+          11945000,
+          37444700
+        ],
+        [
+          11891800,
+          37573300
+        ],
+        [
+          11793300,
+          37671800
+        ],
+        [
+          11664700,
+          37725000
+        ],
+        [
+          11525300,
+          37725000
+        ],
+        [
+          11396700,
+          37671800
+        ],
+        [
+          10503200,
+          36778300
+        ],
+        [
+          10450000,
+          36649700
+        ],
+        [
+          10450000,
+          36510300
+        ],
+        [
+          10503200,
+          36381700
+        ],
+        [
+          10601700,
+          36283200
+        ],
+        [
+          10730300,
+          36230000
+        ],
+        [
+          10869700,
+          36230000
+        ],
+        [
+          10998300,
+          36283200
+        ]
+      ]
+    },
+    {
+      "index": 120,
+      "sourceTrackId": "swd-swclk_mcu:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12769700,
+          37025000
+        ],
+        [
+          12898300,
+          37078200
+        ],
+        [
+          12996800,
+          37176700
+        ],
+        [
+          13050000,
+          37305300
+        ],
+        [
+          13050000,
+          37444700
+        ],
+        [
+          12996800,
+          37573300
+        ],
+        [
+          12898300,
+          37671800
+        ],
+        [
+          12769700,
+          37725000
+        ],
+        [
+          11525300,
+          37725000
+        ],
+        [
+          11396700,
+          37671800
+        ],
+        [
+          11298200,
+          37573300
+        ],
+        [
+          11245000,
+          37444700
+        ],
+        [
+          11245000,
+          37305300
+        ],
+        [
+          11298200,
+          37176700
+        ],
+        [
+          11396700,
+          37078200
+        ],
+        [
+          11525300,
+          37025000
+        ]
+      ]
+    },
+    {
+      "index": 121,
+      "sourceTrackId": "swd-swclk_mcu:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13596800,
+          37776700
+        ],
+        [
+          13650000,
+          37905300
+        ],
+        [
+          13650000,
+          38044700
+        ],
+        [
+          13596800,
+          38173300
+        ],
+        [
+          13498300,
+          38271800
+        ],
+        [
+          13369700,
+          38325000
+        ],
+        [
+          13230300,
+          38325000
+        ],
+        [
+          13101700,
+          38271800
+        ],
+        [
+          12403200,
+          37573300
+        ],
+        [
+          12350000,
+          37444700
+        ],
+        [
+          12350000,
+          37305300
+        ],
+        [
+          12403200,
+          37176700
+        ],
+        [
+          12501700,
+          37078200
+        ],
+        [
+          12630300,
+          37025000
+        ],
+        [
+          12769700,
+          37025000
+        ],
+        [
+          12898300,
+          37078200
+        ]
+      ]
+    },
+    {
+      "index": 122,
+      "sourceTrackId": "swd-swclk_mcu:4",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13650000,
+          39259700
+        ],
+        [
+          13596800,
+          39388300
+        ],
+        [
+          13498300,
+          39486800
+        ],
+        [
+          13369700,
+          39540000
+        ],
+        [
+          13230300,
+          39540000
+        ],
+        [
+          13101700,
+          39486800
+        ],
+        [
+          13003200,
+          39388300
+        ],
+        [
+          12950000,
+          39259700
+        ],
+        [
+          12950000,
+          37905300
+        ],
+        [
+          13003200,
+          37776700
+        ],
+        [
+          13101700,
+          37678200
+        ],
+        [
+          13230300,
+          37625000
+        ],
+        [
+          13369700,
+          37625000
+        ],
+        [
+          13498300,
+          37678200
+        ],
+        [
+          13596800,
+          37776700
+        ],
+        [
+          13650000,
+          37905300
+        ]
+      ]
+    },
+    {
+      "index": 123,
+      "sourceTrackId": "swd-swdio_mcu:0",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          11550000,
+          36549700
+        ],
+        [
+          11496800,
+          36678300
+        ],
+        [
+          11398300,
+          36776800
+        ],
+        [
+          11269700,
+          36830000
+        ],
+        [
+          11130300,
+          36830000
+        ],
+        [
+          11001700,
+          36776800
+        ],
+        [
+          10903200,
+          36678300
+        ],
+        [
+          10850000,
+          36549700
+        ],
+        [
+          10850000,
+          35880300
+        ],
+        [
+          10903200,
+          35751700
+        ],
+        [
+          11001700,
+          35653200
+        ],
+        [
+          11130300,
+          35600000
+        ],
+        [
+          11269700,
+          35600000
+        ],
+        [
+          11398300,
+          35653200
+        ],
+        [
+          11496800,
+          35751700
+        ],
+        [
+          11550000,
+          35880300
+        ]
+      ]
+    },
+    {
+      "index": 124,
+      "sourceTrackId": "swd-swdio_mcu:1",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          12041800,
+          36826700
+        ],
+        [
+          12095000,
+          36955300
+        ],
+        [
+          12095000,
+          37094700
+        ],
+        [
+          12041800,
+          37223300
+        ],
+        [
+          11943300,
+          37321800
+        ],
+        [
+          11814700,
+          37375000
+        ],
+        [
+          11675300,
+          37375000
+        ],
+        [
+          11546700,
+          37321800
+        ],
+        [
+          10903200,
+          36678300
+        ],
+        [
+          10850000,
+          36549700
+        ],
+        [
+          10850000,
+          36410300
+        ],
+        [
+          10903200,
+          36281700
+        ],
+        [
+          11001700,
+          36183200
+        ],
+        [
+          11130300,
+          36130000
+        ],
+        [
+          11269700,
+          36130000
+        ],
+        [
+          11398300,
+          36183200
+        ]
+      ]
+    },
+    {
+      "index": 125,
+      "sourceTrackId": "swd-swdio_mcu:2",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13069700,
+          36675000
+        ],
+        [
+          13198300,
+          36728200
+        ],
+        [
+          13296800,
+          36826700
+        ],
+        [
+          13350000,
+          36955300
+        ],
+        [
+          13350000,
+          37094700
+        ],
+        [
+          13296800,
+          37223300
+        ],
+        [
+          13198300,
+          37321800
+        ],
+        [
+          13069700,
+          37375000
+        ],
+        [
+          11675300,
+          37375000
+        ],
+        [
+          11546700,
+          37321800
+        ],
+        [
+          11448200,
+          37223300
+        ],
+        [
+          11395000,
+          37094700
+        ],
+        [
+          11395000,
+          36955300
+        ],
+        [
+          11448200,
+          36826700
+        ],
+        [
+          11546700,
+          36728200
+        ],
+        [
+          11675300,
+          36675000
+        ]
+      ]
+    },
+    {
+      "index": 126,
+      "sourceTrackId": "swd-swdio_mcu:3",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          14196800,
+          37726700
+        ],
+        [
+          14250000,
+          37855300
+        ],
+        [
+          14250000,
+          37994700
+        ],
+        [
+          14196800,
+          38123300
+        ],
+        [
+          14098300,
+          38221800
+        ],
+        [
+          13969700,
+          38275000
+        ],
+        [
+          13830300,
+          38275000
+        ],
+        [
+          13701700,
+          38221800
+        ],
+        [
+          12703200,
+          37223300
+        ],
+        [
+          12650000,
+          37094700
+        ],
+        [
+          12650000,
+          36955300
+        ],
+        [
+          12703200,
+          36826700
+        ],
+        [
+          12801700,
+          36728200
+        ],
+        [
+          12930300,
+          36675000
+        ],
+        [
+          13069700,
+          36675000
+        ],
+        [
+          13198300,
+          36728200
+        ]
+      ]
+    },
+    {
+      "index": 127,
+      "sourceTrackId": "swd-swdio_mcu:4",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          14250000,
+          41559700
+        ],
+        [
+          14196800,
+          41688300
+        ],
+        [
+          14098300,
+          41786800
+        ],
+        [
+          13969700,
+          41840000
+        ],
+        [
+          13830300,
+          41840000
+        ],
+        [
+          13701700,
+          41786800
+        ],
+        [
+          13603200,
+          41688300
+        ],
+        [
+          13550000,
+          41559700
+        ],
+        [
+          13550000,
+          37855300
+        ],
+        [
+          13603200,
+          37726700
+        ],
+        [
+          13701700,
+          37628200
+        ],
+        [
+          13830300,
+          37575000
+        ],
+        [
+          13969700,
+          37575000
+        ],
+        [
+          14098300,
+          37628200
+        ],
+        [
+          14196800,
+          37726700
+        ],
+        [
+          14250000,
+          37855300
+        ]
+      ]
+    },
+    {
+      "index": 128,
+      "sourceTrackId": "swd-swdio_mcu:5",
+      "sourceRadiusNm": 350000,
+      "additionalRadiusNm": 0,
+      "vertexGridNm": 100,
+      "entireCapsuleContained": true,
+      "verification": "Exact integer squared-distance comparison against every convex polygon edge",
+      "verticesNm": [
+        [
+          13398300,
+          42486800
+        ],
+        [
+          13269700,
+          42540000
+        ],
+        [
+          13130300,
+          42540000
+        ],
+        [
+          13001700,
+          42486800
+        ],
+        [
+          12903200,
+          42388300
+        ],
+        [
+          12850000,
+          42259700
+        ],
+        [
+          12850000,
+          42120300
+        ],
+        [
+          12903200,
+          41991700
+        ],
+        [
+          13701700,
+          41193200
+        ],
+        [
+          13830300,
+          41140000
+        ],
+        [
+          13969700,
+          41140000
+        ],
+        [
+          14098300,
+          41193200
+        ],
+        [
+          14196800,
+          41291700
+        ],
+        [
+          14250000,
+          41420300
+        ],
+        [
+          14250000,
+          41559700
+        ],
+        [
+          14196800,
+          41688300
+        ]
+      ]
+    }
+  ]
+}

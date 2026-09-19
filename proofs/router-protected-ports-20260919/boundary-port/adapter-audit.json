@@ -1,0 +1,29 @@
+{
+  "selected": [
+    "N"
+  ],
+  "before": [
+    {
+      "net": "N",
+      "class": "N_class",
+      "ignored": false,
+      "items": 3,
+      "vias": 0,
+      "incompletes": 1
+    }
+  ],
+  "after": [
+    {
+      "net": "N",
+      "class": "N_class",
+      "ignored": false,
+      "items": 3,
+      "vias": 0,
+      "incompletes": 1
+    }
+  ],
+  "timedOut": false,
+  "maxPasses": 100,
+  "engine": "freerouting2.4.1-public-Java-API",
+  "limits": "Scope flags are verified before/after; native import, geometry, dimensional and whole-model checks remain mandatory."
+}

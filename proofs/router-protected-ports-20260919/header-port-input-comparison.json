@@ -1,0 +1,27 @@
+{
+  "scope": "Complete parsed DSN trees compared after replacing only the root board-name string and the one explicit lead endpoint x token. All layer, clearance, pad, net, keepout and remaining geometry data remain exact.",
+  "comparisons": [
+    {
+      "case": "extended-port",
+      "allOtherDsnDataExact": true,
+      "onlyCopperChange": "fixed lead inner endpoint x",
+      "beforeXum": 3560,
+      "afterXum": 3860,
+      "boardNameMetadata": [
+        "\"C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\boundary-port\\native.dsn\"",
+        "\"C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\extended-port\\native.dsn\""
+      ]
+    },
+    {
+      "case": "short-extended-port",
+      "allOtherDsnDataExact": true,
+      "onlyCopperChange": "fixed lead inner endpoint x",
+      "beforeXum": 3560,
+      "afterXum": 3710,
+      "boardNameMetadata": [
+        "\"C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\boundary-port\\native.dsn\"",
+        "\"C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-candidate-60-global-router-study-03\\short-extended-port\\native.dsn\""
+      ]
+    }
+  ]
+}
