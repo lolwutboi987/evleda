@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "evleda.host29-build-release.v1",
+  "recordedAt": "2026-09-19T20:16:16.846Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-placement-revision-build-29",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-03\\host28-release.json",
+    "sha256": "31f3f870288f13e3f566401b79c9cbc0b361fbdd6f0594b2799c858764b95539",
+    "sizeBytes": 3541
+  },
+  "sourcePins": [
+    {
+      "relative": "src/harness/fresh-plane-placement-revision.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-placement-revision.ts",
+      "sha256": "547272e4dd3f9e2a6c56a6cffb17126cbd693bba99652150314c2e9da4e0f2cb",
+      "sizeBytes": 14157
+    },
+    {
+      "relative": "src/mcp/toolbox-initial-save-diagnostics.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-initial-save-diagnostics.ts",
+      "sha256": "342d1588be342eed4935ddd08cfdde9e625dca57583de0ffd1d7c1d56c55ab12",
+      "sizeBytes": 3756
+    },
+    {
+      "relative": "src/mcp/toolbox-fresh-initial-save.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-fresh-initial-save.ts",
+      "sha256": "7be5313263cfce30f4fccb888fdce5bfdc72bb4d523842ce6e4e55bf2cd91842",
+      "sizeBytes": 11192
+    },
+    {
+      "relative": "src/mcp/toolbox-plane-session.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-plane-session.ts",
+      "sha256": "d76dae92be7448d83388d62cdc715d541aa938aaa48e3c5ef93f2ed263ec4326",
+      "sizeBytes": 15789
+    },
+    {
+      "relative": "tests/unit/fresh-plane-placement-revision.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-placement-revision.test.ts",
+      "sha256": "0becccfa1fa3940bf30c60b4813288bb5b405c618c64e781a735c486933ce206",
+      "sizeBytes": 10111
+    },
+    {
+      "relative": "tests/unit/toolbox-initial-save-diagnostics.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\toolbox-initial-save-diagnostics.test.ts",
+      "sha256": "5663b462a38f95a11a0441158016a9a1e6ac3a8938ffa9faa6a6187e4d536799",
+      "sizeBytes": 2374
+    },
+    {
+      "relative": "tests/unit/toolbox-fresh-initial-save.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\toolbox-fresh-initial-save.test.ts",
+      "sha256": "57131b432502ad5a9fc5c8f8e7484a6d74968ef5a314d620ddc8ead21413fe6c",
+      "sizeBytes": 29521
+    },
+    {
+      "relative": "tests/unit/toolbox-plane-session.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\toolbox-plane-session.test.ts",
+      "sha256": "5a1cb04e18f14f2702a26d555ba70f1ad3da3b4f6aa226471a25edc2579efb9b",
+      "sizeBytes": 20073
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-04\\host29-build-manifest.json",
+    "sha256": "95834cd4f3a2e7eb99f57df6c176419cb9658d4fb7385e82ab9fbbb06bd16edd",
+    "sizeBytes": 886424
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-footprint-order-and-startup-tests",
+      "exitCode": 0
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTestsPassed": true,
+  "baseHost28Preserved": true,
+  "uiOutputPreserved": true,
+  "runtimeChanged": false,
+  "nativeQualificationPending": true,
+  "scope": "Host28 plus pinned native front-footprint UUID ordering after owned-feature rebinding, and complete private initial saved/live mismatch diagnostics. The strict serializer comparison and source guards are unchanged. Tests use a 60-second per-case observation allowance; native deadlines and assertions are unchanged. Live qualification remains pending."
+}

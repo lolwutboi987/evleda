@@ -1,0 +1,25 @@
+{
+  "commit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+  "files": [
+    {
+      "url": "https://gitlab.com/kicad/code/kicad/-/raw/146a4f2a7585c65bc580427a19b6fe2ec4a3f622/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-04\\pcb_io_kicad_sexpr.cpp",
+      "sha256": "76803adc7c5a102cdf524aef99b3fec981ff2bcf336193a6306e6ec14403ab27",
+      "sizeBytes": 125556
+    },
+    {
+      "url": "https://gitlab.com/kicad/code/kicad/-/raw/146a4f2a7585c65bc580427a19b6fe2ec4a3f622/pcbnew/board_item.cpp",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-04\\board_item.cpp",
+      "sha256": "7a9dfa6ab3140cca46808357f9e8d3cb286933407d8e590a0924b9211aa791ac",
+      "sizeBytes": 11700
+    },
+    {
+      "url": "https://gitlab.com/kicad/code/kicad/-/raw/146a4f2a7585c65bc580427a19b6fe2ec4a3f622/include/board_item.h",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-04\\board_item.h",
+      "sha256": "e2e42deb885a46ecdb72c85b83c588bfc0c412b5ae52eed671353652b2faaaf2",
+      "sizeBytes": 16168
+    }
+  ],
+  "observed": "format(BOARD*) uses a set with BOARD_ITEM::ptr_cmp for footprints. The comparator orders equal item types and layer sets by UUID; base GetLayerSet returns the footprint layer.",
+  "scope": "Primary source basis for emitting a correctly ordered new candidate; no runtime comparator or existing source was relaxed."
+}

@@ -106,6 +106,22 @@ async function noConnectFixture(nativeName = noConnectName, repeated = false) {
 }
 
 describe("actual V2 plane net-class preparation", () => {
+  it("preserves native JSON member order and whitespace when the complete settings already match", async () => {
+    const f = await fixture(false, interfaceConstructionBundle());
+    await materializeFreshPlaneNetClasses(f.options);
+    const authority = await readFreshPlaneNetClassSemanticAuthority(f.options);
+    const settings = JSON.parse(await readFile(f.proPath, "utf8"));
+    settings.net_settings.netclass_patterns = settings.net_settings.netclass_patterns.map((p: { pattern: string; netclass: string }) =>
+      ({ netclass: p.netclass, pattern: p.pattern }));
+    const nativeText = JSON.stringify(settings, null, 4).replaceAll("\n", "\r\n") + "\r\n";
+    await writeFile(f.proPath, nativeText);
+    const result = await materializeFreshPlaneNetClasses(f.options);
+    expect(result.changed).toBe(false);
+    expect(result.preimageProjectSettingsIdentity).toEqual(contentIdentity(nativeText));
+    expect(result.projectSettingsIdentity).toEqual(contentIdentity(nativeText));
+    expect(await readFile(f.proPath, "utf8")).toBe(nativeText);
+    expect(await readFreshPlaneNetClassSemanticAuthority(f.options)).toEqual(authority);
+  });
   it.each([undefined, 0.5])("retains opt-in numeric issuance/spacing %s through materialization and refuses drift without rewriting it", async spacing => {
     const draft = { ...planeDividerDraft(), nativeRuleMode: "contract-derived-v1" };
     draft.netClasses.find(c => c.id === "SENSE")!.traceWidthMm = 0.15;

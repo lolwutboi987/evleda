@@ -102,7 +102,7 @@ describe("plane toolbox session composition", () => {
       requiredTools: ["evleda_get_live_pcb_document", "kicad_set_project", "pcb_save", "sch_add_labels"] });
     expect(seams.initialize.mock.calls[0]![1].freshProject).toBe(f.original);
     expect(seams.initialSave).toHaveBeenCalledExactlyOnceWith({ project: f.original,
-      expectedPreparedSourceAuthority: f.preparation.preparedSourceAuthority, session: f.session });
+      expectedPreparedSourceAuthority: f.preparation.preparedSourceAuthority, session: f.session, onSourceMismatch: expect.any(Function) });
     expect(seams.checkpoint).toHaveBeenCalledWith({ project: f.original,
       expectedPreparedSourceAuthority: f.preparation.preparedSourceAuthority,
       expectedNetClassProjection: { netClasses: f.preparation.netClassSemanticAuthority.netClasses, contractNetAssignments: f.preparation.netClassSemanticAuthority.contractNetAssignments } });

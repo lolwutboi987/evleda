@@ -1,7 +1,7 @@
 import { createFreshNativeCaptures } from "../cli/pcb-agent.js";
 import path from "node:path";
 import { readFile, writeFile } from "node:fs/promises";
-import { createFreshBoardFeatureState, assertFreshBoardFeatureState, type FreshBoardFeatureState } from "../harness/fresh-board-features.js";
+import { createFreshBoardFeatureState, createPlacementRevisionBoardFeatureState, assertFreshBoardFeatureState, type FreshBoardFeatureState } from "../harness/fresh-board-features.js";
 import { z } from "zod";
 import { canonicalJson, contentIdentity } from "../core/canonical.js";
 import { hardenPortableValue, parsePortableJsonBytes, validateCanonicalIdentity } from "../core/portable-artifact.js";
@@ -21,6 +21,9 @@ import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-bi
 import { assertPcbExternalPowerBindingCurrent } from "../harness/pcb-external-power.js";
 import { assertPcbDerivedPowerBindingCurrent } from "../harness/pcb-derived-power.js";
 import type { FreshPlaneSchematicSeed } from "../harness/fresh-plane-schematic-seed.js";
+import { freshPlanePlacementSeedPlan, assertFreshPlanePlacementSeedFile, type FreshPlanePlacementSeed } from "../harness/fresh-plane-placement-seed.js";
+import { assertPlacementRevisionBaseline, parsePlacementRevisionLineage, placementRevisionLineageSchema,
+  type PlacementRevisionLineage } from "./toolbox-placement-revision.js";
 
 function assertPlaneSources(bundle: PcbPlaneCompilationBundle, dependencies: PcbPlaneCompilerOptions): void {
   assertPcbLibrarySourcesCurrent(bundle.libraryBinding, dependencies.libraryResolver);
@@ -30,6 +33,8 @@ function assertPlaneSources(bundle: PcbPlaneCompilationBundle, dependencies: Pcb
 
 export interface KicadToolboxPlanePreparationInput {
   readonly schematicSeed?: FreshPlaneSchematicSeed;
+  readonly placementSeed?: FreshPlanePlacementSeed;
+  readonly placementRevisionLineage?: PlacementRevisionLineage;
   readonly draft: unknown;
   readonly originalPrompt: string;
   readonly outputDir: string;
@@ -41,6 +46,8 @@ export interface KicadToolboxPlanePreparationInput {
   readonly createKicadCliAdapter: typeof KicadCliAdapter.create;
 }
 export interface KicadToolboxPlanePreparation {
+  readonly placementSeed?: FreshPlanePlacementSeed;
+  readonly placementRevisionLineage?: PlacementRevisionLineage;
   readonly boardFeatureState?: FreshBoardFeatureState | undefined;
   readonly family: "plane-v2";
   readonly mode: "fresh" | "resumed";
@@ -88,7 +95,8 @@ export function planePreparationReportBody(preparation: Omit<KicadToolboxPlanePr
     workflow: { kind: "plane", bundleRef: preparation.bundleRef, bundlePath: preparation.bundlePath }, projectPath: preparation.project.projectPath,
     native: { kicad: preparation.kicadIdentity }, preparation: { netClassMaterialization: preparation.netClassMaterialization,
       netClassSemanticAuthority: preparation.netClassSemanticAuthority, netClassPreparationEvidence: preparation.netClassPreparationEvidence,
-      preparedSourceAuthority: preparation.preparedSourceAuthority } };
+      preparedSourceAuthority: preparation.preparedSourceAuthority,
+      ...(preparation.placementRevisionLineage === undefined ? {} : { placementRevisionLineage: preparation.placementRevisionLineage }) } };
 }
 
 export type KicadToolboxPlanePreparationResult =
@@ -97,6 +105,15 @@ export type KicadToolboxPlanePreparationResult =
 
 /** Prepare the real V2 bundle/project family. No native authoring or acceptance is claimed. */
 export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePreparationInput): Promise<KicadToolboxPlanePreparationResult> {
+  if ((input.placementSeed === undefined) !== (input.placementRevisionLineage === undefined)) throw new Error("Placement seed and immutable allocation lineage are required together.");
+  if (input.placementSeed !== undefined && input.schematicSeed !== undefined) throw new Error("Distinct source seeds cannot be combined.");
+  const revision = input.placementRevisionLineage === undefined ? undefined : parsePlacementRevisionLineage(input.placementRevisionLineage);
+  if (input.placementSeed !== undefined) {
+    const plan = freshPlanePlacementSeedPlan(input.placementSeed).receipt;
+    if (canonicalJson(plan.identity) !== canonicalJson(revision!.sourcePlanIdentity)
+        || canonicalJson(plan.targetIdentities) !== canonicalJson(revision!.targetNativeIdentities)
+        || canonicalJson(plan.sourceIdentities) !== canonicalJson(revision!.sourceNativeIdentities)) throw new Error("Placement seed differs from its immutable lineage.");
+  }
   const preview = input.expectedBundleIdentity === undefined ? undefined
     : validateCanonicalIdentity(hardenPortableValue(input.expectedBundleIdentity), "Previewed plane compilation identity");
   const expected = expectedExecutable(input.expectedKicadCli);
@@ -105,13 +122,17 @@ export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePr
   const compilation = compilePcbPlaneDesignIntentDraft(input.draft, dependencies);
   if (compilation.disposition !== "ready") return Object.freeze({ status: compilation.disposition, compilation, projectCreated: false });
   const bundle = createPcbPlaneCompilationBundle({ originalPrompt: input.originalPrompt, compilation }, dependencies);
+  if (revision !== undefined && (revision.name !== input.name || canonicalJson(revision.targetBundleIdentity) !== canonicalJson(bundle.identity))) throw new Error("Placement revision target differs from its ready draft.");
   if (preview !== undefined && canonicalJson(preview) !== canonicalJson(bundle.identity)) throw new Error("Plane compilation changed since preview; review it before project creation.");
   const bundleRef = createPcbPlaneCompilationBundleRef(bundle);
   assertPlaneSources(bundle, dependencies);
   const project = await preparePlaneFreshProject({ outputDir: input.outputDir, name: input.name, resume: false, compilationBundle: bundle, compilationBundleRef: bundleRef,
-    ...(input.schematicSeed === undefined ? {} : { schematicSeed: input.schematicSeed }) });
-  const boardFeatureState = bundle.contract.boardFeatures === undefined ? undefined
-    : createFreshBoardFeatureState(bundle, await captureFreshProjectOpenPreparedSourceAuthority(project));
+    ...(input.schematicSeed === undefined ? {} : { schematicSeed: input.schematicSeed }),
+    ...(input.placementSeed === undefined ? {} : { placementSeed: input.placementSeed }) });
+  if (revision !== undefined) await assertPlacementRevisionBaseline(project, bundle, revision);
+  const initialAuthority = await captureFreshProjectOpenPreparedSourceAuthority(project);
+  const boardFeatureState = revision === undefined ? createFreshBoardFeatureState(bundle, initialAuthority)
+    : createPlacementRevisionBoardFeatureState(bundle, initialAuthority, revision.targetNativeIdentities.pcb, await readFile(project.pcbPath, "utf8"));
   assertPlaneSources(bundle, dependencies);
   const adapter = await openAdapter(project, expected, input.createKicadCliAdapter);
   assertPlaneSources(bundle, dependencies);
@@ -123,12 +144,17 @@ export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePr
   const netClassSemanticAuthority = await verifyFreshPlaneNetClassSemanticAuthority(await readFreshPlaneNetClassSemanticAuthority(operation), operation);
   const netClassPreparationEvidence = createFreshPlaneNetClassPreparationEvidence(netClassMaterialization, netClassSemanticAuthority);
   const preparedSourceAuthority = await captureFreshProjectOpenPreparedSourceAuthority(project);
+  if (input.placementSeed !== undefined) {
+    for (const key of ["pcb", "sch", "pro"] as const) assertFreshPlanePlacementSeedFile(input.placementSeed, project.outputPath, key, preparedSourceAuthority[key]);
+  }
   const bundlePath = path.join(project.outputPath, "toolbox-design-bundle.json");
   const reportPath = path.join(project.outputPath, "pcb-agent-report.json");
   assertPlaneSources(bundle, dependencies);
   await writeFile(bundlePath, serializePcbPlaneCompilationBundle(bundle), { flag: "wx" });
   const fields = { project, bundle, bundleRef, bundlePath, reportPath, kicadIdentity, preparedSourceAuthority,
-    netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence, ...(boardFeatureState === undefined ? {} : { boardFeatureState }) };
+    netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence, ...(boardFeatureState === undefined ? {} : { boardFeatureState }),
+    ...(revision === undefined ? {} : { placementRevisionLineage: revision }),
+    ...(input.placementSeed === undefined ? {} : { placementSeed: input.placementSeed }) };
   await writeFile(reportPath, `${JSON.stringify({ ...planePreparationReportBody(fields),
     assurance: "V2 plane project and netclass configuration only. Schematic/PCB authoring, fresh copper, connectivity, clearance, reference coverage and design acceptance remain pending." }, null, 2)}\n`, { flag: "wx" });
   await project.checkpointAfterReport(reportPath, "needs_review");
@@ -138,11 +164,11 @@ export async function prepareKicadToolboxPlaneProject(input: KicadToolboxPlanePr
   return Object.freeze({ status: "prepared" as const, preparation });
 }
 
-export type KicadToolboxPlaneResumeInput = Pick<KicadToolboxPlanePreparationInput, "outputDir" | "name" | "dependencies" | "expectedKicadCli" | "createKicadCliAdapter">;
+export type KicadToolboxPlaneResumeInput = Pick<KicadToolboxPlanePreparationInput, "outputDir" | "name" | "dependencies" | "expectedKicadCli" | "createKicadCliAdapter" | "placementRevisionLineage">;
 const savedReport = z.object({ schemaVersion: z.literal("evleda.toolbox-plane-preparation-report.v1"), status: z.literal("needs_review"),
   workflow: z.object({ kind: z.literal("plane"), bundleRef: z.unknown(), bundlePath: z.string() }).strict(), projectPath: z.string(),
   native: z.object({ kicad: z.unknown() }).strict(), preparation: z.object({ netClassMaterialization: z.unknown(), netClassSemanticAuthority: z.unknown(),
-    netClassPreparationEvidence: z.unknown(), preparedSourceAuthority: z.unknown() }).strict(), assurance: z.string() }).strict();
+    netClassPreparationEvidence: z.unknown(), preparedSourceAuthority: z.unknown(), placementRevisionLineage: placementRevisionLineageSchema.optional() }).strict(), assurance: z.string() }).strict();
 
 export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneResumeInput): Promise<KicadToolboxPlanePreparation> {
   if (Object.hasOwn(input, "expectedBundleIdentity")) throw new Error("Plane resume uses its saved V2 bundle, not a replacement preview.");
@@ -156,6 +182,8 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
   const parse = (bytes: Buffer) => parsePortableJsonBytes(bytes, { maxBytes: 16 * 1024 * 1024, maxDepth: 96, maxNodes: 500_000,
     maxArrayLength: 100_000, maxOwnKeys: 8192, maxKeyBytes: 1024, maxStringBytes: 1024 * 1024 });
   const report = savedReport.parse(parse(reportBytes));
+  const revision = input.placementRevisionLineage === undefined ? undefined : parsePlacementRevisionLineage(input.placementRevisionLineage);
+  if (canonicalJson(report.preparation.placementRevisionLineage ?? null) !== canonicalJson(revision ?? null)) throw new Error("Resume placement lineage must come from the exact immutable workspace allocation.");
   const checkpoint = z.object({ schemaVersion: z.literal("evleda.pcb-agent-fresh-project-checkpoint.v3"), reportPath: z.literal(reportPath),
     files: z.object({ pcb: z.object({ sha256: z.string().regex(/^[a-f0-9]{64}$/u) }).passthrough() }).passthrough(),
     reportSha256: z.literal(contentIdentity(reportBytes).digest), reportStatus: z.literal("needs_review") }).passthrough().parse(parse(checkpointBytes));
@@ -174,7 +202,9 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
   const project = await preparePlaneFreshProject(projectOptions);
   if (report.projectPath !== project.projectPath || canonicalJson(preparedSourceAuthority.projectIdentity) !== canonicalJson(project.projectIdentity)) throw new Error("Plane preparation belongs to another project.");
   const checkpointPcbSource = bundle.contract.boardFeatures === undefined ? undefined : await readFile(project.pcbPath, "utf8");
-  const boardFeatureState = createFreshBoardFeatureState(bundle, preparedSourceAuthority, checkpoint.files.pcb.sha256, checkpointPcbSource);
+  if (revision !== undefined) await assertPlacementRevisionBaseline(project, bundle, revision);
+  const boardFeatureState = revision === undefined ? createFreshBoardFeatureState(bundle, preparedSourceAuthority, checkpoint.files.pcb.sha256, checkpointPcbSource)
+    : createPlacementRevisionBoardFeatureState(bundle, preparedSourceAuthority, revision.targetNativeIdentities.pcb, checkpointPcbSource ?? await readFile(project.pcbPath, "utf8"));
   boardFeatureState?.verify(checkpointPcbSource!, dependencies.libraryResolver);
   const adapter = await openAdapter(project, expected, input.createKicadCliAdapter), kicadIdentity = adapter.identity;
   if (canonicalJson(kicadIdentity) !== canonicalJson(report.native.kicad)) throw new Error("Plane resume KiCad identity differs from its recorded toolchain.");
@@ -187,7 +217,7 @@ export async function resumeKicadToolboxPlaneProject(input: KicadToolboxPlaneRes
   boardFeatureState?.verify(await readFile(project.pcbPath, "utf8"), dependencies.libraryResolver);
   const preparation: KicadToolboxPlanePreparation = Object.freeze({ family: "plane-v2", mode: "resumed", project, bundle, bundleRef, bundlePath,
     reportPath, dependencies, adapter, kicadIdentity, preparedSourceAuthority,captureNativeNetlist, netClassMaterialization, netClassSemanticAuthority, netClassPreparationEvidence,
-    ...(boardFeatureState === undefined ? {} : { boardFeatureState }) });
+    ...(boardFeatureState === undefined ? {} : { boardFeatureState }), ...(revision === undefined ? {} : { placementRevisionLineage: revision }) });
   preparations.add(preparation);
   return preparation;
 }

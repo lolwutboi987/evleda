@@ -1,0 +1,26 @@
+{
+  "reviewed": true,
+  "sourcePcbSha256": "6652eeb08db813382593dd8af0af00b7210ec758b4f78b3fbb7b4983b8bcd69b",
+  "views": [
+    "native top",
+    "native assembly"
+  ],
+  "pixelComparison": [
+    {
+      "view": "top",
+      "byteIdenticalToSource": true
+    },
+    {
+      "view": "assembly",
+      "byteIdenticalToSource": true
+    }
+  ],
+  "observations": [
+    "All component positions, existing routing and GPIO lead arrangement match the original 60-12 layout.",
+    "The top and assembly views preserve the original board outline, mounting holes, buttons, headers and internal regulator/USB parts.",
+    "Reference crowding and missing functional labels remain. The new placement constraints have not moved components.",
+    "The full source audit keeps both GPIO service strips clear; native DRC and connectivity remain incomplete."
+  ],
+  "componentMoves": 0,
+  "designAccepted": false
+}

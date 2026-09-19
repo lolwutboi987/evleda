@@ -1775,7 +1775,11 @@ async function materializeNetClassSources<Result>(
     options.assertProjectSettings?.(projectJson);
     const nextProject = preparedProjectSettings(projectJson, options.project, options.compilationBundle, bindings);
     options.assertProjectSettings?.(nextProject);
-    const nextBytes = Buffer.from(`${JSON.stringify(nextProject, null, 2)}\n`, "utf8");
+    // A native save may reorder JSON object members without changing any
+    // setting. Keep an already-correct authored source byte-for-byte intact.
+    // The normal configuration, source and native-terminal checks still run.
+    const nextBytes = canonicalValuesEqual(projectJson, nextProject) ? before.projectSettings.bytes
+      : Buffer.from(`${JSON.stringify(nextProject, null, 2)}\n`, "utf8");
     if (nextBytes.byteLength > FRESH_CLEARANCE_EVIDENCE_LIMITS.maximumProjectBytes) {
       return fail("INVALID_PROJECT_JSON", "Materialized KiCad project settings exceed the source-size bound.");
     }
@@ -2818,6 +2822,9 @@ export async function verifyFreshClearanceEvidenceReceipt(
  * own closed outcomes; no V1 artifact is manufactured as an adapter for V2.
  */
 export const freshNetClassPreparationMechanics = Object.freeze({
+  classBindings,
+  generatedNetClass,
+  authoredPatternsForBindings,
   materialize: materializeNetClassSources,
   read: readNetClassSources,
   validateSemanticDefinition: validateSemanticNetClass,

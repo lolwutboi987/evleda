@@ -1,0 +1,17 @@
+{
+  "recordedAt": "2026-09-19T19:41:57.2880722Z",
+  "sourceProjectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "rejectedProjectId": "6dfa4333-1f87-4795-979a-58c1311e116e",
+  "failure": "Placement seed pro identity differed after netclass materialization",
+  "semanticComparison": "../../destination-verification/placement-revision-02/rejected-pro-comparison.json",
+  "ownedHostProcessesAbsent": true,
+  "originalSixSourcesUnchanged": true,
+  "sourceNormalCloseConfirmed": true,
+  "sourceLeasePresent": false,
+  "rejectedLeaseRetained": true,
+  "rejectedCheckpointPresent": false,
+  "rejectedNativeEditorStarted": false,
+  "rejectedNormalCloseConfirmed": false,
+  "clientSdkCloseConfirmed": false,
+  "scope": "Failed preparation retained; no authority file was rewritten or removed. Host stopped after confirming no owned native process."
+}

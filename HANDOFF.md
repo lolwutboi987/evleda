@@ -4,6 +4,8 @@ Current note: 2026-09-19. The active work is the reusable chat-driven KiCad/EE t
 
 ## Current candidate and tooling
 
+The [placement-revision workflow](proofs/native-placement-revision-20260919/README.md) is now natively qualified. Continue physical layout work on revised project `914f7760-c4c2-4bb8-9b51-b481242878a5` using host30/DOC14; original project `b2e1adba-cf6c-4ccf-a51f-00f63320d6eb` remains preserved. Both have the same 829-track geometry. The revised constraints permit reorienting/repositioning R1/R2 without changing the circuit or USB limits. No component moves have been applied.
+
 The approved candidate is 22 × 60 mm with two copper layers, 2.54 mm GPIO pitch and 17.78 mm header-row spacing. PCB trace turns must be straight or 45 degrees. Both external GPIO service strips exclude unrelated tracks, vias and plane fill; only exact own-pad inward leads are permitted.
 
 The latest normally closed native snapshot is [ground and USB revision 60-12](designs/rp2350-pico/native-ground-usb-60-12/README.md): **829 tracks, 104 vias and one B.Cu ground zone**. Nineteen added front ground segments reduce GND from 12 to **nine physical-pad groups**, with **49 of 64 pads** in the main group. A coordinated three-branch USB adjustment removes the prior sharp bend while preserving the existing source-assessed width, gap, length and skew limits. There are **631 measured turns with zero violations and eight unresolved junctions**. Both GPIO service strips are clear, with 40 exact own-pad leads permitted. Native checks still report **24 unconnected errors and 13 dangling-item warnings**; 53 functional nets are connected and 14 remain disconnected. USB resistor placement, remaining routing, labels and electrical/DFM review are unfinished.

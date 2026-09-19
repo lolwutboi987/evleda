@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "evleda.host30-build-release.v1",
+  "recordedAt": "2026-09-19T20:33:39.886Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-placement-revision-build-30",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-04\\host29-release.json",
+    "sha256": "b65c2eea4d76c6f2d9ed13a96addb5328b3ef2405f159b9e80a8a4da06a75f7a",
+    "sizeBytes": 4185
+  },
+  "sourcePins": [
+    {
+      "relative": "src/mcp/toolbox-fresh-initial-save.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-fresh-initial-save.ts",
+      "sha256": "2df19695266b6d62d1130e8b251053a0174c63ce74c169868bcd82edc70930b1",
+      "sizeBytes": 11510
+    },
+    {
+      "relative": "tests/unit/toolbox-fresh-initial-save.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\toolbox-fresh-initial-save.test.ts",
+      "sha256": "53e52595251c8d3e455e8aacfc60cb0b8ebb0a619e31de24a46d2bf42df30252",
+      "sizeBytes": 31307
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-05\\host30-build-manifest.json",
+    "sha256": "870147a8699f4ae3b3e834d4ab1b400df1926bb64f6dd5549fcfd56a8603e73a",
+    "sizeBytes": 886424
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-history-and-revision-tests",
+      "exitCode": 0
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTestsPassed": true,
+  "baseHost29Preserved": true,
+  "uiOutputPreserved": true,
+  "runtimeChanged": false,
+  "nativeQualificationPending": true,
+  "scope": "Host29 plus explicit admission of the observed exact LF prepared-file history representation, alongside the existing exact observed-live representation. Primary PCB/project settings and source-inventory checks remain exact; arbitrary equivalent history formats reject. Runtime and native deadlines are unchanged. Live qualification remains pending."
+}

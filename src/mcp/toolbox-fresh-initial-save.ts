@@ -1,5 +1,5 @@
 import { canonicalJson, contentIdentity } from "../core/canonical.js";
-import { freshBoardSerializationsEqual } from "../harness/fresh-board-serialization.js";
+import { freshBoardComparisonText, freshBoardSerializationsEqual } from "../harness/fresh-board-serialization.js";
 import { hasQualifiedNativeBoardReply, type FreshBoardPersistenceSession } from "../harness/fresh-board-persistence.js";
 import { captureFreshProjectOpenPreparedSourceAuthority, parseFreshProjectOpenPreparedSourceAuthority,
   type FreshProject, type FreshProjectOpenPreparedSourceAuthority } from "../harness/fresh-project.js";
@@ -8,6 +8,7 @@ import { createKicadSavedSourceReader } from "../integrations/kicad-saved-source
 import { lstat, realpath } from "node:fs/promises";
 import type { BigIntStats } from "node:fs";
 import path from "node:path";
+import type { InitialSaveSourceMismatch } from "./toolbox-initial-save-diagnostics.js";
 
 /** Host-owned numeric codes survive the existing safe startup diagnostics. */
 export const INITIAL_FRESH_SAVE_ERROR_CODES = Object.freeze({
@@ -30,6 +31,7 @@ interface InitialFreshSaveInput {
   readonly project: FreshProject;
   readonly expectedPreparedSourceAuthority: FreshProjectOpenPreparedSourceAuthority;
   readonly session: Required<Pick<FreshBoardPersistenceSession, "assertActivePcb" | "readActivePcbSource" | "callTool">>;
+  readonly onSourceMismatch?: (diagnostic: InitialSaveSourceMismatch) => Promise<void>;
 }
 const same = (left: unknown, right: unknown): boolean => canonicalJson(left) === canonicalJson(right);
 
@@ -107,7 +109,10 @@ export async function saveInitialFreshProjectSettings(input: InitialFreshSaveInp
   // channel forms. Recheck disk authority after that awaited native observation.
   const liveBefore = await session.readActivePcbSource(project.pcbPath);
   if (!freshBoardSerializationsEqual(before.value.toString("utf8"), liveBefore)) {
-    throw failure(codes.LIVE_PCB, "Initial native save refuses unsaved live PCB changes.");
+    let diagnosticError: unknown;
+    try { await input.onSourceMismatch?.({ phase: "before-save", preparedSource: before.value.toString("utf8"), observedLiveSource: liveBefore }); }
+    catch (error) { diagnosticError = error; }
+    throw failure(codes.LIVE_PCB, "Initial native save refuses unsaved live PCB changes.", diagnosticError);
   }
   await assertPrepared();
   if (!same(await nativeSourcesExceptPrimaryProject(), sourceInventory)) {
@@ -128,13 +133,17 @@ export async function saveInitialFreshProjectSettings(input: InitialFreshSaveInp
   await session.assertActivePcb(project.pcbPath);
   const liveAfter = await session.readActivePcbSource(project.pcbPath);
   if (!freshBoardSerializationsEqual(before.value.toString("utf8"), liveAfter)) {
-    throw failure(codes.LIVE_PCB, "Live PCB changed during initial native save.");
+    let diagnosticError: unknown;
+    try { await input.onSourceMismatch?.({ phase: "after-save", preparedSource: before.value.toString("utf8"), observedLiveSource: liveAfter }); }
+    catch (error) { diagnosticError = error; }
+    throw failure(codes.LIVE_PCB, "Live PCB changed during initial native save.", diagnosticError);
   }
   await assertPrepared(true);
   const afterSources = await nativeSourcesExceptPrimaryProject();
-  // KiCad LOCAL_HISTORY writes the current board during Save. For this
-  // byte-preserving initialization it must equal the independently read live
-  // board from before Save. No arbitrary history subtree is excluded.
+  // KiCad LOCAL_HISTORY can use the native LF file formatter, whereas the
+  // observed API source uses its independently checked channel representation.
+  // Admit only one of these two exact complete byte strings. The primary PCB
+  // still has to remain byte-identical. No arbitrary history subtree is excluded.
   try {
     const parent = await historyParent();
     if (originalHistoryParent !== null && (parent === null || parent.dev !== originalHistoryParent.dev
@@ -149,10 +158,12 @@ export async function saveInitialFreshProjectSettings(input: InitialFreshSaveInp
       }
       const observeHistory = await createKicadSavedSourceReader({ pcbPath: historyPath });
       const snapshot = await observeHistory(text => Buffer.from(text, "utf8"));
-      if (!snapshot.value.equals(Buffer.from(liveBefore, "utf8"))
+      const exactLive = snapshot.value.equals(Buffer.from(liveBefore, "utf8"));
+      const exactPreparedLf = snapshot.value.equals(Buffer.from(freshBoardComparisonText(before.value.toString("utf8")), "utf8"));
+      if (!(exactLive || exactPreparedLf)
           || !same(contentIdentity(snapshot.value), snapshot.sourceIdentity)
           || snapshot.sourceIdentity.digest !== afterSources[historyKey]) {
-        throw new Error("History bytes differ from the observed unchanged live board.");
+        throw new Error("History bytes differ from both exact qualified native representations.");
       }
       delete afterSources[historyKey];
     }

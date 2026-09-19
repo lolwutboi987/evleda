@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { canonicalJson, contentIdentity } from "../core/canonical.js";
+import type { ContentIdentity } from "../domain/types.js";
 import type { FreshProject, FreshProjectOpenPreparedSourceAuthority } from "./fresh-project.js";
 import { bindKicadPhysicalFootprintLibraries } from "../integrations/kicad-native-pad-observation.js";
 import { parseFreshPcbSource, parseFreshPcbSourceDocument } from "./fresh-kicad-parser.js";
@@ -105,6 +106,21 @@ export function createFreshBoardFeatureState(bundle: PcbPlaneCompilationBundle, 
       materialized = true;
     },
   });
+  featureStates.set(state, { bundle: bundle.identity.digest, project: canonicalJson(prepared.projectIdentity) });
+  return state;
+}
+
+/** Placement revisions have an authenticated materialized constructor baseline.
+ * The host must first bind baselinePcb to its immutable allocation lineage and
+ * genuine project marker. This path grants no empty-board/pre-sync exception. */
+export function createPlacementRevisionBoardFeatureState(bundle: PcbPlaneCompilationBundle, prepared: FreshProjectOpenPreparedSourceAuthority,
+  baselinePcb: ContentIdentity, currentSource: string): FreshBoardFeatureState | undefined {
+  if (bundle.contract.boardFeatures === undefined) return undefined;
+  requireValue(isAuthenticatedPcbPlaneCompilationBundle(bundle) && canonicalJson(prepared.pcb) === canonicalJson(baselinePcb),
+    "materialized prepared PCB differs from its authenticated placement revision baseline");
+  verifyFreshBoardFeatures(bundle, currentSource);
+  const verify = (source: string, resolver?: PcbReadOnlyLibraryResolver) => verifyFreshBoardFeatures(bundle, source, resolver);
+  const state: FreshBoardFeatureState = Object.freeze({ verify, commitSavedSource: verify });
   featureStates.set(state, { bundle: bundle.identity.digest, project: canonicalJson(prepared.projectIdentity) });
   return state;
 }

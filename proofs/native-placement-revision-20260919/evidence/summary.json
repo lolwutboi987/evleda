@@ -1,0 +1,46 @@
+{
+  "projectId": "914f7760-c4c2-4bb8-9b51-b481242878a5",
+  "sourceProjectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "bundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "fbef2a84fb843f38fefc966adeac3eeb8f795327dde8372cf73759bcba5ff244",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "contractIdentity": {
+    "algorithm": "sha256",
+    "digest": "727fb658fab29f289bfa94289606a5fa2e067bbff7ceeaa36b22404c187a828e",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "pcbSha256": "6652eeb08db813382593dd8af0af00b7210ec758b4f78b3fbb7b4983b8bcd69b",
+  "checkpointSha256": "0f94454ee31dc58492cf85e17bf2a84a828d4c664d8e46d67454b08fbeb0c8f7",
+  "tracks": 829,
+  "vias": 104,
+  "footprints": 66,
+  "componentMoves": 0,
+  "sourceSixFilesUnchanged": true,
+  "functionalGeometryPreserved": true,
+  "oldFillAuthorityTransferred": false,
+  "qualifiedRefill": true,
+  "geometryEquivalent": true,
+  "headerServiceStatus": "clear",
+  "permittedOwnPadLeads": 40,
+  "measuredTurns": 631,
+  "turnViolations": [],
+  "unresolvedJunctions": 8,
+  "connectedNets": 53,
+  "disconnectedNets": 14,
+  "groundGroups": 9,
+  "largestGroundGroup": 49,
+  "drcByType": {
+    "track_dangling": 11,
+    "via_dangling": 2,
+    "unconnected_items": 24
+  },
+  "normalClose": true,
+  "readOnlyReopen": true,
+  "readOnlySourcesUnchanged": true,
+  "routingComplete": false,
+  "designAccepted": false
+}

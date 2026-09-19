@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "evleda.host28-build-release.v1",
+  "recordedAt": "2026-09-19T19:47:02.695Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-placement-revision-build-28",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-02\\host27-release.json",
+    "sha256": "352f948e3e4b0e08826785b0c650f87386cdc9c515ffdb09710255b1f79cf206",
+    "sizeBytes": 3449
+  },
+  "sourcePins": [
+    {
+      "relative": "src/harness/fresh-clearance-evidence.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-clearance-evidence.ts",
+      "sha256": "6d1d08dabbdba163a0e88b5fc62d652f3c11e4bc70a2d65bb33b600d65b936bb",
+      "sizeBytes": 133125
+    },
+    {
+      "relative": "tests/unit/fresh-plane-netclasses.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-netclasses.test.ts",
+      "sha256": "7073719f5834aba3b7e8ebd5258bfd8976e4198afdbb68888cbf921ab0e36821",
+      "sizeBytes": 37531
+    },
+    {
+      "relative": "tests/helpers/placement-revision-fixture.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\helpers\\placement-revision-fixture.ts",
+      "sha256": "c231eacc7a8edc4422b0d5ef29756740c3ebd3fa7319603871a7d2d9dd5bf0ad",
+      "sizeBytes": 3234
+    },
+    {
+      "relative": "tests/unit/fresh-plane-placement-seed.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-placement-seed.test.ts",
+      "sha256": "ea8376fdd7115c46a64c2229f01741bd58e4c51b691877678a6b8887a9aa34c3",
+      "sizeBytes": 9930
+    },
+    {
+      "relative": "tests/mcp/toolbox-placement-revision.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\mcp\\toolbox-placement-revision.test.ts",
+      "sha256": "a274aa5366c99da3169254187cf0f07ee7faa0ec9239ed86badfac0ee428b0b5",
+      "sizeBytes": 7031
+    },
+    {
+      "relative": "tests/unit/fresh-clearance-evidence.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-clearance-evidence.test.ts",
+      "sha256": "feeec9411eafae804ece2e37c8a666c01c899523e4bac35be71dd354a4eff057",
+      "sizeBytes": 103739
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-03\\host28-build-manifest.json",
+    "sha256": "818e13ca73b5e910e3485065d118974acdd4f7994f83d90bf3a4df34bb381b4d",
+    "sizeBytes": 884331
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-project-order-regression-tests",
+      "exitCode": 0
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTestsPassed": true,
+  "baseHost27Preserved": true,
+  "uiOutputPreserved": true,
+  "runtimeChanged": false,
+  "nativeQualificationPending": true,
+  "scope": "Host27 plus byte-preserving no-op netclass materialization when complete settings are semantically identical. Exact post-capture drift guards and strict placement-seed preservation remain. Targeted tests run serially with a 60-second per-case observation allowance; no assertions or native deadlines changed. Native qualification is pending."
+}

@@ -1,0 +1,21 @@
+{
+  "projectId": "6dfa4333-1f87-4795-979a-58c1311e116e",
+  "expectedIdentity": {
+    "algorithm": "sha256",
+    "digest": "7b118440711ccd30fe4fbc945766c335e57fe7c81e5b8e40fa050ad942a69fde",
+    "size": 21251
+  },
+  "actualIdentity": {
+    "algorithm": "sha256",
+    "digest": "09149fb778ee75a4b14ac4bb4207ed9ab81c18c9a3c89d72fdf389bdf8f4a250",
+    "size": 21251
+  },
+  "semanticEquality": true,
+  "differences": [],
+  "firstDifferentByte": 14242,
+  "expectedExcerpt": "null,\n    \"netclass_patterns\": [\n      {\n        \"netclass\": \"EVLEDA_fbef2a84fb84_C03\",\n        \"pattern\": \"^1V1$\"\n      },\n      {\n        \"netclass\": \"EVLEDA_fbef2a84fb84_C04\",\n        \"pattern\": \"^3V3$\"\n      },\n      {\n       ",
+  "actualExcerpt": "null,\n    \"netclass_patterns\": [\n      {\n        \"pattern\": \"^1V1$\",\n        \"netclass\": \"EVLEDA_fbef2a84fb84_C03\"\n      },\n      {\n        \"pattern\": \"^3V3$\",\n        \"netclass\": \"EVLEDA_fbef2a84fb84_C04\"\n      },\n      {\n       ",
+  "sourceFilesUnchanged": true,
+  "nativeMutations": 0,
+  "scope": "Read-only diagnostic of rejected preparation. No marker, checkpoint, lease, source, expected identity or acceptance result is changed."
+}

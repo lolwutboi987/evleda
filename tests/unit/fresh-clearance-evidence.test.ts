@@ -1040,7 +1040,9 @@ describe("fresh KiCad clearance evidence", () => {
     await expect(materializeFreshNetClasses(current.options)).rejects.toMatchObject({ code: "SOURCE_DRIFT" });
 
     delete process.env.EVLEDA_TEST_ONLY_FRESH_CLEARANCE_PRE_RECEIPT_FAULT;
-    await expect(materializeFreshNetClasses(current.options)).resolves.toMatchObject({ changed: true });
+    const alreadyConfigured = await readFile(current.proPath);
+    await expect(materializeFreshNetClasses(current.options)).resolves.toMatchObject({ changed: false });
+    expect(await readFile(current.proPath)).toEqual(alreadyConfigured);
 
     process.env.EVLEDA_TEST_ONLY_FRESH_CLEARANCE_PRE_RECEIPT_FAULT = "append-project-byte";
     await expect(materializeFreshNetClasses(current.options)).rejects.toMatchObject({ code: "SOURCE_DRIFT" });

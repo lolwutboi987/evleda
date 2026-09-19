@@ -1,0 +1,11 @@
+{
+  "sourceProjectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "projectId": "a5d4fed7-ca09-4a30-a7b6-c699a28ae6f3",
+  "startupCode": 52008,
+  "nativeCleanupConfirmed": true,
+  "sourceAndRejectedPrimaryFilesUnchanged": true,
+  "targetNormalCloseConfirmed": false,
+  "clientSdkCloseConfirmed": false,
+  "leaseRetained": true,
+  "scope": "History snapshot mismatch after successful primary-source comparisons. Files and failed allocation are preserved."
+}

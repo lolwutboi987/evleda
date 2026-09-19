@@ -1,5 +1,7 @@
 # Current status and roadmap
 
+Latest toolbox milestone, 19 September 2026: [native placement revision](../proofs/native-placement-revision-20260919/README.md) now preserves a fully authored V2 board while creating a separate project with changed placement constraints. The real 829-track RP2350 board passed creation, mandatory save/refill, native checks, normal close and read-only reopening with stored lineage. This enables the next coordinated USB/regulator placement change; it does not move components or complete routing.
+
 Latest native milestone, 19 September 2026: [ground and USB revision 60-12](../designs/rp2350-pico/native-ground-usb-60-12/README.md)
 is normally closed with **829 tracks, 104 vias and one B.Cu ground zone**.
 Nineteen added front ground segments reduce GND from 12 to **nine physical-pad

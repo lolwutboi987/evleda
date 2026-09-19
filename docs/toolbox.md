@@ -34,6 +34,14 @@ Historical DOC6 catalog qualification: With an approved [stock-catalog profile](
 
 `evleda_create_project`, `evleda_list_projects`, `evleda_resume_project` and `evleda_close_project` operate within the configured workspace. One native project is active per connection. A short admission lock protects catalog capacity and reservation; independent project leases prevent simultaneous ownership of the same project. Locks have exact-owner release and no PID-based stale reclamation. Unknown, altered or incomplete allocations and uncertain native failures remain for host review. Listing is not checkpoint validation; resume still consumes the existing saved-bundle/source/native checks.
 
+For a fully authored V2 board, `evleda_revise_placement` creates a separate project
+from a ready placement-only draft and a source closed successfully in the same
+connection/profile. It preserves the circuit and existing routing while rebinding
+owned identifiers for the new bundle. Component moves, rerouting, refill and
+verification follow through the normal native tools. See the
+[placement-revision workflow](placement-revision.md) for its exact scope and
+native qualification evidence.
+
 The same MCP server now supports host-only CAD attachment, finish and detach. Every CAD callback retains its own binding and queue; stale callbacks never switch to a later project. The lease callback runs after native closure and checkpoint publication. Guidance, the configured analytical calculator, and hash-bound historical preview resources remain separate from the native binding. SDK/real-STDIO tests rediscover tools after attachment/detachment; a particular desktop application's handling still needs installation verification. The legacy explicit-project entrypoint is preserved.
 
 The workspace and V1/V2 model-guide changes passed **32 tests**, source TypeScript checking and independent source review. These tests cover actual public schema/submission dispatch with controlled native bindings; they do not prove destination-native creation or the complete-board workflow. Those software tests are now complemented by the destination-native V2 reports below; earlier source-machine workspace reports remain historical.

@@ -1,0 +1,17 @@
+{
+  "draftId": "914f7760-c4c2-4bb8-9b51-b481242878a5",
+  "bundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "fbef2a84fb843f38fefc966adeac3eeb8f795327dde8372cf73759bcba5ff244",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "contractIdentity": {
+    "algorithm": "sha256",
+    "digest": "727fb658fab29f289bfa94289606a5fa2e067bbff7ceeaa36b22404c187a828e",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "sourceProjectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "submitResponse": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\mcp-session-45\\workspace-client-9c8db301-7849-4831-b49b-d40168d5581b\\000115-response-fdf68d946d8551ecd0f32acc5b7b239d12f3bd0efc922bb9e03127ea7617da36.json"
+}

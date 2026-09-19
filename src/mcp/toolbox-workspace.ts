@@ -25,6 +25,8 @@ import { createKicadToolboxMcpServer } from "./toolbox-server.js";
 import type { ToolboxWorkspaceStore } from "./toolbox-workspace-store.js";
 import type { FreshPlaneSchematicSeed } from "../harness/fresh-plane-schematic-seed.js";
 import { assertClosedPlaneSchematicSeedSourceCurrent, qualifyClosedPlaneSchematicSeed, type ClosedPlaneSchematicSeedSource } from "./toolbox-schematic-seed.js";
+import type { FreshPlanePlacementSeed } from "../harness/fresh-plane-placement-seed.js";
+import { assertClosedPlanePlacementRevisionSourceCurrent, qualifyClosedPlanePlacementRevision, type ClosedPlanePlacementRevisionSource } from "./toolbox-placement-revision.js";
 
 export interface KicadToolboxWorkspaceOptions {
   readonly profile: KicadMcpPinnedFileInput;
@@ -69,6 +71,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     ...(options.transmissionLine === undefined ? {} : { transmissionLine: options.transmissionLine }) });
   const pending = new Map<string, PendingDraft>();
   const closedSeedSources = new Map<string, ClosedPlaneSchematicSeedSource>();
+  const closedPlacementSources = new Map<string, ClosedPlanePlacementRevisionSource>();
   let active: { projectId: string; phase: "opening" | "active" | "needs-review"; error: string | undefined;
     lease: { release(): Promise<void> } } | undefined;
   let lifecycle: Promise<void> = Promise.resolve();
@@ -124,7 +127,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     else if (state !== "absent") throw new Error(`Native binding is ${state}; host review or confirmed finish is required.`);
   }
   async function openProject(projectId: string, resume: boolean, expectedBundleIdentity?: CanonicalIdentity, schematicSeed?: FreshPlaneSchematicSeed,
-    beforeAttach?: () => Promise<void>) {
+    beforeAttach?: () => Promise<void>, placementSeed?: FreshPlanePlacementSeed) {
     ensureIdle();
     const record = await store.lookup(projectId);
     if (record === undefined) throw new Error("Unknown workspace project.");
@@ -132,27 +135,35 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       throw new Error("Runtime-imported projects require their exact qualified target profile; ordinary resume cannot change it.");
     }
     closedSeedSources.delete(projectId);
+    closedPlacementSources.delete(projectId);
     const owned = { projectId, phase: "opening" as "opening" | "active" | "needs-review", lease: await store.acquireLease(projectId), error: undefined as string | undefined };
     active = owned;
     try {
       const binding = await openBinding({ profile, projectDir: record.inputDir, outputDir: record.outputDir,
         edit: access === "edit", resume,
-        fresh: resume ? { name: record.name } : { name: record.name, draft: record.draft,
+        fresh: { ...(resume ? { name: record.name } : { name: record.name, draft: record.draft,
           originalPrompt: record.originalPrompt, ...(expectedBundleIdentity === undefined ? {} : { expectedBundleIdentity }),
-          ...(schematicSeed === undefined ? {} : { schematicSeed }) } });
+          ...(schematicSeed === undefined ? {} : { schematicSeed }), ...(placementSeed === undefined ? {} : { placementSeed }) }),
+          ...(record.placementRevisionLineage === undefined ? {} : { placementRevisionLineage: record.placementRevisionLineage }) } });
       try {
         await beforeAttach?.();
         if (binding.cad.prepareCheckpoint === undefined) throw new Error("Workspace projects require a checkpoint-capable native binding.");
         toolbox.attachCad({ cad: binding.cad, access: binding.access, compoundContractIdentity: binding.compoundContractIdentity,
           designContext: () => ({ ...binding.designContext(), ...(record.schematicSeedLineage === undefined ? {} : { schematicSeedLineage: record.schematicSeedLineage }),
+            ...(record.placementRevisionLineage === undefined ? {} : { placementRevisionLineage: record.placementRevisionLineage }),
             ...(record.runtimeSourceImportLineage === undefined ? {} : { runtimeSourceImportLineage: record.runtimeSourceImportLineage }) }), onFinished: async outcome => {
             if (!outcome.nativeSessionClosed || !outcome.checkpointPublished || outcome.recoveryRequired) throw new Error("Project lease retained because native finalization/checkpoint requires review.");
             const seedSource = await binding.captureClosedSchematicSeedSource?.();
+            const placementSource = await binding.captureClosedPlacementRevisionSource?.();
             try { await owned.lease.release(); }
             catch (error) { owned.phase = "needs-review"; throw error; }
             if (seedSource !== undefined) {
               while (closedSeedSources.size >= 16) closedSeedSources.delete(closedSeedSources.keys().next().value!);
               closedSeedSources.set(projectId, seedSource);
+            }
+            if (placementSource !== undefined) {
+              while (closedPlacementSources.size >= 16) closedPlacementSources.delete(closedPlacementSources.keys().next().value!);
+              closedPlacementSources.set(projectId, placementSource);
             }
             if (active === owned) active = undefined;
           } });
@@ -175,6 +186,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       }
       owned.phase = "active";
       return { status: "opened", projectId, name: record.name, resumed: resume, access,
+        ...(record.placementRevisionLineage === undefined ? {} : { placementRevisionLineage: record.placementRevisionLineage }),
         ...(record.schematicSeedLineage === undefined ? {} : { schematicSeedLineage: record.schematicSeedLineage }),
         ...(record.runtimeSourceImportLineage === undefined ? {} : { runtimeSourceImportLineage: record.runtimeSourceImportLineage }),
         outputPath: record.outputDir, projectPath: path.join(record.outputDir, "project"),
@@ -237,6 +249,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       reconcileNativeState();
       const existing = await store.lookup(args.draftId);
       if (existing !== undefined) {
+        if (existing.placementRevisionLineage !== undefined) throw new Error("Existing allocation was created through placement revision; use that operation or resume it.");
         if (existing.schematicSeedLineage?.sourceProjectId !== args.sourceProjectId) throw new Error("Existing allocation has a conflicting schematic source selection; nothing was overwritten.");
         return { status: "already_created", projectId: existing.projectId,
           active: active?.projectId === existing.projectId && active.phase === "active" && toolbox.getCadState() === "active", instruction: "Resume this project if it is not already active; do not recreate it." };
@@ -277,6 +290,48 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
         catch (error) { closedSeedSources.delete(args.sourceProjectId); throw new AggregateError(primary === undefined ? [error] : [primary, error], "Source currentness could not be confirmed; its lease and any new allocation were retained for review."); }
       }
     })));
+  toolbox.server.registerTool("evleda_revise_placement", {
+    description: "Create and open a separate V2 project from a ready placement-only revision draft and a fully materialized source closed successfully in this connection/profile. The same name is required. Only placement constraints and original-prompt metadata may change; circuit, components, board, stackup, routing limits, planes, interfaces and libraries stay exact. Preserve schematic, functional footprints and existing tracks/vias; rebind owned mounting-feature UUIDs, plane names and netclass names. No component moves occur automatically. Refilling and all affected native checks remain required; no fill freshness or acceptance is copied. Repeating the same draft/source IDs never overwrites an allocation.",
+    inputSchema: z.object({ draftId: ID, sourceProjectId: ID }).strict(), annotations: WRITE,
+  }, async args => respond(() => serialize(async () => {
+    reconcileNativeState();
+    const existing = await store.lookup(args.draftId);
+    if (existing !== undefined) {
+      if (existing.placementRevisionLineage?.sourceProjectId !== args.sourceProjectId) throw new Error("Existing allocation has a conflicting placement-revision source; nothing was overwritten.");
+      return { status: "already_created", projectId: existing.projectId,
+        active: active?.projectId === existing.projectId && active.phase === "active" && toolbox.getCadState() === "active",
+        instruction: "Resume this project if it is not active; do not recreate it." };
+    }
+    if (access !== "edit") throw new Error("Placement revision requires host-configured edit access.");
+    ensureIdle();
+    const draft = pending.get(args.draftId);
+    if (draft === undefined) throw new Error("Unknown ready draft; submit the complete revised intent first.");
+    const preview = compileDraft(draft.draft, draft.originalPrompt);
+    if (preview.status !== "ready") return { status: preview.status, compilation: preview.compilation, projectCreated: false };
+    if (!isAuthenticatedPcbPlaneCompilationBundle(preview.bundle)) throw new Error("Placement revision requires the V2 plane family.");
+    if (canonicalJson(preview.bundleIdentity) !== canonicalJson(draft.bundleIdentity)) throw new Error("Compilation changed since preview; resubmit and review the new result.");
+    const receipt = closedPlacementSources.get(args.sourceProjectId), source = await store.lookup(args.sourceProjectId);
+    if (receipt === undefined || source === undefined) throw new Error("Source needs a genuine successful materialized close in this current workspace connection/profile.");
+    const lease = await store.acquireLease(source.projectId);
+    let primary: unknown; let sourceReleased = false;
+    const releaseSource = async () => {
+      await assertClosedPlanePlacementRevisionSourceCurrent(receipt); await lease.assertCurrent?.(); await lease.release(); sourceReleased = true;
+    };
+    try {
+      if (lease.assertCurrent === undefined) throw new Error("Placement revision requires current source-lease ownership checks.");
+      const qualified = await qualifyClosedPlanePlacementRevision({ receipt, sourceProjectId: source.projectId, sourceOutputDir: source.outputDir,
+        targetProjectId: draft.projectId, name: draft.name, targetBundle: preview.bundle, profile, assertLeaseCurrent: lease.assertCurrent });
+      const allocation = await store.allocate({ ...draft, placementRevisionLineage: qualified.lineage });
+      pending.delete(args.draftId);
+      if (!allocation.created) return { status: "already_created", projectId: allocation.projectId, active: false };
+      return await openProject(allocation.projectId, false, draft.bundleIdentity, undefined, releaseSource, qualified.seed);
+    } catch (error) { primary = error; throw error; }
+    finally {
+      try { if (!sourceReleased) await releaseSource(); }
+      catch (error) { closedPlacementSources.delete(args.sourceProjectId); throw new AggregateError(primary === undefined ? [error] : [primary, error],
+        "Placement source currentness could not be confirmed; its lease and any target allocation were retained for review."); }
+    }
+  })));
   toolbox.server.registerTool("evleda_list_projects", { description: "List immutable allocations in this approved workspace. A listed project is not proof of a valid checkpoint or a completed design.",
     inputSchema: z.object({ offset: z.number().int().min(0).optional(), limit: z.number().int().min(1).max(100).optional() }).strict(), annotations: READ },
     async args => respond(async () => ({ ...(await store.list({ ...(args.offset === undefined ? {} : { offset: args.offset }),

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "evleda.host26-build-release.v1",
+  "recordedAt": "2026-09-19T19:13:51.406Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-placement-revision-build-26",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\plane-geometry-spatial-01\\host25-release.json",
+    "sha256": "10073d814220eb4387957cb2538cda5b4c4adcbba87287c882e56374a1dd13e3",
+    "sizeBytes": 2800
+  },
+  "sourcePins": [
+    {
+      "relative": "src/harness/fresh-board-features.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-board-features.ts",
+      "sha256": "ad72a2aec6a432f9c5172512188291ed68b7643328b939d24bf2035cf1a45d1d",
+      "sizeBytes": 13533
+    },
+    {
+      "relative": "src/harness/fresh-clearance-evidence.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-clearance-evidence.ts",
+      "sha256": "3be67a364c42ed29a4418ad6427027eafb0b981bd53d5bd757923504df45623a",
+      "sizeBytes": 132809
+    },
+    {
+      "relative": "src/harness/fresh-project.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-project.ts",
+      "sha256": "a85eed2240bfa0ef29525901e51dd96a85da9172a2cf1363a348677a4c7e8d25",
+      "sizeBytes": 163644
+    },
+    {
+      "relative": "src/harness/fresh-plane-placement-revision.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-placement-revision.ts",
+      "sha256": "e37bdc12642252677de53bdba3e183395784d6f9f6e4cdcd774490998731a311",
+      "sizeBytes": 12344
+    },
+    {
+      "relative": "src/harness/fresh-plane-placement-seed.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-placement-seed.ts",
+      "sha256": "6c6ecca3b63a6cc67c58d3d08c0f41f5728ebd1ceb2bef1047f42124e59f40e3",
+      "sizeBytes": 3716
+    },
+    {
+      "relative": "src/mcp/toolbox-schematic-seed.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-schematic-seed.ts",
+      "sha256": "b882dfab20c9dbc807af63411aaf38103d796918e127fd0c690348bdbac4408d",
+      "sizeBytes": 18097
+    },
+    {
+      "relative": "src/mcp/toolbox-placement-revision.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-placement-revision.ts",
+      "sha256": "643c3b329c922b87619c410148e029c84e8480ef0ae403f7b8a1847843c96a67",
+      "sizeBytes": 7324
+    },
+    {
+      "relative": "src/mcp/toolbox-fresh-main.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-fresh-main.ts",
+      "sha256": "fa9ea3dcb5e80397169cb446b9b794b08e3223b3615933b2dd6f5d887b9895d7",
+      "sizeBytes": 15708
+    },
+    {
+      "relative": "src/mcp/toolbox-plane-preparation.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-plane-preparation.ts",
+      "sha256": "159799a564179a71217cdd8a2aee3e4557bd63aea1751cfa053dcea56094f1b5",
+      "sizeBytes": 21033
+    },
+    {
+      "relative": "src/mcp/toolbox-plane-session.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-plane-session.ts",
+      "sha256": "9e075511f91d6ad46078874b9b60a73e81b3dd490a442c44bbaee8cce808a784",
+      "sizeBytes": 15588
+    },
+    {
+      "relative": "src/mcp/toolbox-workspace-store.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-workspace-store.ts",
+      "sha256": "9946a4484e526e1e7412b214f88da575e1839321951b17b52b64195de180e42c",
+      "sizeBytes": 23856
+    },
+    {
+      "relative": "src/mcp/toolbox-workspace.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-workspace.ts",
+      "sha256": "e08e8379a4f64c17c1a476b87c5908128bb5d1016415308306b3e64e3ee40164",
+      "sizeBytes": 34439
+    },
+    {
+      "relative": "tests/helpers/placement-revision-fixture.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\helpers\\placement-revision-fixture.ts",
+      "sha256": "6dbeeef3ecb2a69562182aea97c9bccd8a0745eed493183ead63e320f153877a",
+      "sizeBytes": 2946
+    },
+    {
+      "relative": "tests/mcp/toolbox-placement-revision.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\mcp\\toolbox-placement-revision.test.ts",
+      "sha256": "b237b285e27acfe5689bbb7b74d843ab87289c4dca578a47a8ee2e148ef60725",
+      "sizeBytes": 6895
+    },
+    {
+      "relative": "tests/unit/fresh-plane-placement-revision.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-placement-revision.test.ts",
+      "sha256": "d41b65c7d1f8a111c57621aada2035a785ac237b009ac27107ed0ebdaa489061",
+      "sizeBytes": 9205
+    },
+    {
+      "relative": "tests/unit/fresh-plane-placement-seed.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-placement-seed.test.ts",
+      "sha256": "e1f78157dc3e9b3196c44819dec07a38bc96131292a50aecad0bbcbffb23a9dc",
+      "sizeBytes": 8104
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-01\\host26-build-manifest.json",
+    "sha256": "fe06ee30b27ce4bed9675b540a089b4cc607bccb13d2589be6de3258f09d4e45",
+    "sizeBytes": 884331
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "placement-revision-and-lifecycle-tests",
+      "exitCode": 0
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTests": {
+    "passed": 328,
+    "skipped": 1,
+    "files": 12
+  },
+  "baseHost25Preserved": true,
+  "uiOutputPreserved": true,
+  "runtimeChanged": false,
+  "nativeQualificationPending": true,
+  "reviewedDeclarationOrderChange": {
+    "path": "dist/src/mcp/toolbox-runtime-source-import.d.ts",
+    "source": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-plane-geometry-build-25\\dist\\src\\mcp\\toolbox-runtime-source-import.d.ts",
+      "sha256": "ee73c2f16163f122dbd8faa0a31d1bce7361a36dead47cd0c3f4861545e122eb",
+      "sizeBytes": 10197
+    },
+    "target": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-placement-revision-build-26\\dist\\src\\mcp\\toolbox-runtime-source-import.d.ts",
+      "sha256": "a8e8bbed5039fa5b3f701f13388c90270eda63e07b59a77149e841d2b1749c3d",
+      "sizeBytes": 10197
+    },
+    "runtimeJsUnchanged": true,
+    "reason": "Only the order of three identical typed fields changed in two generated declarations; original strict allowlist failure retained."
+  },
+  "scope": "Software-only placement-revision snapshot. Native use is deferred for the subsequent authored-settings and external feature-reference review fixes."
+}

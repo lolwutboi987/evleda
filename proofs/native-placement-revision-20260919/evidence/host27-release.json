@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "evleda.host27-build-release.v1",
+  "recordedAt": "2026-09-19T19:21:57.066Z",
+  "buildRoot": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-placement-revision-build-27",
+  "baseRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-01\\host26-release.json",
+    "sha256": "9c5d811a0d850d4c7bbf311ef0a8d0d7e7ec9c904e5dcac04084bdfcbfac89fe",
+    "sizeBytes": 7249
+  },
+  "sourcePins": [
+    {
+      "relative": "src/harness/fresh-project.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-project.ts",
+      "sha256": "3021b4c8f9e7a341dbce5bf113b366708691c93c1df5cc91c8d6f28106e0db0d",
+      "sizeBytes": 164119
+    },
+    {
+      "relative": "src/harness/fresh-plane-placement-revision.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-placement-revision.ts",
+      "sha256": "82ed005806bd3f1b853e757f70e8920d8f41147831da45419c1aa8e6531313b6",
+      "sizeBytes": 12476
+    },
+    {
+      "relative": "src/harness/fresh-plane-placement-seed.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\harness\\fresh-plane-placement-seed.ts",
+      "sha256": "3b2afe8262f6abeb2bc639e588236a53c95bc67c1d7d7a8404309a0076d90009",
+      "sizeBytes": 3964
+    },
+    {
+      "relative": "src/mcp/toolbox-plane-preparation.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\mcp\\toolbox-plane-preparation.ts",
+      "sha256": "aaa5575bb1842a55db4c21dc38543c468ac53f7f99c8501b9103294df340c5db",
+      "sizeBytes": 21280
+    },
+    {
+      "relative": "tests/unit/fresh-plane-placement-revision.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-placement-revision.test.ts",
+      "sha256": "c561258ba1629f94d3339429184a59785c2a2c61d7dc2023a14fe9996578dac1",
+      "sizeBytes": 9510
+    },
+    {
+      "relative": "tests/unit/fresh-plane-placement-seed.test.ts",
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\unit\\fresh-plane-placement-seed.test.ts",
+      "sha256": "cb8618d0572f30039a6f50ce3d88e24c6f6c2fbcc180149acb6a75e866961c66",
+      "sizeBytes": 9828
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\placement-revision-02\\host27-build-manifest.json",
+    "sha256": "00081c2be053cc7dd97708b74e35c0387fc6570acc53d013f9f82a128f13bd88",
+    "sizeBytes": 884331
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "placement-revision-preservation-tests",
+      "exitCode": 0
+    }
+  ],
+  "sourceUiTypechecksPassed": true,
+  "backendBuildPassed": true,
+  "focusedTestsPassed": true,
+  "baseHost26Preserved": true,
+  "uiOutputPreserved": true,
+  "runtimeChanged": false,
+  "nativeQualificationPending": true,
+  "scope": "Host26 plus rejection of external references to remapped feature UUIDs and exact preservation of authored project settings through revision Open. Circuit/routing limits, source project, runtime and native verification gates remain unchanged; live qualification is pending."
+}

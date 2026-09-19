@@ -1,0 +1,16 @@
+{
+  "primary": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\a5d4fed7-ca09-4a30-a7b6-c699a28ae6f3\\output\\project\\rp2350-pico.kicad_pcb",
+    "sha256": "6652eeb08db813382593dd8af0af00b7210ec758b4f78b3fbb7b4983b8bcd69b",
+    "sizeBytes": 457703
+  },
+  "history": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-native-01\\workspace\\projects\\a5d4fed7-ca09-4a30-a7b6-c699a28ae6f3\\output\\project\\.history\\rp2350-pico.kicad_pcb",
+    "sha256": "0c6303d04a24de0df5f1bfea6518454e639c624cd0ae92d651010821d8508f6c",
+    "sizeBytes": 437693
+  },
+  "exactLfPreparedMatch": true,
+  "characterizedSerializerEquivalent": true,
+  "primaryUnchanged": true,
+  "scope": "Observed KiCad 10.0.3 history-file representation. The primary source remains exact; only a newly created history leaf matching one of two complete pinned representations is admitted."
+}

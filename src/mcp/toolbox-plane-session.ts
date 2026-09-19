@@ -28,6 +28,7 @@ import { createToolboxSchematicFieldDiagnostics } from "./toolbox-schematic-fiel
 import { captureToolboxEndpointConnectivity } from "./toolbox-endpoint-connectivity.js";
 import { captureToolboxPlaneAcceptance } from "./toolbox-plane-acceptance.js";
 import { saveInitialFreshProjectSettings } from "./toolbox-fresh-initial-save.js";
+import { writeInitialSaveSourceMismatch } from "./toolbox-initial-save-diagnostics.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
 import { captureToolboxInterface } from "./toolbox-interface-report.js";
 import { assertPcbLibrarySourcesCurrent } from "../harness/pcb-library-source-binding.js";
@@ -76,9 +77,11 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
     await session.assertActivePcb(original.pcbPath);
     assertSources();
     if (preparation.mode !== "resumed") {
-      await saveInitialFreshProjectSettings({ project: original, expectedPreparedSourceAuthority: preparation.preparedSourceAuthority, session });
+      await saveInitialFreshProjectSettings({ project: original, expectedPreparedSourceAuthority: preparation.preparedSourceAuthority, session,
+        onSourceMismatch: async diagnostic => { await writeInitialSaveSourceMismatch(outputRoot, diagnostic); } });
       assertSources();
       await checkpointPlaneFreshProjectOpenNormalization({ project: original,
+        ...(preparation.placementSeed === undefined ? {} : { placementSeed: preparation.placementSeed }),
         expectedPreparedSourceAuthority: preparation.preparedSourceAuthority,
         expectedNetClassProjection: { netClasses: [...preparation.netClassSemanticAuthority.netClasses],
           contractNetAssignments: [...preparation.netClassSemanticAuthority.contractNetAssignments] } });

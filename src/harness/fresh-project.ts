@@ -33,6 +33,8 @@ import { powerAnnotationBindingOf } from "./pcb-derived-power.js";
 import { derivePcbNativeNumericRules } from "./pcb-native-numeric-rules.js";
 import { consumeFreshPlaneSchematicSeed, assertFreshPlaneSchematicSeedBaseline, assertFreshPlaneSchematicSeedCurrent,
   type FreshPlaneSchematicSeed } from "./fresh-plane-schematic-seed.js";
+import { consumeFreshPlanePlacementSeed, assertFreshPlanePlacementSeedBaseline, assertFreshPlanePlacementSeedCurrent,
+  assertFreshPlanePlacementSeedPcb, assertFreshPlanePlacementSeedFile, type FreshPlanePlacementSeed } from "./fresh-plane-placement-seed.js";
 
 /** Strict, local contracts for the audited incremental sidecar calls. */
 const coordinate = z.number().finite().min(-2_000).max(2_000);
@@ -758,6 +760,7 @@ async function parseVerifiedMarker(
   expectedWorkflow: "led_compatibility_fixture" | "generic" | "plane" | "any" = expectedGeneric === undefined ? "led_compatibility_fixture"
     : expectedGeneric.schemaVersion === PLANE_FRESH_PROJECT_BINDING_SCHEMA_VERSION ? "plane" : "generic",
   initialSchematicSeed?: FreshPlaneSchematicSeed,
+  initialPlacementSeed?: FreshPlanePlacementSeed,
 ): Promise<FreshMarker> {
   let marker: FreshMarker;
   try {
@@ -856,7 +859,12 @@ async function parseVerifiedMarker(
   }
   if (verifyBaseline) {
     const schematic = await readFile(marker.files.sch.path, "utf8");
-    if (initialSchematicSeed !== undefined && marker.schemaVersion === "evleda.pcb-agent-fresh-project.v3") assertFreshPlaneSchematicSeedBaseline(initialSchematicSeed, outputPath, schematic);
+    if (initialPlacementSeed !== undefined && marker.schemaVersion === "evleda.pcb-agent-fresh-project.v3") {
+      assertFreshPlanePlacementSeedBaseline(initialPlacementSeed, outputPath, { sch: schematic,
+        pcb: await readFile(marker.files.pcb.path, "utf8"), pro: await readFile(marker.files.pro.path, "utf8"),
+        dru: await readFile(marker.files.dru.path, "utf8") });
+    }
+    else if (initialSchematicSeed !== undefined && marker.schemaVersion === "evleda.pcb-agent-fresh-project.v3") assertFreshPlaneSchematicSeedBaseline(initialSchematicSeed, outputPath, schematic);
     else if (!schematicIsEmpty(schematic)) throw new Error("Marked fresh schematic is not empty.");
   }
   return marker;
@@ -1374,6 +1382,7 @@ export interface PreparePlaneFreshProjectOptions {
   readonly compilationBundle: PcbPlaneCompilationBundle;
   readonly compilationBundleRef: PcbPlaneCompilationBundleRef;
   readonly schematicSeed?: FreshPlaneSchematicSeed;
+  readonly placementSeed?: FreshPlanePlacementSeed;
 }
 
 /** Read-only checkpoint verification for an already genuine plane capability.
@@ -1392,6 +1401,18 @@ export async function verifyPlaneFreshProjectCheckpointReadonly(project: PlaneFr
   await project.assertMarkerCurrent();
   return Object.freeze({ projectIdentity: marker.projectIdentity, baselinePcbSha256: marker.files.pcb.sha256,
     checkpointPcbSha256: checkpoint.files.pcb.sha256, reportPath: checkpoint.reportPath, reportSha256: checkpoint.reportSha256 });
+}
+
+/** Read the immutable constructor baseline through the genuine project capability.
+ * Revision lineage is checked separately against these hashes, never against a report alone. */
+export async function readPlaneFreshProjectBaselineHashes(project: PlaneFreshProject, bundle: PcbPlaneCompilationBundle) {
+  if (!isVerifiedPlaneFreshProject(project)) throw new Error("Plane baseline requires a genuine project capability.");
+  const binding = createPlaneFreshProjectBinding(bundle, createPcbPlaneCompilationBundleRef(bundle)).binding;
+  await project.assertMarkerCurrent();
+  const marker = await parseVerifiedMarker(project.markerPath, project.outputPath, project.name, false, binding, "plane");
+  if (marker.schemaVersion !== "evleda.pcb-agent-fresh-project.v3") throw new Error("Plane baseline family differs.");
+  await project.assertMarkerCurrent();
+  return Object.freeze({ pcb: marker.files.pcb.sha256, sch: marker.files.sch.sha256, pro: marker.files.pro.sha256, dru: marker.files.dru.sha256 });
 }
 
 /** Read-only host administration capture. This never mints a FreshProject or
@@ -1491,7 +1512,10 @@ export async function assertReadonlyPlaneRuntimeImportSourceCurrent(source: Read
 export async function prepareFreshProject(options: PrepareFreshProjectOptions): Promise<FreshProject> {
   const name = validateFreshProjectName(options.name);
   const schematicSeed = options.workflowKind === "plane" ? options.schematicSeed : undefined;
-  if (schematicSeed !== undefined && options.resume) throw new Error("A schematic seed is only valid during new plane project issuance.");
+  const placementSeed = options.workflowKind === "plane" ? options.placementSeed : undefined;
+  const hasSeed = schematicSeed !== undefined || placementSeed !== undefined;
+  if (hasSeed && options.resume) throw new Error("A seed is only valid during new plane project issuance.");
+  if (schematicSeed !== undefined && placementSeed !== undefined) throw new Error("Distinct plane source seeds cannot be combined.");
   if (options.workflowKind !== undefined && !["led_compatibility_fixture", "generic", "plane"].includes(options.workflowKind)) {
     throw new Error("Fresh-project workflow family is unsupported.");
   }
@@ -1533,7 +1557,7 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
   } else {
     if ((await readdir(outputPath)).length !== 0) throw new Error("--output-dir must be empty before --prepare --new-project.");
     const seedDirectories: FreshFilesystemIdentity[] = [];
-    if (schematicSeed !== undefined) {
+    if (hasSeed) {
       for (let directory = outputPath;; directory = path.dirname(directory)) {
         const identity = await readFreshDirectoryIdentity(directory);
         if (identity.dev === null || identity.ino === null) throw new Error("Seeded issuance requires exact physical destination directory identities.");
@@ -1546,18 +1570,21 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
         throw new Error("Seeded destination directory changed during source qualification.");
       }
     };
-    const boardSource = emptyBoard(planeInput?.bundle);
-    const schematicSource = schematicSeed === undefined ? emptySchematic(name, randomUUID())
-      : await consumeFreshPlaneSchematicSeed(schematicSeed, outputPath, name, planeInput!.bundle);
-    if (schematicSeed !== undefined) {
+    const placementSources = placementSeed === undefined ? undefined
+      : await consumeFreshPlanePlacementSeed(placementSeed, outputPath, name, planeInput!.bundle);
+    if (placementSources !== undefined && placementSources.dru !== plane!.rulesSource) throw new Error("Placement seed rules differ from the new canonical rules.");
+    const boardSource = placementSources?.pcb ?? emptyBoard(planeInput?.bundle);
+    const schematicSource = placementSources?.sch ?? (schematicSeed === undefined ? emptySchematic(name, randomUUID())
+      : await consumeFreshPlaneSchematicSeed(schematicSeed, outputPath, name, planeInput!.bundle));
+    if (hasSeed) {
       await assertSeedDestination();
       if ((await readdir(outputPath)).length !== 0) throw new Error("Seeded destination became nonempty during source qualification.");
     }
     await mkdir(projectPath);
-    const seedProjectIdentity = schematicSeed === undefined ? undefined : await readFreshDirectoryIdentity(projectPath);
+    const seedProjectIdentity = hasSeed ? await readFreshDirectoryIdentity(projectPath) : undefined;
     const names = plane === undefined ? fileNames(name) : { ...fileNames(name), dru: `${name}.kicad_dru` };
     await Promise.all([
-      writeFile(path.join(projectPath, names.pro), emptyProject(name, planeInput === undefined ? undefined : derivePcbNativeNumericRules(planeInput.bundle.contract)), { encoding: "utf8", flag: "wx" }),
+      writeFile(path.join(projectPath, names.pro), placementSources?.pro ?? emptyProject(name, planeInput === undefined ? undefined : derivePcbNativeNumericRules(planeInput.bundle.contract)), { encoding: "utf8", flag: "wx" }),
       writeFile(path.join(projectPath, names.sch), schematicSource, { encoding: "utf8", flag: "wx" }),
       writeFile(path.join(projectPath, names.pcb), boardSource, { encoding: "utf8", flag: "wx" }),
       writeFile(path.join(projectPath, names.symLibTable), plane?.symbolTable ?? generic?.symbolTable ?? freshSymbolLibraryTable(), { encoding: "utf8", flag: "wx" }),
@@ -1568,7 +1595,7 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
     const files = Object.fromEntries(await Promise.all((Object.entries(names) as [keyof typeof names, string][]).map(async ([key, filename]) => {
       const filePath = path.join(projectPath, filename);
       const captured = await captureFreshRegularFile(filePath);
-      if (schematicSeed !== undefined) seededFiles.set(filePath, captured);
+      if (hasSeed) seededFiles.set(filePath, captured);
       return [key, { path: filePath, sha256: captured.sha256 }];
     }))) as FreshMarker["files"];
     const marker: FreshMarker = plane !== undefined
@@ -1577,8 +1604,9 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
       : generic === undefined
       ? { schemaVersion: "evleda.pcb-agent-fresh-project.v1", name, outputPath, projectPath, projectIdentity: await readFreshDirectoryIdentity(projectPath), files }
       : { schemaVersion: "evleda.pcb-agent-fresh-project.v2", workflowKind: "generic", name, outputPath, projectPath, projectIdentity: await readFreshDirectoryIdentity(projectPath), files, genericBinding: generic.binding };
-    if (schematicSeed !== undefined) {
-      await assertFreshPlaneSchematicSeedCurrent(schematicSeed);
+    if (hasSeed) {
+      if (schematicSeed !== undefined) await assertFreshPlaneSchematicSeedCurrent(schematicSeed);
+      if (placementSeed !== undefined) await assertFreshPlanePlacementSeedCurrent(placementSeed);
       await assertSeedDestination();
       if (!sameFreshDirectoryIdentity(seedProjectIdentity!, await readFreshDirectoryIdentity(projectPath))
           || !sameFreshDirectoryIdentity(seedProjectIdentity!, marker.projectIdentity)
@@ -1595,7 +1623,7 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
     await writeFile(markerPath, `${JSON.stringify(marker, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
   }
   const markerIdentityBeforeCapability = contentIdentity(await readFile(markerPath));
-  const marker = await parseVerifiedMarker(markerPath, outputPath, name, !options.resume, expectedBinding, workflowKind, schematicSeed);
+  const marker = await parseVerifiedMarker(markerPath, outputPath, name, !options.resume, expectedBinding, workflowKind, schematicSeed, placementSeed);
   const markerIdentityAfterCapability = contentIdentity(await readFile(markerPath));
   if (!sameContentIdentity(markerIdentityBeforeCapability, markerIdentityAfterCapability)) {
     throw new Error("Fresh-project marker changed while its capability was being minted.");
@@ -1974,6 +2002,7 @@ export async function checkpointFreshProjectOpenNormalization(options: FreshProj
 
 export async function checkpointPlaneFreshProjectOpenNormalization(options: {
   readonly project: PlaneFreshProject;
+  readonly placementSeed?: FreshPlanePlacementSeed;
   readonly expectedNetClassProjection: FreshProjectNetClassSemanticProjection;
   readonly expectedPreparedSourceAuthority: FreshProjectOpenPreparedSourceAuthority;
   readonly assertCanCommit?: FreshProjectOpenNormalizationOptions["assertCanCommit"];
@@ -1981,19 +2010,24 @@ export async function checkpointPlaneFreshProjectOpenNormalization(options: {
 }): Promise<{ readonly changed: boolean; readonly checkpointPath: string }> {
   if (!isVerifiedPlaneFreshProject(options.project)) throw new Error("Plane Open normalization requires an authenticated plane fresh-project capability.");
   await options.project.assertMarkerCurrent();
+  if (options.placementSeed !== undefined) {
+    assertFreshPlanePlacementSeedPcb(options.placementSeed, options.project.outputPath, options.expectedPreparedSourceAuthority.pcb);
+    assertFreshPlanePlacementSeedFile(options.placementSeed, options.project.outputPath, "pro", options.expectedPreparedSourceAuthority.pro);
+  }
   return checkpointFreshProjectOpenNormalizationForFamily({
     outputDir: options.project.outputPath, name: options.project.name,
     expectedNetClassProjection: options.expectedNetClassProjection,
     expectedPreparedSourceAuthority: options.expectedPreparedSourceAuthority,
     ...(options.assertCanCommit === undefined ? {} : { assertCanCommit: options.assertCanCommit }),
     ...(options.testHooks === undefined ? {} : { testHooks: options.testHooks }),
-  }, options.project.planeBinding, planeNumericProjections.get(options.project));
+  }, options.project.planeBinding, planeNumericProjections.get(options.project), options.placementSeed === undefined ? undefined : options.expectedPreparedSourceAuthority.pcb);
 }
 
 async function checkpointFreshProjectOpenNormalizationForFamily(
   options: FreshProjectOpenNormalizationOptions,
   expectedPlane?: PlaneFreshProjectBinding,
   numericProjection?: NativeNumericProjection,
+  placementRevisionPcbIdentity?: ContentIdentity,
 ): Promise<{ readonly changed: boolean; readonly checkpointPath: string }> {
   const name = validateFreshProjectName(options.name);
   const outputPath = path.resolve(options.outputDir);
@@ -2040,7 +2074,10 @@ async function checkpointFreshProjectOpenNormalizationForFamily(
     }
     if (marker.schemaVersion === "evleda.pcb-agent-fresh-project.v3") {
       const pcbText = currentSnapshot.captures.pcb.bytes.toString("utf8");
-      if (/\(zone(?:\s|\))/u.test(pcbText) || /\(clearance(?:\s|\))/u.test(pcbText)) {
+      if (placementRevisionPcbIdentity !== undefined && !sameContentIdentity(placementRevisionPcbIdentity, contentIdentity(currentSnapshot.captures.pcb.bytes))) {
+        throw new Error("Placement revision Open changed its exact qualified authored PCB.");
+      }
+      if (placementRevisionPcbIdentity === undefined && (/\(zone(?:\s|\))/u.test(pcbText) || /\(clearance(?:\s|\))/u.test(pcbText))) {
         throw new Error("Initial plane Open normalization cannot authorize authored zones or local copper-clearance overrides.");
       }
       const rulesCapture = freshCapture(currentSnapshot.captures, "dru");
@@ -2052,7 +2089,11 @@ async function checkpointFreshProjectOpenNormalizationForFamily(
       customRulesSnapshot = await assertGenericRuleSourcesRemainClosed(marker.projectPath, name, currentSnapshot.captures.pcb.bytes.toString("utf8"));
     }
     if (options.expectedNetClassProjection === undefined) throw new Error("Generic KiCad project normalization requires the expected net-class semantic projection.");
-    assertGenericKicad10OpenNormalization(currentSnapshot.captures.pro.bytes.toString("utf8"), name, options.expectedNetClassProjection, numericProjection);
+    if (placementRevisionPcbIdentity === undefined) {
+      assertGenericKicad10OpenNormalization(currentSnapshot.captures.pro.bytes.toString("utf8"), name, options.expectedNetClassProjection, numericProjection);
+    } else if (!sameContentIdentity(contentIdentity(currentSnapshot.captures.pro.bytes), preparedSourceAuthority.pro)) {
+      throw new Error("Placement revision Open changed its exact qualified authored project settings.");
+    }
   } else if (options.expectedPreparedSourceAuthority !== undefined) {
     throw new Error("LED compatibility Open normalization does not accept generic prepared-source authority.");
   }

@@ -1,0 +1,14 @@
+{
+  "recordedAt": "2026-09-19T20:12:08.186Z",
+  "projectId": "160d7be6-9940-4431-a15e-085d1e5daea1",
+  "sourceProjectId": "b2e1adba-cf6c-4ccf-a51f-00f63320d6eb",
+  "startupFailureCode": 52005,
+  "sourceSixFilesUnchanged": true,
+  "rejectedSixFilesMatchPreparedCheckpoint": true,
+  "nativeCleanupConfirmed": true,
+  "ownedHostProcessesAbsent": true,
+  "normalTargetCloseConfirmed": false,
+  "clientSdkCloseConfirmed": false,
+  "leaseRetained": true,
+  "scope": "Native startup rejected a saved/live PCB serialization mismatch. Original and rejected prepared sources are preserved. No marker, checkpoint or lease was rewritten or removed."
+}

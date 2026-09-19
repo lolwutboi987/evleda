@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-placement-revision-build-26
+
+
+ Test Files  12 passed (12)
+      Tests  328 passed | 1 skipped (329)
+   Start at  12:07:08
+   Duration  210.62s (transform 3.01s, setup 0ms, import 9.89s, tests 395.49s, environment 1ms)
+

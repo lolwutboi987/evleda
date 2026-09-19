@@ -63,6 +63,23 @@ async function fixture() {
 }
 
 describe("fresh toolbox initial native project-settings save", () => {
+  it.each(["before-save", "after-save"] as const)("captures the complete %s mismatch without weakening the source guard", async phase => {
+    const f = await fixture(), changed = appendBoardForm(f.before.toString("utf8"), '(gr_text "unexpected" (at 1 1) (layer "F.SilkS"))');
+    const onSourceMismatch = vi.fn(async () => {});
+    if (phase === "before-save") f.setLive(changed);
+    else f.session.callTool.mockImplementation(async () => { f.setLive(changed); return savedReply(); });
+    const error = await saveInitialFreshProjectSettings({ ...f.input, onSourceMismatch }).catch(value => value);
+    expectStartupCode(error, INITIAL_FRESH_SAVE_ERROR_CODES.LIVE_PCB);
+    expect(onSourceMismatch).toHaveBeenCalledExactlyOnceWith({ phase, preparedSource: f.before.toString("utf8"), observedLiveSource: changed });
+    expect(f.session.callTool).toHaveBeenCalledTimes(phase === "before-save" ? 0 : 1);
+    expect(await readFile(f.project.pcbPath)).toEqual(f.before);
+  });
+  it("retains the native mismatch failure when diagnostic publication fails", async () => {
+    const f = await fixture(); f.setLive(appendBoardForm(f.before.toString("utf8"), '(gr_text "unexpected" (at 1 1) (layer "F.SilkS"))'));
+    const error = await saveInitialFreshProjectSettings({ ...f.input, onSourceMismatch: async () => { throw new Error("Diagnostic unavailable"); } }).catch(value => value);
+    expectStartupCode(error, INITIAL_FRESH_SAVE_ERROR_CODES.LIVE_PCB);
+    expect(f.session.callTool).not.toHaveBeenCalled();
+  });
   it("pins distinct numeric startup codes for the initial-save failure boundaries", () => {
     expect(INITIAL_FRESH_SAVE_ERROR_CODES).toEqual({ PREPARED_AUTHORITY: 52001, PREPARED_SETTINGS: 52002, PCB_BYTES: 52003,
       SOURCE_INVENTORY: 52004, LIVE_PCB: 52005, ACKNOWLEDGEMENT: 52006, HISTORY_DESTINATION: 52007, HISTORY_SNAPSHOT: 52008 });
@@ -224,6 +241,26 @@ describe("fresh toolbox initial native project-settings save", () => {
     expect(await readFile(historyPath)).toEqual(Buffer.from(live, "utf8"));
     expect((await lstat(historyPath)).nlink).toBe(1);
     if (historyParent === "ordinary with another native file") expect(await readFile(otherPath)).toEqual(f.before);
+    expect(await readFile(f.project.pcbPath)).toEqual(f.before);
+  });
+
+  it("accepts the exact LF file snapshot when the verified API representation differs", async () => {
+    const f = await fixture(), historyDir = path.join(f.project.projectPath, ".history"), historyPath = path.join(historyDir, `${f.project.name}.kicad_pcb`);
+    const fileLf = f.before.toString("utf8").replaceAll("\r\n", "\n"), live = fileLf.replace("(version ", "(version  ");
+    f.setLive(live); expect(live).not.toBe(fileLf); expect(freshBoardSerializationsEqual(live, fileLf)).toBe(true);
+    f.session.callTool.mockImplementation(async () => { await mkdir(historyDir); await writeFile(historyPath, fileLf, "utf8"); return savedReply(); });
+    await expect(saveInitialFreshProjectSettings(f.input)).resolves.toBeUndefined();
+    expect(await readFile(historyPath, "utf8")).toBe(fileLf);
+    expect(await readFile(f.project.pcbPath)).toEqual(f.before);
+  });
+
+  it("rejects a third equivalent history formatting that matches neither exact admitted source", async () => {
+    const f = await fixture(), historyDir = path.join(f.project.projectPath, ".history"), historyPath = path.join(historyDir, `${f.project.name}.kicad_pcb`);
+    const fileLf = f.before.toString("utf8").replaceAll("\r\n", "\n"), live = fileLf.replace("(version ", "(version  "), third = fileLf.replace("(version ", "(version   ");
+    f.setLive(live); expect(freshBoardSerializationsEqual(third, fileLf)).toBe(true);
+    f.session.callTool.mockImplementation(async () => { await mkdir(historyDir); await writeFile(historyPath, third, "utf8"); return savedReply(); });
+    const error = await saveInitialFreshProjectSettings(f.input).catch(value => value);
+    expectStartupCode(error, INITIAL_FRESH_SAVE_ERROR_CODES.HISTORY_SNAPSHOT);
     expect(await readFile(f.project.pcbPath)).toEqual(f.before);
   });
 

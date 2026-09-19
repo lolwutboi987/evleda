@@ -68,6 +68,7 @@ interface SourceContext {
   readonly project: PlaneFreshProject; readonly bundle: PcbPlaneCompilationBundle; readonly profile: KicadMcpPinnedFileInput;
   readonly dependencies: PcbPlaneCompilerOptions; readonly symbolRoot: string;
 }
+export type ClosedPlaneSeedSourceContext = SourceContext;
 function currentLibraries(context: SourceContext) {
   assertPcbLibrarySourcesCurrent(context.bundle.libraryBinding, context.dependencies.libraryResolver);
   if (context.bundle.externalPowerBinding) assertPcbExternalPowerBindingCurrent(context.bundle.externalPowerBinding, context.dependencies.libraryResolver);
@@ -95,6 +96,8 @@ async function snapshot(context: SourceContext) {
     { path: value.path, identity: value.identity, physical: value.physical }])), projectIdentity: verified.projectIdentity }, "evleda.closed-plane-seed-source.v1");
   return { files, verified, identity: sourceIdentity };
 }
+/** Shared host-only capture mechanics. This snapshot alone is not close/seed authority. */
+export const captureClosedPlaneSeedSnapshot = snapshot;
 export interface ClosedPlaneSchematicSeedSource { readonly kind: "same-connection-closed-plane-source" }
 const closed = new WeakMap<object, { context: SourceContext; identity: CanonicalIdentity }>();
 /** Called by the genuine plane binding only after successful native close/checkpoint,
