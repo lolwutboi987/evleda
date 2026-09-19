@@ -4,7 +4,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { prepareFreshProject } from "../../src/harness/fresh-project.js";
 import { createKicadHarnessTools, kicadHarnessToolEffect } from "../../src/harness/kicad-tools.js";
-import { assertOnlyRequestedPcbTextAdded, parsePcbSilkscreenText } from "../../src/harness/pcb-silkscreen-text.js";
+import { assertOnlyRequestedPcbTextAdded, parsePcbSilkscreenText, pcbSilkscreenNativeArguments } from "../../src/harness/pcb-silkscreen-text.js";
 import { contentIdentity } from "../../src/core/canonical.js";
 import { createGenericDividerBundleFixture } from "../helpers/generic-divider-bundle.js";
 import { parseFreshPcbTextItems } from "../../src/harness/fresh-kicad-parser.js";
@@ -42,11 +42,39 @@ describe("bounded PCB silkscreen text", () => {
     expect(requested).toEqual({ text: "VIN", x_mm: 4, y_mm: 5, layer: "F_SilkS", size_mm: 1, rotation_deg: 0, bold: false, italic: false });
     expect(kicadHarnessToolEffect("pcb_add_text")).toBe("mutation");
   });
-  it.each([{ layer: "F_Cu" }, { rotation_deg: 90 }, { size_mm: 0 }, { size_mm: 0.79 }, { size_mm: 20 }, { x_mm: -1 }, { text: "${REFERENCE}" }, { text: "a\nb" }, { object_id: id }])("rejects unsupported presentation %j", change => {
+  it.each([{ layer: "F_Cu" }, { layer: "B_SilkS" }, { rotation_deg: 45 }, { rotation_deg: -90 }, { rotation_deg: 360 }, { rotation_deg: "90" }, { size_mm: 0 }, { size_mm: 0.79 }, { size_mm: 20 }, { x_mm: -1 }, { text: "${REFERENCE}" }, { text: "a\nb" }, { object_id: id }])("rejects unsupported presentation %j", change => {
     expect(() => parsePcbSilkscreenText({ text: "VIN", x_mm: 4, y_mm: 5, ...change })).toThrow();
   });
   it("accepts exactly one requested text while preserving all other source", () => {
     expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline), requested)).not.toThrow();
+  });
+  it.each([0, 90, 180, 270])("checks exact %s-degree text while preserving the rest of the board", rotation_deg => {
+    const expected = parsePcbSilkscreenText({ text: "VIN", x_mm: 4, y_mm: 5, rotation_deg });
+    const node = textNode.replace('(at 4 5 0)', `(at 4 5 ${rotation_deg})`);
+    expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, node), expected)).not.toThrow();
+    expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, node.replace(`(at 4 5 ${rotation_deg})`, '(at 4 5 45)')), expected)).toThrow();
+  });
+  it("accepts the equivalent signed native spelling without an angular tolerance", () => {
+    const expected = parsePcbSilkscreenText({ text: "VIN", x_mm: 4, y_mm: 5, rotation_deg: 270 });
+    expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, textNode.replace('(at 4 5 0)', '(at 4 5 -90)')), expected)).not.toThrow();
+    expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, textNode.replace('(at 4 5 0)', '(at 4 5 -89.999999)')), expected)).toThrow();
+  });
+  it("materializes coordinates and font size through the pinned truncating wire ABI", () => {
+    const expected = parsePcbSilkscreenText({ text: "VIN", x_mm: .000249, y_mm: .000499, size_mm: .800249, rotation_deg: 90 });
+    const wire = JSON.parse(JSON.stringify(pcbSilkscreenNativeArguments(expected)));
+    expect(Math.trunc(wire.x_mm * 1e6)).toBe(249);
+    expect(Math.trunc(wire.y_mm * 1e6)).toBe(499);
+    expect(Math.trunc(wire.size_mm * 1e6)).toBe(800249);
+    expect(wire.rotation_deg).toBe(90);
+  });
+  it("does not round a one-nanometre readback error into compliance", () => {
+    const expected = parsePcbSilkscreenText({ text: "VIN", x_mm: .000249, y_mm: 5 });
+    const node = textNode.replace('(at 4 5 0)', '(at 0.000248 5 0)');
+    expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, node), expected)).toThrow();
+  });
+  it("does not lose a tiny angular error while normalizing a signed angle", () => {
+    const node = textNode.replace('(at 4 5 0)', '(at 4 5 0.000000000000001)');
+    expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, node), requested)).toThrow();
   });
   it.each(['(thickness 0.079)', '(thickness "0.15")', '(thickness 0x1)', '(thickness 0.15) (thickness 0.2)'])("rejects unverified or below-minimum native text stroke %s", replacement => {
     expect(() => assertOnlyRequestedPcbTextAdded(baseline, insert(baseline, textNode.replace('(thickness 0.15)', replacement)), requested)).toThrow(/thickness/);
@@ -105,5 +133,34 @@ describe("bounded PCB silkscreen text", () => {
     const saved = await tools.internal.saveAfterMutation({ id: "save", name: "pcb_save", arguments: {} });
     if (tamper) { expect(saved.isError).toBe(true); expect(await readFile(freshProject.pcbPath, "utf8")).toBe(before); }
     else { expect(saved.isError).not.toBe(true); assertOnlyRequestedPcbTextAdded(before, await readFile(freshProject.pcbPath, "utf8"), requested); }
+  });
+
+  it("forwards cardinal rotation and exact nanometres through the complete text/save path", async () => {
+    const outputDir = await mkdtemp(path.join(tmpdir(), "evleda-text-wire-test-")); roots.push(outputDir);
+    const { bundle, reference } = createGenericDividerBundleFixture();
+    const freshProject = await prepareFreshProject({ outputDir, name: "text-proof", resume: false, workflowKind: "generic", compilationBundle: bundle, compilationBundleRef: reference });
+    const before = await readFile(freshProject.pcbPath, "utf8"); let live = before;
+    const expected = parsePcbSilkscreenText({ text: "VIN", x_mm: .000249, y_mm: 5, rotation_deg: 90 });
+    const callTool = vi.fn(async (name: string, args: Record<string, unknown>) => {
+      if (name === "pcb_add_text") {
+        const xNm = Math.trunc((args.x_mm as number) * 1e6);
+        const yNm = Math.trunc((args.y_mm as number) * 1e6);
+        expect(xNm).toBe(249); expect(yNm).toBe(5_000_000); expect(args.rotation_deg).toBe(90);
+        live = insert(live, textNode.replace('(at 4 5 0)', `(at ${xNm / 1e6} ${yNm / 1e6} ${args.rotation_deg})`));
+      }
+      if (name === "pcb_save") await writeFile(freshProject.pcbPath, live);
+      if (name === "pcb_revert") live = await readFile(freshProject.pcbPath, "utf8");
+      return { content: [{ type: "text" as const, text: "ok" }] };
+    });
+    const session = { listTools: () => ["pcb_add_text", "pcb_save", "pcb_revert"].map(name => ({ name, permission: "write" as const, inputSchema: { type: "object" } })),
+      callTool, assertActivePcb: async () => undefined, readActivePcbSource: async () => live };
+    const fingerprint = async () => contentIdentity(await readFile(freshProject.pcbPath)).digest;
+    const tools = createKicadHarnessTools(session, { freshProject, freshCompilationBundle: bundle, freshConnectivityContract: bundle.contract,
+      capturePersistedMutationBaseline: fingerprint, verifyPersistedMutation: async baseline => baseline !== await fingerprint() });
+    await tools.execute({ id: "text", name: "pcb_add_text", arguments: { ...expected } });
+    expect(await readFile(freshProject.pcbPath, "utf8")).toBe(before);
+    const saved = await tools.internal.saveAfterMutation({ id: "save", name: "pcb_save", arguments: {} });
+    expect(saved.isError).not.toBe(true);
+    assertOnlyRequestedPcbTextAdded(before, await readFile(freshProject.pcbPath, "utf8"), expected);
   });
 });

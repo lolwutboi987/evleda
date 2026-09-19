@@ -90,7 +90,7 @@ import { FRESH_FOOTPRINT_FIELD_TOOL, FRESH_FOOTPRINT_FIELD_SCHEMA, parseFreshFoo
 import { FRESH_FOOTPRINT_POSE_BATCH_TOOL, FRESH_FOOTPRINT_POSE_BATCH_SCHEMA, parseFreshFootprintPoses,
   planFreshFootprintPoses, type FreshFootprintPoseBatchPlan } from "./fresh-footprint-pose-batch.js";
 import { freshBoardComparisonText, freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
-import { PCB_SILKSCREEN_TEXT_SCHEMA, parsePcbSilkscreenText, assertOnlyRequestedPcbTextAdded, type PcbSilkscreenText } from "./pcb-silkscreen-text.js";
+import { PCB_SILKSCREEN_TEXT_SCHEMA, parsePcbSilkscreenText, pcbSilkscreenNativeArguments, assertOnlyRequestedPcbTextAdded, type PcbSilkscreenText } from "./pcb-silkscreen-text.js";
 import { compareFreshNativeNetlists } from "./fresh-native-netlist-comparison.js";
 import { FreshSchematicRollback, type FreshSchematicPreimage } from "./fresh-schematic-rollback.js";
 import { exactFreshSchematicGeometryMatches, expectedFreshSchematicGeometryPrefixes } from "./fresh-schematic-writer-geometry.js";
@@ -3066,7 +3066,7 @@ export function projectKicadHarnessToolDefinitions(
     }
     const definition=harnessToolDefinitionSchema.parse({
       name,
-      description: freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?"Read the complete bounded, source-bound track/via UUID selection for the genuine V2 plane project. This inventory does not establish route completion, plane contact, clearance, or reference coverage.":freshProject?.workflowKind==="plane"&&name==="fresh_replace_route_items"?"Incrementally add and/or delete selected track/via UUIDs on one exact V2 contract net, including ground-plane access. Supply the last plane selection identity and all arrays; arrays may be empty but the operation must have an effect. Widths default to the exact class width; optional track widthMm must meet the existing net-class floor; channel widths instead require declared body or terminal escape intervals. Via dimensions are host-derived. Draft routes may remain incomplete; mandatory save verifies exact source/native readback, not completed connectivity.":name === "pcb_add_text" ? "Add one bounded literal front-silkscreen label at zero rotation to the bound V1/V2 fresh PCB. Minimum height is 0.8 mm and saved native stroke must be at least 0.08 mm. Mandatory save verifies the new text and preservation of all existing board content. No copied-project support." : tool === undefined
+      description: freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?"Read the complete bounded, source-bound track/via UUID selection for the genuine V2 plane project. This inventory does not establish route completion, plane contact, clearance, or reference coverage.":freshProject?.workflowKind==="plane"&&name==="fresh_replace_route_items"?"Incrementally add and/or delete selected track/via UUIDs on one exact V2 contract net, including ground-plane access. Supply the last plane selection identity and all arrays; arrays may be empty but the operation must have an effect. Widths default to the exact class width; optional track widthMm must meet the existing net-class floor; channel widths instead require declared body or terminal escape intervals. Via dimensions are host-derived. Draft routes may remain incomplete; mandatory save verifies exact source/native readback, not completed connectivity.":name === "pcb_add_text" ? "Add one bounded literal front-silkscreen label at 0/90/180/270 degrees to the bound V1/V2 fresh PCB. Coordinates and size are materialized to integer nanometres; minimum height is 0.8 mm and saved native stroke at least 0.08 mm. Mandatory save verifies exact text presentation and preservation of all existing board content. No copied-project support." : tool === undefined
         ? name === "fresh_apply_contract_connectivity"
           ? "Apply the host-bound design contract's exact nets and no-connects. Arguments must be empty. If a recommendation is returned, pass only its exact identity to the host atomic placement operation."
           : name === "fresh_apply_recommended_schematic_placement"
@@ -4396,7 +4396,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (this.#freshPhysicalFootprintResolver !== undefined) await this.#physicalPadState(before, []);
     this.#pendingFreshBoardPostSave = Object.freeze({ kind: "text", before: before.source, beforeCapture: before, requested });
     try {
-      const result = await this.#callSourceBoundTool("pcb_add_text", { ...requested });
+      const result = await this.#callSourceBoundTool("pcb_add_text", { ...pcbSilkscreenNativeArguments(requested) });
       if (result.isError) throw new Error("Native PCB text insertion failed.", { cause: nativeReplyCause("pcb_add_text", result) });
       const expectedAfter = await freshActiveBoardSource(this.#session, this.#freshProject.pcbPath);
       assertOnlyRequestedPcbTextAdded(before.source, expectedAfter, requested);

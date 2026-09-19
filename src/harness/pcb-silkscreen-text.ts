@@ -1,9 +1,13 @@
 import { parseFreshPcbTextItems, parseFreshPcbSourceDocument } from "./fresh-kicad-parser.js";
 import { freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
+import { routeMmToNativeNm, routeNativeNmToKipyMm, routeNativeNmToMm } from "./fresh-route-native-units.js";
+
+export type PcbSilkscreenRotation = 0 | 90 | 180 | 270;
+const rotations = Object.freeze([0, 90, 180, 270] as const);
 
 export interface PcbSilkscreenText {
   readonly text: string; readonly x_mm: number; readonly y_mm: number;
-  readonly layer: "F_SilkS"; readonly size_mm: number; readonly rotation_deg: 0;
+  readonly layer: "F_SilkS"; readonly size_mm: number; readonly rotation_deg: PcbSilkscreenRotation;
   readonly bold: boolean; readonly italic: boolean;
 }
 export const PCB_SILKSCREEN_TEXT_SCHEMA = Object.freeze({ type: "object", additionalProperties: false,
@@ -11,7 +15,7 @@ export const PCB_SILKSCREEN_TEXT_SCHEMA = Object.freeze({ type: "object", additi
     x_mm: { type: "number", minimum: 0, maximum: 2000 }, y_mm: { type: "number", minimum: 0, maximum: 2000 },
     layer: { type: "string", enum: ["F_SilkS"], default: "F_SilkS" },
     size_mm: { type: "number", minimum: 0.8, maximum: 3, default: 1 },
-    rotation_deg: { type: "number", enum: [0], default: 0 }, bold: { type: "boolean", default: false }, italic: { type: "boolean", default: false } },
+    rotation_deg: { type: "number", enum: rotations, default: 0 }, bold: { type: "boolean", default: false }, italic: { type: "boolean", default: false } },
   required: ["text", "x_mm", "y_mm"] });
 
 export function parsePcbSilkscreenText(value: Readonly<Record<string, unknown>>): PcbSilkscreenText {
@@ -20,14 +24,24 @@ export function parsePcbSilkscreenText(value: Readonly<Record<string, unknown>>)
       || !/^[ -~]+$/u.test(value.text) || value.text.includes("${")
       || typeof value.x_mm !== "number" || !Number.isFinite(value.x_mm) || value.x_mm < 0 || value.x_mm > 2000
       || typeof value.y_mm !== "number" || !Number.isFinite(value.y_mm) || value.y_mm < 0 || value.y_mm > 2000
-      || (value.layer !== undefined && value.layer !== "F_SilkS") || (value.rotation_deg !== undefined && value.rotation_deg !== 0)
+      || (value.layer !== undefined && value.layer !== "F_SilkS")
+      || (value.rotation_deg !== undefined && !rotations.includes(value.rotation_deg as PcbSilkscreenRotation))
       || (value.size_mm !== undefined && (typeof value.size_mm !== "number" || !Number.isFinite(value.size_mm) || value.size_mm < 0.8 || value.size_mm > 3))
       || (value.bold !== undefined && typeof value.bold !== "boolean") || (value.italic !== undefined && typeof value.italic !== "boolean")) {
-    throw new Error("PCB text requires bounded literal text, coordinates, F_SilkS, and verified zero rotation.");
+    throw new Error("PCB text requires bounded literal text, coordinates, F_SilkS, and cardinal rotation.");
   }
-  return Object.freeze({ text: value.text, x_mm: value.x_mm, y_mm: value.y_mm, layer: "F_SilkS",
-    size_mm: value.size_mm as number | undefined ?? 1, rotation_deg: 0,
+  // Materialize the request once in KiCad's integer-nanometre domain. Actual
+  // readback is still compared exactly; it is never rounded into compliance.
+  const materialized = (mm: number) => routeNativeNmToMm(routeMmToNativeNm(mm));
+  return Object.freeze({ text: value.text, x_mm: materialized(value.x_mm), y_mm: materialized(value.y_mm), layer: "F_SilkS",
+    size_mm: materialized(value.size_mm as number | undefined ?? 1), rotation_deg: value.rotation_deg as PcbSilkscreenRotation | undefined ?? 0,
     bold: value.bold as boolean | undefined ?? false, italic: value.italic as boolean | undefined ?? false });
+}
+
+/** Pinned KiPy Vector2 conversion truncates mm*1e6 for positions and font size. */
+export function pcbSilkscreenNativeArguments(requested: PcbSilkscreenText): PcbSilkscreenText {
+  const wire = (mm: number) => routeNativeNmToKipyMm(routeMmToNativeNm(mm));
+  return Object.freeze({ ...requested, x_mm: wire(requested.x_mm), y_mm: wire(requested.y_mm), size_mm: wire(requested.size_mm) });
 }
 
 /** Remove only the exact new text span, then compare every remaining source token. */
@@ -60,7 +74,8 @@ export function assertOnlyRequestedPcbTextAdded(before: string, after: string, e
     throw new Error("Native PCB text does not preserve the existing 0.08 mm minimum stroke thickness.");
   }
   if (!text.supported || text.text !== expected.text || text.layer !== "F.SilkS" || p.at?.x !== expected.x_mm || p.at?.y !== expected.y_mm
-      || (p.rotationDeg ?? 0) !== 0 || p.fontSizeMm?.x !== expected.size_mm || p.fontSizeMm?.y !== expected.size_mm || expected.size_mm < 0.8
+      || !Number.isInteger(p.rotationDeg ?? 0) || (((p.rotationDeg ?? 0) % 360) + 360) % 360 !== expected.rotation_deg
+      || p.fontSizeMm?.x !== expected.size_mm || p.fontSizeMm?.y !== expected.size_mm || expected.size_mm < 0.8
       || p.bold !== expected.bold || p.italic !== expected.italic || p.hidden
       || p.justify?.length !== 2 || !p.justify.includes("left") || !p.justify.includes("bottom")) {
     throw new Error("Native PCB text differs from the exact requested presentation.");
