@@ -59,6 +59,11 @@ const DOC11 = Object.freeze({
     { path: "environment/Lib/site-packages/kicad_mcp/utils/footprint_pose.py", sha256: "bd325a508d32f185f2c6cf4275beb40018c461c997f92f141a8df9515283c9b1", sizeBytes: 9168 },
   ]),
 });
+const DOC12 = Object.freeze({
+  path: "evleda_live_pcb_pad_snapshot.py",
+  predecessorSha256: "706d682a368449dd8a0423d7c4a4cb56d5458a440e3641caabe4b6251ab917cc",
+  sha256: "80abe9675ff5cd81d9fb15ff18b05e7be3fa433a12bfcf9eb3445ccdb7f1f754", sizeBytes: 21804,
+});
 export const originalRuntimeRoot = String.raw`D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc5`;
 export const sha256 = bytes => createHash("sha256").update(bytes).digest("hex");
 export const pyvenvText = root => `home = ${path.join(root, "python")}\nimplementation = CPython\nuv = 0.11.31\nversion_info = 3.13.12\ninclude-system-site-packages = false\nrelocatable = true\n`;
@@ -375,6 +380,17 @@ export function runManifestHelper(mode, root, manifest, finalRoot = root) {
   });
 }
 
+async function doc12Reference(doc11) {
+  const before = doc11.files.find(file => file.path === DOC12.path);
+  assert.ok(before?.sha256 === DOC12.predecessorSha256, "DOC12 requires the unchanged DOC11 PAD producer");
+  const source = await readFile(path.join(repositoryRoot, "sidecars/patches/doc12", DOC12.path));
+  assert.equal(sha256(source), DOC12.sha256, "DOC12 source differs from its published pin");
+  assert.equal(source.length, DOC12.sizeBytes, "DOC12 source size differs from its published pin");
+  return { ...doc11, files: doc11.files.map(file => file.path === DOC12.path
+    ? { ...file, sha256: DOC12.sha256, sizeBytes: DOC12.sizeBytes } : file),
+    totalBytes: doc11.totalBytes - before.sizeBytes + DOC12.sizeBytes };
+}
+
 export async function verifyRuntime(paths) {
   const original = await readDoc5Source();
   let candidate;
@@ -383,6 +399,8 @@ export async function verifyRuntime(paths) {
   const pcb = candidate.files?.find(file => file.path === DOC6.path);
   const doc11Matches = DOC11.sources.map(source => candidate.files?.some(file => file.path === source.path && file.sha256 === source.sha256 && file.sizeBytes === source.sizeBytes) === true);
   const isDoc11 = doc11Matches.every(Boolean);
+  const padSnapshot = candidate.files?.find(file => file.path === DOC12.path);
+  const isDoc12 = padSnapshot?.sha256 === DOC12.sha256 && padSnapshot?.sizeBytes === DOC12.sizeBytes;
   const hasDoc11Leaf = doc11Matches.some(Boolean) || candidate.files?.some(file => file.path === DOC11.sources[1].path);
   const isDoc8 = pcb?.sha256 === DOC8.sha256 && pcb?.sizeBytes === DOC8.sizeBytes;
   const isDoc6 = isDoc11 || isDoc8 || pcb?.sha256 === DOC6.sha256 && pcb?.sizeBytes === DOC6.sizeBytes;
@@ -393,16 +411,18 @@ export async function verifyRuntime(paths) {
   const fieldLayout = candidate.files?.find(file => file.path === DOC9.path);
   const isDoc9 = fieldLayout?.sha256 === DOC9.sha256 && fieldLayout?.sizeBytes === DOC9.sizeBytes;
   assert.ok(!hasDoc11Leaf || (isDoc11 && isDoc10 && isDoc9 && !isDoc8), "DOC11 requires both qualified pose leaves on the complete DOC10 lineage; partial or mixed overlays are forbidden");
+  assert.ok(!isDoc12 || isDoc11, "DOC12 requires the complete DOC11 lineage");
   assert.ok(!doc10Matches.some(Boolean) || (isDoc10 && isDoc9 && isDoc6 && !isDoc8), "DOC10 requires both qualified cardinal leaves on the complete DOC9/DOC7 lineage; DOC8 cannot be its predecessor");
   assert.ok(!isDoc9 || (isDoc7 && !isDoc8), "DOC9 requires the DOC7 graph and PCB behavior; DOC8 cannot be its predecessor");
   const doc6 = isDoc6 ? await doc6Reference(original) : original;
   const doc7 = isDoc7 ? await doc7Reference(doc6) : doc6;
   const doc9 = isDoc9 ? await doc9Reference(doc7) : isDoc8 && isDoc7 ? await doc8Reference(doc7) : doc7;
   const doc10 = isDoc10 ? await doc10Reference(doc9) : doc9;
-  const reference = isDoc11 ? await doc11Reference(doc10) : doc10;
+  const doc11 = isDoc11 ? await doc11Reference(doc10) : doc10;
+  const reference = isDoc12 ? await doc12Reference(doc11) : doc11;
   assertDoc5Relocation(reference, candidate, paths.root);
   const result = await runManifestHelper("verify", paths.root, paths.manifest);
-  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc11 ? "DOC11" : isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
+  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc12 ? "DOC12" : isDoc11 ? "DOC11" : isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
     doc5SourcePinsVerified: true, ...(isDoc6 ? { doc6SourcePinsVerified: true, doc6ProvenanceSha256: DOC6.provenanceSha256 } : {}),
     ...(isDoc7 ? { doc7SourcePinsVerified: true, doc7ProvenanceSha256: DOC7.provenanceSha256 } : {}),
     ...(isDoc8 ? { doc8SourcePinsVerified: true, doc8ProvenanceSha256: DOC8.provenanceSha256 } : {}),
@@ -412,13 +432,16 @@ export async function verifyRuntime(paths) {
       doc10ProfileAdmissionPublicationSha256: DOC10_ADMISSION_02.provenanceSha256 } : {}),
     ...(isDoc11 ? { doc11SourcePinsVerified: true, doc11ProvenanceSha256: DOC11.provenanceSha256,
       doc11QualificationScope: "published-source-and-isolated-footprint-oracle-only", doc11NativePublicSyncQualified: false } : {}),
+    ...(isDoc12 ? { doc12SourcePinsVerified: true, doc12ProducerSha256: DOC12.sha256,
+      doc12QualificationScope: "source-and-offline-envelope-only", doc12NativeRoutingQualified: false } : {}),
     allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only",
       ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : []),
       ...(isDoc7 ? DOC7.sources.map(source => `${source.path}: published DOC7 power-flag graph overlay only`) : []),
       ...(isDoc8 ? [`${DOC8.path}: published DOC8 singleton no-connect transfer overlay only`] : []),
       ...(isDoc9 ? [`${DOC9.path}: published DOC9 bounded ARC field-layout overlay only`] : []),
       ...(isDoc10 ? DOC10.sources.map(source => `${source.path}: published DOC10 schematic-cardinal correction only`) : []),
-      ...(isDoc11 ? DOC11.sources.map(source => `${source.path}: published DOC11 footprint-pose overlay only`) : [])] };
+      ...(isDoc11 ? DOC11.sources.map(source => `${source.path}: published DOC11 footprint-pose overlay only`) : []),
+      ...(isDoc12 ? [`${DOC12.path}: published DOC12 compact complete PAD envelope only`] : [])] };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

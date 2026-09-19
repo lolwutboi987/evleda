@@ -9,6 +9,9 @@ import { buildPadTerminalInventory, type JsonObject, type NativePadClusterCaptur
 import type { KiCadAuthorizedFootprintInspection } from "../harness/kicad-approved-package.js";
 
 export const KICAD_NATIVE_PAD_SNAPSHOT_SCHEMA_VERSION = "evleda.kicad-live-pcb-pad-snapshot.v1" as const;
+/** DOC12 private envelope: the complete payload occurs once, in structuredContent.
+ * This literal selects an encoding only; it never establishes observation authority. */
+export const KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT = '{"schemaVersion":"evleda.kicad-live-pcb-pad-snapshot-envelope.v2","payloadLocation":"structuredContent","payloadSchemaVersion":"evleda.kicad-live-pcb-pad-snapshot.v1"}' as const;
 export const KICAD_NATIVE_PAD_OBSERVATION_SCHEMA_VERSION = "evleda.kicad-native-pad-observation.v1" as const;
 const MAX_BYTES = 2 * 1024 * 1024;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/u;
@@ -248,8 +251,11 @@ export function decodeKicadNativePadObservation(envelopeInput: unknown, expected
   keys(envelope, ["content", "structuredContent", "isError"], "envelope"); requireValue(envelope.isError === false, "categorical native capture failure");
   const content = array(envelope.content, "text content", 1); requireValue(content.length === 1, "expected one text envelope");
   const text = obj(content[0], "text envelope"); keys(text, ["type", "text"], "text envelope"); requireValue(text.type === "text", "non-text native envelope");
-  const textPayload = parsePortableJsonBytes(Buffer.from(string(text.text, "text JSON"), "utf8"), LIMITS);
-  requireValue(equal(textPayload, envelope.structuredContent), "text and structured native envelopes disagree");
+  const textJson = string(text.text, "text JSON");
+  if (textJson !== KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT) {
+    const textPayload = parsePortableJsonBytes(Buffer.from(textJson, "utf8"), LIMITS);
+    requireValue(equal(textPayload, envelope.structuredContent), "text and structured native envelopes disagree");
+  }
   const payload = obj(envelope.structuredContent, "snapshot");
   keys(payload, ["schemaVersion", "documentBefore", "documentAfter", "boardSourceBefore", "boardSourceAfter", "enabledCopperLayers", "enabledLayers", "padRecords", "boardPadRecordIndexes", "footprintInventory", "padstackPresence", "connectivity"], "snapshot");
   requireValue(payload.schemaVersion === KICAD_NATIVE_PAD_SNAPSHOT_SCHEMA_VERSION, "wrong native snapshot schema");

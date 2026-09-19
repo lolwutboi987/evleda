@@ -84,7 +84,7 @@ describe("published DOC6 runtime verification", () => {
   let original: Doc5Manifest;
   const pcbPath = "environment/Lib/site-packages/kicad_mcp/tools/pcb.py";
   beforeAll(async () => { original = await readDoc5Source(); });
-  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false, doc10 = false, doc11 = false) {
+  async function fixture(doc6 = true, doc7 = false, doc8 = false, doc9 = false, doc10 = false, doc11 = false, doc12 = false) {
     // Manifests stay in memory: zero test temp bytes and no copied runtime tree.
     const directory = path.join(tmpdir(), `evleda-runtime-policy-${process.pid}-${++fixtureSequence}`);
     const root = path.join(directory, "runtime"), manifest = path.join(directory, "manifest.json");
@@ -137,6 +137,11 @@ describe("published DOC6 runtime verification", () => {
         sha256: "bd325a508d32f185f2c6cf4275beb40018c461c997f92f141a8df9515283c9b1", sizeBytes: 9168, mode: 438 });
       candidate.fileCount = candidate.files.length;
       candidate.files.sort((a, b) => a.path.localeCompare(b.path, "en-US"));
+    }
+    if (doc12) {
+      const leaf = candidate.files.find(file => file.path === "evleda_live_pcb_pad_snapshot.py")!;
+      candidate.totalBytes += 21804 - leaf.sizeBytes;
+      Object.assign(leaf, { sha256: "80abe9675ff5cd81d9fb15ff18b05e7be3fa433a12bfcf9eb3445ccdb7f1f754", sizeBytes: 21804 });
     }
     control.spawn.mockImplementation(() => {
       const child = Object.assign(new EventEmitter(), { stdout: new EventEmitter(), stderr: new EventEmitter() });
@@ -221,6 +226,23 @@ describe("published DOC6 runtime verification", () => {
     expect(control.spawn.mock.calls[0]![1]).toEqual([expect.stringContaining("build-kicad-inspection-runtime-manifest.mjs"), "verify", f.root, f.manifest, f.root]);
     control.helperExitCode = 1;
     await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it("authenticates DOC12 on complete DOC11 and still requires the native runtime tree check", async () => {
+    const f = await fixture(true, true, false, true, true, true, true);
+    await expect(verifyRuntime(f)).resolves.toMatchObject({ generation: "DOC12", doc11SourcePinsVerified: true,
+      doc12SourcePinsVerified: true, doc12NativeRoutingQualified: false });
+    expect(control.spawn).toHaveBeenCalledOnce();
+    control.helperExitCode = 1;
+    await expect(verifyRuntime(f)).rejects.toThrow(/Runtime verify failed.*pinned manifest/);
+  });
+  it.each(["source", "producer", "missing-DOC11", "unrelated-leaf"])("rejects DOC12 %s drift before executing the tree checker", async kind => {
+    const f = await fixture(true, true, false, true, true, kind !== "missing-DOC11", true);
+    if (kind === "source") control.tamper = "sidecars/patches/doc12/evleda_live_pcb_pad_snapshot.py";
+    if (kind === "producer") f.candidate.files.find(file => file.path === "evleda_live_pcb_pad_snapshot.py")!.sha256 = "a".repeat(64);
+    if (kind === "unrelated-leaf") f.candidate.files.find(file => file.path.endsWith("pcb/transaction_lifecycle.py"))!.sha256 = "a".repeat(64);
+    await f.save();
+    await expect(verifyRuntime(f)).rejects.toThrow();
+    expect(control.spawn).not.toHaveBeenCalled();
   });
   it.each(["provenance.json", "sync-footprint-pose.patch", "kicad_mcp/tools/pcb.py", "kicad_mcp/utils/footprint_pose.py",
     "registered-production-descriptor.json", "oracle-final/manifest.json", "oracle-final/qfn-270.kicad_pcb", "template-replay-final.json"])("rejects DOC11 publication drift in %s", async leaf => {

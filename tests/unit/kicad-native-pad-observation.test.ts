@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { canonicalIdentity, contentIdentity } from "../../src/core/canonical.js";
-import { collectKicadNativePadObservation, decodeKicadNativePadObservation, verifyHostKicadNativePadObservation, type KicadNativePadObservationExpected } from "../../src/integrations/kicad-native-pad-observation.js";
+import { KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT, collectKicadNativePadObservation, decodeKicadNativePadObservation, verifyHostKicadNativePadObservation, type KicadNativePadObservationExpected } from "../../src/integrations/kicad-native-pad-observation.js";
 import { assessCopperCommon } from "../../src/harness/fresh-pcb-pad-model.js";
 import type { CallToolResult } from "@modelcontextprotocol/client";
 import { createKiCad10StockLibraryResolver } from "../../src/harness/kicad-library-resolver.js";
@@ -21,6 +21,58 @@ const mutate = (change:(value:Record<string, any>)=>void): CallToolResult => {
   const value=structuredClone(snapshot); change(value);
   return {isError:false,content:[{type:"text",text:JSON.stringify(value)}],structuredContent:value};
 };
+const compact = (value: CallToolResult): CallToolResult => ({ ...value, content: [{ type: "text", text: KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT }] });
+
+describe("DOC12 compact private PAD envelope", () => {
+  it("retains every raw observation and the same physical result without duplicating the payload", () => {
+    const legacy = decodeKicadNativePadObservation(envelope, expected);
+    const single = decodeKicadNativePadObservation(compact(envelope), expected);
+    expect(single.rawSnapshot).toEqual(legacy.rawSnapshot);
+    expect(single.inventory).toEqual(legacy.inventory);
+    expect(single.clusters).toEqual(legacy.clusters);
+    expect(single.expectedIdentity).toEqual(legacy.expectedIdentity);
+    expect(single.rawEnvelopeIdentity).not.toEqual(legacy.rawEnvelopeIdentity);
+    expect(() => verifyHostKicadNativePadObservation(single, expected)).toThrow(/current private host collector/);
+  });
+  it("accepts complete evidence that exceeded the old duplicate encoding, within unchanged bounds", () => {
+    const padding = "\n".repeat(350_000);
+    const large = mutate(v => { v.boardSourceBefore += padding; v.boardSourceAfter += padding; });
+    expect(Buffer.byteLength(JSON.stringify(large))).toBeGreaterThan(2 * 1024 * 1024);
+    expect(Buffer.byteLength(JSON.stringify(compact(large)))).toBeLessThan(2 * 1024 * 1024);
+    const binding = { ...expected, pcbSource: saved + padding };
+    expect(() => decodeKicadNativePadObservation(large, binding)).toThrow();
+    const observed = decodeKicadNativePadObservation(compact(large), binding);
+    expect(observed.inventory!.physicalPads).toHaveLength(357);
+    expect(observed.rawSnapshot).toEqual(large.structuredContent);
+  });
+  it.each([
+    ["source drift", (v: Record<string, any>) => { v.boardSourceAfter += "\n"; }],
+    ["missing pad", (v: Record<string, any>) => { v.padRecords.pop(); }],
+    ["missing presence", (v: Record<string, any>) => { v.padstackPresence.response.entries.pop(); }],
+    ["missing connectivity", (v: Record<string, any>) => { v.connectivity.pop(); }],
+    ["foreign document", (v: Record<string, any>) => { v.documentBefore.project.path = "D:\\foreign"; }],
+    ["wrong schema", (v: Record<string, any>) => { v.schemaVersion = "wrong"; }],
+    ["extra payload field", (v: Record<string, any>) => { v.truncated = false; }],
+  ] as const)("still rejects %s", (_label, change) => {
+    expect(() => decodeKicadNativePadObservation(compact(mutate(change)), expected)).toThrow();
+  });
+  it.each([
+    "{}", KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT + "\n",
+    KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT.replace("envelope.v2", "envelope.v3"),
+    KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT.replace("structuredContent", "content"),
+    KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT.replace("snapshot.v1", "snapshot.v2"),
+    KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT.replace("}", ',"truncated":false}'),
+  ])("rejects unqualified compact marker %s", text => {
+    expect(() => decodeKicadNativePadObservation({ ...envelope, content: [{ type: "text", text }] }, expected)).toThrow();
+  });
+  it("retains the total envelope limit and legacy disagreement rejection", () => {
+    const tooLarge = compact(mutate(v => { v.connectivity = Array.from({ length: 4096 }, () => structuredClone(v.connectivity[0])); }));
+    expect(Buffer.byteLength(JSON.stringify(tooLarge))).toBeGreaterThan(2 * 1024 * 1024);
+    expect(() => decodeKicadNativePadObservation(tooLarge, expected)).toThrow();
+    expect(() => decodeKicadNativePadObservation({ ...envelope, content: [{ type: "text", text: JSON.stringify({ ...snapshot, schemaVersion: "wrong" }) }] }, expected)).toThrow(/disagree/);
+    expect(() => decodeKicadNativePadObservation({ ...compact(envelope), structuredContent: {} }, expected)).toThrow();
+  });
+});
 const fixture=JSON.parse(readFileSync(new URL("../fixtures/fresh-pcb-pads/fixture.json",import.meta.url),"utf8")) as {footprints:{reference:string;kind:string;source?:{path:string;sha256:string;sizeBytes:number}}[]};
 const stockFixtures=fixture.footprints.filter(fp=>fp.kind==="stock");
 const stockId=(fp:typeof stockFixtures[number])=>`Package_DFN_QFN:${fp.source!.path.split(/[/\\]/u).at(-1)!.replace(/\.kicad_mod$/u,"")}`;
