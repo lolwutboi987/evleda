@@ -48,6 +48,13 @@ measured waveform or a current-control solution. The prior [exact debug review](
 retains its nominal scope; unchanged routes, bores and normalized fill geometry
 are documented in [geometry equivalence](verification/geometry-equivalence.json).
 
+A later [read-only reference check](../../../proofs/reference-gap-reporting-20260920/README.md)
+confirms one exact stored-fill coverage gap on each debug-header signal approach
+under the unchanged 0.25 mm margin. It also documents a software correction that
+preserves such geometric failures when whole-plane continuity is unknown. That
+correction is not yet installed or included in the historical full assessment
+above; its zero failed rows are not a claim that no independent findings exist.
+
 ERC ignores single_global_label, four_way_junction, simulation_model_issue and
 footprint_filter. DRC ignores missing_courtyard, track_not_centered_on_via,
 tuning_profile_track_geometries, footprint_filters_mismatch and

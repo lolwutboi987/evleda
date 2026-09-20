@@ -1,10 +1,12 @@
 # RP2350 candidate progress
 
-Current, 20 September 2026: [native R1](native-r1/README.md) contains the fully
+Current, 20 September 2026: [regional-policy R1](native-r1-regional/README.md) contains the fully
 routed 22 x 60 mm four-layer candidate with saved fills, labels, normal close and
 fresh read-only reopen verified. All 67 functional nets are connected and
-configured ERC/DRC are clean. Engineering acceptance remains failed/incomplete;
-the candidate report identifies the outstanding plane/debug/electrical findings.
+configured ERC/DRC are clean. Supplemental-region contacts and area bounds are
+verified. Engineering acceptance remains incomplete; the candidate documents
+the outstanding debug/electrical findings, including the separately confirmed
+[header approach gaps](../../proofs/reference-gap-reporting-20260920/README.md).
 The draft and native-startup descriptions below are historical.
 
 ## Historical early candidate state

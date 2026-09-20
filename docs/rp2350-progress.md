@@ -1,5 +1,16 @@
 # RP2350 continuation: 20 September 2026
 
+Current delivery: [regional-policy R1](../designs/rp2350-pico/native-r1-regional/README.md)
+is published with unchanged physical layout, completed native save/close/reopen,
+and verified contacts/area bounds for all ten In2 regions. Host47/DOC17 and the
+18-tool fresh-client discovery are verified. A subsequent
+[stored-reference check](../proofs/reference-gap-reporting-20260920/README.md)
+confirms the two debug-header approach gaps and a scoped software correction
+prevents unrelated global uncertainty from suppressing such geometric findings.
+The historical full assessment remains unchanged and incomplete. USB startup
+and other electrical review remain open. Earlier entries below retain their
+original source and runtime scopes.
+
 The [native region-contact observation](../proofs/native-plane-regions-20260920/README.md)
 now verifies a positive-area via contact between every supplemental In2 region
 and the primary ground plane, with all 171 bore enclosures retained. The PCB is

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "evleda.reference-gap-reporting-verification.v1",
+  "recordedAt": "2026-09-20T22:07:01.526Z",
+  "tests": {
+    "passed": 110,
+    "files": 2,
+    "scope": "fresh-plane-acceptance and toolbox-plane-acceptance; not a full suite",
+    "exitCode": 0,
+    "durationSeconds": 76.66
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "pins": [
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "99ff0b702462200e6cc17b8a3c6cae094a90edd777e2af0fe3c0b5ddb2d5a436"
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "75ba5f0568a588e670715d4d6882cee2d1d5e574286c7c1bd262be50d9409d67"
+    },
+    {
+      "file": "proofs/reference-gap-reporting-20260920/replay.mjs",
+      "sha256": "c69914f084d1fd02d8323af6342d3b41003ce8c7fc1bae51f41376d221687ad6"
+    },
+    {
+      "file": "proofs/reference-gap-reporting-20260920/SWCLK_HDR-0.json",
+      "sha256": "8b3075b4cfead8b0f1b4c81fbdb0321291256c4154bfaca6f044f7a2cc7845ca"
+    },
+    {
+      "file": "proofs/reference-gap-reporting-20260920/SWDIO_HDR-0.json",
+      "sha256": "65155f194f5e2c5b86624de2a3ae0ed3e9e6700dc4f100e7ac9a7634941fa7e2"
+    }
+  ],
+  "storedGeometry": {
+    "nets": 2,
+    "segments": 21,
+    "uncovered": 2,
+    "covered": 19,
+    "replayMatched": true,
+    "sourceUnchanged": true,
+    "liveFillAuthorityClaimed": false
+  },
+  "installedHostChanged": false,
+  "fullNativeAssessmentRerun": false
+}

@@ -702,6 +702,42 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(row(result, "reference:VIN").status).toBe(status === "uncovered" ? "fail" : "unknown");
   });
 
+  it.each(["uncovered", "covered", "boundary_uncertain"] as const)("retains %s stored-fill geometry when global drill topology is unknown", async status => {
+    const f = await fixture({ surfaceSignalPads: true, probeBoreNm: [500_000, 3_000_000] });
+    const requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator(status, requests) });
+    expect(result.planes[0]!.nativePolygonAttribution.status).toBe("verified");
+    expect(result.planes[0]!.drillTopology.status).toBe("unknown");
+    expect(result.references[0]!.intersectingBoreUuids).toEqual([]);
+    expect(requests).toHaveLength(1);
+    expect(result.references[0]!.geometricStatus).toBe(status);
+    const expected = status === "uncovered" ? "fail" : "unknown";
+    expect(row(result, "reference:VIN").status).toBe(expected);
+    expect(summarizePlaneAcceptance(result).rows.find(r => r.id === "reference:VIN")!.status).toBe(expected);
+    expect(result.accepted).toBe(false);
+  });
+
+  it("does not let an unproved plane endpoint anchor hide an exact missing-copper witness", async () => {
+    const f = await fixture({ surfaceSignalPads: true }); f.report.zones[0].directPads = [];
+    const requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("uncovered", requests) });
+    expect(result.planes[0]!.intendedPlaneConnectivity.status).toBe("unknown");
+    expect(requests).toHaveLength(1);
+    expect(row(result, "reference:VIN").status).toBe("fail");
+    expect(result.accepted).toBe(false);
+  });
+
+  it("still withholds geometric evaluation for source/native polygon disagreement", async () => {
+    const f = await fixture({ surfaceSignalPads: true });
+    f.report.zones[0].layers[0].subpolygons[0].outline[0][0] += 1;
+    const requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("uncovered", requests) });
+    expect(result.planes[0]!.nativePolygonAttribution.status).toBe("failed");
+    expect(requests).toHaveLength(0);
+    expect(result.references[0]!.geometricStatus).toBe("not_assessed");
+    expect(result.accepted).toBe(false);
+  });
+
   it("retains legitimate plane-access vias but rejects forbidden referenced-signal vias", async () => {
     const f = await fixture({ viaNet: "VIN" }), requests: ReferenceCoverageRequest[] = [];
     const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });

@@ -533,7 +533,11 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition or via; no primitive was filtered away.");
     else if(intersectingBoreUuids.length>0){result=fact("failed","The required reference ribbon intersects a source-verified round drill bore.");geometricStatus="uncovered";}
     else if(tangentBoreUuids.length>0){result=fact("unknown","The required reference ribbon is exactly tangent to a drill bore; boundary contact cannot establish a copper coverage certificate.");geometricStatus="boundary_uncertain";}
-    else if (plane.intendedPlaneConnectivity.status !== "verified" || plane.nativePolygonAttribution.status !== "verified" || plane.islandPolicy.status !== "verified"||plane.drillTopology.status!=="verified") result = fact("unknown", "Reference copper is not yet a fully attributed, bore-aware connected and eligible intended plane interior.");
+    // Missing copper in a current attributed fill is a counterexample even if
+    // its global drilled topology or endpoint anchor is not yet proved. Those
+    // prerequisites still gate positive coverage, not the geometric search.
+    else if (plane.configuration.status !== "verified" || plane.nativePolygonAttribution.status !== "verified"
+      || plane.geometry.status !== "verified" || plane.geometry.components.length !== 1) result = fact("unknown", "Reference copper lacks a current, source/native-matched single stored component for geometric assessment.");
     else if (input.referenceCoverage !== undefined) {
       requireValue(isReferenceCoverageCalculator(input.referenceCoverage), "reference coverage requires the authenticated host factory calculator");
       const component = plane.geometry.components[0]!;
@@ -545,6 +549,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         && route.routeIndex === index && route.certificate === (route.status === "covered" ? "exact_outer_envelope_containment" : route.status === "uncovered" ? "exact_inner_envelope_outside_witness" : "no_exact_certificate"), "reference helper supplied inconsistent geometric certificates"));
       geometricStatus = captured.routes.some(route => route.status === "uncovered") ? "uncovered" : captured.routes.some(route => route.status === "boundary_uncertain") ? "boundary_uncertain" : "covered";
       result = geometricStatus === "uncovered" ? fact("failed", "A complete selected signal ribbon has an exact witness outside the declared stored plane fill.") : geometricStatus === "boundary_uncertain" ? fact("unknown", "Geometric boundary uncertainty cannot pass reference coverage.")
+        : plane.intendedPlaneConnectivity.status !== "verified" || plane.islandPolicy.status !== "verified" || plane.drillTopology.status !== "verified"
+          ? fact("unknown", "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified.")
         : referenceTerminals.status !== "verified" ? referenceTerminals : fact("verified", "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.");
       calculation = { requestIdentity: canonicalIdentity(request, "evleda.plane-reference-request.v1"), implementationRevision: captured.implementationRevision,
         executableIdentity: captured.executableIdentity, artifacts: captured.artifacts,
