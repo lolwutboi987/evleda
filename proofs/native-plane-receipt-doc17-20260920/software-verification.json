@@ -1,0 +1,27 @@
+{
+  "releaseSha256": "5298e2a4381f2d1488340b0bdb9e59efcc418b0864002227b89f49050848557e",
+  "sourceScope": "Implementation and executable test sources matched the frozen host43 release before publication. Status and fixture documentation was updated afterward; no implementation or executable test changed.",
+  "tests": {
+    "passed": 250,
+    "skipped": 2,
+    "files": 10,
+    "scope": "Focused receipt, recovery, diagnostic and related regressions; not the full suite."
+  },
+  "sourceTypecheck": {
+    "name": "source-typecheck",
+    "exitCode": 0
+  },
+  "uiTypecheck": {
+    "name": "ui-typecheck",
+    "exitCode": 0
+  },
+  "backendBuild": {
+    "name": "backend-build",
+    "exitCode": 0
+  },
+  "helperPackaging": {
+    "name": "native-helper-package",
+    "exitCode": 0
+  },
+  "releaseRecordedAt": "2026-09-20T18:22:16.520Z"
+}

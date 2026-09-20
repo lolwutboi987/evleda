@@ -1,5 +1,9 @@
 # RP2350 continuation: 20 September 2026
 
+Current: [native R1](../designs/rp2350-pico/native-r1/README.md) has completed managed authoring, both saved fills, normal close and fresh read-only reopening. All six sources stayed unchanged, all 67 functional nets remain connected, and configured native ERC/DRC are clean. Portable files, previews, pinout, BOM and the complete source-bound engineering report are included. The supplemental In2 pour policy and debug reference findings remain open; overall acceptance is false. Host43/DOC17 and its fresh 17-tool client are qualified separately from electrical acceptance.
+
+## Earlier review target, before managed completion
+
 The [four-layer routed review candidate](../designs/rp2350-pico/four-layer-review-117/README.md)
 contains the complete 22 x 60 mm layout: 1,099 tracks, 118 vias and all 67
 functional nets connected in native pad reachability. Configured ERC/DRC have

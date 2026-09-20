@@ -1,0 +1,1373 @@
+{
+  "scope": "Read-only native GetConnectedItems observation on the supplied saved board. Every named physical pad is queried. This is native copper reachability, not managed session authority, intended-plane contact or electrical qualification.",
+  "source": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-managed-125\\rp2350-pico-4layer.kicad_pcb",
+    "sha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+    "size": 634325
+  },
+  "nativeVersion": "10.0.3",
+  "functionalNetCount": 67,
+  "queriedPhysicalPadCount": 265,
+  "nets": [
+    {
+      "net": "1V1",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "13d698e2-d9a2-491c-8a93-70804c8cc6f1",
+            "432073a7-7fe2-4e69-b942-0d7a8eab2f17",
+            "8427fa94-211a-430c-b44a-f6000a4c7309",
+            "948f9476-9f9d-4e78-ba4c-801dac1870ea",
+            "994278ae-5d96-493d-83f6-793501094fc1",
+            "d22e3c2d-285e-4a42-ba1c-84e17c000df0",
+            "d493f5fb-cbe2-4e75-9017-055a1f17836b",
+            "dfcca4cf-02b2-4c79-a5a4-2527f8ac6a00",
+            "e69abdea-13bd-45b3-9c87-be65391cb008",
+            "f2ea332a-555e-4220-ac97-4e296cf49a47"
+          ],
+          "terminals": [
+            "C13.1",
+            "C12.1",
+            "U1.50",
+            "C11.1",
+            "U1.23",
+            "U1.39",
+            "C2.1",
+            "C4.1",
+            "L1.1",
+            "U1.6"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "3V3",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "0e355b81-807b-490f-81c8-352ff171092a",
+            "13cacd30-0444-4a97-ac96-b5c005459c97",
+            "1d549417-0e49-4106-8a3c-c75dc012b857",
+            "4b3ba855-3867-4a56-999d-143cf96d488d",
+            "52718a5d-eeb4-41bc-bae5-7a8f591b53d8",
+            "5531d77a-d799-4c0d-9d25-b57ffcd55b80",
+            "572e7e8f-8692-4029-bc61-cc41439d7a4c",
+            "59322562-ff03-48e2-9017-8df3e8738c09",
+            "60b9d0c1-8dbf-4d10-acd1-fd76d23656b6",
+            "7885397b-6069-4613-bd45-1b531911e258",
+            "7e915471-e151-45e5-8808-21a1595b079e",
+            "81f5a80b-fe10-456f-86ad-388890a8ebe3",
+            "829c6362-9814-4428-9083-41fc13cb38ab",
+            "9918e51c-1aeb-4713-8ec6-33828c8655a8",
+            "9bea3237-b166-4129-a5a4-573364ee7f03",
+            "a28d8f84-2b07-4369-bc07-4253f0a7562b",
+            "b2d00d60-7471-4c6a-8b3a-f954f0c214c2",
+            "b42370fe-48d0-4e80-9ea4-96bc0fd0f1e3",
+            "b46acb56-c958-464c-94d2-e5f7a9b751cd",
+            "b663dd63-c8f8-40a1-810d-7166b55a14aa",
+            "b6a5c02c-c009-4b55-abd6-61764725b3e0",
+            "c4f51808-ca60-4305-95c5-88f04d9cf3a8",
+            "d0c7f3a7-8aea-4d14-a1de-1f0b579aa137",
+            "d2d3d66a-4b37-4263-bf61-bbcc305591a4",
+            "d4d205fd-3e5d-46b6-a303-b0683e40cfe1",
+            "d56fd036-f12f-41bd-b3c8-e0bf1ebd34e4",
+            "dec2e61b-83e5-4121-a35a-9b80a73fddde",
+            "f25c872b-7c6f-45b4-ad0f-85ea94e558ce",
+            "f7f86646-f640-4a48-a45b-a8c6bb3fb3f9"
+          ],
+          "terminals": [
+            "U1.38",
+            "U1.53",
+            "C8.1",
+            "C6.1",
+            "C18.1",
+            "U1.30",
+            "U1.11",
+            "U1.54",
+            "C7.1",
+            "R6.1",
+            "C19.1",
+            "U1.1",
+            "U1.45",
+            "C5.1",
+            "R16.1",
+            "C15.1",
+            "Q1.1",
+            "U3.8",
+            "U2.1",
+            "U2.10",
+            "C14.1",
+            "C1.1",
+            "C21.1",
+            "U1.20",
+            "C9.1",
+            "C10.1",
+            "R8.1",
+            "U1.49",
+            "J3.16"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "3V3_EN",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "4770292e-7ec4-4359-82e3-85cd5f87d035",
+            "dcea72ea-2c50-4bf6-8ddb-7c92dc587fb0",
+            "fe993169-e319-4adf-a060-f4e461c55a22"
+          ],
+          "terminals": [
+            "J3.17",
+            "U2.6",
+            "R9.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "ADC_AVDD",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "637155b4-0800-4be9-88bd-47a207137799",
+            "66988319-f016-4438-8737-f340e7ce0fa3",
+            "cafc6c02-c1f5-429d-a155-789bbb269cbd",
+            "dfec0a63-4ab5-4bfc-a7f6-1ca40edc26ed"
+          ],
+          "terminals": [
+            "C17.1",
+            "C16.1",
+            "U1.44",
+            "R17.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "ADC_VREF",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "2247cd6d-3e3a-4e29-8f8c-50658586e7d6",
+            "2b00d0fc-2d6c-4869-912b-f8243d60710a",
+            "849d5331-291a-4b58-bcc4-13a31ed6ff82"
+          ],
+          "terminals": [
+            "R17.1",
+            "R16.2",
+            "J3.15"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "BOOT_SW",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "4c467f50-e8bf-40fb-b990-37ddc3e8a0b7",
+            "9698c6e0-115a-4eb4-837e-417c6918878b",
+            "d8ce2e27-370e-4baa-af97-ac68cdcfa343"
+          ],
+          "terminals": [
+            "R5.2",
+            "SW1.4",
+            "SW1.3"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "CORE_LX",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "19961824-8c64-43c9-b43f-f392de85d6c7",
+            "c4406692-9c25-4672-a134-b4c122359b6e"
+          ],
+          "terminals": [
+            "U1.48",
+            "L1.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GND",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "018aed7a-2e26-4630-a51e-fb3619ec0d40",
+            "0651164c-4a8b-4273-9c1d-178581a6a663",
+            "0a964142-1cf2-499a-9955-5a6aa2c182b2",
+            "0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+            "11bc718c-2ff5-4912-ba6a-acdece4b4d99",
+            "162616ba-3514-468e-a144-aaecbdcb1e8b",
+            "202e60a7-76af-4458-b990-25ff72340931",
+            "20d0f563-9e66-4266-8ff3-119ce4059a70",
+            "26a265db-f05e-4617-b50b-b7e0338b52e0",
+            "35603db2-7858-452d-90f0-c991ba6d7717",
+            "36130c40-acdf-4b2f-b389-11b8a8562dff",
+            "370cfe52-21a2-4ca3-9e7e-d747c96f9e0c",
+            "3802e23c-c89c-4faa-8189-082ce17acee9",
+            "4111f727-116c-4af4-a0dd-034fa2af680d",
+            "46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+            "485fdf18-d1b9-41d8-a182-81026f1be6bb",
+            "4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+            "56be1d7d-0131-48d9-826b-a785ab1f933f",
+            "583d40cc-69e7-4423-a4bf-b9947b95a636",
+            "5ddb7570-71ef-4460-858f-11a2ab455e95",
+            "605cf88e-fe33-499e-82d5-4d96c7c044f3",
+            "696de407-b6d0-43f2-b1cd-54865ca0647f",
+            "6a8af92a-66ec-4429-b364-6c69de6a7f23",
+            "6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+            "7762ba7f-be7e-4448-8921-0ddcc42f5058",
+            "78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+            "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+            "851f9712-5a1d-48eb-916e-76a1a37446c8",
+            "872ffa24-5366-4994-a978-d983df50eb18",
+            "8a2bb837-afe1-4d77-b13e-1124b1142b3d",
+            "8bd1cfdb-173d-4df8-8394-914948fd3eed",
+            "8bdfbf17-64f6-46df-a2f8-9d69ba26990d",
+            "8ee4a807-ded0-415a-ac94-26a73610cd39",
+            "8f6b3951-4170-4494-80d9-85be904da86f",
+            "9186e189-4f60-4225-9538-5b0db14606e6",
+            "981f0293-619c-44f5-bceb-88224ad00494",
+            "a26c5467-3ef7-4a02-ac0c-f6f7f5a6d254",
+            "a71c9c8c-1023-48cd-bc2a-033c69df22a2",
+            "a86ed61d-268d-49df-b24c-1c59a1a367f2",
+            "a94ee526-bf97-4e9d-9b5f-d79536aa6ee8",
+            "a9ea4f07-0796-4e47-95ba-099e5c1e4c49",
+            "ac41bd44-7950-44b4-9772-34756dc1c247",
+            "ae4e1791-b2fe-4c9c-8738-33b281cc4b79",
+            "ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+            "b05fc6e5-9159-4e47-9a0a-c56d58bbaaf2",
+            "b37fe542-d1ff-48c2-898f-4168fbd9c24e",
+            "bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+            "bf7c1b4d-8e32-4132-b627-470732c6d7ed",
+            "c8ba9e23-0ac3-40a7-b518-e68972e5e4c4",
+            "cab6748f-6925-4f6c-87a0-ce4082175fc2",
+            "cd537160-999a-4e73-ac84-7f09276efa9c",
+            "d0276374-3891-42f9-ad15-e65de7ecaec5",
+            "d32b7f09-4f42-4011-98a9-4d2e7440bddb",
+            "d4f756c5-0eed-4a61-9ade-78490a59da53",
+            "d578d2a9-de22-4fc9-baa7-d8c77cd25b54",
+            "d69f8553-1047-4037-9d74-ce0b0a3a4030",
+            "dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+            "ea00f833-6cda-4986-a55f-829784abb36d",
+            "ee901197-d25d-43e9-bad3-b673d2a3bc73",
+            "f0d5fd9c-81b4-477c-a917-b99268834678",
+            "f0f8cbd1-6138-412e-bdb5-ae7e339237e1",
+            "f5592606-4e9d-4b62-afac-565ec9879275",
+            "f700d5a2-6798-4e25-8eab-211b4a3c4d5f",
+            "f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c"
+          ],
+          "terminals": [
+            "J3.8",
+            "C5.2",
+            "C15.2",
+            "J3.18",
+            "U2.9",
+            "SW1.2",
+            "J1.A12",
+            "C17.2",
+            "J2.18",
+            "J1.SH",
+            "C12.2",
+            "C25.2",
+            "Y1.2",
+            "D2.1",
+            "U2.11",
+            "C11.2",
+            "J1.B12",
+            "C9.2",
+            "C24.2",
+            "C2.2",
+            "C21.2",
+            "C16.2",
+            "J1.SH",
+            "J1.A1",
+            "C3.2",
+            "J1.SH",
+            "J4.2",
+            "C23.2",
+            "J2.13",
+            "R12.2",
+            "C8.2",
+            "U4.2",
+            "C19.2",
+            "C22.2",
+            "J1.B1",
+            "C20.2",
+            "C4.2",
+            "Y1.4",
+            "R14.2",
+            "C7.2",
+            "C10.2",
+            "U3.9",
+            "R15.2",
+            "J2.8",
+            "U1.61",
+            "SW1.1",
+            "U2.3",
+            "C6.2",
+            "C18.2",
+            "C13.2",
+            "R3.2",
+            "J2.3",
+            "U1.47",
+            "SW2.2",
+            "U3.4",
+            "SW2.1",
+            "J3.13",
+            "R10.2",
+            "C14.2",
+            "C1.2",
+            "R4.2",
+            "J1.SH",
+            "C26.2",
+            "J3.3"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO0",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "204547c1-19f7-4fcd-8ef9-72212ee4edfd",
+            "a8e21aca-5bbd-4cc4-884a-a7284a48faff"
+          ],
+          "terminals": [
+            "J2.1",
+            "U1.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO1",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "61adaa8c-a818-4710-bc03-891d0f145cee",
+            "9245b3f6-ee5c-4d29-bb4f-bc1f8e3e9aa5"
+          ],
+          "terminals": [
+            "U1.3",
+            "J2.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO10",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "1663ff56-a621-457e-897b-7055283885ee",
+            "2bdabe75-ff98-43fd-9db6-72dcfc98c7cf"
+          ],
+          "terminals": [
+            "U1.14",
+            "J2.14"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO11",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "46abf8cd-67f9-49c2-b823-8d1b6fb2249c",
+            "7e74ef8e-3cf6-4d9b-bfe1-5c5f91f7b6b9"
+          ],
+          "terminals": [
+            "J2.15",
+            "U1.15"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO12",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "6ced9b5f-00bd-42fd-b51c-bc88c07296d2",
+            "810fae64-2b9b-4b9e-815c-57a12958e155"
+          ],
+          "terminals": [
+            "U1.16",
+            "J2.16"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO13",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "75ccdd10-892f-46f6-974d-f915d99499cc",
+            "c8875caf-6d95-49b1-94c5-a9a4d90afdb6"
+          ],
+          "terminals": [
+            "J2.17",
+            "U1.17"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO14",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "14413800-1e6e-411d-8bf6-5abe54c6cda5",
+            "62740fe3-1c64-417d-8dbb-b9c9d6d03eb6"
+          ],
+          "terminals": [
+            "J2.19",
+            "U1.18"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO15",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "c5f0d502-1912-49fd-8f55-3776546b65cd",
+            "d630eb27-e6a1-4e79-baee-ddabafc110d2"
+          ],
+          "terminals": [
+            "U1.19",
+            "J2.20"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO16",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "51490097-5736-40c8-9e63-c01533133d6a",
+            "58e5657b-b6db-4187-a566-0367829e2765"
+          ],
+          "terminals": [
+            "J3.1",
+            "U1.27"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO17",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "567e1f98-d724-47fb-8ffb-0e6575feb15c",
+            "d603d2c7-6110-4a2c-bd23-5a0e7303d018"
+          ],
+          "terminals": [
+            "U1.28",
+            "J3.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO18",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "208c2c95-bff8-43ff-bcc0-a0772009bc54",
+            "27f9b9b8-6db0-4edf-a8be-68c9e6a4f6ed"
+          ],
+          "terminals": [
+            "U1.29",
+            "J3.4"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO19",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "4bc4ebc9-696a-47aa-a76d-9e8851856907",
+            "6e07e2dd-691b-41d1-a406-ee80549c69ca"
+          ],
+          "terminals": [
+            "U1.31",
+            "J3.5"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO2",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "c0fe23d9-4526-48f3-9ff0-8b259215e669",
+            "ebd1ca3b-2418-4c4c-985f-9615198ce6a3"
+          ],
+          "terminals": [
+            "J2.4",
+            "U1.4"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO20",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "17e60761-cbc9-408a-ba1a-9f2e873b5e98",
+            "ab4c0b27-0d66-4cea-a568-0e54800616b6"
+          ],
+          "terminals": [
+            "U1.32",
+            "J3.6"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO21",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "92376d37-88bc-4f9b-b030-d08cc93b0ade",
+            "b76d121e-a34c-47ae-a7e5-3c935606958a"
+          ],
+          "terminals": [
+            "J3.7",
+            "U1.33"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO22",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "7d2a86e4-c029-40a5-b764-b171d7354523",
+            "97c1180e-1c54-48fc-8943-892346ecb2a3"
+          ],
+          "terminals": [
+            "J3.9",
+            "U1.34"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO23_SMPS_PS",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "3da296b1-7a46-40b2-a033-7f85601f50b6",
+            "8fb08f59-c4df-4639-b36a-24aeac4e0530",
+            "c39ab80d-778c-40df-8c22-555def982e92"
+          ],
+          "terminals": [
+            "R10.1",
+            "U1.35",
+            "U2.7"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO24_VBUS_SENSE",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "42fee319-0b67-42bc-8afe-f709ce099fd0",
+            "700f2872-6d52-4b90-97ef-df7e541f7a72",
+            "ee8795ad-a5e4-4f83-a1c6-e38be5070424"
+          ],
+          "terminals": [
+            "R12.1",
+            "U1.36",
+            "R11.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO25_LED",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "95d8d43a-9f3a-48fc-8818-4bf942ff2d54",
+            "c6522f55-4c53-46b1-86fb-17af4a30f798"
+          ],
+          "terminals": [
+            "U1.37",
+            "R18.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO26",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "2705ba52-8dc5-4a4b-9723-b30ff2266569",
+            "c06aa989-8532-49a6-88e1-a29207876991"
+          ],
+          "terminals": [
+            "U1.40",
+            "J3.11"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO27",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "0353a869-0185-4a74-a4c7-4111b25b0194",
+            "6185e480-eebf-4094-90d2-6d276abb0cff"
+          ],
+          "terminals": [
+            "U1.41",
+            "J3.12"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO28",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "c58cd565-b160-4564-888e-31b7ac7d18e5",
+            "ddba2687-eb59-42b4-9135-4d6ec3dba26f"
+          ],
+          "terminals": [
+            "J3.14",
+            "U1.42"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO29_VSYS_SENSE",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "9638949b-e4b4-43ae-b106-f6fd6bbf1501",
+            "f716ec7e-e96a-4064-800e-323616806bae",
+            "fef19c31-80eb-4bf5-81ab-47603dc2416e"
+          ],
+          "terminals": [
+            "Q1.2",
+            "R15.1",
+            "U1.43"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO3",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "1c225601-643e-4e0c-8489-9f4681ac9083",
+            "5e3287af-f7b5-432a-8cd8-79cd1d0b3723"
+          ],
+          "terminals": [
+            "U1.5",
+            "J2.5"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO4",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "303d42a9-01e1-4330-87f7-a7275dc3bdc0",
+            "5d406616-d4be-4a86-ab8f-4468f8070912"
+          ],
+          "terminals": [
+            "U1.7",
+            "J2.6"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO5",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "9ce43311-0595-4d2e-9331-0a7fb8e98ae7",
+            "d57bd8cf-8ab5-4f41-84b8-b32081e5de92"
+          ],
+          "terminals": [
+            "J2.7",
+            "U1.8"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO6",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "5a20b989-2370-445e-8a08-594f75f94272",
+            "d21ac2f5-a683-40b4-be1d-51638222bc83"
+          ],
+          "terminals": [
+            "U1.9",
+            "J2.9"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO7",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "717d8d33-4769-4609-a6e0-758f0c8c630d",
+            "b371467d-e6b8-4549-8220-305bb807a585"
+          ],
+          "terminals": [
+            "J2.10",
+            "U1.10"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO8",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "2a99fc13-935d-4277-b87d-82d204480053",
+            "2f4a8847-c450-4133-861d-2c2575ea47af"
+          ],
+          "terminals": [
+            "J2.11",
+            "U1.12"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "GPIO9",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "4303e5bb-92e0-4c8a-b69d-29f6b0d3a175",
+            "5db10917-1e3e-4606-af1b-492be3f08827"
+          ],
+          "terminals": [
+            "J2.12",
+            "U1.13"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "LED_A",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "2c188307-dfed-4c4d-b755-3dc8cddb82cc",
+            "35a8f256-ffb3-4fe3-85de-a5855516742d"
+          ],
+          "terminals": [
+            "R18.2",
+            "D2.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "QSPI_CS",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "07195ad4-6a42-431a-a523-6f4784adc12d",
+            "250fe266-c9d2-46df-b365-676397fffac2",
+            "74c1809d-939e-4e17-ba4c-ddca9e431d26",
+            "c595c730-49b8-4bf0-b454-e488e4bc50c8"
+          ],
+          "terminals": [
+            "R5.1",
+            "R6.2",
+            "U3.1",
+            "U1.60"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SCLK",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "24b54155-79d0-4abd-9c8e-52e31201e4ea",
+            "ec98a462-e450-46e1-8c18-4e3b79873755"
+          ],
+          "terminals": [
+            "U1.56",
+            "U3.6"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD0",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "5a6920bd-6af1-4c42-b035-4eb3d7af8614",
+            "e6975654-f3bf-4f6e-80f9-70a34dda36de"
+          ],
+          "terminals": [
+            "U3.5",
+            "U1.57"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD1",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "2428e45e-300c-40f6-a78a-c037676450e3",
+            "e7291773-efce-4757-a89e-9e887e1bbad0"
+          ],
+          "terminals": [
+            "U1.59",
+            "U3.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD2",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "2ae1eb9e-43bc-46bf-b4a7-b904117c6176",
+            "7ee42e1d-1ddd-4fe3-bc33-002615c64c7d"
+          ],
+          "terminals": [
+            "U3.3",
+            "U1.58"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD3",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "aaf5b053-a891-42bb-b2c6-7998366c9c37",
+            "c60c5fee-59eb-4673-a621-79355cb96532"
+          ],
+          "terminals": [
+            "U3.7",
+            "U1.55"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "RT_LX1",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "a13ab3fa-f97b-452e-988a-90bc4911ed74",
+            "ae5837f3-6ac5-4f29-ad58-2eed88adc41c"
+          ],
+          "terminals": [
+            "U2.4",
+            "L2.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "RT_LX2",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "359c5a1d-cbac-4646-9ee9-155e5df5bc2e",
+            "39aa8302-baf2-4c68-8fcd-68b0b3c39f82"
+          ],
+          "terminals": [
+            "L2.2",
+            "U2.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "RUN",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "70e587a6-906a-4b7c-b9d4-89bebeb0968f",
+            "c586ad32-9a1e-4166-b5c1-e9507d47a664",
+            "cb102805-7628-414a-b3cb-28b5b68a8bac",
+            "eeefa518-b3c0-4562-b1a0-bae52cc62415"
+          ],
+          "terminals": [
+            "J3.10",
+            "SW2.3",
+            "SW2.4",
+            "U1.26"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "SWCLK_HDR",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "765d622d-165b-4911-8684-94acdf4d7c13",
+            "b25066be-74fa-4e3f-a05f-334707f3ec8e"
+          ],
+          "terminals": [
+            "R19.2",
+            "J4.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "SWCLK_MCU",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "3a8d0764-efb4-4bce-bb4b-fccfd0da5c09",
+            "efd9357d-abe4-4c28-80df-95563f80250d"
+          ],
+          "terminals": [
+            "U1.24",
+            "R19.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "SWDIO_HDR",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "7a11b973-d239-4889-92ba-0e6cca7f4c4a",
+            "c4394c7d-7377-474b-ab55-cd04efa94cb4"
+          ],
+          "terminals": [
+            "J4.3",
+            "R20.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "SWDIO_MCU",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "1386aa15-bcb1-41e3-9027-1671a3a6f0cd",
+            "dd517432-6944-4898-b9a9-d290264565bc"
+          ],
+          "terminals": [
+            "U1.25",
+            "R20.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_CC1",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "b114f045-0867-4062-a720-61901a140f77",
+            "ed3ddd28-156d-4fbb-8752-6879a08dbc55"
+          ],
+          "terminals": [
+            "R3.1",
+            "J1.A5"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_CC2",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "a2d6e4a6-6c0b-49cf-93af-e677a1f2f060",
+            "de1fc98d-549b-4738-8928-f7a15713ad51"
+          ],
+          "terminals": [
+            "J1.B5",
+            "R4.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_DM_ESD",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "3c989d63-0c8e-4894-b278-1900a9e35332",
+            "ca47e1a0-d598-4134-8140-02027223c85e"
+          ],
+          "terminals": [
+            "R2.2",
+            "U4.3"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_DM_MCU",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "a53fff21-6224-4cae-be8d-9be6147cc366",
+            "ebb677de-c03d-4531-8db0-6d8154ec4e28"
+          ],
+          "terminals": [
+            "U1.51",
+            "R2.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_DM_PORT",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "1d18f736-6cae-4263-8326-b2d007e956d0",
+            "5562e47b-7047-4920-95e1-3968eb978cb3",
+            "e3da980a-4d98-451b-bb2b-6a6372818190"
+          ],
+          "terminals": [
+            "U4.4",
+            "J1.A7",
+            "J1.B7"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_DP_ESD",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "33814a2d-56e4-48b7-ada0-f9d0a5053326",
+            "9f0e6097-d45a-4fae-8861-314591bf439e"
+          ],
+          "terminals": [
+            "U4.1",
+            "R1.2"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_DP_MCU",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "7c885597-9356-4bfe-b341-a0d19ced5b2a",
+            "8a3e4ae4-e0a8-48bc-a422-e36f6881931a"
+          ],
+          "terminals": [
+            "R1.1",
+            "U1.52"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "USB_DP_PORT",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "3558908b-aef7-4cd5-a254-7c7454aa39b2",
+            "70d62980-ec6d-4137-8f58-d8b02e83425e",
+            "a8f7e0b8-7651-4d7a-b9d2-deb3098b6315"
+          ],
+          "terminals": [
+            "J1.B6",
+            "J1.A6",
+            "U4.6"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "VBUS",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "0abc9d90-9cef-4e44-8969-e0dea6ffd66f",
+            "4437d973-f023-4f9a-a794-b78890c89902",
+            "52451b14-8bf6-4686-970b-6aa5cae2f7ab",
+            "58847fd6-e878-4927-89e4-f29cb253b2b3",
+            "595ae39d-d672-4856-b605-8898a89fda23",
+            "5973f86d-aa14-4be6-a91e-1981b38e41a5",
+            "8a6c5299-1f59-4753-81b1-7b5da0cfeb3a",
+            "9f1945db-3b27-4ccf-9807-40a0ba265f74",
+            "fc9bb5cd-5292-4cea-91e8-0b7af3291c05"
+          ],
+          "terminals": [
+            "J3.20",
+            "J1.B4",
+            "D1.2",
+            "J1.B9",
+            "J1.A9",
+            "C26.1",
+            "U4.5",
+            "J1.A4",
+            "R11.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "VREG_AVDD",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "601e2b3e-7747-493e-ac93-e4307d1e0834",
+            "63352156-8b8f-4fb5-a585-6adb145d8f27",
+            "7a0cc5c4-8ada-4b29-a37f-bf99fe21b314"
+          ],
+          "terminals": [
+            "C3.1",
+            "R8.2",
+            "U1.46"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "VSYS",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "422b69d6-4841-4479-870e-d018cf9efe17",
+            "4261e63f-e3b5-49f3-ba92-4e6fe06bcf59",
+            "4296ea29-f572-4f4e-ab75-f7ec61a47d5e",
+            "b6a408b9-7bc7-46c9-930d-49924922526d",
+            "c7a4a821-0d21-4e8d-a5be-65b8129d86e3",
+            "ce9054a2-fe12-48a1-8277-195ce9f4e0d1",
+            "d4821a27-ebd1-40a9-acb5-a8f0237ebff6",
+            "e246d31f-b955-4ca4-87de-a4e09fdc32e2"
+          ],
+          "terminals": [
+            "J3.19",
+            "C22.1",
+            "R9.1",
+            "C20.1",
+            "U2.5",
+            "D1.1",
+            "R13.1",
+            "U2.8"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "VSYS_DIV",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "39aae799-eb8a-4d8d-b59e-e3daaf5d9047",
+            "665d3945-0b73-487d-a5b9-256126176cf6",
+            "b119f0c8-2364-4020-aabd-f01b47d0c559",
+            "ed423983-b6b8-4a54-aa82-625546e46b16"
+          ],
+          "terminals": [
+            "R14.1",
+            "R13.2",
+            "Q1.3",
+            "C23.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "XIN",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "9e0aeed8-f3e0-4bc7-83ce-3530dc869912",
+            "b009c7e8-0d67-4d6f-a214-720382660890",
+            "e763ce19-8e0d-48ab-94aa-e836d6c26626"
+          ],
+          "terminals": [
+            "Y1.1",
+            "C24.1",
+            "U1.21"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "XOUT_MCU",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "89183ec1-27b0-4b63-9522-2cc9471aaae1",
+            "d39db955-b3db-413e-bb1c-cf8971231865"
+          ],
+          "terminals": [
+            "R7.1",
+            "U1.22"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "XTAL_OUT",
+      "functional": true,
+      "groups": [
+        {
+          "padUuids": [
+            "651b52bf-1c64-4a3c-852b-c61e913fa71d",
+            "d4e46a4e-a181-4e92-8e49-b5725650b578",
+            "e0054168-58b9-4d0a-a902-bcec7e9f65c9"
+          ],
+          "terminals": [
+            "R7.2",
+            "Y1.3",
+            "C25.1"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "unconnected-(J1-SBU1-PadA8)",
+      "functional": false,
+      "groups": [
+        {
+          "padUuids": [
+            "6abb94fc-1331-41e1-9002-68927173cd38"
+          ],
+          "terminals": [
+            "J1.A8"
+          ]
+        }
+      ]
+    },
+    {
+      "net": "unconnected-(J1-SBU2-PadB8)",
+      "functional": false,
+      "groups": [
+        {
+          "padUuids": [
+            "dca3f9c4-82e9-4e2c-9698-351f58bc8155"
+          ],
+          "terminals": [
+            "J1.B8"
+          ]
+        }
+      ]
+    }
+  ],
+  "foreignPadReachability": [],
+  "sourceUnchanged": true
+}

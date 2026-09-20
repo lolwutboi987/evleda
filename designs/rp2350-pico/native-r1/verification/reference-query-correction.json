@@ -1,0 +1,58 @@
+{
+  "scope": "Corrected read-only grouping: whole requested nets per <=64-segment batch. Original not_assessed subset requests are retained.",
+  "sourceSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+  "sourceUnchanged": true,
+  "results": [
+    {
+      "nets": [
+        "QSPI_CS",
+        "QSPI_SCLK",
+        "QSPI_SD0",
+        "QSPI_SD1",
+        "QSPI_SD2",
+        "QSPI_SD3",
+        "SWCLK_HDR",
+        "SWCLK_MCU"
+      ],
+      "segments": 56,
+      "geometricStatus": "uncovered",
+      "noncovered": [
+        {
+          "id": "9846559d-7902-47f5-bde0-ffd61715149c",
+          "net": "SWCLK_HDR",
+          "status": "uncovered"
+        }
+      ],
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-05\\workspace-client-dd686241-e951-4088-a5b7-8cf29321f01e\\000095-response-fe103cc1f196e73920616b8ae323dba0f472d6f6408f316c1e036af617f3ab48.json"
+    },
+    {
+      "nets": [
+        "SWDIO_HDR",
+        "SWDIO_MCU",
+        "XIN",
+        "XOUT_MCU",
+        "XTAL_OUT"
+      ],
+      "segments": 37,
+      "geometricStatus": "uncovered",
+      "noncovered": [
+        {
+          "id": "2df821f6-29a2-43d5-8330-62a0ef80cf3f",
+          "net": "SWDIO_MCU",
+          "status": "boundary_uncertain"
+        },
+        {
+          "id": "cb44adfa-757d-4135-978c-6fc0c28ee76d",
+          "net": "SWDIO_MCU",
+          "status": "boundary_uncertain"
+        },
+        {
+          "id": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+          "net": "SWDIO_HDR",
+          "status": "uncovered"
+        }
+      ],
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-05\\workspace-client-dd686241-e951-4088-a5b7-8cf29321f01e\\000098-response-9ea21fdd0d0103a47d927a6f1d3b6ce55f03b4da7098983e23b2fdec1808fe76.json"
+    }
+  ]
+}

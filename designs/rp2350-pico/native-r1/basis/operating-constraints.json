@@ -1,0 +1,5323 @@
+{
+  "format": "rp2350-pico-operating-constraints-v1",
+  "status": "Reviewed design inputs for candidate generation; not measured or qualified electrical performance",
+  "reviewedAt": "2026-09-17",
+  "schemaMapping": {
+    "target": "evleda.pcb-design-intent-draft.v2",
+    "nets": "Merge exact name/role/electrical only. endpoints are unchanged parity evidence. profileId/profiles stay companion metadata.",
+    "power": "externalPowerInputs and derivedPowerSources contain exact V2 declarations; mode constraints stay explicit companion metadata.",
+    "peakDurationMs": "The schema minimum is1us. Pulse windows are design analysis envelopes, not measured durations or universal pin transient ratings.",
+    "VSYSRole": "VSYS uses power_input because a real external source is explicitly permitted at J3.19. It also remains the downstream USB-D1 rail. This is not relabeling an internal-only rail to bypass ERC."
+  },
+  "profiles": {
+    "GND": {
+      "role": "ground",
+      "electrical": {
+        "voltage": {
+          "minimumV": -0.05,
+          "nominalV": 0,
+          "maximumV": 0.05
+        },
+        "current": {
+          "nominalA": 0.25,
+          "maximumContinuousA": 1.2,
+          "peakA": 2,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "Design target +/-50 mV local ground displacement, not measured.",
+        "current": "Design copper envelope 1.2 A continuous and 2 A for 10 ms, covering source and local converter circulating returns; nominal 0.25 A is a planning point.",
+        "speed": "DC reference; high-frequency return currents still require continuous plane and local loops."
+      },
+      "conditions": []
+    },
+    "3V3": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 3.135,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.25,
+          "peakA": 0.3,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "D Table1441 USB/VREG lower bound3.135 V combined with W maximum3.6 V. Separate steady target3.20..3.45 V protects filtered VREG_AVDD.",
+        "current": "Design budget: 250 mA total continuous, 300 mA for1 ms; nominal100 mA planning point. PWR1 accounts for every load allocation.",
+        "speed": "DC supply; ripple and transient acceptance remain separate."
+      },
+      "conditions": [
+        "Header output <=50 mA included in total; no external 3V3 injection or supply paralleling."
+      ]
+    },
+    "1V1": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 1.05,
+          "nominalV": 1.1,
+          "maximumV": 1.16
+        },
+        "current": {
+          "nominalA": 0.05,
+          "maximumContinuousA": 0.15,
+          "peakA": 0.2,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "D Table1441 DVDD range, default1.1 V.",
+        "current": "Design150 mA continuous with200 mA for1 ms, at/below D Table1442 normal-mode200 mA; nominal50 mA planning point.",
+        "speed": "DC supply, not150 MHz clock."
+      },
+      "conditions": [
+        "Normal mode, no overclock or overvoltage.60% core-efficiency budget assumption is not a guarantee."
+      ]
+    },
+    "VSYS": {
+      "role": "power_input",
+      "electrical": {
+        "voltage": {
+          "minimumV": 1.8,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "R recommended and P VSYS1.8..5.5 V;5 V nominal is a source planning point.",
+        "current": "PWR2 design0.75 A continuous,1 A/10 ms including low-input conversion and charging; nominal100 mA planning point.",
+        "speed": "DC supply."
+      },
+      "conditions": [
+        "1.8 V must exist at U2 under load. USB source limits override this row. No additional VBUS/VSYS header loads."
+      ]
+    },
+    "VBUS": {
+      "role": "power_input",
+      "electrical": {
+        "voltage": {
+          "minimumV": 4.4,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.4,
+          "peakA": 0.5,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "Design accept4.4..5.5 V at receptacle: TI_USB4.4 V low-power floor and R5.5 V ceiling; not a change to USB source specifications.",
+        "current": "Design400 mA continuous,500 mA/10 ms only with host grant; preconfiguration100 mA overrides. Nominal100 mA is planning.",
+        "speed": "DC. Row peak is a copper/source target, not proof of hotplug limiting."
+      },
+      "conditions": [
+        "USB sink/device only; no PD/host/BC1.2 or CC current detection.47uF C20 behind D1 has uncontrolled charging; inrush remains unqualified."
+      ]
+    },
+    "VREG_AVDD": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 3.135,
+          "nominalV": 3.29,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00022,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.112,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "D supply minimum3.135 V;3.29 V nominal rounded from typical220uA*33ohm drop.",
+        "current": "D Table1446 typical220uA motivates nominal; design1 mA continuous.3.6/(33*0.98)=111.32 mA gives112 mA decaying charging envelope for1 ms.",
+        "speed": "DC analog control supply."
+      },
+      "conditions": [
+        "At3V3>=3.20 V and R8<=33.66ohm,1mA leaves>=3.16634 V. Pulse is decaying, not allowed rectangular resistor power."
+      ]
+    },
+    "ADC_AVDD": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 2.97,
+          "nominalV": 3.27,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00015,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.02,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "D Table1441 ADC performance floor2.97 V; nominal3.27 V from150uA*201ohm filter.",
+        "current": "D Table1446 ADC example142uA motivates150uA nominal. Design1mA continuous and20mA decaying startup envelope for10ms.",
+        "speed": "DC reference supply."
+      },
+      "conditions": [
+        "No external reference injection. ADC <=500ksample/s aggregate is design intent, not accuracy qualification."
+      ]
+    },
+    "ADC_VREF": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 2.97,
+          "nominalV": 3.27,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00015,
+          "maximumContinuousA": 0.00101,
+          "peakA": 0.02,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "Same filtered ADC envelope, preserving separate1ohm downstream net.",
+        "current": "Design1mA ADC plus<=10uA external reference sense load.3.6/(201*.98)=18.28mA rounded20mA startup envelope.",
+        "speed": "DC reference."
+      },
+      "conditions": [
+        "3.20-201*1.02*.00101=2.992928 V. Header is high-impedance reference access, not a power output; no shorts or external source."
+      ]
+    },
+    "GPIO": {
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail.",
+        "current": "Design0.5mA nominal,2mA static per pin,12mA peak per pin for1us. D2/4/8/12mA drive modes are not current limiters. Shared limits override each row.",
+        "speed": "Design25MHz external toggling;1ns Design fastest-edge screening assumption, not a guaranteed driver specification. Compare actual waveforms/IBIS before assigning electrical performance; faster edges require updated analysis."
+      },
+      "conditions": [
+        "<=10pF external load per GPIO. Source and sink totals each<=24mA across headers. Entire GPIO bank including LED/control/debug peak target80mA, vendor100mA. No contention/unpowered drive."
+      ]
+    },
+    "ADC_GPIO": {
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail. In analog mode 0..min(actual ADC_AVDD, actual IOVDD);3.6V scalar is only the outer rail ceiling.",
+        "current": "Same shared GPIO static/pulse design budgets; analog sampling load remains separate.",
+        "speed": "Digital25MHz/1ns screen; analog bandwidth target100kHz, aggregate ADC<=500ksample/s."
+      },
+      "conditions": [
+        "GPIO26..28 are not5V-tolerant. Initial analog source impedance target<=1kohm; verify settling/accuracy. Digital use counts in shared24mA header budget."
+      ]
+    },
+    "QSPI": {
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail. W operating2.7..3.6V.",
+        "current": "Design10uA nominal,100uA DC receiver budget,4mA/net peak; source and sink totals each<=20mA for QSPI bank (D Table1436). Actual capacitive peaks require verification.",
+        "speed": "75MHz design fast/quad-read target from150MHz/div2, below W104MHz unaligned fast limit.1ns Design fastest-edge screening assumption, not a guaranteed driver specification. Compare actual waveforms/IBIS before assigning electrical performance; faster edges require updated analysis."
+      },
+      "conditions": [
+        "Ordinary03h reads <=50MHz; use correct dummy/sample timing. W AC tests use <=5ns input edges and <=30pF output load; design receiving-load target<=10pF/net includes6pF flash CIN/8pF COUT characterization and short copper."
+      ]
+    },
+    "QSPI_CS": {
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00033,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail.",
+        "current": "Nominal10kohm pullup0.33mA. Design4mA covers heldBOOT/outputhigh:3.6/(1000*.98)=3.674mA. Counts in QSPI20mA bank.",
+        "speed": "75MHz/1ns QSPI CS branch screening."
+      },
+      "conditions": [
+        "W requires /CS track VCC on ramp. Baseline recovery: allow power to settle, hold RUN, press BOOT, release RUN. HeldBOOT cold-start is a compatibility acceptance item, not proven by reference copy."
+      ]
+    },
+    "BOOT": {
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00033,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail.",
+        "current": "Same R5-limited4mA bound as QSPI_CS.",
+        "speed": "75MHz/1ns allows QSPI content on open switch branch, not button actuation frequency."
+      },
+      "conditions": [
+        "Keep1kohm isolation and actual switch endpoints."
+      ]
+    },
+    "SWD": {
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail.",
+        "current": "Design10uA nominal,100uA DC load,4mA/1us transient per line;100ohm resistors are damping, not fault protection.",
+        "speed": "D Table1440 typical10MHz, internalup to50MHz. Design10MHz with1ns screening."
+      },
+      "conditions": [
+        "SharedGND,3.3V probe,<=100mm cable and<=15pF external capacitance targets; no target-power injection. Start recovery at1MHz."
+      ]
+    },
+    "USB_DATA": {
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "basis": {
+        "voltage": "D Table1437 USB levels; nominal3.3V high.",
+        "current": "Design0.2mA idle planning,4mA continuous load,50mA/1us launch-copper envelope (3.6V/90ohm=40mA plusmargin). Not a PHY pin-current guarantee or entitlement.",
+        "speed": "USB_FS12Mbit/s conservatively represented12MHz maximum content;4ns minimum10-90% edge,20ns maximum separately."
+      },
+      "conditions": [
+        "Retain27ohm series resistors and all14 channel anchors. Normal currents exclude ESD/short faults; eye and complete-channel acceptance required."
+      ]
+    },
+    "CC": {
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 0.42,
+          "maximumV": 2.04
+        },
+        "current": {
+          "nominalA": 8e-05,
+          "maximumContinuousA": 0.00042,
+          "peakA": 0.00042,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "basis": {
+        "voltage": "PassiveRd design envelope0..2.04V; nominal0.42V corresponds5V/56kohmRp/5.1kohmRd.",
+        "current": "2.04/(5100*.98)=0.408mA rounded420uA;80uA nominal.",
+        "speed": "DC attach indication, no PD transceiver."
+      },
+      "conditions": [
+        "Independent CC1/CC2 pull-downs; source can advertise higher current but this circuit does not detect it."
+      ]
+    },
+    "EN": {
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 5e-05,
+          "maximumContinuousA": 5.8e-05,
+          "peakA": 5.8e-05,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "basis": {
+        "voltage": "Pulled to VSYS, not3V3; R ENhigh>=1.2V and low<=0.4V.0V disables.",
+        "current": "5.5/(100000*.98)+1uA=57.12uA, rounded58uA.",
+        "speed": "Design<=1kHz changes,>=100ns edge."
+      },
+      "conditions": [
+        "Open-drain or short-to-GND only, external drain rating>=5.5V."
+      ]
+    },
+    "PS": {
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 3.3e-05,
+          "maximumContinuousA": 4e-05,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail.",
+        "current": "3.6/(100000*.98)+1uA=37.735uA rounded40uA.4mA/1us transient design target.",
+        "speed": "Design<=1kHz mode changes with1ns edge screen."
+      },
+      "conditions": [
+        "DefaultR10 pulldown selectsPFM; forcePWM for low-VSYS worst-load and noise-sensitive tests."
+      ]
+    },
+    "VBUS_SENSE": {
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.205,
+          "maximumV": 3.58
+        },
+        "current": {
+          "nominalA": 0.00032,
+          "maximumContinuousA": 0.00037,
+          "peakA": 0.00037,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "basis": {
+        "voltage": "R11=5.6k/R12=10k; at5.5V and2% effective resistor bound, node3.57598V rounded3.58V. Nominal5*10/15.6=3.20513V.",
+        "current": "5.5/(15600*.98)=359.76uA rounded370uA; nominal320uA.",
+        "speed": "Design1kHz presence-event envelope,100ns edge screen."
+      },
+      "conditions": [
+        "GPIO24 is FT and remains below3.63V unpowered FT ceiling under these bounds. Do not copy this voltage allowance to other pins."
+      ]
+    },
+    "VSYS_SENSE": {
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.667,
+          "maximumV": 1.89
+        },
+        "current": {
+          "nominalA": 1.7e-05,
+          "maximumContinuousA": 6e-05,
+          "peakA": 6e-05,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1000
+        }
+      },
+      "basis": {
+        "voltage": "Powered nominalVSYS/3;2% divider bounds and5.5V yield1.88255V, rounded1.89V.",
+        "current": "Design60uA covers divider/ADC loading; nominal17uA lower-leg current at5V.",
+        "speed": "Design<=1kHz telemetry and>=1us event screen."
+      },
+      "conditions": [
+        "Q1 isolates unpowered ADC; nominal division needs calibration/settling assessment because ADC loading and FET behavior affect it."
+      ]
+    },
+    "VSYS_DIV": {
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.667,
+          "maximumV": 2.81
+        },
+        "current": {
+          "nominalA": 3.4e-05,
+          "maximumContinuousA": 6e-05,
+          "peakA": 6e-05,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1000
+        }
+      },
+      "basis": {
+        "voltage": "WhenQ1off, divider becomes /2;5.5*1.02/(.98+1.02)=2.805V rounded2.81V. Powered nominal5/3V.",
+        "current": "5.5/(100000*.98)=56.12uA rounded60uA.",
+        "speed": "Design1kHz/1us bound with1nF filtering."
+      },
+      "conditions": [
+        "Off-state2.81V is at Q1 drain, not MCU ADC pin."
+      ]
+    },
+    "RUN": {
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 5e-05,
+          "maximumContinuousA": 0.00012,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail.",
+        "current": "D minimum32kohm internal pull:3.6/32k=112.5uA rounded120uA;4mA/1us transient design target.",
+        "speed": "Design<=1kHz events,>=100ns external edge; hold resetlow>=1ms."
+      },
+      "conditions": [
+        "Open-drain/short-to-GND only; no unpowered drive."
+      ]
+    },
+    "LED_GPIO": {
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0025,
+          "maximumContinuousA": 0.008,
+          "peakA": 0.008,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.02,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design target: powered 3.3 V logic; nominalV means the nominal logic-high supply, not waveform average. Actual inputs must not exceed the applicable powered rail.",
+        "current": "Design2.5mA example (3.3-2.1)/470; maximum3.6/(470*.98)=7.816mA even with shortedLED, rounded8mA.",
+        "speed": "DesignPWM<=20kHz,1ns edge screen."
+      },
+      "conditions": [
+        "Include8mA in GPIO bank budget; choose8mA drive. R18 worst28.2mW below62.5mW. Brightness not guaranteed at2.5mA."
+      ]
+    },
+    "LED_A": {
+      "role": "passive",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 2.1,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0025,
+          "maximumContinuousA": 0.008,
+          "peakA": 0.008,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.02,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "SelectedLED2.1V typical at20mA is only planning nominal here;0..3.6V includesPWM/open/short envelope.",
+        "current": "Same R18-limited8mA bound as LED_GPIO.",
+        "speed": "20kHz/1ns screening."
+      },
+      "conditions": [
+        "No measured operating-point or brightness claim."
+      ]
+    },
+    "CORE_LX": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.1,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.05,
+          "maximumContinuousA": 0.2,
+          "peakA": 0.8,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 4,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design0..3V3 switch envelope;1.1V average planning point, ringing subject to actual pin ratings.",
+        "current": "D normal200mA output and maximum800mA normal currentlimit;800mA/1ms screens loop conductors, not core load permission.",
+        "speed": "D typical3MHz; chosen4MHz and1ns screening because no guaranteed maximum or edge specification located."
+      },
+      "conditions": [
+        "Reference L1/C1/C2/R8/C3/feedback geometry mandatory. Waveform must be compared with analysis envelope."
+      ]
+    },
+    "RT_LX1": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 2.5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1.5,
+          "peakDurationMs": 0.01
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 1.2,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design0..VSYS switching envelope; nominal2.5V is a planning midpoint, not a measured waveform.",
+        "current": "PWR3 low-input average0.714A and ripple0.710A pk-pk motivate1.5A/10us loop envelope. R1.6A currentlimit is a minimum, not a fault maximum.",
+        "speed": "R maximum oscillator1.2MHz, minimum0.8MHz used for ripple;1ns fastest-edge assumption."
+      },
+      "conditions": [
+        "Startup, buck-boost boundary, hot inductor rolloff and shorts are not bounded by ideal steady-state calculation."
+      ]
+    },
+    "RT_LX2": {
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1.5,
+          "peakDurationMs": 0.01
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 1.2,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design0..3V3 switch envelope; nominal1.65V midpoint convention.",
+        "current": "Same series L2 current as RT_LX1.",
+        "speed": "Same1.2MHz/1ns screen as RT_LX1."
+      },
+      "conditions": []
+    },
+    "XTAL": {
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.0021,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Design0..3V3 pin envelope;1.65V midpoint is not a predicted oscillator amplitude/bias.",
+        "current": "Design net-current envelope0.2mA nominal,2.1mA RMS and4mA peak. At12.002MHz,15.75pF and1.8V peak sine swing, shunt current is2.138mA peak/1.512mA RMS. Add separate0.5mA RMS motional-current target conservatively:2.012mA RMS,2.846mA peak. Motional power alone <=(0.5mA)^2*50ohm=12.5uW, below X200uW maximum; no measured oscillation amplitude or current.",
+        "speed": "X12MHz;30ppm tolerance+30ppm stability+5ppm first-year aging gives12.00078MHz, rounded12.002MHz.1ns conservative edge screen, not measured sine rise."
+      },
+      "conditions": [
+        "Use exact reference12MHz/CL10pF crystal and2x15pF. Confirm startup, load parasitics and actual motional power."
+      ]
+    },
+    "XOUT": {
+      "role": "clock",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "basis": {
+        "voltage": "Same oscillator voltage-analysis convention asXTAL.",
+        "current": "Design0.2mA nominal/1mA RMS and4mA peak;3.6/(1000*.98)=3.674mA throughR7 under short screen.",
+        "speed": "12.002MHz/1ns analysis bounds."
+      },
+      "conditions": [
+        "R7 damps drive; crystal motional power remains independent acceptance condition."
+      ]
+    }
+  },
+  "operatingProfile": {
+    "cpu": "RP2350A A4 design intent, normal150MHz, default1.1Vcore, both cores available within load budget; no overclock",
+    "ambientTargetC": {
+      "minimum": 0,
+      "maximum": 50
+    },
+    "thermalAcceptance": "Design junction<=100C and passivebody<=85C; no measured temperatures or candidate thermal resistance.",
+    "steady3V3TargetV": {
+      "minimum": 3.2,
+      "nominal": 3.3,
+      "maximum": 3.45
+    },
+    "outer3V3PermittedEnvelopeV": {
+      "minimum": 3.135,
+      "maximum": 3.6
+    },
+    "external3V3LoadMaximumA": 0.05,
+    "externalGPIOAggregateSourceMaximumA": 0.024,
+    "externalGPIOAggregateSinkMaximumA": 0.024,
+    "GPIOBankSourceOrSinkPeakTargetA": 0.08,
+    "GPIOVendorBankSourceOrSinkMaximumA": 0.1,
+    "QSPIVendorBankSourceOrSinkMaximumA": 0.02,
+    "resistorToleranceScreen": "2% effective resistor bound covers1% initial plus temperature coefficient/rounding over selected0..50C ambient; not a universal full-temperature tolerance.",
+    "efficiencyAssumptions": {
+      "core": 0.6,
+      "RT6150": 0.7
+    },
+    "edgeTimeConvention": "Design fastest-edge screening assumption, not a guaranteed driver specification. Compare actual waveforms/IBIS before assigning electrical performance; faster edges require updated analysis.",
+    "budgetPhaseScope": "PWR1/PWR2 calculations cover established rails and the stated workload modes, not uncontrolled initial capacitor charging. Per-net charging pulses are screened separately and are not assumed simultaneous with every steady maximum. Initial startup/inrush must be compared with rail-current targets before electrical rating; no unverified startup current limit is asserted.",
+    "USBClockCondition": "With active USB, application clk_sys must exceed clk_usb by at least10% per RP2350-E12; normal150MHz versus48MHz satisfies this. Preserve application obligation when changing clocks or entering low power."
+  },
+  "inputChoicesStillUnresolved": [],
+  "laterAcceptanceQuestions": [
+    "Native ERC/DRC and exact source bindings remain required; flags do not qualify power.",
+    "USB current entitlement, inrush, suspend and held-BOOT cold startup require integration acceptance; do not claim certified USB hotplug.",
+    "Regulation, thermal, core-buck stability, L2 hot rolloff and resistor startup pulse behavior remain candidate/prototype acceptance.",
+    "QSPI/SWD/GPIO timing, edge/current envelopes, crystal startup/drive and ADC settling/calibration remain unverified."
+  ],
+  "nets": [
+    {
+      "name": "1V1",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 1.05,
+          "nominalV": 1.1,
+          "maximumV": 1.16
+        },
+        "current": {
+          "nominalA": 0.05,
+          "maximumContinuousA": 0.15,
+          "peakA": 0.2,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "1V1",
+      "endpoints": [
+        {
+          "reference": "C11",
+          "pin": "1"
+        },
+        {
+          "reference": "C12",
+          "pin": "1"
+        },
+        {
+          "reference": "C13",
+          "pin": "1"
+        },
+        {
+          "reference": "C2",
+          "pin": "1"
+        },
+        {
+          "reference": "C4",
+          "pin": "1"
+        },
+        {
+          "reference": "L1",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "23"
+        },
+        {
+          "reference": "U1",
+          "pin": "39"
+        },
+        {
+          "reference": "U1",
+          "pin": "50"
+        },
+        {
+          "reference": "U1",
+          "pin": "6"
+        }
+      ]
+    },
+    {
+      "name": "3V3",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 3.135,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.25,
+          "peakA": 0.3,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "3V3",
+      "endpoints": [
+        {
+          "reference": "C10",
+          "pin": "1"
+        },
+        {
+          "reference": "C14",
+          "pin": "1"
+        },
+        {
+          "reference": "C15",
+          "pin": "1"
+        },
+        {
+          "reference": "C18",
+          "pin": "1"
+        },
+        {
+          "reference": "C19",
+          "pin": "1"
+        },
+        {
+          "reference": "C1",
+          "pin": "1"
+        },
+        {
+          "reference": "C21",
+          "pin": "1"
+        },
+        {
+          "reference": "C5",
+          "pin": "1"
+        },
+        {
+          "reference": "C6",
+          "pin": "1"
+        },
+        {
+          "reference": "C7",
+          "pin": "1"
+        },
+        {
+          "reference": "C8",
+          "pin": "1"
+        },
+        {
+          "reference": "C9",
+          "pin": "1"
+        },
+        {
+          "reference": "J3",
+          "pin": "16"
+        },
+        {
+          "reference": "Q1",
+          "pin": "1"
+        },
+        {
+          "reference": "R16",
+          "pin": "1"
+        },
+        {
+          "reference": "R6",
+          "pin": "1"
+        },
+        {
+          "reference": "R8",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "11"
+        },
+        {
+          "reference": "U1",
+          "pin": "20"
+        },
+        {
+          "reference": "U1",
+          "pin": "30"
+        },
+        {
+          "reference": "U1",
+          "pin": "38"
+        },
+        {
+          "reference": "U1",
+          "pin": "45"
+        },
+        {
+          "reference": "U1",
+          "pin": "49"
+        },
+        {
+          "reference": "U1",
+          "pin": "53"
+        },
+        {
+          "reference": "U1",
+          "pin": "54"
+        },
+        {
+          "reference": "U2",
+          "pin": "1"
+        },
+        {
+          "reference": "U2",
+          "pin": "10"
+        },
+        {
+          "reference": "U3",
+          "pin": "8"
+        }
+      ]
+    },
+    {
+      "name": "3V3_EN",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 5e-05,
+          "maximumContinuousA": 5.8e-05,
+          "peakA": 5.8e-05,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "profileId": "EN",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "17"
+        },
+        {
+          "reference": "R9",
+          "pin": "2"
+        },
+        {
+          "reference": "U2",
+          "pin": "6"
+        }
+      ]
+    },
+    {
+      "name": "ADC_AVDD",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 2.97,
+          "nominalV": 3.27,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00015,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.02,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "ADC_AVDD",
+      "endpoints": [
+        {
+          "reference": "C16",
+          "pin": "1"
+        },
+        {
+          "reference": "C17",
+          "pin": "1"
+        },
+        {
+          "reference": "R17",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "44"
+        }
+      ]
+    },
+    {
+      "name": "ADC_VREF",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 2.97,
+          "nominalV": 3.27,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00015,
+          "maximumContinuousA": 0.00101,
+          "peakA": 0.02,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "ADC_VREF",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "15"
+        },
+        {
+          "reference": "R16",
+          "pin": "2"
+        },
+        {
+          "reference": "R17",
+          "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "BOOT_SW",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00033,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "BOOT",
+      "endpoints": [
+        {
+          "reference": "R5",
+          "pin": "2"
+        },
+        {
+          "reference": "SW1",
+          "pin": "3"
+        },
+        {
+          "reference": "SW1",
+          "pin": "4"
+        }
+      ]
+    },
+    {
+      "name": "CORE_LX",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.1,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.05,
+          "maximumContinuousA": 0.2,
+          "peakA": 0.8,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 4,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "CORE_LX",
+      "endpoints": [
+        {
+          "reference": "L1",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "48"
+        }
+      ]
+    },
+    {
+      "name": "GND",
+      "role": "ground",
+      "electrical": {
+        "voltage": {
+          "minimumV": -0.05,
+          "nominalV": 0,
+          "maximumV": 0.05
+        },
+        "current": {
+          "nominalA": 0.25,
+          "maximumContinuousA": 1.2,
+          "peakA": 2,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "GND",
+      "endpoints": [
+        {
+          "reference": "C10",
+          "pin": "2"
+        },
+        {
+          "reference": "C11",
+          "pin": "2"
+        },
+        {
+          "reference": "C12",
+          "pin": "2"
+        },
+        {
+          "reference": "C13",
+          "pin": "2"
+        },
+        {
+          "reference": "C14",
+          "pin": "2"
+        },
+        {
+          "reference": "C15",
+          "pin": "2"
+        },
+        {
+          "reference": "C16",
+          "pin": "2"
+        },
+        {
+          "reference": "C17",
+          "pin": "2"
+        },
+        {
+          "reference": "C18",
+          "pin": "2"
+        },
+        {
+          "reference": "C19",
+          "pin": "2"
+        },
+        {
+          "reference": "C1",
+          "pin": "2"
+        },
+        {
+          "reference": "C20",
+          "pin": "2"
+        },
+        {
+          "reference": "C21",
+          "pin": "2"
+        },
+        {
+          "reference": "C22",
+          "pin": "2"
+        },
+        {
+          "reference": "C23",
+          "pin": "2"
+        },
+        {
+          "reference": "C24",
+          "pin": "2"
+        },
+        {
+          "reference": "C25",
+          "pin": "2"
+        },
+        {
+          "reference": "C26",
+          "pin": "2"
+        },
+        {
+          "reference": "C2",
+          "pin": "2"
+        },
+        {
+          "reference": "C3",
+          "pin": "2"
+        },
+        {
+          "reference": "C4",
+          "pin": "2"
+        },
+        {
+          "reference": "C5",
+          "pin": "2"
+        },
+        {
+          "reference": "C6",
+          "pin": "2"
+        },
+        {
+          "reference": "C7",
+          "pin": "2"
+        },
+        {
+          "reference": "C8",
+          "pin": "2"
+        },
+        {
+          "reference": "C9",
+          "pin": "2"
+        },
+        {
+          "reference": "D2",
+          "pin": "1"
+        },
+        {
+          "reference": "J1",
+          "pin": "A1"
+        },
+        {
+          "reference": "J1",
+          "pin": "A12"
+        },
+        {
+          "reference": "J1",
+          "pin": "B1"
+        },
+        {
+          "reference": "J1",
+          "pin": "B12"
+        },
+        {
+          "reference": "J1",
+          "pin": "SH"
+        },
+        {
+          "reference": "J2",
+          "pin": "13"
+        },
+        {
+          "reference": "J2",
+          "pin": "18"
+        },
+        {
+          "reference": "J2",
+          "pin": "3"
+        },
+        {
+          "reference": "J2",
+          "pin": "8"
+        },
+        {
+          "reference": "J3",
+          "pin": "13"
+        },
+        {
+          "reference": "J3",
+          "pin": "18"
+        },
+        {
+          "reference": "J3",
+          "pin": "3"
+        },
+        {
+          "reference": "J3",
+          "pin": "8"
+        },
+        {
+          "reference": "J4",
+          "pin": "2"
+        },
+        {
+          "reference": "R10",
+          "pin": "2"
+        },
+        {
+          "reference": "R12",
+          "pin": "2"
+        },
+        {
+          "reference": "R14",
+          "pin": "2"
+        },
+        {
+          "reference": "R15",
+          "pin": "2"
+        },
+        {
+          "reference": "R3",
+          "pin": "2"
+        },
+        {
+          "reference": "R4",
+          "pin": "2"
+        },
+        {
+          "reference": "SW1",
+          "pin": "1"
+        },
+        {
+          "reference": "SW1",
+          "pin": "2"
+        },
+        {
+          "reference": "SW2",
+          "pin": "1"
+        },
+        {
+          "reference": "SW2",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "47"
+        },
+        {
+          "reference": "U1",
+          "pin": "61"
+        },
+        {
+          "reference": "U2",
+          "pin": "11"
+        },
+        {
+          "reference": "U2",
+          "pin": "3"
+        },
+        {
+          "reference": "U2",
+          "pin": "9"
+        },
+        {
+          "reference": "U3",
+          "pin": "4"
+        },
+        {
+          "reference": "U3",
+          "pin": "9"
+        },
+        {
+          "reference": "U4",
+          "pin": "2"
+        },
+        {
+          "reference": "Y1",
+          "pin": "2"
+        },
+        {
+          "reference": "Y1",
+          "pin": "4"
+        }
+      ]
+    },
+    {
+      "name": "GPIO0",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "2"
+        }
+      ]
+    },
+    {
+      "name": "GPIO1",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "3"
+        }
+      ]
+    },
+    {
+      "name": "GPIO10",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "14"
+        },
+        {
+          "reference": "U1",
+          "pin": "14"
+        }
+      ]
+    },
+    {
+      "name": "GPIO11",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "15"
+        },
+        {
+          "reference": "U1",
+          "pin": "15"
+        }
+      ]
+    },
+    {
+      "name": "GPIO12",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "16"
+        },
+        {
+          "reference": "U1",
+          "pin": "16"
+        }
+      ]
+    },
+    {
+      "name": "GPIO13",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "17"
+        },
+        {
+          "reference": "U1",
+          "pin": "17"
+        }
+      ]
+    },
+    {
+      "name": "GPIO14",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "19"
+        },
+        {
+          "reference": "U1",
+          "pin": "18"
+        }
+      ]
+    },
+    {
+      "name": "GPIO15",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "20"
+        },
+        {
+          "reference": "U1",
+          "pin": "19"
+        }
+      ]
+    },
+    {
+      "name": "GPIO16",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "27"
+        }
+      ]
+    },
+    {
+      "name": "GPIO17",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "28"
+        }
+      ]
+    },
+    {
+      "name": "GPIO18",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "4"
+        },
+        {
+          "reference": "U1",
+          "pin": "29"
+        }
+      ]
+    },
+    {
+      "name": "GPIO19",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "5"
+        },
+        {
+          "reference": "U1",
+          "pin": "31"
+        }
+      ]
+    },
+    {
+      "name": "GPIO2",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "4"
+        },
+        {
+          "reference": "U1",
+          "pin": "4"
+        }
+      ]
+    },
+    {
+      "name": "GPIO20",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "6"
+        },
+        {
+          "reference": "U1",
+          "pin": "32"
+        }
+      ]
+    },
+    {
+      "name": "GPIO21",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "7"
+        },
+        {
+          "reference": "U1",
+          "pin": "33"
+        }
+      ]
+    },
+    {
+      "name": "GPIO22",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "9"
+        },
+        {
+          "reference": "U1",
+          "pin": "34"
+        }
+      ]
+    },
+    {
+      "name": "GPIO23_SMPS_PS",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 3.3e-05,
+          "maximumContinuousA": 4e-05,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "PS",
+      "endpoints": [
+        {
+          "reference": "R10",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "35"
+        },
+        {
+          "reference": "U2",
+          "pin": "7"
+        }
+      ]
+    },
+    {
+      "name": "GPIO24_VBUS_SENSE",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.205,
+          "maximumV": 3.58
+        },
+        "current": {
+          "nominalA": 0.00032,
+          "maximumContinuousA": 0.00037,
+          "peakA": 0.00037,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "profileId": "VBUS_SENSE",
+      "endpoints": [
+        {
+          "reference": "R11",
+          "pin": "2"
+        },
+        {
+          "reference": "R12",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "36"
+        }
+      ]
+    },
+    {
+      "name": "GPIO25_LED",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0025,
+          "maximumContinuousA": 0.008,
+          "peakA": 0.008,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.02,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "LED_GPIO",
+      "endpoints": [
+        {
+          "reference": "R18",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "37"
+        }
+      ]
+    },
+    {
+      "name": "GPIO26",
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "ADC_GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "11"
+        },
+        {
+          "reference": "U1",
+          "pin": "40"
+        }
+      ]
+    },
+    {
+      "name": "GPIO27",
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "ADC_GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "12"
+        },
+        {
+          "reference": "U1",
+          "pin": "41"
+        }
+      ]
+    },
+    {
+      "name": "GPIO28",
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "ADC_GPIO",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "14"
+        },
+        {
+          "reference": "U1",
+          "pin": "42"
+        }
+      ]
+    },
+    {
+      "name": "GPIO29_VSYS_SENSE",
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.667,
+          "maximumV": 1.89
+        },
+        "current": {
+          "nominalA": 1.7e-05,
+          "maximumContinuousA": 6e-05,
+          "peakA": 6e-05,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1000
+        }
+      },
+      "profileId": "VSYS_SENSE",
+      "endpoints": [
+        {
+          "reference": "Q1",
+          "pin": "2"
+        },
+        {
+          "reference": "R15",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "43"
+        }
+      ]
+    },
+    {
+      "name": "GPIO3",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "5"
+        },
+        {
+          "reference": "U1",
+          "pin": "5"
+        }
+      ]
+    },
+    {
+      "name": "GPIO4",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "6"
+        },
+        {
+          "reference": "U1",
+          "pin": "7"
+        }
+      ]
+    },
+    {
+      "name": "GPIO5",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "7"
+        },
+        {
+          "reference": "U1",
+          "pin": "8"
+        }
+      ]
+    },
+    {
+      "name": "GPIO6",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "9"
+        },
+        {
+          "reference": "U1",
+          "pin": "9"
+        }
+      ]
+    },
+    {
+      "name": "GPIO7",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "10"
+        },
+        {
+          "reference": "U1",
+          "pin": "10"
+        }
+      ]
+    },
+    {
+      "name": "GPIO8",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "11"
+        },
+        {
+          "reference": "U1",
+          "pin": "12"
+        }
+      ]
+    },
+    {
+      "name": "GPIO9",
+      "role": "digital",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0005,
+          "maximumContinuousA": 0.002,
+          "peakA": 0.012,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 25,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "GPIO",
+      "endpoints": [
+        {
+          "reference": "J2",
+          "pin": "12"
+        },
+        {
+          "reference": "U1",
+          "pin": "13"
+        }
+      ]
+    },
+    {
+      "name": "LED_A",
+      "role": "passive",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 2.1,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0025,
+          "maximumContinuousA": 0.008,
+          "peakA": 0.008,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.02,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "LED_A",
+      "endpoints": [
+        {
+          "reference": "D2",
+          "pin": "2"
+        },
+        {
+          "reference": "R18",
+          "pin": "2"
+        }
+      ]
+    },
+    {
+      "name": "QSPI_CS",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00033,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "QSPI_CS",
+      "endpoints": [
+        {
+          "reference": "R5",
+          "pin": "1"
+        },
+        {
+          "reference": "R6",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "60"
+        },
+        {
+          "reference": "U3",
+          "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "QSPI_SCLK",
+      "role": "clock",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "QSPI",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "56"
+        },
+        {
+          "reference": "U3",
+          "pin": "6"
+        }
+      ]
+    },
+    {
+      "name": "QSPI_SD0",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "QSPI",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "57"
+        },
+        {
+          "reference": "U3",
+          "pin": "5"
+        }
+      ]
+    },
+    {
+      "name": "QSPI_SD1",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "QSPI",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "59"
+        },
+        {
+          "reference": "U3",
+          "pin": "2"
+        }
+      ]
+    },
+    {
+      "name": "QSPI_SD2",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "QSPI",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "58"
+        },
+        {
+          "reference": "U3",
+          "pin": "3"
+        }
+      ]
+    },
+    {
+      "name": "QSPI_SD3",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 75,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "QSPI",
+      "endpoints": [
+        {
+          "reference": "U1",
+          "pin": "55"
+        },
+        {
+          "reference": "U3",
+          "pin": "7"
+        }
+      ]
+    },
+    {
+      "name": "RT_LX1",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 2.5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1.5,
+          "peakDurationMs": 0.01
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 1.2,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "RT_LX1",
+      "endpoints": [
+        {
+          "reference": "L2",
+          "pin": "1"
+        },
+        {
+          "reference": "U2",
+          "pin": "4"
+        }
+      ]
+    },
+    {
+      "name": "RT_LX2",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1.5,
+          "peakDurationMs": 0.01
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 1.2,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "RT_LX2",
+      "endpoints": [
+        {
+          "reference": "L2",
+          "pin": "2"
+        },
+        {
+          "reference": "U2",
+          "pin": "2"
+        }
+      ]
+    },
+    {
+      "name": "RUN",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 5e-05,
+          "maximumContinuousA": 0.00012,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 100
+        }
+      },
+      "profileId": "RUN",
+      "endpoints": [
+        {
+          "reference": "J3",
+          "pin": "10"
+        },
+        {
+          "reference": "SW2",
+          "pin": "3"
+        },
+        {
+          "reference": "SW2",
+          "pin": "4"
+        },
+        {
+          "reference": "U1",
+          "pin": "26"
+        }
+      ]
+    },
+    {
+      "name": "SWCLK_HDR",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "SWD",
+      "endpoints": [
+        {
+          "reference": "J4",
+          "pin": "1"
+        },
+        {
+          "reference": "R19",
+          "pin": "2"
+        }
+      ]
+    },
+    {
+      "name": "SWCLK_MCU",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "SWD",
+      "endpoints": [
+        {
+          "reference": "R19",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "24"
+        }
+      ]
+    },
+    {
+      "name": "SWDIO_HDR",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "SWD",
+      "endpoints": [
+        {
+          "reference": "J4",
+          "pin": "3"
+        },
+        {
+          "reference": "R20",
+          "pin": "2"
+        }
+      ]
+    },
+    {
+      "name": "SWDIO_MCU",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 1e-05,
+          "maximumContinuousA": 0.0001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 10,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "SWD",
+      "endpoints": [
+        {
+          "reference": "R20",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "25"
+        }
+      ]
+    },
+    {
+      "name": "USB_CC1",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 0.42,
+          "maximumV": 2.04
+        },
+        "current": {
+          "nominalA": 8e-05,
+          "maximumContinuousA": 0.00042,
+          "peakA": 0.00042,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "CC",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "A5"
+        },
+        {
+          "reference": "R3",
+          "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "USB_CC2",
+      "role": "control",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 0.42,
+          "maximumV": 2.04
+        },
+        "current": {
+          "nominalA": 8e-05,
+          "maximumContinuousA": 0.00042,
+          "peakA": 0.00042,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "CC",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "B5"
+        },
+        {
+          "reference": "R4",
+          "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "USB_DM_MCU",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "profileId": "USB_DATA",
+      "endpoints": [
+        {
+          "reference": "R2",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "51"
+        }
+      ]
+    },
+    {
+      "name": "USB_DM_PORT",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "profileId": "USB_DATA",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "A7"
+        },
+        {
+          "reference": "J1",
+          "pin": "B7"
+        },
+        {
+          "reference": "R2",
+          "pin": "2"
+        },
+        {
+          "reference": "U4",
+          "pin": "3"
+        },
+        {
+          "reference": "U4",
+          "pin": "4"
+        }
+      ]
+    },
+    {
+      "name": "USB_DP_MCU",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "profileId": "USB_DATA",
+      "endpoints": [
+        {
+          "reference": "R1",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "52"
+        }
+      ]
+    },
+    {
+      "name": "USB_DP_PORT",
+      "role": "interface",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 3.3,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.004,
+          "peakA": 0.05,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12,
+          "minimumEdgeTimeNs": 4
+        }
+      },
+      "profileId": "USB_DATA",
+      "endpoints": [
+        {
+          "reference": "J1",
+          "pin": "A6"
+        },
+        {
+          "reference": "J1",
+          "pin": "B6"
+        },
+        {
+          "reference": "R1",
+          "pin": "2"
+        },
+        {
+          "reference": "U4",
+          "pin": "1"
+        },
+        {
+          "reference": "U4",
+          "pin": "6"
+        }
+      ]
+    },
+    {
+      "name": "VBUS",
+      "role": "power_input",
+      "electrical": {
+        "voltage": {
+          "minimumV": 4.4,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.4,
+          "peakA": 0.5,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "VBUS",
+      "endpoints": [
+        {
+          "reference": "C26",
+          "pin": "1"
+        },
+        {
+          "reference": "D1",
+          "pin": "2"
+        },
+        {
+          "reference": "J1",
+          "pin": "A4"
+        },
+        {
+          "reference": "J1",
+          "pin": "A9"
+        },
+        {
+          "reference": "J1",
+          "pin": "B4"
+        },
+        {
+          "reference": "J1",
+          "pin": "B9"
+        },
+        {
+          "reference": "J3",
+          "pin": "20"
+        },
+        {
+          "reference": "R11",
+          "pin": "1"
+        },
+        {
+          "reference": "U4",
+          "pin": "5"
+        }
+      ]
+    },
+    {
+      "name": "VREG_AVDD",
+      "role": "power",
+      "electrical": {
+        "voltage": {
+          "minimumV": 3.135,
+          "nominalV": 3.29,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.00022,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.112,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "VREG_AVDD",
+      "endpoints": [
+        {
+          "reference": "C3",
+          "pin": "1"
+        },
+        {
+          "reference": "R8",
+          "pin": "2"
+        },
+        {
+          "reference": "U1",
+          "pin": "46"
+        }
+      ]
+    },
+    {
+      "name": "VSYS",
+      "role": "power_input",
+      "electrical": {
+        "voltage": {
+          "minimumV": 1.8,
+          "nominalV": 5,
+          "maximumV": 5.5
+        },
+        "current": {
+          "nominalA": 0.1,
+          "maximumContinuousA": 0.75,
+          "peakA": 1,
+          "peakDurationMs": 10
+        },
+        "speed": {
+          "kind": "dc",
+          "maximumFrequencyMHz": 0,
+          "minimumEdgeTimeNs": null
+        }
+      },
+      "profileId": "VSYS",
+      "endpoints": [
+        {
+          "reference": "C20",
+          "pin": "1"
+        },
+        {
+          "reference": "C22",
+          "pin": "1"
+        },
+        {
+          "reference": "D1",
+          "pin": "1"
+        },
+        {
+          "reference": "J3",
+          "pin": "19"
+        },
+        {
+          "reference": "R13",
+          "pin": "1"
+        },
+        {
+          "reference": "R9",
+          "pin": "1"
+        },
+        {
+          "reference": "U2",
+          "pin": "5"
+        },
+        {
+          "reference": "U2",
+          "pin": "8"
+        }
+      ]
+    },
+    {
+      "name": "VSYS_DIV",
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.667,
+          "maximumV": 2.81
+        },
+        "current": {
+          "nominalA": 3.4e-05,
+          "maximumContinuousA": 6e-05,
+          "peakA": 6e-05,
+          "peakDurationMs": 1
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 0.001,
+          "minimumEdgeTimeNs": 1000
+        }
+      },
+      "profileId": "VSYS_DIV",
+      "endpoints": [
+        {
+          "reference": "C23",
+          "pin": "1"
+        },
+        {
+          "reference": "Q1",
+          "pin": "3"
+        },
+        {
+          "reference": "R13",
+          "pin": "2"
+        },
+        {
+          "reference": "R14",
+          "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "XIN",
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.0021,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "XTAL",
+      "endpoints": [
+        {
+          "reference": "C24",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "21"
+        },
+        {
+          "reference": "Y1",
+          "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "XOUT_MCU",
+      "role": "clock",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.001,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "XOUT",
+      "endpoints": [
+        {
+          "reference": "R7",
+          "pin": "1"
+        },
+        {
+          "reference": "U1",
+          "pin": "22"
+        }
+      ]
+    },
+    {
+      "name": "XTAL_OUT",
+      "role": "analog",
+      "electrical": {
+        "voltage": {
+          "minimumV": 0,
+          "nominalV": 1.65,
+          "maximumV": 3.6
+        },
+        "current": {
+          "nominalA": 0.0002,
+          "maximumContinuousA": 0.0021,
+          "peakA": 0.004,
+          "peakDurationMs": 0.001
+        },
+        "speed": {
+          "kind": "signal",
+          "maximumFrequencyMHz": 12.002,
+          "minimumEdgeTimeNs": 1
+        }
+      },
+      "profileId": "XTAL",
+      "endpoints": [
+        {
+          "reference": "C25",
+          "pin": "1"
+        },
+        {
+          "reference": "R7",
+          "pin": "2"
+        },
+        {
+          "reference": "Y1",
+          "pin": "3"
+        }
+      ]
+    }
+  ],
+  "sources": {
+    "D": {
+      "title": "RP2350 datasheet",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008373-DS-2-rp2350-datasheet.pdf",
+      "revision": "2025-07-29 d126e9e-clean",
+      "pages": "6.1.8 power sequencing;6.3 core regulator;12.4 ADC;1339-1348 electrical specifications and consumption;RP2350-E12 erratum"
+    },
+    "H": {
+      "title": "Hardware design with RP2350",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf",
+      "revision": "Release 3, 2026-08-20, 06a7f75e58a1",
+      "pages": "5-8, 10-18, 20"
+    },
+    "P": {
+      "title": "Pico 2 datasheet",
+      "url": "https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf",
+      "revision": "Release 5, 2026-07-03, d4e0f1799616",
+      "pages": "7-9, 14-18, 20"
+    },
+    "R": {
+      "title": "Richtek RT6150A/B",
+      "url": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf",
+      "revision": "DS6150A/B-06, July 2018",
+      "pages": "2, 4-7, 9-13"
+    },
+    "W": {
+      "title": "Winbond W25Q32RV",
+      "url": "https://www.winbond.com/resource-files/W25Q32RV_SPI_QPI%20RevE%2011132025%20Plus.pdf",
+      "revision": "Rev. E, 2025-11-13",
+      "pages": "5-6 pinout/QE; 11 CS sequencing; 68 timing; 77 XH center pad; 80-81 ordering"
+    },
+    "N": {
+      "title": "Nexperia PMEG6010ELR",
+      "url": "https://assets.nexperia.com/documents/data-sheet/PMEG6010ELR.pdf",
+      "revision": "2023-01-01",
+      "pages": "1 pin 1 K / pin 2 A; 2-4 rating conditions"
+    },
+    "X": {
+      "title": "Abracon ABM8-272-T3",
+      "url": "https://abracon.com/datasheets/ABM8-272-T3.pdf",
+      "revision": "Drawing 456603 Rev. B, 2024-09-16",
+      "pages": "Current 3-page PDF: PDF 1 electrical specifications (printed 2/9), PDF 2 mechanical pin map"
+    },
+    "A": {
+      "title": "Abracon core inductor",
+      "url": "https://abracon.com/datasheets/AOTA-B201610S3R3-101-T.pdf",
+      "revision": "Rev. A, 2024-09-13",
+      "pages": "1, 4"
+    },
+    "ST": {
+      "title": "ST USBLC6-2",
+      "url": "https://www.st.com/resource/en/datasheet/usblc6-2.pdf",
+      "revision": "DS4260 Rev. 7, December 2021",
+      "pages": "1-2 pinout/specifications; 6 placement; 11 Figure 17 100 nF VBUS; 12-13 SOT23-6L"
+    },
+    "TI_USB": {
+      "title": "TI Powering electronics from the USB port",
+      "url": "https://www.ti.com/lit/an/slyt118/slyt118.pdf",
+      "pages": "p.28, Table1 and inrush discussion",
+      "basis": "100mA before permission,500mA configured, legacy10uF/50uC screening. Older suspend-current discussion is not asserted as the current USB norm."
+    },
+    "USB_FS": {
+      "title": "Tektronix USB2 electrical testing and debugging",
+      "url": "https://www.tek.com/vn/documents/application-note/understanding-and-performing-usb-20-physical-layer-testing",
+      "basis": "Manufacturer test guidance: FS12Mbit/s,4..20ns edges."
+    },
+    "USB_C": {
+      "title": "Espressif USB Type-C hardware guide",
+      "url": "https://docs.espressif.com/projects/esp-iot-solution/en/latest/usb/usb_overview/usb_typec_hardware_guide.html",
+      "basis": "Independent5.1kohm Rd and Rp source classes; no higher-current detection implemented."
+    },
+    "USB_IF": {
+      "title": "USB-IF USB2 specification",
+      "url": "https://www.usb.org/document-library/usb-20-specification",
+      "basis": "Current governing source for later compliance; ZIP retrieval was403, so no assertion of complete current USB compliance."
+    },
+    "COMPONENT_SELECTION": {
+      "path": "designs/rp2350-pico/component-selection.json",
+      "basis": "Selected resistor, capacitor, inductor and LED primary sources; exact candidate MPNs unchanged."
+    }
+  },
+  "sourceIdentity": {
+    "designs/rp2350-pico/circuit-inputs.json": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+    "designs/rp2350-pico/component-selection.json": "be88ab07265f2fa3957aa95eed95098125256403feeaa6aa0671716b52b9bc2f",
+    "designs/rp2350-pico/design-draft.json": "90aae1207cfb4b14aadd9f6613070a452a5f206ebf16896c60685b1dc58c7295"
+  },
+  "externalPowerInputs": [
+    {
+      "id": "USB_VBUS",
+      "supplyEndpoint": {
+        "reference": "J1",
+        "pin": "A4"
+      },
+      "returnEndpoint": {
+        "reference": "J1",
+        "pin": "A1"
+      }
+    },
+    {
+      "id": "EXTERNAL_VSYS",
+      "supplyEndpoint": {
+        "reference": "J3",
+        "pin": "19"
+      },
+      "returnEndpoint": {
+        "reference": "J3",
+        "pin": "18"
+      }
+    }
+  ],
+  "externalPowerAssumptions": {
+    "USB_VBUS": "Only when a valid USB source is present at J1.A4 with J1.A1 return. Duplicated contacts stay connected. J3.20 is not another supply or external load in this baseline. Source permission and inrush constraints apply.",
+    "EXTERNAL_VSYS": "Source at J3.19 with J3.18 return may operate with USB absent. With USB present, external reverse blocking or a power-path circuit MUST protect the external source. Declaring two possible inputs does not assert simultaneous source presence or permit unprotected parallel sources."
+  },
+  "powerModes": [
+    {
+      "id": "USB_PRECONFIG",
+      "conditions": "Before configuration/default current: VBUS<=100mA;3V3 total<=60mA including flash, external header load0, GPIO external loads0 and LEDoff. Firmware/workload must respect this.150MHz capability does not guarantee every workload fits. Inrush is separate and unqualified."
+    },
+    {
+      "id": "USB_CONFIGURED",
+      "conditions": "Host grants declared consumption up to500mA; normal input target<=400mA continuous and<=500mA for10ms including all board/external loads. No1.5A/3A entitlement from two Rd resistors."
+    },
+    {
+      "id": "EXTERNAL_VSYS_ONLY",
+      "conditions": "External regulated/current-limited source1.8..5.5V at U2 under load; capability>=0.75A continuous and1A/10ms. USB absent; no VBUS/VSYS header loads beyond board."
+    },
+    {
+      "id": "COEXISTENCE",
+      "conditions": "External VSYS feed includes external reverse-blocking diode/FET/power path. D1 blocks VSYS-to-VBUS but not USB-to-external-source. Raw cell or unprotected source directly on VSYS with USB is prohibited; this is not a battery charger."
+    },
+    {
+      "id": "DISABLED_OR_ABSENT",
+      "conditions": "ENlow disables3V3 but VSYS and input capacitor can remain energized. Absent/reverse-biased USB does not supply through D1. No GPIO/QSPI/SWD backpower; disable USB pullup if VBUS absent."
+    },
+    {
+      "id": "USB_SUSPEND",
+      "conditions": "Firmware enters low power and external loads are gated for applicable USB suspend behavior. Conservative project targetVBUS<=500uA; not a claim of the current normative ceiling or demonstrated current. Normal features remain available outside suspend."
+    }
+  ],
+  "derivedPowerSources": [
+    {
+      "id": "ADC_AVDD_FILTER",
+      "drivingEndpoint": {
+        "reference": "U2",
+        "pin": "1"
+      },
+      "path": [
+        {
+          "reference": "R16",
+          "entryPin": "1",
+          "exitPin": "2"
+        },
+        {
+          "reference": "R17",
+          "entryPin": "1",
+          "exitPin": "2"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U1",
+        "pin": "44"
+      },
+      "returnEndpoint": {
+        "reference": "U2",
+        "pin": "3"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "U2 3V3 through R16.1->2 and R17.1->2 drives U1.44. ADC<=1mA plus<=10uA external reference load;3V3>=3.20V and201ohm at+2% leave>=2.992928V.20mA/10ms is a decaying charging envelope. No external reference injection, no shorts, J3.15 high impedance only. Preserve ADC_VREF intermediate net and C16/C17 shunts. Filter is not a precision reference."
+    },
+    {
+      "id": "CORE_1V1",
+      "drivingEndpoint": {
+        "reference": "U1",
+        "pin": "48"
+      },
+      "path": [
+        {
+          "reference": "L1",
+          "entryPin": "2",
+          "exitPin": "1"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U1",
+        "pin": "6"
+      },
+      "returnEndpoint": {
+        "reference": "U1",
+        "pin": "61"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "U1 normal-mode internal buck at default1.1V drives L1.2->1 and U1 DVDD.150mA continuous,200mA for1ms; no external core load or software overvoltage. Preserve marked inductor, C1/C2 feedback and quiet return geometry.60% efficiency is a budget assumption.3V3 steady>=3.20V and VREG_AVDD>=3.135V. U1.47 and U1.61 both remain GND. Source tracing is not stability/startup/current qualification."
+    },
+    {
+      "id": "VREG_AVDD_FILTER",
+      "drivingEndpoint": {
+        "reference": "U2",
+        "pin": "1"
+      },
+      "path": [
+        {
+          "reference": "R8",
+          "entryPin": "1",
+          "exitPin": "2"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U1",
+        "pin": "46"
+      },
+      "returnEndpoint": {
+        "reference": "U2",
+        "pin": "3"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "Enabled U2 fixed3.3V output drives R8.1->2 then U1.46; C3 remains shunt.3V3>=3.20V,R8<=33.66ohm and<=1mA leave>=3.16634V.112mA is a decaying1ms charging envelope, not a rectangular resistor load. VREG_VIN and VREG_AVDD power up together. No external injection. Disabled or absent upstream power means no available operating rail."
+    },
+    {
+      "id": "VSYS_DIODE_PENDING",
+      "drivingEndpoint": {
+        "reference": "J1",
+        "pin": "A4"
+      },
+      "path": [
+        {
+          "reference": "D1",
+          "entryPin": "2",
+          "exitPin": "1"
+        }
+      ],
+      "supplyEndpoint": {
+        "reference": "U2",
+        "pin": "5"
+      },
+      "returnEndpoint": {
+        "reference": "U2",
+        "pin": "3"
+      },
+      "source": {
+        "kind": "caller_assertion",
+        "reference": "designs/rp2350-pico/operating-constraints.json#derivedPowerSources",
+        "description": "Reviewed unchanged physical path with explicit design budgets and power modes; not measured electrical or native qualification."
+      },
+      "operatingAssumptions": "USB at J1.A4 with J1.A1 GND drives D1 A2->K1 and U2.5. Present valid4.4..5.5V USB with assumed diode drop<=0.8V leaves VSYS>=3.6V. Absent or reverse-biased USB contributes no power. Alternate external VSYS may power U2; simultaneous supplies require external reverse blocking to protect the external source. ENlow leaves VSYS/C20 present while3V3 unavailable. Preconfiguration<=100mA, configured current<=host grant and500mA.47uF C20 charging is uncontrolled;500mA/10ms is a copper target, not verified inrush. No external VBUS/VSYS loads.",
+      "externalPowerInput": {
+        "id": "USB_VBUS",
+        "diodeForwardDropAssumption": "N Table7 specifies maximum605mV at0.5A,Tj25C; Fig4 supplies typical temperature behavior. Choose0..0.8V candidate design allowance at<=0.5A,targetambient0..50C, not a guaranteed full-temperature drop. At4.4V VBUS this leavesVSYS>=3.6V; verify junction/current behavior later.",
+        "operatingModes": "USB-only with valid default5V; external-VSYS-only with USB absent; coexistence only with external reverse blocking/power path. Absent or reverse-biased USB supplies nothing through D1. ENlow disables U2 output but does not disconnect C20.3V3 injection, USB host and PD unsupported."
+      }
+    }
+  ],
+  "loadAndPowerChecks": [
+    {
+      "id": "PWR1",
+      "kind": "calculation_from_design_assumptions",
+      "equation": "0.150*1.16/(3.135*0.60)+0.025+0.015+0.020+0.024+0.008+0.002+0.050",
+      "resultA": 0.23650398724082933,
+      "limitA": 0.25,
+      "allocationsA": {
+        "flashIncludingItsOutputLoading": 0.025,
+        "MCUNonCoreExcludingQSPIandExternalGPIO": 0.015,
+        "QSPIBank": 0.02,
+        "externalGPIOAggregate": 0.024,
+        "LED": 0.008,
+        "analogFiltersAndPullNetworks": 0.002,
+        "external3V3Header": 0.05
+      },
+      "basis": "Core60% assumption is near/below D typical59..74% values, not a guaranteed efficiency floor. Flash25mA exceeds W15mA84MHz read and15mA program characterization, adding load margin. Other allocations are explicit usage budgets, not worst-case consumption guarantees."
+    },
+    {
+      "id": "PWR1_PEAK",
+      "equation": "0.200*1.16/(3.135*0.60)+0.144",
+      "resultA": 0.2673386496544391,
+      "limitA": 0.3,
+      "durationMs": 1
+    },
+    {
+      "id": "PWR2",
+      "equation": "3.6*0.25/(1.8*0.70)+0.001",
+      "resultA": 0.7152857142857143,
+      "limitA": 0.75,
+      "basis": "RT70% efficiency is a chosen conservative typical-curve screen, not guaranteed;1mA overhead allowance."
+    },
+    {
+      "id": "PWR2_USB",
+      "equation": "3.6*0.25/((4.4-0.8)*0.70)+0.001",
+      "resultA": 0.35814285714285715,
+      "limitA": 0.4
+    },
+    {
+      "id": "PWR2_USB_PRECONFIG",
+      "equation": "3.6*0.060/((4.4-0.8)*0.70)+0.001",
+      "resultA": 0.08671428571428572,
+      "limitA": 0.1,
+      "basis": "60mA3V3 startup/preconfiguration usage budget; excludes uncontrolled capacitor hotplug charge."
+    },
+    {
+      "id": "PWR3",
+      "kind": "ideal_converter_screen",
+      "effectiveL_H": 1.5840000000000002e-06,
+      "minimumFrequencyHz": 800000,
+      "boostRipplePpA": 0.7102272727272727,
+      "buckRipplePpA": 0.9814049586776858,
+      "worstBoostPeakAt300mAOutputA": 1.2122564935064934,
+      "peakTargetA": 1.5,
+      "basis": "Selected20% inductance tolerance and10% rolloff at25C screen;3.6V worst output. Does not prove mode-boundary/startup/hot/fault behavior."
+    },
+    {
+      "id": "PWR4",
+      "kind": "RC_energy_screen",
+      "R8ChargeEnergyJ": 3.65472e-05,
+      "R16R17ChargeEnergyJ": 3.726e-05,
+      "basis": "Full0->3.6V step screen. R8 initially about0.4W but decays with RC; evaluate manufacturer pulse curve/actual ramp before rating. Reference33ohm/4.7uF path remains a credible candidate choice."
+    },
+    {
+      "id": "INRUSH",
+      "kind": "unqualified_behavior_with_design_target",
+      "C20NominalChargeAt5V_C": 0.000235,
+      "C20ToleranceHighChargeAt5_5V_C": 0.00031019999999999995,
+      "legacyUSBReferenceCharge_C": 5e-05,
+      "inputPulseTargetA": 0.5,
+      "inputPulseDurationMs": 10,
+      "basis": "Nominal235uC already exceeds legacy50uC screen; DC bias is not compliance evidence. U2 soft-start does not limit C20. Applicable USB-IF inrush assessment or input limiting is needed before unrestricted host-hotplug claim, not before CAD candidate creation."
+    }
+  ],
+  "references": [
+    {
+      "reference": "U1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GPIO0"
+        },
+        {
+          "pin": "3",
+          "net": "GPIO1"
+        },
+        {
+          "pin": "4",
+          "net": "GPIO2"
+        },
+        {
+          "pin": "5",
+          "net": "GPIO3"
+        },
+        {
+          "pin": "6",
+          "net": "1V1"
+        },
+        {
+          "pin": "7",
+          "net": "GPIO4"
+        },
+        {
+          "pin": "8",
+          "net": "GPIO5"
+        },
+        {
+          "pin": "9",
+          "net": "GPIO6"
+        },
+        {
+          "pin": "10",
+          "net": "GPIO7"
+        },
+        {
+          "pin": "11",
+          "net": "3V3"
+        },
+        {
+          "pin": "12",
+          "net": "GPIO8"
+        },
+        {
+          "pin": "13",
+          "net": "GPIO9"
+        },
+        {
+          "pin": "14",
+          "net": "GPIO10"
+        },
+        {
+          "pin": "15",
+          "net": "GPIO11"
+        },
+        {
+          "pin": "16",
+          "net": "GPIO12"
+        },
+        {
+          "pin": "17",
+          "net": "GPIO13"
+        },
+        {
+          "pin": "18",
+          "net": "GPIO14"
+        },
+        {
+          "pin": "19",
+          "net": "GPIO15"
+        },
+        {
+          "pin": "20",
+          "net": "3V3"
+        },
+        {
+          "pin": "21",
+          "net": "XIN"
+        },
+        {
+          "pin": "22",
+          "net": "XOUT_MCU"
+        },
+        {
+          "pin": "23",
+          "net": "1V1"
+        },
+        {
+          "pin": "24",
+          "net": "SWCLK_MCU"
+        },
+        {
+          "pin": "25",
+          "net": "SWDIO_MCU"
+        },
+        {
+          "pin": "26",
+          "net": "RUN"
+        },
+        {
+          "pin": "27",
+          "net": "GPIO16"
+        },
+        {
+          "pin": "28",
+          "net": "GPIO17"
+        },
+        {
+          "pin": "29",
+          "net": "GPIO18"
+        },
+        {
+          "pin": "30",
+          "net": "3V3"
+        },
+        {
+          "pin": "31",
+          "net": "GPIO19"
+        },
+        {
+          "pin": "32",
+          "net": "GPIO20"
+        },
+        {
+          "pin": "33",
+          "net": "GPIO21"
+        },
+        {
+          "pin": "34",
+          "net": "GPIO22"
+        },
+        {
+          "pin": "35",
+          "net": "GPIO23_SMPS_PS"
+        },
+        {
+          "pin": "36",
+          "net": "GPIO24_VBUS_SENSE"
+        },
+        {
+          "pin": "37",
+          "net": "GPIO25_LED"
+        },
+        {
+          "pin": "38",
+          "net": "3V3"
+        },
+        {
+          "pin": "39",
+          "net": "1V1"
+        },
+        {
+          "pin": "40",
+          "net": "GPIO26"
+        },
+        {
+          "pin": "41",
+          "net": "GPIO27"
+        },
+        {
+          "pin": "42",
+          "net": "GPIO28"
+        },
+        {
+          "pin": "43",
+          "net": "GPIO29_VSYS_SENSE"
+        },
+        {
+          "pin": "44",
+          "net": "ADC_AVDD"
+        },
+        {
+          "pin": "45",
+          "net": "3V3"
+        },
+        {
+          "pin": "46",
+          "net": "VREG_AVDD"
+        },
+        {
+          "pin": "47",
+          "net": "GND"
+        },
+        {
+          "pin": "48",
+          "net": "CORE_LX"
+        },
+        {
+          "pin": "49",
+          "net": "3V3"
+        },
+        {
+          "pin": "50",
+          "net": "1V1"
+        },
+        {
+          "pin": "51",
+          "net": "USB_DM_MCU"
+        },
+        {
+          "pin": "52",
+          "net": "USB_DP_MCU"
+        },
+        {
+          "pin": "53",
+          "net": "3V3"
+        },
+        {
+          "pin": "54",
+          "net": "3V3"
+        },
+        {
+          "pin": "55",
+          "net": "QSPI_SD3"
+        },
+        {
+          "pin": "56",
+          "net": "QSPI_SCLK"
+        },
+        {
+          "pin": "57",
+          "net": "QSPI_SD0"
+        },
+        {
+          "pin": "58",
+          "net": "QSPI_SD2"
+        },
+        {
+          "pin": "59",
+          "net": "QSPI_SD1"
+        },
+        {
+          "pin": "60",
+          "net": "QSPI_CS"
+        },
+        {
+          "pin": "61",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "U2",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "RT_LX2"
+        },
+        {
+          "pin": "3",
+          "net": "GND"
+        },
+        {
+          "pin": "4",
+          "net": "RT_LX1"
+        },
+        {
+          "pin": "5",
+          "net": "VSYS"
+        },
+        {
+          "pin": "6",
+          "net": "3V3_EN"
+        },
+        {
+          "pin": "7",
+          "net": "GPIO23_SMPS_PS"
+        },
+        {
+          "pin": "8",
+          "net": "VSYS"
+        },
+        {
+          "pin": "9",
+          "net": "GND"
+        },
+        {
+          "pin": "10",
+          "net": "3V3"
+        },
+        {
+          "pin": "11",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "U3",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "QSPI_CS"
+        },
+        {
+          "pin": "2",
+          "net": "QSPI_SD1"
+        },
+        {
+          "pin": "3",
+          "net": "QSPI_SD2"
+        },
+        {
+          "pin": "4",
+          "net": "GND"
+        },
+        {
+          "pin": "5",
+          "net": "QSPI_SD0"
+        },
+        {
+          "pin": "6",
+          "net": "QSPI_SCLK"
+        },
+        {
+          "pin": "7",
+          "net": "QSPI_SD3"
+        },
+        {
+          "pin": "8",
+          "net": "3V3"
+        },
+        {
+          "pin": "9",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "U4",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "USB_DP_PORT"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        },
+        {
+          "pin": "3",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "pin": "4",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "pin": "5",
+          "net": "VBUS"
+        },
+        {
+          "pin": "6",
+          "net": "USB_DP_PORT"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "J1",
+      "connectedPins": [
+        {
+          "pin": "A1",
+          "net": "GND"
+        },
+        {
+          "pin": "A4",
+          "net": "VBUS"
+        },
+        {
+          "pin": "A5",
+          "net": "USB_CC1"
+        },
+        {
+          "pin": "A6",
+          "net": "USB_DP_PORT"
+        },
+        {
+          "pin": "A7",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "pin": "A9",
+          "net": "VBUS"
+        },
+        {
+          "pin": "A12",
+          "net": "GND"
+        },
+        {
+          "pin": "B1",
+          "net": "GND"
+        },
+        {
+          "pin": "B4",
+          "net": "VBUS"
+        },
+        {
+          "pin": "B5",
+          "net": "USB_CC2"
+        },
+        {
+          "pin": "B6",
+          "net": "USB_DP_PORT"
+        },
+        {
+          "pin": "B7",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "pin": "B9",
+          "net": "VBUS"
+        },
+        {
+          "pin": "B12",
+          "net": "GND"
+        },
+        {
+          "pin": "SH",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": [
+        "A8",
+        "B8"
+      ]
+    },
+    {
+      "reference": "J2",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GPIO0"
+        },
+        {
+          "pin": "2",
+          "net": "GPIO1"
+        },
+        {
+          "pin": "3",
+          "net": "GND"
+        },
+        {
+          "pin": "4",
+          "net": "GPIO2"
+        },
+        {
+          "pin": "5",
+          "net": "GPIO3"
+        },
+        {
+          "pin": "6",
+          "net": "GPIO4"
+        },
+        {
+          "pin": "7",
+          "net": "GPIO5"
+        },
+        {
+          "pin": "8",
+          "net": "GND"
+        },
+        {
+          "pin": "9",
+          "net": "GPIO6"
+        },
+        {
+          "pin": "10",
+          "net": "GPIO7"
+        },
+        {
+          "pin": "11",
+          "net": "GPIO8"
+        },
+        {
+          "pin": "12",
+          "net": "GPIO9"
+        },
+        {
+          "pin": "13",
+          "net": "GND"
+        },
+        {
+          "pin": "14",
+          "net": "GPIO10"
+        },
+        {
+          "pin": "15",
+          "net": "GPIO11"
+        },
+        {
+          "pin": "16",
+          "net": "GPIO12"
+        },
+        {
+          "pin": "17",
+          "net": "GPIO13"
+        },
+        {
+          "pin": "18",
+          "net": "GND"
+        },
+        {
+          "pin": "19",
+          "net": "GPIO14"
+        },
+        {
+          "pin": "20",
+          "net": "GPIO15"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "J3",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GPIO16"
+        },
+        {
+          "pin": "2",
+          "net": "GPIO17"
+        },
+        {
+          "pin": "3",
+          "net": "GND"
+        },
+        {
+          "pin": "4",
+          "net": "GPIO18"
+        },
+        {
+          "pin": "5",
+          "net": "GPIO19"
+        },
+        {
+          "pin": "6",
+          "net": "GPIO20"
+        },
+        {
+          "pin": "7",
+          "net": "GPIO21"
+        },
+        {
+          "pin": "8",
+          "net": "GND"
+        },
+        {
+          "pin": "9",
+          "net": "GPIO22"
+        },
+        {
+          "pin": "10",
+          "net": "RUN"
+        },
+        {
+          "pin": "11",
+          "net": "GPIO26"
+        },
+        {
+          "pin": "12",
+          "net": "GPIO27"
+        },
+        {
+          "pin": "13",
+          "net": "GND"
+        },
+        {
+          "pin": "14",
+          "net": "GPIO28"
+        },
+        {
+          "pin": "15",
+          "net": "ADC_VREF"
+        },
+        {
+          "pin": "16",
+          "net": "3V3"
+        },
+        {
+          "pin": "17",
+          "net": "3V3_EN"
+        },
+        {
+          "pin": "18",
+          "net": "GND"
+        },
+        {
+          "pin": "19",
+          "net": "VSYS"
+        },
+        {
+          "pin": "20",
+          "net": "VBUS"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "J4",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "SWCLK_HDR"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        },
+        {
+          "pin": "3",
+          "net": "SWDIO_HDR"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "L1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "1V1"
+        },
+        {
+          "pin": "2",
+          "net": "CORE_LX"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "L2",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "RT_LX1"
+        },
+        {
+          "pin": "2",
+          "net": "RT_LX2"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "Q1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GPIO29_VSYS_SENSE"
+        },
+        {
+          "pin": "3",
+          "net": "VSYS_DIV"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "D1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VSYS"
+        },
+        {
+          "pin": "2",
+          "net": "VBUS"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "D2",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GND"
+        },
+        {
+          "pin": "2",
+          "net": "LED_A"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "SW1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GND"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        },
+        {
+          "pin": "3",
+          "net": "BOOT_SW"
+        },
+        {
+          "pin": "4",
+          "net": "BOOT_SW"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "SW2",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GND"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        },
+        {
+          "pin": "3",
+          "net": "RUN"
+        },
+        {
+          "pin": "4",
+          "net": "RUN"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "Y1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "XIN"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        },
+        {
+          "pin": "3",
+          "net": "XTAL_OUT"
+        },
+        {
+          "pin": "4",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "USB_DP_MCU"
+        },
+        {
+          "pin": "2",
+          "net": "USB_DP_PORT"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R2",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "USB_DM_MCU"
+        },
+        {
+          "pin": "2",
+          "net": "USB_DM_PORT"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R3",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "USB_CC1"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R4",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "USB_CC2"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R5",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "QSPI_CS"
+        },
+        {
+          "pin": "2",
+          "net": "BOOT_SW"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R6",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "QSPI_CS"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R7",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "XOUT_MCU"
+        },
+        {
+          "pin": "2",
+          "net": "XTAL_OUT"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R8",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "VREG_AVDD"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R9",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VSYS"
+        },
+        {
+          "pin": "2",
+          "net": "3V3_EN"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R10",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GPIO23_SMPS_PS"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R11",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VBUS"
+        },
+        {
+          "pin": "2",
+          "net": "GPIO24_VBUS_SENSE"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R12",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GPIO24_VBUS_SENSE"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R13",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VSYS"
+        },
+        {
+          "pin": "2",
+          "net": "VSYS_DIV"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R14",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VSYS_DIV"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R15",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GPIO29_VSYS_SENSE"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R16",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "ADC_VREF"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R17",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "ADC_VREF"
+        },
+        {
+          "pin": "2",
+          "net": "ADC_AVDD"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R18",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "GPIO25_LED"
+        },
+        {
+          "pin": "2",
+          "net": "LED_A"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R19",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "SWCLK_MCU"
+        },
+        {
+          "pin": "2",
+          "net": "SWCLK_HDR"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "R20",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "SWDIO_MCU"
+        },
+        {
+          "pin": "2",
+          "net": "SWDIO_HDR"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C1",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C2",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "1V1"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C3",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VREG_AVDD"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C4",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "1V1"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C5",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C6",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C7",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C8",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C9",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C10",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C11",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "1V1"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C12",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "1V1"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C13",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "1V1"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C14",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C15",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C16",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "ADC_AVDD"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C17",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "ADC_AVDD"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C18",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C19",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C20",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VSYS"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C21",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "3V3"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C22",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VSYS"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C23",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VSYS_DIV"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C24",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "XIN"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C25",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "XTAL_OUT"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    },
+    {
+      "reference": "C26",
+      "connectedPins": [
+        {
+          "pin": "1",
+          "net": "VBUS"
+        },
+        {
+          "pin": "2",
+          "net": "GND"
+        }
+      ],
+      "noConnectPins": []
+    }
+  ],
+  "coverage": {
+    "referenceCount": 62,
+    "netCount": 65,
+    "connectedEndpointCount": 260,
+    "noConnectCount": 2,
+    "exactDraftNetNameBijection": true,
+    "allElectricalObjectsComplete": true
+  },
+  "verification": {
+    "method": "Read-only Node source-schema parsing after merging this overlay into an in-memory copy of the draft; no native or application build.",
+    "status": "passed: actual V2 source parser accepted in-memory merge;65 net-name bijection,62 references,260 exact unique endpoints,2 NCs,29 complete electrical profiles,2 external inputs,4 derived paths and5 current-budget inequalities"
+  }
+}

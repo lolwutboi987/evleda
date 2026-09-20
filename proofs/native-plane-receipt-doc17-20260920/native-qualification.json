@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "evleda.native-plane-receipt-doc17-qualification.v1",
+  "projectId": "5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea",
+  "stages": [
+    {
+      "planeId": "GND_PLANE",
+      "artifact": "evleda-plane-stage-25e85f11-fbd9-4671-837a-b26fccf3c615.json",
+      "sha256": "65d2e89c9a6cd24966e686e0dbd5847d211963fc391610fd6ea3ac6e27d1b54d",
+      "size": 6774765,
+      "logicalNodes": 507323,
+      "complete": true,
+      "nativeSaveCalled": false,
+      "receiptIdentity": {
+        "algorithm": "sha256",
+        "digest": "b042e48aa5e38e3b174110c7c5a7bed5a7237e97d3efa9f7ebc9941cc695815a",
+        "size": 6770445
+      }
+    },
+    {
+      "planeId": "BACK_GND",
+      "artifact": "evleda-plane-stage-8806b74d-e051-4950-9ce6-0a00180bc1d3.json",
+      "sha256": "df563e034f63d7121f6f5fee00f8bbda38da2acf33a173d0825237de08f69fef",
+      "size": 6118484,
+      "logicalNodes": 509255,
+      "complete": true,
+      "nativeSaveCalled": false,
+      "receiptIdentity": {
+        "algorithm": "sha256",
+        "digest": "edf3da00aab12dc0b72b204ac2f37600267a96aedd01be892ca78a6e2a121c44",
+        "size": 6114164
+      }
+    }
+  ],
+  "saves": [
+    {
+      "response": "000055-response-00ecc16a4d7c09424cb81bc8e2bc57f2f0bc16bae208b52a2f66d2c36da9a68b.json",
+      "sha256": "00ecc16a4d7c09424cb81bc8e2bc57f2f0bc16bae208b52a2f66d2c36da9a68b",
+      "recordedAt": "2026-09-20T18:36:09.833Z",
+      "persistence": {
+        "status": "plane-native-saved-and-source-verified",
+        "nativeSaveCalled": true,
+        "savedPcbContentIdentity": {
+          "algorithm": "sha256",
+          "digest": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+          "size": 634325
+        },
+        "stageObservationIdentity": {
+          "algorithm": "sha256",
+          "digest": "8b03795c244719324e6a926f2e9eeb341cc4fa2ae80059af333056c81048dd5f",
+          "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "currentSessionFillEvidenceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7ebcf0d8be8db2490c078691654b2f5154e78a171e6a4f841f48d3f14cd545e3",
+          "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "acceptanceEvaluated": false
+      }
+    },
+    {
+      "response": "000058-response-c3ab53a5d10175a1f2f37a34bfe3d39ce3ae02bcb18aa1e518fa46d2358c3515.json",
+      "sha256": "c3ab53a5d10175a1f2f37a34bfe3d39ce3ae02bcb18aa1e518fa46d2358c3515",
+      "recordedAt": "2026-09-20T18:37:39.276Z",
+      "persistence": {
+        "status": "plane-native-saved-and-source-verified",
+        "nativeSaveCalled": true,
+        "savedPcbContentIdentity": {
+          "algorithm": "sha256",
+          "digest": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+          "size": 634325
+        },
+        "stageObservationIdentity": {
+          "algorithm": "sha256",
+          "digest": "17c3937d246210e20e81e13260453a7df6d9d2983a954ff150143a882b996cd3",
+          "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "currentSessionFillEvidenceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e05e899001eef63428416533ff21976fc3d88c2c768aef2dc1a6e09694a6b863",
+          "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "acceptanceEvaluated": false
+      }
+    }
+  ],
+  "normalClose": true,
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "engineeringAccepted": false,
+  "scope": "Actual complete native staging plus mandatory public-tool save/readback, distinct from the modeled 507408-node fixture. Original failed stage is preserved; its lost first cause is not reconstructed by this proof."
+}

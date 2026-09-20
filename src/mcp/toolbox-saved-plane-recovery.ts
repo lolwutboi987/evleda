@@ -7,6 +7,8 @@ import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canon
 import { parsePortableJsonBytes } from "../core/portable-artifact.js";
 import { captureFreshRuntimeImportFile } from "../harness/fresh-project.js";
 import { freshBoardSerializationsEqual } from "../harness/fresh-board-serialization.js";
+import { compareFreshPlaneRefillPreservation, parseFreshPcbReferenceGeometry, parseFreshPcbTextItems } from "../harness/fresh-kicad-parser.js";
+import { assertOnlyRequestedPcbTextAdded, parsePcbSilkscreenText } from "../harness/pcb-silkscreen-text.js";
 import { createFreshConnectivityContract } from "../harness/fresh-connectivity-contract.js";
 import { parseFreshFootprintFieldUpdates, planFreshFootprintFields } from "../harness/fresh-footprint-field.js";
 import { decodePlaneStageReceipt } from "../integrations/kicad-plane-stage-receipt.js";
@@ -34,7 +36,11 @@ const legacySavedPlaneRecoveryRequestSchema = z.object({ schemaVersion: z.litera
 export const savedFieldRecoveryRequestSchema = legacySavedPlaneRecoveryRequestSchema.omit({ savedPlaneResponse: true,
   failedPlaneResponse: true, planeStage: true }).extend({ schemaVersion: z.literal("evleda.saved-field-recovery-request.v1"),
   savedPoseResponse: pin, failedFieldResponse: pin }).strict();
-export const savedPlaneRecoveryRequestSchema = z.union([legacySavedPlaneRecoveryRequestSchema, savedFieldRecoveryRequestSchema]);
+export const savedPlaneArtifactRecoveryRequestSchema = legacySavedPlaneRecoveryRequestSchema.omit({ savedPlaneResponse: true,
+  planeStage: true }).extend({ schemaVersion: z.literal("evleda.saved-plane-artifact-recovery-request.v1"),
+  sourceProfile: pin, openedProjectResponse: pin, savedTextResponse: pin, liveObservation: pin, checkedDiscardClose: pin }).strict();
+export const savedPlaneRecoveryRequestSchema = z.union([legacySavedPlaneRecoveryRequestSchema, savedFieldRecoveryRequestSchema,
+  savedPlaneArtifactRecoveryRequestSchema]);
 export type SavedPlaneRecoveryRequest = z.infer<typeof savedPlaneRecoveryRequestSchema>;
 const json = (bytes: Uint8Array): Record<string, any> => {
   const value = parsePortableJsonBytes(bytes, { maxBytes: 8 * 1024 * 1024, maxStringBytes: 1024 * 1024,
@@ -46,6 +52,67 @@ const exactText = (bytes: Buffer) => { const value = new TextDecoder("utf-8", { 
 const details = (reply: Record<string, any>) => reply.result?.structuredContent;
 const decoded = (value: any) => { need(value && typeof value.content === "string", "missing structured operation body"); return json(Buffer.from(value.content)); };
 const normalized = (value: string) => path.resolve(value).toLowerCase();
+
+/** This case admits only the published DOC16 -> DOC17 receipt-budget overlay.
+ * Native startup independently verifies the complete selected runtime closure. */
+async function verifyReceiptRuntimeUpgrade(sourcePin: z.infer<typeof pin>, targetPin: z.infer<typeof pin>,
+  capture: (value: z.infer<typeof pin>, maximum?: number) => Promise<Awaited<ReturnType<typeof captureFreshRuntimeImportFile>>>): Promise<void> {
+  const before = json((await capture(sourcePin)).bytes), after = json((await capture(targetPin)).bytes);
+  const policy = (value: Record<string, any>) => {
+    const copy = structuredClone(value);
+    need(copy.kicadMcpRuntime?.runtimeBundle && copy.kicadMcpRuntime?.processTreeSupervision?.terminator
+      && copy.kicadMcpRuntime?.runtimePolicy?.pythonLaunch, "runtime upgrade profile is incomplete");
+    delete copy.kicadMcpRuntime.runtimeBundle;
+    delete copy.kicadMcpRuntime.processTreeSupervision.terminator.path;
+    delete copy.kicadMcpRuntime.runtimePolicy.pythonLaunch.argumentsSha256;
+    return copy;
+  };
+  need(same(policy(before), policy(after)), "runtime upgrade changed non-runtime policy or libraries");
+  const oldRuntime = before.kicadMcpRuntime.runtimeBundle, newRuntime = after.kicadMcpRuntime.runtimeBundle;
+  need(path.isAbsolute(oldRuntime.root) && path.isAbsolute(newRuntime.root) && oldRuntime.root !== newRuntime.root,
+    "runtime upgrade requires distinct absolute roots");
+  const invariantClosure = ({ manifestIdentity: _manifest, treeIdentity: _tree, totalBytes: _bytes, ...rest }: Record<string, unknown>) => rest;
+  need(same(invariantClosure(oldRuntime.expectedClosure), invariantClosure(newRuntime.expectedClosure)),
+    "runtime upgrade changed Python, entrypoint, file count or protocol selection");
+  const manifest = async (runtime: Record<string, any>) => json((await capture({ path: runtime.manifest.path,
+    contentIdentity: { algorithm: "sha256", digest: runtime.manifest.sha256, size: runtime.manifest.sizeBytes } })).bytes);
+  const oldManifest = await manifest(oldRuntime), newManifest = await manifest(newRuntime);
+  need(Array.isArray(oldManifest.files) && Array.isArray(newManifest.files) && same(oldManifest.directories, newManifest.directories)
+    && oldManifest.files.length === newManifest.files.length, "runtime file/directory inventory changed");
+  for (const [declared, runtime] of [[oldManifest, oldRuntime], [newManifest, newRuntime]])
+    need(declared.fileCount === declared.files.length && declared.fileCount === runtime.expectedClosure.fileCount
+      && declared.totalBytes === declared.files.reduce((sum: number, file: Record<string, any>) => sum + file.sizeBytes, 0)
+      && declared.totalBytes === runtime.expectedClosure.totalBytes
+      && same(declared.identity, runtime.expectedClosure.manifestIdentity) && same(declared.treeIdentity, runtime.expectedClosure.treeIdentity),
+      "runtime manifest summary differs from its profile closure");
+  const index = (files: Record<string, any>[]) => {
+    const result = new Map<string, Record<string, any>>();
+    for (const f of files) {
+      need(typeof f.path === "string" && !/[\\:]/u.test(f.path) && f.path.split("/").every(p => p && p !== "." && p !== "..")
+        && !result.has(f.path), "runtime manifest has an unsafe or duplicate path"); result.set(f.path, f);
+    }
+    return result;
+  };
+  const oldFiles = index(oldManifest.files), newFiles = index(newManifest.files), changed: string[] = [];
+  for (const [name, prior] of oldFiles) {
+    const next = newFiles.get(name); need(next !== undefined, "runtime file inventory differs");
+    if (!same(prior, next)) { need(prior.mode === next.mode, "runtime file mode changed"); changed.push(name); }
+  }
+  need(same(changed.sort(), ["environment/pyvenv.cfg", "evleda_plane_stage/compact_receipt.py"]), "runtime delta is not the exact receipt-budget overlay");
+  const codec = "evleda_plane_stage/compact_receipt.py";
+  need(oldFiles.get(codec)?.sha256 === "716dd527f827b3b7e0c715d60944cd02693f704878b19f8f1e391b401d1e9d74"
+    && oldFiles.get(codec)?.sizeBytes === 3550
+    && newFiles.get(codec)?.sha256 === "1217cf8a69fcad2c9ee84a857d9faa19f4db25771844dd67ea7645f9c1b185e8"
+    && newFiles.get(codec)?.sizeBytes === 3759, "runtime codec is not the exact qualified predecessor/successor");
+  const readLeaf = async (runtime: Record<string, any>, files: Map<string, Record<string, any>>, name: string) => {
+    const record = files.get(name)!; return exactText((await capture({ path: path.join(runtime.root, ...name.split("/")),
+      contentIdentity: { algorithm: "sha256", digest: record.sha256, size: record.sizeBytes } })).bytes);
+  };
+  await readLeaf(oldRuntime, oldFiles, codec); await readLeaf(newRuntime, newFiles, codec);
+  const oldConfig = await readLeaf(oldRuntime, oldFiles, "environment/pyvenv.cfg"), newConfig = await readLeaf(newRuntime, newFiles, "environment/pyvenv.cfg");
+  need(oldConfig.split(oldRuntime.root).length === 2 && newConfig === oldConfig.replace(oldRuntime.root, newRuntime.root),
+    "runtime venv change exceeds exact home relocation");
+}
 
 /** Initial maintenance exclusion only. Subsequent source-pin checks remain live
  * while the new, independently leased target is opened. */
@@ -99,11 +166,17 @@ export async function qualifySavedPlaneRecovery(raw: unknown, store: ToolboxWork
   const profile = await (dependencies.loadProfile ?? loadKicadToolboxFreshProfile)(request.profile);
   const compiler = { ...profile.dependencies, deepRuleSelectionOptions: profile.deepRuleSelectionOptions };
   await capture(request.profile);
+  const sourceProfilePin = request.schemaVersion === "evleda.saved-plane-artifact-recovery-request.v1" ? request.sourceProfile : request.profile;
+  const sourceProfile = request.schemaVersion === "evleda.saved-plane-artifact-recovery-request.v1"
+    ? await (dependencies.loadProfile ?? loadKicadToolboxFreshProfile)(sourceProfilePin) : profile;
+  const sourceCompiler = { ...sourceProfile.dependencies, deepRuleSelectionOptions: sourceProfile.deepRuleSelectionOptions };
+  if (request.schemaVersion === "evleda.saved-plane-artifact-recovery-request.v1")
+    await verifyReceiptRuntimeUpgrade(request.sourceProfile, request.profile, capture);
   const bundleFile = await captureCurrent(path.join(source.outputDir, "toolbox-design-bundle.json"), 8 * 1024 * 1024);
-  const sourceBundle = parsePcbPlaneCompilationBundle(bundleFile.bytes, compiler);
-  const sourceCompilation = compilePcbPlaneDesignIntentDraft(source.draft, compiler);
+  const sourceBundle = parsePcbPlaneCompilationBundle(bundleFile.bytes, sourceCompiler);
+  const sourceCompilation = compilePcbPlaneDesignIntentDraft(source.draft, sourceCompiler);
   need(sourceCompilation.disposition === "ready" && same(createPcbPlaneCompilationBundle({ compilation: sourceCompilation,
-    originalPrompt: source.originalPrompt }, compiler).identity, sourceBundle.identity), "allocation does not reproduce its bundle");
+    originalPrompt: source.originalPrompt }, sourceCompiler).identity, sourceBundle.identity), "allocation does not reproduce its bundle");
   const projectRoot = path.join(source.outputDir, "project"), names = { pcb: `${source.name}.kicad_pcb`, sch: `${source.name}.kicad_sch`,
     pro: `${source.name}.kicad_pro`, dru: `${source.name}.kicad_dru`, fpLibTable: "fp-lib-table", symLibTable: "sym-lib-table" } as const;
   const sources: Record<string, string> = {};
@@ -121,8 +194,8 @@ export async function qualifySavedPlaneRecovery(raw: unknown, store: ToolboxWork
     && normalized(unsafe.reportPath) === normalized(path.join(source.outputDir, "pcb-agent-report.json")), "quarantine is not source-bound");
   need((await captureCurrent(unsafe.reportPath, 16 * 1024 * 1024)).contentIdentity.digest === unsafe.reportSha256, "quarantine report changed");
   const session = json((await capture(request.session)).bytes);
-  need(same(session.serverArgs, ["--profile", request.profile.path, "--profile-sha256", request.profile.contentIdentity.digest,
-    "--profile-bytes", String(request.profile.contentIdentity.size), "--workspace-root", request.workspaceRoot, "--edit"]), "session profile/workspace differs");
+  need(same(session.serverArgs, ["--profile", sourceProfilePin.path, "--profile-sha256", sourceProfilePin.contentIdentity.digest,
+    "--profile-bytes", String(sourceProfilePin.contentIdentity.size), "--workspace-root", request.workspaceRoot, "--edit"]), "session profile/workspace differs");
   const response = async (input: z.infer<typeof pin>, name: string) => {
     need(path.dirname(input.path) === path.dirname(request.session.path), "response escaped the failed session");
     const record = json((await capture(input)).bytes), linked = pin.parse({ path: record.request?.path, contentIdentity: record.request?.identity });
@@ -131,7 +204,7 @@ export async function qualifySavedPlaneRecovery(raw: unknown, store: ToolboxWork
     need(command.operation === "call" && command.name === name && record.disposition === "response", "wrong linked operation");
     return { record, command, data: details(record) };
   };
-  let savedAt: string, failedAt: string, rejectedUnsavedPcb: unknown = null;
+  let savedAt: string, failedAt: string, openedAt: string | undefined, rejectedUnsavedPcb: unknown = null;
   if (request.schemaVersion === "evleda.saved-plane-recovery-request.v1") {
   const saved = await response(request.savedPlaneResponse, "fresh_apply_contract_plane"), savedBody = decoded(saved.data?.result), persistence = decoded(saved.data?.persistence);
   need(saved.record.isError === false && saved.record.result?.isError !== true && savedBody.applied === true
@@ -166,7 +239,7 @@ export async function qualifySavedPlaneRecovery(raw: unknown, store: ToolboxWork
   "stage is not the complete retained oversize observation of this preimage");
   need(exactText((await capture(request.archivedLivePcb)).bytes) === stage.nativeSourceStaged, "retained live snapshot differs from stage");
   savedAt = saved.record.recordedAt; failedAt = failed.record.recordedAt; rejectedUnsavedPcb = failure.acceptedStagedPcbContentIdentity;
-  } else {
+  } else if (request.schemaVersion === "evleda.saved-field-recovery-request.v1") {
     const saved = await response(request.savedPoseResponse, "fresh_set_footprint_poses"), savedBody = decoded(saved.data?.result), persistence = decoded(saved.data?.persistence);
     const { identity: savedIdentity, ...savedPayload } = savedBody;
     need(saved.record.isError === false && saved.record.result?.isError !== true && savedBody.applied === true
@@ -188,27 +261,75 @@ export async function qualifySavedPlaneRecovery(raw: unknown, store: ToolboxWork
     need(freshBoardSerializationsEqual(exactText((await capture(request.archivedLivePcb)).bytes), sources.pcb!),
       "retained live snapshot differs from the verified saved pose state");
     savedAt = saved.record.recordedAt; failedAt = failed.record.recordedAt;
+  } else {
+    const opened = await response(request.openedProjectResponse, "evleda_resume_project");
+    need(opened.record.isError === false && opened.record.result?.isError !== true
+      && same(opened.command.arguments, { projectId: source.projectId }) && opened.data?.status === "opened"
+      && opened.data?.projectId === source.projectId && opened.data?.resumed === true && opened.data?.access === "edit"
+      && normalized(opened.data?.projectPath) === normalized(projectRoot), "successful source-project resume is not bound");
+    openedAt = opened.record.recordedAt;
+    const saved = await response(request.savedTextResponse, "pcb_add_text");
+    need(saved.record.isError === false && saved.record.result?.isError !== true && saved.data?.operation === "pcb_add_text"
+      && decoded(saved.data?.result).result === "Board text added successfully."
+      && decoded(saved.data?.persistence).result === "Board saved." && saved.data?.noGovernedEffect === false,
+      "missing successful preceding native text/save operation");
+    const text = parsePcbSilkscreenText(saved.command.arguments), matches = parseFreshPcbTextItems(sources.pcb!).filter(item =>
+      item.text === text.text && item.presentation.at?.x === text.x_mm && item.presentation.at?.y === text.y_mm);
+    need(matches.length === 1, "saved source lacks the unique acknowledged final text");
+    const item = matches[0]!;
+    assertOnlyRequestedPcbTextAdded(sources.pcb!.slice(0, item.start) + sources.pcb!.slice(item.end), sources.pcb!, text);
+    const failed = await response(request.failedPlaneResponse, "fresh_apply_contract_plane"), failure = decoded(failed.data?.result);
+    const plane = sourceBundle.contract.planes.find(p => p.id === failed.command.arguments?.planeId);
+    need(plane !== undefined && same(failed.command.arguments, { planeId: plane.id }) && failed.record.isError === true
+      && failed.data?.recoveryRequired === true && failure.schemaVersion === "evleda.fresh-plane-apply-failure.v1"
+      && failure.stage === "stage-validation" && failure.code === "PLANE_APPLY_TERMINAL" && failure.recoveryRequired === true
+      && failure.editingSessionMustClose === true && failure.rollback === "not-attempted-unknown-or-external-state"
+      && failure.acceptedStagedPcbContentIdentity === null
+      && failure.message === "PLANE_STAGE_MAY_HAVE_MUTATED: Plane staging did not yield a complete bounded host-readable receipt. Further writes are quarantined; reads, host PCB revert, and explicit close remain available for recovery."
+      && same(failure.beforePcbContentIdentity, request.sourceNativePins.pcb), "failure is outside the missing-stage-receipt recovery case");
+    const { identity: failureIdentity, ...failurePayload } = failure;
+    need(same(failureIdentity, canonicalIdentity(failurePayload, failure.schemaVersion)), "failure identity differs");
+    const live = exactText((await capture(request.archivedLivePcb)).bytes), observation = json((await capture(request.liveObservation)).bytes);
+    need(observation.documentMatches === true && observation.twoReadsMatch === true
+      && observation.sha256 === request.archivedLivePcb.contentIdentity.digest && observation.bytes === request.archivedLivePcb.contentIdentity.size,
+      "read-only live capture does not match its complete pinned observation");
+    const zones = parseFreshPcbReferenceGeometry(sources.pcb!).zones;
+    need(zones.length === sourceBundle.contract.planes.length && zones.every(z => z.uuid !== null && z.kind === "copper"), "saved plane inventory differs");
+    const preservation = compareFreshPlaneRefillPreservation({ beforePcbSource: sources.pcb!, afterPcbSource: live,
+      zoneUuids: zones.map(z => z.uuid!) });
+    need(preservation.equal, "live state has changes outside the complete stored fill caches");
+    const discarded = json((await capture(request.checkedDiscardClose)).bytes);
+    need(discarded.nativeExitObserved === true && discarded.nativeExitCode === 0 && discarded.savedSourcesUnchanged === true
+      && discarded.normalCheckpointPublished === false && discarded.originalQuarantineRetained === true
+      && Number.isSafeInteger(discarded.nativePid) && discarded.nativePid > 0
+      && same(Object.keys(discarded.savedSourcePins ?? {}).sort(), Object.values(names).sort()), "checked discard/exit evidence is incomplete");
+    for (const [key, name] of Object.entries(names) as [keyof typeof names, string][])
+      need(same(discarded.savedSourcePins[name], { sha256: request.sourceNativePins[key].digest, size: request.sourceNativePins[key].size }),
+        "checked discard source pins differ");
+    savedAt = saved.record.recordedAt; failedAt = failed.record.recordedAt; rejectedUnsavedPcb = request.archivedLivePcb.contentIdentity;
   }
   const close = await response(request.failedCloseResponse, "evleda_close_project");
   need(same(close.command.arguments, { projectId: source.projectId }) && close.record.isError === true
-    && close.data?.error === (request.schemaVersion === "evleda.saved-plane-recovery-request.v1"
-      ? "Native toolbox cleanup was not confirmed; owned state was retained."
-      : "Project lease retained because native finalization/checkpoint requires review."), "failed close does not match source");
+    && close.data?.error === (request.schemaVersion === "evleda.saved-field-recovery-request.v1"
+      ? "Project lease retained because native finalization/checkpoint requires review."
+      : "Native toolbox cleanup was not confirmed; owned state was retained."), "failed close does not match source");
   const terminal = json((await capture(request.clientTerminal)).bytes);
   need(path.dirname(request.clientTerminal.path) === path.dirname(request.session.path)
     && terminal.nativeCleanup === "not_verified", "protocol terminal must retain its unconfirmed native close");
-  const times = [session.startedAt, savedAt, failedAt, close.record.recordedAt, terminal.endedAt].map(Date.parse);
+  const times = [session.startedAt, ...(openedAt === undefined ? [] : [openedAt]), savedAt, failedAt, close.record.recordedAt, terminal.endedAt].map(Date.parse);
   need(times.every(Number.isFinite) && times.every((value, i) => i === 0 || value >= times[i - 1]!), "operation order is unproven");
   const intent = json((await capture(request.targetIntent)).bytes);
   need(intent.name === source.name && typeof intent.originalPrompt === "string" && intent.originalPrompt.length > 0, "target stem/prompt differs");
   const compilation = compilePcbPlaneDesignIntentDraft(intent.draft, compiler);
   need(compilation.disposition === "ready", "target draft is not ready");
   const targetBundle = createPcbPlaneCompilationBundle({ compilation, originalPrompt: intent.originalPrompt }, compiler);
+  if (request.schemaVersion === "evleda.saved-plane-artifact-recovery-request.v1")
+    need(same(sourceBundle.identity, targetBundle.identity), "artifact recovery cannot revise the authenticated design bundle");
   const assertCurrent = async () => {
     need(same(await store.lookup(source.projectId), source), "source allocation changed");
     for (const file of captured.values()) { const next = await captureFreshRuntimeImportFile(file, Math.max(file.bytes.length, 1));
       need(next.physical === file.physical && same(next.parents, file.parents), "source/evidence custody changed"); }
-    parsePcbPlaneCompilationBundle(bundleFile.bytes, compiler);
+    parsePcbPlaneCompilationBundle(bundleFile.bytes, sourceCompiler);
     const freshTarget = compilePcbPlaneDesignIntentDraft(intent.draft, compiler);
     need(freshTarget.disposition === "ready" && same(createPcbPlaneCompilationBundle({ compilation: freshTarget,
       originalPrompt: intent.originalPrompt }, compiler).identity, targetBundle.identity), "target library or guidance binding changed");

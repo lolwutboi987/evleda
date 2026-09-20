@@ -1,0 +1,41 @@
+{
+  "projectId": "5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "editClose": {
+    "recordedAt": "2026-09-20T18:50:26.808Z",
+    "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-05\\workspace-client-dd686241-e951-4088-a5b7-8cf29321f01e\\000146-response-bf3b8d978950efd73073508500b7c419da58b757505cff7e20852dfe125f68b8.json",
+    "status": "closed"
+  },
+  "readOnlyClose": {
+    "recordedAt": "2026-09-20T19:02:44.391Z",
+    "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-06-readonly\\workspace-client-5bc635a5-6fad-4dc7-94b0-ef8898d607e2\\000078-response-a650ed6100a5768871028b7dacd4acd13706e909f1595373cffdcade6c829ee7.json",
+    "status": "closed"
+  },
+  "scope": "Two normal native closes. Neither establishes engineering acceptance."
+}

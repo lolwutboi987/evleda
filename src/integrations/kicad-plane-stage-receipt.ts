@@ -5,6 +5,7 @@ export const COMPACT_PLANE_STAGE_SCHEMA = "evleda.native-plane-stage.v2";
 const LEGACY = "evleda.native-plane-stage.v1";
 const PAD = "type.googleapis.com/kiapi.board.types.Pad";
 const MAX_BYTES = 8 * 1024 * 1024;
+export const PLANE_STAGE_MAX_LOGICAL_NODES = 1_000_000;
 type Obj = Record<string, unknown>;
 function check(value: unknown, message: string): asserts value {
   if (!value) throw new Error(`Plane stage receipt: ${message}`);
@@ -15,8 +16,8 @@ function object(value: unknown): Obj {
 }
 
 /** Resolve only the V2 protocol's explicit slots, sharing immutable pool values.
- * The wire retains the 8 MiB/500k-node limits. Logical traversal also retains
- * 500k nodes and depth 64, so references cannot amplify downstream work without
+ * The wire retains the 8 MiB/500k-node limits. Logical traversal permits
+ * 1M nodes and retains depth 64, so references cannot amplify downstream work without
  * a bound. Never serialize the expanded view to compute the receipt identity.
  */
 export function decodePlaneStageReceipt(input: unknown) {
@@ -75,7 +76,7 @@ export function decodePlaneStageReceipt(input: unknown) {
   check(usedSources.size === sources.length && usedPads.size === pads.length, "unreferenced pool member");
   let nodes = 0;
   function boundAndFreeze(value: unknown, depth: number): void {
-    check(++nodes <= 500_000 && depth <= 64, "logical traversal budget exceeded");
+    check(++nodes <= PLANE_STAGE_MAX_LOGICAL_NODES && depth <= 64, "logical traversal budget exceeded");
     if (value !== null && typeof value === "object") {
       for (const child of Object.values(value)) boundAndFreeze(child, depth + 1);
       Object.freeze(value);

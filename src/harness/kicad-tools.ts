@@ -2,6 +2,8 @@ import { freshNativeNetlistParityIssues, createFreshNativeTerminalBinding, valid
 export { freshNativeNetlistParityIssues } from "./fresh-native-terminal-binding.js";
 import type { CallToolResult } from "@modelcontextprotocol/client";
 import { randomUUID } from "node:crypto";
+import { createFreshPlaneFailureDiagnostic, publishFreshPlaneFailureDiagnostic,
+  type FreshPlaneFailureDiagnostic, type FreshPlaneFailureObserver } from "./fresh-plane-failure-diagnostics.js";
 import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
 import { seedFreshBoardFeatures, verifyFreshBoardFeatures, assertFreshBoardFeatureState, type FreshBoardFeatureState } from "./fresh-board-features.js";
 import { captureFreshSchematicFieldError, createFreshSchematicFieldDiagnostic, publishFreshSchematicFieldDiagnostic,
@@ -307,6 +309,7 @@ export interface KicadHarnessTools extends HarnessToolPort<KicadHarnessToolName>
   readonly freshBoardSaveAudits: readonly FreshBoardSaveAudit[];
   readonly freshRouteMutationDiagnostics?:readonly FreshRouteMutationDiagnostic[];
   readonly freshFootprintPlacementDiagnostics?:readonly FreshFootprintPlacementDiagnostic[];
+  readonly freshPlaneFailureDiagnostics?:readonly FreshPlaneFailureDiagnostic[];
   /** Host-only complete receipts, including bounded native replies; never spread into provider output. */
   readonly freshPowerFlagPlacementAdvisories?: readonly FreshPowerFlagPlacementAdvisoryEvidence[];
   captureFreshPcbPadEvidence(): Promise<Readonly<{ observation: KicadNativePadObservation; expected: KicadNativePadObservationExpected }> | undefined>;
@@ -368,6 +371,7 @@ export interface KicadHarnessToolsOptions {
   /** Host-private bounded provenance; callback failures never mask the first native fault. */
   readonly observeFreshRouteMutationDiagnostic?:(diagnostic:FreshRouteMutationDiagnostic)=>void|Promise<void>;
   readonly observeFreshFootprintPlacementDiagnostic?:(diagnostic:FreshFootprintPlacementDiagnostic)=>void|Promise<void>;
+  readonly observeFreshPlaneFailureDiagnostic?: FreshPlaneFailureObserver;
   readonly observeFreshSchematicFieldDiagnostic?: FreshSchematicFieldDiagnosticObserver;
   /** Deterministic host fallback, normally backed by a source-preserving KiCad CLI check. */
   readonly fallback?: HarnessInternalToolPort;
@@ -3194,6 +3198,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   readonly #freshFootprintPlacementSaveResults=new WeakSet<HarnessToolResult>();
   readonly #observeFreshRouteMutationDiagnostic:KicadHarnessToolsOptions["observeFreshRouteMutationDiagnostic"];
   readonly #observeFreshFootprintPlacementDiagnostic:KicadHarnessToolsOptions["observeFreshFootprintPlacementDiagnostic"];
+  readonly #observeFreshPlaneFailureDiagnostic: FreshPlaneFailureObserver | undefined;
+  #freshPlaneFailureDiagnostics: FreshPlaneFailureDiagnostic[] = [];
   readonly #observeFreshSchematicFieldDiagnostic: KicadHarnessToolsOptions["observeFreshSchematicFieldDiagnostic"];
   #freshRouteMutationDiagnostics:FreshRouteMutationDiagnostic[]=[];
   #pendingFreshBoardPostSave: (
@@ -3216,6 +3222,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     this.#session = session;
     this.#observeFreshRouteMutationDiagnostic=options.observeFreshRouteMutationDiagnostic;
     this.#observeFreshFootprintPlacementDiagnostic=options.observeFreshFootprintPlacementDiagnostic;
+    this.#observeFreshPlaneFailureDiagnostic=options.observeFreshPlaneFailureDiagnostic;
     this.#observeFreshSchematicFieldDiagnostic = options.observeFreshSchematicFieldDiagnostic;
     this.#fallback = options.fallback;
     this.#verifyPersistedMutation = options.verifyPersistedMutation;
@@ -3372,6 +3379,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
   get freshRouteMutationDiagnostics():readonly FreshRouteMutationDiagnostic[]{return Object.freeze([...this.#freshRouteMutationDiagnostics]);}
   get freshFootprintPlacementDiagnostics():readonly FreshFootprintPlacementDiagnostic[]{return Object.freeze([...this.#freshFootprintPlacementDiagnostics]);}
+  get freshPlaneFailureDiagnostics():readonly FreshPlaneFailureDiagnostic[]{return Object.freeze([...this.#freshPlaneFailureDiagnostics]);}
   get freshPowerFlagPlacementAdvisories(): readonly FreshPowerFlagPlacementAdvisoryEvidence[] { return Object.freeze([...this.#freshPowerFlagPlacementAdvisories]); }
 
   #physicalExpected(capture:FreshPcbCapture,requestedPrimitiveIds:readonly string[]):KicadNativePadObservationExpected {
@@ -5126,6 +5134,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     this.#planeRecoveryRequired=true;
     this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;
     this.#pendingPersistedMutationBaseline=undefined;this.#pendingSchematicFileMutationBatch=undefined;
+    const diagnostic = createFreshPlaneFailureDiagnostic({ failureId: randomUUID(), phase: "primary-failure", toolCallId: call.id,
+      stage, beforePcbContentIdentity: before.contentIdentity,
+      acceptedStagedPcbContentIdentity: observation === undefined ? null : contentIdentity(observation.nativeSourceStaged),
+      primary: captureFreshSchematicFieldError(error), recoveryRequired: true });
+    this.#freshPlaneFailureDiagnostics.push(diagnostic);
+    if (this.#freshPlaneFailureDiagnostics.length > 8) this.#freshPlaneFailureDiagnostics.shift();
+    const diagnosticArtifact = await publishFreshPlaneFailureDiagnostic(this.#observeFreshPlaneFailureDiagnostic, diagnostic);
     let rollback="not-attempted-unknown-or-external-state";
     try{
       const state=await this.#planeKnownState(before,observation);
@@ -5141,6 +5156,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const payload={schemaVersion:FRESH_PLANE_APPLY_FAILURE_SCHEMA_VERSION,stage,code:"PLANE_APPLY_TERMINAL",recoveryRequired:true,rollback,
       editingSessionMustClose:true,beforePcbContentIdentity:before.contentIdentity,
       acceptedStagedPcbContentIdentity:observation===undefined?null:contentIdentity(observation.nativeSourceStaged),
+      diagnosticArtifact, primaryCauseCapture: diagnostic.primary.status,
       message:(error instanceof Error?error.message:String(error)).replace(/\s+/gu," ").slice(0,1200)};
     return harnessToolResultSchema.parse({toolCallId:call.id,isError:true,content:JSON.stringify({...payload,identity:canonicalIdentity(payload,payload.schemaVersion)})});
   }

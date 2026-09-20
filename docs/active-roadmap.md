@@ -1,5 +1,9 @@
 # Active PCB-toolbox roadmap
 
+The [saved RP2350 native R1](../designs/rp2350-pico/native-r1/README.md) now completes the managed authoring/close/reopen workflow with all 67 functional nets connected, configured native checks clean and portable delivery artifacts. The remaining engineering work is concrete: supplemental In2 single-component policy, two uncovered debug approaches, two uncertain debug-reference segments, and incomplete plane-contact/construction evaluation. Its full assessment stays failed/incomplete; neither native lifecycle completion nor the [DOC17 tooling repair](../proofs/native-plane-receipt-doc17-20260920/README.md) closes those findings.
+
+## Historical roadmap entries
+
 Current continuation, 20 September 2026: the [complete RP2350 four-layer review
 candidate](../designs/rp2350-pico/four-layer-review-117/README.md) now provides
 portable native files, previews, a pinout and a candidate BOM. All 67 functional

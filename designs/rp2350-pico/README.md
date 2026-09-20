@@ -4,22 +4,25 @@ This is the first real board task after publication of the reviewed EvlEDA toolb
 baseline. Work is on `codex/rp2350-pico`; the published baseline is commit
 [`8fa1203`](https://github.com/lolwutboi987/evleda/commit/8fa120343111107763433c7204bdbdbc240fc609)
 on `codex/destination-resume`. The existing Python implementation on `main` was
-preserved. This directory contains the native review candidate and its retained
-design history; final managed-workflow verification is still in progress.
+preserved. This directory contains the saved native candidate and its retained
+design history. Managed-workflow verification is complete; engineering acceptance
+remains failed/incomplete.
 
 ## Current candidate
 
-The [complete four-layer review candidate](four-layer-review-117/README.md) is
+The [native R1 candidate](native-r1/README.md) is
 **22 × 60 mm**, retaining 2.54 mm GPIO pitch and 17.78 mm row spacing. Its native
 physical-pad review connects all 67 functional nets, and configured ERC/DRC have
 zero findings. It includes 1,099 tracks, 118 vias, functional labels, portable
 custom libraries, previews, a pinout and a candidate BOM. All 887 measured turns
 meet the straight/45-degree policy; both GPIO service strips are clear.
 
-This is the checked native target, prepared outside the managed project. Its
-adoption through public EvlEDA tools is still running. Final save/checkpoint,
-managed acceptance and close remain pending; debug return-path, supplemental
-plane and physical impedance limits are explicit in the candidate report.
+The public-tool project saved both fills, closed normally, reopened read-only
+with the same six sources and passed repeated connectivity/native checks before
+another normal close. The report retains 141 pass, 429 unknown and two failed
+acceptance rows. Debug reference gaps, supplemental In2 plane policy and
+electrical/construction qualification remain unresolved. The earlier unmanaged
+[review117 target](four-layer-review-117/README.md) is preserved separately.
 
 The earlier two-layer [ground bridge 60-13](native-ground-bridge-60-13/README.md),
 [ground and USB revision 60-12](native-ground-usb-60-12/README.md),

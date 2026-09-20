@@ -16,6 +16,8 @@ import { planeStageObservationFixture } from "../helpers/plane-stage-observation
 import { planeCompoundMutationState } from "../../src/mcp/toolbox-plane-results.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import type { PcbReadOnlyLibraryResolver } from "../../src/harness/pcb-design-compiler.js";
+import type { FreshPlaneFailureObserver } from "../../src/harness/fresh-plane-failure-diagnostics.js";
+import { writeToolboxPlaneFailureDiagnostic } from "../../src/mcp/toolbox-plane-failure-diagnostics.js";
 
 const owned=new Set<string>();
 afterEach(async()=>{for(const root of owned){await rm(root,{recursive:true,force:true});owned.delete(root);}});
@@ -49,7 +51,7 @@ function noConnectDocuments(){
     (net (name "${nativeNoConnectName}") ${node('J1','4','passive+no_connect')})))`;
   return {bundle:ncBundle,pcb:ncPcb,schematic:ncSchematic,netlist:ncNetlist};
 }
-interface FixtureOptions{noConnect?:boolean;historyAutosave?:boolean;forbidDirtyNetlist?:boolean;stageSourceDrift?:'schematic'|'project'|'rules'}
+interface FixtureOptions{noConnect?:boolean;historyAutosave?:boolean;forbidDirtyNetlist?:boolean;stageSourceDrift?:'schematic'|'project'|'rules';diagnosticObserver?:FreshPlaneFailureObserver}
 type StageHandler=(request:KicadPlaneStageInput)=>Promise<KicadPlaneStageReceipt>;
 async function fixture(mode:'missing'|'partial'|'unknown'|'transport'='partial',options:FixtureOptions={}){
   const documents=options.noConnect?noConnectDocuments():{bundle,pcb,schematic},fixtureBundle=documents.bundle,beforePcbSource=documents.pcb;
@@ -82,6 +84,7 @@ async function fixture(mode:'missing'|'partial'|'unknown'|'transport'='partial',
     callTool:async name=>{calls.push(name);if(name==='pcb_revert'){live=await readFile(project.pcbPath,'utf8');dirty=false;}if(name==='pcb_save'){await writeFile(project.pcbPath,live,'utf8');dirty=false;saveCount++;}return {content:[],structuredContent:{result:name==='pcb_save'?'Board saved.':'Board reverted to last saved state. All unsaved changes have been discarded.'}};},
   };
   const bridge=createKicadHarnessTools(session,{freshProject:project,freshConnectivityContract:fixtureBundle.contract,freshPlaneCompilationBundle:fixtureBundle,
+    ...(options.diagnosticObserver===undefined?{}:{observeFreshPlaneFailureDiagnostic:options.diagnosticObserver}),
     freshPhysicalFootprintResolver:physical.expected.physicalFootprintResolver!,freshPhysicalFootprintSourcePins:physical.expected.physicalFootprints!,
     ...(typeof nativeNetlistSource==='string'?{captureFreshNativeNetlist:async()=>{netlistExports.push({dirty,saveCount});if(options.forbidDirtyNetlist&&dirty)throw new Error('Fixture forbids native netlist export while native plane stage remains dirty.');return nativeNetlistSource;}}:{}),
     capturePersistedMutationBaseline:async()=>contentIdentity(await readFile(project.pcbPath)).digest,verifyPersistedMutation:async()=>false});
@@ -107,6 +110,32 @@ async function validFixture(options:FixtureOptions={}){
 }
 
 describe('genuine plane APPLY capability and recovery lifecycle',()=>{
+  it('retains the nested native first cause privately while preserving quarantine and avoiding an unknown revert',async()=>{
+    const output=await mkdtemp(path.join(os.tmpdir(),'evleda-plane-cause-'));owned.add(output);
+    const f=await fixture('partial',{diagnosticObserver:diagnostic=>writeToolboxPlaneFailureDiagnostic(output,diagnostic)});
+    const detail='native-private-detail-for-test: Logical stage traversal budget exceeded';
+    f.setStage(async()=>{f.setLive(pcb.replace('(thickness 1.6)','(thickness 1.7)'));
+      throw new Error('PLANE_STAGE_MAY_HAVE_MUTATED',{cause:new Error('Categorical native failure',{cause:{operation:'evleda_stage_plane',response:{isError:true,content:[{type:'text',text:detail}]}}})});});
+    const failed=await f.bridge.execute(apply),body=JSON.parse(failed.content);
+    expect(body).toMatchObject({recoveryRequired:true,rollback:'not-attempted-unknown-or-external-state',primaryCauseCapture:'captured'});
+    expect(failed.content).not.toContain(detail);
+    expect(body.diagnosticArtifact.filename).toMatch(/^plane-apply-failure-[a-f0-9-]+\.json$/);
+    const bytes=await readFile(path.join(output,body.diagnosticArtifact.filename));
+    expect(contentIdentity(bytes)).toEqual(body.diagnosticArtifact.identity);
+    const retained=JSON.parse(bytes.toString('utf8'));
+    expect(retained.primary.value.cause.cause.response.content[0].text).toBe(detail);
+    expect(f.bridge.freshPlaneFailureDiagnostics).toHaveLength(1);
+    expect(f.calls).toEqual(['stage']);expect(await readFile(f.project.pcbPath,'utf8')).toBe(pcb);
+    await expect(f.bridge.execute(apply)).rejects.toThrow(/RECOVERY_REQUIRED/);
+  });
+  it('keeps the primary failure and safe settlement when private diagnostic publication fails',async()=>{
+    const f=await fixture('transport',{diagnosticObserver:async()=>{throw new Error('diagnostic-writer-failed');}});
+    const failed=await f.bridge.execute(apply),body=JSON.parse(failed.content);
+    expect(body).toMatchObject({recoveryRequired:true,rollback:'restored-known-preimage',diagnosticArtifact:null,primaryCauseCapture:'captured'});
+    expect(body.message).toContain('Uncertain transport');expect(failed.content).not.toContain('diagnostic-writer-failed');
+    expect(f.bridge.freshPlaneFailureDiagnostics?.[0]?.primary.status).toBe('captured');
+    expect(f.calls).toEqual(['stage','pcb_revert']);expect(f.calls).not.toContain('pcb_save');
+  });
   it('keeps true NC plane staging unsaved across a PCB history autosave and captures fresh native evidence only after Save',async()=>{
     const f=await validFixture({noConnect:true,historyAutosave:true,forbidDirtyNetlist:true});
     expect(createFreshConnectivityContract(f.bundle.contract).noConnects).toEqual([{reference:'J1',pin:'4'}]);

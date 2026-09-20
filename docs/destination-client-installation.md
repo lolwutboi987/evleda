@@ -1,5 +1,14 @@
 # Destination client installation
 
+Current, 20 September 2026: the existing entry uses **frozen host43 and DOC17/v4**.
+The [new qualification](../proofs/native-plane-receipt-doc17-20260920/README.md)
+records actual RP2350 fill/save success and 17 tools in a fresh Codex client.
+Workspace path, edit policy, environment, timeout, current skill and unrelated
+configuration bytes were preserved. Cached desktop connection activation remains
+unestablished. The previous installation records below retain their own scopes.
+
+## Historical host41/42 installation
+
 The global EvlEDA workspace entry now uses **frozen host42 and the DOC16/v4
 profile**, with the exact current repository PCB skill. The [delivery proof](../proofs/client-doc16-20260920/README.md)
 verifies seven read-only preflight calls and **17 initial tools in a fresh actual

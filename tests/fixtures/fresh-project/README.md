@@ -1,5 +1,13 @@
 # Captured fresh-project regression fixtures
 
+`modeled-plane-stage-507408.json.gz` is a separate **software resource model**,
+not an accepted native stage. It combines preserved RP2350 stage data with
+read-only observations to exercise complete repeated records beyond the old
+500,000-node limit. The fixture embeds that scope and 507,408-node count; the
+encoder/decoder tests preserve its complete content and reject unbounded
+amplification. Actual later native receipts are documented separately in
+`proofs/native-plane-receipt-doc17-20260920/`.
+
 These fixtures preserve the captured inputs used by four regression tests in
 `tests/unit/harness-fresh-project.test.ts`. The original September 6, 2026 proof
 runs remain local; the tests do not require those generated output directories.

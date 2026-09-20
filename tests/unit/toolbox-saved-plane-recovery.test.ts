@@ -79,6 +79,108 @@ async function fixture() {
 }
 
 describe("operator saved-plane recovery into a separate candidate", () => {
+  async function artifactFixture() {
+    const f = await fixture(), evidence = path.dirname(f.request.session.path);
+    const makeRuntime = async (side: "source" | "target") => {
+      const root = path.join(f.f.root, `${side}-runtime`); await mkdir(path.join(root, "environment"), { recursive: true });
+      await mkdir(path.join(root, "evleda_plane_stage"));
+      const codec = await readFile(new URL(`../../sidecars/patches/${side === "source" ? "doc14" : "doc17"}/evleda_plane_stage/compact_receipt.py`, import.meta.url), "utf8");
+      const leaves = { "environment/pyvenv.cfg": `home = ${root}\n`, "evleda_plane_stage/compact_receipt.py": codec };
+      const files = [];
+      for (const [relative, text] of Object.entries(leaves)) {
+        await writeFile(path.join(root, ...relative.split("/")), text);
+        const id = contentIdentity(text); files.push({ path: relative, sha256: id.digest, sizeBytes: id.size, mode: 0o600 });
+      }
+      const manifestIdentity = canonicalIdentity({ side }, "synthetic-manifest"), treeIdentity = canonicalIdentity({ side }, "synthetic-tree");
+      const totalBytes = files.reduce((sum, value) => sum + value.sizeBytes, 0);
+      const manifest = await f.put(path.join(evidence, `${side}-manifest.json`), { files, directories: [{ path: "environment" }, { path: "evleda_plane_stage" }],
+        fileCount: files.length, totalBytes, identity: manifestIdentity, treeIdentity });
+      const profile = await f.put(path.join(evidence, `${side}-profile.json`), { fixedPolicy: "unchanged synthetic native-load fixture",
+        kicadMcpRuntime: { runtimeBundle: { root, manifest: { path: manifest.path, sha256: manifest.contentIdentity.digest, sizeBytes: manifest.contentIdentity.size },
+          expectedClosure: { fileCount: files.length, totalBytes, manifestIdentity, treeIdentity, entrypoint: "unchanged", python: "unchanged" } },
+        processTreeSupervision: { terminator: { path: path.join(root, "terminator") } }, runtimePolicy: { pythonLaunch: { flags: ["-I", "-s", "-E", "-B"], argumentCount: 5, argumentsSha256: side } } } });
+      return { root, profile, manifest };
+    };
+    const oldRuntime = await makeRuntime("source"), newRuntime = await makeRuntime("target");
+    const at = (n: number) => new Date(Date.parse("2026-09-20T00:00:00Z") + n * 1000).toISOString();
+    const session = await f.put(path.join(evidence, "artifact-session.json"), { startedAt: at(0), serverArgs: ["--profile", oldRuntime.profile.path,
+      "--profile-sha256", oldRuntime.profile.contentIdentity.digest, "--profile-bytes", String(oldRuntime.profile.contentIdentity.size), "--workspace-root", f.request.workspaceRoot, "--edit"] });
+    const response = async (name: string, args: object, data: object, isError: boolean, n: number) => {
+      const command = await f.put(path.join(evidence, `artifact-request-${n}.json`), { id: `artifact-${n}`, operation: "call", name, arguments: args });
+      return f.put(path.join(evidence, `artifact-response-${n}.json`), { recordedAt: at(n), disposition: "response", isError,
+        request: { path: command.path, identity: command.contentIdentity }, result: { isError, structuredContent: data } });
+    };
+    const pcb = f.input.sources.pcb.slice(0, f.input.sources.pcb.lastIndexOf(")"))
+      + `(gr_text "RECOVER" (at 5 5 0) (layer "F.SilkS") (uuid "${randomUUID()}") (effects (font (size 1 1) (thickness 0.15)) (justify left bottom))))`;
+    f.input.sources.pcb = pcb; await writeFile(f.preparation.project.pcbPath, pcb);
+    const sourceNativePins = { ...f.request.sourceNativePins, pcb: contentIdentity(pcb) };
+    const openedProjectResponse = await response("evleda_resume_project", { projectId: f.sourceAllocation.projectId }, {
+      status: "opened", projectId: f.sourceAllocation.projectId, resumed: true, access: "edit", projectPath: f.root }, false, 1);
+    const savedTextResponse = await response("pcb_add_text", { text: "RECOVER", x_mm: 5, y_mm: 5 }, { operation: "pcb_add_text",
+      result: { content: JSON.stringify({ result: "Board text added successfully." }) }, persistence: { content: JSON.stringify({ result: "Board saved." }) }, noGovernedEffect: false }, false, 2);
+    const failure = { schemaVersion: "evleda.fresh-plane-apply-failure.v1", stage: "stage-validation", code: "PLANE_APPLY_TERMINAL",
+      recoveryRequired: true, editingSessionMustClose: true, rollback: "not-attempted-unknown-or-external-state", beforePcbContentIdentity: sourceNativePins.pcb,
+      acceptedStagedPcbContentIdentity: null, message: "PLANE_STAGE_MAY_HAVE_MUTATED: Plane staging did not yield a complete bounded host-readable receipt. Further writes are quarantined; reads, host PCB revert, and explicit close remain available for recovery." };
+    const failedPlaneResponse = await response("fresh_apply_contract_plane", { planeId: f.source.contract.planes[0]!.id }, { recoveryRequired: true,
+      result: { content: JSON.stringify({ ...failure, identity: canonicalIdentity(failure, failure.schemaVersion) }) } }, true, 3);
+    const failedCloseResponse = await response("evleda_close_project", { projectId: f.sourceAllocation.projectId }, { error: "Native toolbox cleanup was not confirmed; owned state was retained." }, true, 4);
+    const clientTerminal = await f.put(path.join(evidence, "artifact-terminal.json"), { endedAt: at(5), nativeCleanup: "not_verified" });
+    const archivedLivePcb = await f.put(path.join(evidence, "artifact-live.kicad_pcb"), pcb.replace("(xy 29 19)", "(xy 28 19)"));
+    const liveObservation = await f.put(path.join(evidence, "artifact-live-observation.json"), { documentMatches: true, twoReadsMatch: true,
+      bytes: archivedLivePcb.contentIdentity.size, sha256: archivedLivePcb.contentIdentity.digest });
+    const map = { pcb: "seeded.kicad_pcb", sch: "seeded.kicad_sch", pro: "seeded.kicad_pro", dru: "seeded.kicad_dru", fpLibTable: "fp-lib-table", symLibTable: "sym-lib-table" } as const;
+    const checkedDiscardClose = await f.put(path.join(evidence, "artifact-discard.json"), { nativeExitObserved: true, nativeExitCode: 0, nativePid: 123,
+      savedSourcesUnchanged: true, normalCheckpointPublished: false, originalQuarantineRetained: true,
+      savedSourcePins: Object.fromEntries(Object.entries(map).map(([key, name]) => { const id = sourceNativePins[key as keyof typeof map]; return [name, { sha256: id.digest, size: id.size }]; })) });
+    const targetIntent = await f.put(path.join(evidence, "artifact-intent.json"), { name: "seeded", originalPrompt: f.source.originalPrompt, draft: f.draft });
+    const request: SavedPlaneRecoveryRequest = { schemaVersion: "evleda.saved-plane-artifact-recovery-request.v1", workspaceRoot: f.request.workspaceRoot,
+      sourceProjectId: f.request.sourceProjectId, targetProjectId: randomUUID(), sourceProfile: oldRuntime.profile, profile: newRuntime.profile,
+      sourceNativePins, targetIntent, session, openedProjectResponse, savedTextResponse, failedPlaneResponse, failedCloseResponse, clientTerminal,
+      archivedLivePcb, liveObservation, checkedDiscardClose };
+    return { ...f, request, oldRuntime, newRuntime };
+  }
+
+  it("preserves the saved labeled board under the exact receipt-only runtime upgrade", async () => {
+    const f = await artifactFixture(), pcb = await readFile(f.preparation.project.pcbPath), marker = await readFile(f.unsafe.path);
+    const capability = await qualifySavedPlaneRecovery(f.request, f.f.store, f.dependencies);
+    expect(f.openBinding).not.toHaveBeenCalled();
+    const result = await executeQualifiedSavedPlaneRecovery(capability, { planIdentity: capability.identity.digest, maintenanceConfirmed: true });
+    expect(result).toMatchObject({ status: "recovered-to-new-allocation", lineage: { sourceBundleIdentity: f.source.identity, targetBundleIdentity: f.source.identity,
+      recovery: { sourceNormalCloseConfirmed: false, sourceQuarantineRetained: true } } });
+    expect(await readFile(f.preparation.project.pcbPath)).toEqual(pcb); expect(await readFile(f.unsafe.path)).toEqual(marker);
+  });
+
+  it.each(["policy", "codec", "live-copper", "source-pin", "text", "opened-project", "discard", "intent"])("rejects unsupported artifact recovery: %s", async fault => {
+    const f = await artifactFixture(), request = structuredClone(f.request);
+    if (fault === "policy") { const p = JSON.parse(await readFile(request.profile.path, "utf8")); p.fixedPolicy = "changed"; request.profile = await f.put(request.profile.path, p); }
+    if (fault === "codec") {
+      const p = JSON.parse(await readFile(request.profile.path, "utf8")), m = JSON.parse(await readFile(p.kicadMcpRuntime.runtimeBundle.manifest.path, "utf8"));
+      m.files.find((x: any) => x.path.endsWith("compact_receipt.py")).sha256 = "a".repeat(64);
+      const pin = await f.put(p.kicadMcpRuntime.runtimeBundle.manifest.path, m); p.kicadMcpRuntime.runtimeBundle.manifest.sha256 = pin.contentIdentity.digest;
+      request.profile = await f.put(request.profile.path, p);
+    }
+    if (fault === "live-copper") {
+      const pcb = (await readFile(request.archivedLivePcb.path, "utf8")).replace('(width 0.3)', '(width 0.4)');
+      request.archivedLivePcb = await f.put(request.archivedLivePcb.path, pcb);
+      request.liveObservation = await f.put(request.liveObservation.path, { documentMatches: true, twoReadsMatch: true, bytes: request.archivedLivePcb.contentIdentity.size, sha256: request.archivedLivePcb.contentIdentity.digest });
+    }
+    if (fault === "source-pin") request.sourceNativePins.pcb.digest = "b".repeat(64);
+    if (fault === "text") {
+      const r = JSON.parse(await readFile(request.savedTextResponse.path, "utf8")); r.result.structuredContent.persistence.content = JSON.stringify({ result: "Save skipped." }); request.savedTextResponse = await f.put(request.savedTextResponse.path, r);
+    }
+    if (fault === "opened-project") {
+      const r = JSON.parse(await readFile(request.openedProjectResponse.path, "utf8")); r.result.structuredContent.projectId = randomUUID(); request.openedProjectResponse = await f.put(request.openedProjectResponse.path, r);
+    }
+    if (fault === "discard") {
+      const r = JSON.parse(await readFile(request.checkedDiscardClose.path, "utf8")); r.savedSourcesUnchanged = false; request.checkedDiscardClose = await f.put(request.checkedDiscardClose.path, r);
+    }
+    if (fault === "intent") {
+      const r = JSON.parse(await readFile(request.targetIntent.path, "utf8")); r.originalPrompt += " changed"; request.targetIntent = await f.put(request.targetIntent.path, r);
+    }
+    await expect(qualifySavedPlaneRecovery(request, f.f.store, f.dependencies)).rejects.toThrow();
+    expect(f.openBinding).not.toHaveBeenCalled(); expect((await f.f.store.list()).total).toBe(1);
+  });
+
   async function fieldFixture() {
     const f = await fixture(), component = f.source.contract.components[0]!, evidence = path.dirname(f.request.session.path);
     const originalField = `(property "Reference" "${component.reference}")`;

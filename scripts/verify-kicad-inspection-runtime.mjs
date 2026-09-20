@@ -77,6 +77,9 @@ const DOC15 = Object.freeze({ path: "evleda_plane_stage/typed_zone.py",
 const DOC16 = Object.freeze({ path: "evleda_plane_stage/protocol.json",
   predecessorSha256: "13cd7bca5fc84a6de2ac368fcccb8eb4b2487325ba0152f55a56b18c5208e364",
   sha256: "1ad0f84fbcc646a5412513c97500ff7daf936e2d48fac622b5b76b8a44102079", sizeBytes: 13368 });
+const DOC17 = Object.freeze({ path: "evleda_plane_stage/compact_receipt.py",
+  predecessorSha256: "716dd527f827b3b7e0c715d60944cd02693f704878b19f8f1e391b401d1e9d74",
+  sha256: "1217cf8a69fcad2c9ee84a857d9faa19f4db25771844dd67ea7645f9c1b185e8", sizeBytes: 3759 });
 export const originalRuntimeRoot = String.raw`D:\Codex-Recovery\tools\kicad-mcp-pro\inspection-runtime-3.33.3-doc5`;
 export const sha256 = bytes => createHash("sha256").update(bytes).digest("hex");
 export const pyvenvText = root => `home = ${path.join(root, "python")}\nimplementation = CPython\nuv = 0.11.31\nversion_info = 3.13.12\ninclude-system-site-packages = false\nrelocatable = true\n`;
@@ -432,11 +435,13 @@ export async function verifyRuntime(paths) {
   const isDoc11 = doc11Matches.every(Boolean);
   const padSnapshot = candidate.files?.find(file => file.path === DOC12.path);
   const isDoc12 = padSnapshot?.sha256 === DOC12.sha256 && padSnapshot?.sizeBytes === DOC12.sizeBytes;
-  const isDoc14 = candidate.files?.some(file => file.path === DOC14.path && file.sha256 === DOC14.sha256 && file.sizeBytes === DOC14.sizeBytes) === true;
+  const isDoc17 = candidate.files?.some(file => file.path === DOC17.path && file.sha256 === DOC17.sha256 && file.sizeBytes === DOC17.sizeBytes) === true;
+  const isDoc14 = isDoc17 || candidate.files?.some(file => file.path === DOC14.path && file.sha256 === DOC14.sha256 && file.sizeBytes === DOC14.sizeBytes) === true;
   const isDoc15 = candidate.files?.some(file => file.path === DOC15.path && file.sha256 === DOC15.sha256 && file.sizeBytes === DOC15.sizeBytes) === true;
   const isDoc16 = candidate.files?.some(file => file.path === DOC16.path && file.sha256 === DOC16.sha256 && file.sizeBytes === DOC16.sizeBytes) === true;
   assert.ok(!isDoc15 || isDoc14, "DOC15 requires the complete DOC14 lineage");
   assert.ok(!isDoc16 || isDoc15, "DOC16 requires the typed four-layer adapter from DOC15");
+  assert.ok(!isDoc17 || isDoc16, "DOC17 requires the complete DOC16 four-layer lineage");
   const doc13Matches = DOC13.map(source => candidate.files?.some(file => file.path === source.path
     && (file.sha256 === source.sha256 && file.sizeBytes === source.sizeBytes || source.path === DOC14.path && isDoc14)) === true);
   const isDoc13 = doc13Matches.every(Boolean);
@@ -473,7 +478,7 @@ export async function verifyRuntime(paths) {
     reference = { ...doc13, totalBytes: doc13.totalBytes - before.sizeBytes + DOC14.sizeBytes,
       files: doc13.files.map(file => file.path === DOC14.path ? { ...file, sha256: DOC14.sha256, sizeBytes: DOC14.sizeBytes } : file) };
   }
-  for (const [enabled, generation, source] of [[isDoc15, "doc15", DOC15], [isDoc16, "doc16", DOC16]]) {
+  for (const [enabled, generation, source] of [[isDoc15, "doc15", DOC15], [isDoc16, "doc16", DOC16], [isDoc17, "doc17", DOC17]]) {
     if (!enabled) continue;
     const bytes = await readFile(path.join(repositoryRoot, "sidecars/patches", generation, source.path));
     assert.equal(sha256(bytes), source.sha256, `${generation} source differs from its published pin`);
@@ -485,7 +490,7 @@ export async function verifyRuntime(paths) {
   }
   assertDoc5Relocation(reference, candidate, paths.root);
   const result = await runManifestHelper("verify", paths.root, paths.manifest);
-  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc16 ? "DOC16" : isDoc15 ? "DOC15" : isDoc14 ? "DOC14" : isDoc13 ? "DOC13" : isDoc12 ? "DOC12" : isDoc11 ? "DOC11" : isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
+  return { ...result, runtimeRoot: paths.root, manifest: paths.manifest, generation: isDoc17 ? "DOC17" : isDoc16 ? "DOC16" : isDoc15 ? "DOC15" : isDoc14 ? "DOC14" : isDoc13 ? "DOC13" : isDoc12 ? "DOC12" : isDoc11 ? "DOC11" : isDoc10 ? "DOC10" : isDoc9 ? "DOC9" : isDoc8 ? "DOC8" : isDoc7 ? "DOC7" : isDoc6 ? "DOC6" : "DOC5",
     doc5SourcePinsVerified: true, ...(isDoc6 ? { doc6SourcePinsVerified: true, doc6ProvenanceSha256: DOC6.provenanceSha256 } : {}),
     ...(isDoc7 ? { doc7SourcePinsVerified: true, doc7ProvenanceSha256: DOC7.provenanceSha256 } : {}),
     ...(isDoc8 ? { doc8SourcePinsVerified: true, doc8ProvenanceSha256: DOC8.provenanceSha256 } : {}),
@@ -501,6 +506,7 @@ export async function verifyRuntime(paths) {
     ...(isDoc14 ? { doc14SourcePinsVerified: true, doc14QualificationScope: "source-and-native-mapping-regressions-only", doc14NativePlaneQualified: false } : {}),
     ...(isDoc15 ? { doc15SourcePinsVerified: true } : {}),
     ...(isDoc16 ? { doc16SourcePinsVerified: true, doc16QualificationScope: "complete-runtime-closure-only", doc16NativePlaneQualified: false } : {}),
+    ...(isDoc17 ? { doc17SourcePinsVerified: true, doc17QualificationScope: "complete-runtime-closure-only", doc17NativePlaneQualified: false } : {}),
     allowedRuntimeDelta: ["environment/pyvenv.cfg: home relocation only",
       ...(isDoc6 ? [`${DOC6.path}: published DOC6 qualified-footprint-identity overlay only`] : []),
       ...(isDoc7 ? DOC7.sources.map(source => `${source.path}: published DOC7 power-flag graph overlay only`) : []),
@@ -512,7 +518,8 @@ export async function verifyRuntime(paths) {
       ...(isDoc13 ? DOC13.map(source => `${source.path}: published DOC13 lossless plane receipt only`) : []),
       ...(isDoc14 ? [`${DOC14.path}: published DOC14 native ordered-mapping correction only`] : []),
       ...(isDoc15 ? [`${DOC15.path}: published DOC15 enabled four-layer rectangle adapter only`] : []),
-      ...(isDoc16 ? [`${DOC16.path}: published DOC16 four-layer stage descriptor only`] : [])] };
+      ...(isDoc16 ? [`${DOC16.path}: published DOC16 four-layer stage descriptor only`] : []),
+      ...(isDoc17 ? [`${DOC17.path}: bounded DOC17 1M logical/500k compact receipt nodes only`] : [])] };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

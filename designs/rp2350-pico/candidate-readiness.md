@@ -1,5 +1,14 @@
 # RP2350 candidate progress
 
+Current, 20 September 2026: [native R1](native-r1/README.md) contains the fully
+routed 22 x 60 mm four-layer candidate with saved fills, labels, normal close and
+fresh read-only reopen verified. All 67 functional nets are connected and
+configured ERC/DRC are clean. Engineering acceptance remains failed/incomplete;
+the candidate report identifies the outstanding plane/debug/electrical findings.
+The draft and native-startup descriptions below are historical.
+
+## Historical early candidate state
+
 The board is unfinished. The only project authored through public MCP still
 contains U1 and J2 in its schematic and no PCB components or copper. It is closed
 normally with its checkpoint preserved.

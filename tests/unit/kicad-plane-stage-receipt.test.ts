@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { gunzipSync } from "node:zlib";
 import { canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { decodePlaneStageReceipt } from "../../src/integrations/kicad-plane-stage-receipt.js";
 import { compactPlaneStageFixture } from "../helpers/compact-plane-stage-fixture.js";
@@ -16,6 +18,17 @@ function sample() {
 const compact = () => compactPlaneStageFixture(sample());
 
 describe("bounded compact plane receipt", () => {
+  it("losslessly decodes the modeled 507408-node real-board resource reproduction", () => {
+    const study = JSON.parse(gunzipSync(readFileSync(new URL("../fixtures/fresh-project/modeled-plane-stage-507408.json.gz", import.meta.url)),
+      { maxOutputLength: 32 * 1024 * 1024 }).toString("utf8"));
+    expect(study.logicalNodes).toBe(507408);
+    expect(study.scope).toContain("not a native stage or authority");
+    const wire = compactPlaneStageFixture(study.transcript), before = canonicalJson(wire);
+    const decoded = decodePlaneStageReceipt(wire);
+    expect(decoded.receipt).toEqual(study.transcript);
+    expect(canonicalJson(wire)).toBe(before);
+    expect(decoded.receiptIdentity).toEqual(contentIdentity(before));
+  });
   it("preserves exact text, ordered duplicate PADs and legacy identity without changing caller data", () => {
     const raw = sample(), encoded = compactPlaneStageFixture(raw), before = structuredClone(encoded);
     const decoded = decodePlaneStageReceipt(encoded);
@@ -59,9 +72,21 @@ describe("bounded compact plane receipt", () => {
   it("retains the logical node budget despite tiny references", () => {
     const value = compact();
     value.rpcPadPool[0]!.large = Array.from({ length: 200 }, () => ({ x: 0 }));
-    value.rpc[1].response.items = Array.from({ length: 2000 }, () => ({ padIndex: 0 }));
+    value.rpc[1].response.items = Array.from({ length: 3000 }, () => ({ padIndex: 0 }));
     expect(Buffer.byteLength(JSON.stringify(value))).toBeLessThan(100_000);
     expect(() => decodePlaneStageReceipt(value)).toThrow("logical traversal budget");
+  });
+  it("retains complete repeated observations beyond the former 500k logical limit", () => {
+    const value = compact();
+    value.rpcPadPool[0]!.large = Array.from({ length: 200 }, (_, index) => ({ x: index }));
+    value.rpc[1].response.items = Array.from({ length: 1300 }, () => ({ padIndex: 0 }));
+    const decoded = decodePlaneStageReceipt(value), calls = decoded.receipt.rpc as any[];
+    expect(calls[1].response.items).toHaveLength(1300);
+    expect(calls[1].response.items[1299].large).toHaveLength(200);
+    expect(calls[1].response.items[1299].large[199]).toEqual({ x: 199 });
+    expect(calls[1].response.items[0]).toBe(calls[1].response.items[1299]);
+    expect(Object.isFrozen(calls[1].response.items[1299].large)).toBe(true);
+    expect(decoded.receiptIdentity).toEqual(contentIdentity(canonicalJson(value)));
   });
   it("retains logical depth after insertion at a deeper RPC location", () => {
     const value = compact(); let child: any = {};

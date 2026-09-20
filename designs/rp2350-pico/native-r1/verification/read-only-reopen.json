@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "evleda.rp2350-readonly-reopen.v1",
+  "projectId": "5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "access": "read-only",
+  "functionalNets": 67,
+  "endpointConnectivity": "connected",
+  "configuredErc": "clean",
+  "configuredDrc": "clean",
+  "previews": {
+    "top": {
+      "pngIdentical": true,
+      "svgIdentical": false,
+      "pngSha256": "5200481f99b1d254d59c32eb83cceb54cc85cc45ea4ae41ae8b499014c5cc240",
+      "svgSha256": "580cd1d4586fb6b449fec82749dea592d6ada3e68673be2a333d779899572c74"
+    },
+    "assembly": {
+      "pngIdentical": true,
+      "svgIdentical": false,
+      "pngSha256": "aa6873fa76d9cdbb1f8690eea802cc291fe7adfcb1f52415ba7a77fbdf706d0f",
+      "svgSha256": "d8ba62e28d55e29e399f6484104e0efb29138bab1dfc350d1c18331600f01a73"
+    }
+  },
+  "normalClose": true,
+  "fillAuthorityRestored": false,
+  "collectorCorrection": "The initial collector stopped after a successful top render because it wrongly required the render response to contain recoveryRequired:false. The render schema omits that field. Its retained response was reused without redispatch; native state and all sources stayed unchanged. Fresh toolbox status subsequently confirmed recoveryRequired:false.",
+  "engineeringAcceptance": "Prior edit-session assessment remains failed/incomplete. Reopening does not restore fresh fill authority or establish electrical acceptance."
+}

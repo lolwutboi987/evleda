@@ -51,10 +51,22 @@ async function main() {
   const nativeRoots = [repository, native.kicadToolchain.binRoot, runtime.runtimeBundle.root, runtime.runtimeParentRoot,
     runtime.ipcSocketParentRoot, ...nativeFiles, ...nativeFiles.map(file => path.dirname(file)),
     ...(native.kicadPlaneContacts ? [native.kicadPlaneContacts.runtimeRoot] : [])];
+  const sourceProfile = request.schemaVersion === "evleda.saved-plane-artifact-recovery-request.v1"
+    ? await loadKicadToolboxFreshProfile(request.sourceProfile) : undefined;
+  if (request.schemaVersion === "evleda.saved-plane-artifact-recovery-request.v1") {
+    const sourceNative = await readKicadNativeProfile(request.sourceProfile), sourceRuntime = sourceNative.kicadMcpRuntime;
+    const files = [request.sourceProfile.path, sourceRuntime.runtimeBundle.manifest.path, sourceRuntime.lock.path,
+      sourceRuntime.processTreeSupervision.terminator.path];
+    nativeRoots.push(sourceNative.kicadToolchain.binRoot, sourceRuntime.runtimeBundle.root, sourceRuntime.runtimeParentRoot,
+      sourceRuntime.ipcSocketParentRoot, ...files, ...files.map(value => path.dirname(value)), ...sourceProfile!.protectedRoots);
+  }
   const protectedRoots = [...profile.protectedRoots, ...nativeRoots, file.path, request.targetIntent.path,
     request.session.path, ...(request.schemaVersion === "evleda.saved-plane-recovery-request.v1"
       ? [request.savedPlaneResponse.path, request.failedPlaneResponse.path, request.planeStage.path]
-      : [request.savedPoseResponse.path, request.failedFieldResponse.path]), request.failedCloseResponse.path,
+      : request.schemaVersion === "evleda.saved-field-recovery-request.v1"
+        ? [request.savedPoseResponse.path, request.failedFieldResponse.path]
+        : [request.sourceProfile.path, request.openedProjectResponse.path, request.savedTextResponse.path,
+          request.failedPlaneResponse.path, request.liveObservation.path, request.checkedDiscardClose.path]), request.failedCloseResponse.path,
     request.clientTerminal.path, request.archivedLivePcb.path];
   if (protectedRoots.some(root => contains(root, request.workspaceRoot) || contains(request.workspaceRoot, root)))
     throw new Error("Workspace overlaps a protected native/profile/external-evidence root.");
@@ -73,7 +85,12 @@ async function main() {
   };
   try {
     const store = await createToolboxWorkspaceStore({ workspaceRoot: request.workspaceRoot, protectedRoots });
-    const capability = await qualifySavedPlaneRecovery(request, store, { loadProfile: async () => profile });
+    const capability = await qualifySavedPlaneRecovery(request, store, { loadProfile: async selected => {
+      if (canonicalJson(selected) === canonicalJson(request.profile)) return profile;
+      if (request.schemaVersion === "evleda.saved-plane-artifact-recovery-request.v1"
+        && canonicalJson(selected) === canonicalJson(request.sourceProfile)) return sourceProfile!;
+      throw new Error("Recovery requested an unreviewed profile.");
+    } });
     const plan = await publish("saved-plane-recovery-plan", { requestPin: { path: file.path, contentIdentity: file.contentIdentity }, ...capability });
     if (values.apply === undefined) {
       process.stdout.write(JSON.stringify({ status: "inspected", planIdentity: capability.identity, evidence: plan, nativeStarted: false }) + "\n"); return;

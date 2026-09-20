@@ -4,11 +4,12 @@ EvlEDA is a local KiCad MCP toolbox and PCB-design skill for agents working in c
 
 Start with the [toolbox guide](docs/toolbox.md), [client setup](docs/toolbox-client-setup.md), and [current status](docs/current-status-and-roadmap.md). The [PCB skill](skills/evleda-pcb/SKILL.md) supplies the engineering workflow; it does not itself supply CAD access.
 
-The [RP2350 four-layer review candidate](designs/rp2350-pico/four-layer-review-117/README.md)
+The [RP2350 native R1 candidate](designs/rp2350-pico/native-r1/README.md)
 includes the complete routed KiCad board, schematic, portable custom library,
 previews, pinout and candidate BOM. All 67 functional nets are connected and
-configured ERC/DRC are clean. Final managed-workflow verification and the stated
-electrical/plane limitations remain open; this is a review candidate.
+configured ERC/DRC are clean. Managed save, normal close and fresh read-only
+reopen are verified. Engineering acceptance remains failed/incomplete, including
+supplemental-plane and debug-reference findings documented with the candidate.
 
 - `pnpm mcp:toolbox` serves the verified research corpus without opening CAD.
 - `pnpm mcp:toolbox:workspace` uses an explicitly configured host profile and workspace for in-chat draft, create, close and resume operations. See the [disabled configuration example](examples/toolbox-workspace.config.toml) before configuring a host.

@@ -1,0 +1,3447 @@
+{
+  "schemaVersion": "evleda.toolbox-reference-coverage.v1",
+  "sourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+    "size": 634325
+  },
+  "request": {
+    "signalNets": [
+      "USB_DM_ESD",
+      "USB_DM_MCU",
+      "USB_DM_PORT",
+      "USB_DP_ESD",
+      "USB_DP_MCU",
+      "USB_DP_PORT"
+    ],
+    "signalLayer": "F.Cu",
+    "referenceNet": "GND",
+    "referenceLayer": "In1.Cu",
+    "segmentIds": [
+      "1fbd4fed-66f5-447a-a41c-78bba827d700",
+      "3d74b312-84a5-431a-b9e2-885558191689",
+      "4bd0726b-02b6-44ab-a722-b39f262ecc86",
+      "e98f5e8d-54eb-423f-b8e9-699572cdc1ed",
+      "308ea01c-256d-4e06-852a-7f72eab6aedf",
+      "58374b93-8930-4545-83a2-220f35a13207",
+      "8be91104-a7f9-4f51-b623-2e52accefc10",
+      "c0c6510c-6267-471b-9740-91d405df7230",
+      "0d50a902-f09b-4054-9c6c-5003de184bb7",
+      "0eb873e5-491a-4c6e-8b3c-3d6840643dbc",
+      "0fd64e81-0e0e-42ae-aec9-5aad74d74b8e",
+      "4eedd955-1ac9-4a4f-97db-e83137e209ce",
+      "52281016-1481-44a8-952d-d19cd875fad4",
+      "60248de1-0ad3-4a23-881a-c7afbc59b48e",
+      "8603d22d-ec20-4aa7-aeb7-f30c28a1fc5a",
+      "9503c613-7013-4c3d-81aa-54bb65d65f5f",
+      "9c6c7a12-adb8-434c-8e4f-decb6d5098ed",
+      "1348dc12-050d-43af-a932-2baa88845461",
+      "1a31809d-761a-4165-8e66-8d4bc7a46f45",
+      "31c41204-d6a1-428c-af3d-201c2e6aff1f",
+      "4c4f9a8d-7a2c-4b72-a427-b37a4f29a995",
+      "5c0954bb-86a0-41d1-b47c-7951459eabb4",
+      "640556a3-7c24-43dd-8bb3-0a28a40f0491",
+      "6d5759f5-d0b9-4a32-95b7-8cca3b58c964",
+      "75c9893e-b9cd-497c-86f5-225cdc3fe55a",
+      "93316ff6-ba16-4ee1-8163-e01da5cf4ae3",
+      "b9478930-8c2c-44f1-bea6-282d3ea59e3f",
+      "d0d3b323-b393-4893-8151-ac7520401804",
+      "e400de91-6532-48b9-86c8-471b6a75d148",
+      "f0b49b7d-afc5-4a12-85bc-2489eb4916b1",
+      "0269e750-2e5b-4e1f-9d6a-4ab756d54e79",
+      "02bf1fa1-2149-4f39-b80d-501c58c137f3",
+      "5fe7e715-74b4-42dc-9046-bcf30a94e08e",
+      "6329247b-0bad-4074-90b2-0171de2c9c8b",
+      "787b5065-4b00-4600-8383-7d477800cfe0",
+      "836d0caa-0122-4ee4-b954-4bb4e33ee7c3",
+      "b0f5bb5c-1ba8-422c-a0a2-383be45d9529",
+      "c08d2946-777e-438c-aa03-2882e4ef548f",
+      "d2c82541-53d9-408e-863e-207da44ba25e",
+      "e7ddb2e1-0356-487d-819c-73c512014a75",
+      "00798378-bb78-448b-b091-3ea6d8ad9d61",
+      "019ffac6-24b0-4b15-a518-069b8d8d860c",
+      "0f3efb01-4928-4812-9e39-86476bae8a4a",
+      "53a0955c-f685-497a-9944-01b9cbae0370",
+      "5b4bd8dd-6b26-4ec2-82c9-1deb4fa9739d",
+      "73aa5640-5def-4510-a25b-d7bc6074a423",
+      "7c818d4c-078c-4135-a7db-59e6b03695d7",
+      "7ec13e32-444a-466d-8c4d-d25e6656a9bf",
+      "bab8729d-bcb3-4b76-a949-ea8e6c60ea83",
+      "cc57d30f-b99a-48fe-ba92-ef4d8f0953ba",
+      "e7a3b557-8fcf-409b-b9d0-0f5ed4893280",
+      "ef80fb76-1e04-4745-807a-86adc81b3d81"
+    ],
+    "marginNm": 230000,
+    "marginBasis": "Exact bound RP2350 V2 referencePath margin for GND_PLANE. Geometric ribbon coverage only; source/material/impedance qualification remains separate.",
+    "expectedSourceSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57"
+  },
+  "scope": "Projected Euclidean ribbons of selected saved straight segments against selected saved copper-zone fill caches only.",
+  "selectedSegments": [
+    {
+      "uuid": "1fbd4fed-66f5-447a-a41c-78bba827d700",
+      "netName": "USB_DM_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11300000,
+        "y": 28450000
+      },
+      "endNm": {
+        "x": 11200000,
+        "y": 28550000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "33ca3c3f0297f95bb14aae46dfce94d896990b36332b0ca9df5a1d25a7f92e78",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "3d74b312-84a5-431a-b9e2-885558191689",
+      "netName": "USB_DM_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11200000,
+        "y": 28550000
+      },
+      "endNm": {
+        "x": 11200000,
+        "y": 29050000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "160f1aa16ab00b831a5bc9a66b316cb3c82b4978787ff7f8677d3fb4d18bc80b",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "4bd0726b-02b6-44ab-a722-b39f262ecc86",
+      "netName": "USB_DM_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11300000,
+        "y": 27780000
+      },
+      "endNm": {
+        "x": 11300000,
+        "y": 28450000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "99a04a2970e21de80a98d2addccf2f800b08a938067b0867e3f63fb29a8c6c00",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "e98f5e8d-54eb-423f-b8e9-699572cdc1ed",
+      "netName": "USB_DM_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11430000,
+        "y": 27650000
+      },
+      "endNm": {
+        "x": 11300000,
+        "y": 27780000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "40f835bf65edc056f908b25c238873017df16d8599d7b501e68d2ad9db9eb846",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "308ea01c-256d-4e06-852a-7f72eab6aedf",
+      "netName": "USB_DP_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10800000,
+        "y": 28550000
+      },
+      "endNm": {
+        "x": 10800000,
+        "y": 29050000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "9404b837014f8e8dabbaf7230178da98fbea0807227dfaf08c75c37404753f5f",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "58374b93-8930-4545-83a2-220f35a13207",
+      "netName": "USB_DP_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10700000,
+        "y": 28450000
+      },
+      "endNm": {
+        "x": 10800000,
+        "y": 28550000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "4b28d8228c65321163c7709e159140ab9fa4fbc88c9ccb519492e0ab5bbe8f5c",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "8be91104-a7f9-4f51-b623-2e52accefc10",
+      "netName": "USB_DP_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10700000,
+        "y": 27630000
+      },
+      "endNm": {
+        "x": 10700000,
+        "y": 28450000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "78358729b40ce3e74d8c78e0e43afc193de2c56695f6bea92e7a8dda0d49b9e5",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "c0c6510c-6267-471b-9740-91d405df7230",
+      "netName": "USB_DP_MCU",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10570000,
+        "y": 27500000
+      },
+      "endNm": {
+        "x": 10700000,
+        "y": 27630000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "2a8fa471a2490d3d4a8a4d52c0e9108711a5f72c128116fc1f87f8d864e1ec2a",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "0d50a902-f09b-4054-9c6c-5003de184bb7",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11030000,
+        "y": 26850000
+      },
+      "endNm": {
+        "x": 11650000,
+        "y": 26850000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "164401dec4b868d1543dad98e5d1753c898859bd8a32ef4c154bf0b058822dc7",
+        "size": 160
+      }
+    },
+    {
+      "uuid": "0eb873e5-491a-4c6e-8b3c-3d6840643dbc",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10880000,
+        "y": 14895000
+      },
+      "endNm": {
+        "x": 10880000,
+        "y": 15000000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c48d0027201fd6330695b21d4c40ef146cec891272f742999476cf1fc9c74c13",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "0fd64e81-0e0e-42ae-aec9-5aad74d74b8e",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11650000,
+        "y": 26850000
+      },
+      "endNm": {
+        "x": 12450000,
+        "y": 27650000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "bfac71d53aaf796ebc3cd6e6c0321ca7c324007e7d6ad628cd51539ea4cc335b",
+        "size": 160
+      }
+    },
+    {
+      "uuid": "4eedd955-1ac9-4a4f-97db-e83137e209ce",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11800000,
+        "y": 13137500
+      },
+      "endNm": {
+        "x": 11800000,
+        "y": 13350000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "2d19eab0d055ba4841736e1c98c2cabf8be6df700e9714155ee6dc59c7ed7e5b",
+        "size": 160
+      }
+    },
+    {
+      "uuid": "52281016-1481-44a8-952d-d19cd875fad4",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11450000,
+        "y": 13700000
+      },
+      "endNm": {
+        "x": 11450000,
+        "y": 14325000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "7e98bc810f3ff6a74fb25fe358de12522de0aea80175db7c8154585e5bf076c9",
+        "size": 160
+      }
+    },
+    {
+      "uuid": "60248de1-0ad3-4a23-881a-c7afbc59b48e",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11450000,
+        "y": 14325000
+      },
+      "endNm": {
+        "x": 10880000,
+        "y": 14895000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "8955b1e8b85c91866dcf1dcd5160f10bc313a25b16ff911b6d63ed125fa6c6e5",
+        "size": 162
+      }
+    },
+    {
+      "uuid": "8603d22d-ec20-4aa7-aeb7-f30c28a1fc5a",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10880000,
+        "y": 15000000
+      },
+      "endNm": {
+        "x": 10880000,
+        "y": 26700000
+      },
+      "widthNm": 380000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "f1a562c445487681898ccacf10c292ef7f430d2ca05c9d0f74f550f041246f8c",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "9503c613-7013-4c3d-81aa-54bb65d65f5f",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11800000,
+        "y": 13350000
+      },
+      "endNm": {
+        "x": 11450000,
+        "y": 13700000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "2fb1d695c0e296d99ce5b9f236a525a21ac0991bd533b59bf685838ee86227ee",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "9c6c7a12-adb8-434c-8e4f-decb6d5098ed",
+      "netName": "USB_DM_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10880000,
+        "y": 26700000
+      },
+      "endNm": {
+        "x": 11030000,
+        "y": 26850000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "73007601b2612938dab5bf93ecf215758dcfac44195d8e3398cdaf8e4c0ba3e2",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "1348dc12-050d-43af-a932-2baa88845461",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11350000,
+        "y": 9400000
+      },
+      "endNm": {
+        "x": 11350000,
+        "y": 9700000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "9563af605baa8a2bde5d9c4fc3bd548c050f6b99481a1e2e36c2ff16c3aed11b",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "1a31809d-761a-4165-8e66-8d4bc7a46f45",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9690000,
+        "y": 10260000
+      },
+      "endNm": {
+        "x": 9690000,
+        "y": 10790000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "9abe86c801d8b721802035e21ea032ec750f48a3b283e5ab7f06b7f4049bfe1c",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "31c41204-d6a1-428c-af3d-201c2e6aff1f",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11250000,
+        "y": 9300000
+      },
+      "endNm": {
+        "x": 11350000,
+        "y": 9400000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ad478bb1ad88e7e483a04d90cae101fd5547b0417141d30ae46a2fbf7807bd30",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "4c4f9a8d-7a2c-4b72-a427-b37a4f29a995",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10450000,
+        "y": 9880000
+      },
+      "endNm": {
+        "x": 10250000,
+        "y": 10080000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "e833507e07a5e907afe589202c6b8f27934be3fc2f9ac08f0b64fb491a7411c2",
+        "size": 160
+      }
+    },
+    {
+      "uuid": "5c0954bb-86a0-41d1-b47c-7951459eabb4",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10250000,
+        "y": 9700000
+      },
+      "endNm": {
+        "x": 9690000,
+        "y": 10260000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "17273b0f98c005e3afd3430720cf10c51ba80f13298eff07741f9ffa0ecbfa6b",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "640556a3-7c24-43dd-8bb3-0a28a40f0491",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10250000,
+        "y": 8655000
+      },
+      "endNm": {
+        "x": 10250000,
+        "y": 9700000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "1962dcdc83c05f5ffb9717e8372a2f24b46eaf56565fe15298eaba9ad3a52a12",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "6d5759f5-d0b9-4a32-95b7-8cca3b58c964",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10250000,
+        "y": 10080000
+      },
+      "endNm": {
+        "x": 10250000,
+        "y": 10512500
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "62e0c09124dc4bc1cb77cb13c93c0ede094f8b2737dbefb9a5cbc4b56f3eedc7",
+        "size": 163
+      }
+    },
+    {
+      "uuid": "75c9893e-b9cd-497c-86f5-225cdc3fe55a",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11170000,
+        "y": 9880000
+      },
+      "endNm": {
+        "x": 10450000,
+        "y": 9880000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "5a5e21a0a2277aa2b2ceb244c26b410afafafb79443c5d101d198c3c9ed70379",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "93316ff6-ba16-4ee1-8163-e01da5cf4ae3",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9690000,
+        "y": 10790000
+      },
+      "endNm": {
+        "x": 9762500,
+        "y": 10862500
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "800a8697e49d7911ded6c679ca4292d206216616c02f78413e9f592ef2944834",
+        "size": 163
+      }
+    },
+    {
+      "uuid": "b9478930-8c2c-44f1-bea6-282d3ea59e3f",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11250000,
+        "y": 8655000
+      },
+      "endNm": {
+        "x": 11250000,
+        "y": 9300000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "75320f819712e850f26789bd131252e1fe31f2130d7be3fbf22126b3d95ce856",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "d0d3b323-b393-4893-8151-ac7520401804",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10250000,
+        "y": 10512500
+      },
+      "endNm": {
+        "x": 9900000,
+        "y": 10862500
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c8ccdbdc4c5c8109d751596f046ebaed5444e464ec3a7d99b3be220600ff2052",
+        "size": 163
+      }
+    },
+    {
+      "uuid": "e400de91-6532-48b9-86c8-471b6a75d148",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11350000,
+        "y": 9700000
+      },
+      "endNm": {
+        "x": 11170000,
+        "y": 9880000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "1010fa7293962b922fc7e56ff70e89c10eb065c1d2513ef1dba6ae12c6fc0abb",
+        "size": 158
+      }
+    },
+    {
+      "uuid": "f0b49b7d-afc5-4a12-85bc-2489eb4916b1",
+      "netName": "USB_DP_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9762500,
+        "y": 10862500
+      },
+      "endNm": {
+        "x": 9900000,
+        "y": 10862500
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "0af8ac81afddf2d881baa53cf1a190a6dd75f3d2cc8d5ef759c6b77e7f8236b9",
+        "size": 164
+      }
+    },
+    {
+      "uuid": "0269e750-2e5b-4e1f-9d6a-4ab756d54e79",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11800000,
+        "y": 10600000
+      },
+      "endNm": {
+        "x": 11800000,
+        "y": 10862500
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "d8816e1c3443a26e91d485ca4f1fe249e5b44a66a20fa41dcb6982c1aafd5ca1",
+        "size": 160
+      }
+    },
+    {
+      "uuid": "02bf1fa1-2149-4f39-b80d-501c58c137f3",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11750000,
+        "y": 8035000
+      },
+      "endNm": {
+        "x": 11470000,
+        "y": 7755000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b922034b6753c4b9f1c7abec2264c2af089c3c0b397d3a6a6a0d5c335e3efd1d",
+        "size": 161
+      }
+    },
+    {
+      "uuid": "5fe7e715-74b4-42dc-9046-bcf30a94e08e",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11750000,
+        "y": 9700000
+      },
+      "endNm": {
+        "x": 11950000,
+        "y": 9900000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "495f0a7d011dc6378ea2665bf1ab52128609c25be89541f2535bb96d2d628d82",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "6329247b-0bad-4074-90b2-0171de2c9c8b",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11950000,
+        "y": 9900000
+      },
+      "endNm": {
+        "x": 11950000,
+        "y": 10450000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "65ae518d1a6fac84bb6564cb98c64a1700443b8a55e06677e5a557c37011569d",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "787b5065-4b00-4600-8383-7d477800cfe0",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11470000,
+        "y": 7755000
+      },
+      "endNm": {
+        "x": 11030000,
+        "y": 7755000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "5dbda6a2db3e3b22757a1c550e51d6bbbb1f14f9d76ee53ae0e1231974ca21e0",
+        "size": 161
+      }
+    },
+    {
+      "uuid": "836d0caa-0122-4ee4-b954-4bb4e33ee7c3",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11030000,
+        "y": 7755000
+      },
+      "endNm": {
+        "x": 10750000,
+        "y": 8035000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "cf4904fa08314e6c5b4251c8cb9645b5f086eff09adc98114a8ee10b4310f5d7",
+        "size": 161
+      }
+    },
+    {
+      "uuid": "b0f5bb5c-1ba8-422c-a0a2-383be45d9529",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10750000,
+        "y": 8035000
+      },
+      "endNm": {
+        "x": 10750000,
+        "y": 8655000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "4b53055969f72e7074eedbd6de447a9a788e2ab0ceba9552dcea38835393f0ce",
+        "size": 161
+      }
+    },
+    {
+      "uuid": "c08d2946-777e-438c-aa03-2882e4ef548f",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11750000,
+        "y": 8655000
+      },
+      "endNm": {
+        "x": 11750000,
+        "y": 9700000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "9a43140e052265338f57b753d6d42cc90b19d447d8f36090584a180ced4a3e0f",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "d2c82541-53d9-408e-863e-207da44ba25e",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11750000,
+        "y": 8655000
+      },
+      "endNm": {
+        "x": 11750000,
+        "y": 8035000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "92a095195a826c35eec82952fe5f132a59ba26863d620ca5b7f818d4c11f766c",
+        "size": 161
+      }
+    },
+    {
+      "uuid": "e7ddb2e1-0356-487d-819c-73c512014a75",
+      "netName": "USB_DM_PORT",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 11950000,
+        "y": 10450000
+      },
+      "endNm": {
+        "x": 11800000,
+        "y": 10600000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "a97ea06fa5a298c6b5d01e21401e94678a30e83f8d1bef5899aa995ad6d5d42b",
+        "size": 159
+      }
+    },
+    {
+      "uuid": "00798378-bb78-448b-b091-3ea6d8ad9d61",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9900000,
+        "y": 13137500
+      },
+      "endNm": {
+        "x": 9375000,
+        "y": 13662500
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "51bccd058ff935acb522a6b6dfc47c8e189388f92975aa488fca7eb0643c6b68",
+        "size": 162
+      }
+    },
+    {
+      "uuid": "019ffac6-24b0-4b15-a518-069b8d8d860c",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9000000,
+        "y": 19300000
+      },
+      "endNm": {
+        "x": 9000000,
+        "y": 19400000
+      },
+      "widthNm": 380000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "73223a3b734b2bfff54ea498576c3a7934f180e12e1d03352efd5da1930d82d8",
+        "size": 151
+      }
+    },
+    {
+      "uuid": "0f3efb01-4928-4812-9e39-86476bae8a4a",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10300000,
+        "y": 26200000
+      },
+      "endNm": {
+        "x": 9400000,
+        "y": 27100000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3371d0536c044a0a498e101a43221fc30cf29b69b48d997c3da64ee6c1b9b34f",
+        "size": 155
+      }
+    },
+    {
+      "uuid": "53a0955c-f685-497a-9944-01b9cbae0370",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10300000,
+        "y": 15000000
+      },
+      "endNm": {
+        "x": 10300000,
+        "y": 18000000
+      },
+      "widthNm": 380000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "016062da04fb95d70bc3685f8b750b4c4937266ae406285bc3a829078e8d1f78",
+        "size": 153
+      }
+    },
+    {
+      "uuid": "5b4bd8dd-6b26-4ec2-82c9-1deb4fa9739d",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9550000,
+        "y": 27400000
+      },
+      "endNm": {
+        "x": 9550000,
+        "y": 27500000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "d4d7e2c9ad91bd86f3b57ae2e2122383a230cfbe19ec86e8e3d06980878caee2",
+        "size": 156
+      }
+    },
+    {
+      "uuid": "73aa5640-5def-4510-a25b-d7bc6074a423",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9000000,
+        "y": 19400000
+      },
+      "endNm": {
+        "x": 10300000,
+        "y": 20700000
+      },
+      "widthNm": 380000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ad52bf4fbf000b53f63a686c77ff2db24ef82a2f6397e5bd2365df092fd74daa",
+        "size": 154
+      }
+    },
+    {
+      "uuid": "7c818d4c-078c-4135-a7db-59e6b03695d7",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9375000,
+        "y": 14075000
+      },
+      "endNm": {
+        "x": 10300000,
+        "y": 15000000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "3ef68f19e91cef5d38817878703cceb1ac83972aec1d924ca3b59b6d4bfa05db",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "7ec13e32-444a-466d-8c4d-d25e6656a9bf",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9375000,
+        "y": 13662500
+      },
+      "endNm": {
+        "x": 9375000,
+        "y": 14075000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "9ab3b5b48fae82403c4de3c7284d10baafe62f62644f9ce0c8381597a037002f",
+        "size": 163
+      }
+    },
+    {
+      "uuid": "bab8729d-bcb3-4b76-a949-ea8e6c60ea83",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10300000,
+        "y": 18000000
+      },
+      "endNm": {
+        "x": 9000000,
+        "y": 19300000
+      },
+      "widthNm": 380000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ddaa57840f9522ab0291e9e6a067a2d41d258a7d675af31ca3f71bc747c247af",
+        "size": 152
+      }
+    },
+    {
+      "uuid": "cc57d30f-b99a-48fe-ba92-ef4d8f0953ba",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 10300000,
+        "y": 20700000
+      },
+      "endNm": {
+        "x": 10300000,
+        "y": 26200000
+      },
+      "widthNm": 380000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "0bf05174ff73ce130c4cba06afbfd7ac48bd9a07c64f2e28a28039fdea3f0682",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "e7a3b557-8fcf-409b-b9d0-0f5ed4893280",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9400000,
+        "y": 27250000
+      },
+      "endNm": {
+        "x": 9550000,
+        "y": 27400000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "ea0e102d5e417842d96624291086515008d750f883a9d8055347ff428027adbc",
+        "size": 156
+      }
+    },
+    {
+      "uuid": "ef80fb76-1e04-4745-807a-86adc81b3d81",
+      "netName": "USB_DP_ESD",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 9400000,
+        "y": 27100000
+      },
+      "endNm": {
+        "x": 9400000,
+        "y": 27250000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "89ef0d6745870beadec6483a4475e23014af94e3cecfce8012c090fd1d1b4748",
+        "size": 155
+      }
+    }
+  ],
+  "selectedZones": [
+    {
+      "uuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "netName": "GND",
+      "layers": [
+        "In1.Cu"
+      ],
+      "status": "supported",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "1cee63b75fca73c1224218c6fc3fcd5ed2521750e8b514076cd346cd67c8149d",
+        "size": 87071
+      },
+      "filledCachePresent": true,
+      "fillGroups": [
+        {
+          "index": 0,
+          "layer": "In1.Cu",
+          "status": "supported",
+          "islandFlag": {
+            "status": "omitted",
+            "value": null,
+            "source": null
+          }
+        }
+      ]
+    }
+  ],
+  "selectionCoverage": {
+    "allMatchingStraightSegmentsSelected": true,
+    "allMatchingZonesSelected": true,
+    "inventory": "supported_saved_straight_segments_and_declared_copper_zones",
+    "omittedMatchingSegmentIds": [],
+    "omittedMatchingZoneIds": [],
+    "fullBoardGeometry": false
+  },
+  "unmodeledSource": {
+    "issues": [],
+    "routeItems": [
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6c288069c68b9b214984e26a5a9eea0227ec2eff82728451504e1a3bdc1713dc",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5cbd12902e7167ae86e1ae8a9faa491cded28d2e0025fb6bd72740dad50982a6",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7e746419ab676272c68417a8a00c2d825eb78ef15d8e46ea0a22c3df6adc0b13",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3600c2dc925ab7fcad867796397da15801ed40292613f2d3fb15214735be0e1b",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "546028a0d5311eb5ea49b9b5378dd490d38442403dec4ecf7dc3c07337ae4f1b",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8f3f43fc9cc7da7ff1cd4f0f1877cec536330108232f97c36e693767ec1ec45b",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6d5ec217556c4a2e4542cc0b143cc606f9759fae31ae8e731a3235883b1c441f",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0b22147033fab1fcf48d7991d4062b93da2a83a257bc71a1900f2e781dd50056",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "69f77d3a1003e35a5f35c095d30b43bbc8a29be8ae375f0590e2432138231e96",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fd0cb2a9c87b4bdf520d668101812564dd79424b878a19acbfcec0c87d7a35dd",
+          "size": 143
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ad91a21691f7f0fb12c55d34443ce5eb79cc45edf78ba0dc307b444625b35642",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dc81f73f6a1ffdd7fe11612ab9323200cd8c7c176250948f9f44ef7c53ed700e",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "af12a7eb90d037d07204fe742844b1459d48def4cbf1838554465ace2350367f",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b630a2fe0b001675df4e2f2990d6a37dcedac113448e5068ca2671c077422c13",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1ec0411aaf9f6972ab90250d0f2d3e7c7cdb5896e4d0b9514f9f09b58a94363c",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "185ad05291d400056d48fddc67b388548aa19dbdcacf9013c2f922fa320e2c1f",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f3bd485445e72783c486c8b8674faede5dfc27fdaa073e291a5b1359a7d6364c",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3b8e94b770e84057194ac2d5078c05076277e22c3861648b4b74b8850768236e",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4b76ac5f6aeca37067992c13e66742d82f56408b44451473e54f7dd1e36c1c6f",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f98df615ec0c3103feda5cd873ad5ffc92c43e5f00d449f91c514fbb8f4eb066",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "60c9c4e77914853143ba5f2550442087f027f244ab1d2aac0bc97a2ecaee4221",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f8aaa3c6adca7c61b3939ff111fb4b4139196b651893de930c578c5296465170",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "feede8425d7a35982d4de996d7aca74c8ecc513a139e52cc52a808d4d971b522",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f70229525e44748631adf62d2c08a52efe949e0055a3097b389fc70304421141",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e53dfb15791e38f18ba3aa24c823b7206986a542c7b3ba97ade201d3c32d4d58",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "956f5558eeb54da98a1ec7f9854e7c2c7089fd9882ebc9048346993089a734ce",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d57382e76c20c8c889372e140b4a31e6cf758f5998c08125043c974b2b769e23",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "92d7632e39a20dbb4c760d159cf96d7a7082c77e863115eb6bb535b239cd108a",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "55156730127ef0ea8b54427927a39c4cd5ce0d836977624a9cc87ad4de3d4bd8",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f5860b79e2b3e85158fead3b86f941012d636043d539865b315b2e3ec26b579",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ddc12b1c9dc9dedd5f4134a7a28f3a586c3a63c2ed84d750d84b1c239a1fc611",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4f9e66727adb23be2669a6d91dc86c022db68c441ec56e5a666f02c3fd07630f",
+          "size": 151
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fa8487eebd5d03d158547ecff4f4dba70f5138b987e3a94f21d90fbad2381ad1",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e9699cd461e61cab92e721683f5ff01011ea6d70415539cb14eb46e173eb9393",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "44c205658239a12464e48bfc50002b4712f2ac4f93fe1305659563b99e1dba61",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b36abc3ca4dee55c9486a44e10b81207911c239d376c47e71a1759a38e0f3ed7",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "bb3bdc80938dd2f177537027bfbc9fd15c9d3b6bd142db361315c2010a136927",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d9097e182bbeb27a34da89fe1e675ee238b9c2693880f2d9b403e71a471c1299",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c0f1bbcd9c6e1c41685f0dda2b1124cfe14261fa2b6f8c7f367b007c4ceb730b",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "12c31113ad8b4d5682d7466d597a901ebae2f135225b3c86dbb3b4b43f5c8f4f",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d5500470bcc439c4750ef313ee87a80f5e85cd54cb6d6e22a6ed8c001f754b8f",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dc58815444c6f453697fe9aeb58d0c5c7f7b14daec3820a2b7ef95e8851fd434",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d15a107574cbec622fbe9de53aa60309247ec61b24fb2133085a7240d1975ac9",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2bbfc9acab0d4b766cc6e2a2273b47e7b0b97e0728ddda365d3e86fdf1ba5178",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9923e9dc51dfafa9641a8477afea3d4506b1f447cec11634735f32218ccc0555",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b5bf844ee4350bb748324b79a9e0de630d6e0a71c69d683e98d72f349730badb",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "db5d01b146820f551612409a291f470d15c341a52fa9cf5ed5a1cd613b17f128",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e1ef97aad469bc3119cc8a403bc4c9caa1858c4df1d04875d85f4ff699fe5b06",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ea5bea5e81a372feef635fa468cfc0a718505bafe06eceabff0cfcb84e975234",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f42e6ff884ac6cbe753a2fd865f77ddb2ac96e223017e4a12f7f914df28336b",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "78e6bc5ff0c122daae1b7a4e0a2611b6dedf5cdf88fffda9f47ea6278a94c02d",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "33a957c9038f940cc55f84688f52eea3151b1ce7cb16e517270763ddab01351d",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "48e542536da0658907cb35513018eebc78b7d087c3c273599483191436aca9ff",
+          "size": 158
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fab352a1361a9fe085fee5e5b222604ed07adf9ca81d9e062b44820813bd1466",
+          "size": 157
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4d47ff0bb95a9804f5cc1456bf7efaf2da60c3d96bd9f39ec0aa641d95f45e3e",
+          "size": 160
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a34ce1f9baee274bac18a6a7d6ad1b38a833dd2d5366fc5420d2282bedba180d",
+          "size": 162
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f361163ee55f75612e4f6133f906691edadb0062d7573ffd46fc2feeadb20405",
+          "size": 151
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e33cf565d1dcb134d437fcf4d9c84ce172c285851f104c8525225d47d8fa9246",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fe0608a90c09bbdc05e905643ddc51f02aa3d88119808517763f1456abffa0ad",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "549f7d79dc709f487f92ff8498e2a999ae97a41c32f6a3b881b6e3c59c210e1a",
+          "size": 153
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5fbad4001447716929b6287eccf30bb929a11c5d241bf851c3195ff8877d1df8",
+          "size": 153
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6aca5a93e03acaa0db0acdbb15f67e5fee8ac047dc4ceda207c00ca1343d584b",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b65c84d2fd0e72747474234d7c7745cc04f5ffafa7656258d8afd8b0ef3c54cb",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5495c5965586a8074e72dfe8e62e76d48216c3ffb5510d3c9287d90c3841fc95",
+          "size": 162
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dc79642f38926f2f19a992e182dcda711f387064ba89747067961d0cd8bc8784",
+          "size": 161
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "334783e33a8f45f1bb5eb2ae9fd2393fdbb71f77cb1fa37e73c32ac127333f9b",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a8d4771f8568ab0e1ed04a97636bcbad3746ce17555bd720013bd75b19c1ba1a",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "502bc2da82ae35643a53af6241ff3c94a9431fa5e960a1299fe5434307fdb923",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5a19017d2628898882cc8ff1077718a39f0973afe021faa1d567262b356f1c58",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b4739e00b377132de8fdcfa75cd11365203b1a1a7c0b6bad96dc6787b9eb6325",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "10c64beb1cda7974dabf5155cd4a96e82b5a951accadece90010791721adf433",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a7656865e1b243a89d587ed97f426e7f13c1aa419b1b0253f70ae9425b80f63c",
+          "size": 143
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "01e1598c438794af0b161438a777c2678a60cfa94758a5609805a06d5554fbb6",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1162b1c620a8b7424c6b9e79dfac3219f675a3dff91a44df7b9c7046f4c22029",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4b53d71d5ef6c276f12389ce3028c9e96609f1b7c77eb4fad16dc649cc176dd6",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "31468a549b4d17c109f344aab7d80bd09cfd2fb6c02bd6cca993d070b2aee6bd",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0657538db97aacf638bd2b945ea5f1750248cf6d3ff9d25b742b43e61400539d",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fa7ce182ad288a12b950bcae91ad9ec7a730e616fa8d6ae1831e98d7df32ac79",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ce2dfc7ce06e8a8ca11ca844f0b5653a92a0403595172cd7e1c14d7328833257",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8b70fdd6a6a10e461f8ab66545096825ae3368ac2d444d46cd0b24d8baf2cf33",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8269061af80fb2c01af93e16b4aaae93a4c6373bc1dffcf07b2b42d00c201609",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2ed3d33d6765c80722a8cc80335d78ba98ac411bbe50fd00cbf9211d77b3aef4",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1eb85954bd15546434b5c5237ca82ba7d7be1327c00e3ea5cde2bcaf40e4c79e",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "baa8e6f5a8169e912bc0bf0a8eec84331669bbee168fe90701244e8fb181bf76",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "bbd1b0802d29cc6ff1ed4e5b9c4c74ca64355a8e4c12f88c1fd7686a04b262b6",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "66e0c514477d1a7c7b1aa04a5a0c33f6524223c14d475979aabd1a3b4e67fb99",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2e48a966d1ac8a9d799d3e01c6b258945a39e66e01d7529fccac74065fe6ce1c",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4708b1c0b6c7883127c9fd9ca6c152fc2ca6c977819e5e92d0805653d1cb2992",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5f1cfa14fa66f06fbc8682f7a6f2564ae35010be89df58528f667c79d3240ef6",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "086cb7c6c582029129969721c2771e532e08f7d98e798c51e8cd930412d6f3f7",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d2e135ddd6d49af55d52e84c1a227ab9e07c33dab76f54b9745204da98090014",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "121d932f828815d3b203cb6e69c52b391dbe59e02297b100a26c49eabce1d3e4",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1c14393f6baa97badd42545dd026aaa673060280f9acb02a6b8d3684502e4e59",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9b34b8d9419e34c393506d61a3ef063d17b0d561d6d73e50e2ec9fb4d655a2ea",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a23be2459d1a64a413e366373ce40efe0b03a670fd85050280f0abab0b709253",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e4a0a8d952f8efcb7168974ab5706c1f6d1c46c332138353ed686ebb691d32f2",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d1054a1b8e8883f553b016a9183d1361c832df6562f3ebb581c35d5fd8ac0d8b",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "28de54c8474acb68ec679d069556d72a60cddf03cdcd3ac737a3bec75d3847a8",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f7cc7e44b5e89c20077490706118d97cbbbea7d1beeb4dfefedc9626ebef7f23",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "665546869763579a10d6ba0f9912428898a7157b6d6ad52216f7a38806cc37a7",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b188856cc3ebc7adefbd1c5e8ba1423b0d77948dde7c3b108e99afcf1eacc4e9",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "374fe30df7efda780fe9cc352ca4ff82b3c03574ae1f653385b33eaced8074b8",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "748a2eafa25bfeec6cadd0bb2a3905ebc46378c10dea3bf78472929a94841e77",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e756b3282f656ba370e5963076191bbcfa862dbe5a686696ea4026a74694a30e",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a2d982f29980f9eee75e3c0fbc4792ccb262dd204f3511640d2b852f76ad5b91",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "aba465fe5d5199e6c26748d01a377c4a7bb987b50c2206e9f889c1f435adc331",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5313c2fa25346c797243c5eb5d4ed5b7bffdcee80024d2beae474a382b15d53a",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2d9649098493e0900026a459ba7c811058181a1bb8a544c7495ec50daea56927",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8ddbb3cded08fc99e56c12a791c4a73915577d70aca643cf67e65797316528ce",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "65fce91308e183b105876ec2d47fd7235aa88add6d5c07da4be74ed864eb8cca",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "65770e592e64caed929e8f9d4be7a3ea8bf27904b45e602f6070ce1eeefe9bb7",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4f1b31b1db6914e7d4156a8c9e4471dd874dc40a43092d2ca065c26055a370de",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "957fbe84805a2a11165c86f00882fcda8a8c270ff293f104a7ac6a1b43acaebe",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c9443746cb50cfaff0a6b63f82ae3e51d53dedeead0963e213a6740ec909aabb",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "eb3c75253517180a0e321867164894f93541588dce9c2ad2db3abf9d4b4d4ca1",
+          "size": 153
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5b6bb5d8b9ebbe67366e2fcf7b30ef673104235b33bc4ded0a27b2870c716059",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3ff36e8a2e9bef240e55ad7c9916fd777cdec1e197401596b3b3519589f8a8b3",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0ec1f0ffd3a814815a4bfa47888ad9a3376293c5967974a328b9622357547fe8",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      }
+    ],
+    "otherItems": [
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2d6db1a71664f5172adbf70976db7c5f372d0cf520b69a4c54ce3ad704f9653a",
+          "size": 21568
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "02bbafce29cc1adac4b4a4a4d5e7a3e9e5eeb768574ee5a237d698c0c2d5a22f",
+          "size": 3108
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "97f9af68e1e7de5c08a44576bc8264a5f2484966502505dcee8ee8386e3e5940",
+          "size": 2837
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "843d965f9e40ce690124c74ea83f23f046d9c17690c7e09de05a464e1e085b81",
+          "size": 3137
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "621a01572d2d0d1aec9663252e0354c4031a1fad299b152c957f450060e0b9dc",
+          "size": 3106
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "20380c5ff59d6b89444afb14b6d97c4393e098a699122de5fb8f76c1a57e6d66",
+          "size": 3112
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b9c86c332571a4e439322a07e4290e184e60d1cc418827477bfb3e375fb8d908",
+          "size": 1633
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1e6414379e8eaf61eb8b7a4be7da2fc09db2a7de8fbb6c0e77816d1fc61c2256",
+          "size": 3120
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c4d1e3c8922ebd683913f0506889cabd8c6c4d9ae18510be9eb7564d184a9028",
+          "size": 3130
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dbb0d04b46c2a4c63307e67d9bb6b712a6e9e7b8534d68d712c90f501e7d4e19",
+          "size": 3134
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9c43881fcf3615d909fe367f2d543e95b882a5e4fb8e0d49a6891bb6b0eb576c",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a0735158b4dd993c1b73c81865897a4d1bf863d59e7123559b057ab02ee85e6e",
+          "size": 7974
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fc4ccddf8cb69f0299d798e53a47839e13e612a8f2588758782dd7a281da3a71",
+          "size": 6885
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8ca29b99455e572867895cd0992c1b161903a08d3934588f2b29c8940ea0db93",
+          "size": 2325
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c757728647ce003f21078bdc66641298adee627c363bbda8b309e1a855358d55",
+          "size": 3132
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5b717cf49d318a1aef0cf8c123cd5fdbfcc9c1b63bab9f32c31c6ca686520cdc",
+          "size": 3146
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4e27ed66d30ec6f4553eb3a1cf8a9cc9b3a971c1fc2e984e9c34ab032d501ebc",
+          "size": 3936
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a0b380fc95d2437dd05f1f136d3fb43db97ca446b93a3476aee3d0a0f7218187",
+          "size": 3137
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b64196e58d8544d0c2d32cccdb3e4f199a9274f751a4156b60b41bfd0ad1830c",
+          "size": 3109
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8de1494057b7a60fe76e4c9c8c75ad1b8ca97dd0ddc99a7e465202d2385a87c9",
+          "size": 3115
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d5239247e08ffba3de1f7cbcabe7cc147d4771942c0d55984a85c6045d93deec",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "59b832e23cef4230bc9fad55b35b9bd1749a2e4ab3a47c1b2b008adfbf7c7516",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5db646bb63de8dbcd46f277412fffa492f0a7e5bba481e6924db83dc9ee85cd7",
+          "size": 6913
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "49752b59bd0eb905afcd388ab85cd8bcf641c1b6c2743bce3055c7a82a823e10",
+          "size": 3107
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6df9124c50848746453077334957579dd1cd51b671e36c262e3475e2ec1c3dc7",
+          "size": 3107
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0f5b709abeeece1fef824d027b506e77462833c710adcbd6b44ad6e620fab17f",
+          "size": 3112
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f9f06657df8c36e5e273aaa8702aa4f3eaac1132bb284495ced8658ea309b195",
+          "size": 3132
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f99b8f6c35ca939b2f31eb6d5e7f71892106d831753547a01c75d7abfd63c3ae",
+          "size": 1632
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3cbb492496e6dbc1a87eb32118b8790cdd0aed43c38c39046e05d350488c3f08",
+          "size": 3129
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6cf5dfdb3beee401b939fc22d671d0fbdd477577b1c8ca8e191e96af8ed2b7b4",
+          "size": 2861
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "27af4b606471b0c9e45c832e477b279c29ca17cef91acee99d451d63bcab0a7c",
+          "size": 4760
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7f8504d055b7cd96bb5e453e7721a6649d5c69f3d14bac0185e3aacdd66e296a",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "47852ffaf56411abf79623edd8f8669c717956fd1482c250978f0223b88b32fa",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e1e768595dab087d1dbc39b494710fc6afeb2a168731fbeb8a804b803f0ae0af",
+          "size": 1631
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c398ad3d671a6225e63c2d4d124f077eb0097031943cd7e8824ebddbf7847c6e",
+          "size": 5091
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a3e8fb4bfbb48464c45a731bf1a73bc51dfc80d4faad1f39a5ef6d3bdf0fc45b",
+          "size": 3791
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b68361b8f545991121310c48f870743d5a0d0811a06d957219e232c8a0b88af9",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "63448abef5a762336bf42826cf9765aead3caadd263fc052510328ff39db3e35",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0a0360005bdf8e8ddebf69d8aa6ce80d590fda705600286646b0beb2025833dc",
+          "size": 2872
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "80819d306cee72c248b3f0962f1fdec7ab5a2f402849ab6bf4e0a7bf576523f0",
+          "size": 3142
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "25d5761f2f7dc33697fe3f5d91325a7ba5207e10aed7bbe5ccf34734b6be9a63",
+          "size": 3110
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "96493cda2587b757380de3640ac1499444208412feea11a29fc44ae0111f19de",
+          "size": 3130
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "45b2b748705bbff1fe0d4a3523d29e3ecf1856dc410b8d6ee0b303f375d87018",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0f435ece968ee76ce9c706133df53ed83f44a52bbcaad39222700ebd8ee6d528",
+          "size": 3110
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f39cbe87e0d3acaf93f02c59d5168cfa7ac0b7d75c0f3be8fc8f64497e2d41f",
+          "size": 3135
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7a7cb30d78af80156d29fc0ef4ee8ce36234b6bce9298ce3de0fb3697a3407fd",
+          "size": 4468
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2ca73614f000f6d4c6930f1c3238470cb82f5c6041f2240e44ed34e1d2ea0992",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fe221799a2f59671d51bedeb8a134d45b519ee7fd841010b92139244cc811155",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c8273fa96301c319c6008af33e52feb5be92158ff4e8c38c15f7e2d88dbe31cf",
+          "size": 9832
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f07e69cff745e00e1931e79700886a1eaadb8f92461c6218ba5ac3f1534c991",
+          "size": 3113
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c3153e3f177f7cbc053f176c290b57980987725108c089cbd7bf05c5dc0f365f",
+          "size": 3138
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fc9787902a92c6828c4b49696500f43490ee47856a981d55fa9993f5e8aa1a89",
+          "size": 3119
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "498371b20ac9ebd47b06254b00fd21ea5e95c074dc83db358c9827ab070165f9",
+          "size": 3126
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "67ec48c990719999f29d06d62652fc92f0646f76152f6b459bd7daaaa78797a9",
+          "size": 3448
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "067418ec6d16c23dcd47dee1de8c92cd537f6fc615e382da9f689295c70a9543",
+          "size": 9928
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "65872e97748a004c7b7004221c27e837a147366f463d7e0efa81114d36908c4b",
+          "size": 1632
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "bfcbfb195c7e8415692a4e40e639481ec87af562322059c5acde768d4d8e6192",
+          "size": 3142
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7cf069b7f31eba265af4b4ab060bb49b95f0ef38d19e7484d01c95dc0b9636e3",
+          "size": 4538
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0f298d11ad34cbb1f8b593aa4f6d8ab83f475d8ac9c3b2ad95dad41e19ca3ebe",
+          "size": 3113
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f7976d3ed15eec28f22437fcc62d83796777f8dc19738e1217148c2b2bdd5842",
+          "size": 2323
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "27ec0d25fb4be5a8353859049ce7404dca3bed1a6a3ffaed3a0d75e3cb87dd66",
+          "size": 3126
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "cc714e5203c47f4f84b15cce2dd288d720f47f4db8cee3f27e7133457161fa5d",
+          "size": 3125
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "cb4f9fb89f9c64c32a874a75e6954c1c7e9c517d9d8980a9212646447b854e43",
+          "size": 3143
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c5cb5bc8bd069c1b6b495ff315d2d5c471a9d6ca772d9c8e801683db553d3186",
+          "size": 3122
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "46149daf11985572ed501f9a88cba2a088c991a20332bd121819da08b932bb6f",
+          "size": 3122
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9781704ab41cd3e3138201e943dd824d3c148ae4b2dd43a85c04166174a26fab",
+          "size": 3127
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      }
+    ]
+  },
+  "evidenceStatus": {
+    "fillFreshness": "unverified_saved_cache",
+    "dcConnectivity": "not_evaluated",
+    "referenceCopperEligibility": "selected_by_declared_net_and_layer_only",
+    "stackupAndLayerAdjacency": "not_evaluated",
+    "marginBasis": "caller_stated_not_approved",
+    "impedance": "not_evaluated",
+    "highFrequencyValidity": "not_established"
+  },
+  "limitations": [
+    "A geometric certificate applies only to the selected saved fill data. Cached polygons and a shared net name do not prove current fill, electrical connection or reference eligibility.",
+    "The margin is explicitly beyond the trace edge. No universal margin or board-level impedance/return-path approval is inferred.",
+    "Uncovered outer-envelope polygons are diagnostic conservative geometry, not the exact missing area of the physical rounded trace ribbon.",
+    "Footprint-local copper, vias, arcs, transitions, launch exceptions and unselected routes are not certified by this straight-segment projection.",
+    "Native fresh fill and individual-terminal connectivity evidence are separate requirements before accepting a reference path."
+  ],
+  "status": "computed",
+  "geometricStatus": "covered",
+  "routeResults": [
+    {
+      "routeIndex": 0,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "1fbd4fed-66f5-447a-a41c-78bba827d700",
+      "netName": "USB_DM_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 1,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "3d74b312-84a5-431a-b9e2-885558191689",
+      "netName": "USB_DM_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 2,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "4bd0726b-02b6-44ab-a722-b39f262ecc86",
+      "netName": "USB_DM_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 3,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "e98f5e8d-54eb-423f-b8e9-699572cdc1ed",
+      "netName": "USB_DM_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 4,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "308ea01c-256d-4e06-852a-7f72eab6aedf",
+      "netName": "USB_DP_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 5,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "58374b93-8930-4545-83a2-220f35a13207",
+      "netName": "USB_DP_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 6,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "8be91104-a7f9-4f51-b623-2e52accefc10",
+      "netName": "USB_DP_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 7,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "c0c6510c-6267-471b-9740-91d405df7230",
+      "netName": "USB_DP_MCU",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 8,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "0d50a902-f09b-4054-9c6c-5003de184bb7",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 9,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "0eb873e5-491a-4c6e-8b3c-3d6840643dbc",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 10,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "0fd64e81-0e0e-42ae-aec9-5aad74d74b8e",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 11,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "4eedd955-1ac9-4a4f-97db-e83137e209ce",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 12,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "52281016-1481-44a8-952d-d19cd875fad4",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 13,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "60248de1-0ad3-4a23-881a-c7afbc59b48e",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 14,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "8603d22d-ec20-4aa7-aeb7-f30c28a1fc5a",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 15,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "9503c613-7013-4c3d-81aa-54bb65d65f5f",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 16,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "9c6c7a12-adb8-434c-8e4f-decb6d5098ed",
+      "netName": "USB_DM_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 17,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "1348dc12-050d-43af-a932-2baa88845461",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 18,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "1a31809d-761a-4165-8e66-8d4bc7a46f45",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 19,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "31c41204-d6a1-428c-af3d-201c2e6aff1f",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 20,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "4c4f9a8d-7a2c-4b72-a427-b37a4f29a995",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 21,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "5c0954bb-86a0-41d1-b47c-7951459eabb4",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 22,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "640556a3-7c24-43dd-8bb3-0a28a40f0491",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 23,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "6d5759f5-d0b9-4a32-95b7-8cca3b58c964",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 24,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "75c9893e-b9cd-497c-86f5-225cdc3fe55a",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 25,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "93316ff6-ba16-4ee1-8163-e01da5cf4ae3",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 26,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "b9478930-8c2c-44f1-bea6-282d3ea59e3f",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 27,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "d0d3b323-b393-4893-8151-ac7520401804",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 28,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "e400de91-6532-48b9-86c8-471b6a75d148",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 29,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "f0b49b7d-afc5-4a12-85bc-2489eb4916b1",
+      "netName": "USB_DP_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 30,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "0269e750-2e5b-4e1f-9d6a-4ab756d54e79",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 31,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "02bf1fa1-2149-4f39-b80d-501c58c137f3",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 32,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "5fe7e715-74b4-42dc-9046-bcf30a94e08e",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 33,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "6329247b-0bad-4074-90b2-0171de2c9c8b",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 34,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "787b5065-4b00-4600-8383-7d477800cfe0",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 35,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "836d0caa-0122-4ee4-b954-4bb4e33ee7c3",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 36,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "b0f5bb5c-1ba8-422c-a0a2-383be45d9529",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 37,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "c08d2946-777e-438c-aa03-2882e4ef548f",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 38,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "d2c82541-53d9-408e-863e-207da44ba25e",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 39,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "e7ddb2e1-0356-487d-819c-73c512014a75",
+      "netName": "USB_DM_PORT",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 40,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "00798378-bb78-448b-b091-3ea6d8ad9d61",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 41,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "019ffac6-24b0-4b15-a518-069b8d8d860c",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 42,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "0f3efb01-4928-4812-9e39-86476bae8a4a",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 43,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "53a0955c-f685-497a-9944-01b9cbae0370",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 44,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "5b4bd8dd-6b26-4ec2-82c9-1deb4fa9739d",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 45,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "73aa5640-5def-4510-a25b-d7bc6074a423",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 46,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "7c818d4c-078c-4135-a7db-59e6b03695d7",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 47,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "7ec13e32-444a-466d-8c4d-d25e6656a9bf",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 48,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "bab8729d-bcb3-4b76-a949-ea8e6c60ea83",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 49,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "cc57d30f-b99a-48fe-ba92-ef4d8f0953ba",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 50,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "e7a3b557-8fcf-409b-b9d0-0f5ed4893280",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    },
+    {
+      "routeIndex": 51,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "segmentId": "ef80fb76-1e04-4745-807a-86adc81b3d81",
+      "netName": "USB_DP_ESD",
+      "diagnosticPolygonCounts": {
+        "inner": 1,
+        "outer": 1,
+        "uncoveredOuter": 0
+      }
+    }
+  ],
+  "calculation": {
+    "implementationRevision": "evleda-reference-coverage-v1",
+    "sourceCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+    "clipperVersion": "1.3.0",
+    "executableIdentity": {
+      "sha256": "11f52b6031a30f0e5a7a4a3a0b4479774df829dc85caf845d97127b2b49c7b62",
+      "sizeBytes": 980480
+    },
+    "diagnosticGeometry": "clipper_integer_quantized_not_a_continuous_geometry_proof",
+    "envelopeModel": "inner_L1_diamond_floor_radius_outer_Linf_square_ceil_radius",
+    "coverageMeaning": "closed_Euclidean_segment_ribbon_radius_width_over_two_plus_margin",
+    "artifacts": {
+      "input": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea\\output\\reference-coverage-bEMsSJ\\request.txt",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "72ffe0a9ed5dc7b34b3fb459a1c20a6365332547fae92894af5e5351515bbf57",
+          "size": 63565
+        }
+      },
+      "rawOutput": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea\\output\\reference-coverage-bEMsSJ\\raw-output.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "e18c3008db16d426345a8c2d1080a8b1d841b9ae8bd46c1f4b36a33cd8ed4699",
+          "size": 169369
+        }
+      }
+    }
+  },
+  "sourceUnchanged": true,
+  "sourceBefore": "c45dd427ffa899c73cdaf205aa0782e981a91b75fcac4f37ea031b208b5b5480",
+  "sourceAfter": "c45dd427ffa899c73cdaf205aa0782e981a91b75fcac4f37ea031b208b5b5480",
+  "recoveryRequired": false,
+  "diagnosticResource": "evleda://reference-coverage/e18c3008db16d426345a8c2d1080a8b1d841b9ae8bd46c1f4b36a33cd8ed4699"
+}

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-plane-receipt-build-43
+
+
+ Test Files  10 passed (10)
+      Tests  250 passed | 2 skipped (252)
+   Start at  11:19:17
+   Duration  175.05s (transform 2.19s, setup 0ms, import 6.83s, tests 166.59s, environment 0ms)
+

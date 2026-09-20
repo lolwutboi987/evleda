@@ -24,6 +24,7 @@ import { createPlaneToolboxCheckpointLifecycle } from "./toolbox-plane-checkpoin
 import { writeToolboxRouteDiagnostic } from "./toolbox-route-diagnostics.js";
 import { writeToolboxSyncDiagnostic } from "./toolbox-sync-diagnostics.js";
 import { writeToolboxFootprintPlacementDiagnostic } from "./toolbox-footprint-placement-diagnostics.js";
+import { writeToolboxPlaneFailureDiagnostic } from "./toolbox-plane-failure-diagnostics.js";
 import { createToolboxSchematicFieldDiagnostics } from "./toolbox-schematic-field-diagnostics.js";
 import { captureToolboxEndpointConnectivity } from "./toolbox-endpoint-connectivity.js";
 import { captureToolboxPlaneAcceptance } from "./toolbox-plane-acceptance.js";
@@ -131,6 +132,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
       observeFreshRouteMutationDiagnostic: async diagnostic => { await writeToolboxRouteDiagnostic(outputRoot, diagnostic); },
       observeFreshSyncFailureDiagnostic: async diagnostic => { await writeToolboxSyncDiagnostic(outputRoot, diagnostic); },
       observeFreshFootprintPlacementDiagnostic: async diagnostic => { await writeToolboxFootprintPlacementDiagnostic(outputRoot, diagnostic); },
+      observeFreshPlaneFailureDiagnostic: diagnostic => writeToolboxPlaneFailureDiagnostic(outputRoot, diagnostic),
       observeFreshSchematicFieldDiagnostic: schematicFieldDiagnostics.observe,
       capturePersistedMutationBaseline: captureSources,
       verifyPersistedMutation: async baseline => baseline !== undefined && await captureSources() !== baseline });

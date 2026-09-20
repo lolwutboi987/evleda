@@ -1,0 +1,607 @@
+{
+  "schemaVersion": "evleda.kicad-stackup-observation.v1",
+  "sourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+    "size": 634325
+  },
+  "stackup": {
+    "schemaVersion": "evleda.fresh-pcb-stackup.v1",
+    "boardVersion": 20260206,
+    "generalBoardThicknessMm": {
+      "status": "explicit",
+      "value": 1.016,
+      "sources": [
+        "(thickness 1.016)"
+      ]
+    },
+    "boardCopperLayerOrder": [
+      "F.Cu",
+      "In1.Cu",
+      "In2.Cu",
+      "B.Cu"
+    ],
+    "layers": [
+      {
+        "index": 0,
+        "name": "F.Mask",
+        "kind": "mask",
+        "type": {
+          "status": "explicit",
+          "value": "Top Solder Mask",
+          "sources": [
+            "(type \"Top Solder Mask\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.01,
+              "sources": [
+                "(thickness 0.01)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "material": {
+              "status": "explicit",
+              "value": "Green LPI solder mask; exact product pending",
+              "sources": [
+                "(material \"Green LPI solder mask; exact product pending\")"
+              ]
+            },
+            "epsilonR": {
+              "status": "explicit",
+              "value": 3.8,
+              "sources": [
+                "(epsilon_r 3.8)"
+              ]
+            },
+            "lossTangent": {
+              "status": "explicit",
+              "value": 0.02,
+              "sources": [
+                "(loss_tangent 0.02)"
+              ]
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"F.Mask\"\r\n\t\t\t\t(type \"Top Solder Mask\")\r\n\t\t\t\t(thickness 0.01)\r\n\t\t\t\t(material \"Green LPI solder mask; exact product pending\")\r\n\t\t\t\t(epsilon_r 3.8)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)"
+      },
+      {
+        "index": 1,
+        "name": "F.Cu",
+        "kind": "copper",
+        "type": {
+          "status": "explicit",
+          "value": "copper",
+          "sources": [
+            "(type \"copper\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.043,
+              "sources": [
+                "(thickness 0.043)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "material": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "epsilonR": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "lossTangent": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"F.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.043)\r\n\t\t\t)"
+      },
+      {
+        "index": 2,
+        "name": "dielectric 1",
+        "kind": "dielectric",
+        "type": {
+          "status": "explicit",
+          "value": "prepreg",
+          "sources": [
+            "(type \"prepreg\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.23,
+              "sources": [
+                "(thickness 0.23 locked)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "explicit",
+              "value": true,
+              "sources": [
+                "(thickness 0.23 locked)"
+              ]
+            },
+            "material": {
+              "status": "explicit",
+              "value": "FR4 TG-140 front prepreg; exact laminate/prepreg supplier pending",
+              "sources": [
+                "(material \"FR4 TG-140 front prepreg; exact laminate/prepreg supplier pending\")"
+              ]
+            },
+            "epsilonR": {
+              "status": "explicit",
+              "value": 4.5,
+              "sources": [
+                "(epsilon_r 4.5)"
+              ]
+            },
+            "lossTangent": {
+              "status": "explicit",
+              "value": 0.02,
+              "sources": [
+                "(loss_tangent 0.02)"
+              ]
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"dielectric 1\"\r\n\t\t\t\t(type \"prepreg\")\r\n\t\t\t\t(thickness 0.23 locked)\r\n\t\t\t\t(material \"FR4 TG-140 front prepreg; exact laminate/prepreg supplier pending\")\r\n\t\t\t\t(epsilon_r 4.5)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)"
+      },
+      {
+        "index": 3,
+        "name": "In1.Cu",
+        "kind": "copper",
+        "type": {
+          "status": "explicit",
+          "value": "copper",
+          "sources": [
+            "(type \"copper\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.035,
+              "sources": [
+                "(thickness 0.035)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "material": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "epsilonR": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "lossTangent": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"In1.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.035)\r\n\t\t\t)"
+      },
+      {
+        "index": 4,
+        "name": "dielectric 2",
+        "kind": "dielectric",
+        "type": {
+          "status": "explicit",
+          "value": "core",
+          "sources": [
+            "(type \"core\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.38,
+              "sources": [
+                "(thickness 0.38 locked)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "explicit",
+              "value": true,
+              "sources": [
+                "(thickness 0.38 locked)"
+              ]
+            },
+            "material": {
+              "status": "explicit",
+              "value": "FR4 TG-140 core; exact laminate/prepreg supplier pending",
+              "sources": [
+                "(material \"FR4 TG-140 core; exact laminate/prepreg supplier pending\")"
+              ]
+            },
+            "epsilonR": {
+              "status": "explicit",
+              "value": 4.5,
+              "sources": [
+                "(epsilon_r 4.5)"
+              ]
+            },
+            "lossTangent": {
+              "status": "explicit",
+              "value": 0.02,
+              "sources": [
+                "(loss_tangent 0.02)"
+              ]
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"dielectric 2\"\r\n\t\t\t\t(type \"core\")\r\n\t\t\t\t(thickness 0.38 locked)\r\n\t\t\t\t(material \"FR4 TG-140 core; exact laminate/prepreg supplier pending\")\r\n\t\t\t\t(epsilon_r 4.5)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)"
+      },
+      {
+        "index": 5,
+        "name": "In2.Cu",
+        "kind": "copper",
+        "type": {
+          "status": "explicit",
+          "value": "copper",
+          "sources": [
+            "(type \"copper\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.035,
+              "sources": [
+                "(thickness 0.035)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "material": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "epsilonR": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "lossTangent": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"In2.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.035)\r\n\t\t\t)"
+      },
+      {
+        "index": 6,
+        "name": "dielectric 3",
+        "kind": "dielectric",
+        "type": {
+          "status": "explicit",
+          "value": "prepreg",
+          "sources": [
+            "(type \"prepreg\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.23,
+              "sources": [
+                "(thickness 0.23 locked)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "explicit",
+              "value": true,
+              "sources": [
+                "(thickness 0.23 locked)"
+              ]
+            },
+            "material": {
+              "status": "explicit",
+              "value": "FR4 TG-140 back prepreg; exact laminate/prepreg supplier pending",
+              "sources": [
+                "(material \"FR4 TG-140 back prepreg; exact laminate/prepreg supplier pending\")"
+              ]
+            },
+            "epsilonR": {
+              "status": "explicit",
+              "value": 4.5,
+              "sources": [
+                "(epsilon_r 4.5)"
+              ]
+            },
+            "lossTangent": {
+              "status": "explicit",
+              "value": 0.02,
+              "sources": [
+                "(loss_tangent 0.02)"
+              ]
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"dielectric 3\"\r\n\t\t\t\t(type \"prepreg\")\r\n\t\t\t\t(thickness 0.23 locked)\r\n\t\t\t\t(material \"FR4 TG-140 back prepreg; exact laminate/prepreg supplier pending\")\r\n\t\t\t\t(epsilon_r 4.5)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)"
+      },
+      {
+        "index": 7,
+        "name": "B.Cu",
+        "kind": "copper",
+        "type": {
+          "status": "explicit",
+          "value": "copper",
+          "sources": [
+            "(type \"copper\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.043,
+              "sources": [
+                "(thickness 0.043)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "material": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "epsilonR": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "lossTangent": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"B.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.043)\r\n\t\t\t)"
+      },
+      {
+        "index": 8,
+        "name": "B.Mask",
+        "kind": "mask",
+        "type": {
+          "status": "explicit",
+          "value": "Bottom Solder Mask",
+          "sources": [
+            "(type \"Bottom Solder Mask\")"
+          ]
+        },
+        "sublayers": [
+          {
+            "index": 0,
+            "thicknessMm": {
+              "status": "explicit",
+              "value": 0.01,
+              "sources": [
+                "(thickness 0.01)"
+              ]
+            },
+            "thicknessLocked": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "material": {
+              "status": "explicit",
+              "value": "Green LPI solder mask; exact product pending",
+              "sources": [
+                "(material \"Green LPI solder mask; exact product pending\")"
+              ]
+            },
+            "epsilonR": {
+              "status": "explicit",
+              "value": 3.8,
+              "sources": [
+                "(epsilon_r 3.8)"
+              ]
+            },
+            "lossTangent": {
+              "status": "explicit",
+              "value": 0.02,
+              "sources": [
+                "(loss_tangent 0.02)"
+              ]
+            },
+            "color": {
+              "status": "missing",
+              "value": null,
+              "sources": []
+            },
+            "unknownForms": []
+          }
+        ],
+        "source": "(layer \"B.Mask\"\r\n\t\t\t\t(type \"Bottom Solder Mask\")\r\n\t\t\t\t(thickness 0.01)\r\n\t\t\t\t(material \"Green LPI solder mask; exact product pending\")\r\n\t\t\t\t(epsilon_r 3.8)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)"
+      }
+    ],
+    "settings": [
+      {
+        "name": "copper_finish",
+        "source": "(copper_finish \"ENIG; specified candidate finish\")"
+      },
+      {
+        "name": "dielectric_constraints",
+        "source": "(dielectric_constraints no)"
+      }
+    ],
+    "unknownForms": [],
+    "issues": [],
+    "stackupSource": "(stackup\r\n\t\t\t(layer \"F.Mask\"\r\n\t\t\t\t(type \"Top Solder Mask\")\r\n\t\t\t\t(thickness 0.01)\r\n\t\t\t\t(material \"Green LPI solder mask; exact product pending\")\r\n\t\t\t\t(epsilon_r 3.8)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)\r\n\t\t\t(layer \"F.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.043)\r\n\t\t\t)\r\n\t\t\t(layer \"dielectric 1\"\r\n\t\t\t\t(type \"prepreg\")\r\n\t\t\t\t(thickness 0.23 locked)\r\n\t\t\t\t(material \"FR4 TG-140 front prepreg; exact laminate/prepreg supplier pending\")\r\n\t\t\t\t(epsilon_r 4.5)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)\r\n\t\t\t(layer \"In1.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.035)\r\n\t\t\t)\r\n\t\t\t(layer \"dielectric 2\"\r\n\t\t\t\t(type \"core\")\r\n\t\t\t\t(thickness 0.38 locked)\r\n\t\t\t\t(material \"FR4 TG-140 core; exact laminate/prepreg supplier pending\")\r\n\t\t\t\t(epsilon_r 4.5)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)\r\n\t\t\t(layer \"In2.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.035)\r\n\t\t\t)\r\n\t\t\t(layer \"dielectric 3\"\r\n\t\t\t\t(type \"prepreg\")\r\n\t\t\t\t(thickness 0.23 locked)\r\n\t\t\t\t(material \"FR4 TG-140 back prepreg; exact laminate/prepreg supplier pending\")\r\n\t\t\t\t(epsilon_r 4.5)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)\r\n\t\t\t(layer \"B.Cu\"\r\n\t\t\t\t(type \"copper\")\r\n\t\t\t\t(thickness 0.043)\r\n\t\t\t)\r\n\t\t\t(layer \"B.Mask\"\r\n\t\t\t\t(type \"Bottom Solder Mask\")\r\n\t\t\t\t(thickness 0.01)\r\n\t\t\t\t(material \"Green LPI solder mask; exact product pending\")\r\n\t\t\t\t(epsilon_r 3.8)\r\n\t\t\t\t(loss_tangent 0.02)\r\n\t\t\t)\r\n\t\t\t(copper_finish \"ENIG; specified candidate finish\")\r\n\t\t\t(dielectric_constraints no)\r\n\t\t)",
+    "status": "explicit",
+    "observationsComplete": true
+  },
+  "adjacentCopperSeparations": [
+    {
+      "fromCopper": "F.Cu",
+      "toCopper": "In1.Cu",
+      "status": "explicit",
+      "dielectricSublayers": [
+        {
+          "layerIndex": 2,
+          "sublayerIndex": 0
+        }
+      ],
+      "thicknessMm": {
+        "status": "explicit",
+        "value": 0.23,
+        "sources": [
+          "(thickness 0.23 locked)"
+        ]
+      },
+      "reason": "Sum of the explicit intervening dielectric sublayer thicknesses only; no effective epsilon_r or reference-plane assignment is inferred."
+    },
+    {
+      "fromCopper": "In1.Cu",
+      "toCopper": "In2.Cu",
+      "status": "explicit",
+      "dielectricSublayers": [
+        {
+          "layerIndex": 4,
+          "sublayerIndex": 0
+        }
+      ],
+      "thicknessMm": {
+        "status": "explicit",
+        "value": 0.38,
+        "sources": [
+          "(thickness 0.38 locked)"
+        ]
+      },
+      "reason": "Sum of the explicit intervening dielectric sublayer thicknesses only; no effective epsilon_r or reference-plane assignment is inferred."
+    },
+    {
+      "fromCopper": "In2.Cu",
+      "toCopper": "B.Cu",
+      "status": "explicit",
+      "dielectricSublayers": [
+        {
+          "layerIndex": 6,
+          "sublayerIndex": 0
+        }
+      ],
+      "thicknessMm": {
+        "status": "explicit",
+        "value": 0.23,
+        "sources": [
+          "(thickness 0.23 locked)"
+        ]
+      },
+      "reason": "Sum of the explicit intervening dielectric sublayer thicknesses only; no effective epsilon_r or reference-plane assignment is inferred."
+    }
+  ],
+  "impedanceValidation": "not_performed",
+  "limitations": [
+    "Explicit is a source-observation status, not a claim of complete or verified electrical inputs. Missing fields retain null values.",
+    "General board thickness is not signal-reference dielectric height. Mask, paste, and silkscreen are never selected as substrate.",
+    "Dielectric sublayers retain their separate material, epsilon_r, and loss tangent; heterogeneous values are not averaged.",
+    "Declared epsilon_r has no verified frequency, method, process/design-value provenance, or fabrication tolerance in this observation.",
+    "Copper layer presence is not a verified ground/reference plane. No field solving, impedance matching, return-path, or manufacturing pass is established."
+  ],
+  "sourceBefore": "c45dd427ffa899c73cdaf205aa0782e981a91b75fcac4f37ea031b208b5b5480",
+  "sourceAfter": "c45dd427ffa899c73cdaf205aa0782e981a91b75fcac4f37ea031b208b5b5480",
+  "sourceUnchanged": true
+}

@@ -1,5 +1,11 @@
 # Current status and roadmap
 
+Current delivery, 20 September 2026: [RP2350 native R1](../designs/rp2350-pico/native-r1/README.md) completes public-tool routing, labels, both saved fills, normal close and a fresh read-only reopen with all six source files unchanged. All 67 functional nets are connected; configured ERC/DRC and portable-copy schematic parity report zero findings. The candidate includes native files, custom libraries, previews, pinout, BOM and its complete assessment. **Engineering acceptance remains failed/incomplete: 141 pass, 429 unknown, two fail.** In2 supplemental-plane component policy, debug reference gaps and plane-contact/electrical qualification remain unresolved; the main In1 plane has one filled component. No bound rule was relaxed.
+
+The [DOC17 qualification](../proofs/native-plane-receipt-doc17-20260920/README.md) records two actual complete native refill receipts above the old logical-node ceiling, mandatory native save/readback, preserved recovery history and 250 passed/2 skipped focused tests. Host43/DOC17 is installed in the existing workspace client; a fresh actual Codex client discovers 17 tools. Existing desktop connections are not claimed to have reloaded. Older milestones below retain their dated scopes.
+
+## Historical milestones
+
 Latest native/toolbox continuation, 20 September 2026: [host42 field-size qualification](../proofs/native-large-field-20260920/README.md) removes the stale 500 KB field-planner ceiling while retaining the shared 1 MiB input/output limit. All planned RP2350 routes saved, the project closed/resumed with unchanged sources, and 124 field updates then passed actual native save/readback. Labels and final fills/checks remain in progress. The default client now uses host42 with the same DOC16 profile and 17 tools verified in a fresh client.
 
 Latest client delivery, 20 September 2026: [frozen host41/DOC16 installation](../proofs/client-doc16-20260920/README.md) preserves the existing stock catalog, adds the approved v4 RP2350 package and installs the current skill. Seven read-only preflight calls and a fresh actual Codex client verify 17 initial tools with zero native allocations. The already-running conversation has not demonstrated the updated vendor-part access; fresh-client verification is kept separate from desktop activation and board acceptance.
