@@ -2,6 +2,7 @@ import { parseFreshPcbStackup } from "./fresh-kicad-parser.js";
 import { createNativeEmptyBoardSeed } from "./native-empty-board-seed.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import { pcbInterfaceConstructionSchema, type PcbInterfaceConstruction } from "./pcb-interface-requirements.js";
+import { pcbFourLayerConstructionSchema, type PcbFourLayerConstruction } from "./pcb-four-layer-construction.js";
 
 // KiCad 10.0.3, commit 146a4f2a7585c65bc580427a19b6fe2ec4a3f622:
 // pcbnew/board_stackup_manager/board_stackup.cpp:736-818 (field order), :495-516 (total),
@@ -43,7 +44,9 @@ interface NativeLayer {
   readonly lossTangent?: number;
 }
 
-function constructionLayers(construction: PcbInterfaceConstruction): readonly NativeLayer[] {
+type Construction = PcbInterfaceConstruction | PcbFourLayerConstruction;
+
+function constructionLayers(construction: Construction): readonly NativeLayer[] {
   const mask = (side: "front" | "back"): NativeLayer => {
     const value = construction.solderMask[side];
     const common = { name: side === "front" ? "F.Mask" : "B.Mask", type: side === "front" ? "Top Solder Mask" : "Bottom Solder Mask" };
@@ -51,9 +54,18 @@ function constructionLayers(construction: PcbInterfaceConstruction): readonly Na
     return value.kind === "absent" ? { ...common, thicknessMm: 0 }
       : { ...common, thicknessMm: value.thicknessMm, material: value.material, relativePermittivity: value.relativePermittivity, lossTangent: value.lossTangent };
   };
-  return [mask("front"), { name: "F.Cu", type: "copper", thicknessMm: construction.frontCopperThicknessMm },
-    { name: "dielectric 1", type: "core", thicknessMm: construction.dielectric.thicknessMm, material: construction.dielectric.material,
-      relativePermittivity: construction.dielectric.relativePermittivity, lossTangent: construction.dielectric.lossTangent },
+  const gap = (index: number, type: "core" | "prepreg", dielectric: PcbInterfaceConstruction["dielectric"]): NativeLayer => ({
+    name: `dielectric ${index}`, type, thicknessMm: dielectric.thicknessMm, material: dielectric.material,
+    relativePermittivity: dielectric.relativePermittivity, lossTangent: dielectric.lossTangent,
+  });
+  const inner: NativeLayer[] = construction.mode === "two_layer" ? [gap(1, "core", construction.dielectric)] : [
+    gap(1, "prepreg", construction.frontDielectric),
+    { name: "In1.Cu", type: "copper", thicknessMm: construction.inner1CopperThicknessMm },
+    gap(2, "core", construction.coreDielectric),
+    { name: "In2.Cu", type: "copper", thicknessMm: construction.inner2CopperThicknessMm },
+    gap(3, "prepreg", construction.backDielectric),
+  ];
+  return [mask("front"), { name: "F.Cu", type: "copper", thicknessMm: construction.frontCopperThicknessMm }, ...inner,
     { name: "B.Cu", type: "copper", thicknessMm: construction.backCopperThicknessMm }, mask("back")];
 }
 
@@ -65,13 +77,28 @@ export function createInterfaceConstructionBoardSeed(bundle: PcbPlaneCompilation
   // Preserve historical no-extension and explicit-none boards byte-for-byte, including platform line endings.
   if (declaration === undefined || declaration.mode === "none") return nativeEmpty;
   const construction = pcbInterfaceConstructionSchema.parse(declaration);
+  return renderConstructionSeed(construction);
+}
+
+/**
+ * Pure new-board source generation for construction qualification. No I/O,
+ * authenticated project authority, live mutation or public compiler support.
+ * Existing managed boards must never be replaced with this blank-board source.
+ */
+export function createFourLayerConstructionBoardSeed(input: unknown): string {
+  return renderConstructionSeed(pcbFourLayerConstructionSchema.parse(input));
+}
+
+function renderConstructionSeed(construction: Construction): string {
+  const nativeEmpty = createNativeEmptyBoardSeed();
+  const copperOrder = construction.mode === "two_layer" ? ["F.Cu", "B.Cu"] : ["F.Cu", "In1.Cu", "In2.Cu", "B.Cu"];
   const layers = constructionLayers(construction);
   requireValue(layers.reduce((sum, layer) => sum + (layer.thicknessMm === 0 ? 0 : nativeNm(layer.thicknessMm)), 0)
     === nativeNm(construction.boardThicknessMm), "general thickness must exactly equal copper, dielectric and declared mask thicknesses");
   const forms = layers.map(layer => [
     `\t\t\t(layer ${quote(layer.name)}`,
     `\t\t\t\t(type ${quote(layer.type)})`,
-    `\t\t\t\t(thickness ${layer.thicknessMm === 0 ? "0" : nativeThickness(layer.thicknessMm)}${layer.name === "dielectric 1" ? " locked" : ""})`,
+    `\t\t\t\t(thickness ${layer.thicknessMm === 0 ? "0" : nativeThickness(layer.thicknessMm)}${layer.type === "core" || layer.type === "prepreg" ? " locked" : ""})`,
     ...(layer.material === undefined ? [] : [
       `\t\t\t\t(material ${quote(layer.material)})`,
       `\t\t\t\t(epsilon_r ${nativeScalar(layer.relativePermittivity!)})`,
@@ -86,12 +113,16 @@ export function createInterfaceConstructionBoardSeed(bundle: PcbPlaneCompilation
   const emptyLf = nativeEmpty.replaceAll("\r\n", "\n");
   requireValue(emptyLf.split("\t(setup\n").length === 2 && emptyLf.split("\t\t(thickness 1.6)\n").length === 2,
     "pinned native empty-board structure changed");
-  const source = emptyLf.replace("\t\t(thickness 1.6)\n", `\t\t(thickness ${nativeThickness(construction.boardThicknessMm)})\n`)
+  const outerLayerTable = '\t\t(0 "F.Cu" signal)\n\t\t(2 "B.Cu" signal)\n';
+  requireValue(emptyLf.split(outerLayerTable).length === 2, "pinned native copper-layer table changed");
+  const layerSource = construction.mode === "two_layer" ? emptyLf : emptyLf.replace(outerLayerTable,
+    '\t\t(0 "F.Cu" signal)\n\t\t(4 "In1.Cu" signal)\n\t\t(6 "In2.Cu" signal)\n\t\t(2 "B.Cu" signal)\n');
+  const source = layerSource.replace("\t\t(thickness 1.6)\n", `\t\t(thickness ${nativeThickness(construction.boardThicknessMm)})\n`)
     .replace("\t(setup\n", `\t(setup\n${stackup}`).replaceAll("\n", newline);
   const observed = parseFreshPcbStackup(source);
   requireValue(observed.status === "explicit" && observed.observationsComplete && observed.issues.length === 0
     && observed.generalBoardThicknessMm.status === "explicit" && observed.generalBoardThicknessMm.value === construction.boardThicknessMm
-    && observed.boardCopperLayerOrder.join(",") === "F.Cu,B.Cu" && observed.layers.length === layers.length,
+    && observed.boardCopperLayerOrder.join(",") === copperOrder.join(",") && observed.layers.length === layers.length,
   "generated native stackup failed exact source readback");
   layers.forEach((layer, index) => {
     const actual = observed.layers[index]!, sublayer = actual.sublayers[0]!;

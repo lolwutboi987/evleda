@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "evleda.native-four-layer-construction-fixture.v1",
+  "classification": "synthetic-software-fixture-headless-native-serialization-observation",
+  "capture": {
+    "path": "native-four-layer-construction.kicad_pcb",
+    "representation": "LF derived from byte-identical Windows CRLF native LoadBoard/SaveBoard capture",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "660e62e8fb704251542fc97269aa6c637d60c4733ba2c6436cdb2a66214c604e",
+      "size": 2919
+    },
+    "nativeCrlfIdentity": {
+      "sha256": "f250196d9317f787dd93c64d90700cb4a9fc1437230f11be0ded1582d92a6c36",
+      "sizeBytes": 3057
+    }
+  },
+  "native": {
+    "classification": "synthetic new-board headless native construction capture",
+    "nativeVersion": "10.0.3",
+    "runtimeFiles": {
+      "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe": {
+        "sha256": "f9e290b5d6d3bd0371ec842ac83f451d72d2b3e173ad745e221f7d839a66e953",
+        "sizeBytes": 103776
+      },
+      "C:\\Program Files\\KiCad\\10.0\\bin\\Lib\\site-packages\\pcbnew.py": {
+        "sha256": "6b3f567f926bc219709c164c9286acce9c35d72e61e0172d59582fa8493471d1",
+        "sizeBytes": 1022246
+      },
+      "C:\\Program Files\\KiCad\\10.0\\bin\\Lib\\site-packages\\_pcbnew.pyd": {
+        "sha256": "3ea2d4d26d928addfe1439698d355655a89fa1a17054cfba54805470052f6b83",
+        "sizeBytes": 31095136
+      }
+    },
+    "inputUnchanged": true,
+    "observations": [
+      {
+        "input": "input.kicad_pcb",
+        "output": "saved.kicad_pcb",
+        "copperLayerCount": 4,
+        "enabledCopperLayerNativeIds": [
+          0,
+          4,
+          6,
+          2
+        ],
+        "boardThicknessNm": 1030400,
+        "inputIdentity": {
+          "sha256": "f250196d9317f787dd93c64d90700cb4a9fc1437230f11be0ded1582d92a6c36",
+          "sizeBytes": 3057
+        },
+        "outputIdentity": {
+          "sha256": "f250196d9317f787dd93c64d90700cb4a9fc1437230f11be0ded1582d92a6c36",
+          "sizeBytes": 3057
+        },
+        "nativeBytesEqual": true
+      },
+      {
+        "input": "saved.kicad_pcb",
+        "output": "reopened.kicad_pcb",
+        "copperLayerCount": 4,
+        "enabledCopperLayerNativeIds": [
+          0,
+          4,
+          6,
+          2
+        ],
+        "boardThicknessNm": 1030400,
+        "inputIdentity": {
+          "sha256": "f250196d9317f787dd93c64d90700cb4a9fc1437230f11be0ded1582d92a6c36",
+          "sizeBytes": 3057
+        },
+        "outputIdentity": {
+          "sha256": "f250196d9317f787dd93c64d90700cb4a9fc1437230f11be0ded1582d92a6c36",
+          "sizeBytes": 3057
+        },
+        "nativeBytesEqual": true
+      }
+    ],
+    "limits": [
+      "No managed project, live editor, IPC operation or compiler capability was exercised.",
+      "Synthetic material assertions, not a supplier stackup or physical qualification."
+    ]
+  },
+  "nominalFinishedBoardThicknessMm": 1,
+  "modeledNativeThicknessMm": 1.0304,
+  "declaredGapThicknessesMm": [
+    0.1,
+    0.6,
+    0.2
+  ],
+  "publicCompilerFourLayerSupport": false
+}
