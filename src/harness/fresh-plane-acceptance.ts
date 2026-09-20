@@ -1,5 +1,6 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { collectPlaneBridgeSource } from "./plane-region-bridge-source.js";
+import { planReferenceTerminalLaunchStudy, ReferenceTerminalLaunchPlanningError } from "./reference-terminal-launch-study.js";
 import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
 import { channelMemberNets } from "./pcb-channel-width.js";
 import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
@@ -157,7 +158,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
   }> = [];
   const references: Array<{ net: string; planeId: string; status: Status; reasons: readonly string[]; segmentIds: readonly string[];
     marginNm: number; geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed";
-    referenceTerminals: Fact; intersectingBoreUuids:readonly string[];tangentBoreUuids:readonly string[];calculation: unknown }> = [];
+    referenceTerminals: Fact; intersectingBoreUuids:readonly string[];tangentBoreUuids:readonly string[];calculation: unknown;
+    terminalLaunches?: readonly (Fact & { requirementId: string; geometry: ReturnType<typeof planReferenceTerminalLaunchStudy>["launches"][number] | null; foreignBoreUuids: readonly string[] })[] }> = [];
   let authority = fact("unknown", missing), sourceScope = fact("unknown", missing), nativeInventory = fact("unknown", "Current authenticated native contacts are unavailable.");
   let commonChecks: FreshPlaneCommonChecksAssessment | null = null;
   const interfaceRows = (): FreshPlaneInterfaceAcceptance[] => {
@@ -522,15 +524,75 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         && ground?.endpoints.some(endpoint => endpoint.reference === terminal.referenceEndpoint.reference && endpoint.pin === terminal.referenceEndpoint.pin && endpoint.eligiblePhysicalPadUuids.length === endpoint.physicalPadUuids.length));
     const referenceTerminals = terminalsOk ? fact("verified", "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component.")
       : fact("unknown", "Every declared signal and reference physical terminal must be eligible, connected and bound to the intended plane.");
+    let bodySegments = segments, launchPlanAvailable = ref.terminalLaunches === undefined;
+    const launchResults: NonNullable<(typeof references)[number]["terminalLaunches"]>[number][] = (ref.terminalLaunches ?? []).map(launch => ({
+      ...fact("unknown", "Current source/native terminal geometry and local return evidence are required."),
+      requirementId: `reference-launch:${route.net}:${launch.signalEndpoint.reference}:${launch.signalEndpoint.pin}`, geometry: null, foreignBoreUuids: [] }));
+    if (ref.terminalLaunches !== undefined && nativeInventory.status === "verified") {
+      try {
+        const plan = planReferenceTerminalLaunchStudy({ pcbSource: input.pcbSource, segments, referenceNet: planeNet,
+          proposals: ref.terminalLaunches.map(p => ({ signalEndpoint: p.signalEndpoint, referenceEndpoint: p.referenceEndpoint,
+            maximumLengthNm: Number(scaledInteger(p.maximumLengthMm, 6)), maximumReturnSpacingNm: Number(scaledInteger(p.maximumReturnSpacingMm, 6)), engineeringBasis: p.engineeringBasis })) });
+        const physical = saved.stage.nativePads.inventory;
+        requireValue(physical !== null, "Complete native pad geometry is required for terminal launches.");
+        const nativeCoordinate = (v: unknown): number => {
+          const text = v === undefined ? "0" : String(v);
+          requireValue((v === undefined || typeof v === "number" || typeof v === "string") && /^-?(?:0|[1-9][0-9]{0,10})$/u.test(text), "Terminal position is not an exact native integer.");
+          const result = Number(text); requireValue(Number.isSafeInteger(result) && Math.abs(result) <= 2_000_000_000, "Native terminal position exceeds its bound."); return result;
+        };
+        for (const launch of plan.launches) {
+          for (const [uuid, center, endpoint, layer, netName] of [
+            [launch.signalPadUuid, launch.signalCenterNm, launch.signalEndpoint, ref.signalLayer, route.net],
+            [launch.referencePadUuid, launch.referenceCenterNm, launch.referenceEndpoint, bundle.contract.planes.find(p => p.id === ref.planeId)!.layer, planeNet],
+          ] as const) {
+            const pad = physical.physicalPads.find(p => p.uuid === uuid), raw = pad?.rawNative;
+            requireValue(pad?.role === "numbered-copper" && pad.reference === endpoint.reference && pad.number === endpoint.pin
+              && pad.netName === netName && pad.issues.length === 0 && pad.layerMembership.includes(nativeLayer(layer))
+              && raw?.type === "PT_PTH", "Native launch terminal ownership, net, layer or pad type differs.");
+            const position = raw.position;
+            requireValue(position !== null && typeof position === "object" && !Array.isArray(position), "Native launch terminal position is missing.");
+            const coordinates = position as Readonly<Record<string, unknown>>;
+            requireValue(nativeCoordinate(coordinates.x_nm) === center.x && nativeCoordinate(coordinates.y_nm) === center.y, "Saved/native terminal centres differ.");
+          }
+        }
+        bodySegments = plan.segments; launchPlanAvailable = true;
+        let bores: ReturnType<typeof collectPlaneBridgeSource>["boreEnclosures"] | null = null;
+        try { bores = collectPlaneBridgeSource(input.pcbSource, physical).boreEnclosures; } catch { /* Missing complete enclosures withhold local launch qualification. */ }
+        for (const [index, launch] of plan.launches.entries()) {
+          const segment = segments.find(s => s.uuid === launch.segmentId)!;
+          const omitted = { startNm: launch.signalCenterNm, endNm: launch.cutNm, widthNm: segment.widthNm };
+          const foreignBoreUuids = bores?.filter(b => b.uuid !== launch.signalPadUuid
+            && boreRibbonRelation({ centerNm: b.centerNm, diameterNm: b.enclosingDiameterNm }, omitted, marginNm) !== "separate").map(b => b.uuid) ?? [];
+          const exactForeignOverlaps = plane.drillTopology.inventory.complete ? plane.drillTopology.bores.filter(b => b.uuid !== launch.signalPadUuid
+            && boreRibbonRelation(b, omitted, marginNm) === "overlap").map(b => b.uuid) : [];
+          const anchor = referenceTerminals.status === "verified" && plane.intendedPlaneConnectivity.directEligiblePadAnchors.includes(launch.referencePadUuid)
+            ? fact("verified", "The declared local return pad is a direct eligible native contact on the intended plane.")
+            : fact("unknown", "A current direct eligible native return-pad anchor and complete terminal reachability are required.");
+          const boreClearance = exactForeignOverlaps.length > 0 ? fact("failed", "A source-verified foreign round bore intersects the declared launch corridor.")
+            : bores !== null && foreignBoreUuids.length === 0 ? fact("verified", "The omitted approach plus unchanged margin is strictly separate from all complete bore enclosures except its own signal-terminal bore.")
+              : fact("unknown", "Foreign-bore separation is unproved; enclosure overlap or missing complete inventory cannot establish a pass.");
+          const drc = nativeChecks?.checks.drcClearanceShorts.status === "verified"
+            ? fact("verified", "Current authenticated native clearance/short checks and required rule categories are verified.")
+            : fact("unknown", "Current authenticated native clearance/short checks are required for launch qualification.");
+          launchResults[index] = { ...launchResults[index]!, ...allFacts([anchor, boreClearance, drc]), geometry: launch, foreignBoreUuids };
+        }
+      } catch (error) {
+        const state = error instanceof ReferenceTerminalLaunchPlanningError && error.disposition === "constraint" ? "failed" : "unknown";
+        for (const result of launchResults) Object.assign(result, fact(state, error instanceof Error ? error.message : "Terminal launch geometry is unavailable."));
+      }
+    }
+    for (const launch of launchResults) setRow(launch.requirementId, launch);
+    const launchConditions = launchResults.length === 0 ? fact("verified", "No terminal launch was declared.") : allFacts(launchResults);
     // A complete source/native bore inventory can prove a local missing-copper
     // counterexample even when global hole merging or retained area is unknown.
     // It cannot authorize a positive whole-route coverage claim.
     const boreInventoryComplete=plane.drillTopology.inventory.complete
       &&plane.drillTopology.bores.length===plane.drillTopology.inventory.boreCount;
-    const intersectingBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="overlap")).map(bore=>bore.uuid):[];
-    const tangentBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>segments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="tangent")).map(bore=>bore.uuid):[];
+    const intersectingBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>bodySegments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="overlap")).map(bore=>bore.uuid):[];
+    const tangentBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>bodySegments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="tangent")).map(bore=>bore.uuid):[];
     let result: Fact = fact("unknown", "A host-bound reference coverage calculator is unavailable."), geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed" = "not_assessed", calculation: unknown = null;
     if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition or via; no primitive was filtered away.");
+    else if (!launchPlanAvailable || launchConditions.status === "failed") result = launchConditions;
     else if(intersectingBoreUuids.length>0){result=fact("failed","The required reference ribbon intersects a source-verified round drill bore.");geometricStatus="uncovered";}
     else if(tangentBoreUuids.length>0){result=fact("unknown","The required reference ribbon is exactly tangent to a drill bore; boundary contact cannot establish a copper coverage certificate.");geometricStatus="boundary_uncertain";}
     // Missing copper in a current attributed fill is a counterexample even if
@@ -542,13 +604,14 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       requireValue(isReferenceCoverageCalculator(input.referenceCoverage), "reference coverage requires the authenticated host factory calculator");
       const component = plane.geometry.components[0]!;
       const request = freezePcbPlaneArtifact(referenceCoverageRequestSchema.parse({ groups: [{ rings: [component.outer, ...component.holes].map(ring => ring.map(point => [point.x, point.y])) }],
-        routes: segments.map(segment => ({ x1Nm: segment.startNm.x, y1Nm: segment.startNm.y, x2Nm: segment.endNm.x, y2Nm: segment.endNm.y, widthNm: segment.widthNm, marginNm })) }));
+        routes: bodySegments.map(segment => ({ x1Nm: segment.startNm.x, y1Nm: segment.startNm.y, x2Nm: segment.endNm.x, y2Nm: segment.endNm.y, widthNm: segment.widthNm, marginNm })) }));
       const captured = await input.referenceCoverage.calculate(request);
       requireValue(captured.routes.length === segments.length && captured.coordinateUnit === "nm" && captured.dcConnectivityClaimed === false && captured.hfElectricalValidityClaimed === false, "reference helper omitted routes or changed evidence meaning");
       captured.routes.forEach((route, index) => requireValue(["covered", "uncovered", "boundary_uncertain"].includes(route.status)
         && route.routeIndex === index && route.certificate === (route.status === "covered" ? "exact_outer_envelope_containment" : route.status === "uncovered" ? "exact_inner_envelope_outside_witness" : "no_exact_certificate"), "reference helper supplied inconsistent geometric certificates"));
       geometricStatus = captured.routes.some(route => route.status === "uncovered") ? "uncovered" : captured.routes.some(route => route.status === "boundary_uncertain") ? "boundary_uncertain" : "covered";
       result = geometricStatus === "uncovered" ? fact("failed", "A complete selected signal ribbon has an exact witness outside the declared stored plane fill.") : geometricStatus === "boundary_uncertain" ? fact("unknown", "Geometric boundary uncertainty cannot pass reference coverage.")
+        : launchConditions.status !== "verified" ? launchConditions
         : plane.intendedPlaneConnectivity.status !== "verified" || plane.islandPolicy.status !== "verified" || plane.drillTopology.status !== "verified"
           ? fact("unknown", "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified.")
         : referenceTerminals.status !== "verified" ? referenceTerminals : fact("verified", "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.");
@@ -556,7 +619,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         executableIdentity: captured.executableIdentity, artifacts: captured.artifacts,
         routes: captured.routes.map(route => ({ segmentId: segments[route.routeIndex]!.uuid, status: route.status, certificate: route.certificate })) };
     }
-    references.push({ net: route.net, planeId: ref.planeId, ...result, segmentIds: segments.map(segment => segment.uuid), marginNm, geometricStatus, referenceTerminals,intersectingBoreUuids,tangentBoreUuids,calculation });
+    references.push({ net: route.net, planeId: ref.planeId, ...result, segmentIds: segments.map(segment => segment.uuid), marginNm, geometricStatus, referenceTerminals,intersectingBoreUuids,tangentBoreUuids,calculation,
+      ...(ref.terminalLaunches === undefined ? {} : { terminalLaunches: launchResults }) });
     setRow(`reference:${route.net}`,result.status==="verified"?fact("unknown",...result.reasons,
       "The geometric ribbon is covered, but complete drill-aware reference-terminal contact continuity remains unverified."):result);
   }

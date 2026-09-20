@@ -81,13 +81,21 @@ const planeDraft = plane.extend({ net: netName.nullable(), layer: layer.nullable
   islandPolicy: islandPolicyDraft.nullable() }).strict();
 
 const terminalReference = z.object({ signalEndpoint: endpoint, referenceEndpoint: endpoint }).strict();
+const launchLength = number(0.000001, 3).refine(value => { try { routeSourceMmToNativeNm(value); return true; } catch { return false; } }, "Launch length must be exact integer nanometres");
+const returnSpacing = number(0.000001, 5).refine(value => { try { routeSourceMmToNativeNm(value); return true; } catch { return false; } }, "Return spacing must be exact integer nanometres");
+const terminalLaunch = terminalReference.extend({ maximumLengthMm: launchLength, maximumReturnSpacingMm: returnSpacing,
+  engineeringBasis: z.string().trim().min(1).max(1024) }).strict();
+const terminalLaunchDraft = terminalLaunch.extend({ maximumLengthMm: launchLength.nullable(), maximumReturnSpacingMm: returnSpacing.nullable(),
+  engineeringBasis: terminalLaunch.shape.engineeringBasis.nullable() }).strict();
 const continuousReference = z.object({ mode: z.literal("continuous_plane"), planeId: identifier,
   signalLayer: layer, coverageMarginMm: number(0, 50), layerTransitions: z.literal("forbidden"),
-  terminalReferences: z.array(terminalReference).min(1).max(PCB_PLANE_CONTRACT_LIMITS.maxEndpoints) }).strict();
+  terminalReferences: z.array(terminalReference).min(1).max(PCB_PLANE_CONTRACT_LIMITS.maxEndpoints),
+  terminalLaunches: z.array(terminalLaunch).min(1).max(2).optional() }).strict();
 const noReference = z.object({ mode: z.literal("none") }).strict();
 const referenceDraft = z.discriminatedUnion("mode", [noReference, continuousReference.extend({
   planeId: identifier.nullable(), signalLayer: layer.nullable(), coverageMarginMm: number(0, 50).nullable(),
   terminalReferences: z.array(terminalReference).max(PCB_PLANE_CONTRACT_LIMITS.maxEndpoints).nullable(),
+  terminalLaunches: z.array(terminalLaunchDraft).min(1).max(2).nullable().optional(),
 }).strict()]).nullable();
 // Plane access may serve many local return terminals; ordinary trace routes keep their V1 ceiling.
 const accessRouting = z.object({ preferredLayer: pcbRouteLayerPreferenceSchema.describe("An exact layer constrains every access track. either means the two outer layers; any permits the net class's declared enabled layers. Each plane retains one exact layer."), maxVias: z.number().finite().int().min(0).max(64).refine(value => !Object.is(value, -0), "Negative zero is not canonical"),
@@ -137,7 +145,7 @@ const arrayEntryKey = (collection: string, entry: unknown): string | null => {
     : collection === "components" || collection === "placementConstraints" || collection === "boardFeatures" ? "reference"
       : collection === "pins" ? "pin" : collection === "nets" ? ("net" in entry ? "net" : "name") : null;
   if (field !== null && typeof entry[field] === "string") return entry[field];
-  if (collection === "terminalReferences" && record(entry.signalEndpoint)) return `${entry.signalEndpoint.reference}:${entry.signalEndpoint.pin}`;
+  if ((collection === "terminalReferences" || collection === "terminalLaunches") && record(entry.signalEndpoint)) return `${entry.signalEndpoint.reference}:${entry.signalEndpoint.pin}`;
   if (collection === "endpoints" && typeof entry.reference === "string" && typeof entry.pin === "string") return `${entry.reference}:${entry.pin}`;
   if (collection === "additionalReceivers" && record(entry.positive)) return `${entry.positive.reference}:${entry.positive.pin}`;
   if (collection === "protection" && typeof entry.componentReference === "string") return entry.componentReference;
@@ -282,6 +290,20 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
     }
     if (reference.signalLayer !== null && route.preferredLayer !== null && reference.signalLayer !== route.preferredLayer) issue([...path, "referencePath"], "Referenced routes require one exact signal layer");
     if (route.maxVias !== null && route.maxVias !== 0) issue([...path, "maxVias"], "Reference-path layer transitions are forbidden in this bounded family");
+    if (reference.terminalLaunches != null) {
+      const launchPath = [...path, "referencePath", "terminalLaunches"];
+      unique(reference.terminalLaunches, p => key(p.signalEndpoint), launchPath);
+      if (route.topology !== null && route.topology !== "point_to_point") issue(launchPath, "Terminal launches require a point-to-point route");
+      if ((document.interfaceRequirements?.interfaces ?? []).some(p => [p.nets?.positive, p.nets?.negative,
+        p.channel?.launchNets?.positive, p.channel?.launchNets?.negative, p.channel?.feedThrough?.inputNets?.positive,
+        p.channel?.feedThrough?.inputNets?.negative].includes(route.net))) issue(launchPath, "Declared differential/channel interfaces need their own launch model");
+      for (const launch of reference.terminalLaunches) {
+        if (launch.signalEndpoint.reference !== launch.referenceEndpoint.reference || key(launch.signalEndpoint) === key(launch.referenceEndpoint))
+          issue(launchPath, "A terminal launch requires distinct signal/return pins on one footprint");
+        if (reference.terminalReferences !== null && !reference.terminalReferences.some(t => key(t.signalEndpoint) === key(launch.signalEndpoint)
+          && key(t.referenceEndpoint) === key(launch.referenceEndpoint))) issue(launchPath, "Launch terminals must match an existing explicit signal/reference terminal pair");
+      }
+    }
     if (reference.terminalReferences !== null) {
       unique(reference.terminalReferences, r => key(r.signalEndpoint), [...path, "referencePath", "terminalReferences"]);
       const signalEndpoints = new Set(net.endpoints.map(key));
@@ -332,6 +354,7 @@ function canonicalize<T extends DraftValue | PayloadValue>(input: T): T {
   value.routingConstraints.nets.sort((a, b) => compare(a.net, b.net));
   for (const route of value.routingConstraints.nets) if (route.topology !== "plane" && route.referencePath?.mode === "continuous_plane") {
     route.referencePath.terminalReferences?.sort((a, b) => compare(key(a.signalEndpoint), key(b.signalEndpoint)));
+    route.referencePath.terminalLaunches?.sort((a, b) => compare(key(a.signalEndpoint), key(b.signalEndpoint)));
   }
   if ("unresolved" in value) value.unresolved = value.unresolved.map(entry => ({ ...entry,
     path: normalizePcbPlaneUnresolvedPath(input, entry.path)! })).sort((a, b) => compare(a.path, b.path));

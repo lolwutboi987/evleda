@@ -1,5 +1,11 @@
 # Destination client installation
 
+Current: **host50, unchanged DOC17/v4 profile, and exact updated PCB skill** are
+installed after [native terminal-launch revision and read-only reopen](../proofs/terminal-launch-policy-20260920/README.md).
+A fresh actual Codex client verifies 19 initial tools, including
+`evleda_revise_terminal_launches`. Workspace, access, environment, timeout and
+unrelated settings are preserved. Existing desktop activation remains unestablished.
+
 Current: **host49 with the same DOC17/v4 profile** is installed after
 [actual public read-only terminal studies](../proofs/terminal-launch-study-20260920/README.md).
 The installed skill exactly matches the updated repository copy. Workspace,

@@ -48,6 +48,7 @@ interface BoardOptions {
   viaNet?: string;
   copperGraphic?: boolean;
   surfaceSignalPads?: boolean;
+  launchHeader?: boolean;
   routeNm?: { start: NmPoint; end: NmPoint };
   probeBoreNm?: NmPoint;
   outline?: string;
@@ -68,7 +69,7 @@ function board(options: BoardOptions = {}) {
       (property "Reference" ${JSON.stringify(component.reference)}) (property "Value" ${JSON.stringify(component.value)})
       ${options.copperGraphic && i === 0 ? `(fp_line (start 0 0) (end 1 1) (stroke (width 0.2) (type default)) (layer "F.Cu"))` : ""}
       ${component.pins.map((pin, j) => { const net = pin.assignment.kind === "net" ? pin.assignment.net : "";
-        const surface = options.surfaceSignalPads && !(component.reference === "J1" && pin.pin === "3");
+        const surface = options.surfaceSignalPads && !(component.reference === "J1" && (pin.pin === "3" || options.launchHeader && pin.pin === "1"));
         // Keep the one plated ground anchor at (3,7) mm while moving signal
         // terminals with the exact test route; its bore cannot mask probe cases.
         const at = options.routeNm && component.reference === "J1" && pin.pin === "3"
@@ -781,6 +782,38 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(result.planes[0]!.drillTopology).toMatchObject({ status: "verified", inventory: { boreCount: 7, complete: true } });
     expect(result.references[0]).toMatchObject({ status: "failed", geometricStatus: "uncovered", intersectingBoreUuids: [U(100), U(110)], calculation: null });
     expect(row(result, "reference:VIN").status).toBe("fail"); expect(requests).toHaveLength(0);
+  });
+
+  it("requires explicit launch intent and complete local conditions while preserving full-reference uncertainty", async () => {
+    const options = { surfaceSignalPads: true, launchHeader: true };
+    const original = await ercFixture("clean", options);
+    expect(row(await assessFreshPlaneAcceptance({ ...original.input, nativeChecks: original.nativeChecks,
+      referenceCoverage: await calculator("covered") }), "reference:VIN").status).toBe("fail");
+    const draft: Raw = planeDividerDraft();
+    draft.routingConstraints.nets.find((r: Raw) => r.net === "VIN").referencePath.terminalLaunches = [{
+      signalEndpoint: { reference: "J1", pin: "1" }, referenceEndpoint: { reference: "J1", pin: "3" }, maximumLengthMm: 1.5,
+      maximumReturnSpacingMm: 4, engineeringBasis: "Synthetic explicit terminal approach with local direct ground anchor." }];
+    const compilationBundle = interfaceConstructionBundle(draft), f = await ercFixture("clean", { ...options, compilationBundle });
+    const requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator("covered", requests) });
+    expect(row(result, "reference-launch:VIN:J1:1").status).toBe("pass");
+    expect(row(result, "reference:VIN").status).toBe("unknown");
+    expect(requests[0]!.routes[0]).toMatchObject({ x1Nm: 4_500_000, y1Nm: 3_000_000, x2Nm: 8_000_000, marginNm: 500_000 });
+    expect(result.references[0]!.terminalLaunches![0]!.geometry?.referencePadUuid).toBe(U(102));
+    expect(summarizePlaneAcceptance(result).references[0]!.terminalLaunches![0]!.geometry?.cutNm).toEqual({ x: 4_500_000, y: 3_000_000 });
+    expect(result.accepted).toBe(false);
+    const noDrc = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+    expect(row(noDrc, "reference-launch:VIN:J1:1").status).toBe("unknown");
+    f.report.zones[0].directPads = [];
+    expect(row(await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator("covered") }), "reference-launch:VIN:J1:1").status).toBe("unknown");
+    const foreign = await ercFixture("clean", { ...options, compilationBundle, probeBoreNm: [3_500_000, 3_000_000] });
+    const blocked = await assessFreshPlaneAcceptance({ ...foreign.input, nativeChecks: foreign.nativeChecks, referenceCoverage: await calculator("covered") });
+    expect(row(blocked, "reference-launch:VIN:J1:1").status).toBe("fail");
+    expect(blocked.references[0]!.terminalLaunches![0]!.foreignBoreUuids).toContain(U(3));
+    expect(row(blocked, "reference:VIN").status).toBe("fail");
+    draft.routingConstraints.nets.find((r: Raw) => r.net === "VIN").referencePath.terminalLaunches[0].maximumReturnSpacingMm = 3.9;
+    const distant = await ercFixture("clean", { ...options, compilationBundle: interfaceConstructionBundle(draft) });
+    expect(row(await assessFreshPlaneAcceptance({ ...distant.input, nativeChecks: distant.nativeChecks }), "reference-launch:VIN:J1:1").status).toBe("fail");
   });
 
   it("retains a definite bore-ribbon failure when another bore makes global plane topology unknown", async () => {

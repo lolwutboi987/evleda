@@ -48,7 +48,8 @@ describe("V2 PCB plane design-intent model guide", () => {
       const props = object.properties as Record<string, any>;
       const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs", "derivedPowerSources", "boardFeatures", "nativeRuleMode"]
         : props.kind?.const === "differential_pair" ? ["channel"] : props.topology?.const === "plane" ? ["additionalPlaneIds"]
-          : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : props.launchNets !== undefined ? ["feedThrough"] : props.viaPolicy !== undefined ? ["minimumHoleToHoleMm"] : [];
+          : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : props.launchNets !== undefined ? ["feedThrough"] : props.viaPolicy !== undefined ? ["minimumHoleToHoleMm"]
+            : props.terminalLaunches !== undefined ? ["terminalLaunches"] : [];
       expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).filter(key => !optional.includes(key)).sort());
     });
     expect(objectSchemas).toBeGreaterThan(20);
@@ -95,9 +96,9 @@ describe("V2 PCB plane design-intent model guide", () => {
     expect(externalSchema!.required).toEqual(["id", "diodeForwardDropAssumption", "operatingModes"]);
     for (const key of ["id", "diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual({ type: "null" });
     for (const key of ["diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual(expect.objectContaining({ type: "string", minLength: 1, maxLength: 2048 }));
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "4e49118e1728bd31ba03d84716351336a1e6deb1c57f0e8b5826a93dad8edb80", size: 10701 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "549d2a4d8148ee163016c5c145851cc0a1e7daa5cb666a2fabbe336b682785ec", size: 12188 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "7b13dbf47c37a6226cc3d70b28fd27e39c7812c21abda473035702e0a7dec367", size: 19326 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "594ba53ad5cc9aafdbcd6132299c9ec42fe7e4e894bebf3cb1aedae611eae687", size: 11860 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "4debcf6f7c04a521ddc29994f5dcc6f53b2314d5821b5b48a3af19442e5f1904", size: 13347 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "d68e33d3c29f3acf1253ee4962625865701efc9b89d6b56774dff995827c84d6", size: 20485 });
   });
 
   it("keeps the complete guidance bounded, provider-neutral and explicit about authority", () => {
@@ -113,8 +114,8 @@ describe("V2 PCB plane design-intent model guide", () => {
       "Each plane-topology route requires net", "additionalPlaneIds", "accessRouting", "Each trace route has exactly net",
       "adjacent enabled copper layer", "route maxVias=0", "Every signal endpoint requires exactly one explicit mapping",
       "sum of all trace and plane-access maxVias", "keyed RFC6901 pointers to existing fields",
-      "not a nonexistent child", "evleda_design_context", "not an electrically approved or ready design",
-      "do not perform native authoring", "continuous-plane intent is not impedance or EMC qualification",
+      "not a nonexistent child", "evleda_design_context", "example is incomplete structural guidance", "not supplied design facts or an approved design",
+      "Ready compilation neither authors CAD", "continuous-plane intent is not impedance or EMC qualification",
     ]) expect(guide).toContain(instruction);
   });
 

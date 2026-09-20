@@ -9,7 +9,12 @@ export interface ReferenceTerminalLaunchProposal {
   readonly maximumReturnSpacingNm: number;
   readonly engineeringBasis: string;
 }
-const check = (v: unknown, message: string): void => { if (!v) throw new Error(`Terminal launch study: ${message}`); };
+export class ReferenceTerminalLaunchPlanningError extends Error {
+  constructor(message: string, readonly disposition: "unsupported" | "constraint" = "unsupported") { super(`Terminal launch study: ${message}`); }
+}
+const check = (v: unknown, message: string, disposition: "unsupported" | "constraint" = "unsupported"): void => {
+  if (!v) throw new ReferenceTerminalLaunchPlanningError(message, disposition);
+};
 const sqrtFloor = (n: bigint): bigint => {
   if (n < 2n) return n;
   let x = n, y = (x + 1n) / 2n;
@@ -57,7 +62,7 @@ export function planReferenceTerminalLaunchStudy(input: {
     check(signal.pad.physical.id !== reference.pad.physical.id, "signal and return physical identities must differ");
     check(reference.pad.netName === input.referenceNet && signal.pad.netName !== input.referenceNet, "source signal/return nets differ from the selection");
     const spacingSquared = BigInt(signal.center.x - reference.center.x) ** 2n + BigInt(signal.center.y - reference.center.y) ** 2n;
-    check(spacingSquared <= BigInt(maximumReturnSpacingNm) ** 2n, "return pin exceeds the proposed spacing bound");
+    check(spacingSquared <= BigInt(maximumReturnSpacingNm) ** 2n, "return pin exceeds the proposed spacing bound", "constraint");
     const equals = (p: { x: number; y: number }) => p.x === signal.center.x && p.y === signal.center.y;
     const incident = input.segments.filter(s => s.netName === signal.pad.netName && (equals(s.startNm) || equals(s.endNm)));
     check(incident.length === 1, "exactly one selected straight segment must end at the signal-pad centre");

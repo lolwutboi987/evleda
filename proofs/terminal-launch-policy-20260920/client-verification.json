@@ -1,0 +1,30 @@
+{
+  "installation": {
+    "schemaVersion": "evleda.destination-client-installation.v9",
+    "recordedAt": "2026-09-20T23:52:19.135Z",
+    "scope": "Host49 advances to native-qualified host50 with explicit terminal-launch contract/revision support. DOC17 profile, edit policy, workspace, environment, timeout and unrelated settings remain unchanged. The current PCB skill is exact.",
+    "configuration": {
+      "beforeSha256": "f36894b0965a1aca1a784d4f988b272d3f91af36f773cf46264e5468d1d74d66",
+      "afterSha256": "9db42468da42148f051695075efd5c0327e599d20d76096dc477b4615d62288b",
+      "unrelatedRawBytesPreserved": true
+    },
+    "skill": {
+      "beforeSha256": "8b9ad792ba26a1ab87a949a72ff4a77d2cd1dd4d673295d77f0b1c15f1e2d674",
+      "afterSha256": "05d073db9e7caec2c9ff76133ba61bc1afec2b40499261f003e8352db3f75561",
+      "repositoryCopyExact": true
+    },
+    "hostReleaseSha256": "f38f408ead6a0ac9f4f0e412643b402d75413f25b1cf44bb03cdebd79458ff46",
+    "nativeSourceUnchanged": true,
+    "runningDesktopActivation": "not-established"
+  },
+  "freshClient": {
+    "passed": true,
+    "toolCount": 19,
+    "exit": {
+      "code": 0,
+      "signal": null
+    },
+    "scope": "Fresh actual installed Codex app-server reads the real global EvlEDA entry. Other servers/plugins are disabled only for this probe. No task, model turn or native project is created. This is not evidence that an already-running desktop connection reloaded."
+  },
+  "runningDesktopActivation": "not-established"
+}

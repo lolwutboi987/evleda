@@ -1,0 +1,1275 @@
+{
+  "schemaVersion": "evleda.rp2350-terminal-launch-revision.v1",
+  "sourceProjectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "targetProjectId": "7b09bbe4-280a-4e07-a608-08b0780cf3c8",
+  "sourceBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "a30e7a5067e1d7f91511d7ea964a6e3fffacd16c47217cabcc5434ad05b51e84",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "targetBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "a96fb0e0fd9966353501d499aab312608729605558f817700916a99a07652dc7",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "604b14283e7b5041e8d74ef3e12e1efa4acb3775a7cb2e96518e5a5900a1be6f",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "targetPins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "fa5a4281809148f626bbbc255b34395796398243f9b9603a19d0e839ac56a3a3",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "geometryAndLabelsPreserved": true,
+  "schematicBytesPreserved": true,
+  "sourceNormalClose": true,
+  "targetNormalClose": true,
+  "sourceOriginalRequirementsPreserved": true,
+  "regionalPolicyConditions": {
+    "status": "verified",
+    "reasons": [
+      "This saved and native zone retains its exact declared name, net, layer, boundary and settings within the complete inventory.",
+      "Every native subpolygon matches one stored component; regional via contacts require their separate complete observation.",
+      "Every stored component's complete bore-enclosure-subtracted retained-area lower bound meets the declared floor. This proves area, not post-drill connectivity.",
+      "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate."
+    ],
+    "referencePlaneId": "GND_PLANE",
+    "engineeringBasis": "Private diagnostic detail retained in the complete assessment."
+  },
+  "regionalArea": {
+    "status": "verified",
+    "reasons": [
+      "Every stored component's complete bore-enclosure-subtracted retained-area lower bound meets the declared floor. This proves area, not post-drill connectivity."
+    ],
+    "requiredAreaTwiceNm2": "2000000000000",
+    "observedAreaTwiceNm2": [
+      "1027570784370406",
+      "39099866039439",
+      "20135024341481",
+      "10862895652061",
+      "4475449699716",
+      "189609091751019",
+      "6804882377667",
+      "2207186189874",
+      "24170826433643",
+      "40610116796041"
+    ],
+    "observedAreaMeaning": "stored-zone-fill-components",
+    "conservativeAreaLowerBoundTwiceNm2": null,
+    "componentAreaLowerBounds": [
+      {
+        "nativePolygonIndex": 0,
+        "storedAreaTwiceNm2": "1027570784370406",
+        "subtractedUpperAreaTwiceNm2": "23000000000000",
+        "conservativeRetainedAreaTwiceNm2": "1004570784370406",
+        "possiblyIntersectingBoreUuids": [
+          "f5592606-4e9d-4b62-afac-565ec9879275",
+          "35603db2-7858-452d-90f0-c991ba6d7717",
+          "6a8af92a-66ec-4429-b364-6c69de6a7f23",
+          "78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+          "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+          "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+          "0c0d17c6-67e0-420a-a456-6acf146a74ac",
+          "0c9d98b6-26bb-43c3-8371-801254431694",
+          "0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+          "2138f519-c783-46f8-aa38-3baacff98d43",
+          "2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+          "4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+          "50359f17-a88f-4224-a877-156f55a32121",
+          "5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+          "5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+          "660c6b12-c207-47ec-a352-523fdf294042",
+          "668ab035-7651-4112-81d6-735bc6cc3999",
+          "76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+          "7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+          "95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+          "c72f99ad-b035-4092-beda-5958d96107b5",
+          "d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "e4f5ebb6-f345-4129-8ff9-e129714c0258",
+          "e72cddfc-1b57-4224-bac0-caccb4a71d09",
+          "f8adabc9-8b10-4dd0-b871-a037512f882c"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "0af98444-8bde-4101-82be-17e2015303d4",
+          "c2810e37-f823-4d81-8fdd-734b628f9ddd",
+          "b4a3e62e-4f1b-42b0-a669-310a7a6cc976",
+          "0535cfee-f720-48db-86d5-86490379698b",
+          "b25066be-74fa-4e3f-a05f-334707f3ec8e",
+          "7a11b973-d239-4889-92ba-0e6cca7f4c4a",
+          "21925ba8-3fc8-4f38-84fd-edeb2bec3c77",
+          "8c7cb0cd-f7d4-4847-8b6c-e790f1a7a19f",
+          "05f2043c-dd85-4ad7-922d-f6723368489e",
+          "1bf40706-0e6e-424a-9cb0-d52c7b2b2a3f",
+          "2ba504b1-e670-417f-bd5c-842f246c710a",
+          "372b0bb9-7cda-4221-884e-39c761cba362",
+          "56accf8e-4ab2-4a76-a5c6-cddab84fcd76",
+          "618a088d-d2f5-4d74-bd96-aa5298a004b8",
+          "62605230-5eaa-4920-bf54-0c343ebb9419",
+          "6825a482-96dd-4c4e-957e-4e9ccbbab9ab",
+          "91f32ab7-2d58-4e6f-874c-8c25c10da1df",
+          "b7e9828d-d8e0-4d32-9534-58ada14c8667",
+          "f35419b2-b328-46e9-b190-b543a8bc89f6",
+          "f6bc4f1e-88b0-42c4-bc7e-259548ffb4ec",
+          "e9c4eb42-e779-41d5-9bd0-678c7a666e6b",
+          "5faa56a8-ff6d-47dd-a450-a1c0b65c43fb",
+          "f2c3a30e-a157-4795-8507-29bdb4497ffd",
+          "c9c5f730-5738-42d8-bcc6-63e649f8c129",
+          "c2baeba4-ff9e-4069-8370-a7db47bbc5e2",
+          "8c57578f-fa36-454c-a409-073b213d5cdf",
+          "a88bd5f2-bddf-4f7f-af20-a8e31213d954",
+          "bc549764-4a62-4928-8afd-d2600f475350",
+          "d87dedac-200b-4bd9-b91e-ad8663cd03f7",
+          "e547841a-9957-4be7-9491-9d71ceee6e02",
+          "f17a9bdb-30a6-45a7-bbbc-6ae1ee7ca4e3",
+          "5053d2c7-a8c7-4ad7-bc40-eefe560dccd4",
+          "e87bcb55-3b90-4f9c-91b1-0a379ec6d8ce",
+          "7d2560d2-db91-482d-8807-f79aa4410a56",
+          "6a0423b1-b4bc-4a06-a85b-64a4d1406844",
+          "f014a64c-e8b5-45cf-9280-e064712a69fe",
+          "5fc1c06b-3fda-46f5-8959-7d226e7fd5b6",
+          "41b59047-6a65-45d5-9b6e-68e750c57420",
+          "d7e0f3c0-e01a-489b-a291-5635a55cb2d0",
+          "3985279d-47ae-45ef-8253-af4ad9a2201f",
+          "410ac0c9-7658-4e26-8d67-4418b0b6cc9e",
+          "842eee1e-c0e3-4ccd-8e93-54168cc752da",
+          "ee5ce531-52f1-456e-87f0-98362f1b3f83",
+          "773bf4bc-065f-4dd1-8847-2439c1cf03f4",
+          "f05b4c28-3638-43a2-bab0-4d61b34ce011",
+          "02a1bd44-3c44-4187-bd73-36c463e30890",
+          "76373ac2-bd1a-4adb-ace5-43c1ef0d2193",
+          "6dbc793a-fe3b-4dbb-8bd9-aae4487d213e",
+          "d34f4dd9-ae5d-489d-83a5-e5eaab0424c1",
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "f9431133-4440-437a-b1ef-46ae2cb1600c",
+          "689f61a8-6e0f-4579-a470-b72d1afb64fe",
+          "ec5b83e7-69f3-4fab-a63f-25ab2c034005",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "0f5ec798-0703-4780-8b1b-588fee5a2b98",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "b36402e2-1795-49ac-971b-5f9f6ab8ca6a",
+          "18bd03ae-20b3-4530-aa89-a1148370d91a",
+          "ceb3102b-a518-4575-97c0-19987a109ef7",
+          "2397158d-e7bb-42ae-991e-3d8ddafd7b22",
+          "4366ccf9-2ac3-4035-9ad7-4af089662ce4",
+          "49ce1120-dc52-4720-8bc6-2eac474334b4",
+          "9c1140cd-4e07-43ef-9426-d27870f26e18",
+          "2ab316fa-d5aa-4d78-a059-7ea3e65fd6de",
+          "70053748-d80a-4f35-9dd3-3497fbd757ce",
+          "c449e9f5-d87b-4b0d-828c-d8defdb438c4",
+          "74269ee4-b3df-464d-a127-723f0d33a46e",
+          "a032f4c0-d0a2-40d0-9bac-dbf964af6878",
+          "13254002-70c7-400f-82ed-a0f253e8c9cc",
+          "76e4562f-826c-4889-ac12-d5cac7af4826",
+          "0183904b-58b9-414d-9657-0c38bac9f708",
+          "12a9b3dc-6154-47d8-a74e-188543653c0e",
+          "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+          "463c9f0b-7400-4471-be23-08925f31fbac",
+          "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+          "68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "707cba30-4192-4239-a71a-e4b94f348f45",
+          "7e5658a6-4451-455b-ad7e-3311b063517a",
+          "7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+          "895798ed-118c-4044-b758-da8dfb25e1a4",
+          "8d3806d2-7356-4bc6-a218-183e5b189f96",
+          "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "9ab1435a-daaf-495d-8feb-deaf0149a45c",
+          "a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+          "a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+          "cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+          "e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+          "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+          "f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+          "feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+          "3be11b12-d0d0-4b22-beab-f4c030961b63",
+          "549a1475-4668-4186-9f11-934157cd5c2c",
+          "7248f129-7bb1-4a1a-90ca-e87f47936257",
+          "9f720440-0c07-4c61-b825-83e616e5de45",
+          "f9369eb5-26fc-48a0-923b-b52c7881dd67",
+          "5d388eb4-be4c-4b72-a491-30ed2c40de75",
+          "74e68b40-a066-4d16-99f3-4e2adf4ca878",
+          "dce8863a-98b4-4042-8f2a-f01e4cb41246",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392",
+          "90bc5c00-1ec2-49ab-8575-6c1cc19457a3",
+          "40c549fe-38b1-4874-8e49-3add62b8fe6e",
+          "cdeb7e33-2207-43a3-b01a-b109253e747d"
+        ],
+        "bboxExcludedBoreCount": 40,
+        "predicateOperations": 254140,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 1,
+        "storedAreaTwiceNm2": "39099866039439",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "39019866039439",
+        "possiblyIntersectingBoreUuids": [
+          "12a9b3dc-6154-47d8-a74e-188543653c0e"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "372b0bb9-7cda-4221-884e-39c761cba362",
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "0f5ec798-0703-4780-8b1b-588fee5a2b98",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392"
+        ],
+        "bboxExcludedBoreCount": 159,
+        "predicateOperations": 816,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 2,
+        "storedAreaTwiceNm2": "20135024341481",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "20055024341481",
+        "possiblyIntersectingBoreUuids": [
+          "7e5658a6-4451-455b-ad7e-3311b063517a"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "372b0bb9-7cda-4221-884e-39c761cba362",
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "0c9d98b6-26bb-43c3-8371-801254431694",
+          "5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392"
+        ],
+        "bboxExcludedBoreCount": 158,
+        "predicateOperations": 676,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 3,
+        "storedAreaTwiceNm2": "10862895652061",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "10782895652061",
+        "possiblyIntersectingBoreUuids": [
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "3feef3e2-9319-48d8-b85b-931451ad845d"
+        ],
+        "bboxExcludedBoreCount": 166,
+        "predicateOperations": 675,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 4,
+        "storedAreaTwiceNm2": "4475449699716",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "4395449699716",
+        "possiblyIntersectingBoreUuids": [
+          "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "f9431133-4440-437a-b1ef-46ae2cb1600c"
+        ],
+        "bboxExcludedBoreCount": 169,
+        "predicateOperations": 118,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 5,
+        "storedAreaTwiceNm2": "189609091751019",
+        "subtractedUpperAreaTwiceNm2": "800000000000",
+        "conservativeRetainedAreaTwiceNm2": "188809091751019",
+        "possiblyIntersectingBoreUuids": [
+          "0183904b-58b9-414d-9657-0c38bac9f708",
+          "68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+          "7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+          "8d3806d2-7356-4bc6-a218-183e5b189f96",
+          "9ab1435a-daaf-495d-8feb-deaf0149a45c",
+          "a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+          "a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+          "cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+          "f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+          "feb6c0b8-7b77-4cf1-a451-7923d0aff393"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "1bf40706-0e6e-424a-9cb0-d52c7b2b2a3f",
+          "2ba504b1-e670-417f-bd5c-842f246c710a",
+          "56accf8e-4ab2-4a76-a5c6-cddab84fcd76",
+          "62605230-5eaa-4920-bf54-0c343ebb9419",
+          "91f32ab7-2d58-4e6f-874c-8c25c10da1df",
+          "8c57578f-fa36-454c-a409-073b213d5cdf",
+          "a88bd5f2-bddf-4f7f-af20-a8e31213d954",
+          "d87dedac-200b-4bd9-b91e-ad8663cd03f7",
+          "e547841a-9957-4be7-9491-9d71ceee6e02",
+          "f17a9bdb-30a6-45a7-bbbc-6ae1ee7ca4e3",
+          "f9431133-4440-437a-b1ef-46ae2cb1600c",
+          "689f61a8-6e0f-4579-a470-b72d1afb64fe",
+          "ec5b83e7-69f3-4fab-a63f-25ab2c034005",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "0f5ec798-0703-4780-8b1b-588fee5a2b98",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "b36402e2-1795-49ac-971b-5f9f6ab8ca6a",
+          "18bd03ae-20b3-4530-aa89-a1148370d91a",
+          "2397158d-e7bb-42ae-991e-3d8ddafd7b22",
+          "4366ccf9-2ac3-4035-9ad7-4af089662ce4",
+          "49ce1120-dc52-4720-8bc6-2eac474334b4",
+          "2ab316fa-d5aa-4d78-a059-7ea3e65fd6de",
+          "70053748-d80a-4f35-9dd3-3497fbd757ce",
+          "c449e9f5-d87b-4b0d-828c-d8defdb438c4",
+          "74269ee4-b3df-464d-a127-723f0d33a46e",
+          "a032f4c0-d0a2-40d0-9bac-dbf964af6878",
+          "13254002-70c7-400f-82ed-a0f253e8c9cc",
+          "76e4562f-826c-4889-ac12-d5cac7af4826",
+          "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+          "549a1475-4668-4186-9f11-934157cd5c2c",
+          "f9369eb5-26fc-48a0-923b-b52c7881dd67",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392",
+          "90bc5c00-1ec2-49ab-8575-6c1cc19457a3"
+        ],
+        "bboxExcludedBoreCount": 126,
+        "predicateOperations": 45495,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 6,
+        "storedAreaTwiceNm2": "6804882377667",
+        "subtractedUpperAreaTwiceNm2": "240000000000",
+        "conservativeRetainedAreaTwiceNm2": "6564882377667",
+        "possiblyIntersectingBoreUuids": [
+          "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+          "463c9f0b-7400-4471-be23-08925f31fbac",
+          "707cba30-4192-4239-a71a-e4b94f348f45"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "5053d2c7-a8c7-4ad7-bc40-eefe560dccd4",
+          "6a0423b1-b4bc-4a06-a85b-64a4d1406844"
+        ],
+        "bboxExcludedBoreCount": 166,
+        "predicateOperations": 290,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 7,
+        "storedAreaTwiceNm2": "2207186189874",
+        "subtractedUpperAreaTwiceNm2": "160000000000",
+        "conservativeRetainedAreaTwiceNm2": "2047186189874",
+        "possiblyIntersectingBoreUuids": [
+          "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "e265c8a3-e492-4f20-a2e4-702fb49a1ab9"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "56accf8e-4ab2-4a76-a5c6-cddab84fcd76",
+          "91f32ab7-2d58-4e6f-874c-8c25c10da1df"
+        ],
+        "bboxExcludedBoreCount": 167,
+        "predicateOperations": 276,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 8,
+        "storedAreaTwiceNm2": "24170826433643",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "24090826433643",
+        "possiblyIntersectingBoreUuids": [
+          "53683e37-8cf7-4b40-93a2-5d13aac012a8"
+        ],
+        "exactlySeparatedBoreUuids": [],
+        "bboxExcludedBoreCount": 170,
+        "predicateOperations": 37,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 9,
+        "storedAreaTwiceNm2": "40610116796041",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "40530116796041",
+        "possiblyIntersectingBoreUuids": [
+          "895798ed-118c-4044-b758-da8dfb25e1a4"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "6a8af92a-66ec-4429-b364-6c69de6a7f23"
+        ],
+        "bboxExcludedBoreCount": 169,
+        "predicateOperations": 108,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      }
+    ]
+  },
+  "regionalContacts": [
+    {
+      "planeId": "BACK_GND",
+      "referencePlaneId": "GND_PLANE",
+      "status": "verified",
+      "reasons": [
+        "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate."
+      ],
+      "scope": "qualified-source-native-annulus-contact-to-primary-plane",
+      "calculation": {
+        "scope": "positive-area-stored-copper-contact-through-qualified-normal-via-annuli",
+        "allRegionsWitnessed": true,
+        "regions": [
+          {
+            "nativePolygonIndex": 0,
+            "status": "witnessed",
+            "viaUuid": "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+            "centerNm": {
+              "x": 16187500,
+              "y": 46600000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 1,
+            "status": "witnessed",
+            "viaUuid": "12a9b3dc-6154-47d8-a74e-188543653c0e",
+            "centerNm": {
+              "x": 18412500,
+              "y": 37350000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 2,
+            "status": "witnessed",
+            "viaUuid": "7e5658a6-4451-455b-ad7e-3311b063517a",
+            "centerNm": {
+              "x": 12457500,
+              "y": 39500000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 3,
+            "status": "witnessed",
+            "viaUuid": "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+            "centerNm": {
+              "x": 16087500,
+              "y": 38700000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 4,
+            "status": "witnessed",
+            "viaUuid": "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+            "centerNm": {
+              "x": 11362500,
+              "y": 38650000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 5,
+            "status": "witnessed",
+            "viaUuid": "0183904b-58b9-414d-9657-0c38bac9f708",
+            "centerNm": {
+              "x": 15387500,
+              "y": 22650000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 6,
+            "status": "witnessed",
+            "viaUuid": "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+            "centerNm": {
+              "x": 4507500,
+              "y": 30720000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 7,
+            "status": "witnessed",
+            "viaUuid": "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+            "centerNm": {
+              "x": 14737500,
+              "y": 28030000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 8,
+            "status": "witnessed",
+            "viaUuid": "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+            "centerNm": {
+              "x": 5087500,
+              "y": 19970000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 9,
+            "status": "witnessed",
+            "viaUuid": "895798ed-118c-4044-b758-da8dfb25e1a4",
+            "centerNm": {
+              "x": 6387500,
+              "y": 17500000
+            },
+            "contactDiscRadiusNm": 87499
+          }
+        ],
+        "referenceNativePolygonIndex": 0,
+        "boreEnclosures": 171,
+        "predicateOperations": 2562448,
+        "maximumPredicateOperations": 4000000,
+        "globalDrillClippedContinuityClaimed": false,
+        "currentCapacityClaimed": false,
+        "fabricationAuthorized": false
+      }
+    }
+  ],
+  "references": [
+    {
+      "net": "QSPI_CS",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "0ca83267-16f3-46bc-8ad4-1396b412aefe",
+        "2579f09d-3a31-4c4d-92e7-319ba4ef230d",
+        "73c369f9-0cc7-4a70-85ce-b8e68853f79b",
+        "f0d14a8b-3ebd-4ae3-a76e-9ef3d794874d"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "QSPI_SCLK",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "03a98ada-7fb3-4841-900d-437053da1087",
+        "2acb19cf-0fe9-4cee-a3d8-aac99dc6d7ed",
+        "356f2c91-b8fd-4885-9893-bb3ba8c34321",
+        "35bef6bb-d888-493b-a4a0-197c7a4fd66c",
+        "643154a0-496d-4912-b8b5-7438949e30ac",
+        "6f3870e2-d518-40ab-822b-d190f7cc636b",
+        "8a24987c-37d9-4452-af25-372ce5ea96f9",
+        "95e22660-7e2e-44b5-80cd-f38efc9ba874",
+        "a4ff6eaf-9d63-46ca-bed2-006130d42016"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "QSPI_SD0",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "06776282-cff3-41d4-b1f6-c8022b5e51cc",
+        "0adf7e17-e2f3-4162-9381-e5912fa4b494",
+        "21b21a6c-4971-4026-bc10-7f1e9905f96a",
+        "59aaf361-7ee9-4898-96c7-136eab7f0df1",
+        "6ff0a8de-d64f-426c-af96-28950d6076b8",
+        "8f541aee-d207-4fa3-9408-ae3754ed369e",
+        "d10d0f9b-bb97-461b-854e-4cf88c15485c",
+        "d74ada6d-4255-46e9-8c02-1b7dff5be0f0"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "QSPI_SD1",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "742fc87e-aec6-48d7-b306-7975ea8dd2ea",
+        "94510178-1dbf-468f-9563-64ed4565bd2d",
+        "a351afdc-2b21-468a-82d2-faed8a5aa97b",
+        "bfab7166-1c27-45cb-8dd8-e3cdd3a3d8f1",
+        "fbeb0206-dc00-491d-a74f-43f953e33172"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "QSPI_SD2",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "1bd73cd6-048f-4f84-9912-4c3e3cb7ee41",
+        "262df526-8b0a-4dc2-a2f2-80d45650628d",
+        "2775d538-a259-49c4-9daf-ae941ab6b1ca",
+        "537be3f3-0889-4186-91c4-584d27987467",
+        "99f1be96-c907-4b3c-931c-6f5ed9ed52d7"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "QSPI_SD3",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "0b6a73b6-aa3f-4398-b834-e5a240e1d2e6",
+        "1e5fdbd3-bdf4-4c1c-8887-fc01f7447a44",
+        "2b9bb3b7-b5ab-4544-88cc-1d1cee2c5c72",
+        "7dc85865-3a2b-4b9e-823d-15e42cd81817",
+        "8a8e3e84-c019-4de9-901c-0903bd3d4ba6",
+        "a316eef3-06c7-40d5-847e-0755b3ef650f",
+        "bd990c3d-272e-4d9c-907d-bca99dbd41ef",
+        "d83135a7-abf3-4e67-98b0-79bb7e1010dc",
+        "f10c4c5a-fbbf-4578-8cbc-a4806fa9955c"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "SWCLK_HDR",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "1a5f77f3-dd61-497c-85c7-4c0728eed24a",
+        "492555ad-313d-45d1-aa2b-528252a9afc3",
+        "60bed7e0-6ea3-4bbc-ad9d-5d0a759ae13c",
+        "8397a058-9703-469a-8dd5-40ae71169390",
+        "9846559d-7902-47f5-bde0-ffd61715149c",
+        "a2aa0e2d-60de-4337-9cfd-c527ae023437",
+        "a492d035-fbfe-44d8-ab8c-0c0b00f6c024",
+        "babe5e0a-5124-4512-b7d9-90af7cba00ae",
+        "ea2b5e88-f3e4-416a-ae23-8a3d0371051a",
+        "ec644367-4be4-409a-be06-43c6810b6134",
+        "ed6d7995-9888-4b25-a9ac-6d12035afa68"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": [],
+      "terminalLaunches": [
+        {
+          "status": "verified",
+          "reasons": [
+            "The declared local return pad is a direct eligible native contact on the intended plane.",
+            "The omitted approach plus unchanged margin is strictly separate from all complete bore enclosures except its own signal-terminal bore.",
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "requirementId": "reference-launch:SWCLK_HDR:J4:1",
+          "foreignBoreUuids": [],
+          "geometry": {
+            "signalEndpoint": {
+              "reference": "J4",
+              "pin": "1"
+            },
+            "referenceEndpoint": {
+              "reference": "J4",
+              "pin": "2"
+            },
+            "signalPadUuid": "b25066be-74fa-4e3f-a05f-334707f3ec8e",
+            "referencePadUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+            "net": "SWCLK_HDR",
+            "signalCenterNm": {
+              "x": 8460000,
+              "y": 57200000
+            },
+            "referenceCenterNm": {
+              "x": 11000000,
+              "y": 57200000
+            },
+            "cutNm": {
+              "x": 7116498,
+              "y": 55856498
+            },
+            "originalStartNm": {
+              "x": 5250000,
+              "y": 53990000
+            },
+            "originalEndNm": {
+              "x": 8460000,
+              "y": 57200000
+            },
+            "segmentId": "9846559d-7902-47f5-bde0-ffd61715149c",
+            "maximumLengthNm": 1900000,
+            "maximumReturnSpacingNm": 2540000,
+            "removedLengthSquaredNm": "3609995248008",
+            "returnSpacingSquaredNm": "6451600000000",
+            "engineeringBasis": "Private diagnostic detail retained in the complete assessment."
+          }
+        }
+      ]
+    },
+    {
+      "net": "SWCLK_MCU",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "0c3edb3b-56d2-466f-9147-58af6ebbc904",
+        "7602617b-fb4a-49ed-acae-1a527a569af6",
+        "82b03c37-71c7-4b46-ab0a-8f7c72cbba95",
+        "ecb96f2d-3291-4072-ab3e-9c919757217a",
+        "f5410568-ae2a-4f11-aed1-13f0aa5fe35d"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "SWDIO_HDR",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+        "3dd0438a-9a24-4903-87c8-817a117138ec",
+        "4ed6f3c5-73d4-4f1e-9c19-c3f00f967a18",
+        "61ff88fe-f68e-4781-8f23-2afd02f7d769",
+        "631e3cb7-865a-47ec-9535-ea26d9d97b76",
+        "825eaaf7-f10c-4492-95b3-51928865b6f1",
+        "8f9f2d36-b596-4b3d-97e2-c2497135a472",
+        "c0ed736f-8398-4f6b-9548-48c61c30dcfd",
+        "c30f162c-3579-40d6-9685-8851ad75ee48",
+        "e4d99ee2-5327-402f-b657-e99a8a8c52af"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": [],
+      "terminalLaunches": [
+        {
+          "status": "verified",
+          "reasons": [
+            "The declared local return pad is a direct eligible native contact on the intended plane.",
+            "The omitted approach plus unchanged margin is strictly separate from all complete bore enclosures except its own signal-terminal bore.",
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "requirementId": "reference-launch:SWDIO_HDR:J4:3",
+          "foreignBoreUuids": [],
+          "geometry": {
+            "signalEndpoint": {
+              "reference": "J4",
+              "pin": "3"
+            },
+            "referenceEndpoint": {
+              "reference": "J4",
+              "pin": "2"
+            },
+            "signalPadUuid": "7a11b973-d239-4889-92ba-0e6cca7f4c4a",
+            "referencePadUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+            "net": "SWDIO_HDR",
+            "signalCenterNm": {
+              "x": 13540000,
+              "y": 57200000
+            },
+            "referenceCenterNm": {
+              "x": 11000000,
+              "y": 57200000
+            },
+            "cutNm": {
+              "x": 12479340,
+              "y": 56139340
+            },
+            "originalStartNm": {
+              "x": 12140000,
+              "y": 55800000
+            },
+            "originalEndNm": {
+              "x": 13540000,
+              "y": 57200000
+            },
+            "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+            "maximumLengthNm": 1500000,
+            "maximumReturnSpacingNm": 2540000,
+            "removedLengthSquaredNm": "2249999271200",
+            "returnSpacingSquaredNm": "6451600000000",
+            "engineeringBasis": "Private diagnostic detail retained in the complete assessment."
+          }
+        }
+      ]
+    },
+    {
+      "net": "SWDIO_MCU",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "Geometric boundary uncertainty cannot pass reference coverage."
+      ],
+      "segmentIds": [
+        "0eab1d17-fef6-4ec0-9e4a-c140ee38db79",
+        "10ab56c5-f5a8-4bd6-b301-fb63be4f71f2",
+        "29f43598-72da-4ce0-a096-1a9b1f301281",
+        "2df821f6-29a2-43d5-8330-62a0ef80cf3f",
+        "7666bdac-adae-46e9-8d2f-37fce1c82cda",
+        "cb44adfa-757d-4135-978c-6fc0c28ee76d"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "boundary_uncertain",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "USB_DM_ESD",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "0d50a902-f09b-4054-9c6c-5003de184bb7",
+        "0eb873e5-491a-4c6e-8b3c-3d6840643dbc",
+        "0fd64e81-0e0e-42ae-aec9-5aad74d74b8e",
+        "4eedd955-1ac9-4a4f-97db-e83137e209ce",
+        "52281016-1481-44a8-952d-d19cd875fad4",
+        "60248de1-0ad3-4a23-881a-c7afbc59b48e",
+        "8603d22d-ec20-4aa7-aeb7-f30c28a1fc5a",
+        "9503c613-7013-4c3d-81aa-54bb65d65f5f",
+        "9c6c7a12-adb8-434c-8e4f-decb6d5098ed"
+      ],
+      "marginNm": 230000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "USB_DM_MCU",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "1fbd4fed-66f5-447a-a41c-78bba827d700",
+        "3d74b312-84a5-431a-b9e2-885558191689",
+        "4bd0726b-02b6-44ab-a722-b39f262ecc86",
+        "e98f5e8d-54eb-423f-b8e9-699572cdc1ed"
+      ],
+      "marginNm": 230000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "USB_DM_PORT",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "0269e750-2e5b-4e1f-9d6a-4ab756d54e79",
+        "02bf1fa1-2149-4f39-b80d-501c58c137f3",
+        "5fe7e715-74b4-42dc-9046-bcf30a94e08e",
+        "6329247b-0bad-4074-90b2-0171de2c9c8b",
+        "787b5065-4b00-4600-8383-7d477800cfe0",
+        "836d0caa-0122-4ee4-b954-4bb4e33ee7c3",
+        "b0f5bb5c-1ba8-422c-a0a2-383be45d9529",
+        "c08d2946-777e-438c-aa03-2882e4ef548f",
+        "d2c82541-53d9-408e-863e-207da44ba25e",
+        "e7ddb2e1-0356-487d-819c-73c512014a75"
+      ],
+      "marginNm": 230000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "USB_DP_ESD",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "00798378-bb78-448b-b091-3ea6d8ad9d61",
+        "019ffac6-24b0-4b15-a518-069b8d8d860c",
+        "0f3efb01-4928-4812-9e39-86476bae8a4a",
+        "53a0955c-f685-497a-9944-01b9cbae0370",
+        "5b4bd8dd-6b26-4ec2-82c9-1deb4fa9739d",
+        "73aa5640-5def-4510-a25b-d7bc6074a423",
+        "7c818d4c-078c-4135-a7db-59e6b03695d7",
+        "7ec13e32-444a-466d-8c4d-d25e6656a9bf",
+        "bab8729d-bcb3-4b76-a949-ea8e6c60ea83",
+        "cc57d30f-b99a-48fe-ba92-ef4d8f0953ba",
+        "e7a3b557-8fcf-409b-b9d0-0f5ed4893280",
+        "ef80fb76-1e04-4745-807a-86adc81b3d81"
+      ],
+      "marginNm": 230000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "USB_DP_MCU",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "308ea01c-256d-4e06-852a-7f72eab6aedf",
+        "58374b93-8930-4545-83a2-220f35a13207",
+        "8be91104-a7f9-4f51-b623-2e52accefc10",
+        "c0c6510c-6267-471b-9740-91d405df7230"
+      ],
+      "marginNm": 230000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "USB_DP_PORT",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "1348dc12-050d-43af-a932-2baa88845461",
+        "1a31809d-761a-4165-8e66-8d4bc7a46f45",
+        "31c41204-d6a1-428c-af3d-201c2e6aff1f",
+        "4c4f9a8d-7a2c-4b72-a427-b37a4f29a995",
+        "5c0954bb-86a0-41d1-b47c-7951459eabb4",
+        "640556a3-7c24-43dd-8bb3-0a28a40f0491",
+        "6d5759f5-d0b9-4a32-95b7-8cca3b58c964",
+        "75c9893e-b9cd-497c-86f5-225cdc3fe55a",
+        "93316ff6-ba16-4ee1-8163-e01da5cf4ae3",
+        "b9478930-8c2c-44f1-bea6-282d3ea59e3f",
+        "d0d3b323-b393-4893-8151-ac7520401804",
+        "e400de91-6532-48b9-86c8-471b6a75d148",
+        "f0b49b7d-afc5-4a12-85bc-2489eb4916b1"
+      ],
+      "marginNm": 230000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "XIN",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "2d10866f-9f5d-4367-817c-ffe8af1ba0d4",
+        "347d7c0f-9385-4c29-9ddd-f89e928e1680",
+        "40aeadf7-a6d5-4c3b-8dd3-5355f9d0fcf5",
+        "4366f9aa-b0a2-43de-94b3-aa382dd5c582",
+        "46ed70dd-a391-4340-b93e-1e33b6384937",
+        "5194a7aa-bf93-40f7-b61a-d650b342cd79",
+        "52f50c79-7c31-4a7f-ac32-b4218cfda360",
+        "874a3c52-5e9c-454e-9175-0f949266f7fd",
+        "9a66b55b-9018-484c-be92-4f8937242f77",
+        "a3414b10-fd66-4d01-997b-752e8875cb12",
+        "a903fba8-640e-433e-b863-e9cd41e9dce5",
+        "b437bee9-5080-4143-b47a-926b7a3be48e",
+        "f0aeaf92-58b8-4db7-93f5-50572bd721fe"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "XOUT_MCU",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "50a8b17a-1a93-4749-8ab8-72b03b2decb2"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    },
+    {
+      "net": "XTAL_OUT",
+      "planeId": "GND_PLANE",
+      "status": "unknown",
+      "reasons": [
+        "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified."
+      ],
+      "segmentIds": [
+        "3edf615c-9fd3-45ea-a867-4412a66c4d7d",
+        "4af1fc49-38f5-4231-abaa-82dea2d78155",
+        "5dfc69c0-3196-4308-abdc-6e51f6ed1097",
+        "7f6f6acf-99b8-4dc3-9c40-52320280b3b2",
+        "cd832368-4922-417d-a30c-6715b45e984d",
+        "e1a87550-f10e-470d-991d-bbd0b6f8483e",
+        "f579ed09-a6f5-45a9-a543-2b4df6660104"
+      ],
+      "marginNm": 250000,
+      "geometricStatus": "covered",
+      "referenceTerminals": {
+        "status": "verified",
+        "reasons": [
+          "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component."
+        ]
+      },
+      "intersectingBoreUuids": [],
+      "tangentBoreUuids": []
+    }
+  ],
+  "launchRows": [
+    {
+      "id": "reference-launch:SWCLK_HDR:J4:1",
+      "kind": "reference_path",
+      "status": "pass",
+      "reasons": [
+        "The declared local return pad is a direct eligible native contact on the intended plane.",
+        "The omitted approach plus unchanged margin is strictly separate from all complete bore enclosures except its own signal-terminal bore.",
+        "Private diagnostic detail retained in the complete assessment."
+      ]
+    },
+    {
+      "id": "reference-launch:SWDIO_HDR:J4:3",
+      "kind": "reference_path",
+      "status": "pass",
+      "reasons": [
+        "The declared local return pad is a direct eligible native contact on the intended plane.",
+        "The omitted approach plus unchanged margin is strictly separate from all complete bore enclosures except its own signal-terminal bore.",
+        "Private diagnostic detail retained in the complete assessment."
+      ]
+    }
+  ],
+  "mainThermal": {
+    "status": "verified",
+    "reasons": []
+  },
+  "endpointConnectivity": "connected",
+  "nativeDrc": "clean",
+  "rows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "accepted": false,
+  "previews": {
+    "top": {
+      "pngSha256": "5200481f99b1d254d59c32eb83cceb54cc85cc45ea4ae41ae8b499014c5cc240",
+      "sameAsNativeR1": true
+    },
+    "assembly": {
+      "pngSha256": "aa6873fa76d9cdbb1f8690eea802cc291fe7adfcb1f52415ba7a77fbdf706d0f",
+      "sameAsNativeR1": true
+    }
+  },
+  "scope": "Separate explicit terminal-launch revision. Original allocation and its complete-ribbon failures remain intact. Circuit, physical geometry, canonical numeric rules, all body margins and reference terminal assignments remain exact. No prior fill/acceptance transfers. Local launch conditions do not establish complete electrical acceptance."
+}

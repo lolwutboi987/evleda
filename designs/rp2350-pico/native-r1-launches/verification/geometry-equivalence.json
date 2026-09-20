@@ -1,0 +1,18 @@
+{
+  "sourcePcbSha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+  "targetPcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "tracksViasComponentsAndLabelsPreserved": true,
+  "schematicAndCanonicalRulesByteIdentical": true,
+  "filledGeometryIdentitiesPreserved": true,
+  "previews": {
+    "top": {
+      "pngSha256": "5200481f99b1d254d59c32eb83cceb54cc85cc45ea4ae41ae8b499014c5cc240",
+      "sameAsNativeR1": true
+    },
+    "assembly": {
+      "pngSha256": "aa6873fa76d9cdbb1f8690eea802cc291fe7adfcb1f52415ba7a77fbdf706d0f",
+      "sameAsNativeR1": true
+    }
+  },
+  "scope": "Source plan plus current native save/readback and read-only reopen. Reused schematic preview is bound to identical schematic bytes; other current numerical/metadata reports are regenerated."
+}

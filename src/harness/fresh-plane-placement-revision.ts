@@ -6,7 +6,9 @@ import { createFreshPlaneRules } from "./fresh-plane-rules.js";
 import { freshNetClassPreparationMechanics as classes } from "./fresh-clearance-evidence.js";
 import { assertEmptyDerivedNetClassAssignments, assertExactContractNetClassPatterns } from "./fresh-netclass-assignment.js";
 import { seedFreshBoardFeatures, verifyFreshBoardFeatures } from "./fresh-board-features.js";
-import { parseFreshPcbSource, parseFreshPcbSourceDocument, type FreshKicadSourceNode } from "./fresh-kicad-parser.js";
+import { parseFreshPcbSource, parseFreshPcbSourceDocument, parseFreshPcbReferenceGeometry, type FreshKicadSourceNode } from "./fresh-kicad-parser.js";
+import { planReferenceTerminalLaunchStudy } from "./reference-terminal-launch-study.js";
+import { routeSourceMmToNativeNm } from "./fresh-route-native-units.js";
 
 const equal = (a: unknown, b: unknown) => canonicalJson(a) === canonicalJson(b);
 const requireValue = (value: unknown, message: string): void => { if (!value) throw new Error(`Placement revision: ${message}`); };
@@ -66,7 +68,7 @@ export function assertPlanePlacementRevisionScope(source: PcbPlaneCompilationBun
   requireValue(!equal(source.contract.placementConstraints, target.contract.placementConstraints), "a placement revision must change placement intent");
 }
 
-export type PlaneRevisionKind = "placement" | "via-budgets" | "plane-regions";
+export type PlaneRevisionKind = "placement" | "via-budgets" | "plane-regions" | "terminal-launches";
 /** Saved copies are operator recovery seeds, never ordinary public revisions. */
 export type PlaneSourceSeedKind = PlaneRevisionKind | "saved-copy";
 
@@ -140,6 +142,25 @@ export interface PlanePlacementRevisionSources {
   readonly dru: string;
 }
 
+/** Only an explicit bounded terminal-launch declaration may change. Full body
+ * margins, reference terminal assignments and every physical constraint remain. */
+export function assertPlaneTerminalLaunchRevisionScope(source: PcbPlaneCompilationBundle, target: PcbPlaneCompilationBundle): void {
+  requireValue(isAuthenticatedPcbPlaneCompilationBundle(source) && isAuthenticatedPcbPlaneCompilationBundle(target), "both bundles must be authenticated");
+  const routing = (value: PcbPlaneCompilationBundle["draft"]["routingConstraints"] | PcbPlaneCompilationBundle["contract"]["routingConstraints"]) => ({ ...value,
+    nets: value.nets.map(r => { if (r.topology === "plane" || r.referencePath?.mode !== "continuous_plane") return r;
+      const { terminalLaunches: _launches, ...referencePath } = r.referencePath; return { ...r, referencePath }; }) });
+  const contract = ({ identity: _identity, routingConstraints, ...rest }: PcbPlaneCompilationBundle["contract"]) => ({ ...rest, routingConstraints: routing(routingConstraints) });
+  const draft = ({ routingConstraints, ...rest }: PcbPlaneCompilationBundle["draft"]) => ({ ...rest, routingConstraints: routing(routingConstraints) });
+  const library = ({ identity: _identity, contractIdentity: _contract, ...rest }: PcbPlaneCompilationBundle["libraryBinding"]) => rest;
+  requireValue(equal(contract(source.contract), contract(target.contract)) && equal(draft(source.draft), draft(target.draft))
+    && equal(library(source.libraryBinding), library(target.libraryBinding)) && equal(source.selectionPolicy, target.selectionPolicy),
+  "only explicit terminal-launch declarations and prompt metadata may differ; margins, terminal assignments and physical requirements stay exact");
+  const declarations = (bundle: PcbPlaneCompilationBundle) => bundle.contract.routingConstraints.nets.flatMap(r => r.topology === "plane"
+    || r.referencePath.mode !== "continuous_plane" || r.referencePath.terminalLaunches === undefined ? []
+    : [{ net: r.net, launches: r.referencePath.terminalLaunches.map(({ engineeringBasis: _basis, ...geometry }) => geometry) }]);
+  requireValue(!equal(declarations(source), declarations(target)), "a terminal-launch revision must change substantive launch intent, not only rationale");
+}
+
 /** Pure proposal, not an import or a fresh-project capability. The workspace
  * must separately qualify a genuine closed source, current libraries/profile,
  * leases and destination, then perform native open/save/readback. */
@@ -152,11 +173,12 @@ export function planPlanePlacementRevisionSources(input: {
 }) {
   const { sourceBundle: source, targetBundle: target } = input;
   const revisionKind = input.revisionKind ?? "placement";
-  requireValue(revisionKind === "placement" || revisionKind === "via-budgets" || revisionKind === "plane-regions" || revisionKind === "saved-copy", "unsupported revision kind");
+  requireValue(revisionKind === "placement" || revisionKind === "via-budgets" || revisionKind === "plane-regions" || revisionKind === "terminal-launches" || revisionKind === "saved-copy", "unsupported revision kind");
   if (revisionKind === "saved-copy") requireValue(isAuthenticatedPcbPlaneCompilationBundle(source)
     && isAuthenticatedPcbPlaneCompilationBundle(target) && equal(source, target), "saved-copy recovery cannot change its authenticated bundle");
   else if (revisionKind === "via-budgets") assertPlaneViaBudgetRevisionScope(source, target);
   else if (revisionKind === "plane-regions") assertPlaneRegionPolicyRevisionScope(source, target);
+  else if (revisionKind === "terminal-launches") assertPlaneTerminalLaunchRevisionScope(source, target);
   else assertPlanePlacementRevisionScope(source, target);
   requireValue(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/u.test(input.name), "same safe project stem is required");
   const original = Object.freeze({ pcb: text(input.sources.pcb), sch: text(input.sources.sch),
@@ -164,6 +186,17 @@ export function planPlanePlacementRevisionSources(input: {
   const oldRules = createFreshPlaneRules(source), newRules = createFreshPlaneRules(target);
   requireValue(original.dru === oldRules.source, "source custom rules are not its canonical owned rules");
   const board = parseFreshPcbSource(original.pcb), tree = parseFreshPcbSourceDocument(original.pcb);
+  if (revisionKind === "terminal-launches") {
+    const geometry = parseFreshPcbReferenceGeometry(original.pcb);
+    for (const route of target.contract.routingConstraints.nets) {
+      if (route.topology === "plane" || route.referencePath.mode !== "continuous_plane" || route.referencePath.terminalLaunches === undefined) continue;
+      const reference = route.referencePath;
+      planReferenceTerminalLaunchStudy({ pcbSource: original.pcb, segments: geometry.segments.filter(s => s.netName === route.net),
+        referenceNet: target.contract.planes.find(p => p.id === reference.planeId)!.net,
+        proposals: reference.terminalLaunches!.map(p => ({ signalEndpoint: p.signalEndpoint, referenceEndpoint: p.referenceEndpoint,
+          maximumLengthNm: routeSourceMmToNativeNm(p.maximumLengthMm), maximumReturnSpacingNm: routeSourceMmToNativeNm(p.maximumReturnSpacingMm), engineeringBasis: p.engineeringBasis })) });
+    }
+  }
   if (revisionKind === "via-budgets") {
     for (const rule of target.contract.routingConstraints.nets) if ("maxVias" in rule) {
       requireValue(board.vias.filter(via => via.netName === rule.net).length <= rule.maxVias,
@@ -256,6 +289,7 @@ export function planPlanePlacementRevisionSources(input: {
   const payload = { schemaVersion: revisionKind === "saved-copy" ? "evleda.plane-saved-copy-source-plan.v1" as const
     : revisionKind === "via-budgets" ? "evleda.plane-via-budget-revision-source-plan.v1" as const
     : revisionKind === "plane-regions" ? "evleda.plane-region-policy-revision-source-plan.v1" as const
+    : revisionKind === "terminal-launches" ? "evleda.plane-terminal-launch-revision-source-plan.v1" as const
     : "evleda.plane-placement-revision-source-plan.v1" as const, sourceBundleIdentity: source.identity,
     targetBundleIdentity: target.identity, sourceIdentities: Object.fromEntries(Object.entries(original).map(([k, v]) => [k, contentIdentity(v)])),
     targetIdentities: Object.fromEntries(Object.entries(sources).map(([k, v]) => [k, contentIdentity(v)])),

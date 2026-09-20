@@ -1,0 +1,127 @@
+{
+  "sourceProjectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "targetProjectId": "7b09bbe4-280a-4e07-a608-08b0780cf3c8",
+  "sourceBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "a30e7a5067e1d7f91511d7ea964a6e3fffacd16c47217cabcc5434ad05b51e84",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "targetBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "a96fb0e0fd9966353501d499aab312608729605558f817700916a99a07652dc7",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "routes": [
+    {
+      "maxVias": 0,
+      "net": "SWCLK_HDR",
+      "preferredLayer": "F.Cu",
+      "referencePath": {
+        "coverageMarginMm": 0.25,
+        "layerTransitions": "forbidden",
+        "mode": "continuous_plane",
+        "planeId": "GND_PLANE",
+        "signalLayer": "F.Cu",
+        "terminalLaunches": [
+          {
+            "engineeringBasis": "The through-hole signal terminal and its own clearance opening form a bounded connector transition, distinct from the continuously referenced route body. J4.2 is the adjacent ground return; R19/R20 remain 100 ohms and the existing 10 MHz/100 mm cable/15 pF design targets stay unchanged. Require current matching native/source geometry, a direct eligible In1 ground anchor, foreign-bore separation and native clearances. Body margin remains 0.25 mm. Prior studies are rationale only; no freshness or acceptance transfers.",
+            "maximumLengthMm": 1.9,
+            "maximumReturnSpacingMm": 2.54,
+            "referenceEndpoint": {
+              "pin": "2",
+              "reference": "J4"
+            },
+            "signalEndpoint": {
+              "pin": "1",
+              "reference": "J4"
+            }
+          }
+        ],
+        "terminalReferences": [
+          {
+            "referenceEndpoint": {
+              "pin": "2",
+              "reference": "J4"
+            },
+            "signalEndpoint": {
+              "pin": "1",
+              "reference": "J4"
+            }
+          },
+          {
+            "referenceEndpoint": {
+              "pin": "61",
+              "reference": "U1"
+            },
+            "signalEndpoint": {
+              "pin": "2",
+              "reference": "R19"
+            }
+          }
+        ]
+      },
+      "routeLength": {
+        "maximumMm": 45,
+        "mode": "bounded"
+      },
+      "topology": "point_to_point"
+    },
+    {
+      "maxVias": 0,
+      "net": "SWDIO_HDR",
+      "preferredLayer": "F.Cu",
+      "referencePath": {
+        "coverageMarginMm": 0.25,
+        "layerTransitions": "forbidden",
+        "mode": "continuous_plane",
+        "planeId": "GND_PLANE",
+        "signalLayer": "F.Cu",
+        "terminalLaunches": [
+          {
+            "engineeringBasis": "The through-hole signal terminal and its own clearance opening form a bounded connector transition, distinct from the continuously referenced route body. J4.2 is the adjacent ground return; R19/R20 remain 100 ohms and the existing 10 MHz/100 mm cable/15 pF design targets stay unchanged. Require current matching native/source geometry, a direct eligible In1 ground anchor, foreign-bore separation and native clearances. Body margin remains 0.25 mm. Prior studies are rationale only; no freshness or acceptance transfers.",
+            "maximumLengthMm": 1.5,
+            "maximumReturnSpacingMm": 2.54,
+            "referenceEndpoint": {
+              "pin": "2",
+              "reference": "J4"
+            },
+            "signalEndpoint": {
+              "pin": "3",
+              "reference": "J4"
+            }
+          }
+        ],
+        "terminalReferences": [
+          {
+            "referenceEndpoint": {
+              "pin": "2",
+              "reference": "J4"
+            },
+            "signalEndpoint": {
+              "pin": "3",
+              "reference": "J4"
+            }
+          },
+          {
+            "referenceEndpoint": {
+              "pin": "61",
+              "reference": "U1"
+            },
+            "signalEndpoint": {
+              "pin": "2",
+              "reference": "R20"
+            }
+          }
+        ]
+      },
+      "routeLength": {
+        "maximumMm": 45,
+        "mode": "bounded"
+      },
+      "topology": "point_to_point"
+    }
+  ],
+  "scope": "Explicit separately compiled terminal transitions; all body margins, terminal assignments, native numeric rules and physical geometry remain exact."
+}

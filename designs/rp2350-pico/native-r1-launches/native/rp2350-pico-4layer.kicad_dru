@@ -1,0 +1,513 @@
+(version 1)
+
+(rule "EVLEDA_NUMERIC_FALLBACK"
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_PAD_FALLBACK"
+  (condition "A.Type == 'Pad'")
+  (severity error)
+  (constraint hole_size (min 0.3mm))
+  (constraint annular_width (min 0.1mm)))
+
+(rule "EVLEDA_NUMERIC_NET_1"
+  (condition "A.NetName == '1V1'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_2"
+  (condition "A.NetName == '3V3'")
+  (severity error)
+  (constraint track_width (min 0.15mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_3"
+  (condition "A.NetName == '3V3_EN'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_4"
+  (condition "A.NetName == 'ADC_AVDD'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_5"
+  (condition "A.NetName == 'ADC_VREF'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_6"
+  (condition "A.NetName == 'BOOT_SW'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_7"
+  (condition "A.NetName == 'CORE_LX'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_8"
+  (condition "A.NetName == 'GND'")
+  (severity error)
+  (constraint track_width (min 0.3mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_9"
+  (condition "A.NetName == 'GPIO0'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_10"
+  (condition "A.NetName == 'GPIO1'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_11"
+  (condition "A.NetName == 'GPIO10'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_12"
+  (condition "A.NetName == 'GPIO11'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_13"
+  (condition "A.NetName == 'GPIO12'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_14"
+  (condition "A.NetName == 'GPIO13'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_15"
+  (condition "A.NetName == 'GPIO14'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_16"
+  (condition "A.NetName == 'GPIO15'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_17"
+  (condition "A.NetName == 'GPIO16'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_18"
+  (condition "A.NetName == 'GPIO17'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_19"
+  (condition "A.NetName == 'GPIO18'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_20"
+  (condition "A.NetName == 'GPIO19'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_21"
+  (condition "A.NetName == 'GPIO2'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_22"
+  (condition "A.NetName == 'GPIO20'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_23"
+  (condition "A.NetName == 'GPIO21'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_24"
+  (condition "A.NetName == 'GPIO22'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_25"
+  (condition "A.NetName == 'GPIO23_SMPS_PS'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_26"
+  (condition "A.NetName == 'GPIO24_VBUS_SENSE'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_27"
+  (condition "A.NetName == 'GPIO25_LED'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_28"
+  (condition "A.NetName == 'GPIO26'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_29"
+  (condition "A.NetName == 'GPIO27'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_30"
+  (condition "A.NetName == 'GPIO28'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_31"
+  (condition "A.NetName == 'GPIO29_VSYS_SENSE'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_32"
+  (condition "A.NetName == 'GPIO3'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_33"
+  (condition "A.NetName == 'GPIO4'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_34"
+  (condition "A.NetName == 'GPIO5'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_35"
+  (condition "A.NetName == 'GPIO6'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_36"
+  (condition "A.NetName == 'GPIO7'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_37"
+  (condition "A.NetName == 'GPIO8'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_38"
+  (condition "A.NetName == 'GPIO9'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_39"
+  (condition "A.NetName == 'LED_A'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_40"
+  (condition "A.NetName == 'QSPI_CS'")
+  (severity error)
+  (constraint track_width (min 0.15mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_41"
+  (condition "A.NetName == 'QSPI_SCLK'")
+  (severity error)
+  (constraint track_width (min 0.15mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_42"
+  (condition "A.NetName == 'QSPI_SD0'")
+  (severity error)
+  (constraint track_width (min 0.15mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_43"
+  (condition "A.NetName == 'QSPI_SD1'")
+  (severity error)
+  (constraint track_width (min 0.15mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_44"
+  (condition "A.NetName == 'QSPI_SD2'")
+  (severity error)
+  (constraint track_width (min 0.15mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_45"
+  (condition "A.NetName == 'QSPI_SD3'")
+  (severity error)
+  (constraint track_width (min 0.15mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_46"
+  (condition "A.NetName == 'RT_LX1'")
+  (severity error)
+  (constraint track_width (min 0.3mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_47"
+  (condition "A.NetName == 'RT_LX2'")
+  (severity error)
+  (constraint track_width (min 0.3mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_48"
+  (condition "A.NetName == 'RUN'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_49"
+  (condition "A.NetName == 'SWCLK_HDR'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_50"
+  (condition "A.NetName == 'SWCLK_MCU'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_51"
+  (condition "A.NetName == 'SWDIO_HDR'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_52"
+  (condition "A.NetName == 'SWDIO_MCU'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_53"
+  (condition "A.NetName == 'USB_CC1'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_54"
+  (condition "A.NetName == 'USB_CC2'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_55"
+  (condition "A.NetName == 'USB_DM_ESD'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_56"
+  (condition "A.NetName == 'USB_DM_MCU'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_57"
+  (condition "A.NetName == 'USB_DM_PORT'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_58"
+  (condition "A.NetName == 'USB_DP_ESD'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_59"
+  (condition "A.NetName == 'USB_DP_MCU'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_60"
+  (condition "A.NetName == 'USB_DP_PORT'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_61"
+  (condition "A.NetName == 'VBUS'")
+  (severity error)
+  (constraint track_width (min 0.3mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_62"
+  (condition "A.NetName == 'VREG_AVDD'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_63"
+  (condition "A.NetName == 'VSYS'")
+  (severity error)
+  (constraint track_width (min 0.3mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_64"
+  (condition "A.NetName == 'VSYS_DIV'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_65"
+  (condition "A.NetName == 'XIN'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_66"
+  (condition "A.NetName == 'XOUT_MCU'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_NET_67"
+  (condition "A.NetName == 'XTAL_OUT'")
+  (severity error)
+  (constraint track_width (min 0.2mm))
+  (constraint edge_clearance (min 0.5mm)))
+
+(rule "EVLEDA_NUMERIC_VIA"
+  (condition "A.Type == 'Via'")
+  (severity error)
+  (constraint via_diameter (min 0.55mm))
+  (constraint hole_size (min 0.2mm))
+  (constraint annular_width (min 0.15mm)))
+
+(rule "EVLEDA_H1_NPTH_COPPER"
+  (condition "A.Type == 'Pad' && A.Reference == 'H1'")
+  (severity error)
+  (constraint hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H1_NPTH_PHYSICAL_COPPER"
+  (layer outer)
+  (condition "A.Type == 'Pad' && A.Reference == 'H1'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H1_NPTH_PHYSICAL_In1_Cu"
+  (layer "In1.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H1'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H1_NPTH_PHYSICAL_In2_Cu"
+  (layer "In2.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H1'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H2_NPTH_COPPER"
+  (condition "A.Type == 'Pad' && A.Reference == 'H2'")
+  (severity error)
+  (constraint hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H2_NPTH_PHYSICAL_COPPER"
+  (layer outer)
+  (condition "A.Type == 'Pad' && A.Reference == 'H2'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H2_NPTH_PHYSICAL_In1_Cu"
+  (layer "In1.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H2'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H2_NPTH_PHYSICAL_In2_Cu"
+  (layer "In2.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H2'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H3_NPTH_COPPER"
+  (condition "A.Type == 'Pad' && A.Reference == 'H3'")
+  (severity error)
+  (constraint hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H3_NPTH_PHYSICAL_COPPER"
+  (layer outer)
+  (condition "A.Type == 'Pad' && A.Reference == 'H3'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H3_NPTH_PHYSICAL_In1_Cu"
+  (layer "In1.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H3'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H3_NPTH_PHYSICAL_In2_Cu"
+  (layer "In2.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H3'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H4_NPTH_COPPER"
+  (condition "A.Type == 'Pad' && A.Reference == 'H4'")
+  (severity error)
+  (constraint hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H4_NPTH_PHYSICAL_COPPER"
+  (layer outer)
+  (condition "A.Type == 'Pad' && A.Reference == 'H4'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H4_NPTH_PHYSICAL_In1_Cu"
+  (layer "In1.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H4'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))
+
+(rule "EVLEDA_H4_NPTH_PHYSICAL_In2_Cu"
+  (layer "In2.Cu")
+  (condition "A.Type == 'Pad' && A.Reference == 'H4'")
+  (severity error)
+  (constraint physical_hole_clearance (min 0.25mm)))

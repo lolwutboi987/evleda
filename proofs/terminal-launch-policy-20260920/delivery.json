@@ -1,0 +1,67 @@
+{
+  "recordedAt": "2026-09-20T23:52:23.456Z",
+  "hostReleaseSha256": "f38f408ead6a0ac9f4f0e412643b402d75413f25b1cf44bb03cdebd79458ff46",
+  "buildChecks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "reusedChecks": {
+    "evidence": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\proofs\\terminal-launch-policy-20260920\\verification.json",
+      "sha256": "b80f1e963614aea6a2caeeb3dd81582d6cb08a2b62a32ba6a62a724d0e590fcd",
+      "sizeBytes": 4211
+    },
+    "tests": {
+      "passed": 274,
+      "files": 12,
+      "exitCode": 0,
+      "scope": "Launch contract/revision/acceptance, public projection and revision protocol, existing regional/via/placement/recovery and read-only study regressions; not a full suite."
+    },
+    "sourceTypecheck": {
+      "exitCode": 0
+    },
+    "rationale": "Qualified source/test changes match the recorded274-test and final guide/typecheck evidence; all other code inputs match host49. Every other code, test, script, sidecar and build-input pin remains exact. Tests/typecheck were not repeated; this frozen copy receives fresh backend compilation and helper packaging."
+  },
+  "sourcePinsRechecked": true,
+  "portableCopiesRechecked": 63,
+  "sourceProjectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "targetProjectId": "7b09bbe4-280a-4e07-a608-08b0780cf3c8",
+  "sourceNormalClose": true,
+  "targetNormalClose": true,
+  "readOnlyNormalClose": true,
+  "sourceUnchanged": true,
+  "targetReadOnlySourcesUnchanged": true,
+  "rows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "launchRows": [
+    {
+      "id": "reference-launch:SWCLK_HDR:J4:1",
+      "kind": "reference_path",
+      "status": "pass",
+      "reasons": [
+        "The declared local return pad is a direct eligible native contact on the intended plane.",
+        "The omitted approach plus unchanged margin is strictly separate from all complete bore enclosures except its own signal-terminal bore.",
+        "Private diagnostic detail retained in the complete assessment."
+      ]
+    },
+    {
+      "id": "reference-launch:SWDIO_HDR:J4:3",
+      "kind": "reference_path",
+      "status": "pass",
+      "reasons": [
+        "The declared local return pad is a direct eligible native contact on the intended plane.",
+        "The omitted approach plus unchanged margin is strictly separate from all complete bore enclosures except its own signal-terminal bore.",
+        "Private diagnostic detail retained in the complete assessment."
+      ]
+    }
+  ],
+  "accepted": false
+}

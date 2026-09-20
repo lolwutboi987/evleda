@@ -1,6 +1,6 @@
 # Active PCB-toolbox roadmap
 
-The [current RP2350 candidate](../designs/rp2350-pico/native-r1-regional/README.md) has completed placement, routing, labels and the managed save/close/read-only-reopen workflow. All 67 nets connect and configured native checks are clean. The [explicit supplemental policy](../proofs/native-plane-policy-revision-20260920/README.md) now verifies contacts and area bounds for all ten In2 regions while retaining the original R1 separately. The remaining work is concrete electrical review, particularly USB startup/inrush and debug-header return paths, plus unresolved construction/current and complete drilled-copper evidence. Full acceptance remains incomplete. Reuse the completed native lifecycle and targeted software qualification; repeat checks only for a relevant change or unresolved concern.
+The [current RP2350 candidate](../designs/rp2350-pico/native-r1-launches/README.md) completes placement, routing, labels and managed save/close/read-only reopen. All 67 nets connect and configured checks are clean. Explicit supplemental-region and local terminal-launch conditions are native-verified, with original candidates and findings retained. The remaining work is concrete electrical review, particularly USB startup/inrush, plus unresolved construction/current and complete drilled-copper continuity. Full acceptance remains incomplete. Reuse completed native and software evidence; repeat checks only for a relevant change or unresolved concern.
 
 ## Historical roadmap entries
 

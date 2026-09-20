@@ -33,7 +33,7 @@ export function unwiredPlaneSeedGeometryDraft(widthMm = 21, heightMm = 51) {
 }
 
 /** Synthetic filesystem/adapter fixture; production allocation/compilation/seed guards remain real. */
-export async function unwiredPlaneSeedFixture() {
+export async function unwiredPlaneSeedFixture(options: { throughHoleHeader?: boolean } = {}) {
   const root = await mkdtemp(path.join(os.tmpdir(), "evleda-unwired-seed-"));
   const workspaceRoot = path.join(root, "workspace"), stock = path.join(root, "stock");
   await mkdir(workspaceRoot);
@@ -43,7 +43,9 @@ export async function unwiredPlaneSeedFixture() {
   for (const [id, definition] of definitions) { const source = `(kicad_symbol_lib (version 20231120) ${definition})\n`;
     await put(`symbols/${id.split(":")[0]}.kicad_sym`, source); librarySources.set(id, { source, identity: contentIdentity(source) }); }
   await put("footprints/Resistor_SMD.pretty/R_0603_1608Metric.kicad_mod", footprint("R_0603_1608Metric", 2));
-  await put("footprints/Connector_PinHeader_2.54mm.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod", footprint("PinHeader_1x03_P2.54mm_Vertical", 3));
+  const header = footprint("PinHeader_1x03_P2.54mm_Vertical", 3);
+  await put("footprints/Connector_PinHeader_2.54mm.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod", options.throughHoleHeader
+    ? header.replaceAll("smd rect", "thru_hole circle").replaceAll('(layers "F.Cu" "F.Mask")', '(drill 0.4) (layers "*.Cu" "*.Mask")') : header);
   await put("footprints/MountingHole.pretty/Hole_D2.1.kicad_mod", holeSource);
   await put("footprints/MountingHole.pretty/Hole_D2.1_Alternate.kicad_mod", holeSource.replace('"Hole_D2.1"', '"Hole_D2.1_Alternate"'));
   const symbolRoot = path.join(stock, "symbols"), footprintRoot = path.join(stock, "footprints");

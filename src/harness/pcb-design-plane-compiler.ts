@@ -150,7 +150,13 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
     } else {
       add(`trace-net:${route.net}`, "trace_connectivity", path, `Verify exact physical ${route.topology} trace connectivity independently of plane copper.`);
       add(`trace-geometry:${route.net}`, "trace_geometry", path, "Verify trace widths, mitered turns, lengths, layers, no duplicates, self-intersections or backtracking.");
-      if (route.referencePath.mode === "continuous_plane") add(`reference:${route.net}`, "reference_path", `${path}/referencePath`, "Bind fresh plane fill and exact signal copper sweep plus margin; verify void-free geometric coverage and explicit reference terminals. No impedance or EMC qualification is established.");
+      if (route.referencePath.mode === "continuous_plane") {
+        add(`reference:${route.net}`, "reference_path", `${path}/referencePath`, route.referencePath.terminalLaunches === undefined
+          ? "Bind fresh plane fill and exact signal copper sweep plus margin; verify void-free geometric coverage and explicit reference terminals. No impedance or EMC qualification is established."
+          : "Bind fresh plane fill and exact route-body ribbons plus the unchanged margin after only the separately declared bounded terminal launches. Require each launch's current native/source geometry, local return anchor, foreign-bore separation and native clearance evidence. No impedance or EMC qualification is established.");
+        for (const launch of route.referencePath.terminalLaunches ?? []) add(`reference-launch:${route.net}:${launch.signalEndpoint.reference}:${launch.signalEndpoint.pin}`,
+          "reference_path", `${path}/referencePath/terminalLaunches`, "Verify the explicit approach length and return-pin spacing on current source/native through-hole geometry, a direct eligible return-pad contact to the intended plane, separation from every other bore and current native clearance checks. This scoped launch condition is not electrical/impedance approval.");
+      }
     }
   }
   for (const plane of contract.planes) {

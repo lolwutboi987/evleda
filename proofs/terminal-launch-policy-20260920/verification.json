@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "evleda.terminal-launch-policy-software.v1",
+  "recordedAt": "2026-09-20T23:21:48.410Z",
+  "tests": {
+    "passed": 274,
+    "files": 12,
+    "exitCode": 0,
+    "scope": "Launch contract/revision/acceptance, public projection and revision protocol, existing regional/via/placement/recovery and read-only study regressions; not a full suite."
+  },
+  "guideChecks": {
+    "passed": 8,
+    "files": 1,
+    "exitCode": 0,
+    "guideVersion": 3,
+    "baseBytes": 11860,
+    "baseLimit": 12288,
+    "maximumCombinedBytes": 22496,
+    "extendedLimit": 22528
+  },
+  "additionalPassingFiles": {
+    "files": [
+      "tests/unit/pcb-external-power.test.ts",
+      "tests/unit/usb-feed-through-channel.test.ts",
+      "tests/mcp/toolbox-workspace.test.ts"
+    ],
+    "passed": 110,
+    "scope": "These three files passed during the run whose separate guide wording assertion failed. That guide file was then corrected and passed all8 cases. Counts are retained by scope, not added into a full-suite claim."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "pins": [
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "f611992b32a3e335137a14dc3e1517d07343d990e6b462ce239159899a5552d4"
+    },
+    {
+      "file": "src/harness/fresh-plane-placement-revision.ts",
+      "sha256": "3e43b270730d2e3dff830c105224783163f8871cc1507e59bfd012207afde1bf"
+    },
+    {
+      "file": "src/harness/pcb-design-plane-compiler.ts",
+      "sha256": "d5502b36548768da2d3f116867dc41dae3d599502392367b519ef4e2ad728503"
+    },
+    {
+      "file": "src/harness/pcb-design-plane-contract.ts",
+      "sha256": "26edd35531ac8adc04414ab44aec190d9213c341c884b546fc4f37b1bb7c2983"
+    },
+    {
+      "file": "src/harness/pcb-design-plane-model-guide.ts",
+      "sha256": "78d3d253af4cca7f7090a37851600a2f5d8fc7a4b27dae4e558bec8bcc342cb8"
+    },
+    {
+      "file": "src/harness/reference-terminal-launch-study.ts",
+      "sha256": "9cafee4bce31b3e19ad74c57dd7a4ed62264d382d45c05eb409d3b980b340df6"
+    },
+    {
+      "file": "src/mcp/toolbox-placement-revision.ts",
+      "sha256": "76c06e9a3e6ad3e52d9f61fa7974082983b5dfa5b9a948e2dbd8e37511650d7b"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "5f171edcade27f3a89c54afe762a349a1342b70b04f21fe48560f525ab6e8c49"
+    },
+    {
+      "file": "src/mcp/toolbox-workspace.ts",
+      "sha256": "4792638e083a225eab78b3be32e928dc10459817bbb24e1cf4b1f2fc8cfd5098"
+    },
+    {
+      "file": "tests/helpers/placement-revision-fixture.ts",
+      "sha256": "2267587b52d726bfb9acb3b87e27429c78cb38e53976a74bfef0d0f004256576"
+    },
+    {
+      "file": "tests/helpers/unwired-plane-seed.ts",
+      "sha256": "dc339b5451b23a58b7c8a96b562361396aee344e72a8284dcbb09148d1597517"
+    },
+    {
+      "file": "tests/mcp/toolbox-placement-revision.test.ts",
+      "sha256": "acc1edc73af039f34d303d80601ec6cc533045034f4fd87aa81b5eab0da612b1"
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "c5bb1a297879cc2f8e590649e1d860debcce93ec6c62a8f1561f30f0729554bb"
+    },
+    {
+      "file": "tests/unit/fresh-plane-terminal-launch-revision.test.ts",
+      "sha256": "96b396b931f896668789fa0d5dd2f1e896cf5e5106d69c540abcfffae813e51f"
+    },
+    {
+      "file": "tests/unit/pcb-design-plane-model-guide.test.ts",
+      "sha256": "e415fbd46d9df69cf22e7e82f7c48480b6d6e1e97fc234982d51368249a51274"
+    },
+    {
+      "file": "tests/unit/plane-terminal-launch-contract.test.ts",
+      "sha256": "d03404497ca5fddbc871095c59b25ecafff2284ba840845f879e120bdb8bdc09"
+    }
+  ],
+  "retainedCorrections": [
+    "Two initial tests incorrectly required identical thermal-rule owner names across a new allocation; they now require exact generated name rebinding and identical numerical constraints.",
+    "Source typecheck exposed fixture narrowing/optional-field annotations; these were corrected before the274-test run.",
+    "Guide text initially exceeded the existing byte bounds and had stale snapshot/wording assertions. Text was condensed, versioned and verified within unchanged bounds."
+  ],
+  "nativeQualification": "pending",
+  "acceptanceTransferred": false
+}

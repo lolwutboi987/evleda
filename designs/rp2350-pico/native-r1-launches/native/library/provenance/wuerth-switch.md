@@ -1,0 +1,7 @@
+# Wuerth 434133025816 four-terminal selection
+
+Reviewed 2026-09-17 from the retained [manufacturer PDF](https://www.we-online.com/components/products/datasheet/434133025816.pdf), revision 001.001, 2021-01-25, page 1. The recommended land top view explicitly numbers 1 top-left, 2 top-right, 3 bottom-left and 4 bottom-right. Its schematic permanently joins 1/2 and 3/4; pressing joins these two groups. These are vendor numbers. The package underside drawing reverses the vertical arrangement as expected.
+
+The recommended outer spans are 5.2 x 2.8 mm and inner gaps 3.1 x 1.5 mm. Each rectangular land is therefore 1.05 x 0.65 mm, centered at x = +/-2.075, y = +/-1.075 mm. The new footprint follows these dimensions. The nominal body is 4.2 x 3.2 mm; the local courtyard is x = +/-2.85, y = +/-1.85 mm, providing 0.25 mm beyond nominal body/copper. Actuator circle is documentation. Nominal height is 2.5 mm (+0.2/-0.1); physical actuation access remains a board check.
+
+The installed KiCad footprint merges the physical pairs as 1/1 and 2/2 and has lower-right x = 2.05 mm, 25 um inside the symmetric pattern. It is not selected. The new symbol directly contains four visible passive pins and correctly drawn common groups. Stock SW_Push_Dual depicts two switched poles and is not used. Each physical terminal remains a PCB endpoint; internal-symbol graphics do not replace board copper. The new symbol and footprint were independently authored from manufacturer facts. Assembly and stencil qualification remain separate.

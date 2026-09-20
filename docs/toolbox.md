@@ -2,7 +2,7 @@
 
 The additive toolbox separates source-backed design guidance and existing bound CAD operations from the older application lifecycle. The legacy MCP server, CLI runner, Flux application and historical evidence remain unchanged.
 
-Current destination evidence includes the [regional-policy RP2350 candidate](../designs/rp2350-pico/native-r1-regional/README.md), with all 67 functional nets connected and configured native ERC/DRC zero. Labels, both fills, mandatory save/readback, normal close and fresh read-only reopen are verified with unchanged geometry. The installed [host49/DOC17 client](../proofs/terminal-launch-study-20260920/README.md) and current skill expose 18 initial tools in a fresh actual Codex client. Its explicit supplemental-plane revision verifies regional contacts and retained-area bounds while preserving original R1. Activation in an already-running chat connection remains unproved. Engineering acceptance is incomplete; header-launch and electrical review remain open. The [reference-gap correction](../proofs/reference-gap-reporting-20260920/README.md) was qualified in host48 and remains active. Host49 adds the separately reported prospective terminal-launch study without changing acceptance.
+Current destination evidence includes the [regional-policy RP2350 candidate](../designs/rp2350-pico/native-r1-launches/README.md), with all 67 functional nets connected and configured native ERC/DRC zero. Labels, both fills, mandatory save/readback, normal close and fresh read-only reopen are verified with unchanged geometry. The installed [host50/DOC17 client](../proofs/terminal-launch-policy-20260920/README.md) and current skill expose 19 initial tools in a fresh actual Codex client. Its explicit supplemental-plane revision verifies regional contacts and retained-area bounds while preserving original R1. Activation in an already-running chat connection remains unproved. Engineering acceptance is incomplete; complete return continuity and electrical review remain open. The [reference-gap correction](../proofs/reference-gap-reporting-20260920/README.md) was qualified in host48 and remains active. Host49 added the prospective study; host50 now qualifies a separate explicit terminal-launch revision while retaining the original full-ribbon findings.
 
 The earlier [WSON regulator proof](../examples/wson-regulator-toolbox-proof/README.md) records native10 V2 authoring, NC-correct routing, strict public parity, normal close and fresh read-only reopen. Its incomplete acceptance result and the historical DOC7 client proof remain preserved; they are not the current RP2350 status.
 
@@ -271,6 +271,11 @@ Missing and positive mask declarations each returned `unassessed` with **zero ca
 This qualifies the saved-file wrapper and native analytical helper on a **software fixture with caller-asserted materials**. It is not a CAD-authored board or full MCP/native-host qualification. Reference requirements remain unassessed, and every result retains `boardAccepted: false` and `interfaceAccepted: false`.
 
 ### Saved reference-copper coverage
+
+Reviewed through-hole transitions may be bound separately through explicit
+[terminal-launch requirements](terminal-launch-requirements.md) and the guarded
+`evleda_revise_terminal_launches` operation. This creates a new allocation while
+preserving all original body margins, native constraints and the source project.
 
 The optional [terminal-launch study](reference-terminal-launch-study.md) adds a
 separate prospective remainder analysis to this read-only tool. It derives the

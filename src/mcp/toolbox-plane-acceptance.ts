@@ -357,7 +357,19 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
     references: assessment.references.map(reference => ({ net: reference.net, planeId: reference.planeId,
       ...fact(reference), segmentIds: [...reference.segmentIds], marginNm: reference.marginNm,
       geometricStatus: reference.geometricStatus, referenceTerminals: fact(reference.referenceTerminals),
-      intersectingBoreUuids: reference.intersectingBoreUuids.map(publicText),tangentBoreUuids:reference.tangentBoreUuids.map(publicText) })),
+      intersectingBoreUuids: reference.intersectingBoreUuids.map(publicText),tangentBoreUuids:reference.tangentBoreUuids.map(publicText),
+      ...(reference.terminalLaunches === undefined ? {} : { terminalLaunches: reference.terminalLaunches.map(launch => {
+        const g = launch.geometry, point = (p: { x: number; y: number }) => ({ x: publicNumber(p.x), y: publicNumber(p.y) });
+        const endpoint = (p: { reference: string; pin: string }) => ({ reference: publicText(p.reference), pin: publicText(p.pin) });
+        return { ...fact(launch), requirementId: publicText(launch.requirementId), foreignBoreUuids: launch.foreignBoreUuids.map(publicText),
+          geometry: g === null ? null : { signalEndpoint: endpoint(g.signalEndpoint), referenceEndpoint: endpoint(g.referenceEndpoint),
+            signalPadUuid: publicText(g.signalPadUuid), referencePadUuid: publicText(g.referencePadUuid), net: publicText(g.net),
+            signalCenterNm: point(g.signalCenterNm), referenceCenterNm: point(g.referenceCenterNm), cutNm: point(g.cutNm),
+            originalStartNm: point(g.originalStartNm), originalEndNm: point(g.originalEndNm), segmentId: publicText(g.segmentId),
+            maximumLengthNm: publicNumber(g.maximumLengthNm), maximumReturnSpacingNm: publicNumber(g.maximumReturnSpacingNm),
+            removedLengthSquaredNm: publicText(g.removedLengthSquaredNm), returnSpacingSquaredNm: publicText(g.returnSpacingSquaredNm),
+            engineeringBasis: publicText(g.engineeringBasis) } };
+      }) }) })),
     rows: assessment.rows.map(row => ({ id: row.id, kind: row.kind, status: row.status, reasons: reasons(row.reasons),
       ...(common?.observations.has(row.id) ? { observations: common.observations.get(row.id)! } : {}) })),
     verificationPlanRowsPassed: [...assessment.verificationPlanRowsPassed],

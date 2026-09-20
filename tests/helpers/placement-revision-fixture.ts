@@ -6,8 +6,8 @@ import { seedFreshBoardFeatures } from "../../src/harness/fresh-board-features.j
 import { canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { unwiredPlaneSeedFixture, unwiredPlaneSeedGeometryDraft } from "./unwired-plane-seed.js";
 import { fourLayerPlaneDraft } from "./four-layer-plane-bundle.js";
-export async function placementRevisionFixture(options: { viaBudgetHeadroom?: boolean; regionalPlane?: boolean } = {}) {
-  const f = await unwiredPlaneSeedFixture();
+export async function placementRevisionFixture(options: { viaBudgetHeadroom?: boolean; regionalPlane?: boolean; terminalLaunch?: boolean } = {}) {
+  const f = await unwiredPlaneSeedFixture({ throughHoleHeader: options.terminalLaunch === true });
   const base = unwiredPlaneSeedGeometryDraft(30, 20);
   // Both inputs pass the real compiler; this fixture's existing helper signature
   // uses the divider shape for historical callers.
@@ -25,7 +25,7 @@ export async function placementRevisionFixture(options: { viaBudgetHeadroom?: bo
   const target = f.compile(revised, "Explicit revised placement intent");
   const electrical = source.contract.components.map((c, i) => `(footprint "${c.footprintLibId}" (layer "F.Cu") (at ${5 + i * 5} 10)
     (uuid "${randomUUID()}") (property "Reference" "${c.reference}") (property "Value" "${c.value}")
-    ${c.pins.map((p, j) => `(pad "${p.pin}" smd rect (at ${j * 2} 0) (size 1 1) (layers "F.Cu" "F.Mask")
+    ${c.pins.map((p, j) => `(pad "${p.pin}" ${options.terminalLaunch && c.reference === "J1" ? `thru_hole circle (at ${j * 2} 0) (size 1 1) (drill 0.4) (layers "*.Cu" "*.Mask")` : `smd rect (at ${j * 2} 0) (size 1 1) (layers "F.Cu" "F.Mask")`}
       (net "${source.contract.nets.find(n => n.endpoints.some(e => e.reference === c.reference && e.pin === p.pin))!.name}") (uuid "${randomUUID()}"))`).join("\n")})`).join("\n");
   const rules = createFreshPlaneRules(source);
   const zone = source.contract.planes.map(plane => `(zone (net "GND") (layer "${plane.layer}") (uuid "${randomUUID()}") (name "${rules.zones.find(r=>r.planeId===plane.id)!.zoneName}")
@@ -34,7 +34,9 @@ export async function placementRevisionFixture(options: { viaBudgetHeadroom?: bo
     (filled_polygon (layer "${plane.layer}") (pts (xy 1 1) (xy 29 1) (xy 29 19) (xy 1 19))))`).join("\n");
   const empty = await readFile(preparation.project.pcbPath, "utf8");
   const featureSource = seedFreshBoardFeatures(source, empty);
-  const pcb = featureSource.slice(0, featureSource.lastIndexOf(")")) + electrical + zone
+  const launchRoute = options.terminalLaunch ? [[5,10,6,9],[6,9,9,9],[9,9,10,10]].map(([x1,y1,x2,y2]) =>
+    `(segment (start ${x1} ${y1}) (end ${x2} ${y2}) (width 0.5) (layer "F.Cu") (net "VIN") (uuid "${randomUUID()}"))`).join("\n") : "";
+  const pcb = featureSource.slice(0, featureSource.lastIndexOf(")")) + electrical + zone + launchRoute
     + `(segment (start 6 11) (end 8 13) (width 0.3) (layer "F.Cu") (net "GND") (uuid "${randomUUID()}"))
     (via (at 8 13) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${randomUUID()}")))`;
   const projectSettings = JSON.parse(await readFile(path.join(preparation.project.projectPath, "seeded.kicad_pro"), "utf8"));
