@@ -1,12 +1,17 @@
 # Destination client installation
 
-The global EvlEDA workspace entry now uses **frozen host41 and the DOC16/v4
+The global EvlEDA workspace entry now uses **frozen host42 and the DOC16/v4
 profile**, with the exact current repository PCB skill. The [delivery proof](../proofs/client-doc16-20260920/README.md)
 verifies seven read-only preflight calls and **17 initial tools in a fresh actual
 Codex client**, including placement and via-budget revision. The stock catalog
 is retained and the approved RP2350 package is available. Unrelated settings,
 edit policy and the empty workspace are preserved. The client wait is 1,800
 seconds; native operation/verification limits are unchanged.
+
+The [host42 follow-up](../proofs/native-large-field-20260920/README.md) aligns field
+editing with the existing 1 MiB live-source limit, verifies all 124 field updates
+on the routed RP2350 board and repeats fresh-client discovery. The seven-call
+initial preflight remains the distinct host41 record.
 
 The already-running conversation still returned `found:false` for the newly
 approved vendor symbol. Activation there is not established; reconnect or use

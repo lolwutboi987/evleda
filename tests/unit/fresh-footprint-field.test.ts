@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseFreshPcbSourceDocument } from "../../src/harness/fresh-kicad-parser.js";
 import { freshBoardSerializationsEqual } from "../../src/harness/fresh-board-serialization.js";
+import { FRESH_PCB_RESOURCE_LIMITS } from "../../src/harness/fresh-resource-limits.js";
 import { assertOnlyRequestedFootprintFieldChanged, assertOnlyRequestedFootprintFieldsChanged, parseFreshFootprintFieldRequest, parseFreshFootprintFieldUpdates,
   planFreshFootprintField, planFreshFootprintFields } from "../../src/harness/fresh-footprint-field.js";
 
@@ -27,6 +28,38 @@ function maskSelected(source: string, ref = "R1", kind = "Reference") {
 }
 
 describe("bounded preserving footprint field presentation", () => {
+  it("preserves a real fully routed 616 KB board while editing a footprint field", () => {
+    const before = readFileSync(new URL("../fixtures/fresh-project/native-large-field-source.kicad_pcb", import.meta.url), "utf8");
+    expect(Buffer.byteLength(before)).toBe(616071);
+    const edit = { reference: "U1", field: "Reference" as const, visible: false };
+    const result = planFreshFootprintField(before, edit);
+    expect(result.changed).toBe(true); expect(result.afterField.visible).toBe(false);
+    expect(maskSelected(result.source, "U1")).toBe(maskSelected(before, "U1"));
+    expect(() => assertOnlyRequestedFootprintFieldChanged(before, result.source, edit)).not.toThrow();
+  });
+
+  it("counts UTF-8 input bytes and rejects malformed or over-limit source before planning", () => {
+    const base = board(), max = FRESH_PCB_RESOURCE_LIMITS.maximumLiveSourceBytes;
+    const exact = base + " ".repeat(max - Buffer.byteLength(base));
+    expect(planFreshFootprintField(exact, { reference: "R1", field: "Reference", visible: true })).toMatchObject({ source: exact, changed: false });
+    expect(() => planFreshFootprintField(exact + " ", request)).toThrow(/bounded well-formed text/);
+    const unicode = base.replace("unrelated board text", "é".repeat(Math.ceil(max / 2)));
+    expect(unicode.length).toBeLessThan(max); expect(Buffer.byteLength(unicode)).toBeGreaterThan(max);
+    expect(() => planFreshFootprintField(unicode, request)).toThrow(/bounded well-formed text/);
+    expect(() => planFreshFootprintField(base + "\ud800", request)).toThrow(/bounded well-formed text/);
+  });
+
+  it("rejects output growth beyond the same live byte bound, including the final batch item", () => {
+    const base = board(), max = FRESH_PCB_RESOURCE_LIMITS.maximumLiveSourceBytes;
+    const exact = base + " ".repeat(max - Buffer.byteLength(base));
+    const hide = { reference: "R1", field: "Reference" as const, visible: false };
+    expect(() => planFreshFootprintField(exact, hide)).toThrow(/planned source exceeds/);
+    const oneHideAddedBytes = Buffer.byteLength(planFreshFootprintField(base, hide).source) - Buffer.byteLength(base);
+    const nearlyFull = exact.slice(0, -oneHideAddedBytes);
+    expect(Buffer.byteLength(planFreshFootprintField(nearlyFull, hide).source)).toBe(max);
+    expect(() => planFreshFootprintFields(nearlyFull, { updates: [hide, { reference: "R2", field: "Reference", visible: false }] })).toThrow(/planned source exceeds/);
+  });
+
   it.each([0, 90, 180, 270])("moves one field in board coordinates at footprint rotation %s, preserving all physical source", rotation => {
     const before = board(rotation), result = planFreshFootprintField(before, request);
     expect(result.afterField).toMatchObject({ xMm: 5, yMm: 6, rotationDeg: 90, visible: true, sizeMm: { x: 0.8, y: 0.8 }, thicknessMm: 0.08 });

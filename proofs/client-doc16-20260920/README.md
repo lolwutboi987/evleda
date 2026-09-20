@@ -1,7 +1,9 @@
 # DOC16 client delivery — 20 September 2026
 
-The existing local `evleda_workspace` entry now selects the frozen host41 server,
-DOC16 runtime profile and v4 approved RP2350 library package. It retains the same
+The initial DOC16 delivery selected the frozen host41 server, DOC16 runtime
+profile and v4 approved RP2350 library package. A subsequent [qualified field-size
+fix](../native-large-field-20260920/README.md) updates the same entry to host42,
+with a separate passing fresh-client check. It retains the same
 222 stock symbol and 155 stock footprint namespaces, global workspace path,
 edit policy and SYSTEMROOT/WINDIR environment allowlist. The repository PCB
 skill is installed byte-exactly. Unrelated configuration bytes are unchanged;

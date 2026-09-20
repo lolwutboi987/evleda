@@ -1,0 +1,11 @@
+{
+  "scope": "Only the existing EvlEDA server script path changes from frozen host41 to qualified host42. Profile, skill, workspace, timeouts, permissions and unrelated configuration remain unchanged.",
+  "beforeConfigurationSha256": "2457db11bf51536c66d5ab0626ad1d0604be671cfcf7d3dae90acdbf1e0c1047",
+  "afterConfigurationSha256": "23346f12f6c5b22df55afec559140922d2757408a8ecfad8e62c5a1e681a6c7a",
+  "beforeCommand": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-field-preflight-build-41/dist/src/mcp/toolbox-workspace-main.js",
+  "afterCommand": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-field-source-build-42/dist/src/mcp/toolbox-workspace-main.js",
+  "hostReleaseSha256": "c898bad1522f9f3ee3da5440c5da7e353e37f4fb3d05fcda58421494b3abdafe",
+  "privateBackupRetained": true,
+  "unrelatedBytesPreserved": true,
+  "parsedEntryMatchesExpected": true
+}

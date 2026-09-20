@@ -1,0 +1,39 @@
+{
+  "recordedAt": "2026-09-20T15:20:42.155Z",
+  "request": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-03\\workspace-client-2dbea03e-f213-403d-944a-053291278fa7\\000419-request-391ffda97a1898b4fe5479dceabc83eb83bbe5c4e60a676e9b8902c795ada2e0.jsonl",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "391ffda97a1898b4fe5479dceabc83eb83bbe5c4e60a676e9b8902c795ada2e0",
+      "size": 8723
+    }
+  },
+  "wireEvidence": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-03\\workspace-client-2dbea03e-f213-403d-944a-053291278fa7\\000420-mcp-received-840ab931704e4dd0c1dfe9aaec107db554d143fb1bb1e612b0714a85153db583.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "840ab931704e4dd0c1dfe9aaec107db554d143fb1bb1e612b0714a85153db583",
+        "size": 767
+      }
+    }
+  ],
+  "disposition": "response",
+  "isError": true,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"error\":\"Unsupported preserving footprint field: source must be bounded well-formed text.\",\"operation\":\"fresh_set_footprint_fields\",\"rejectedBeforeMutation\":true,\"noGovernedEffect\":true,\"recoveryRequired\":false}"
+      }
+    ],
+    "structuredContent": {
+      "error": "Unsupported preserving footprint field: source must be bounded well-formed text.",
+      "operation": "fresh_set_footprint_fields",
+      "rejectedBeforeMutation": true,
+      "noGovernedEffect": true,
+      "recoveryRequired": false
+    },
+    "isError": true
+  }
+}

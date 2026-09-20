@@ -1,0 +1,58 @@
+{
+  "scope": "Native qualification of the 1 MiB preserving field path on a 616071-byte RP2350 PCB. Final label/fill/board assessment remains pending.",
+  "hostReleaseSha256": "c898bad1522f9f3ee3da5440c5da7e353e37f4fb3d05fcda58421494b3abdafe",
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    },
+    {
+      "name": "field-source-and-persistence-tests",
+      "exitCode": 0
+    }
+  ],
+  "focusedTestCount": 421,
+  "focusedTestFiles": 8,
+  "fullSuiteClaimed": false,
+  "fieldUpdateCount": 124,
+  "savedPcbIdentity": {
+    "algorithm": "sha256",
+    "digest": "9557aa3c53f32e31edd868bca6005ae277b4270c675510be54dba96e8ae147e1",
+    "size": 617796
+  },
+  "sourcePinsPreservedThroughNormalClose": true,
+  "records": [
+    {
+      "file": "rejected-before-mutation.json",
+      "sha256": "6a57188082ba0da7dff84e0a96ec8a17e218904fd9f41190a0c67c3c99c67a01",
+      "size": 1637
+    },
+    {
+      "file": "normal-close.json",
+      "sha256": "2d2d7dfbc122afab3e6b396f6823381ad103ad1b8cd47e6674aef50746a06b06",
+      "size": 23127
+    },
+    {
+      "file": "same-project-resume.json",
+      "sha256": "0b0d6c30f4259373f2a1c3e7365b189be3f5e30a6d52acd02bd20c84306b0089",
+      "size": 29575
+    },
+    {
+      "file": "native-fields-saved.json",
+      "sha256": "7a63ae0981b1ff05ed0f71f251f7c35909bf66e46a21123d927a5d6b6d75206d",
+      "size": 37619
+    }
+  ]
+}

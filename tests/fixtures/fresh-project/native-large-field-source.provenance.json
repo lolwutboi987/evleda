@@ -1,0 +1,10 @@
+{
+  "scope": "Exact saved real RP2350 PCB at the pure field-planner 500 KB rejection. This fixture tests presentation preservation and resource bounds, not electrical acceptance.",
+  "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\2946e2ee-97da-4f77-b602-5d65b90fe503\\output\\project\\rp2350-pico-4layer.kicad_pcb",
+  "sha256": "b9c3c9bf047113629f724636254286afb547834880f83749c199610fbf52abf5",
+  "size": 616071,
+  "tracks": 1099,
+  "vias": 118,
+  "rejectionResponse": "000421-response-6a57188082ba0da7dff84e0a96ec8a17e218904fd9f41190a0c67c3c99c67a01.json",
+  "managedSourceModified": false
+}

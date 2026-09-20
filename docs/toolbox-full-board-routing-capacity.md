@@ -1,5 +1,12 @@
 # Full-board V2 routing capacity
 
+The live source read/save ceiling is **1 MiB**. The preserving footprint-field
+planner now uses that same ceiling for its input and planned output, including
+growth from the final item of a batch. The [real-board qualification](../proofs/native-large-field-20260920/README.md)
+preserves a 616 KB routed PCB through a pure rejection, normal close/resume and
+successful native save/readback of 124 field updates. Numerical/electrical rules
+and the remaining resource limits below are unchanged.
+
 The RP2350 source proposal exceeded the former 96-item whole-board route limit
 before GPIO routing began. The fixed limit applied to reads and post-save checks,
 so larger drafts could compile but could not be carried through the actual

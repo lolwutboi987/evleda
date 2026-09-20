@@ -1,6 +1,7 @@
 import { freshBoardComparisonText, freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
 import { parseFreshPcbSourceDocument, type FreshKicadSourceAtom as Atom, type FreshKicadSourceNode as Node } from "./fresh-kicad-parser.js";
 import type { FreshFootprintPlacementPlan, FreshFootprintPose } from "./fresh-footprint-placement.js";
+import { FRESH_PCB_RESOURCE_LIMITS } from "./fresh-resource-limits.js";
 
 export const FRESH_FOOTPRINT_FIELD_TOOL = "fresh_set_footprint_fields" as const;
 export const FRESH_FOOTPRINT_FIELD_UPDATE_SCHEMA = Object.freeze({ type: "object", additionalProperties: false,
@@ -111,7 +112,8 @@ export function parseFreshFootprintFieldRequest(value: Readonly<Record<string, u
 /** Edit only selected presentation tokens; every other source byte is retained. */
 export function planFreshFootprintField(source: string, input: FreshFootprintFieldRequest): FreshFootprintFieldPlan {
   const request = parseFreshFootprintFieldRequest(input as unknown as Readonly<Record<string, unknown>>);
-  need(source.isWellFormed() && Buffer.byteLength(source, "utf8") <= 500_000, "source must be bounded well-formed text.");
+  need(source.isWellFormed() && Buffer.byteLength(source, "utf8") <= FRESH_PCB_RESOURCE_LIMITS.maximumLiveSourceBytes,
+    "source must be bounded well-formed text.");
   freshBoardComparisonText(source);
   const board = parseFreshPcbSourceDocument(source);
   const matches = named(board, "footprint").filter(fp => named(fp, "property").some(prop => prop.values[0]?.value === "Reference" && prop.values[1]?.value === request.reference));
@@ -167,10 +169,13 @@ export function planFreshFootprintField(source: string, input: FreshFootprintFie
   let cursor = 0; const parts: string[] = [];
   for (const edit of edits) { need(edit.start >= cursor && edit.start >= field.start && edit.end < field.end, "presentation edit escapes its selected field."); parts.push(source.slice(cursor, edit.start), edit.text); cursor = edit.end; }
   parts.push(source.slice(cursor));
+  const plannedSource = parts.join("");
+  need(Buffer.byteLength(plannedSource, "utf8") <= FRESH_PCB_RESOURCE_LIMITS.maximumLiveSourceBytes,
+    "planned source exceeds the live board byte bound.");
   const rootPose = Object.freeze({ xMm: pose.x / 1e6, yMm: pose.y / 1e6, rotationDeg: pose.rotation });
   const beforeField = Object.freeze({ xMm: originalWorld.x / 1e6, yMm: originalWorld.y / 1e6, rotationDeg: position.rotation, visible,
     layer: currentLayer as "F.SilkS" | "F.Fab", sizeMm: Object.freeze({ x: width / 1e6, y: height / 1e6 }), thicknessMm: weight / 1e6 });
-  return Object.freeze({ source: parts.join(""), changed: edits.length > 0, reference: request.reference, footprintId, before: rootPose, after: rootPose,
+  return Object.freeze({ source: plannedSource, changed: edits.length > 0, reference: request.reference, footprintId, before: rootPose, after: rootPose,
     field: request.field, fieldId, fieldText: field.values[1]!.value, beforeField,
     afterField: Object.freeze({ xMm: requestedWorld.x / 1e6, yMm: requestedWorld.y / 1e6, rotationDeg: request.rotation_deg ?? position.rotation,
       visible: requestedVisible, layer: request.layer ?? beforeField.layer, sizeMm: Object.freeze({ x: (targetSize ?? width) / 1e6, y: (targetSize ?? height) / 1e6 }), thicknessMm: targetThickness / 1e6 }) });

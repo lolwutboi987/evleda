@@ -2,7 +2,7 @@
 
 The recommended [workspace configuration example](../examples/toolbox-workspace.config.toml) connects once and lets the client submit drafts, answer clarifications, create and resume projects over MCP. The older [explicit-project example](../examples/toolbox-mcp.config.toml) remains available. Both are disabled examples, not installed client settings. Replace placeholders with host-approved values before enabling the intended configuration.
 
-The global `evleda_workspace` entry now uses **frozen host41, DOC16 and the v4
+The global `evleda_workspace` entry now uses **frozen host42, DOC16 and the v4
 approved library profile**, plus an exact copy of the current PCB skill. The
 [delivery proof](../proofs/client-doc16-20260920/README.md) records seven successful
 read-only preflight calls and **17 initial tools in a fresh actual Codex client**,
@@ -13,6 +13,11 @@ connection has not demonstrated the new vendor-part access, so use a fresh
 client or reconnect before relying on the updated capabilities. See
 [installation details](destination-client-installation.md); earlier DOC6/DOC7
 proofs remain historical and repository configuration examples remain disabled.
+
+The [host42 field-size follow-up](../proofs/native-large-field-20260920/README.md)
+qualifies the same 1 MiB source limit through actual 124-field native save/readback
+and a separate fresh-client discovery check. The initial seven-call preflight
+above remains its original host41 evidence.
 
 The installed [stock-catalog mode](toolbox-stock-catalog.md) searches 222 approved symbol and 155 footprint namespaces, followed by exact inspection and selected-source pins in compiled bundles. Native02 passed 33 calls for C1/R1/J1 authoring, placement, previews, normal close and same-connection resume. Its seven-pad RC fixture remains intentionally unrouted; no full ERC/DRC, routing or design acceptance follows. Discovery does not qualify every part, and earlier exact-ID profiles retain their behavior.
 

@@ -1,0 +1,1353 @@
+{
+  "scope": "Fresh actual installed Codex app-server reads the real global EvlEDA entry. Other servers/plugins are disabled only for this probe. No task, model turn or native project is created. This is not evidence that an already-running desktop connection reloaded.",
+  "startedAt": "2026-09-20T15:58:18.134Z",
+  "initialize": {
+    "userAgent": "evleda-doc16-delivery-check/0.147.0 (Windows 10.0.26200; x86_64) dumb (evleda-doc16-delivery-check; 1)",
+    "codexHome": "C:\\Users\\kidch\\.codex",
+    "platformFamily": "windows",
+    "platformOs": "windows"
+  },
+  "servers": [
+    {
+      "name": "evleda_workspace",
+      "serverInfo": {
+        "name": "evleda-toolbox",
+        "title": null,
+        "version": "0.1.0",
+        "description": null,
+        "icons": null,
+        "websiteUrl": null
+      },
+      "tools": {
+        "evleda_inspect_library": {
+          "name": "evleda_inspect_library",
+          "description": "Inspect an exact symbol or footprint ID through the host-approved stock and optional package resolver. Package IDs are discoverable in evleda_design_schema when configured. Reports current source identity and supported native geometry; does not qualify a component electrically. Unknown or unsupported items are not replaced with guesses.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "symbol",
+                  "footprint"
+                ]
+              },
+              "libraryId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 192
+              }
+            },
+            "required": [
+              "kind",
+              "libraryId"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_search_library": {
+          "name": "evleda_search_library",
+          "description": "Search host-approved KiCad 10 stock namespaces without opening CAD. Results are discovery candidates, not inspected or electrically qualified parts. Follow single-use nextCursor until exhausted; restart the search after a lost cursor response. complete also requires no unsupported source coverage. Inspect selected IDs with evleda_inspect_library before drafting. Sources are read separately, not as an atomic installation snapshot.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "symbol",
+                  "footprint"
+                ]
+              },
+              "query": {
+                "type": "string",
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9 _.:+@~-]*$"
+              },
+              "library": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.+@~-]{0,127}$"
+              },
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              },
+              "cursor": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{32}$"
+              }
+            },
+            "required": [
+              "kind",
+              "query"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          }
+        },
+        "evleda_discard_draft": {
+          "name": "evleda_discard_draft",
+          "description": "Forget one uncreated in-memory draft. Does not remove native projects or files.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "draftId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            },
+            "required": [
+              "draftId"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_transmission_line": {
+          "name": "evleda_transmission_line",
+          "description": "Analyze or synthesize uniform microstrip/stripline and coupled pairs using the host-pinned KiCad calculation core. Supply explicit SI cross-section/material/frequency inputs. Returns model results and limitations, not saved-board impedance verification or manufacturing approval. Coupled targetOhm is differential impedance.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "microstrip"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "analyze"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "H_T": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                          },
+                          {
+                            "type": "string",
+                            "const": "absent"
+                          }
+                        ],
+                        "description": "Metallic top enclosure height in metres, or 'absent' for the uncovered microstrip model; does not represent solder mask"
+                      },
+                      "ROUGH": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Conductor roughness, metres"
+                      },
+                      "TAND": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Dielectric loss tangent"
+                      },
+                      "MUR": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative substrate permeability"
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "H_T",
+                      "ROUGH",
+                      "TAND",
+                      "MUR"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "microstrip"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "synthesize"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "H_T": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                          },
+                          {
+                            "type": "string",
+                            "const": "absent"
+                          }
+                        ],
+                        "description": "Metallic top enclosure height in metres, or 'absent' for the uncovered microstrip model; does not represent solder mask"
+                      },
+                      "ROUGH": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Conductor roughness, metres"
+                      },
+                      "TAND": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Dielectric loss tangent"
+                      },
+                      "MUR": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative substrate permeability"
+                      },
+                      "ANG_L": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Target electrical length, radians"
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "H_T",
+                      "ROUGH",
+                      "TAND",
+                      "MUR",
+                      "ANG_L"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "targetOhm": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Target single-ended impedance, or differential impedance for coupled models, ohms"
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters",
+                  "targetOhm"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "coupled_microstrip"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "analyze"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "H_T": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                          },
+                          {
+                            "type": "string",
+                            "const": "absent"
+                          }
+                        ],
+                        "description": "Metallic top enclosure height in metres, or 'absent' for the uncovered microstrip model; does not represent solder mask"
+                      },
+                      "ROUGH": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Conductor roughness, metres"
+                      },
+                      "TAND": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Dielectric loss tangent"
+                      },
+                      "PHYS_S": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Edge-to-edge spacing or synthesis seed, metres"
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "H_T",
+                      "ROUGH",
+                      "TAND",
+                      "PHYS_S"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "coupled_microstrip"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "synthesize"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "H_T": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                          },
+                          {
+                            "type": "string",
+                            "const": "absent"
+                          }
+                        ],
+                        "description": "Metallic top enclosure height in metres, or 'absent' for the uncovered microstrip model; does not represent solder mask"
+                      },
+                      "ROUGH": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Conductor roughness, metres"
+                      },
+                      "TAND": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Dielectric loss tangent"
+                      },
+                      "PHYS_S": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Edge-to-edge spacing or synthesis seed, metres"
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "H_T",
+                      "ROUGH",
+                      "TAND",
+                      "PHYS_S"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "targetOhm": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Target single-ended impedance, or differential impedance for coupled models, ohms"
+                  },
+                  "fixed": {
+                    "type": "string",
+                    "enum": [
+                      "width",
+                      "spacing"
+                    ],
+                    "description": "Coupled synthesis holds this dimension fixed and solves the other"
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters",
+                  "targetOhm",
+                  "fixed"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "stripline"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "analyze"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "STRIPLINE_A": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Top dielectric offset, metres"
+                      },
+                      "TAND": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "STRIPLINE_A",
+                      "TAND"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "stripline"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "synthesize"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "STRIPLINE_A": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Top dielectric offset, metres"
+                      },
+                      "TAND": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "STRIPLINE_A",
+                      "TAND"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "targetOhm": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Target single-ended impedance, or differential impedance for coupled models, ohms"
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters",
+                  "targetOhm"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "coupled_stripline"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "analyze"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "PHYS_S": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Edge-to-edge spacing or synthesis seed, metres"
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "PHYS_S"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "const": "coupled_stripline"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "const": "synthesize"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "EPSILONR": {
+                        "type": "number",
+                        "minimum": 1,
+                        "description": "Relative dielectric permittivity at the requested frequency"
+                      },
+                      "H": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Dielectric height for microstrip; plane separation for stripline, metres"
+                      },
+                      "T": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor thickness, metres"
+                      },
+                      "PHYS_WIDTH": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor width or synthesis seed, metres"
+                      },
+                      "PHYS_LEN": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Line length, metres"
+                      },
+                      "FREQUENCY": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Frequency, Hz"
+                      },
+                      "SIGMA": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Conductor conductivity, S/m"
+                      },
+                      "MURC": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Relative conductor permeability"
+                      },
+                      "PHYS_S": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Edge-to-edge spacing or synthesis seed, metres"
+                      }
+                    },
+                    "required": [
+                      "EPSILONR",
+                      "H",
+                      "T",
+                      "PHYS_WIDTH",
+                      "PHYS_LEN",
+                      "FREQUENCY",
+                      "SIGMA",
+                      "MURC",
+                      "PHYS_S"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "targetOhm": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Target single-ended impedance, or differential impedance for coupled models, ohms"
+                  },
+                  "fixed": {
+                    "type": "string",
+                    "enum": [
+                      "width",
+                      "spacing"
+                    ],
+                    "description": "Coupled synthesis holds this dimension fixed and solves the other"
+                  }
+                },
+                "required": [
+                  "model",
+                  "operation",
+                  "parameters",
+                  "targetOhm",
+                  "fixed"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_revise_placement": {
+          "name": "evleda_revise_placement",
+          "description": "Create and open a separate V2 project from a ready placement-only revision draft and a fully materialized source closed successfully in this connection/profile. The same name is required. Only placement constraints and original-prompt metadata may change; circuit, components, board, stackup, routing limits, planes, interfaces and libraries stay exact. Preserve schematic, functional footprints and existing tracks/vias; rebind owned mounting-feature UUIDs, plane names and netclass names. No component moves occur automatically. Refilling and all affected native checks remain required; no fill freshness or acceptance is copied. Repeating the same draft/source IDs never overwrites an allocation.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "draftId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "sourceProjectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            },
+            "required": [
+              "draftId",
+              "sourceProjectId"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_toolbox_status": {
+          "name": "evleda_toolbox_status",
+          "description": "Report host-bound CAD access and recovery state. Guidance-only mode does not imply an active KiCad session.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {},
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_find_rules": {
+          "name": "evleda_find_rules",
+          "description": "Read complete source-backed rules selected by topic, tag, ID, category or severity, with explicit pagination. Supply at least one selector.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "topics": {
+                "minItems": 1,
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "tags": {
+                "minItems": 1,
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "ids": {
+                "minItems": 1,
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "categories": {
+                "minItems": 1,
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "severities": {
+                "minItems": 1,
+                "maxItems": 4,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "advisory",
+                    "warning",
+                    "error",
+                    "critical"
+                  ]
+                }
+              },
+              "offset": {
+                "default": 0,
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10000
+              },
+              "limit": {
+                "default": 5,
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              }
+            },
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_workspace_status": {
+          "name": "evleda_workspace_status",
+          "description": "Inspect this connection's project lifecycle and pending drafts without starting KiCad.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {},
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_rule_topics": {
+          "name": "evleda_rule_topics",
+          "description": "List the research topics and source dossiers available to guide PCB design. These are guidance, not completed checks.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {},
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_submit_design": {
+          "name": "evleda_submit_design",
+          "description": "Compile a routed-v1 or plane-v2 structured design draft using approved libraries and guidance. The exact draft schemaVersion selects its compiler. Return clarification/unsupported issues in chat, or a ready draft ID. Does not create project files or open KiCad.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "originalPrompt": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32768
+              },
+              "draft": {}
+            },
+            "required": [
+              "name",
+              "originalPrompt",
+              "draft"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_close_project": {
+          "name": "evleda_close_project",
+          "description": "Finish the active project's existing guarded native lifecycle and release its workspace lease after confirmed close. Does not approve the design or delete files.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "projectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            },
+            "required": [
+              "projectId"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_read_guide": {
+          "name": "evleda_read_guide",
+          "description": "Read one complete researched PCB design guide by its exact topic, slug or dossier number.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "topic": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "required": [
+              "topic"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_list_projects": {
+          "name": "evleda_list_projects",
+          "description": "List immutable allocations in this approved workspace. A listed project is not proof of a valid checkpoint or a completed design.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "offset": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              }
+            },
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_create_project": {
+          "name": "evleda_create_project",
+          "description": "Create and open a ready draft in this host-approved workspace. Optional sourceProjectId copies exact unwired V2 schematic bytes after a healthy close in this connection/profile. The same project name and circuit are required; only PCB width/height, component placement, board-feature pose coordinates/rotation, plane rectangle coordinates, net-class settings/assignments, routing constraints, native numeric mode and prompt metadata may differ. Board shape/layers, board-feature inventory/definitions/side, plane identity/settings, interface/construction, components, values, electrical nets and libraries remain exact. Source PCB must be its authenticated unmaterialized baseline. New PCB/rules are generated normally. Retry with the same draft/source IDs; no allocation is overwritten. Requires edit access; native startup may take over a minute.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "draftId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "sourceProjectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            },
+            "required": [
+              "draftId"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_revise_via_budgets": {
+          "name": "evleda_revise_via_budgets",
+          "description": "Create and open a separate V2 project from a ready draft that explicitly reallocates per-net via-count budgets, and a materialized source successfully closed in this connection/profile. Same project name required. Only bounded per-net maxVias changes on nets without continuous-reference requirements and original-prompt metadata may differ. A new count cannot be lower than that net's existing native via count. Global via limits, via dimensions, clearances, widths, lengths, turn rules, reference requirements, placement, interfaces, circuit, libraries and stackup stay exact. Existing native geometry and schematic are preserved. Original allocation is retained. Refill and fresh affected checks are required; no acceptance or fill freshness is transferred.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "draftId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "sourceProjectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            },
+            "required": [
+              "draftId",
+              "sourceProjectId"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_design_schema": {
+          "name": "evleda_design_schema",
+          "description": "Get a complete design-intent schema, model guide and valid example. routed-v1 is the default; plane-v2 supports one bounded rectangular ground plane, optional differential-pair interfaceRequirements, externalPowerInputs at connector pins and source-bound derivedPowerSources through declared L/R or explicit external-input forward Schottky paths. Discover supportedFamilies here. Unknown requirements remain null for clarification.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "family": {
+                "type": "string",
+                "enum": [
+                  "routed-v1",
+                  "plane-v2"
+                ]
+              },
+              "includeChannel": {
+                "type": "boolean"
+              },
+              "includeFeedThrough": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        },
+        "evleda_resume_project": {
+          "name": "evleda_resume_project",
+          "description": "Open an existing workspace project by its opaque ID using its saved bundle and native checkpoint. Accepts no replacement draft or runtime paths.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "projectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            },
+            "required": [
+              "projectId"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          }
+        }
+      },
+      "resources": [],
+      "resourceTemplates": [],
+      "authStatus": "unsupported"
+    }
+  ],
+  "passed": true,
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "stderr": "",
+  "finishedAt": "2026-09-20T15:58:21.839Z"
+}
