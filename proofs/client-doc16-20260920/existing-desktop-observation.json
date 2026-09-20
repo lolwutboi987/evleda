@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-09-20T15:14:47.612Z",
+  "scope": "Current conversation read-only vendor-symbol inspection after configuration update. It does not establish that this already-running connection activated DOC16.",
+  "request": {
+    "name": "evleda_inspect_library",
+    "arguments": {
+      "kind": "symbol",
+      "libraryId": "EvlEDA_Pico2350:RT6150B-33GQW"
+    }
+  },
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"found\":false,\"inspection\":null}"
+      }
+    ],
+    "structuredContent": {
+      "found": false,
+      "inspection": null
+    }
+  }
+}

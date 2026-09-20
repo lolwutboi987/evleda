@@ -2,7 +2,17 @@
 
 The recommended [workspace configuration example](../examples/toolbox-workspace.config.toml) connects once and lets the client submit drafts, answer clarifications, create and resume projects over MCP. The older [explicit-project example](../examples/toolbox-mcp.config.toml) remains available. Both are disabled examples, not installed client settings. Replace placeholders with host-approved values before enabling the intended configuration.
 
-The global `evleda_workspace` entry now uses **DOC7 stock-catalog destination profile02** and an exact copy of the updated PCB skill. The [installation receipt](../../destination-verification/doc7-client-installation-02/installation.json) verifies preserved unrelated configuration and zero workspace allocations. The installed command passed [four read-only preflight calls](../../destination-verification/doc7-client-installation-02/workspace-preflight.json); a [fresh actual CLI process](../../destination-verification/doc7-client-installation-02/codex-client-catalog-v2.json) discovered all 15 initial tools and exited 0. Activation of this new profile in the running desktop remains unverified. The earlier [DOC6 desktop discovery](../../destination-verification/desktop-workspace-probe-20260916.json) is historical. See [installation details](destination-client-installation.md); repository configuration examples remain disabled.
+The global `evleda_workspace` entry now uses **frozen host41, DOC16 and the v4
+approved library profile**, plus an exact copy of the current PCB skill. The
+[delivery proof](../proofs/client-doc16-20260920/README.md) records seven successful
+read-only preflight calls and **17 initial tools in a fresh actual Codex client**,
+with normal exit and zero workspace allocations. The stock catalog is retained.
+The client wait is 1,800 seconds to accommodate measured native operations;
+native bounds and edit policy remain unchanged. The already-running chat
+connection has not demonstrated the new vendor-part access, so use a fresh
+client or reconnect before relying on the updated capabilities. See
+[installation details](destination-client-installation.md); earlier DOC6/DOC7
+proofs remain historical and repository configuration examples remain disabled.
 
 The installed [stock-catalog mode](toolbox-stock-catalog.md) searches 222 approved symbol and 155 footprint namespaces, followed by exact inspection and selected-source pins in compiled bundles. Native02 passed 33 calls for C1/R1/J1 authoring, placement, previews, normal close and same-connection resume. Its seven-pad RC fixture remains intentionally unrouted; no full ERC/DRC, routing or design acceptance follows. Discovery does not qualify every part, and earlier exact-ID profiles retain their behavior.
 

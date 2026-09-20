@@ -1,0 +1,12 @@
+{
+  "scope": "Fresh actual installed Codex app-server reads the real global EvlEDA entry. Other servers/plugins are disabled only for this probe. No task, model turn or native project is created. This is not evidence that an already-running desktop connection reloaded.",
+  "startedAt": "2026-09-20T15:10:50.988Z",
+  "passed": false,
+  "error": "Client exited before response",
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "stderr": "Error: error loading default config after config error: invalid transport\nin `mcp_servers.\"node_repl\"`\n\n",
+  "finishedAt": "2026-09-20T15:10:51.423Z"
+}

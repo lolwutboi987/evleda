@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "evleda.destination-client-installation.v2",
+  "recordedAt": "2026-09-20T15:09:33.222Z",
+  "scope": "Existing evleda_workspace entry only: frozen host41 command, DOC16 v4 profile pin, 1800-second client tool wait, and exact repository skill. Edit policy, environment allowlist, workspace path and unrelated configuration are unchanged.",
+  "hostRelease": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\field-preflight-build-01\\host41-release.json",
+    "identity": {
+      "sha256": "4d7e1cbc32ac6a01e8b8d897b2c0e54cedbdad519f9a27ebc59a413b4697009c",
+      "size": 335476
+    }
+  },
+  "profile": {
+    "path": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/working-profiles/toolbox-native-doc16-rp2350-v4-01.json",
+    "identity": {
+      "sha256": "d5014bcc72773d18e88e40b39bc5afb64e1ea4eecc99bc395c95191eeecf634d",
+      "size": 16672
+    }
+  },
+  "configuration": {
+    "before": {
+      "sha256": "67d2c2aef6179b22c73a941d0d31b43f1a569f1e972d2da877920bee7a8097cf",
+      "size": 10578
+    },
+    "after": {
+      "sha256": "2457db11bf51536c66d5ab0626ad1d0604be671cfcf7d3dae90acdbf1e0c1047",
+      "size": 10594
+    },
+    "unrelatedRawBytesPreserved": true,
+    "unrelatedParsedEntryFieldsPreserved": true
+  },
+  "skill": {
+    "before": {
+      "sha256": "4da48ceffd622100c5f01a1ec44345e69784f5634bf883a41b7b69abd9924b0a",
+      "size": 26528
+    },
+    "after": {
+      "sha256": "9f8734a64ff56711e5764b23997c0067e238f3c1c3debac65a91731fab465c50",
+      "size": 39593
+    },
+    "repositoryCopyExact": true
+  },
+  "workspaceAllocations": 0,
+  "desktopActivation": "Current conversation still returns found:false for EvlEDA_Pico2350:RT6150B-33GQW after the update; fresh installed CLI verifies the updated profile separately.",
+  "privateBackupRetained": true,
+  "localOriginalReceipt": {
+    "sha256": "f5bec048b0ee07bc9318beb305c04de913504da6f953c771f6c25a309a72c8ac",
+    "size": 1790
+  }
+}

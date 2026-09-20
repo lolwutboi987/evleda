@@ -19,6 +19,13 @@ of the checked target.
 [Assembly SVG](previews/assembly.svg) · [Header pinout](pinout.md) ·
 [Candidate BOM](bom-candidates.csv) · [BOM notes](bom-notes.md)
 
+[Schematic preview](previews/schematic.png) · [Zoomable schematic SVG](previews/schematic.svg)
+
+The single-sheet schematic was exported by native KiCad and visually reviewed;
+its dense label-based circuit remains legible when zoomed. All six source files
+stayed unchanged through that export; [preview custody](verification/schematic-preview-custody.json)
+records the bindings.
+
 ## Board and placement
 
 The board is **22 x 60 mm, four layers**, retaining 2.54 mm GPIO pitch and

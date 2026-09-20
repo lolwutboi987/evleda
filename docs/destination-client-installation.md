@@ -1,8 +1,19 @@
 # Destination client installation
 
-The global EvlEDA workspace entry now uses **DOC7 stock catalog profile02** and the current PCB skill. An exact-command preflight and a fresh installed Codex CLI both discover **15 initial tools, including `evleda_search_library`**. Activation of this new profile in the already-running desktop is not established; the earlier desktop discovery result belongs to the previous DOC6 installation.
+The global EvlEDA workspace entry now uses **frozen host41 and the DOC16/v4
+profile**, with the exact current repository PCB skill. The [delivery proof](../proofs/client-doc16-20260920/README.md)
+verifies seven read-only preflight calls and **17 initial tools in a fresh actual
+Codex client**, including placement and via-budget revision. The stock catalog
+is retained and the approved RP2350 package is available. Unrelated settings,
+edit policy and the empty workspace are preserved. The client wait is 1,800
+seconds; native operation/verification limits are unchanged.
 
-## Current DOC7 installation — 2026-09-16 PDT
+The already-running conversation still returned `found:false` for the newly
+approved vendor symbol. Activation there is not established; reconnect or use
+a fresh client before relying on the updated profile. This is separate from the
+currently running RP2350 authoring session and its pending finalization.
+
+## Historical DOC7 installation — 2026-09-16 PDT
 
 The [installation record](../../destination-verification/doc7-client-installation-02/installation.json) records only the existing entry's profile path, SHA-256 and byte count plus the exact repository skill copy. Private configuration/skill backups were retained, unrelated configuration bytes and entry fields were preserved, and the global workspace had no project allocations.
 

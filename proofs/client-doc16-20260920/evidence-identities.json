@@ -1,0 +1,20 @@
+{
+  "records": [
+    {
+      "name": "intended-command-preflight.json",
+      "sha256": "1f3d56e6d63dbda3b86ff5ab488ed81c60a54eccbf46fabada4060fa3b941a46",
+      "size": 581052
+    },
+    {
+      "name": "installed-codex-client.json",
+      "sha256": "3b8daad4afda3b3bac70b599fb18aed19cf3d3ade3c3f97ccc586dcdc648d184",
+      "size": 599
+    },
+    {
+      "name": "installed-codex-client-v2.json",
+      "sha256": "4a53e427a0c364470eb2be06d58068f4154c921ea88193d9cadbb1a1e4e0e7a0",
+      "size": 54455
+    }
+  ],
+  "scope": "Native capabilities are separately proved by host41/DOC16 execution; these records qualify read-only client configuration/discovery and part inspection only."
+}
