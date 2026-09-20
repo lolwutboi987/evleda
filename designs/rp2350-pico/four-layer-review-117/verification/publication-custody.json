@@ -1,0 +1,331 @@
+{
+  "schemaVersion": "evleda.rp2350-review-publication.v1",
+  "scope": "Publication of the complete unmanaged native review target. Managed authoring, checkpoint/close and final engineering acceptance remain pending. This package grants no host project authority or fabrication approval.",
+  "sourcePcbSha256": "06214031a5b3d8c62be8cbf4bfeabf876a110b0fc556ca3c30075f15a2a6ee11",
+  "copies": [
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\rp2350-pico-4layer.kicad_pro",
+      "destination": "native/rp2350-pico-4layer.kicad_pro",
+      "sha256": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+      "size": 21286
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\rp2350-pico-4layer.kicad_pcb",
+      "destination": "native/rp2350-pico-4layer.kicad_pcb",
+      "sha256": "06214031a5b3d8c62be8cbf4bfeabf876a110b0fc556ca3c30075f15a2a6ee11",
+      "size": 633370
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\rp2350-pico-4layer.kicad_sch",
+      "destination": "native/rp2350-pico-4layer.kicad_sch",
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\rp2350-pico-4layer.kicad_dru",
+      "destination": "native/rp2350-pico-4layer.kicad_dru",
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\fp-lib-table",
+      "destination": "native/fp-lib-table",
+      "sha256": "dc36fc63e32c2e61884295d427ed76f1e57526c3c9b14f1953c8fde0a10dbbc3",
+      "size": 1947
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\sym-lib-table",
+      "destination": "native/sym-lib-table",
+      "sha256": "2c87f80689f8360eb583a5f858bbe0e1fb78916a0b82753bc2906bbb0125b289",
+      "size": 1197
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\AOTA-B201610S3R3-101-T_Abracon_Recommended.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_Abracon_Recommended.kicad_mod",
+      "sha256": "5b39565979fcd5f4a59483446d5b9e5479df81908690e9d6e6d9fe300e3cef8a",
+      "size": 1452
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+      "sha256": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+      "size": 1456
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod",
+      "sha256": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+      "size": 1130
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\MountingHole_D2.1_Pico.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/MountingHole_D2.1_Pico.kicad_mod",
+      "sha256": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+      "size": 796
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod",
+      "sha256": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+      "size": 5332
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+      "sha256": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+      "size": 2284
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+      "sha256": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+      "size": 4261
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\footprints\\EvlEDA_Pico2350.pretty\\Wuerth_434133025816_4Terminal.kicad_mod",
+      "destination": "native/library/footprints/EvlEDA_Pico2350.pretty/Wuerth_434133025816_4Terminal.kicad_mod",
+      "sha256": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+      "size": 1398
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\manifest.json",
+      "destination": "native/library/manifest.json",
+      "sha256": "465ab0fae74b2ad0d8dca3d068e8196e885b3de9b9f0a5b33b81d6e2401a2514",
+      "size": 10953
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\NOTICE.md",
+      "destination": "native/library/NOTICE.md",
+      "sha256": "1fa982d2b567cbf00ce6dc45a3210ec65166551faade603e52378e421d3f6090",
+      "size": 3997
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\abracon-aota.md",
+      "destination": "native/library/provenance/abracon-aota.md",
+      "sha256": "4b1ff20e2f2c22af48b418e5e2d5599543a10688e0623bb9652a67fc9ef4e67f",
+      "size": 1533
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\KiCad-Libraries-LICENSE.md",
+      "destination": "native/library/provenance/KiCad-Libraries-LICENSE.md",
+      "sha256": "45d2bce75e5a4208f5afb01b8fb2c406e700371c4fe2b5f5cd5c443d46db4d8f",
+      "size": 2101
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\kicad-winbond-land.md",
+      "destination": "native/library/provenance/kicad-winbond-land.md",
+      "sha256": "e5ff89b3c1f0e4d5c7333e981c7500a0bf2e3144758c27dc1c869b477df31654",
+      "size": 1536
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\pico-bare-contacts.md",
+      "destination": "native/library/provenance/pico-bare-contacts.md",
+      "sha256": "e01face0502017f5e803fa7f0d5bd4922bc57422f4bab651b698a18d85e6600a",
+      "size": 1964
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\pico-mounting-bore.md",
+      "destination": "native/library/provenance/pico-mounting-bore.md",
+      "sha256": "5db2d459fd98e8b441c40a661e61f752dea54d33c4cbdcb63e0fdff5087c1ece",
+      "size": 1810
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\raspberry-pi-minimal.md",
+      "destination": "native/library/provenance/raspberry-pi-minimal.md",
+      "sha256": "0d5cf3398ec5f581b81fb23b66b3d2d66b182b0caea8cc9d51f51486740bd870",
+      "size": 1867
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\richtek-rt6150.md",
+      "destination": "native/library/provenance/richtek-rt6150.md",
+      "sha256": "12136603ad4115171d9cbbda977a84bb7b15d01d1c3a530ad571c142c14bd35c",
+      "size": 2215
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\selected-stock.md",
+      "destination": "native/library/provenance/selected-stock.md",
+      "sha256": "2bb2fce253c6e1a214124de7746f11cf39052a146cb2aa7a2be769b0a1e35837",
+      "size": 2868
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\source-identities.json",
+      "destination": "native/library/provenance/source-identities.json",
+      "sha256": "005f3f0088ff7956409ad55f6d4b42aa84c68f3ada0e3846b68174535583575b",
+      "size": 8358
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\st-usblc6.md",
+      "destination": "native/library/provenance/st-usblc6.md",
+      "sha256": "24024bb8ce2534e3078b042cb5a037f58ae7e7044925f536604c92a592a69356",
+      "size": 1516
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\tdk-bulk-lands.md",
+      "destination": "native/library/provenance/tdk-bulk-lands.md",
+      "sha256": "438a910c89a2c5fdfb5d471b2c2b70a02f0d4f2e91809cd0bb6a6f2f77e6af3a",
+      "size": 1386
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\winbond-w25q32rv.md",
+      "destination": "native/library/provenance/winbond-w25q32rv.md",
+      "sha256": "8057314c828f3fc1b62081880dca1a0d38cbf20743f40420e2448fdcb604b9d7",
+      "size": 3357
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\provenance\\wuerth-switch.md",
+      "destination": "native/library/provenance/wuerth-switch.md",
+      "sha256": "bb8ce4ff2627aaf47d31f51667c25da166e9cc4419a6ff156b8ce45cb14ee39f",
+      "size": 1525
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\README.md",
+      "destination": "native/library/README.md",
+      "sha256": "3f96d403915ab8bcba0b34c69eff120889718f8b30ec3292167ddc175d1e9dcc",
+      "size": 1083
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\library\\symbols\\EvlEDA_Pico2350.kicad_sym",
+      "destination": "native/library/symbols/EvlEDA_Pico2350.kicad_sym",
+      "sha256": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+      "size": 9995
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\top.png",
+      "destination": "previews/top.png",
+      "sha256": "517509e4c420764c95647c8105c9f9fb60cecc3f82596ff124de758cf9754331",
+      "size": 164044
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\top.svg",
+      "destination": "previews/top.svg",
+      "sha256": "2a06f65751a3d1d26ef37625de16d12b462d1b4ab33d4d815df2f7a47f0b91a3",
+      "size": 226576
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\assembly.png",
+      "destination": "previews/assembly.png",
+      "sha256": "4abb6152d49c013dcadbbc4ad860c6ebab8088f58968e28645847616e97e4f71",
+      "size": 117331
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\assembly.svg",
+      "destination": "previews/assembly.svg",
+      "sha256": "88e77b252a3e128f1e394de0c1b77fbbecbcbb9802decab0bd58591e71bcf5d2",
+      "size": 129692
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\metadata-review-121\\bom-candidates.csv",
+      "destination": "bom-candidates.csv",
+      "sha256": "7a8e23ed26c19bc20c3d926f383883efeb80ed7c46f883a35aecb0774ee194aa",
+      "size": 10304
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\metadata-review-121\\bom-notes.md",
+      "destination": "bom-notes.md",
+      "sha256": "553326399a184e2d54aea38e52cb7482c3ead8d8d6ccf881841b0ba294211256",
+      "size": 1014
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\metadata-review-121\\pinout.md",
+      "destination": "pinout.md",
+      "sha256": "94d2fc10b2d493f68df694b2c3b125256e1758f62dbca6bad79cb83a885be763",
+      "size": 2006
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\portable-copy-manifest.json",
+      "destination": "verification/portable-copy-manifest.json",
+      "sha256": "5f416519eb3a7e74f068db1d25ca27c3c5ffbb0055c62bec8e9718a876060ae0",
+      "size": 3228
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\portable-drc.json",
+      "destination": "verification/native-drc.json",
+      "sha256": "17b6f9a1cbd87da446236fd3a4394b91ed8974913501bbc8796005b188f5047e",
+      "size": 1111
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\portable-erc.json",
+      "destination": "verification/native-erc.json",
+      "sha256": "93a3293d84908e27968dae2431839e192ebfa0e1b32b2ce924b8c41d855d36cd",
+      "size": 1027
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\portable-review-119\\native-connectivity.json",
+      "destination": "verification/native-connectivity.json",
+      "sha256": "d03c4bf3e2535f8e2c4f60a4055c81e4bbcea995bddb535846344ec1ded8599f",
+      "size": 33849
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\metadata-review-121\\metadata-source-bindings.json",
+      "destination": "verification/metadata-source-bindings.json",
+      "sha256": "8675ae46faf25a8bcf0d625241a3c729f073c2bec00a6c37726b0c6153ec61e6",
+      "size": 1586
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\final-review-118\\source-audit.json",
+      "destination": "verification/source-audit.json",
+      "sha256": "8980928e2b3ed935441573fc6308eca25804cbeb11c14cc4cf6df2104a3eb584",
+      "size": 54835
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\final-review-118\\usb-source-assessment.json",
+      "destination": "verification/usb-source-assessment.json",
+      "sha256": "e892104538caaf5f580390e5a907b5f669dfa1616535a9028abbae848d7aab53",
+      "size": 1148178
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\reference-review-120\\summary.json",
+      "destination": "verification/reference-coverage.json",
+      "sha256": "b2e141164e64f99008b10eec700f7951b324f591f8769d5a15973efe06c75a68",
+      "size": 4450
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\labels-review.json",
+      "destination": "verification/labels-review.json",
+      "sha256": "3757f8fd921d8d7b86c1ca92215237e037b8a69a984accf398f23095c6292294",
+      "size": 20422
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\preview-custody.json",
+      "destination": "verification/preview-custody.json",
+      "sha256": "88a718c928b415e75b4be939c0af8ec18bf3b79ce8162cfc5eabca4146fec6aa",
+      "size": 734
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\component-selection.json",
+      "destination": "basis/component-selection.json",
+      "sha256": "be88ab07265f2fa3957aa95eed95098125256403feeaa6aa0671716b52b9bc2f",
+      "size": 32539
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\component-selection.md",
+      "destination": "basis/component-selection.md",
+      "sha256": "ee077e24386c0d3f743a47610d4c1369f63c39117852c19f7c13bd77001123da",
+      "size": 11166
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\circuit-inputs.json",
+      "destination": "basis/circuit-inputs.json",
+      "sha256": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+      "size": 102754
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\circuit-inputs.md",
+      "destination": "basis/circuit-inputs.md",
+      "sha256": "d4f9f9a5f4c6ae220c35f3e6aaabdf9e84f00f6901082b98353d2d956faf0445",
+      "size": 20193
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\operating-constraints.json",
+      "destination": "basis/operating-constraints.json",
+      "sha256": "322c85cfd8fe5cb867383e9d612b4d58f80c13e5ef32a7813ff4f017ce41ebf3",
+      "size": 132015
+    },
+    {
+      "source": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\operating-constraints.md",
+      "destination": "basis/operating-constraints.md",
+      "sha256": "e2cac76dcad8f8e0f156498fd570e6fe8668268542d4d569732585dde055041d",
+      "size": 12132
+    }
+  ]
+}

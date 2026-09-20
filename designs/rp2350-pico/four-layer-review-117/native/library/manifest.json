@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "evleda.kicad-approved-package.v1",
+  "namespace": "EvlEDA_Pico2350",
+  "symbols": [
+    {
+      "libraryId": "EvlEDA_Pico2350:RT6150B-33GQW",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        }
+      },
+      "provenanceIds": [
+        "richtek-rt6150",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:W25Q32RVXHJQ",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        }
+      },
+      "provenanceIds": [
+        "winbond-w25q32rv",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:USBLC6-2SC6",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        }
+      },
+      "provenanceIds": [
+        "st-usblc6",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816",
+      "source": {
+        "relativePath": "symbols/EvlEDA_Pico2350.kicad_sym",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "620b04a28a39d0f4a3573054e45ebc320bb51341a6e319cf9e9ca78e40c68185",
+          "size": 9995
+        }
+      },
+      "provenanceIds": [
+        "wuerth-switch",
+        "source-identities"
+      ]
+    }
+  ],
+  "footprints": [
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_Abracon_Recommended",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_Abracon_Recommended.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "5b39565979fcd5f4a59483446d5b9e5479df81908690e9d6e6d9fe300e3cef8a",
+          "size": 1452
+        }
+      },
+      "provenanceIds": [
+        "abracon-aota",
+        "raspberry-pi-minimal",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/AOTA-B201610S3R3-101-T_RaspberryPi_Minimal.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "81903ac691a73f8d9d5fc5587e1a5d964a518439231732e22ee59dfbdb2ee8d3",
+          "size": 1456
+        }
+      },
+      "provenanceIds": [
+        "abracon-aota",
+        "raspberry-pi-minimal",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "64932de16da10ed7da4d0877c921127ae40aac69b7149bdf9862e215cf4c2295",
+          "size": 2284
+        }
+      },
+      "provenanceIds": [
+        "richtek-rt6150",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/W25Q32RVXH_XSON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "7cf053de87e241ec39c478cf533754b6158b9e68eb7c959b61ab50c3007fb85f",
+          "size": 4261
+        }
+      },
+      "provenanceIds": [
+        "winbond-w25q32rv",
+        "kicad-winbond-land",
+        "kicad-library-license",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:Wuerth_434133025816_4Terminal",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/Wuerth_434133025816_4Terminal.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "457103688e843b72a714f8790ccd149a1838c13de9678f51c7cde4742dd531f0",
+          "size": 1398
+        }
+      },
+      "provenanceIds": [
+        "wuerth-switch",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "4e34f6bafd2e76b90b5ae91c5f1c95fcf0a173f40521e76e1773cff4b2945022",
+          "size": 1130
+        }
+      },
+      "provenanceIds": [
+        "tdk-bulk-lands",
+        "source-identities"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/Pico_BarePTH_1x20_P2.54mm_D1.0mm_Pad1.7mm.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "90667b2256f4068e823683475954edd1cef040aa9ebdb766de213ccbba1c7f18",
+          "size": 5332
+        }
+      },
+      "provenanceIds": [
+        "pico-bare-contacts",
+        "source-identities",
+        "kicad-library-license"
+      ]
+    },
+    {
+      "libraryId": "EvlEDA_Pico2350:MountingHole_D2.1_Pico",
+      "source": {
+        "relativePath": "footprints/EvlEDA_Pico2350.pretty/MountingHole_D2.1_Pico.kicad_mod",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "90c2eda973e65bf3faaa73f6ca6c8e829923f73963d783357d5bc17ff33f6ca6",
+          "size": 796
+        }
+      },
+      "provenanceIds": [
+        "pico-mounting-bore",
+        "source-identities"
+      ]
+    }
+  ],
+  "provenance": [
+    {
+      "id": "richtek-rt6150",
+      "relativePath": "provenance/richtek-rt6150.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "12136603ad4115171d9cbbda977a84bb7b15d01d1c3a530ad571c142c14bd35c",
+        "size": 2215
+      },
+      "url": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf"
+    },
+    {
+      "id": "abracon-aota",
+      "relativePath": "provenance/abracon-aota.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "4b1ff20e2f2c22af48b418e5e2d5599543a10688e0623bb9652a67fc9ef4e67f",
+        "size": 1533
+      },
+      "url": "https://abracon.com/datasheets/AOTA-B201610S3R3-101-T.pdf"
+    },
+    {
+      "id": "raspberry-pi-minimal",
+      "relativePath": "provenance/raspberry-pi-minimal.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "0d5cf3398ec5f581b81fb23b66b3d2d66b182b0caea8cc9d51f51486740bd870",
+        "size": 1867
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip"
+    },
+    {
+      "id": "source-identities",
+      "relativePath": "provenance/source-identities.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "005f3f0088ff7956409ad55f6d4b42aa84c68f3ada0e3846b68174535583575b",
+        "size": 8358
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf"
+    },
+    {
+      "id": "winbond-w25q32rv",
+      "relativePath": "provenance/winbond-w25q32rv.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "8057314c828f3fc1b62081880dca1a0d38cbf20743f40420e2448fdcb604b9d7",
+        "size": 3357
+      },
+      "url": "https://www.winbond.com/resource-files/W25Q32RV_SPI_QPI%20RevE%2011132025%20Plus.pdf"
+    },
+    {
+      "id": "st-usblc6",
+      "relativePath": "provenance/st-usblc6.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "24024bb8ce2534e3078b042cb5a037f58ae7e7044925f536604c92a592a69356",
+        "size": 1516
+      },
+      "url": "https://www.st.com/resource/en/datasheet/usblc6-2.pdf"
+    },
+    {
+      "id": "kicad-winbond-land",
+      "relativePath": "provenance/kicad-winbond-land.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e5ff89b3c1f0e4d5c7333e981c7500a0bf2e3144758c27dc1c869b477df31654",
+        "size": 1536
+      },
+      "url": "https://gitlab.com/kicad/libraries/kicad-footprints/-/blob/master/Package_SON.pretty/Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod"
+    },
+    {
+      "id": "kicad-library-license",
+      "relativePath": "provenance/KiCad-Libraries-LICENSE.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "45d2bce75e5a4208f5afb01b8fb2c406e700371c4fe2b5f5cd5c443d46db4d8f",
+        "size": 2101
+      },
+      "url": "https://gitlab.com/kicad/libraries/kicad-footprints/-/raw/master/LICENSE.md"
+    },
+    {
+      "id": "wuerth-switch",
+      "relativePath": "provenance/wuerth-switch.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "bb8ce4ff2627aaf47d31f51667c25da166e9cc4419a6ff156b8ce45cb14ee39f",
+        "size": 1525
+      },
+      "url": "https://www.we-online.com/components/products/datasheet/434133025816.pdf"
+    },
+    {
+      "id": "tdk-bulk-lands",
+      "relativePath": "provenance/tdk-bulk-lands.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "438a910c89a2c5fdfb5d471b2c2b70a02f0d4f2e91809cd0bb6a6f2f77e6af3a",
+        "size": 1386
+      },
+      "url": "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X5R1A476M250AC"
+    },
+    {
+      "id": "pico-bare-contacts",
+      "relativePath": "provenance/pico-bare-contacts.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "e01face0502017f5e803fa7f0d5bd4922bc57422f4bab651b698a18d85e6600a",
+        "size": 1964
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf"
+    },
+    {
+      "id": "selected-stock",
+      "relativePath": "provenance/selected-stock.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "2bb2fce253c6e1a214124de7746f11cf39052a146cb2aa7a2be769b0a1e35837",
+        "size": 2868
+      },
+      "url": "https://assets.nexperia.com/documents/data-sheet/PMEG6010ELR.pdf"
+    },
+    {
+      "id": "pico-mounting-bore",
+      "relativePath": "provenance/pico-mounting-bore.md",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "5db2d459fd98e8b441c40a661e61f752dea54d33c4cbdcb63e0fdff5087c1ece",
+        "size": 1810
+      },
+      "url": "https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf"
+    }
+  ],
+  "notice": {
+    "relativePath": "NOTICE.md",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "1fa982d2b567cbf00ce6dc45a3210ec65166551faade603e52378e421d3f6090",
+      "size": 3997
+    }
+  }
+}

@@ -1,6 +1,15 @@
 # Active PCB-toolbox roadmap
 
-Current continuation: the reviewed baseline is published; RP2350 drafting and
+Current continuation, 20 September 2026: the [complete RP2350 four-layer review
+candidate](../designs/rp2350-pico/four-layer-review-117/README.md) now provides
+portable native files, previews, a pinout and a candidate BOM. All 67 functional
+nets are connected in its native pad check and configured ERC/DRC are clean.
+The public-tool job is still adopting this target. Finish its source-bound
+checks, review the retained debug/plane/impedance limits, and normally checkpoint
+and close before claiming the managed workflow complete. The review archive is
+not a fabrication release or a substitute for that remaining work.
+
+Earlier continuation: the reviewed baseline was published; RP2350 drafting and
 connector qualification are under way. The full candidate compiles and U1/J2 are
 observed in its native schematic, with successful checkpoint/close. Its PCB still
 has no components or copper. Corrected placement and field cleanup have a separate

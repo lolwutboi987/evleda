@@ -4,14 +4,25 @@ This is the first real board task after publication of the reviewed EvlEDA toolb
 baseline. Work is on `codex/rp2350-pico`; the published baseline is commit
 [`8fa1203`](https://github.com/lolwutboi987/evleda/commit/8fa120343111107763433c7204bdbdbc240fc609)
 on `codex/destination-resume`. The existing Python implementation on `main` was
-preserved. This directory currently holds design work, not a completed PCB.
+preserved. This directory contains the native review candidate and its retained
+design history; final managed-workflow verification is still in progress.
 
 ## Current candidate
 
-The approved board is now **22 × 60 mm on two layers**, retaining 2.54 mm GPIO
-pitch and 17.78 mm row spacing. The original 51 mm brief below is historical.
-The latest normally closed native snapshot is [ground and USB revision 60-12](native-ground-usb-60-12/README.md): **829 tracks, 104 vias and one B.Cu ground zone**. Nineteen added front ground segments reduce GND from 12 to **nine physical-pad groups**, with **49 of 64 pads** in the main group. A coordinated three-branch USB adjustment removes the prior sharp bend while preserving the existing source-assessed width, gap, length and skew limits. There are **631 measured turns with zero violations and eight unresolved junctions**. Both GPIO service strips are clear, with 40 exact own-pad leads permitted. Native checks still report **24 unconnected errors and 13 dangling-item warnings**; 53 functional nets are connected and 14 remain disconnected. USB resistor placement, remaining routing, labels and electrical/DFM review are unfinished.
-**The board is unfinished.** The earlier
+The [complete four-layer review candidate](four-layer-review-117/README.md) is
+**22 × 60 mm**, retaining 2.54 mm GPIO pitch and 17.78 mm row spacing. Its native
+physical-pad review connects all 67 functional nets, and configured ERC/DRC have
+zero findings. It includes 1,099 tracks, 118 vias, functional labels, portable
+custom libraries, previews, a pinout and a candidate BOM. All 887 measured turns
+meet the straight/45-degree policy; both GPIO service strips are clear.
+
+This is the checked native target, prepared outside the managed project. Its
+adoption through public EvlEDA tools is still running. Final save/checkpoint,
+managed acceptance and close remain pending; debug return-path, supplemental
+plane and physical impedance limits are explicit in the candidate report.
+
+The earlier two-layer [ground bridge 60-13](native-ground-bridge-60-13/README.md),
+[ground and USB revision 60-12](native-ground-usb-60-12/README.md),
 [ground-connections snapshot 60-11](native-ground-links-60-11/README.md),
 [ground-plane snapshot 60-10](native-ground-plane-60-10/README.md),
 [route-plan snapshot 60-09](native-route-plan-60-09/README.md),
@@ -26,10 +37,10 @@ The earlier [placement 60-03](native-placement-60-03/README.md) has a
 It contains 66 footprints but no routed copper: ERC has zero findings and DRC
 reports 192 unconnected errors. It is not a finished board.
 
-Routing work reserves the GPIO service strips on both faces for each header
-pad's own inward connection; unrelated traces, vias and plane copper must stay
-out. Straight/45-degree routing, actual via clearances and return paths still
-need verification on the completed native layout. A later routing attempt saved
+Routing reserves the GPIO service strips on every copper layer for each header
+pad's own inward connection; unrelated traces, vias and plane copper stay out.
+The current review verifies that geometry and configured native clearances;
+complete electrical/return-path acceptance remains distinct. An earlier attempt saved
 32 ground vias, then rolled back the next batch after a native snapshot exceeded
 its message limit. The [snapshot fix and verification scope](../../docs/rp2350-native-pad-envelope-fix.md)
 now include successful native execution of that batch in 60-05. The earlier

@@ -2,7 +2,7 @@
 
 The construction writer can now generate a native blank board with **F.Cu, In1.Cu, In2.Cu and B.Cu**, four separate copper thicknesses and three separate dielectric gaps. KiCad 10.0.3 loaded, saved and reopened the synthetic fixture with identical bytes. The existing two-layer creation path retains its authenticated-bundle requirement and its captured native output.
 
-Following the [RP2350 feasibility study](../designs/rp2350-pico/four-layer-feasibility-20260919/README.md), the public plane-family compiler accepts four-layer construction and one or two named ground planes. Managed creation, internal tracks, ordinary through-vias and both internal ground planes have now been exercised on a separate native fixture. The original RP2350 remains two-layer and unfinished; its conversion is a separate task.
+Following the [RP2350 feasibility study](../designs/rp2350-pico/four-layer-feasibility-20260919/README.md), the public plane-family compiler accepts four-layer construction and one or two named ground planes. Managed creation, internal tracks, ordinary through-vias and both internal ground planes were exercised on a separate native fixture. The original two-layer RP2350 remains preserved. A [complete four-layer native review target](../designs/rp2350-pico/four-layer-review-117/README.md) is now available with all functional nets connected and configured ERC/DRC zero; its managed public-tool adoption and final acceptance checks remain in progress.
 
 ## Public declarations and saved assessment
 

@@ -1,0 +1,2139 @@
+{
+  "schemaVersion": "evleda.rp2350-candidate-source-audit.v1",
+  "scope": "Read-only numerical and geometry audit. Source-derived pads are not native host authority. Native DRC, endpoint checks, fresh fill and electrical review are separate evidence.",
+  "source": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+    "sha256": "06214031a5b3d8c62be8cbf4bfeabf876a110b0fc556ca3c30075f15a2a6ee11",
+    "size": 633370
+  },
+  "bundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "46dccf0a2f1b50a370ab4feddce6b1b97afe5b8218fac11cdc0fe1add7439e47",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "counts": {
+    "tracks": 1099,
+    "vias": 118,
+    "footprints": 66,
+    "zones": 2
+  },
+  "outline": {
+    "minX": 0,
+    "minY": 0,
+    "maxX": 22,
+    "maxY": 60
+  },
+  "routes": [
+    {
+      "net": "1V1",
+      "status": "pass",
+      "lengthMm": 36.33427811829217,
+      "vias": 6
+    },
+    {
+      "net": "3V3",
+      "status": "pass",
+      "lengthMm": 150.58554034129887,
+      "vias": 12
+    },
+    {
+      "net": "3V3_EN",
+      "status": "pass",
+      "lengthMm": 45.88944622496033,
+      "vias": 2
+    },
+    {
+      "net": "ADC_AVDD",
+      "status": "pass",
+      "lengthMm": 5.631198410471443,
+      "vias": 0
+    },
+    {
+      "net": "ADC_VREF",
+      "status": "pass",
+      "lengthMm": 22.528347032479058,
+      "vias": 2
+    },
+    {
+      "net": "BOOT_SW",
+      "status": "pass",
+      "lengthMm": 15.888950570473666,
+      "vias": 0
+    },
+    {
+      "net": "CORE_LX",
+      "status": "pass",
+      "lengthMm": 4.055634918610405,
+      "vias": 0
+    },
+    {
+      "net": "GND",
+      "status": "pass",
+      "lengthMm": 88.32724762226565,
+      "vias": 41
+    },
+    {
+      "net": "GPIO0",
+      "status": "pass",
+      "lengthMm": 30.6431493398826,
+      "vias": 1
+    },
+    {
+      "net": "GPIO1",
+      "status": "pass",
+      "lengthMm": 27.098956697920045,
+      "vias": 2
+    },
+    {
+      "net": "GPIO10",
+      "status": "pass",
+      "lengthMm": 7.5471277015970815,
+      "vias": 2
+    },
+    {
+      "net": "GPIO11",
+      "status": "pass",
+      "lengthMm": 9.540681092190354,
+      "vias": 2
+    },
+    {
+      "net": "GPIO12",
+      "status": "pass",
+      "lengthMm": 11.817077195258241,
+      "vias": 2
+    },
+    {
+      "net": "GPIO13",
+      "status": "pass",
+      "lengthMm": 16.029108216936542,
+      "vias": 2
+    },
+    {
+      "net": "GPIO14",
+      "status": "pass",
+      "lengthMm": 19.72910821693654,
+      "vias": 2
+    },
+    {
+      "net": "GPIO15",
+      "status": "pass",
+      "lengthMm": 25.43393144475063,
+      "vias": 2
+    },
+    {
+      "net": "GPIO16",
+      "status": "pass",
+      "lengthMm": 25.356931803688134,
+      "vias": 1
+    },
+    {
+      "net": "GPIO17",
+      "status": "pass",
+      "lengthMm": 34.74988165628679,
+      "vias": 1
+    },
+    {
+      "net": "GPIO18",
+      "status": "pass",
+      "lengthMm": 16.462489168102792,
+      "vias": 1
+    },
+    {
+      "net": "GPIO19",
+      "status": "pass",
+      "lengthMm": 15.100336213336291,
+      "vias": 2
+    },
+    {
+      "net": "GPIO2",
+      "status": "pass",
+      "lengthMm": 23.05832611206852,
+      "vias": 1
+    },
+    {
+      "net": "GPIO20",
+      "status": "pass",
+      "lengthMm": 10.658871747242225,
+      "vias": 2
+    },
+    {
+      "net": "GPIO21",
+      "status": "pass",
+      "lengthMm": 8.440630585851519,
+      "vias": 2
+    },
+    {
+      "net": "GPIO22",
+      "status": "pass",
+      "lengthMm": 17.504873734152913,
+      "vias": 1
+    },
+    {
+      "net": "GPIO23_SMPS_PS",
+      "status": "pass",
+      "lengthMm": 39.9928210486802,
+      "vias": 2
+    },
+    {
+      "net": "GPIO24_VBUS_SENSE",
+      "status": "pass",
+      "lengthMm": 19.936479784710013,
+      "vias": 2
+    },
+    {
+      "net": "GPIO25_LED",
+      "status": "pass",
+      "lengthMm": 17.28680374315354,
+      "vias": 2
+    },
+    {
+      "net": "GPIO26",
+      "status": "pass",
+      "lengthMm": 8.628340905032676,
+      "vias": 1
+    },
+    {
+      "net": "GPIO27",
+      "status": "pass",
+      "lengthMm": 14.64847329832614,
+      "vias": 2
+    },
+    {
+      "net": "GPIO28",
+      "status": "pass",
+      "lengthMm": 14.210300499961606,
+      "vias": 2
+    },
+    {
+      "net": "GPIO29_VSYS_SENSE",
+      "status": "pass",
+      "lengthMm": 17.324987001723343,
+      "vias": 2
+    },
+    {
+      "net": "GPIO3",
+      "status": "pass",
+      "lengthMm": 19.693452377915605,
+      "vias": 1
+    },
+    {
+      "net": "GPIO4",
+      "status": "pass",
+      "lengthMm": 18.969137802864847,
+      "vias": 1
+    },
+    {
+      "net": "GPIO5",
+      "status": "pass",
+      "lengthMm": 16.82411254969543,
+      "vias": 1
+    },
+    {
+      "net": "GPIO6",
+      "status": "pass",
+      "lengthMm": 10.93198051533946,
+      "vias": 1
+    },
+    {
+      "net": "GPIO7",
+      "status": "pass",
+      "lengthMm": 11.650559159102153,
+      "vias": 1
+    },
+    {
+      "net": "GPIO8",
+      "status": "pass",
+      "lengthMm": 7.293832970144346,
+      "vias": 1
+    },
+    {
+      "net": "GPIO9",
+      "status": "pass",
+      "lengthMm": 6.815756851698603,
+      "vias": 1
+    },
+    {
+      "net": "LED_A",
+      "status": "pass",
+      "lengthMm": 3.702987732352798,
+      "vias": 0
+    },
+    {
+      "net": "QSPI_CS",
+      "status": "pass",
+      "lengthMm": 5.485660171779822,
+      "vias": 0
+    },
+    {
+      "net": "QSPI_SCLK",
+      "status": "pass",
+      "lengthMm": 9.30446788875476,
+      "vias": 0
+    },
+    {
+      "net": "QSPI_SD0",
+      "status": "pass",
+      "lengthMm": 8.062005768508879,
+      "vias": 0
+    },
+    {
+      "net": "QSPI_SD1",
+      "status": "pass",
+      "lengthMm": 5.327081528017132,
+      "vias": 0
+    },
+    {
+      "net": "QSPI_SD2",
+      "status": "pass",
+      "lengthMm": 4.4948484809835,
+      "vias": 0
+    },
+    {
+      "net": "QSPI_SD3",
+      "status": "pass",
+      "lengthMm": 10.879772721475247,
+      "vias": 0
+    },
+    {
+      "net": "RT_LX1",
+      "status": "pass",
+      "lengthMm": 3.468736290225565,
+      "vias": 0
+    },
+    {
+      "net": "RT_LX2",
+      "status": "pass",
+      "lengthMm": 3.468736290225565,
+      "vias": 0
+    },
+    {
+      "net": "RUN",
+      "status": "pass",
+      "lengthMm": 32.29103209849079,
+      "vias": 1
+    },
+    {
+      "net": "SWCLK_HDR",
+      "status": "pass",
+      "lengthMm": 25.77881384442131,
+      "vias": 0
+    },
+    {
+      "net": "SWCLK_MCU",
+      "status": "pass",
+      "lengthMm": 4.899396462005388,
+      "vias": 0
+    },
+    {
+      "net": "SWDIO_HDR",
+      "status": "pass",
+      "lengthMm": 27.21111831820431,
+      "vias": 0
+    },
+    {
+      "net": "SWDIO_MCU",
+      "status": "pass",
+      "lengthMm": 8.360056633785211,
+      "vias": 0
+    },
+    {
+      "net": "USB_CC1",
+      "status": "pass",
+      "lengthMm": 2.0429393923934,
+      "vias": 0
+    },
+    {
+      "net": "USB_CC2",
+      "status": "pass",
+      "lengthMm": 2.0015180361560905,
+      "vias": 0
+    },
+    {
+      "net": "USB_DM_ESD",
+      "status": "pass",
+      "lengthMm": 15.907079361637688,
+      "vias": 0
+    },
+    {
+      "net": "USB_DM_MCU",
+      "status": "pass",
+      "lengthMm": 1.4952691193458132,
+      "vias": 0
+    },
+    {
+      "net": "USB_DM_PORT",
+      "status": "pass",
+      "lengthMm": 4.824434341759515,
+      "vias": 0
+    },
+    {
+      "net": "USB_DP_ESD",
+      "status": "pass",
+      "lengthMm": 16.474989168102788,
+      "vias": 0
+    },
+    {
+      "net": "USB_DP_MCU",
+      "status": "pass",
+      "lengthMm": 1.6452691193458127,
+      "vias": 0
+    },
+    {
+      "net": "USB_DP_PORT",
+      "status": "pass",
+      "lengthMm": 5.878287334970654,
+      "vias": 0
+    },
+    {
+      "net": "VBUS",
+      "status": "pass",
+      "lengthMm": 37.60675107043527,
+      "vias": 3
+    },
+    {
+      "net": "VREG_AVDD",
+      "status": "pass",
+      "lengthMm": 6.903990616607228,
+      "vias": 0
+    },
+    {
+      "net": "VSYS",
+      "status": "pass",
+      "lengthMm": 60.96641448540704,
+      "vias": 5
+    },
+    {
+      "net": "VSYS_DIV",
+      "status": "pass",
+      "lengthMm": 6.355756851698603,
+      "vias": 0
+    },
+    {
+      "net": "XIN",
+      "status": "pass",
+      "lengthMm": 11.187422074112307,
+      "vias": 0
+    },
+    {
+      "net": "XOUT_MCU",
+      "status": "pass",
+      "lengthMm": 2.529999999999994,
+      "vias": 0
+    },
+    {
+      "net": "XTAL_OUT",
+      "status": "pass",
+      "lengthMm": 4.080020920410535,
+      "vias": 0
+    }
+  ],
+  "turns": {
+    "measured": 887,
+    "violations": [],
+    "genericFindingsRetained": [
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 8,
+              "uuid": "16aa463f-291e-4ff0-84c5-2be195cbbeb0",
+              "startOffset": 264481,
+              "endOffset": 264632,
+              "line": 12558,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "end": {
+                "x": 15.5,
+                "y": 36.94
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 45,
+              "uuid": "69784ea6-465a-48b5-854d-c1caea5e7939",
+              "startOffset": 270139,
+              "endOffset": 270290,
+              "line": 12854,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.2,
+                "y": 37.14
+              },
+              "end": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 48,
+              "uuid": "6e1a7414-cb4b-4ca4-9875-48272afd45fd",
+              "startOffset": 270600,
+              "endOffset": 270751,
+              "line": 12878,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.16,
+                "y": 36.8
+              },
+              "end": {
+                "x": 15.5,
+                "y": 37.14
+              },
+              "netName": "3V3",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 15.5,
+            "y": 37.14
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-cf2b4efa91b6b915514d04c7"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 260,
+              "uuid": "3693df62-bbdb-4d11-b2b4-f3116acb69e4",
+              "startOffset": 306745,
+              "endOffset": 306898,
+              "line": 14758,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.025,
+                "y": 31.2
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 263,
+              "uuid": "55c1c346-f0ab-4454-8545-b6a3e2b4591f",
+              "startOffset": 307206,
+              "endOffset": 307359,
+              "line": 14782,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 12.075,
+                "y": 30.5
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 277,
+              "uuid": "fe061380-977b-4f82-a0f7-fa86b2ea35e4",
+              "startOffset": 309359,
+              "endOffset": 309508,
+              "line": 14894,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.9,
+                "y": 30.325
+              },
+              "end": {
+                "x": 11.9,
+                "y": 33
+              },
+              "netName": "1V1",
+              "layer": "B.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 11.9,
+            "y": 30.325
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-1aa00ae0a74bb9dd95e99608"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 894,
+              "uuid": "8f661556-d094-4b1e-a97f-1b9c303924e1",
+              "startOffset": 419281,
+              "endOffset": 419432,
+              "line": 20494,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14.39,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 49.61
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 895,
+              "uuid": "ac0ff3a9-ab0a-419c-b154-f0e3050aeed2",
+              "startOffset": 419435,
+              "endOffset": 419583,
+              "line": 20502,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 51.28
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 896,
+              "uuid": "b0855055-21e2-4c8b-8584-6a91927b204f",
+              "startOffset": 419586,
+              "endOffset": 419738,
+              "line": 20510,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 12.215,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 49.61
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 901,
+              "uuid": "c72b0be5-d4b4-4e03-984e-84fdf6e9be9e",
+              "startOffset": 420354,
+              "endOffset": 420501,
+              "line": 20550,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 14,
+                "y": 49.61
+              },
+              "end": {
+                "x": 14,
+                "y": 48.9
+              },
+              "netName": "VSYS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 14,
+            "y": 49.61
+          },
+          "connectedSegmentCount": 4,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-1b56835d802c051ab33fe95d"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 923,
+              "uuid": "9866b525-778c-49c6-a53e-0d9ed2f6da38",
+              "startOffset": 424490,
+              "endOffset": 424646,
+              "line": 20766,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.78,
+                "y": 24.3
+              },
+              "end": {
+                "x": 17.78,
+                "y": 27.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 924,
+              "uuid": "9c6ca458-202c-432c-80bd-29d92ad3214a",
+              "startOffset": 424649,
+              "endOffset": 424805,
+              "line": 20774,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 17.18,
+                "y": 24.9
+              },
+              "end": {
+                "x": 17.78,
+                "y": 25.5
+              },
+              "netName": "VSYS_DIV",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "kind": "endpoint-on-segment-interior"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-e58fe31f706167fb47d6c0c6"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 936,
+              "uuid": "3892a96b-10d5-4b99-9753-5547c8eb12b4",
+              "startOffset": 426580,
+              "endOffset": 426734,
+              "line": 20870,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.04,
+                "y": 12.25
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 937,
+              "uuid": "515d1081-6ad9-4c47-b1c5-0bb8629d5b7b",
+              "startOffset": 426737,
+              "endOffset": 426891,
+              "line": 20878,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 11.15,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 941,
+              "uuid": "67c1b1ab-a111-4eec-9bba-0e5eae4b542d",
+              "startOffset": 427351,
+              "endOffset": 427505,
+              "line": 20910,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 13.04,
+                "y": 11.95
+              },
+              "end": {
+                "x": 13.44,
+                "y": 11.55
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 13.04,
+            "y": 11.949999999999998
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-7b450e0f6be95466e4f445ac"
+      },
+      {
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "severity": "error",
+        "message": "A tee, crossing, or multi-segment junction is not reducible to one sequential bend under the hard bend rule.",
+        "sourceRuleIds": [
+          "toolbox.geometry"
+        ],
+        "evidence": [
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 943,
+              "uuid": "6e43e54e-d404-4857-9c91-62a7a774bcfb",
+              "startOffset": 427665,
+              "endOffset": 427815,
+              "line": 20926,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 16.9,
+                "y": 6.07
+              },
+              "end": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 946,
+              "uuid": "8592c860-af06-439c-8673-eb1081807b1a",
+              "startOffset": 428129,
+              "endOffset": 428279,
+              "line": 20950,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 15.9,
+                "y": 12.8
+              },
+              "end": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          },
+          {
+            "role": "junction-segment",
+            "location": {
+              "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+              "form": "segment",
+              "ordinal": 955,
+              "uuid": "fa8d0e49-9393-4c8c-b98a-8c57d18a3a35",
+              "startOffset": 429521,
+              "endOffset": 429672,
+              "line": 21022,
+              "column": 2
+            },
+            "geometry": {
+              "start": {
+                "x": 16.9,
+                "y": 11.8
+              },
+              "end": {
+                "x": 16.9,
+                "y": 12.05
+              },
+              "netName": "VBUS",
+              "layer": "F.Cu"
+            }
+          }
+        ],
+        "observed": {
+          "vertex": {
+            "x": 16.9,
+            "y": 11.800000000000002
+          },
+          "connectedSegmentCount": 3,
+          "kind": "endpoint-junction"
+        },
+        "required": {
+          "fullyResolvedSequentialBends": true,
+          "minimumInteriorAngleDeg": 0
+        },
+        "assumptions": [
+          "No compliant angle is inferred at a branched or interior-intersection junction."
+        ],
+        "gates": [],
+        "id": "PCB-PRACTICE-de37f27cd3cc4b6eebccb1fe"
+      }
+    ],
+    "junctions": [
+      {
+        "findingId": "PCB-PRACTICE-cf2b4efa91b6b915514d04c7",
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "kind": "endpoint-junction",
+        "net": "3V3",
+        "layer": "F.Cu",
+        "vertex": {
+          "x": 15.5,
+          "y": 37.14
+        },
+        "matchedPads": [
+          {
+            "reference": "C8",
+            "pin": "1",
+            "id": "1d549417-0e49-4106-8a3c-c75dc012b857",
+            "shape": "roundrect",
+            "padType": "smd"
+          }
+        ],
+        "matchedVias": [],
+        "status": "physical-centre-contact",
+        "segmentIds": [
+          "16aa463f-291e-4ff0-84c5-2be195cbbeb0",
+          "69784ea6-465a-48b5-854d-c1caea5e7939",
+          "6e1a7414-cb4b-4ca4-9875-48272afd45fd"
+        ]
+      },
+      {
+        "findingId": "PCB-PRACTICE-1aa00ae0a74bb9dd95e99608",
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "kind": "endpoint-junction",
+        "net": "1V1",
+        "layer": "B.Cu",
+        "vertex": {
+          "x": 11.9,
+          "y": 30.325
+        },
+        "matchedPads": [],
+        "matchedVias": [
+          {
+            "id": "2703c749-d278-4937-b3b2-1dd69670d18a",
+            "diameterMm": 0.55,
+            "drillMm": 0.2
+          }
+        ],
+        "status": "physical-centre-contact",
+        "segmentIds": [
+          "3693df62-bbdb-4d11-b2b4-f3116acb69e4",
+          "55c1c346-f0ab-4454-8545-b6a3e2b4591f",
+          "fe061380-977b-4f82-a0f7-fa86b2ea35e4"
+        ]
+      },
+      {
+        "findingId": "PCB-PRACTICE-1b56835d802c051ab33fe95d",
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "kind": "endpoint-junction",
+        "net": "VSYS",
+        "layer": "F.Cu",
+        "vertex": {
+          "x": 14,
+          "y": 49.61
+        },
+        "matchedPads": [
+          {
+            "reference": "C20",
+            "pin": "1",
+            "id": "b6a408b9-7bc7-46c9-930d-49924922526d",
+            "shape": "rect",
+            "padType": "smd"
+          }
+        ],
+        "matchedVias": [],
+        "status": "physical-centre-contact",
+        "segmentIds": [
+          "8f661556-d094-4b1e-a97f-1b9c303924e1",
+          "ac0ff3a9-ab0a-419c-b154-f0e3050aeed2",
+          "b0855055-21e2-4c8b-8584-6a91927b204f",
+          "c72b0be5-d4b4-4e03-984e-84fdf6e9be9e"
+        ]
+      },
+      {
+        "findingId": "PCB-PRACTICE-e58fe31f706167fb47d6c0c6",
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "kind": "endpoint-on-segment-interior",
+        "net": "VSYS_DIV",
+        "layer": "F.Cu",
+        "vertex": {
+          "x": 17.78,
+          "y": 25.5
+        },
+        "matchedPads": [
+          {
+            "reference": "C23",
+            "pin": "1",
+            "id": "ed423983-b6b8-4a54-aa82-625546e46b16",
+            "shape": "roundrect",
+            "padType": "smd"
+          }
+        ],
+        "matchedVias": [],
+        "status": "physical-centre-contact",
+        "segmentIds": [
+          "9866b525-778c-49c6-a53e-0d9ed2f6da38",
+          "9c6ca458-202c-432c-80bd-29d92ad3214a"
+        ]
+      },
+      {
+        "findingId": "PCB-PRACTICE-7b450e0f6be95466e4f445ac",
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "kind": "endpoint-junction",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "vertex": {
+          "x": 13.04,
+          "y": 11.949999999999998
+        },
+        "matchedPads": [],
+        "matchedVias": [
+          {
+            "id": "9009a7f4-4305-4808-838f-0a6f684a0f00",
+            "diameterMm": 0.55,
+            "drillMm": 0.2
+          }
+        ],
+        "status": "physical-centre-contact",
+        "segmentIds": [
+          "3892a96b-10d5-4b99-9753-5547c8eb12b4",
+          "515d1081-6ad9-4c47-b1c5-0bb8629d5b7b",
+          "67c1b1ab-a111-4eec-9bba-0e5eae4b542d"
+        ]
+      },
+      {
+        "findingId": "PCB-PRACTICE-de37f27cd3cc4b6eebccb1fe",
+        "code": "TURN_JUNCTION_COVERAGE_UNRESOLVED",
+        "kind": "endpoint-junction",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "vertex": {
+          "x": 16.9,
+          "y": 11.800000000000002
+        },
+        "matchedPads": [
+          {
+            "reference": "D1",
+            "pin": "2",
+            "id": "52451b14-8bf6-4686-970b-6aa5cae2f7ab",
+            "shape": "rect",
+            "padType": "smd"
+          }
+        ],
+        "matchedVias": [],
+        "status": "physical-centre-contact",
+        "segmentIds": [
+          "6e43e54e-d404-4857-9c91-62a7a774bcfb",
+          "8592c860-af06-439c-8673-eb1081807b1a",
+          "fa8d0e49-9393-4c8c-b98a-8c57d18a3a35"
+        ]
+      }
+    ]
+  },
+  "serviceStrips": {
+    "minInteriorXmm": 3.46,
+    "maxInteriorXmm": 18.54,
+    "scope": "Finite-width straight tracks, vias, conservative non-header pad bounds and every stored fill vertex on all enabled copper layers. Own header pads and their exact straight inward leads are allowed.",
+    "ownPadLeads": [
+      {
+        "id": "f0468b1d-29ad-4172-9296-2c38b011f9d3",
+        "net": "3V3",
+        "layer": "B.Cu",
+        "reference": "J3",
+        "pin": "16"
+      },
+      {
+        "id": "5d9bf6a4-0d34-4655-a501-6d34b29da9b8",
+        "net": "GPIO0",
+        "layer": "In2.Cu",
+        "reference": "J2",
+        "pin": "1"
+      },
+      {
+        "id": "df0d29f3-59cf-4466-bf08-2a5a8d929fee",
+        "net": "GPIO1",
+        "layer": "F.Cu",
+        "reference": "J2",
+        "pin": "2"
+      },
+      {
+        "id": "8929e0b8-e6f0-4298-9a5c-ad5c2246a9f7",
+        "net": "GPIO2",
+        "layer": "In2.Cu",
+        "reference": "J2",
+        "pin": "4"
+      },
+      {
+        "id": "058a181f-0e34-4fc7-b42c-213e0f98aa26",
+        "net": "GPIO3",
+        "layer": "B.Cu",
+        "reference": "J2",
+        "pin": "5"
+      },
+      {
+        "id": "c61b7367-293d-4ab4-90be-63b66b67fdc3",
+        "net": "GPIO4",
+        "layer": "B.Cu",
+        "reference": "J2",
+        "pin": "6"
+      },
+      {
+        "id": "adf8603d-9ad1-4fbd-818e-05af7cc56d03",
+        "net": "GPIO5",
+        "layer": "In2.Cu",
+        "reference": "J2",
+        "pin": "7"
+      },
+      {
+        "id": "d0b4eba0-1131-4682-bd15-e76032e2d429",
+        "net": "GPIO6",
+        "layer": "In2.Cu",
+        "reference": "J2",
+        "pin": "9"
+      },
+      {
+        "id": "fa326235-6dee-41c1-8bf6-3707fae71ee3",
+        "net": "GPIO7",
+        "layer": "In2.Cu",
+        "reference": "J2",
+        "pin": "10"
+      },
+      {
+        "id": "b0bb06fe-a5a7-4cf4-8199-25b93d335048",
+        "net": "GPIO8",
+        "layer": "B.Cu",
+        "reference": "J2",
+        "pin": "11"
+      },
+      {
+        "id": "df181f26-5d82-4af0-89a9-ecd0d96c59e9",
+        "net": "GPIO9",
+        "layer": "B.Cu",
+        "reference": "J2",
+        "pin": "12"
+      },
+      {
+        "id": "97a59f13-48cd-47fe-9dae-22e43b7685bd",
+        "net": "GPIO10",
+        "layer": "F.Cu",
+        "reference": "J2",
+        "pin": "14"
+      },
+      {
+        "id": "504c9761-4f97-40b6-94f2-1840a0ed7974",
+        "net": "GPIO11",
+        "layer": "F.Cu",
+        "reference": "J2",
+        "pin": "15"
+      },
+      {
+        "id": "507fca50-b092-46bf-82be-d2c0bbb83d4e",
+        "net": "GPIO12",
+        "layer": "In2.Cu",
+        "reference": "J2",
+        "pin": "16"
+      },
+      {
+        "id": "8ce8b9eb-957c-4d4c-aaf3-f8b0b92f87ea",
+        "net": "GPIO13",
+        "layer": "F.Cu",
+        "reference": "J2",
+        "pin": "17"
+      },
+      {
+        "id": "f7aaac06-a56d-428d-8afc-c068a304fda2",
+        "net": "GPIO14",
+        "layer": "F.Cu",
+        "reference": "J2",
+        "pin": "19"
+      },
+      {
+        "id": "c8506aa0-e017-4c1b-ae50-a598154acb6f",
+        "net": "GPIO15",
+        "layer": "F.Cu",
+        "reference": "J2",
+        "pin": "20"
+      },
+      {
+        "id": "692faffb-fa99-4c5b-8244-499e87bfda1f",
+        "net": "RUN",
+        "layer": "F.Cu",
+        "reference": "J3",
+        "pin": "10"
+      },
+      {
+        "id": "2c78a869-cf0b-42cc-9bf4-aa6b5100f08a",
+        "net": "RUN",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "10"
+      },
+      {
+        "id": "13eece64-e5dd-4387-8780-41401c82ce45",
+        "net": "GPIO16",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "1"
+      },
+      {
+        "id": "d6eac2f3-b915-4845-b4dc-608e1a695027",
+        "net": "GPIO17",
+        "layer": "B.Cu",
+        "reference": "J3",
+        "pin": "2"
+      },
+      {
+        "id": "c12da713-88fa-4cfd-8ab6-092660677c4b",
+        "net": "GPIO18",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "4"
+      },
+      {
+        "id": "1800cd58-7429-434c-a065-42100c0d8a76",
+        "net": "GPIO19",
+        "layer": "F.Cu",
+        "reference": "J3",
+        "pin": "5"
+      },
+      {
+        "id": "8a86dee4-13bf-47b4-a11c-38238b3e7a37",
+        "net": "GPIO20",
+        "layer": "F.Cu",
+        "reference": "J3",
+        "pin": "6"
+      },
+      {
+        "id": "70bef6ba-aff7-4cb3-a486-e2c14b1d524c",
+        "net": "GPIO21",
+        "layer": "F.Cu",
+        "reference": "J3",
+        "pin": "7"
+      },
+      {
+        "id": "6122ddc7-9267-4624-916b-d63ee4b58b11",
+        "net": "GPIO22",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "9"
+      },
+      {
+        "id": "71f819ce-e6e6-40fc-9683-9f108b8c60ed",
+        "net": "GPIO26",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "11"
+      },
+      {
+        "id": "46d8d92a-6d04-49e1-99f8-a24d77c4fe0f",
+        "net": "GPIO27",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "12"
+      },
+      {
+        "id": "d45ea887-87da-4186-8201-fc0f00d2e9ba",
+        "net": "GPIO28",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "14"
+      },
+      {
+        "id": "c5fa479e-2346-40cc-8f64-fab6618445c2",
+        "net": "GND",
+        "layer": "F.Cu",
+        "reference": "J2",
+        "pin": "13"
+      },
+      {
+        "id": "082d7076-f8c6-4e10-bf84-c9bec1fe6ebc",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J3",
+        "pin": "13"
+      },
+      {
+        "id": "0e846728-0662-42a5-bb94-38b3f9cb64f0",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J2",
+        "pin": "3"
+      },
+      {
+        "id": "39dd8f58-7ffe-4277-8795-d178f5187101",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J2",
+        "pin": "8"
+      },
+      {
+        "id": "617aa057-eb45-46be-98cb-9b521b74f66d",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J3",
+        "pin": "3"
+      },
+      {
+        "id": "69f44c6b-3577-4ded-b063-da5c9f488e9c",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J2",
+        "pin": "18"
+      },
+      {
+        "id": "a117d26c-a01c-4a01-a260-3ba6c407cccc",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J3",
+        "pin": "8"
+      },
+      {
+        "id": "a3352fe0-9612-4330-9368-03896396e5d3",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J2",
+        "pin": "13"
+      },
+      {
+        "id": "d639c96f-4959-4a8c-a8a6-1d8941edc482",
+        "net": "GND",
+        "layer": "In1.Cu",
+        "reference": "J3",
+        "pin": "18"
+      },
+      {
+        "id": "60d68188-fd24-404f-96b4-0fe6f8f158d6",
+        "net": "VSYS",
+        "layer": "F.Cu",
+        "reference": "J3",
+        "pin": "19"
+      },
+      {
+        "id": "6efd9f35-2adf-4e31-a855-78d704b2d24e",
+        "net": "VBUS",
+        "layer": "F.Cu",
+        "reference": "J3",
+        "pin": "20"
+      },
+      {
+        "id": "5343ad96-f380-419e-a0fc-65d98fcc30cb",
+        "net": "ADC_VREF",
+        "layer": "F.Cu",
+        "reference": "J3",
+        "pin": "15"
+      },
+      {
+        "id": "2c902c85-2d57-4eb8-8200-7c0055394d2b",
+        "net": "3V3_EN",
+        "layer": "In2.Cu",
+        "reference": "J3",
+        "pin": "17"
+      }
+    ],
+    "filledVertices": 7142,
+    "findings": []
+  },
+  "referenceRoutes": [
+    {
+      "net": "QSPI_CS",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R5",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "R6",
+            "pin": "2"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "60"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U3",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SCLK",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "56"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U3",
+            "pin": "6"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD0",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "57"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U3",
+            "pin": "5"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD1",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "59"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U3",
+            "pin": "2"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD2",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "58"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U3",
+            "pin": "3"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        }
+      ]
+    },
+    {
+      "net": "QSPI_SD3",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "55"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U3",
+            "pin": "7"
+          },
+          "referenceEndpoint": {
+            "reference": "U3",
+            "pin": "4"
+          }
+        }
+      ]
+    },
+    {
+      "net": "SWCLK_HDR",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "J4",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "J4",
+            "pin": "2"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "R19",
+            "pin": "2"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        }
+      ]
+    },
+    {
+      "net": "SWCLK_MCU",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R19",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "24"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        }
+      ]
+    },
+    {
+      "net": "SWDIO_HDR",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "J4",
+            "pin": "3"
+          },
+          "referenceEndpoint": {
+            "reference": "J4",
+            "pin": "2"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "R20",
+            "pin": "2"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        }
+      ]
+    },
+    {
+      "net": "SWDIO_MCU",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R20",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "25"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        }
+      ]
+    },
+    {
+      "net": "USB_DM_ESD",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.23,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R2",
+            "pin": "2"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U4",
+            "pin": "3"
+          },
+          "referenceEndpoint": {
+            "reference": "U4",
+            "pin": "2"
+          }
+        }
+      ]
+    },
+    {
+      "net": "USB_DM_MCU",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.23,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R2",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "51"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        }
+      ]
+    },
+    {
+      "net": "USB_DM_PORT",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.23,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "J1",
+            "pin": "A7"
+          },
+          "referenceEndpoint": {
+            "reference": "J1",
+            "pin": "A12"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "J1",
+            "pin": "B7"
+          },
+          "referenceEndpoint": {
+            "reference": "J1",
+            "pin": "A1"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U4",
+            "pin": "4"
+          },
+          "referenceEndpoint": {
+            "reference": "U4",
+            "pin": "2"
+          }
+        }
+      ]
+    },
+    {
+      "net": "USB_DP_ESD",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.23,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R1",
+            "pin": "2"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U4",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U4",
+            "pin": "2"
+          }
+        }
+      ]
+    },
+    {
+      "net": "USB_DP_MCU",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.23,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R1",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "52"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        }
+      ]
+    },
+    {
+      "net": "USB_DP_PORT",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.23,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "J1",
+            "pin": "A6"
+          },
+          "referenceEndpoint": {
+            "reference": "J1",
+            "pin": "A1"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "J1",
+            "pin": "B6"
+          },
+          "referenceEndpoint": {
+            "reference": "J1",
+            "pin": "A12"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U4",
+            "pin": "6"
+          },
+          "referenceEndpoint": {
+            "reference": "U4",
+            "pin": "2"
+          }
+        }
+      ]
+    },
+    {
+      "net": "XIN",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "C24",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "C24",
+            "pin": "2"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "21"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "Y1",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "Y1",
+            "pin": "2"
+          }
+        }
+      ]
+    },
+    {
+      "net": "XOUT_MCU",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "R7",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "U1",
+            "pin": "22"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        }
+      ]
+    },
+    {
+      "net": "XTAL_OUT",
+      "mode": "continuous_plane",
+      "planeId": "GND_PLANE",
+      "signalLayer": "F.Cu",
+      "coverageMarginMm": 0.25,
+      "layerTransitions": "forbidden",
+      "terminalReferences": [
+        {
+          "signalEndpoint": {
+            "reference": "C25",
+            "pin": "1"
+          },
+          "referenceEndpoint": {
+            "reference": "C25",
+            "pin": "2"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "R7",
+            "pin": "2"
+          },
+          "referenceEndpoint": {
+            "reference": "U1",
+            "pin": "61"
+          }
+        },
+        {
+          "signalEndpoint": {
+            "reference": "Y1",
+            "pin": "3"
+          },
+          "referenceEndpoint": {
+            "reference": "Y1",
+            "pin": "2"
+          }
+        }
+      ]
+    }
+  ]
+}

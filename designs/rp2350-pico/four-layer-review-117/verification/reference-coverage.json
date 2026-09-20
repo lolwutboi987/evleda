@@ -1,0 +1,189 @@
+{
+  "scope": "Unmanaged source review, stored fill geometric ribbons only; live freshness and drill-clipped electrical return continuity remain separate.",
+  "source": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\native-review-117\\rp2350-pico-4layer.kicad_pcb",
+    "sha256": "06214031a5b3d8c62be8cbf4bfeabf876a110b0fc556ca3c30075f15a2a6ee11"
+  },
+  "reports": [
+    {
+      "net": "QSPI_CS",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 4,
+      "noncovered": []
+    },
+    {
+      "net": "QSPI_SCLK",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 9,
+      "noncovered": []
+    },
+    {
+      "net": "QSPI_SD0",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 8,
+      "noncovered": []
+    },
+    {
+      "net": "QSPI_SD1",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 5,
+      "noncovered": []
+    },
+    {
+      "net": "QSPI_SD2",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 5,
+      "noncovered": []
+    },
+    {
+      "net": "QSPI_SD3",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 9,
+      "noncovered": []
+    },
+    {
+      "net": "SWCLK_HDR",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "uncovered",
+      "selectedSegments": 11,
+      "noncovered": [
+        {
+          "id": "5650e45f-a18c-4c33-8e7e-18ee5b89bc35",
+          "status": "uncovered",
+          "outsideWitnessDoubledNm": [
+            16269500,
+            113749500
+          ]
+        }
+      ]
+    },
+    {
+      "net": "SWCLK_MCU",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 5,
+      "noncovered": []
+    },
+    {
+      "net": "SWDIO_HDR",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "uncovered",
+      "selectedSegments": 10,
+      "noncovered": [
+        {
+          "id": "205a4adc-bcd1-47d2-a86f-40973929f012",
+          "status": "uncovered",
+          "outsideWitnessDoubledNm": [
+            25680000,
+            113000000
+          ]
+        }
+      ]
+    },
+    {
+      "net": "SWDIO_MCU",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "boundary_uncertain",
+      "selectedSegments": 6,
+      "noncovered": [
+        {
+          "id": "393549a4-0605-4696-bc9f-57b62f5ca0f3",
+          "status": "boundary_uncertain"
+        },
+        {
+          "id": "7e9df8c0-b0dd-4dc4-b324-0e22c5606e63",
+          "status": "boundary_uncertain"
+        }
+      ]
+    },
+    {
+      "net": "USB_DM_ESD",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 9,
+      "noncovered": []
+    },
+    {
+      "net": "USB_DM_MCU",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 4,
+      "noncovered": []
+    },
+    {
+      "net": "USB_DM_PORT",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 10,
+      "noncovered": []
+    },
+    {
+      "net": "USB_DP_ESD",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 12,
+      "noncovered": []
+    },
+    {
+      "net": "USB_DP_MCU",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 4,
+      "noncovered": []
+    },
+    {
+      "net": "USB_DP_PORT",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 13,
+      "noncovered": []
+    },
+    {
+      "net": "XIN",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 13,
+      "noncovered": []
+    },
+    {
+      "net": "XOUT_MCU",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 1,
+      "noncovered": []
+    },
+    {
+      "net": "XTAL_OUT",
+      "offset": 0,
+      "status": "computed",
+      "geometricStatus": "covered",
+      "selectedSegments": 7,
+      "noncovered": []
+    }
+  ],
+  "sourceUnchanged": true
+}

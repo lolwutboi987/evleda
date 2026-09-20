@@ -1,0 +1,12 @@
+{
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": "06214031a5b3d8c62be8cbf4bfeabf876a110b0fc556ca3c30075f15a2a6ee11",
+    "rp2350-pico-4layer.kicad_sch": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+    "rp2350-pico-4layer.kicad_pro": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+    "rp2350-pico-4layer.kicad_dru": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+    "fp-lib-table": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+    "sym-lib-table": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+  },
+  "nativeSourcesUnchanged": true,
+  "scope": "Native-layer previews of the incomplete, unmanaged review candidate"
+}

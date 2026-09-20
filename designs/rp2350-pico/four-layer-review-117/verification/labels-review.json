@@ -1,0 +1,945 @@
+{
+  "scope": "Unmanaged presentation and native DRC review; no managed authoring authority",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": "ef8910f405cfcb25d830196ddb2d50df1f2ea2606ebce89c4a880b615a6e2515",
+    "rp2350-pico-4layer.kicad_sch": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+    "rp2350-pico-4layer.kicad_pro": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+    "rp2350-pico-4layer.kicad_dru": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+    "fp-lib-table": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+    "sym-lib-table": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde"
+  },
+  "labels": [
+    {
+      "id": "J2.1",
+      "request": {
+        "text": "0",
+        "x_mm": 1.1065,
+        "y_mm": 6.320953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 5.419048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.2",
+      "request": {
+        "text": "1",
+        "x_mm": 1.1065,
+        "y_mm": 8.860953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 7.959048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.3",
+      "request": {
+        "text": "G",
+        "x_mm": 1.1065,
+        "y_mm": 11.42,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 10.48,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J2.4",
+      "request": {
+        "text": "2",
+        "x_mm": 1.1065,
+        "y_mm": 13.940953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 13.039048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.5",
+      "request": {
+        "text": "3",
+        "x_mm": 1.1065,
+        "y_mm": 16.480953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 15.579048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.6",
+      "request": {
+        "text": "4",
+        "x_mm": 1.1065,
+        "y_mm": 19.020953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 18.119048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.7",
+      "request": {
+        "text": "5",
+        "x_mm": 1.1065,
+        "y_mm": 21.560953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 20.659048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.8",
+      "request": {
+        "text": "G",
+        "x_mm": 1.1065,
+        "y_mm": 24.12,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 23.18,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J2.9",
+      "request": {
+        "text": "6",
+        "x_mm": 1.1065,
+        "y_mm": 26.640953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 25.739048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.10",
+      "request": {
+        "text": "7",
+        "x_mm": 1.1065,
+        "y_mm": 29.180953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 28.279048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.11",
+      "request": {
+        "text": "8",
+        "x_mm": 1.1065,
+        "y_mm": 31.720953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 30.819048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.12",
+      "request": {
+        "text": "9",
+        "x_mm": 1.1065,
+        "y_mm": 34.260953,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 33.359048,
+        "width": 1.287,
+        "height": 0.901905
+      }
+    },
+    {
+      "id": "J2.13",
+      "request": {
+        "text": "G",
+        "x_mm": 1.1065,
+        "y_mm": 36.82,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 35.88,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J2.14",
+      "request": {
+        "text": "10",
+        "x_mm": 1.1065,
+        "y_mm": 39.721905,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 38.058095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J2.15",
+      "request": {
+        "text": "11",
+        "x_mm": 1.1065,
+        "y_mm": 42.261905,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 40.598095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J2.16",
+      "request": {
+        "text": "12",
+        "x_mm": 1.1065,
+        "y_mm": 44.801905,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 43.138095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J2.17",
+      "request": {
+        "text": "13",
+        "x_mm": 1.1065,
+        "y_mm": 47.341905,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 45.678095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J2.18",
+      "request": {
+        "text": "G",
+        "x_mm": 1.1065,
+        "y_mm": 49.52,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 48.58,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J2.19",
+      "request": {
+        "text": "14",
+        "x_mm": 1.1065,
+        "y_mm": 52.421905,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 50.758095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J2.20",
+      "request": {
+        "text": "15",
+        "x_mm": 1.1065,
+        "y_mm": 54.961905,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 90,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 0.0065,
+        "y": 53.298095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.1",
+      "request": {
+        "text": "16",
+        "x_mm": 20.8935,
+        "y_mm": 53.298095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 53.298095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.2",
+      "request": {
+        "text": "17",
+        "x_mm": 20.8935,
+        "y_mm": 50.758095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 50.758095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.3",
+      "request": {
+        "text": "G",
+        "x_mm": 20.8935,
+        "y_mm": 48.58,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 48.58,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J3.4",
+      "request": {
+        "text": "18",
+        "x_mm": 20.8935,
+        "y_mm": 45.678095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 45.678095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.5",
+      "request": {
+        "text": "19",
+        "x_mm": 20.8935,
+        "y_mm": 43.138095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 43.138095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.6",
+      "request": {
+        "text": "20",
+        "x_mm": 20.8935,
+        "y_mm": 40.598095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 40.598095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.7",
+      "request": {
+        "text": "21",
+        "x_mm": 20.8935,
+        "y_mm": 38.058095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 38.058095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.8",
+      "request": {
+        "text": "G",
+        "x_mm": 20.8935,
+        "y_mm": 35.88,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 35.88,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J3.9",
+      "request": {
+        "text": "22",
+        "x_mm": 20.8935,
+        "y_mm": 32.978095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 32.978095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.10",
+      "request": {
+        "text": "RUN",
+        "x_mm": 20.8935,
+        "y_mm": 29.961905,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 29.961905,
+        "width": 1.287,
+        "height": 2.61619
+      }
+    },
+    {
+      "id": "J3.11",
+      "request": {
+        "text": "26",
+        "x_mm": 20.8935,
+        "y_mm": 27.898095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 27.898095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.12",
+      "request": {
+        "text": "27",
+        "x_mm": 20.8935,
+        "y_mm": 25.358095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 25.358095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.13",
+      "request": {
+        "text": "G",
+        "x_mm": 20.8935,
+        "y_mm": 23.18,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 23.18,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J3.14",
+      "request": {
+        "text": "28",
+        "x_mm": 20.8935,
+        "y_mm": 20.278095,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 20.278095,
+        "width": 1.287,
+        "height": 1.66381
+      }
+    },
+    {
+      "id": "J3.15",
+      "request": {
+        "text": "REF",
+        "x_mm": 20.8935,
+        "y_mm": 17.395238,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 17.395238,
+        "width": 1.287,
+        "height": 2.349524
+      }
+    },
+    {
+      "id": "J3.16",
+      "request": {
+        "text": "3V3",
+        "x_mm": 20.8935,
+        "y_mm": 14.855238,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 14.855238,
+        "width": 1.287,
+        "height": 2.349524
+      }
+    },
+    {
+      "id": "J3.17",
+      "request": {
+        "text": "EN",
+        "x_mm": 20.8935,
+        "y_mm": 12.639048,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 12.639048,
+        "width": 1.287,
+        "height": 1.701905
+      }
+    },
+    {
+      "id": "J3.18",
+      "request": {
+        "text": "G",
+        "x_mm": 20.8935,
+        "y_mm": 10.48,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 10.48,
+        "width": 1.287,
+        "height": 0.94
+      }
+    },
+    {
+      "id": "J3.19",
+      "request": {
+        "text": "VSYS",
+        "x_mm": 20.8935,
+        "y_mm": 7.292381,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 7.292381,
+        "width": 1.287,
+        "height": 3.035238
+      }
+    },
+    {
+      "id": "J3.20",
+      "request": {
+        "text": "VBUS",
+        "x_mm": 20.8935,
+        "y_mm": 3.757143,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 270,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 20.7065,
+        "y": 3.757143,
+        "width": 1.287,
+        "height": 3.225714
+      }
+    },
+    {
+      "id": "J4.1",
+      "request": {
+        "text": "CLK",
+        "x_mm": 7.266191,
+        "y_mm": 59.7565,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 7.266191,
+        "y": 58.6565,
+        "width": 2.387619,
+        "height": 1.287
+      }
+    },
+    {
+      "id": "J4.2",
+      "request": {
+        "text": "G",
+        "x_mm": 10.53,
+        "y_mm": 59.7565,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 10.53,
+        "y": 58.6565,
+        "width": 0.94,
+        "height": 1.287
+      }
+    },
+    {
+      "id": "J4.3",
+      "request": {
+        "text": "DIO",
+        "x_mm": 12.460477,
+        "y_mm": 59.7565,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 12.460477,
+        "y": 58.6565,
+        "width": 2.159047,
+        "height": 1.287
+      }
+    },
+    {
+      "id": "EvlEDA",
+      "request": {
+        "text": "EvlEDA",
+        "x_mm": 3.836309,
+        "y_mm": 15.070625,
+        "layer": "F_SilkS",
+        "size_mm": 1.0,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 3.836309,
+        "y": 13.695625,
+        "width": 5.127382,
+        "height": 1.60875
+      }
+    },
+    {
+      "id": "RP2350",
+      "request": {
+        "text": "RP2350",
+        "x_mm": 4.00619,
+        "y_mm": 16.3565,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 4.00619,
+        "y": 15.2565,
+        "width": 4.78762,
+        "height": 1.287
+      }
+    },
+    {
+      "id": "BOOT",
+      "request": {
+        "text": "BOOT",
+        "x_mm": 3.287143,
+        "y_mm": 36.5065,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 3.287143,
+        "y": 35.4065,
+        "width": 3.225714,
+        "height": 1.287
+      }
+    },
+    {
+      "id": "RESET",
+      "request": {
+        "text": "RESET",
+        "x_mm": 11.620476,
+        "y_mm": 16.6065,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 11.620476,
+        "y": 15.5065,
+        "width": 3.759049,
+        "height": 1.287
+      }
+    },
+    {
+      "id": "R1",
+      "request": {
+        "text": "R1",
+        "x_mm": 5.049048,
+        "y_mm": 59.4565,
+        "layer": "F_SilkS",
+        "size_mm": 0.8,
+        "rotation_deg": 0,
+        "bold": false,
+        "italic": false
+      },
+      "bboxMm": {
+        "x": 5.049048,
+        "y": 58.3565,
+        "width": 1.701905,
+        "height": 1.287
+      }
+    }
+  ],
+  "crowdingNotes": [
+    {
+      "id": "J3.10",
+      "text": "RUN",
+      "heightMm": 2.61619
+    },
+    {
+      "id": "J3.19",
+      "text": "VSYS",
+      "heightMm": 3.035238
+    },
+    {
+      "id": "J3.20",
+      "text": "VBUS",
+      "heightMm": 3.225714
+    }
+  ],
+  "nativeCliExitCode": 0,
+  "configuredDrcCounts": {},
+  "pcbSha256": "06214031a5b3d8c62be8cbf4bfeabf876a110b0fc556ca3c30075f15a2a6ee11"
+}

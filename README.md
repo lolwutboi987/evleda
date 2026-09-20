@@ -4,9 +4,15 @@ EvlEDA is a local KiCad MCP toolbox and PCB-design skill for agents working in c
 
 Start with the [toolbox guide](docs/toolbox.md), [client setup](docs/toolbox-client-setup.md), and [current status](docs/current-status-and-roadmap.md). The [PCB skill](skills/evleda-pcb/SKILL.md) supplies the engineering workflow; it does not itself supply CAD access.
 
+The [RP2350 four-layer review candidate](designs/rp2350-pico/four-layer-review-117/README.md)
+includes the complete routed KiCad board, schematic, portable custom library,
+previews, pinout and candidate BOM. All 67 functional nets are connected and
+configured ERC/DRC are clean. Final managed-workflow verification and the stated
+electrical/plane limitations remain open; this is a review candidate.
+
 - `pnpm mcp:toolbox` serves the verified research corpus without opening CAD.
 - `pnpm mcp:toolbox:workspace` uses an explicitly configured host profile and workspace for in-chat draft, create, close and resume operations. See the [disabled configuration example](examples/toolbox-workspace.config.toml) before configuring a host.
-- Native authoring is bounded by the selected contract, installed runtime and advertised capabilities. Current source supports the V1 routed family and V2 two-layer plane family; verification status and unsupported cases remain explicit.
+- Native authoring is bounded by the selected contract, installed runtime and advertised capabilities. Current source supports the V1 routed family and V2 two- or four-layer plane family; verification status and unsupported cases remain explicit.
 
 The [WSON regulator example](examples/wson-regulator-toolbox-proof/README.md) includes the actual KiCad project, native previews and a compact qualification record. Its public-tool authoring and read-only reopen preserve all six source files; unresolved plane and engineering requirements remain explicit. Native checks produce review evidence, not a manufacture-ready verdict. Physical validation, firmware and manufacturing release are outside this active toolbox milestone.
 

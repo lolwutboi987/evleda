@@ -1,4 +1,19 @@
-# RP2350 continuation: 17 September 2026
+# RP2350 continuation: 20 September 2026
+
+The [four-layer routed review candidate](../designs/rp2350-pico/four-layer-review-117/README.md)
+contains the complete 22 x 60 mm layout: 1,099 tracks, 118 vias and all 67
+functional nets connected in native pad reachability. Configured ERC/DRC have
+zero findings. Portable project/library files, native previews, pinout, BOM and
+the scoped engineering report are included. The GPIO soldering strips are clear
+and all 887 measured sequential turns satisfy the straight/45-degree policy.
+
+This archive is an unmanaged native review target. Its public-tool adoption,
+final managed checks and normal close remain in progress. The debug-reference,
+supplemental-plane and physical-impedance findings remain explicit; native DRC
+does not turn them into engineering acceptance. The historical notes below
+describe earlier checkpoints and are preserved.
+
+## Historical continuation: 17 September 2026
 
 The reviewed toolbox baseline is published at commit
 [`8fa1203`](https://github.com/lolwutboi987/evleda/tree/codex/destination-resume)
