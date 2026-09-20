@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evleda.terminal-launch-study-software.v1",
+  "recordedAt": "2026-09-20T22:42:07.410Z",
+  "tests": {
+    "passed": 56,
+    "files": 2,
+    "exitCode": 0,
+    "durationSeconds": 3.14,
+    "scope": "Saved-source capability and linked public MCP protocol, including retained full-ribbon findings, drift rejection and separate diagnostic resources; not a full suite."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "pins": [
+    {
+      "file": "src/harness/reference-terminal-launch-study.ts",
+      "sha256": "800521e1097fa2c33615feafef555e20f1f4103914f6fe4e5b58f941f0823df2"
+    },
+    {
+      "file": "src/mcp/toolbox-reference-coverage.ts",
+      "sha256": "e1decd0fd296a5b238123ff1ff465d09ca8fc69d9589a0f72667faffe114018a"
+    },
+    {
+      "file": "src/mcp/toolbox-server.ts",
+      "sha256": "5bb88a4cbb88087637a1d85e5b21e3f81819f3c88d7bc0fe6d948f83ed50189e"
+    },
+    {
+      "file": "tests/unit/toolbox-reference-coverage.test.ts",
+      "sha256": "71afbadc6bafa7d7d4ec2d653b05743d97c3d3224d7f1d61ce66d4610839f650"
+    },
+    {
+      "file": "tests/mcp/toolbox-reference-coverage.test.ts",
+      "sha256": "9feb70fddc285055f8db449f755c4c1c95f709176bdb42402935db03d20626c1"
+    }
+  ],
+  "actualGeometryHelper": {
+    "cases": 2,
+    "sourceUnchanged": true,
+    "originalFindingsPreserved": true,
+    "remainderCovered": true,
+    "sourcePcbSha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d"
+  },
+  "nativeSessionQualification": "separate",
+  "designAcceptanceChanged": false
+}

@@ -1,0 +1,37 @@
+{
+  "recordedAt": "2026-09-20T22:49:13.597Z",
+  "hostReleaseSha256": "19d5f1d89046f062f53e8d68366e558cf2cc8a7e93bb52c3ccff15ceaa83b343",
+  "buildChecks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "reusedChecks": {
+    "evidence": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\proofs\\terminal-launch-study-20260920\\verification.json",
+      "sha256": "b7dd4bf78cdb9e251341be14d18b248040c9f4d5365974ad01cd53f89c6b417e",
+      "sizeBytes": 1586
+    },
+    "tests": {
+      "passed": 56,
+      "files": 2,
+      "exitCode": 0,
+      "durationSeconds": 3.14,
+      "scope": "Saved-source capability and linked public MCP protocol, including retained full-ribbon findings, drift rejection and separate diagnostic resources; not a full suite."
+    },
+    "sourceTypecheck": {
+      "exitCode": 0
+    },
+    "rationale": "The five source/test changes match the prior 56-test qualification; all other code inputs match host48. Every other code, test, script, sidecar and build-input pin remains exact. Tests/typecheck were not repeated; this frozen copy receives fresh backend compilation and helper packaging."
+  },
+  "sourceAndNativePinsRechecked": true,
+  "sourceUnchanged": true,
+  "normalClose": true,
+  "designAcceptanceChanged": false,
+  "scope": "Actual public read-only studies and resource reads, normal close, frozen build and installed-client qualification. The original full assessment remains failed/incomplete."
+}

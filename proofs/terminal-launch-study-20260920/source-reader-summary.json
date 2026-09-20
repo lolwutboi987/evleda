@@ -1,0 +1,102 @@
+{
+  "scope": "Current saved source and real pinned geometry helper through the source-reader capability. No live KiCad session, fill freshness, contract revision or acceptance transfer.",
+  "sourcePcbSha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+  "sourceUnchanged": true,
+  "results": [
+    {
+      "net": "SWCLK_HDR",
+      "selectedSegments": 11,
+      "originalGeometricStatus": "uncovered",
+      "proposedMaximumLaunchNm": 1900000,
+      "remainderGeometricStatus": "covered",
+      "launch": {
+        "signalEndpoint": {
+          "reference": "J4",
+          "pin": "1"
+        },
+        "referenceEndpoint": {
+          "reference": "J4",
+          "pin": "2"
+        },
+        "signalPadUuid": "b25066be-74fa-4e3f-a05f-334707f3ec8e",
+        "referencePadUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+        "net": "SWCLK_HDR",
+        "signalCenterNm": {
+          "x": 8460000,
+          "y": 57200000
+        },
+        "referenceCenterNm": {
+          "x": 11000000,
+          "y": 57200000
+        },
+        "returnSpacingSquaredNm": "6451600000000",
+        "maximumReturnSpacingNm": 2540000,
+        "segmentId": "9846559d-7902-47f5-bde0-ffd61715149c",
+        "originalStartNm": {
+          "x": 5250000,
+          "y": 53990000
+        },
+        "originalEndNm": {
+          "x": 8460000,
+          "y": 57200000
+        },
+        "cutNm": {
+          "x": 7116498,
+          "y": 55856498
+        },
+        "maximumLengthNm": 1900000,
+        "removedLengthSquaredNm": "3609995248008",
+        "engineeringBasis": "Prospective separation of ordinary through-hole terminal approach from the continuous reference route. Retain the original failed requirement; no launch or return-path approval."
+      },
+      "launchElectricalValidity": "not_assessed"
+    },
+    {
+      "net": "SWDIO_HDR",
+      "selectedSegments": 10,
+      "originalGeometricStatus": "uncovered",
+      "proposedMaximumLaunchNm": 1500000,
+      "remainderGeometricStatus": "covered",
+      "launch": {
+        "signalEndpoint": {
+          "reference": "J4",
+          "pin": "3"
+        },
+        "referenceEndpoint": {
+          "reference": "J4",
+          "pin": "2"
+        },
+        "signalPadUuid": "7a11b973-d239-4889-92ba-0e6cca7f4c4a",
+        "referencePadUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+        "net": "SWDIO_HDR",
+        "signalCenterNm": {
+          "x": 13540000,
+          "y": 57200000
+        },
+        "referenceCenterNm": {
+          "x": 11000000,
+          "y": 57200000
+        },
+        "returnSpacingSquaredNm": "6451600000000",
+        "maximumReturnSpacingNm": 2540000,
+        "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+        "originalStartNm": {
+          "x": 12140000,
+          "y": 55800000
+        },
+        "originalEndNm": {
+          "x": 13540000,
+          "y": 57200000
+        },
+        "cutNm": {
+          "x": 12479340,
+          "y": 56139340
+        },
+        "maximumLengthNm": 1500000,
+        "removedLengthSquaredNm": "2249999271200",
+        "engineeringBasis": "Prospective separation of ordinary through-hole terminal approach from the continuous reference route. Retain the original failed requirement; no launch or return-path approval."
+      },
+      "launchElectricalValidity": "not_assessed"
+    }
+  ],
+  "acceptanceChanged": false
+}

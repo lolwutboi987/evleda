@@ -1,5 +1,12 @@
 # Destination client installation
 
+Current: **host49 with the same DOC17/v4 profile** is installed after
+[actual public read-only terminal studies](../proofs/terminal-launch-study-20260920/README.md).
+The installed skill exactly matches the updated repository copy. Workspace,
+access, environment, timeout and unrelated settings are preserved. A fresh
+actual Codex client discovers 18 initial tools; the new option is on the bound
+reference-coverage tool. Existing desktop activation remains unestablished.
+
 Current: **host48 with unchanged DOC17/v4 profile and skill** is installed after
 [actual native reference-gap qualification](../proofs/native-reference-gap-20260920/README.md).
 A fresh actual Codex client discovers 18 tools. Workspace, access, environment,

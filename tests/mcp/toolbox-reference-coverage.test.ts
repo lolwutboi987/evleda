@@ -10,7 +10,7 @@ import type { ConnectedKicadToolbox } from "../../src/mcp/toolbox-session.js";
 const roots: string[] = [];
 afterEach(async () => { await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))); });
 const query = { signalNets: ["SIG"], signalLayer: "F.Cu", referenceNet: "GND", referenceLayer: "B.Cu", marginNm: 100000, marginBasis: "Explicit reviewed geometry requirement" };
-async function fixture(available = true) {
+async function fixture(available = true, withStudy = false) {
   const root = await mkdtemp(path.join(tmpdir(), "reference-mcp-")); roots.push(root);
   let ordinal = 0;
   const check = vi.fn(async (_args: unknown) => {
@@ -18,7 +18,12 @@ async function fixture(available = true) {
       innerEnvelope: [[[0, 0], [100, 0], [100, 100]]], outerEnvelope: [[[0, 0], [200, 0], [200, 200]]], uncoveredOuterEnvelope: [] };
     const raw = JSON.stringify({ request: query, routes: [route], ordinal: ++ordinal });
     const artifact = { path: path.join(root, `${ordinal}.json`), identity: contentIdentity(Buffer.from(raw)) }; await writeFile(artifact.path, raw);
-    return { status: "computed", geometricStatus: "covered", routeResults: [route],
+    const studyRaw = JSON.stringify({ scope: "Prospective remainder only", routes: [route] });
+    const studyArtifact = { path: path.join(root, `${ordinal}-study.json`), identity: contentIdentity(Buffer.from(studyRaw)) };
+    if (withStudy) await writeFile(studyArtifact.path, studyRaw);
+    return { status: "computed", geometricStatus: withStudy ? "uncovered" : "covered", routeResults: [route],
+      ...(withStudy ? { terminalLaunchStudy: { status: "computed", remainderGeometricStatus: "covered", acceptanceChanged: false,
+        artifacts: { rawOutput: studyArtifact }, routeResults: [{ segmentId: "signal-segment", status: "covered" }] } } : {}),
       evidenceStatus: { fillFreshness: "unverified_saved_cache", dcConnectivity: "not_evaluated", impedance: "not_evaluated" },
       limitations: ["Selected cached geometry only; no electrical approval."], calculation: { artifacts: { rawOutput: artifact }, diagnosticGeometry: "conservative envelopes" } };
   });
@@ -32,6 +37,26 @@ async function fixture(available = true) {
 }
 
 describe("MCP source-bound reference coverage", () => {
+  it("exposes separate launch-study diagnostics while preserving the original full-ribbon finding", async () => {
+    const f = await fixture(true, true);
+    try {
+      const args = { ...query, terminalLaunchStudy: [{ signalEndpoint: { reference: "J1", pin: "1" },
+        referenceEndpoint: { reference: "J1", pin: "2" }, maximumLengthNm: 1_500_000, maximumReturnSpacingNm: 2_540_000,
+        engineeringBasis: "Prospective analysis only" }] };
+      const result = await f.call(args), metadata = result.structuredContent as Record<string, any>;
+      expect(result.isError).not.toBe(true); expect(f.check).toHaveBeenCalledWith(args);
+      expect(metadata.geometricStatus).toBe("uncovered");
+      expect(metadata.terminalLaunchStudy).toMatchObject({ remainderGeometricStatus: "covered", acceptanceChanged: false });
+      expect(metadata.terminalLaunchDiagnosticResource).not.toBe(metadata.diagnosticResource);
+      expect(result.content.filter(item => item.type === "resource_link")).toHaveLength(2);
+      const resource = await f.client.readResource({ uri: metadata.terminalLaunchDiagnosticResource });
+      expect(JSON.parse((resource.contents[0] as { text: string }).text).scope).toBe("Prospective remainder only");
+      const report = await f.check.mock.results[0]!.value;
+      await writeFile(report.terminalLaunchStudy!.artifacts.rawOutput.path, "changed");
+      await expect(f.client.readResource({ uri: metadata.terminalLaunchDiagnosticResource })).rejects.toThrow("changed");
+    } finally { await f.close(); }
+  });
+
   it("advertises the read-only tool only when the owning host provides it", async () => {
     const absent = await fixture(false);
     try { expect((await absent.client.listTools()).tools.map(tool => tool.name)).not.toContain("evleda_check_reference_coverage"); }

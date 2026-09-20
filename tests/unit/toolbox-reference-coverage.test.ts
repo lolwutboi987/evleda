@@ -19,6 +19,12 @@ const zone = (uuid = Z1, net = "GND", layer = "B.Cu", fills = fill(undefined, la
   (polygon (pts ${ring})) ${fills} ${extra})`;
 const query = (extra: Record<string, unknown> = {}) => ({ signalNets: ["SIG"], signalLayer: "F.Cu", referenceNet: "GND", referenceLayer: "B.Cu",
   marginNm: 100000, marginBasis: "Explicit fixture geometry margin; not an electrical limit", ...extra });
+const header = (rotation = 0) => `(footprint "Connector:Header" (layer "F.Cu") (at 1.000001 2 ${rotation}) (uuid "${id(500)}")
+  (property "Reference" "J1") (property "Value" "TEST")
+  (pad "1" thru_hole circle (at 0 0) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") (net "SIG") (uuid "${id(501)}"))
+  (pad "2" thru_hole circle (at 0 2.54) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") (net "GND") (uuid "${id(502)}")))`;
+const launchStudy = () => [{ signalEndpoint: { reference: "J1", pin: "1" }, referenceEndpoint: { reference: "J1", pin: "2" },
+  maximumLengthNm: 1_500_000, maximumReturnSpacingNm: 2_540_000, engineeringBasis: "Prospective bounded terminal analysis; no requirement changes." }];
 
 /** Injected adapter result only; the actual clipping engine is tested in its own suite. */
 function response(request: ReferenceCoverageRequest, statuses: readonly ReferenceCoverageResult["routes"][number]["status"][] = []): ReferenceCoverageResult {
@@ -45,6 +51,64 @@ async function fixture(source = board(segment() + zone())) {
 }
 
 describe("toolbox saved-source reference coverage", () => {
+  it("keeps the full-ribbon failure while separately studying a bounded source-derived terminal remainder", async () => {
+    const f = await fixture(board(segment() + zone() + header()));
+    f.calculate.mockImplementationOnce(async input => response(referenceCoverageRequestSchema.parse(input), ["uncovered"]));
+    const result = await f.run(query({ terminalLaunchStudy: launchStudy() }));
+    expect(result.status).toBe("computed"); if (result.status !== "computed") throw new Error("Expected computed");
+    expect(result.geometricStatus).toBe("uncovered");
+    expect(result.selectedSegments[0]!.startNm).toEqual({ x: 1_000_001, y: 2_000_000 });
+    expect(result.terminalLaunchStudy).toMatchObject({ status: "computed", remainderGeometricStatus: "covered", acceptanceChanged: false,
+      referenceTerminalConnectivity: "not_assessed", launchElectricalValidity: "not_assessed",
+      launches: [{ cutNm: { x: 2_500_001, y: 2_000_000 }, returnSpacingSquaredNm: "6451600000000" }] });
+    const projected = referenceCoverageRequestSchema.parse(f.calculate.mock.calls[1]![0]);
+    expect(projected.routes[0]).toMatchObject({ x1Nm: 2_500_001, y1Nm: 2_000_000, x2Nm: 8_000_000, marginNm: 100000 });
+    expect(f.calculate).toHaveBeenCalledTimes(2);
+  });
+
+  it("keeps diagonal trimming within the explicit length using integer geometry and cardinal pad poses", async () => {
+    const diagonal = `(segment (start 1.000001 2) (end 8.000001 9) (width 0.25) (layer "F.Cu") (net "SIG") (uuid "${S1}"))`;
+    const f = await fixture(board(diagonal + zone() + header(90)));
+    const result = await f.run(query({ terminalLaunchStudy: launchStudy() }));
+    if (result.status !== "computed") throw new Error("Expected computed");
+    expect(result.terminalLaunchStudy).toMatchObject({ status: "computed", launches: [{ cutNm: { x: 2_060_661, y: 3_060_660 },
+      referenceCenterNm: { x: 3_540_001, y: 2_000_000 }, removedLengthSquaredNm: "2249999271200" }] });
+  });
+
+  it.each(["too-far-return", "missing-pin", "whole-segment", "wrong-return-net", "ambiguous-branch", "back-side"])("leaves an unsupported %s launch unassessed without replacing the full result", async kind => {
+    const proposal = launchStudy(), source = board(segment() + zone() + header()
+      + (kind === "ambiguous-branch" ? segment(S2) : ""));
+    if (kind === "too-far-return") proposal[0]!.maximumReturnSpacingNm = 2_539_999;
+    if (kind === "missing-pin") proposal[0]!.signalEndpoint.pin = "9";
+    const f = await fixture(kind === "back-side" ? source.replace('(footprint "Connector:Header" (layer "F.Cu")', '(footprint "Connector:Header" (layer "B.Cu")')
+      : kind === "whole-segment" ? source.replace("(end 8 2)", "(end 2 2)")
+      : kind === "wrong-return-net" ? source.replace('(net "GND") (uuid "'+id(502)+'")', '(net "OTHER") (uuid "'+id(502)+'")') : source);
+    const result = await f.run(query({ terminalLaunchStudy: proposal }));
+    if (result.status !== "computed") throw new Error("Expected computed");
+    expect(result.terminalLaunchStudy).toMatchObject({ status: "not_assessed", acceptanceChanged: false });
+    expect(result.geometricStatus).toBe("covered"); expect(f.calculate).toHaveBeenCalledTimes(1);
+  });
+
+  it("rejects duplicate proposals and supplied geometry", () => {
+    const p = launchStudy()[0]!;
+    expect(() => toolboxReferenceCoverageQuerySchema.parse(query({ terminalLaunchStudy: [p, p] }))).toThrow();
+    expect(() => toolboxReferenceCoverageQuerySchema.parse(query({ terminalLaunchStudy: [{ ...p, centerNm: { x: 0, y: 0 } }] }))).toThrow();
+  });
+
+  it("rejects source drift during the prospective calculation", async () => {
+    const f = await fixture(board(segment() + zone() + header()));
+    f.calculate.mockImplementationOnce(async input => response(referenceCoverageRequestSchema.parse(input)))
+      .mockImplementationOnce(async input => { await writeFile(f.pcbPath, f.source + "\n"); return response(referenceCoverageRequestSchema.parse(input)); });
+    await expect(f.run(query({ terminalLaunchStudy: launchStudy() }))).rejects.toThrow("Saved PCB changed");
+  });
+
+  it("rejects a malformed prospective result rather than publishing its apparent coverage", async () => {
+    const f = await fixture(board(segment() + zone() + header()));
+    f.calculate.mockImplementationOnce(async input => response(referenceCoverageRequestSchema.parse(input)))
+      .mockImplementationOnce(async input => ({ ...response(referenceCoverageRequestSchema.parse(input)), routes: [] }));
+    await expect(f.run(query({ terminalLaunchStudy: launchStudy() }))).rejects.toThrow("Terminal launch calculator");
+  });
+
   it("supports the full explicit 0–50 mm plane-contract margin range without silently narrowing it", () => {
     expect(toolboxReferenceCoverageQuerySchema.parse(query({ marginNm: 50_000_000 })).marginNm).toBe(50_000_000);
     expect(() => toolboxReferenceCoverageQuerySchema.parse(query({ marginNm: 50_000_001 }))).toThrow();

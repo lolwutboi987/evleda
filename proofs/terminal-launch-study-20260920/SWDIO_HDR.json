@@ -1,0 +1,2879 @@
+{
+  "schemaVersion": "evleda.toolbox-reference-coverage.v1",
+  "sourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+    "size": 634325
+  },
+  "request": {
+    "signalNets": [
+      "SWDIO_HDR"
+    ],
+    "signalLayer": "F.Cu",
+    "referenceNet": "GND",
+    "referenceLayer": "In1.Cu",
+    "marginNm": 250000,
+    "marginBasis": "Unchanged bound margin for both original ribbons and the prospective remainders.",
+    "expectedSourceSha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+    "terminalLaunchStudy": [
+      {
+        "signalEndpoint": {
+          "reference": "J4",
+          "pin": "3"
+        },
+        "referenceEndpoint": {
+          "reference": "J4",
+          "pin": "2"
+        },
+        "maximumLengthNm": 1500000,
+        "maximumReturnSpacingNm": 2540000,
+        "engineeringBasis": "Prospective separation of ordinary through-hole terminal approach from the continuous reference route. Retain the original failed requirement; no launch or return-path approval."
+      }
+    ]
+  },
+  "scope": "Projected Euclidean ribbons of selected saved straight segments against selected saved copper-zone fill caches only.",
+  "selectedSegments": [
+    {
+      "uuid": "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 7700000,
+        "y": 55800000
+      },
+      "endNm": {
+        "x": 12140000,
+        "y": 55800000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "a7b048debe647a4bbffd416228bbb72c7c29f3252b6103607f4b26ae72dfd79c",
+        "size": 155
+      }
+    },
+    {
+      "uuid": "3dd0438a-9a24-4903-87c8-817a117138ec",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 13200000,
+        "y": 43350000
+      },
+      "endNm": {
+        "x": 12600000,
+        "y": 43950000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "11e1cab82e4b8202213ed14a70b528dff59eb00943032aefd02e800fd2b39418",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "4ed6f3c5-73d4-4f1e-9c19-c3f00f967a18",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 13200000,
+        "y": 43210000
+      },
+      "endNm": {
+        "x": 13200000,
+        "y": 43350000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "49a16295a1a54844d9624d28337b5d61ebbbbeb45f36a0191a6aefc85c24714f",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "61ff88fe-f68e-4781-8f23-2afd02f7d769",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 5600000,
+        "y": 43950000
+      },
+      "endNm": {
+        "x": 5500000,
+        "y": 44050000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "4c487f2b5e76b1b54e392435cd73dbccbd2c9f127b73d6d17aaa1f5c39272e7f",
+        "size": 155
+      }
+    },
+    {
+      "uuid": "631e3cb7-865a-47ec-9535-ea26d9d97b76",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 5500000,
+        "y": 44050000
+      },
+      "endNm": {
+        "x": 5500000,
+        "y": 45525000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "2937ba61c5a259cbc442394d81f411b9ffc3771da4fcbaeed238c0d15465da36",
+        "size": 156
+      }
+    },
+    {
+      "uuid": "825eaaf7-f10c-4492-95b3-51928865b6f1",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 5600000,
+        "y": 45625000
+      },
+      "endNm": {
+        "x": 5600000,
+        "y": 53700000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "eee21895d14e5419376f60e5a65040e03bd96b9a70c01f873891772c88c89616",
+        "size": 155
+      }
+    },
+    {
+      "uuid": "8f9f2d36-b596-4b3d-97e2-c2497135a472",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 5600000,
+        "y": 53700000
+      },
+      "endNm": {
+        "x": 7700000,
+        "y": 55800000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "965adece5fdb0fab19544c649a224c0f91e9ac67343644ffeebb7a3a8abcc32d",
+        "size": 153
+      }
+    },
+    {
+      "uuid": "c0ed736f-8398-4f6b-9548-48c61c30dcfd",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 5500000,
+        "y": 45525000
+      },
+      "endNm": {
+        "x": 5600000,
+        "y": 45625000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "9b2445856c77335702ca60db65e2e47de5a128ccac60c239f58b60f6b18c655b",
+        "size": 157
+      }
+    },
+    {
+      "uuid": "c30f162c-3579-40d6-9685-8851ad75ee48",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 12600000,
+        "y": 43950000
+      },
+      "endNm": {
+        "x": 5600000,
+        "y": 43950000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "0f4f111fcf0e657eaf6ef212f9ac8bdbdb5d890b523fae20b4a3495150f8f180",
+        "size": 156
+      }
+    },
+    {
+      "uuid": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+      "netName": "SWDIO_HDR",
+      "layer": "F.Cu",
+      "startNm": {
+        "x": 12140000,
+        "y": 55800000
+      },
+      "endNm": {
+        "x": 13540000,
+        "y": 57200000
+      },
+      "widthNm": 200000,
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "b09713e3cd7a83bd9442d71742b45a22a767ff40655870eddaf732dade124273",
+        "size": 157
+      }
+    }
+  ],
+  "selectedZones": [
+    {
+      "uuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "netName": "GND",
+      "layers": [
+        "In1.Cu"
+      ],
+      "status": "supported",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "dd9b8de33db29d1571715fdf6c41f7819c44d8aa2300e60bafcb0f3fa940077b",
+        "size": 87071
+      },
+      "filledCachePresent": true,
+      "fillGroups": [
+        {
+          "index": 0,
+          "layer": "In1.Cu",
+          "status": "supported",
+          "islandFlag": {
+            "status": "omitted",
+            "value": null,
+            "source": null
+          }
+        }
+      ]
+    }
+  ],
+  "selectionCoverage": {
+    "allMatchingStraightSegmentsSelected": true,
+    "allMatchingZonesSelected": true,
+    "inventory": "supported_saved_straight_segments_and_declared_copper_zones",
+    "omittedMatchingSegmentIds": [],
+    "omittedMatchingZoneIds": [],
+    "fullBoardGeometry": false
+  },
+  "unmodeledSource": {
+    "issues": [],
+    "routeItems": [
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6c288069c68b9b214984e26a5a9eea0227ec2eff82728451504e1a3bdc1713dc",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5cbd12902e7167ae86e1ae8a9faa491cded28d2e0025fb6bd72740dad50982a6",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7e746419ab676272c68417a8a00c2d825eb78ef15d8e46ea0a22c3df6adc0b13",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3600c2dc925ab7fcad867796397da15801ed40292613f2d3fb15214735be0e1b",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "546028a0d5311eb5ea49b9b5378dd490d38442403dec4ecf7dc3c07337ae4f1b",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8f3f43fc9cc7da7ff1cd4f0f1877cec536330108232f97c36e693767ec1ec45b",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6d5ec217556c4a2e4542cc0b143cc606f9759fae31ae8e731a3235883b1c441f",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0b22147033fab1fcf48d7991d4062b93da2a83a257bc71a1900f2e781dd50056",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "69f77d3a1003e35a5f35c095d30b43bbc8a29be8ae375f0590e2432138231e96",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fd0cb2a9c87b4bdf520d668101812564dd79424b878a19acbfcec0c87d7a35dd",
+          "size": 143
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ad91a21691f7f0fb12c55d34443ce5eb79cc45edf78ba0dc307b444625b35642",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dc81f73f6a1ffdd7fe11612ab9323200cd8c7c176250948f9f44ef7c53ed700e",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "af12a7eb90d037d07204fe742844b1459d48def4cbf1838554465ace2350367f",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b630a2fe0b001675df4e2f2990d6a37dcedac113448e5068ca2671c077422c13",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1ec0411aaf9f6972ab90250d0f2d3e7c7cdb5896e4d0b9514f9f09b58a94363c",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "185ad05291d400056d48fddc67b388548aa19dbdcacf9013c2f922fa320e2c1f",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f3bd485445e72783c486c8b8674faede5dfc27fdaa073e291a5b1359a7d6364c",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3b8e94b770e84057194ac2d5078c05076277e22c3861648b4b74b8850768236e",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4b76ac5f6aeca37067992c13e66742d82f56408b44451473e54f7dd1e36c1c6f",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f98df615ec0c3103feda5cd873ad5ffc92c43e5f00d449f91c514fbb8f4eb066",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "60c9c4e77914853143ba5f2550442087f027f244ab1d2aac0bc97a2ecaee4221",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f8aaa3c6adca7c61b3939ff111fb4b4139196b651893de930c578c5296465170",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "feede8425d7a35982d4de996d7aca74c8ecc513a139e52cc52a808d4d971b522",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f70229525e44748631adf62d2c08a52efe949e0055a3097b389fc70304421141",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e53dfb15791e38f18ba3aa24c823b7206986a542c7b3ba97ade201d3c32d4d58",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "956f5558eeb54da98a1ec7f9854e7c2c7089fd9882ebc9048346993089a734ce",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d57382e76c20c8c889372e140b4a31e6cf758f5998c08125043c974b2b769e23",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "92d7632e39a20dbb4c760d159cf96d7a7082c77e863115eb6bb535b239cd108a",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "55156730127ef0ea8b54427927a39c4cd5ce0d836977624a9cc87ad4de3d4bd8",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f5860b79e2b3e85158fead3b86f941012d636043d539865b315b2e3ec26b579",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ddc12b1c9dc9dedd5f4134a7a28f3a586c3a63c2ed84d750d84b1c239a1fc611",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4f9e66727adb23be2669a6d91dc86c022db68c441ec56e5a666f02c3fd07630f",
+          "size": 151
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fa8487eebd5d03d158547ecff4f4dba70f5138b987e3a94f21d90fbad2381ad1",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e9699cd461e61cab92e721683f5ff01011ea6d70415539cb14eb46e173eb9393",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "44c205658239a12464e48bfc50002b4712f2ac4f93fe1305659563b99e1dba61",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b36abc3ca4dee55c9486a44e10b81207911c239d376c47e71a1759a38e0f3ed7",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "bb3bdc80938dd2f177537027bfbc9fd15c9d3b6bd142db361315c2010a136927",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d9097e182bbeb27a34da89fe1e675ee238b9c2693880f2d9b403e71a471c1299",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c0f1bbcd9c6e1c41685f0dda2b1124cfe14261fa2b6f8c7f367b007c4ceb730b",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "12c31113ad8b4d5682d7466d597a901ebae2f135225b3c86dbb3b4b43f5c8f4f",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d5500470bcc439c4750ef313ee87a80f5e85cd54cb6d6e22a6ed8c001f754b8f",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dc58815444c6f453697fe9aeb58d0c5c7f7b14daec3820a2b7ef95e8851fd434",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d15a107574cbec622fbe9de53aa60309247ec61b24fb2133085a7240d1975ac9",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2bbfc9acab0d4b766cc6e2a2273b47e7b0b97e0728ddda365d3e86fdf1ba5178",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9923e9dc51dfafa9641a8477afea3d4506b1f447cec11634735f32218ccc0555",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b5bf844ee4350bb748324b79a9e0de630d6e0a71c69d683e98d72f349730badb",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "db5d01b146820f551612409a291f470d15c341a52fa9cf5ed5a1cd613b17f128",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e1ef97aad469bc3119cc8a403bc4c9caa1858c4df1d04875d85f4ff699fe5b06",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ea5bea5e81a372feef635fa468cfc0a718505bafe06eceabff0cfcb84e975234",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f42e6ff884ac6cbe753a2fd865f77ddb2ac96e223017e4a12f7f914df28336b",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "78e6bc5ff0c122daae1b7a4e0a2611b6dedf5cdf88fffda9f47ea6278a94c02d",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "33a957c9038f940cc55f84688f52eea3151b1ce7cb16e517270763ddab01351d",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "48e542536da0658907cb35513018eebc78b7d087c3c273599483191436aca9ff",
+          "size": 158
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fab352a1361a9fe085fee5e5b222604ed07adf9ca81d9e062b44820813bd1466",
+          "size": 157
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4d47ff0bb95a9804f5cc1456bf7efaf2da60c3d96bd9f39ec0aa641d95f45e3e",
+          "size": 160
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a34ce1f9baee274bac18a6a7d6ad1b38a833dd2d5366fc5420d2282bedba180d",
+          "size": 162
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f361163ee55f75612e4f6133f906691edadb0062d7573ffd46fc2feeadb20405",
+          "size": 151
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e33cf565d1dcb134d437fcf4d9c84ce172c285851f104c8525225d47d8fa9246",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fe0608a90c09bbdc05e905643ddc51f02aa3d88119808517763f1456abffa0ad",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "549f7d79dc709f487f92ff8498e2a999ae97a41c32f6a3b881b6e3c59c210e1a",
+          "size": 153
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5fbad4001447716929b6287eccf30bb929a11c5d241bf851c3195ff8877d1df8",
+          "size": 153
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6aca5a93e03acaa0db0acdbb15f67e5fee8ac047dc4ceda207c00ca1343d584b",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b65c84d2fd0e72747474234d7c7745cc04f5ffafa7656258d8afd8b0ef3c54cb",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5495c5965586a8074e72dfe8e62e76d48216c3ffb5510d3c9287d90c3841fc95",
+          "size": 162
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dc79642f38926f2f19a992e182dcda711f387064ba89747067961d0cd8bc8784",
+          "size": 161
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "334783e33a8f45f1bb5eb2ae9fd2393fdbb71f77cb1fa37e73c32ac127333f9b",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a8d4771f8568ab0e1ed04a97636bcbad3746ce17555bd720013bd75b19c1ba1a",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "502bc2da82ae35643a53af6241ff3c94a9431fa5e960a1299fe5434307fdb923",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5a19017d2628898882cc8ff1077718a39f0973afe021faa1d567262b356f1c58",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b4739e00b377132de8fdcfa75cd11365203b1a1a7c0b6bad96dc6787b9eb6325",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "10c64beb1cda7974dabf5155cd4a96e82b5a951accadece90010791721adf433",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a7656865e1b243a89d587ed97f426e7f13c1aa419b1b0253f70ae9425b80f63c",
+          "size": 143
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "01e1598c438794af0b161438a777c2678a60cfa94758a5609805a06d5554fbb6",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1162b1c620a8b7424c6b9e79dfac3219f675a3dff91a44df7b9c7046f4c22029",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4b53d71d5ef6c276f12389ce3028c9e96609f1b7c77eb4fad16dc649cc176dd6",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "31468a549b4d17c109f344aab7d80bd09cfd2fb6c02bd6cca993d070b2aee6bd",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0657538db97aacf638bd2b945ea5f1750248cf6d3ff9d25b742b43e61400539d",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fa7ce182ad288a12b950bcae91ad9ec7a730e616fa8d6ae1831e98d7df32ac79",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "ce2dfc7ce06e8a8ca11ca844f0b5653a92a0403595172cd7e1c14d7328833257",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8b70fdd6a6a10e461f8ab66545096825ae3368ac2d444d46cd0b24d8baf2cf33",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8269061af80fb2c01af93e16b4aaae93a4c6373bc1dffcf07b2b42d00c201609",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2ed3d33d6765c80722a8cc80335d78ba98ac411bbe50fd00cbf9211d77b3aef4",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1eb85954bd15546434b5c5237ca82ba7d7be1327c00e3ea5cde2bcaf40e4c79e",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "baa8e6f5a8169e912bc0bf0a8eec84331669bbee168fe90701244e8fb181bf76",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "bbd1b0802d29cc6ff1ed4e5b9c4c74ca64355a8e4c12f88c1fd7686a04b262b6",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "66e0c514477d1a7c7b1aa04a5a0c33f6524223c14d475979aabd1a3b4e67fb99",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2e48a966d1ac8a9d799d3e01c6b258945a39e66e01d7529fccac74065fe6ce1c",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4708b1c0b6c7883127c9fd9ca6c152fc2ca6c977819e5e92d0805653d1cb2992",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5f1cfa14fa66f06fbc8682f7a6f2564ae35010be89df58528f667c79d3240ef6",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "086cb7c6c582029129969721c2771e532e08f7d98e798c51e8cd930412d6f3f7",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d2e135ddd6d49af55d52e84c1a227ab9e07c33dab76f54b9745204da98090014",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "121d932f828815d3b203cb6e69c52b391dbe59e02297b100a26c49eabce1d3e4",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1c14393f6baa97badd42545dd026aaa673060280f9acb02a6b8d3684502e4e59",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9b34b8d9419e34c393506d61a3ef063d17b0d561d6d73e50e2ec9fb4d655a2ea",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a23be2459d1a64a413e366373ce40efe0b03a670fd85050280f0abab0b709253",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e4a0a8d952f8efcb7168974ab5706c1f6d1c46c332138353ed686ebb691d32f2",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d1054a1b8e8883f553b016a9183d1361c832df6562f3ebb581c35d5fd8ac0d8b",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "28de54c8474acb68ec679d069556d72a60cddf03cdcd3ac737a3bec75d3847a8",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f7cc7e44b5e89c20077490706118d97cbbbea7d1beeb4dfefedc9626ebef7f23",
+          "size": 144
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "665546869763579a10d6ba0f9912428898a7157b6d6ad52216f7a38806cc37a7",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b188856cc3ebc7adefbd1c5e8ba1423b0d77948dde7c3b108e99afcf1eacc4e9",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "374fe30df7efda780fe9cc352ca4ff82b3c03574ae1f653385b33eaced8074b8",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "748a2eafa25bfeec6cadd0bb2a3905ebc46378c10dea3bf78472929a94841e77",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "e756b3282f656ba370e5963076191bbcfa862dbe5a686696ea4026a74694a30e",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a2d982f29980f9eee75e3c0fbc4792ccb262dd204f3511640d2b852f76ad5b91",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "aba465fe5d5199e6c26748d01a377c4a7bb987b50c2206e9f889c1f435adc331",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5313c2fa25346c797243c5eb5d4ed5b7bffdcee80024d2beae474a382b15d53a",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2d9649098493e0900026a459ba7c811058181a1bb8a544c7495ec50daea56927",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8ddbb3cded08fc99e56c12a791c4a73915577d70aca643cf67e65797316528ce",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "65fce91308e183b105876ec2d47fd7235aa88add6d5c07da4be74ed864eb8cca",
+          "size": 148
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "65770e592e64caed929e8f9d4be7a3ea8bf27904b45e602f6070ce1eeefe9bb7",
+          "size": 145
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4f1b31b1db6914e7d4156a8c9e4471dd874dc40a43092d2ca065c26055a370de",
+          "size": 149
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "957fbe84805a2a11165c86f00882fcda8a8c270ff293f104a7ac6a1b43acaebe",
+          "size": 147
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c9443746cb50cfaff0a6b63f82ae3e51d53dedeead0963e213a6740ec909aabb",
+          "size": 146
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "eb3c75253517180a0e321867164894f93541588dce9c2ad2db3abf9d4b4d4ca1",
+          "size": 153
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5b6bb5d8b9ebbe67366e2fcf7b30ef673104235b33bc4ded0a27b2870c716059",
+          "size": 152
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3ff36e8a2e9bef240e55ad7c9916fd777cdec1e197401596b3b3519589f8a8b3",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      },
+      {
+        "kind": "via",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0ec1f0ffd3a814815a4bfa47888ad9a3376293c5967974a328b9622357547fe8",
+          "size": 150
+        },
+        "reason": "via is preserved but not straight-segment reference geometry."
+      }
+    ],
+    "otherItems": [
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3b0c1b451a92880cdf718a4ae46d8bd1a84ce4a06fb6e85fe0f19b4edd2bbf8f",
+          "size": 1631
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2d6db1a71664f5172adbf70976db7c5f372d0cf520b69a4c54ce3ad704f9653a",
+          "size": 21568
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "02bbafce29cc1adac4b4a4a4d5e7a3e9e5eeb768574ee5a237d698c0c2d5a22f",
+          "size": 3108
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "97f9af68e1e7de5c08a44576bc8264a5f2484966502505dcee8ee8386e3e5940",
+          "size": 2837
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "843d965f9e40ce690124c74ea83f23f046d9c17690c7e09de05a464e1e085b81",
+          "size": 3137
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "621a01572d2d0d1aec9663252e0354c4031a1fad299b152c957f450060e0b9dc",
+          "size": 3106
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "20380c5ff59d6b89444afb14b6d97c4393e098a699122de5fb8f76c1a57e6d66",
+          "size": 3112
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8ae692d1e63454c61bb76beb9e230a48451dd3b4a2e29de1eda4010e96012a54",
+          "size": 1633
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "1e6414379e8eaf61eb8b7a4be7da2fc09db2a7de8fbb6c0e77816d1fc61c2256",
+          "size": 3120
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c4d1e3c8922ebd683913f0506889cabd8c6c4d9ae18510be9eb7564d184a9028",
+          "size": 3130
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "dbb0d04b46c2a4c63307e67d9bb6b712a6e9e7b8534d68d712c90f501e7d4e19",
+          "size": 3134
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9c43881fcf3615d909fe367f2d543e95b882a5e4fb8e0d49a6891bb6b0eb576c",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a0735158b4dd993c1b73c81865897a4d1bf863d59e7123559b057ab02ee85e6e",
+          "size": 7974
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fc4ccddf8cb69f0299d798e53a47839e13e612a8f2588758782dd7a281da3a71",
+          "size": 6885
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8ca29b99455e572867895cd0992c1b161903a08d3934588f2b29c8940ea0db93",
+          "size": 2325
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c757728647ce003f21078bdc66641298adee627c363bbda8b309e1a855358d55",
+          "size": 3132
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5b717cf49d318a1aef0cf8c123cd5fdbfcc9c1b63bab9f32c31c6ca686520cdc",
+          "size": 3146
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4e27ed66d30ec6f4553eb3a1cf8a9cc9b3a971c1fc2e984e9c34ab032d501ebc",
+          "size": 3936
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a0b380fc95d2437dd05f1f136d3fb43db97ca446b93a3476aee3d0a0f7218187",
+          "size": 3137
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b64196e58d8544d0c2d32cccdb3e4f199a9274f751a4156b60b41bfd0ad1830c",
+          "size": 3109
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "8de1494057b7a60fe76e4c9c8c75ad1b8ca97dd0ddc99a7e465202d2385a87c9",
+          "size": 3115
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d5239247e08ffba3de1f7cbcabe7cc147d4771942c0d55984a85c6045d93deec",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "59b832e23cef4230bc9fad55b35b9bd1749a2e4ab3a47c1b2b008adfbf7c7516",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b086177ecd5e5a0354bd5e93406d44953d960cbcc2c6a364ed6e776855a1e537",
+          "size": 1632
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "5db646bb63de8dbcd46f277412fffa492f0a7e5bba481e6924db83dc9ee85cd7",
+          "size": 6913
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "49752b59bd0eb905afcd388ab85cd8bcf641c1b6c2743bce3055c7a82a823e10",
+          "size": 3107
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6df9124c50848746453077334957579dd1cd51b671e36c262e3475e2ec1c3dc7",
+          "size": 3107
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0f5b709abeeece1fef824d027b506e77462833c710adcbd6b44ad6e620fab17f",
+          "size": 3112
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f9f06657df8c36e5e273aaa8702aa4f3eaac1132bb284495ced8658ea309b195",
+          "size": 3132
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "3cbb492496e6dbc1a87eb32118b8790cdd0aed43c38c39046e05d350488c3f08",
+          "size": 3129
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "6cf5dfdb3beee401b939fc22d671d0fbdd477577b1c8ca8e191e96af8ed2b7b4",
+          "size": 2861
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "27af4b606471b0c9e45c832e477b279c29ca17cef91acee99d451d63bcab0a7c",
+          "size": 4760
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7f8504d055b7cd96bb5e453e7721a6649d5c69f3d14bac0185e3aacdd66e296a",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "47852ffaf56411abf79623edd8f8669c717956fd1482c250978f0223b88b32fa",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c398ad3d671a6225e63c2d4d124f077eb0097031943cd7e8824ebddbf7847c6e",
+          "size": 5091
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "a3e8fb4bfbb48464c45a731bf1a73bc51dfc80d4faad1f39a5ef6d3bdf0fc45b",
+          "size": 3791
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "b68361b8f545991121310c48f870743d5a0d0811a06d957219e232c8a0b88af9",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "63448abef5a762336bf42826cf9765aead3caadd263fc052510328ff39db3e35",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "4f4897cb0cc0c46fa9d4a55880a12f44b182bfe83e20d2bee2d76d6965698865",
+          "size": 1632
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0a0360005bdf8e8ddebf69d8aa6ce80d590fda705600286646b0beb2025833dc",
+          "size": 2872
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "80819d306cee72c248b3f0962f1fdec7ab5a2f402849ab6bf4e0a7bf576523f0",
+          "size": 3142
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "25d5761f2f7dc33697fe3f5d91325a7ba5207e10aed7bbe5ccf34734b6be9a63",
+          "size": 3110
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "96493cda2587b757380de3640ac1499444208412feea11a29fc44ae0111f19de",
+          "size": 3130
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "45b2b748705bbff1fe0d4a3523d29e3ecf1856dc410b8d6ee0b303f375d87018",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0f435ece968ee76ce9c706133df53ed83f44a52bbcaad39222700ebd8ee6d528",
+          "size": 3110
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f39cbe87e0d3acaf93f02c59d5168cfa7ac0b7d75c0f3be8fc8f64497e2d41f",
+          "size": 3135
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7a7cb30d78af80156d29fc0ef4ee8ce36234b6bce9298ce3de0fb3697a3407fd",
+          "size": 4468
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "2ca73614f000f6d4c6930f1c3238470cb82f5c6041f2240e44ed34e1d2ea0992",
+          "size": 3121
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fe221799a2f59671d51bedeb8a134d45b519ee7fd841010b92139244cc811155",
+          "size": 3131
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c8273fa96301c319c6008af33e52feb5be92158ff4e8c38c15f7e2d88dbe31cf",
+          "size": 9832
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9f07e69cff745e00e1931e79700886a1eaadb8f92461c6218ba5ac3f1534c991",
+          "size": 3113
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c3153e3f177f7cbc053f176c290b57980987725108c089cbd7bf05c5dc0f365f",
+          "size": 3138
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "fc9787902a92c6828c4b49696500f43490ee47856a981d55fa9993f5e8aa1a89",
+          "size": 3119
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "498371b20ac9ebd47b06254b00fd21ea5e95c074dc83db358c9827ab070165f9",
+          "size": 3126
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "67ec48c990719999f29d06d62652fc92f0646f76152f6b459bd7daaaa78797a9",
+          "size": 3448
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "067418ec6d16c23dcd47dee1de8c92cd537f6fc615e382da9f689295c70a9543",
+          "size": 9928
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "bfcbfb195c7e8415692a4e40e639481ec87af562322059c5acde768d4d8e6192",
+          "size": 3142
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "7cf069b7f31eba265af4b4ab060bb49b95f0ef38d19e7484d01c95dc0b9636e3",
+          "size": 4538
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "0f298d11ad34cbb1f8b593aa4f6d8ab83f475d8ac9c3b2ad95dad41e19ca3ebe",
+          "size": 3113
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "f7976d3ed15eec28f22437fcc62d83796777f8dc19738e1217148c2b2bdd5842",
+          "size": 2323
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "27ec0d25fb4be5a8353859049ce7404dca3bed1a6a3ffaed3a0d75e3cb87dd66",
+          "size": 3126
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "cc714e5203c47f4f84b15cce2dd288d720f47f4db8cee3f27e7133457161fa5d",
+          "size": 3125
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "cb4f9fb89f9c64c32a874a75e6954c1c7e9c517d9d8980a9212646447b854e43",
+          "size": 3143
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "c5cb5bc8bd069c1b6b495ff315d2d5c471a9d6ca772d9c8e801683db553d3186",
+          "size": 3122
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "46149daf11985572ed501f9a88cba2a088c991a20332bd121819da08b932bb6f",
+          "size": 3122
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      },
+      {
+        "kind": "footprint",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "9781704ab41cd3e3138201e943dd824d3c148ae4b2dd43a85c04166174a26fab",
+          "size": 3127
+        },
+        "reason": "Footprint-local pads/graphics are outside this top-level reference-geometry export."
+      }
+    ]
+  },
+  "evidenceStatus": {
+    "fillFreshness": "unverified_saved_cache",
+    "dcConnectivity": "not_evaluated",
+    "referenceCopperEligibility": "selected_by_declared_net_and_layer_only",
+    "stackupAndLayerAdjacency": "not_evaluated",
+    "marginBasis": "caller_stated_not_approved",
+    "impedance": "not_evaluated",
+    "highFrequencyValidity": "not_established"
+  },
+  "limitations": [
+    "A geometric certificate applies only to the selected saved fill data. Cached polygons and a shared net name do not prove current fill, electrical connection or reference eligibility.",
+    "The margin is explicitly beyond the trace edge. No universal margin or board-level impedance/return-path approval is inferred.",
+    "Uncovered outer-envelope polygons are diagnostic conservative geometry, not the exact missing area of the physical rounded trace ribbon.",
+    "Footprint-local copper, vias, arcs, transitions, launch exceptions and unselected routes are not certified by this straight-segment projection.",
+    "Native fresh fill and individual-terminal connectivity evidence are separate requirements before accepting a reference path."
+  ],
+  "status": "computed",
+  "geometricStatus": "uncovered",
+  "terminalLaunchStudy": {
+    "status": "computed",
+    "scope": "Hypothetical terminal-centre trimming only; the omitted launch and its electrical return remain unqualified.",
+    "launches": [
+      {
+        "signalEndpoint": {
+          "reference": "J4",
+          "pin": "3"
+        },
+        "referenceEndpoint": {
+          "reference": "J4",
+          "pin": "2"
+        },
+        "signalPadUuid": "7a11b973-d239-4889-92ba-0e6cca7f4c4a",
+        "referencePadUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+        "net": "SWDIO_HDR",
+        "signalCenterNm": {
+          "x": 13540000,
+          "y": 57200000
+        },
+        "referenceCenterNm": {
+          "x": 11000000,
+          "y": 57200000
+        },
+        "returnSpacingSquaredNm": "6451600000000",
+        "maximumReturnSpacingNm": 2540000,
+        "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+        "originalStartNm": {
+          "x": 12140000,
+          "y": 55800000
+        },
+        "originalEndNm": {
+          "x": 13540000,
+          "y": 57200000
+        },
+        "cutNm": {
+          "x": 12479340,
+          "y": 56139340
+        },
+        "maximumLengthNm": 1500000,
+        "removedLengthSquaredNm": "2249999271200",
+        "engineeringBasis": "Prospective separation of ordinary through-hole terminal approach from the continuous reference route. Retain the original failed requirement; no launch or return-path approval."
+      }
+    ],
+    "hypotheticalRoutes": [
+      {
+        "segmentId": "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+        "x1Nm": 7700000,
+        "y1Nm": 55800000,
+        "x2Nm": 12140000,
+        "y2Nm": 55800000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "3dd0438a-9a24-4903-87c8-817a117138ec",
+        "x1Nm": 13200000,
+        "y1Nm": 43350000,
+        "x2Nm": 12600000,
+        "y2Nm": 43950000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "4ed6f3c5-73d4-4f1e-9c19-c3f00f967a18",
+        "x1Nm": 13200000,
+        "y1Nm": 43210000,
+        "x2Nm": 13200000,
+        "y2Nm": 43350000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "61ff88fe-f68e-4781-8f23-2afd02f7d769",
+        "x1Nm": 5600000,
+        "y1Nm": 43950000,
+        "x2Nm": 5500000,
+        "y2Nm": 44050000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "631e3cb7-865a-47ec-9535-ea26d9d97b76",
+        "x1Nm": 5500000,
+        "y1Nm": 44050000,
+        "x2Nm": 5500000,
+        "y2Nm": 45525000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "825eaaf7-f10c-4492-95b3-51928865b6f1",
+        "x1Nm": 5600000,
+        "y1Nm": 45625000,
+        "x2Nm": 5600000,
+        "y2Nm": 53700000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "8f9f2d36-b596-4b3d-97e2-c2497135a472",
+        "x1Nm": 5600000,
+        "y1Nm": 53700000,
+        "x2Nm": 7700000,
+        "y2Nm": 55800000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "c0ed736f-8398-4f6b-9548-48c61c30dcfd",
+        "x1Nm": 5500000,
+        "y1Nm": 45525000,
+        "x2Nm": 5600000,
+        "y2Nm": 45625000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "c30f162c-3579-40d6-9685-8851ad75ee48",
+        "x1Nm": 12600000,
+        "y1Nm": 43950000,
+        "x2Nm": 5600000,
+        "y2Nm": 43950000,
+        "widthNm": 200000,
+        "marginNm": 250000
+      },
+      {
+        "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+        "x1Nm": 12140000,
+        "y1Nm": 55800000,
+        "x2Nm": 12479340,
+        "y2Nm": 56139340,
+        "widthNm": 200000,
+        "marginNm": 250000
+      }
+    ],
+    "remainderGeometricStatus": "covered",
+    "routeResults": [
+      {
+        "routeIndex": 0,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 1,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "3dd0438a-9a24-4903-87c8-817a117138ec",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 2,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "4ed6f3c5-73d4-4f1e-9c19-c3f00f967a18",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 3,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "61ff88fe-f68e-4781-8f23-2afd02f7d769",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 4,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "631e3cb7-865a-47ec-9535-ea26d9d97b76",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 5,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "825eaaf7-f10c-4492-95b3-51928865b6f1",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 6,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "8f9f2d36-b596-4b3d-97e2-c2497135a472",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 7,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "c0ed736f-8398-4f6b-9548-48c61c30dcfd",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 8,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "c30f162c-3579-40d6-9685-8851ad75ee48",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      },
+      {
+        "routeIndex": 9,
+        "status": "covered",
+        "certificate": "exact_outer_envelope_containment",
+        "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+        "diagnosticPolygonCounts": {
+          "inner": 1,
+          "outer": 1,
+          "uncovered": 0
+        }
+      }
+    ],
+    "artifacts": {
+      "input": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\debug-launch-147\\reference-coverage-DpyRWN\\request.txt",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "ef492e000a92c65c68956fcbf7769ef77f23b35701c3a004756e595c971e25ea",
+          "size": 61254
+        }
+      },
+      "rawOutput": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\debug-launch-147\\reference-coverage-DpyRWN\\raw-output.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "2119f4902904466f0fe33b2b3e46e2be5dc8f5f62c7082df58cf2aeca57d0cb4",
+          "size": 151616
+        }
+      }
+    },
+    "executableIdentity": {
+      "sha256": "11f52b6031a30f0e5a7a4a3a0b4479774df829dc85caf845d97127b2b49c7b62",
+      "sizeBytes": 980480
+    },
+    "acceptanceChanged": false,
+    "referenceTerminalConnectivity": "not_assessed",
+    "launchElectricalValidity": "not_assessed"
+  },
+  "routeResults": [
+    {
+      "routeIndex": 0,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            7350000,
+            55800000
+          ],
+          [
+            7700000,
+            55450000
+          ],
+          [
+            12140000,
+            55450000
+          ],
+          [
+            12490000,
+            55800000
+          ],
+          [
+            12140000,
+            56150000
+          ],
+          [
+            7700000,
+            56150000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            7350000,
+            55450000
+          ],
+          [
+            12490000,
+            55450000
+          ],
+          [
+            12490000,
+            56150000
+          ],
+          [
+            7350000,
+            56150000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 1,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            12250000,
+            43950000
+          ],
+          [
+            13200000,
+            43000000
+          ],
+          [
+            13550000,
+            43350000
+          ],
+          [
+            12600000,
+            44300000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            12250000,
+            43600000
+          ],
+          [
+            12850000,
+            43000000
+          ],
+          [
+            13550000,
+            43000000
+          ],
+          [
+            13550000,
+            43700000
+          ],
+          [
+            12950000,
+            44300000
+          ],
+          [
+            12250000,
+            44300000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "3dd0438a-9a24-4903-87c8-817a117138ec",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 2,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            12850000,
+            43210000
+          ],
+          [
+            13200000,
+            42860000
+          ],
+          [
+            13550000,
+            43210000
+          ],
+          [
+            13550000,
+            43350000
+          ],
+          [
+            13200000,
+            43700000
+          ],
+          [
+            12850000,
+            43350000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            12850000,
+            42860000
+          ],
+          [
+            13550000,
+            42860000
+          ],
+          [
+            13550000,
+            43700000
+          ],
+          [
+            12850000,
+            43700000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "4ed6f3c5-73d4-4f1e-9c19-c3f00f967a18",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 3,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            5150000,
+            44050000
+          ],
+          [
+            5600000,
+            43600000
+          ],
+          [
+            5950000,
+            43950000
+          ],
+          [
+            5500000,
+            44400000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            5150000,
+            43700000
+          ],
+          [
+            5250000,
+            43600000
+          ],
+          [
+            5950000,
+            43600000
+          ],
+          [
+            5950000,
+            44300000
+          ],
+          [
+            5850000,
+            44400000
+          ],
+          [
+            5150000,
+            44400000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "61ff88fe-f68e-4781-8f23-2afd02f7d769",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 4,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            5150000,
+            44050000
+          ],
+          [
+            5500000,
+            43700000
+          ],
+          [
+            5850000,
+            44050000
+          ],
+          [
+            5850000,
+            45525000
+          ],
+          [
+            5500000,
+            45875000
+          ],
+          [
+            5150000,
+            45525000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            5150000,
+            43700000
+          ],
+          [
+            5850000,
+            43700000
+          ],
+          [
+            5850000,
+            45875000
+          ],
+          [
+            5150000,
+            45875000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "631e3cb7-865a-47ec-9535-ea26d9d97b76",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 5,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            5250000,
+            45625000
+          ],
+          [
+            5600000,
+            45275000
+          ],
+          [
+            5950000,
+            45625000
+          ],
+          [
+            5950000,
+            53700000
+          ],
+          [
+            5600000,
+            54050000
+          ],
+          [
+            5250000,
+            53700000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            5250000,
+            45275000
+          ],
+          [
+            5950000,
+            45275000
+          ],
+          [
+            5950000,
+            54050000
+          ],
+          [
+            5250000,
+            54050000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "825eaaf7-f10c-4492-95b3-51928865b6f1",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 6,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            5250000,
+            53700000
+          ],
+          [
+            5600000,
+            53350000
+          ],
+          [
+            8050000,
+            55800000
+          ],
+          [
+            7700000,
+            56150000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            5250000,
+            53350000
+          ],
+          [
+            5950000,
+            53350000
+          ],
+          [
+            8050000,
+            55450000
+          ],
+          [
+            8050000,
+            56150000
+          ],
+          [
+            7350000,
+            56150000
+          ],
+          [
+            5250000,
+            54050000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "8f9f2d36-b596-4b3d-97e2-c2497135a472",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 7,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            5150000,
+            45525000
+          ],
+          [
+            5500000,
+            45175000
+          ],
+          [
+            5950000,
+            45625000
+          ],
+          [
+            5600000,
+            45975000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            5150000,
+            45175000
+          ],
+          [
+            5850000,
+            45175000
+          ],
+          [
+            5950000,
+            45275000
+          ],
+          [
+            5950000,
+            45975000
+          ],
+          [
+            5250000,
+            45975000
+          ],
+          [
+            5150000,
+            45875000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "c0ed736f-8398-4f6b-9548-48c61c30dcfd",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 8,
+      "status": "covered",
+      "certificate": "exact_outer_envelope_containment",
+      "innerEnvelope": [
+        [
+          [
+            5250000,
+            43950000
+          ],
+          [
+            5600000,
+            43600000
+          ],
+          [
+            12600000,
+            43600000
+          ],
+          [
+            12950000,
+            43950000
+          ],
+          [
+            12600000,
+            44300000
+          ],
+          [
+            5600000,
+            44300000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            5250000,
+            43600000
+          ],
+          [
+            12950000,
+            43600000
+          ],
+          [
+            12950000,
+            44300000
+          ],
+          [
+            5250000,
+            44300000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [],
+      "segmentId": "c30f162c-3579-40d6-9685-8851ad75ee48",
+      "netName": "SWDIO_HDR"
+    },
+    {
+      "routeIndex": 9,
+      "status": "uncovered",
+      "certificate": "exact_inner_envelope_outside_witness",
+      "innerEnvelope": [
+        [
+          [
+            11790000,
+            55800000
+          ],
+          [
+            12140000,
+            55450000
+          ],
+          [
+            13890000,
+            57200000
+          ],
+          [
+            13540000,
+            57550000
+          ]
+        ]
+      ],
+      "outerEnvelope": [
+        [
+          [
+            11790000,
+            55450000
+          ],
+          [
+            12490000,
+            55450000
+          ],
+          [
+            13890000,
+            56850000
+          ],
+          [
+            13890000,
+            57550000
+          ],
+          [
+            13190000,
+            57550000
+          ],
+          [
+            11790000,
+            56150000
+          ]
+        ]
+      ],
+      "uncoveredOuterEnvelope": [
+        [
+          [
+            13890000,
+            56850000
+          ],
+          [
+            13890000,
+            57550000
+          ],
+          [
+            13190000,
+            57550000
+          ],
+          [
+            12573007,
+            56933007
+          ],
+          [
+            12577949,
+            56908165
+          ],
+          [
+            12577949,
+            56908163
+          ],
+          [
+            12653367,
+            56726086
+          ],
+          [
+            12762861,
+            56562218
+          ],
+          [
+            12762864,
+            56562214
+          ],
+          [
+            12902214,
+            56422864
+          ],
+          [
+            12902218,
+            56422861
+          ],
+          [
+            13066086,
+            56313367
+          ],
+          [
+            13248163,
+            56237949
+          ],
+          [
+            13248165,
+            56237949
+          ],
+          [
+            13273007,
+            56233007
+          ]
+        ]
+      ],
+      "outsideWitnessDoubledNm": [
+        25680000,
+        113000000
+      ],
+      "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+      "netName": "SWDIO_HDR"
+    }
+  ],
+  "calculation": {
+    "implementationRevision": "evleda-reference-coverage-v1",
+    "sourceCommit": "146a4f2a7585c65bc580427a19b6fe2ec4a3f622",
+    "clipperVersion": "1.3.0",
+    "executableIdentity": {
+      "sha256": "11f52b6031a30f0e5a7a4a3a0b4479774df829dc85caf845d97127b2b49c7b62",
+      "sizeBytes": 980480
+    },
+    "diagnosticGeometry": "clipper_integer_quantized_not_a_continuous_geometry_proof",
+    "envelopeModel": "inner_L1_diamond_floor_radius_outer_Linf_square_ceil_radius",
+    "coverageMeaning": "closed_Euclidean_segment_ribbon_radius_width_over_two_plus_margin",
+    "artifacts": {
+      "input": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\debug-launch-147\\reference-coverage-dkRh0l\\request.txt",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "b1c1c6b5bd6a297d1692731a571c761249dca60d4f13c39cd9fe2babc59b00c9",
+          "size": 61254
+        }
+      },
+      "rawOutput": {
+        "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\layout\\debug-launch-147\\reference-coverage-dkRh0l\\raw-output.json",
+        "identity": {
+          "algorithm": "sha256",
+          "digest": "558f47df415a90b1410d98acbb92548559902fc8aa0deeecb14d4683e9b3efd1",
+          "size": 151970
+        }
+      }
+    }
+  },
+  "sourceUnchanged": true
+}

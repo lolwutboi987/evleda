@@ -1,0 +1,627 @@
+{
+  "schemaVersion": "evleda.rp2350-native-terminal-study.v1",
+  "projectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "604b14283e7b5041e8d74ef3e12e1efa4acb3775a7cb2e96518e5a5900a1be6f",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "normalClose": true,
+  "results": [
+    {
+      "net": "SWCLK_HDR",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+        "size": 634325
+      },
+      "originalGeometricStatus": "uncovered",
+      "study": {
+        "status": "computed",
+        "scope": "Hypothetical terminal-centre trimming only; the omitted launch and its electrical return remain unqualified.",
+        "launches": [
+          {
+            "signalEndpoint": {
+              "reference": "J4",
+              "pin": "1"
+            },
+            "referenceEndpoint": {
+              "reference": "J4",
+              "pin": "2"
+            },
+            "signalPadUuid": "b25066be-74fa-4e3f-a05f-334707f3ec8e",
+            "referencePadUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+            "net": "SWCLK_HDR",
+            "signalCenterNm": {
+              "x": 8460000,
+              "y": 57200000
+            },
+            "referenceCenterNm": {
+              "x": 11000000,
+              "y": 57200000
+            },
+            "returnSpacingSquaredNm": "6451600000000",
+            "maximumReturnSpacingNm": 2540000,
+            "segmentId": "9846559d-7902-47f5-bde0-ffd61715149c",
+            "originalStartNm": {
+              "x": 5250000,
+              "y": 53990000
+            },
+            "originalEndNm": {
+              "x": 8460000,
+              "y": 57200000
+            },
+            "cutNm": {
+              "x": 7116498,
+              "y": 55856498
+            },
+            "maximumLengthNm": 1900000,
+            "removedLengthSquaredNm": "3609995248008",
+            "engineeringBasis": "Prospective through-hole approach review only; no contract or acceptance change."
+          }
+        ],
+        "hypotheticalRoutes": [
+          {
+            "segmentId": "1a5f77f3-dd61-497c-85c7-4c0728eed24a",
+            "x1Nm": 12150000,
+            "y1Nm": 43600000,
+            "x2Nm": 5250000,
+            "y2Nm": 43600000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "492555ad-313d-45d1-aa2b-528252a9afc3",
+            "x1Nm": 12950000,
+            "y1Nm": 40560000,
+            "x2Nm": 12950000,
+            "y2Nm": 41550000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "60bed7e0-6ea3-4bbc-ad9d-5d0a759ae13c",
+            "x1Nm": 5150000,
+            "y1Nm": 45775000,
+            "x2Nm": 5250000,
+            "y2Nm": 45875000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "8397a058-9703-469a-8dd5-40ae71169390",
+            "x1Nm": 5150000,
+            "y1Nm": 43700000,
+            "x2Nm": 5150000,
+            "y2Nm": 45775000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "9846559d-7902-47f5-bde0-ffd61715149c",
+            "x1Nm": 5250000,
+            "y1Nm": 53990000,
+            "x2Nm": 7116498,
+            "y2Nm": 55856498,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "a2aa0e2d-60de-4337-9cfd-c527ae023437",
+            "x1Nm": 5250000,
+            "y1Nm": 43600000,
+            "x2Nm": 5150000,
+            "y2Nm": 43700000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "a492d035-fbfe-44d8-ab8c-0c0b00f6c024",
+            "x1Nm": 12950000,
+            "y1Nm": 41550000,
+            "x2Nm": 12550000,
+            "y2Nm": 41950000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "babe5e0a-5124-4512-b7d9-90af7cba00ae",
+            "x1Nm": 5250000,
+            "y1Nm": 45875000,
+            "x2Nm": 5250000,
+            "y2Nm": 53990000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "ea2b5e88-f3e4-416a-ae23-8a3d0371051a",
+            "x1Nm": 13300000,
+            "y1Nm": 40210000,
+            "x2Nm": 12950000,
+            "y2Nm": 40560000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "ec644367-4be4-409a-be06-43c6810b6134",
+            "x1Nm": 12550000,
+            "y1Nm": 43200000,
+            "x2Nm": 12150000,
+            "y2Nm": 43600000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "ed6d7995-9888-4b25-a9ac-6d12035afa68",
+            "x1Nm": 12550000,
+            "y1Nm": 41950000,
+            "x2Nm": 12550000,
+            "y2Nm": 43200000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          }
+        ],
+        "remainderGeometricStatus": "covered",
+        "routeResults": [
+          {
+            "routeIndex": 0,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "1a5f77f3-dd61-497c-85c7-4c0728eed24a",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 1,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "492555ad-313d-45d1-aa2b-528252a9afc3",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 2,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "60bed7e0-6ea3-4bbc-ad9d-5d0a759ae13c",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 3,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "8397a058-9703-469a-8dd5-40ae71169390",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 4,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "9846559d-7902-47f5-bde0-ffd61715149c",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 5,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "a2aa0e2d-60de-4337-9cfd-c527ae023437",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 6,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "a492d035-fbfe-44d8-ab8c-0c0b00f6c024",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 7,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "babe5e0a-5124-4512-b7d9-90af7cba00ae",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 8,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "ea2b5e88-f3e4-416a-ae23-8a3d0371051a",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 9,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "ec644367-4be4-409a-be06-43c6810b6134",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 10,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "ed6d7995-9888-4b25-a9ac-6d12035afa68",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          }
+        ],
+        "artifacts": {
+          "input": {
+            "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\23542cb1-7244-4564-9d87-c10080909029\\output\\reference-coverage-PeRq71\\request.txt",
+            "identity": {
+              "algorithm": "sha256",
+              "digest": "113d49cc1442d1abd9378bfade2dd62189a5df303457eebd23446146ad6d6ed0",
+              "size": 61311
+            }
+          },
+          "rawOutput": {
+            "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\23542cb1-7244-4564-9d87-c10080909029\\output\\reference-coverage-PeRq71\\raw-output.json",
+            "identity": {
+              "algorithm": "sha256",
+              "digest": "57760ce6949f37fd30562f75c2282b7ad1e5e549a8aa163b2e01771aa43878ee",
+              "size": 152051
+            }
+          }
+        },
+        "executableIdentity": {
+          "sha256": "11f52b6031a30f0e5a7a4a3a0b4479774df829dc85caf845d97127b2b49c7b62",
+          "sizeBytes": 980480
+        },
+        "acceptanceChanged": false,
+        "referenceTerminalConnectivity": "not_assessed",
+        "launchElectricalValidity": "not_assessed"
+      },
+      "studyResourceHashVerified": true
+    },
+    {
+      "net": "SWDIO_HDR",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+        "size": 634325
+      },
+      "originalGeometricStatus": "uncovered",
+      "study": {
+        "status": "computed",
+        "scope": "Hypothetical terminal-centre trimming only; the omitted launch and its electrical return remain unqualified.",
+        "launches": [
+          {
+            "signalEndpoint": {
+              "reference": "J4",
+              "pin": "3"
+            },
+            "referenceEndpoint": {
+              "reference": "J4",
+              "pin": "2"
+            },
+            "signalPadUuid": "7a11b973-d239-4889-92ba-0e6cca7f4c4a",
+            "referencePadUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+            "net": "SWDIO_HDR",
+            "signalCenterNm": {
+              "x": 13540000,
+              "y": 57200000
+            },
+            "referenceCenterNm": {
+              "x": 11000000,
+              "y": 57200000
+            },
+            "returnSpacingSquaredNm": "6451600000000",
+            "maximumReturnSpacingNm": 2540000,
+            "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+            "originalStartNm": {
+              "x": 12140000,
+              "y": 55800000
+            },
+            "originalEndNm": {
+              "x": 13540000,
+              "y": 57200000
+            },
+            "cutNm": {
+              "x": 12479340,
+              "y": 56139340
+            },
+            "maximumLengthNm": 1500000,
+            "removedLengthSquaredNm": "2249999271200",
+            "engineeringBasis": "Prospective through-hole approach review only; no contract or acceptance change."
+          }
+        ],
+        "hypotheticalRoutes": [
+          {
+            "segmentId": "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+            "x1Nm": 7700000,
+            "y1Nm": 55800000,
+            "x2Nm": 12140000,
+            "y2Nm": 55800000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "3dd0438a-9a24-4903-87c8-817a117138ec",
+            "x1Nm": 13200000,
+            "y1Nm": 43350000,
+            "x2Nm": 12600000,
+            "y2Nm": 43950000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "4ed6f3c5-73d4-4f1e-9c19-c3f00f967a18",
+            "x1Nm": 13200000,
+            "y1Nm": 43210000,
+            "x2Nm": 13200000,
+            "y2Nm": 43350000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "61ff88fe-f68e-4781-8f23-2afd02f7d769",
+            "x1Nm": 5600000,
+            "y1Nm": 43950000,
+            "x2Nm": 5500000,
+            "y2Nm": 44050000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "631e3cb7-865a-47ec-9535-ea26d9d97b76",
+            "x1Nm": 5500000,
+            "y1Nm": 44050000,
+            "x2Nm": 5500000,
+            "y2Nm": 45525000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "825eaaf7-f10c-4492-95b3-51928865b6f1",
+            "x1Nm": 5600000,
+            "y1Nm": 45625000,
+            "x2Nm": 5600000,
+            "y2Nm": 53700000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "8f9f2d36-b596-4b3d-97e2-c2497135a472",
+            "x1Nm": 5600000,
+            "y1Nm": 53700000,
+            "x2Nm": 7700000,
+            "y2Nm": 55800000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "c0ed736f-8398-4f6b-9548-48c61c30dcfd",
+            "x1Nm": 5500000,
+            "y1Nm": 45525000,
+            "x2Nm": 5600000,
+            "y2Nm": 45625000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "c30f162c-3579-40d6-9685-8851ad75ee48",
+            "x1Nm": 12600000,
+            "y1Nm": 43950000,
+            "x2Nm": 5600000,
+            "y2Nm": 43950000,
+            "widthNm": 200000,
+            "marginNm": 250000
+          },
+          {
+            "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+            "x1Nm": 12140000,
+            "y1Nm": 55800000,
+            "x2Nm": 12479340,
+            "y2Nm": 56139340,
+            "widthNm": 200000,
+            "marginNm": 250000
+          }
+        ],
+        "remainderGeometricStatus": "covered",
+        "routeResults": [
+          {
+            "routeIndex": 0,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 1,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "3dd0438a-9a24-4903-87c8-817a117138ec",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 2,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "4ed6f3c5-73d4-4f1e-9c19-c3f00f967a18",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 3,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "61ff88fe-f68e-4781-8f23-2afd02f7d769",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 4,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "631e3cb7-865a-47ec-9535-ea26d9d97b76",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 5,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "825eaaf7-f10c-4492-95b3-51928865b6f1",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 6,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "8f9f2d36-b596-4b3d-97e2-c2497135a472",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 7,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "c0ed736f-8398-4f6b-9548-48c61c30dcfd",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 8,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "c30f162c-3579-40d6-9685-8851ad75ee48",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          },
+          {
+            "routeIndex": 9,
+            "status": "covered",
+            "certificate": "exact_outer_envelope_containment",
+            "segmentId": "e4d99ee2-5327-402f-b657-e99a8a8c52af",
+            "diagnosticPolygonCounts": {
+              "inner": 1,
+              "outer": 1,
+              "uncovered": 0
+            }
+          }
+        ],
+        "artifacts": {
+          "input": {
+            "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\23542cb1-7244-4564-9d87-c10080909029\\output\\reference-coverage-bAzCyE\\request.txt",
+            "identity": {
+              "algorithm": "sha256",
+              "digest": "ef492e000a92c65c68956fcbf7769ef77f23b35701c3a004756e595c971e25ea",
+              "size": 61254
+            }
+          },
+          "rawOutput": {
+            "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\23542cb1-7244-4564-9d87-c10080909029\\output\\reference-coverage-bAzCyE\\raw-output.json",
+            "identity": {
+              "algorithm": "sha256",
+              "digest": "2119f4902904466f0fe33b2b3e46e2be5dc8f5f62c7082df58cf2aeca57d0cb4",
+              "size": 151616
+            }
+          }
+        },
+        "executableIdentity": {
+          "sha256": "11f52b6031a30f0e5a7a4a3a0b4479774df829dc85caf845d97127b2b49c7b62",
+          "sizeBytes": 980480
+        },
+        "acceptanceChanged": false,
+        "referenceTerminalConnectivity": "not_assessed",
+        "launchElectricalValidity": "not_assessed"
+      },
+      "studyResourceHashVerified": true
+    }
+  ],
+  "accepted": false,
+  "fillAuthorityRestored": false,
+  "scope": "Actual host49/DOC17 read-only resume, public prospective terminal studies, hash-verified diagnostic resources and normal close. No fill, native source, design requirement or acceptance changed."
+}

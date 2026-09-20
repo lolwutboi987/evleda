@@ -317,7 +317,7 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
       if (cad.checkReferenceCoverage !== undefined) {
         ensureReferenceResource();
         registerTool("evleda_check_reference_coverage", {
-          description: "Inspect projected straight-trace ribbons against selected saved copper-zone fills on the host-bound PCB. Supply nets/layers and an explicit margin beyond the trace edge plus its basis. Reports covered, uncovered, uncertain or not assessed. Saved fill freshness, DC connection, reference eligibility and impedance remain separate, unverified requirements. No model-provided geometry or file paths.",
+          description: "Inspect projected straight-trace ribbons against selected saved copper-zone fills on the host-bound PCB. Supply nets/layers and an explicit margin beyond the trace edge plus its basis. Reports covered, uncovered, uncertain or not assessed. Optional terminalLaunchStudy evaluates a bounded hypothetical through-hole endpoint trim separately, preserving the full-ribbon result and every bound requirement; it does not qualify the omitted launch. Saved fill freshness, DC connection, reference eligibility and impedance remain separate, unverified requirements. No model-provided geometry or file paths.",
           inputSchema: nativeInputSchema({ type: "object", ...z.toJSONSchema(toolboxReferenceCoverageQuerySchema) }), annotations: READ_ANNOTATIONS,
         }, async args => {
           try {
@@ -331,16 +331,22 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
               if (report.status !== "computed") return jsonResult({ ...report, ...snapshot });
               const artifact = report.calculation.artifacts.rawOutput;
               const uri = `evleda://reference-coverage/${artifact.identity.digest}`;
+              const studyArtifact = report.terminalLaunchStudy?.status === "computed" ? report.terminalLaunchStudy.artifacts.rawOutput : undefined;
+              const studyUri = studyArtifact === undefined ? undefined : `evleda://reference-coverage/${studyArtifact.identity.digest}`;
               // Keep complete diagnostic polygons in a hash-bound resource, never
               // truncate routes/findings or turn response-size limits into a pass.
               const result = jsonResult({ ...report, ...snapshot, diagnosticResource: uri,
+                ...(studyUri === undefined ? {} : { terminalLaunchDiagnosticResource: studyUri }),
                 routeResults: report.routeResults.map(({ innerEnvelope, outerEnvelope, uncoveredOuterEnvelope, ...route }) => ({
                   ...route, diagnosticPolygonCounts: { inner: innerEnvelope.length, outer: outerEnvelope.length, uncoveredOuter: uncoveredOuterEnvelope.length },
                 })) });
               referenceResources.set(uri, structuredClone(artifact));
+              if (studyUri !== undefined && studyArtifact !== undefined) referenceResources.set(studyUri, structuredClone(studyArtifact));
               while (referenceResources.size > 32) referenceResources.delete(referenceResources.keys().next().value!);
               return { ...result, content: [...result.content, { type: "resource_link" as const, uri,
-                name: "Selected-fill reference geometry diagnostics", mimeType: "application/json" }] };
+                name: "Selected-fill reference geometry diagnostics", mimeType: "application/json" },
+                ...(studyUri === undefined ? [] : [{ type: "resource_link" as const, uri: studyUri,
+                  name: "Prospective terminal-launch remainder diagnostics", mimeType: "application/json" }])] };
             });
           } catch (error) { return failure(error); }
         });

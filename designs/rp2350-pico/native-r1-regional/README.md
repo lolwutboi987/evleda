@@ -52,13 +52,20 @@ are documented in [geometry equivalence](verification/geometry-equivalence.json)
 The latest [native reassessment](../../../proofs/native-reference-gap-20260920/README.md)
 is **failed/incomplete: 141 pass, 429 unknown, 2 fail**, reporting both debug-header approach
 gaps under the unchanged margin. It preserves all six native sources and is
-installed in host48/DOC17. The initial full assessment above remains historical.
+qualified in host48/DOC17. The initial full assessment above remains historical.
 
 A separate [read-only reference check](../../../proofs/reference-gap-reporting-20260920/README.md)
 confirms one exact stored-fill coverage gap on each debug-header signal approach
 under the unchanged 0.25 mm margin. It also documents a software correction that
 preserves such geometric failures when whole-plane continuity is unknown. The correction is included in the latest native reassessment. The historical
 report above retains its original scope.
+
+A [prospective terminal study](../../../proofs/terminal-launch-study-20260920/README.md)
+now finds covered remainders outside 1.9 mm clock and 1.5 mm data approaches,
+with the existing margin and every other segment preserved. The actual public
+read-only calls and diagnostic-resource reads are verified in installed host49.
+Both original failures and all bound requirements remain; this study does not
+qualify the omitted connector launch or silently provide an exception.
 
 ERC ignores single_global_label, four_way_junction, simulation_model_issue and
 footprint_filter. DRC ignores missing_courtyard, track_not_centered_on_via,
