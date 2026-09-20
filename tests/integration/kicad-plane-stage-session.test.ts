@@ -6,7 +6,7 @@ import padProtocol from "../fixtures/kicad-mcp-live-pcb-pad-snapshot-protocol.js
 import { contentIdentity } from "../../src/core/canonical.js";
 import {
   KICAD_PLANE_STAGE_TOOL, KICAD_PLANE_STAGE_TIMEOUT_MS,
-  KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA, KICAD_PLANE_STAGE_OUTPUT_JSON_SCHEMA, KICAD_PLANE_STAGE_ANNOTATIONS,
+  KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA, KICAD_PLANE_STAGE_LEGACY_INPUT_JSON_SCHEMA, KICAD_PLANE_STAGE_OUTPUT_JSON_SCHEMA, KICAD_PLANE_STAGE_ANNOTATIONS,
   type KicadPlaneStageInput,
 } from "../../src/integrations/kicad-plane-stage.js";
 import {
@@ -76,7 +76,7 @@ const descriptor = () => ({ name: KICAD_PLANE_STAGE_TOOL, inputSchema: KICAD_PLA
 async function fixture(options: { advertised?: boolean; complete?: boolean; mutationDispatched?: boolean; recoveryRequired?: boolean;
   large?: boolean; delayMs?: number; corruptArtifact?: boolean; badReference?: boolean; mismatchedText?: boolean;
   malformedReceipt?: boolean; runtimeChange?: boolean; tool?: Record<string, unknown>; savedMismatch?: boolean; readFailure?: boolean;
-  badFilename?: boolean; transportFailure?: boolean; toolFailure?: boolean } = {}) {
+  badFilename?: boolean; transportFailure?: boolean; toolFailure?: boolean; layer?: "F.Cu" | "In1.Cu" | "In2.Cu" | "B.Cu" } = {}) {
   await mkdir(temporaryRoot, { recursive: true });
   const workspace = await mkdtemp(path.join(temporaryRoot, "evleda-plane-session-")); owned.add(workspace);
   const project = path.join(workspace, "project"), outputRoot = path.join(workspace, "output");
@@ -89,7 +89,7 @@ async function fixture(options: { advertised?: boolean; complete?: boolean; muta
     board_file: boardFile, zone_ids: ["10000000-0000-0000-0000-000000000001"],
     reference_pads: [{ reference: "U1", pad: "1", primitiveId: "20000000-0000-0000-0000-000000000002" }],
     request: { expectedSavedIdentity: options.savedMismatch ? { ...saved, digest: "0".repeat(64) } : saved,
-      expectedLiveIdentity: saved, mutation: { operation: "create", netName: "GND", layer: "B.Cu", rectangleNm: { x1: 0, y1: 0, x2: 10_000_000, y2: 10_000_000 },
+      expectedLiveIdentity: saved, mutation: { operation: "create", netName: "GND", layer: options.layer ?? "B.Cu", rectangleNm: { x1: 0, y1: 0, x2: 10_000_000, y2: 10_000_000 },
         clearanceNm: 250_000, minWidthNm: 200_000, priority: 1, name: "Owned plane", connection: "full", islandPolicy: "always" } },
   };
   const receipt: Record<string, unknown> = {
@@ -138,6 +138,23 @@ async function connect(f: Awaited<ReturnType<typeof fixture>>, extra: Partial<Ki
 const calls = async (f: Awaited<ReturnType<typeof fixture>>) => (await readFile(f.callsPath, "utf8")).trim().split("\n").map(line => JSON.parse(line) as { name: string; arguments: Record<string, unknown> });
 
 describe("host-private plane stage session", () => {
+  it("retains legacy outer-layer capability and rejects inner requests before dispatch without quarantining", async () => {
+    const f=await fixture({tool:{...descriptor(),inputSchema:KICAD_PLANE_STAGE_LEGACY_INPUT_JSON_SCHEMA}}),session=await connect(f);
+    expect(session.supportsPlaneStage("B.Cu")).toBe(true);
+    expect(session.supportsPlaneStage("In1.Cu")).toBe(false);
+    const inner=structuredClone(f.args); inner.request.mutation!.layer="In1.Cu";
+    await expect(session.stagePlane(inner)).rejects.toThrow("does not support the requested copper layer");
+    expect(session.supportsPlaneStage()).toBe(true);
+    expect(await session.stagePlane(f.args)).toEqual(f.receipt);
+    expect(await calls(f)).toEqual([{name:KICAD_PLANE_STAGE_TOOL,arguments:f.args}]);
+  });
+  it.each(["In1.Cu","In2.Cu"] as const)("dispatches %s only under the exact extended protocol",async layer=>{
+    const f=await fixture({layer}),session=await connect(f);
+    expect(session.supportsPlaneStage(layer)).toBe(true);
+    expect(session.supportsPlaneStage("In3.Cu")).toBe(false);
+    expect(await session.stagePlane(f.args)).toEqual(f.receipt);
+    expect(await calls(f)).toEqual([{name:KICAD_PLANE_STAGE_TOOL,arguments:f.args}]);
+  });
   it("returns the complete multi-MiB hash-bound artifact while retaining the normal wire budget", async () => {
     const f = await fixture({ large: true });
     expect(Buffer.byteLength(JSON.stringify(f.receipt), "utf8")).toBeGreaterThan(2 * 1024 * 1024);

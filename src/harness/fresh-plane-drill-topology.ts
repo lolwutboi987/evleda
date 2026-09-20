@@ -250,7 +250,8 @@ function classify(bore: Bore, box: Box, component: FreshPlaneFilledComponent, st
  * adds PAD/track/barrel copper nor establishes terminal contacts or width. The
  * owning host must independently keep the saved witness/session/settings current.
  */
-export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: SavedFreshPlaneEvidence; readonly pcbSource: string; readonly layer: PcbCopperLayer }): FreshPlaneDrillTopologyAssessment {
+export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: SavedFreshPlaneEvidence; readonly pcbSource: string; readonly layer: PcbCopperLayer;
+  readonly zoneUuid?: string | null }): FreshPlaneDrillTopologyAssessment {
   const { savedEvidence, pcbSource, layer } = input;
   let witness: CanonicalIdentity | null = null, sourceIdentity: ContentIdentity | null = null, geometryIdentity: CanonicalIdentity | null = null, zoneUuid: string | null = null;
   let cachedArea: string | null = null, lower: string | null = null, operations = 0, classificationComplete = false;
@@ -294,7 +295,8 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
         bores[bores.length - 1] = { ...bores.at(-1)!, enclosureNm };
       } catch (error) { recordIssue(bores.length - 1, error instanceof Error ? error.message : "Bore enclosure is unavailable"); }
     }
-    zoneUuid = saved.stage.targetZoneUuid;
+    zoneUuid = input.zoneUuid === undefined ? saved.stage.targetZoneUuid : input.zoneUuid;
+    check(zoneUuid !== null,"The selected declared plane has no saved zone");
     const zones = parseFreshPcbReferenceGeometry(pcbSource).zones.filter(zone => zone.uuid === zoneUuid), natives = saved.stage.nativeFilledZones.filter(zone => zone.uuid === zoneUuid);
     check(zones.length === 1 && natives.length === 1, "Target source/native zone inventory is ambiguous");
     const geometry = assessFreshPlaneFilledGeometry({ savedZone: zones[0]!, nativeZone: natives[0]!.raw, layer });

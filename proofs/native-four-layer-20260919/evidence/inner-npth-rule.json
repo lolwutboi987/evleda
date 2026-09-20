@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "scope": "Native enforcement of the generated NPTH physical-hole rule on In1.Cu and In2.Cu against netless copper",
+  "nearGapMm": 0.4,
+  "clearGapMm": 0.7,
+  "requiredGapMm": 0.5,
+  "unrelatedFindingsRetained": [
+    "track_dangling",
+    "lib_footprint_issues"
+  ],
+  "wholeBoardDrcClean": false,
+  "manufacturingAuthorized": false
+}

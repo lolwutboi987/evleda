@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-four-layer-build-37
+
+
+ Test Files  11 passed (11)
+      Tests  471 passed (471)
+   Start at  20:12:29
+   Duration  148.97s (transform 1.97s, setup 0ms, import 7.32s, tests 139.69s, environment 1ms)
+

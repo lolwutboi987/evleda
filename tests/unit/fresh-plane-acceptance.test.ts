@@ -28,6 +28,7 @@ import { createInterfaceConstructionBoardSeed } from "../../src/harness/interfac
 import { interfaceConstructionBundle, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
 import { usbChannelBundle } from "../helpers/usb-channel-bundle.js";
 import { usbChannelPcb, usbChannelSourceId } from "../helpers/usb-channel-source.js";
+import { fourLayerPlaneBundle } from "../helpers/four-layer-plane-bundle.js";
 import { createKicadTransmissionLineCalculator, KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION,
   KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION, KICAD_TRANSMISSION_LINE_SOURCE_COMMIT } from "../../src/integrations/kicad-transmission-line.js";
 
@@ -102,8 +103,13 @@ function interfaceBoard(compilationBundle: FreshPlaneAcceptanceInput["compilatio
 async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?: number; disconnectedGround?: boolean; filledWidthMm?: number; projectSettingsSource?: string;
   compilationBundle?: FreshPlaneAcceptanceInput["compilationBundle"]; pcbSource?: string } = {}) {
   const compilationBundle = options.compilationBundle ?? bundle(options.minimumAreaMm2), before = options.pcbSource ?? board(options);
-  const prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, operation: "create" });
-  const stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
+  let prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, planeId: compilationBundle.contract.planes[0]!.id, operation: "create" });
+  let stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
+  for (const plane of compilationBundle.contract.planes.slice(1)) {
+    prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: stageFixture.stagedSource, planeId: plane.id, operation: "create" });
+    stageFixture = await planeStageObservationFixture({ beforePcbSource: stageFixture.stagedSource, mutation: prepared.mutation,
+      beforeZoneProtos: [stageFixture.stagedZoneProto], zoneId: U(900) });
+  }
   if (options.filledWidthMm !== undefined) {
     // Change only the synthetic native fill result. Zone settings/outline and
     // pre-refill state stay exact; the production transcript validator rechecks it.
@@ -145,19 +151,23 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
     localThermalSpokeWidthOverride: null, padstackMode: 0, padstackUniqueLayers: [0],
     layers: stage.nativePads.inventory!.physicalPads.find(p => p.uuid === pad.physical.id)!.layerMembership.map((name, id) => ({ id, name: name.slice(3).replaceAll("_", "."),
       zoneLayerOverride: 0, effectivePadstackLayer: 0, hasExplicitPadstackDefinition: false })) })));
-  const polygon = (stageFixture.stagedZoneProto as Raw).filled_polygons[0].shapes.polygons[0];
+  const layerId = (name: string) => name === "F.Cu" ? 0 : name === "B.Cu" ? 2 : name === "In1.Cu" ? 4 : 6;
   const points = (raw: Raw) => raw.nodes.map((node: Raw) => [Number(node.point.x_nm ?? 0), Number(node.point.y_nm ?? 0)]);
   const contact = ({ uuid, nativeClass, nativeType, netCode, netName }: { uuid: string; nativeClass: string; nativeType: number; netCode: number; netName: string }) => ({ uuid, nativeClass, nativeType, netCode, netName, proxyType: nativeClass === "PCB_VIA" ? "PCB_TRACK" : nativeClass });
   const report: Raw = {
-    zones: [{ uuid: stage.targetZoneUuid, nativeClass: "ZONE", nativeType: 18, netCode: 1, netName: "GND", isRuleArea: false, isFilled: true, needRefill: false,
+    zones: stage.nativeFilledZones.map(zone => {
+      const sourceZone = parseFreshPcbReferenceGeometry(pcbSource).zones.find(source => source.uuid === zone.uuid)!;
+      const layer = sourceZone.layers[0]!;
+      const polygon = (zone.raw as Raw).filled_polygons[0].shapes.polygons[0];
+      return { uuid: zone.uuid, nativeClass: "ZONE", nativeType: 18, netCode: 1, netName: "GND", isRuleArea: false, isFilled: true, needRefill: false,
       padConnection: 1, minimumThicknessNm: 500000,
-      layers: [{ id: 2, name: "B.Cu", hasFilledPolys: true, fillFlag: 1, filledGeometrySha256: "0".repeat(64), filledSubpolygonCount: 1,
+      layers: [{ id: layerId(layer), name: layer, hasFilledPolys: true, fillFlag: 1, filledGeometrySha256: "0".repeat(64), filledSubpolygonCount: 1,
         subpolygons: [{ index: 0, sha256: "0".repeat(64), isIsland: false, outline: points(polygon.outline), holes: [] }] }],
-      directPads: allPads.filter(pad => pad.netName === "GND" && pad.layers.some(layer => layer.name === "B.Cu")).map(contact), directTracks: [], directVias: [] }], allPads,
+      directPads: allPads.filter(pad => pad.netName === "GND" && pad.layers.some(member => member.name === layer)).map(contact), directTracks: [], directVias: [] }; }), allPads,
     allFootprints: parsed.footprints.map(fp => ({ uuid: fp.id!, reference: fp.reference, localZoneConnection: -1, resolvedZoneConnectionOverride: -1 })),
     allTracks: [...parsed.segments.map(track => ({ uuid: track.id, nativeClass: "PCB_TRACK", nativeType: 13, netCode: 1, netName: track.netName, layers: [{ id: 0, name: track.layer }] })),
-      ...parsed.vias.map(via => ({ uuid: via.id, nativeClass: "PCB_VIA", nativeType: 14, netCode: 1, netName: via.netName, layers: via.layers.map((name, id) => ({ id, name })) }))],
-    inventory: { zoneCount: 1, padCount: allPads.length, footprintCount: parsed.footprints.length, trackCount: parsed.segments.length + parsed.vias.length } };
+      ...parsed.vias.map(via => ({ uuid: via.id, nativeClass: "PCB_VIA", nativeType: 14, netCode: 1, netName: via.netName, layers: compilationBundle.contract.scope.board.copperLayers.map(name => ({ id: layerId(name), name })) }))],
+    inventory: { zoneCount: stage.nativeFilledZones.length, padCount: allPads.length, footprintCount: parsed.footprints.length, trackCount: parsed.segments.length + parsed.vias.length } };
   const processFixture = await createPlaneContactsFixture({ pcbSource, report }); cleanups.push(processFixture.cleanup);
   const observation = {} as KicadPlaneContactsObservation;
   collectors.set(observation, async () => {
@@ -547,6 +557,22 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(Object.isFrozen(result)).toBe(true);
   });
 
+  it("compares a through-via against every enabled copper layer and rejects missing or extra membership", async () => {
+    const compilationBundle = fourLayerPlaneBundle();
+    const source = interfaceBoard(compilationBundle).trimEnd();
+    const pcbSource = source.slice(0, -1) + `(via (at 13 5) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${U(3)}")))\n`;
+    const f = await fixture({ compilationBundle, pcbSource });
+    const valid = await assessFreshPlaneAcceptance(f.input);
+    expect(valid.nativeInventory.status).toBe("verified");
+    expect(valid.planes).toHaveLength(2);
+    const via = f.report.allTracks.find((track: Raw) => track.nativeClass === "PCB_VIA");
+    const enabled = structuredClone(via.layers);
+    via.layers = enabled.filter((layer: Raw) => layer.name !== "In1.Cu");
+    expect((await assessFreshPlaneAcceptance(f.input)).nativeInventory.status).toBe("failed");
+    via.layers = [...enabled, { id: 8, name: "In3.Cu" }];
+    expect((await assessFreshPlaneAcceptance(f.input)).nativeInventory.status).toBe("failed");
+  });
+
   it("requires current-session fill authority after resume and rejects copied branded evidence", async () => {
     const f = await fixture(); const result = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
     expect(result.verificationPlanRowsPassed).toEqual([]); expect(result.authority.reasons.join(" ")).toMatch(/reapply/i);
@@ -631,8 +657,7 @@ describe("pure current-source V2 plane acceptance", () => {
   });
 
   it("rejects footprint copper graphics structurally rather than ignoring them in reference projection", async () => {
-    const f = await fixture({ copperGraphic: true }); const result = await assessFreshPlaneAcceptance(f.input);
-    expect(result.sourceScope.status).toBe("failed"); expect(row(result, "reference:VIN").status).toBe("fail");
+    await expect(fixture({ copperGraphic: true })).rejects.toThrow("Copper fp_line graphics");
   });
 
   it("retains exact area threshold arithmetic rather than interpreting ALWAYS removal as area enforcement", async () => {

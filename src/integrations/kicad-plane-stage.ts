@@ -4,6 +4,7 @@ import path from "node:path";
 import { z } from "zod";
 import { canonicalJson, contentIdentity } from "../core/canonical.js";
 import { parsePortableJsonBytes } from "../core/portable-artifact.js";
+import { pcbCopperLayerSchema, type PcbCopperLayer } from "../harness/pcb-copper-layers.js";
 
 export const KICAD_PLANE_STAGE_TOOL = "evleda_stage_plane";
 export const KICAD_PLANE_STAGE_TIMEOUT_MS = 90_000;
@@ -18,14 +19,14 @@ const areaPattern = /^(?:0|[1-9][0-9]{0,18})$/u;
 const area = z.string().regex(areaPattern).refine(value => areaPattern.test(value) && BigInt(value) <= 9_223_372_036_854_775_807n, "Area exceeds signed native storage");
 
 export type PlaneRectangleMutation = {
-  netName: string; layer: "F.Cu" | "B.Cu";
+  netName: string; layer: PcbCopperLayer;
   rectangleNm: { x1: number; y1: number; x2: number; y2: number };
   clearanceNm: number; minWidthNm: number; priority: number; name: string;
 } & ({ operation: "create" } | { operation: "update"; zoneId: string })
   & ({ connection: "thermal"; thermalGapNm: number; thermalSpokeWidthNm: number; minimumSpokes: number }
     | { connection: "full"; thermalGapNm?: never; thermalSpokeWidthNm?: never; minimumSpokes?: never })
   & ({ islandPolicy: "area"; minIslandAreaNm2: string } | { islandPolicy: "always" | "never"; minIslandAreaNm2?: never });
-const common = { netName: label, layer: z.enum(["F.Cu", "B.Cu"]),
+const common = { netName: label, layer: pcbCopperLayerSchema,
   rectangleNm: z.object({ x1: coordinate, y1: coordinate, x2: coordinate, y2: coordinate }).strict()
     .refine(value => value.x1 < value.x2 && value.y1 < value.y2, "Rectangle must have positive area"),
   clearanceNm: dimension, minWidthNm: dimension, priority: z.number().int().min(0).max(100), name: label };
@@ -52,6 +53,20 @@ export const kicadPlaneStageArtifactSchema = z.object({ schemaVersion: z.literal
   identity: sourceIdentity.extend({ size: z.number().int().min(1).max(KICAD_PLANE_STAGE_MAX_ARTIFACT_BYTES) }).strict() }).strict();
 export type KicadPlaneStageArtifact = z.infer<typeof kicadPlaneStageArtifactSchema>;
 export const KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA = z.toJSONSchema(kicadPlaneStageInputSchema);
+/** Exact preceding protocol, retained for existing outer-layer-only runtimes. */
+export const KICAD_PLANE_STAGE_LEGACY_INPUT_JSON_SCHEMA = (() => {
+  const schema = structuredClone(KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA);
+  const request = schema.properties?.request;
+  if (typeof request !== "object" || request === null || request.properties === undefined) throw new Error("Plane stage schema no longer has an explicit request object.");
+  const mutation = request.properties.mutation;
+  if (typeof mutation !== "object" || mutation === null || mutation.anyOf === undefined) throw new Error("Plane stage schema no longer has explicit mutation variants.");
+  const variants = mutation.anyOf;
+  for (const variant of variants) {
+    if (typeof variant !== "object" || variant === null || variant.properties === undefined) throw new Error("Plane mutation schema no longer has explicit object variants.");
+    variant.properties.layer = { type:"string", enum:["F.Cu","B.Cu"] };
+  }
+  return schema;
+})();
 export const KICAD_PLANE_STAGE_OUTPUT_JSON_SCHEMA = z.toJSONSchema(kicadPlaneStageArtifactSchema);
 
 const receiptHeader = z.object({ schemaVersion: z.enum(["evleda.native-plane-stage.v1", "evleda.native-plane-stage.v2"]), complete: z.boolean(), nativeSaveCalled: z.literal(false),

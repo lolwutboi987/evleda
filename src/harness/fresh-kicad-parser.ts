@@ -2076,7 +2076,7 @@ export interface FreshPlaneRefillPreservation {
  * all its setting children, outlines, net/layer/UUID fields and all non-zone
  * geometry remain in the comparison. No cache, normalized text, or
  * comparison digest is returned as an authoritative persistence representation.
- * Initial support is solid, single-layer F.Cu/B.Cu zones; rule areas, nested
+ * Support is solid, single-layer zones on the two/four-layer copper set; rule areas, nested
  * zones, fill_segments and unknown/malformed caches are rejected.
  */
 export function compareFreshPlaneRefillPreservation(input: FreshPlaneRefillPreservationInput): FreshPlaneRefillPreservation {
@@ -2143,7 +2143,7 @@ export function compareFreshPlaneRefillPreservation(input: FreshPlaneRefillPrese
       const fill = fillSettings[0];
       const mode = fill === undefined ? [] : children(fill, "mode");
       if (zone === undefined || zone.status !== "supported" || zone.kind !== "copper"
-          || zone.layers.length !== 1 || !["F.Cu", "B.Cu"].includes(zone.layers[0]!) || zone.outlinePolygons.length === 0
+          || zone.layers.length !== 1 || !["F.Cu", "In1.Cu", "In2.Cu", "B.Cu"].includes(zone.layers[0]!) || zone.outlinePolygons.length === 0
           || fillSettings.length !== 1 || fill === undefined || fill.values.length > 1
           || fill.values.some(value => value.quoted || !["yes", "no"].includes(value.value))
           || (fill.values.length === 1 && fill.children.some(child => child.start < fill.values[0]!.end))
@@ -2261,7 +2261,7 @@ export function parseFreshPcbRouteSourceSpans(source: string): readonly Readonly
     if (node.name === "segment") {
       const a = point(field(node, "start")), b = point(field(node, "end")); nm(field(node, "width"));
       const layer = field(node, "layer");
-      if (a[0] === b[0] && a[1] === b[1] || layer.children.length !== 0 || layer.values.length !== 1 || !layer.values[0]!.quoted || !["F.Cu", "B.Cu"].includes(layer.values[0]!.value)) throw new FreshKicadParseError("Unsupported straight-track span geometry or layer.");
+      if (a[0] === b[0] && a[1] === b[1] || layer.children.length !== 0 || layer.values.length !== 1 || !layer.values[0]!.quoted || !["F.Cu", "In1.Cu", "In2.Cu", "B.Cu"].includes(layer.values[0]!.value)) throw new FreshKicadParseError("Unsupported straight-track span geometry or layer.");
     } else {
       point(field(node, "at")); const size = nm(field(node, "size")), drill = nm(field(node, "drill"));
       const layers = field(node, "layers");

@@ -1,0 +1,35 @@
+{
+  "projectId": "9c692d52-51be-45fe-8a69-249e8c5f25f9",
+  "files": [
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\fourlayer-headers-d.kicad_pcb",
+      "sha256": "d2d8a50f52d5ac8e54e1be2cb50a613bb6145cd4dd3b2018f9e93ab9fee06861"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\fourlayer-headers-d.kicad_sch",
+      "sha256": "8371f43b5f35b0a6a3d9286d568042c6cad4ac0835e3aadb7fc4dbfc17f4e170"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\fourlayer-headers-d.kicad_pro",
+      "sha256": "d556a8fd908d7e5ea93cd59721257ac08d731021e40b1072a524ced0a8450257"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\fourlayer-headers-d.kicad_dru",
+      "sha256": "836ac32d6d0db9073d33de539867331866815fe5b5027c1f5eb4fd975264b448"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\fp-lib-table",
+      "sha256": "78fd1c33a585492ae7c8726543ddcc384e99686a16452e1eb989b4863e79ce7e"
+    },
+    {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\sym-lib-table",
+      "sha256": "a687757630b3da4298fac2123e2ff05cb8664ea2233e3eea01ef4590e3ac6fd9"
+    }
+  ],
+  "checkpoint": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\.evleda-pcb-agent-checkpoint.json",
+    "sha256": "056beb09303b422569b6c67f504d30e72c7094116494ef3ba7d912dcf18a19ef"
+  },
+  "normalCloseConfirmed": true,
+  "sourceUnchangedDuringClose": true
+}

@@ -66,16 +66,16 @@ async function fixture(access: "read-only" | "edit" = "edit",
 }
 
 describe("in-chat workspace controller over actual MCP", () => {
-  it("compiles four-layer intent but rejects unqualified creation before allocation or native startup", async () => {
+  it("carries the four-layer ready bundle through workspace allocation and native binding", async () => {
     const f = await fixture("edit",{ dependencies:constructionDependencies });
     try {
       const ready = body(await f.call("evleda_submit_design",{ name:"four-layer", originalPrompt:"Four-layer construction with two ground planes", draft:fourLayerPlaneDraft() }));
       expect(ready).toMatchObject({ status:"ready",projectCreated:false });
       const result = await f.call("evleda_create_project",{ draftId:ready.draftId });
-      expect(result.isError).toBe(true);
-      expect(JSON.stringify(result)).toContain("FOUR_LAYER_NATIVE_AUTHORING_UNAVAILABLE");
-      expect(await f.store.lookup(ready.draftId)).toBeUndefined();
-      expect(f.openBinding).not.toHaveBeenCalled();
+      expect(result.isError).not.toBe(true);
+      expect(body(result)).toMatchObject({status:"opened",resumed:false});
+      expect(await f.store.lookup(ready.draftId)).toBeDefined();
+      expect(f.openBinding).toHaveBeenCalledTimes(1);
     } finally { await f.client.close(); await f.workspace.close(); }
   });
   it("discovers configured package IDs read-only and refuses stale discovery without opening a project", async () => {

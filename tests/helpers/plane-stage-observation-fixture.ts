@@ -12,7 +12,7 @@ const mm = (nm: number) => decimal(BigInt(nm), 6);
 function targetProto(m: PlaneRectangleMutation, uuid: string, old?: Raw): Raw {
   const r = m.rectangleNm, raw: Raw = old ? structuredClone(old) : { type: "ZT_COPPER", copper_settings: { connection: { thermal_spokes: { gap: {}, width: {} } },
     hatch_settings: { thickness: {}, gap: {}, orientation: {}, border_mode: "ZHFBM_USE_MIN_ZONE_THICKNESS" }, teardrop: { type: "TDT_NONE" } }, border: { style: "ZBS_DIAGONAL_EDGE", pitch: { value_nm: "500000" } } };
-  raw.id = { value: uuid }; raw.name = m.name; raw.layers = [m.layer === "F.Cu" ? "BL_F_Cu" : "BL_B_Cu"];
+  raw.id = { value: uuid }; raw.name = m.name; raw.layers = [`BL_${m.layer.replace(".","_")}`];
   if (m.priority) raw.priority = m.priority; else delete raw.priority;
   raw.outline = { polygons: [{ outline: { closed: true, nodes: [[r.x1, r.y1], [r.x2, r.y1], [r.x2, r.y2], [r.x1, r.y2]].map(([x, y]) => ({ point: { x_nm: String(x), y_nm: String(y) } })) } }] };
   const settings = raw.copper_settings; settings.net = { name: m.netName }; settings.clearance = { value_nm: String(m.clearanceNm) }; settings.min_thickness = { value_nm: String(m.minWidthNm) };

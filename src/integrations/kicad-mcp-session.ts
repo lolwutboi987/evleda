@@ -20,6 +20,7 @@ import {
   KICAD_PLANE_STAGE_TIMEOUT_MS,
   KICAD_PLANE_STAGE_ANNOTATIONS,
   KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA,
+  KICAD_PLANE_STAGE_LEGACY_INPUT_JSON_SCHEMA,
   KICAD_PLANE_STAGE_OUTPUT_JSON_SCHEMA,
   kicadPlaneStageInputSchema,
   kicadPlaneStageArtifactSchema,
@@ -1467,14 +1468,17 @@ function assertSchematicConnectivityBatchRegistration(tool: Tool): void {
   }
 }
 
-function assertPlaneStageRegistration(tool: Tool): void {
+function assertPlaneStageRegistration(tool: Tool): readonly string[] {
+  const schema = canonicalJson(tool.inputSchema), current = schema === canonicalJson(KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA);
+  const legacy = schema === canonicalJson(KICAD_PLANE_STAGE_LEGACY_INPUT_JSON_SCHEMA);
   if (tool.name !== KICAD_PLANE_STAGE_TOOL
-      || canonicalJson(tool.inputSchema) !== canonicalJson(KICAD_PLANE_STAGE_INPUT_JSON_SCHEMA)
+      || !current && !legacy
       || canonicalJson(tool.outputSchema ?? null) !== canonicalJson(KICAD_PLANE_STAGE_OUTPUT_JSON_SCHEMA)
       || canonicalJson(tool.annotations ?? null) !== canonicalJson(KICAD_PLANE_STAGE_ANNOTATIONS)
       || tool._meta !== undefined) {
     throw new KicadMcpAuthorizationError("KiCad MCP plane stage registration does not match its host-private mutating protocol.");
   }
+  return current ? ["F.Cu","In1.Cu","In2.Cu","B.Cu"] : ["F.Cu","B.Cu"];
 }
 
 function nativeCommitToolQualified(tool: Tool | undefined): boolean {
@@ -2500,12 +2504,13 @@ export class KicadMcpSession {
     await this.readActivePcbSource(expectedPath);
   }
 
-  supportsPlaneStage(): boolean {
+  supportsPlaneStage(layer?: string): boolean {
     return !this.#closed && this.#mode === "write" && this.#projectBound
       && !this.#toolFailureWritesQuarantined && !this.#planeStageWritesQuarantined && !this.#planeStageInFlight
       && this.#nativeRouteTransaction === undefined
       && !this.#schematicConnectivityBatchInFlight && this.#activeOperationAbortControllers.size === 0
-      && this.#toolsByName.has(KICAD_PLANE_STAGE_TOOL);
+      && this.#toolsByName.has(KICAD_PLANE_STAGE_TOOL)
+      && (layer === undefined || assertPlaneStageRegistration(this.#toolsByName.get(KICAD_PLANE_STAGE_TOOL)!).includes(layer));
   }
 
   /** Stage only. The owning host validates and recovers the full receipt before any durable save. */
@@ -2527,12 +2532,15 @@ export class KicadMcpSession {
     try {
       const tool = this.#toolsByName.get(KICAD_PLANE_STAGE_TOOL);
       if (tool === undefined) throw new KicadMcpSessionError("Pinned KiCad MCP sidecar lacks its host plane stage capability.");
-      assertPlaneStageRegistration(tool);
+      const supportedLayers = assertPlaneStageRegistration(tool);
       assertJsonValue(argumentsValue, "KiCad MCP plane stage arguments");
       const args = kicadPlaneStageInputSchema.parse(parsePortableJsonBytes(Buffer.from(JSON.stringify(argumentsValue), "utf8"), {
         maxBytes: Math.min(this.#maxMessageBytes, 16 * 1024 * 1024), maxDepth: 8, maxNodes: 4096,
         maxOwnKeys: 32, maxArrayLength: 128, maxKeyBytes: 64, maxStringBytes: 4096,
       }));
+      if (args.request.mutation !== undefined && !supportedLayers.includes(args.request.mutation.layer)) {
+        throw new KicadMcpAuthorizationError("The registered native plane stage does not support the requested copper layer; nothing was dispatched.");
+      }
       if (!path.isAbsolute(args.board_file) || !args.board_file.isWellFormed() || FILE_URI.test(args.board_file)
           || /[\0-\x1f\x7f]/u.test(args.board_file) || path.extname(args.board_file) !== ".kicad_pcb"
           || args.board_file.split(/[\\/]+/u).some(segment => segment === "." || segment === "..")

@@ -113,7 +113,7 @@ function outlineRow(bundle: PcbPlaneCompilationBundle, source: string, analysis:
   const actual = edges.map(edge => key([exactNm(edge.start!.x), exactNm(edge.start!.y)], [exactNm(edge.end!.x), exactNm(edge.end!.y)]));
   const matches = same(sorted(actual), sorted(expected));
   return { id: "board:outline", kind: "outline", status: matches ? "pass" : "fail",
-    reasons: [matches ? "The complete extracted edges are exactly the declared rectangle at (0,0), with the verified two-layer source scope."
+    reasons: [matches ? `The complete extracted edges are exactly the declared rectangle at (0,0), with the verified ${bundle.contract.scope.board.layerCount === 2 ? "two" : "four"}-layer source scope.`
       : "The complete outline edge set differs from the exact declared rectangle, origin or dimensions."], observations: { ...observations, edgeKeysNm: actual } };
 }
 
@@ -170,7 +170,7 @@ export function assessFreshPlaneCommonChecks(input: FreshPlaneCommonChecksInput)
   try {
     requireValue(sourceIdentity.size <= FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumPcbBytes, "PCB exceeds the common source byte bound");
     const board = parseFreshPcbSource(pcbSource), reference = parseFreshPcbReferenceGeometry(pcbSource), spans = parseFreshPcbRouteSourceSpans(pcbSource);
-    assertFreshPlaneReferenceCopperScope(pcbSource);
+    assertFreshPlaneReferenceCopperScope(pcbSource,bundle.contract.scope.board.copperLayers);
     const pads = board.footprints.flatMap(fp => fp.pads), native = saved.stage.nativePads.inventory;
     sourceInventory = { complete: false, footprintCount: board.footprints.length, physicalPadCount: pads.length, trackCount: board.segments.length, viaCount: board.vias.length, zoneCount: reference.zones.length };
     requireValue(board.segments.length <= FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumSegments && board.vias.length <= FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumVias && pads.length <= FRESH_PLANE_COMMON_CHECKS_LIMITS.maximumPhysicalPads, "source inventory exceeds common-check work bounds; no items were truncated");

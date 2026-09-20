@@ -19,6 +19,7 @@ import { materializeFreshPlaneNetClasses, readFreshPlaneNetClassSemanticAuthorit
 import { genericDividerLibraryResolver } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { interfaceConstructionBundle } from "../helpers/interface-construction-bundle.js";
+import { fourLayerPlaneBundle } from "../helpers/four-layer-plane-bundle.js";
 import { parseFreshPcbSource, parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
 import type { PcbReadOnlyLibraryResolver } from "../../src/harness/pcb-design-compiler.js";
 
@@ -106,6 +107,15 @@ async function noConnectFixture(nativeName = noConnectName, repeated = false) {
 }
 
 describe("actual V2 plane net-class preparation", () => {
+  it("materializes four-layer classes without changing the physical stack and rejects layer-table drift",async()=>{
+    const f=await fixture(false,fourLayerPlaneBundle()),before=await readFile(f.project.pcbPath);
+    await materializeFreshPlaneNetClasses(f.options);
+    const authority=await readFreshPlaneNetClassSemanticAuthority(f.options);
+    expect(await verifyFreshPlaneNetClassSemanticAuthority(authority,f.options)).toEqual(authority);
+    expect(await readFile(f.project.pcbPath)).toEqual(before);
+    await writeFile(f.project.pcbPath,before.toString("utf8").replaceAll('In2.Cu','In3.Cu'));
+    await expect(readFreshPlaneNetClassSemanticAuthority(f.options)).rejects.toThrow("canonical copper-layer name");
+  });
   it("preserves native JSON member order and whitespace when the complete settings already match", async () => {
     const f = await fixture(false, interfaceConstructionBundle());
     await materializeFreshPlaneNetClasses(f.options);

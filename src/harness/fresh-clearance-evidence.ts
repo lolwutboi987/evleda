@@ -1,6 +1,7 @@
 import { assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 import { parseFreshPcbSource } from "./fresh-kicad-parser.js";
 import type { PcbPlaneDesignContract } from "./pcb-design-plane-contract.js";
+import { pcbCopperLayerOrder, type PcbCopperLayer } from "./pcb-copper-layers.js";
 import { randomUUID } from "node:crypto";
 import { appendFile, lstat, open, readFile, rename, unlink } from "node:fs/promises";
 import path from "node:path";
@@ -92,7 +93,7 @@ const CANONICAL_UNSIGNED_DECIMAL = /^(?:0|[1-9]\d*)$/u;
 const MAX_KICAD_NET_ID = 2_147_483_647;
 const KICAD_10_LAYER_IDENTITIES_BY_BOARD_VERSION = new Map<number, Readonly<Record<string, number>>>([
   [20250316, Object.freeze({ "F.Cu": 0, "B.Cu": 31, "Edge.Cuts": 44 })],
-  [20260206, Object.freeze({ "F.Cu": 0, "B.Cu": 2, "Edge.Cuts": 25, "Dwgs.User": 17 })],
+  [20260206, Object.freeze({ "F.Cu": 0, "In1.Cu": 4, "In2.Cu": 6, "B.Cu": 2, "Edge.Cuts": 25, "Dwgs.User": 17 })],
 ]);
 // KiCad 10.0.3 initializes item-layer lookups from the default LSET::Name map;
 // the root layer table serializes only enabled layers. These audited technical
@@ -591,6 +592,21 @@ const validateTwoLayerContract = (contract: FreshNetClassSourceContract): void =
   }
 };
 
+const validateNetClassLayerScope = (options: SharedNetClassOperationOptions): readonly PcbCopperLayer[] => {
+  const board = options.compilationBundle.contract.scope.board;
+  if (options.zones === "rejected") validateTwoLayerContract(options.compilationBundle.contract);
+  const expected = pcbCopperLayerOrder(board.layerCount);
+  if (!canonicalValuesEqual(board.copperLayers, expected)) fail("INVALID_INPUT", "Net-class source scope must retain its exact ordered enabled copper layers.");
+  return expected;
+};
+
+const assertCopperLayerScope = (actual: readonly string[], expected: readonly PcbCopperLayer[], fileVersion: number): void => {
+  const two = canonicalValuesEqual(expected, pcbCopperLayerOrder(2)), four = canonicalValuesEqual(expected, pcbCopperLayerOrder(4));
+  if (!two && !four) fail("INVALID_INPUT", "Expected copper scope must be exactly the ordered two- or four-layer construction.");
+  if (four && fileVersion !== 20260206) fail("UNSUPPORTED_PCB", "Four-layer source is qualified only for the pinned KiCad 10 board format.");
+  if (!canonicalValuesEqual(actual, expected)) fail("UNSUPPORTED_PCB", "Saved copper layer inventory differs from the exact declared construction.");
+};
+
 const sourcePaths = async (project: FreshProject): Promise<SourcePaths> => {
   if (!isVerifiedFreshProject(project) || project.workflowKind !== "generic" || project.genericBinding === undefined) {
     return fail("UNVERIFIED_PROJECT", "Clearance materialization requires a bundle-bound generic FreshProject capability.");
@@ -993,6 +1009,12 @@ const declaredLayerNames = (
     }
     const ordinal = Number(entry.name);
     const name = entry.values[0]!.value;
+    // KiCad 10.0.3 copper ordinals are even: F=0, B=2, In1..In30=4..62.
+    // A non-canonical name must not hide an enabled copper slot from scope checks.
+    if (fileVersion === 20260206 && ordinal % 2 === 0) {
+      const canonicalCopper = ordinal === 0 ? "F.Cu" : ordinal === 2 ? "B.Cu" : `In${ordinal / 2 - 1}.Cu`;
+      if (name !== canonicalCopper) fail("UNSUPPORTED_PCB", "A native copper ordinal must retain its canonical copper-layer name.");
+    }
     const auditedOrdinal = auditedIdentities[name];
     if (fileVersion === 20260206 && (name === "Dwgs.User" || ordinal === 17)
         && (name !== "Dwgs.User" || ordinal !== 17 || entry.values[1]!.value !== "user"
@@ -1103,7 +1125,8 @@ const assertClosedLayeredItems = (
         fail("UNSUPPORTED_PCB", `Single-layer PCB ${item.name} cannot carry a plural layers child.`);
       }
       const layer = exactSingleLayer(item, item.name.startsWith("fp_") && COPPER_GRAPHIC_FORMS.has(item.name) ? footprintGraphicLayers : layerNames);
-      if (COPPER_GRAPHIC_FORMS.has(item.name) && (layer === "F.Cu" || layer === "B.Cu")) {
+      if (item.name === "footprint" && layer !== "F.Cu" && layer !== "B.Cu") fail("UNSUPPORTED_PCB", "Footprints must remain on an outer board face.");
+      if (COPPER_GRAPHIC_FORMS.has(item.name) && layer.endsWith(".Cu")) {
         fail("UNSUPPORTED_PCB", `Copper ${item.name} graphics are outside the clearance-evidence V1 object model.`);
       }
       continue;
@@ -1115,7 +1138,10 @@ const assertClosedLayeredItems = (
       const layers = layerFields.length === 1
         ? [exactSingleLayer(item, layerNames)]
         : exactLayerSet(item, layerNames);
-      if (layers.filter((layer) => layer === "F.Cu" || layer === "B.Cu" || layer === "*.Cu" || layer === "F&B.Cu").length !== 1) {
+      const validLayer = layerNames.has("In1.Cu")
+        ? layers.length === 1 && layers[0]!.endsWith(".Cu") && layerNames.has(layers[0]!)
+        : layers.filter((layer) => layer === "F.Cu" || layer === "B.Cu" || layer === "*.Cu" || layer === "F&B.Cu").length === 1;
+      if (!validLayer) {
         fail("UNSUPPORTED_PCB", `PCB routed ${item.name} must resolve to exactly one copper layer.`);
       }
       continue;
@@ -1128,7 +1154,7 @@ const assertClosedLayeredItems = (
     if (item.name === "via") {
       const layers = exactLayerSet(item, layerNames);
       if (layerFields.length > 0 || layers.length !== 2 || layers[0] !== "F.Cu" || layers[1] !== "B.Cu") {
-        fail("UNSUPPORTED_PCB", "Two-layer V1 supports only an exact F.Cu-to-B.Cu via layer pair.");
+        fail("UNSUPPORTED_PCB", "Only an exact F.Cu-to-B.Cu through-via layer pair is supported.");
       }
       continue;
     }
@@ -1137,7 +1163,7 @@ const assertClosedLayeredItems = (
         fail("UNSUPPORTED_PCB", "Single-layer PCB property cannot carry a plural layers child.");
       }
       const layer = exactSingleLayer(item, layerNames);
-      if (layer === "F.Cu" || layer === "B.Cu") {
+      if (layer.endsWith(".Cu")) {
         fail("UNSUPPORTED_PCB", "Copper footprint property text is outside the clearance-evidence V1 object model.");
       }
       continue;
@@ -1151,7 +1177,7 @@ const assertClosedLayeredItems = (
 /** Reuse only the closed source item/layer inventory for V2 reference coverage.
  * Zone geometry, clearance rules and V1 acceptance are deliberately not assessed.
  */
-export function assertFreshPlaneReferenceCopperScope(source: string): void {
+export function assertFreshPlaneReferenceCopperScope(source: string, expectedCopperLayers: readonly PcbCopperLayer[] = pcbCopperLayerOrder(2)): void {
   const forms = parseSExpressions(Buffer.from(source, "utf8"), "KiCad PCB", "UNSUPPORTED_PCB");
   if (forms.length !== 1 || forms[0]!.name !== "kicad_pcb" || forms[0]!.values.length !== 0) fail("UNSUPPORTED_PCB", "Expected one PCB root for reference copper scope.");
   const root = forms[0]!;
@@ -1161,11 +1187,12 @@ export function assertFreshPlaneReferenceCopperScope(source: string): void {
   if (table === null) fail("UNSUPPORTED_PCB", "Reference copper scope needs one complete layer table.");
   const layers = declaredLayerNames(table!, Number(version));
   const copper = [...layers].filter(name => name.endsWith(".Cu"));
-  if (copper.length !== 2 || copper[0] !== "F.Cu" || copper[1] !== "B.Cu") fail("UNSUPPORTED_PCB", "Reference copper scope supports exact F.Cu/B.Cu layers.");
+  assertCopperLayerScope(copper, expectedCopperLayers, Number(version));
   assertClosedLayeredItems(root, new Set([...layers, ...KICAD_10_TECHNICAL_ITEM_LAYER_NAMES]), source, "not-evaluated", Number(version));
 }
 
-const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "rejected" | "not-evaluated" = "rejected", nativeTerminals?: FreshNativeTerminalBinding): PcbFacts => {
+const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "rejected" | "not-evaluated" = "rejected", nativeTerminals?: FreshNativeTerminalBinding,
+  expectedCopperLayers: readonly PcbCopperLayer[] = pcbCopperLayerOrder(2)): PcbFacts => {
   if(nativeTerminals!==undefined)assertFreshNativeNoConnectPcbIsolation(nativeTerminals,parseFreshPcbSource(bytes.toString("utf8")));
   const forms = parseSExpressions(bytes, "KiCad PCB", "UNSUPPORTED_PCB");
   if (forms.length !== 1 || forms[0]!.name !== "kicad_pcb" || forms[0]!.values.length !== 0) {
@@ -1190,9 +1217,7 @@ const parsePcbFacts = (bytes: Buffer, requireGeneratorVersion: boolean, zones: "
   if (layers === null) return fail("UNSUPPORTED_PCB", "PCB must contain exactly one layer table.");
   const layerNames = declaredLayerNames(layers, fileVersion);
   const copperLayers = [...layerNames].filter((name) => name.endsWith(".Cu"));
-  if (copperLayers.length !== 2 || copperLayers[0] !== "F.Cu" || copperLayers[1] !== "B.Cu") {
-    return fail("UNSUPPORTED_PCB", "Clearance evidence V1 requires exactly F.Cu and B.Cu in that order.");
-  }
+  assertCopperLayerScope(copperLayers, expectedCopperLayers, fileVersion);
   if (zones === "rejected" && descendants(root).some((item) => item.name === "zone")) {
     return fail("UNSUPPORTED_PCB", "Copper zones have local clearance semantics and are rejected by clearance evidence V1.");
   }
@@ -1764,14 +1789,14 @@ async function materializeNetClassSources<Result>(
 ): Promise<Result> {
   const paths = await commonSourcePaths(options.project);
   const kicad = normalizedKicadIdentity(options.kicad);
-  validateTwoLayerContract(options.compilationBundle.contract);
+  const copperLayers = validateNetClassLayerScope(options);
   const bindings = classBindings(options.compilationBundle);
   return withMaterializationLock(paths, async () => {
     const before = await captureSourceSet(paths);
     await options.authenticateMarker(before.marker.bytes);
     (options.validateCustomRules ?? parseCustomRuleSource)(before.customRules);
     const beforeNativeTerminals=await options.qualifyNativeTerminals?.(before.pcb.bytes.toString("utf8"));
-    parsePcbFacts(before.pcb.bytes, false, options.zones,beforeNativeTerminals);
+    parsePcbFacts(before.pcb.bytes, false, options.zones,beforeNativeTerminals,copperLayers);
     const projectJson = strictProjectJson(before.projectSettings.bytes);
     options.assertProjectSettings?.(projectJson);
     const nextProject = preparedProjectSettings(projectJson, options.project, options.compilationBundle, bindings);
@@ -1825,7 +1850,7 @@ async function materializeNetClassSources<Result>(
     (options.validateCustomRules ?? parseCustomRuleSource)(after.customRules);
     options.assertProjectSettings?.(strictProjectJson(after.projectSettings.bytes));
     const afterNativeTerminals=await options.qualifyNativeTerminals?.(after.pcb.bytes.toString("utf8"));
-    parsePcbFacts(after.pcb.bytes, false, options.zones,afterNativeTerminals);
+    parsePcbFacts(after.pcb.bytes, false, options.zones,afterNativeTerminals,copperLayers);
     readProjectConfiguration(
       strictProjectJson(after.projectSettings.bytes),
       options.project,
@@ -1879,14 +1904,14 @@ export async function materializeFreshNetClasses(
 async function readNetClassSources(options: SharedNetClassOperationOptions) {
   const paths = await commonSourcePaths(options.project);
   const kicad = normalizedKicadIdentity(options.kicad);
-  validateTwoLayerContract(options.compilationBundle.contract);
+  const copperLayers = validateNetClassLayerScope(options);
   const bindings = classBindings(options.compilationBundle);
   const first = await captureSourceSet(paths);
   await options.authenticateMarker(first.marker.bytes);
   (options.validateCustomRules ?? parseCustomRuleSource)(first.customRules);
   options.assertProjectSettings?.(strictProjectJson(first.projectSettings.bytes));
   const nativeTerminals=await options.qualifyNativeTerminals?.(first.pcb.bytes.toString("utf8"));
-  const pcb = parsePcbFacts(first.pcb.bytes, false, options.zones,nativeTerminals);
+  const pcb = parsePcbFacts(first.pcb.bytes, false, options.zones,nativeTerminals,copperLayers);
   if (pcb.generatorVersion !== null) assertGeneratorMatchesKicad(pcb.generatorVersion, kicad);
   const configured = readProjectConfiguration(
     strictProjectJson(first.projectSettings.bytes),

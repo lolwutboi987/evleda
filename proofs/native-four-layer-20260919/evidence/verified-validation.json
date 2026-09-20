@@ -1,0 +1,93 @@
+{
+  "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\mcp-session-06\\workspace-client-f981a30f-f574-477a-b78e-5622ced6358d\\000073-response-abe64c587202ce7fcc6bbfc1f7874dba5361fdba0eab4c2c4ae6adaa6e8793cb.json",
+  "data": {
+    "checks": [
+      {
+        "name": "run_erc",
+        "result": {
+          "toolCallId": "toolbox-check:3cfce54e-4834-4f9b-841c-aa65ab3afc75",
+          "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"ERC summary:\\n- Violations: 0\",\"summary\":\"ERC is clean.\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[{\"report_path\":\"[redacted path]\",\"violations\":{\"$schema\":\"https://schemas.kicad.org/erc.v1.json\",\"coordinate_units\":\"mm\",\"date\":\"2026-09-19T20:18:07\",\"ignored_checks\":[{\"description\":\"Global label only appears once in the schematic\",\"key\":\"single_global_label\"},{\"description\":\"Four connection points are joined together\",\"key\":\"four_way_junction\"},{\"description\":\"SPICE model issue\",\"key\":\"simulation_model_issue\"},{\"description\":\"Assigned footprint doesn't match footprint filters\",\"key\":\"footprint_filter\"}],\"included_severities\":[\"error\",\"warning\",\"exclusion\"],\"kicad_version\":\"10.0.3\",\"sheets\":[{\"path\":\"[redacted path]\",\"uuid_path\":\"[redacted path]\",\"violations\":[]}],\"source\":\"fourlayer-headers-d.kicad_sch\"}}],\"remediation\":\"\",\"findings\":[],\"next_action\":\"No ERC action required.\",\"metadata\":{\"report_path\":\"[redacted path]\",\"available\":true,\"violation_count\":0,\"violations\":[],\"summary\":{}},\"status\":\"clean\"}"
+        }
+      },
+      {
+        "name": "run_drc",
+        "result": {
+          "toolCallId": "toolbox-check:858f95ba-8e87-4b7e-9db0-e005be8096d1",
+          "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"DRC summary:\\n- Violations: 0\\n- Unconnected items: 0\\n- Courtyard issues: 0\",\"summary\":\"DRC is clean.\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[{\"report_path\":\"[redacted path]\",\"violations\":{\"$schema\":\"https://schemas.kicad.org/drc.v1.json\",\"coordinate_units\":\"mm\",\"date\":\"2026-09-19T20:18:09\",\"ignored_checks\":[{\"description\":\"Footprint has no courtyard defined\",\"key\":\"missing_courtyard\"},{\"description\":\"Track endpoint not centered on via\",\"key\":\"track_not_centered_on_via\"},{\"description\":\"Tuning profile track geometries\",\"key\":\"tuning_profile_track_geometries\"},{\"description\":\"Footprint doesn't match symbol's footprint filters\",\"key\":\"footprint_filters_mismatch\"},{\"description\":\"Footprint component type doesn't match footprint pads\",\"key\":\"footprint_type_mismatch\"}],\"included_severities\":[\"error\",\"warning\",\"exclusion\"],\"kicad_version\":\"10.0.3\",\"schematic_parity\":[],\"source\":\"fourlayer-headers-d.kicad_pcb\",\"unconnected_items\":[],\"violations\":[]}}],\"remediation\":\"\",\"findings\":[],\"next_action\":\"No DRC action required.\",\"metadata\":{\"report_path\":\"[redacted path]\",\"available\":true,\"violations\":0,\"unconnected_items\":0,\"courtyard_issues\":0,\"report_status\":\"clean\"},\"status\":\"clean\"}"
+        }
+      },
+      {
+        "name": "pcb_get_board_summary",
+        "result": {
+          "toolCallId": "toolbox-check:8c9a7fe2-65c5-40b3-8b45-a245583d4e48",
+          "content": "{\"schema_version\":\"verdict.v1\",\"text\":\"Board summary:\\n- Source: live-gui\\n- Tracks: 5\\n- Vias: 1\\n- Footprints: 2\\n- Zones: 2\\n- Nets: 4\\n- Shapes: 1\",\"summary\":\"Board summary from live-gui: 2 footprint(s), 4 net(s).\",\"verdict\":\"PASS\",\"severity\":\"info\",\"failure_mode\":\"none\",\"retryable\":false,\"evidence\":[],\"remediation\":\"\",\"findings\":[],\"next_action\":\"Use pcb_get_tracks(), pcb_get_footprints(), or run_drc() for details.\",\"metadata\":{\"source\":\"live-gui\",\"tracks\":5,\"vias\":1,\"footprints\":2,\"zones\":2,\"nets\":4,\"shapes\":1},\"status\":\"clean\"}"
+        }
+      },
+      {
+        "name": "pcb_visual_qa",
+        "result": {
+          "toolCallId": "toolbox-check:7258e853-21be-4af7-b2bf-d6402e7f25b2",
+          "content": "{\"footprint_count\":2,\"board_bounds\":[0,0,30,20],\"status\":\"PASS\",\"findings\":[],\"result\":\"{\\n  \\\"footprint_count\\\": 2,\\n  \\\"board_bounds\\\": [\\n    0.0,\\n    0.0,\\n    30.0,\\n    20.0\\n  ],\\n  \\\"status\\\": \\\"PASS\\\",\\n  \\\"findings\\\": []\\n}\"}"
+        }
+      }
+    ],
+    "practices": {
+      "available": true,
+      "result": {
+        "schemaVersion": "evleda.toolbox-practices.v1",
+        "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\fourlayer-headers-d.kicad_pcb",
+        "sourceIdentity": {
+          "algorithm": "sha256",
+          "digest": "d2d8a50f52d5ac8e54e1be2cb50a613bb6145cd4dd3b2018f9e93ab9fee06861",
+          "size": 35062
+        },
+        "reviewedProfileIdentity": null,
+        "analysis": null,
+        "geometry": {
+          "turns": [],
+          "findings": [],
+          "segmentCount": 5,
+          "routedArcCount": 0,
+          "unresolvedNetSegmentCount": 0,
+          "coordinateToleranceMm": 0.000001,
+          "limitations": [
+            "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+            "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability."
+          ]
+        },
+        "turnPolicy": {
+          "allowedDirectionChangesDeg": [
+            0,
+            45
+          ],
+          "numericalToleranceDeg": 1e-7,
+          "measuredTurnCount": 0,
+          "violations": [],
+          "unresolvedFindings": [],
+          "coverage": "Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.",
+          "unresolvedNetSegmentCount": 0
+        },
+        "checks": {
+          "literalTurnGeometry": "measured-subset",
+          "reviewedProfileConstraints": "unverified-no-profile",
+          "widthAndNetClass": "unverified-no-profile",
+          "vias": "unverified-no-profile",
+          "electricalSuitability": "unverified",
+          "manufacturingReadiness": "unverified"
+        },
+        "limitations": [
+          "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+          "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.",
+          "Zero direction change means a straight continuation; 180 degrees means reversal and is not permitted. Overlaps may prevent sequential-turn inference.",
+          "No automatic design acceptance: original findings and incomplete coverage remain authoritative.",
+          "Reviewed numerical width/via/net-class constraints do not supply current, voltage, temperature rise, impedance or fabricator qualification evidence."
+        ]
+      }
+    },
+    "sourceBefore": "e978da9d20732f9224a8fd408b04fe5ae5807a049a7b0bbfe3b1ce466793eeea",
+    "sourceAfter": "e978da9d20732f9224a8fd408b04fe5ae5807a049a7b0bbfe3b1ce466793eeea",
+    "sourceUnchanged": true,
+    "recoveryRequired": false,
+    "assurance": "Native result collection only; individual findings and applicable engineering requirements remain authoritative."
+  }
+}

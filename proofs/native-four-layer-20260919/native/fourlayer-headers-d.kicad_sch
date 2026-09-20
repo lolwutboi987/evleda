@@ -1,0 +1,548 @@
+(kicad_sch
+  (version 20250316)
+  (generator "KiCad Studio Fixture Corpus")
+  (uuid "bc5b8c87-29d2-4444-b275-16d224b414a0")
+  (paper "A4")
+  (title_block (title "fourlayer-headers-d"))
+	(lib_symbols
+	(symbol "Connector_Generic:Conn_01x03"
+		(pin_names
+			(offset 1.016)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "J"
+			(at 0 5.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x03"
+			(at 0 -5.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "connector"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "Connector*:*_1x??_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "Conn_01x03_1_1"
+			(rectangle
+				(start -1.27 3.81)
+				(end 1.27 -3.81)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(rectangle
+				(start -1.27 2.667)
+				(end 0 2.413)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start -1.27 0.127)
+				(end 0 -0.127)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start -1.27 -2.413)
+				(end 0 -2.667)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(pin passive line
+				(at -5.08 2.54 0)
+				(length 3.81)
+				(name "Pin_1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at -5.08 0 0)
+				(length 3.81)
+				(name "Pin_2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at -5.08 -2.54 0)
+				(length 3.81)
+				(name "Pin_3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x03")
+		(at 101.6 101.6 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "aa0b5fc0-6fc0-4a89-bb69-0a7ff21d6c56")
+		(property "Reference" "J1"
+			(at 99.06 100.584 0)
+			(effects (font (size 1.27 1.27)) (justify right))
+		)
+		(property "Value" "PAIR_TEST_IN"
+			(at 99.06 102.616 0)
+			(effects (font (size 1.27 1.27)) (justify right))
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+			(at 101.6 101.6 180)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Datasheet" "~"
+			(at 101.6 101.6 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(instances
+			(project "fourlayer-headers-d"
+				(path "/bc5b8c87-29d2-4444-b275-16d224b414a0"
+					(reference "J1") (unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x03")
+		(at 152.4 101.6 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "21035d17-33ac-437b-ab6c-39f66938fca3")
+		(property "Reference" "J2"
+			(at 154.94 100.584 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Value" "PAIR_TEST_OUT"
+			(at 154.94 102.616 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+			(at 152.4 101.6 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Datasheet" "~"
+			(at 152.4 101.6 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(instances
+			(project "fourlayer-headers-d"
+				(path "/bc5b8c87-29d2-4444-b275-16d224b414a0"
+					(reference "J2") (unit 1)
+				)
+			)
+		)
+	)
+	
+	
+	
+	
+	
+	
+	
+	(junction (at 120.65 101.6)
+		(diameter 0)
+		(uuid "b78eb804-cd20-422e-837c-5dc1eaac47f6")
+	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	(junction (at 113.03 104.14)
+		(diameter 0)
+		(uuid "4f533c35-1fcd-465b-b94a-7ef0ed3f2ac5")
+	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	(junction (at 113.03 99.06)
+		(diameter 0)
+		(uuid "0a1c6e04-8dc9-4c3b-891a-5c296e2528d6")
+	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	(global_label "DP"
+		(shape passive)
+		(at 114.3 104.14 0)
+		(effects (font (size 1.524 1.524)) (justify left))
+		(uuid "bba4a418-d086-4fe3-ae3e-fdd5337c2fa8")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 114.3 99.06 0)
+		(effects (font (size 1.524 1.524)) (justify left))
+		(uuid "c4aef9b3-50f0-468f-9aa8-3d6b3f703f75")
+	)
+	(global_label "DN"
+		(shape passive)
+		(at 121.92 101.6 0)
+		(effects (font (size 1.524 1.524)) (justify left))
+		(uuid "2630f31e-f004-4acd-91b7-be9a46344e93")
+	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	(wire
+		(pts (xy 113.03 96.52) (xy 140.97 96.52))
+		(stroke (width 0) (type solid))
+		(uuid "0e4af46f-5fdc-4b19-ab5b-e3a30b8a4581")
+	)
+	(wire
+		(pts (xy 106.68 99.06) (xy 114.3 99.06))
+		(stroke (width 0) (type solid))
+		(uuid "aa573724-dfef-4e65-b31a-3fed6e221b2f")
+	)
+	(wire
+		(pts (xy 120.65 99.06) (xy 127 99.06))
+		(stroke (width 0) (type solid))
+		(uuid "4fc71fc9-22c0-4349-a44f-f147ca708b8a")
+	)
+	(wire
+		(pts (xy 140.97 99.06) (xy 147.32 99.06))
+		(stroke (width 0) (type solid))
+		(uuid "9416f2d6-20fa-4795-a359-332a71636da5")
+	)
+	(wire
+		(pts (xy 106.68 101.6) (xy 121.92 101.6))
+		(stroke (width 0) (type solid))
+		(uuid "0873fe66-1345-4235-b974-a55bf7a89f3e")
+	)
+	(wire
+		(pts (xy 127 101.6) (xy 147.32 101.6))
+		(stroke (width 0) (type solid))
+		(uuid "0a506240-3f21-485a-8559-16df593599d5")
+	)
+	(wire
+		(pts (xy 106.68 104.14) (xy 114.3 104.14))
+		(stroke (width 0) (type solid))
+		(uuid "b413596a-e9c5-404a-87b0-7f2a00d5819c")
+	)
+	(wire
+		(pts (xy 140.97 104.14) (xy 147.32 104.14))
+		(stroke (width 0) (type solid))
+		(uuid "dba1818c-1135-4add-9810-80e53e8404cf")
+	)
+	(wire
+		(pts (xy 113.03 106.68) (xy 140.97 106.68))
+		(stroke (width 0) (type solid))
+		(uuid "9d0cb0a6-9f61-4e6e-9a25-ce193874c65c")
+	)
+	(wire
+		(pts (xy 113.03 96.52) (xy 113.03 99.06))
+		(stroke (width 0) (type solid))
+		(uuid "b1203a87-1347-44ec-a01e-f1d9a4f7235d")
+	)
+	(wire
+		(pts (xy 113.03 104.14) (xy 113.03 106.68))
+		(stroke (width 0) (type solid))
+		(uuid "07bf8906-31ac-428b-b973-069a747574e5")
+	)
+	(wire
+		(pts (xy 120.65 99.06) (xy 120.65 101.6))
+		(stroke (width 0) (type solid))
+		(uuid "84918afd-d747-4bf1-ae4d-18143d4ae369")
+	)
+	(wire
+		(pts (xy 127 99.06) (xy 127 101.6))
+		(stroke (width 0) (type solid))
+		(uuid "f6b13993-d429-4785-9486-0a0134f04df0")
+	)
+	(wire
+		(pts (xy 140.97 96.52) (xy 140.97 99.06))
+		(stroke (width 0) (type solid))
+		(uuid "5e6c5d18-3195-4c08-9d42-2f66e7e1f09f")
+	)
+	(wire
+		(pts (xy 140.97 104.14) (xy 140.97 106.68))
+		(stroke (width 0) (type solid))
+		(uuid "0a6fcec5-5404-47f6-9ef5-22c4e48f4921")
+	)
+	(sheet_instances
+		(path "/" (page "1"))
+	)
+	(embedded_fonts no)
+)

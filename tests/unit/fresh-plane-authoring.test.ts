@@ -23,6 +23,8 @@ import { usbChannelPcb, usbChannelSourceId } from "../helpers/usb-channel-source
 import { routeMmToNativeNm } from "../../src/harness/fresh-route-native-units.js";
 import { planFreshFootprintFields } from "../../src/harness/fresh-footprint-field.js";
 import { planFreshFootprintPoses } from "../../src/harness/fresh-footprint-pose-batch.js";
+import { fourLayerPlaneBundle } from "../helpers/four-layer-plane-bundle.js";
+import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
 
 // Offline source/native-port simulation only. No plane, route, or native KiCad qualification is asserted.
 const roots=new Set<string>();
@@ -106,6 +108,25 @@ async function fixture(options:{initial?:string;physicalSource?:string;compilati
 }
 
 describe('bounded V2 whole-board route inventory', () => {
+  it('admits any-layer ground access through the shared preflight and saves both inner layers exactly',async()=>{
+    const b=fourLayerPlaneBundle(),seed=createInterfaceConstructionBoardSeed(b);
+    const parts=b.contract.components.map((c,i)=>fp(c.reference,c.footprintLibId,c.value,5+15*i,10,
+      c.pins.map(p=>p.assignment.kind==='net'?p.assignment.net:''))).join('\n');
+    // Match this fixture producer's existing no-EOF-whitespace representation.
+    const source=seed.slice(0,seed.lastIndexOf(')'))+parts+'\n)';
+    const f=await fixture({compilationBundle:b,initial:source,physicalSource:source});
+    const selection=JSON.parse((await f.bridge.execute({id:'four-layer-read',name:'fresh_get_route_items',arguments:{}})).content);
+    const applied=JSON.parse((await f.bridge.execute({id:'four-layer-any',name:'fresh_replace_route_items',arguments:{
+      selectionIdentity:selection.identity,net:'GND',deleteItemIds:[],tracks:[
+        {x1Mm:9,y1Mm:10,x2Mm:10,y2Mm:10,layer:'F.Cu'},
+        {x1Mm:10,y1Mm:10,x2Mm:11,y2Mm:10,layer:'In1.Cu'},
+        {x1Mm:10,y1Mm:10,x2Mm:10.5,y2Mm:10.5,layer:'In2.Cu'}],vias:[{xMm:10,yMm:10}]}})).content);
+    expect(applied).toMatchObject({mutationValidity:'verified',addedTrackCount:3,addedViaCount:1});
+    await f.bridge.internal.saveAfterMutation({id:'four-layer-save',name:'pcb_save',arguments:{}});
+    const saved=parseFreshPcbSource(await readFile(f.project.pcbPath,'utf8'));
+    expect(saved.segments.map(s=>s.layer).sort()).toEqual(['F.Cu','In1.Cu','In2.Cu']);
+    expect(saved.vias).toHaveLength(1);
+  });
   const routedBoard = (tracks: number, vias = 0) => pcb.slice(0, -1)
     + Array.from({ length: tracks }, (_, index) => `\n(segment (start 1 ${(1 + index / 100).toFixed(2)}) (end 1.05 ${(1 + index / 100).toFixed(2)}) (width 0.5) (layer "F.Cu") (net "GND") (uuid "${fixtureUuid(20000 + index)}"))`).join('')
     + Array.from({ length: vias }, (_, index) => `\n(via (at ${(20 + index % 10 / 10).toFixed(1)} ${(2 + Math.floor(index / 10) / 10).toFixed(1)}) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${fixtureUuid(30000 + index)}"))`).join('') + '\n)';

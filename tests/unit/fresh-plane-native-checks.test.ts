@@ -17,6 +17,7 @@ import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { planeStageObservationFixture } from "../helpers/plane-stage-observation-fixture.js";
 import { withNativePadFixtureIds } from "../helpers/native-pad-observation-fixture.js";
 import { createPlaneContactsFixture } from "../helpers/kicad-plane-contacts-fixture.js";
+import { fourLayerPlaneBundle } from "../helpers/four-layer-plane-bundle.js";
 
 // All reports in this suite are synthetic offline host-port fixtures, not native qualification.
 const dependencies = { libraryResolver: genericDividerLibraryResolver, deepRuleCatalog: loadDeepRuleCatalog() };
@@ -46,14 +47,20 @@ function projectSettings() {
 async function fixture(options: { padFields?: string; footprintFields?: string; project?: ReturnType<typeof projectSettings>;
   numericRules?: boolean; numericSettingsEdit?: (settings: Record<string, any>) => void;
   minimumSpokes?: number; rawPadOverride?: "global" | "layer"; extraPad?: string;
-  rawPadZoneConnection?: { number: string; value: unknown } } = {}): Promise<FreshPlaneNativeChecksInput> {
+  rawPadZoneConnection?: { number: string; value: unknown }; fourLayer?: boolean } = {}): Promise<FreshPlaneNativeChecksInput> {
   const draft = planeDividerDraft();
   if (options.minimumSpokes !== undefined) draft.planes[0]!.padConnection.minimumConnectedSpokes = options.minimumSpokes;
-  const compilationBundle = options.minimumSpokes === undefined && !options.numericRules ? bundle : createPcbPlaneCompilationBundle({ originalPrompt: "Synthetic four-spoke rule fixture",
+  const compilationBundle = options.fourLayer ? fourLayerPlaneBundle() : options.minimumSpokes === undefined && !options.numericRules ? bundle : createPcbPlaneCompilationBundle({ originalPrompt: "Synthetic four-spoke rule fixture",
     compilation: compilePcbPlaneDesignIntentDraft({ ...draft, ...(options.numericRules ? { nativeRuleMode: "contract-derived-v1" } : {}) }, dependencies) }, dependencies);
-  const before = boardSource(options.padFields, options.footprintFields, options.extraPad);
-  const prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, operation: "create" });
-  const staged = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
+  let before = boardSource(options.padFields, options.footprintFields, options.extraPad);
+  if (options.fourLayer) before=before.replace('(0 "F.Cu" signal) (2 "B.Cu" signal)','(0 "F.Cu" signal) (4 "In1.Cu" signal) (6 "In2.Cu" signal) (2 "B.Cu" signal)');
+  const firstPlane=compilationBundle.contract.planes[0]!;
+  let prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, planeId:firstPlane.id, operation: "create" });
+  let staged = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
+  if (options.fourLayer) {
+    prepared=prepareFreshPlaneMutation({compilationBundle,beforePcbSource:staged.stagedSource,planeId:compilationBundle.contract.planes[1]!.id,operation:"create"});
+    staged=await planeStageObservationFixture({beforePcbSource:staged.stagedSource,mutation:prepared.mutation,beforeZoneProtos:[staged.stagedZoneProto],zoneId:"99999999-9999-4999-8999-999999999998"});
+  }
   if (options.rawPadOverride !== undefined) {
     const padUuid = staged.receipt.padSnapshot.padRecords[0].id.value;
     const patch = (value: any): void => {
@@ -115,27 +122,32 @@ function changeNative(input: FreshPlaneNativeChecksInput, change: (native: any) 
 }
 
 async function withContacts(input: FreshPlaneNativeChecksInput, change: (report: KicadPlaneContactsNativeReport) => void = () => {}): Promise<FreshPlaneNativeChecksInput> {
-  const pcb = parseFreshPcbSource(input.sources.pcbSource), parsedZone = parseFreshPcbReferenceGeometry(input.sources.pcbSource).zones[0]!;
+  const pcb = parseFreshPcbSource(input.sources.pcbSource), parsedZones = parseFreshPcbReferenceGeometry(input.sources.pcbSource).zones;
+  const copperLayers=input.compilationBundle.contract.scope.board.copperLayers;
+  const layerId=(name:string)=>{const ids:Record<string,number>={"F.Cu":0,"B.Cu":2,"In1.Cu":4,"In2.Cu":6};
+    if(ids[name]===undefined)throw new Error("Unsupported fixture layer");return ids[name];};
   const allFootprints = pcb.footprints.map(fp => ({ uuid: fp.id!, reference: fp.reference, localZoneConnection: -1, resolvedZoneConnectionOverride: -1 }));
   const allPads: KicadPlaneContactsNativeReport["allPads"] = pcb.footprints.flatMap(fp => fp.pads.map(pad => ({
     uuid: pad.physical.id!, nativeType: 15, nativeClass: "PAD" as const, netCode: 1, netName: pad.netName!, footprintUuid: fp.id!, reference: fp.reference,
     number: pad.number, attribute: pad.physical.padType === "thru_hole" ? 0 : 1,
     localZoneConnection: -1, resolvedZoneConnectionOverride: -1, localThermalGapOverride: null, localThermalSpokeWidthOverride: null,
-    padstackMode: 0, padstackUniqueLayers: [0], layers: (pad.layers.includes("*.Cu") ? ["F.Cu", "B.Cu"] : pad.layers.filter(layer => layer.endsWith(".Cu"))).map(name => ({
-      id: name === "F.Cu" ? 0 : 2, name, zoneLayerOverride: 0, effectivePadstackLayer: 0, hasExplicitPadstackDefinition: name === "F.Cu",
+    padstackMode: 0, padstackUniqueLayers: [0], layers: (pad.layers.includes("*.Cu") ? copperLayers : pad.layers.filter(layer => layer.endsWith(".Cu"))).map(name => ({
+      id: layerId(name), name, zoneLayerOverride: 0, effectivePadstackLayer: 0, hasExplicitPadstackDefinition: name === "F.Cu",
     })),
   })));
+  const zones: KicadPlaneContactsNativeReport["zones"] = parsedZones.map(parsedZone=>{
+  const selectedLayer=parsedZone.layers[0]!;
   const polygons = parsedZone.filledPolygons.map((group, index) => {
     const geometry = { outline: group.contourGroup[0]!.pointsNm!.map(p => [p.x, p.y] as [number, number]), holes: [] as [number, number][][] };
     return { index, sha256: contentIdentity(canonicalJson(geometry)).digest, isIsland: false, ...geometry };
   });
-  const zones: KicadPlaneContactsNativeReport["zones"] = [{ uuid: parsedZone.uuid!, nativeType: 28, nativeClass: "ZONE", netCode: 1, netName: "GND",
+  return { uuid: parsedZone.uuid!, nativeType: 28, nativeClass: "ZONE", netCode: 1, netName: "GND",
     isRuleArea: false, isFilled: true, needRefill: false, padConnection: 1, minimumThicknessNm: 500000,
-    layers: [{ id: 2, name: "B.Cu", hasFilledPolys: true, fillFlag: 1, filledSubpolygonCount: polygons.length,
+    layers: [{ id: layerId(selectedLayer), name: selectedLayer, hasFilledPolys: true, fillFlag: 1, filledSubpolygonCount: polygons.length,
       filledGeometrySha256: contentIdentity(canonicalJson(polygons.map(({ outline, holes }) => ({ outline, holes })))).digest, subpolygons: polygons }],
-    directPads: allPads.filter(pad => pad.layers.some(layer => layer.name === "B.Cu")).map(pad => ({ uuid: pad.uuid, nativeType: pad.nativeType,
+    directPads: allPads.filter(pad => pad.layers.some(layer => layer.name === selectedLayer)).map(pad => ({ uuid: pad.uuid, nativeType: pad.nativeType,
       nativeClass: "PAD", netCode: pad.netCode, netName: pad.netName, proxyType: "PAD" })), directTracks: [], directVias: [],
-  }];
+  }; });
   const f = await createPlaneContactsFixture({ pcbSource: input.sources.pcbSource, report: { allFootprints, allPads, zones } });
   try { change(f.report); return { ...input, contacts: await f.reader.read() }; }
   finally { await f.cleanup(); }
@@ -429,6 +441,13 @@ describe("source-bound native plane policy evidence", () => {
     expect(result.physicalThermalWidth).toBe("not_measured");
     expect(result.acceptanceEvaluated).toBe(false);
   });
+  contactTest("matches each plane's own generated rule name instead of reusing the first plane's rule",async()=>{
+    const input=await withContacts(await fixture({fourLayer:true}));
+    const result=assessFreshPlaneNativeChecks(input);
+    expect(result.checks.thermalPolicy.status).toBe("verified");
+    expect(new Set(result.thermalPads.map(p=>p.zoneUuid)).size).toBe(2);
+    expect(new Set(result.thermalPads.map(p=>p.layer))).toEqual(new Set(["In1.Cu","In2.Cu"]));
+  });
   contactTest("keeps the stock WSON heatsink EP and its solid override inapplicable to a B.Cu plane", async () => {
     // Exact native07 EP geometry/metadata, placed in the synthetic producer.
     const extraPad = '(pad "7" smd rect (at 0 0) (size 1 1.6) (property pad_prop_heatsink) (layers "F.Cu" "F.Mask") (net "GND") (zone_connect 2))';
@@ -484,6 +503,7 @@ describe("source-bound native plane policy evidence", () => {
     ["custom geometry", "(primitives (gr_circle (center 0 0) (end 1 0)))"],
   ])("rejects %s even on front-only plane-net copper", async (_label, fields) => {
     const extraPad = `(pad "7" smd rect (at 2 0) (size 1 1.6) (layers "F.Cu") (net "GND") ${fields})`;
+    if (_label === "custom geometry") { await expect(fixture({extraPad})).rejects.toThrow("gr_circle"); return; }
     const result = assessFreshPlaneNativeChecks(await fixture({ extraPad }));
     expect(result.checks.thermalPolicy.status).toBe("unsupported");
     expect(result.checks.thermalPolicy.reasons.some(reason => /unsupported-source-pad|duplicate-source-pad/.test(reason))).toBe(true);

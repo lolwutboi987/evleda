@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-09-20T03:20:04.015Z",
+  "projectId": "9c692d52-51be-45fe-8a69-249e8c5f25f9",
+  "host": "host37",
+  "runtime": "DOC16",
+  "hostReleaseSha256": "f57858127e94ffd342d3235be23d91975fa9008fdc039daf16ca7d86d4d90ead",
+  "profileSha256": "d5014bcc72773d18e88e40b39bc5afb64e1ea4eecc99bc395c95191eeecf634d",
+  "runtimeManifestSha256": "760b6eb8f5dea0461ccc00b8f89242d3d7fe9f60e21748f6c71dadf6b2e075fe",
+  "nativeCreateAndRouteHost": "host35",
+  "refillAndAssessmentHost": "host37",
+  "unchangedAfterNormalResumeAndRefill": true,
+  "readOnlyReopenPerformed": false,
+  "rp2350Modified": false,
+  "accepted": false,
+  "limitations": [
+    "Synthetic construction values are not a supplier recommendation.",
+    "PTH interface anchors are unsupported; reference ribbons intersect their bores.",
+    "Whole-plane physical continuity remains unassessed.",
+    "Configured ERC/DRC retain excluded categories."
+  ],
+  "priorFailedProjects": [
+    "8d27ecef-8750-4dfe-ac72-c560e82dfbf5",
+    "218f8002-ecaa-4b39-82b3-53cb3b6456e5",
+    "c9aba487-e5fc-4a00-8f17-f149c1a8db51"
+  ]
+}

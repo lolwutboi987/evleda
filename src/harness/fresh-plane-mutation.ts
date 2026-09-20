@@ -5,6 +5,8 @@ import { planeRectangleMutationSchema, type PlaneRectangleMutation } from "../in
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
+import { pcbCopperLayerSchema } from "./pcb-copper-layers.js";
+import { assertFreshPlaneReferenceCopperScope } from "./fresh-clearance-evidence.js";
 import { compareFreshPlaneMutationRemainder, parseFreshPcbDirectZoneSourceSpans, parseFreshPcbReferenceGeometry,
   parseFreshPcbSource, type FreshReferenceZone, type FreshReferenceSetting } from "./fresh-kicad-parser.js";
 
@@ -79,7 +81,7 @@ function zoneCapture(source: string) {
   requireValue(geometry.boardVersion === 20260206, "mutation source must use the pinned KiCad 10 board format");
   for (const zone of geometry.zones) {
     requireValue(zone.status === "supported" && zone.kind === "copper" && zone.layers.length === 1
-      && ["F.Cu", "B.Cu"].includes(zone.layers[0]!), "mutation inventory contains unsupported zone source");
+      && pcbCopperLayerSchema.safeParse(zone.layers[0]).success, "mutation inventory contains unsupported zone source");
     const fill = setting(zone.settings, "fill")!, mode = setting(fill.children, "mode", true);
     requireValue(mode === null || scalar(mode) === "0", "current mutation/refill preservation supports solid zones only");
   }
@@ -125,7 +127,7 @@ function targetSource(zone: FreshReferenceZone, mutation: PlaneRectangleMutation
 }
 
 function protoControls(proto: RecordValue, mutation: PlaneRectangleMutation) {
-  requireValue(proto.name === mutation.name && same(proto.layers, [mutation.layer === "F.Cu" ? "BL_F_Cu" : "BL_B_Cu"]), "native target name/layer differs");
+  requireValue(proto.name === mutation.name && same(proto.layers, [`BL_${mutation.layer.replace(".", "_")}`]), "native target name/layer differs");
   requireValue((proto.priority ?? 0) === mutation.priority, "native target priority differs");
   const settings = copper(proto), connection = record(settings.connection, "native connection");
   const teardrop = record(settings.teardrop, "native teardrop discriminator"); keys(teardrop, ["type"], "native teardrop discriminator");
@@ -245,12 +247,31 @@ export interface PreparedFreshPlaneMutation {
     minimumSpokes: number | null; spokeEnforcement: "external-owned-rule-and-native-evidence" | "not-applicable" }>;
 }
 const preparedSources = new WeakMap<object, string>();
+/** Maps the complete source inventory to bound plane names; missing planes may still be authored later. */
+export function resolveFreshPlaneSourceZones(bundle: PcbPlaneCompilationBundle, zones: readonly FreshReferenceZone[]): ReadonlyMap<string, FreshReferenceZone> {
+  const rules = createFreshPlaneRules(bundle), result = new Map<string,FreshReferenceZone>(), ids = new Set<string>();
+  for (const zone of zones) {
+    requireValue(zone.uuid !== null && !ids.has(zone.uuid), "source zone UUID is missing or duplicated"); ids.add(zone.uuid!);
+    const name = setting(zone.settings,"name",true);
+    const rule = name === null ? undefined : rules.zones.find(rule=>rule.zoneName===scalar(name));
+    requireValue(rule !== undefined && !result.has(rule!.planeId), "source contains an unbound or duplicate declared zone");
+    const plane = bundle.contract.planes.find(plane=>plane.id===rule!.planeId)!;
+    requireValue(zone.status==="supported"&&zone.kind==="copper"&&zone.netName===plane.net&&same(zone.layers,[plane.layer]), "declared zone net/layer or source form differs");
+    result.set(plane.id,zone);
+  }
+  return result;
+}
+
 export function prepareFreshPlaneMutation(input: { readonly compilationBundle: PcbPlaneCompilationBundle; readonly beforePcbSource: string;
   readonly planeId?: string; readonly operation: "create" | "update"; readonly zoneId?: string }): PreparedFreshPlaneMutation {
   requireValue(isAuthenticatedPcbPlaneCompilationBundle(input.compilationBundle), "prepare requires an authenticated actual V2 bundle");
-  const bundle = input.compilationBundle, plane = input.planeId === undefined ? bundle.contract.planes[0] : bundle.contract.planes.find(plane => plane.id === input.planeId);
+  const bundle = input.compilationBundle;
+  requireValue(input.planeId !== undefined || bundle.contract.planes.length === 1, "multiple planes require an explicit plane ID");
+  assertFreshPlaneReferenceCopperScope(input.beforePcbSource,bundle.contract.scope.board.copperLayers);
+  const plane = input.planeId === undefined ? bundle.contract.planes[0] : bundle.contract.planes.find(plane => plane.id === input.planeId);
   requireValue(plane !== undefined, "unknown plane ID");
   const before = zoneCapture(input.beforePcbSource), rules = createFreshPlaneRules(bundle), rule = rules.zones.find(zone => zone.planeId === plane.id)!;
+  resolveFreshPlaneSourceZones(bundle,before.zones);
   const pcb = parseFreshPcbSource(input.beforePcbSource);
   requireValue(pcb.footprints.some(footprint => footprint.pads.some(pad => pad.netName === plane.net))
     || pcb.segments.some(segment => segment.netName === plane.net) || before.zones.some(zone => zone.netName === plane.net), "plane net does not exist in saved source");
@@ -271,6 +292,18 @@ export function prepareFreshPlaneMutation(input: { readonly compilationBundle: P
   const prepared = freezePcbPlaneArtifact({ ...payload, identity: canonicalIdentity(payload, payload.schemaVersion) });
   preparedSources.set(prepared, input.beforePcbSource);
   return prepared;
+}
+
+/** Current saved/native settings comparison only; this does not issue mutation or fill authority. */
+export function assertFreshPlaneDeclaredZoneSettings(input: { readonly compilationBundle: PcbPlaneCompilationBundle; readonly pcbSource: string;
+  readonly planeId: string; readonly sourceZone: FreshReferenceZone; readonly nativeZone: unknown }): void {
+  requireValue(input.sourceZone.uuid !== null,"declared zone has no source UUID");
+  const expected = prepareFreshPlaneMutation({compilationBundle:input.compilationBundle,beforePcbSource:input.pcbSource,
+    planeId:input.planeId,operation:"update",zoneId:input.sourceZone.uuid!});
+  targetSource(input.sourceZone,expected.mutation,"refilled");
+  const native = protoSnapshot(input.nativeZone);
+  requireValue(protoId(native)===input.sourceZone.uuid,"native declared-zone UUID differs");
+  protoControls(native,expected.mutation);
 }
 export function compareFreshPlaneMutation(input: Omit<FreshPlaneLiteralMutationComparisonInput, "mutation" | "beforePcbSource"> & { readonly prepared: PreparedFreshPlaneMutation }) {
   const beforePcbSource = preparedSources.get(input.prepared);

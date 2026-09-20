@@ -1,7 +1,7 @@
 /** Offline host-port fixture only. These constructed responses are NOT native KiCad evidence. */
 import type { CallToolResult } from "@modelcontextprotocol/client";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
-import { parseFreshPcbSource } from "../../src/harness/fresh-kicad-parser.js";
+import { parseFreshPcbSource, parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
 import type { KiCadStockFootprintInspection } from "../../src/harness/kicad-library-resolver.js";
 import { collectKicadNativePadObservation, type KicadNativePadObservationExpected } from "../../src/integrations/kicad-native-pad-observation.js";
 
@@ -19,8 +19,9 @@ export function withNativePadFixtureIds(source:string):string {
 export async function nativePadObservationFixture(source:string,libraryBaseline=source){
   const board=parseFreshPcbSource(source),baseline=parseFreshPcbSource(libraryBaseline);
   const document={type:"DOCTYPE_PCB",board_filename:"fixture.kicad_pcb",project:{name:"fixture",path:"D:\\evleda-offline-pad-fixture"}};
-  const copper=["BL_F_Cu","BL_B_Cu"];
-  const layer=(value:string)=>value==="*.Cu"?[...copper,...Array.from({length:30},(_,i)=>`BL_In${i+1}_Cu`)]:value==="*.Mask"?["BL_F_Mask","BL_B_Mask"]:[`BL_${value.replace(".","_")}`];
+  const sourceCopperLayers=parseFreshPcbStackup(source).boardCopperLayerOrder;
+  const copper=sourceCopperLayers.map(name=>`BL_${name.replace(".","_")}`);
+  const layer=(value:string)=>value==="*.Cu"?["BL_F_Cu","BL_B_Cu",...Array.from({length:30},(_,i)=>`BL_In${i+1}_Cu`)]:value==="*.Mask"?["BL_F_Mask","BL_B_Mask"]:[`BL_${value.replace(".","_")}`];
   const rawPads=board.footprints.flatMap(fp=>fp.pads.map(p=>({id:{value:p.physical.id!},...(p.number?{number:p.number}:{}),net:p.netName?{name:p.netName}:{},
     type:p.physical.padType==="thru_hole"?"PT_PTH":p.physical.padType==="np_thru_hole"?"PT_NPTH":"PT_SMD",position:{x_nm:String(Math.round(p.at.x*1e6)),y_nm:String(Math.round(p.at.y*1e6))},
     pad_stack:{type:"PST_NORMAL",layers:p.layers.flatMap(layer),angle:{value_degrees:p.physical.rotationDeg},
@@ -32,7 +33,7 @@ export async function nativePadObservationFixture(source:string,libraryBaseline=
   const byId=new Map(rawPads.map((p,index)=>[p.id.value,index]));
   const requested=rawPads.filter(p=>p.number&&p.net.name&&p.type!=="PT_NPTH").map(p=>p.id.value);
   const payload={schemaVersion:"evleda.kicad-live-pcb-pad-snapshot.v1",documentBefore:document,documentAfter:document,boardSourceBefore:source,boardSourceAfter:source,
-    enabledCopperLayers:copper,enabledLayers:{requestType:"kiapi.board.commands.GetBoardEnabledLayers",request:{board:document},responseType:"kiapi.board.commands.BoardEnabledLayersResponse",response:{layers:copper,copper_layer_count:2}},
+    enabledCopperLayers:copper,enabledLayers:{requestType:"kiapi.board.commands.GetBoardEnabledLayers",request:{board:document},responseType:"kiapi.board.commands.BoardEnabledLayersResponse",response:{layers:copper,copper_layer_count:copper.length}},
     padRecords:rawPads,boardPadRecordIndexes:rawPads.map((_,i)=>i),
     footprintInventory:{requestType:"kiapi.common.commands.GetItems",request:{header:{document},types:["KOT_PCB_FOOTPRINT"]},responseType:"kiapi.common.commands.GetItemsResponse",responseMetadata:{status:"IRS_OK"},
       footprints:board.footprints.map(fp=>({footprintId:fp.id!,reference:fp.reference,padRecordIndexes:fp.pads.map(p=>byId.get(p.physical.id!)!)}))},
@@ -49,7 +50,7 @@ export async function nativePadObservationFixture(source:string,libraryBaseline=
       resolverRecord:{libraryId:fp.libraryId,source:"kicad-stock",packageKind:"generic",pads:[...new Set(fp.pads.map(p=>p.number).filter(Boolean))]},identity:canonicalIdentity({sourceIdentity},"evleda.offline-physical-library-fixture.v1")} as KiCadStockFootprintInspection;
     return {reference:fp.reference,inspection};
   });
-  const expected:KicadNativePadObservationExpected={pcbPath:"D:\\evleda-offline-pad-fixture\\fixture.kicad_pcb",pcbSource:source,requestedPrimitiveIds:requested,enabledCopperLayers:["F.Cu","B.Cu"],
+  const expected:KicadNativePadObservationExpected={pcbPath:"D:\\evleda-offline-pad-fixture\\fixture.kicad_pcb",pcbSource:source,requestedPrimitiveIds:requested,enabledCopperLayers:sourceCopperLayers,
     scopeIdentity:canonicalIdentity({kind:"offline-simulated-native-port"},"evleda.offline-pad-test.v1"),
     physicalFootprints:inspections.map(({reference,inspection})=>({reference,libraryId:inspection.libraryId,sourceIdentity:inspection.sourceIdentity})),
     physicalFootprintResolver:{inspectFootprint(libraryId){return inspections.find(p=>p.inspection.libraryId===libraryId)?.inspection??null;}}};

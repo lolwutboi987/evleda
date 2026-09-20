@@ -14,6 +14,7 @@ import { assessFreshPlaneFilledGeometry } from "./fresh-plane-filled-geometry.js
 import { assessFreshPlaneDrillTopology } from "./fresh-plane-drill-topology.js";
 import { isFreshPlaneNativeChecksAssessment, type FreshPlaneNativeChecksAssessment } from "./fresh-plane-native-checks.js";
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
+import { resolveFreshPlaneSourceZones, assertFreshPlaneDeclaredZoneSettings } from "./fresh-plane-mutation.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 import { assessSavedInterface, SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION, type SavedInterfaceAssessment } from "./saved-interface-assessment.js";
@@ -138,7 +139,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
   }
   const missing = "A current-session saved native fill witness is required; reapply and save the contract plane before acceptance.";
   const planes: Array<{
-    planeId: string; zoneUuid: string; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
+    planeId: string; zoneUuid: string | null; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
     nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null; componentCount: number;
     drillTopology:ReturnType<typeof assessFreshPlaneDrillTopology>;
     nativePolygonAttribution: Fact; minimumArea: Fact & { requiredAreaTwiceNm2: string; observedAreaTwiceNm2: readonly string[];conservativeAreaLowerBoundTwiceNm2:string|null };
@@ -271,7 +272,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
   let board: ReturnType<typeof parseFreshPcbSource>, source: ReturnType<typeof parseFreshPcbReferenceGeometry>;
   try {
     board = parseFreshPcbSource(input.pcbSource); source = parseFreshPcbReferenceGeometry(input.pcbSource);
-    assertFreshPlaneReferenceCopperScope(input.pcbSource);
+    assertFreshPlaneReferenceCopperScope(input.pcbSource,bundle.contract.scope.board.copperLayers);
+    resolveFreshPlaneSourceZones(bundle,source.zones);
     const spans = parseFreshPcbRouteSourceSpans(input.pcbSource), viaSpans = spans.filter(span => span.kind === "via");
     requireValue(source.issues.length === 0 && source.zones.every(zone => zone.status === "supported"), "unsupported source geometry is retained and cannot be discarded");
     requireValue(source.unsupportedRouteItems.length === viaSpans.length && viaSpans.length === board.vias.length
@@ -320,7 +322,9 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       requireValue(contacts.inventory.footprintCount === board.footprints.length && contacts.allFootprints.length === board.footprints.length
         && contacts.allFootprints.every(fp => board.footprints.some(savedFp => savedFp.id === fp.uuid && savedFp.reference === fp.reference)), "native footprint ownership differs");
       const tracks = [...board.segments.map(track => ({ uuid: track.id, nativeClass: "PCB_TRACK", netName: track.netName, layers: [track.layer] })),
-        ...board.vias.map(via => ({ uuid: via.id, nativeClass: "PCB_VIA", netName: via.netName, layers: [...via.layers] }))];
+        // Source scope above permits only F-to-B through vias. Their endpoint
+        // pair spans every enabled copper layer reported by native GetLayerSet.
+        ...board.vias.map(via => ({ uuid: via.id, nativeClass: "PCB_VIA", netName: via.netName, layers: [...bundle.contract.scope.board.copperLayers] }))];
       requireValue(contacts.inventory.trackCount === tracks.length && contacts.allTracks.length === tracks.length && contacts.allTracks.every(track => tracks.some(savedTrack =>
         savedTrack.uuid === track.uuid && savedTrack.nativeClass === track.nativeClass && savedTrack.netName === track.netName && same(names(savedTrack.layers), names(track.layers.map(layer => layer.name))))), "native complete route inventory differs from exact saved tracks and vias");
       requireValue(contacts.inventory.zoneCount === source.zones.length && contacts.zones.length === source.zones.length
@@ -347,16 +351,16 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const erc = nativeChecks.checks.erc;
     setRow("erc", fact(erc.status === "verified" ? "verified" : erc.status === "failed" ? "failed" : "unknown", ...erc.reasons));
   }
+  const declaredZones = resolveFreshPlaneSourceZones(bundle,source.zones);
   for (const plane of bundle.contract.planes) {
-    const zoneUuid = saved.stage.targetZoneUuid, sourceZone = source.zones.find(zone => zone.uuid === zoneUuid);
+    const sourceZone = declaredZones.get(plane.id), zoneUuid = sourceZone?.uuid ?? null;
     const stageZone = saved.stage.nativeFilledZones.find(zone => zone.uuid === zoneUuid);
-    const rule = createFreshPlaneRules(bundle).zones.find(zone => zone.planeId === plane.id)!;
-    const configuration = nativeInventory.status !== "failed" && sourceZone !== undefined && stageZone !== undefined && source.zones.length === 1 && sourceZone.kind === "copper"
-      && sourceZone.netName === plane.net && same(sourceZone.layers, [plane.layer])
-      && sourceZone.settings.some(setting => setting.name === "name" && setting.values.length === 1 && setting.values[0]!.value === rule.zoneName)
-      && saved.stage.comparison.mutation.netName === plane.net
-      ? fact("verified", "The sole saved and native zone retains the exact authenticated contract mutation, owned name and settings.")
-      : fact("failed", "The source has extra or unbound zones or does not contain the exact contract-owned zone.");
+    let configuration: Fact;
+    try {
+      requireValue(nativeInventory.status !== "failed" && sourceZone !== undefined && stageZone !== undefined,"The declared saved/native zone is missing or its complete inventory failed.");
+      assertFreshPlaneDeclaredZoneSettings({compilationBundle:bundle,pcbSource:input.pcbSource,planeId:plane.id,sourceZone:sourceZone!,nativeZone:stageZone!.raw});
+      configuration = fact("verified","This saved and native zone retains its exact declared name, net, layer, boundary and settings within the complete inventory.");
+    } catch(error) { configuration = fact("failed",error instanceof Error?error.message:"Declared-zone configuration differs."); }
     const geometry = assessFreshPlaneFilledGeometry({ savedZone: sourceZone!, nativeZone: stageZone?.raw, layer: plane.layer });
     let nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null = null;
     let attribution = fact("unknown", "Authenticated matching native contact geometry is required.");
@@ -373,7 +377,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         ? fact("verified", "One native subpolygon matches one connected copper component in the saved and staged geometry; direct contacts have an unambiguous scope.")
         : fact("failed", "Native contact geometry is not exactly one matching attributed filled component.");
     } else if (nativeInventory.status === "failed") attribution = nativeInventory;
-    const drillTopology=assessFreshPlaneDrillTopology({savedEvidence:saved,pcbSource:input.pcbSource,layer:plane.layer});
+    const drillTopology=assessFreshPlaneDrillTopology({savedEvidence:saved,pcbSource:input.pcbSource,layer:plane.layer,zoneUuid});
     const areaThreshold = scaledFraction(plane.islandPolicy.minimumAreaMm2, 12);
     const requiredAreaTwiceNm2 = decimal(2n * areaThreshold.numerator, areaThreshold.denominator);
     const minimumArea = { ...(geometry.status==="verified"&&geometry.components.some(component=>BigInt(component.areaTwiceNm2)*areaThreshold.denominator<2n*areaThreshold.numerator)

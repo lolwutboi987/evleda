@@ -8,6 +8,7 @@ import { isKicadPlaneContactsObservation, type KicadPlaneContactsObservation } f
 import { assertSavedFreshPlaneEvidenceCurrent, type SavedFreshPlaneEvidence } from "./fresh-plane-evidence.js";
 import { parseFreshPcbReferenceGeometry, parseFreshPcbSource } from "./fresh-kicad-parser.js";
 import { createFreshPlaneRules } from "./fresh-plane-rules.js";
+import { resolveFreshPlaneSourceZones, assertFreshPlaneDeclaredZoneSettings } from "./fresh-plane-mutation.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 
@@ -427,104 +428,110 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
     if ((severities[name] !== "error" && severities[name] !== "warning") || native.ignored.has(name)) drcIssues.push(`required-native-check-disabled:${name}`);
   }
   const thermalIssues = [...commonIssues]; let unsupported = false;
-  const plane = bundle.contract.planes[0]!, thermal = plane.padConnection.mode === "thermal";
-  for (const name of thermal ? ["starved_thermal", "unconnected_items"] : ["unconnected_items"]) {
+  const hasThermal = bundle.contract.planes.some(plane=>plane.padConnection.mode==="thermal");
+  for (const name of hasThermal ? ["starved_thermal", "unconnected_items"] : ["unconnected_items"]) {
     if (severities[name] !== "error" || native.ignored.has(name)) thermalIssues.push(`required-native-check-disabled:${name}`);
   }
   let thermalFailure = thermalIssues.length > 0;
   const thermalPads: FreshPlaneThermalPadEvidence[] = [];
   const board = parseFreshPcbSource(sources.pcbSource), geometry = parseFreshPcbReferenceGeometry(sources.pcbSource);
   const sourcePads = board.footprints.flatMap(fp => fp.pads.map(pad => ({ fp, pad })));
-  // An empty number does not make assigned copper non-electrical. Examine every
-  // physical pad on the plane net; the physical inventory decides support.
-  const ownNet = sourcePads.filter(({ pad }) => pad.netName === plane.net);
   const inventory = input.savedEvidence.stage.nativePads.inventory;
   requireEvidence(inventory !== null, "complete validated physical pad inventory required");
   exactSet(inventory.physicalPads.map(pad => pad.uuid), sourcePads.map(({ pad }) => pad.physical.id!), "saved stage physical pads");
-  const nativeLayer = `BL_${plane.layer.replace(".", "_")}`;
-  // Scope connection settings only after the authenticated physical inventory
-  // establishes absence. Unknown geometry or conditional flashing never earns it.
-  const noPlaneCopper = new Set(inventory.physicalPads.filter(pad => pad.issues.length === 0
-    && pad.observedUsableCopperLayers !== null && !pad.observedUsableCopperLayers.includes(nativeLayer)).map(pad => pad.uuid));
-  const sourceIssues = overrideSourceIssues(sources.pcbSource, noPlaneCopper);
-  for (const { pad } of ownNet) {
-    const issues = sourceIssues.get(pad.physical.id!) ?? ["source-pad-override-inventory-incomplete"];
-    if (issues.length > 0) { thermalIssues.push(...issues.map(issue => `${pad.physical.id}:${issue}`)); unsupported = true; }
-  }
-  const contacts = input.contacts;
-  if (!contacts) { thermalIssues.push("current-native-direct-contacts-unavailable"); unsupported = true; }
-  else {
-    requireEvidence(isKicadPlaneContactsObservation(contacts), "genuine host native direct-contact observation required");
-    requireEvidence(same(contacts.sourceBefore, sourceIdentities.pcb) && same(contacts.sourceAfter, sourceIdentities.pcb)
-      && contacts.sourceUnchanged === true, "native contact source is stale");
-    const report = contacts.report;
-    const target = geometry.zones.find(zone => zone.uuid === input.savedEvidence.stage.targetZoneUuid);
-    requireEvidence(target !== undefined && target.netName === plane.net && same(target.layers, [plane.layer]) && geometry.zones.length === 1, "intended source zone differs");
-    const zones = report.zones;
-    requireEvidence(zones.length === 1 && zones[0]!.uuid === target.uuid && zones[0]!.netName === plane.net, "native zone inventory differs");
-    const zone = zones[0]!;
-    const stagedZone = input.savedEvidence.stage.nativeFilledZones.find(item => item.uuid === target.uuid);
-    requireEvidence(stagedZone?.raw.name === rules.zones[0]!.zoneName && !zone.isRuleArea && zone.isFilled === true
-      && zone.padConnection === (thermal ? 1 : 2), "native intended zone configuration differs");
-    if (zone.needRefill) { thermalIssues.push("native-loaded-zone-reports-refill-needed"); unsupported = true; }
-    if (zone.layers.length !== 1 || zone.layers[0]!.name !== plane.layer || !zone.layers[0]!.hasFilledPolys || zone.layers[0]!.filledSubpolygonCount !== 1
-      || zone.layers[0]!.subpolygons.length !== 1) { thermalIssues.push("aggregate-native-contact-has-ambiguous-subpolygon-scope"); unsupported = true; }
-    exactSet(report.allPads.map(pad => pad.uuid), sourcePads.map(({ pad }) => pad.physical.id!), "native physical pads");
-    exactSet(report.allFootprints.map(fp => fp.uuid), board.footprints.map(fp => fp.id!), "native footprints");
-    requireEvidence(zone.directPads.every(pad => pad.netName === plane.net && report.allPads.some(item => item.uuid === pad.uuid)), "native direct pad contact has another net/owner");
-    const direct = new Set(zone.directPads.map(pad => pad.uuid));
-    for (const { fp, pad } of ownNet) {
-      const uuid = pad.physical.id!, observed = report.allPads.find(item => item.uuid === uuid)!, physical = inventory.physicalPads.find(item => item.uuid === uuid)!;
-      const footprint = report.allFootprints.find(item => item.uuid === fp.id)!;
-      requireEvidence(observed.footprintUuid === fp.id && observed.reference === fp.reference && observed.number === pad.number
-        && observed.netName === plane.net && footprint.reference === fp.reference, "native pad ownership/net differs");
-      const padIssues = [...(sourceIssues.get(uuid) ?? ["source-pad-override-inventory-incomplete"])];
-      if (physical.issues.length > 0 || physical.observedUsableCopperLayers === null) padIssues.push("unsupported-physical-pad");
-      const absent = noPlaneCopper.has(uuid);
-      if (absent) requireEvidence(!direct.has(uuid), "direct contact contradicts native pad-layer absence");
-      const connections = [observed.localZoneConnection, observed.resolvedZoneConnectionOverride,
-        footprint.localZoneConnection, footprint.resolvedZoneConnectionOverride];
-      if (connections.some(value => ![-1, 0, 1, 2, 3].includes(value))) padIssues.push("unsupported-native-zone-connection");
-      if (!absent && connections.some(value => value !== -1)
-        || observed.localThermalGapOverride !== null || observed.localThermalSpokeWidthOverride !== null || observed.padstackMode !== 0) padIssues.push("native-pad-or-footprint-override");
-      if (!same(observed.padstackUniqueLayers, [0]) || observed.layers.some(layer => /^(?:F|B|In[0-9]+)\.Cu$/u.test(layer.name)
-        && (layer.zoneLayerOverride !== 0 || layer.effectivePadstackLayer !== 0))) padIssues.push("native-per-layer-padstack-or-zone-override");
-      const stack = object(physical.rawNative.pad_stack, "raw native padstack");
-      if (stack.type !== "PST_NORMAL") padIssues.push("unsupported-native-padstack-mode");
-      if (stack.unconnected_layer_removal !== undefined && stack.unconnected_layer_removal !== "ULR_KEEP") padIssues.push("native-conditional-pad-layer-flashing");
-      const checkZoneSettings = (value: unknown) => {
-        if (value === undefined) return;
-        const setting = object(value, "raw native pad zone settings");
-        if (setting.zone_connection !== undefined) {
-          if (typeof setting.zone_connection !== "string" || !["ZCS_INHERITED", "ZCS_NONE", "ZCS_THERMAL", "ZCS_FULL", "ZCS_PTH_THERMAL"].includes(setting.zone_connection)) padIssues.push("unsupported-native-padstack-zone-connection");
-          else if (!absent && setting.zone_connection !== "ZCS_INHERITED") padIssues.push("native-padstack-zone-override");
-        }
-        if (setting.thermal_spokes !== undefined) {
-          const spoke = object(setting.thermal_spokes, "raw native thermal settings");
-          if (spoke.gap !== undefined || spoke.width !== undefined) padIssues.push("native-padstack-thermal-override");
-        }
-      };
-      checkZoneSettings(stack.zone_settings);
-      for (const layer of array(stack.copper_layers, "complete raw copper layers")) {
-        const copper = object(layer, "raw copper layer");
-        if (!["PSS_CIRCLE", "PSS_RECTANGLE", "PSS_ROUNDRECT"].includes(String(copper.shape))) padIssues.push("unsupported-native-pad-shape");
-        checkZoneSettings(copper.zone_settings);
-      }
-      if (padIssues.length > 0) { thermalIssues.push(...padIssues.map(reason => `${uuid}:${reason}`)); unsupported = true; continue; }
-      if (absent) {
-        thermalPads.push({ physicalPadUuid: uuid, footprintUuid: fp.id!, reference: fp.reference, number: pad.number, layer: plane.layer,
-          zoneUuid: zone.uuid, applicability: "no-pad-copper-on-plane-layer", minimumResolvedSpokes: null, proof: "not-applicable" });
-      } else if (!direct.has(uuid)) {
-        thermalIssues.push(`${uuid}:local-intended-zone-contact-not-observed`);
-        thermalFailure = true;
-      } else {
-        thermalPads.push({ physicalPadUuid: uuid, footprintUuid: fp.id!, reference: fp.reference, number: pad.number, layer: plane.layer,
-          zoneUuid: zone.uuid, applicability: "direct-native-zone-contact", minimumResolvedSpokes: thermal ? plane.padConnection.minimumConnectedSpokes : null,
-          proof: thermal ? "native-drc-lower-bound-with-source-derived-applicability" : "not-applicable" });
-      }
+  const declaredZones = resolveFreshPlaneSourceZones(bundle,geometry.zones), contacts = input.contacts;
+  for (const plane of bundle.contract.planes) {
+    const thermal = plane.padConnection.mode === "thermal", target = declaredZones.get(plane.id);
+    if (target === undefined) { thermalIssues.push(`${plane.id}:declared-plane-missing`); thermalFailure=true; continue; }
+    const stagedZone = input.savedEvidence.stage.nativeFilledZones.find(zone=>zone.uuid===target.uuid);
+    requireEvidence(stagedZone!==undefined,"declared zone is missing from complete filled-stage inventory");
+    assertFreshPlaneDeclaredZoneSettings({compilationBundle:bundle,pcbSource:sources.pcbSource,planeId:plane.id,sourceZone:target,nativeZone:stagedZone.raw});
+    // Empty pad numbers still carry copper. Evaluate each physical pad separately for each plane layer.
+    const ownNet = sourcePads.filter(({ pad }) => pad.netName === plane.net);
+    const nativeLayer = `BL_${plane.layer.replace(".", "_")}`;
+    // Scope connection settings only after the authenticated physical inventory
+    // establishes absence. Unknown geometry or conditional flashing never earns it.
+    const noPlaneCopper = new Set(inventory.physicalPads.filter(pad => pad.issues.length === 0
+      && pad.observedUsableCopperLayers !== null && !pad.observedUsableCopperLayers.includes(nativeLayer)).map(pad => pad.uuid));
+    const sourceIssues = overrideSourceIssues(sources.pcbSource, noPlaneCopper);
+    for (const { pad } of ownNet) {
+      const issues = sourceIssues.get(pad.physical.id!) ?? ["source-pad-override-inventory-incomplete"];
+      if (issues.length > 0) { thermalIssues.push(...issues.map(issue => `${pad.physical.id}:${issue}`)); unsupported = true; }
     }
-    if (thermal && !thermalPads.some(pad => pad.applicability === "direct-native-zone-contact")) {
-      thermalIssues.push("no-direct-thermal-pad-witness"); unsupported = true;
+    if (!contacts) { thermalIssues.push("current-native-direct-contacts-unavailable"); unsupported = true; }
+    else {
+      requireEvidence(isKicadPlaneContactsObservation(contacts), "genuine host native direct-contact observation required");
+      requireEvidence(same(contacts.sourceBefore, sourceIdentities.pcb) && same(contacts.sourceAfter, sourceIdentities.pcb)
+        && contacts.sourceUnchanged === true, "native contact source is stale");
+      const report = contacts.report;
+      const zones = report.zones;
+      exactSet(zones.map(zone=>zone.uuid),geometry.zones.map(zone=>zone.uuid!),"native zone inventory");
+      const selected = zones.filter(zone=>zone.uuid===target.uuid);
+      requireEvidence(selected.length===1&&selected[0]!.netName===plane.net,"native declared-zone net/UUID differs");
+      const zone = selected[0]!;
+      const stagedZone = input.savedEvidence.stage.nativeFilledZones.find(item => item.uuid === target.uuid);
+      requireEvidence(stagedZone?.raw.name === rules.zones.find(rule=>rule.planeId===plane.id)!.zoneName && !zone.isRuleArea && zone.isFilled === true
+        && zone.padConnection === (thermal ? 1 : 2), "native intended zone configuration differs");
+      if (zone.needRefill) { thermalIssues.push("native-loaded-zone-reports-refill-needed"); unsupported = true; }
+      if (zone.layers.length !== 1 || zone.layers[0]!.name !== plane.layer || !zone.layers[0]!.hasFilledPolys || zone.layers[0]!.filledSubpolygonCount !== 1
+        || zone.layers[0]!.subpolygons.length !== 1) { thermalIssues.push("aggregate-native-contact-has-ambiguous-subpolygon-scope"); unsupported = true; }
+      exactSet(report.allPads.map(pad => pad.uuid), sourcePads.map(({ pad }) => pad.physical.id!), "native physical pads");
+      exactSet(report.allFootprints.map(fp => fp.uuid), board.footprints.map(fp => fp.id!), "native footprints");
+      requireEvidence(zone.directPads.every(pad => pad.netName === plane.net && report.allPads.some(item => item.uuid === pad.uuid)), "native direct pad contact has another net/owner");
+      const direct = new Set(zone.directPads.map(pad => pad.uuid));
+      for (const { fp, pad } of ownNet) {
+        const uuid = pad.physical.id!, observed = report.allPads.find(item => item.uuid === uuid)!, physical = inventory.physicalPads.find(item => item.uuid === uuid)!;
+        const footprint = report.allFootprints.find(item => item.uuid === fp.id)!;
+        requireEvidence(observed.footprintUuid === fp.id && observed.reference === fp.reference && observed.number === pad.number
+          && observed.netName === plane.net && footprint.reference === fp.reference, "native pad ownership/net differs");
+        const padIssues = [...(sourceIssues.get(uuid) ?? ["source-pad-override-inventory-incomplete"])];
+        if (physical.issues.length > 0 || physical.observedUsableCopperLayers === null) padIssues.push("unsupported-physical-pad");
+        const absent = noPlaneCopper.has(uuid);
+        if (absent) requireEvidence(!direct.has(uuid), "direct contact contradicts native pad-layer absence");
+        const connections = [observed.localZoneConnection, observed.resolvedZoneConnectionOverride,
+          footprint.localZoneConnection, footprint.resolvedZoneConnectionOverride];
+        if (connections.some(value => ![-1, 0, 1, 2, 3].includes(value))) padIssues.push("unsupported-native-zone-connection");
+        if (!absent && connections.some(value => value !== -1)
+          || observed.localThermalGapOverride !== null || observed.localThermalSpokeWidthOverride !== null || observed.padstackMode !== 0) padIssues.push("native-pad-or-footprint-override");
+        if (!same(observed.padstackUniqueLayers, [0]) || observed.layers.some(layer => /^(?:F|B|In[0-9]+)\.Cu$/u.test(layer.name)
+          && (layer.zoneLayerOverride !== 0 || layer.effectivePadstackLayer !== 0))) padIssues.push("native-per-layer-padstack-or-zone-override");
+        const stack = object(physical.rawNative.pad_stack, "raw native padstack");
+        if (stack.type !== "PST_NORMAL") padIssues.push("unsupported-native-padstack-mode");
+        if (stack.unconnected_layer_removal !== undefined && stack.unconnected_layer_removal !== "ULR_KEEP") padIssues.push("native-conditional-pad-layer-flashing");
+        const checkZoneSettings = (value: unknown) => {
+          if (value === undefined) return;
+          const setting = object(value, "raw native pad zone settings");
+          if (setting.zone_connection !== undefined) {
+            if (typeof setting.zone_connection !== "string" || !["ZCS_INHERITED", "ZCS_NONE", "ZCS_THERMAL", "ZCS_FULL", "ZCS_PTH_THERMAL"].includes(setting.zone_connection)) padIssues.push("unsupported-native-padstack-zone-connection");
+            else if (!absent && setting.zone_connection !== "ZCS_INHERITED") padIssues.push("native-padstack-zone-override");
+          }
+          if (setting.thermal_spokes !== undefined) {
+            const spoke = object(setting.thermal_spokes, "raw native thermal settings");
+            if (spoke.gap !== undefined || spoke.width !== undefined) padIssues.push("native-padstack-thermal-override");
+          }
+        };
+        checkZoneSettings(stack.zone_settings);
+        for (const layer of array(stack.copper_layers, "complete raw copper layers")) {
+          const copper = object(layer, "raw copper layer");
+          if (!["PSS_CIRCLE", "PSS_RECTANGLE", "PSS_ROUNDRECT"].includes(String(copper.shape))) padIssues.push("unsupported-native-pad-shape");
+          checkZoneSettings(copper.zone_settings);
+        }
+        if (padIssues.length > 0) { thermalIssues.push(...padIssues.map(reason => `${uuid}:${reason}`)); unsupported = true; continue; }
+        if (absent) {
+          thermalPads.push({ physicalPadUuid: uuid, footprintUuid: fp.id!, reference: fp.reference, number: pad.number, layer: plane.layer,
+            zoneUuid: zone.uuid, applicability: "no-pad-copper-on-plane-layer", minimumResolvedSpokes: null, proof: "not-applicable" });
+        } else if (!direct.has(uuid)) {
+          thermalIssues.push(`${uuid}:local-intended-zone-contact-not-observed`);
+          thermalFailure = true;
+        } else {
+          thermalPads.push({ physicalPadUuid: uuid, footprintUuid: fp.id!, reference: fp.reference, number: pad.number, layer: plane.layer,
+            zoneUuid: zone.uuid, applicability: "direct-native-zone-contact", minimumResolvedSpokes: thermal ? plane.padConnection.minimumConnectedSpokes : null,
+            proof: thermal ? "native-drc-lower-bound-with-source-derived-applicability" : "not-applicable" });
+        }
+      }
+      if (thermal && !thermalPads.some(pad => pad.zoneUuid===zone.uuid && pad.applicability === "direct-native-zone-contact")) {
+        thermalIssues.push("no-direct-thermal-pad-witness"); unsupported = true;
+      }
     }
   }
   const checks = { erc: erc.fact, drcClearanceShorts: finding([...new Set(drcIssues)]), thermalPolicy: finding([...new Set(thermalIssues)], unsupported && !thermalFailure) };

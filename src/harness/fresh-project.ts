@@ -1508,11 +1508,12 @@ export async function assertReadonlyPlaneRuntimeImportSourceCurrent(source: Read
   if (canonicalJson(current.identity) !== canonicalJson(source.identity)) throw new Error("Runtime import source changed after read-only capture.");
 }
 
-/** Compilation support is broader than the currently qualified native writer. */
+/** Host-owned supported construction scope; runtime layer capability is checked before each native plane call. */
 export function assertCurrentPlaneNativeAuthoringScope(bundle: PcbPlaneCompilationBundle): void {
   if (!isAuthenticatedPcbPlaneCompilationBundle(bundle)) throw new Error("Native authoring scope requires an authenticated plane bundle.");
-  if (bundle.contract.scope.board.layerCount !== 2 || bundle.contract.planes.length !== 1) {
-    throw new Error("FOUR_LAYER_NATIVE_AUTHORING_UNAVAILABLE: four-layer compilation is supported, but internal-layer and multiple-plane native authoring is not yet qualified. No project was prepared.");
+  const count=bundle.contract.scope.board.layerCount;
+  if (count!==2&&count!==4 || bundle.contract.planes.length<1 || bundle.contract.planes.length>(count===2?1:2)) {
+    throw new Error("Native authoring requires the bounded two/four-layer construction and its permitted declared plane count.");
   }
 }
 

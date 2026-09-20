@@ -6,6 +6,7 @@ import { freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
 import { routeSourceMmToNativeNm } from "./fresh-route-native-units.js";
 import { channelForNet, channelTrackWidthAllowed } from "./pcb-channel-width.js";
 import { isPcbChannelFeedThroughOutputFork } from "./pcb-channel-feed-through.js";
+import { pcbCopperLayerSchema, pcbRouteLayerMatchesPreference, type PcbCopperLayer } from "./pcb-copper-layers.js";
 
 export const FRESH_PLANE_ROUTE_SELECTION_SCHEMA_VERSION = "evleda.fresh-plane-route-selection.v1" as const;
 export const FRESH_PLANE_ROUTE_MUTATION_SCHEMA_VERSION = "evleda.fresh-plane-route-mutation-result.v1" as const;
@@ -15,7 +16,7 @@ export const PLANE_ROUTE_NOT_EVALUATED = Object.freeze(["plane_contact", "cleara
 const coordinate = z.number().finite().min(-2000).max(2000);
 const identity = z.object({ algorithm: z.literal("sha256"), digest: z.string().regex(/^[a-f0-9]{64}$/u),
   schemaVersion: z.literal(FRESH_PLANE_ROUTE_SELECTION_SCHEMA_VERSION), canonicalizationVersion: z.literal("evleda-c14n-json-v1") }).strict();
-const track = z.object({ x1Mm: coordinate, y1Mm: coordinate, x2Mm: coordinate, y2Mm: coordinate, layer: z.enum(["F.Cu", "B.Cu"]),
+const track = z.object({ x1Mm: coordinate, y1Mm: coordinate, x2Mm: coordinate, y2Mm: coordinate, layer: pcbCopperLayerSchema,
   widthMm: z.number().finite().min(0.05).max(20).optional().describe("Omit for the exact class default. Explicit ordinary-net widths must meet the existing class floor; channel widths require their declared body or terminal-escape intervals and retain the 0.2 mm channel floor.") }).strict();
 const via = z.object({ xMm: coordinate, yMm: coordinate }).strict();
 const mutationArguments = z.object({ selectionIdentity: identity,
@@ -98,9 +99,9 @@ export function assertPlaneIncrementalRouteGeometry(contract: PcbPlaneDesignCont
   for (const t of tracks) {
     const dx = Math.abs(t.end.xMm - t.start.xMm), dy = Math.abs(t.end.yMm - t.start.yMm);
     if (!Number.isFinite(t.widthMm) || (channelForNet(contract, netName) ? !channelTrackWidthAllowed(contract, netName, t.widthMm) : t.widthMm + EPS < netClass.traceWidthMm)
-        || !netClass.allowedLayers.includes(t.layer as "F.Cu" | "B.Cu")
-        || !contract.scope.board.copperLayers.includes(t.layer as "F.Cu" | "B.Cu")
-        || access.preferredLayer !== "either" && t.layer !== access.preferredLayer
+        || !netClass.allowedLayers.includes(t.layer as PcbCopperLayer)
+        || !contract.scope.board.copperLayers.includes(t.layer as PcbCopperLayer)
+        || !pcbRouteLayerMatchesPreference(t.layer,access.preferredLayer)
         || !within(t.start, t.widthMm / 2) || !within(t.end, t.widthMm / 2)
         || length(t) <= EPS || !(dx <= EPS || dy <= EPS || Math.abs(dx - dy) <= EPS)) {
       throw new Error("Plane incremental route has a wrong-width/layer, out-of-board, zero-length, or non-45-degree track.");
@@ -127,7 +128,9 @@ export function assertPlaneIncrementalRouteGeometry(contract: PcbPlaneDesignCont
   // Reuse the existing characterized center-contact model, not complete native
   // connectivity clusters. The host supplies only source/library/native-matched
   // pads. Offset, unknown and non-copper primitives cannot exempt a corner.
-  const contact = (p: Point, layer: string) => vias.some(v => v.layers.includes(layer) && equal(v.at, p))
+  // The validated F-to-B through barrel participates on every enabled copper
+  // layer; its serialized endpoint pair is not its complete layer membership.
+  const contact = (p: Point, layer: string) => vias.some(v => contract.scope.board.copperLayers.includes(layer as PcbCopperLayer) && equal(v.at, p))
     || sourceNativeMatchedPads.some(pad => {
       const physical = pad.physical;
       if (pad.net !== netName || !pad.layers.includes(layer) || !equal(pad, p) || physical === undefined

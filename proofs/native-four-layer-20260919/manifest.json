@@ -1,0 +1,94 @@
+{
+  "files": [
+    {
+      "path": "native/fourlayer-headers-d.kicad_pcb",
+      "sha256": "d2d8a50f52d5ac8e54e1be2cb50a613bb6145cd4dd3b2018f9e93ab9fee06861",
+      "sizeBytes": 35062
+    },
+    {
+      "path": "native/fourlayer-headers-d.kicad_sch",
+      "sha256": "8371f43b5f35b0a6a3d9286d568042c6cad4ac0835e3aadb7fc4dbfc17f4e170",
+      "sizeBytes": 8481
+    },
+    {
+      "path": "native/fourlayer-headers-d.kicad_pro",
+      "sha256": "d556a8fd908d7e5ea93cd59721257ac08d731021e40b1072a524ced0a8450257",
+      "sizeBytes": 11336
+    },
+    {
+      "path": "native/fourlayer-headers-d.kicad_dru",
+      "sha256": "836ac32d6d0db9073d33de539867331866815fe5b5027c1f5eb4fd975264b448",
+      "sizeBytes": 650
+    },
+    {
+      "path": "native/fp-lib-table",
+      "sha256": "78fd1c33a585492ae7c8726543ddcc384e99686a16452e1eb989b4863e79ce7e",
+      "sizeBytes": 241
+    },
+    {
+      "path": "native/sym-lib-table",
+      "sha256": "a687757630b3da4298fac2123e2ff05cb8664ea2233e3eea01ef4590e3ac6fd9",
+      "sizeBytes": 212
+    },
+    {
+      "path": "evidence/verified-endpoints.json",
+      "sha256": "a1d019f6ecf99682f0d2f76a7d5abe083d7b0c1fd88f70458c0071382250c09e",
+      "sizeBytes": 11095
+    },
+    {
+      "path": "evidence/verified-plane.json",
+      "sha256": "8a4a82439ea22b346f0c49f9fe0775b9f3dfb898ed130624f97d50051b191992",
+      "sizeBytes": 85215
+    },
+    {
+      "path": "evidence/verified-practices.json",
+      "sha256": "1e092230dff14951a14a0a7275356a1af0b6bc7e739831cac49ccf7fe669144e",
+      "sizeBytes": 3138
+    },
+    {
+      "path": "evidence/verified-validation.json",
+      "sha256": "e8d8c5a0d9088af3825b5e89afdd846aacdf4019be2cff7f50ed2fa03e085773",
+      "sizeBytes": 7655
+    },
+    {
+      "path": "evidence/close-proof.json",
+      "sha256": "d967db62b49ab5269f976ba5fd769d61e3a92800b4d1d5ed08c7e3f3dc9cb888",
+      "sizeBytes": 2283
+    },
+    {
+      "path": "previews/board-top.png",
+      "sha256": "249f7138c6588046722e3854dccfc629a484f38390c1b1aff115454e8162a9b7",
+      "sizeBytes": 32225
+    },
+    {
+      "path": "previews/board-assembly.png",
+      "sha256": "767b46c136c5bc4c755fe7dcad7ab50b4cd1639e79686ae48dbad590938f0d43",
+      "sizeBytes": 46787
+    },
+    {
+      "path": "evidence/runtime-verify.json",
+      "sha256": "a7a9520e629d916ba7334ba87cb6dd8851b9c40ad13bffff66f80a60399357b2",
+      "sizeBytes": 4385
+    },
+    {
+      "path": "evidence/runtime-negative-results.json",
+      "sha256": "c71a075a2b794f73683395c4be05bb1bc9551b7c21b27739616b1c7651c1480d",
+      "sizeBytes": 1137
+    },
+    {
+      "path": "evidence/four-layer-focused-tests.log",
+      "sha256": "9c94d958265b7ea2d60d8afbdf2ee37d394890e6446eb4eb0c944ba794b47c89",
+      "sizeBytes": 278
+    },
+    {
+      "path": "evidence/inner-npth-rule.json",
+      "sha256": "f3a7d5e7c55a7a0f863e5c6b467b90e5cd409048139e7a10309afc57fe7e3568",
+      "sizeBytes": 358
+    },
+    {
+      "path": "evidence/client-close.json",
+      "sha256": "7bbc15dfaae3a8df08d1d95b2506d3597ce5d8d9b158f516811ccdf07a5d5173",
+      "sizeBytes": 711
+    }
+  ]
+}

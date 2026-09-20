@@ -24,6 +24,11 @@ export function createFreshPlaneRules(bundle: PcbPlaneCompilationBundle) {
     lines.push("", `(rule "EVLEDA_${feature.reference}_NPTH_PHYSICAL_COPPER"`, "  (layer outer)",
       `  (condition "A.Type == 'Pad' && A.Reference == '${feature.reference}'")`, "  (severity error)",
       `  (constraint physical_hole_clearance (min ${feature.minimumHoleToCopperMm}mm)))`);
+    if (bundle.contract.scope.board.layerCount === 4) for (const layer of ["In1.Cu", "In2.Cu"] as const) {
+      lines.push("", `(rule "EVLEDA_${feature.reference}_NPTH_PHYSICAL_${layer.replace(".", "_")}"`, `  (layer "${layer}")`,
+        `  (condition "A.Type == 'Pad' && A.Reference == '${feature.reference}'")`, "  (severity error)",
+        `  (constraint physical_hole_clearance (min ${feature.minimumHoleToCopperMm}mm)))`);
+    }
   }
   for (const zone of zones) {
     if (zone.thermal === null) continue;

@@ -2,7 +2,7 @@
 
 The construction writer can now generate a native blank board with **F.Cu, In1.Cu, In2.Cu and B.Cu**, four separate copper thicknesses and three separate dielectric gaps. KiCad 10.0.3 loaded, saved and reopened the synthetic fixture with identical bytes. The existing two-layer creation path retains its authenticated-bundle requirement and its captured native output.
 
-Following the [RP2350 feasibility study](../designs/rp2350-pico/four-layer-feasibility-20260919/README.md), the public plane-family compiler now accepts four-layer construction and one or two named ground planes. **Managed four-layer authoring remains unavailable pending native qualification.** Creation rejects before allocating a workspace project or making its output directory. No managed project or frozen runtime was changed.
+Following the [RP2350 feasibility study](../designs/rp2350-pico/four-layer-feasibility-20260919/README.md), the public plane-family compiler accepts four-layer construction and one or two named ground planes. Managed creation, internal tracks, ordinary through-vias and both internal ground planes have now been exercised on a separate native fixture. The original RP2350 remains two-layer and unfinished; its conversion is a separate task.
 
 ## Public declarations and saved assessment
 
@@ -36,11 +36,16 @@ The original construction/stackup run reported 99 passed and one failure for the
 
 The integration checks cover four-layer compilation and portable bundle round trips, two-plane ownership, disabled layers, adjacent references, unresolved-construction questions, all saved dielectric/material comparisons and independent front/back calculator inputs. The broader 310-test run found a preparation regression: an added capability check read a bundle getter twice. Moving the check after the single capture fixed it. The final affected project/workspace run passed **46 tests**, and the final construction/public-report/MCP-interface run passed **63 tests**; these overlapping scopes are not added into a total. Existing two-layer golden artifacts passed in the broader run. Source/UI type checking and the isolated backend build passed after the final source changes. No full-suite or complete four-layer authoring claim is made.
 
-## Next integration boundaries
+## Native authoring and verification
 
-1. Replace remaining two-layer source/net-class authoring assumptions and qualify internal route/zone operations, enabled-layer checks and through-via behavior. Footprints and silkscreen remain on outer faces.
-2. Replace the native acceptance/contact checks' single-zone assumptions with complete per-plane mapping and current saved/refill evidence. Do not reuse one target zone's witness as evidence for the other plane.
-3. Verify inner-layer fabrication rules, including NPTH physical-hole clearance currently scoped to outer layers, and preserve all source/PAD/drill records.
-4. Qualify a new runtime and authenticated project/revision lifecycle, then remove the explicit creation refusal. The placement-revision operation cannot change construction or interface requirements. Frozen host30/DOC14 remains unchanged.
+The [native four-layer fixture](../proofs/native-four-layer-20260919/README.md) records the saved project, independent plane assessments, configured native checks, previews, closure and remaining failures. Host37 passed 471 focused tests plus source/UI type checks and backend build. The separate DOC16 runtime closure and negative-manifest checks passed. No full-suite pass is claimed.
 
-Only then can the four-layer RP2350 candidate be authored and its remaining placement, routing and electrical work verified.
+Source scope requires the exact enabled layer order and canonical KiCad 10 copper ordinals. Internal footprint faces, copper text/graphics and hidden copper aliases remain rejected. Tracks may use enabled contract layers; `any` is resolved through the shared layer-preference check. Vias remain ordinary F.Cu-to-B.Cu through-vias, with native membership checked on every enabled copper layer. Blind/buried vias are unsupported. The existing 45-degree turn rule is unchanged.
+
+Multiple planes require an explicit `planeId`. Source zones are bound by unique generated name, UUID, net and layer. Each plane's settings, thermal rule, saved/native geometry and drill topology use its own zone. A current fill witness covers the complete board epoch; selecting the last modified plane never substitutes its geometry for another plane. Closing and reopening requires fresh fill authority before acceptance assessment.
+
+DOC16 advertises the bounded four-layer stage descriptor and includes DOC15's typed enabled-layer adapter. The host retains exact legacy two-layer descriptor support and rejects an internal-layer request before dispatch to an older runtime. Runtime closure verification recognizes the exact DOC15/DOC16 leaves and requires their full predecessor lineage. Frozen older runtimes and hosts remain unchanged.
+
+Inner-layer NPTH physical-hole rules were exercised independently in KiCad: 0.4 mm clearance failed the declared 0.5 mm rule on both In1.Cu and In2.Cu; 0.7 mm cleared that rule. This is rule applicability evidence, not whole-board acceptance.
+
+The placement-revision operation still cannot change construction or interface requirements. A four-layer RP2350 candidate needs a supported new-project or construction-revision workflow, followed by actual placement, routing and electrical checks. Native-clean synthetic fixtures do not establish that result.

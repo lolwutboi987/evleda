@@ -95,9 +95,9 @@ describe("V2 PCB plane design-intent model guide", () => {
     expect(externalSchema!.required).toEqual(["id", "diodeForwardDropAssumption", "operatingModes"]);
     for (const key of ["id", "diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual({ type: "null" });
     for (const key of ["diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual(expect.objectContaining({ type: "string", minLength: 1, maxLength: 2048 }));
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "0503f1b29f2b9a5baf58e8723affa5b414cc923ffc1451c43f294d24180662fb", size: 10628 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "2691158cc5cae9e209699f99ea2936e7eb8c6d04852fe324d3a23901de194b58", size: 12115 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "318a3692c3bb584df2cc5011803dbe65ca31361884ea7c6f78c99e10d26cb581", size: 19253 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "4e49118e1728bd31ba03d84716351336a1e6deb1c57f0e8b5826a93dad8edb80", size: 10701 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "549d2a4d8148ee163016c5c145851cc0a1e7daa5cb666a2fabbe336b682785ec", size: 12188 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "7b13dbf47c37a6226cc3d70b28fd27e39c7812c21abda473035702e0a7dec367", size: 19326 });
   });
 
   it("keeps the complete guidance bounded, provider-neutral and explicit about authority", () => {

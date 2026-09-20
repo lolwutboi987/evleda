@@ -18,6 +18,7 @@ import type { PcbLibraryBinding } from "./pcb-design-compiler.js";
 import { assertPcbExternalPowerBindingCurrent } from "./pcb-external-power.js";
 import { assertPcbDerivedPowerBindingCurrent, powerAnnotationBindingOf } from "./pcb-derived-power.js";
 import { materializeChannelTrackWidth } from "./pcb-channel-width.js";
+import { pcbRouteLayerMatchesPreference } from "./pcb-copper-layers.js";
 import { verifyFreshExternalPowerSource, type FreshExternalPowerPlacement, type FreshExternalPowerSourcePlacement } from "./fresh-external-power.js";
 
 import {
@@ -276,7 +277,7 @@ export interface KicadHarnessSession {
   readLivePcbPadSnapshot?(requestedPrimitiveIds: readonly string[]): Promise<CallToolResult>;
   supportsSchematicConnectivityBatch?(): boolean;
   applySchematicConnectivityBatch?(argumentsValue: Readonly<Record<string, unknown>>): Promise<CallToolResult>;
-  supportsPlaneStage?(): boolean;
+  supportsPlaneStage?(layer?: string): boolean;
   stagePlane?(argumentsValue: KicadPlaneStageInput): Promise<KicadPlaneStageReceipt>;
   supportsNativeRouteTransactions?():boolean;
   supportsQualifiedFootprintIdentitySync?():boolean;
@@ -1135,7 +1136,7 @@ function assertCleanReplacementRoute(
     const dx = Math.abs(track.end.xMm - track.start.xMm);
     const dy = Math.abs(track.end.yMm - track.start.yMm);
     if (!allowedLayerSet.has(track.layer)
-        || (routeConstraint.preferredLayer !== "either" && track.layer !== routeConstraint.preferredLayer)
+        || !pcbRouteLayerMatchesPreference(track.layer,routeConstraint.preferredLayer)
         || track.widthMm + ROUTE_GEOMETRY_EPSILON_MM < netClass.traceWidthMm
         || Math.hypot(dx, dy) <= ROUTE_GEOMETRY_EPSILON_MM
         || !(dx <= ROUTE_GEOMETRY_EPSILON_MM || dy <= ROUTE_GEOMETRY_EPSILON_MM || Math.abs(dx - dy) <= ROUTE_GEOMETRY_EPSILON_MM)) {
@@ -4572,7 +4573,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     for (const track of [...requestedArguments.tracks,...argumentsValue.tracks]) {
       if (!withinBoard(track.x1Mm, track.y1Mm) || !withinBoard(track.x2Mm, track.y2Mm)
           || !netClass.allowedLayers.includes(track.layer)
-          || (routeGeometry.preferredLayer !== "either" && track.layer !== routeGeometry.preferredLayer)) {
+          || !design.scope.board.copperLayers.includes(track.layer)
+          || !pcbRouteLayerMatchesPreference(track.layer,routeGeometry.preferredLayer)) {
         throw new Error("Replacement track exceeds board bounds or its net-class allowed layers.");
       }
       const dx = Math.abs(track.x2Mm - track.x1Mm);
@@ -5128,8 +5130,10 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if(!isVerifiedPlaneFreshProject(this.#freshProject)||this.#freshPlaneCompilationBundle===undefined||this.#session.supportsPlaneStage?.()!==true||typeof this.#session.stagePlane!=="function")throw new Error("Plane apply requires the genuine V2 project and available private native stage capability; DOC3 authoring/routes remain separate.");
     if(this.#pendingFreshConnectivity!==undefined||this.#pendingFreshPlacementCommit!==undefined||this.#pendingSchematicFileMutationBatch!==undefined)throw new Error("Save and validate prior schematic mutations before plane staging.");
     const bundle=this.#freshPlaneCompilationBundle;
+    if(args.planeId===undefined&&bundle.contract.planes.length!==1)throw new Error("Multiple declared planes require an explicit planeId.");
     const plane=args.planeId===undefined?bundle.contract.planes[0]:bundle.contract.planes.find(p=>p.id===args.planeId);
     if(plane===undefined)throw new Error("Unknown exact contract planeId.");
+    if(this.#session.supportsPlaneStage?.(plane.layer)!==true)throw new Error("The connected native runtime does not support this plane's copper layer.");
     const before=await captureFreshPcb(this.#freshProject);
     const ruleSources=await this.#planeRuleSources();
     const fillInputs={before,projectSettingsIdentity:ruleSources.projectSettingsIdentity,rulesIdentity:ruleSources.rulesIdentity,

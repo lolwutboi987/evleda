@@ -1,0 +1,59 @@
+{
+  "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\mcp-session-06\\workspace-client-f981a30f-f574-477a-b78e-5622ced6358d\\000070-response-f3391e768f05d8f977a3e78946d348f620159c451be82621cfb3e8a41d9f347f.json",
+  "data": {
+    "report": {
+      "schemaVersion": "evleda.toolbox-practices.v1",
+      "sourcePath": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-four-layer-native-01\\workspace\\projects\\9c692d52-51be-45fe-8a69-249e8c5f25f9\\output\\project\\fourlayer-headers-d.kicad_pcb",
+      "sourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "d2d8a50f52d5ac8e54e1be2cb50a613bb6145cd4dd3b2018f9e93ab9fee06861",
+        "size": 35062
+      },
+      "reviewedProfileIdentity": null,
+      "analysis": null,
+      "geometry": {
+        "turns": [],
+        "findings": [],
+        "segmentCount": 5,
+        "routedArcCount": 0,
+        "unresolvedNetSegmentCount": 0,
+        "coordinateToleranceMm": 0.000001,
+        "limitations": [
+          "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+          "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability."
+        ]
+      },
+      "turnPolicy": {
+        "allowedDirectionChangesDeg": [
+          0,
+          45
+        ],
+        "numericalToleranceDeg": 1e-7,
+        "measuredTurnCount": 0,
+        "violations": [],
+        "unresolvedFindings": [],
+        "coverage": "Recognized degree-two same-net same-layer straight-segment endpoints only; other geometry is not proven compliant.",
+        "unresolvedNetSegmentCount": 0
+      },
+      "checks": {
+        "literalTurnGeometry": "measured-subset",
+        "reviewedProfileConstraints": "unverified-no-profile",
+        "widthAndNetClass": "unverified-no-profile",
+        "vias": "unverified-no-profile",
+        "electricalSuitability": "unverified",
+        "manufacturingReadiness": "unverified"
+      },
+      "limitations": [
+        "Only top-level straight segments with resolved nets and degree-two same-layer endpoints have sequential turn measurements.",
+        "Geometry-only extraction does not check widths, vias, electrical stackup, current capacity, impedance, clearance or fabrication suitability.",
+        "Zero direction change means a straight continuation; 180 degrees means reversal and is not permitted. Overlaps may prevent sequential-turn inference.",
+        "No automatic design acceptance: original findings and incomplete coverage remain authoritative.",
+        "Reviewed numerical width/via/net-class constraints do not supply current, voltage, temperature rise, impedance or fabricator qualification evidence."
+      ]
+    },
+    "sourceBefore": "e978da9d20732f9224a8fd408b04fe5ae5807a049a7b0bbfe3b1ce466793eeea",
+    "sourceAfter": "e978da9d20732f9224a8fd408b04fe5ae5807a049a7b0bbfe3b1ce466793eeea",
+    "sourceUnchanged": true,
+    "assurance": "Findings and coverage only; missing engineering inputs are not a pass."
+  }
+}

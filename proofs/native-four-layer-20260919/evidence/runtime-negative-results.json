@@ -1,0 +1,20 @@
+{
+  "cases": [
+    {
+      "name": "descriptor-without-adapter",
+      "rejected": true,
+      "reason": "DOC16 requires the typed four-layer adapter from DOC15"
+    },
+    {
+      "name": "adapter-without-predecessor",
+      "rejected": true,
+      "reason": "DOC15 requires the complete DOC14 lineage"
+    },
+    {
+      "name": "unknown-descriptor",
+      "rejected": true,
+      "reason": "Runtime differs from DOC5 beyond the approved pyvenv home relocation\n+ actual - expected\n... Skipped lines\n\n  [\n    {\n      mode: 438,\n      path: 'environment/.gitignore',\n      sha256: '684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1',\n...\n      path: 'evleda_plane_stage/protocol.json',\n+     sha256: '0000000000000000000000000000000000000000000000000000000000000000',\n+     sizeBytes: 13368\n-     sha256: '13cd7bca5fc84a6de2ac368fcccb8eb4b2487325ba0152f55a56b18c5208e364',\n-     sizeBytes: 13224\n    },\n    {\n      mode: 438,\n      path: 'evleda_plane_stage/typed_zone.py',\n      sha256: 'c31a98f88eb3e447af99b9738524f0f58f04506d8a349dfa55719d852f70b10e',\n"
+    }
+  ],
+  "nativeFilesModified": false
+}

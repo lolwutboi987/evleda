@@ -8,3 +8,9 @@ export const pcbRouteLayerPreferenceSchema = z.enum([...PCB_FOUR_COPPER_LAYER_OR
 export const pcbCopperLayerOrder = (count: 2 | 4): readonly PcbCopperLayer[] => count === 2 ? ["F.Cu", "B.Cu"] : PCB_FOUR_COPPER_LAYER_ORDER;
 export const comparePcbCopperLayers = (a: PcbCopperLayer, b: PcbCopperLayer): number =>
   PCB_FOUR_COPPER_LAYER_ORDER.indexOf(a) - PCB_FOUR_COPPER_LAYER_ORDER.indexOf(b);
+
+/** Preference only; callers must also enforce the board and net-class layer sets. */
+export function pcbRouteLayerMatchesPreference(layer: string, preferred: z.infer<typeof pcbRouteLayerPreferenceSchema>): boolean {
+  return PCB_FOUR_COPPER_LAYER_ORDER.includes(layer as PcbCopperLayer)
+    && (preferred === "any" || preferred === "either" && (layer === "F.Cu" || layer === "B.Cu") || layer === preferred);
+}

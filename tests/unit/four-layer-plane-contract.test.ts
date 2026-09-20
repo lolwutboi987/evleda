@@ -51,7 +51,7 @@ describe("four-layer plane-family declarations and saved construction", () => {
     const four = fourLayerPlaneDraft(); four.schemaVersion = "evleda.pcb-design-intent-draft.v1";
     expect(pcbDesignIntentDraftSchema.safeParse(four).success).toBe(false);
     expect(() => assertCurrentPlaneNativeAuthoringScope(before)).not.toThrow();
-    expect(() => assertCurrentPlaneNativeAuthoringScope(fourLayerPlaneBundle())).toThrow("FOUR_LAYER_NATIVE_AUTHORING_UNAVAILABLE");
+    expect(() => assertCurrentPlaneNativeAuthoringScope(fourLayerPlaneBundle())).not.toThrow();
   });
 
   it.each([

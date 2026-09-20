@@ -80,11 +80,14 @@ async function initialOpenFixture() {
 }
 
 describe("explicit V2 plane fresh-project preparation", () => {
-  it("rejects unqualified four-layer authoring before creating its output directory", async () => {
-    const parent = await directory(), outputDir = path.join(parent,"four-layer-not-created"), four = fourLayerPlaneBundle();
-    await expect(preparePlaneFreshProject({ outputDir, name:"four-layer", resume:false, compilationBundle:four,
-      compilationBundleRef:createPcbPlaneCompilationBundleRef(four) })).rejects.toThrow("FOUR_LAYER_NATIVE_AUTHORING_UNAVAILABLE");
-    expect(await readdir(parent)).toEqual([]);
+  it("prepares the authenticated four-layer source and both plane rules before native startup", async () => {
+    const parent = await directory(), outputDir = path.join(parent,"four-layer"), four = fourLayerPlaneBundle();
+    const project=await preparePlaneFreshProject({ outputDir, name:"four-layer", resume:false, compilationBundle:four,
+      compilationBundleRef:createPcbPlaneCompilationBundleRef(four) });
+    expect(await readFile(project.pcbPath,"utf8")).toBe(createInterfaceConstructionBoardSeed(four));
+    const rules=await readFile(path.join(project.projectPath,"four-layer.kicad_dru"),"utf8");
+    expect(rules).toBe(createFreshPlaneRules(four).source);
+    expect(rules).toContain('(layer "In1.Cu")'); expect(rules).toContain('(layer "In2.Cu")');
   });
   it("writes declared construction before the immutable marker and prepared-source authority", async () => {
     const constructionBundle = interfaceConstructionBundle();
