@@ -1,0 +1,210 @@
+{
+  "scope": "Independent exact integer/rational distance review of the original SWDIO_MCU Euclidean capsules against every retained In1 stored-fill boundary. Strictly interior endpoints plus distance greater than the capsule radius establish containment in that stored region. This does not change the public helper report, restore native fill authority, prove drill-clipped connectivity, or qualify electrical return behavior.",
+  "sourceSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+  "geometryMapSha256": "4d5b2bab77ba7b3aed6702e6f502c0375e3e4be63f2c067a7513f0dae2712088",
+  "ringCount": 1,
+  "boundaryEdges": 3379,
+  "cancelledOppositePairs": 45,
+  "radiusComparison": "4 * squared-distance numerator > (width + 2*margin)^2 * denominator; exact BigInt, with equality uncertain",
+  "results": [
+    {
+      "segmentId": "0eab1d17-fef6-4ec0-9e4a-c140ee38db79",
+      "net": "SWDIO_MCU",
+      "startNm": {
+        "x": 11200000,
+        "y": 36570000
+      },
+      "endNm": {
+        "x": 11785000,
+        "y": 37155000
+      },
+      "widthNm": 200000,
+      "marginNm": 250000,
+      "endpointsStrictlyInside": true,
+      "minimumBoundaryDistanceSquaredNm": {
+        "numerator": "1218661066324",
+        "denominator": "1"
+      },
+      "nearestBoundaryEdgeNm": [
+        [
+          "11235763",
+          "35446503"
+        ],
+        [
+          "11343982",
+          "35475500"
+        ]
+      ],
+      "strictClearanceComparison": 1,
+      "displayMinimumBoundaryDistanceMm": 1.103929828532593,
+      "displayExcessBeyondRequiredRibbonMm": 0.7539298285325928,
+      "status": "strictly-covered"
+    },
+    {
+      "segmentId": "10ab56c5-f5a8-4bd6-b301-fb63be4f71f2",
+      "net": "SWDIO_MCU",
+      "startNm": {
+        "x": 11200000,
+        "y": 35950000
+      },
+      "endNm": {
+        "x": 11200000,
+        "y": 36570000
+      },
+      "widthNm": 200000,
+      "marginNm": 250000,
+      "endpointsStrictlyInside": true,
+      "minimumBoundaryDistanceSquaredNm": {
+        "numerator": "3083021355573178094916",
+        "denominator": "12552177970"
+      },
+      "nearestBoundaryEdgeNm": [
+        [
+          "11235763",
+          "35446503"
+        ],
+        [
+          "11343982",
+          "35475500"
+        ]
+      ],
+      "strictClearanceComparison": 1,
+      "displayMinimumBoundaryDistanceMm": 0.49559706116708574,
+      "displayExcessBeyondRequiredRibbonMm": 0.1455970611670857,
+      "status": "strictly-covered"
+    },
+    {
+      "segmentId": "29f43598-72da-4ce0-a096-1a9b1f301281",
+      "net": "SWDIO_MCU",
+      "startNm": {
+        "x": 13900000,
+        "y": 41490000
+      },
+      "endNm": {
+        "x": 13200000,
+        "y": 42190000
+      },
+      "widthNm": 200000,
+      "marginNm": 250000,
+      "endpointsStrictlyInside": true,
+      "minimumBoundaryDistanceSquaredNm": {
+        "numerator": "9570548230568",
+        "denominator": "1"
+      },
+      "nearestBoundaryEdgeNm": [
+        [
+          "14727748",
+          "44892247"
+        ],
+        [
+          "14685758",
+          "44903498"
+        ]
+      ],
+      "strictClearanceComparison": 1,
+      "displayMinimumBoundaryDistanceMm": 3.0936302672698304,
+      "displayExcessBeyondRequiredRibbonMm": 2.7436302672698303,
+      "status": "strictly-covered"
+    },
+    {
+      "segmentId": "2df821f6-29a2-43d5-8330-62a0ef80cf3f",
+      "net": "SWDIO_MCU",
+      "startNm": {
+        "x": 13000000,
+        "y": 37155000
+      },
+      "endNm": {
+        "x": 13900000,
+        "y": 38055000
+      },
+      "widthNm": 200000,
+      "marginNm": 250000,
+      "endpointsStrictlyInside": true,
+      "minimumBoundaryDistanceSquaredNm": {
+        "numerator": "201086594958240000000000",
+        "denominator": "1620000000000"
+      },
+      "nearestBoundaryEdgeNm": [
+        [
+          "13951646",
+          "37587993"
+        ],
+        [
+          "13979515",
+          "37636263"
+        ]
+      ],
+      "strictClearanceComparison": 1,
+      "displayMinimumBoundaryDistanceMm": 0.3523173679397597,
+      "displayExcessBeyondRequiredRibbonMm": 0.002317367939759686,
+      "status": "strictly-covered"
+    },
+    {
+      "segmentId": "7666bdac-adae-46e9-8d2f-37fce1c82cda",
+      "net": "SWDIO_MCU",
+      "startNm": {
+        "x": 11785000,
+        "y": 37155000
+      },
+      "endNm": {
+        "x": 13000000,
+        "y": 37155000
+      },
+      "widthNm": 200000,
+      "marginNm": 250000,
+      "endpointsStrictlyInside": true,
+      "minimumBoundaryDistanceSquaredNm": {
+        "numerator": "827020346324",
+        "denominator": "1"
+      },
+      "nearestBoundaryEdgeNm": [
+        [
+          "13894500",
+          "37318982"
+        ],
+        [
+          "13894500",
+          "37431018"
+        ]
+      ],
+      "strictClearanceComparison": 1,
+      "displayMinimumBoundaryDistanceMm": 0.9094065902136403,
+      "displayExcessBeyondRequiredRibbonMm": 0.5594065902136404,
+      "status": "strictly-covered"
+    },
+    {
+      "segmentId": "cb44adfa-757d-4135-978c-6fc0c28ee76d",
+      "net": "SWDIO_MCU",
+      "startNm": {
+        "x": 13900000,
+        "y": 38055000
+      },
+      "endNm": {
+        "x": 13900000,
+        "y": 41490000
+      },
+      "widthNm": 200000,
+      "marginNm": 250000,
+      "endpointsStrictlyInside": true,
+      "minimumBoundaryDistanceSquaredNm": {
+        "numerator": "1749867144113500623225",
+        "denominator": "12550560625"
+      },
+      "nearestBoundaryEdgeNm": [
+        [
+          "14058739",
+          "37715486"
+        ],
+        [
+          "14155759",
+          "37771501"
+        ]
+      ],
+      "strictClearanceComparison": 1,
+      "displayMinimumBoundaryDistanceMm": 0.37339712992016105,
+      "displayExcessBeyondRequiredRibbonMm": 0.023397129920161037,
+      "status": "strictly-covered"
+    }
+  ],
+  "sourceUnchanged": true
+}

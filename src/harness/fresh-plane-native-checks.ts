@@ -178,7 +178,7 @@ function overrideSourceIssues(source: string, noPlaneCopper: ReadonlySet<string>
       if (footprintConnections.length > 1 || footprintConnections.some(node => !zoneConnection(node))) issues.push("unsupported-footprint-source-zone-connect");
       else if (footprintConnections.some(node => node.atoms[0]!.value !== "-1") && !noPlaneCopper.has(uuid)) issues.push("footprint-source-zone-override");
       if (pad.atoms.length !== 3 || pad.atoms[1]!.quoted || pad.atoms[2]!.quoted
-        || !["circle", "rect", "roundrect"].includes(pad.atoms[2]!.value)) issues.push("unsupported-source-pad-shape");
+        || !["circle", "oval", "rect", "roundrect"].includes(pad.atoms[2]!.value)) issues.push("unsupported-source-pad-shape");
       const seen = new Set<string>();
       const visit = (node: Form) => {
         if (FORBIDDEN.has(node.name)) issues.push(`source-pad-${node.name}`);
@@ -188,9 +188,10 @@ function overrideSourceIssues(source: string, noPlaneCopper: ReadonlySet<string>
         if (seen.has(child.name)) issues.push(`duplicate-source-pad-field:${child.name}`);
         seen.add(child.name);
         if (child.name === "property") {
-          // This stock heatsink marker changes neither pad copper nor its bore.
+          // Stock heatsink/mechanical fabrication markers do not replace the
+          // separately checked copper, bore, connection or thermal settings.
           if (child.children.length || child.atoms.length !== 1 || child.atoms[0]!.quoted
-            || child.atoms[0]!.value !== "pad_prop_heatsink") issues.push("unsupported-source-pad-property");
+            || !["pad_prop_heatsink", "pad_prop_mechanical"].includes(child.atoms[0]!.value)) issues.push("unsupported-source-pad-property");
           visit(child); continue;
         }
         if (child.name === "zone_connect") {
@@ -513,7 +514,7 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
         checkZoneSettings(stack.zone_settings);
         for (const layer of array(stack.copper_layers, "complete raw copper layers")) {
           const copper = object(layer, "raw copper layer");
-          if (!["PSS_CIRCLE", "PSS_RECTANGLE", "PSS_ROUNDRECT"].includes(String(copper.shape))) padIssues.push("unsupported-native-pad-shape");
+          if (!["PSS_CIRCLE", "PSS_OVAL", "PSS_RECTANGLE", "PSS_ROUNDRECT"].includes(String(copper.shape))) padIssues.push("unsupported-native-pad-shape");
           checkZoneSettings(copper.zone_settings);
         }
         if (padIssues.length > 0) { thermalIssues.push(...padIssues.map(reason => `${uuid}:${reason}`)); unsupported = true; continue; }

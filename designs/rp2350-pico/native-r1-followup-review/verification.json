@@ -1,0 +1,84 @@
+{
+  "scope": "Software verification and read-only source-bound diagnosis; the installed frozen host43 and published native-r1 assessment are unchanged. Published diagnostic scripts resolve the bundled source/evidence and accept a fresh output path.",
+  "sourcePcbSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+  "codePins": [
+    {
+      "file": "src/harness/fresh-plane-native-checks.ts",
+      "sha256": "f974717d2eb8e8978fb8c5897394ebcfebd8e22d21e7edf7f6c6b55068af1cfd"
+    },
+    {
+      "file": "tests/unit/fresh-plane-native-checks.test.ts",
+      "sha256": "5bcfe52b893a1fea16a6b466d56d50c702db3a66f55b31a24bc1241bd00bdb29"
+    },
+    {
+      "file": "tests/unit/kicad-native-connector-pad-observation.test.ts",
+      "sha256": "77afbcd7073b5aa7a16df7f76a615348f7aa7e4565c196712376ba11546b512b"
+    }
+  ],
+  "checks": {
+    "sourceTypecheck": {
+      "command": "pnpm exec tsc --noEmit -p tsconfig.json",
+      "exitCode": 0
+    },
+    "backendBuild": {
+      "command": "pnpm exec tsc -p tsconfig.build.json --outDir ../destination-verification/plane-pad-support-01/dist",
+      "exitCode": 0
+    },
+    "tests": {
+      "command": "pnpm exec vitest run tests/unit/fresh-plane-native-checks.test.ts tests/unit/kicad-native-connector-pad-observation.test.ts tests/unit/fresh-plane-acceptance.test.ts --reporter=dot",
+      "exitCode": 0,
+      "passed": 254,
+      "files": 3,
+      "scope": "Focused software tests, no new native acceptance claim"
+    }
+  },
+  "initialTestFailure": "The connector fixture omitted the required enabled copper-layer table, causing 31 cases to fail before reaching their assertions. The fixture now explicitly declares its original two layers; production layer verification was not relaxed.",
+  "rejectedProposals": [
+    {
+      "directory": "debug-via-129",
+      "result": "0.08 mm east via move violates GPIO23 clearance"
+    },
+    {
+      "directory": "debug-via-130",
+      "result": "0.08 mm north via move violates 3V3 copper/hole clearance"
+    },
+    {
+      "directory": "debug-route-131",
+      "result": "0.08 mm full SWDIO vertical shift violates R19 clearance"
+    },
+    {
+      "directory": "debug-route-132",
+      "result": "Local jog passes native DRC but retains coarse reference uncertainty; not adopted because exact review supports the original route"
+    }
+  ],
+  "files": [
+    {
+      "file": "regions.json",
+      "sha256": "4d5b2bab77ba7b3aed6702e6f502c0375e3e4be63f2c067a7513f0dae2712088"
+    },
+    {
+      "file": "in2-regions.svg",
+      "sha256": "518385b9592671d8f28cf96fc1da37480d022af6b5ab2964adc0206e7674442a"
+    },
+    {
+      "file": "in2-regions.png",
+      "sha256": "0d6037f2c2574b5c3fcc343b3ce0f376450e553ef1853334ce951b5de5a7e298"
+    },
+    {
+      "file": "exact-debug-distance.json",
+      "sha256": "108f87ee1b8ba79c0ce94461657cb7d9b9f62d075a82b22dd8a300477d7696a5"
+    },
+    {
+      "file": "inspect-plane-regions.py",
+      "sha256": "69fef00eb1b961b3858a5bf523ab458712fc36dc242131deb6a75b2ff79d663e"
+    },
+    {
+      "file": "exact-debug-distance.mjs",
+      "sha256": "4a618a3511ae0db7306b6b492c5c1a14257d67f7ac84574c500b95e554005910"
+    }
+  ],
+  "diagnosticReplays": {
+    "nativeRegionMap": "exact semantic match, KiCad 10.0.3, source unchanged",
+    "exactDistance": "exact semantic match, original source and margins preserved"
+  }
+}

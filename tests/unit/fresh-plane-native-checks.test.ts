@@ -441,6 +441,30 @@ describe("source-bound native plane policy evidence", () => {
     expect(result.physicalThermalWidth).toBe("not_measured");
     expect(result.acceptanceEvaluated).toBe(false);
   });
+  contactTest.each(["", "(property pad_prop_mechanical)"])("retains ordinary oval shield-pad geometry with fabrication marker %s", async property => {
+    const extraPad = `(pad "7" thru_hole oval (at 2 0) (size 1.2 2.2) (drill oval 0.6 1.6) (layers "*.Cu") (net "GND") ${property})`;
+    const result = assessFreshPlaneNativeChecks(await withContacts(await fixture({ extraPad })));
+    expect(result.checks.thermalPolicy).toEqual({ status: "verified", reasons: [] });
+    expect(result.thermalPads.find(pad => pad.number === "7")).toMatchObject({
+      applicability: "direct-native-zone-contact", proof: "native-drc-lower-bound-with-source-derived-applicability",
+    });
+    expect(result.acceptanceEvaluated).toBe(false);
+    expect(result.physicalThermalWidth).toBe("not_measured");
+  });
+  contactTest("keeps mechanical fabrication metadata separate from a forbidden local solid override", async () => {
+    const input = await withContacts(await fixture({ padFields: "(property pad_prop_mechanical) (zone_connect 2)",
+      rawPadZoneConnection: { number: "3", value: "ZCS_FULL" } }), report => {
+      const pad = report.allPads.find(p => p.number === "3")!;
+      pad.localZoneConnection = 2; pad.resolvedZoneConnectionOverride = 2;
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.thermalPolicy.status).toBe("unsupported");
+    expect(result.checks.thermalPolicy.reasons).toEqual(expect.arrayContaining([
+      expect.stringContaining(":source-pad-zone_connect"), expect.stringContaining(":native-pad-or-footprint-override"),
+      expect.stringContaining(":native-padstack-zone-override"),
+    ]));
+    expect(result.checks.thermalPolicy.reasons.some(reason => reason.includes("unsupported-source-pad-property"))).toBe(false);
+  });
   contactTest("matches each plane's own generated rule name instead of reusing the first plane's rule",async()=>{
     const input=await withContacts(await fixture({fourLayer:true}));
     const result=assessFreshPlaneNativeChecks(input);
@@ -489,6 +513,8 @@ describe("source-bound native plane policy evidence", () => {
   it.each([
     ["unknown property", "(property pad_prop_future)"],
     ["quoted property", '(property "pad_prop_heatsink")'],
+    ["quoted mechanical property", '(property "pad_prop_mechanical")'],
+    ["nested mechanical property", '(property pad_prop_mechanical (thermal_gap 0.1))'],
     ["empty property", "(property)"],
     ["extra property atom", "(property pad_prop_heatsink extra)"],
     ["nested property", "(property pad_prop_heatsink (drill 0.1))"],

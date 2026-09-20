@@ -23,7 +23,8 @@ const resolver = createKiCad10StockLibraryResolver({symbolRoot:fileURLToPath(fix
 const inspection = resolver.inspectFootprint(libraryId)!;
 
 function boardSource(): string {
-  let source = `(kicad_pcb (version 20260206) ${stockBytes.toString("utf8")
+  let source = `(kicad_pcb (version 20260206)
+    (layers (0 "F.Cu" signal) (2 "B.Cu" signal)) ${stockBytes.toString("utf8")
     .replace(/^\t\((?:version|generator|generator_version)\b[^\r\n]*\)\r?\n/gmu, "")
     .replace(`(footprint "${leaf}"`, `(footprint "${libraryId}" (uuid "77777777-7777-4777-8777-777777777777") (at 20 20 0)`)
     .replace('(property "Reference" "REF**"', '(property "Reference" "J1"')})`;

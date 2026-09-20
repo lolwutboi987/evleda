@@ -1,5 +1,14 @@
 # RP2350 continuation: 20 September 2026
 
+The [focused R1 follow-up](../designs/rp2350-pico/native-r1-followup-review/README.md)
+finds a native ground-attachment witness in every supplemental In2 region and
+exact nominal coverage for the two SWDIO_MCU ribbons previously reported as
+uncertain by the coarse helper. The board is unchanged. The single-region
+contract failure, header launch coverage and indirect contact evaluation remain
+open. A separately tested source correction admits standard oval/mechanical
+shield pads without weakening contact or override checks; installed host43 and
+the historical native acceptance report are unchanged.
+
 Current: [native R1](../designs/rp2350-pico/native-r1/README.md) has completed managed authoring, both saved fills, normal close and fresh read-only reopening. All six sources stayed unchanged, all 67 functional nets remain connected, and configured native ERC/DRC are clean. Portable files, previews, pinout, BOM and the complete source-bound engineering report are included. The supplemental In2 pour policy and debug reference findings remain open; overall acceptance is false. Host43/DOC17 and its fresh 17-tool client are qualified separately from electrical acceptance.
 
 ## Earlier review target, before managed completion
