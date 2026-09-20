@@ -1,0 +1,35 @@
+{
+  "releaseSha256": "86fbb21968230fa76a4d48c91601ff36176e75393d616261a8c0f71d0ced6349",
+  "buildChecks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "reusedChecks": {
+    "evidence": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\proofs\\reference-gap-reporting-20260920\\verification.json",
+      "sha256": "96ff0d7b7bbfaec2f25df65f68c7a2c054f2fc802aca38c3b0317ba974588cfd",
+      "sizeBytes": 1490
+    },
+    "tests": {
+      "passed": 110,
+      "files": 2,
+      "scope": "fresh-plane-acceptance and toolbox-plane-acceptance; not a full suite",
+      "exitCode": 0,
+      "durationSeconds": 76.66
+    },
+    "sourceTypecheck": {
+      "exitCode": 0
+    },
+    "rationale": "Only the two source/test files in the prior 110-test qualification changed relative to host47. Every other code, test, script, sidecar and build-input pin remains exact. Tests/typecheck were not repeated; this frozen copy receives fresh backend compilation and helper packaging."
+  },
+  "qualificationSource": "../reference-gap-reporting-20260920/verification.json",
+  "sourcePinsRechecked": true,
+  "nativePinsRechecked": true,
+  "scope": "New frozen backend compilation and native helper packaging; prior 110-test/source-typecheck evidence reused after exact source/input comparison. No repeated or full-suite claim."
+}

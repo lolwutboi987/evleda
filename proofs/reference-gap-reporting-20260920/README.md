@@ -15,9 +15,9 @@ inventory, helper pin and routing guards remain in force.
 The regression tests cover uncovered, covered and uncertain geometry with
 unknown global topology, missing endpoint anchoring, and native/source mismatch.
 **110 tests in two files, the source typecheck and backend compilation passed.** This is scoped
-software validation. The installed frozen host47 and its historical native
-assessment are unchanged; this correction has not yet been qualified in a new
-managed native assessment.
+software validation. The subsequent [host48 native qualification](../native-reference-gap-20260920/README.md)
+now verifies the correction through public refill/save/assessment/normal close
+and installs the new host. The historical host47 report remains preserved.
 
 ## Current board evidence
 

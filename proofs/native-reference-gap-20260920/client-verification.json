@@ -1,0 +1,30 @@
+{
+  "installation": {
+    "schemaVersion": "evleda.destination-client-installation.v7",
+    "recordedAt": "2026-09-20T22:22:23.266Z",
+    "scope": "Existing workspace entry advances host47 to native-qualified host48. DOC17 profile, skill, edit policy, workspace, environment, timeout and unrelated settings remain unchanged. Reference gaps remain failures despite unrelated plane uncertainty.",
+    "configuration": {
+      "beforeSha256": "8e1d3d10e469d501c6c713e9c68f4fa415823dc6f34c1149ccffc239a75de60f",
+      "afterSha256": "d75beeaa44bfbd6f4bada93a4f77d60117b5c304373e8adedbe57bc2be12c207",
+      "unrelatedRawBytesPreserved": true
+    },
+    "skill": {
+      "sha256": "831a9c138ae9e46d30d757a0406020f8abd79864cb39321a53f08fb8cc568658",
+      "repositoryCopyExact": true,
+      "unchanged": true
+    },
+    "hostReleaseSha256": "86fbb21968230fa76a4d48c91601ff36176e75393d616261a8c0f71d0ced6349",
+    "nativeSourceUnchanged": true,
+    "runningDesktopActivation": "not-established"
+  },
+  "freshClient": {
+    "scope": "Fresh actual installed Codex app-server reads the real global EvlEDA entry. Other servers/plugins are disabled only for this probe. No task, model turn or native project is created. This is not evidence that an already-running desktop connection reloaded.",
+    "passed": true,
+    "toolCount": 18,
+    "exit": {
+      "code": 0,
+      "signal": null
+    }
+  },
+  "runningDesktopActivation": "not-established"
+}

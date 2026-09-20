@@ -1,5 +1,12 @@
 # Destination client installation
 
+Current: **host48 with unchanged DOC17/v4 profile and skill** is installed after
+[actual native reference-gap qualification](../proofs/native-reference-gap-20260920/README.md).
+A fresh actual Codex client discovers 18 tools. Workspace, access, environment,
+timeout and unrelated configuration remain unchanged. Native sources are exact;
+the checker now reports both known debug-header gaps as failures. Existing
+desktop connection activation remains unestablished. Earlier records follow.
+
 Current: **host47 with the same DOC17/v4 profile** is installed after
 [actual native regional-policy revision](../proofs/native-plane-policy-revision-20260920/README.md).
 The installed skill matches the repository and a fresh actual Codex client

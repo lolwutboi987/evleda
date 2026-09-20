@@ -39,8 +39,9 @@ GPIO service strips are clear, with 42 permitted own-pad inward leads. Native
 via/copper/hole checks remain active under the same constraints. Six generic
 junction notices remain attributed to actual pad/via centres in the source audit.
 
-The full [assessment](verification/assessment.json) is still **incomplete: 141 pass,
-431 unknown, zero fail; accepted=false**. Regional contact and area conditions are
+The initial [assessment](verification/assessment.json) recorded **141 pass,
+431 unknown, zero fail; accepted=false**. It is preserved as historical evidence.
+Regional contact and area conditions are
 verified, while complete drill-clipped continuity, physical widths/current
 capacity, debug-header launches, USB startup/inrush and other electrical checks
 remain open. The [startup screen](../usb-startup-screen-20260920/README.md) is not a
@@ -48,12 +49,16 @@ measured waveform or a current-control solution. The prior [exact debug review](
 retains its nominal scope; unchanged routes, bores and normalized fill geometry
 are documented in [geometry equivalence](verification/geometry-equivalence.json).
 
-A later [read-only reference check](../../../proofs/reference-gap-reporting-20260920/README.md)
+The latest [native reassessment](../../../proofs/native-reference-gap-20260920/README.md)
+is **failed/incomplete: 141 pass, 429 unknown, 2 fail**, reporting both debug-header approach
+gaps under the unchanged margin. It preserves all six native sources and is
+installed in host48/DOC17. The initial full assessment above remains historical.
+
+A separate [read-only reference check](../../../proofs/reference-gap-reporting-20260920/README.md)
 confirms one exact stored-fill coverage gap on each debug-header signal approach
 under the unchanged 0.25 mm margin. It also documents a software correction that
-preserves such geometric failures when whole-plane continuity is unknown. That
-correction is not yet installed or included in the historical full assessment
-above; its zero failed rows are not a claim that no independent findings exist.
+preserves such geometric failures when whole-plane continuity is unknown. The correction is included in the latest native reassessment. The historical
+report above retains its original scope.
 
 ERC ignores single_global_label, four_way_junction, simulation_model_issue and
 footprint_filter. DRC ignores missing_courtyard, track_not_centered_on_via,
