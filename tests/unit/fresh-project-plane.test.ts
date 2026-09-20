@@ -26,6 +26,7 @@ import { createGenericDividerBundleFixture, genericDividerLibraryResolver } from
 import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
 import { createNativeEmptyBoardSeed } from "../../src/harness/native-empty-board-seed.js";
 import { interfaceConstructionBundle, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
+import { fourLayerPlaneBundle } from "../helpers/four-layer-plane-bundle.js";
 
 const dependencies = { libraryResolver: genericDividerLibraryResolver, deepRuleCatalog: loadDeepRuleCatalog() };
 const compilation = compilePcbPlaneDesignIntentDraft(planeDividerDraft(), dependencies);
@@ -79,6 +80,12 @@ async function initialOpenFixture() {
 }
 
 describe("explicit V2 plane fresh-project preparation", () => {
+  it("rejects unqualified four-layer authoring before creating its output directory", async () => {
+    const parent = await directory(), outputDir = path.join(parent,"four-layer-not-created"), four = fourLayerPlaneBundle();
+    await expect(preparePlaneFreshProject({ outputDir, name:"four-layer", resume:false, compilationBundle:four,
+      compilationBundleRef:createPcbPlaneCompilationBundleRef(four) })).rejects.toThrow("FOUR_LAYER_NATIVE_AUTHORING_UNAVAILABLE");
+    expect(await readdir(parent)).toEqual([]);
+  });
   it("writes declared construction before the immutable marker and prepared-source authority", async () => {
     const constructionBundle = interfaceConstructionBundle();
     const input = { outputDir: await directory(), name: "construction", resume: false, compilationBundle: constructionBundle,

@@ -1,6 +1,8 @@
 import { pcbExternalPowerInputsDraftSchema, pcbExternalPowerInputsSchema, validatePcbExternalPowerRelationships } from "./pcb-external-power.js";
 import { pcbDerivedPowerSourcesDraftSchema, pcbDerivedPowerSourcesSchema, validatePcbDerivedPowerRelationships } from "./pcb-derived-power.js";
 import { z } from "zod";
+import { pcbCopperLayerSchema, pcbLayerCountSchema, pcbRouteLayerPreferenceSchema, pcbCopperLayerOrder,
+  comparePcbCopperLayers } from "./pcb-copper-layers.js";
 import { pcbBoardFeaturesSchema, validatePcbBoardFeatureRelationships } from "./pcb-board-features.js";
 import { routeSourceMmToNativeNm } from "./fresh-route-native-units.js";
 import { canonicalIdentity, canonicalJson } from "../core/canonical.js";
@@ -10,13 +12,14 @@ import { pcbInterfaceRequirementsDraftSchema, pcbInterfaceRequirementsSchema,
 import {
   pcbDesignContractPayloadSchema,
   pcbDesignIntentDraftSchema,
+  PCB_DESIGN_CONTRACT_LIMITS,
   validatePcbDesignCommonRelationships,
   snapshotPcbDesignJson,
 } from "./pcb-design-contract.js";
 
 export const PCB_PLANE_DRAFT_SCHEMA_VERSION = "evleda.pcb-design-intent-draft.v2" as const;
 export const PCB_PLANE_CONTRACT_SCHEMA_VERSION = "evleda.pcb-design-contract.v2" as const;
-export const PCB_PLANE_CONTRACT_LIMITS = Object.freeze({ maxBytes: 256 * 1024, maxPlanes: 1, maxNets: 128, maxEndpoints: 256 });
+export const PCB_PLANE_CONTRACT_LIMITS = Object.freeze({ maxBytes: 256 * 1024, maxPlanes: 2, maxNets: 128, maxEndpoints: 256 });
 
 type ReadonlyTree<T> = T extends readonly (infer V)[] ? readonly ReadonlyTree<V>[]
   : T extends object ? { readonly [K in keyof T]: ReadonlyTree<T[K]> } : T;
@@ -43,7 +46,13 @@ const number = (min: number, max: number) => z.number().finite().min(min).max(ma
 const width = number(0.05, 20);
 const clearance = number(0.05, 10);
 const area = number(0, 250_000);
-const layer = z.enum(["F.Cu", "B.Cu"]);
+const layer = pcbCopperLayerSchema;
+const boardLayers = z.array(layer).min(2).max(4);
+const allowedLayers = z.array(layer).min(1).max(4);
+const scope = closed.scope.extend({ board: closed.scope.shape.board.extend({ layerCount: pcbLayerCountSchema, copperLayers: boardLayers }).strict() }).strict();
+const scopeDraft = draft.scope.extend({ board: draft.scope.shape.board.extend({ layerCount: pcbLayerCountSchema, copperLayers: boardLayers }).strict() }).strict();
+const netClasses = z.array(closed.netClasses.element.extend({ allowedLayers }).strict()).min(1).max(PCB_DESIGN_CONTRACT_LIMITS.maxNetClasses);
+const netClassesDraft = z.array(draft.netClasses.element.extend({ allowedLayers: allowedLayers.nullable() }).strict()).min(1).max(PCB_DESIGN_CONTRACT_LIMITS.maxNetClasses);
 const closedRoute = closed.routingConstraints.shape.nets.element;
 const draftRoute = draft.routingConstraints.shape.nets.element;
 const boundary = region.extend({ kind: z.literal("rectangle") }).strict();
@@ -72,14 +81,15 @@ const referenceDraft = z.discriminatedUnion("mode", [noReference, continuousRefe
   terminalReferences: z.array(terminalReference).max(PCB_PLANE_CONTRACT_LIMITS.maxEndpoints).nullable(),
 }).strict()]).nullable();
 // Plane access may serve many local return terminals; ordinary trace routes keep their V1 ceiling.
-const accessRouting = z.object({ preferredLayer: closedRoute.shape.preferredLayer.describe("F.Cu or B.Cu constrains every access track; either permits both only when the net class allows both. The plane itself retains one exact layer."), maxVias: z.number().finite().int().min(0).max(64).refine(value => !Object.is(value, -0), "Negative zero is not canonical"),
+const accessRouting = z.object({ preferredLayer: pcbRouteLayerPreferenceSchema.describe("An exact layer constrains every access track. either means the two outer layers; any permits the net class's declared enabled layers. Each plane retains one exact layer."), maxVias: z.number().finite().int().min(0).max(64).refine(value => !Object.is(value, -0), "Negative zero is not canonical"),
   routeLength: closedRoute.shape.routeLength }).strict();
 const accessDraft = accessRouting.extend({ preferredLayer: accessRouting.shape.preferredLayer.nullable(), maxVias: accessRouting.shape.maxVias.nullable(),
   routeLength: closedRoute.shape.routeLength.nullable() }).strict();
-const routed = closedRoute.extend({ referencePath: z.discriminatedUnion("mode", [noReference, continuousReference]) }).strict();
-const planeRoute = z.object({ net: netName, topology: z.literal("plane"), planeId: identifier, accessRouting }).strict();
-const routedDraft = draftRoute.extend({ referencePath: referenceDraft }).strict();
-const planeRouteDraft = planeRoute.extend({ planeId: identifier.nullable(), accessRouting: accessDraft.nullable() }).strict();
+const routed = closedRoute.extend({ preferredLayer: pcbRouteLayerPreferenceSchema, referencePath: z.discriminatedUnion("mode", [noReference, continuousReference]) }).strict();
+const additionalPlaneIds = z.array(identifier).min(1).max(1);
+const planeRoute = z.object({ net: netName, topology: z.literal("plane"), planeId: identifier, additionalPlaneIds: additionalPlaneIds.optional(), accessRouting }).strict();
+const routedDraft = draftRoute.extend({ preferredLayer: pcbRouteLayerPreferenceSchema.nullable(), referencePath: referenceDraft }).strict();
+const planeRouteDraft = planeRoute.extend({ planeId: identifier.nullable(), additionalPlaneIds: additionalPlaneIds.nullable().optional(), accessRouting: accessDraft.nullable() }).strict();
 const minimumHoleToHoleMm = number(0.05, 10).refine(value => {
   try { routeSourceMmToNativeNm(value); return true; } catch { return false; }
 }, "Hole spacing must be exact integer nanometres");
@@ -88,16 +98,16 @@ const routing = closed.routingConstraints.extend({ minimumHoleToHoleMm: minimumH
 const routingDraft = draft.routingConstraints.extend({ minimumHoleToHoleMm: minimumHoleToHoleMm.nullable().optional(),
   nets: z.array(z.discriminatedUnion("topology", [routedDraft, planeRouteDraft])).max(128) }).strict();
 
-const draftBase = z.object({ ...draft, schemaVersion: z.literal(PCB_PLANE_DRAFT_SCHEMA_VERSION),
+const draftBase = z.object({ ...draft, schemaVersion: z.literal(PCB_PLANE_DRAFT_SCHEMA_VERSION), scope: scopeDraft, netClasses: netClassesDraft,
   nativeRuleMode: z.literal("contract-derived-v1").describe("Opt in to contract-derived native numeric floors and exact per-net/via rules; omission preserves legacy native settings. This does not qualify manufacturing or channel escape locality.").nullable().optional(),
-  routingConstraints: routingDraft, planes: z.array(planeDraft).max(1),
+  routingConstraints: routingDraft, planes: z.array(planeDraft).max(2),
   externalPowerInputs: pcbExternalPowerInputsDraftSchema.nullable().optional(),
   derivedPowerSources: pcbDerivedPowerSourcesDraftSchema.nullable().optional(),
   boardFeatures: pcbBoardFeaturesSchema.nullable().optional(),
   interfaceRequirements: pcbInterfaceRequirementsDraftSchema.nullable().optional() }).strict();
-const payloadBase = z.object({ ...closed, schemaVersion: z.literal(PCB_PLANE_CONTRACT_SCHEMA_VERSION),
+const payloadBase = z.object({ ...closed, schemaVersion: z.literal(PCB_PLANE_CONTRACT_SCHEMA_VERSION), scope, netClasses,
   nativeRuleMode: z.literal("contract-derived-v1").optional(),
-  routingConstraints: routing, planes: z.array(plane).length(1),
+  routingConstraints: routing, planes: z.array(plane).min(1).max(2),
   externalPowerInputs: pcbExternalPowerInputsSchema.optional(),
   derivedPowerSources: pcbDerivedPowerSourcesSchema.optional(),
   boardFeatures: pcbBoardFeaturesSchema.optional(),
@@ -153,20 +163,27 @@ export function normalizePcbPlaneUnresolvedPath(document: unknown, pointer: stri
 }
 
 function relationships(document: DraftValue | PayloadValue, context: z.RefinementCtx, closedContract: boolean): void {
+  const constructionUnresolved = document.interfaceRequirements === null || document.interfaceRequirements?.construction === null;
+  if (document.scope.board.layerCount === 4 && document.interfaceRequirements?.construction?.mode !== "four_layer"
+    && (closedContract || !constructionUnresolved)) {
+    context.addIssue({ code: "custom", path: ["interfaceRequirements", "construction"], message: "Four-layer boards require an explicit four-layer physical construction" });
+  }
   if (document.routingConstraints.minimumHoleToHoleMm !== undefined && document.nativeRuleMode !== "contract-derived-v1") {
     context.addIssue({ code: "custom", path: ["routingConstraints", "minimumHoleToHoleMm"], message: "Explicit hole spacing requires nativeRuleMode=contract-derived-v1" });
   }
-  validatePcbDesignCommonRelationships(document, context, closedContract);
+  validatePcbDesignCommonRelationships(document, context, closedContract, { allowFourLayers: true });
   validatePcbInterfaceRelationships(document, context, closedContract);
   validatePcbExternalPowerRelationships(document, context);
   validatePcbDerivedPowerRelationships(document, context);
   validatePcbBoardFeatureRelationships(document, context);
   const issue = (path: PropertyKey[], message: string) => context.addIssue({ code: "custom", path, message });
+  if (document.scope.board.layerCount === 2 && document.planes.length > 1) issue(["planes"], "Two-layer plane contracts retain the single-plane limit");
   const unique = <T>(values: readonly T[], getKey: (value: T) => string, path: PropertyKey[]) => {
     const seen = new Set<string>();
     values.forEach((value, index) => { const name = getKey(value); if (seen.has(name)) issue([...path, index], `Duplicate ${name}`); seen.add(name); });
   };
   unique(document.planes, p => p.id, ["planes"]);
+  unique(document.planes.filter(p => p.layer !== null), p => p.layer!, ["planes"]);
   unique(document.routingConstraints.nets, r => r.net, ["routingConstraints", "nets"]);
   const nets = new Map(document.nets.map(n => [n.name, n]));
   const classes = new Map(document.netClasses.map(c => [c.id, c]));
@@ -177,6 +194,7 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
     if (p.net !== null && net === undefined) issue([...path, "net"], "Plane references an unknown net");
     if (net?.role !== null && net?.role !== undefined && net.role !== "ground") issue([...path, "net"], "This bounded V2 family supports a ground plane only");
     const netClass = net?.netClassId == null ? undefined : classes.get(net.netClassId);
+    if (p.layer !== null && !document.scope.board.copperLayers.includes(p.layer)) issue([...path, "layer"], "Plane layer is not enabled by this board");
     if (p.layer !== null && netClass?.allowedLayers != null && !netClass.allowedLayers.includes(p.layer)) issue([...path, "layer"], "Plane layer is forbidden by its net class");
     if (p.clearanceMm !== null && netClass?.clearanceMm != null && p.clearanceMm < netClass.clearanceMm) issue([...path, "clearanceMm"], "Plane clearance cannot weaken its net-class clearance");
     if (p.boundary !== null) {
@@ -189,7 +207,7 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
     }
     if (p.padConnection?.mode === "thermal" && p.padConnection.spokeWidthMm !== null && p.minimumCopperWidthMm !== null
         && p.padConnection.spokeWidthMm < p.minimumCopperWidthMm) issue([...path, "padConnection", "spokeWidthMm"], "Thermal spokes must satisfy the declared minimum plane copper width");
-    const owners = document.routingConstraints.nets.filter(r => r.topology === "plane" && r.planeId === p.id);
+    const owners = document.routingConstraints.nets.filter(r => r.topology === "plane" && (r.planeId === p.id || r.additionalPlaneIds?.includes(p.id)));
     if (owners.length > 1 || (closedContract && owners.length !== 1)) issue(path, "Every plane must have exactly one plane-topology routing owner");
     if (p.net !== null && owners.some(r => r.net !== p.net)) issue([...path, "net"], "Plane net differs from its routing owner");
   }
@@ -209,12 +227,21 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
       if (netClass?.allowedLayers?.length === 1 && maxVias !== 0) issue(path, "Single-layer net class cannot permit vias");
     }
     const preferred = access?.preferredLayer;
+    if (preferred === "any" && document.scope.board.layerCount === 2) issue(route.topology === "plane"
+      ? [...path, "accessRouting", "preferredLayer"] : [...path, "preferredLayer"], "Two-layer routing uses an exact outer layer or either; any is reserved for four-layer declarations");
     if (preferred != null && netClass?.allowedLayers != null) {
-      if (preferred === "either" ? netClass.allowedLayers.length !== 2 : !netClass.allowedLayers.includes(preferred)) issue(path, "Routing layer is incompatible with its net class");
+      if (preferred === "either" ? netClass.allowedLayers.length !== 2 || !netClass.allowedLayers.includes("F.Cu") || !netClass.allowedLayers.includes("B.Cu")
+        : preferred !== "any" && !netClass.allowedLayers.includes(preferred)) issue(path, "Routing layer is incompatible with its net class");
     }
     if (route.topology === "plane") {
       const target = route.planeId === null ? undefined : planes.get(route.planeId);
       if (route.planeId !== null && (target === undefined || (target.net !== null && target.net !== route.net))) issue([...path, "planeId"], "Plane routing must reference its own declared plane/net");
+      const ids = [route.planeId, ...(route.additionalPlaneIds ?? [])].filter(id => id !== null);
+      if (new Set(ids).size !== ids.length) issue([...path, "additionalPlaneIds"], "Plane routing repeats a plane ID");
+      for (const id of route.additionalPlaneIds ?? []) {
+        const additional = planes.get(id);
+        if (additional === undefined || additional.net !== null && additional.net !== route.net) issue([...path, "additionalPlaneIds"], "Additional plane must belong to the same routing net");
+      }
       continue;
     }
     if (route.topology !== null && document.planes.some(p => p.net === route.net)) issue([...path, "topology"], "A plane net requires explicit plane topology, not a trace tree or path");
@@ -223,7 +250,11 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
     if (reference?.mode !== "continuous_plane") continue;
     const target = reference.planeId === null ? undefined : planes.get(reference.planeId);
     if (reference.planeId !== null && target === undefined) issue([...path, "referencePath", "planeId"], "Unknown reference plane");
-    if (reference.signalLayer !== null && target?.layer != null && reference.signalLayer === target.layer) issue([...path, "referencePath", "signalLayer"], "Reference plane must be on the opposite copper layer");
+    if (reference.signalLayer !== null && target?.layer != null) {
+      const order = pcbCopperLayerOrder(document.scope.board.layerCount);
+      const signalIndex = order.indexOf(reference.signalLayer), referenceIndex = order.indexOf(target.layer);
+      if (signalIndex < 0 || referenceIndex < 0 || Math.abs(signalIndex - referenceIndex) !== 1) issue([...path, "referencePath", "signalLayer"], "Reference plane must be on an adjacent enabled copper layer");
+    }
     if (reference.signalLayer !== null && route.preferredLayer !== null && reference.signalLayer !== route.preferredLayer) issue([...path, "referencePath"], "Referenced routes require one exact signal layer");
     if (route.maxVias !== null && route.maxVias !== 0) issue([...path, "maxVias"], "Reference-path layer transitions are forbidden in this bounded family");
     if (reference.terminalReferences !== null) {
@@ -259,14 +290,14 @@ export const pcbPlaneDesignContractPayloadSchema = payloadBase.superRefine((valu
 
 function canonicalize<T extends DraftValue | PayloadValue>(input: T): T {
   const value = structuredClone(input);
-  value.scope.board.copperLayers.sort((a, b) => a === b ? 0 : a === "F.Cu" ? -1 : 1);
+  value.scope.board.copperLayers.sort(comparePcbCopperLayers);
   value.components.sort((a, b) => compare(a.reference, b.reference));
   value.boardFeatures?.sort((a, b) => compare(a.reference, b.reference));
   for (const component of value.components) component.pins.sort((a, b) => compare(a.pin, b.pin));
   value.nets.sort((a, b) => compare(a.name, b.name));
   for (const net of value.nets) net.endpoints.sort((a, b) => compare(key(a), key(b)));
   value.netClasses.sort((a, b) => compare(a.id, b.id));
-  for (const netClass of value.netClasses) netClass.allowedLayers?.sort((a, b) => a === b ? 0 : a === "F.Cu" ? -1 : 1);
+  for (const netClass of value.netClasses) netClass.allowedLayers?.sort(comparePcbCopperLayers);
   value.placementConstraints.sort((a, b) => compare(a.reference, b.reference));
   for (const placement of value.placementConstraints) placement.allowedRotationsDeg?.sort((a, b) => a - b);
   value.planes.sort((a, b) => compare(a.id, b.id));

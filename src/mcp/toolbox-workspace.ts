@@ -15,7 +15,7 @@ import { createPcbPlaneCompilationBundle, isAuthenticatedPcbPlaneCompilationBund
 import { PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA, getPcbPlaneDesignIntentModelGuide,
   PCB_PLANE_DESIGN_INTENT_EXTENDED_MODEL_GUIDE_MAX_UTF8_BYTES, PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE } from "../harness/pcb-design-plane-model-guide.js";
 import { PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION } from "../harness/pcb-interface-requirements.js";
-import { validateFreshProjectName } from "../harness/fresh-project.js";
+import { validateFreshProjectName, assertCurrentPlaneNativeAuthoringScope } from "../harness/fresh-project.js";
 import type { createKiCad10StockCatalog } from "../harness/kicad-stock-catalog.js";
 import type { KicadMcpPinnedFileInput } from "../integrations/kicad-mcp-session.js";
 import type { KicadTransmissionLineCalculator } from "../integrations/kicad-transmission-line.js";
@@ -261,6 +261,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
       const preview = compileDraft(draft.draft, draft.originalPrompt);
       if (preview.status !== "ready") return { status: preview.status, compilation: preview.compilation, projectCreated: false };
       if (canonicalJson(preview.bundleIdentity) !== canonicalJson(draft.bundleIdentity)) throw new Error("Compilation changed since preview; resubmit and review the new result before creation.");
+      if (isAuthenticatedPcbPlaneCompilationBundle(preview.bundle)) assertCurrentPlaneNativeAuthoringScope(preview.bundle);
       if (args.sourceProjectId === undefined) {
         const allocation = await store.allocate(draft);
         pending.delete(args.draftId);

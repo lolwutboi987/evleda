@@ -47,7 +47,8 @@ describe("V2 PCB plane design-intent model guide", () => {
       expect(object.additionalProperties).toBe(false);
       const props = object.properties as Record<string, any>;
       const optional = object === PCB_PLANE_DESIGN_INTENT_JSON_SCHEMA ? ["interfaceRequirements", "externalPowerInputs", "derivedPowerSources", "boardFeatures", "nativeRuleMode"]
-        : props.kind?.const === "differential_pair" ? ["channel"] : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : props.launchNets !== undefined ? ["feedThrough"] : props.viaPolicy !== undefined ? ["minimumHoleToHoleMm"] : [];
+        : props.kind?.const === "differential_pair" ? ["channel"] : props.topology?.const === "plane" ? ["additionalPlaneIds"]
+          : props.drivingEndpoint !== undefined ? ["externalPowerInput"] : props.launchNets !== undefined ? ["feedThrough"] : props.viaPolicy !== undefined ? ["minimumHoleToHoleMm"] : [];
       expect([...(object.required as string[])].sort()).toEqual(Object.keys(object.properties as object).filter(key => !optional.includes(key)).sort());
     });
     expect(objectSchemas).toBeGreaterThan(20);
@@ -94,9 +95,9 @@ describe("V2 PCB plane design-intent model guide", () => {
     expect(externalSchema!.required).toEqual(["id", "diodeForwardDropAssumption", "operatingModes"]);
     for (const key of ["id", "diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual({ type: "null" });
     for (const key of ["diodeForwardDropAssumption", "operatingModes"]) expect(externalSchema!.properties[key].anyOf).toContainEqual(expect.objectContaining({ type: "string", minLength: 1, maxLength: 2048 }));
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "a1321b369ea2b5fa6714e8098f1e5e2c5ecf8ac81732b6a57d3574024db42d0b", size: 10250 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "7e0ada4448523332374f0db8391d2648aab65de09bbdea294e065fb89bbedeb1", size: 11737 });
-    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "efbfe57d2e62dcd5ca75ca99ec46783bb216c9ec13ffa842aea6f5d0783d93a9", size: 18465 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide())).toEqual({ algorithm: "sha256", digest: "0503f1b29f2b9a5baf58e8723affa5b414cc923ffc1451c43f294d24180662fb", size: 10628 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(false, true))).toEqual({ algorithm: "sha256", digest: "2691158cc5cae9e209699f99ea2936e7eb8c6d04852fe324d3a23901de194b58", size: 12115 });
+    expect(contentIdentity(getPcbPlaneDesignIntentModelGuide(true, true, true, false))).toEqual({ algorithm: "sha256", digest: "318a3692c3bb584df2cc5011803dbe65ca31361884ea7c6f78c99e10d26cb581", size: 19253 });
   });
 
   it("keeps the complete guidance bounded, provider-neutral and explicit about authority", () => {
@@ -108,9 +109,9 @@ describe("V2 PCB plane design-intent model guide", () => {
     for (const instruction of [
       "evleda.pcb-design-intent-draft.v2", "Nullable means use an explicit null", "bidirectionally exact",
       "Use electrical:null", "Preserve supplied anchors", "Closed V2 placements are front-only",
-      "maximumTurnAngleDeg=45", "exactly one rectangular ground plane", "islandPolicy",
-      "Each plane-topology route has exactly net", "accessRouting", "Each trace route has exactly net",
-      "opposite copper layer", "route maxVias=0", "Every signal endpoint requires exactly one explicit mapping",
+      "maximumTurnAngleDeg=45", "one rectangular ground plane on two-layer boards", "one or two on four-layer boards", "islandPolicy",
+      "Each plane-topology route requires net", "additionalPlaneIds", "accessRouting", "Each trace route has exactly net",
+      "adjacent enabled copper layer", "route maxVias=0", "Every signal endpoint requires exactly one explicit mapping",
       "sum of all trace and plane-access maxVias", "keyed RFC6901 pointers to existing fields",
       "not a nonexistent child", "evleda_design_context", "not an electrically approved or ready design",
       "do not perform native authoring", "continuous-plane intent is not impedance or EMC qualification",

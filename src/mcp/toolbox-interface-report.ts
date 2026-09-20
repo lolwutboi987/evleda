@@ -202,6 +202,7 @@ function calculation(value: KicadTransmissionLineResult) {
 const savedReasons = (values: readonly SavedInterfaceReason[]) => values.map(item => ({ code: text(item.code), message: modelText(item.message) }));
 function project(value: SavedInterfaceAssessment) {
   const observed = value.construction.observed, reference = value.referenceRequirements;
+  if (observed.dielectricGaps !== undefined && observed.dielectricGaps.length !== 3) throw new Error(ERROR);
   return { schemaVersion: "evleda.toolbox-interface-assessment.v1" as const,
     assessmentSchemaVersion: tag(value.schemaVersion, "evleda.saved-interface-assessment.v1"), assessmentIdentity: canonical(value.identity),
     sourceIdentity: content(value.sourceIdentity), bundleIdentity: canonical(value.bundleIdentity), contractIdentity: canonical(value.contractIdentity),
@@ -252,7 +253,12 @@ function project(value: SavedInterfaceAssessment) {
         copperLayerOrder: observed.copperLayerOrder.map(text), dielectricMaterial: observed.dielectricMaterial === null ? null : materialText(observed.dielectricMaterial),
         relativePermittivity: nullableNumber(observed.relativePermittivity), lossTangent: nullableNumber(observed.lossTangent),
         surfaceFinish: observed.surfaceFinish === null ? null : materialText(observed.surfaceFinish),
-        stackupSourceIdentity: observed.stackupSourceIdentity === null ? null : content(observed.stackupSourceIdentity) },
+        stackupSourceIdentity: observed.stackupSourceIdentity === null ? null : content(observed.stackupSourceIdentity),
+        ...(observed.innerCopperThicknessNm === undefined ? {} : { innerCopperThicknessNm: {
+          "In1.Cu":nullableNumber(observed.innerCopperThicknessNm["In1.Cu"]), "In2.Cu":nullableNumber(observed.innerCopperThicknessNm["In2.Cu"]) } }),
+        ...(observed.dielectricGaps === undefined ? {} : { dielectricGaps: observed.dielectricGaps.map(gap => ({
+          fromCopper:text(gap.fromCopper), toCopper:text(gap.toCopper), thicknessNm:nullableNumber(gap.thicknessNm),
+          material:gap.material === null ? null : materialText(gap.material), relativePermittivity:nullableNumber(gap.relativePermittivity), lossTangent:nullableNumber(gap.lossTangent) })) }) },
       physicalConstruction: tag(value.construction.physicalConstruction, "not_verified"), assertionAuthority: tag(value.construction.assertionAuthority, "bound_caller_assertions"),
       sourceUnverifiedAssertionFields: value.construction.sourceUnverifiedAssertionFields.map(text) },
     terminations: { status: tag(value.terminations.status, "matched_source_facts", "failed_source_facts", "unassessed"), reasons: savedReasons(value.terminations.reasons),

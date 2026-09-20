@@ -625,11 +625,16 @@ const requireUnique = <Entry>(
 };
 
 const validateScope = (
-  scope: DraftMutable["scope"] | ContractPayloadMutable["scope"],
-  context: IssueContext
+  scope: RelationshipDocument["scope"],
+  context: IssueContext,
+  allowFourLayers = false,
 ): void => {
   const layers = scope.board.copperLayers;
-  if (new Set(layers).size !== 2 || !layers.includes("F.Cu") || !layers.includes("B.Cu")) {
+  if (allowFourLayers && scope.board.layerCount === 4) {
+    if (new Set(layers).size !== 4 || !["F.Cu", "In1.Cu", "In2.Cu", "B.Cu"].every(layer => layers.includes(layer as typeof layers[number]))) {
+      issue(context, "Four-layer scope must contain F.Cu, In1.Cu, In2.Cu and B.Cu exactly once", ["scope", "board", "copperLayers"]);
+    }
+  } else if (scope.board.layerCount !== 2 || new Set(layers).size !== 2 || !layers.includes("F.Cu") || !layers.includes("B.Cu")) {
     issue(context, "Two-layer scope must contain F.Cu and B.Cu exactly once", ["scope", "board", "copperLayers"]);
   }
 };
@@ -682,7 +687,12 @@ const validateRegion = (
 };
 
 type RelationshipDocument = {
-  readonly scope: DraftMutable["scope"] | ContractPayloadMutable["scope"];
+  readonly scope: {
+    readonly sheetCount: 1;
+    readonly componentUnitPolicy: "single_unit";
+    readonly board: { readonly shape: "rectangle"; readonly widthMm: number | null; readonly heightMm: number | null;
+      readonly layerCount: 2 | 4; readonly copperLayers: readonly ("F.Cu" | "In1.Cu" | "In2.Cu" | "B.Cu")[] };
+  };
   readonly components: readonly {
     readonly reference: string;
     readonly pins: readonly { readonly pin: string; readonly assignment: z.infer<typeof draftPinAssignmentSchema> }[];
@@ -699,7 +709,7 @@ type RelationshipDocument = {
     readonly traceWidthMm: number | null;
     readonly clearanceMm: number | null;
     readonly copperToEdgeMm: number | null;
-    readonly allowedLayers: readonly ("F.Cu" | "B.Cu")[] | null;
+    readonly allowedLayers: readonly ("F.Cu" | "In1.Cu" | "In2.Cu" | "B.Cu")[] | null;
   }[];
   readonly placementConstraints: readonly {
     readonly reference: string;
@@ -723,8 +733,9 @@ export const validatePcbDesignCommonRelationships = (
   document: Omit<RelationshipDocument, "routingConstraints">,
   context: IssueContext,
   closed: boolean,
+  options: { readonly allowFourLayers?: boolean } = {},
 ): ReadonlySet<string> => {
-  validateScope(document.scope, context);
+  validateScope(document.scope, context, options.allowFourLayers);
   validateElectrical(document.nets, context);
   const componentRefs = requireUnique(document.components, (entry) => entry.reference, "component reference", context, ["components"]);
   const netNames = requireUnique(document.nets, (entry) => entry.name, "net name", context, ["nets"]);
@@ -798,6 +809,9 @@ export const validatePcbDesignCommonRelationships = (
   document.netClasses.forEach((netClass, index) => {
     if (netClass.allowedLayers !== null && new Set(netClass.allowedLayers).size !== netClass.allowedLayers.length) {
       issue(context, `Net class ${netClass.id} repeats an allowed layer`, ["netClasses", index, "allowedLayers"]);
+    }
+    if (netClass.allowedLayers?.some(layer => !document.scope.board.copperLayers.includes(layer))) {
+      issue(context, `Net class ${netClass.id} permits a disabled copper layer`, ["netClasses", index, "allowedLayers"]);
     }
   });
   if (closed) {

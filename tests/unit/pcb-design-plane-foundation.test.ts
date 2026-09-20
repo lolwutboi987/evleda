@@ -46,7 +46,7 @@ describe("direct-toolbox V2 plane contract foundation", () => {
     expect(contentIdentity(serializePcbPlaneCompilationBundle(value))).toEqual({ algorithm: "sha256", digest: "3711883cdffb8e354f9ca3a7ffd0f6803273b3e6c09ec40deb18b13af1a44fe7", size: 60602 });
     expect(createFreshPlaneRules(value).identity).toEqual({ algorithm: "sha256", digest: "efa1e786021e9799722a21986f1818e21e3a9f51e3c08e6460d845824fe1ee2e", size: 329 });
     // Access-layer guidance evolves independently of the unchanged legacy bundle and DRU.
-    expect(contentIdentity(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE)).toEqual({ algorithm: "sha256", digest: "a1321b369ea2b5fa6714e8098f1e5e2c5ecf8ac81732b6a57d3574024db42d0b", size: 10250 });
+    expect(contentIdentity(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE)).toEqual({ algorithm: "sha256", digest: "0503f1b29f2b9a5baf58e8723affa5b414cc923ffc1451c43f294d24180662fb", size: 10628 });
     expect(contentIdentity(canonicalJson(PCB_PLANE_DESIGN_INTENT_VALID_EXAMPLE))).toEqual({ algorithm: "sha256", digest: "d46af532e582cc923165128c1a48cfa38ffb893b6ac39b5ff9731e6b04b4ea52", size: 2720 });
   });
   it("closes real plane routing and reference intent without changing schematic connectivity", () => {

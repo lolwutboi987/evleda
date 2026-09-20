@@ -1,5 +1,6 @@
 import { assertFreshNativeNoConnectPcbIsolation, type FreshNativeTerminalBinding } from "./fresh-native-terminal-binding.js";
 import { parseFreshPcbSource } from "./fresh-kicad-parser.js";
+import type { PcbPlaneDesignContract } from "./pcb-design-plane-contract.js";
 import { randomUUID } from "node:crypto";
 import { appendFile, lstat, open, readFile, rename, unlink } from "node:fs/promises";
 import path from "node:path";
@@ -331,7 +332,7 @@ export interface FreshClearanceOperationOptions {
 }
 
 /** Shared configuration facts only; this is not a V1 contract or a clearance artifact. */
-export type FreshNetClassSourceContract = Pick<PcbDesignContract, "identity" | "scope" | "netClasses" | "nets"> & {
+export type FreshNetClassSourceContract = Pick<PcbDesignContract | PcbPlaneDesignContract, "identity" | "scope" | "netClasses" | "nets"> & {
   readonly routingConstraints: Pick<PcbDesignContract["routingConstraints"], "viaPolicy">;
 };
 export interface FreshNetClassSourceBundle {

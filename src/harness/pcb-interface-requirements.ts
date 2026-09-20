@@ -1,4 +1,8 @@
 import { z } from "zod";
+import { text, number, positive, frequency, length, source, sourceDraft, pcbInterfaceConstructionSchema,
+  pcbInterfaceConstructionDraftSchema as constructionDraft } from "./pcb-construction-schema.js";
+export { pcbInterfaceConstructionSchema } from "./pcb-construction-schema.js";
+import { pcbFourLayerConstructionSchema, pcbFourLayerConstructionDraftSchema, type PcbFourLayerConstruction } from "./pcb-four-layer-construction.js";
 import { pcbDesignContractPayloadSchema } from "./pcb-design-contract.js";
 import type { PcbPlaneDesignContractPayload, PcbPlaneDesignIntentDraft } from "./pcb-design-plane-contract.js";
 
@@ -9,23 +13,7 @@ const endpoint = common.nets.element.shape.endpoints.element;
 const netName = common.nets.element.shape.name;
 const reference = endpoint.shape.reference;
 const pin = endpoint.shape.pin;
-const text = z.string().min(1).max(1024).refine(value => value.trim() === value && value.isWellFormed()
-  && !/[\u0000-\u001f\u007f]/u.test(value), "Provide bounded scalar text without surrounding whitespace or control characters");
-const number = (min: number, max: number) => z.number().finite().min(min).max(max)
-  .refine(value => !Object.is(value, -0), "Negative zero is not canonical");
-const positive = number(0.000_001, 1_000_000);
-const nativeThickness = number(0.000_001, 2147.483637).refine(value => Number(value.toFixed(6)) === value,
-  "Saved native construction requires exact integer-nanometre thicknesses");
-const nativeMaterialScalar = (min: number, max: number) => number(min, max).refine(value =>
-  Number(value !== 0 && value <= 0.0001 ? value.toFixed(16) : value.toPrecision(10)) === value,
-  "Material scalar cannot be saved exactly by the pinned native stackup serializer; provide an explicit representable value");
-const nativeMaterialText = text.refine(value => value.toLowerCase() !== "not specified",
-  "The native unspecified-material sentinel cannot stand for an explicit material or finish declaration");
-const frequency = number(1, 1e15);
-const length = number(0, 1_000_000);
 const layer = z.enum(["F.Cu", "B.Cu"]);
-const source = z.object({ kind: z.literal("caller_assertion"), reference: text, description: text }).strict();
-const sourceDraft = source.extend({ reference: text.nullable(), description: text.nullable() }).strict();
 const interval = z.object({ minimumMm: number(0.05, 20), maximumMm: number(0.05, 20) }).strict();
 const intervalDraft = interval.extend({ minimumMm: interval.shape.minimumMm.nullable(), maximumMm: interval.shape.maximumMm.nullable() }).strict();
 const geometry = z.object({ traceWidthMm: interval, edgeGapMm: interval, maxEtchLengthMm: positive,
@@ -85,45 +73,23 @@ const impedance = z.object({ mode: z.literal("differential"), targetOhms: positi
   frequencyHz: frequency, constructionId: identifier, source }).strict();
 const impedanceDraft = impedance.extend({ targetOhms: positive.nullable(), toleranceOhms: length.nullable(), frequencyHz: frequency.nullable(),
   constructionId: identifier.nullable(), source: sourceDraft.nullable() }).strict();
-const material = z.object({ material: nativeMaterialText, relativePermittivity: nativeMaterialScalar(1, 1000), lossTangent: nativeMaterialScalar(0, 100), frequencyHz: frequency, source }).strict();
-const materialDraft = material.extend({ material: nativeMaterialText.nullable(), relativePermittivity: material.shape.relativePermittivity.nullable(),
-  lossTangent: material.shape.lossTangent.nullable(), frequencyHz: frequency.nullable(), source: sourceDraft.nullable() }).strict();
-const dielectric = material.extend({ thicknessMm: nativeThickness, substrateRelativePermeability: positive }).strict();
-const dielectricDraft = materialDraft.extend({ thicknessMm: nativeThickness.nullable(), substrateRelativePermeability: positive.nullable() }).strict();
-const absentMask = z.object({ kind: z.literal("absent") }).strict();
-const presentMask = material.extend({ kind: z.literal("present"), thicknessMm: nativeThickness }).strict();
-const presentMaskDraft = materialDraft.extend({ kind: z.literal("present"), thicknessMm: nativeThickness.nullable() }).strict();
-const mask = z.discriminatedUnion("kind", [absentMask, presentMask]);
-const maskDraft = z.discriminatedUnion("kind", [absentMask, presentMaskDraft]);
-const masks = z.object({ front: mask, back: mask }).strict();
-const masksDraft = masks.extend({ front: maskDraft.nullable(), back: maskDraft.nullable() }).strict();
-const exterior = z.object({ front: z.literal("air"), back: z.literal("air") }).strict();
-const exteriorDraft = exterior.extend({ front: z.literal("air").nullable(), back: z.literal("air").nullable() }).strict();
-const conductor = z.object({ conductivitySiemensPerMetre: number(1, 1e10), relativePermeability: positive, roughnessNm: length, source }).strict();
-const conductorDraft = conductor.extend({ conductivitySiemensPerMetre: conductor.shape.conductivitySiemensPerMetre.nullable(),
-  relativePermeability: positive.nullable(), roughnessNm: length.nullable(), source: sourceDraft.nullable() }).strict();
 const noConstruction = z.object({ mode: z.literal("none") }).strict();
-export const pcbInterfaceConstructionSchema = z.object({ mode: z.literal("two_layer"), id: identifier,
-  boardThicknessMm: nativeThickness, frontCopperThicknessMm: nativeThickness, backCopperThicknessMm: nativeThickness,
-  dielectric, conductor, solderMask: masks, exterior, surfaceFinish: nativeMaterialText, source }).strict();
-const constructionDraft = pcbInterfaceConstructionSchema.extend({ boardThicknessMm: nativeThickness.nullable(), frontCopperThicknessMm: nativeThickness.nullable(),
-  backCopperThicknessMm: nativeThickness.nullable(), dielectric: dielectricDraft.nullable(), conductor: conductorDraft.nullable(),
-  solderMask: masksDraft.nullable(), exterior: exteriorDraft.nullable(), surfaceFinish: nativeMaterialText.nullable(), source: sourceDraft.nullable() }).strict();
 export const pcbDifferentialPairRequirementSchema = z.object({ id: identifier, kind: z.literal("differential_pair"), nets, endpoints,
   geometry, routing, terminations, impedance: z.discriminatedUnion("mode", [noImpedance, impedance]), source, channel: channel.optional() }).strict();
 const pairDraft = pcbDifferentialPairRequirementSchema.extend({ nets: netsDraft.nullable(), endpoints: endpointsDraft.nullable(),
   geometry: geometryDraft.nullable(), routing: routingDraft.nullable(), terminations: terminationsDraft.nullable(),
   impedance: z.discriminatedUnion("mode", [noImpedance, impedanceDraft]).nullable(), source: sourceDraft.nullable(), channel: channelDraft.optional() }).strict();
 export const pcbInterfaceRequirementsSchema = z.object({ schemaVersion: z.literal(PCB_INTERFACE_REQUIREMENTS_SCHEMA_VERSION),
-  construction: z.discriminatedUnion("mode", [noConstruction, pcbInterfaceConstructionSchema]),
+  construction: z.discriminatedUnion("mode", [noConstruction, pcbInterfaceConstructionSchema, pcbFourLayerConstructionSchema]),
   interfaces: z.array(pcbDifferentialPairRequirementSchema).min(1).max(32) }).strict();
 export const pcbInterfaceRequirementsDraftSchema = pcbInterfaceRequirementsSchema.extend({
-  construction: z.discriminatedUnion("mode", [noConstruction, constructionDraft]).nullable(),
+  construction: z.discriminatedUnion("mode", [noConstruction, constructionDraft, pcbFourLayerConstructionDraftSchema]).nullable(),
   interfaces: z.array(pairDraft).max(32) }).strict();
 export type PcbInterfaceRequirements = z.infer<typeof pcbInterfaceRequirementsSchema>;
 export type PcbInterfaceRequirementsDraft = z.infer<typeof pcbInterfaceRequirementsDraftSchema>;
 export type PcbDifferentialPairRequirement = z.infer<typeof pcbDifferentialPairRequirementSchema>;
 export type PcbInterfaceConstruction = z.infer<typeof pcbInterfaceConstructionSchema>;
+export type PcbDeclaredInterfaceConstruction = PcbInterfaceConstruction | PcbFourLayerConstruction;
 
 const key = (point: { readonly reference: string; readonly pin: string }) => `${point.reference}:${point.pin}`;
 const sides = ["source", "receiver"] as const;
@@ -205,7 +171,8 @@ function validateChannel(document: PcbPlaneDesignIntentDraft | PcbPlaneDesignCon
       if (route.maxVias != null && route.maxVias !== 0) fail("launchNets", "Channel routes forbid vias");
       if (route.preferredLayer != null) {
         layers.add(route.preferredLayer);
-        if (route.preferredLayer === "either" || pair.routing?.allowedLayers != null && !pair.routing.allowedLayers.includes(route.preferredLayer)) fail("launchNets", "Each channel net requires the same exact allowed signal layer");
+        if (route.preferredLayer !== "F.Cu" && route.preferredLayer !== "B.Cu"
+          || pair.routing?.allowedLayers != null && !pair.routing.allowedLayers.some(layer => layer === route.preferredLayer)) fail("launchNets", "Each channel net requires the same exact allowed outer signal layer");
       }
       if (route.referencePath?.mode !== "continuous_plane" && (closed || route.referencePath != null)) fail("launchNets", "All four channel nets require continuous reference-plane paths");
       if (route.referencePath?.mode === "continuous_plane" && route.referencePath.planeId != null && route.referencePath.planeId !== pair.routing?.referencePlaneId)
@@ -265,6 +232,10 @@ export function validatePcbInterfaceRelationships(document: PcbPlaneDesignIntent
   if (requirements == null) return;
   const issue = (path: PropertyKey[], message: string) => context.addIssue({ code: "custom", path: ["interfaceRequirements", ...path], message });
   const construction = requirements.construction;
+  if (construction?.mode === "four_layer" && document.scope.board.layerCount !== 4
+    || construction?.mode === "two_layer" && document.scope.board.layerCount !== 2) {
+    issue(["construction", "mode"], "Physical construction layer count differs from the board scope");
+  }
   if (construction?.mode === "two_layer" && construction.boardThicknessMm != null) {
     // Either mask convention requires the total to accommodate the two copper layers and homogeneous dielectric.
     // This does not infer the total from mask thicknesses or claim a fabrication tolerance.
@@ -328,7 +299,8 @@ export function validatePcbInterfaceRelationships(document: PcbPlaneDesignIntent
       if (route != null && route.topology !== "plane") {
         if (route.maxVias != null && route.maxVias !== 0) issue([...path, "routing", "layerTransitions"], "This interface forbids all member layer transitions");
         if (route.preferredLayer != null && pair.routing?.allowedLayers != null
-            && (route.preferredLayer === "either" || !pair.routing.allowedLayers.includes(route.preferredLayer))) issue([...path, "routing", "allowedLayers"], "Each member requires one exact allowed signal layer");
+            && (route.preferredLayer !== "F.Cu" && route.preferredLayer !== "B.Cu"
+              || !pair.routing.allowedLayers.some(layer => layer === route.preferredLayer))) issue([...path, "routing", "allowedLayers"], "Each member requires one exact allowed outer signal layer");
         if (route.referencePath != null && route.referencePath.mode !== "continuous_plane") issue([...path, "routing", "referencePlaneId"], "Differential members require explicit continuous reference-plane coverage");
         if (route.referencePath?.mode === "continuous_plane" && pair.routing?.referencePlaneId != null
             && route.referencePath.planeId != null && route.referencePath.planeId !== pair.routing.referencePlaneId) issue([...path, "routing", "referencePlaneId"], "Member reference plane differs from interface reference plane");
@@ -400,10 +372,11 @@ export function validatePcbInterfaceRelationships(document: PcbPlaneDesignIntent
     if (pair.impedance?.mode === "differential") {
       const impedance = pair.impedance, construction = requirements.construction;
       if (impedance.targetOhms != null && impedance.toleranceOhms != null && impedance.toleranceOhms >= impedance.targetOhms) issue([...path, "impedance", "toleranceOhms"], "Impedance tolerance must leave a positive lower target bound");
-      if (construction?.mode === "none") issue([...path, "impedance", "constructionId"], "Differential impedance requires an explicit two-layer construction and material source declarations");
-      if (construction?.mode === "two_layer") {
+      if (construction?.mode === "none") issue([...path, "impedance", "constructionId"], "Differential impedance requires an explicit construction and material source declarations");
+      if (construction?.mode === "two_layer" || construction?.mode === "four_layer") {
         if (impedance.constructionId != null && impedance.constructionId !== construction.id) issue([...path, "impedance", "constructionId"], "Impedance references an unknown construction");
-        if (impedance.frequencyHz != null && construction.dielectric?.frequencyHz != null && impedance.frequencyHz !== construction.dielectric.frequencyHz) issue([...path, "impedance", "frequencyHz"], "Dielectric properties must be explicitly supplied at the requested impedance frequency");
+        const dielectrics = construction.mode === "two_layer" ? [construction.dielectric] : [construction.frontDielectric, construction.coreDielectric, construction.backDielectric];
+        if (impedance.frequencyHz != null && dielectrics.some(d => d?.frequencyHz != null && impedance.frequencyHz !== d.frequencyHz)) issue([...path, "impedance", "frequencyHz"], "Dielectric properties must be explicitly supplied at the requested impedance frequency");
         for (const side of ["front", "back"] as const) {
           const mask = construction.solderMask?.[side];
           if (impedance.frequencyHz != null && mask?.kind === "present" && mask.frequencyHz != null && impedance.frequencyHz !== mask.frequencyHz) issue(["construction", "solderMask", side, "frequencyHz"], "Mask properties must be explicitly supplied at the requested impedance frequency");

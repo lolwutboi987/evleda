@@ -26,6 +26,7 @@ import type { KicadMcpSession } from "../../src/integrations/kicad-mcp-session.j
 import { createGenericDividerBundleFixture, genericDividerDraft } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { constructionAssertion, constructionDependencies, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
+import { fourLayerPlaneDraft } from "../helpers/four-layer-plane-bundle.js";
 
 const roots: string[] = [];
 const testOwnedLeases: Array<{ release(): Promise<void> }> = [];
@@ -65,6 +66,18 @@ async function fixture(access: "read-only" | "edit" = "edit",
 }
 
 describe("in-chat workspace controller over actual MCP", () => {
+  it("compiles four-layer intent but rejects unqualified creation before allocation or native startup", async () => {
+    const f = await fixture("edit",{ dependencies:constructionDependencies });
+    try {
+      const ready = body(await f.call("evleda_submit_design",{ name:"four-layer", originalPrompt:"Four-layer construction with two ground planes", draft:fourLayerPlaneDraft() }));
+      expect(ready).toMatchObject({ status:"ready",projectCreated:false });
+      const result = await f.call("evleda_create_project",{ draftId:ready.draftId });
+      expect(result.isError).toBe(true);
+      expect(JSON.stringify(result)).toContain("FOUR_LAYER_NATIVE_AUTHORING_UNAVAILABLE");
+      expect(await f.store.lookup(ready.draftId)).toBeUndefined();
+      expect(f.openBinding).not.toHaveBeenCalled();
+    } finally { await f.client.close(); await f.workspace.close(); }
+  });
   it("discovers configured package IDs read-only and refuses stale discovery without opening a project", async () => {
     const description = { namespace: "EvlEDA_Test", sourceKind: "project-custom" as const,
       manifestIdentity: contentIdentity("manifest"), symbolIds: ["EvlEDA_Test:U1"], footprintIds: ["EvlEDA_Test:QFN"], assurance: "Source inventory only" };

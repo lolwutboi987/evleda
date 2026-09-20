@@ -3,6 +3,7 @@ import { hardenPortableValue } from "../core/portable-artifact.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import type { FreshReferencePointNm, FreshReferenceZone } from "./fresh-kicad-parser.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
+import { pcbCopperLayerSchema, type PcbCopperLayer } from "./pcb-copper-layers.js";
 
 type Point = FreshReferencePointNm;
 type Obj = Record<string, unknown>;
@@ -259,7 +260,7 @@ function validateRegions(regions: Region[], work: Work) {
     check(!contains(regions[i]!.outer[0]!, regions[j]!) && !contains(regions[j]!.outer[0]!, regions[i]!), "Filled component interiors overlap (nested polygons are not implicit holes)");
   }
 }
-function geometryIdentity(regions: Region[], layer: "F.Cu" | "B.Cu") {
+function geometryIdentity(regions: Region[], layer: PcbCopperLayer) {
   const geometry = regions.map(region => ({ outer: region.outer, holes: [...region.holes].sort((a, b) => compareText(canonicalJson(a), canonicalJson(b))), areaTwiceNm2: String(region.area) }));
   geometry.sort((a, b) => compareText(canonicalJson(a), canonicalJson(b)));
   return canonicalIdentity({ layer, components: geometry }, "evleda.fresh-plane-normalized-filled-geometry.v1");
@@ -269,7 +270,7 @@ function geometryIdentity(regions: Region[], layer: "F.Cu" | "B.Cu") {
 export function assessFreshPlaneFilledGeometry(input: {
   readonly nativeZone: unknown;
   readonly savedZone: FreshReferenceZone;
-  readonly layer: "F.Cu" | "B.Cu";
+  readonly layer: PcbCopperLayer;
 }): FreshPlaneFilledGeometryAssessment {
   const work = new Work();
   let sourceGeometryIdentity: CanonicalIdentity | null = null, nativeGeometryIdentity: CanonicalIdentity | null = null;
@@ -282,7 +283,7 @@ export function assessFreshPlaneFilledGeometry(input: {
     const snapshot = hardenPortableValue(input, { maxBytes: 8 * 1024 * 1024, maxDepth: 48, maxNodes: 150_000,
       maxArrayLength: 8192, maxOwnKeys: 64, maxStringBytes: 1024 * 1024 }) as typeof input;
     const { layer, savedZone } = snapshot;
-    check(layer === "F.Cu" || layer === "B.Cu", "Unsupported selected copper layer");
+    check(pcbCopperLayerSchema.safeParse(layer).success, "Unsupported selected copper layer");
     check(savedZone.status === "supported" && savedZone.kind === "copper" && savedZone.layers.length === 1 && savedZone.layers[0] === layer
       && savedZone.unknownForms.length === 0 && savedZone.filledCachePresent && savedZone.filledPolygons.length > 0, "Source zone is not a supported single-layer filled copper zone");
     const sourceIndexes = new Set<number>(), sourceRegions: Region[] = [];
@@ -302,7 +303,7 @@ export function assessFreshPlaneFilledGeometry(input: {
     const id = obj(native.id, "native zone identity"); keys(id, ["value"]);
     check(savedZone.uuid !== null && id.value === savedZone.uuid && native.type === "ZT_COPPER" && native.filled === true
       && (native["@type"] === undefined || native["@type"] === "type.googleapis.com/kiapi.board.types.Zone"), "Native zone identity, type, or filled state differs");
-    const nativeLayer = layer === "F.Cu" ? "BL_F_Cu" : "BL_B_Cu";
+    const nativeLayer = `BL_${layer.replace(".", "_")}`;
     const layers = arr(native.layers, "native layers"), fills = arr(native.filled_polygons, "native fill layers");
     check(layers.length === 1 && layers[0] === nativeLayer && fills.length === 1, "Native zone is not the selected single filled layer");
     const fill = obj(fills[0], "native filled layer"); keys(fill, ["layer", "shapes"]); check(fill.layer === nativeLayer, "Native filled layer differs");

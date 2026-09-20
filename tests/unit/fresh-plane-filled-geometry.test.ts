@@ -14,7 +14,8 @@ function mm(nm: number) {
 }
 function saved(chains: readonly (readonly Point[])[], layer = "B.Cu"): FreshReferenceZone {
   const pts = (chain: readonly Point[]) => `(pts ${chain.map(p => `(xy ${mm(p.x)} ${mm(p.y)})`).join(" ")})`;
-  const source = `(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal))
+  const innerLayers = layer === "In1.Cu" || layer === "In2.Cu" ? '(4 "In1.Cu" signal) (6 "In2.Cu" signal)' : '';
+  const source = `(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) ${innerLayers} (2 "B.Cu" signal))
     (zone (net "GND") (layer "${layer}") (uuid "${Z}") (hatch edge 0.5) (connect_pads yes (clearance 0.3))
       (min_thickness 0.25) (fill yes (thermal_gap 0.5) (thermal_bridge_width 0.5)) (polygon ${pts(outer)})
       ${chains.map(chain => `(filled_polygon (layer "${layer}") ${pts(chain)})`).join(" ")}))`;
@@ -24,7 +25,7 @@ function chain(nodes: readonly Point[]) {
   return { closed: true, nodes: nodes.map(p => ({ point: { ...(p.x ? { x_nm: String(p.x) } : {}), ...(p.y ? { y_nm: String(p.y) } : {}) } })) };
 }
 function native(polygons: readonly { outer: readonly Point[]; holes?: readonly (readonly Point[])[] }[], layer = "B.Cu") {
-  const nativeLayer = layer === "F.Cu" ? "BL_F_Cu" : "BL_B_Cu";
+  const nativeLayer = `BL_${layer.replace(".", "_")}`;
   return { id: { value: Z }, type: "ZT_COPPER", layers: [nativeLayer], filled: true,
     filled_polygons: [{ layer: nativeLayer, shapes: { polygons: polygons.map(p => ({ outline: chain(p.outer), holes: (p.holes ?? []).map(chain) })) } }] };
 }
@@ -37,6 +38,11 @@ function expectUnverified(result: ReturnType<typeof assess>, issue?: RegExp) {
 }
 
 describe("bounded exact native/saved plane filled geometry", () => {
+  it.each(["In1.Cu","In2.Cu"] as const)("retains exact %s source/native layer identity", layer => {
+    const result = assessFreshPlaneFilledGeometry({ savedZone:saved([outer],layer), nativeZone:native([{outer}],layer), layer });
+    expect(result.status).toBe("verified");
+    expect(assessFreshPlaneFilledGeometry({ savedZone:saved([outer],layer), nativeZone:native([{outer}],"B.Cu"), layer }).status).toBe("not_verified");
+  });
   it("unfractures a hole without counting its reverse bridge as copper", () => {
     const result = assess([fractured]);
     expect(result).toMatchObject({ status: "verified", geometryEquivalent: true, issues: [], components: [{ nativePolygonIndex: 0,

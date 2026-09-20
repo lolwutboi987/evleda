@@ -215,7 +215,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       if (pair.impedance.mode === "differential") setInterfaceRow(`interface-impedance:${pair.id}`, "interface_impedance", impedance);
       return { interfaceId: pair.id, assessmentIdentity: assessment.identity, construction, topology, pairGeometry, termination, impedance, referenceCoverage };
     });
-    if (bundle.contract.interfaceRequirements?.construction.mode === "two_layer")
+    if (bundle.contract.interfaceRequirements !== undefined && bundle.contract.interfaceRequirements.construction.mode !== "none")
       setInterfaceRow("interface-construction", "interface_construction", allFacts(checks.map(check => check.construction)));
     return checks;
   };

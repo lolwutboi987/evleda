@@ -44,6 +44,8 @@ Those copper/dielectric numbers total **0.9992 mm**, excluding mask. Keep that s
 
 ## Required toolbox work
 
+This table records the initial implementation gaps. The later [construction/compiler update](../../../docs/four-layer-construction.md) implements declarations, native source generation and saved construction assessment; native authoring qualification remains pending.
+
 The diagnostic copies enable four copper layers but deliberately retain the old two-layer physical-stackup declaration. **The existing stackup reader correctly rejects that mismatch. These files are not valid four-layer construction candidates and must not be used for fabrication or impedance calculation.** They isolate copper geometry and native DC connectivity only.
 
 The implementation needs a coherent update across these boundaries before native adoption:

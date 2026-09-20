@@ -76,13 +76,14 @@ export function createInterfaceConstructionBoardSeed(bundle: PcbPlaneCompilation
   const declaration = bundle.contract.interfaceRequirements?.construction;
   // Preserve historical no-extension and explicit-none boards byte-for-byte, including platform line endings.
   if (declaration === undefined || declaration.mode === "none") return nativeEmpty;
+  if (declaration.mode === "four_layer") return renderConstructionSeed(pcbFourLayerConstructionSchema.parse(declaration));
   const construction = pcbInterfaceConstructionSchema.parse(declaration);
   return renderConstructionSeed(construction);
 }
 
 /**
  * Pure new-board source generation for construction qualification. No I/O,
- * authenticated project authority, live mutation or public compiler support.
+ * authenticated project authority or live mutation.
  * Existing managed boards must never be replaced with this blank-board source.
  */
 export function createFourLayerConstructionBoardSeed(input: unknown): string {

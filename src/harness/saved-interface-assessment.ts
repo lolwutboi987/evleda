@@ -6,7 +6,7 @@ import { assessDifferentialPairGeometry, type DifferentialPairGeometryAssessment
 import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFreshPcbSource, parseFreshPcbStackup, type FreshPcbReferenceGeometry,
   type FreshPcbStackup, type FreshStackupField } from "./fresh-kicad-parser.js";
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
-import type { PcbInterfaceConstruction } from "./pcb-interface-requirements.js";
+import type { PcbInterfaceConstruction, PcbDeclaredInterfaceConstruction } from "./pcb-interface-requirements.js";
 import { assessDifferentialChannelGeometry, type DifferentialChannelGeometryAssessment } from "./differential-channel-geometry.js";
 import { channelMemberNets } from "./pcb-channel-width.js";
 import { readSavedPcbSourceForm as readForm, savedPcbSourceField as field, savedPcbSourceScalar as scalar,
@@ -38,7 +38,10 @@ export interface SavedInterfaceConstructionAssessment {
   readonly observed: Readonly<{ boardThicknessNm: number | null; frontCopperThicknessNm: number | null; backCopperThicknessNm: number | null;
     dielectricThicknessNm: number | null; frontMaskThicknessNm: number | null; backMaskThicknessNm: number | null;
     copperLayerOrder: readonly string[]; dielectricMaterial: string | null; relativePermittivity: number | null; lossTangent: number | null;
-    surfaceFinish: string | null; stackupSourceIdentity: ContentIdentity | null }>;
+    surfaceFinish: string | null; stackupSourceIdentity: ContentIdentity | null;
+    innerCopperThicknessNm?: Readonly<{ "In1.Cu": number | null; "In2.Cu": number | null }>;
+    dielectricGaps?: readonly Readonly<{ fromCopper: string; toCopper: string; thicknessNm: number | null;
+      material: string | null; relativePermittivity: number | null; lossTangent: number | null }>[] }>;
   readonly physicalConstruction: "not_verified"; readonly assertionAuthority: "bound_caller_assertions";
   readonly sourceUnverifiedAssertionFields: readonly string[];
 }
@@ -253,17 +256,19 @@ function emptyConstruction(): SavedInterfaceConstructionAssessment {
     relativePermittivity: null, lossTangent: null, surfaceFinish: null, stackupSourceIdentity: null }, physicalConstruction: "not_verified",
     assertionAuthority: "bound_caller_assertions", sourceUnverifiedAssertionFields: ["material_frequency_basis", "conductivity", "conductor_permeability", "substrate_permeability", "roughness", "exterior_air", "source_citations"] };
 }
-function compareConstruction(stackup: FreshPcbStackup, declared: PcbInterfaceConstruction | null): SavedInterfaceConstructionAssessment {
-  const result = emptyConstruction(), observed = { ...result.observed, copperLayerOrder: stackup.boardCopperLayerOrder,
+function compareConstruction(stackup: FreshPcbStackup, declared: PcbDeclaredInterfaceConstruction | null): SavedInterfaceConstructionAssessment {
+  const result = emptyConstruction();
+  const observed: { -readonly [K in keyof SavedInterfaceConstructionAssessment["observed"]]: SavedInterfaceConstructionAssessment["observed"][K] } = { ...result.observed, copperLayerOrder: stackup.boardCopperLayerOrder,
     stackupSourceIdentity: stackup.stackupSource === null ? null : contentIdentity(stackup.stackupSource) };
   const problems: SavedInterfaceReason[] = [], mismatches: SavedInterfaceReason[] = [];
   const attempt = (operation: () => void) => { try { operation(); } catch (error) { problems.push(failure(error, "CONSTRUCTION_UNSUPPORTED")); } };
   const match = (condition: boolean, label: string) => { if (!condition) mismatches.push(reason("SAVED_CONSTRUCTION_MISMATCH", `Saved ${label} differs from the authenticated bundle declaration.`)); };
-  if (declared === null) return { ...result, observed, reasons: [reason("CONSTRUCTION_NOT_DECLARED", "This authenticated bundle contains no two-layer construction declaration.")] };
+  if (declared === null) return { ...result, observed, reasons: [reason("CONSTRUCTION_NOT_DECLARED", "This authenticated bundle contains no physical construction declaration.")] };
   if (stackup.status !== "explicit" || !stackup.observationsComplete || stackup.issues.length) problems.push(reason("STACKUP_UNSUPPORTED", "Saved stackup observation is missing, ambiguous or outside the supported source grammar."));
   const copper = stackup.layers.filter(layer => layer.kind === "copper");
-  if (stackup.boardCopperLayerOrder.length) match(same(stackup.boardCopperLayerOrder, ["F.Cu", "B.Cu"]), "copper layer inventory");
-  if (copper.length) match(same(copper.map(layer => layer.name), ["F.Cu", "B.Cu"]), "physical copper order");
+  const order = declared.mode === "two_layer" ? ["F.Cu", "B.Cu"] : ["F.Cu", "In1.Cu", "In2.Cu", "B.Cu"];
+  if (stackup.boardCopperLayerOrder.length) match(same(stackup.boardCopperLayerOrder, order), "copper layer inventory");
+  if (copper.length) match(same(copper.map(layer => layer.name), order), "physical copper order");
   for (const side of ["front", "back"] as const) attempt(() => {
     const signal = copper.find(layer => layer.name === (side === "front" ? "F.Cu" : "B.Cu"));
     need(signal !== undefined, "EXTERIOR_UNASSESSED", "The exterior requires its explicit copper boundary.");
@@ -284,7 +289,7 @@ function compareConstruction(stackup: FreshPcbStackup, declared: PcbInterfaceCon
     match(observed[output] === mmNm(expected), `${layerName} thickness`);
     match(explicit(layers[0]!.type, "copper type").toLowerCase() === "copper", `${layerName} type`);
   });
-  attempt(() => {
+  if (declared.mode === "two_layer") attempt(() => {
     const front = copper.find(layer => layer.name === "F.Cu"), back = copper.find(layer => layer.name === "B.Cu");
     need(front !== undefined && back !== undefined, "DIELECTRIC_SPACING_UNSUPPORTED", "Both copper layers are required to locate the substrate.");
     const between = stackup.layers.slice(front.index + 1, back.index);
@@ -301,6 +306,42 @@ function compareConstruction(stackup: FreshPcbStackup, declared: PcbInterfaceCon
     }
     observed.dielectricThicknessNm = boundedNm(sum); match(sum === mmNm(declared.dielectric.thicknessMm), "dielectric thickness");
   });
+  else {
+    const inner: { "In1.Cu": number | null; "In2.Cu": number | null } = { "In1.Cu": null, "In2.Cu": null };
+    for (const [name, wanted] of [["In1.Cu", declared.inner1CopperThicknessMm], ["In2.Cu", declared.inner2CopperThicknessMm]] as const) attempt(() => {
+      const selected = copper.filter(layer => layer.name === name);
+      need(selected.length === 1 && selected[0]!.sublayers.length === 1, "COPPER_THICKNESS_UNSUPPORTED", "Each inner copper layer requires one explicit thickness record.");
+      inner[name] = thickness(selected[0]!.sublayers[0]!.thicknessMm, `${name} thickness`);
+      match(inner[name] === mmNm(wanted), `${name} thickness`);
+      match(explicit(selected[0]!.type, "inner copper type").toLowerCase() === "copper", `${name} type`);
+    });
+    observed.innerCopperThicknessNm = inner;
+    observed.dielectricGaps = ([
+      ["F.Cu", "In1.Cu", "prepreg", declared.frontDielectric],
+      ["In1.Cu", "In2.Cu", "core", declared.coreDielectric],
+      ["In2.Cu", "B.Cu", "prepreg", declared.backDielectric],
+    ] as const).map(([fromCopper, toCopper, expectedType, wanted]) => {
+      const gap: { fromCopper: string; toCopper: string; thicknessNm: number | null; material: string | null; relativePermittivity: number | null; lossTangent: number | null }
+        = { fromCopper, toCopper, thicknessNm: null, material: null, relativePermittivity: null, lossTangent: null };
+      attempt(() => {
+        const from = copper.find(layer => layer.name === fromCopper), to = copper.find(layer => layer.name === toCopper);
+        need(from !== undefined && to !== undefined && from.index < to.index, "DIELECTRIC_SPACING_UNSUPPORTED", "Both ordered adjacent copper layers are required for each dielectric gap.");
+        const between = stackup.layers.slice(from.index + 1, to.index);
+        need(between.length === 1 && between[0]!.kind === "dielectric" && between[0]!.sublayers.length === 1,
+          "DIELECTRIC_SPACING_UNSUPPORTED", "This four-layer declaration requires one explicit homogeneous dielectric record per gap.");
+        const actual = between[0]!, sub = actual.sublayers[0]!;
+        gap.thicknessNm = thickness(sub.thicknessMm, `${fromCopper} to ${toCopper} spacing`);
+        gap.material = explicit(sub.material, "dielectric material");
+        gap.relativePermittivity = explicit(sub.epsilonR, "dielectric permittivity");
+        gap.lossTangent = explicit(sub.lossTangent, "dielectric loss tangent");
+        match(explicit(actual.type, "dielectric type").toLowerCase() === expectedType, `${fromCopper} to ${toCopper} dielectric type`);
+        match(gap.thicknessNm === mmNm(wanted.thicknessMm), `${fromCopper} to ${toCopper} dielectric thickness`);
+        match(gap.material === wanted.material && exactSourceNumberMatches(sub.epsilonR, wanted.relativePermittivity)
+          && exactSourceNumberMatches(sub.lossTangent, wanted.lossTangent), `${fromCopper} to ${toCopper} dielectric material`);
+      });
+      return gap;
+    });
+  }
   for (const [side, name, output, expectedType] of [["front", "F.Mask", "frontMaskThicknessNm", "top solder mask"], ["back", "B.Mask", "backMaskThicknessNm", "bottom solder mask"]] as const) attempt(() => {
     const layers = stackup.layers.filter(layer => layer.name === name);
     need(layers.length === 1 && layers[0]!.sublayers.length === 1, "MASK_DECLARATION_MISSING", "Both masks require one explicit source thickness; omission does not mean zero.");
@@ -318,7 +359,8 @@ function compareConstruction(stackup: FreshPcbStackup, declared: PcbInterfaceCon
     need(finishes.length === 1, "FINISH_DECLARATION_MISSING", "Exactly one explicit saved copper finish is required.");
     observed.surfaceFinish = scalar(readForm(finishes[0]!.source)).value; match(observed.surfaceFinish === declared.surfaceFinish, "surface finish");
   });
-  return { ...result, status: mismatches.length ? "failed_saved_declaration" : problems.length ? "unassessed" : "matched_saved_declaration", reasons: [...mismatches, ...problems], observed };
+  return { ...result, ...(declared.mode === "four_layer" ? { sourceUnverifiedAssertionFields: [...result.sourceUnverifiedAssertionFields, "nominal_finished_board_thickness"] } : {}),
+    status: mismatches.length ? "failed_saved_declaration" : problems.length ? "unassessed" : "matched_saved_declaration", reasons: [...mismatches, ...problems], observed };
 }
 
 function referenceRequirements(bundle: PcbPlaneCompilationBundle, pair: PcbDifferentialPairRequirement, geometry: FreshPcbReferenceGeometry | null): SavedInterfaceReferenceRequirements {
@@ -418,17 +460,21 @@ function assessTerminations(pair: PcbDifferentialPairRequirement, inventory: Sav
 
 const FINITE_THICKNESS_CAVEAT = "The empirical finite-thickness correction assumes S is much greater than 2*T. No numeric sufficiency threshold is published here; this assessment does not establish that applicability or physical accuracy.";
 const unmodeledEffects = ["finite_thickness_applicability", "bends_and_launch_discontinuities", "uncoupled_sections", "pad_shapes", "nearby_lateral_copper", "fresh_reference_coverage", "reference_return_terminals", "physical_material_properties", "manufacturing"] as const;
-function bareRequest(pair: PcbDifferentialPairRequirement, construction: PcbInterfaceConstruction, sourceIdentity: ContentIdentity, layer: "F.Cu" | "B.Cu", reference: SavedInterfaceReferenceRequirements): SavedMicrostripRequest {
+function adjacentDielectric(construction: PcbDeclaredInterfaceConstruction, layer: "F.Cu" | "B.Cu"): PcbInterfaceConstruction["dielectric"] {
+  return construction.mode === "two_layer" ? construction.dielectric : layer === "F.Cu" ? construction.frontDielectric : construction.backDielectric;
+}
+function bareRequest(pair: PcbDifferentialPairRequirement, construction: PcbDeclaredInterfaceConstruction, sourceIdentity: ContentIdentity, layer: "F.Cu" | "B.Cu", reference: SavedInterfaceReferenceRequirements): SavedMicrostripRequest {
+  const dielectric = adjacentDielectric(construction, layer);
   return { expectedSourceIdentity: sourceIdentity, net: pair.nets.positive, signalLayer: layer, reference: { net: reference.net!, layer: reference.layer!, zoneUuid: reference.matchingZoneUuids[0]! },
     terminals: [selector(pair.endpoints.source.positive), selector(pair.endpoints.receiver.positive)], targetOhm: pair.impedance.mode === "differential" ? pair.impedance.targetOhms : 1,
-    absoluteToleranceOhm: pair.impedance.mode === "differential" ? pair.impedance.toleranceOhms : 0, frequencyHz: pair.impedance.mode === "differential" ? pair.impedance.frequencyHz : construction.dielectric.frequencyHz,
-    construction: { topCover: "absent", surface: "bare", dielectric: { material: construction.dielectric.material, epsilonR: construction.dielectric.relativePermittivity,
-      lossTangent: construction.dielectric.lossTangent, frequencyHz: construction.dielectric.frequencyHz, evidence: construction.dielectric.source.description },
+    absoluteToleranceOhm: pair.impedance.mode === "differential" ? pair.impedance.toleranceOhms : 0, frequencyHz: pair.impedance.mode === "differential" ? pair.impedance.frequencyHz : dielectric.frequencyHz,
+    construction: { topCover: "absent", surface: "bare", dielectric: { material: dielectric.material, epsilonR: dielectric.relativePermittivity,
+      lossTangent: dielectric.lossTangent, frequencyHz: dielectric.frequencyHz, evidence: dielectric.source.description },
     conductor: { conductivitySiemensPerMetre: construction.conductor.conductivitySiemensPerMetre, relativePermeability: construction.conductor.relativePermeability,
-      roughnessNm: construction.conductor.roughnessNm, evidence: construction.conductor.source.description }, substrateRelativePermeability: construction.dielectric.substrateRelativePermeability,
+      roughnessNm: construction.conductor.roughnessNm, evidence: construction.conductor.source.description }, substrateRelativePermeability: dielectric.substrateRelativePermeability,
     evidence: construction.source.description } };
 }
-async function assessImpedance(pair: PcbDifferentialPairRequirement, declared: PcbInterfaceConstruction | null, construction: SavedInterfaceConstructionAssessment,
+async function assessImpedance(pair: PcbDifferentialPairRequirement, declared: PcbDeclaredInterfaceConstruction | null, construction: SavedInterfaceConstructionAssessment,
   geometry: DifferentialPairGeometryAssessment | null, stackup: FreshPcbStackup | null, reference: SavedInterfaceReferenceRequirements, sourceIdentity: ContentIdentity,
   calculator: KicadTransmissionLineCalculator | undefined): Promise<SavedInterfaceImpedanceAssessment> {
   const intervals: SavedInterfaceImpedanceInterval[] = [], reasons: SavedInterfaceReason[] = [];
@@ -451,6 +497,7 @@ async function assessImpedance(pair: PcbDifferentialPairRequirement, declared: P
       need(declared !== null && construction.status === "matched_saved_declaration" && stackup !== null, "CONSTRUCTION_UNASSESSED", "Exact saved construction must match the authenticated bundle before model preparation.");
       need(reference.declarationStatus === "matched_saved_zone", "REFERENCE_DECLARATION_UNASSESSED", "The bound reference-zone declaration is required; coverage remains an independent unknown.");
       need(p.widthNm === n.widthNm && p.layer === n.layer && ["F.Cu", "B.Cu"].includes(p.layer), "CROSS_SECTION_UNSUPPORTED", "The coupled model requires actual equal widths on one outer signal layer; widths are never averaged.");
+      const dielectric = adjacentDielectric(declared, p.layer as "F.Cu" | "B.Cu");
       const prepared = deriveBareConstruction(stackup, bareRequest(pair, declared, sourceIdentity, p.layer as "F.Cu" | "B.Cu", reference));
       const h = prepared.dielectricThicknessNm!, t = prepared.signalCopperThicknessNm!, width = p.widthNm;
       const distanceN = BigInt(span.centerlineSquaredNm2.numerator), distanceD = BigInt(span.centerlineSquaredNm2.denominator), hInt = BigInt(h), wInt = BigInt(width);
@@ -460,16 +507,16 @@ async function assessImpedance(pair: PcbDifferentialPairRequirement, declared: P
       interval = { ...interval, numericalGapNm: gapNm, numericalLengthNm: lengthNm,
         applicability: { ...interval.applicability, widthToHeightRatio: width / h, gapToHeightRatio: gapNm / h, frequencyGHzTimesHeightMm: target.frequencyHz * h / 1e15 } };
       need(10n * wInt >= hInt && wInt <= 10n * hInt && 100n * distanceN >= (10n * wInt + hInt) ** 2n * distanceD
-        && distanceN <= (wInt + 10n * hInt) ** 2n * distanceD && declared.dielectric.relativePermittivity >= 1 && declared.dielectric.relativePermittivity <= 18
+        && distanceN <= (wInt + 10n * hInt) ** 2n * distanceD && dielectric.relativePermittivity >= 1 && dielectric.relativePermittivity <= 18
         && f.n * hInt <= 20_000_000_000_000_000n * f.d, "PUBLISHED_MODEL_ENVELOPE_EXCEEDED", "Exact source W/H or S/H is outside 0.1..10, relative permittivity outside 1..18, or frequency(GHz)*H(mm) exceeds 20.");
-      need(declared.dielectric.substrateRelativePermeability === 1 && declared.conductor.relativePermeability === 1, "MAGNETIC_MODEL_UNSUPPORTED", "This coupled approximation has no qualified nonunit-permeability construction model.");
+      need(dielectric.substrateRelativePermeability === 1 && declared.conductor.relativePermeability === 1, "MAGNETIC_MODEL_UNSUPPORTED", "This coupled approximation has no qualified nonunit-permeability construction model.");
       need(distanceN > (wInt + 2n * BigInt(t)) ** 2n * distanceD, "FINITE_THICKNESS_NECESSARY_CONDITION_FAILED", "S is not greater than 2*T, so the model's S much greater than 2*T assumption cannot hold.");
       need(Number.isFinite(gapNm) && gapNm > 0 && Number.isFinite(lengthNm) && lengthNm > 0, "NUMERICAL_CONVERSION_UNAVAILABLE", "Actual exact interval geometry cannot be represented as finite positive calculator inputs.");
       interval = { ...interval, applicability: { ...interval.applicability, status: "conditional_model_only" } };
       need(calculator !== undefined, "CALCULATOR_UNAVAILABLE", "No factory-bound protocol-4 calculator was supplied by the host.");
       const calculation = await calculator.calculate({ model: "coupled_microstrip", operation: "analyze", parameters: {
         H: h / 1e9, T: t / 1e9, H_T: "absent", PHYS_WIDTH: width / 1e9, PHYS_S: gapNm / 1e9, PHYS_LEN: lengthNm / 1e9,
-        EPSILONR: declared.dielectric.relativePermittivity, TAND: declared.dielectric.lossTangent, FREQUENCY: target.frequencyHz,
+        EPSILONR: dielectric.relativePermittivity, TAND: dielectric.lossTangent, FREQUENCY: target.frequencyHz,
         SIGMA: declared.conductor.conductivitySiemensPerMetre, MURC: declared.conductor.relativePermeability, ROUGH: declared.conductor.roughnessNm / 1e9 } });
       interval = { ...interval, calculation: structuredClone(calculation) };
       need(calculation.native.schemaVersion === 4 && calculation.request.model === "coupled_microstrip" && calculation.request.operation === "analyze"
@@ -506,7 +553,7 @@ export async function assessSavedInterface(input: SavedInterfaceAssessmentInput)
   if (!pair) throw new Error("The interface ID does not name a requirement in the authenticated bundle.");
   const calculator = input.calculator;
   if (calculator !== undefined && !isKicadTransmissionLineCalculator(calculator)) throw new Error("Saved-interface assessment requires a genuine factory-bound transmission-line calculator.");
-  const declared = bundle.contract.interfaceRequirements!.construction.mode === "two_layer" ? bundle.contract.interfaceRequirements!.construction : null;
+  const declared = bundle.contract.interfaceRequirements!.construction.mode !== "none" ? bundle.contract.interfaceRequirements!.construction : null;
   let sourceInventory: SavedInterfaceSourceInventory = { status: "unsupported", reasons: [], selected: { tracks: [], pads: [], vias: [] }, observations: [], projectionComplete: false };
   let geometry: DifferentialPairGeometryAssessment | null = null, sourceGeometry: FreshPcbReferenceGeometry | null = null, stackup: FreshPcbStackup | null = null, construction = emptyConstruction();
   let channel: SavedInterfaceAssessment["channel"];

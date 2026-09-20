@@ -10,6 +10,9 @@ import type { BoundedProcessOptions, BoundedProcessResult } from "../../src/inte
 import { interfaceConstructionBundle, interfaceConstructionDraft, constructionAssertion } from "../helpers/interface-construction-bundle.js";
 import { usbChannelBundle, usbChannelDraft } from "../helpers/usb-channel-bundle.js";
 import { usbChannelPcb } from "../helpers/usb-channel-source.js";
+import { fourLayerPlaneDraft } from "../helpers/four-layer-plane-bundle.js";
+import { createFourLayerConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
+import { parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
 
 const ownedDirectories: string[] = [];
 afterEach(async () => { for (const directory of ownedDirectories.splice(0)) { const resolved = path.resolve(directory);
@@ -234,6 +237,32 @@ describe("source termination pin and distance observations", () => {
 });
 
 describe("actual coupled interval numerical observations", () => {
+  it.each([["F.Cu", "In1.Cu", "GND_PLANE", .0001, 4.1], ["B.Cu", "In2.Cu", "BACK_GND", .0002, 3.9]] as const)(
+    "uses the adjacent %s dielectric in a four-layer model", async (signalLayer, referenceLayer, planeId, expectedHeight, expectedEr) => {
+      const value = fourLayerPlaneDraft(), construction = value.interfaceRequirements.construction;
+      construction.solderMask = { front: { kind: "absent" }, back: { kind: "absent" } };
+      construction.boardThicknessMm = 1.0004;
+      construction.surfaceFinish = "bare copper";
+      const pair = value.interfaceRequirements.interfaces[0];
+      pair.routing.allowedLayers = [signalLayer]; pair.routing.referencePlaneId = planeId;
+      pair.impedance = { mode:"differential", targetOhms:100, toleranceOhms:1, frequencyHz:100_000_000, constructionId:"STACK", source:constructionAssertion() };
+      for (const route of value.routingConstraints.nets.filter((r: any) => r.topology !== "plane")) {
+        route.preferredLayer = signalLayer; route.referencePath.signalLayer = signalLayer; route.referencePath.planeId = planeId;
+      }
+      const capturedStack = parseFreshPcbStackup(createFourLayerConstructionBoardSeed(construction)).stackupSource!;
+      let source = pcb({ thickness:"1.0004", stackup:capturedStack.slice("(stackup".length,-1), zone:zone.replaceAll('"B.Cu"',`"${referenceLayer}"`) })
+        .replace('(0 "F.Cu" signal) (2 "B.Cu" signal)', '(0 "F.Cu" signal) (4 "In1.Cu" signal) (6 "In2.Cu" signal) (2 "B.Cu" signal)');
+      if (signalLayer === "B.Cu") source = source.replaceAll('(layer "F.Cu")','(layer "B.Cu")')
+        .replaceAll('(layers "F.Cu" "F.Paste" "F.Mask")','(layers "B.Cu" "B.Paste" "B.Mask")');
+      const requests: string[][] = [];
+      const calculator = await calculatorFixture(50, options => { requests.push([...options.args]); });
+      const report = await assess(source,value,calculator.calculator);
+      expect(report.construction.status).toBe("matched_saved_declaration");
+      expect(requests, JSON.stringify(report.impedance)).toHaveLength(1);
+      expect(requests[0]).toContain(`H=${expectedHeight}`);
+      expect(requests[0]).toContain(`EPSILONR=${expectedEr}`);
+      expect(report.interfaceAccepted).toBe(false);
+    });
   it("uses protocol4 uncovered geometry and exactly twice frequency-dependent Z0_O, preserving quasistatic output separately", async () => {
     const fixture = await calculatorFixture(), result = await assess(pcb(), draft(), fixture.calculator);
     expect(fixture.runner).toHaveBeenCalledTimes(1); expect(fixture.runner.mock.calls[0]![0].args).toEqual(expect.arrayContaining([

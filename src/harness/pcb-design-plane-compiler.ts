@@ -138,7 +138,8 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
   for (const net of contract.nets) add(`schematic-net:${net.name}`, "schematic", `/nets/${token(net.name)}`, "Verify every exact net endpoint and no unintended endpoints; plane routing changes no schematic assignments.");
   for (const source of contract.derivedPowerSources ?? []) add(`derived-power:${source.id}`, "schematic", `/derivedPowerSources/${token(source.id)}`,
     "Verify source-pinned complete driver/passive pin facts, every upstream/path/ground native group and the complete schematic-only flag inventory. A reviewed source path is not current, thermal, feedback or electrical qualification; native ERC remains independent.");
-  add("board:outline", "outline", "/scope/board", "Verify the exact rectangular outline and two-layer board.");
+  add("board:outline", "outline", "/scope/board", contract.scope.board.layerCount === 2
+    ? "Verify the exact rectangular outline and two-layer board." : "Verify the exact rectangular outline and four-layer board with its complete ordered copper inventory.");
   for (const netClass of contract.netClasses) add(`netclass:${netClass.id}`, "netclass_configuration", `/netClasses/${token(netClass.id)}`, "Verify exact authored class assignment, trace-width preference and effective configured clearance; no ampacity claim.");
   for (const route of contract.routingConstraints.nets) {
     const path = `/routingConstraints/nets/${token(route.net)}`;
@@ -162,6 +163,8 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
   if (contract.interfaceRequirements !== undefined) {
     if (contract.interfaceRequirements.construction.mode === "two_layer") add("interface-construction", "interface_construction", "/interfaceRequirements/construction",
       "Verify saved native two-layer construction against all explicit thickness, material, mask, exterior and finish declarations. Caller sources are intent, not verified physical authority; no fabricated-material qualification is established.");
+    if (contract.interfaceRequirements.construction.mode === "four_layer") add("interface-construction", "interface_construction", "/interfaceRequirements/construction",
+      "Verify all four saved copper layers and three separate dielectric gaps, masks, finish and modeled total against the declaration; preserve nominal thickness and unverified physical material assertions separately.");
     for (const pair of contract.interfaceRequirements.interfaces) {
       const path = `/interfaceRequirements/interfaces/${token(pair.id)}`;
       add(`interface-topology:${pair.id}`, "interface_topology", path,

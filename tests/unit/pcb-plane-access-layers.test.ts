@@ -83,7 +83,8 @@ describe("explicit mixed-layer V2 plane access", () => {
     const access = planeRoute.properties.accessRouting.anyOf.find((branch: any) => branch.type === "object");
     expect(JSON.stringify(access.properties.preferredLayer)).toContain('"either"');
     expect(JSON.stringify(schema.properties.planes.items.properties.layer)).not.toContain('"either"');
-    expect(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE).toContain('"either" (both class layers required)');
+    expect(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE).toContain('either for exactly F.Cu/B.Cu');
+    expect(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE).toContain('any on four-layer boards');
     expect(PCB_PLANE_DESIGN_INTENT_MODEL_GUIDE).not.toContain('Access preferredLayer is one exact F.Cu or B.Cu, never');
   });
 });

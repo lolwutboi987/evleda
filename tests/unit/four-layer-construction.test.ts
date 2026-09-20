@@ -77,7 +77,7 @@ describe("four-layer native construction foundation", () => {
     expect(() => createFourLayerConstructionBoardSeed(input)).toThrow();
   });
 
-  it("does not advertise an unqualified four-layer public design path", () => {
+  it("rejects four-layer construction on a two-layer board scope", () => {
     const draft = interfaceConstructionDraft(); draft.interfaceRequirements.construction = fourLayerConstruction();
     expect(pcbPlaneDesignIntentDraftSchema.safeParse(draft).success).toBe(false);
   });

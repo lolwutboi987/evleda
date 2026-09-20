@@ -1508,6 +1508,14 @@ export async function assertReadonlyPlaneRuntimeImportSourceCurrent(source: Read
   if (canonicalJson(current.identity) !== canonicalJson(source.identity)) throw new Error("Runtime import source changed after read-only capture.");
 }
 
+/** Compilation support is broader than the currently qualified native writer. */
+export function assertCurrentPlaneNativeAuthoringScope(bundle: PcbPlaneCompilationBundle): void {
+  if (!isAuthenticatedPcbPlaneCompilationBundle(bundle)) throw new Error("Native authoring scope requires an authenticated plane bundle.");
+  if (bundle.contract.scope.board.layerCount !== 2 || bundle.contract.planes.length !== 1) {
+    throw new Error("FOUR_LAYER_NATIVE_AUTHORING_UNAVAILABLE: four-layer compilation is supported, but internal-layer and multiple-plane native authoring is not yet qualified. No project was prepared.");
+  }
+}
+
 /** Creates or verifies the only project class allowed to expose fresh incremental authoring. */
 export async function prepareFreshProject(options: PrepareFreshProjectOptions): Promise<FreshProject> {
   const name = validateFreshProjectName(options.name);
@@ -1528,6 +1536,7 @@ export async function prepareFreshProject(options: PrepareFreshProjectOptions): 
     : undefined;
   const planeInput = options.workflowKind === "plane"
     ? { bundle: options.compilationBundle, bundleRef: options.compilationBundleRef } : undefined;
+  if (planeInput !== undefined) assertCurrentPlaneNativeAuthoringScope(planeInput.bundle);
   const plane = planeInput === undefined ? undefined : createPlaneFreshProjectBinding(planeInput.bundle, planeInput.bundleRef);
   const workflowKind = plane !== undefined ? "plane" as const : generic === undefined ? "led_compatibility_fixture" as const : "generic" as const;
   const expectedBinding = plane?.binding ?? generic?.binding;

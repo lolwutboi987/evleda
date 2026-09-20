@@ -4,6 +4,7 @@ import { isSavedFreshPlaneEvidence, type SavedFreshPlaneEvidence } from "./fresh
 import { assessFreshPlaneFilledGeometry, type FreshPlaneFilledComponent } from "./fresh-plane-filled-geometry.js";
 import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFreshPcbSource, type FreshReferencePointNm } from "./fresh-kicad-parser.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
+import { pcbCopperLayerSchema, type PcbCopperLayer } from "./pcb-copper-layers.js";
 
 type Point = FreshReferencePointNm;
 type Obj = Record<string, unknown>;
@@ -27,7 +28,7 @@ export interface FreshPlaneDrillTopologyAssessment {
   readonly savedPcbIdentity: ContentIdentity | null;
   readonly cachedGeometryIdentity: CanonicalIdentity | null;
   readonly zoneUuid: string | null;
-  readonly layer: "F.Cu" | "B.Cu";
+  readonly layer: PcbCopperLayer;
   readonly planarInteriorConnected: true | null;
   readonly cachedAreaTwiceNm2: string | null;
   readonly conservativeAreaLowerBoundTwiceNm2: string | null;
@@ -249,7 +250,7 @@ function classify(bore: Bore, box: Box, component: FreshPlaneFilledComponent, st
  * adds PAD/track/barrel copper nor establishes terminal contacts or width. The
  * owning host must independently keep the saved witness/session/settings current.
  */
-export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: SavedFreshPlaneEvidence; readonly pcbSource: string; readonly layer: "F.Cu" | "B.Cu" }): FreshPlaneDrillTopologyAssessment {
+export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: SavedFreshPlaneEvidence; readonly pcbSource: string; readonly layer: PcbCopperLayer }): FreshPlaneDrillTopologyAssessment {
   const { savedEvidence, pcbSource, layer } = input;
   let witness: CanonicalIdentity | null = null, sourceIdentity: ContentIdentity | null = null, geometryIdentity: CanonicalIdentity | null = null, zoneUuid: string | null = null;
   let cachedArea: string | null = null, lower: string | null = null, operations = 0, classificationComplete = false;
@@ -278,7 +279,7 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
     const saved = savedEvidence; witness = saved.identity;
     check(typeof pcbSource === "string" && Buffer.byteLength(pcbSource) <= 8 * 1024 * 1024, "PCB source bound exceeded");
     sourceIdentity = contentIdentity(pcbSource); check(same(sourceIdentity, saved.savedPcbIdentity), "Exact saved PCB source differs from the witness");
-    check(layer === "F.Cu" || layer === "B.Cu", "Unsupported selected plane layer");
+    check(pcbCopperLayerSchema.safeParse(layer).success, "Unsupported selected plane layer");
     // Retain the complete independently validated bore inventory before any
     // component/classification gate. A known bore can provide a separate route
     // counterexample even while the whole plane's topology stays unverified.
