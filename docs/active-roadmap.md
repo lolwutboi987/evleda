@@ -1,6 +1,6 @@
 # Active PCB-toolbox roadmap
 
-The [saved RP2350 native R1](../designs/rp2350-pico/native-r1/README.md) now completes the managed authoring/close/reopen workflow with all 67 functional nets connected, configured native checks clean and portable delivery artifacts. The remaining engineering work is concrete: supplemental In2 single-component policy, two uncovered debug approaches, two uncertain debug-reference segments, and incomplete plane-contact/construction evaluation. Its full assessment stays failed/incomplete; neither native lifecycle completion nor the [DOC17 tooling repair](../proofs/native-plane-receipt-doc17-20260920/README.md) closes those findings.
+The [saved RP2350 native R1](../designs/rp2350-pico/native-r1/README.md) completes the managed authoring/close/reopen workflow with all 67 functional nets connected, configured native checks clean and portable delivery artifacts. The [host44 native reassessment](../proofs/native-pad-policy-20260920/README.md) now verifies In1 local thermal policy and intended connectivity on unchanged sources. The two SWDIO_MCU helper uncertainties have independent nominal exact-distance coverage in the focused follow-up. Remaining work includes supplemental In2 single-component policy, two uncovered debug-header approaches and material construction/electrical evaluation, including the documented USB inrush gap. The full assessment stays failed/incomplete; neither software corrections nor native lifecycle completion waive these findings.
 
 ## Historical roadmap entries
 

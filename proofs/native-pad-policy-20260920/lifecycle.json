@@ -1,0 +1,90 @@
+{
+  "projectId": "5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "normalClose": true,
+  "sourceUnchanged": true,
+  "close": {
+    "recordedAt": "2026-09-20T19:37:28.828Z",
+    "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-07-policy\\workspace-client-30cb5178-a676-45bb-b367-aad69e86b849\\000106-response-b52f8ab70d682d0ddd622b7ccff79072332b86d2646e7933daa7706a1b9c63b2.json",
+    "status": "closed"
+  },
+  "fills": [
+    {
+      "planeId": "GND_PLANE",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-07-policy\\workspace-client-30cb5178-a676-45bb-b367-aad69e86b849\\000055-response-645e0b5b225c12eec195ea925b93135c56a985c29a97f1aa88fac66d62e03362.json",
+      "persistence": {
+        "status": "plane-native-saved-and-source-verified",
+        "nativeSaveCalled": true,
+        "savedPcbContentIdentity": {
+          "algorithm": "sha256",
+          "digest": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+          "size": 634325
+        },
+        "stageObservationIdentity": {
+          "algorithm": "sha256",
+          "digest": "192e50bcce7b6ad9532d727eb2fd525e484d5b843e2d6d8c0b25b4380e6894b1",
+          "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "currentSessionFillEvidenceIdentity": {
+          "algorithm": "sha256",
+          "digest": "635c9f6cedd483f7fb3d17d79108c67c8fbd19800f244526fb9717b584c9a8a9",
+          "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "acceptanceEvaluated": false
+      }
+    },
+    {
+      "planeId": "BACK_GND",
+      "response": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-07-policy\\workspace-client-30cb5178-a676-45bb-b367-aad69e86b849\\000058-response-4cf36f9f6cb3f4043b9be5c0fd42ae099f4fb9f5e62b9c7f093710b0e9cea727.json",
+      "persistence": {
+        "status": "plane-native-saved-and-source-verified",
+        "nativeSaveCalled": true,
+        "savedPcbContentIdentity": {
+          "algorithm": "sha256",
+          "digest": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+          "size": 634325
+        },
+        "stageObservationIdentity": {
+          "algorithm": "sha256",
+          "digest": "09594c812e2a4ae4e8aa00f015b695a937c1e9494597da6d3af1e4aef1fd51f3",
+          "schemaVersion": "evleda.fresh-plane-stage-observation.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "currentSessionFillEvidenceIdentity": {
+          "algorithm": "sha256",
+          "digest": "069eae26e84049ee2c08030f42de55ed49796646360fa1512644fc9db8c3c139",
+          "schemaVersion": "evleda.saved-fresh-plane-evidence.v1",
+          "canonicalizationVersion": "evleda-c14n-json-v1"
+        },
+        "acceptanceEvaluated": false
+      }
+    }
+  ]
+}

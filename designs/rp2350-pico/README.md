@@ -19,9 +19,11 @@ meet the straight/45-degree policy; both GPIO service strips are clear.
 
 The public-tool project saved both fills, closed normally, reopened read-only
 with the same six sources and passed repeated connectivity/native checks before
-another normal close. The report retains 141 pass, 429 unknown and two failed
-acceptance rows. Debug reference gaps, supplemental In2 plane policy and
-electrical/construction qualification remain unresolved. The earlier unmanaged
+another normal close. The [latest host44 reassessment](../../proofs/native-pad-policy-20260920/README.md)
+has 141 pass, 430 unknown and one failed row on the same PCB; the original report
+is preserved. Main In1 local thermal policy and intended connectivity are verified.
+Header reference launches, supplemental In2 plane policy and electrical/construction
+qualification remain unresolved. The earlier unmanaged
 [review117 target](four-layer-review-117/README.md) is preserved separately.
 
 The earlier two-layer [ground bridge 60-13](native-ground-bridge-60-13/README.md),

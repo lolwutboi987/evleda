@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-plane-pad-build-44
+
+
+ Test Files  5 passed (5)
+      Tests  295 passed (295)
+   Start at  12:28:00
+   Duration  50.21s (transform 1.54s, setup 0ms, import 3.31s, tests 46.09s, environment 0ms)
+

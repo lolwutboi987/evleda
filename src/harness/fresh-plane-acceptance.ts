@@ -404,7 +404,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       : attribution.status === "verified" &&drillTopology.status==="verified"&&minimumArea.status==="verified"&&nativeZone!.layers[0]!.subpolygons.every(polygon => polygon.isIsland === false) && connected.status === "verified"
         ? fact("verified", "The zone retains one sufficiently large planar interior after supported drill subtraction, native non-island classification and a native endpoint anchor.")
         : fact("unknown", "Native retained-island classification and connected intended-component attribution are required.");
-    const thermal = nativeChecks?.checks.thermalPolicy;
+    const thermal = nativeChecks?.planeThermalPolicies.find(result => result.planeId === plane.id)?.finding;
     const thermalPolicy = thermal === undefined ? fact("unknown", "Effective native thermal policy evidence is unavailable.")
       : fact(thermal.status === "verified" ? "verified" : thermal.status === "failed" ? "failed" : "unknown", ...thermal.reasons);
     const actualMinimumCopperWidth = fact("unknown", "Configured native minimum thickness does not measure actual filled copper width.");

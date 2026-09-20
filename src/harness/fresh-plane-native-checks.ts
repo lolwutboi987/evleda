@@ -43,7 +43,13 @@ export interface FreshPlaneThermalPadEvidence {
   readonly number: string;
   readonly layer: string;
   readonly zoneUuid: string;
-  readonly applicability: "direct-native-zone-contact" | "no-pad-copper-on-plane-layer";
+  readonly applicability: "direct-native-zone-contact" | "no-pad-copper-on-plane-layer" | "pad-copper-outside-declared-plane-boundary";
+  readonly boundarySeparation?: Readonly<{
+    criterion: "conservative-copper-disc-strictly-outside-declared-rectangle";
+    anchorNm: Readonly<{ x: string; y: string }>; enclosingDiameterNm: string;
+    rectangleNm: Readonly<{ minX: string; minY: string; maxX: string; maxY: string }>; squaredAnchorDistanceNm: string;
+    connectivityClaimed: false;
+  }>;
   /** Declared threshold, never an observed physical count. Check proof/status before using it. */
   readonly minimumResolvedSpokes: number | null;
   readonly proof: "native-drc-lower-bound-with-source-derived-applicability" | "not-applicable" | "unproven";
@@ -55,6 +61,7 @@ export interface FreshPlaneNativeChecksAssessment {
   readonly savedEvidenceIdentity: CanonicalIdentity;
   readonly sourceIdentities: Readonly<{ pcb: ContentIdentity; project: ContentIdentity; rules: ContentIdentity }>;
   readonly checks: Readonly<{ erc: FreshPlaneNativeCheckFinding; drcClearanceShorts: FreshPlaneNativeCheckFinding; thermalPolicy: FreshPlaneNativeCheckFinding }>;
+  readonly planeThermalPolicies: readonly Readonly<{ planeId: string; zoneUuid: string | null; finding: FreshPlaneNativeCheckFinding }>[];
   readonly nativeErcIdentity: CanonicalIdentity | null;
   readonly ercSourceScope: FreshPlaneErcSourceScope;
   readonly ercCoverage: FreshPlaneErcCoverage;
@@ -113,6 +120,45 @@ function canonicalPath(value: string): string {
 }
 function finding(reasons: string[], unsupported = false): FreshPlaneNativeCheckFinding {
   return { status: reasons.length === 0 ? "verified" : unsupported ? "unsupported" : "failed", reasons };
+}
+
+/** Applies only after the complete native/source pad geometry has been qualified.
+ * A rotation-independent enclosing disc is conservative: failure to separate
+ * proves nothing, while strict separation proves all pad copper is outside.
+ * This establishes local zone-setting applicability, never net connectivity. */
+function outsidePlaneBoundary(rawPad: Obj, boundary: { minXmm: number; minYmm: number; maxXmm: number; maxYmm: number }): FreshPlaneThermalPadEvidence["boundarySeparation"] | undefined {
+  const integer = (value: unknown): bigint => {
+    const text = value === undefined ? "0" : String(value);
+    requireEvidence((typeof value === "string" || typeof value === "number" || value === undefined)
+      && /^-?(?:0|[1-9][0-9]{0,12})$/u.test(text), "pad boundary coordinate is not an exact bounded integer");
+    return BigInt(text);
+  };
+  const mm = (value: number): bigint | undefined => {
+    const match = /^(\d+)(?:\.(\d{1,6}))?$/u.exec(String(value));
+    return match === null ? undefined : BigInt(match[1]!) * 1_000_000n + BigInt((match[2] ?? "").padEnd(6, "0"));
+  };
+  const box = [boundary.minXmm, boundary.minYmm, boundary.maxXmm, boundary.maxYmm].map(mm);
+  if (box.some(value => value === undefined)) return undefined;
+  const [minX, minY, maxX, maxY] = box as [bigint, bigint, bigint, bigint];
+  const position = object(rawPad.position, "native pad position"), stack = object(rawPad.pad_stack, "native pad stack");
+  const copper = array(stack.copper_layers, "native pad copper templates");
+  requireEvidence(copper.length === 1, "pad boundary proof requires one qualified normal copper template");
+  const template = object(copper[0], "native copper template"), size = object(template.size, "native copper size");
+  const offset = object(template.offset ?? {}, "native copper offset");
+  const x = integer(position.x_nm), y = integer(position.y_nm), sx = integer(size.x_nm), sy = integer(size.y_nm);
+  requireEvidence(sx > 0n && sy > 0n, "pad boundary proof requires positive copper dimensions");
+  const abs = (n: bigint) => n < 0n ? -n : n, max = (a: bigint, b: bigint) => a > b ? a : b;
+  // Circles/ovals fit a diameter=max(size) disc; rectangles/roundrects fit
+  // diameter=sizeX+sizeY. Offset L1 length bounds its rotation on any angle.
+  const diameter = (template.shape === "PSS_CIRCLE" || template.shape === "PSS_OVAL" ? max(sx, sy) : sx + sy)
+    + 2n * (abs(integer(offset.x_nm)) + abs(integer(offset.y_nm)));
+  const dx = max(0n, max(minX - x, x - maxX)), dy = max(0n, max(minY - y, y - maxY));
+  const distance = dx * dx + dy * dy;
+  if (4n * distance <= diameter * diameter) return undefined; // Touching remains applicable/unknown.
+  return { criterion: "conservative-copper-disc-strictly-outside-declared-rectangle",
+    anchorNm: { x: x.toString(), y: y.toString() }, enclosingDiameterNm: diameter.toString(),
+    rectangleNm: { minX: minX.toString(), minY: minY.toString(), maxX: maxX.toString(), maxY: maxY.toString() },
+    squaredAnchorDistanceNm: distance.toString(), connectivityClaimed: false };
 }
 
 interface Atom { value: string; quoted: boolean }
@@ -428,12 +474,12 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
   for (const name of FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredViaManufacturingChecks) {
     if ((severities[name] !== "error" && severities[name] !== "warning") || native.ignored.has(name)) drcIssues.push(`required-native-check-disabled:${name}`);
   }
-  const thermalIssues = [...commonIssues]; let unsupported = false;
+  const baseThermalIssues = [...commonIssues];
   const hasThermal = bundle.contract.planes.some(plane=>plane.padConnection.mode==="thermal");
   for (const name of hasThermal ? ["starved_thermal", "unconnected_items"] : ["unconnected_items"]) {
-    if (severities[name] !== "error" || native.ignored.has(name)) thermalIssues.push(`required-native-check-disabled:${name}`);
+    if (severities[name] !== "error" || native.ignored.has(name)) baseThermalIssues.push(`required-native-check-disabled:${name}`);
   }
-  let thermalFailure = thermalIssues.length > 0;
+  const planeThermalPolicies: { planeId: string; zoneUuid: string | null; finding: FreshPlaneNativeCheckFinding }[] = [];
   const thermalPads: FreshPlaneThermalPadEvidence[] = [];
   const board = parseFreshPcbSource(sources.pcbSource), geometry = parseFreshPcbReferenceGeometry(sources.pcbSource);
   const sourcePads = board.footprints.flatMap(fp => fp.pads.map(pad => ({ fp, pad })));
@@ -442,8 +488,10 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
   exactSet(inventory.physicalPads.map(pad => pad.uuid), sourcePads.map(({ pad }) => pad.physical.id!), "saved stage physical pads");
   const declaredZones = resolveFreshPlaneSourceZones(bundle,geometry.zones), contacts = input.contacts;
   for (const plane of bundle.contract.planes) {
+    const thermalIssues = [...baseThermalIssues]; let unsupported = false, thermalFailure = thermalIssues.length > 0;
     const thermal = plane.padConnection.mode === "thermal", target = declaredZones.get(plane.id);
-    if (target === undefined) { thermalIssues.push(`${plane.id}:declared-plane-missing`); thermalFailure=true; continue; }
+    if (target === undefined) { planeThermalPolicies.push({ planeId: plane.id, zoneUuid: null,
+      finding: finding([...thermalIssues, `${plane.id}:declared-plane-missing`]) }); continue; }
     const stagedZone = input.savedEvidence.stage.nativeFilledZones.find(zone=>zone.uuid===target.uuid);
     requireEvidence(stagedZone!==undefined,"declared zone is missing from complete filled-stage inventory");
     assertFreshPlaneDeclaredZoneSettings({compilationBundle:bundle,pcbSource:sources.pcbSource,planeId:plane.id,sourceZone:target,nativeZone:stagedZone.raw});
@@ -518,9 +566,15 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
           checkZoneSettings(copper.zone_settings);
         }
         if (padIssues.length > 0) { thermalIssues.push(...padIssues.map(reason => `${uuid}:${reason}`)); unsupported = true; continue; }
+        const boundarySeparation = absent ? undefined : outsidePlaneBoundary(physical.rawNative, plane.boundary);
+        requireEvidence(boundarySeparation === undefined || !direct.has(uuid), "direct contact contradicts pad copper outside the declared plane boundary");
         if (absent) {
           thermalPads.push({ physicalPadUuid: uuid, footprintUuid: fp.id!, reference: fp.reference, number: pad.number, layer: plane.layer,
             zoneUuid: zone.uuid, applicability: "no-pad-copper-on-plane-layer", minimumResolvedSpokes: null, proof: "not-applicable" });
+        } else if (boundarySeparation !== undefined) {
+          thermalPads.push({ physicalPadUuid: uuid, footprintUuid: fp.id!, reference: fp.reference, number: pad.number, layer: plane.layer,
+            zoneUuid: zone.uuid, applicability: "pad-copper-outside-declared-plane-boundary", minimumResolvedSpokes: null,
+            proof: "not-applicable", boundarySeparation });
         } else if (!direct.has(uuid)) {
           thermalIssues.push(`${uuid}:local-intended-zone-contact-not-observed`);
           thermalFailure = true;
@@ -534,14 +588,22 @@ export function assessFreshPlaneNativeChecks(input: FreshPlaneNativeChecksInput)
         thermalIssues.push("no-direct-thermal-pad-witness"); unsupported = true;
       }
     }
+    planeThermalPolicies.push({ planeId: plane.id, zoneUuid: target.uuid,
+      finding: finding([...new Set(thermalIssues)], unsupported && !thermalFailure) });
   }
-  const checks = { erc: erc.fact, drcClearanceShorts: finding([...new Set(drcIssues)]), thermalPolicy: finding([...new Set(thermalIssues)], unsupported && !thermalFailure) };
-  const evaluatedPads = thermalPads.map(pad => pad.proof === "native-drc-lower-bound-with-source-derived-applicability" && checks.thermalPolicy.status !== "verified"
+  const thermalPolicy: FreshPlaneNativeCheckFinding = {
+    status: planeThermalPolicies.some(p => p.finding.status === "failed") ? "failed"
+      : planeThermalPolicies.some(p => p.finding.status === "unsupported") ? "unsupported" : "verified",
+    reasons: [...new Set(planeThermalPolicies.flatMap(p => p.finding.reasons))],
+  };
+  const checks = { erc: erc.fact, drcClearanceShorts: finding([...new Set(drcIssues)]), thermalPolicy };
+  const evaluatedPads = thermalPads.map(pad => pad.proof === "native-drc-lower-bound-with-source-derived-applicability"
+    && planeThermalPolicies.find(p => p.zoneUuid === pad.zoneUuid)?.finding.status !== "verified"
     ? { ...pad, proof: "unproven" as const } : pad);
   const status: Status = Object.values(checks).some(check => check.status === "failed") ? "failed"
     : Object.values(checks).some(check => check.status === "unsupported") ? "unsupported" : "verified";
   const body = { schemaVersion: "evleda.fresh-plane-native-checks.v1" as const, status, bundleIdentity: bundle.identity,
-    savedEvidenceIdentity: input.savedEvidence.identity, sourceIdentities, checks, thermalPads: evaluatedPads,
+    savedEvidenceIdentity: input.savedEvidence.identity, sourceIdentities, checks, thermalPads: evaluatedPads, planeThermalPolicies,
     nativeDrcIdentity: canonicalIdentity(nativeInput.drc, "evleda.fresh-plane-native-drc-input.v1"),
     nativeErcIdentity: erc.nativeIdentity, ercSourceScope: erc.sourceScope, ercCoverage: erc.coverage,
     nativeInput,

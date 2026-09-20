@@ -1,5 +1,12 @@
 # Destination client installation
 
+Latest: **host44 with the same DOC17/v4 profile** is installed after
+[actual native pad-policy qualification](../proofs/native-pad-policy-20260920/README.md).
+The updated repository skill is exact in the installed copy; workspace, access,
+environment, timeout and unrelated configuration are preserved. A fresh actual
+Codex client verifies 17 tools. Existing desktop connections are not claimed to
+have reloaded. Earlier host43/42/41 records below retain their historical scopes.
+
 Current, 20 September 2026: the existing entry uses **frozen host43 and DOC17/v4**.
 The [new qualification](../proofs/native-plane-receipt-doc17-20260920/README.md)
 records actual RP2350 fill/save success and 17 tools in a fresh Codex client.

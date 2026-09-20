@@ -1,0 +1,253 @@
+{
+  "mainThermal": {
+    "status": "verified",
+    "reasons": []
+  },
+  "backThermal": {
+    "status": "unknown",
+    "reasons": [
+      "aggregate-native-contact-has-ambiguous-subpolygon-scope"
+    ]
+  },
+  "outsidePads": [
+    {
+      "physicalPadUuid": "d0276374-3891-42f9-ad15-e65de7ecaec5",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "3",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "8",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "872ffa24-5366-4994-a978-d983df50eb18",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "13",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "26a265db-f05e-4617-b50b-b7e0338b52e0",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "18",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "3",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "018aed7a-2e26-4630-a51e-fb3619ec0d40",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "8",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "13",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "18",
+      "layer": "In2.Cu",
+      "zoneUuid": "134a8edd-1d2b-4221-bbb7-8dacc466a840",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "d0276374-3891-42f9-ad15-e65de7ecaec5",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "3",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "8",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "872ffa24-5366-4994-a978-d983df50eb18",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "13",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "26a265db-f05e-4617-b50b-b7e0338b52e0",
+      "footprintUuid": "ab1468fb-25d7-49b5-ba1f-ada5ec8d8d28",
+      "reference": "J2",
+      "number": "18",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "3",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "018aed7a-2e26-4630-a51e-fb3619ec0d40",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "8",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "13",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    },
+    {
+      "physicalPadUuid": "0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+      "footprintUuid": "c8bf7c22-7995-47b8-ae8d-fea8602e4bde",
+      "reference": "J3",
+      "number": "18",
+      "layer": "In1.Cu",
+      "zoneUuid": "cdaeefcb-b083-40d6-9f24-86d4d00da7c8",
+      "applicability": "pad-copper-outside-declared-plane-boundary",
+      "minimumResolvedSpokes": null,
+      "proof": "not-applicable"
+    }
+  ],
+  "mainIntendedConnectivity": {
+    "status": "verified",
+    "reasons": [
+      "Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component."
+    ],
+    "scope": "native-pad-reachability-to-stored-zone-component",
+    "directEligiblePadAnchors": [
+      "35603db2-7858-452d-90f0-c991ba6d7717",
+      "6a8af92a-66ec-4429-b364-6c69de6a7f23",
+      "78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+      "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+      "f5592606-4e9d-4b62-afac-565ec9879275"
+    ],
+    "nativeDirectVias": [
+      "0183904b-58b9-414d-9657-0c38bac9f708",
+      "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+      "0c0d17c6-67e0-420a-a456-6acf146a74ac",
+      "0c9d98b6-26bb-43c3-8371-801254431694",
+      "0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+      "12a9b3dc-6154-47d8-a74e-188543653c0e",
+      "2138f519-c783-46f8-aa38-3baacff98d43",
+      "2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+      "4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+      "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+      "463c9f0b-7400-4471-be23-08925f31fbac",
+      "50359f17-a88f-4224-a877-156f55a32121",
+      "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+      "5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+      "5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+      "660c6b12-c207-47ec-a352-523fdf294042",
+      "668ab035-7651-4112-81d6-735bc6cc3999",
+      "68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+      "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+      "707cba30-4192-4239-a71a-e4b94f348f45",
+      "76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+      "7e5658a6-4451-455b-ad7e-3311b063517a",
+      "7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+      "7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+      "895798ed-118c-4044-b758-da8dfb25e1a4",
+      "8d3806d2-7356-4bc6-a218-183e5b189f96",
+      "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+      "95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+      "9ab1435a-daaf-495d-8feb-deaf0149a45c",
+      "a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+      "a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+      "c72f99ad-b035-4092-beda-5958d96107b5",
+      "cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+      "d168baf9-49fb-4a16-a958-8ac5f994381d",
+      "e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+      "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+      "e4f5ebb6-f345-4129-8ff9-e129714c0258",
+      "e72cddfc-1b57-4224-bac0-caccb4a71d09",
+      "f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+      "f8adabc9-8b10-4dd0-b871-a037512f882c",
+      "feb6c0b8-7b77-4cf1-a451-7923d0aff393"
+    ]
+  },
+  "backIslandPolicy": {
+    "status": "failed",
+    "reasons": [
+      "Single-component or minimum-area island policy is violated."
+    ]
+  }
+}

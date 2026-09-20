@@ -1,0 +1,45 @@
+{
+  "releaseSha256": "bd9ed96e18a4e73c096a6083086dbdc8c0335cbfb88dd334b63ca28647640700",
+  "tests": {
+    "passed": 295,
+    "files": 5,
+    "scope": "Focused native pad-policy, plane-acceptance, public projection and connector cases; not a full suite."
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    },
+    {
+      "name": "plane-pad-policy-tests",
+      "exitCode": 0
+    }
+  ],
+  "codePins": [
+    {
+      "file": "src/harness/fresh-plane-native-checks.ts",
+      "sha256": "42a056385335b68cd965a7de4e6eff31ccb595265a8545b6a412c85d21927a01"
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "3794e7ea14ed108fcfcf477c4474ddb8acf9ea3be5fffbe5767f2b062eeccc0e"
+    },
+    {
+      "file": "tests/unit/fresh-plane-native-checks.test.ts",
+      "sha256": "d25a7934db6a1e8e6825f7d89d322eb412b6135be1cc206adfefb17d14532f11"
+    }
+  ],
+  "scope": "Frozen host44 implementation and executable tests remain exact. Skill guidance was updated and installed afterward."
+}

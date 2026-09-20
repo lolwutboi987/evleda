@@ -1,5 +1,14 @@
 # RP2350 continuation: 20 September 2026
 
+Latest: [native host44 reassessment](../proofs/native-pad-policy-20260920/README.md)
+verifies In1 local thermal policy and intended connectivity, correctly treating
+the eight GPIO ground pads outside each plane as local-contact-inapplicable.
+Independent connectivity/DRC remain good; all six source files are unchanged
+through both refills, saves and normal close. Overall acceptance remains false
+with 141 passed, 430 unknown and one failed row. Host44/DOC17 and the updated
+skill are installed and fresh-client discovery verifies 17 tools. The follow-up
+entry below describes the earlier software-only stage.
+
 The [focused R1 follow-up](../designs/rp2350-pico/native-r1-followup-review/README.md)
 finds a native ground-attachment witness in every supplemental In2 region and
 exact nominal coverage for the two SWDIO_MCU ribbons previously reported as

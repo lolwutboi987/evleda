@@ -566,6 +566,38 @@ describe("source-bound native plane policy evidence", () => {
     expect(result.checks.thermalPolicy.reasons.some(reason => reason.endsWith("local-intended-zone-contact-not-observed"))).toBe(true);
     expect(result.thermalPads.every(pad => pad.proof !== "native-drc-lower-bound-with-source-derived-applicability")).toBe(true);
   });
+  contactTest("separates an outside-zone access pad from an absent contact inside the zone", async () => {
+    const extraPad = '(pad "7" thru_hole circle (at -1.75 0) (size 0.4 0.4) (drill 0.1) (layers "*.Cu") (net "GND"))';
+    const input = await withContacts(await fixture({ extraPad }), report => {
+      const outside = report.allPads.find(p => p.number === "7")!;
+      report.zones[0]!.directPads = report.zones[0]!.directPads.filter(p => p.uuid !== outside.uuid);
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.thermalPolicy).toEqual({ status: "verified", reasons: [] });
+    expect(result.thermalPads.find(p => p.number === "7")).toMatchObject({ applicability: "pad-copper-outside-declared-plane-boundary",
+      proof: "not-applicable", minimumResolvedSpokes: null, boundarySeparation: { anchorNm: { x: "250000", y: "2000000" }, enclosingDiameterNm: "400000", connectivityClaimed: false } });
+    expect(result.acceptanceEvaluated).toBe(false);
+    const disconnected = changeNative(input, n => {
+      n.drc.report.unconnected_items = [{ type: "unconnected_items", severity: "error", description: "Outside pad has no access route" }];
+      n.drc.violationCount = 1; n.drc.status = "violations"; n.drc.invocation.exitCode = 5;
+    });
+    expect(assessFreshPlaneNativeChecks(disconnected).checks.drcClearanceShorts.status).toBe("failed");
+  });
+  contactTest.each([-1.7, -1.6])("does not exempt pad copper touching or overlapping the boundary at relative x=%s", async x => {
+    const extraPad = `(pad "7" thru_hole circle (at ${x} 0) (size 0.4 0.4) (drill 0.1) (layers "*.Cu") (net "GND"))`;
+    const input = await withContacts(await fixture({ extraPad }), report => {
+      const pad = report.allPads.find(p => p.number === "7")!;
+      report.zones[0]!.directPads = report.zones[0]!.directPads.filter(p => p.uuid !== pad.uuid);
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.thermalPolicy.status).toBe("failed");
+    expect(result.thermalPads.some(p => p.number === "7" && p.applicability === "pad-copper-outside-declared-plane-boundary")).toBe(false);
+  });
+  contactTest("rejects native direct contact that contradicts strictly separated pad copper", async () => {
+    const extraPad = '(pad "7" thru_hole circle (at -1.75 0) (size 0.4 0.4) (drill 0.1) (layers "*.Cu") (net "GND"))';
+    const input = await withContacts(await fixture({ extraPad }));
+    expect(() => assessFreshPlaneNativeChecks(input)).toThrow("direct contact contradicts pad copper outside");
+  });
   contactTest.each([
     ["pad local solid", (r: KicadPlaneContactsNativeReport) => { r.allPads[0]!.localZoneConnection = 2; r.allPads[0]!.resolvedZoneConnectionOverride = 2; }],
     ["footprint solid", (r: KicadPlaneContactsNativeReport) => { r.allFootprints[0]!.localZoneConnection = 2; r.allFootprints[0]!.resolvedZoneConnectionOverride = 2; }],
@@ -596,6 +628,21 @@ describe("source-bound native plane policy evidence", () => {
     });
     expect(assessFreshPlaneNativeChecks(input).checks.thermalPolicy).toMatchObject({ status: "unsupported",
       reasons: expect.arrayContaining(["aggregate-native-contact-has-ambiguous-subpolygon-scope"]) });
+  });
+  contactTest("keeps each plane's contact ambiguity separate while the aggregate remains unsupported", async () => {
+    const input = await withContacts(await fixture({ fourLayer: true }), report => {
+      const layer = report.zones[1]!.layers[0]!, extra = structuredClone(layer.subpolygons[0]!); extra.index = 1;
+      layer.subpolygons.push(extra); layer.filledSubpolygonCount++;
+      layer.filledGeometrySha256 = contentIdentity(canonicalJson(layer.subpolygons.map(({ outline, holes }) => ({ outline, holes })))).digest;
+    });
+    const result = assessFreshPlaneNativeChecks(input);
+    expect(result.checks.thermalPolicy.status).toBe("unsupported");
+    expect(result.planeThermalPolicies.map(p => p.finding.status)).toEqual(["verified", "unsupported"]);
+    const first = result.planeThermalPolicies[0]!, second = result.planeThermalPolicies[1]!;
+    expect(result.thermalPads.filter(p => p.zoneUuid === first.zoneUuid && p.applicability === "direct-native-zone-contact")
+      .every(p => p.proof !== "unproven")).toBe(true);
+    expect(result.thermalPads.filter(p => p.zoneUuid === second.zoneUuid)
+      .every(p => p.proof !== "native-drc-lower-bound-with-source-derived-applicability")).toBe(true);
   });
   contactTest("retains the canonical four-spoke rule threshold over the project's implicit two-spoke default", async () => {
     const input = await withContacts(await fixture({ minimumSpokes: 4 }));
