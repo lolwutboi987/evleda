@@ -1,0 +1,511 @@
+{
+  "schemaVersion": "evleda.rp2350-usb-startup-screen.v1",
+  "sourcePcbSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+  "inputsSha256": "51af1c1f3bd6495bcbccd8109a67f515670a53e3970bd9690c110291482c5a08",
+  "scope": "Nominal engineering screen only. These approximate graph readings are not manufacturer CSV data, guaranteed C(V) bounds, a measured waveform or USB compliance evidence.",
+  "assumptions": [
+    "Approximate reference C(V), treated as incremental capacitance on one charging branch.",
+    "The VSYS voltage ramp is imposed by the calculation. The actual diode path does not impose that ramp.",
+    "Capacitor-only result: C22/C26, converter input current, downstream capacitors and load are excluded.",
+    "The curve has one small peak, so the positive-threshold portions in these simple capacitor-only ramps form at most one region. This is not a general USBET waveform evaluator.",
+    "No result is a whole-board or production compliance pass."
+  ],
+  "analyticChecksPassed": 6,
+  "scenarios": [
+    {
+      "label": "approximate-reference-curve",
+      "scale": 1,
+      "voltage": 3.6,
+      "capacitorChargeUc": 158.05,
+      "graphReadingOnlyChargeUncertaintyUc": 3.6,
+      "energyUj": 272.1500000000001,
+      "minimumAssumedLinearRampFor50UcMs": 1.0805,
+      "minimumAssumedLinearRampForNo100MaEventMs": 1.71,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 3420,
+          "capacitorOnlyExcessChargeUc": 153.05
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 1710,
+          "capacitorOnlyExcessChargeUc": 148.04999999999998
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 342,
+          "capacitorOnlyExcessChargeUc": 108.05000000000001
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 171,
+          "capacitorOnlyExcessChargeUc": 58.05000000000001
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 85.5,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 34.2,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 17.1,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "approximate-reference-curve",
+      "scale": 1,
+      "voltage": 4.4,
+      "capacitorChargeUc": 185.65,
+      "graphReadingOnlyChargeUncertaintyUc": 4.4,
+      "energyUj": 382.3366666666667,
+      "minimumAssumedLinearRampFor50UcMs": 1.3565000000000003,
+      "minimumAssumedLinearRampForNo100MaEventMs": 2.0900000000000003,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 4180,
+          "capacitorOnlyExcessChargeUc": 180.65000000000003
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 2090,
+          "capacitorOnlyExcessChargeUc": 175.65
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 418.00000000000006,
+          "capacitorOnlyExcessChargeUc": 135.65000000000003
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 209.00000000000003,
+          "capacitorOnlyExcessChargeUc": 85.65
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 104.50000000000001,
+          "capacitorOnlyExcessChargeUc": 2.49276859504133
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 41.800000000000004,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 20.900000000000002,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "approximate-reference-curve",
+      "scale": 1,
+      "voltage": 4.7,
+      "capacitorChargeUc": 195.175,
+      "graphReadingOnlyChargeUncertaintyUc": 4.7,
+      "energyUj": 425.66416666666674,
+      "minimumAssumedLinearRampFor50UcMs": 1.45175,
+      "minimumAssumedLinearRampForNo100MaEventMs": 2.2325,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 4465,
+          "capacitorOnlyExcessChargeUc": 190.175
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 2232.5,
+          "capacitorOnlyExcessChargeUc": 185.175
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 446.5,
+          "capacitorOnlyExcessChargeUc": 145.17499999999998
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 223.25,
+          "capacitorOnlyExcessChargeUc": 95.17500000000001
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 111.625,
+          "capacitorOnlyExcessChargeUc": 8.522623358985967
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 44.65,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 22.325,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "approximate-reference-curve",
+      "scale": 1,
+      "voltage": 5,
+      "capacitorChargeUc": 204.25,
+      "graphReadingOnlyChargeUncertaintyUc": 5,
+      "energyUj": 469.6666666666666,
+      "minimumAssumedLinearRampFor50UcMs": 1.5444281046882404,
+      "minimumAssumedLinearRampForNo100MaEventMs": 2.375,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 4750,
+          "capacitorOnlyExcessChargeUc": 199.25
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 2375,
+          "capacitorOnlyExcessChargeUc": 194.25
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 475,
+          "capacitorOnlyExcessChargeUc": 154.25
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 237.5,
+          "capacitorOnlyExcessChargeUc": 104.25
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 118.75,
+          "capacitorOnlyExcessChargeUc": 15.274999999999999
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 47.5,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 23.75,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "approximate-reference-curve",
+      "scale": 1,
+      "voltage": 5.5,
+      "capacitorChargeUc": 218.5,
+      "graphReadingOnlyChargeUncertaintyUc": 5.5,
+      "energyUj": 544.4374999999999,
+      "minimumAssumedLinearRampFor50UcMs": 1.6988709151570645,
+      "minimumAssumedLinearRampForNo100MaEventMs": 2.6125,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 5225,
+          "capacitorOnlyExcessChargeUc": 213.5
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 2612.5,
+          "capacitorOnlyExcessChargeUc": 208.5
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 522.5,
+          "capacitorOnlyExcessChargeUc": 168.5
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 261.25,
+          "capacitorOnlyExcessChargeUc": 118.49999999999999
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 130.625,
+          "capacitorOnlyExcessChargeUc": 27.142768595041325
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 52.25,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 26.125,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "illustrative-1.38-scale-not-guaranteed",
+      "scale": 1.38,
+      "voltage": 3.6,
+      "capacitorChargeUc": 218.10899999999998,
+      "graphReadingOnlyChargeUncertaintyUc": 4.968,
+      "energyUj": 375.567,
+      "minimumAssumedLinearRampFor50UcMs": 1.68109,
+      "minimumAssumedLinearRampForNo100MaEventMs": 2.3598,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 4719.599999999999,
+          "capacitorOnlyExcessChargeUc": 213.10899999999998
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 2359.7999999999997,
+          "capacitorOnlyExcessChargeUc": 208.109
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 471.96,
+          "capacitorOnlyExcessChargeUc": 168.10899999999998
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 235.98,
+          "capacitorOnlyExcessChargeUc": 118.10899999999998
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 117.99,
+          "capacitorOnlyExcessChargeUc": 20.057549740561814
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 47.196,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 23.598,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "illustrative-1.38-scale-not-guaranteed",
+      "scale": 1.38,
+      "voltage": 4.4,
+      "capacitorChargeUc": 256.197,
+      "graphReadingOnlyChargeUncertaintyUc": 6.072,
+      "energyUj": 527.6246,
+      "minimumAssumedLinearRampFor50UcMs": 2.065118700447581,
+      "minimumAssumedLinearRampForNo100MaEventMs": 2.8842000000000003,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 5768.4,
+          "capacitorOnlyExcessChargeUc": 251.197
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 2884.2,
+          "capacitorOnlyExcessChargeUc": 246.19700000000003
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 576.84,
+          "capacitorOnlyExcessChargeUc": 206.197
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 288.42,
+          "capacitorOnlyExcessChargeUc": 156.197
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 144.21,
+          "capacitorOnlyExcessChargeUc": 56.22348371062404
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 57.684000000000005,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 28.842000000000002,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "illustrative-1.38-scale-not-guaranteed",
+      "scale": 1.38,
+      "voltage": 4.7,
+      "capacitorChargeUc": 269.3415,
+      "graphReadingOnlyChargeUncertaintyUc": 6.486,
+      "energyUj": 587.41655,
+      "minimumAssumedLinearRampFor50UcMs": 2.2059222482053706,
+      "minimumAssumedLinearRampForNo100MaEventMs": 3.08085,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 6161.699999999999,
+          "capacitorOnlyExcessChargeUc": 264.3415
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 3080.8499999999995,
+          "capacitorOnlyExcessChargeUc": 259.3415
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 616.17,
+          "capacitorOnlyExcessChargeUc": 219.34149999999997
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 308.085,
+          "capacitorOnlyExcessChargeUc": 169.34149999999997
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 154.0425,
+          "capacitorOnlyExcessChargeUc": 69.34149999999998
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 61.617,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 30.8085,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "illustrative-1.38-scale-not-guaranteed",
+      "scale": 1.38,
+      "voltage": 5,
+      "capacitorChargeUc": 281.865,
+      "graphReadingOnlyChargeUncertaintyUc": 6.8999999999999995,
+      "energyUj": 648.14,
+      "minimumAssumedLinearRampFor50UcMs": 2.34672579596316,
+      "minimumAssumedLinearRampForNo100MaEventMs": 3.2775,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 6555,
+          "capacitorOnlyExcessChargeUc": 276.865
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 3277.5,
+          "capacitorOnlyExcessChargeUc": 271.865
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 655.5,
+          "capacitorOnlyExcessChargeUc": 231.86499999999998
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 327.75,
+          "capacitorOnlyExcessChargeUc": 181.86499999999998
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 163.875,
+          "capacitorOnlyExcessChargeUc": 81.865
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 65.55,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 32.775,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    },
+    {
+      "label": "illustrative-1.38-scale-not-guaranteed",
+      "scale": 1.38,
+      "voltage": 5.5,
+      "capacitorChargeUc": 301.53000000000003,
+      "graphReadingOnlyChargeUncertaintyUc": 7.59,
+      "energyUj": 751.3237499999999,
+      "minimumAssumedLinearRampFor50UcMs": 2.581398375559476,
+      "minimumAssumedLinearRampForNo100MaEventMs": 3.60525,
+      "rampResults": [
+        {
+          "rampMs": 0.05,
+          "peakCapacitorCurrentMa": 7210.499999999999,
+          "capacitorOnlyExcessChargeUc": 296.53
+        },
+        {
+          "rampMs": 0.1,
+          "peakCapacitorCurrentMa": 3605.2499999999995,
+          "capacitorOnlyExcessChargeUc": 291.53
+        },
+        {
+          "rampMs": 0.5,
+          "peakCapacitorCurrentMa": 721.05,
+          "capacitorOnlyExcessChargeUc": 251.53
+        },
+        {
+          "rampMs": 1,
+          "peakCapacitorCurrentMa": 360.525,
+          "capacitorOnlyExcessChargeUc": 201.52999999999997
+        },
+        {
+          "rampMs": 2,
+          "peakCapacitorCurrentMa": 180.2625,
+          "capacitorOnlyExcessChargeUc": 101.53
+        },
+        {
+          "rampMs": 5,
+          "peakCapacitorCurrentMa": 72.10499999999999,
+          "capacitorOnlyExcessChargeUc": 0
+        },
+        {
+          "rampMs": 10,
+          "peakCapacitorCurrentMa": 36.052499999999995,
+          "capacitorOnlyExcessChargeUc": 0
+        }
+      ]
+    }
+  ],
+  "outputCapacitorC21": {
+    "energyTo3v3Uj": 233.6075,
+    "inputChargeEnergyExamples": [
+      {
+        "vinV": 3.6,
+        "idealLosslessChargeUc": 64.89097222222222,
+        "assumed70PercentEfficiencyChargeUc": 92.70138888888889
+      },
+      {
+        "vinV": 4.7,
+        "idealLosslessChargeUc": 49.703723404255314,
+        "assumed70PercentEfficiencyChargeUc": 71.00531914893617
+      },
+      {
+        "vinV": 5,
+        "idealLosslessChargeUc": 46.7215,
+        "assumed70PercentEfficiencyChargeUc": 66.74499999999999
+      }
+    ],
+    "scope": "Energy screen for C21 alone. No regulator waveform, minimum startup duration, loss model, other rail capacitance or startup load is established."
+  },
+  "actualWaveformKnown": false,
+  "guaranteedJointCapacitanceEnvelopeKnown": false,
+  "completeStartupAssessed": false,
+  "pcbChanged": false
+}

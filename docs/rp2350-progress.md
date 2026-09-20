@@ -1,5 +1,14 @@
 # RP2350 continuation: 20 September 2026
 
+The [USB startup screen](../designs/rp2350-pico/usb-startup-screen-20260920/README.md)
+now uses approximate readings of the selected capacitor's actual TDK reference
+curve. It gives about 204 uC to charge C20 to 5 V, so DC-bias loss is not a valid
+shortcut to a 10 uF input assumption. The calculation distinguishes imposed
+ramp scenarios from the unknown real waveform and accounts separately for C21
+stored energy. It neither qualifies a passive substitution nor a drop-in
+TPS2553 current limiter. The board and its USB-powered scope remain unchanged;
+a complete startup envelope or coordinated input-path revision is still needed.
+
 Latest: [native host44 reassessment](../proofs/native-pad-policy-20260920/README.md)
 verifies In1 local thermal policy and intended connectivity, correctly treating
 the eight GPIO ground pads outside each plane as local-contact-inapplicable.

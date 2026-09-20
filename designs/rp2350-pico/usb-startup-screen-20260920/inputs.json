@@ -1,0 +1,22 @@
+{
+  "scope": "Nominal engineering screen only. These approximate graph readings are not manufacturer CSV data, guaranteed C(V) bounds, a measured waveform or USB compliance evidence.",
+  "sourcePcbSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+  "part": "C3225X5R1A476M250AC",
+  "references": ["C20", "C21"],
+  "nominalCapacitanceUf": 47,
+  "tdkPage": "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X5R1A476M250AC",
+  "observation": "TDK public page, DC Bias Characteristic canvas, viewed 2026-09-20. Linear axes DC/V and Cap(Nom.)/F. Approximate samples read visually; allow about 1 uF reading uncertainty. TDK identifies graph data as reference-only and not guaranteed. Direct PDF/model downloads were rejected and browser CSV/model download attempts produced no retrievable artifact.",
+  "curve": [[0,47],[1,47.5],[2,44.5],[3,39.5],[4,34.5],[5,29.5],[6,25.5],[8,19],[10,14.5]],
+  "integrationAssumption": "Treat the plotted incremental capacitance as dQ/dV on a single quasistatic charging branch and interpolate linearly. Frequency, hysteresis, aging, combined temperature/bias behavior and production spread are not qualified.",
+  "readingUncertaintyUf": 1,
+  "illustrativeScaleOnly": 1.38,
+  "scaleMeaning": "1.20 times 1.15 illustrates nameplate capacitance tolerance and X5R temperature sensitivity; it is not a guaranteed joint nonlinear C(V,T) production envelope.",
+  "targetVsysV": [3.6,4.4,4.7,5.0,5.5],
+  "assumedLinearRampMs": [0.05,0.1,0.5,1,2,5,10],
+  "thresholdMa": 100,
+  "comparisonScreenUc": 50,
+  "usbUpdate": "https://compliance.usb.org/index.asp?UpdateFile=Electrical#45",
+  "screenSource": "https://www.ti.com/lit/an/slyt118/slyt118.pdf",
+  "regulatorSource": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf",
+  "regulatorTiming": {"typicalMs":0.65,"maximumMs":1,"minimumMs":null,"conditions":"VIN=VOUT=3.6V, TA=25C unless otherwise specified; soft-start timing row has IOUT=0mA. This output timing does not control direct charging of C20."}
+}
