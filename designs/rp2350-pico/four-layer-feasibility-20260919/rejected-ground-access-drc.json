@@ -1,0 +1,905 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-09-19T17:19:52",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.3",
+    "schematic_parity": [],
+    "source": "rp2350-pico.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [GPIO29_VSYS_SENSE] on F.Cu, length 0.8000 mm",
+                    "pos": {
+                        "x": 13.1,
+                        "y": 30.75
+                    },
+                    "uuid": "a0d0d632-2f8f-49c6-9763-687adcad233e"
+                },
+                {
+                    "description": "Pad 1 [GPIO29_VSYS_SENSE] of R15 on F.Cu",
+                    "pos": {
+                        "x": 17.98,
+                        "y": 35.84
+                    },
+                    "uuid": "b3f9a7b2-f439-4383-b9b9-ffc55420324f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [GPIO29_VSYS_SENSE] on F.Cu, length 0.5550 mm",
+                    "pos": {
+                        "x": 16.495,
+                        "y": 28.0
+                    },
+                    "uuid": "3d591d42-e105-49bf-9cd3-04741f52af30"
+                },
+                {
+                    "description": "Pad 43 [GPIO29_VSYS_SENSE] of U1 on F.Cu",
+                    "pos": {
+                        "x": 13.85,
+                        "y": 30.5
+                    },
+                    "uuid": "b374868b-4b49-4a4d-b3ee-dfcc284a9745"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 26 [RUN] of U1 on F.Cu",
+                    "pos": {
+                        "x": 11.6,
+                        "y": 35.95
+                    },
+                    "uuid": "117df3b5-175f-4c46-9af7-a08df21a0919"
+                },
+                {
+                    "description": "PTH pad 10 [RUN] of J3",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 31.27
+                    },
+                    "uuid": "580df4da-d841-42c9-bf0c-9f34d35ea63f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 4 [RUN] of SW2 on F.Cu",
+                    "pos": {
+                        "x": 14.925,
+                        "y": 17.625
+                    },
+                    "uuid": "dea206c2-c63e-45ed-8a67-965a928feddc"
+                },
+                {
+                    "description": "Pad 3 [RUN] of SW2 on F.Cu",
+                    "pos": {
+                        "x": 14.925,
+                        "y": 21.775
+                    },
+                    "uuid": "4734ca86-c610-475a-a938-971a442af652"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 3 [RUN] of SW2 on F.Cu",
+                    "pos": {
+                        "x": 14.925,
+                        "y": 21.775
+                    },
+                    "uuid": "4734ca86-c610-475a-a938-971a442af652"
+                },
+                {
+                    "description": "PTH pad 10 [RUN] of J3",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 31.27
+                    },
+                    "uuid": "580df4da-d841-42c9-bf0c-9f34d35ea63f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 27 [GPIO16] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 35.95
+                    },
+                    "uuid": "22ad5a8c-2ed5-4d59-bc97-cd9685d14cd7"
+                },
+                {
+                    "description": "Track [GPIO16] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 54.13
+                    },
+                    "uuid": "da78e804-fdac-4e34-b050-12249971241b"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 28 [GPIO17] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.4,
+                        "y": 35.95
+                    },
+                    "uuid": "6be1b206-2d0e-4a81-a6ac-cd19e79be553"
+                },
+                {
+                    "description": "Track [GPIO17] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 51.59
+                    },
+                    "uuid": "c5b2a989-993b-490f-a936-f477121919c3"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 29 [GPIO18] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.8,
+                        "y": 35.95
+                    },
+                    "uuid": "5a6507b6-d2d9-44dd-9187-74ce692f1546"
+                },
+                {
+                    "description": "Track [GPIO18] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 46.51
+                    },
+                    "uuid": "0c212092-d414-4b83-a20e-7be2b35ad4ee"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [GPIO22] on B.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 33.81
+                    },
+                    "uuid": "d7c1f128-5f61-4f28-95b6-ef862741fe1b"
+                },
+                {
+                    "description": "Pad 34 [GPIO22] of U1 on F.Cu",
+                    "pos": {
+                        "x": 13.85,
+                        "y": 34.1
+                    },
+                    "uuid": "61fee16f-23c6-4307-9cc9-ce2105990abf"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [GPIO26] on F.Cu, length 0.2121 mm",
+                    "pos": {
+                        "x": 15.15,
+                        "y": 31.7
+                    },
+                    "uuid": "26c5ad05-003b-477a-bcc0-4ecfab591022"
+                },
+                {
+                    "description": "Track [GPIO26] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 28.73
+                    },
+                    "uuid": "6c2d22ca-deba-44aa-a65f-ea3cb593410a"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [3V3_EN] on B.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 13.49
+                    },
+                    "uuid": "f7a28e1d-147b-461a-8fc4-a804a333b875"
+                },
+                {
+                    "description": "Track [3V3_EN] on B.Cu, length 2.9800 mm",
+                    "pos": {
+                        "x": 11.9,
+                        "y": 47.15
+                    },
+                    "uuid": "b4096c8e-6051-49ed-b493-801c76d169f3"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [GPIO24_VBUS_SENSE] on F.Cu, length 1.4425 mm",
+                    "pos": {
+                        "x": 17.26,
+                        "y": 17.08
+                    },
+                    "uuid": "a4a79570-4d1b-43b4-991c-e10c019508cd"
+                },
+                {
+                    "description": "Pad 36 [GPIO24_VBUS_SENSE] of U1 on F.Cu",
+                    "pos": {
+                        "x": 13.85,
+                        "y": 33.3
+                    },
+                    "uuid": "6096ba7a-c172-43a2-bc76-2c50c759df0f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 5 [GPIO3] of U1 on F.Cu",
+                    "pos": {
+                        "x": 6.95,
+                        "y": 31.3
+                    },
+                    "uuid": "c6dec06d-42aa-4834-8981-3f4ae25bd36b"
+                },
+                {
+                    "description": "Track [GPIO3] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 16.03
+                    },
+                    "uuid": "5aac1858-5b49-42b2-b609-01cf445700c7"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 7 [GPIO4] of U1 on F.Cu",
+                    "pos": {
+                        "x": 6.95,
+                        "y": 32.1
+                    },
+                    "uuid": "ac5b567a-826c-4045-b984-36c0ee27b25a"
+                },
+                {
+                    "description": "Track [GPIO4] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 18.57
+                    },
+                    "uuid": "717fc29c-f8cd-4f8d-b720-09bc9472d724"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 8 [GPIO5] of U1 on F.Cu",
+                    "pos": {
+                        "x": 6.95,
+                        "y": 32.5
+                    },
+                    "uuid": "e59e0ef2-c16a-4c5c-9930-2f76f68b7db6"
+                },
+                {
+                    "description": "Track [GPIO5] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 21.11
+                    },
+                    "uuid": "5daf4c1b-5cb1-4926-b5ad-d3e666a252d5"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 10 [GPIO7] of U1 on F.Cu",
+                    "pos": {
+                        "x": 6.95,
+                        "y": 33.3
+                    },
+                    "uuid": "3aa91856-2ff2-4eb5-9f99-7fac5cc7614a"
+                },
+                {
+                    "description": "Track [GPIO7] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 28.73
+                    },
+                    "uuid": "4e36c06b-61b6-4a24-9b14-37603f0e92e5"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Clearance violation ( clearance 0.1500 mm; actual 0.1250 mm)",
+            "items": [
+                {
+                    "description": "Via [GPIO1] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 3.8,
+                        "y": 11.5
+                    },
+                    "uuid": "7c7dfcb9-205e-474e-9419-6d46b5590aaf"
+                },
+                {
+                    "description": "Track [GND] on In1.Cu, length 1.9000 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 10.95
+                    },
+                    "uuid": "9d9527d5-c057-4281-9426-ecda8a596cf6"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets GND and GPIO12)",
+            "items": [
+                {
+                    "description": "Via [GND] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 4.425,
+                        "y": 42.7
+                    },
+                    "uuid": "08501e0e-48e0-49d7-998e-e3673f353047"
+                },
+                {
+                    "description": "Track [GPIO12] on F.Cu, length 1.6263 mm",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 42.25
+                    },
+                    "uuid": "44583c3f-220f-441b-b1ae-69baecefb8ee"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [GPIO12] on F.Cu, length 1.6263 mm",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 42.25
+                    },
+                    "uuid": "44583c3f-220f-441b-b1ae-69baecefb8ee"
+                },
+                {
+                    "description": "Via [GND] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 4.425,
+                        "y": 42.7
+                    },
+                    "uuid": "08501e0e-48e0-49d7-998e-e3673f353047"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets GND and GPIO14)",
+            "items": [
+                {
+                    "description": "Via [GND] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 4.425,
+                        "y": 42.7
+                    },
+                    "uuid": "08501e0e-48e0-49d7-998e-e3673f353047"
+                },
+                {
+                    "description": "Track [GPIO14] on B.Cu, length 6.1500 mm",
+                    "pos": {
+                        "x": 4.45,
+                        "y": 39.8
+                    },
+                    "uuid": "a175f369-8520-43b1-a863-28faed79528a"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [GPIO14] on B.Cu, length 6.1500 mm",
+                    "pos": {
+                        "x": 4.45,
+                        "y": 39.8
+                    },
+                    "uuid": "a175f369-8520-43b1-a863-28faed79528a"
+                },
+                {
+                    "description": "Via [GND] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 4.425,
+                        "y": 42.7
+                    },
+                    "uuid": "08501e0e-48e0-49d7-998e-e3673f353047"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets GND and GPIO15)",
+            "items": [
+                {
+                    "description": "Via [GND] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 4.425,
+                        "y": 42.7
+                    },
+                    "uuid": "08501e0e-48e0-49d7-998e-e3673f353047"
+                },
+                {
+                    "description": "Track [GPIO15] on B.Cu, length 6.4500 mm",
+                    "pos": {
+                        "x": 4.1,
+                        "y": 39.65
+                    },
+                    "uuid": "bf499e57-bcec-4b0c-90cc-91f1c5353608"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1250 mm)",
+            "items": [
+                {
+                    "description": "Track [GPIO15] on B.Cu, length 6.4500 mm",
+                    "pos": {
+                        "x": 4.1,
+                        "y": 39.65
+                    },
+                    "uuid": "bf499e57-bcec-4b0c-90cc-91f1c5353608"
+                },
+                {
+                    "description": "Via [GND] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 4.425,
+                        "y": 42.7
+                    },
+                    "uuid": "08501e0e-48e0-49d7-998e-e3673f353047"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets GPIO12 and GND)",
+            "items": [
+                {
+                    "description": "Track [GPIO12] on F.Cu, length 1.6263 mm",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 42.25
+                    },
+                    "uuid": "44583c3f-220f-441b-b1ae-69baecefb8ee"
+                },
+                {
+                    "description": "Track [GND] on F.Cu, length 1.1250 mm",
+                    "pos": {
+                        "x": 4.425,
+                        "y": 41.575
+                    },
+                    "uuid": "4775ce5c-7cd1-41d2-a6e4-775f6c8a58c8"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 36.35
+                    },
+                    "uuid": "15dbbd46-a137-448c-87cc-a94922ac01fd"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 10.95
+                    },
+                    "uuid": "219f73a9-8d58-4586-bbf3-c60c64808aa7"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 10.95
+                    },
+                    "uuid": "2a59c276-27d5-4ffc-9f0b-9296050e6c0c"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 23.65
+                    },
+                    "uuid": "31806bee-402a-4c47-af1b-70e0da13b953"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 23.65
+                    },
+                    "uuid": "59e91a95-2b52-492d-85af-b8781c320a21"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 49.05
+                    },
+                    "uuid": "9b7ea7f7-6ade-4664-b60f-01e73e838f94"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 36.35
+                    },
+                    "uuid": "b3b68331-0b23-4273-a357-e2872d74e153"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 1.5000 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 49.05
+                    },
+                    "uuid": "e1c32280-a6af-4764-aad6-4b1a0d68ea87"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO29_VSYS_SENSE] on F.Cu, length 0.2121 mm",
+                    "pos": {
+                        "x": 17.55,
+                        "y": 29.05
+                    },
+                    "uuid": "c60c51ef-fa6b-4b9e-87f7-1be201e237cc"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [GPIO29_VSYS_SENSE] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 12.55,
+                        "y": 32.2
+                    },
+                    "uuid": "70096751-069e-4b9a-a864-4ebff838b6be"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO16] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 54.13
+                    },
+                    "uuid": "da78e804-fdac-4e34-b050-12249971241b"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO17] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 51.59
+                    },
+                    "uuid": "c5b2a989-993b-490f-a936-f477121919c3"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO18] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 46.51
+                    },
+                    "uuid": "0c212092-d414-4b83-a20e-7be2b35ad4ee"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO22] on B.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 33.81
+                    },
+                    "uuid": "d7c1f128-5f61-4f28-95b6-ef862741fe1b"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO26] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 28.73
+                    },
+                    "uuid": "6c2d22ca-deba-44aa-a65f-ea3cb593410a"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [GPIO26] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 15.3,
+                        "y": 31.85
+                    },
+                    "uuid": "37a23e7c-e226-4d97-a687-e66bf98e5f58"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [3V3_EN] on B.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 19.89,
+                        "y": 13.49
+                    },
+                    "uuid": "f7a28e1d-147b-461a-8fc4-a804a333b875"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO3] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 16.03
+                    },
+                    "uuid": "5aac1858-5b49-42b2-b609-01cf445700c7"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO4] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 18.57
+                    },
+                    "uuid": "717fc29c-f8cd-4f8d-b720-09bc9472d724"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO5] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 21.11
+                    },
+                    "uuid": "5daf4c1b-5cb1-4926-b5ad-d3e666a252d5"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GPIO7] on F.Cu, length 1.4500 mm",
+                    "pos": {
+                        "x": 2.11,
+                        "y": 28.73
+                    },
+                    "uuid": "4e36c06b-61b6-4a24-9b14-37603f0e92e5"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        }
+    ]
+}

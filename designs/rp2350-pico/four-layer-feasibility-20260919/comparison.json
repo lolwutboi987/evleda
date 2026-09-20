@@ -1,0 +1,331 @@
+{
+  "nativeVersion": "10.0.3",
+  "sourcesUnchanged": true,
+  "results": [
+    {
+      "case": "two-layer-control",
+      "copperLayers": 2,
+      "planeLayersNativeIds": [
+        2
+      ],
+      "groundPadGroupSizes": [
+        52,
+        4,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "otherNetPadGroupsUnchanged": true,
+      "unchangedMeasuredTrackViaPadFootprintGeometry": true,
+      "configuredDrcCounts": {
+        "track_dangling": 11,
+        "via_dangling": 2,
+        "unconnected_items": 23
+      },
+      "ignoredChecks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "includedSeverities": [
+        "error",
+        "warning"
+      ],
+      "planeRegions": [
+        {
+          "layerId": 2,
+          "storedRegionCount": 13
+        }
+      ],
+      "pcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+      "argv": [
+        "C:\\Program Files\\KiCad\\10.0\\bin\\kicad-cli.exe",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--units",
+        "mm",
+        "--severity-error",
+        "--severity-warning",
+        "--all-track-errors",
+        "--schematic-parity",
+        "--refill-zones",
+        "--save-board",
+        "--exit-code-violations",
+        "--output",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\two-layer-control\\drc.json",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\two-layer-control\\rp2350-pico.kicad_pcb"
+      ],
+      "exitCode": 5,
+      "scope": "Disposable PCB geometry/DC experiment only. Existing two-layer rules copied unchanged. Stackup not qualified; no impedance, native-host or manufacturing acceptance."
+    },
+    {
+      "case": "four-layer-l2-plus-back",
+      "copperLayers": 4,
+      "planeLayersNativeIds": [
+        2,
+        4
+      ],
+      "groundPadGroupSizes": [
+        58,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "otherNetPadGroupsUnchanged": true,
+      "unchangedMeasuredTrackViaPadFootprintGeometry": true,
+      "configuredDrcCounts": {
+        "track_dangling": 11,
+        "via_dangling": 2,
+        "unconnected_items": 21
+      },
+      "ignoredChecks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "includedSeverities": [
+        "error",
+        "warning"
+      ],
+      "planeRegions": [
+        {
+          "layerId": 2,
+          "storedRegionCount": 13
+        },
+        {
+          "layerId": 4,
+          "storedRegionCount": 1
+        }
+      ],
+      "pcbSha256": "6d365603a52cf00b9cb8393afffd789df0f29b7a2e849b56baf8e3aede3eff82",
+      "argv": [
+        "C:\\Program Files\\KiCad\\10.0\\bin\\kicad-cli.exe",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--units",
+        "mm",
+        "--severity-error",
+        "--severity-warning",
+        "--all-track-errors",
+        "--schematic-parity",
+        "--refill-zones",
+        "--save-board",
+        "--exit-code-violations",
+        "--output",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\four-layer-l2-plus-back\\drc.json",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\four-layer-l2-plus-back\\rp2350-pico.kicad_pcb"
+      ],
+      "exitCode": 5,
+      "scope": "Disposable PCB geometry/DC experiment only. Existing two-layer rules copied unchanged. Stackup not qualified; no impedance, native-host or manufacturing acceptance."
+    },
+    {
+      "case": "four-layer-l2-only",
+      "copperLayers": 4,
+      "planeLayersNativeIds": [
+        4
+      ],
+      "groundPadGroupSizes": [
+        54,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "otherNetPadGroupsUnchanged": true,
+      "unchangedMeasuredTrackViaPadFootprintGeometry": true,
+      "configuredDrcCounts": {
+        "track_dangling": 19,
+        "via_dangling": 2,
+        "unconnected_items": 25
+      },
+      "ignoredChecks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "includedSeverities": [
+        "error",
+        "warning"
+      ],
+      "planeRegions": [
+        {
+          "layerId": 4,
+          "storedRegionCount": 1
+        }
+      ],
+      "pcbSha256": "7e2a2ff9c87cce2cd112df4fb1c24ba03927fdb3e51af914b71ddab792e947b7",
+      "argv": [
+        "C:\\Program Files\\KiCad\\10.0\\bin\\kicad-cli.exe",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--units",
+        "mm",
+        "--severity-error",
+        "--severity-warning",
+        "--all-track-errors",
+        "--schematic-parity",
+        "--refill-zones",
+        "--save-board",
+        "--exit-code-violations",
+        "--output",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\four-layer-l2-only\\drc.json",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\four-layer-l2-only\\rp2350-pico.kicad_pcb"
+      ],
+      "exitCode": 5,
+      "scope": "Disposable PCB geometry/DC experiment only. Existing two-layer rules copied unchanged. Stackup not qualified; no impedance, native-host or manufacturing acceptance."
+    },
+    {
+      "case": "four-layer-two-inner",
+      "copperLayers": 4,
+      "planeLayersNativeIds": [
+        4,
+        6
+      ],
+      "groundPadGroupSizes": [
+        54,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "otherNetPadGroupsUnchanged": true,
+      "unchangedMeasuredTrackViaPadFootprintGeometry": true,
+      "configuredDrcCounts": {
+        "track_dangling": 19,
+        "via_dangling": 2,
+        "unconnected_items": 25
+      },
+      "ignoredChecks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "includedSeverities": [
+        "error",
+        "warning"
+      ],
+      "planeRegions": [
+        {
+          "layerId": 4,
+          "storedRegionCount": 1
+        },
+        {
+          "layerId": 6,
+          "storedRegionCount": 1
+        }
+      ],
+      "pcbSha256": "e77d16376a4aac06fddb1af0e3b18b26254166a8d46761b9f28df87df7377903",
+      "argv": [
+        "C:\\Program Files\\KiCad\\10.0\\bin\\kicad-cli.exe",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--units",
+        "mm",
+        "--severity-error",
+        "--severity-warning",
+        "--all-track-errors",
+        "--schematic-parity",
+        "--refill-zones",
+        "--save-board",
+        "--exit-code-violations",
+        "--output",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\four-layer-two-inner\\drc.json",
+        "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\rp2350-four-layer-study-01\\run-04\\four-layer-two-inner\\rp2350-pico.kicad_pcb"
+      ],
+      "exitCode": 5,
+      "scope": "Disposable PCB geometry/DC experiment only. Existing two-layer rules copied unchanged. Stackup not qualified; no impedance, native-host or manufacturing acceptance."
+    }
+  ],
+  "limitation": "Geometry and DC plane benefit only. Four-layer stackup/routing support is not implemented or adopted."
+}

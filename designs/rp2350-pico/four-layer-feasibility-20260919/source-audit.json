@@ -1,0 +1,60 @@
+{
+  "scope": "Source and DC feasibility only; not an authored four-layer construction or host acceptance",
+  "originalPcbSha256": "f98f02607e3af0939df8a6c6f6d3bb543a123d41c8e2937b812698e94c096f60",
+  "diagnosticPcbSha256": "cd9ec3c1176141c2c9210f6f4c25dc9f7d629090b19e6e5f505d9a35ee729e32",
+  "allTwelvePublishedAndManagedSourceFilesUnchanged": true,
+  "originalSegmentsRetainedExactly": 831,
+  "originalViasRetainedExactly": 106,
+  "parsedFootprintsAndPadsUnchanged": true,
+  "outlineUnchanged": true,
+  "addedTracks": 8,
+  "addedVias": 0,
+  "allAddedTracksStraightOwnHeaderGroundLeadsOnIn1": true,
+  "groundPadGroupSizes": [
+    63,
+    1
+  ],
+  "configuredDrcCounts": {
+    "track_dangling": 19,
+    "via_dangling": 2,
+    "unconnected_items": 17
+  },
+  "internalPlaneBounds": [
+    {
+      "layer": "In1.Cu",
+      "polygonCount": 1,
+      "serviceStripEncroachment": false
+    },
+    {
+      "layer": "In2.Cu",
+      "polygonCount": 1,
+      "serviceStripEncroachment": false
+    }
+  ],
+  "referenceGeometryScope": {
+    "status": "unsupported",
+    "unsupportedViaItems": 106,
+    "fullBoardCoverage": false
+  },
+  "stackup": {
+    "status": "unsupported",
+    "issues": [
+      "Physical-stackup copper order differs from the board layer table or has fewer than two copper layers."
+    ],
+    "boardCopperLayerOrder": [
+      "F.Cu",
+      "In1.Cu",
+      "In2.Cu",
+      "B.Cu"
+    ]
+  },
+  "rejectedEarlierGroundAccessTrial": {
+    "file": "ground-access-01/result.json",
+    "reasons": [
+      "one header lead clearance failure",
+      "switch via and access track collided with GPIO copper"
+    ]
+  },
+  "accepted": false,
+  "fabricationAuthorized": false
+}
