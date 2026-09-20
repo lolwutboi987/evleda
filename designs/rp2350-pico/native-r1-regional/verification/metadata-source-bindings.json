@@ -1,0 +1,38 @@
+{
+  "scope": "Native design metadata plus explicitly identified existing part candidates; no new component qualification",
+  "pcb": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\23542cb1-7244-4564-9d87-c10080909029\\output\\project\\rp2350-pico-4layer.kicad_pcb",
+    "sha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d"
+  },
+  "bundle": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\23542cb1-7244-4564-9d87-c10080909029\\output\\toolbox-design-bundle.json",
+    "sha256": "8ca16ed5021a310007b6b99fbd663bd95e265f38a4c382fa03fff59fa4ac7607"
+  },
+  "componentSelection": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\component-selection.json",
+    "sha256": "be88ab07265f2fa3957aa95eed95098125256403feeaa6aa0671716b52b9bc2f"
+  },
+  "circuitInputs": {
+    "file": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\designs\\rp2350-pico\\circuit-inputs.json",
+    "sha256": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2"
+  },
+  "electricalReferences": 62,
+  "boardFeatureReferences": [
+    "H1",
+    "H4",
+    "H2",
+    "H3"
+  ],
+  "headerPitchMm": 2.54,
+  "headerRowSpacingMm": 17.78,
+  "libraryCandidateDifferences": [
+    {
+      "reference": "C20",
+      "footprint": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2"
+    },
+    {
+      "reference": "C21",
+      "footprint": "EvlEDA_Pico2350:C3225X5R1A476M250AC_TDK_PA2.2_PB1.1_PC2.2"
+    }
+  ]
+}

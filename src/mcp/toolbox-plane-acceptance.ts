@@ -337,7 +337,17 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
       nativePolygonAttribution: fact(plane.nativePolygonAttribution),
       minimumArea: { ...fact(plane.minimumArea), requiredAreaTwiceNm2: plane.minimumArea.requiredAreaTwiceNm2,
         observedAreaTwiceNm2: [...plane.minimumArea.observedAreaTwiceNm2], observedAreaMeaning: "stored-zone-fill-components" as const,
-        conservativeAreaLowerBoundTwiceNm2: plane.minimumArea.conservativeAreaLowerBoundTwiceNm2 },
+        conservativeAreaLowerBoundTwiceNm2: plane.minimumArea.conservativeAreaLowerBoundTwiceNm2,
+        ...(plane.minimumArea.componentAreaLowerBounds === undefined ? {} : { componentAreaLowerBounds: plane.minimumArea.componentAreaLowerBounds.map(bound => {
+          if (bound.connectivityClaimed !== false) throw new Error("Area-only bounds cannot claim connectivity.");
+          return { nativePolygonIndex: publicNumber(bound.nativePolygonIndex), storedAreaTwiceNm2: publicText(bound.storedAreaTwiceNm2),
+            subtractedUpperAreaTwiceNm2: publicText(bound.subtractedUpperAreaTwiceNm2), conservativeRetainedAreaTwiceNm2: publicText(bound.conservativeRetainedAreaTwiceNm2),
+            possiblyIntersectingBoreUuids: bound.possiblyIntersectingBoreUuids.map(publicText), exactlySeparatedBoreUuids: bound.exactlySeparatedBoreUuids.map(publicText),
+            bboxExcludedBoreCount: publicNumber(bound.bboxExcludedBoreCount), predicateOperations: publicNumber(bound.predicateOperations),
+            maximumPredicateOperations: publicNumber(bound.maximumPredicateOperations), method: bound.method, connectivityClaimed: false };
+        }) }) },
+      ...(plane.regionalPolicyConditions === undefined ? {} : { regionalPolicyConditions: { ...fact(plane.regionalPolicyConditions),
+        referencePlaneId: publicText(plane.regionalPolicyConditions.referencePlaneId), engineeringBasis: publicText(plane.regionalPolicyConditions.engineeringBasis) } }),
       intendedPlaneConnectivity: { ...fact(plane.intendedPlaneConnectivity), scope: plane.intendedPlaneConnectivity.scope,
         directEligiblePadAnchors: [...plane.intendedPlaneConnectivity.directEligiblePadAnchors],
         nativeDirectVias: [...plane.intendedPlaneConnectivity.nativeDirectVias] },

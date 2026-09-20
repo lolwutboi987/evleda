@@ -1,5 +1,12 @@
 # Destination client installation
 
+Current: **host47 with the same DOC17/v4 profile** is installed after
+[actual native regional-policy revision](../proofs/native-plane-policy-revision-20260920/README.md).
+The installed skill matches the repository and a fresh actual Codex client
+discovers **18 tools**, including `evleda_revise_plane_regions`. Workspace,
+access, environment, timeout and unrelated settings are preserved. Existing
+desktop connection activation remains unestablished. Earlier records follow.
+
 Latest: **host46 with the same DOC17/v4 profile** is installed after
 [native region-contact qualification](../proofs/native-plane-regions-20260920/README.md).
 The exact current skill is installed, 17 tools are verified in a fresh client,

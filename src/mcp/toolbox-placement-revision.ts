@@ -15,7 +15,7 @@ const requireValue = (v: unknown, message: string): void => { if (!v) throw new 
 const content = schematicSeedLineageSchema.shape.sourceCheckpointIdentity;
 const nativeIdentities = z.object({ pcb: content, sch: content, pro: content, dru: content }).strict();
 export const placementRevisionLineageSchema = schematicSeedLineageSchema.omit({ schemaVersion: true, sourceSchematicIdentity: true }).extend({
-  schemaVersion: z.enum(["evleda.plane-placement-revision-lineage.v1", "evleda.plane-via-budget-revision-lineage.v1", "evleda.plane-saved-recovery-lineage.v1"]), name: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/u),
+  schemaVersion: z.enum(["evleda.plane-placement-revision-lineage.v1", "evleda.plane-via-budget-revision-lineage.v1", "evleda.plane-region-policy-revision-lineage.v1", "evleda.plane-saved-recovery-lineage.v1"]), name: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/u),
   sourceNativeIdentities: nativeIdentities, targetNativeIdentities: nativeIdentities,
   sourcePlanIdentity: schematicSeedLineageSchema.shape.sourceSnapshotIdentity,
   recovery: z.object({ evidenceIdentity: schematicSeedLineageSchema.shape.sourceSnapshotIdentity,
@@ -63,7 +63,7 @@ export async function qualifyClosedPlanePlacementRevision(input: {
   readonly profile: KicadMcpPinnedFileInput; readonly assertLeaseCurrent: () => Promise<void>;
   readonly revisionKind?: PlaneRevisionKind;
 }) {
-  requireValue(input.revisionKind === undefined || input.revisionKind === "placement" || input.revisionKind === "via-budgets",
+  requireValue(input.revisionKind === undefined || input.revisionKind === "placement" || input.revisionKind === "via-budgets" || input.revisionKind === "plane-regions",
     "saved-copy recovery is not an ordinary public revision");
   const state = closed.get(input.receipt); requireValue(state !== undefined, "source has no genuine close in this workspace connection");
   const context = state!.context;
@@ -82,6 +82,7 @@ export async function qualifyClosedPlanePlacementRevision(input: {
     ...(input.revisionKind === undefined ? {} : { revisionKind: input.revisionKind }) });
   const plan = freshPlanePlacementSeedPlan(seed);
   const payload = { schemaVersion: input.revisionKind === "via-budgets" ? "evleda.plane-via-budget-revision-lineage.v1" as const
+    : input.revisionKind === "plane-regions" ? "evleda.plane-region-policy-revision-lineage.v1" as const
     : "evleda.plane-placement-revision-lineage.v1" as const, name: input.name,
     sourceProjectId: input.sourceProjectId, targetProjectId: input.targetProjectId,
     sourceBundleIdentity: context.bundle.identity, targetBundleIdentity: input.targetBundle.identity,

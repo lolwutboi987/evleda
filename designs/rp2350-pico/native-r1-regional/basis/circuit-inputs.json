@@ -1,0 +1,4351 @@
+{
+  "format": "rp2350-pico-engineering-inventory-v1",
+  "status": "engineering input; not a compiler bundle or native board",
+  "reviewedAt": "2026-09-17",
+  "scope": {
+    "board": "Original nonwireless Pico-like RP2350A with 4 MiB flash, USB-C device/sink, BOOT/RUN, SWD and GPIO25 LED",
+    "outOfScope": [
+      "firmware campaign",
+      "manufacturing/order exports",
+      "physical qualification",
+      "global configuration/library changes"
+    ]
+  },
+  "sources": {
+    "D": {
+      "title": "RP2350 datasheet",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008373-DS-2-rp2350-datasheet.pdf",
+      "revision": "2025-07-29 d126e9e-clean",
+      "pages": "442-443, 448-456, 1335-1344"
+    },
+    "H": {
+      "title": "Hardware design with RP2350",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf",
+      "revision": "Release 3, 2026-08-20, 06a7f75e58a1",
+      "pages": "5-8, 10-18, 20"
+    },
+    "P": {
+      "title": "Pico 2 datasheet",
+      "url": "https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf",
+      "revision": "Release 5, 2026-07-03, d4e0f1799616",
+      "pages": "7-9, 14-18, 20"
+    },
+    "R": {
+      "title": "Richtek RT6150A/B",
+      "url": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf",
+      "revision": "DS6150A/B-06, July 2018",
+      "pages": "2, 4-7, 9-13"
+    },
+    "W": {
+      "title": "Winbond W25Q32RV",
+      "url": "https://www.winbond.com/resource-files/W25Q32RV_SPI_QPI%20RevE%2011132025%20Plus.pdf",
+      "revision": "Rev. E, 2025-11-13",
+      "pages": "5-6 pinout/QE; 11 CS sequencing; 68 timing; 77 XH center pad; 80-81 ordering"
+    },
+    "G": {
+      "title": "GCT USB4105",
+      "url": "https://gct.co/files/drawings/usb4105.pdf",
+      "revision": "B4",
+      "pages": "Sheet 1"
+    },
+    "ST": {
+      "title": "ST USBLC6-2",
+      "url": "https://www.st.com/resource/en/datasheet/usblc6-2.pdf",
+      "revision": "DS4260 Rev. 7, December 2021",
+      "pages": "1-2 pinout/specifications; 6 placement; 11 Figure 17 100 nF VBUS; 12-13 SOT23-6L"
+    },
+    "CC": {
+      "title": "USB Type-C device hardware guidance",
+      "url": "https://docs.espressif.com/projects/esp-iot-solution/en/latest/usb/usb_overview/usb_typec_hardware_guide.html",
+      "pages": "Device configuration, independent CC pulldowns and USB 2.0 data contacts"
+    },
+    "A": {
+      "title": "Abracon core inductor",
+      "url": "https://abracon.com/datasheets/AOTA-B201610S3R3-101-T.pdf",
+      "revision": "Rev. A, 2024-09-13",
+      "pages": "1, 4"
+    },
+    "X": {
+      "title": "Abracon ABM8-272-T3",
+      "url": "https://abracon.com/datasheets/ABM8-272-T3.pdf",
+      "revision": "Drawing 456603 Rev. B, 2024-09-16",
+      "pages": "Current 3-page PDF: PDF 1 electrical specifications (printed 2/9), PDF 2 mechanical pin map"
+    },
+    "SW": {
+      "title": "Wurth 434133025816",
+      "url": "https://www.we-online.com/components/products/datasheet/434133025816.pdf",
+      "revision": "001.001, 2021-01-25",
+      "pages": "1 contact pairs 1-2 and 3-4; 2 ratings"
+    },
+    "Q": {
+      "title": "Diodes DMG1012T",
+      "url": "https://www.diodes.com/datasheet/download/DMG1012T.pdf",
+      "revision": "DS31783 Rev. 8-2, February 2022",
+      "pages": "1-2, compared with Pico schematic p.20"
+    },
+    "N": {
+      "title": "Nexperia PMEG6010ELR",
+      "url": "https://assets.nexperia.com/documents/data-sheet/PMEG6010ELR.pdf",
+      "revision": "2023-01-01",
+      "pages": "1 pin 1 K / pin 2 A; 2-4 rating conditions"
+    },
+    "K": {
+      "title": "Raspberry Pi Minimal native design",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip",
+      "revision": "R4-S1, 2026-07-03",
+      "pages": "Native schematic and core-regulator PCB group"
+    }
+  },
+  "componentAccounting": {
+    "entities": 62,
+    "componentLimit": 64,
+    "remaining": 2,
+    "netCount": 65,
+    "categories": {
+      "mcu": 1,
+      "regulator": 1,
+      "flash": 1,
+      "esd": 1,
+      "usb_connector": 1,
+      "board_header": 2,
+      "debug_header": 1,
+      "inductor": 2,
+      "mosfet": 1,
+      "diode": 1,
+      "led": 1,
+      "switch": 2,
+      "crystal": 1,
+      "resistor": 20,
+      "capacitor": 26
+    },
+    "countingRule": "Includes both 20-contact header entities and all fitted passive provisions. Mechanical holes/vias are board features; no fake physical power flags in BOM. Actual compiler accounting remains to be checked.",
+    "noDecouplingRemovedForLimit": true
+  },
+  "components": [
+    {
+      "ref": "U1",
+      "kind": "mcu",
+      "value": "RP2350A; require A4 stepping",
+      "mpn": "RP2350A",
+      "package": "QFN-60 plus EP, 7 x 7 mm, 0.4 mm pitch",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "IOVDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "2",
+          "function": "GPIO0",
+          "net": "GPIO0",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "3",
+          "function": "GPIO1",
+          "net": "GPIO1",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "4",
+          "function": "GPIO2",
+          "net": "GPIO2",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "5",
+          "function": "GPIO3",
+          "net": "GPIO3",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "6",
+          "function": "DVDD",
+          "net": "1V1",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "7",
+          "function": "GPIO4",
+          "net": "GPIO4",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "8",
+          "function": "GPIO5",
+          "net": "GPIO5",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "9",
+          "function": "GPIO6",
+          "net": "GPIO6",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "10",
+          "function": "GPIO7",
+          "net": "GPIO7",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "11",
+          "function": "IOVDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "12",
+          "function": "GPIO8",
+          "net": "GPIO8",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "13",
+          "function": "GPIO9",
+          "net": "GPIO9",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "14",
+          "function": "GPIO10",
+          "net": "GPIO10",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "15",
+          "function": "GPIO11",
+          "net": "GPIO11",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "16",
+          "function": "GPIO12",
+          "net": "GPIO12",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "17",
+          "function": "GPIO13",
+          "net": "GPIO13",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "18",
+          "function": "GPIO14",
+          "net": "GPIO14",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "19",
+          "function": "GPIO15",
+          "net": "GPIO15",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "20",
+          "function": "IOVDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "21",
+          "function": "XIN",
+          "net": "XIN",
+          "observedSymbolElectricalType": "input"
+        },
+        {
+          "number": "22",
+          "function": "XOUT",
+          "net": "XOUT_MCU",
+          "observedSymbolElectricalType": "output"
+        },
+        {
+          "number": "23",
+          "function": "DVDD",
+          "net": "1V1",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "24",
+          "function": "SWCLK",
+          "net": "SWCLK_MCU",
+          "observedSymbolElectricalType": "input"
+        },
+        {
+          "number": "25",
+          "function": "SWDIO",
+          "net": "SWDIO_MCU",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "26",
+          "function": "RUN",
+          "net": "RUN",
+          "observedSymbolElectricalType": "input"
+        },
+        {
+          "number": "27",
+          "function": "GPIO16",
+          "net": "GPIO16",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "28",
+          "function": "GPIO17",
+          "net": "GPIO17",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "29",
+          "function": "GPIO18",
+          "net": "GPIO18",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "30",
+          "function": "IOVDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "31",
+          "function": "GPIO19",
+          "net": "GPIO19",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "32",
+          "function": "GPIO20",
+          "net": "GPIO20",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "33",
+          "function": "GPIO21",
+          "net": "GPIO21",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "34",
+          "function": "GPIO22",
+          "net": "GPIO22",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "35",
+          "function": "GPIO23",
+          "net": "GPIO23_SMPS_PS",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "36",
+          "function": "GPIO24",
+          "net": "GPIO24_VBUS_SENSE",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "37",
+          "function": "GPIO25",
+          "net": "GPIO25_LED",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "38",
+          "function": "IOVDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "39",
+          "function": "DVDD",
+          "net": "1V1",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "40",
+          "function": "GPIO26/ADC0",
+          "net": "GPIO26",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "41",
+          "function": "GPIO27/ADC1",
+          "net": "GPIO27",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "42",
+          "function": "GPIO28/ADC2",
+          "net": "GPIO28",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "43",
+          "function": "GPIO29/ADC3",
+          "net": "GPIO29_VSYS_SENSE",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "44",
+          "function": "ADC_AVDD",
+          "net": "ADC_AVDD",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "45",
+          "function": "IOVDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "46",
+          "function": "VREG_AVDD",
+          "net": "VREG_AVDD",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "47",
+          "function": "VREG_PGND",
+          "net": "GND",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "48",
+          "function": "VREG_LX",
+          "net": "CORE_LX",
+          "observedSymbolElectricalType": "power_out"
+        },
+        {
+          "number": "49",
+          "function": "VREG_VIN",
+          "net": "3V3",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "50",
+          "function": "VREG_FB",
+          "net": "1V1",
+          "observedSymbolElectricalType": "passive"
+        },
+        {
+          "number": "51",
+          "function": "USB_DM",
+          "net": "USB_DM_MCU",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "52",
+          "function": "USB_DP",
+          "net": "USB_DP_MCU",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "53",
+          "function": "USB_OTP_VDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "54",
+          "function": "QSPI_IOVDD",
+          "net": "3V3",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "55",
+          "function": "QSPI_SD3",
+          "net": "QSPI_SD3",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "56",
+          "function": "QSPI_SCLK",
+          "net": "QSPI_SCLK",
+          "observedSymbolElectricalType": "output"
+        },
+        {
+          "number": "57",
+          "function": "QSPI_SD0",
+          "net": "QSPI_SD0",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "58",
+          "function": "QSPI_SD2",
+          "net": "QSPI_SD2",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "59",
+          "function": "QSPI_SD1",
+          "net": "QSPI_SD1",
+          "observedSymbolElectricalType": "bidirectional"
+        },
+        {
+          "number": "60",
+          "function": "~{QSPI_SS}",
+          "net": "QSPI_CS",
+          "observedSymbolElectricalType": "output"
+        },
+        {
+          "number": "61",
+          "function": "GND",
+          "net": "GND",
+          "observedSymbolElectricalType": "power_in"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H",
+        "P"
+      ],
+      "symbolCandidate": "MCU_RaspberryPi:RP2350A",
+      "footprintCandidate": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+      "symbolSourceIdentity": {
+        "algorithm": "sha256",
+        "digest": "c9f0fe21e8a46d7503537322833345ba4299a2e6d0e7c018a8a4a4457f563191",
+        "size": 64675
+      },
+      "symbolInspectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "1cc84f57361e903236b48da33c10dba6351b4049d7a2b11cde0e0978cfcc5bbf",
+        "schemaVersion": "evleda.kicad-stock-symbol-inspection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      },
+      "notes": [
+        "A4 must be established by procurement and package marking; base MPN alone does not prove stepping.",
+        "All 61 pins connected. IOVDD is 1/11/20/30/38/45; QSPI_IOVDD is 54."
+      ]
+    },
+    {
+      "ref": "U2",
+      "kind": "regulator",
+      "value": "Fixed 3.3 V buck-boost",
+      "mpn": "RT6150B-33GQW",
+      "package": "WDFN-10L 2.5 x 2.5 mm plus EP11",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "VOUT",
+          "net": "3V3",
+          "observedSymbolElectricalType": "power_out"
+        },
+        {
+          "number": "2",
+          "function": "LX2",
+          "net": "RT_LX2",
+          "observedSymbolElectricalType": "power_out"
+        },
+        {
+          "number": "3",
+          "function": "GND",
+          "net": "GND",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "4",
+          "function": "LX1",
+          "net": "RT_LX1",
+          "observedSymbolElectricalType": "power_out"
+        },
+        {
+          "number": "5",
+          "function": "VIN",
+          "net": "VSYS",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "6",
+          "function": "EN",
+          "net": "3V3_EN",
+          "observedSymbolElectricalType": "input"
+        },
+        {
+          "number": "7",
+          "function": "PS",
+          "net": "GPIO23_SMPS_PS",
+          "observedSymbolElectricalType": "input"
+        },
+        {
+          "number": "8",
+          "function": "VINA",
+          "net": "VSYS",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "9",
+          "function": "GND",
+          "net": "GND",
+          "observedSymbolElectricalType": "power_in"
+        },
+        {
+          "number": "10",
+          "function": "FB",
+          "net": "3V3",
+          "observedSymbolElectricalType": "input"
+        },
+        {
+          "number": "11",
+          "function": "GND_EP",
+          "net": "GND",
+          "observedSymbolElectricalType": "power_in"
+        }
+      ],
+      "sourceIds": [
+        "R",
+        "P"
+      ],
+      "symbolCandidate": "EvlEDA_Pico2350:RT6150B-33GQW",
+      "footprintCandidate": "EvlEDA_Pico2350:RT6150B_WDFN-10-1EP_2.5x2.5mm_P0.5mm",
+      "approvedPackageManifest": "resources/pcb-libraries/rp2350-pico/v1/manifest.json",
+      "notes": [
+        "FB10 directly senses output at C21; no resistor divider.",
+        "VIN/VINA share VSYS; EN pullup goes to VSYS."
+      ]
+    },
+    {
+      "ref": "U3",
+      "kind": "flash",
+      "value": "32 Mbit / 4 MiB QSPI",
+      "mpn": "W25Q32RVXHJQ",
+      "package": "XH XSON-8, 2 x 3 x 0.4 mm plus center metal",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "/CS",
+          "net": "QSPI_CS"
+        },
+        {
+          "number": "2",
+          "function": "IO1",
+          "net": "QSPI_SD1"
+        },
+        {
+          "number": "3",
+          "function": "IO2 (QE fixed 1)",
+          "net": "QSPI_SD2"
+        },
+        {
+          "number": "4",
+          "function": "VSS",
+          "net": "GND"
+        },
+        {
+          "number": "5",
+          "function": "IO0",
+          "net": "QSPI_SD0"
+        },
+        {
+          "number": "6",
+          "function": "CLK",
+          "net": "QSPI_SCLK"
+        },
+        {
+          "number": "7",
+          "function": "IO3 (QE fixed 1)",
+          "net": "QSPI_SD3"
+        },
+        {
+          "number": "8",
+          "function": "VCC",
+          "net": "3V3"
+        },
+        {
+          "number": "9",
+          "function": "Center metal (CAD pad9 convention)",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "W",
+        "P"
+      ],
+      "symbolCandidate": null,
+      "footprintCandidate": null,
+      "notes": [
+        "Manufacturer numbers terminals 1-8; center metal is internally unconnected and may float or connect to GND. This board deliberately connects it to GND using CAD pad9.",
+        "Q suffix has QE fixed 1; IO2/IO3 cannot serve as WP/HOLD/RESET.",
+        "XH is special order; exact procurement and native footprint acceptance remain unresolved."
+      ]
+    },
+    {
+      "ref": "U4",
+      "kind": "esd",
+      "value": "USB data/VBUS protection candidate",
+      "mpn": "USBLC6-2SC6",
+      "package": "SOT23-6L",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "IO1",
+          "net": "USB_DP_PORT"
+        },
+        {
+          "number": "2",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "3",
+          "function": "IO2",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "number": "4",
+          "function": "IO2",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "number": "5",
+          "function": "VBUS",
+          "net": "VBUS"
+        },
+        {
+          "number": "6",
+          "function": "IO1",
+          "net": "USB_DP_PORT"
+        }
+      ],
+      "sourceIds": [
+        "ST"
+      ],
+      "symbolCandidate": "Power_Protection:USBLC6-2SC6",
+      "footprintCandidate": "Package_TO_SOT_SMD:SOT-23-6",
+      "notes": [
+        "Retain all six physical terminals and external copper attachment of both pads per signal.",
+        "Never invent PCB copper through the package or use internal connection to omit physical endpoints.",
+        "Place near connector with short ground/supply paths; device rating is not system ESD qualification."
+      ]
+    },
+    {
+      "ref": "J1",
+      "kind": "usb_connector",
+      "value": "USB 2.0 Type-C receptacle; device/sink",
+      "mpn": "USB4105-GF-A",
+      "package": "Horizontal top mount, 16 contacts, four shell stakes, two NPTH locators",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "A1",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "A4",
+          "function": "VBUS",
+          "net": "VBUS"
+        },
+        {
+          "number": "A5",
+          "function": "CC1",
+          "net": "USB_CC1"
+        },
+        {
+          "number": "A6",
+          "function": "D+",
+          "net": "USB_DP_PORT"
+        },
+        {
+          "number": "A7",
+          "function": "D-",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "number": "A8",
+          "function": "SBU1",
+          "net": null,
+          "noConnect": {
+            "reason": "SBU unused by USB 2.0 device with no alternate mode",
+            "sourceIds": [
+              "G",
+              "CC"
+            ]
+          }
+        },
+        {
+          "number": "A9",
+          "function": "VBUS",
+          "net": "VBUS"
+        },
+        {
+          "number": "A12",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "B1",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "B4",
+          "function": "VBUS",
+          "net": "VBUS"
+        },
+        {
+          "number": "B5",
+          "function": "CC2",
+          "net": "USB_CC2"
+        },
+        {
+          "number": "B6",
+          "function": "D+",
+          "net": "USB_DP_PORT"
+        },
+        {
+          "number": "B7",
+          "function": "D-",
+          "net": "USB_DM_PORT"
+        },
+        {
+          "number": "B8",
+          "function": "SBU2",
+          "net": null,
+          "noConnect": {
+            "reason": "SBU unused by USB 2.0 device with no alternate mode",
+            "sourceIds": [
+              "G",
+              "CC"
+            ]
+          }
+        },
+        {
+          "number": "B9",
+          "function": "VBUS",
+          "net": "VBUS"
+        },
+        {
+          "number": "B12",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "SH",
+          "function": "SHIELD",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "G",
+        "CC"
+      ],
+      "symbolCandidate": "Connector:USB_C_Receptacle_USB2.0_16P",
+      "footprintCandidate": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "physicalFeatureRequirements": {
+        "logicalTerminals": 17,
+        "physicalFeaturesFromInspection": 22,
+        "shieldPads": 4,
+        "npthLocators": 2
+      },
+      "notes": [
+        "SH explicitly goes to GND; all four physical stakes retained.",
+        "Separate CC1/CC2 pulldowns; no PD, alternate mode, host power or 3 A entitlement."
+      ]
+    },
+    {
+      "ref": "J2",
+      "kind": "board_header",
+      "value": "20 Pico-compatible contacts",
+      "mpn": null,
+      "package": "1 x 20, 2.54 mm pitch; exact edge/header footprint unresolved",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "GPIO0",
+          "net": "GPIO0"
+        },
+        {
+          "number": "2",
+          "function": "GPIO1",
+          "net": "GPIO1"
+        },
+        {
+          "number": "3",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "4",
+          "function": "GPIO2",
+          "net": "GPIO2"
+        },
+        {
+          "number": "5",
+          "function": "GPIO3",
+          "net": "GPIO3"
+        },
+        {
+          "number": "6",
+          "function": "GPIO4",
+          "net": "GPIO4"
+        },
+        {
+          "number": "7",
+          "function": "GPIO5",
+          "net": "GPIO5"
+        },
+        {
+          "number": "8",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "9",
+          "function": "GPIO6",
+          "net": "GPIO6"
+        },
+        {
+          "number": "10",
+          "function": "GPIO7",
+          "net": "GPIO7"
+        },
+        {
+          "number": "11",
+          "function": "GPIO8",
+          "net": "GPIO8"
+        },
+        {
+          "number": "12",
+          "function": "GPIO9",
+          "net": "GPIO9"
+        },
+        {
+          "number": "13",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "14",
+          "function": "GPIO10",
+          "net": "GPIO10"
+        },
+        {
+          "number": "15",
+          "function": "GPIO11",
+          "net": "GPIO11"
+        },
+        {
+          "number": "16",
+          "function": "GPIO12",
+          "net": "GPIO12"
+        },
+        {
+          "number": "17",
+          "function": "GPIO13",
+          "net": "GPIO13"
+        },
+        {
+          "number": "18",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "19",
+          "function": "GPIO14",
+          "net": "GPIO14"
+        },
+        {
+          "number": "20",
+          "function": "GPIO15",
+          "net": "GPIO15"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "symbolCandidate": "Connector_Generic:Conn_01x20",
+      "footprintCandidate": null,
+      "pinNumbering": "Local1=Pico1 top-left; local20=Pico20 bottom-left",
+      "notes": [
+        "One inventory entity per 20-contact footprint. Optional fitted header strip procurement is separate."
+      ]
+    },
+    {
+      "ref": "J3",
+      "kind": "board_header",
+      "value": "20 Pico-compatible contacts",
+      "mpn": null,
+      "package": "1 x 20, 2.54 mm pitch; exact edge/header footprint unresolved",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "GPIO16",
+          "net": "GPIO16"
+        },
+        {
+          "number": "2",
+          "function": "GPIO17",
+          "net": "GPIO17"
+        },
+        {
+          "number": "3",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "4",
+          "function": "GPIO18",
+          "net": "GPIO18"
+        },
+        {
+          "number": "5",
+          "function": "GPIO19",
+          "net": "GPIO19"
+        },
+        {
+          "number": "6",
+          "function": "GPIO20",
+          "net": "GPIO20"
+        },
+        {
+          "number": "7",
+          "function": "GPIO21",
+          "net": "GPIO21"
+        },
+        {
+          "number": "8",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "9",
+          "function": "GPIO22",
+          "net": "GPIO22"
+        },
+        {
+          "number": "10",
+          "function": "RUN",
+          "net": "RUN"
+        },
+        {
+          "number": "11",
+          "function": "GPIO26",
+          "net": "GPIO26"
+        },
+        {
+          "number": "12",
+          "function": "GPIO27",
+          "net": "GPIO27"
+        },
+        {
+          "number": "13",
+          "function": "AGND",
+          "net": "GND"
+        },
+        {
+          "number": "14",
+          "function": "GPIO28",
+          "net": "GPIO28"
+        },
+        {
+          "number": "15",
+          "function": "ADC_VREF",
+          "net": "ADC_VREF"
+        },
+        {
+          "number": "16",
+          "function": "3V3",
+          "net": "3V3"
+        },
+        {
+          "number": "17",
+          "function": "3V3_EN",
+          "net": "3V3_EN"
+        },
+        {
+          "number": "18",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "19",
+          "function": "VSYS",
+          "net": "VSYS"
+        },
+        {
+          "number": "20",
+          "function": "VBUS",
+          "net": "VBUS"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "symbolCandidate": "Connector_Generic:Conn_01x20",
+      "footprintCandidate": null,
+      "pinNumbering": "Local1=Pico21 bottom-right; local20=Pico40 top-right",
+      "notes": [
+        "One inventory entity per 20-contact footprint. Optional fitted header strip procurement is separate."
+      ]
+    },
+    {
+      "ref": "J4",
+      "kind": "debug_header",
+      "value": "SWCLK / GND / SWDIO",
+      "mpn": null,
+      "package": "1 x 3, 2.54 mm pitch candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "SWCLK",
+          "net": "SWCLK_HDR"
+        },
+        {
+          "number": "2",
+          "function": "GND",
+          "net": "GND"
+        },
+        {
+          "number": "3",
+          "function": "SWDIO",
+          "net": "SWDIO_HDR"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "symbolCandidate": "Connector_Generic:Conn_01x03",
+      "footprintCandidate": null,
+      "notes": [
+        "No power/VTREF terminal. Board separately powered; debugger needs a valid 3.3 V target reference."
+      ]
+    },
+    {
+      "ref": "L1",
+      "kind": "inductor",
+      "value": "3.3 uH +/-20%",
+      "mpn": "AOTA-B201610S3R3-101-T",
+      "package": "2016 metric, marked polarity",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "Marked end",
+          "net": "1V1"
+        },
+        {
+          "number": "2",
+          "function": "Switch end",
+          "net": "CORE_LX"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H",
+        "A",
+        "K"
+      ],
+      "footprintCandidate": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "ratings": {
+        "requiredMaximumDcrOhm": 0.25,
+        "requiredMinimumSaturationCurrentA": 1.5
+      },
+      "notes": [
+        "Preserve full reference core geometry, polarity, pad shapes and ground return, not just center coordinates."
+      ]
+    },
+    {
+      "ref": "L2",
+      "kind": "inductor",
+      "value": "2.2 uH",
+      "mpn": null,
+      "package": null,
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "End1",
+          "net": "RT_LX1"
+        },
+        {
+          "number": "2",
+          "function": "End2",
+          "net": "RT_LX2"
+        }
+      ],
+      "sourceIds": [
+        "R",
+        "P"
+      ],
+      "ratings": {
+        "tolerancePercent": null,
+        "saturationCurrentA": null,
+        "rmsCurrentA": null,
+        "maximumDcrOhm": null
+      },
+      "notes": [
+        "MPN, package, tolerance, rolloff, DCR and temperature/current margin remain unresolved."
+      ]
+    },
+    {
+      "ref": "Q1",
+      "kind": "mosfet",
+      "value": "N-channel VSYS sense isolation",
+      "mpn": "DMG1012T-7",
+      "package": "SOT523",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "G",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "S",
+          "net": "GPIO29_VSYS_SENSE"
+        },
+        {
+          "number": "3",
+          "function": "D",
+          "net": "VSYS_DIV"
+        }
+      ],
+      "sourceIds": [
+        "Q",
+        "P"
+      ],
+      "symbolCandidate": null,
+      "footprintCandidate": "Package_TO_SOT_SMD:SOT-523",
+      "notes": [
+        "Gate on 3V3; drain at divider; source at ADC. Preserve body-diode orientation for off-state isolation."
+      ]
+    },
+    {
+      "ref": "D1",
+      "kind": "diode",
+      "value": "VBUS-to-VSYS Schottky",
+      "mpn": "PMEG6010ELR",
+      "package": "SOD123W / CFP3",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "K",
+          "net": "VSYS"
+        },
+        {
+          "number": "2",
+          "function": "A",
+          "net": "VBUS"
+        }
+      ],
+      "sourceIds": [
+        "N",
+        "P"
+      ],
+      "symbolCandidate": "Device:D_Schottky",
+      "footprintCandidate": "Diode_SMD:D_SOD-123W",
+      "notes": [
+        "Cathode bar faces VSYS. Does not prevent USB from driving a directly connected external VSYS supply."
+      ]
+    },
+    {
+      "ref": "D2",
+      "kind": "led",
+      "value": "Green status LED",
+      "mpn": null,
+      "package": "0603 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "K",
+          "net": "GND"
+        },
+        {
+          "number": "2",
+          "function": "A",
+          "net": "LED_A"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "symbolCandidate": "Device:LED",
+      "footprintCandidate": null,
+      "notes": [
+        "MPN, Vf, current/brightness and footprint polarity remain unaccepted; 1K/2A is the proposed CAD convention."
+      ]
+    },
+    {
+      "ref": "SW1",
+      "kind": "switch",
+      "value": "BOOTSEL",
+      "mpn": "434133025816",
+      "package": "4.2 x 3.2 mm J-bend SMT",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "ContactA",
+          "net": "GND"
+        },
+        {
+          "number": "2",
+          "function": "ContactA",
+          "net": "GND"
+        },
+        {
+          "number": "3",
+          "function": "ContactB",
+          "net": "BOOT_SW"
+        },
+        {
+          "number": "4",
+          "function": "ContactB",
+          "net": "BOOT_SW"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "SW"
+      ],
+      "ratings": {
+        "ratedVoltageV": 16,
+        "ratedCurrentA": 0.05
+      },
+      "symbolCandidate": null,
+      "footprintCandidate": null,
+      "notes": [
+        "1/2 common, 3/4 common; pressing joins groups. All four terminals mapped."
+      ]
+    },
+    {
+      "ref": "SW2",
+      "kind": "switch",
+      "value": "RUN/reset",
+      "mpn": "434133025816",
+      "package": "4.2 x 3.2 mm J-bend SMT",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "ContactA",
+          "net": "GND"
+        },
+        {
+          "number": "2",
+          "function": "ContactA",
+          "net": "GND"
+        },
+        {
+          "number": "3",
+          "function": "ContactB",
+          "net": "RUN"
+        },
+        {
+          "number": "4",
+          "function": "ContactB",
+          "net": "RUN"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "SW"
+      ],
+      "ratings": {
+        "ratedVoltageV": 16,
+        "ratedCurrentA": 0.05
+      },
+      "symbolCandidate": null,
+      "footprintCandidate": null,
+      "notes": [
+        "1/2 common, 3/4 common; pressing joins groups. All four terminals mapped."
+      ]
+    },
+    {
+      "ref": "Y1",
+      "kind": "crystal",
+      "value": "12 MHz, CL10 pF, ESR<=50 ohm",
+      "mpn": "ABM8-272-T3",
+      "package": "3.2 x 2.5 x 0.8 mm four pad",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "Crystal1",
+          "net": "XIN"
+        },
+        {
+          "number": "2",
+          "function": "Case GND",
+          "net": "GND"
+        },
+        {
+          "number": "3",
+          "function": "Crystal2",
+          "net": "XTAL_OUT"
+        },
+        {
+          "number": "4",
+          "function": "Case GND",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "X"
+      ],
+      "symbolCandidate": null,
+      "footprintCandidate": null,
+      "ratings": {
+        "frequencyTolerancePpm": 30,
+        "frequencyStabilityPpm": 30,
+        "maximumDriveMicrowatt": 200
+      },
+      "notes": [
+        "1 kohm damping between U1 XOUT and crystal3. Load caps on crystal nodes.",
+        "Chamfer may be on pin1/3/4; use manufacturer pin geometry, not chamfer alone."
+      ]
+    },
+    {
+      "ref": "R1",
+      "kind": "resistor",
+      "value": "27 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "USB_DP_MCU"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "USB_DP_PORT"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "USB DP source termination",
+      "ratings": {
+        "resistanceOhm": 27,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ],
+      "placement": "Near corresponding U1 USB pin; separate MCU and port nets."
+    },
+    {
+      "ref": "R2",
+      "kind": "resistor",
+      "value": "27 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "USB_DM_MCU"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "USB_DM_PORT"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "USB DM source termination",
+      "ratings": {
+        "resistanceOhm": 27,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ],
+      "placement": "Near corresponding U1 USB pin; separate MCU and port nets."
+    },
+    {
+      "ref": "R3",
+      "kind": "resistor",
+      "value": "5100 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "USB_CC1"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "CC"
+      ],
+      "role": "CC1 Rd",
+      "ratings": {
+        "resistanceOhm": 5100,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R4",
+      "kind": "resistor",
+      "value": "5100 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "USB_CC2"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "CC"
+      ],
+      "role": "CC2 Rd",
+      "ratings": {
+        "resistanceOhm": 5100,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R5",
+      "kind": "resistor",
+      "value": "1000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "QSPI_CS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "BOOT_SW"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "P"
+      ],
+      "role": "BOOT current limit",
+      "ratings": {
+        "resistanceOhm": 1000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R6",
+      "kind": "resistor",
+      "value": "10000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "QSPI_CS"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "W"
+      ],
+      "role": "Normal-start flash CS pullup",
+      "ratings": {
+        "resistanceOhm": 10000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities.",
+        "Populated 10 kohm selection from reference provision; does not resolve held-BOOT cold-start CS sequencing."
+      ]
+    },
+    {
+      "ref": "R7",
+      "kind": "resistor",
+      "value": "1000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "XOUT_MCU"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "XTAL_OUT"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "P"
+      ],
+      "role": "Crystal damping",
+      "ratings": {
+        "resistanceOhm": 1000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R8",
+      "kind": "resistor",
+      "value": "33 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "VREG_AVDD"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "Core AVDD filter",
+      "ratings": {
+        "resistanceOhm": 33,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R9",
+      "kind": "resistor",
+      "value": "100000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VSYS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "3V3_EN"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "Enable pullup",
+      "ratings": {
+        "resistanceOhm": 100000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R10",
+      "kind": "resistor",
+      "value": "100000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "GPIO23_SMPS_PS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "Default PFM pulldown",
+      "ratings": {
+        "resistanceOhm": 100000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R11",
+      "kind": "resistor",
+      "value": "5600 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VBUS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GPIO24_VBUS_SENSE"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "VBUS sense upper",
+      "ratings": {
+        "resistanceOhm": 5600,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R12",
+      "kind": "resistor",
+      "value": "10000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "GPIO24_VBUS_SENSE"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "VBUS sense lower/discharge",
+      "ratings": {
+        "resistanceOhm": 10000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R13",
+      "kind": "resistor",
+      "value": "100000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VSYS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "VSYS_DIV"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "VSYS sense upper",
+      "ratings": {
+        "resistanceOhm": 100000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R14",
+      "kind": "resistor",
+      "value": "100000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VSYS_DIV"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "VSYS sense lower1",
+      "ratings": {
+        "resistanceOhm": 100000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R15",
+      "kind": "resistor",
+      "value": "100000 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "GPIO29_VSYS_SENSE"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "VSYS sense lower2",
+      "ratings": {
+        "resistanceOhm": 100000,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R16",
+      "kind": "resistor",
+      "value": "200 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "ADC_VREF"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "ADC filter before header35",
+      "ratings": {
+        "resistanceOhm": 200,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R17",
+      "kind": "resistor",
+      "value": "1 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "ADC_VREF"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "ADC_AVDD"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "ADC filter after header35",
+      "ratings": {
+        "resistanceOhm": 1,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R18",
+      "kind": "resistor",
+      "value": "470 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "GPIO25_LED"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "LED_A"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "LED current limit",
+      "ratings": {
+        "resistanceOhm": 470,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R19",
+      "kind": "resistor",
+      "value": "100 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "SWCLK_MCU"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "SWCLK_HDR"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "SWCLK series",
+      "ratings": {
+        "resistanceOhm": 100,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "R20",
+      "kind": "resistor",
+      "value": "100 ohm",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "SWDIO_MCU"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "SWDIO_HDR"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "SWDIO series",
+      "ratings": {
+        "resistanceOhm": 100,
+        "tolerancePercent": 1,
+        "minimumPowerW": 0.063,
+        "workingVoltageV": null
+      },
+      "symbolCandidate": "Device:R",
+      "footprintCandidate": null,
+      "notes": [
+        "Exact MPN and land pattern unresolved; these are selection requirements, not verified part capabilities."
+      ]
+    },
+    {
+      "ref": "C1",
+      "kind": "capacitor",
+      "value": "4.7 uF",
+      "mpn": null,
+      "package": "0402 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "Core CIN",
+      "associatedPins": [
+        "U1.49"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ],
+      "electricalConstraints": {
+        "minimumCapacitanceUf": 4.7,
+        "maximumEsrOhm": 0.05
+      }
+    },
+    {
+      "ref": "C2",
+      "kind": "capacitor",
+      "value": "4.7 uF",
+      "mpn": null,
+      "package": "0402 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "1V1"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "Core COUT / FB sense",
+      "associatedPins": [
+        "U1.50",
+        "U1.47"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Preserve core reference COUT between VIN/PGND; U1.50 senses this output node.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ],
+      "electricalConstraints": {
+        "capacitanceUf": 4.7,
+        "tolerancePercent": 20,
+        "maximumEsrOhm": 0.25,
+        "maximumEslNh": 6
+      }
+    },
+    {
+      "ref": "C3",
+      "kind": "capacitor",
+      "value": "4.7 uF",
+      "mpn": null,
+      "package": "0402 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VREG_AVDD"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "Quiet core AVDD filter",
+      "associatedPins": [
+        "U1.46"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Quiet AVDD return to U1 EP; separate from switching-current return vias.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C4",
+      "kind": "capacitor",
+      "value": "4.7 uF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "1V1"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D"
+      ],
+      "role": "Additional bulk at DVDD23",
+      "associatedPins": [
+        "U1.23"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "At U1.23, away from CORE_LX/C2 (D p.455).",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C5",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "IOVDD1 decoupling",
+      "associatedPins": [
+        "U1.1"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C6",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "IOVDD11 decoupling",
+      "associatedPins": [
+        "U1.11"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C7",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "IOVDD20 decoupling",
+      "associatedPins": [
+        "U1.20"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C8",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "IOVDD30 decoupling",
+      "associatedPins": [
+        "U1.30"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C9",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "IOVDD38 decoupling",
+      "associatedPins": [
+        "U1.38"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C10",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "IOVDD45 decoupling",
+      "associatedPins": [
+        "U1.45"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C11",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "1V1"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "DVDD6 decoupling",
+      "associatedPins": [
+        "U1.6"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C12",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "1V1"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "DVDD23 decoupling",
+      "associatedPins": [
+        "U1.23"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C13",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "1V1"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D",
+        "H"
+      ],
+      "role": "DVDD39 decoupling",
+      "associatedPins": [
+        "U1.39"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C14",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D"
+      ],
+      "role": "USB_OTP_VDD53 decoupling",
+      "associatedPins": [
+        "U1.53"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C15",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D"
+      ],
+      "role": "QSPI_IOVDD54 decoupling",
+      "associatedPins": [
+        "U1.54"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C16",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "ADC_AVDD"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "D"
+      ],
+      "role": "ADC44 local HF decoupling",
+      "associatedPins": [
+        "U1.44"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C17",
+      "kind": "capacitor",
+      "value": "4.7 uF",
+      "mpn": null,
+      "package": "0402 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "ADC_AVDD"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "ADC bulk; Pico schematic C13",
+      "associatedPins": [
+        "U1.44"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C18",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P",
+        "W"
+      ],
+      "role": "Flash VCC local HF",
+      "associatedPins": [
+        "U3.8"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C19",
+      "kind": "capacitor",
+      "value": "4.7 uF",
+      "mpn": null,
+      "package": "0402 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "Flash VCC bulk",
+      "associatedPins": [
+        "U3.8"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C20",
+      "kind": "capacitor",
+      "value": "47 uF",
+      "mpn": null,
+      "package": "0805 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VSYS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P",
+        "R"
+      ],
+      "role": "RT input bulk",
+      "associatedPins": [
+        "U2.5"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C21",
+      "kind": "capacitor",
+      "value": "47 uF",
+      "mpn": null,
+      "package": "0805 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "3V3"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P",
+        "R"
+      ],
+      "role": "RT output bulk / FB sense",
+      "associatedPins": [
+        "U2.1",
+        "U2.10"
+      ],
+      "ratings": {
+        "nominalVoltageV": 6.3,
+        "dielectric": "X5R",
+        "tolerancePercent": 20,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C22",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VSYS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "R"
+      ],
+      "role": "RT VINA bypass (project choice)",
+      "associatedPins": [
+        "U2.8"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved.",
+        "Additional local HF bypass is a project choice, not a claim that Richtek mandates exactly 100 nF."
+      ]
+    },
+    {
+      "ref": "C23",
+      "kind": "capacitor",
+      "value": "1 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VSYS_DIV"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "P"
+      ],
+      "role": "VSYS sense filter",
+      "associatedPins": [
+        "Q1.3"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C24",
+      "kind": "capacitor",
+      "value": "15 pF",
+      "mpn": null,
+      "package": "0402 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "XIN"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "P"
+      ],
+      "role": "Crystal input load",
+      "associatedPins": [
+        "Y1.1",
+        "U1.21"
+      ],
+      "ratings": {
+        "nominalVoltageV": 50,
+        "dielectric": "C0G",
+        "tolerancePercent": 5,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C25",
+      "kind": "capacitor",
+      "value": "15 pF",
+      "mpn": null,
+      "package": "0402 reference",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "XTAL_OUT"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "H",
+        "P"
+      ],
+      "role": "Crystal output load",
+      "associatedPins": [
+        "Y1.3"
+      ],
+      "ratings": {
+        "nominalVoltageV": 50,
+        "dielectric": "C0G",
+        "tolerancePercent": 5,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    },
+    {
+      "ref": "C26",
+      "kind": "capacitor",
+      "value": "100 nF",
+      "mpn": null,
+      "package": "0402 candidate",
+      "population": "fit",
+      "pins": [
+        {
+          "number": "1",
+          "function": "1",
+          "net": "VBUS"
+        },
+        {
+          "number": "2",
+          "function": "2",
+          "net": "GND"
+        }
+      ],
+      "sourceIds": [
+        "ST"
+      ],
+      "role": "USBLC6 VBUS bypass",
+      "associatedPins": [
+        "U4.5"
+      ],
+      "ratings": {
+        "nominalVoltageV": 25,
+        "dielectric": "X7R",
+        "tolerancePercent": 10,
+        "effectiveCapacitanceAtBias": null
+      },
+      "symbolCandidate": "Device:C",
+      "footprintCandidate": null,
+      "placement": "Near associated pins with a short return, respecting core and quiet-return constraints.",
+      "notes": [
+        "MPN, effective capacitance including bias/temperature/tolerance/aging, and accepted land pattern unresolved."
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "1V1",
+      "endpoints": [
+        "U1.6",
+        "U1.23",
+        "U1.39",
+        "U1.50",
+        "L1.1",
+        "C2.1",
+        "C4.1",
+        "C11.1",
+        "C12.1",
+        "C13.1"
+      ]
+    },
+    {
+      "name": "3V3",
+      "endpoints": [
+        "U1.1",
+        "U1.11",
+        "U1.20",
+        "U1.30",
+        "U1.38",
+        "U1.45",
+        "U1.49",
+        "U1.53",
+        "U1.54",
+        "U2.1",
+        "U2.10",
+        "U3.8",
+        "J3.16",
+        "Q1.1",
+        "R6.1",
+        "R8.1",
+        "R16.1",
+        "C1.1",
+        "C5.1",
+        "C6.1",
+        "C7.1",
+        "C8.1",
+        "C9.1",
+        "C10.1",
+        "C14.1",
+        "C15.1",
+        "C18.1",
+        "C19.1",
+        "C21.1"
+      ]
+    },
+    {
+      "name": "3V3_EN",
+      "endpoints": [
+        "U2.6",
+        "J3.17",
+        "R9.2"
+      ]
+    },
+    {
+      "name": "ADC_AVDD",
+      "endpoints": [
+        "U1.44",
+        "R17.2",
+        "C16.1",
+        "C17.1"
+      ]
+    },
+    {
+      "name": "ADC_VREF",
+      "endpoints": [
+        "J3.15",
+        "R16.2",
+        "R17.1"
+      ]
+    },
+    {
+      "name": "BOOT_SW",
+      "endpoints": [
+        "SW1.3",
+        "SW1.4",
+        "R5.2"
+      ]
+    },
+    {
+      "name": "CORE_LX",
+      "endpoints": [
+        "U1.48",
+        "L1.2"
+      ]
+    },
+    {
+      "name": "GND",
+      "endpoints": [
+        "U1.47",
+        "U1.61",
+        "U2.3",
+        "U2.9",
+        "U2.11",
+        "U3.4",
+        "U3.9",
+        "U4.2",
+        "J1.A1",
+        "J1.A12",
+        "J1.B1",
+        "J1.B12",
+        "J1.SH",
+        "J2.3",
+        "J2.8",
+        "J2.13",
+        "J2.18",
+        "J3.3",
+        "J3.8",
+        "J3.13",
+        "J3.18",
+        "J4.2",
+        "D2.1",
+        "SW1.1",
+        "SW1.2",
+        "SW2.1",
+        "SW2.2",
+        "Y1.2",
+        "Y1.4",
+        "R3.2",
+        "R4.2",
+        "R10.2",
+        "R12.2",
+        "R14.2",
+        "R15.2",
+        "C1.2",
+        "C2.2",
+        "C3.2",
+        "C4.2",
+        "C5.2",
+        "C6.2",
+        "C7.2",
+        "C8.2",
+        "C9.2",
+        "C10.2",
+        "C11.2",
+        "C12.2",
+        "C13.2",
+        "C14.2",
+        "C15.2",
+        "C16.2",
+        "C17.2",
+        "C18.2",
+        "C19.2",
+        "C20.2",
+        "C21.2",
+        "C22.2",
+        "C23.2",
+        "C24.2",
+        "C25.2",
+        "C26.2"
+      ]
+    },
+    {
+      "name": "GPIO0",
+      "endpoints": [
+        "U1.2",
+        "J2.1"
+      ]
+    },
+    {
+      "name": "GPIO1",
+      "endpoints": [
+        "U1.3",
+        "J2.2"
+      ]
+    },
+    {
+      "name": "GPIO10",
+      "endpoints": [
+        "U1.14",
+        "J2.14"
+      ]
+    },
+    {
+      "name": "GPIO11",
+      "endpoints": [
+        "U1.15",
+        "J2.15"
+      ]
+    },
+    {
+      "name": "GPIO12",
+      "endpoints": [
+        "U1.16",
+        "J2.16"
+      ]
+    },
+    {
+      "name": "GPIO13",
+      "endpoints": [
+        "U1.17",
+        "J2.17"
+      ]
+    },
+    {
+      "name": "GPIO14",
+      "endpoints": [
+        "U1.18",
+        "J2.19"
+      ]
+    },
+    {
+      "name": "GPIO15",
+      "endpoints": [
+        "U1.19",
+        "J2.20"
+      ]
+    },
+    {
+      "name": "GPIO16",
+      "endpoints": [
+        "U1.27",
+        "J3.1"
+      ]
+    },
+    {
+      "name": "GPIO17",
+      "endpoints": [
+        "U1.28",
+        "J3.2"
+      ]
+    },
+    {
+      "name": "GPIO18",
+      "endpoints": [
+        "U1.29",
+        "J3.4"
+      ]
+    },
+    {
+      "name": "GPIO19",
+      "endpoints": [
+        "U1.31",
+        "J3.5"
+      ]
+    },
+    {
+      "name": "GPIO2",
+      "endpoints": [
+        "U1.4",
+        "J2.4"
+      ]
+    },
+    {
+      "name": "GPIO20",
+      "endpoints": [
+        "U1.32",
+        "J3.6"
+      ]
+    },
+    {
+      "name": "GPIO21",
+      "endpoints": [
+        "U1.33",
+        "J3.7"
+      ]
+    },
+    {
+      "name": "GPIO22",
+      "endpoints": [
+        "U1.34",
+        "J3.9"
+      ]
+    },
+    {
+      "name": "GPIO23_SMPS_PS",
+      "endpoints": [
+        "U1.35",
+        "U2.7",
+        "R10.1"
+      ]
+    },
+    {
+      "name": "GPIO24_VBUS_SENSE",
+      "endpoints": [
+        "U1.36",
+        "R11.2",
+        "R12.1"
+      ]
+    },
+    {
+      "name": "GPIO25_LED",
+      "endpoints": [
+        "U1.37",
+        "R18.1"
+      ]
+    },
+    {
+      "name": "GPIO26",
+      "endpoints": [
+        "U1.40",
+        "J3.11"
+      ]
+    },
+    {
+      "name": "GPIO27",
+      "endpoints": [
+        "U1.41",
+        "J3.12"
+      ]
+    },
+    {
+      "name": "GPIO28",
+      "endpoints": [
+        "U1.42",
+        "J3.14"
+      ]
+    },
+    {
+      "name": "GPIO29_VSYS_SENSE",
+      "endpoints": [
+        "U1.43",
+        "Q1.2",
+        "R15.1"
+      ]
+    },
+    {
+      "name": "GPIO3",
+      "endpoints": [
+        "U1.5",
+        "J2.5"
+      ]
+    },
+    {
+      "name": "GPIO4",
+      "endpoints": [
+        "U1.7",
+        "J2.6"
+      ]
+    },
+    {
+      "name": "GPIO5",
+      "endpoints": [
+        "U1.8",
+        "J2.7"
+      ]
+    },
+    {
+      "name": "GPIO6",
+      "endpoints": [
+        "U1.9",
+        "J2.9"
+      ]
+    },
+    {
+      "name": "GPIO7",
+      "endpoints": [
+        "U1.10",
+        "J2.10"
+      ]
+    },
+    {
+      "name": "GPIO8",
+      "endpoints": [
+        "U1.12",
+        "J2.11"
+      ]
+    },
+    {
+      "name": "GPIO9",
+      "endpoints": [
+        "U1.13",
+        "J2.12"
+      ]
+    },
+    {
+      "name": "LED_A",
+      "endpoints": [
+        "D2.2",
+        "R18.2"
+      ]
+    },
+    {
+      "name": "QSPI_CS",
+      "endpoints": [
+        "U1.60",
+        "U3.1",
+        "R5.1",
+        "R6.2"
+      ]
+    },
+    {
+      "name": "QSPI_SCLK",
+      "endpoints": [
+        "U1.56",
+        "U3.6"
+      ]
+    },
+    {
+      "name": "QSPI_SD0",
+      "endpoints": [
+        "U1.57",
+        "U3.5"
+      ]
+    },
+    {
+      "name": "QSPI_SD1",
+      "endpoints": [
+        "U1.59",
+        "U3.2"
+      ]
+    },
+    {
+      "name": "QSPI_SD2",
+      "endpoints": [
+        "U1.58",
+        "U3.3"
+      ]
+    },
+    {
+      "name": "QSPI_SD3",
+      "endpoints": [
+        "U1.55",
+        "U3.7"
+      ]
+    },
+    {
+      "name": "RT_LX1",
+      "endpoints": [
+        "U2.4",
+        "L2.1"
+      ]
+    },
+    {
+      "name": "RT_LX2",
+      "endpoints": [
+        "U2.2",
+        "L2.2"
+      ]
+    },
+    {
+      "name": "RUN",
+      "endpoints": [
+        "U1.26",
+        "J3.10",
+        "SW2.3",
+        "SW2.4"
+      ]
+    },
+    {
+      "name": "SWCLK_HDR",
+      "endpoints": [
+        "J4.1",
+        "R19.2"
+      ]
+    },
+    {
+      "name": "SWCLK_MCU",
+      "endpoints": [
+        "U1.24",
+        "R19.1"
+      ]
+    },
+    {
+      "name": "SWDIO_HDR",
+      "endpoints": [
+        "J4.3",
+        "R20.2"
+      ]
+    },
+    {
+      "name": "SWDIO_MCU",
+      "endpoints": [
+        "U1.25",
+        "R20.1"
+      ]
+    },
+    {
+      "name": "USB_CC1",
+      "endpoints": [
+        "J1.A5",
+        "R3.1"
+      ]
+    },
+    {
+      "name": "USB_CC2",
+      "endpoints": [
+        "J1.B5",
+        "R4.1"
+      ]
+    },
+    {
+      "name": "USB_DM_MCU",
+      "endpoints": [
+        "U1.51",
+        "R2.1"
+      ]
+    },
+    {
+      "name": "USB_DM_PORT",
+      "endpoints": [
+        "U4.3",
+        "U4.4",
+        "J1.A7",
+        "J1.B7",
+        "R2.2"
+      ]
+    },
+    {
+      "name": "USB_DP_MCU",
+      "endpoints": [
+        "U1.52",
+        "R1.1"
+      ]
+    },
+    {
+      "name": "USB_DP_PORT",
+      "endpoints": [
+        "U4.1",
+        "U4.6",
+        "J1.A6",
+        "J1.B6",
+        "R1.2"
+      ]
+    },
+    {
+      "name": "VBUS",
+      "endpoints": [
+        "U4.5",
+        "J1.A4",
+        "J1.A9",
+        "J1.B4",
+        "J1.B9",
+        "J3.20",
+        "D1.2",
+        "R11.1",
+        "C26.1"
+      ]
+    },
+    {
+      "name": "VREG_AVDD",
+      "endpoints": [
+        "U1.46",
+        "R8.2",
+        "C3.1"
+      ]
+    },
+    {
+      "name": "VSYS",
+      "endpoints": [
+        "U2.5",
+        "U2.8",
+        "J3.19",
+        "D1.1",
+        "R9.1",
+        "R13.1",
+        "C20.1",
+        "C22.1"
+      ]
+    },
+    {
+      "name": "VSYS_DIV",
+      "endpoints": [
+        "Q1.3",
+        "R13.2",
+        "R14.1",
+        "C23.1"
+      ]
+    },
+    {
+      "name": "XIN",
+      "endpoints": [
+        "U1.21",
+        "Y1.1",
+        "C24.1"
+      ]
+    },
+    {
+      "name": "XOUT_MCU",
+      "endpoints": [
+        "U1.22",
+        "R7.1"
+      ]
+    },
+    {
+      "name": "XTAL_OUT",
+      "endpoints": [
+        "Y1.3",
+        "R7.2",
+        "C25.1"
+      ]
+    }
+  ],
+  "picoHeaderMap": [
+    {
+      "picoPin": 1,
+      "ref": "J2",
+      "localPin": "1",
+      "function": "GPIO0",
+      "net": "GPIO0"
+    },
+    {
+      "picoPin": 2,
+      "ref": "J2",
+      "localPin": "2",
+      "function": "GPIO1",
+      "net": "GPIO1"
+    },
+    {
+      "picoPin": 3,
+      "ref": "J2",
+      "localPin": "3",
+      "function": "GND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 4,
+      "ref": "J2",
+      "localPin": "4",
+      "function": "GPIO2",
+      "net": "GPIO2"
+    },
+    {
+      "picoPin": 5,
+      "ref": "J2",
+      "localPin": "5",
+      "function": "GPIO3",
+      "net": "GPIO3"
+    },
+    {
+      "picoPin": 6,
+      "ref": "J2",
+      "localPin": "6",
+      "function": "GPIO4",
+      "net": "GPIO4"
+    },
+    {
+      "picoPin": 7,
+      "ref": "J2",
+      "localPin": "7",
+      "function": "GPIO5",
+      "net": "GPIO5"
+    },
+    {
+      "picoPin": 8,
+      "ref": "J2",
+      "localPin": "8",
+      "function": "GND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 9,
+      "ref": "J2",
+      "localPin": "9",
+      "function": "GPIO6",
+      "net": "GPIO6"
+    },
+    {
+      "picoPin": 10,
+      "ref": "J2",
+      "localPin": "10",
+      "function": "GPIO7",
+      "net": "GPIO7"
+    },
+    {
+      "picoPin": 11,
+      "ref": "J2",
+      "localPin": "11",
+      "function": "GPIO8",
+      "net": "GPIO8"
+    },
+    {
+      "picoPin": 12,
+      "ref": "J2",
+      "localPin": "12",
+      "function": "GPIO9",
+      "net": "GPIO9"
+    },
+    {
+      "picoPin": 13,
+      "ref": "J2",
+      "localPin": "13",
+      "function": "GND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 14,
+      "ref": "J2",
+      "localPin": "14",
+      "function": "GPIO10",
+      "net": "GPIO10"
+    },
+    {
+      "picoPin": 15,
+      "ref": "J2",
+      "localPin": "15",
+      "function": "GPIO11",
+      "net": "GPIO11"
+    },
+    {
+      "picoPin": 16,
+      "ref": "J2",
+      "localPin": "16",
+      "function": "GPIO12",
+      "net": "GPIO12"
+    },
+    {
+      "picoPin": 17,
+      "ref": "J2",
+      "localPin": "17",
+      "function": "GPIO13",
+      "net": "GPIO13"
+    },
+    {
+      "picoPin": 18,
+      "ref": "J2",
+      "localPin": "18",
+      "function": "GND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 19,
+      "ref": "J2",
+      "localPin": "19",
+      "function": "GPIO14",
+      "net": "GPIO14"
+    },
+    {
+      "picoPin": 20,
+      "ref": "J2",
+      "localPin": "20",
+      "function": "GPIO15",
+      "net": "GPIO15"
+    },
+    {
+      "picoPin": 21,
+      "ref": "J3",
+      "localPin": "1",
+      "function": "GPIO16",
+      "net": "GPIO16"
+    },
+    {
+      "picoPin": 22,
+      "ref": "J3",
+      "localPin": "2",
+      "function": "GPIO17",
+      "net": "GPIO17"
+    },
+    {
+      "picoPin": 23,
+      "ref": "J3",
+      "localPin": "3",
+      "function": "GND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 24,
+      "ref": "J3",
+      "localPin": "4",
+      "function": "GPIO18",
+      "net": "GPIO18"
+    },
+    {
+      "picoPin": 25,
+      "ref": "J3",
+      "localPin": "5",
+      "function": "GPIO19",
+      "net": "GPIO19"
+    },
+    {
+      "picoPin": 26,
+      "ref": "J3",
+      "localPin": "6",
+      "function": "GPIO20",
+      "net": "GPIO20"
+    },
+    {
+      "picoPin": 27,
+      "ref": "J3",
+      "localPin": "7",
+      "function": "GPIO21",
+      "net": "GPIO21"
+    },
+    {
+      "picoPin": 28,
+      "ref": "J3",
+      "localPin": "8",
+      "function": "GND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 29,
+      "ref": "J3",
+      "localPin": "9",
+      "function": "GPIO22",
+      "net": "GPIO22"
+    },
+    {
+      "picoPin": 30,
+      "ref": "J3",
+      "localPin": "10",
+      "function": "RUN",
+      "net": "RUN"
+    },
+    {
+      "picoPin": 31,
+      "ref": "J3",
+      "localPin": "11",
+      "function": "GPIO26",
+      "net": "GPIO26"
+    },
+    {
+      "picoPin": 32,
+      "ref": "J3",
+      "localPin": "12",
+      "function": "GPIO27",
+      "net": "GPIO27"
+    },
+    {
+      "picoPin": 33,
+      "ref": "J3",
+      "localPin": "13",
+      "function": "AGND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 34,
+      "ref": "J3",
+      "localPin": "14",
+      "function": "GPIO28",
+      "net": "GPIO28"
+    },
+    {
+      "picoPin": 35,
+      "ref": "J3",
+      "localPin": "15",
+      "function": "ADC_VREF",
+      "net": "ADC_VREF"
+    },
+    {
+      "picoPin": 36,
+      "ref": "J3",
+      "localPin": "16",
+      "function": "3V3",
+      "net": "3V3"
+    },
+    {
+      "picoPin": 37,
+      "ref": "J3",
+      "localPin": "17",
+      "function": "3V3_EN",
+      "net": "3V3_EN"
+    },
+    {
+      "picoPin": 38,
+      "ref": "J3",
+      "localPin": "18",
+      "function": "GND",
+      "net": "GND"
+    },
+    {
+      "picoPin": 39,
+      "ref": "J3",
+      "localPin": "19",
+      "function": "VSYS",
+      "net": "VSYS"
+    },
+    {
+      "picoPin": 40,
+      "ref": "J3",
+      "localPin": "20",
+      "function": "VBUS",
+      "net": "VBUS"
+    }
+  ],
+  "noConnects": [
+    {
+      "ref": "J1",
+      "number": "A8",
+      "function": "SBU1",
+      "net": null,
+      "noConnect": {
+        "reason": "SBU unused by USB 2.0 device with no alternate mode",
+        "sourceIds": [
+          "G",
+          "CC"
+        ]
+      }
+    },
+    {
+      "ref": "J1",
+      "number": "B8",
+      "function": "SBU2",
+      "net": null,
+      "noConnect": {
+        "reason": "SBU unused by USB 2.0 device with no alternate mode",
+        "sourceIds": [
+          "G",
+          "CC"
+        ]
+      }
+    }
+  ],
+  "usbChannel": {
+    "role": "USB 2.0 full-speed device; 5 V sink; no PD",
+    "positive": {
+      "mcu": "U1.52",
+      "series": "R1",
+      "mcuNet": "USB_DP_MCU",
+      "portNet": "USB_DP_PORT",
+      "contacts": [
+        "J1.A6",
+        "J1.B6"
+      ],
+      "protection": [
+        "U4.1",
+        "U4.6"
+      ]
+    },
+    "negative": {
+      "mcu": "U1.51",
+      "series": "R2",
+      "mcuNet": "USB_DM_MCU",
+      "portNet": "USB_DM_PORT",
+      "contacts": [
+        "J1.A7",
+        "J1.B7"
+      ],
+      "protection": [
+        "U4.3",
+        "U4.4"
+      ]
+    },
+    "rules": [
+      "All physical contacts and protection pads retained as endpoints.",
+      "No invented PCB edge through U4 body.",
+      "Measure actual source-to-contact paths, branches, bends, escapes and skew.",
+      "90 ohm target needs a selected stackup and verified geometry; no width/material constants invented."
+    ]
+  },
+  "powerArchitecture": {
+    "path": "VBUS -> D1 -> VSYS -> U2 -> 3V3 -> U1 core buck/L1/C2 -> 1V1",
+    "ioVoltageV": 3.3,
+    "requiredCombined3v3RailRangeV": [3.135, 3.6],
+    "combinedRailRangeBasis": "Intersection of RP2350 USB/analog minimum 3.135 V and W25Q32RV maximum 3.6 V; nominal 3.3 V alone does not prove this range under all loads/transients.",
+    "vsysReferenceRangeV": [
+      1.8,
+      5.5
+    ],
+    "qualifiedExternal3v3CurrentA": null,
+    "externalCurrentAdvice": "Pico recommends less than 300 mA, dependent on VSYS and onboard load; not a guaranteed rating here.",
+    "enable": "Header37 pulls to VSYS through R9; ground to disable; not a 3.3 V GPIO.",
+    "adcReference": "3V3 -> R16 200 ohm -> ADC_VREF/header35 -> R17 1 ohm -> ADC_AVDD44; C17=4.7 uF schematic value, not 2.2 uF prose.",
+    "analogGround": "Header33 AGND is GND electrically, with a quiet ADC return/placement region.",
+    "combinedSupplies": "D1 blocks VSYS-to-VBUS only; simultaneous USB and external VSYS require external blocking/power-path circuitry. A directly attached raw cell can be charged through D1.",
+    "external3v3Injection": "Not supported by default; arbitrary regulator backfeed/parallel outputs are unreviewed."
+  },
+  "derivedRailAssertionsForSeparateAuthoring": [
+    {
+      "net": "VSYS",
+      "upstream": "VBUS through D1 or documented external VSYS",
+      "path": [
+        "D1"
+      ]
+    },
+    {
+      "net": "1V1",
+      "upstream": "U1.48 switched CORE_LX",
+      "path": [
+        "L1",
+        "C2",
+        "U1.50 feedback"
+      ]
+    },
+    {
+      "net": "VREG_AVDD",
+      "upstream": "U2.1 3V3",
+      "path": [
+        "R8",
+        "C3"
+      ]
+    },
+    {
+      "net": "ADC_AVDD",
+      "upstream": "U2.1 3V3 or explicitly reviewed external ADC_VREF",
+      "path": [
+        "R16",
+        "R17",
+        "C16",
+        "C17"
+      ]
+    }
+  ],
+  "assertionNote": "These are reviewed physical source paths for later ERC metadata, not physical drivers or BOM parts. Never label internal rails as external inputs.",
+  "openDecisions": [
+    {
+      "id": "passive-bom",
+      "type": "parts/ratings",
+      "refs": [
+        "L2",
+        "D2",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8",
+        "R9",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "C8",
+        "C9",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "C17",
+        "C18",
+        "C19",
+        "C20",
+        "C21",
+        "C22",
+        "C23",
+        "C24",
+        "C25",
+        "C26"
+      ],
+      "detail": "Exact MPNs, effective capacitance, voltage/power/current, ESR/ESL, inductor rolloff and LED behavior require source-backed selection."
+    },
+    {
+      "id": "unaccepted-footprints",
+      "type": "library",
+      "refs": [
+        "U3",
+        "J2",
+        "J3",
+        "J4",
+        "L2",
+        "D2",
+        "SW1",
+        "SW2",
+        "Y1",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8",
+        "R9",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "C8",
+        "C9",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "C17",
+        "C18",
+        "C19",
+        "C20",
+        "C21",
+        "C22",
+        "C23",
+        "C24",
+        "C25",
+        "C26"
+      ],
+      "detail": "Candidate pin maps are not admitted native footprints. Exact flash XH and center-pad convention, buttons, crystal, headers and passives remain to bind."
+    },
+    {
+      "id": "flash-procurement",
+      "type": "sourcing",
+      "refs": [
+        "U3"
+      ],
+      "detail": "Winbond Rev E marks XH special order. Do not substitute a stock SOIC/WSON or different flash silently."
+    },
+    {
+      "id": "flash-cold-bootsel",
+      "type": "electrical",
+      "refs": [
+        "U3",
+        "R5",
+        "R6",
+        "SW1"
+      ],
+      "detail": "Winbond requires CS to track VCC during power-up/down. Deliberately holding BOOT low at cold power-up conflicts with that literal condition; Pico uses this strap. Stable-powered BOOT + RUN avoids deliberate cold-start loading. This integration condition remains unresolved. Pullup does not override held button. Minimum tVSL=20 us; write-related tPUW=5 ms are future boot integration constraints, not implemented firmware."
+    },
+    {
+      "id": "usb-budget-inrush",
+      "type": "electrical",
+      "refs": [
+        "J1",
+        "U4",
+        "U2",
+        "C20",
+        "C26"
+      ],
+      "detail": "Source advertisement/enumeration, input current, hot-plug/inrush, total capacitance, CC protection and ESD clamp compatibility remain unqualified. Rd does not implement PD or grant 3 A. ST leakage is specified at 5.25 V; do not extend that guarantee to 5.5 V."
+    },
+    {
+      "id": "thermal-current",
+      "type": "electrical",
+      "refs": [
+        "U2",
+        "L2",
+        "D1",
+        "C20",
+        "C21"
+      ],
+      "detail": "External current depends on VSYS and onboard load. Approximately 350 mA total near 1.8 V is only a Richtek typical graph estimate. JEDEC four-layer thermal data does not qualify this board."
+    },
+    {
+      "id": "stackup-geometry",
+      "type": "layout",
+      "refs": [
+        "U1",
+        "L1",
+        "U2",
+        "J1",
+        "U4"
+      ],
+      "detail": "Layer count, thickness, dielectric/copper data, USB body/launch/branch geometry, power loops, ground vias, EP connections and connector fit remain engineering decisions."
+    },
+    {
+      "id": "header-mechanics",
+      "type": "mechanical",
+      "refs": [
+        "J2",
+        "J3",
+        "J4"
+      ],
+      "detail": "Forty functions, 2.54 mm contact pitch and 17.78 mm row spacing are the target. Castellations, mounting holes, exact header lands, SWD handling and assembly fit remain open."
+    }
+  ],
+  "validationPerformed": [
+    "JSON structural/count checks",
+    "U1 coverage against current 61-pin inspection",
+    "U2 map against custom v1 symbol text",
+    "40 header positions uniquely mapped",
+    "All named nets have at least two endpoints; only two SBU NCs",
+    "No native KiCad process, build or physical qualification"
+  ],
+  "limits": [
+    "No placement, routes, zones, stackup, board revision, authority token or compiler-bundle claim.",
+    "Selection ratings are not verified MPN capabilities.",
+    "ERC metadata does not prove power, stability, impedance, thermal or ESD performance."
+  ]
+}

@@ -13,8 +13,8 @@ import { placementRevisionFixture } from "../helpers/placement-revision-fixture.
 const owned: Awaited<ReturnType<typeof fixture>>[] = [];
 afterEach(async () => { for (const f of owned.splice(0)) { await f.client.close(); await f.workspace.close(); await f.f.cleanup(); } });
 const body = (response: { structuredContent?: unknown }) => response.structuredContent as Record<string, any>;
-async function fixture(access: "read-only" | "edit" = "edit", viaBudgetHeadroom = false) {
-  const h = await placementRevisionFixture({ viaBudgetHeadroom });
+async function fixture(access: "read-only" | "edit" = "edit", viaBudgetHeadroom = false, regionalPlane = false) {
+  const h = await placementRevisionFixture({ viaBudgetHeadroom, regionalPlane });
   await writeFile(h.preparation.project.pcbPath, h.input.sources.pcb);
   await writeFile(h.preparation.project.schematicPath, h.input.sources.sch);
   await writeFile(path.join(h.preparation.project.projectPath, "seeded.kicad_pro"), h.input.sources.pro);
@@ -48,6 +48,27 @@ async function fixture(access: "read-only" | "edit" = "edit", viaBudgetHeadroom 
 }
 
 describe("placement revision through public MCP", () => {
+  it("creates the explicit supplemental policy through its distinct operation and preserves its source", async () => {
+    const f = await fixture("edit", false, true); owned.push(f);
+    const before = await readFile(f.preparation.project.pcbPath), draft = structuredClone(f.draft);
+    Object.assign(draft.planes.find(p=>p.id==="BACK_GND")!.islandPolicy, { requireSingleConnectedComponent: false,
+      referencePlaneId: "GND_PLANE", engineeringBasis: "Supplemental regions require complete current via-contact and retained-area evidence." });
+    const ready = await f.submit(draft); expect(ready.status).toBe("ready");
+    const request = { draftId: ready.draftId, sourceProjectId: f.sourceAllocation.projectId };
+    expect((await f.call("evleda_revise_plane_regions", request)).isError).toBe(true);
+    await f.closeSource();
+    expect((await f.call("evleda_revise_placement", request)).isError).toBe(true);
+    const opened = await f.call("evleda_revise_plane_regions", request);
+    expect(opened).not.toMatchObject({ isError: true });
+    expect(body(opened)).toMatchObject({ status: "opened", placementRevisionLineage: {
+      schemaVersion: "evleda.plane-region-policy-revision-lineage.v1", sourceProjectId: f.sourceAllocation.projectId } });
+    expect(body(await f.call("evleda_revise_plane_regions", request))).toMatchObject({ status: "already_created", active: true });
+    expect((await f.call("evleda_revise_via_budgets", request)).isError).toBe(true);
+    expect(body(await f.call("evleda_close_project", { projectId: ready.draftId })).status).toBe("closed");
+    expect(body(await f.call("evleda_resume_project", { projectId: ready.draftId }))).toMatchObject({ status: "opened", resumed: true });
+    expect(body(await f.call("evleda_close_project", { projectId: ready.draftId })).status).toBe("closed");
+    expect(await readFile(f.preparation.project.pcbPath)).toEqual(before);
+  });
   it("revises a via budget through its separate public operation and preserves the source", async () => {
     const f = await fixture("edit", true); owned.push(f);
     const before = await readFile(f.preparation.project.pcbPath);

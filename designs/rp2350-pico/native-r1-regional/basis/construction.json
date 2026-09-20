@@ -1,0 +1,97 @@
+{
+  "backCopperThicknessMm": 0.043,
+  "backDielectric": {
+    "frequencyHz": 100000000,
+    "lossTangent": 0.02,
+    "material": "FR4 TG-140 back prepreg; exact laminate/prepreg supplier pending",
+    "relativePermittivity": 4.5,
+    "source": {
+      "description": "JetPCB section3.5(3), nominal1mm column: back prepreg 0.23mm. One homogeneous declared gap per native layer; glass/resin construction is unreported. Dk4.5, loss tangent0.02 at100MHz and relative permeability1 retain the original RP2350 reference-derived analysis assumptions, not JetPCB material facts. Material, frequency dispersion and fabrication tolerances remain unqualified.",
+      "kind": "caller_assertion",
+      "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=5"
+    },
+    "substrateRelativePermeability": 1,
+    "thicknessMm": 0.23
+  },
+  "boardThicknessMm": 1.016,
+  "conductor": {
+    "conductivitySiemensPerMetre": 58000000,
+    "relativePermeability": 1,
+    "roughnessNm": 0,
+    "source": {
+      "description": "Outer copper is18um foil plus25um plating; inner foil is35um. Smooth bulk copper conductivity58MS/m, permeability1 and zero roughness are inherited analytical assumptions; actual foil/plating/finish losses are unqualified.",
+      "kind": "caller_assertion",
+      "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=5"
+    }
+  },
+  "coreDielectric": {
+    "frequencyHz": 100000000,
+    "lossTangent": 0.02,
+    "material": "FR4 TG-140 core; exact laminate/prepreg supplier pending",
+    "relativePermittivity": 4.5,
+    "source": {
+      "description": "JetPCB section3.5(3), nominal1mm column: core 0.38mm. One homogeneous declared gap per native layer; glass/resin construction is unreported. Dk4.5, loss tangent0.02 at100MHz and relative permeability1 retain the original RP2350 reference-derived analysis assumptions, not JetPCB material facts. Material, frequency dispersion and fabrication tolerances remain unqualified.",
+      "kind": "caller_assertion",
+      "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=5"
+    },
+    "substrateRelativePermeability": 1,
+    "thicknessMm": 0.38
+  },
+  "exterior": {
+    "back": "air",
+    "front": "air"
+  },
+  "frontCopperThicknessMm": 0.043,
+  "frontDielectric": {
+    "frequencyHz": 100000000,
+    "lossTangent": 0.02,
+    "material": "FR4 TG-140 front prepreg; exact laminate/prepreg supplier pending",
+    "relativePermittivity": 4.5,
+    "source": {
+      "description": "JetPCB section3.5(3), nominal1mm column: front prepreg 0.23mm. One homogeneous declared gap per native layer; glass/resin construction is unreported. Dk4.5, loss tangent0.02 at100MHz and relative permeability1 retain the original RP2350 reference-derived analysis assumptions, not JetPCB material facts. Material, frequency dispersion and fabrication tolerances remain unqualified.",
+      "kind": "caller_assertion",
+      "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=5"
+    },
+    "substrateRelativePermeability": 1,
+    "thicknessMm": 0.23
+  },
+  "id": "BOARD_STACKUP",
+  "inner1CopperThicknessMm": 0.035,
+  "inner2CopperThicknessMm": 0.035,
+  "mode": "four_layer",
+  "nominalFinishedBoardThicknessMm": 1,
+  "solderMask": {
+    "back": {
+      "frequencyHz": 100000000,
+      "kind": "present",
+      "lossTangent": 0.02,
+      "material": "Green LPI solder mask; exact product pending",
+      "relativePermittivity": 3.8,
+      "source": {
+        "description": "JetPCB four-layer table specifies nominal10um solder mask per side. Preserve mask in the candidate. Exact product and regional coating profile are unreported; Dk3.8 and loss tangent0.02 at100MHz remain explicit inherited illustrative assumptions, not vendor material data. The bare microstrip calculator does not qualify this mask-covered board.",
+        "kind": "caller_assertion",
+        "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=5"
+      },
+      "thicknessMm": 0.01
+    },
+    "front": {
+      "frequencyHz": 100000000,
+      "kind": "present",
+      "lossTangent": 0.02,
+      "material": "Green LPI solder mask; exact product pending",
+      "relativePermittivity": 3.8,
+      "source": {
+        "description": "JetPCB four-layer table specifies nominal10um solder mask per side. Preserve mask in the candidate. Exact product and regional coating profile are unreported; Dk3.8 and loss tangent0.02 at100MHz remain explicit inherited illustrative assumptions, not vendor material data. The bare microstrip calculator does not qualify this mask-covered board.",
+        "kind": "caller_assertion",
+        "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=5"
+      },
+      "thicknessMm": 0.01
+    }
+  },
+  "source": {
+    "description": "Candidate geometry is the JetPCB nominal1mm four-layer table, inspected on PDF page5. Exact declared native sum: two10um masks + two43um outer copper layers + two35um inner copper layers + two230um prepregs +380um core =1.016mm. Nominal1mm remains separate. Finish is local to mask openings. No fabrication order, material qualification or masked-channel impedance approval is implied.",
+    "kind": "caller_assertion",
+    "reference": "https://us.jetpcb.com/Public/en-US/docs/Specifications.pdf#page=5"
+  },
+  "surfaceFinish": "ENIG; specified candidate finish"
+}

@@ -1,0 +1,7 @@
+# KiCad Winbond land source and adaptation
+
+Source: KiCad community footprint `Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm`, installed KiCad10 library; reviewed 2026-09-17. Original bytes are hashed in `source-identities.json` and archived outside the repository. The [official upstream file](https://gitlab.com/kicad/libraries/kicad-footprints/-/blob/master/Package_SON.pretty/Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm.kicad_mod) was cross-checked for its geometry. The source originally cites a W25Q16JVUXIQ package drawing; selected-part package compatibility was independently checked against W25Q32RV Rev.E, not inferred from that original name.
+
+Attribution: KiCad library community. The adapted footprint is distributed under [CC BY-SA4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode) with the KiCad design-output exception. The exact KiCad license/exception is retained in `KiCad-Libraries-LICENSE.md` and hash-bound by the manifest. No endorsement by KiCad or Winbond is implied.
+
+Changes: footprint/name renamed for W25Q32RVXH, value set to W25Q32RVXHJQ and hidden for uncluttered board documentation, description replaced with selected-part provenance, and external 3D model removed to make the package self-contained. All original pads, pad shapes, dimensions, positions, layers, paste aperture, direct zone setting, thermal-pad property, body, silk and courtyard remain unchanged. The inherited geometry is a candidate PCB land pattern; it is not described as manufacturer-recommended or assembly-qualified.

@@ -66,7 +66,7 @@ export function assertPlanePlacementRevisionScope(source: PcbPlaneCompilationBun
   requireValue(!equal(source.contract.placementConstraints, target.contract.placementConstraints), "a placement revision must change placement intent");
 }
 
-export type PlaneRevisionKind = "placement" | "via-budgets";
+export type PlaneRevisionKind = "placement" | "via-budgets" | "plane-regions";
 /** Saved copies are operator recovery seeds, never ordinary public revisions. */
 export type PlaneSourceSeedKind = PlaneRevisionKind | "saved-copy";
 
@@ -105,6 +105,34 @@ export function assertPlaneViaBudgetRevisionScope(source: PcbPlaneCompilationBun
   requireValue(changed, "a via-budget revision must change at least one per-net budget");
 }
 
+/** Explicit supplemental-region intent revision. Native geometry, area floors,
+ * removal settings, primary/reference policies and all other design inputs stay
+ * exact. A separate allocation never rewrites the source's failed requirement. */
+export function assertPlaneRegionPolicyRevisionScope(source: PcbPlaneCompilationBundle, target: PcbPlaneCompilationBundle): void {
+  requireValue(isAuthenticatedPcbPlaneCompilationBundle(source) && isAuthenticatedPcbPlaneCompilationBundle(target), "both bundles must be authenticated");
+  const planes = (values: PcbPlaneCompilationBundle["draft"]["planes"] | PcbPlaneCompilationBundle["contract"]["planes"]) => values.map(p => ({
+    ...p, islandPolicy: p.islandPolicy === null ? null : { removeUnconnected: p.islandPolicy.removeUnconnected, minimumAreaMm2: p.islandPolicy.minimumAreaMm2 },
+  }));
+  const contract = ({ identity: _identity, planes: values, ...rest }: PcbPlaneCompilationBundle["contract"]) => ({ ...rest, planes: planes(values) });
+  const draft = ({ planes: values, ...rest }: PcbPlaneCompilationBundle["draft"]) => ({ ...rest, planes: planes(values) });
+  const library = ({ identity: _identity, contractIdentity: _contract, ...rest }: PcbPlaneCompilationBundle["libraryBinding"]) => rest;
+  requireValue(equal(contract(source.contract), contract(target.contract)) && equal(draft(source.draft), draft(target.draft))
+    && equal(library(source.libraryBinding), library(target.libraryBinding)) && equal(source.selectionPolicy, target.selectionPolicy),
+  "only supplemental component-policy selection, its reference/rationale and original-prompt metadata may differ; every area floor and native setting stays exact");
+  let changed = false;
+  for (const before of source.contract.planes) {
+    const after = target.contract.planes.find(p => p.id === before.id)!;
+    if (equal(before.islandPolicy, after.islandPolicy)) continue;
+    const owner = target.contract.routingConstraints.nets.find(r => r.topology === "plane" && r.additionalPlaneIds?.includes(after.id));
+    requireValue(owner?.topology === "plane" && (!after.islandPolicy.requireSingleConnectedComponent
+      ? after.islandPolicy.referencePlaneId === owner.planeId : true), "only a supplemental plane policy may change");
+    requireValue(before.islandPolicy.requireSingleConnectedComponent !== after.islandPolicy.requireSingleConnectedComponent,
+      "a region-policy revision must change its substantive component rule, not just rationale text");
+    changed = true;
+  }
+  requireValue(changed, "a region-policy revision must change a supplemental component rule");
+}
+
 export interface PlanePlacementRevisionSources {
   readonly pcb: string;
   readonly sch: string;
@@ -124,10 +152,11 @@ export function planPlanePlacementRevisionSources(input: {
 }) {
   const { sourceBundle: source, targetBundle: target } = input;
   const revisionKind = input.revisionKind ?? "placement";
-  requireValue(revisionKind === "placement" || revisionKind === "via-budgets" || revisionKind === "saved-copy", "unsupported revision kind");
+  requireValue(revisionKind === "placement" || revisionKind === "via-budgets" || revisionKind === "plane-regions" || revisionKind === "saved-copy", "unsupported revision kind");
   if (revisionKind === "saved-copy") requireValue(isAuthenticatedPcbPlaneCompilationBundle(source)
     && isAuthenticatedPcbPlaneCompilationBundle(target) && equal(source, target), "saved-copy recovery cannot change its authenticated bundle");
   else if (revisionKind === "via-budgets") assertPlaneViaBudgetRevisionScope(source, target);
+  else if (revisionKind === "plane-regions") assertPlaneRegionPolicyRevisionScope(source, target);
   else assertPlanePlacementRevisionScope(source, target);
   requireValue(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/u.test(input.name), "same safe project stem is required");
   const original = Object.freeze({ pcb: text(input.sources.pcb), sch: text(input.sources.sch),
@@ -226,6 +255,7 @@ export function planPlanePlacementRevisionSources(input: {
   const sources = Object.freeze({ pcb, sch: original.sch, pro: JSON.stringify(project, null, 2) + "\n", dru: newRules.source });
   const payload = { schemaVersion: revisionKind === "saved-copy" ? "evleda.plane-saved-copy-source-plan.v1" as const
     : revisionKind === "via-budgets" ? "evleda.plane-via-budget-revision-source-plan.v1" as const
+    : revisionKind === "plane-regions" ? "evleda.plane-region-policy-revision-source-plan.v1" as const
     : "evleda.plane-placement-revision-source-plan.v1" as const, sourceBundleIdentity: source.identity,
     targetBundleIdentity: target.identity, sourceIdentities: Object.fromEntries(Object.entries(original).map(([k, v]) => [k, contentIdentity(v)])),
     targetIdentities: Object.fromEntries(Object.entries(sources).map(([k, v]) => [k, contentIdentity(v)])),

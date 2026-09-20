@@ -1,0 +1,38 @@
+{
+  "scope": "Source-plan and native saved/readback proof; standalone prior engineering results remain separately scoped.",
+  "sourcePcbSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+  "targetPcbSha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+  "tracksViasComponentGeometryAndLabelsPreserved": true,
+  "schematicBytesPreserved": true,
+  "allPlaneFilledGeometryIdentitiesPreserved": true,
+  "planes": [
+    {
+      "id": "BACK_GND",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "b303ae32bf733c2f1e9c4f141fef6b1bf13abc230d072754406cb706700cd7e8",
+        "schemaVersion": "evleda.fresh-plane-normalized-filled-geometry.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    },
+    {
+      "id": "GND_PLANE",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "02ad095b85a0b5743695c69d47d84eafa0fc03679dff32320769a2ef96ab56a3",
+        "schemaVersion": "evleda.fresh-plane-normalized-filled-geometry.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      }
+    }
+  ],
+  "previews": {
+    "top": {
+      "pngSha256": "5200481f99b1d254d59c32eb83cceb54cc85cc45ea4ae41ae8b499014c5cc240",
+      "sameAsNativeR1": true
+    },
+    "assembly": {
+      "pngSha256": "aa6873fa76d9cdbb1f8690eea802cc291fe7adfcb1f52415ba7a77fbdf706d0f",
+      "sameAsNativeR1": true
+    }
+  }
+}

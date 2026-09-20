@@ -61,15 +61,24 @@ const thermal = z.object({ mode: z.literal("thermal"), gapMm: clearance, spokeWi
 const thermalDraft = thermal.extend({ gapMm: clearance.nullable(), spokeWidthMm: width.nullable(),
   minimumConnectedSpokes: thermal.shape.minimumConnectedSpokes.nullable() }).strict();
 const solid = z.object({ mode: z.literal("solid") }).strict();
-const islandPolicy = z.object({ removeUnconnected: z.literal(true), minimumAreaMm2: area,
+const singleIslandPolicy = z.object({ removeUnconnected: z.literal(true), minimumAreaMm2: area,
   requireSingleConnectedComponent: z.literal(true) }).strict();
+const regionalIslandPolicy = z.object({ removeUnconnected: z.literal(true), minimumAreaMm2: area,
+  requireSingleConnectedComponent: z.literal(false), referencePlaneId: identifier,
+  engineeringBasis: z.string().trim().min(1).max(1024) }).strict();
+const islandPolicy = z.discriminatedUnion("requireSingleConnectedComponent", [singleIslandPolicy, regionalIslandPolicy]);
+const islandPolicyDraft = z.discriminatedUnion("requireSingleConnectedComponent", [
+  singleIslandPolicy.extend({ minimumAreaMm2: area.nullable() }).strict(),
+  regionalIslandPolicy.extend({ minimumAreaMm2: area.nullable(), referencePlaneId: identifier.nullable(),
+    engineeringBasis: regionalIslandPolicy.shape.engineeringBasis.nullable() }).strict(),
+]);
 const plane = z.object({ id: identifier, net: netName, layer, boundary, clearanceMm: clearance,
   minimumCopperWidthMm: width, copperFill: z.literal("solid"),
   padConnection: z.discriminatedUnion("mode", [solid, thermal]), islandPolicy }).strict();
 const planeDraft = plane.extend({ net: netName.nullable(), layer: layer.nullable(), boundary: boundary.nullable(),
   clearanceMm: clearance.nullable(), minimumCopperWidthMm: width.nullable(), copperFill: z.literal("solid").nullable(),
   padConnection: z.discriminatedUnion("mode", [solid, thermalDraft]).nullable(),
-  islandPolicy: islandPolicy.extend({ minimumAreaMm2: area.nullable() }).nullable() }).strict();
+  islandPolicy: islandPolicyDraft.nullable() }).strict();
 
 const terminalReference = z.object({ signalEndpoint: endpoint, referenceEndpoint: endpoint }).strict();
 const continuousReference = z.object({ mode: z.literal("continuous_plane"), planeId: identifier,
@@ -210,6 +219,22 @@ function relationships(document: DraftValue | PayloadValue, context: z.Refinemen
     const owners = document.routingConstraints.nets.filter(r => r.topology === "plane" && (r.planeId === p.id || r.additionalPlaneIds?.includes(p.id)));
     if (owners.length > 1 || (closedContract && owners.length !== 1)) issue(path, "Every plane must have exactly one plane-topology routing owner");
     if (p.net !== null && owners.some(r => r.net !== p.net)) issue([...path, "net"], "Plane net differs from its routing owner");
+    if (p.islandPolicy?.requireSingleConnectedComponent === false) {
+      const policyPath = [...path, "islandPolicy"], referenceId = p.islandPolicy.referencePlaneId;
+      if (document.scope.board.layerCount !== 4) issue(policyPath, "Regional grounding requires a supplemental plane on a four-layer board");
+      const owner = owners.length === 1 ? owners[0] : undefined;
+      if (owner?.topology === "plane") {
+        if (owner.additionalPlaneIds !== null && !owner.additionalPlaneIds?.includes(p.id)) issue(policyPath, "Only an additional plane may use regional grounding");
+        if (referenceId !== null && owner.planeId !== null && referenceId !== owner.planeId) issue([...policyPath, "referencePlaneId"], "Regional grounding must use its owner's primary plane");
+      }
+      const primary = referenceId === null ? undefined : planes.get(referenceId);
+      if (referenceId !== null && (primary === undefined || referenceId === p.id)) issue([...policyPath, "referencePlaneId"], "An existing distinct primary plane is required");
+      if (primary !== undefined && (primary.islandPolicy?.requireSingleConnectedComponent === false
+        || primary.net !== null && p.net !== null && primary.net !== p.net)) issue(policyPath, "The primary plane must retain its single-component policy and ground net");
+      if (document.routingConstraints.nets.some(r => r.topology !== "plane" && r.referencePath?.mode === "continuous_plane" && r.referencePath.planeId === p.id)
+        || (document.interfaceRequirements?.interfaces ?? []).some(pair => pair.routing?.referencePlaneId === p.id))
+        issue(policyPath, "A required signal/interface reference plane cannot use regional grounding");
+    }
   }
   let viaSum = 0;
   const globalVia = document.routingConstraints.viaPolicy;

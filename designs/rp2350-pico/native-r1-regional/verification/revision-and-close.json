@@ -1,0 +1,624 @@
+{
+  "schemaVersion": "evleda.rp2350-regional-policy-revision.v1",
+  "sourceProjectId": "5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea",
+  "targetProjectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "sourceBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "46dccf0a2f1b50a370ab4feddce6b1b97afe5b8218fac11cdc0fe1add7439e47",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "targetBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "a30e7a5067e1d7f91511d7ea964a6e3fffacd16c47217cabcc5434ad05b51e84",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "0d30604081707ca06006412408cffc713b8304b6833179fbd00db66241a45d92",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "targetPins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "604b14283e7b5041e8d74ef3e12e1efa4acb3775a7cb2e96518e5a5900a1be6f",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "geometryAndLabelsPreserved": true,
+  "schematicBytesPreserved": true,
+  "sourceNormalClose": true,
+  "targetNormalClose": true,
+  "sourceOldPolicyStillPreserved": true,
+  "regionalPolicyConditions": {
+    "status": "verified",
+    "reasons": [
+      "This saved and native zone retains its exact declared name, net, layer, boundary and settings within the complete inventory.",
+      "Every native subpolygon matches one stored component; regional via contacts require their separate complete observation.",
+      "Every stored component's complete bore-enclosure-subtracted retained-area lower bound meets the declared floor. This proves area, not post-drill connectivity.",
+      "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate."
+    ],
+    "referencePlaneId": "GND_PLANE",
+    "engineeringBasis": "Private diagnostic detail retained in the complete assessment."
+  },
+  "regionalArea": {
+    "status": "verified",
+    "reasons": [
+      "Every stored component's complete bore-enclosure-subtracted retained-area lower bound meets the declared floor. This proves area, not post-drill connectivity."
+    ],
+    "requiredAreaTwiceNm2": "2000000000000",
+    "observedAreaTwiceNm2": [
+      "1027570784370406",
+      "39099866039439",
+      "20135024341481",
+      "10862895652061",
+      "4475449699716",
+      "189609091751019",
+      "6804882377667",
+      "2207186189874",
+      "24170826433643",
+      "40610116796041"
+    ],
+    "observedAreaMeaning": "stored-zone-fill-components",
+    "conservativeAreaLowerBoundTwiceNm2": null,
+    "componentAreaLowerBounds": [
+      {
+        "nativePolygonIndex": 0,
+        "storedAreaTwiceNm2": "1027570784370406",
+        "subtractedUpperAreaTwiceNm2": "23000000000000",
+        "conservativeRetainedAreaTwiceNm2": "1004570784370406",
+        "possiblyIntersectingBoreUuids": [
+          "f5592606-4e9d-4b62-afac-565ec9879275",
+          "35603db2-7858-452d-90f0-c991ba6d7717",
+          "6a8af92a-66ec-4429-b364-6c69de6a7f23",
+          "78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+          "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+          "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+          "0c0d17c6-67e0-420a-a456-6acf146a74ac",
+          "0c9d98b6-26bb-43c3-8371-801254431694",
+          "0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+          "2138f519-c783-46f8-aa38-3baacff98d43",
+          "2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+          "4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+          "50359f17-a88f-4224-a877-156f55a32121",
+          "5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+          "5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+          "660c6b12-c207-47ec-a352-523fdf294042",
+          "668ab035-7651-4112-81d6-735bc6cc3999",
+          "76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+          "7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+          "95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+          "c72f99ad-b035-4092-beda-5958d96107b5",
+          "d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "e4f5ebb6-f345-4129-8ff9-e129714c0258",
+          "e72cddfc-1b57-4224-bac0-caccb4a71d09",
+          "f8adabc9-8b10-4dd0-b871-a037512f882c"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "0ce8910b-1fc8-43f4-80a6-2f43155cce47",
+          "8adc7b83-852c-4f82-80ea-a242856fedf9",
+          "c2810e37-f823-4d81-8fdd-734b628f9ddd",
+          "b4a3e62e-4f1b-42b0-a669-310a7a6cc976",
+          "565e9888-c731-4542-842a-e1344a26b619",
+          "b25066be-74fa-4e3f-a05f-334707f3ec8e",
+          "7a11b973-d239-4889-92ba-0e6cca7f4c4a",
+          "e4eb0e67-b8a2-4e32-8300-85b138e0e3e1",
+          "05f2043c-dd85-4ad7-922d-f6723368489e",
+          "1bf40706-0e6e-424a-9cb0-d52c7b2b2a3f",
+          "2ba504b1-e670-417f-bd5c-842f246c710a",
+          "372b0bb9-7cda-4221-884e-39c761cba362",
+          "56accf8e-4ab2-4a76-a5c6-cddab84fcd76",
+          "618a088d-d2f5-4d74-bd96-aa5298a004b8",
+          "62605230-5eaa-4920-bf54-0c343ebb9419",
+          "6825a482-96dd-4c4e-957e-4e9ccbbab9ab",
+          "91f32ab7-2d58-4e6f-874c-8c25c10da1df",
+          "b7e9828d-d8e0-4d32-9534-58ada14c8667",
+          "f35419b2-b328-46e9-b190-b543a8bc89f6",
+          "f6bc4f1e-88b0-42c4-bc7e-259548ffb4ec",
+          "e9c4eb42-e779-41d5-9bd0-678c7a666e6b",
+          "5faa56a8-ff6d-47dd-a450-a1c0b65c43fb",
+          "f2c3a30e-a157-4795-8507-29bdb4497ffd",
+          "c9c5f730-5738-42d8-bcc6-63e649f8c129",
+          "c2baeba4-ff9e-4069-8370-a7db47bbc5e2",
+          "8c57578f-fa36-454c-a409-073b213d5cdf",
+          "a88bd5f2-bddf-4f7f-af20-a8e31213d954",
+          "bc549764-4a62-4928-8afd-d2600f475350",
+          "d87dedac-200b-4bd9-b91e-ad8663cd03f7",
+          "e547841a-9957-4be7-9491-9d71ceee6e02",
+          "f17a9bdb-30a6-45a7-bbbc-6ae1ee7ca4e3",
+          "5053d2c7-a8c7-4ad7-bc40-eefe560dccd4",
+          "e87bcb55-3b90-4f9c-91b1-0a379ec6d8ce",
+          "7d2560d2-db91-482d-8807-f79aa4410a56",
+          "6a0423b1-b4bc-4a06-a85b-64a4d1406844",
+          "f014a64c-e8b5-45cf-9280-e064712a69fe",
+          "5fc1c06b-3fda-46f5-8959-7d226e7fd5b6",
+          "41b59047-6a65-45d5-9b6e-68e750c57420",
+          "d7e0f3c0-e01a-489b-a291-5635a55cb2d0",
+          "3985279d-47ae-45ef-8253-af4ad9a2201f",
+          "410ac0c9-7658-4e26-8d67-4418b0b6cc9e",
+          "842eee1e-c0e3-4ccd-8e93-54168cc752da",
+          "ee5ce531-52f1-456e-87f0-98362f1b3f83",
+          "773bf4bc-065f-4dd1-8847-2439c1cf03f4",
+          "f05b4c28-3638-43a2-bab0-4d61b34ce011",
+          "02a1bd44-3c44-4187-bd73-36c463e30890",
+          "76373ac2-bd1a-4adb-ace5-43c1ef0d2193",
+          "6dbc793a-fe3b-4dbb-8bd9-aae4487d213e",
+          "d34f4dd9-ae5d-489d-83a5-e5eaab0424c1",
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "f9431133-4440-437a-b1ef-46ae2cb1600c",
+          "689f61a8-6e0f-4579-a470-b72d1afb64fe",
+          "ec5b83e7-69f3-4fab-a63f-25ab2c034005",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "0f5ec798-0703-4780-8b1b-588fee5a2b98",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "b36402e2-1795-49ac-971b-5f9f6ab8ca6a",
+          "18bd03ae-20b3-4530-aa89-a1148370d91a",
+          "ceb3102b-a518-4575-97c0-19987a109ef7",
+          "2397158d-e7bb-42ae-991e-3d8ddafd7b22",
+          "4366ccf9-2ac3-4035-9ad7-4af089662ce4",
+          "49ce1120-dc52-4720-8bc6-2eac474334b4",
+          "9c1140cd-4e07-43ef-9426-d27870f26e18",
+          "2ab316fa-d5aa-4d78-a059-7ea3e65fd6de",
+          "70053748-d80a-4f35-9dd3-3497fbd757ce",
+          "c449e9f5-d87b-4b0d-828c-d8defdb438c4",
+          "74269ee4-b3df-464d-a127-723f0d33a46e",
+          "a032f4c0-d0a2-40d0-9bac-dbf964af6878",
+          "13254002-70c7-400f-82ed-a0f253e8c9cc",
+          "76e4562f-826c-4889-ac12-d5cac7af4826",
+          "0183904b-58b9-414d-9657-0c38bac9f708",
+          "12a9b3dc-6154-47d8-a74e-188543653c0e",
+          "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+          "463c9f0b-7400-4471-be23-08925f31fbac",
+          "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+          "68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "707cba30-4192-4239-a71a-e4b94f348f45",
+          "7e5658a6-4451-455b-ad7e-3311b063517a",
+          "7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+          "895798ed-118c-4044-b758-da8dfb25e1a4",
+          "8d3806d2-7356-4bc6-a218-183e5b189f96",
+          "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "9ab1435a-daaf-495d-8feb-deaf0149a45c",
+          "a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+          "a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+          "cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+          "e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+          "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+          "f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+          "feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+          "3be11b12-d0d0-4b22-beab-f4c030961b63",
+          "549a1475-4668-4186-9f11-934157cd5c2c",
+          "7248f129-7bb1-4a1a-90ca-e87f47936257",
+          "9f720440-0c07-4c61-b825-83e616e5de45",
+          "f9369eb5-26fc-48a0-923b-b52c7881dd67",
+          "5d388eb4-be4c-4b72-a491-30ed2c40de75",
+          "74e68b40-a066-4d16-99f3-4e2adf4ca878",
+          "dce8863a-98b4-4042-8f2a-f01e4cb41246",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392",
+          "90bc5c00-1ec2-49ab-8575-6c1cc19457a3",
+          "40c549fe-38b1-4874-8e49-3add62b8fe6e",
+          "cdeb7e33-2207-43a3-b01a-b109253e747d"
+        ],
+        "bboxExcludedBoreCount": 40,
+        "predicateOperations": 254140,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 1,
+        "storedAreaTwiceNm2": "39099866039439",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "39019866039439",
+        "possiblyIntersectingBoreUuids": [
+          "12a9b3dc-6154-47d8-a74e-188543653c0e"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "372b0bb9-7cda-4221-884e-39c761cba362",
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "0f5ec798-0703-4780-8b1b-588fee5a2b98",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392"
+        ],
+        "bboxExcludedBoreCount": 159,
+        "predicateOperations": 816,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 2,
+        "storedAreaTwiceNm2": "20135024341481",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "20055024341481",
+        "possiblyIntersectingBoreUuids": [
+          "7e5658a6-4451-455b-ad7e-3311b063517a"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "372b0bb9-7cda-4221-884e-39c761cba362",
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "0c9d98b6-26bb-43c3-8371-801254431694",
+          "5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392"
+        ],
+        "bboxExcludedBoreCount": 158,
+        "predicateOperations": 676,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 3,
+        "storedAreaTwiceNm2": "10862895652061",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "10782895652061",
+        "possiblyIntersectingBoreUuids": [
+          "6a6d299b-ef7f-4036-9b5f-6b376118c54d"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "e1e55b3e-a0e0-44b5-a801-0e790396623c",
+          "9f90cca0-c9a2-4302-b290-8a28c34d4aa4",
+          "b8676d70-443c-414f-84e9-db6975ad11a4",
+          "3feef3e2-9319-48d8-b85b-931451ad845d"
+        ],
+        "bboxExcludedBoreCount": 166,
+        "predicateOperations": 675,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 4,
+        "storedAreaTwiceNm2": "4475449699716",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "4395449699716",
+        "possiblyIntersectingBoreUuids": [
+          "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "f9431133-4440-437a-b1ef-46ae2cb1600c"
+        ],
+        "bboxExcludedBoreCount": 169,
+        "predicateOperations": 118,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 5,
+        "storedAreaTwiceNm2": "189609091751019",
+        "subtractedUpperAreaTwiceNm2": "800000000000",
+        "conservativeRetainedAreaTwiceNm2": "188809091751019",
+        "possiblyIntersectingBoreUuids": [
+          "0183904b-58b9-414d-9657-0c38bac9f708",
+          "68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+          "7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+          "8d3806d2-7356-4bc6-a218-183e5b189f96",
+          "9ab1435a-daaf-495d-8feb-deaf0149a45c",
+          "a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+          "a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+          "cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+          "f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+          "feb6c0b8-7b77-4cf1-a451-7923d0aff393"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "1bf40706-0e6e-424a-9cb0-d52c7b2b2a3f",
+          "2ba504b1-e670-417f-bd5c-842f246c710a",
+          "56accf8e-4ab2-4a76-a5c6-cddab84fcd76",
+          "62605230-5eaa-4920-bf54-0c343ebb9419",
+          "91f32ab7-2d58-4e6f-874c-8c25c10da1df",
+          "8c57578f-fa36-454c-a409-073b213d5cdf",
+          "a88bd5f2-bddf-4f7f-af20-a8e31213d954",
+          "d87dedac-200b-4bd9-b91e-ad8663cd03f7",
+          "e547841a-9957-4be7-9491-9d71ceee6e02",
+          "f17a9bdb-30a6-45a7-bbbc-6ae1ee7ca4e3",
+          "f9431133-4440-437a-b1ef-46ae2cb1600c",
+          "689f61a8-6e0f-4579-a470-b72d1afb64fe",
+          "ec5b83e7-69f3-4fab-a63f-25ab2c034005",
+          "491a6cc0-589e-451b-b811-40c7c49b3868",
+          "0576437d-dee2-470c-99ac-6ad3fbaa1d18",
+          "0f5ec798-0703-4780-8b1b-588fee5a2b98",
+          "3feef3e2-9319-48d8-b85b-931451ad845d",
+          "b36402e2-1795-49ac-971b-5f9f6ab8ca6a",
+          "18bd03ae-20b3-4530-aa89-a1148370d91a",
+          "2397158d-e7bb-42ae-991e-3d8ddafd7b22",
+          "4366ccf9-2ac3-4035-9ad7-4af089662ce4",
+          "49ce1120-dc52-4720-8bc6-2eac474334b4",
+          "2ab316fa-d5aa-4d78-a059-7ea3e65fd6de",
+          "70053748-d80a-4f35-9dd3-3497fbd757ce",
+          "c449e9f5-d87b-4b0d-828c-d8defdb438c4",
+          "74269ee4-b3df-464d-a127-723f0d33a46e",
+          "a032f4c0-d0a2-40d0-9bac-dbf964af6878",
+          "13254002-70c7-400f-82ed-a0f253e8c9cc",
+          "76e4562f-826c-4889-ac12-d5cac7af4826",
+          "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+          "549a1475-4668-4186-9f11-934157cd5c2c",
+          "f9369eb5-26fc-48a0-923b-b52c7881dd67",
+          "786f32c3-c0e8-4775-84d1-3fa1a9bd6392",
+          "90bc5c00-1ec2-49ab-8575-6c1cc19457a3"
+        ],
+        "bboxExcludedBoreCount": 126,
+        "predicateOperations": 45495,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 6,
+        "storedAreaTwiceNm2": "6804882377667",
+        "subtractedUpperAreaTwiceNm2": "240000000000",
+        "conservativeRetainedAreaTwiceNm2": "6564882377667",
+        "possiblyIntersectingBoreUuids": [
+          "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+          "463c9f0b-7400-4471-be23-08925f31fbac",
+          "707cba30-4192-4239-a71a-e4b94f348f45"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "5053d2c7-a8c7-4ad7-bc40-eefe560dccd4",
+          "6a0423b1-b4bc-4a06-a85b-64a4d1406844"
+        ],
+        "bboxExcludedBoreCount": 166,
+        "predicateOperations": 290,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 7,
+        "storedAreaTwiceNm2": "2207186189874",
+        "subtractedUpperAreaTwiceNm2": "160000000000",
+        "conservativeRetainedAreaTwiceNm2": "2047186189874",
+        "possiblyIntersectingBoreUuids": [
+          "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "e265c8a3-e492-4f20-a2e4-702fb49a1ab9"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "56accf8e-4ab2-4a76-a5c6-cddab84fcd76",
+          "91f32ab7-2d58-4e6f-874c-8c25c10da1df"
+        ],
+        "bboxExcludedBoreCount": 167,
+        "predicateOperations": 276,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 8,
+        "storedAreaTwiceNm2": "24170826433643",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "24090826433643",
+        "possiblyIntersectingBoreUuids": [
+          "53683e37-8cf7-4b40-93a2-5d13aac012a8"
+        ],
+        "exactlySeparatedBoreUuids": [],
+        "bboxExcludedBoreCount": 170,
+        "predicateOperations": 37,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      },
+      {
+        "nativePolygonIndex": 9,
+        "storedAreaTwiceNm2": "40610116796041",
+        "subtractedUpperAreaTwiceNm2": "80000000000",
+        "conservativeRetainedAreaTwiceNm2": "40530116796041",
+        "possiblyIntersectingBoreUuids": [
+          "895798ed-118c-4044-b758-da8dfb25e1a4"
+        ],
+        "exactlySeparatedBoreUuids": [
+          "6a8af92a-66ec-4429-b364-6c69de6a7f23"
+        ],
+        "bboxExcludedBoreCount": 169,
+        "predicateOperations": 108,
+        "maximumPredicateOperations": 4000000,
+        "method": "full-bore-enclosure-square-subtraction-per-stored-component",
+        "connectivityClaimed": false
+      }
+    ]
+  },
+  "regionalContacts": [
+    {
+      "planeId": "BACK_GND",
+      "referencePlaneId": "GND_PLANE",
+      "status": "verified",
+      "reasons": [
+        "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate."
+      ],
+      "scope": "qualified-source-native-annulus-contact-to-primary-plane",
+      "calculation": {
+        "scope": "positive-area-stored-copper-contact-through-qualified-normal-via-annuli",
+        "allRegionsWitnessed": true,
+        "regions": [
+          {
+            "nativePolygonIndex": 0,
+            "status": "witnessed",
+            "viaUuid": "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+            "centerNm": {
+              "x": 16187500,
+              "y": 46600000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 1,
+            "status": "witnessed",
+            "viaUuid": "12a9b3dc-6154-47d8-a74e-188543653c0e",
+            "centerNm": {
+              "x": 18412500,
+              "y": 37350000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 2,
+            "status": "witnessed",
+            "viaUuid": "7e5658a6-4451-455b-ad7e-3311b063517a",
+            "centerNm": {
+              "x": 12457500,
+              "y": 39500000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 3,
+            "status": "witnessed",
+            "viaUuid": "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+            "centerNm": {
+              "x": 16087500,
+              "y": 38700000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 4,
+            "status": "witnessed",
+            "viaUuid": "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+            "centerNm": {
+              "x": 11362500,
+              "y": 38650000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 5,
+            "status": "witnessed",
+            "viaUuid": "0183904b-58b9-414d-9657-0c38bac9f708",
+            "centerNm": {
+              "x": 15387500,
+              "y": 22650000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 6,
+            "status": "witnessed",
+            "viaUuid": "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+            "centerNm": {
+              "x": 4507500,
+              "y": 30720000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 7,
+            "status": "witnessed",
+            "viaUuid": "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+            "centerNm": {
+              "x": 14737500,
+              "y": 28030000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 8,
+            "status": "witnessed",
+            "viaUuid": "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+            "centerNm": {
+              "x": 5087500,
+              "y": 19970000
+            },
+            "contactDiscRadiusNm": 87499
+          },
+          {
+            "nativePolygonIndex": 9,
+            "status": "witnessed",
+            "viaUuid": "895798ed-118c-4044-b758-da8dfb25e1a4",
+            "centerNm": {
+              "x": 6387500,
+              "y": 17500000
+            },
+            "contactDiscRadiusNm": 87499
+          }
+        ],
+        "referenceNativePolygonIndex": 0,
+        "boreEnclosures": 171,
+        "predicateOperations": 2562448,
+        "maximumPredicateOperations": 4000000,
+        "globalDrillClippedContinuityClaimed": false,
+        "currentCapacityClaimed": false,
+        "fabricationAuthorized": false
+      }
+    }
+  ],
+  "mainThermal": {
+    "status": "verified",
+    "reasons": []
+  },
+  "endpointConnectivity": "connected",
+  "nativeDrc": "clean",
+  "rows": {
+    "pass": 141,
+    "unknown": 431
+  },
+  "accepted": false,
+  "previews": {
+    "top": {
+      "pngSha256": "5200481f99b1d254d59c32eb83cceb54cc85cc45ea4ae41ae8b499014c5cc240",
+      "sameAsNativeR1": true
+    },
+    "assembly": {
+      "pngSha256": "aa6873fa76d9cdbb1f8690eea802cc291fe7adfcb1f52415ba7a77fbdf706d0f",
+      "sameAsNativeR1": true
+    }
+  },
+  "scope": "Separate public-tool policy revision only. Original allocation and failed single-component requirement remain intact. All circuit, physical geometry, minimum-area floors and numeric/reference requirements are preserved. Scoped regional conditions do not establish full engineering acceptance."
+}

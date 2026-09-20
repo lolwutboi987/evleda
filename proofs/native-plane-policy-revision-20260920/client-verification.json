@@ -1,0 +1,50 @@
+{
+  "installation": {
+    "schemaVersion": "evleda.destination-client-installation.v6",
+    "recordedAt": "2026-09-20T21:50:07.031Z",
+    "scope": "Existing workspace entry advances host46 to native-qualified host47. DOC17 profile, edit policy, workspace, environment, timeout and unrelated settings remain unchanged. The current skill describes the explicit supplemental policy and separate revision operation.",
+    "configuration": {
+      "beforeSha256": "7c1524605e67203881f54e6fa8495cc46e0a5de9fecdd2fd2f268f6c4d4fbc12",
+      "afterSha256": "4842d1791435f981312a7c161a450c1506f0ce52151e48392a67a272abe5ae6a",
+      "unrelatedRawBytesPreserved": true
+    },
+    "skill": {
+      "beforeSha256": "52c2925315d8b736ef989c7c72f2308ae7f739f6d85af620e3466e7f8441f4b1",
+      "afterSha256": "831a9c138ae9e46d30d757a0406020f8abd79864cb39321a53f08fb8cc568658",
+      "repositoryCopyExact": true
+    },
+    "hostReleaseSha256": "579decac36e5facd14ad371b08e5c33f6f4e69f7d7455f776cd0a48210f6dcc7",
+    "nativeSourceUnchanged": true,
+    "runningDesktopActivation": "not-established"
+  },
+  "freshClient": {
+    "passed": true,
+    "toolCount": 18,
+    "toolNames": [
+      "evleda_close_project",
+      "evleda_create_project",
+      "evleda_design_schema",
+      "evleda_discard_draft",
+      "evleda_find_rules",
+      "evleda_inspect_library",
+      "evleda_list_projects",
+      "evleda_read_guide",
+      "evleda_resume_project",
+      "evleda_revise_placement",
+      "evleda_revise_plane_regions",
+      "evleda_revise_via_budgets",
+      "evleda_rule_topics",
+      "evleda_search_library",
+      "evleda_submit_design",
+      "evleda_toolbox_status",
+      "evleda_transmission_line",
+      "evleda_workspace_status"
+    ],
+    "exit": {
+      "code": 0,
+      "signal": null
+    },
+    "scope": "Fresh actual installed Codex app-server reads the real global EvlEDA entry. Other servers/plugins are disabled only for this probe. No task, model turn or native project is created. This is not evidence that an already-running desktop connection reloaded."
+  },
+  "runningDesktopActivation": "not-established"
+}

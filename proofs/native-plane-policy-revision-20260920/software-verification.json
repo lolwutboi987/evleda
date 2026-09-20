@@ -1,0 +1,4082 @@
+{
+  "releaseSha256": "579decac36e5facd14ad371b08e5c33f6f4e69f7d7455f776cd0a48210f6dcc7",
+  "tests": {
+    "passed": 320,
+    "skipped": 2,
+    "files": 13,
+    "scope": "Focused contract, revision, geometry, assessor, public projection, recovery and workspace tests. Not a full suite."
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    },
+    {
+      "name": "plane-policy-revision-tests",
+      "exitCode": 0
+    }
+  ],
+  "codePins": [
+    {
+      "file": "scripts/build-doc6-qualified-footprint-runtime.mjs",
+      "sha256": "3eb3591e4116c3b8471fc26a212b330665091c41f69f7e107cef18143962b21d"
+    },
+    {
+      "file": "scripts/build-kicad-inspection-runtime-manifest.mjs",
+      "sha256": "239997552713a80aa37859a2e37481f1c44b63e0f7c08617a6955ea306967e0f"
+    },
+    {
+      "file": "scripts/check.mjs",
+      "sha256": "0d2a0c29a2c904335d6e48f0b5113d2bb5565494dd2c7132737165de0724b787"
+    },
+    {
+      "file": "scripts/export-router-reference-capsules.ts",
+      "sha256": "f1e7da630da964f70ed394e7955df13e56f7611ae21a433ed8b59b66bdc70810"
+    },
+    {
+      "file": "scripts/fixtures/.gitattributes",
+      "sha256": "850704207fd051fd5f98005bb99f0930a8dc99fc2554d08ad5dad1fca6438c18"
+    },
+    {
+      "file": "scripts/fixtures/valid-candidate-bundle/COVER.svg",
+      "sha256": "09346b5a1559076ce4d75a6b2485336f39be98cfee55048f09ca6851c49f4e76"
+    },
+    {
+      "file": "scripts/fixtures/valid-candidate-bundle/README.md",
+      "sha256": "735d67a35ba31b294db8ba8a8e838ed1d9c406ed6bfac9a4b9c139c29f0e2962"
+    },
+    {
+      "file": "scripts/fixtures/valid-candidate-bundle/WARNING.txt",
+      "sha256": "010e4c84ca9b6017374a59e7c66e131f53484ac909206e4459193c809182fdd1"
+    },
+    {
+      "file": "scripts/fixtures/valid-candidate-bundle/artifacts/metadata.json",
+      "sha256": "218589323cbe80b7ed077e3ee36f1663e7cb5f8f4e4ad02c938ad8a5c2c5a6b9"
+    },
+    {
+      "file": "scripts/fixtures/valid-candidate-bundle/bundle-manifest.json",
+      "sha256": "9eca214242c65b201dead90b7f91d8edadf35a85a7542c6cdd1241a626e8adf6"
+    },
+    {
+      "file": "scripts/fixtures/valid-candidate-bundle/evidence/evidence.json",
+      "sha256": "e3b6879db89c43c982b5ad81dd1848290c262129e4b74ab5359e894b1d2c4003"
+    },
+    {
+      "file": "scripts/fixtures/valid-candidate-bundle/provenance/revision.json",
+      "sha256": "7a84721a593b787d54a8659621964fee4062c5a2fdf859c999304e3f2e5e17ca"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v2-candidate-bundle/COVER.svg",
+      "sha256": "09346b5a1559076ce4d75a6b2485336f39be98cfee55048f09ca6851c49f4e76"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v2-candidate-bundle/README.md",
+      "sha256": "735d67a35ba31b294db8ba8a8e838ed1d9c406ed6bfac9a4b9c139c29f0e2962"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v2-candidate-bundle/WARNING.txt",
+      "sha256": "010e4c84ca9b6017374a59e7c66e131f53484ac909206e4459193c809182fdd1"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v2-candidate-bundle/artifacts/metadata.json",
+      "sha256": "218589323cbe80b7ed077e3ee36f1663e7cb5f8f4e4ad02c938ad8a5c2c5a6b9"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v2-candidate-bundle/bundle-manifest.json",
+      "sha256": "c2c7c2bd001d6bcb3d6278288caf18cfb7e1145749412805b888dcb4ff215ad7"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v2-candidate-bundle/evidence/evidence.json",
+      "sha256": "e3b6879db89c43c982b5ad81dd1848290c262129e4b74ab5359e894b1d2c4003"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v2-candidate-bundle/provenance/revision.json",
+      "sha256": "7a84721a593b787d54a8659621964fee4062c5a2fdf859c999304e3f2e5e17ca"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v3-candidate-bundle/COVER.svg",
+      "sha256": "09346b5a1559076ce4d75a6b2485336f39be98cfee55048f09ca6851c49f4e76"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v3-candidate-bundle/README.md",
+      "sha256": "735d67a35ba31b294db8ba8a8e838ed1d9c406ed6bfac9a4b9c139c29f0e2962"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v3-candidate-bundle/WARNING.txt",
+      "sha256": "010e4c84ca9b6017374a59e7c66e131f53484ac909206e4459193c809182fdd1"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v3-candidate-bundle/artifacts/metadata.json",
+      "sha256": "218589323cbe80b7ed077e3ee36f1663e7cb5f8f4e4ad02c938ad8a5c2c5a6b9"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v3-candidate-bundle/bundle-manifest.json",
+      "sha256": "9eca214242c65b201dead90b7f91d8edadf35a85a7542c6cdd1241a626e8adf6"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v3-candidate-bundle/evidence/evidence.json",
+      "sha256": "e3b6879db89c43c982b5ad81dd1848290c262129e4b74ab5359e894b1d2c4003"
+    },
+    {
+      "file": "scripts/fixtures/valid-legacy-v3-candidate-bundle/provenance/revision.json",
+      "sha256": "7a84721a593b787d54a8659621964fee4062c5a2fdf859c999304e3f2e5e17ca"
+    },
+    {
+      "file": "scripts/import-toolbox-runtime-source.ts",
+      "sha256": "bdbc846dffd8c81260e6c0c3d5ce4d19fa5551824e707a1aff6c5af70b9c0057"
+    },
+    {
+      "file": "scripts/inventory-and-clean-kicad-runtime-pycache.ps1",
+      "sha256": "05549a65e564e38391f69e7ccf59d9472178f84cc9556c907f085d5f39b0149a"
+    },
+    {
+      "file": "scripts/kicad-plane-contacts.py",
+      "sha256": "2683a436daf6db0ce585ce4959d07eb83472765630165876e79378675643b568"
+    },
+    {
+      "file": "scripts/package-deep-rule-resources.mjs",
+      "sha256": "8fb56689f1b89414a6269497c9ecc3cb19f1c0a5b9bdb4d520e2c240996e9fd7"
+    },
+    {
+      "file": "scripts/package-native-schematic-style-seed.mjs",
+      "sha256": "0ca5905c53e6c740f379da007cbdc31bb64a7762cf453f51a96fb8efe62d9c7d"
+    },
+    {
+      "file": "scripts/package-toolbox-native-helper.mjs",
+      "sha256": "acfbc0aa36a8edb0b6fa112b00377a82b8adb50104d84a0e9e8759c9752d45ae"
+    },
+    {
+      "file": "scripts/recover-saved-plane-candidate.ts",
+      "sha256": "c8eb28a1b316d4d756f110e966efbf91c422d04beb9317ab9d57037e56c3d51c"
+    },
+    {
+      "file": "scripts/recover-toolbox-project.ts",
+      "sha256": "7e414af580a34f4ffc0da52dd742c0b10ca9f0fac07d678ca026e2dcf49ae05f"
+    },
+    {
+      "file": "scripts/recover-unchanged-plane-session.ts",
+      "sha256": "6fcf71c3b3d271c2af350efd6745fba561bf5e55711f9f02ae60ab08028607fc"
+    },
+    {
+      "file": "scripts/setup-destination-runtime.mjs",
+      "sha256": "e2f2602a4822e4e951bbd2bd9d818ec109b8a083b59d894d73b5e55099b7ef4f"
+    },
+    {
+      "file": "scripts/smoke-toolbox-calculator.ts",
+      "sha256": "58b91631ba9f39bfaeac7d1722cd7dfa2086f6956426aaa30eca046185eda902"
+    },
+    {
+      "file": "scripts/smoke-toolbox-fresh.ts",
+      "sha256": "3372cd00e49865a30a7030a447929379a00e328b07e318c97baba6ad09c381ae"
+    },
+    {
+      "file": "scripts/smoke-toolbox-interface-fixture.ts",
+      "sha256": "26d4a873845b92ffd98fd48dd5412260268ccc0ee55297a216ed59e2b1ab4379"
+    },
+    {
+      "file": "scripts/smoke-toolbox-interface.ts",
+      "sha256": "543b895354a6a7dd9eb5d29ec7cee000c609dd13258446a69da3f5403ab9573c"
+    },
+    {
+      "file": "scripts/smoke-toolbox-native.ts",
+      "sha256": "4acf3d0d18cf8db794eef5fcdaf3100c3fc613c4e64429eb93768af674722df3"
+    },
+    {
+      "file": "scripts/smoke-toolbox-plane-apply.ts",
+      "sha256": "07e6760462599a464df384e797ee012276a5990d5a93373223effa59f484e5f7"
+    },
+    {
+      "file": "scripts/smoke-toolbox-plane-complete.ts",
+      "sha256": "b10cb56b57ec7e6c858c8becb7ef0158e31ccafb1dc9b1c6e009126a77743e87"
+    },
+    {
+      "file": "scripts/smoke-toolbox-plane-resume.ts",
+      "sha256": "2efc39a005eca70b1e761a0bb3fff890af1bfb6333b2379f3af08cbae5d649ad"
+    },
+    {
+      "file": "scripts/smoke-toolbox-plane.ts",
+      "sha256": "4e7b1992f7b6e193258bc66fd1368b76d08019a2d23f6dfab193e3d5107d6955"
+    },
+    {
+      "file": "scripts/smoke-toolbox-reference-coverage.ts",
+      "sha256": "5fa4359f658609651d280ac818b333d54b75a6ddf6a4b64b32be93906ff8dd9d"
+    },
+    {
+      "file": "scripts/smoke-toolbox-resume-layout.ts",
+      "sha256": "bb06a2f886381a28735420fd95431cb9794d40444f62eba8d448d5423f79e821"
+    },
+    {
+      "file": "scripts/smoke-toolbox-stdio.ts",
+      "sha256": "ac09df3a9bc74e8adda1e71b24eaca1fde1742e206c3eebbcf19a7c667b5b2aa"
+    },
+    {
+      "file": "scripts/smoke-toolbox-stock-catalog.ts",
+      "sha256": "5f063ff2dea262665c804e6167d16aa53a300003b2103ef3c754fdc7fd41a51c"
+    },
+    {
+      "file": "scripts/smoke-toolbox-workspace.ts",
+      "sha256": "ff92ca96450e629578156c505d943c3f8aaad2d6e8f3f89667684646c3f9fee1"
+    },
+    {
+      "file": "scripts/test-bundle-verifier.mjs",
+      "sha256": "ef0fcbdf15ccbd78eb5f6c63ef21082f40275ab1f009bef9dfcfab0929c2e2db"
+    },
+    {
+      "file": "scripts/test-deep-rule-package.mjs",
+      "sha256": "aa2756fc99c52e580325050a8e6d86963b593c3e987a65532fc0321a54067c22"
+    },
+    {
+      "file": "scripts/test-deep-rule-resource-verifier.mjs",
+      "sha256": "58054452cad1a8a9049fa78396209556299f33dea315bf5bf8de5d2bbf68c7da"
+    },
+    {
+      "file": "scripts/test-docs-verifier.mjs",
+      "sha256": "bce06347bbcdf8c060b1fe4f0719da75e1d90409a3b6e8ddf5283ad0f2368979"
+    },
+    {
+      "file": "scripts/test-exported-bundle.ts",
+      "sha256": "47f191f7c75fcdeaff4f5677a16c8a6cb46d0178bf68b3d0ac4052aaf73ac875"
+    },
+    {
+      "file": "scripts/test-native-schematic-style-package.mjs",
+      "sha256": "733ee6e66a07d507b6919b8d06432311a70149e63fb2e46253d824b332d800ce"
+    },
+    {
+      "file": "scripts/test-toolbox-native-helper-package.mjs",
+      "sha256": "a5ca313e63f8767a9c8502115a1ce1dd0eeafa2592791cdf8dcb2879ff500d61"
+    },
+    {
+      "file": "scripts/toolbox-workspace-client.ts",
+      "sha256": "2bb61889735422e63fe5723d0698f7a82c1d573adb4ff7593bca1f292d02749b"
+    },
+    {
+      "file": "scripts/verify-bundle.d.mts",
+      "sha256": "1128a70157f5e27bf7a47b7ee5705f210ace24ef6771ffc714e7baf9d9d93a4f"
+    },
+    {
+      "file": "scripts/verify-bundle.mjs",
+      "sha256": "475aff79b69898a6803258febd7b3beb122d717a5794c815e19ac2f5cb09fa78"
+    },
+    {
+      "file": "scripts/verify-codex-cli-profile-evidence.mjs",
+      "sha256": "4ffb684f102f0a76742d79a6e159382f05dbbb5d98bcd1dd92b24f2f785e29fe"
+    },
+    {
+      "file": "scripts/verify-deep-rule-resources.mjs",
+      "sha256": "6abf3bca6858ace6cfbfe55df376d752122134a2cfb43791ad9d6e40c75aba96"
+    },
+    {
+      "file": "scripts/verify-destination-profile.mjs",
+      "sha256": "d7b520e51f34186984c6226c1a49715d8599fb8ee083c17a6eb104cf01db9554"
+    },
+    {
+      "file": "scripts/verify-docs.mjs",
+      "sha256": "0a41771e41a428ff969d31eb9dfe004c0a4e7c37082cc1a5b9e680083cb4bcb4"
+    },
+    {
+      "file": "scripts/verify-kicad-inspection-runtime.d.mts",
+      "sha256": "556054c092f8d5382373a070da53e88feef49786bfbf1583d097dff2e7751c2f"
+    },
+    {
+      "file": "scripts/verify-kicad-inspection-runtime.mjs",
+      "sha256": "d570338c5f8e3421408a92385f2524c2129e543723114df91705dfdae6f5dda3"
+    },
+    {
+      "file": "scripts/verify-native-schematic-style-seed.mjs",
+      "sha256": "8c3d6c598d791e7ad66f83528ebf96014ada095e68baeaa63f28b92396e01bef"
+    },
+    {
+      "file": "scripts/verify-no-source-adjacent-emits.mjs",
+      "sha256": "84870fae7658bd203a73b721b5f4ffcb6bfb38ac58c5111c409aadea5e63b3ce"
+    },
+    {
+      "file": "sidecars/doc1-runtime.md",
+      "sha256": "7e1f62037efb7864b5f63276990144f05af6e5adc3f8b7613b32a873212aa15e"
+    },
+    {
+      "file": "sidecars/doc10-runtime.md",
+      "sha256": "859760a4f7b167c54d348b685827994b2b3d811739503f81973fd5d3b851283f"
+    },
+    {
+      "file": "sidecars/doc2-runtime.md",
+      "sha256": "878fd0187cd63dc5e28681c7790f9d39ddf6600f2a797bccfcba1577cb2268d0"
+    },
+    {
+      "file": "sidecars/doc3-runtime.md",
+      "sha256": "9f810a88c69cb49a6a0bba65225a4615b2e81601fcdc5da02caa1becba46234a"
+    },
+    {
+      "file": "sidecars/doc4-runtime.md",
+      "sha256": "e7d84ad58c84da71ee28376c097c5ca992114037cb5cfc1dbc7f8271c660c522"
+    },
+    {
+      "file": "sidecars/doc5-runtime.md",
+      "sha256": "d40e927ab37265ff838555a0ca7c28e78a7f03bee48dd422d25086561f8370b5"
+    },
+    {
+      "file": "sidecars/doc7-runtime.md",
+      "sha256": "79c7a85d333d3e361438ec4084674652d0d33cbda65c46cd9b8a40c10a07faae"
+    },
+    {
+      "file": "sidecars/doc8-runtime.md",
+      "sha256": "f9a1c0ede9c757debc3627d23c656c6c6a01c7054da9bd5800fba563c66630a6"
+    },
+    {
+      "file": "sidecars/doc9-runtime.md",
+      "sha256": "e8a0cc834e44a17ad80a6c6ba0c41ad36258cf23886af2e9a374bfa053682724"
+    },
+    {
+      "file": "sidecars/evleda_live_pcb_document.py",
+      "sha256": "c824eac600fef0b21166d77c991397006a90415adff42df4b5c8b5e171bf8db4"
+    },
+    {
+      "file": "sidecars/kicad-inspection-launcher-doc1.py",
+      "sha256": "6e14445317f1e4b6eed1df1f908437b9469fa6218861bc3a098d5c3582adcfed"
+    },
+    {
+      "file": "sidecars/kicad-inspection-launcher-doc3.py",
+      "sha256": "c6ade030dbea21dd089f3346d334291cf851368ff23fd5557c3a0b755311cdfd"
+    },
+    {
+      "file": "sidecars/kicad-inspection-launcher-doc4.py",
+      "sha256": "a4ebc41a5df81813f358c287958dc03e348415a24c5e0ed306af01e32f26c5a4"
+    },
+    {
+      "file": "sidecars/kicad-inspection-launcher.py",
+      "sha256": "29677377f6fde1cc398302ce33553b8c3144c9f240a5981719cf57be2653868f"
+    },
+    {
+      "file": "sidecars/kicad-inspection-runtime-manifest-doc1.json",
+      "sha256": "d1004ff51b8d7001f220409f39a008439c3b2da65abc37e312c3d3a589fbaa0a"
+    },
+    {
+      "file": "sidecars/kicad-inspection-runtime-manifest-doc2.json",
+      "sha256": "3dd83cd7b2b6ba0d2c0cb92261275ac030e582ddaed6a208d2c7d198b280af2e"
+    },
+    {
+      "file": "sidecars/kicad-inspection-runtime-manifest-doc3.json",
+      "sha256": "5c6efc6d0e29711832b39f85c5ce0c5c0b31f241553a90c42fe5060583bfdd43"
+    },
+    {
+      "file": "sidecars/kicad-inspection-runtime-manifest-doc4.json",
+      "sha256": "3df2b22edf901789c9e745f842faaa3cac892a80da0fe2f20582834845e65fef"
+    },
+    {
+      "file": "sidecars/kicad-inspection-runtime-manifest-doc5.json",
+      "sha256": "9912ec88f42d4a4fe57692eb95b1653c8b8fbb3df391688a4647b8d56efa8425"
+    },
+    {
+      "file": "sidecars/kicad-inspection-runtime-manifest.json",
+      "sha256": "12e6c17842da2e3801f6f5f8457343447298e748507f3b5d529bf8857dc858e8"
+    },
+    {
+      "file": "sidecars/kicad-mcp-pro.lock.json",
+      "sha256": "9c1224beafe7a33a0027580f5c83523ff4e4c0e47edb5cbde77151aef38400b8"
+    },
+    {
+      "file": "sidecars/patches/0001-explicit-junction-connectivity.patch",
+      "sha256": "f5000ee14392f2fe16582e9524e5dad1ef8eb39b76a120a7eddd9bca32310f28"
+    },
+    {
+      "file": "sidecars/patches/0002-schematic-field-layout-revision3.patch",
+      "sha256": "719de8711ab277bb75e2cdbcae302d4b9ac74ef48ab6f18a4fc911b374fde52a"
+    },
+    {
+      "file": "sidecars/patches/0002-schematic-field-layout-revision3.provenance.json",
+      "sha256": "452526bce336d636446896e8ee0b92033fb418a1a34550d8a7216c4082a4b2fe"
+    },
+    {
+      "file": "sidecars/patches/README.md",
+      "sha256": "9506105301a06fe262d0e6bcb3b939cd652eafdccd890a0dafda64f552e37c30"
+    },
+    {
+      "file": "sidecars/patches/doc10/README.md",
+      "sha256": "407e1d9dce52dfbe6711e9c0864ac3df29628ef615b308e525cf78daae21472d"
+    },
+    {
+      "file": "sidecars/patches/doc10/kicad_mcp/models/visual_qa.py",
+      "sha256": "38090b29e1b5ccc7302c72e82f9960e4c163fc4f9b9be2eaa120abf748354cf7"
+    },
+    {
+      "file": "sidecars/patches/doc10/kicad_mcp/tools/schematic.py",
+      "sha256": "8b0d3707777314fdcc5aff3e47f9e9343a89cbf13171c99b8490f1ae8beb24a1"
+    },
+    {
+      "file": "sidecars/patches/doc10/profile-admission-02/profile-admission.json",
+      "sha256": "3273370050019aef03d37e6d33e9a6ed2f9f3834153c819266c8e72d738589dd"
+    },
+    {
+      "file": "sidecars/patches/doc10/profile-admission-02/provenance.json",
+      "sha256": "e0e6906e4d4aba182b2f513f598a353b7e703750d3e5e9ffd638181f763cf3a8"
+    },
+    {
+      "file": "sidecars/patches/doc10/profile-admission-02/qualification-receipt.json",
+      "sha256": "87b10d6a85a6c8dbd8072be608be015b5ef0df92e87a2f911c500f9f1ac6998d"
+    },
+    {
+      "file": "sidecars/patches/doc10/profile-admission-02/qualification-report.json",
+      "sha256": "5c333161933082327b0ea62ec0a46f5b26374b7751086170d9857056870b78af"
+    },
+    {
+      "file": "sidecars/patches/doc10/provenance.json",
+      "sha256": "01a9f1887849a58605643fc8391793cb7554ce7491189f48731ed8ddb3583c27"
+    },
+    {
+      "file": "sidecars/patches/doc10/qualification-receipt.json",
+      "sha256": "f13c753aa20aa19f411f67f0ab23563ba085a41028878d5c7bbd00eace7a5b42"
+    },
+    {
+      "file": "sidecars/patches/doc10/qualification-report.json",
+      "sha256": "baff5dcd0e29a95f71409cca152d459a6fea05f0a76578a6f59a22d1e9c4cc05"
+    },
+    {
+      "file": "sidecars/patches/doc10/schematic-cardinal.patch",
+      "sha256": "f2a4c28b88c9d1dc5d4197908d0f08e1e81e2d57ffe1e82f430578b5ed241290"
+    },
+    {
+      "file": "sidecars/patches/doc11/README.md",
+      "sha256": "be73d2cc51c7d2c91b1a439d8db728e9f78947d009d0110388f5d8f789fc530d"
+    },
+    {
+      "file": "sidecars/patches/doc11/capture_sync_descriptor.py",
+      "sha256": "bc662d54299462edf6433e979f68bc17711bab4ab047946722bc786b807bd5aa"
+    },
+    {
+      "file": "sidecars/patches/doc11/descriptor-capture.json",
+      "sha256": "6fa3e1569d199f82d7aedcd4a4bfdb8cf230136dc9297f5ba9acad4b3850131a"
+    },
+    {
+      "file": "sidecars/patches/doc11/kicad_mcp/tools/pcb.py",
+      "sha256": "f5526ff03f2ca1cda4a155758071c7de98249538b9328b8a5bfe5b1b78b7ecc3"
+    },
+    {
+      "file": "sidecars/patches/doc11/kicad_mcp/utils/footprint_pose.py",
+      "sha256": "bd325a508d32f185f2c6cf4275beb40018c461c997f92f141a8df9515283c9b1"
+    },
+    {
+      "file": "sidecars/patches/doc11/native_pose_oracle.py",
+      "sha256": "f56b22beee1882991d4c162d4bff6a7e92b4f26f4531f572a0725e3a3d043f21"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/Fixture.pretty/CardinalLocalAngles.kicad_mod",
+      "sha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-0.kicad_pcb",
+      "sha256": "516a817223e72597b4d2ca8e750146ea1e1a625dd77405581bcf8e4f0c74b9a2"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-0.kicad_prl",
+      "sha256": "05529931634fcb580e314cc4514ec9f3b81c498286dd37c5525fc332e946fc41"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-0.kicad_pro",
+      "sha256": "c3ba244bd77a7e3719cbdd3afc7076dd4681cef4a495d14ffa39d8798c3a7812"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-180.kicad_pcb",
+      "sha256": "903c9ce2ff75ef157c6fa1c327b2bea39ddf50c8fe365068b55172d780ab9611"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-180.kicad_prl",
+      "sha256": "5dc1b7e3dfa74b5acc8c800b6c104130a31a2c7e01a4603494cb7cc84162ea5f"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-180.kicad_pro",
+      "sha256": "240b7ba5fca27703f940438f6c1c6842ed9b3539f066e6c4ea83a13eb8333cec"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-270.kicad_pcb",
+      "sha256": "bb16a3ee002818de3d0737d78c388956da917efaa6bd9926149fec1f97b5ca7d"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-270.kicad_prl",
+      "sha256": "edc3e5dce1dd8c12b36a77d4613c8369829b41b6750c698101990f187dd0bca0"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-270.kicad_pro",
+      "sha256": "11d598dedf85871e10a467be38d2c1af46781dfbae94f58a35d72f23ab7aca7d"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-90.kicad_pcb",
+      "sha256": "d8ceb56fdd8292b756bde5937acf8a1a9f2695f4f30a9febf78cd01af1f28837"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-90.kicad_prl",
+      "sha256": "26dcd0dcafa0e4dede39e4a03b3d2b39aa443fce10f76819992736436c027f45"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/capacitor-90.kicad_pro",
+      "sha256": "0921cfcdfa0fdc3daea3bc9caf3a14c76a891de9c3a2a3b351b4f111813888ed"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-0.kicad_pcb",
+      "sha256": "cecd43bcd09bc4a715e81dc403adb71d0985b9d231c8c5fc7a7314ee3ccd0d82"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-0.kicad_prl",
+      "sha256": "4edd922fc77e626b1e64b83497be90be21ca2566e6c18a20ad0b271cdf897ee4"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-0.kicad_pro",
+      "sha256": "46bc2f2e4fdfb19ea096f396e2d72deaae0155e7f1ec59346ad961fa8c7b5db8"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-180.kicad_pcb",
+      "sha256": "bdb9ab31138c427eb38674f086b813c9a13c0a737b55afbfe3f98b16b3ada1c1"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-180.kicad_prl",
+      "sha256": "4accf21fa28944feb0a1ff1ba34e6afb03f96da7cde0b91af138c2a18e597949"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-180.kicad_pro",
+      "sha256": "7b2429a38183a40c6be7099d86df520cda6b23565d8b0df4b9e7efa79be7fb87"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-270.kicad_pcb",
+      "sha256": "b10217d4433bb38064e01e9bf7270dc12e1da0f87e42b253072f99a159a2d7d1"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-270.kicad_prl",
+      "sha256": "87d70a1db3c7973dd309020c6a6082fb1de13c6897ece6f6fdd8c81375ca2679"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-270.kicad_pro",
+      "sha256": "5c082328a85111f0285af937a7ef6178068ffc07cb8264703d1bc5037b810f25"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-90.kicad_pcb",
+      "sha256": "d6c50fe27d26dae3b2531acb6ded983b52c4a2fb1ee970b61a45074696b907f9"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-90.kicad_prl",
+      "sha256": "2f40ceaee7bd88f6f2605324d7c4ae6a202347d15926fc0e99f3b82c90129c0b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/local-90.kicad_pro",
+      "sha256": "079daa74210148f2b0f9b07f55dc557eccf527ff132fc81c9c80f275406888a6"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/manifest.json",
+      "sha256": "089c1f7f2c33691096dce26beb18f197a527d5b58417daf6cc65fec517fe31c9"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-0.kicad_pcb",
+      "sha256": "c66ce1c5800fcc9ea96cabf5998006e10060f4fd2b6c4db128ad46193470fe41"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-0.kicad_prl",
+      "sha256": "18450e3c8683e869dbc7442da6e56d637aa2f2ec67bbeafccc756b5d0ef4aaf0"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-0.kicad_pro",
+      "sha256": "a1ef4576b2569914d755414f2eee47a6ed01249dfa2f4574964c59161c86356d"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-180.kicad_pcb",
+      "sha256": "9c9573db17871e9e1149b3b7b9b20e4b73d49a158554090bc6070948188798bc"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-180.kicad_prl",
+      "sha256": "a663cc0e160754308cfbe3bfaf275f827b8ab8579282db4dff5b391df303dbdd"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-180.kicad_pro",
+      "sha256": "a9567bcbc51e0a6b1678061bb9f2721330e8b2260fe4b9223dde9cd884a1a273"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-270.kicad_pcb",
+      "sha256": "1a69bd5fda7bd254f7c6afd07e53413d546716e7b731c7e20597bef6179cef8a"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-270.kicad_prl",
+      "sha256": "77d9cd05f7cb3d981dfd048826a26460f4196579ae235cd710f00076a0780cfa"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-270.kicad_pro",
+      "sha256": "3dbf4eb91e1cf00e4264cd8c9f61f9a568515ce39ccbd588f532316c485f4038"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-90.kicad_pcb",
+      "sha256": "9427768b8b413ae27af000d5ef38e3b84bd8bc0b494e6cdc6f36f95a913448ed"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-90.kicad_prl",
+      "sha256": "9e2570721b0d2e9077be88bcc9ca08a3f14840c14b73659ceac9a11b3ee58163"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/qfn-90.kicad_pro",
+      "sha256": "bcad8083a91b7807739f11dfffe4e7490136ce8ca12001a812f262133fb12c2f"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-0.kicad_pcb",
+      "sha256": "32b825c15d329f5e5e270900084cd024b8b0317af69073c24619a70caec4e776"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-0.kicad_prl",
+      "sha256": "069e43513ac87dda3a10596c8c1515f1213f9c5b85bb28bf71b2e390aaf3efdc"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-0.kicad_pro",
+      "sha256": "7dc06dadd4795086b08557698f0fcd090e9663b9b153235966863bb796c87ab0"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-180.kicad_pcb",
+      "sha256": "c7f0537fca2317ad187c820754cc102ddf88cb1377885c4afd4b96c869512cb4"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-180.kicad_prl",
+      "sha256": "6756a88dd37273acb3b70fe1fb3984aa95778fe856c6cc939ec240131d64b6a3"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-180.kicad_pro",
+      "sha256": "d9c6eeebec1b2f23bbcfb0f1b81b36e47b9debbc72ac88d4122c8a63a6a5a4df"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-270.kicad_pcb",
+      "sha256": "6daad2b7742e9461fdf0dfdf52f2052ed92b08690f155ac24c9b2e4375cce3df"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-270.kicad_prl",
+      "sha256": "06fe168454a27619999654376b9431cc29106b12cea258ad9e7fd36547ff1a5b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-270.kicad_pro",
+      "sha256": "2328a9101ef306f7b5e2d155142e661a519e48262e0b0d4ccd45b76239f16019"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-90.kicad_pcb",
+      "sha256": "c15ad2753825a95de4b47b169b458b929af6ca68c4a257b2d9f2b558f662b11c"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-90.kicad_prl",
+      "sha256": "071569b41be521efeb64c6d4e6a2007a8d6f9a18a9657cd82491159eca4addef"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/sot523-90.kicad_pro",
+      "sha256": "321f10aa06ff5f55135b83bc456c56539b4d6699cb269779d627017a72409cff"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-0.kicad_pcb",
+      "sha256": "23b1c56232383e910c79242a5deedb312bae3d49db78dc324a41ccfd0af0e0a7"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-0.kicad_prl",
+      "sha256": "315afe9c43d11ccfcbf8caa4ecda8a239b688271dc65eb650032df06f340204b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-0.kicad_pro",
+      "sha256": "18d674655636afdd25dea442a6628a18d55b1c09cc0f676fd661470303214cb4"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-180.kicad_pcb",
+      "sha256": "5f25fb05efebc5a4d09ccd4b14c5c77a9dc7f8f7202166898387ea97a911f1d6"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-180.kicad_prl",
+      "sha256": "29c05d131ca62ea372abceefb7d0cf819eb018c46c94463c6d189e6febcbda50"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-180.kicad_pro",
+      "sha256": "2bc2d7354d8b72d3ddfa1d563e74b0f564fe4d84231ae973f1e3fcd3306930ef"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-270.kicad_pcb",
+      "sha256": "fe0cfec8a6fc68b6b1ca38d954a369fd29306b882e05b39579565ae61e4dbeb7"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-270.kicad_prl",
+      "sha256": "4c5292c0194a239d9dc158644a949ea27ecc22a0b2d751cff6bce455ce97e207"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-270.kicad_pro",
+      "sha256": "a7eba040ca7bc2ce97deb978baf49e51c625fc3bbbdcf5182e7fd69622a4a1d5"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-90.kicad_pcb",
+      "sha256": "fe185b831b1901e94b27f5d12bf293ba56337651a39d496ee4aae6b282223229"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-90.kicad_prl",
+      "sha256": "5f694375ca45e64c97b643882e23de433ec97e7b6d175e6ea2ede3b8b4d776bd"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle-final/usb-90.kicad_pro",
+      "sha256": "7796d460f0a9929a1750df5ef97fc9b6a55d2179c64e09a65a0dc1cf2cc7510b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/Fixture.pretty/CardinalLocalAngles.kicad_mod",
+      "sha256": "5665bebe54a10c399a9f68d2ad9c28ee52d9309732bed1332e6f059875b261db"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-0.kicad_pcb",
+      "sha256": "df0e7d86e8edceae9687359d851f8d76cfa3be6331e51fc3400856b45b8acf86"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-0.kicad_prl",
+      "sha256": "05529931634fcb580e314cc4514ec9f3b81c498286dd37c5525fc332e946fc41"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-0.kicad_pro",
+      "sha256": "c3ba244bd77a7e3719cbdd3afc7076dd4681cef4a495d14ffa39d8798c3a7812"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-180.kicad_pcb",
+      "sha256": "c94ebe9fb30661e018331b13c1dad59e99bd5e91188b5bf3242105befc59b683"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-180.kicad_prl",
+      "sha256": "5dc1b7e3dfa74b5acc8c800b6c104130a31a2c7e01a4603494cb7cc84162ea5f"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-180.kicad_pro",
+      "sha256": "240b7ba5fca27703f940438f6c1c6842ed9b3539f066e6c4ea83a13eb8333cec"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-270.kicad_pcb",
+      "sha256": "9c6a8c21d3bd9c90465040355fa86339e59954cb5f55a812cbc7f3610d9171fb"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-270.kicad_prl",
+      "sha256": "edc3e5dce1dd8c12b36a77d4613c8369829b41b6750c698101990f187dd0bca0"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-270.kicad_pro",
+      "sha256": "11d598dedf85871e10a467be38d2c1af46781dfbae94f58a35d72f23ab7aca7d"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-90.kicad_pcb",
+      "sha256": "54a04b725577ae85367b86813afae4c560f47812ba944d6bc6e82a491059f900"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-90.kicad_prl",
+      "sha256": "26dcd0dcafa0e4dede39e4a03b3d2b39aa443fce10f76819992736436c027f45"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/capacitor-90.kicad_pro",
+      "sha256": "0921cfcdfa0fdc3daea3bc9caf3a14c76a891de9c3a2a3b351b4f111813888ed"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-0.kicad_pcb",
+      "sha256": "dfdca4e0a8d00aaab238c8f862bffc319653aab8b41acffa9cfd12e679ee4da3"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-0.kicad_prl",
+      "sha256": "4edd922fc77e626b1e64b83497be90be21ca2566e6c18a20ad0b271cdf897ee4"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-0.kicad_pro",
+      "sha256": "46bc2f2e4fdfb19ea096f396e2d72deaae0155e7f1ec59346ad961fa8c7b5db8"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-180.kicad_pcb",
+      "sha256": "50503dd5bf689de27407cc2684d81df87d660f8a50d1cc71b3aae3adbce8b82c"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-180.kicad_prl",
+      "sha256": "4accf21fa28944feb0a1ff1ba34e6afb03f96da7cde0b91af138c2a18e597949"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-180.kicad_pro",
+      "sha256": "7b2429a38183a40c6be7099d86df520cda6b23565d8b0df4b9e7efa79be7fb87"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-270.kicad_pcb",
+      "sha256": "d03f0a192cbe74426c9aafcb76fe6b221b59b91d9518e898d98b879a4d9d602d"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-270.kicad_prl",
+      "sha256": "87d70a1db3c7973dd309020c6a6082fb1de13c6897ece6f6fdd8c81375ca2679"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-270.kicad_pro",
+      "sha256": "5c082328a85111f0285af937a7ef6178068ffc07cb8264703d1bc5037b810f25"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-90.kicad_pcb",
+      "sha256": "80790f18ed17fd90b3d087e3a478fb811176fa4f93ac5cbdf17597c333e44de9"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-90.kicad_prl",
+      "sha256": "2f40ceaee7bd88f6f2605324d7c4ae6a202347d15926fc0e99f3b82c90129c0b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/local-90.kicad_pro",
+      "sha256": "079daa74210148f2b0f9b07f55dc557eccf527ff132fc81c9c80f275406888a6"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/manifest.json",
+      "sha256": "a6305b47c0565212615d93f52a8e6eb60c4bc1ccd474cf908f829c516a49a8ae"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-0.kicad_pcb",
+      "sha256": "aa5c7f25394c7aa60f7b556af823052e638a3800750340eb5bc8d0372e72cf95"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-0.kicad_prl",
+      "sha256": "18450e3c8683e869dbc7442da6e56d637aa2f2ec67bbeafccc756b5d0ef4aaf0"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-0.kicad_pro",
+      "sha256": "a1ef4576b2569914d755414f2eee47a6ed01249dfa2f4574964c59161c86356d"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-180.kicad_pcb",
+      "sha256": "ed7a649a3195f3cf6e02cb217deb4722d8b7564038d30b163a5c3d3e52279c30"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-180.kicad_prl",
+      "sha256": "a663cc0e160754308cfbe3bfaf275f827b8ab8579282db4dff5b391df303dbdd"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-180.kicad_pro",
+      "sha256": "a9567bcbc51e0a6b1678061bb9f2721330e8b2260fe4b9223dde9cd884a1a273"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-270.kicad_pcb",
+      "sha256": "6c4f37beaabc44140a2a1b9721a7fc9ee70c373047910cdd29e0961880d68a8d"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-270.kicad_prl",
+      "sha256": "77d9cd05f7cb3d981dfd048826a26460f4196579ae235cd710f00076a0780cfa"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-270.kicad_pro",
+      "sha256": "3dbf4eb91e1cf00e4264cd8c9f61f9a568515ce39ccbd588f532316c485f4038"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-90.kicad_pcb",
+      "sha256": "344ee51a874fa4bca9db7efe7694f7e67f78d6adfda43da996f210810ad5e233"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-90.kicad_prl",
+      "sha256": "9e2570721b0d2e9077be88bcc9ca08a3f14840c14b73659ceac9a11b3ee58163"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/qfn-90.kicad_pro",
+      "sha256": "bcad8083a91b7807739f11dfffe4e7490136ce8ca12001a812f262133fb12c2f"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-0.kicad_pcb",
+      "sha256": "cd926974083a5246a492df156c5571630e58ff6274e64910605de17199b8ab1b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-0.kicad_prl",
+      "sha256": "069e43513ac87dda3a10596c8c1515f1213f9c5b85bb28bf71b2e390aaf3efdc"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-0.kicad_pro",
+      "sha256": "7dc06dadd4795086b08557698f0fcd090e9663b9b153235966863bb796c87ab0"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-180.kicad_pcb",
+      "sha256": "d4b69faad43f0ca925e55d913790f6bd85d0f3aba3bb1c4e13a59da203c033f1"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-180.kicad_prl",
+      "sha256": "6756a88dd37273acb3b70fe1fb3984aa95778fe856c6cc939ec240131d64b6a3"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-180.kicad_pro",
+      "sha256": "d9c6eeebec1b2f23bbcfb0f1b81b36e47b9debbc72ac88d4122c8a63a6a5a4df"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-270.kicad_pcb",
+      "sha256": "fb0a48be4a0178b63d9a158fcffa36304dcd715abe7a75157c69c403bafb29db"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-270.kicad_prl",
+      "sha256": "06fe168454a27619999654376b9431cc29106b12cea258ad9e7fd36547ff1a5b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-270.kicad_pro",
+      "sha256": "2328a9101ef306f7b5e2d155142e661a519e48262e0b0d4ccd45b76239f16019"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-90.kicad_pcb",
+      "sha256": "954a5e33cd9727aea9700e7ba96a8c03b0388d95cc2a4824bb5fa4ec6a941a88"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-90.kicad_prl",
+      "sha256": "071569b41be521efeb64c6d4e6a2007a8d6f9a18a9657cd82491159eca4addef"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/sot523-90.kicad_pro",
+      "sha256": "321f10aa06ff5f55135b83bc456c56539b4d6699cb269779d627017a72409cff"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-0.kicad_pcb",
+      "sha256": "a5fe2d4c56f6b29d9134be4e66c851a91b4b715cc6c6882248a0b350a7334f5b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-0.kicad_prl",
+      "sha256": "315afe9c43d11ccfcbf8caa4ecda8a239b688271dc65eb650032df06f340204b"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-0.kicad_pro",
+      "sha256": "18d674655636afdd25dea442a6628a18d55b1c09cc0f676fd661470303214cb4"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-180.kicad_pcb",
+      "sha256": "1b67c8ca605e2047bd9098d2febe7c236572e5049fc113f8d92578cc7c2407c9"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-180.kicad_prl",
+      "sha256": "29c05d131ca62ea372abceefb7d0cf819eb018c46c94463c6d189e6febcbda50"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-180.kicad_pro",
+      "sha256": "2bc2d7354d8b72d3ddfa1d563e74b0f564fe4d84231ae973f1e3fcd3306930ef"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-270.kicad_pcb",
+      "sha256": "724b0741aaa119c3bef542dbd850b2627fdaaa272186f48506e2e017986efea6"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-270.kicad_prl",
+      "sha256": "4c5292c0194a239d9dc158644a949ea27ecc22a0b2d751cff6bce455ce97e207"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-270.kicad_pro",
+      "sha256": "a7eba040ca7bc2ce97deb978baf49e51c625fc3bbbdcf5182e7fd69622a4a1d5"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-90.kicad_pcb",
+      "sha256": "e17e83bd5f3922319408a50d1e59822514877afb29dcf54ff371b117629076ec"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-90.kicad_prl",
+      "sha256": "5f694375ca45e64c97b643882e23de433ec97e7b6d175e6ea2ede3b8b4d776bd"
+    },
+    {
+      "file": "sidecars/patches/doc11/oracle/usb-90.kicad_pro",
+      "sha256": "7796d460f0a9929a1750df5ef97fc9b6a55d2179c64e09a65a0dc1cf2cc7510b"
+    },
+    {
+      "file": "sidecars/patches/doc11/provenance.json",
+      "sha256": "a7fdc3b43879524d958ce90b71037856cdd36fd7754dfbbdc4e381a6916de1c8"
+    },
+    {
+      "file": "sidecars/patches/doc11/registered-descriptor-final.json",
+      "sha256": "a045f102a5e801ec52fe016d41983eee61a6520e8de341e00c0d3267f4b43a73"
+    },
+    {
+      "file": "sidecars/patches/doc11/registered-descriptor.json",
+      "sha256": "a045f102a5e801ec52fe016d41983eee61a6520e8de341e00c0d3267f4b43a73"
+    },
+    {
+      "file": "sidecars/patches/doc11/registered-production-descriptor.json",
+      "sha256": "0aca03fa98d3692a990703cd3562b97799c753c547aac37ee37b7f9227606238"
+    },
+    {
+      "file": "sidecars/patches/doc11/replay_current_templates.py",
+      "sha256": "8d90d2d346cc0395cb1f6576e56a467816826592f8c95da09eb381abe967e01b"
+    },
+    {
+      "file": "sidecars/patches/doc11/sync-footprint-pose.patch",
+      "sha256": "ddeed4c93b1d71ffa1bb167ff717490fd5c9ac100baea6378ee2eebf70291018"
+    },
+    {
+      "file": "sidecars/patches/doc11/template-replay-final.json",
+      "sha256": "92a28597da82875eb62f1c6c717e84520cbdcbb6104b831233fc0b9c86a07cca"
+    },
+    {
+      "file": "sidecars/patches/doc11/template-replay.json",
+      "sha256": "92a28597da82875eb62f1c6c717e84520cbdcbb6104b831233fc0b9c86a07cca"
+    },
+    {
+      "file": "sidecars/patches/doc11/test_sync_footprint_pose.py",
+      "sha256": "90c09731d63f75ca278357192bed052dc0e7e4deadb94a6e8723b20623e889a1"
+    },
+    {
+      "file": "sidecars/patches/doc12/README.md",
+      "sha256": "704fe8784c711575b65bab2b3c4ff194890b20b6f3caacdd2abcbd6c500ff5d5"
+    },
+    {
+      "file": "sidecars/patches/doc12/evleda_live_pcb_pad_snapshot.py",
+      "sha256": "80abe9675ff5cd81d9fb15ff18b05e7be3fa433a12bfcf9eb3445ccdb7f1f754"
+    },
+    {
+      "file": "sidecars/patches/doc12/test_pad_snapshot_envelope.py",
+      "sha256": "07ed12ccb65111376565f57af0d47b19af5d263732de954143eb9b2a3c3313b5"
+    },
+    {
+      "file": "sidecars/patches/doc13/README.md",
+      "sha256": "deb50f94bb16f046ae1dc3e69384b6f67cbc7461074bbf25b309ca219b112aa4"
+    },
+    {
+      "file": "sidecars/patches/doc13/evleda_plane_stage/__init__.py",
+      "sha256": "6416f48bc2a0a2f3ac5451dee1ba862e4a75cc4ddf0070945b3bf2785c02029d"
+    },
+    {
+      "file": "sidecars/patches/doc13/evleda_plane_stage/compact_receipt.py",
+      "sha256": "e177997c04be2724d39bcd260f80c5a9d375459651a6987426943a9dc4bc24ca"
+    },
+    {
+      "file": "sidecars/patches/doc13/evleda_plane_stage/plane_stage.py",
+      "sha256": "19cf6b0ef4cdfec71a290084fcd3f3cbda15d0f31c546d25ef925aa50d9640b7"
+    },
+    {
+      "file": "sidecars/patches/doc13/test_compact_receipt.py",
+      "sha256": "71003170773120d2b678f97870a66bd55187d7a1fcc9e597a508e602403a8004"
+    },
+    {
+      "file": "sidecars/patches/doc14/README.md",
+      "sha256": "1d359a4a40c26b7f01fd7e30394196ba396fe9d37cd1782cebfb66d4c45eefb0"
+    },
+    {
+      "file": "sidecars/patches/doc14/evleda_plane_stage/compact_receipt.py",
+      "sha256": "716dd527f827b3b7e0c715d60944cd02693f704878b19f8f1e391b401d1e9d74"
+    },
+    {
+      "file": "sidecars/patches/doc14/test_compact_native_dicts.py",
+      "sha256": "492ca490ca87d7d5d3a1ae712a3fb0157dcf4c58f2dea1cb1e16323f7c9605c3"
+    },
+    {
+      "file": "sidecars/patches/doc15/evleda_plane_stage/typed_zone.py",
+      "sha256": "c31a98f88eb3e447af99b9738524f0f58f04506d8a349dfa55719d852f70b10e"
+    },
+    {
+      "file": "sidecars/patches/doc16/README.md",
+      "sha256": "b4197288c1b2c490193755e72aab6b98d8ae377e07cf328398edd4be198b1a38"
+    },
+    {
+      "file": "sidecars/patches/doc16/evleda_plane_stage/protocol.json",
+      "sha256": "1ad0f84fbcc646a5412513c97500ff7daf936e2d48fac622b5b76b8a44102079"
+    },
+    {
+      "file": "sidecars/patches/doc17/README.md",
+      "sha256": "8970be4b50c21ebe3f1b72ecc137d3848bee69b280b2744f52d98f4a5f42f9c9"
+    },
+    {
+      "file": "sidecars/patches/doc17/evleda_plane_stage/compact_receipt.py",
+      "sha256": "1217cf8a69fcad2c9ee84a857d9faa19f4db25771844dd67ea7645f9c1b185e8"
+    },
+    {
+      "file": "sidecars/patches/doc17/test_compact_budget.py",
+      "sha256": "8a6b93f53c127d039389391b522e5b14f0b9dfff31f8820cc22a640487473852"
+    },
+    {
+      "file": "sidecars/patches/doc3/connectivity-batch-protocol.json",
+      "sha256": "aee9ad59039ee512a13b8d7f3994841e0200eacabfd58bc2b2f2f793a7ede8c9"
+    },
+    {
+      "file": "sidecars/patches/doc3/evleda_live_pcb_pad_snapshot.py",
+      "sha256": "706d682a368449dd8a0423d7c4a4cb56d5458a440e3641caabe4b6251ab917cc"
+    },
+    {
+      "file": "sidecars/patches/doc3/evleda_schematic_connectivity_batch.py",
+      "sha256": "97b1e2accb5b44eefff436c8c5ab8853dc5f9c649bce488cd7d5f29b732dec6b"
+    },
+    {
+      "file": "sidecars/patches/doc3/pad-snapshot-protocol.json",
+      "sha256": "9311639aae4332e12d7cba95eabaca8da314a46bb3ef2ef3e6722ce1b5d9ded9"
+    },
+    {
+      "file": "sidecars/patches/doc3/provenance.json",
+      "sha256": "9d61c3cc96ca187cb1ee43a296e41c9305f87bdff1207f8e0cf09fce087bca7a"
+    },
+    {
+      "file": "sidecars/patches/doc3/runtime-delta.patch",
+      "sha256": "cdccf8b8d7c188717c1bd16ba0c6c3daf4c31da4101a8ba94175b6de7cba9a4d"
+    },
+    {
+      "file": "sidecars/patches/doc4/evleda_plane_stage/__init__.py",
+      "sha256": "64214fb427349f76340bec667783f0a7de59d62d97ef11532f5443d1f6a493a7"
+    },
+    {
+      "file": "sidecars/patches/doc4/evleda_plane_stage/native_ports.py",
+      "sha256": "bea762bddb4b2b2fab967ca3a4cb0757bd85b8a0c7f66ce5d363ae5c499df44c"
+    },
+    {
+      "file": "sidecars/patches/doc4/evleda_plane_stage/plane_stage.py",
+      "sha256": "96d14de0befe74b5fe4a26664a3580ab824de82b0cf48a515073ef1f22c699d1"
+    },
+    {
+      "file": "sidecars/patches/doc4/evleda_plane_stage/protocol.json",
+      "sha256": "13cd7bca5fc84a6de2ac368fcccb8eb4b2487325ba0152f55a56b18c5208e364"
+    },
+    {
+      "file": "sidecars/patches/doc4/evleda_plane_stage/typed_zone.py",
+      "sha256": "b63ec04171bdede7749e55b868c70752b8694d6062f88fce2ed443accfe37dae"
+    },
+    {
+      "file": "sidecars/patches/doc4/provenance.json",
+      "sha256": "e56f541182d892c26b17095d92b392e5abb77acc7465b93ac9cd783b48589517"
+    },
+    {
+      "file": "sidecars/patches/doc4/runtime-delta.patch",
+      "sha256": "1014208430e73aa4bc2c4c5352acd374effb33d08c1b19e789a075617837ca87"
+    },
+    {
+      "file": "sidecars/patches/doc5/kicad_mcp/pcb/transaction_lifecycle.py",
+      "sha256": "3043c7def1f13a2c3db00edf7c8f07cb54fe03ab037ebac8a28369d591e57944"
+    },
+    {
+      "file": "sidecars/patches/doc5/kicad_mcp/tools/pcb_transaction_lifecycle.py",
+      "sha256": "3ec85ead543c57045188cf8ce5ebe10da3cfe0a1ab3cc525398ca5e1aef7779f"
+    },
+    {
+      "file": "sidecars/patches/doc5/provenance.json",
+      "sha256": "188fb348db06f88c6723a8e6cbf3f616914b9795477a5798e13509dffe0cd4d1"
+    },
+    {
+      "file": "sidecars/patches/doc5/transaction-lifecycle.patch",
+      "sha256": "5aa35a9173f9423a9fd5f81e7001b8fbf42deb27b227e139b372b6331c9b4948"
+    },
+    {
+      "file": "sidecars/patches/doc6/README.md",
+      "sha256": "4f3adf408d3e7db030da3b9387df5da908823f7c3962d7051f6edc75098b12f5"
+    },
+    {
+      "file": "sidecars/patches/doc6/kicad_mcp/tools/pcb.py",
+      "sha256": "cebed5c9e87abd799c4c6baab9ddb60224c9dface1e0e44b0eea91f56fb6a2e0"
+    },
+    {
+      "file": "sidecars/patches/doc6/provenance.json",
+      "sha256": "fc41d63217b04bcd2bd70bf3b6311abe3970bcc331629ea6c0f5f1983a9f585d"
+    },
+    {
+      "file": "sidecars/patches/doc6/qualified-footprint-identity-sync.patch",
+      "sha256": "7a0a9f2ce1909f4691517c2b9b741b66ae07bb6392a4d33e3f8457fb43562614"
+    },
+    {
+      "file": "sidecars/patches/doc6/test_qualified_footprint_identity.py",
+      "sha256": "588ac7826945dd02581d6e96dc72be39c0af9ec6de4f89da9ee64e1b49c0b74d"
+    },
+    {
+      "file": "sidecars/patches/doc7/README.md",
+      "sha256": "c5f5d86d8644b98089acc612d7cda1414630c688893d3cc7d8ce9d8b05d35b99"
+    },
+    {
+      "file": "sidecars/patches/doc7/build-runtime.mjs",
+      "sha256": "b7109a33a41cca955c044bc44c22c43504ecc093cb4fa7b1f69204daa69762e4"
+    },
+    {
+      "file": "sidecars/patches/doc7/finalize-runtime.mjs",
+      "sha256": "f0249cc69d04b68adc29d132eaba23503a8130d24f466fafde558ace808ad290"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/sources/Connector_Generic--Conn_01x02.sexpr",
+      "sha256": "8496c4bd09767dff40585dfd5219837c668fc729509489c7a8cd96ee93e94290"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/sources/Regulator_Linear--AMS1117CD-1.5.sexpr",
+      "sha256": "a91cd731a4c16715ee1320866a6e5f124a2fb73583b8c4a28c97c0140acaf5cf"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/sources/power--GND.sexpr",
+      "sha256": "d17d06d2c887ec4765ab2e7fb94a27edcfbfc1f77767b111d3a4b0b73c80089c"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/sources/power--PWR_FLAG.sexpr",
+      "sha256": "3989cde733a346f3f81128766c1545a0368afcdfba3eb998b647aaa5df5c0eb5"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/with_flags/netlist.xml",
+      "sha256": "000a05c5949307d20e0f4a558b18cf0d3f95751ce46496dee5d4e46ce7dba147"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/with_flags/power-flag-check.kicad_sch",
+      "sha256": "7651be2c1e4c55775d6df26e6004203dc1b03645ee368bf6708a6d8b3f6e77d7"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/without_flags/netlist.xml",
+      "sha256": "97b56837e696b8ccf57cfd87897f72fd23c08aff3dce78837881062f938c42e9"
+    },
+    {
+      "file": "sidecars/patches/doc7/fixtures/without_flags/power-flag-check.kicad_sch",
+      "sha256": "08403f70624cc0650065a63dc8a7fb8ab57f361b65e59f73d883d4e652c70d38"
+    },
+    {
+      "file": "sidecars/patches/doc7/kicad_mcp/schematic/topology.py",
+      "sha256": "7c4b94a4519abd558bd45ab4fbad55a9f832a11d421fb413e03287442f8aad9c"
+    },
+    {
+      "file": "sidecars/patches/doc7/kicad_mcp/tools/schematic.py",
+      "sha256": "2611e416652e458325110301c206f77ff6080f627efa31a2328bf1aad22c68b1"
+    },
+    {
+      "file": "sidecars/patches/doc7/kicad_mcp/tools/schematic_topology.py",
+      "sha256": "9de824872e29b771d2dda7df510103a419fb8e3944b9cdda6bf0e37c8fec7261"
+    },
+    {
+      "file": "sidecars/patches/doc7/power-flag-connectivity.patch",
+      "sha256": "9d73713cfa47ebffeada3cca64af53990f04716589b705b603435b4c0a61bcb4"
+    },
+    {
+      "file": "sidecars/patches/doc7/provenance.json",
+      "sha256": "544905cf360b0bd47bc9eeaed3eadaeec774eac20f87b7f325469952108cdf82"
+    },
+    {
+      "file": "sidecars/patches/doc7/test_power_flag_connectivity.py",
+      "sha256": "4aac2239b1034316ab6975e083daf23714fcf85e3a4551a66cf92a3eaf1aefad"
+    },
+    {
+      "file": "sidecars/patches/doc8/README.md",
+      "sha256": "86af8b332a41593204d284b3fb16a8580aa6a5dc8e82adb31a6949e2bf7d4d4d"
+    },
+    {
+      "file": "sidecars/patches/doc8/build-runtime.mjs",
+      "sha256": "38ab9a42fc0a27000bda4bb55da6161f064b5a74fbc827532d956d9375061b7c"
+    },
+    {
+      "file": "sidecars/patches/doc8/fixtures/WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm.kicad_mod",
+      "sha256": "d1e2fc3516c96e3c858b32e79dc4d47fd9d15783c0320ed08aeec9ffbbae0937"
+    },
+    {
+      "file": "sidecars/patches/doc8/fixtures/pcb_sync.net",
+      "sha256": "e4113bd9d035610e446b8cba7fc586e2e1a042d74988d18f01c6ead3087b6c85"
+    },
+    {
+      "file": "sidecars/patches/doc8/kicad_mcp/tools/pcb.py",
+      "sha256": "8e5810bc7879b636c42c8d6e0d561875b3d16bd2222272a2ea58bd5f7aeefddf"
+    },
+    {
+      "file": "sidecars/patches/doc8/no-connect-net-transfer.patch",
+      "sha256": "ddef949dfe12f2291451fa912fe3c1b9e11965185c5f507cd7172d67fef0330d"
+    },
+    {
+      "file": "sidecars/patches/doc8/provenance.json",
+      "sha256": "74ce175cad4efbbc9f6e6571ae6962c71f88bde861049c7215dda9eb963e1795"
+    },
+    {
+      "file": "sidecars/patches/doc8/test_no_connect_net_transfer.py",
+      "sha256": "eda693d3f6a92658d8bcd64112e53236221df228afcf7d9aec4292febb59d523"
+    },
+    {
+      "file": "sidecars/patches/doc9/README.md",
+      "sha256": "b9dd2dd621f6e0b5d2c2a9a988f7dbdf4102b1509536727edf6714ac2feb9dc0"
+    },
+    {
+      "file": "sidecars/patches/doc9/bounded-arc-field-layout.patch",
+      "sha256": "798c369c022018d4fe88d6c93979995f0aa5c9992193db689b34d23c471b034e"
+    },
+    {
+      "file": "sidecars/patches/doc9/build-runtime.mjs",
+      "sha256": "f9c46f2c963b186a2c06268587476b60dde3424c8b3cda3a228aaf4a044e32ae"
+    },
+    {
+      "file": "sidecars/patches/doc9/capture_sync_descriptor.py",
+      "sha256": "ac6f3f449dcffc79ed9c1cf59cb9c9fc12a6014568c0711419164b13b2da1b99"
+    },
+    {
+      "file": "sidecars/patches/doc9/fixtures/usb-c-mechanical-probe.kicad_sch",
+      "sha256": "55e2d56e6d65e5bab705a891f8d7360ad21f84a47d26b6a7d1bb933f2a93d68d"
+    },
+    {
+      "file": "sidecars/patches/doc9/kicad_mcp/utils/field_layout.py",
+      "sha256": "543f36faf8747907c4044906b6a24cb48cf43bf399bc8986cd4d2192a748c93e"
+    },
+    {
+      "file": "sidecars/patches/doc9/prepare-profile.ts",
+      "sha256": "ad46770b9d65b159ccb80313a499c8b3fcbc272ba779cba69c81af8f23912f58"
+    },
+    {
+      "file": "sidecars/patches/doc9/provenance.json",
+      "sha256": "5bcc8899c65fa4fdf9a2da6737d2fc6d63c64df819493cc9120c87972cccbcdf"
+    },
+    {
+      "file": "sidecars/patches/doc9/test_arc_field_layout.py",
+      "sha256": "f60b1a1d720eafa4ed3563d000706ac3c73b76b870dcb26de49cd749fb350939"
+    },
+    {
+      "file": "sidecars/patches/runtime-patches.json",
+      "sha256": "f50e887309bdfaf344fb5c19ea6f5100a0140916c852bde1bc31df2992da0011"
+    },
+    {
+      "file": "sidecars/tests/test_live_pcb_document.py",
+      "sha256": "60935758a6683768685bc3c9235a7a86819156130fbdd9e51c3f0713427412c8"
+    },
+    {
+      "file": "src/agents/contracts.ts",
+      "sha256": "3bccc4adb1c88a23c7524d8b2ef19f6a8c80cbdedd1c6308a7d7feed3f26c1c7"
+    },
+    {
+      "file": "src/agents/coordinator.ts",
+      "sha256": "866245cfbeec022f848068fa2d9779f801f6f763c3bc66ff6a12784f030bbece"
+    },
+    {
+      "file": "src/agents/deterministic-validator-registry.ts",
+      "sha256": "a1df15a69cb9d4595dc089e71144c54cd54cd1f7ec8bc570ebbaed4e073363c3"
+    },
+    {
+      "file": "src/agents/index.ts",
+      "sha256": "471a8d3bb9f283d25317e37fc3c4a08c24b450232131213d3a285ea26bc9d2ec"
+    },
+    {
+      "file": "src/agents/production-boundary.ts",
+      "sha256": "74b0b829008601dd1f4981fb8273a322bb5ec951bb9d4108d56fd5ab10eb2fb1"
+    },
+    {
+      "file": "src/agents/production-host.ts",
+      "sha256": "d98931274435f4e75d1e939a547d21ff44a47077c5592482a9dc73a8ed580c6d"
+    },
+    {
+      "file": "src/agents/production-model-policy.ts",
+      "sha256": "2cb368d11b35d08566f401c2b115da40d5bacc970acca7c74edbe82df5e1e6b2"
+    },
+    {
+      "file": "src/agents/production-trust-store.ts",
+      "sha256": "521c60c31154e8e6a2bce30c7482f8def7263fc3ef4ed11cb8c2cc930824ce30"
+    },
+    {
+      "file": "src/agents/provider-adapter-registry.ts",
+      "sha256": "82b032266ea7e1445abf554fb4c46ca0ff5d2a9568563d1e66c98ab282efcfc6"
+    },
+    {
+      "file": "src/agents/replay-receipt-store.ts",
+      "sha256": "0f77630d6e20c3658fcc77f03705924e1c53a0840d64c072fddb4bc490c03262"
+    },
+    {
+      "file": "src/agents/roles.ts",
+      "sha256": "cfae619c1503999b0c59df13520039bd8f4ead6e1a8d7818f8f695531c05b7ac"
+    },
+    {
+      "file": "src/agents/system-architecture-decision-compiler.ts",
+      "sha256": "0b192c16fdb0e5925949c8bfad20b2baedacde7eb7d64bd211fdc42562153270"
+    },
+    {
+      "file": "src/agents/system-architecture-decision-contract.ts",
+      "sha256": "ef2502cb7fb58bc7285bc4551c9904a16d0d856435449f2a4a700b798d6f5c4d"
+    },
+    {
+      "file": "src/agents/workflow-context.ts",
+      "sha256": "859769d8a99ebe47a39d6aabd599d6517c3ed9e43d6e425eb4fcde77ba8442fe"
+    },
+    {
+      "file": "src/agents/workflow-contracts.ts",
+      "sha256": "a3c665f22056621acd7ec5e80812813fc792f723a722d040148ebca37af309b4"
+    },
+    {
+      "file": "src/agents/workflow-orchestrator.ts",
+      "sha256": "feabcfa17a402335e78d6cca9e7fa541dbcb98e31f5d9055e9b597b9cdfa80d5"
+    },
+    {
+      "file": "src/api/index.ts",
+      "sha256": "5a7f215f4a8f2ccb0b0b3295dbc4802e8285bb606a7cf52711061a05559c5a3d"
+    },
+    {
+      "file": "src/api/main.ts",
+      "sha256": "ee09dcfd0e2cda626ac80736e06531985dd7edf352b4208390edcc622e4c0f1a"
+    },
+    {
+      "file": "src/api/server.ts",
+      "sha256": "b55fb75f92c408f327b55ab80c051c85b1b960c66fbdb524849b29877d473770"
+    },
+    {
+      "file": "src/application/application-service.ts",
+      "sha256": "12c0bcb96f03491ebc4119f3503d62a0c03cb3b11e0eea56cb0765106d09804d"
+    },
+    {
+      "file": "src/application/factory.ts",
+      "sha256": "2e72db0a1f961ca62dbce0fd7804ef80a0a3f149c7f16ca1626d809cdcc6c011"
+    },
+    {
+      "file": "src/application/index.ts",
+      "sha256": "342819fb4b960932977da536d0e01d756ad6bc590fc71f98a49ccad4e1a2b707"
+    },
+    {
+      "file": "src/application/physical-evidence.ts",
+      "sha256": "3aeb9af95ede521b6931e7ce3315338c9f23e89207442074de49cb2c0c328a6f"
+    },
+    {
+      "file": "src/application/ports.ts",
+      "sha256": "53a0e4e4cfb735f70b395ce054b26c6348f9d16839c26928a8005c45abf82578"
+    },
+    {
+      "file": "src/application/results.ts",
+      "sha256": "389cba7588402e3dba022e30144f8f63fb36953e24be6382864d6fdb85bc8a2c"
+    },
+    {
+      "file": "src/cli/flux-control.ts",
+      "sha256": "bb28e6d699f3204a8362c9b262676f5bc6f4e0934b5a89d772557ce2e9438dc4"
+    },
+    {
+      "file": "src/cli/pcb-agent.ts",
+      "sha256": "d9e7ff55a5477bb4e6a4e3a6946f6d7e4b368ae0c3ac415749c29ce34544341b"
+    },
+    {
+      "file": "src/contracts/capabilities.ts",
+      "sha256": "043b700eaa85e8f24062eceeae0d2531ced4bb8ace9c50e6737bfe8053b7b600"
+    },
+    {
+      "file": "src/contracts/errors.ts",
+      "sha256": "42c66e55a798b203d1a4258ac570557fe42a12f4797576ca4a418bfb016a358b"
+    },
+    {
+      "file": "src/contracts/index.ts",
+      "sha256": "7261e54e22ae89316e103fcde7429e8ddcffcbd1fd8c0008d8d37b1b7cb6c447"
+    },
+    {
+      "file": "src/contracts/operations.ts",
+      "sha256": "f7b579c5b69b7e3468a32457beb5a5ddb642f7dabcba486dae5b346927753b7f"
+    },
+    {
+      "file": "src/contracts/results.ts",
+      "sha256": "d22dfa2d35f6c12672d4e15642be8551d1d523171aab4d5c51412a809da0c797"
+    },
+    {
+      "file": "src/core/canonical.ts",
+      "sha256": "10e793ff5af0a5da36fc4a34c9f0256cd05c0f2987be6d8fcfd9ed8bbde9fac4"
+    },
+    {
+      "file": "src/core/evidence.ts",
+      "sha256": "7d6e5229c1c688fca4ac3b62dabbb1eaf45c1a1689343cd47e8a612aad56c3f0"
+    },
+    {
+      "file": "src/core/ids.ts",
+      "sha256": "10a0b4b6b322a8f7fe75d7ac033ac63f9b84645da6c38b0004ef81e1e3e12b2a"
+    },
+    {
+      "file": "src/core/path-policy.ts",
+      "sha256": "909dd40ce1711af24e7dd93fefb5270d7bf166e8ac60f5585fb2cf01ad80d158"
+    },
+    {
+      "file": "src/core/policy.ts",
+      "sha256": "24fae6d88fbd7491630603e7259bffe481bd41068bb1db34b306c0c8070c5e04"
+    },
+    {
+      "file": "src/core/portable-artifact.ts",
+      "sha256": "848582d727e796f9d8927641dcefd09b3e483fda0e77819f1ba780caeaa26ba9"
+    },
+    {
+      "file": "src/core/requirements.ts",
+      "sha256": "49e8fdbf307b141aa7c89af54ce87bed24a2cc93a1f36f76c313d4657907b04c"
+    },
+    {
+      "file": "src/domain/candidate-generation-contract.ts",
+      "sha256": "827baf06580eb81725833984a3029808a8a59f63b8fda5358218b9eff7619a63"
+    },
+    {
+      "file": "src/domain/diagnostics.ts",
+      "sha256": "58a8d43ac89f0e068a27c6b516d7eceebfbf51ec4331a742cd0f9252bcb34794"
+    },
+    {
+      "file": "src/domain/errors.ts",
+      "sha256": "77def92ed449676d2f736953cab7ed8d5785f3ac98e0d268fccf7c8fc7c1f711"
+    },
+    {
+      "file": "src/domain/invocation-ledger.ts",
+      "sha256": "c0b849c4ab0b1b8399d7f6b233c18689a5165b253a2972f00b8b7622b863805d"
+    },
+    {
+      "file": "src/domain/native-process-plan.ts",
+      "sha256": "0bcf91ca66be0ad527bb526c82cf5bd183cb885ece8574c10bb6c6f9805f075c"
+    },
+    {
+      "file": "src/domain/stages.ts",
+      "sha256": "c542fc0d6034842c95f526949466d292fe604e62e3bd078e0d3eba6be29a3581"
+    },
+    {
+      "file": "src/domain/state-transitions.ts",
+      "sha256": "9e440de97f0d58c5138531c439b55b2b208a04954ab29e256a6c67ff40c729c6"
+    },
+    {
+      "file": "src/domain/types.ts",
+      "sha256": "f99dc126306c3adf4159db80d84df0231422c4cbbbfed7af5b613750418c4816"
+    },
+    {
+      "file": "src/engineering/constraint-compiler.ts",
+      "sha256": "41eb0ba1bb5724583c4e6f83ae18b771f115bd5805bf20334ec0fb5f91a6eb71"
+    },
+    {
+      "file": "src/engineering/engineering-practice-inspection.ts",
+      "sha256": "5529e2c5c5c1673e5f8926bbcf476bee93af780669cb008866102a2203ffb7b5"
+    },
+    {
+      "file": "src/flux/compilation-bundle-store.ts",
+      "sha256": "b096fa03055ede8a7991e5fb7e98ef0987272a106e320d348dae29cc31ead53d"
+    },
+    {
+      "file": "src/flux/contract-interpreter.ts",
+      "sha256": "e33e22f40488ad8e126f5e688f0e0f5e83b1aa6941dda3c9e0a3bcc7dfe70e49"
+    },
+    {
+      "file": "src/flux/contracts.ts",
+      "sha256": "fa199d7f8671e66567b290b337de1c205186a0f42fdaa1ea088c3d11ba558e1c"
+    },
+    {
+      "file": "src/flux/deep-rule-summary.ts",
+      "sha256": "f8027286601d6565df28a6f734e8a3dfe25ffaf8bfbc22e303f9529ae7730a3e"
+    },
+    {
+      "file": "src/flux/fresh-clearance-evidence-binding.ts",
+      "sha256": "16e408612b8a41bf1fdbb90c0b2991b05d12c8ffc9c698d8fef9fc0242207da6"
+    },
+    {
+      "file": "src/flux/index.ts",
+      "sha256": "deee6776ee706103ea575b425edf9ec1f3124bef2c042c41c1a62c285eb4b7b0"
+    },
+    {
+      "file": "src/flux/inspector.ts",
+      "sha256": "dd78c0e56d353892172b9181bd02ce5b75878911f0548e28b9fad2314e9d51b4"
+    },
+    {
+      "file": "src/flux/kicad-toolchain-binding.ts",
+      "sha256": "7a6c7598c446d276fb96e82c2d11dfb6933367620e808c2749470edecd045231"
+    },
+    {
+      "file": "src/flux/legacy-netclass-evidence.ts",
+      "sha256": "916bc12f5ad41f5bb7c6e2e5aa84fda8014999debfc30774e5ee3cbc0e73d126"
+    },
+    {
+      "file": "src/flux/open-preflight.ts",
+      "sha256": "d2d7402ad012d39046e4ff5a41a4ad6a278fe1ada6a6b3e4f1e5c1bbfe5481c2"
+    },
+    {
+      "file": "src/flux/operation-failure-evidence.ts",
+      "sha256": "e66d76cd8e64d0438965f068b7b6229859781389acc9243bb7164633152d168b"
+    },
+    {
+      "file": "src/flux/pcb-editor-launcher.ts",
+      "sha256": "c73084e32c6dc8ce54547554739e780197dc6b7dcb220eb176fd606e2cc5a7c4"
+    },
+    {
+      "file": "src/flux/pe-version-info.ts",
+      "sha256": "773e1475156284a19a9f5ee17f4191dd1f0c7d83e464d539ef2747bbff7293a3"
+    },
+    {
+      "file": "src/flux/preview-renderer.ts",
+      "sha256": "13bdea122b0c61eba691354218064fe9b28b55a8eba81405840a704d59b3da7a"
+    },
+    {
+      "file": "src/flux/production-composition.ts",
+      "sha256": "c221c731b4344e3b344b51b81b05c490d3ec4b041acfd1bcc63e1e9b5b9a94f6"
+    },
+    {
+      "file": "src/flux/public-projection.ts",
+      "sha256": "47ac7e8784cab1e8bb550dcb3459c7f0edbe68fd5ae5198feba25c7fc94bdb25"
+    },
+    {
+      "file": "src/flux/routes.ts",
+      "sha256": "2ab3939c25781349c34987c7b95341e9ff157e69552dcebabc43de39123938af"
+    },
+    {
+      "file": "src/flux/run-manager.ts",
+      "sha256": "ea7e57142fca88d6847491517586f4bc7e8659dc18cb4ba588b5c55350d3561a"
+    },
+    {
+      "file": "src/flux/run-store.ts",
+      "sha256": "29c855a9324b1edbadc09ffccd3ae6d41711bf762db38c4a5c7e85442b915adc"
+    },
+    {
+      "file": "src/flux/runtime.ts",
+      "sha256": "54d1983365c66b0a810bec9d90b4a6c5b4daf07a3c21b236c2bb6ca91ab4cc85"
+    },
+    {
+      "file": "src/generators/backend-runner.ts",
+      "sha256": "3616d430e1509c1f9e2bb0da20eae8fe368bf32152478cc10343208c9a38161b"
+    },
+    {
+      "file": "src/generators/bringup-generator.ts",
+      "sha256": "05c4f8cb5d4ce31f209f4c0c8dc42c589efde3a8d3f58d4f0fb9038363ac7f8f"
+    },
+    {
+      "file": "src/generators/component-selection-generator.ts",
+      "sha256": "d0e359f7ac926da11ab3a80c3a1a0518393cd5f67f7d1fc982c46eb43d20d239"
+    },
+    {
+      "file": "src/generators/draft-utils.ts",
+      "sha256": "564b7070973506916fffd208f0e9e1095f1634df8d47e0bceae12666aea09abe"
+    },
+    {
+      "file": "src/generators/firmware-contract-generator.ts",
+      "sha256": "bd42ab38c7bec32a70bcc8104f7fc060085468b099dce754449e2f5e9eb3817b"
+    },
+    {
+      "file": "src/generators/firmware-parity.ts",
+      "sha256": "5fd3aadae1924a4d514f592f109e603fcec3b517c1de8f8856b5ccab87d92ef0"
+    },
+    {
+      "file": "src/generators/manufacturing-generator.ts",
+      "sha256": "30100b0ccf20cd9ddc2923a2f8269855a554b08031bcf36a71028eaa3128d05a"
+    },
+    {
+      "file": "src/generators/pcb-generator.ts",
+      "sha256": "8f55f8a4134603ef99bf262e7cc448943b5da17906df79098a65ae34b026912b"
+    },
+    {
+      "file": "src/generators/pcb-layout-plan.ts",
+      "sha256": "a0ca70cab0e78d6f19321760841cc7308ec6cc6d3cd539256bda991d41a3b2b0"
+    },
+    {
+      "file": "src/generators/requirements-generator.ts",
+      "sha256": "aecf5ad4afe6c2ce8a0359a416e66dee8864149a2d5573381ea0196bdf79fc39"
+    },
+    {
+      "file": "src/generators/schematic-generator.ts",
+      "sha256": "78099bdc0d656e05f29a594b0de1fcd678fbf602a755510d2267979cdf0221b7"
+    },
+    {
+      "file": "src/generators/simulation-checks-generator.ts",
+      "sha256": "492680865486aa427966344bbd85fb163a042409087feb720126f60df074d329"
+    },
+    {
+      "file": "src/generators/stm32g0-target.ts",
+      "sha256": "e424e93b4492b80b51006f6279227f999e62ee626e2ff74f33ea157769840f48"
+    },
+    {
+      "file": "src/generators/system-architecture-generator.ts",
+      "sha256": "838f9d2657b4c7afc432bc52fc6a8b4fde68796d18049bca15ec617a653f99ff"
+    },
+    {
+      "file": "src/harness/cli-providers.ts",
+      "sha256": "4acb7265bb4c866919b31ce7ab807bb99da4e0491ef5637a906f0f74831f0e9c"
+    },
+    {
+      "file": "src/harness/contracts.ts",
+      "sha256": "5f1657029aff14b1ea77102ac7e3eaa8a03ee94f06984b90c99305e75e9e5ecc"
+    },
+    {
+      "file": "src/harness/deep-rule-catalog.ts",
+      "sha256": "71dec7e9c9eb9604a4ffc476d047671cda64a84ba7ebefdacad3dc8937ee6189"
+    },
+    {
+      "file": "src/harness/deep-rule-selector.ts",
+      "sha256": "8c4e7fed29b4719a4f903dd086eef8cb10b0b7844aeea054b699158c4c9f559c"
+    },
+    {
+      "file": "src/harness/differential-channel-geometry.ts",
+      "sha256": "30b8a53f70d44d844f30e70652b6ca9d30251b28d3b79d2c33cf6ba41714515e"
+    },
+    {
+      "file": "src/harness/differential-pair-geometry.ts",
+      "sha256": "e92ec60039a1627155fab71482f8704187745fb16f4a2c3218b19a8c3fd0ebcf"
+    },
+    {
+      "file": "src/harness/fresh-acceptance.ts",
+      "sha256": "e0678fc0d593b569199467ff19878e94195a00e14977dff8fe8a97fbc28c4f5e"
+    },
+    {
+      "file": "src/harness/fresh-board-features.ts",
+      "sha256": "ad72a2aec6a432f9c5172512188291ed68b7643328b939d24bf2035cf1a45d1d"
+    },
+    {
+      "file": "src/harness/fresh-board-persistence.ts",
+      "sha256": "3766335e10e9d7ba88aff49e1517082779a3d869de83f379ecf616ce548e26ca"
+    },
+    {
+      "file": "src/harness/fresh-board-serialization.ts",
+      "sha256": "de47cf5ed38acdfbdf3e13f4326fb3b77757be266ec1f85be99e00cb9e35a1d4"
+    },
+    {
+      "file": "src/harness/fresh-clearance-evidence.ts",
+      "sha256": "46a61411dd4bcebfad721d3ef538aa16c01101949558bbd7892661ac76099507"
+    },
+    {
+      "file": "src/harness/fresh-connectivity-contract.ts",
+      "sha256": "d249383930f9755efc5297c41b9490eccf6bb3d2cc4faa7d00e8b4044d850f81"
+    },
+    {
+      "file": "src/harness/fresh-deep-rules.ts",
+      "sha256": "24662a46b61c91be9ed5c402d7dac151feec7a85b6edeaa652000c0f60d2bebb"
+    },
+    {
+      "file": "src/harness/fresh-design-acceptance.ts",
+      "sha256": "f83eaa8110f4bce10f6dd445684c1c6f62490e06892f81b13d7cba650acf6ef7"
+    },
+    {
+      "file": "src/harness/fresh-external-power.ts",
+      "sha256": "a521d5b05e052a4e65f821b1a1aba212a95180a10ab9beaa1c3a5510081e1f95"
+    },
+    {
+      "file": "src/harness/fresh-footprint-field.ts",
+      "sha256": "693a99035b77fbb23cc6edb70c5bad2f5b43707ac910b76fcdbb79e1e0a8a882"
+    },
+    {
+      "file": "src/harness/fresh-footprint-placement.ts",
+      "sha256": "176a5db79b96f03ce9d42d9478fe5298c8ba4ec934d88c7a9895bf35bdc4520f"
+    },
+    {
+      "file": "src/harness/fresh-footprint-pose-batch.ts",
+      "sha256": "958d8e2a888dd54e6ab0d53aff4b1b70cbebb0371e49fb86d6afec7e487df2bd"
+    },
+    {
+      "file": "src/harness/fresh-header-service-regions.ts",
+      "sha256": "c49a202d48e21914b5f849d7d0c6da9cb8011103393aa703706bb8a636262c9f"
+    },
+    {
+      "file": "src/harness/fresh-kicad-parser.ts",
+      "sha256": "c171cdd58ff8a0af1432cca8d7fb7cd616f5d299cfd7c36a389d60eb2b60a812"
+    },
+    {
+      "file": "src/harness/fresh-native-netlist-comparison.ts",
+      "sha256": "6b932a28c2ecd38103f1777cce28166956389c6d4bbd8a57ed3faa1231ec16be"
+    },
+    {
+      "file": "src/harness/fresh-native-terminal-binding.ts",
+      "sha256": "245bb1ff5c7bb689c89839acc3ce393d8791fedab3dc2423a68389ff886c1d85"
+    },
+    {
+      "file": "src/harness/fresh-netclass-assignment.ts",
+      "sha256": "d663a9a70403d4f67511688c0ee66e38d974603fab893ad04780a56e46f07342"
+    },
+    {
+      "file": "src/harness/fresh-pcb-pad-model.ts",
+      "sha256": "d47756bda869a5da28477c27b9bb9a6ae083171075f09905436af7b87b671ea1"
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "1be92b92d32fbb9103d355a041704d5519a596a44bbf0b1496d99d359c4f3567"
+    },
+    {
+      "file": "src/harness/fresh-plane-common-checks.ts",
+      "sha256": "09efbee7ae76dc3bd21cef3e45ed21e745181d288b508f798a4eaa551c0590ac"
+    },
+    {
+      "file": "src/harness/fresh-plane-connectivity.ts",
+      "sha256": "fe891ded968a3d1b2c5d92f5269f7a8851e5cf970bab80228875302037d13d6f"
+    },
+    {
+      "file": "src/harness/fresh-plane-drill-topology.ts",
+      "sha256": "13b8effa8280b6b4f402aab20132621238e89abdd9a5bf2b200a98f0d47e803a"
+    },
+    {
+      "file": "src/harness/fresh-plane-evidence.ts",
+      "sha256": "f48963076e18c1295c4560bc1e89a864f65c4b896c16b383e5d5cc400b81a872"
+    },
+    {
+      "file": "src/harness/fresh-plane-failure-diagnostics.ts",
+      "sha256": "f2c00c2ebe6b2bb9f5b85cd9ab2b9d585ac6068dcbe8e1a33b4decd285506d7b"
+    },
+    {
+      "file": "src/harness/fresh-plane-filled-geometry.ts",
+      "sha256": "88358cb9a778c4683e8efebd41877bf8a9e74a90c198dc56a70d548d285572c1"
+    },
+    {
+      "file": "src/harness/fresh-plane-mutation.ts",
+      "sha256": "44e09f10b6b7bd37504b762781c5e5c34867f2f2be32fcff27a1f38e5f2a107c"
+    },
+    {
+      "file": "src/harness/fresh-plane-native-checks.ts",
+      "sha256": "42a056385335b68cd965a7de4e6eff31ccb595265a8545b6a412c85d21927a01"
+    },
+    {
+      "file": "src/harness/fresh-plane-netclasses.ts",
+      "sha256": "d1369ba402cc175c0317bc0e8e21b77268e1133b02242be3133b68aca5882dd0"
+    },
+    {
+      "file": "src/harness/fresh-plane-placement-revision.ts",
+      "sha256": "78375acfc688b4597ad682da07e4b32bc79631163afb3aaffa65388be772ffd2"
+    },
+    {
+      "file": "src/harness/fresh-plane-placement-seed.ts",
+      "sha256": "a9fbbe0f125ab052f2066da75d56f5dbbe7cf4564186f95df743cda06e765aef"
+    },
+    {
+      "file": "src/harness/fresh-plane-route-mutation.ts",
+      "sha256": "9e5d1c3eaba96b9af2fbed09f0015ccd3736b3ad0c4821f99ee02f7c4f1e3459"
+    },
+    {
+      "file": "src/harness/fresh-plane-rules.ts",
+      "sha256": "dca391dcdf783f913ccde21cc8b971661a299c4cc1845ee3f71c55285c582e29"
+    },
+    {
+      "file": "src/harness/fresh-plane-schematic-seed.ts",
+      "sha256": "fe8fa640cd627c1ba47803c62102dabbab95482fb66cddc75a2bb856615b00a8"
+    },
+    {
+      "file": "src/harness/fresh-plane-stage-observation.ts",
+      "sha256": "16325e433a7ee75cbb03406227f8f82136d513fa58bc1c2f2f64f81e9de9df46"
+    },
+    {
+      "file": "src/harness/fresh-project.ts",
+      "sha256": "c55d95b700179525d9e4f7c643a4e5321c20222579a9623da75fbaa893640879"
+    },
+    {
+      "file": "src/harness/fresh-resource-limits.ts",
+      "sha256": "b28367afe0bea0086d423ed135dc6496f16e8661a628f0e8efa41382ba7ab239"
+    },
+    {
+      "file": "src/harness/fresh-route-native-units.ts",
+      "sha256": "738ab91d61efb16decd557afcca6ec6a47a2a75195920dd6100c76995215e2be"
+    },
+    {
+      "file": "src/harness/fresh-schematic-connectivity-batch.ts",
+      "sha256": "301372f1d242c8fb8431f1f9287919850861db6468dcd2c1094ff4308d502fa4"
+    },
+    {
+      "file": "src/harness/fresh-schematic-field-diagnostics.ts",
+      "sha256": "3e769a2ee26c73f2c78dda31652b2dbb17cca9b1c184e3da2e856c41c40bf617"
+    },
+    {
+      "file": "src/harness/fresh-schematic-field-position.ts",
+      "sha256": "c46fc914c9a3545c9ff212cf9e2d67a0e7f8901631cbf05d6b9c2e0bbdcb54ef"
+    },
+    {
+      "file": "src/harness/fresh-schematic-label-layout.ts",
+      "sha256": "448c6d0051ed165a9725432fc61e212f33495383aa22c8f33fbd70f707599eb5"
+    },
+    {
+      "file": "src/harness/fresh-schematic-rollback.ts",
+      "sha256": "30679133f22e7c79da0e511d5c1ffee0967fef8e53af2693a0542c32dea0a00c"
+    },
+    {
+      "file": "src/harness/fresh-schematic-source-adapter.ts",
+      "sha256": "1a34d445bf711508e19151d97c25f6764074d39fbd56cfc8cc5f29b83b4385f2"
+    },
+    {
+      "file": "src/harness/fresh-schematic-stroke-style.ts",
+      "sha256": "d9e3e664267914a5ea2f9c11d9c0007c2a4c19ea483bc0e615e0a5135218c0be"
+    },
+    {
+      "file": "src/harness/fresh-schematic-symbol-pose.ts",
+      "sha256": "fd968e0704bc2e88d5527678b85a56f57d9689d6815b9ec25b2c89f84f17444a"
+    },
+    {
+      "file": "src/harness/fresh-schematic-terminal-groups.ts",
+      "sha256": "c319b46e40e4c49722f1b6d9d4d04332de91f1bc4e5403f7dd6e5d3d5429fde7"
+    },
+    {
+      "file": "src/harness/fresh-schematic-terminal-label-source.ts",
+      "sha256": "9a7f44ab4fc383c428c1cc8713c81bab857fa69e2bfed16879b977f4d3884711"
+    },
+    {
+      "file": "src/harness/fresh-schematic-terminal-labels.ts",
+      "sha256": "c5be258b3332614d27109c1f6aa34fbf779c8c45f340e5ee32c5494e8b7cddcc"
+    },
+    {
+      "file": "src/harness/fresh-schematic-work-budget.ts",
+      "sha256": "ea832ad71d2190e199c9f4b140ed23fa4d0799553533dc9692e220788d3c6988"
+    },
+    {
+      "file": "src/harness/fresh-schematic-writer-geometry.ts",
+      "sha256": "635016a5059c02e0b6304ffd986e9785fa0c953a24cf590cf219299abcc69023"
+    },
+    {
+      "file": "src/harness/index.ts",
+      "sha256": "a3fda4823610006fce86bcbea9015c020be0920efce34937f148c787e6e5cfe8"
+    },
+    {
+      "file": "src/harness/interface-construction-seed.ts",
+      "sha256": "a2e6b36957300f07b6450fe53a722d89abf78e620fc198d54c97d17ebef0094c"
+    },
+    {
+      "file": "src/harness/kicad-approved-package.ts",
+      "sha256": "e0c645327480325b0b20bd8cac665c10dc140c4ca87fbe9297210e48fa0dd5a2"
+    },
+    {
+      "file": "src/harness/kicad-library-resolver.ts",
+      "sha256": "159b3c11fd756c7f4b9fc54c94e1791a7fb7fc5bada47ed786c02a0764b89134"
+    },
+    {
+      "file": "src/harness/kicad-native-check-report.ts",
+      "sha256": "5c1535f702be0d734f24b2df2320e4ebf2c7866ccaa99df925c9605941cb2253"
+    },
+    {
+      "file": "src/harness/kicad-stock-catalog.ts",
+      "sha256": "0ebeeaed45db925f5f5556b1ea3f1a26cffebc47fb4073c3282ba7df285ed5cd"
+    },
+    {
+      "file": "src/harness/kicad-tools.ts",
+      "sha256": "11e069181ae399105f765f259a4b08040dae372074e28cf3a8525598b58d1d34"
+    },
+    {
+      "file": "src/harness/native-empty-board-seed.ts",
+      "sha256": "2e26226e72481d69f743fde02b1a58bf1c6929e2278e3a1e65fd6a0f8cf30524"
+    },
+    {
+      "file": "src/harness/pcb-agent-harness.ts",
+      "sha256": "9e9cffdb32002ce0c10ad20594d236857b8d0f42852364342623b4e0162b0837"
+    },
+    {
+      "file": "src/harness/pcb-board-feature-libraries.ts",
+      "sha256": "0dd0484ae61f24c713bed0d3c0f9adf2d56ddf8bd7b39aa2df2a26febc026d35"
+    },
+    {
+      "file": "src/harness/pcb-board-features.ts",
+      "sha256": "c3d6ae5877856bdda2561b9c914c3f8eed2971535428f3a8405aa1a546cd5d3a"
+    },
+    {
+      "file": "src/harness/pcb-channel-feed-through.ts",
+      "sha256": "771c9ed39e4d0835fc0dbdc7bf4d94b9863bc548616e95ed1e4ed2f7cfb5de9f"
+    },
+    {
+      "file": "src/harness/pcb-channel-width.ts",
+      "sha256": "e316d1b4cf3b152e898f4883816f8532f61573d407f0060401f69ef425e8be5a"
+    },
+    {
+      "file": "src/harness/pcb-construction-schema.ts",
+      "sha256": "d9f04a9434495196c74daa6b05cb6c2a7ee74d3e0f8861c47ef939dc0a13cb88"
+    },
+    {
+      "file": "src/harness/pcb-copper-layers.ts",
+      "sha256": "4b451915ca635a1d5cee7ddb982fc168427162a3d5adf37acfcc0fc021e20a3b"
+    },
+    {
+      "file": "src/harness/pcb-derived-power.ts",
+      "sha256": "f409deaf3e0e996afa2c35b6e616b28e4dee222eef7faf6aa9d39629309ce1e3"
+    },
+    {
+      "file": "src/harness/pcb-design-compilation-bundle.ts",
+      "sha256": "c12ea9dd1c2051ca775e8a46deb7b6806e254d52d913ef23e6ccea6db23f8e18"
+    },
+    {
+      "file": "src/harness/pcb-design-compiler.ts",
+      "sha256": "efcb02cad97dc4eeb83630e2d640c2644eb47ffe6ad12b3d0083a139959ed900"
+    },
+    {
+      "file": "src/harness/pcb-design-contract.ts",
+      "sha256": "493567c7af23332a4f6f2ba338c22d31ffdb72c1ce33de412ecc291c5fe11807"
+    },
+    {
+      "file": "src/harness/pcb-design-intent-model-guide.ts",
+      "sha256": "e8f1a5301e3b41899675bf25ee9c524ac19b522b1aa1c38f59f0cde2713cd0db"
+    },
+    {
+      "file": "src/harness/pcb-design-interpreter.ts",
+      "sha256": "075bdc08fc0f749873c646096d5e6c1813d777e3c874af736f13774dbbf0a5ef"
+    },
+    {
+      "file": "src/harness/pcb-design-plane-bundle.ts",
+      "sha256": "17078a3bc85299b89b1c66f0c15d2d2008bd2f9636de7571051f816534624a4f"
+    },
+    {
+      "file": "src/harness/pcb-design-plane-compiler.ts",
+      "sha256": "16f184d77f9d523a14eb55792ed99ffe486ff1ebd3034f6a419f04fb382a5cb2"
+    },
+    {
+      "file": "src/harness/pcb-design-plane-contract.ts",
+      "sha256": "be7ec978e19182f7659b1681197b9a0d03a2cec23d39e0114774b017feb53113"
+    },
+    {
+      "file": "src/harness/pcb-design-plane-model-guide.ts",
+      "sha256": "df14c91ef12103963844c6277b48160af5da5fba46d04dd661559924b6aa1369"
+    },
+    {
+      "file": "src/harness/pcb-external-power.ts",
+      "sha256": "11fa772e6ad4ba9ba0633ed936c7b070dfd1550597b21ce19555aa6a8facabec"
+    },
+    {
+      "file": "src/harness/pcb-four-layer-construction.ts",
+      "sha256": "acb208729722f67aaac259856346bd95632a9a880c9d471e447ed9a7fee6018f"
+    },
+    {
+      "file": "src/harness/pcb-interface-requirements.ts",
+      "sha256": "1e3a64aa42d537719d7b3d5fbac56c820c19cda78301857c41f7890787d5145c"
+    },
+    {
+      "file": "src/harness/pcb-library-source-binding.ts",
+      "sha256": "cbb8f2b177c35bec334b96b2539d5b4f6e50c34786ef6e5e5a4707274025d975"
+    },
+    {
+      "file": "src/harness/pcb-native-numeric-rules.ts",
+      "sha256": "b3cf3551280c72ace66c0111de15a00d2da7b87bae18893c614875651ee2da7e"
+    },
+    {
+      "file": "src/harness/pcb-rules.ts",
+      "sha256": "aedb4f8b6c723a89bd2c0c897a1383e00cf1e1d56ebd59e8dbfbc8f11ee643d8"
+    },
+    {
+      "file": "src/harness/pcb-silkscreen-text.ts",
+      "sha256": "55b28816482c2bf62e4deb9549f06f5ad2701a5c162fecac40dfe750eb819839"
+    },
+    {
+      "file": "src/harness/plane-region-annulus-witness.ts",
+      "sha256": "00d189b4c3c31317c095d36e646f9901571d5dac338b14fd14b82c31eb4e7f85"
+    },
+    {
+      "file": "src/harness/plane-region-bridge-source.ts",
+      "sha256": "6c94c56cc4b51d7678d49a1c0330da9ea64e80f55141a9e2653133cbdaf6f06b"
+    },
+    {
+      "file": "src/harness/providers.ts",
+      "sha256": "6b27c72d4f05026de25b412db61e3d98704b21daf83d169e6a1c71c6a2e56241"
+    },
+    {
+      "file": "src/harness/router-reference-capsule.ts",
+      "sha256": "4be5dd2fcda942cc8bbbda4f8b80add5e15ba9b91e9027061ad236e862e111b3"
+    },
+    {
+      "file": "src/harness/saved-interface-assessment.ts",
+      "sha256": "726a6780344e71ba1612ce50141316acbd3ebfee3d3e6e15ae529424b5615a7d"
+    },
+    {
+      "file": "src/harness/saved-microstrip-assessment.ts",
+      "sha256": "dcb8ea4ff85ece4fb69a6412ce74a7b574d08653efe88900efb1feb7994416a9"
+    },
+    {
+      "file": "src/integrations/bounded-process.ts",
+      "sha256": "85337bd89bdcb62fc24949cc87ea904dd8b004984315246974891e6532ed6eaf"
+    },
+    {
+      "file": "src/integrations/firmware-compiler.ts",
+      "sha256": "0bc3d4882c077e7c8b2fde30d8020a43812e7c7c234fe6d88d40be64cd2068a2"
+    },
+    {
+      "file": "src/integrations/firmware-runtime-command-contract.ts",
+      "sha256": "2356ce30995fadf694d824d9e9880e8de339b16e95e8cec731db51deac758f99"
+    },
+    {
+      "file": "src/integrations/firmware-target-builder.ts",
+      "sha256": "fb56973e574acd5ca172995d12bec13ab226706da7de3499ab0bf9211fbcd3bc"
+    },
+    {
+      "file": "src/integrations/flux-control-client.ts",
+      "sha256": "a91826be073959a8a5dbcf076638add44a1efec8b054b417b8ec3bd007fe9469"
+    },
+    {
+      "file": "src/integrations/index.ts",
+      "sha256": "afdad5524220abea375551dafc755e9e773dc227dff33414f41eb73956cdce92"
+    },
+    {
+      "file": "src/integrations/kicad-cli.ts",
+      "sha256": "4557ff813714c3068e9232fe9432821f284a83f4220c29935b73a30231893a47"
+    },
+    {
+      "file": "src/integrations/kicad-mcp-session.ts",
+      "sha256": "46e9ed1c087cf81784dbcde7f0c6249dae6e3c7e418b0a4c015b70937e540f2c"
+    },
+    {
+      "file": "src/integrations/kicad-native-pad-observation.ts",
+      "sha256": "bebf9817bdd4827d0c677354d477d957a547e14e4084d572af44a57ed74e46e4"
+    },
+    {
+      "file": "src/integrations/kicad-plane-contacts.ts",
+      "sha256": "3c52db014bf4c3823ccbfdf893cc49faf152ba4f8e734b0ad244af4150a4e783"
+    },
+    {
+      "file": "src/integrations/kicad-plane-stage-receipt.ts",
+      "sha256": "95ece389a58255e1d63c8521b0eec457aff7deecfc72a70d292a34b80d397d7a"
+    },
+    {
+      "file": "src/integrations/kicad-plane-stage.ts",
+      "sha256": "c8178951cb1dfd4f8fdc273ce7526b553584eac1caa5c7b7313e7bfbade1bcca"
+    },
+    {
+      "file": "src/integrations/kicad-reference-coverage.ts",
+      "sha256": "2022295bd673eaefdb953ff5a7db68859b7f4f4b1cc67a0749a8a4197ebbca06"
+    },
+    {
+      "file": "src/integrations/kicad-saved-source.ts",
+      "sha256": "4b22ac87d570a14df911e7e7d19bf3a24f300278baa1fb0f8571192fdaaff01f"
+    },
+    {
+      "file": "src/integrations/kicad-stackup.ts",
+      "sha256": "1c9c279e2f075fbfe16dda91a3c5cb07c8385be19a701ca5c6ca3a28418512f6"
+    },
+    {
+      "file": "src/integrations/kicad-startup-diagnostic.ts",
+      "sha256": "ad29efc5593a0fcc1fb9ed40fcf20f6582162d9befabf1fb16ccb86a002d2a3b"
+    },
+    {
+      "file": "src/integrations/kicad-transmission-line.ts",
+      "sha256": "6277c25eb926362ef052f95c24ad2853cb430b96ec0b878f59a27574e6522cb7"
+    },
+    {
+      "file": "src/integrations/kicad-validation-normalizer.ts",
+      "sha256": "526e11e5d3343cc5398e2408a7c42562cd42a5f6ed4aabe2e8ef88d2c234e68b"
+    },
+    {
+      "file": "src/integrations/path-boundary.ts",
+      "sha256": "7a33620617a14fe10375234fd156462d098840c3d5baa65065a2413a608dd208"
+    },
+    {
+      "file": "src/integrations/pcb-practice-analyzer.ts",
+      "sha256": "dde94df9ba2a01be9d6c9bd33107145f8edad03b536ec2fc18537c7287290aa1"
+    },
+    {
+      "file": "src/integrations/portable-kicad-producer.ts",
+      "sha256": "a5cb77a9ea6780160314a60cb943efbabf04f0e06b213874fab37ece0c09f8c2"
+    },
+    {
+      "file": "src/integrations/portable-kicad-runtime.ts",
+      "sha256": "21c4272922e2f36ddb37fbad676772a32c3a08c7dbb6838a93ae1842f83bd050"
+    },
+    {
+      "file": "src/integrations/reference-kicad-backend.ts",
+      "sha256": "3f89b6a5d97334fa67608e7ec6692fc02cb9dbd26ac75bbb2d88019bf8c74599"
+    },
+    {
+      "file": "src/integrations/reference-simulation.ts",
+      "sha256": "9d9bbd735cb76143040b39414939b71f75db5d49869744eeacbb9720f5ff9e45"
+    },
+    {
+      "file": "src/integrations/reference-stage-context.ts",
+      "sha256": "b8a5533d8e16e98f82b0163fb11075682dacb058d153d841a156bf5b4f4e7da5"
+    },
+    {
+      "file": "src/integrations/schematic-render-clearance.ts",
+      "sha256": "1d1378b8d8974e334633f0f1393118d48cc9a5d3ef5d854b1fe8db831abefcdf"
+    },
+    {
+      "file": "src/knowledge/firmware-parity-model.ts",
+      "sha256": "542a82f9fa03c204a7abfa42db7a966bad82a3902ccf342ecd2a3f0ff99ef18d"
+    },
+    {
+      "file": "src/knowledge/pcb-engineering-practices.ts",
+      "sha256": "6407d2754a2631a84f56ea2537d84d23259493124bf4d04545f207a29e2c3143"
+    },
+    {
+      "file": "src/knowledge/physical-acceptance-policy.ts",
+      "sha256": "58b0ef4b876d3395b8a162727110956f8bd6b7c17059e2dfdd50c7806345e123"
+    },
+    {
+      "file": "src/knowledge/reference-controller-native-contract.schema.json",
+      "sha256": "191dda0670967f5b66d3b86d69eb128dfd0b0e1a8754a16f1fe1708bb7def703"
+    },
+    {
+      "file": "src/knowledge/reference-controller-native-contract.ts",
+      "sha256": "8b9eeb52e213793a3ffb54563f0d6200fa5efe50ad0b7f4609234723f0871248"
+    },
+    {
+      "file": "src/knowledge/reference-controller-native-contract.v1.json",
+      "sha256": "573ddc66cfdfcbbc48a2a3d02d1fd29a57efd2cb26d0ce7dc79b9eac86adcc4d"
+    },
+    {
+      "file": "src/knowledge/reference-controller-v0.ts",
+      "sha256": "b9c96381613489d106297847dfd79abeb3b584d502ec55846e5fe725d938e080"
+    },
+    {
+      "file": "src/knowledge/reference-schematic-intent.ts",
+      "sha256": "649a61429536049010c135a3fc8b3b36564eebd9f7783ccb908fec37599a86df"
+    },
+    {
+      "file": "src/knowledge/reference-system-architecture.ts",
+      "sha256": "436e161f59f1af309489fd18c7f7fc4109a91659a3c07eabefaa4641dadcaad8"
+    },
+    {
+      "file": "src/mcp/index.ts",
+      "sha256": "5a7f215f4a8f2ccb0b0b3295dbc4802e8285bb606a7cf52711061a05559c5a3d"
+    },
+    {
+      "file": "src/mcp/main.ts",
+      "sha256": "c328fad366e2f0d295df65c0f40503a4b948da2aa7955166f5a6dcb673ab5c05"
+    },
+    {
+      "file": "src/mcp/server.ts",
+      "sha256": "09de4779fe61517f9ebc0c491ebf75bbeb842d0051c3e5338866614449e2e82f"
+    },
+    {
+      "file": "src/mcp/toolbox-cli-probe-diagnostics.ts",
+      "sha256": "7c19ee0dcdf5cc907d40e6ad51ed4212e04ba1ff845226c862fb1c05b5b1f0e1"
+    },
+    {
+      "file": "src/mcp/toolbox-editor-launcher.ts",
+      "sha256": "27800d1632b562d000488a3bc25b2545b024572d98c0da21647abc5fc0fa35e6"
+    },
+    {
+      "file": "src/mcp/toolbox-editor-supervisor.py",
+      "sha256": "480da03bb28e528169de36babc60226d416004d024f8748e69013be1c2be9994"
+    },
+    {
+      "file": "src/mcp/toolbox-endpoint-connectivity.ts",
+      "sha256": "f48bb830cea791a1fa3aca9ec5c273a785962f126b8ded5f563a8326181cca81"
+    },
+    {
+      "file": "src/mcp/toolbox-footprint-placement-diagnostics.ts",
+      "sha256": "7eb2d9dc560e93dbee2a969fc26c2a6954176131effa31a1ebfdd690d9e6aaf7"
+    },
+    {
+      "file": "src/mcp/toolbox-fresh-checkpoint.ts",
+      "sha256": "b29bb8d781b31c2a1634dcc52ff9cccdace97a68942e2e3cad6e4ba8c683cbf9"
+    },
+    {
+      "file": "src/mcp/toolbox-fresh-initial-save.ts",
+      "sha256": "2df19695266b6d62d1130e8b251053a0174c63ce74c169868bcd82edc70930b1"
+    },
+    {
+      "file": "src/mcp/toolbox-fresh-main.ts",
+      "sha256": "fa9ea3dcb5e80397169cb446b9b794b08e3223b3615933b2dd6f5d887b9895d7"
+    },
+    {
+      "file": "src/mcp/toolbox-fresh-preparation.ts",
+      "sha256": "4ce9c2a9a0db2ca7f25d33864f666282ac8fc68aedc28bb3abf0e7d25afcaadc"
+    },
+    {
+      "file": "src/mcp/toolbox-fresh-profile.ts",
+      "sha256": "78efd71531fdcc63bfe78fa86c7d7e03d11f3d0ceee665e37c0e671d4aa7dece"
+    },
+    {
+      "file": "src/mcp/toolbox-fresh-session.ts",
+      "sha256": "db33cc73e6cdb1012aa6fdaffd39033ba2347a3222055448369d8153ecd0cbe8"
+    },
+    {
+      "file": "src/mcp/toolbox-initial-save-diagnostics.ts",
+      "sha256": "342d1588be342eed4935ddd08cfdde9e625dca57583de0ffd1d7c1d56c55ab12"
+    },
+    {
+      "file": "src/mcp/toolbox-interface-report.ts",
+      "sha256": "f6722184a0c929b462caf0d751fed0678f983a53655a0ed5ab9ba900f8485e33"
+    },
+    {
+      "file": "src/mcp/toolbox-interface.ts",
+      "sha256": "b1f1493713c58c7c922c5d71d611746b2939ad2e0c5f38081a7e914ac14e2616"
+    },
+    {
+      "file": "src/mcp/toolbox-main.ts",
+      "sha256": "04295ac1a99ff99535208a7491aaa7612f1d9166e83ad867e8ce822b9a7806dc"
+    },
+    {
+      "file": "src/mcp/toolbox-native-host.ts",
+      "sha256": "50ac42c74b95509d34c7e9b5e04852d88581ee4a2357c4d604ddd3bce108b23b"
+    },
+    {
+      "file": "src/mcp/toolbox-native-main.ts",
+      "sha256": "325a48d6f2766da536ef750d3494b2b52e5f4072a6e53c9af3462fd0f57fae3e"
+    },
+    {
+      "file": "src/mcp/toolbox-native-profile.ts",
+      "sha256": "01701b74fb6e9f01c665130ebda294a32f3da90fb19aed8f03939d00e986803e"
+    },
+    {
+      "file": "src/mcp/toolbox-owned-editor-locks.ts",
+      "sha256": "98a2a44d6a9e1529446c22eaf47539ce69c23274ac62d441d0855e7699b18437"
+    },
+    {
+      "file": "src/mcp/toolbox-placement-revision.ts",
+      "sha256": "8d879bb0d90120b6504db15cbda3e6b0f6b3d85917fa6c8abb44fa61001ea782"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "b87c8b7bb9f48f118a66882cbcd2e27929d4c27ce3ab797119e00da833b02dea"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-checkpoint.ts",
+      "sha256": "d829d3a8bd5eb1ba11c8f46137faafe140772dba8ad70c9a88b49df4fe36e13c"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-failure-diagnostics.ts",
+      "sha256": "05a77c63a99664aece505a4ae783b57cd72795ba7be99fd89253a45da69c38cf"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-preparation.ts",
+      "sha256": "aaa5575bb1842a55db4c21dc38543c468ac53f7f99c8501b9103294df340c5db"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-results.ts",
+      "sha256": "78327d9e85e806d6789076640580dce1932e16091b229e8deb35797c33751d84"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-session.ts",
+      "sha256": "2310f00d24902b059975f2944130fd6cfe1174ed51cf8c4f9d48034cbf677450"
+    },
+    {
+      "file": "src/mcp/toolbox-practices.ts",
+      "sha256": "d5c064d98c2e31bfcc290cd3691ea382eb2b6944d928f0a66beeee0808c987e2"
+    },
+    {
+      "file": "src/mcp/toolbox-preview.ts",
+      "sha256": "fe81e99c67211ae0f4dfd8ea2cb4eaf76bea7f5d29e2efb965e84a4715a87dae"
+    },
+    {
+      "file": "src/mcp/toolbox-reference-coverage.ts",
+      "sha256": "c4129070a1f0925a4d572cfc20c6f1a2f4cec75cd5bc10eb8434329e1afe0843"
+    },
+    {
+      "file": "src/mcp/toolbox-reference-resource.ts",
+      "sha256": "6cf541425a197e1d630ccfc2b531dc71da984bc5b0f489581715a00ac9268710"
+    },
+    {
+      "file": "src/mcp/toolbox-route-diagnostics.ts",
+      "sha256": "a1c928b872f66673dfbb43f363bfcbda6c445247f9dd1044b2251891dfca3604"
+    },
+    {
+      "file": "src/mcp/toolbox-runtime-source-import.ts",
+      "sha256": "f816a9e4ab3ab2a15beefbd19f3b537a4a661685f66c8068b0ed146de811da05"
+    },
+    {
+      "file": "src/mcp/toolbox-saved-microstrip.ts",
+      "sha256": "a4e2e21d4e57a53f60b9b1f3e6e49da6ec4fdf799590cd3ed9c10ce811a5616c"
+    },
+    {
+      "file": "src/mcp/toolbox-saved-plane-recovery.ts",
+      "sha256": "aadc9b70461421eac690b6e6d1b00ab541049b924fd66d780c49f268e6644ebb"
+    },
+    {
+      "file": "src/mcp/toolbox-schematic-field-diagnostics.ts",
+      "sha256": "6c38c3a564332616dc7f5cf7ff9a56e105bd6301d1eb6ac2bb84f90a8bb3c403"
+    },
+    {
+      "file": "src/mcp/toolbox-schematic-seed.ts",
+      "sha256": "b882dfab20c9dbc807af63411aaf38103d796918e127fd0c690348bdbac4408d"
+    },
+    {
+      "file": "src/mcp/toolbox-server.ts",
+      "sha256": "72f20f46ea70f8859815ae98a5c08827a0fc2a97b9bf8056ab76b95c979e8f0c"
+    },
+    {
+      "file": "src/mcp/toolbox-session.ts",
+      "sha256": "e5f50f1223e8d684aff6c6ed2fad15e016423fbdf726729ba869191e1c9a47ad"
+    },
+    {
+      "file": "src/mcp/toolbox-startup-diagnostics.ts",
+      "sha256": "67ac3fb994c74d0e01eeab0781c2f7a500976a98ced36a7e9cc6906be5d296c5"
+    },
+    {
+      "file": "src/mcp/toolbox-sync-diagnostics.ts",
+      "sha256": "52f705e95faed0a93e31095de24cf9c680dc4c270659841ae51cf6388a5dcdb3"
+    },
+    {
+      "file": "src/mcp/toolbox-workspace-main.ts",
+      "sha256": "dd23242f2245aa7621a132a6c375f8f3e035bec261ec637b4324822b696cbf23"
+    },
+    {
+      "file": "src/mcp/toolbox-workspace-store.ts",
+      "sha256": "9946a4484e526e1e7412b214f88da575e1839321951b17b52b64195de180e42c"
+    },
+    {
+      "file": "src/mcp/toolbox-workspace.ts",
+      "sha256": "a983755fd7caa25ed6843d073ee0dae421cec68be31e77cc524f8d38227f6d85"
+    },
+    {
+      "file": "src/persistence/audit-log.ts",
+      "sha256": "74fc35cc5b2005c03d32b1e8fe591db0ed222d9cf1029a0c851c0bf82593c22e"
+    },
+    {
+      "file": "src/persistence/content-store.ts",
+      "sha256": "191267809a9b4f5eaf85bb2bf951e710ea28c22124073df41dd94dd275f36815"
+    },
+    {
+      "file": "src/persistence/durability.ts",
+      "sha256": "5e05c289804b18c6316386833f04dcc71313543d3d50fa1a506ee726e73b8839"
+    },
+    {
+      "file": "src/persistence/file-lock.ts",
+      "sha256": "9c7ff21ef4d0db027b934626e1de4f0f0f1282d250fa98bd804000d17895e8cb"
+    },
+    {
+      "file": "src/persistence/index.ts",
+      "sha256": "d9517a7e62cb4051b94e3f3d25041be3fab4578eabf9d1328e4e42c982f6f98c"
+    },
+    {
+      "file": "src/persistence/private-kicad-capture-port.ts",
+      "sha256": "e7e4ab1b67fa129835cf048a2a0b0b957d0f8bca60c45d338ce1a2b283909c65"
+    },
+    {
+      "file": "src/persistence/private-kicad-capture-store.ts",
+      "sha256": "00219c01cc850051c3b0618093632d901deaf11d2cd6d929078a19f995092d67"
+    },
+    {
+      "file": "src/persistence/run-execution-lease.ts",
+      "sha256": "2a5847d3e83732753f25119a9efb556b1333a24f758798518af3365d94f7b45d"
+    },
+    {
+      "file": "src/persistence/state-store.ts",
+      "sha256": "97b6c50960c0bcbae9b3ce06e31baaf7addc7c14b05e4dfd58e1681e30e04144"
+    },
+    {
+      "file": "src/workflow/contracts.ts",
+      "sha256": "d32b5f62bf7d130cc38a02418f4a1cbc9f08e0616acd6decaa8daa31dadc548d"
+    },
+    {
+      "file": "src/workflow/index.ts",
+      "sha256": "bfb791c82b9316ad9869fceff514d5601a94e6b12515c622f6c2f178e5dfc6cc"
+    },
+    {
+      "file": "src/workflow/stage-registry.ts",
+      "sha256": "d76de74b155d9008cf6b0c091a27e43e81a152e7b7fbe2363e93cc571b73a484"
+    },
+    {
+      "file": "tests/api/export-idempotency.test.ts",
+      "sha256": "c74b4c57ea83636ae5f00946b1fd6f723c2b589ca41fa4934995af83ab47be76"
+    },
+    {
+      "file": "tests/api/flux-main.test.ts",
+      "sha256": "394ece793f4cb479762a938c03aed919cde51d085c136f2140f64de991416a3f"
+    },
+    {
+      "file": "tests/api/flux-routes.test.ts",
+      "sha256": "2ebc9c4e1dc44561f650a0ad2e234dc113679b1fc4b03250fa01d5a657f99787"
+    },
+    {
+      "file": "tests/api/server.test.ts",
+      "sha256": "e97bd6021b4404a5df65adae1c0cddc0d70efee16e7aeb36cc5b46cdbf27c351"
+    },
+    {
+      "file": "tests/api/transport-conformance.test.ts",
+      "sha256": "4fb9da229c70bfd831318402bd4dc91a27a5418b3b2f259c60ea624fb4cccd51"
+    },
+    {
+      "file": "tests/application/application-service-lifecycle.test.ts",
+      "sha256": "020515b1908901174ef40792a307078d61cccdd4d85378433a0d1784ede3f5ec"
+    },
+    {
+      "file": "tests/application/application-service.test.ts",
+      "sha256": "1bb65f93dd735a4d49e3cf2ebc4528b2cfdf6c4a66224df46ed780b3125ee6fb"
+    },
+    {
+      "file": "tests/application/atomic-stage-commit.test.ts",
+      "sha256": "0f0823249c331f6ad66a7fde381a1baab8e4b2bbb5e264645bfe0d5956a11594"
+    },
+    {
+      "file": "tests/application/bundle-verifier.test.ts",
+      "sha256": "acdb2d2525066bcf2d7a2d48a6cf481b7df92d8e0309d433078900d76f489981"
+    },
+    {
+      "file": "tests/application/default-registry.test.ts",
+      "sha256": "f37961621e2bb13147642dd072a44b6ab57f19738f5cd4d34399b2ad24c8696b"
+    },
+    {
+      "file": "tests/application/execution-admission.test.ts",
+      "sha256": "0b35c4b5798454908cb081c9a3b47fcf34b66b08efc07f28b872407a8c059075"
+    },
+    {
+      "file": "tests/application/export-idempotency.test.ts",
+      "sha256": "e9adffe64664274ca4d62dd647d1ac96a5b21a04ba8b9b5b43283bffd0e3fc3b"
+    },
+    {
+      "file": "tests/application/export-projection.test.ts",
+      "sha256": "3a3d0a0d89f8815b67ec9512192317b540b831584e835fbdf7666f8f1ac1fb4b"
+    },
+    {
+      "file": "tests/application/helpers.ts",
+      "sha256": "d68a1300e5eafdc228647f007c31a960da52e65622e43689f2a27ba49ef34840"
+    },
+    {
+      "file": "tests/application/physical-evidence-release.test.ts",
+      "sha256": "d1ecf582f4a9e79cbce46d82d9682228d1b965e938a02901052d874e9e0209cb"
+    },
+    {
+      "file": "tests/application/production-factory.test.ts",
+      "sha256": "a86ece52484fefcfcb0a65b39b9ee243ae211fc8e37724bd8e48cbf973e3ca41"
+    },
+    {
+      "file": "tests/application/production-stage-context.test.ts",
+      "sha256": "9dc1194d2585d442f3c12f527e548f7f837b088dd28468ba0b432385b7388f3d"
+    },
+    {
+      "file": "tests/application/recovery.test.ts",
+      "sha256": "8abcfc9993522cb57b9555117713df074acc6f72a15b78534aea40ad0d9096dd"
+    },
+    {
+      "file": "tests/application/stage-context-provision.test.ts",
+      "sha256": "398bf19f6539ec551b967d46dd91d583cbf6abb97fac7af2136f01af81c1c135"
+    },
+    {
+      "file": "tests/fixtures/audit-drain-worker.ts",
+      "sha256": "a1ffd2ee4a36a41748a7f72cfefc4954dc187f240844554510abc8ff496e4db6"
+    },
+    {
+      "file": "tests/fixtures/audit-log-crash-worker.ts",
+      "sha256": "835c4250904e7dd0d86b9788cb4dd0ca997c984fac26e87349648b04765df237"
+    },
+    {
+      "file": "tests/fixtures/codex-cli-0.153.4-config-preflight-transcripts.json",
+      "sha256": "928f48c04819cc480aaaaf57d96010b5a9a411b5d8631c2a20fa0e83a919ca70"
+    },
+    {
+      "file": "tests/fixtures/codex-cli-0.153.4-gpt-6-astra-no-model-tool-profile.json",
+      "sha256": "2045fd617331237da3effb0560e5de0af08e745f55964dc0c023d5c2bcd9c504"
+    },
+    {
+      "file": "tests/fixtures/codex-cli-0.153.4-no-model-tool-profile.json",
+      "sha256": "95c5e74b5bf8744d5145c28fc0338517da65c0ca84aa0cd27e9f2b3bf370ae7a"
+    },
+    {
+      "file": "tests/fixtures/file-lock-claim-crash-worker.ts",
+      "sha256": "19376f9d5ad665c31821e1580ebcc64f5b0f8e8d5c2b3e857d45600624084635"
+    },
+    {
+      "file": "tests/fixtures/file-lock-worker.ts",
+      "sha256": "c9f38c2618d78bbae659578a78fbb00db0ca0133181abcc5e601bc59041802e6"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/Package_DFN_QFN.pretty/QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sha256": "c6155202672a8e52c72e62cc75c9d021b3a8f0e295ca235f9d2128f1cfda1e63"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/Package_DFN_QFN.pretty/QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm_ThermalVias.kicad_mod",
+      "sha256": "33074e81af78e4316298889b5dacd5f811273020bd2a887a50eee62955e5039c"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/Package_DFN_QFN.pretty/QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm.kicad_mod",
+      "sha256": "a6d29ebfd0323cb390607b599682eb8dac89a0d8b0595398da6002ddc5702690"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/Package_DFN_QFN.pretty/QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm_ThermalVias.kicad_mod",
+      "sha256": "3ef6f6530ca0d3f750dd4581d85572b74196abfb62a2c8ddfd2ba7f1de022147"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/fixture.json",
+      "sha256": "18c42b7f4da6f5e9337659658751e2b5476f81bfe0ae0dc1ebee5092106004dd"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/native-assessment.json",
+      "sha256": "5af870ef72ce988f92f1d2826922d4ab85194afed6f9dc5bf1bc6dbb1671e480"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/native-evidence.json",
+      "sha256": "2e34b007baeed418ca5f288cd0ff2a50689dd5a5aace471f3073a2275665802d"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/native-pad-snapshot-envelope.json",
+      "sha256": "feed97439bff5f2ace8f4cfd43ae2547d71ac4fa1f41e2bf05bcb10e81b4da57"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/native.kicad_pcb",
+      "sha256": "69886df0b93990a53e0db50fb71b1d14aefe993acbb8540db4e84255a713f276"
+    },
+    {
+      "file": "tests/fixtures/fresh-pcb-pads/saved.kicad_pcb",
+      "sha256": "2668f9a598d28de0faffbb5f8707eade4824f53c15693f7ef199d31cc9466b4c"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/README.md",
+      "sha256": "8749458871e329c368a3f9e8e2714597233b377e9f33ccc75ab0873057747583"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/angle-metadata-leak.report.json",
+      "sha256": "7d843d7580b99e7072472ccba8f698f16ce5b2c5e5020f2fd62d33abaf5449f2"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt10-grid-aligned-plan.json",
+      "sha256": "72eec6865432965f2e3ff5b1e5ddca20fbd4ce7a89e87d10b6d849c33330646d"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt10-label-reserved-plan.json",
+      "sha256": "b1fb508bda79e7c63dcebce35a440dd06139fb8282b9a5139f80e72385a9434a"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt10-post-placement.kicad_sch",
+      "sha256": "72fe883a90f049fed45c8785177280831e7b3fee73754311a726c929191b9c8b"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt10-writer-normalization.json",
+      "sha256": "a7aad191ab22a7aa2f5f8141fe7b35f6a3c3274a6e894fc301c1a16a7f31251e"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt13-acceptance-inputs.json",
+      "sha256": "9707665a3098ebcf8681d5224b643d2092e011ed20eafd2d4c126b414f4f3e64"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt13-pcb-pad-geometry.json",
+      "sha256": "3d180d947d7ea882c2f6d558f97e6b6429388e95df93c087be5426be71aa8d76"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt14-native-schematic.provenance.json",
+      "sha256": "3d7502ea4c60f251b09c922e31b46e74ecc0bc0f54d783f03f9a2531ad46b73d"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/attempt14-native-schematic.svg",
+      "sha256": "38ef54fcd1dd3fba218573b8aae8a02a671d1325fa05bfaecd688c660781cd8c"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/authored-netclass-board-serialization.json",
+      "sha256": "9cdac8f20cfb5e45e08b8242ebb22e33fe2d62e469fa11c0fef8666f43b3ae14"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/authored-netclass-native-timestamp.json",
+      "sha256": "baffc2aea14fd7dc662266cb4182a77a101a44476b9fa4acab00fa4f95da6441"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/authored-netclass-sync-response.json",
+      "sha256": "cc7b8d1b9892daa3aa454dabad7c7e50b379a206bdc8cc88467f1e5a87c4a0f0"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/authored-netclass-sync05-board-serialization.json",
+      "sha256": "ae854c5485f2e563b1a100a03fde4ded2a8b5f3797436797e471100828a905b0"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/authored-netclass-sync06-technical-layers.json",
+      "sha256": "cd9edfcd903a0b49c1ed9a3c1ee487c8922ac3b325e5d56535f20d00534909f3"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/blocked-wire-plan.report.json",
+      "sha256": "84e0829fe85f4733287ee409cf74e6f1c1d85cc901a4a0583128a396a87466d7"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/captured-stock-symbols.kicad_sch",
+      "sha256": "812a97702b96e85365ebaec1a36b9c0ced40a9b073e1e3919035703009188eb6"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/captured-symbols.report.json",
+      "sha256": "107ff8b1b3697a23fa192f1265b3963b094e59e4684612ef0a715ed1495f71ca"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/captured-usb-c-power-symbols.report.json",
+      "sha256": "5f1d4681a0abb5a190760f56d77d7aab0d4aaee8b1e6c1f516fb1511ecb0673d"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/modeled-plane-stage-507408.json.gz",
+      "sha256": "96d2945642d35a2809547acd79e296a36fc663bc9dbc565e80e3f05c8bf2160e"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-board-text-line-spacing.json",
+      "sha256": "71b0dfeed75f6a20105a25a9adf307fac231c4a2be154ccb9bb20f3f42b60442"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-empty-board.kicad_pcb",
+      "sha256": "8be439fee8716117c4da47e1e947c749ff4889df564d25a51f2640dec48f4a09"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-empty-board.provenance.json",
+      "sha256": "bc01a897330a7b64b670da4a823fcdfebafcc83f123e3ad08146d9c205961f02"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-expanded-non-net-settings.json",
+      "sha256": "47962eb0397a0ab91d88392a0fd5f108a08d8bedcd2604ae4e07013e2170058b"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-expanded-non-net-settings.provenance.json",
+      "sha256": "74c3f6339aa9edd903d3db6ec63361dff1cb475db2a5aff49424634df3fe7aa0"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-four-layer-construction.kicad_pcb",
+      "sha256": "660e62e8fb704251542fc97269aa6c637d60c4733ba2c6436cdb2a66214c604e"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-four-layer-construction.provenance.json",
+      "sha256": "4e89a6c7a763fd5540fedd0093951c2670d09d78966b7efbb1200f6dc1990633"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-frame-label-reserved-plan.json",
+      "sha256": "43f43ca89ce096c3133f573ef97f525f193d62aed70c0c4934458b36731c6562"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-global-label-metrics.json",
+      "sha256": "8b914b2d62b479311d840e870be747dfa0a600cfb4ac3872efe4bd1c99dc0b40"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-global-label-metrics.md",
+      "sha256": "8482a550d133abe12d2f42c16fd4c472595a9d42184e06b307cf7e98491e643d"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-large-field-source.kicad_pcb",
+      "sha256": "b9c3c9bf047113629f724636254286afb547834880f83749c199610fbf52abf5"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-large-field-source.provenance.json",
+      "sha256": "8f422d01706e70460e549033cac6fcadb0270d46528edfe83ff09f87a2a0c649"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-pcb-coordinate-oracle.json",
+      "sha256": "97a3ce4df41a62b58e010cf65bea6d9233e822da05bede02e233a6d544e6cfde"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-schematic-stroke-style.json",
+      "sha256": "e3db387c57b42c6352688aae13c43b011db2ae315edd8d9be419d3f9d2832807"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-two-layer-construction.kicad_pcb",
+      "sha256": "6f5200f82c9d50bb5d97a6a1fc1e700f9702142d1a5eb1a25680595177e12e0d"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native-two-layer-construction.provenance.json",
+      "sha256": "09beec1ff484057d8e21d3611f0e40648a1692d19353ff2bed2fa3fdbd437a2d"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native06-initial-save-history.json",
+      "sha256": "d72fd91e0ccbae2fca36860827bd6475c597fd32911c6fadb154c6e2fdb2a2f8"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/native60-03-unrouted-drc.json",
+      "sha256": "2a93afdab1100cdc37d0b8846df91db28fc9439a2e5d2e6571668181699435de"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/reopened-rotated-board-serialization.json",
+      "sha256": "bc77ab1cff59ef178b6f7f1afa8b129a6c89a8d1dedbeee251e93e237a51391a"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/rp2350-native-62-component-schematic.provenance.json",
+      "sha256": "a5fa528394e8c253d7fa711005bf34f63cbe9f2bf7f1d2f45cd2575562811978"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/rp2350-native-62-component-schematic.svg.gz",
+      "sha256": "eec30c4437a74a27bf6f2899b63f2f4b47b7c94a170f8cd7f16dc21352267c86"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/rp2350-stock-schematic-pins.json",
+      "sha256": "7188b9ed43c74fc340152a229ad6d9a55128eb66ab774447c673b8b465322ef1"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/rp2350-stock-terminal-source.json",
+      "sha256": "10bd4ff2fee79627b9ffac3fa0f15eaac5c45440aadee45d6a85477803cbc0da"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/schematic-batch-offline-producer.json",
+      "sha256": "f1736e9dd1deecbeb391fcd97fe02a47d656278db584fddec5454ec99b875a93"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/stock-led-escape-source.json",
+      "sha256": "7369896352a2b48e7e2fff7e42294e85ad1dc3489ca46da5ea7cb269ddad94b9"
+    },
+    {
+      "file": "tests/fixtures/fresh-project/stock-resistor-source.json",
+      "sha256": "ec7d06d8b76e4c6f5da0a652fbd59a622e059a9cc25009ff0dab5939aa4137fa"
+    },
+    {
+      "file": "tests/fixtures/kicad-mcp-connectivity/attempt11-vout-junction.kicad_sch",
+      "sha256": "b5253e3df46a0e0e59ab24e0791da781c399470dbed760e87720482cdbe68d06"
+    },
+    {
+      "file": "tests/fixtures/kicad-mcp-external-power-flag-connectivity-tool.json",
+      "sha256": "4156d18d34d635c300ce87b9282be2c7938ac6a463763dcb4cc5d83237e4ed07"
+    },
+    {
+      "file": "tests/fixtures/kicad-mcp-live-pcb-pad-snapshot-protocol.json",
+      "sha256": "74fd6702c65fe0b1d113719dcfbd548a60b5701ee7f2a3fb36e6ddcc1296c127"
+    },
+    {
+      "file": "tests/fixtures/kicad-mcp-qualified-footprint-pose-sync-tool.json",
+      "sha256": "0aca03fa98d3692a990703cd3562b97799c753c547aac37ee37b7f9227606238"
+    },
+    {
+      "file": "tests/fixtures/kicad-mcp-qualified-footprint-sync-tool.json",
+      "sha256": "4cd5981b622b80ff90341b67ebe08fea9c8e317d41530fe496583eed2d38a2b3"
+    },
+    {
+      "file": "tests/fixtures/kicad-mcp-schematic-connectivity-batch-protocol.json",
+      "sha256": "aee9ad59039ee512a13b8d7f3994841e0200eacabfd58bc2b2f2f793a7ede8c9"
+    },
+    {
+      "file": "tests/fixtures/kicad-native-commit-tool-contracts.json",
+      "sha256": "50009a72f2fc168d1dbbebd2dbb8890fe2d01a74af43d2491f974b451f878b80"
+    },
+    {
+      "file": "tests/fixtures/native-interface-pad-positions-20260910-03.json",
+      "sha256": "c8bb51f440f39335f5d7f9023354685f0990fc405603ed1449e835108d78e1cc"
+    },
+    {
+      "file": "tests/fixtures/native-interface-pad-positions-20260910-03.provenance.json",
+      "sha256": "bde5a1bba7c3d2324facedadcc3ff45d62e8d79e13a7ba23f39d72e6b90c44e7"
+    },
+    {
+      "file": "tests/fixtures/portable-artifact-canonical-v1.json",
+      "sha256": "3a914cce310da16891f648e43fa83b25d013dff6748f5672fc9bd10e322197a5"
+    },
+    {
+      "file": "tests/fixtures/run-execution-holder.ts",
+      "sha256": "1adf7316ef81e22df77c691be5c73c29db4078b4129fff8d811bbdd63446a272"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/README.md",
+      "sha256": "c280e26db76ca75873f5954723664a610aace6d0109714b4f008de6ab742e27d"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/capture.py",
+      "sha256": "4ec0d13535220e58990162be1f2adc9fed257fca45403656512566ef96c0c881"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/cardinal-labelled.kicad_sch",
+      "sha256": "b7140573ef029292059fea5eb8940ce002293ba1cab0d6fff4434108a8ad69a2"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/cardinal-unlabelled.kicad_sch",
+      "sha256": "39fdbe3b98d438f40bd3c8a300957610cae0f08884b151d7af03328cd46d77d8"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/inspect_doc9.py",
+      "sha256": "e64f90285ef8b93ecf7b4fc7911ab3cd7f412c7597ac93ea8b77c6d3e12204f9"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/native.net",
+      "sha256": "6baeb7daa335cf1ab4810a70829502763037fb01f43169f364fb3b7ae67fdef6"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/native.svg",
+      "sha256": "e269bfce5ef08cd52cb03490bf5b3e9d85e6c52f980aa2bf3ba86342ff04f3e4"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/oracle.json",
+      "sha256": "7beab39f21f337b4fe870ef4a4761a76eb7c49c1e3e8ca02ddb2cffcd32edb2e"
+    },
+    {
+      "file": "tests/fixtures/schematic-cardinal-native/source-symbols.kicad_sym",
+      "sha256": "6a1eb1e0c838b9fd04a91724e2d8ba93db075b2770e74a9bc2e54bb3d93196a7"
+    },
+    {
+      "file": "tests/fixtures/state-store-crash-worker.ts",
+      "sha256": "b10cf074a390a6218999ee686484a8f05c390d5db8efbb0cd9ae37a7e04fe699"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/Connector_USB.pretty/USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal.kicad_mod",
+      "sha256": "012da5bac71f8e9d4f59d0f7041c3cd8e1e5af3a3d297354b974f61ab24e8691"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/README.md",
+      "sha256": "06381e7bf6e523cce807de07112e2c6ff06d2664fed5b2f8607a29108a6ef1cd"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/native04-saved-post-import.kicad_pcb",
+      "sha256": "3bcb34016b6385a7d943ffdb9617d2d6619cbc2e847163351aa416741fc25014"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/native04-sync-reply.json",
+      "sha256": "22d532887640e10b166313035519e48157ef97a38d47887c373dc16fc7598b1c"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/native05-draft.json",
+      "sha256": "696a88f2ed3059766f3c39c0e36c256d1519fcbd6d4ec3b17723c7401d00a217"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/native05-provenance.md",
+      "sha256": "3b6ed938ffe81be037f9f4b1b93482385a08be677117c42c0b1cad49d550b20e"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/native05-saved-post-move.kicad_pcb",
+      "sha256": "24e3935b9e41cfb2df113bd5cfae3ae1884ec0e4f698011f16bd68f349bc1c9b"
+    },
+    {
+      "file": "tests/fixtures/usb-c-native-pads/native05-sync.net",
+      "sha256": "0560d8cc3938bd77d819ad0588974453405c09180ca48f83031709c11a150990"
+    },
+    {
+      "file": "tests/helpers/board-feature-fixture.ts",
+      "sha256": "18e47012302d677cc62d798aa8024211d57356a9b0b98989f5748b67f14b027a"
+    },
+    {
+      "file": "tests/helpers/compact-plane-stage-fixture.ts",
+      "sha256": "ac4f3c9fa08a9e30c69fa602dae280e83bc957653851db3fbe853014cba9b369"
+    },
+    {
+      "file": "tests/helpers/derived-power-bundle.ts",
+      "sha256": "5e9e46e490e2256be7ca9a3eb16d104a0457bcd2949221787bd81722bb3a24c1"
+    },
+    {
+      "file": "tests/helpers/external-diode-power-bundle.ts",
+      "sha256": "4456b832f311fbe6e8ffbff002df3552f6199797a4b093ec362dc5dd9f518ab3"
+    },
+    {
+      "file": "tests/helpers/fake-flux-control-server.ts",
+      "sha256": "50de32d4f03714d2c64cffb94d4eff8639c18db6f8a3f05579d8c1da6cb6684e"
+    },
+    {
+      "file": "tests/helpers/firmware-compile.ts",
+      "sha256": "cd9b19b345570508c25d8bf9dc4b446166da01d5f5257d0d404882a65ea9972d"
+    },
+    {
+      "file": "tests/helpers/flux-kicad-mcp-runtime.ts",
+      "sha256": "e99bc581e9069dac48bdce896a5ea12072adc0d4da1e9f3dcd41be65e54db721"
+    },
+    {
+      "file": "tests/helpers/flux-kicad-toolchain.ts",
+      "sha256": "e629700c05a64e0d028e362c3890cedf735f1e4e8a0a482706e07a6b452c436a"
+    },
+    {
+      "file": "tests/helpers/four-layer-construction.ts",
+      "sha256": "05275cb6941746323857d84d79653cb282d99e10e350118dfc100cd7fe674e7a"
+    },
+    {
+      "file": "tests/helpers/four-layer-plane-bundle.ts",
+      "sha256": "f99ffff1a6415830169b539b1774fd2a12c332462902b95c13a32504f5282bc3"
+    },
+    {
+      "file": "tests/helpers/generic-divider-bundle.ts",
+      "sha256": "ccde82f66891be9856bb61fcaf2df172e254eb4cf12e0b0127d03d2266eed080"
+    },
+    {
+      "file": "tests/helpers/interface-construction-bundle.ts",
+      "sha256": "449ba33925de67dd998b00338e926c9520718477bace44ed698fb4d1e601a3f8"
+    },
+    {
+      "file": "tests/helpers/kicad-plane-contacts-fixture.ts",
+      "sha256": "bbc3a4240c4bdec09588b029c8e536b286651e26c5043a4becaf610f57b2236d"
+    },
+    {
+      "file": "tests/helpers/kicad-reports.ts",
+      "sha256": "3e43b0d9a9411e7de7baf9dd5055e65868b45fe8e3215699c52052e08722c032"
+    },
+    {
+      "file": "tests/helpers/larger-schematic-batch.ts",
+      "sha256": "7311047bcd27cfd1ed95150f8e5f9297910fb56734cd53134ce7b750f4a4aa21"
+    },
+    {
+      "file": "tests/helpers/native-check-verdict.ts",
+      "sha256": "fe90e2a3bd4f11020823e2246143832201ca3fb60c2cec26c7b7748fb5b7e077"
+    },
+    {
+      "file": "tests/helpers/native-pad-observation-fixture.ts",
+      "sha256": "a870fcdd6cab5ba86b97c55e2344f5b0975e612968777218a67191954074a818"
+    },
+    {
+      "file": "tests/helpers/normalizing-schematic-writer.ts",
+      "sha256": "87ea85d920a78a039e06d18029414e4105f12affdc9b6be94e271c39f45c92ff"
+    },
+    {
+      "file": "tests/helpers/pcb-library-source-fixture.ts",
+      "sha256": "180d55fcb6bdd088ae16027c34f6a1905de3a0942d6b848c5ed3bc4989686e30"
+    },
+    {
+      "file": "tests/helpers/placement-revision-fixture.ts",
+      "sha256": "5cb695b6f1c7366ead223e1aefbfdbb6f08a289d8ba261ffd16e68a425f5899f"
+    },
+    {
+      "file": "tests/helpers/plane-divider-draft.ts",
+      "sha256": "3082b3a6d141f57979829dc2d77504511a99d4c45b287a439b820dfe3c325fbd"
+    },
+    {
+      "file": "tests/helpers/plane-stage-observation-fixture.ts",
+      "sha256": "6a9a0c492b1ad28bb098d04fb4c28bd4ece05bcf17d6ba7535134bb8e4054e6a"
+    },
+    {
+      "file": "tests/helpers/probe-packaged-deep-rule-resource.ts",
+      "sha256": "a9199c013bc98e1df11dfc0ff108ddeba1f1cc98361824ba02e93190a6e43857"
+    },
+    {
+      "file": "tests/helpers/runtime-source-import.ts",
+      "sha256": "d4dbfe5995f4b79e80552366cbf1ce05441ca0f8f667f09cd7b4e2d008ce87e8"
+    },
+    {
+      "file": "tests/helpers/schematic-failure-session.ts",
+      "sha256": "883939132bbf3f78652b44398cc930248a6847643fdfdad2f11239b091c2a841"
+    },
+    {
+      "file": "tests/helpers/schematic-render-capture.ts",
+      "sha256": "474372739ce23fef5f81bff5ddd6a19bb1d4e18b0420f3f274492a9a5a98d816"
+    },
+    {
+      "file": "tests/helpers/synthetic-terminal-label-style.ts",
+      "sha256": "d4580b60ba70946221fc3c488dd94829dd2eaf44f7e7888c375b28c46c194771"
+    },
+    {
+      "file": "tests/helpers/unwired-plane-seed.ts",
+      "sha256": "ccd4f709899615f8388b499398cd27eb9c33c7bdbb048ac4045b441034f2d954"
+    },
+    {
+      "file": "tests/helpers/upstream-source-revision.ts",
+      "sha256": "9145ea6dc4d084cac3b50386e810128b29c3ec1b38a31faefd6be8d59d08d3b5"
+    },
+    {
+      "file": "tests/helpers/usb-channel-bundle.ts",
+      "sha256": "0d151af0f85d1daaa8412a56dbfb03d2543abf7b58cd6d9bb871f68dbe8ba071"
+    },
+    {
+      "file": "tests/helpers/usb-channel-source.ts",
+      "sha256": "36305d2a948f8e09afd2a07c15e65629faf2911394da6b9af612b840c357d0f3"
+    },
+    {
+      "file": "tests/helpers/usb-feed-through-bundle.ts",
+      "sha256": "09ae61e806d13e6e6ff8c8bae33e24a6f1e12c9819c4b96a7912ae8e6bea29b1"
+    },
+    {
+      "file": "tests/integration/kicad-cli-stroke-style.test.ts",
+      "sha256": "fc37dbccb30fbcf2f690dd935b224e4c28a9bf76745520be27f07f7121c41e47"
+    },
+    {
+      "file": "tests/integration/kicad-cli.test.ts",
+      "sha256": "0957896a6393e060676ceb402cd7529f6ef229610643134e8384e7068c31a62c"
+    },
+    {
+      "file": "tests/integration/kicad-mcp-connectivity-reader.test.ts",
+      "sha256": "c4ff4694f3f20baa5cde97da3718a576d8e6ce53871a0f29e5f0a07d86860c8f"
+    },
+    {
+      "file": "tests/integration/kicad-mcp-real.test.ts",
+      "sha256": "029b2d977a9839cffc1255c834d034f6683a80858939439a036d494bffcb0196"
+    },
+    {
+      "file": "tests/integration/kicad-mcp-workspace.test.ts",
+      "sha256": "f8ee6e8123d0760a9a6f881494929382a0b8e3f7cf9f945b674262ad3c3020ee"
+    },
+    {
+      "file": "tests/integration/kicad-mcp.test.ts",
+      "sha256": "77b151a644436bf3de67271360e8bac700e0634a1a77d9d942d9565aa46abd47"
+    },
+    {
+      "file": "tests/integration/kicad-native-route-session.test.ts",
+      "sha256": "2b01fd33930b84214d7d1ee0341c890064774b9f3a779caddaf0c6418b24c55f"
+    },
+    {
+      "file": "tests/integration/kicad-plane-stage-session.test.ts",
+      "sha256": "6752e6de4171b61a861cefd11695e7d4445400c2bdcfeb5250f0159f1cfe5579"
+    },
+    {
+      "file": "tests/integration/kicad-route-native-units.test.ts",
+      "sha256": "f19be1274f6dcd12315b353fe8bdd4b45a3790799984b262f66ad092f9b6e103"
+    },
+    {
+      "file": "tests/integration/kicad-schematic-failure-recovery.test.ts",
+      "sha256": "685f8c5b6b9e944c14b12f6067557e435ec9df57132573abc0f5b58d783003e0"
+    },
+    {
+      "file": "tests/integration/reference-kicad-backend.test.ts",
+      "sha256": "d64d68029df1767b0b7d27c40ee04891d184e5e4e8aea3f8e812ab6fff273f7d"
+    },
+    {
+      "file": "tests/integration/reference-simulation.test.ts",
+      "sha256": "4aa4480465ebe46aabdffc7f9cb56ebe230fa9479d026434558fd8ccebc65613"
+    },
+    {
+      "file": "tests/integration/reference-stage-context.test.ts",
+      "sha256": "45aee5b9dbd1688ba08d63ac0f8585d96564d0c2fa2ff177a73c217cf017941b"
+    },
+    {
+      "file": "tests/mcp/export-idempotency.test.ts",
+      "sha256": "bb837fd56287b1d22e4f24c544b0c21f09c017f21e165ada3a8a20636a5a5aa0"
+    },
+    {
+      "file": "tests/mcp/registration.test.ts",
+      "sha256": "997c6625fcf07b0c03d139acea61514ff5980619faea6bf01bb0033948ec2e99"
+    },
+    {
+      "file": "tests/mcp/toolbox-attachment.test.ts",
+      "sha256": "07f21e5d6179c2564a8530c937d1e4ed8afc177ef57767096e5e48141c56034f"
+    },
+    {
+      "file": "tests/mcp/toolbox-derived-power-connectivity.test.ts",
+      "sha256": "98da06b25220e49ba530e75170b56b5bed37ce8c951e1f7e013f5a93500c7a39"
+    },
+    {
+      "file": "tests/mcp/toolbox-endpoint-connectivity.test.ts",
+      "sha256": "d5c941ff104fbbd31a0a216e8d82cc8bea62cbc2d691b537ae2bf40bf0ee07f0"
+    },
+    {
+      "file": "tests/mcp/toolbox-external-power-connectivity.test.ts",
+      "sha256": "c11784147c92562920620746fe904b9062d30f24d86ba0d1ac7f851569edcc37"
+    },
+    {
+      "file": "tests/mcp/toolbox-interface.test.ts",
+      "sha256": "8260c980bc88e39e142393e43a2d7210e173601db186db435da042623508d7e6"
+    },
+    {
+      "file": "tests/mcp/toolbox-placement-revision.test.ts",
+      "sha256": "6a51c6cf35d85d63b79315eb02dbcd0e13ec8d6bc6b93fda12b74e999babc2df"
+    },
+    {
+      "file": "tests/mcp/toolbox-plane-acceptance.test.ts",
+      "sha256": "40bb438f570e32648aa086faf1653ebf8d451139412738468ff82ed5028fe12a"
+    },
+    {
+      "file": "tests/mcp/toolbox-plane-apply.test.ts",
+      "sha256": "51d661d422a31295ed2b39c71036ef6315c8434311abda4500d77a0e6d8385c8"
+    },
+    {
+      "file": "tests/mcp/toolbox-preview.test.ts",
+      "sha256": "4fc030c15de7f5b8ff67faa0e3138b617f9c75cc252a1f7679f85dcac43393b8"
+    },
+    {
+      "file": "tests/mcp/toolbox-reference-coverage.test.ts",
+      "sha256": "1274fb43d177d3aac8977354437431f498531ea5294901200abf95045c3cdf4e"
+    },
+    {
+      "file": "tests/mcp/toolbox-saved-microstrip.test.ts",
+      "sha256": "00ef83007058aae45157caf88f1c62ec023e58d2d00b618f9a210fd4266eb03c"
+    },
+    {
+      "file": "tests/mcp/toolbox-schematic-seed.test.ts",
+      "sha256": "871d542a44b61bcf99dfa8001ee1591098b519d5e95e33041ec993303092c83a"
+    },
+    {
+      "file": "tests/mcp/toolbox-stackup.test.ts",
+      "sha256": "994165ad60f02ac81201dd8bb767024a311921bbd4c8367cc57931dae97038ed"
+    },
+    {
+      "file": "tests/mcp/toolbox-stdio.test.ts",
+      "sha256": "e064ee08217b732273d69fe864b44d1d1ffd4f1a5cc23264b444c8bd3cef374e"
+    },
+    {
+      "file": "tests/mcp/toolbox-transmission-line.test.ts",
+      "sha256": "f0f43bccf7eea94e359c937fa16c98d1bd82c2f9fd94b868e01f953c24c95ced"
+    },
+    {
+      "file": "tests/mcp/toolbox-workspace.test.ts",
+      "sha256": "725ae02ede7c83effec2a615bcfd793de03f93e69d7fc48649cb7744271efb4f"
+    },
+    {
+      "file": "tests/mcp/toolbox.test.ts",
+      "sha256": "f6789ac9c4d928ef65c334772044906fb08d05fd4207fffe530a58026dbc6a84"
+    },
+    {
+      "file": "tests/unit/agent-coordinator.test.ts",
+      "sha256": "fe5ecb87ab1f1b9177479617b8269ace99f2d6c76efcf7af343fb32b824b53d5"
+    },
+    {
+      "file": "tests/unit/agent-deterministic-validator-registry.test.ts",
+      "sha256": "3ef7f9fee3dfae06268539830d1017a9d9e95ec497cb1014916632cea1b3a518"
+    },
+    {
+      "file": "tests/unit/agent-production-prerequisites.test.ts",
+      "sha256": "ac00089406519ab7c2ec19e4c94372b0b34faa6a5dcbe309f1fef295cd2ad39b"
+    },
+    {
+      "file": "tests/unit/agent-workflow-context.test.ts",
+      "sha256": "381c35f85c01b5913eb223ae383d3c5be1b6b79b85333497b4eeb804e3edcfa3"
+    },
+    {
+      "file": "tests/unit/agent-workflow-contracts.test.ts",
+      "sha256": "7f006ce56b34f662331ebb9463a48c21a64bf5847d7e00feb1d505f2621b611c"
+    },
+    {
+      "file": "tests/unit/agent-workflow-orchestrator.test.ts",
+      "sha256": "8942dd1f09cd1992f2acfd167dedeef9092eb3ca06f9645f15bf0e1aa19edb6d"
+    },
+    {
+      "file": "tests/unit/backend-runner-provenance.test.ts",
+      "sha256": "97f53dc3eddc099783cbfdf66de8c8450704ca182afbf6b81dc2c13a97cbf512"
+    },
+    {
+      "file": "tests/unit/bounded-process.test.ts",
+      "sha256": "b0fd2299fbd8cd7070b88ad319f49f7d51cc9d07a1c9c0669547ecd0875fa0ac"
+    },
+    {
+      "file": "tests/unit/cli-providers.test.ts",
+      "sha256": "635c6e3cdc592b898818ad82e5c2a965b165aa0755ea439a9a03a18674fb80d9"
+    },
+    {
+      "file": "tests/unit/core-audit-log.test.ts",
+      "sha256": "b08c39142a65496b42317a41e6903807c36c6562b05f67c499a8fd3b60a2607d"
+    },
+    {
+      "file": "tests/unit/core-canonical.test.ts",
+      "sha256": "64bb03edbee8e5e0adc2ba7fc133cae712e2460a484087c1da222dcc3a380e71"
+    },
+    {
+      "file": "tests/unit/core-content-store.test.ts",
+      "sha256": "4c1bc411598108846dff35ab2e510ee1ae9f2cb8c2aa9145f628ca7e4810ac88"
+    },
+    {
+      "file": "tests/unit/core-durability.test.ts",
+      "sha256": "c2d795680ba9bb72885f479b99ec79248cc0756d65740ea181922fb400755c9f"
+    },
+    {
+      "file": "tests/unit/core-file-lock.test.ts",
+      "sha256": "569aefcde434b7569c214a003cdcdea3ba1e8525da0469d4f93a5cfe215954f2"
+    },
+    {
+      "file": "tests/unit/core-path-policy.test.ts",
+      "sha256": "26e1e464a4c74e06ebc19daa1ce51d3789375cf7fc9b96f1b7a7900208f1b0e5"
+    },
+    {
+      "file": "tests/unit/core-policy.test.ts",
+      "sha256": "f381b065b9bdf994efe74721aa01596a4282597a513e834e3baa3cabe7b04976"
+    },
+    {
+      "file": "tests/unit/core-requirements.test.ts",
+      "sha256": "331e8cf873eba3bdef1a5bd6d3a30bdfd016ed10b4bb6bc895145798f187ec37"
+    },
+    {
+      "file": "tests/unit/core-state-store.test.ts",
+      "sha256": "65fc9cbd55518ba42b388ef85158d0b47ac9a484a627373cd7e94bf4a1d8b3b7"
+    },
+    {
+      "file": "tests/unit/deep-rule-catalog.test.ts",
+      "sha256": "fdb3561ae000e7943c3cd91419fdb304267340a6c741b84ef5d713fe3503b164"
+    },
+    {
+      "file": "tests/unit/deep-rule-resource.test.ts",
+      "sha256": "8522dd0b58df010999866ebf5db036145732464ea20f7a56e9b5eec51844e02b"
+    },
+    {
+      "file": "tests/unit/deep-rule-selector.test.ts",
+      "sha256": "e70e88f71db3bdecd59dec700b1e178d8177b9062e7b7693b4d9fc5e0f3e704d"
+    },
+    {
+      "file": "tests/unit/derived-power-lifecycle.test.ts",
+      "sha256": "cc3e710a58db290667c4a72e6433ed5d5b9fecf60c6fb10bb3eda966a6d8ca92"
+    },
+    {
+      "file": "tests/unit/destination-runtime.test.ts",
+      "sha256": "abf6a4827f4c3abdd9732c3305918dc77d57392a84ebbcd1ae323d4812e89b2b"
+    },
+    {
+      "file": "tests/unit/differential-channel-geometry.test.ts",
+      "sha256": "b124e8d16978c9a05ab0d04d109a723b747924d903c50784d709e6d5d18e8ea2"
+    },
+    {
+      "file": "tests/unit/differential-pair-geometry.test.ts",
+      "sha256": "f75246fb78b9bc34c41a4b25a70615e8a9ad63686647b7175bae94be1d88cb6e"
+    },
+    {
+      "file": "tests/unit/engineering-constraint-compiler.test.ts",
+      "sha256": "96cf1389723c5b7494ab3e7e5151d65bc50f5ad0889c75c141a1623d92387ad6"
+    },
+    {
+      "file": "tests/unit/engineering-practice-inspection.test.ts",
+      "sha256": "5876e0dfbf05f565fd8cd314f886069159132c90806e36a9f81c61e804d5e3e5"
+    },
+    {
+      "file": "tests/unit/firmware-runtime-command-contract.test.ts",
+      "sha256": "de2be9632e231603f093069edfc6569c61246550b947f7e532323aa261e22d30"
+    },
+    {
+      "file": "tests/unit/firmware-validation.test.ts",
+      "sha256": "ff304ad501b51ade01857d5f3f590311454a935fef9283284b90d19daf6a27c7"
+    },
+    {
+      "file": "tests/unit/flux-bundle-lifecycle.test.ts",
+      "sha256": "254f79e2902310c88551b048acef9dd64da2c3c6bbbd7d34db2c962b87886848"
+    },
+    {
+      "file": "tests/unit/flux-compilation-bundle-store.test.ts",
+      "sha256": "ad1d918503376d6a7fff299935ca35cbe712ba6bf3a125d1eca03dc116b5f145"
+    },
+    {
+      "file": "tests/unit/flux-contract-interpreter.test.ts",
+      "sha256": "5f55ef5f7dbf393c134abe3533df1e37df7a62985398f5d3af333b6c0231364f"
+    },
+    {
+      "file": "tests/unit/flux-control-cli.test.ts",
+      "sha256": "42a7670747d0cfc672e1f37ca12ca6ebcb7b3771194917b80de7bcb01e35facf"
+    },
+    {
+      "file": "tests/unit/flux-control-client.test.ts",
+      "sha256": "072bb1455223ee87ca88bb75611b53fd83c2ce9e99e1db27fea4d1daa5d41e70"
+    },
+    {
+      "file": "tests/unit/flux-diagnostics.test.ts",
+      "sha256": "696e82578dfc0d78ef4b85f458456f4f8225aae8ad83c595b29981af531f1f3a"
+    },
+    {
+      "file": "tests/unit/flux-generic-runtime.test.ts",
+      "sha256": "49ecb30fb78c2eb54e3f6f82ed5ad8a3dc92d453115ffcf3159f23fb453e64b4"
+    },
+    {
+      "file": "tests/unit/flux-mutation-policy.test.ts",
+      "sha256": "caaa8b3b4209def39b1d3806c66333ad1f3e4013fedfd4a4e68a5d155033385a"
+    },
+    {
+      "file": "tests/unit/flux-operation-failure-evidence.test.ts",
+      "sha256": "d31316f89a158500685eaef1c7f0b8c93655792fc9c773da72b487c8d7666523"
+    },
+    {
+      "file": "tests/unit/flux-pcb-editor-launcher.test.ts",
+      "sha256": "50ddfa2c4f90a56f87376abbcb9c5e1e4609ddb2b28e41bb73932d771f4afded"
+    },
+    {
+      "file": "tests/unit/flux-pe-version-info.test.ts",
+      "sha256": "bd5e038b8a36e568f0cf602954a209539caf50d87464d7387242c22bb2733479"
+    },
+    {
+      "file": "tests/unit/flux-preview-inspector.test.ts",
+      "sha256": "d3a121798f1b48b3c3c9382d83fc58fe609076a78fab7148df32e30fca29c7b9"
+    },
+    {
+      "file": "tests/unit/flux-production-composition.test.ts",
+      "sha256": "5fd49b0b8dd90bed4351c5083e80c2dfce498a6b9fa2f157e62fd5b0b36d6af2"
+    },
+    {
+      "file": "tests/unit/flux-run-manager.test.ts",
+      "sha256": "bbd90a3bad79039938358b5a3ac892f95c0e1f32d28a0d334096446af9a56f22"
+    },
+    {
+      "file": "tests/unit/flux-runtime.test.ts",
+      "sha256": "d1544c5b74751b799505c8404077b0f2c2ba452cedfb7fff4cae3b6d9045caa3"
+    },
+    {
+      "file": "tests/unit/four-layer-construction.test.ts",
+      "sha256": "adab49127bc50652915d86e5679d576d068ac8be8f3649d844e9b5e9d6bf18dd"
+    },
+    {
+      "file": "tests/unit/four-layer-native-layers.test.ts",
+      "sha256": "a77e72a251c0899a8b4789194d8974a3cb52b8eb20e8eea88b662728513256ab"
+    },
+    {
+      "file": "tests/unit/four-layer-plane-contract.test.ts",
+      "sha256": "87ef57ec511ab369dc9b261449a28d8ced306c5f284099722d3a2704b5ab1c8a"
+    },
+    {
+      "file": "tests/unit/four-layer-plane-witness.test.ts",
+      "sha256": "374390a00939cc2b53d1b31c59f216d07a29cd09864d8f44c0fb3c0532502938"
+    },
+    {
+      "file": "tests/unit/fresh-board-authoring.test.ts",
+      "sha256": "ceb14d230cd92dd471aa38365ac865a224f4af2bfecca781aa2a3e85dc621b93"
+    },
+    {
+      "file": "tests/unit/fresh-board-feature-sync.test.ts",
+      "sha256": "0140e5f93b1b6b68b6f0885dc473a6e6287c61fc9ee6242239b597535093706b"
+    },
+    {
+      "file": "tests/unit/fresh-board-persistence.test.ts",
+      "sha256": "11320c4344fb980dd0e8a742b159eb703fc3e76d3919dc8af2db505649ad2da8"
+    },
+    {
+      "file": "tests/unit/fresh-board-serialization.test.ts",
+      "sha256": "6d97674680ae187bdf4b0dc186334e83aabbfc3ad57cb990beb9b1a32dbeb1a9"
+    },
+    {
+      "file": "tests/unit/fresh-clearance-evidence.test.ts",
+      "sha256": "feeec9411eafae804ece2e37c8a666c01c899523e4bac35be71dd354a4eff057"
+    },
+    {
+      "file": "tests/unit/fresh-connectivity-contract-v2.test.ts",
+      "sha256": "8f62af9dd933f62dc9e51773c87e024007deeeea76e1fd291b9a0d69583ef879"
+    },
+    {
+      "file": "tests/unit/fresh-deep-rule-integration.test.ts",
+      "sha256": "ce1a7eb1ea0aade51a089594cc10a737f99932c56d8cae6dacbd518e2e166d98"
+    },
+    {
+      "file": "tests/unit/fresh-derived-power-parser.test.ts",
+      "sha256": "13609b91d3e776f454f50f21ab8f6ff99671ff4042bfe0833f08ce19f222f619"
+    },
+    {
+      "file": "tests/unit/fresh-derived-power-planning.test.ts",
+      "sha256": "6dae86a79a0d983c34de81f37561535eb404b5fd970dcf53c204b0e20c2b3b3f"
+    },
+    {
+      "file": "tests/unit/fresh-design-acceptance.test.ts",
+      "sha256": "578372a7f39c86065d99cb32fcdafcfc596d888bbde493afc934d89b76d2e7dc"
+    },
+    {
+      "file": "tests/unit/fresh-external-power-parser.test.ts",
+      "sha256": "b4dfce33d518b89fe6b39b82ee3b2846463c3403ac80cfb0505f081e9bd8fd0a"
+    },
+    {
+      "file": "tests/unit/fresh-external-power-planning.test.ts",
+      "sha256": "9b0077adadbc88b303a2e64c0a5c59124a7da2c4adde6168367ca0afa3a45ae5"
+    },
+    {
+      "file": "tests/unit/fresh-footprint-field.test.ts",
+      "sha256": "f5fb4fc5f55fdb4b94ab0edd65353a3b92018a883203abc34d9887692d8f2477"
+    },
+    {
+      "file": "tests/unit/fresh-footprint-placement.test.ts",
+      "sha256": "f07ca8980d9c617f8591969fe44849471a69d1f73c866cc983c32e1d1750a649"
+    },
+    {
+      "file": "tests/unit/fresh-footprint-pose-batch.test.ts",
+      "sha256": "ca611740a87caad11d285913f9aed533b389e4fccbc1b7995c55a08f2827e267"
+    },
+    {
+      "file": "tests/unit/fresh-header-service-regions.test.ts",
+      "sha256": "efc6887e3dda04255e7457d55b95596c6fead807b66eaa1858c71f5da1e5e796"
+    },
+    {
+      "file": "tests/unit/fresh-kicad-parser-pcb-geometry.test.ts",
+      "sha256": "23f84c2e279ed301554c3d77d873e9af95491382aa6efd9332464342d7b403ec"
+    },
+    {
+      "file": "tests/unit/fresh-native-netlist-comparison.test.ts",
+      "sha256": "cb3d8cb506571666a315ead96b995c0525057ee1877359ba4bd0bd6fe4dd961c"
+    },
+    {
+      "file": "tests/unit/fresh-native-terminal-binding.test.ts",
+      "sha256": "c10946df654fb0e691b1c352dd72b73379c4200ac027f0efacf266ddabfaa11e"
+    },
+    {
+      "file": "tests/unit/fresh-physical-authoring.test.ts",
+      "sha256": "3a0ada8028bfb5019c620ce0c56eb6237c48a2e91f98f392b55411f8bb4c874e"
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "2ff4d98a8095e9303387e2b01f7428d57209542a4e4a816f14b79a0dd9b91dff"
+    },
+    {
+      "file": "tests/unit/fresh-plane-apply.test.ts",
+      "sha256": "57e9a17182722c730cf3f97c9951f393c2bb72655ded6732bd730fdadce2a277"
+    },
+    {
+      "file": "tests/unit/fresh-plane-authoring.test.ts",
+      "sha256": "835601e8839ceb2acd2e9abbf1c582c9ee9257dbab633c6ab7147037aa7b941d"
+    },
+    {
+      "file": "tests/unit/fresh-plane-common-checks.test.ts",
+      "sha256": "2c88be46e77337362e4cf71d3b6c6f0be61dc2fd8082b021825b62099cb269c1"
+    },
+    {
+      "file": "tests/unit/fresh-plane-connectivity-harness.test.ts",
+      "sha256": "ae0ac6373c95ea0c1390671724de03ea9d3be116298d090e0df32dbaa25d1349"
+    },
+    {
+      "file": "tests/unit/fresh-plane-connectivity.test.ts",
+      "sha256": "99b5659f832906e98f840f52c560174622b419a04a1dac7e3527b04bf4b42b9a"
+    },
+    {
+      "file": "tests/unit/fresh-plane-drill-topology.test.ts",
+      "sha256": "5b74cd5240bceb72ed1925b1e95ad504c501fdf4d4ca71b61c103fdd583e69d8"
+    },
+    {
+      "file": "tests/unit/fresh-plane-evidence.test.ts",
+      "sha256": "8ff374d1724fe1c4c08580ec0c95f0fec0d41f15d058e71f21aec9a8a0affd31"
+    },
+    {
+      "file": "tests/unit/fresh-plane-filled-geometry.test.ts",
+      "sha256": "2687d25dc5d7910338c5fdfc515fa406864279f7d164342bcecee593bce23677"
+    },
+    {
+      "file": "tests/unit/fresh-plane-guarded-persistence.test.ts",
+      "sha256": "d39125426760ae7bc8c8a19089d8bf8e7fddc59cdd63796e7671ffec5022b312"
+    },
+    {
+      "file": "tests/unit/fresh-plane-mutation.test.ts",
+      "sha256": "e3874aaf99c7d508acd18a50dab591eceb38fc78c689d0f3632f6e02297fbf30"
+    },
+    {
+      "file": "tests/unit/fresh-plane-native-checks.test.ts",
+      "sha256": "d25a7934db6a1e8e6825f7d89d322eb412b6135be1cc206adfefb17d14532f11"
+    },
+    {
+      "file": "tests/unit/fresh-plane-netclasses.test.ts",
+      "sha256": "9fb79921090223e06d70b462849cfd47cd88b12a4feffdf431938d325dcfb9ee"
+    },
+    {
+      "file": "tests/unit/fresh-plane-placement-revision.test.ts",
+      "sha256": "0becccfa1fa3940bf30c60b4813288bb5b405c618c64e781a735c486933ce206"
+    },
+    {
+      "file": "tests/unit/fresh-plane-placement-seed.test.ts",
+      "sha256": "ea8376fdd7115c46a64c2229f01741bd58e4c51b691877678a6b8887a9aa34c3"
+    },
+    {
+      "file": "tests/unit/fresh-plane-refill-preservation.test.ts",
+      "sha256": "8e31d759862f1e1921ea18675a7b2b239b9c1b20bde982627430b51a8dda2776"
+    },
+    {
+      "file": "tests/unit/fresh-plane-region-policy-revision.test.ts",
+      "sha256": "d79c6df6ac40aa934cdba228d0c608966231b70cff489a34c8f21c2d6dbe7fbc"
+    },
+    {
+      "file": "tests/unit/fresh-plane-route-mutation.test.ts",
+      "sha256": "7a27231abcfe035e87882ce6f19b43d3b7bd15f68ce69b6894dd63b7276a71b7"
+    },
+    {
+      "file": "tests/unit/fresh-plane-rules.test.ts",
+      "sha256": "b228042dea74e6c0b07461eb691b9c2090a52f2c01ec4767e80e63e2670bbc37"
+    },
+    {
+      "file": "tests/unit/fresh-plane-schematic-seed.test.ts",
+      "sha256": "c8f92d5aa3849be307eac74c0ad652dbd50ee7cadcb316e91afd0360c83bbb5c"
+    },
+    {
+      "file": "tests/unit/fresh-plane-stage-observation.test.ts",
+      "sha256": "45fa1710d34ffb78fa3fd04404518ce49dfd18b67ced8ddda8278403f0c930e5"
+    },
+    {
+      "file": "tests/unit/fresh-plane-via-budget-revision.test.ts",
+      "sha256": "dbd684746a8a6ec5afa22d2d54c8a51baf1b323e0827415ffa1bb1af91b97803"
+    },
+    {
+      "file": "tests/unit/fresh-power-flag-placement-ack.test.ts",
+      "sha256": "cf47eb25ba2af4afcb8fba54ba5bdbacc2170724627b6d168d68378a799358e0"
+    },
+    {
+      "file": "tests/unit/fresh-presentation-layers.test.ts",
+      "sha256": "18e75e505eebb9046f8dedcef5e632b31daf4797c168db5094827dc746b8b471"
+    },
+    {
+      "file": "tests/unit/fresh-project-native-numeric.test.ts",
+      "sha256": "0d72699a5b2fb3c6ed4d962639c0824d98c4995925c7241d6a56ada0b2104f59"
+    },
+    {
+      "file": "tests/unit/fresh-project-plane.test.ts",
+      "sha256": "2b2caf5ce390c23125ecd3ef00fe1b445e8ff01c7206119663e5fa45d799c168"
+    },
+    {
+      "file": "tests/unit/fresh-provider-contract.test.ts",
+      "sha256": "8a08ab77fdb7af89e428d6d66b847e8f4053c21ba8f1305b56ec1ae56ebf88d5"
+    },
+    {
+      "file": "tests/unit/fresh-route-native-units.test.ts",
+      "sha256": "94ac5c05f0b9969b0c0431498204f6e951e9ab1615d2474effaa1d83ed5ccb14"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-body-geometry.test.ts",
+      "sha256": "1ebd62a01e9c353cbb0b983de524c76a0547963bdda78f083a9681c95595984f"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-cardinal-native.test.ts",
+      "sha256": "40fa735befb6074c61e742ad4216856ed715357739e7b17bfa9a053ca294922d"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-connectivity-batch.test.ts",
+      "sha256": "a818ef38ad3e0385a20ee686d233db6ee2354c6a99ff80255ea871e664f46d37"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-field-position.test.ts",
+      "sha256": "9ec23ebb0be4dcdd6a945cc4b46bae3dee9b3ba1f6d4238a98ca92b953535d3e"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-label-layout.test.ts",
+      "sha256": "f49a2de91f64909a1f8acf2bba5fff1def9859298120f611cf2d27f8b2659838"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-labels.test.ts",
+      "sha256": "528a0ad8e80f083453d75abf62220780d4e6fafae19f695de675d0727b001a7d"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-led-escape.test.ts",
+      "sha256": "45ef50e5485e0a32df2e3c133ec3ba6f3a4906edcdfec0e43ef15dc790f7f61a"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-planning-bounds.test.ts",
+      "sha256": "6aa42a350a719c1ec387e31add829a5cae44c938ff8dd9fb92292834ef8c2d29"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-presentation.test.ts",
+      "sha256": "7c54b5fc21fc7b5e5b231b892c377d9454107ee8eb449fe994812154322880fb"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-primitive-inventory.test.ts",
+      "sha256": "360372ffb6bf7a4158f4a5a4a0357c95e659c2d5288e2023dd3dca0967b6993d"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-source-adapter.test.ts",
+      "sha256": "406c1ce4003ecdad54adc179a20ba05f6f452e65fc976d8f96bc81f1a35b7c9b"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-stroke-style.test.ts",
+      "sha256": "71ce6f565cf59b068f19847f5182937d9df48847340188518bb0ce22cc117bc0"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-symbol-pose.test.ts",
+      "sha256": "1ff23893aa354d47c46e54a00a4f5796e541bebae09b5b54c1aaddd0f2ca2a70"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-terminal-groups.test.ts",
+      "sha256": "c39883c7066fb3e987652ec3803444626540f2201130be0b9957f0adf975fc51"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-terminal-label-backtracking.test.ts",
+      "sha256": "647af27a0e56aaf8db5c43568fbd33806c7504099bdc77f01f1d484e2aa2ed47"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-terminal-labels.test.ts",
+      "sha256": "722d4a0d71cc71d3c2da277b367eed0b677bd61f506ecdcf8082e8ca051c873c"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-wire-planner.test.ts",
+      "sha256": "650291c58dfcdda0d81579bea995fd278b51a51707744a348605b75c69a46696"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-work-budget.test.ts",
+      "sha256": "dd028b0036f42328677333a975ef5a9fab5164041386192d7a692e38e35f3561"
+    },
+    {
+      "file": "tests/unit/fresh-schematic-writer-geometry.test.ts",
+      "sha256": "4b448f2cccba5336efc30f9591b5042b9aba5851e2ee0700918b6810d61ed83a"
+    },
+    {
+      "file": "tests/unit/generic-pcb-agent-cli.test.ts",
+      "sha256": "4f479ca92471dd2dcaaba1566e900a74d95d858ee11db8b55616891088a2523e"
+    },
+    {
+      "file": "tests/unit/harness-contracts.test.ts",
+      "sha256": "0bf2017da51dffc5d9cc78247453867a74a44d857d0547f22cd9c17fd5287c06"
+    },
+    {
+      "file": "tests/unit/harness-fresh-acceptance.test.ts",
+      "sha256": "be3b833e385bf7785e411fca352a273863bce2fd47904e4feef5760db14922cf"
+    },
+    {
+      "file": "tests/unit/harness-fresh-project.test.ts",
+      "sha256": "bbb163a628107f2c9491a79e5a752d53015c9f505f7778c21d0d0b48b85121ef"
+    },
+    {
+      "file": "tests/unit/harness-interface-binding.test.ts",
+      "sha256": "03c2309732f93bdd170996fb86d506c958c8e5ed9755fc147e246a6a1d4d583a"
+    },
+    {
+      "file": "tests/unit/harness-kicad-library-sources.test.ts",
+      "sha256": "511d91a427e4fbe120e40f66b9285f1a369682f0f68d84754c4df2f2473d0b9c"
+    },
+    {
+      "file": "tests/unit/harness-kicad-tools.test.ts",
+      "sha256": "8fd44ddb82c4927e30d97a01ba6cd7068bb15a4b481056c6a00582c9ee5c8c0b"
+    },
+    {
+      "file": "tests/unit/harness-pcb-rules.test.ts",
+      "sha256": "c37a24ed11e1d3cae493936dd5fbfbdb312bd39c767d21a81269f819f3a682f9"
+    },
+    {
+      "file": "tests/unit/harness-plane-acceptance.test.ts",
+      "sha256": "7c4151e1934cff4783314d5a0af34acee65d11599c508f3fa2da66afe8d5b73c"
+    },
+    {
+      "file": "tests/unit/harness-providers.test.ts",
+      "sha256": "0f462e6f86634b897f732dcc1658d56528291bf07f8ca287a20c170f8cbb6407"
+    },
+    {
+      "file": "tests/unit/harness-runner.test.ts",
+      "sha256": "7382071b3ccdab816a4755293ce70c0b3d4ebfa2ae651a19b3e91fa1b57d3820"
+    },
+    {
+      "file": "tests/unit/interface-construction-seed.test.ts",
+      "sha256": "a154a8eed5e710a3adab0f2da93b462da1539e3af58c54934d90b5acbe09cc7c"
+    },
+    {
+      "file": "tests/unit/kicad-approved-package.test.ts",
+      "sha256": "5e89ce5fb5eca6ee6ab7e115efabec1cb17de74d2384bc83495a348ea63c674c"
+    },
+    {
+      "file": "tests/unit/kicad-derived-library-guard.test.ts",
+      "sha256": "000be37fda1c7c7e06efe36d29b3eb362044b67294f932c9ee41f5cdf5758c0b"
+    },
+    {
+      "file": "tests/unit/kicad-library-resolver.test.ts",
+      "sha256": "a6c6611849c600b53cef328a9778dcee875fca05b180f21b67d0e34c779336a4"
+    },
+    {
+      "file": "tests/unit/kicad-native-check-report.test.ts",
+      "sha256": "47a21b0d7b95bf48e4319df6760c765f2f1c0025ea66c9ba8282ee2f4801d8fb"
+    },
+    {
+      "file": "tests/unit/kicad-native-connector-pad-observation.test.ts",
+      "sha256": "77afbcd7073b5aa7a16df7f76a615348f7aa7e4565c196712376ba11546b512b"
+    },
+    {
+      "file": "tests/unit/kicad-native-pad-observation.test.ts",
+      "sha256": "0fb64d6f567eb9aa58d4dcdd8dc95df642374ce337b6eadeffacff3f837e8ddd"
+    },
+    {
+      "file": "tests/unit/kicad-plane-contacts.test.ts",
+      "sha256": "ea080c505d95ea9db07999c824af1f988ce86f4af34fd39d827572a4641a30e1"
+    },
+    {
+      "file": "tests/unit/kicad-plane-stage-receipt.test.ts",
+      "sha256": "feae0a761a04e490c664a078874111605e03d813006769e1ed4d40f1596ed447"
+    },
+    {
+      "file": "tests/unit/kicad-plane-stage.test.ts",
+      "sha256": "ba0746b88bdaabad10da09993c076c5ff75c3e01f5791c2f8b9ee9706af73e1f"
+    },
+    {
+      "file": "tests/unit/kicad-power-flag-syntax-cache.test.ts",
+      "sha256": "1848ab5a4fc49a1dfd6323ebf9f30e499c0f59873cecfcea7cbcb4550144ee4b"
+    },
+    {
+      "file": "tests/unit/kicad-reference-coverage.test.ts",
+      "sha256": "b7791529749d0390122f332a9068669d79de0d480f42185f690bc6339663f627"
+    },
+    {
+      "file": "tests/unit/kicad-reference-source.test.ts",
+      "sha256": "d0c34c64e575e78529c8b232d393a5597bd3f79e0d7c18f02caaa756cf25cd4e"
+    },
+    {
+      "file": "tests/unit/kicad-saved-source.test.ts",
+      "sha256": "414fc56b6284fd743f46f995b9f65973636411586362e85e67efada6aadc0ec6"
+    },
+    {
+      "file": "tests/unit/kicad-stackup.test.ts",
+      "sha256": "3d4d8c8f84bf2b85977fc5ed05c9e97314f476b69bb311152af6c1332b36d823"
+    },
+    {
+      "file": "tests/unit/kicad-stock-catalog.test.ts",
+      "sha256": "6fb72d443d4cdd074d1671fba66e26637eebe42f8486b37178dd8c24db938684"
+    },
+    {
+      "file": "tests/unit/kicad-toolchain-binding.test.ts",
+      "sha256": "8f656310b14260fec4f1272055137092be68ef4de28a045b2115866239fdaf32"
+    },
+    {
+      "file": "tests/unit/kicad-transmission-line.test.ts",
+      "sha256": "e47e46de2eb3306f0878487ae11d6c0f40b21cabbce379c8d0053f2aa1063615"
+    },
+    {
+      "file": "tests/unit/kicad-validation-normalizer.test.ts",
+      "sha256": "269880c7dcf63246b1c8ad7c97efe3256ab5aad4c864148e58e8a9752847475d"
+    },
+    {
+      "file": "tests/unit/larger-schematic-batch.test.ts",
+      "sha256": "ac4a82cc3c01f28cfe8415891a0f7c79fffd5cf41b5f2dc4b3b58591a734a1d7"
+    },
+    {
+      "file": "tests/unit/library-source-capture-amortization.test.ts",
+      "sha256": "3811339c2a761c57c38730fe9dcad7565fd798594c47d5e57c90ed32cfb64827"
+    },
+    {
+      "file": "tests/unit/live-regeneration-policy.test.ts",
+      "sha256": "5798255ed8c523e17f5fee2fce34fb94969776eb30f4bebc7303a757e8f20d7d"
+    },
+    {
+      "file": "tests/unit/native-empty-board-seed.test.ts",
+      "sha256": "cf60098435dd2e491a9849959b2b8f8db7869fc6900970ae252d56ea28a857a8"
+    },
+    {
+      "file": "tests/unit/native-plane-contacts.test.ts",
+      "sha256": "b0cf68ebe0f7f1aa349b88ba855f9369951d454414899c316b59742a49b1e898"
+    },
+    {
+      "file": "tests/unit/native-process-plan.test.ts",
+      "sha256": "509648d2038b020d6d180d37fa1fa98dea35df5c5e5c5ff8502d2d168817db45"
+    },
+    {
+      "file": "tests/unit/native-runtime-ci-diagnostic.test.ts",
+      "sha256": "85769ee9a0bc49c169d7b92543d1baad57a23efddd8778294fcbd527ca231d57"
+    },
+    {
+      "file": "tests/unit/native-schematic-style-caller.test.ts",
+      "sha256": "6c29a3f2acb6277d14937eaeb97b9cb424ade62a7110cff409cc00a536d843d3"
+    },
+    {
+      "file": "tests/unit/pcb-agent-cli.test.ts",
+      "sha256": "318849cd6aafd9c05088b691f7ae1f90c0a86f0928fb26572378e9a9b590d242"
+    },
+    {
+      "file": "tests/unit/pcb-board-features.test.ts",
+      "sha256": "afc9aae18645a6588e382a5cc45a9e809ab6072ff568feddfec3b984d476cfcf"
+    },
+    {
+      "file": "tests/unit/pcb-channel-width.test.ts",
+      "sha256": "cdfd25975d74a13e05ac254e7a7edf2796867510c751cebf633592e7220eef40"
+    },
+    {
+      "file": "tests/unit/pcb-derived-power.test.ts",
+      "sha256": "3cc2d2e0eed654496abd0001dabcd0c1d8da178b729bb6e9f7a963ffb372d0c3"
+    },
+    {
+      "file": "tests/unit/pcb-design-compilation-bundle.test.ts",
+      "sha256": "cc8ad718fa397f2126809730bd754cd0cc87a9995abd61447ce1c5774cd785d9"
+    },
+    {
+      "file": "tests/unit/pcb-design-compiler.test.ts",
+      "sha256": "92703702e10dcdf2e8baea6b026d22922c11591d28bace0e7d6def52f65efb80"
+    },
+    {
+      "file": "tests/unit/pcb-design-contract.test.ts",
+      "sha256": "b94cb49324a89f7ea7c42818168dcfeba9e1056257286c13c52d00c8fd02246a"
+    },
+    {
+      "file": "tests/unit/pcb-design-intent-model-guide.test.ts",
+      "sha256": "d7c30d6871e3fc26bee3c03fcf262dd7525957884abc6ec6bbc2ad4ff2299e8d"
+    },
+    {
+      "file": "tests/unit/pcb-design-interpreter.test.ts",
+      "sha256": "1646da89074df8ae7673f92bb905c8eb6540d308b5c7ddf0cda8276be38b493d"
+    },
+    {
+      "file": "tests/unit/pcb-design-plane-foundation.test.ts",
+      "sha256": "70af0096e71c4b6b4be9e8851335588de1eeb2df8e4eb42a366998a6819772f2"
+    },
+    {
+      "file": "tests/unit/pcb-design-plane-model-guide.test.ts",
+      "sha256": "45f90d56c9fdcf4f20d75513ce695edacaf4af2a20cc9898abc285070e030735"
+    },
+    {
+      "file": "tests/unit/pcb-engineering-practices.test.ts",
+      "sha256": "6f94b999d8d392acdceba327cbc2a9498d81fe63dcad1dad7fa17745805f746d"
+    },
+    {
+      "file": "tests/unit/pcb-external-diode-power.test.ts",
+      "sha256": "bb4e1913e3a01bb749764af8d50c81392350d3b05423fe2d5cb547b42943d107"
+    },
+    {
+      "file": "tests/unit/pcb-external-power.test.ts",
+      "sha256": "01a95bf27d94325a918161feff17cf7fe36c166fabf8900ecbe24e2bca2ef91d"
+    },
+    {
+      "file": "tests/unit/pcb-interface-requirements.test.ts",
+      "sha256": "a0e8b24eabca08fb7fab7c2b892e851976c665f8478f187294bef4a604386834"
+    },
+    {
+      "file": "tests/unit/pcb-layout-plan.test.ts",
+      "sha256": "ba7d71f985fa41901b95718c598ff41bdc1308772ca5df4cd2f3b864470c96db"
+    },
+    {
+      "file": "tests/unit/pcb-library-source-binding.test.ts",
+      "sha256": "a5256ddae04dbbef2ccd3880e98666fdc3ff73d806609cba9e1b1ebd0b46c952"
+    },
+    {
+      "file": "tests/unit/pcb-native-numeric-rules.test.ts",
+      "sha256": "3d08a37d3737a74ed4b5d41419a758a4707a74bf358c1bda1bbb45bba28ddfce"
+    },
+    {
+      "file": "tests/unit/pcb-plane-access-layers.test.ts",
+      "sha256": "9577a44e65fa33ba94cf866eb3a92d7e1b9a0339d204278f46cd81078129cb6a"
+    },
+    {
+      "file": "tests/unit/pcb-plane-access-vias.test.ts",
+      "sha256": "ad4a5de593f2f54700b7654e77d646806d32085034a77a57debeece424562ea3"
+    },
+    {
+      "file": "tests/unit/pcb-practice-analyzer.test.ts",
+      "sha256": "22fc4593cc80ac2b8b503350ac1a6b1abf65279656e63fd2d7f5d50d910b5598"
+    },
+    {
+      "file": "tests/unit/pcb-practice-workflow.test.ts",
+      "sha256": "0e951dd36e177d5aedaa3e4c88189b6a08700b4c5f8ea79bd8fd82ca45e807f2"
+    },
+    {
+      "file": "tests/unit/pcb-usb-channel-contract.test.ts",
+      "sha256": "082780655bfd2537f89429bbc7f4860f0f97802b31f1c754d3981cf8ed8f6a9b"
+    },
+    {
+      "file": "tests/unit/physical-evidence-contract.test.ts",
+      "sha256": "77d3920a9f24890a519a0191bd7cbf035a277db33b425487c303c9f3b9611ae5"
+    },
+    {
+      "file": "tests/unit/plane-region-annulus-witness.test.ts",
+      "sha256": "690fd984dc1b398c62fc6d388a34619e5138673fb5af6caec1d0c252dd5ec4a3"
+    },
+    {
+      "file": "tests/unit/plane-region-bridge-source.test.ts",
+      "sha256": "ce03346040e23ef5b3b7a38e852d6e0f733dae0337ebcb2555d809b99a81a6d2"
+    },
+    {
+      "file": "tests/unit/plane-regional-policy-contract.test.ts",
+      "sha256": "85d4a598521ac0fc3e288ccba189339e390bdd8436c11f4fdd585ecac9794ff6"
+    },
+    {
+      "file": "tests/unit/portable-artifact.test.ts",
+      "sha256": "8b8f4a6a7d7dd7504dc0df6d8162fc9f1378dab544205ea85c2fe1d24f6bd556"
+    },
+    {
+      "file": "tests/unit/portable-kicad-producer.test.ts",
+      "sha256": "2d1a550ea7d1ed90a7b4c7a8ac7d8dd79e25b558d8f5127fac9a7dee092ba506"
+    },
+    {
+      "file": "tests/unit/portable-kicad-runtime.test.ts",
+      "sha256": "0c9277837cbae04aeae9525b6edfd6022cb267f07e41a67b68108899abf0eccd"
+    },
+    {
+      "file": "tests/unit/private-kicad-capture-store.test.ts",
+      "sha256": "353cfef4825013cfb0402bb943982e4227ffd00d9bf1716a1003737b92b48361"
+    },
+    {
+      "file": "tests/unit/recover-toolbox-project.test.ts",
+      "sha256": "88ecb8075c04cb008b60552269a0868fc82b3b6600843a42372d753c8a8e6a7e"
+    },
+    {
+      "file": "tests/unit/recover-unchanged-plane-session.test.ts",
+      "sha256": "8ef14ef0e4b6b00ea5dbb1e398b32dbd26cb4f44931d3050b63dd0374fc1d183"
+    },
+    {
+      "file": "tests/unit/reference-controller-native-contract.test.ts",
+      "sha256": "b488a7a760c0023dcebf9c3841c65488923868150b401a09b2d5f21414cbd9b8"
+    },
+    {
+      "file": "tests/unit/reference-native-semantic-generators.test.ts",
+      "sha256": "a4e6a764a480b095fcddd52afb647e8f3735ec2348609a20c044c6bf7ca38c3b"
+    },
+    {
+      "file": "tests/unit/reference-pcb-component-metadata.test.ts",
+      "sha256": "fc45de1889171ea7fcba9cfa3f0b42a6f1e4fbb881456f2a6ba470d2345dabb8"
+    },
+    {
+      "file": "tests/unit/reference-pcb-fabrication-geometry.test.ts",
+      "sha256": "662aa4a93baae64ffb557e0368395a206111c96ebfc7838d87144527bc46988b"
+    },
+    {
+      "file": "tests/unit/reference-schematic-intent.test.ts",
+      "sha256": "b62bb7543d514589a5bab1a0ed5a09c7d5f1268b884bc4da240224eb97bd078c"
+    },
+    {
+      "file": "tests/unit/reference-system-architecture.test.ts",
+      "sha256": "f4f973bf17fc8a63bb27a9eb12c6565799a3f25353c4537f9d5992cd095c6fad"
+    },
+    {
+      "file": "tests/unit/router-reference-capsule.test.ts",
+      "sha256": "802dec37d7127e613fe716db530e9365322c0e6b224e58d952eadcacdfb89e41"
+    },
+    {
+      "file": "tests/unit/runtime-import-private-diagnostic.test.ts",
+      "sha256": "fecb45e3c547a5e57beaf43150f3781a4ccc13797177e17d3f86239e0cd81fed"
+    },
+    {
+      "file": "tests/unit/saved-interface-assessment.test.ts",
+      "sha256": "8f2e5a75f7a3dd0e9b98685e17c0095568b8bab8a2946d3e19f0eb55d5d5d468"
+    },
+    {
+      "file": "tests/unit/saved-microstrip-assessment.test.ts",
+      "sha256": "04345d32557aca7be0122516e2f52e45e42f2ace02b6cc0da09f3926151f88d3"
+    },
+    {
+      "file": "tests/unit/saved-usb-channel-assessment.test.ts",
+      "sha256": "2aeca5e7a8a4e41c4ddcf417eeaec7caef807a77045e5ee7048f49371298fa68"
+    },
+    {
+      "file": "tests/unit/schematic-render-clearance.test.ts",
+      "sha256": "eb2beec46db764e5e8461f1784d37965e68d3d23066897bb999b5b5a676bc4e9"
+    },
+    {
+      "file": "tests/unit/smoke-toolbox-interface-fixture.test.ts",
+      "sha256": "21c6016fd70049521d8a88c2f0f4f8f8382e2b842bd59df21bc6d0f323a5a032"
+    },
+    {
+      "file": "tests/unit/smoke-toolbox-plane-apply-script.test.ts",
+      "sha256": "11e0f6fbe3f29cbdd1e9d6370237f74b75771c56d7630ec6870f5a25a76c1b63"
+    },
+    {
+      "file": "tests/unit/smoke-toolbox-plane-complete-script.test.ts",
+      "sha256": "973c790ce6ad6873f25ffa74b392a4f1f7ca10e0023a8ddf6f5c2779cca25c35"
+    },
+    {
+      "file": "tests/unit/source-adjacent-emit-guard.test.ts",
+      "sha256": "61a9a696c8871b472e7ea1d266b3c1652e4915c3a6528804102a28518727a160"
+    },
+    {
+      "file": "tests/unit/state-transitions.test.ts",
+      "sha256": "522c67a4d80d0024eef564c0f91f23bfef3165d0500b2b2eb1a077f9ebc3b94f"
+    },
+    {
+      "file": "tests/unit/system-architecture-decision-compiler.test.ts",
+      "sha256": "d85ec7440279544860d15332c9672b31de609c1bc601ca6cb3f8af226f7b17bf"
+    },
+    {
+      "file": "tests/unit/toolbox-checkpoint-guard.test.ts",
+      "sha256": "bef335d2658eb0d41653c70a14ef55c96f601b26c5694fb2b7be9886d25a6fb8"
+    },
+    {
+      "file": "tests/unit/toolbox-cli-probe-diagnostics.test.ts",
+      "sha256": "3968a1f332a7d3dc78c02bf679df5deb683cd5031395f89344b30e3fcfc1e1cb"
+    },
+    {
+      "file": "tests/unit/toolbox-editor-launcher.test.ts",
+      "sha256": "fff8054bae911eb02cae8703713ca4cdd735085d39626afdf563ecbc1dc44115"
+    },
+    {
+      "file": "tests/unit/toolbox-editor-readiness.test.py",
+      "sha256": "e7339c51b92fbb017582241160002c7fc416d82ca320d5308b464c307be48045"
+    },
+    {
+      "file": "tests/unit/toolbox-endpoint-connectivity.test.ts",
+      "sha256": "23e6a086be5f5d8e08c8b39201594582b9190dc343d8a59f926ea38153be3e52"
+    },
+    {
+      "file": "tests/unit/toolbox-footprint-placement-diagnostics.test.ts",
+      "sha256": "f3737864f2efbe4696a9afad0d9b00a67f7719ac5c799b30291273707f4af836"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-checkpoint.test.ts",
+      "sha256": "7bb8c072c41b6a522357a17a66b9ffe8ce4945e077fe128e994eec8eb0eed983"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-initial-save-replay.test.ts",
+      "sha256": "9cc1fa0499cf28a2c589a6e0df41dfffd2ddc2f8a89402daee69fca48a19ac5b"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-initial-save.test.ts",
+      "sha256": "53e52595251c8d3e455e8aacfc60cb0b8ebb0a619e31de24a46d2bf42df30252"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-initialization.test.ts",
+      "sha256": "223ab80b3624f5446e58630805f93e3f825921084b680845cddb0f8030e9777d"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-main.test.ts",
+      "sha256": "1e3c9f9801497f3234564da8e61ed5bba43f5f2f14335e0d54a25748c5c4005c"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-native-capture.test.ts",
+      "sha256": "2d44aaaab63dc85f5543099c639333402fcc524275c442fa06e7a074f2207851"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-preparation.test.ts",
+      "sha256": "00521296e36306883483ce1bf80bda8b0435eb584543159b06351e450561573b"
+    },
+    {
+      "file": "tests/unit/toolbox-fresh-session.test.ts",
+      "sha256": "fc5c9d4a30cdfb8214020afb27777d8d921fcf981f0ab65f547657c467377632"
+    },
+    {
+      "file": "tests/unit/toolbox-initial-save-diagnostics.test.ts",
+      "sha256": "5663b462a38f95a11a0441158016a9a1e6ac3a8938ffa9faa6a6187e4d536799"
+    },
+    {
+      "file": "tests/unit/toolbox-interface-report.test.ts",
+      "sha256": "9cd3c0f44f71f47699bc5212e96e25a98b6297021c6acdb907b0d95c60a7abdc"
+    },
+    {
+      "file": "tests/unit/toolbox-native-host.test.ts",
+      "sha256": "35c9f686d8ba530e57f3b8a3f4c2253739efcd30035dceee26b771c7eed75301"
+    },
+    {
+      "file": "tests/unit/toolbox-native-main.test.ts",
+      "sha256": "6494097e23ba623e3fe7f1436ef6a549fcda4c7e3f2ac3776e45491e87392055"
+    },
+    {
+      "file": "tests/unit/toolbox-native-profile.test.ts",
+      "sha256": "0247cda5d45b47e0e3301cf0aeb55652616f5adfd32dee7eabf65382c91e3db2"
+    },
+    {
+      "file": "tests/unit/toolbox-native-stdio-lifecycle.test.ts",
+      "sha256": "e57182a2f8d1aab3e5e88132c00055914d64811f850fbe09df087bb524bc1ab7"
+    },
+    {
+      "file": "tests/unit/toolbox-owned-editor-locks.test.ts",
+      "sha256": "4dc9c531f3b7f3ff400cbc369c05679549ed775224d8cd03d38ea872d63a82b1"
+    },
+    {
+      "file": "tests/unit/toolbox-pcb-text.test.ts",
+      "sha256": "1058c070edad3fdcaeabb77fe102b61bd8f40dff88c49eac4b083c5234b72c42"
+    },
+    {
+      "file": "tests/unit/toolbox-plane-acceptance.test.ts",
+      "sha256": "0917bad87c43ce80b16486884f2a9abf82ae206135ab7d8130e7eefcca9cd1d7"
+    },
+    {
+      "file": "tests/unit/toolbox-plane-checkpoint.test.ts",
+      "sha256": "28abb27cd28bc84dd86343275febfa7245f8ec86410abea5516755c5790c6c99"
+    },
+    {
+      "file": "tests/unit/toolbox-plane-preparation.test.ts",
+      "sha256": "977dfa6633d658a03e62847b3bb03dab34ebe05076d4fabce0c06ea579f0e87c"
+    },
+    {
+      "file": "tests/unit/toolbox-plane-results.test.ts",
+      "sha256": "30f7518721a0a3280b79abadc832b1810aae5bc2f72954d91028f5b536f61c30"
+    },
+    {
+      "file": "tests/unit/toolbox-plane-session.test.ts",
+      "sha256": "5a1cb04e18f14f2702a26d555ba70f1ad3da3b4f6aa226471a25edc2579efb9b"
+    },
+    {
+      "file": "tests/unit/toolbox-plane-shared-capture.test.ts",
+      "sha256": "1a5174ec7983751870077e943df3b8b94fddb515f89ab7bd106bb8cd78564771"
+    },
+    {
+      "file": "tests/unit/toolbox-practices.test.ts",
+      "sha256": "5b82030ab3f865f1d352b90765ef93f941e8fe39a8c6b039ebb43c556b3653ec"
+    },
+    {
+      "file": "tests/unit/toolbox-preview.test.ts",
+      "sha256": "0f157577144bfc12a053b4867612de9b248a6a054aa99d9bdb87e3e31d551342"
+    },
+    {
+      "file": "tests/unit/toolbox-reference-coverage.test.ts",
+      "sha256": "96176fd9c4bb994cc5ad7160e75e80064928723742eaa64dc1f76ca269baf5db"
+    },
+    {
+      "file": "tests/unit/toolbox-reference-resource.test.ts",
+      "sha256": "a2139c9986b24277cabcc4554623d898c351f781546f93513e426f40db271bf6"
+    },
+    {
+      "file": "tests/unit/toolbox-route-diagnostics.test.ts",
+      "sha256": "fd13ddbac4e3902d9fb94ed6c3d97f583deb1322857e15e5ef83d90cc05321e4"
+    },
+    {
+      "file": "tests/unit/toolbox-runtime-source-import.test.ts",
+      "sha256": "a63ae37e6fef39a1f16fda6f2002755b210550624125018aa6f4332033e0898e"
+    },
+    {
+      "file": "tests/unit/toolbox-saved-plane-recovery.test.ts",
+      "sha256": "b2661941a8e79af3146d2120b80c611a2a90c04dd13090869f5881b6fee86f34"
+    },
+    {
+      "file": "tests/unit/toolbox-schematic-field-diagnostics.test.ts",
+      "sha256": "388b64d2faa2e14b62d74aa57e81e0c5370c2dfcc72195646a37fe71af04b47a"
+    },
+    {
+      "file": "tests/unit/toolbox-session.test.ts",
+      "sha256": "7bbb35b5efd841a3ef19d4a19a7c9504667e1445add96526dc5f93f1026a60ab"
+    },
+    {
+      "file": "tests/unit/toolbox-startup-diagnostics.test.ts",
+      "sha256": "7323893b0895ee7949f93bc5054b42336b11600c6c03f09486a0dbebba1accd1"
+    },
+    {
+      "file": "tests/unit/toolbox-sync-diagnostics.test.ts",
+      "sha256": "0f3ed29afea45860c10d85c9902eec0d93f2122b1aabe6c26d2ad04c821f2cc5"
+    },
+    {
+      "file": "tests/unit/toolbox-workspace-client.test.ts",
+      "sha256": "26f99c7406032425359a82eb0a54deb2299265c13cdcaabfdf6d192761e5c55c"
+    },
+    {
+      "file": "tests/unit/toolbox-workspace-main.test.ts",
+      "sha256": "77a7f0f5e5b5bc564ceb288daacaaab6f73c3ba2c6b9e2596c0222d12614a28d"
+    },
+    {
+      "file": "tests/unit/toolbox-workspace-store.test.ts",
+      "sha256": "0f7c8c79308fe8c191017f1e41eea959cf242856afb0319c3f15faba43882df7"
+    },
+    {
+      "file": "tests/unit/usb-feed-through-channel.test.ts",
+      "sha256": "f33806f944cc095543e06bff0c902df58e17afcd02d97089424d5ee04f109e87"
+    },
+    {
+      "file": "tests/unit/workflow-failures.test.ts",
+      "sha256": "ddb25ca8731ae025f7cf9ed3fbd1f143f4101b89f3a6615d8504b52b83d1f847"
+    },
+    {
+      "file": "tests/unit/workflow-stages.test.ts",
+      "sha256": "4aabc80a0ab8282e4369440f39e89c645ac218d6bb289aae4dbb13dfdc7bdda9"
+    }
+  ],
+  "verification": "All recorded source/test/script/sidecar pins rechecked against the publication worktree. Documentation delivery edits follow the frozen build."
+}

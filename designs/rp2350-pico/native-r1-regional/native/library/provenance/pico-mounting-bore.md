@@ -1,0 +1,9 @@
+# Pico 2 bare mounting bore
+
+Reviewed 2026-09-17 against [official Pico 2 datasheet, Release 5](https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf), printed page 7 / PDF page 8, Figure 3 and its mechanical specification. The source specifies four 2.1 mm (+/-0.05 mm) drilled mounting holes. The retained PDF SHA-256 is `cbcfaf881018c686495a2e53c7bd281e7e0a8217d79447d73eda7c8f74b7f675`; its existing identity is also retained in source-identities.json as pico2_mechanical. No manufacturer PDF or CAD asset is copied into this package.
+
+`EvlEDA_Pico2350:MountingHole_D2.1_Pico` is an independently authored, single centered circular NPTH. Pad number is empty, no net is assigned, size and circular drill are both 2.1 mm, and there is no drill offset. *.Cu and *.Mask cover both sides; this non-plated pad is a bore, not an electrical copper annulus. Exact attributes are board_only, exclude_from_pos_files and exclude_from_bom. There is no schematic symbol, electrical BOM part or logical terminal.
+
+The fabrication circle depicts only the 2.1 mm bore. There is no screw-head, washer, M2 hardware, plastic body, silkscreen or courtyard assumption. The actual board-feature contract supplies positions and minimum hole-to-copper clearance of 0.25 mm; no footprint clearance override is applied. The drawing's +/-0.05 mm is a reference dimensional tolerance, not a claim of achieved fabrication accuracy. Final hole/process tolerances and any hardware clearance remain separate checks.
+
+Library UUIDs are omitted intentionally. The board-feature staging path assigns unique instance UUIDs before native serialization/readback. Reference and Value use KiCad 10 properties with positions, layers and effects, rather than legacy fp_text field forms.

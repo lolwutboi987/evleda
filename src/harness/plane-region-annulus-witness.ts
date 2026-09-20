@@ -131,3 +131,59 @@ export function findPlaneRegionAnnulusWitnesses(input: {
     predicateOperations: work, maximumPredicateOperations: MAX_WORK, globalDrillClippedContinuityClaimed: false as const,
     currentCapacityClaimed: false as const, fabricationAuthorized: false as const };
 }
+
+/** Conservative area only, not post-drill topology. Every possibly intersecting
+ * bore enclosure contributes its full circumscribed square, even when holes
+ * overlap or were already removed from the cached polygon. Over-subtraction can
+ * withhold a proof but cannot inflate the retained-area lower bound. */
+export function boundRetainedPlaneRegionAreas(components: readonly FreshPlaneFilledComponent[], bores: readonly PlaneBridgeBore[]) {
+  check(components.length > 0 && components.length <= 128 && bores.length <= MAX_ITEMS, "area inventory bound");
+  check(new Set(components.map(c => c.nativePolygonIndex)).size === components.length
+    && new Set(bores.map(b => b.uuid)).size === bores.length, "duplicate area inventory identity");
+  let vertices = 0, work = 0;
+  const step = () => { if (++work > MAX_WORK) throw new Error("Plane region area: predicate work bound"); };
+  for (const bore of bores) { point(bore.centerNm); coordinate(bore.enclosingDiameterNm); check(bore.enclosingDiameterNm > 0, "area bore dimension"); }
+  const abs = (n: bigint) => n < 0n ? -n : n;
+  return components.map(component => {
+    const workBefore = work;
+    check(component.topologyCertificate === "simple_outer_minus_strict_disjoint_holes", "qualified area geometry required");
+    const areas = [component.outer, ...component.holes].map(ring => {
+      vertices += ring.length; check(ring.length >= 3 && vertices <= MAX_VERTICES, "area vertex bound");
+      let area = 0n; for (const [i, p] of ring.entries()) { point(p); const q = ring[(i + 1) % ring.length]!; point(q); area += BigInt(p.x) * BigInt(q.y) - BigInt(q.x) * BigInt(p.y); }
+      return abs(area);
+    });
+    const area = areas[0]! - areas.slice(1).reduce((sum, a) => sum + a, 0n);
+    check(area > 0n && String(area) === component.areaTwiceNm2, "declared area differs from complete contours");
+    const minX = BigInt(Math.min(...component.outer.map(p => p.x))) * 2n, maxX = BigInt(Math.max(...component.outer.map(p => p.x))) * 2n;
+    const minY = BigInt(Math.min(...component.outer.map(p => p.y))) * 2n, maxY = BigInt(Math.max(...component.outer.map(p => p.y))) * 2n;
+    const bboxCandidates = bores.filter(b => { const x = BigInt(b.centerNm.x) * 2n, y = BigInt(b.centerNm.y) * 2n, d = BigInt(b.enclosingDiameterNm);
+      return x + d > minX && x - d < maxX && y + d > minY && y - d < maxY; });
+    const exactlySeparatedBoreUuids: string[] = [];
+    const possible = bboxCandidates.filter(bore => {
+      let insideOuter = false, insideHole = false;
+      const radiusSquaredTimesFour = BigInt(bore.enclosingDiameterNm) ** 2n;
+      for (const [index, ring] of [component.outer, ...component.holes].entries()) {
+        let winding = 0;
+        for (let i = 0; i < ring.length; i++) {
+          step(); const a = ring[i]!, b = ring[(i + 1) % ring.length]!, p = bore.centerNm, distance = pointSegmentDistance(p, a, b);
+          // A complete circle outside the filled region with strict separation
+          // from every boundary cannot remove any of this region's area.
+          if (4n * distance.n <= radiusSquaredTimesFour * distance.d) return true;
+          const side = cross(a, b, p);
+          if (a.y <= p.y) { if (b.y > p.y && side > 0n) winding++; }
+          else if (b.y <= p.y && side < 0n) winding--;
+        }
+        if (index === 0) insideOuter = winding !== 0; else insideHole ||= winding !== 0;
+      }
+      if (!insideOuter || insideHole) { exactlySeparatedBoreUuids.push(bore.uuid); return false; }
+      return true;
+    });
+    const removal = possible.reduce((sum, b) => sum + 2n * BigInt(b.enclosingDiameterNm) ** 2n, 0n), lower = area > removal ? area - removal : 0n;
+    return { nativePolygonIndex: component.nativePolygonIndex, storedAreaTwiceNm2: String(area),
+      subtractedUpperAreaTwiceNm2: String(removal), conservativeRetainedAreaTwiceNm2: String(lower),
+      possiblyIntersectingBoreUuids: possible.map(b => b.uuid), exactlySeparatedBoreUuids, bboxExcludedBoreCount: bores.length - bboxCandidates.length,
+      predicateOperations: work - workBefore, maximumPredicateOperations: MAX_WORK,
+      method: "full-bore-enclosure-square-subtraction-per-stored-component" as const,
+      connectivityClaimed: false as const };
+  });
+}

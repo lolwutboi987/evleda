@@ -22,7 +22,7 @@ function targetProto(m: PlaneRectangleMutation, uuid: string, old?: Raw): Raw {
   if (m.connection === "thermal") { settings.connection.thermal_spokes.gap = { value_nm: String(m.thermalGapNm) }; settings.connection.thermal_spokes.width = { value_nm: String(m.thermalSpokeWidthNm) }; }
   delete raw.filled; raw.filled_polygons = [{ layer: raw.layers[0], shapes: {} }]; return raw;
 }
-function targetSource(m: PlaneRectangleMutation, raw: Raw): string {
+function targetSource(m: PlaneRectangleMutation, raw: Raw, filledContoursNm?: readonly (readonly (readonly [number, number])[])[]): string {
   const r = m.rectangleNm, points = `(xy ${mm(r.x1)} ${mm(r.y1)}) (xy ${mm(r.x2)} ${mm(r.y1)}) (xy ${mm(r.x2)} ${mm(r.y2)}) (xy ${mm(r.x1)} ${mm(r.y2)})`;
   const thermal = raw.copper_settings.connection.thermal_spokes;
   const style = ({ ZBS_DIAGONAL_EDGE: "edge", ZBS_DIAGONAL_FULL: "full", ZBS_SOLID: "none" } as Raw)[raw.border.style];
@@ -31,7 +31,8 @@ function targetSource(m: PlaneRectangleMutation, raw: Raw): string {
     (connect_pads ${m.connection === "full" ? "yes" : ""} (clearance ${mm(m.clearanceNm)})) (min_thickness ${mm(m.minWidthNm)})
     (fill yes (thermal_gap ${mm(Number(thermal.gap.value_nm ?? 0))}) (thermal_bridge_width ${mm(Number(thermal.width.value_nm ?? 0))})
       (island_removal_mode ${{ always: 0, never: 1, area: 2 }[m.islandPolicy]}) ${m.islandPolicy === "area" ? `(island_area_min ${decimal(BigInt(m.minIslandAreaNm2), 12)})` : ""})
-    (polygon (pts ${points})) (filled_polygon (layer ${JSON.stringify(m.layer)}) (pts ${points})))`;
+    (polygon (pts ${points})) ${filledContoursNm === undefined ? `(filled_polygon (layer ${JSON.stringify(m.layer)}) (pts ${points}))`
+      : filledContoursNm.map(ring => `(filled_polygon (layer ${JSON.stringify(m.layer)}) (pts ${ring.map(([x,y])=>`(xy ${mm(x)} ${mm(y)})`).join(" ")}))`).join(" ")})`;
 }
 const inventory = (raws: Raw[]) => raws.map(raw => {
   const filledPolygons = Object.fromEntries(raw.filled_polygons.map((entry: Raw) => [entry.layer, entry.shapes.polygons ?? []]));
@@ -40,7 +41,8 @@ const inventory = (raws: Raw[]) => raws.map(raw => {
     fillCounts: { layerCount: Object.keys(filledPolygons).length, polygonCount: polys.length, typedHoleCount: polys.reduce((n, p) => n + (p.holes?.length ?? 0), 0), outlineNodeCount: polys.reduce((n, p) => n + p.outline.nodes.length, 0) } };
 });
 
-export async function planeStageObservationFixture(input: { beforePcbSource: string; mutation?: PlaneRectangleMutation; request?: KicadPlaneStageInput; zoneId?: string; beforeZoneProtos?: readonly Raw[]; boardPath?: string }) {
+export async function planeStageObservationFixture(input: { beforePcbSource: string; mutation?: PlaneRectangleMutation; request?: KicadPlaneStageInput; zoneId?: string; beforeZoneProtos?: readonly Raw[]; boardPath?: string;
+  filledContoursNm?: readonly (readonly (readonly [number, number])[])[] }) {
   const before = input.beforePcbSource, m = input.request?.request.mutation ?? input.mutation, old = structuredClone(input.beforeZoneProtos ?? []) as Raw[];
   if (!m) throw new Error("Synthetic fixture requires a mutation");
   const spans = parseFreshPcbDirectZoneSourceSpans(before);
@@ -48,7 +50,7 @@ export async function planeStageObservationFixture(input: { beforePcbSource: str
   const uuid = m.operation === "update" ? m.zoneId : input.zoneId ?? "99999999-9999-4999-8999-999999999999";
   const returned = targetProto(m, uuid, m.operation === "update" ? old.find(raw => raw.id.value === uuid) : undefined), requested = structuredClone(returned);
   if (m.operation === "create") delete requested.id;
-  const inserted = targetSource(m, returned), targetSpan = spans.find(span => span.uuid === uuid);
+  const inserted = targetSource(m, returned, input.filledContoursNm), targetSpan = spans.find(span => span.uuid === uuid);
   const stagedSource = m.operation === "create" ? before.slice(0, before.lastIndexOf(")")) + inserted + before.slice(before.lastIndexOf(")"))
     : before.slice(0, targetSpan!.start) + inserted + before.slice(targetSpan!.end);
   let unfilledSource = stagedSource;
@@ -60,7 +62,8 @@ export async function planeStageObservationFixture(input: { beforePcbSource: str
   const baseline = m.operation === "create" ? [...old, returned] : old.map(raw => raw.id.value === uuid ? returned : raw);
   const empty = baseline.map(raw => { const next = structuredClone(raw); delete next.filled; next.filled_polygons = next.layers.map((layer: string) => ({ layer, shapes: {} })); return next; });
   const filled = baseline.map(raw => { const next = structuredClone(raw); next.filled = true;
-    if (raw.id.value === uuid) next.filled_polygons = [{ layer: next.layers[0], shapes: { polygons: structuredClone(next.outline.polygons) } }]; return next; });
+    if (raw.id.value === uuid) next.filled_polygons = [{ layer: next.layers[0], shapes: { polygons: input.filledContoursNm === undefined ? structuredClone(next.outline.polygons)
+      : input.filledContoursNm.map(ring=>({outline:{closed:true,nodes:ring.map(([x,y])=>({point:{x_nm:String(x),y_nm:String(y)}}))}})) } }]; return next; });
   const pads = await nativePadObservationFixture(stagedSource, before), snapshot: Raw = structuredClone(pads.observation.rawSnapshot);
   const boardPath = input.request?.board_file ?? input.boardPath ?? pads.expected.pcbPath, document = { type: "DOCTYPE_PCB", board_filename: path.win32.basename(boardPath), project: { name: path.win32.basename(boardPath, ".kicad_pcb"), path: path.win32.dirname(boardPath) } };
   // Rebind only known document fields, never perform a recursive string rewrite.

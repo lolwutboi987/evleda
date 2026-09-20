@@ -6,9 +6,20 @@ baseline. Work is on `codex/rp2350-pico`; the published baseline is commit
 on `codex/destination-resume`. The existing Python implementation on `main` was
 preserved. This directory contains the saved native candidate and its retained
 design history. Managed-workflow verification is complete; engineering acceptance
-remains failed/incomplete.
+remains incomplete.
 
 ## Current candidate
+
+The [regional-policy R1 candidate](native-r1-regional/README.md) preserves the
+completed placement, routing and previews while explicitly treating In2 as
+supplemental fill. All ten regions have verified via contacts and retained-area
+bounds to the unchanged primary plane. Its native save/close/read-only-reopen
+workflow is complete: 67 connected nets and configured ERC/DRC clean. The full
+assessment has 141 pass, 431 unknown and zero failed rows; accepted=false.
+USB startup, debug-header launches and other electrical review remain open.
+See the [toolbox qualification](../../proofs/native-plane-policy-revision-20260920/README.md).
+
+## Preserved original R1 and design history
 
 The [native R1 candidate](native-r1/README.md) is
 **22 × 60 mm**, retaining 2.54 mm GPIO pitch and 17.78 mm row spacing. Its native

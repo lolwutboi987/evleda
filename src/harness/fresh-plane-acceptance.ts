@@ -1,6 +1,6 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { collectPlaneBridgeSource } from "./plane-region-bridge-source.js";
-import { findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
+import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
 import { channelMemberNets } from "./pcb-channel-width.js";
 import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -149,8 +149,10 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     planeId: string; zoneUuid: string | null; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
     nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null; componentCount: number;
     drillTopology:ReturnType<typeof assessFreshPlaneDrillTopology>;
-    nativePolygonAttribution: Fact; minimumArea: Fact & { requiredAreaTwiceNm2: string; observedAreaTwiceNm2: readonly string[];conservativeAreaLowerBoundTwiceNm2:string|null };
-    intendedPlaneConnectivity: Fact & { scope:"native-pad-reachability-to-stored-zone-component";directEligiblePadAnchors: readonly string[]; nativeDirectVias: readonly string[] };
+    nativePolygonAttribution: Fact; minimumArea: Fact & { requiredAreaTwiceNm2: string; observedAreaTwiceNm2: readonly string[];conservativeAreaLowerBoundTwiceNm2:string|null;
+      componentAreaLowerBounds?: ReturnType<typeof boundRetainedPlaneRegionAreas> };
+    intendedPlaneConnectivity: Fact & { scope:"native-pad-reachability-to-stored-zone-component" | "native-region-via-contacts-to-primary-plane";directEligiblePadAnchors: readonly string[]; nativeDirectVias: readonly string[] };
+    regionalPolicyConditions?: Fact & { referencePlaneId: string; engineeringBasis: string };
     islandPolicy: Fact; actualMinimumCopperWidth: Fact; thermalPolicy: Fact; actualThermalWidth: Fact;
   }> = [];
   const references: Array<{ net: string; planeId: string; status: Status; reasons: readonly string[]; segmentIds: readonly string[];
@@ -378,11 +380,18 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       nativeGeometry = assessFreshPlaneFilledGeometry({ savedZone: sourceZone, layer: plane.layer, nativeZone: { id: { value: zoneUuid }, type: "ZT_COPPER",
         layers: [nativeLayer(plane.layer)], filled: nativeZone.isFilled, filled_polygons: [{ layer: nativeLayer(plane.layer), shapes: { polygons: (layer?.subpolygons ?? []).map(polygon => ({ outline: chain(polygon.outline), holes: polygon.holes.map(chain) })) } }] } });
       const equalGeometry = geometry.status === "verified" && nativeGeometry.status === "verified" && same(geometry.components, nativeGeometry.components);
-      attribution = nativeZone.netName === plane.net && !nativeZone.isRuleArea && nativeZone.isFilled && !nativeZone.needRefill && nativeZone.layers.length === 1
-        && layer !== undefined && layer.filledSubpolygonCount === 1 && layer.subpolygons.length === 1 && layer.subpolygons[0]!.index === 0
-        && geometry.components.length === 1 && geometry.components[0]!.nativePolygonIndex === 0 && equalGeometry
-        ? fact("verified", "One native subpolygon matches one connected copper component in the saved and staged geometry; direct contacts have an unambiguous scope.")
-        : fact("failed", "Native contact geometry is not exactly one matching attributed filled component.");
+      const attributed = nativeZone.netName === plane.net && !nativeZone.isRuleArea && nativeZone.isFilled && !nativeZone.needRefill && nativeZone.layers.length === 1
+        && layer !== undefined && equalGeometry && (plane.islandPolicy.requireSingleConnectedComponent
+          ? layer.filledSubpolygonCount === 1 && layer.subpolygons.length === 1 && layer.subpolygons[0]!.index === 0
+            && geometry.components.length === 1 && geometry.components[0]!.nativePolygonIndex === 0
+          : layer.filledSubpolygonCount === geometry.components.length && layer.subpolygons.length === geometry.components.length
+            && new Set(geometry.components.map(c=>c.nativePolygonIndex)).size === geometry.components.length
+            && same(layer.subpolygons.map(p=>p.index).sort((a,b)=>a-b), geometry.components.map(c=>c.nativePolygonIndex).sort((a,b)=>a-b)));
+      attribution = attributed ? fact("verified", plane.islandPolicy.requireSingleConnectedComponent
+        ? "One native subpolygon matches one connected copper component in the saved and staged geometry; direct contacts have an unambiguous scope."
+        : "Every native subpolygon matches one stored component; regional via contacts require their separate complete observation.")
+        : fact("failed", plane.islandPolicy.requireSingleConnectedComponent ? "Native contact geometry is not exactly one matching attributed filled component."
+          : "Native contact geometry does not match the declared component-attribution policy.");
     } else if (nativeInventory.status === "failed") attribution = nativeInventory;
     const drillTopology=assessFreshPlaneDrillTopology({savedEvidence:saved,pcbSource:input.pcbSource,layer:plane.layer,zoneUuid});
     const areaThreshold = scaledFraction(plane.islandPolicy.minimumAreaMm2, 12);
@@ -401,13 +410,14 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       || nativeZone?.directPads.some(pad => !eligible.has(pad.uuid));
     const connected = configuration.status === "failed" || attribution.status === "failed" || badContact || net?.status === "disconnected" || net?.status === "invalid-evidence"
       ? fact("failed", "The intended plane component, complete endpoint cluster or direct contact inventory does not satisfy the contract.")
-      : attribution.status === "verified" && net?.status === "connected" && net.everyEligiblePhysicalMemberReachable && allMembers.length > 0 && anchorIds.length > 0
+      : plane.islandPolicy.requireSingleConnectedComponent && attribution.status === "verified" && net?.status === "connected" && net.everyEligiblePhysicalMemberReachable && allMembers.length > 0 && anchorIds.length > 0
         ? fact("verified", "Every eligible endpoint member shares a complete native PAD cluster with a direct eligible PAD anchor on the sole intended plane component.")
         : fact("unknown", "Complete all-member native reachability and a direct eligible PAD anchor are required; a via-only contact has no separately evidenced terminal-to-via anchor.");
     const intendedPlaneConnectivity = { ...connected,scope:"native-pad-reachability-to-stored-zone-component" as const,directEligiblePadAnchors: anchorIds, nativeDirectVias: nativeZone?.directVias.map(via => via.uuid) ?? [] };
     const nativeIsland = nativeZone?.layers.some(layer => layer.subpolygons.some(polygon => polygon.isIsland === true)) === true;
-    const island = geometry.status !== "verified" ? fact("unknown", "Filled topology is unverified.") : geometry.components.length !== 1 || minimumArea.status === "failed" || nativeIsland
+    const island = geometry.status !== "verified" ? fact("unknown", "Filled topology is unverified.") : (plane.islandPolicy.requireSingleConnectedComponent && geometry.components.length !== 1 || minimumArea.status === "failed" || nativeIsland)
       ? fact("failed", "Single-component or minimum-area island policy is violated.")
+      : !plane.islandPolicy.requireSingleConnectedComponent ? fact("unknown", "Explicit supplemental-region contacts and retained-area lower bounds remain to be collected; full drilled-copper continuity remains separate.")
       : attribution.status === "verified" &&drillTopology.status==="verified"&&minimumArea.status==="verified"&&nativeZone!.layers[0]!.subpolygons.every(polygon => polygon.isIsland === false) && connected.status === "verified"
         ? fact("verified", "The zone retains one sufficiently large planar interior after supported drill subtraction, native non-island classification and a native endpoint anchor.")
         : fact("unknown", "Native retained-island classification and connected intended-component attribution are required.");
@@ -465,9 +475,40 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         calculation.allRegionsWitnessed
           ? "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate."
           : "At least one stored region lacks a supported positive-area through-via contact witness to the primary plane; absence of this witness is not proof of disconnection."), calculation });
+      if (!targetSpec.islandPolicy.requireSingleConnectedComponent) {
+        requireValue(targetSpec.islandPolicy.referencePlaneId === observation.referencePlaneId, "Regional policy reference differs from the qualified primary plane.");
+        try {
+          const areaBounds = boundRetainedPlaneRegionAreas(target.geometry.components, geometry.boreEnclosures);
+          const threshold = scaledFraction(targetSpec.islandPolicy.minimumAreaMm2, 12);
+          const areaProven = areaBounds.every(a => BigInt(a.conservativeRetainedAreaTwiceNm2) * threshold.denominator >= 2n * threshold.numerator);
+          target.minimumArea = { ...target.minimumArea, ...(target.minimumArea.status === "failed" ? {} : fact(areaProven ? "verified" : "unknown",
+            areaProven ? "Every stored component's complete bore-enclosure-subtracted retained-area lower bound meets the declared floor. This proves area, not post-drill connectivity."
+              : "The conservative per-component area lower bound is insufficient; no actual area violation is inferred from over-subtraction.")), componentAreaLowerBounds: areaBounds };
+        } catch (error) {
+          if (target.minimumArea.status !== "failed") target.minimumArea = { ...target.minimumArea,
+            ...fact("unknown", error instanceof Error ? error.message : "Regional area bounds are unavailable.") };
+        }
+      }
     } catch (error) {
       Object.assign(observation, { ...fact("unknown", error instanceof Error ? error.message : "Region-bridge prerequisites are unavailable."), calculation: null });
     }
+  }
+  for (const target of planes) {
+    const spec = bundle.contract.planes.find(p => p.id === target.planeId)!;
+    const policy = spec.islandPolicy;
+    if (policy.requireSingleConnectedComponent) continue;
+    const bridge = planeRegionBridges.find(p => p.planeId === target.planeId && p.referencePlaneId === policy.referencePlaneId);
+    const conditions = allFacts([target.configuration, target.nativePolygonAttribution, target.minimumArea,
+      bridge ?? fact("unknown", "A complete current regional via-contact observation is required.")]);
+    target.regionalPolicyConditions = { ...conditions, referencePlaneId: policy.referencePlaneId, engineeringBasis: policy.engineeringBasis };
+    if (target.intendedPlaneConnectivity.status !== "failed" && bridge?.status === "verified") target.intendedPlaneConnectivity = {
+      ...target.intendedPlaneConnectivity, ...fact("verified", "Every stored supplemental region has a qualified native/source via contact to the endpoint-anchored primary plane; global drill-clipped continuity remains independent."),
+      scope: "native-region-via-contacts-to-primary-plane" };
+    target.islandPolicy = target.islandPolicy.status === "failed" ? target.islandPolicy : conditions.status === "failed" ? conditions
+      : fact("unknown", ...conditions.reasons, "Complete drill-clipped region continuity is not established by local contact discs and retained-area bounds.");
+    setRow(`plane-policy:${target.planeId}`, target.islandPolicy.status === "failed" || target.thermalPolicy.status === "failed"
+      ? fact("failed", ...target.islandPolicy.reasons, ...target.thermalPolicy.reasons)
+      : fact("unknown", ...target.islandPolicy.reasons, ...target.thermalPolicy.reasons, "Full contact and global continuity acceptance remain separate."));
   }
   for (const route of bundle.contract.routingConstraints.nets) {
     if (route.topology === "plane" || route.referencePath.mode !== "continuous_plane") continue;

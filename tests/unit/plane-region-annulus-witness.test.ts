@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findPlaneRegionAnnulusWitnesses } from "../../src/harness/plane-region-annulus-witness.js";
+import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "../../src/harness/plane-region-annulus-witness.js";
 import type { FreshPlaneFilledComponent } from "../../src/harness/fresh-plane-filled-geometry.js";
 const rectangle = (index: number, x1: number, y1: number, x2: number, y2: number): FreshPlaneFilledComponent => ({
   nativePolygonIndex: index, outer: [{ x: x1, y: y1 }, { x: x2, y: y1 }, { x: x2, y: y2 }, { x: x1, y: y2 }],
@@ -13,6 +13,31 @@ const fixture = () => {
     boreEnclosures: vias.map(v => ({ uuid: v.uuid, centerNm: v.centerNm, enclosingDiameterNm: v.drillNm })) };
 };
 describe("positive-area annulus contacts for separated plane regions", () => {
+  it("subtracts full possibly intersecting bore squares conservatively without inferring connectivity", () => {
+    const component = rectangle(0, 0, 0, 1000, 1000);
+    const result = boundRetainedPlaneRegionAreas([component], [
+      { uuid: "inside", centerNm: { x: 500, y: 500 }, enclosingDiameterNm: 100 },
+      { uuid: "partial", centerNm: { x: 1000, y: 500 }, enclosingDiameterNm: 100 },
+      { uuid: "outside", centerNm: { x: 5000, y: 5000 }, enclosingDiameterNm: 100 },
+    ])[0]!;
+    expect(result.conservativeRetainedAreaTwiceNm2).toBe("1960000");
+    expect(result.possiblyIntersectingBoreUuids).toEqual(["inside", "partial"]);
+    expect(result.connectivityClaimed).toBe(false);
+    const over = boundRetainedPlaneRegionAreas([component], [{ uuid: "large", centerNm: { x: 500, y: 500 }, enclosingDiameterNm: 2000 }])[0]!;
+    expect(over.conservativeRetainedAreaTwiceNm2).toBe("0");
+    expect(() => boundRetainedPlaneRegionAreas([{ ...component, areaTwiceNm2: "2000001" }], [])).toThrow("declared area differs");
+  });
+  it("certifies circles in cached holes or outside a nonrectangular component without subtracting them twice", () => {
+    const square = rectangle(0, 0, 0, 1000, 1000), hole = rectangle(0, 400, 400, 600, 600).outer;
+    const holed = { ...square, holes: [hole], areaTwiceNm2: "1920000" };
+    const result = boundRetainedPlaneRegionAreas([holed], [{ uuid: "cached", centerNm: { x: 500, y: 500 }, enclosingDiameterNm: 100 }])[0]!;
+    expect(result.conservativeRetainedAreaTwiceNm2).toBe("1920000"); expect(result.exactlySeparatedBoreUuids).toEqual(["cached"]);
+    const triangle = { ...square, outer: [{x:0,y:0},{x:1000,y:0},{x:0,y:1000}], areaTwiceNm2:"1000000" };
+    const outside = boundRetainedPlaneRegionAreas([triangle], [{ uuid:"outside",centerNm:{x:900,y:900},enclosingDiameterNm:100 }])[0]!;
+    expect(outside.conservativeRetainedAreaTwiceNm2).toBe("1000000"); expect(outside.exactlySeparatedBoreUuids).toEqual(["outside"]);
+    const overlapsHole = boundRetainedPlaneRegionAreas([holed], [{ uuid:"overlap",centerNm:{x:610,y:500},enclosingDiameterNm:100 }])[0]!;
+    expect(overlapsHole.possiblyIntersectingBoreUuids).toEqual(["overlap"]); expect(overlapsHole.conservativeRetainedAreaTwiceNm2).toBe("1900000");
+  });
   it("requires a bore-clear contact patch in both layers for every region", () => {
     const result = findPlaneRegionAnnulusWitnesses(fixture());
     expect(result.allRegionsWitnessed).toBe(true);

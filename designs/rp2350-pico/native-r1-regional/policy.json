@@ -1,0 +1,44 @@
+{
+  "scope": "Explicit separately compiled supplemental policy. No native geometry, numeric rules or primary/signal-reference requirement was relaxed.",
+  "sourceProjectId": "5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea",
+  "targetProjectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "sourceBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "46dccf0a2f1b50a370ab4feddce6b1b97afe5b8218fac11cdc0fe1add7439e47",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "targetBundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "a30e7a5067e1d7f91511d7ea964a6e3fffacd16c47217cabcc5434ad05b51e84",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "planes": [
+    {
+      "id": "BACK_GND",
+      "net": "GND",
+      "layer": "In2.Cu",
+      "islandPolicy": {
+        "engineeringBasis": "BACK_GND is supplemental In2 fill between signal routes. Every declared high-frequency signal/interface reference remains GND_PLANE on In1. Separate stored In2 regions are intentional and require complete current source/native via-contact and retained-area evidence to the primary plane, retaining native island removal and the unchanged 1 mm2 floor. Prior native evidence found qualifying contacts for all ten regions; it is rationale, not transferred fill or acceptance authority.",
+        "minimumAreaMm2": 1,
+        "referencePlaneId": "GND_PLANE",
+        "removeUnconnected": true,
+        "requireSingleConnectedComponent": false
+      }
+    },
+    {
+      "id": "GND_PLANE",
+      "net": "GND",
+      "layer": "In1.Cu",
+      "islandPolicy": {
+        "minimumAreaMm2": 1,
+        "removeUnconnected": true,
+        "requireSingleConnectedComponent": true
+      }
+    }
+  ],
+  "signalReferencePlanes": [
+    "GND_PLANE"
+  ]
+}

@@ -158,7 +158,9 @@ function verificationPlan(contract: PcbPlaneDesignContract, library: PcbLibraryB
     add(`plane-config:${plane.id}`, "plane_configuration", path, "Verify exactly one authored zone with this plane's exact net, layer, boundary and all declared settings; reject unbound zones or rule areas.");
     add(`plane-fill:${plane.id}`, "plane_fill", path, "Verify current-source native fill freshness, complete filled contours including holes, and actual minimum copper width.");
     add(`plane-clearance:${plane.id}`, "plane_clearance", path, "Verify the explicit zone clearance and its native effective rule interaction, copper separation and edge clearance.");
-    add(`plane-policy:${plane.id}`, "plane_thermal_islands", path, "Verify pad thermal/solid contacts, required spokes, island removal and one connected plane component.");
+    add(`plane-policy:${plane.id}`, "plane_thermal_islands", path, plane.islandPolicy.requireSingleConnectedComponent
+      ? "Verify pad thermal/solid contacts, required spokes, island removal and one connected plane component."
+      : "Verify pad thermal/solid contacts, required spokes, native island removal, each stored region's retained-area lower bound and a source/native through-via contact to the declared primary plane. Complete drill-clipped connectivity remains independently required.");
   }
   if (contract.interfaceRequirements !== undefined) {
     if (contract.interfaceRequirements.construction.mode === "two_layer") add("interface-construction", "interface_construction", "/interfaceRequirements/construction",

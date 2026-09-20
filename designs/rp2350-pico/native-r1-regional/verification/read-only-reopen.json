@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evleda.rp2350-regional-readonly-reopen.v1",
+  "projectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "bundleIdentity": {
+    "algorithm": "sha256",
+    "digest": "a30e7a5067e1d7f91511d7ea964a6e3fffacd16c47217cabcc5434ad05b51e84",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "5fd653d353838cdc4a2dfb36b856d18de65c55d3911aa57cbc9595bac812f05d",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "604b14283e7b5041e8d74ef3e12e1efa4acb3775a7cb2e96518e5a5900a1be6f",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "normalClose": true,
+  "functionalNets": 67,
+  "endpointConnectivity": "connected",
+  "configuredErc": "clean",
+  "configuredDrc": "clean",
+  "fillAuthorityRestored": false,
+  "accepted": false,
+  "scope": "Fresh read-only reopen of the separate regional-policy allocation with its stored lineage. It preserves the settled sources and does not recreate edit-session fill authority or imply full design acceptance."
+}

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-plane-policy-build-47
+
+
+ Test Files  13 passed (13)
+      Tests  320 passed | 2 skipped (322)
+   Start at  14:12:44
+   Duration  393.91s (transform 2.60s, setup 0ms, import 10.23s, tests 381.39s, environment 1ms)
+

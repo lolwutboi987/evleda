@@ -28,7 +28,7 @@ import { createInterfaceConstructionBoardSeed } from "../../src/harness/interfac
 import { interfaceConstructionBundle, interfaceConstructionDraft } from "../helpers/interface-construction-bundle.js";
 import { usbChannelBundle } from "../helpers/usb-channel-bundle.js";
 import { usbChannelPcb, usbChannelSourceId } from "../helpers/usb-channel-source.js";
-import { fourLayerPlaneBundle } from "../helpers/four-layer-plane-bundle.js";
+import { fourLayerPlaneBundle, fourLayerPlaneDraft } from "../helpers/four-layer-plane-bundle.js";
 import { createKicadTransmissionLineCalculator, KICAD_TRANSMISSION_LINE_IMPLEMENTATION_REVISION,
   KICAD_TRANSMISSION_LINE_PROTOCOL_VERSION, KICAD_TRANSMISSION_LINE_SOURCE_COMMIT } from "../../src/integrations/kicad-transmission-line.js";
 
@@ -101,14 +101,18 @@ function interfaceBoard(compilationBundle: FreshPlaneAcceptanceInput["compilatio
     (segment (start 3 4) (end 8 4) (width ${widthMm}) (layer "F.Cu") (net "DN") (uuid "${U(2)}")))\n`;
 }
 async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?: number; disconnectedGround?: boolean; filledWidthMm?: number; projectSettingsSource?: string;
-  compilationBundle?: FreshPlaneAcceptanceInput["compilationBundle"]; pcbSource?: string } = {}) {
+  compilationBundle?: FreshPlaneAcceptanceInput["compilationBundle"]; pcbSource?: string; splitSupplemental?: boolean } = {}) {
   const compilationBundle = options.compilationBundle ?? bundle(options.minimumAreaMm2), before = options.pcbSource ?? board(options);
   let prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, planeId: compilationBundle.contract.planes[0]!.id, operation: "create" });
-  let stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation });
+  const split = (id: string) => options.splitSupplemental && id === "BACK_GND" ? { filledContoursNm: [
+    [[500000,500000],[14500000,500000],[14500000,19500000],[500000,19500000]],
+    [[15500000,500000],[29500000,500000],[29500000,19500000],[15500000,19500000]],
+  ] as const } : {};
+  let stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation, ...split(compilationBundle.contract.planes[0]!.id) });
   for (const plane of compilationBundle.contract.planes.slice(1)) {
     prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: stageFixture.stagedSource, planeId: plane.id, operation: "create" });
     stageFixture = await planeStageObservationFixture({ beforePcbSource: stageFixture.stagedSource, mutation: prepared.mutation,
-      beforeZoneProtos: [stageFixture.stagedZoneProto], zoneId: U(900) });
+      beforeZoneProtos: [stageFixture.stagedZoneProto], zoneId: U(900), ...split(plane.id) });
   }
   if (options.filledWidthMm !== undefined) {
     // Change only the synthetic native fill result. Zone settings/outline and
@@ -158,11 +162,11 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
     zones: stage.nativeFilledZones.map(zone => {
       const sourceZone = parseFreshPcbReferenceGeometry(pcbSource).zones.find(source => source.uuid === zone.uuid)!;
       const layer = sourceZone.layers[0]!;
-      const polygon = (zone.raw as Raw).filled_polygons[0].shapes.polygons[0];
+      const polygons = (zone.raw as Raw).filled_polygons[0].shapes.polygons;
       return { uuid: zone.uuid, nativeClass: "ZONE", nativeType: 18, netCode: 1, netName: "GND", isRuleArea: false, isFilled: true, needRefill: false,
       padConnection: 1, minimumThicknessNm: 500000,
-      layers: [{ id: layerId(layer), name: layer, hasFilledPolys: true, fillFlag: 1, filledGeometrySha256: "0".repeat(64), filledSubpolygonCount: 1,
-        subpolygons: [{ index: 0, sha256: "0".repeat(64), isIsland: false, outline: points(polygon.outline), holes: [] }] }],
+      layers: [{ id: layerId(layer), name: layer, hasFilledPolys: true, fillFlag: 1, filledGeometrySha256: "0".repeat(64), filledSubpolygonCount: polygons.length,
+        subpolygons: polygons.map((polygon: Raw,index: number)=>({ index, sha256: "0".repeat(64), isIsland: false, outline: points(polygon.outline), holes: [] })) }],
       directPads: allPads.filter(pad => pad.netName === "GND" && pad.layers.some(member => member.name === layer)).map(contact), directTracks: [], directVias: [] }; }), allPads,
     allFootprints: parsed.footprints.map(fp => ({ uuid: fp.id!, reference: fp.reference, localZoneConnection: -1, resolvedZoneConnectionOverride: -1 })),
     allTracks: [...parsed.segments.map(track => ({ uuid: track.id, nativeClass: "PCB_TRACK", nativeType: 13, netCode: 1, netName: track.netName, layers: [{ id: 0, name: track.layer }] })),
@@ -592,6 +596,33 @@ describe("pure current-source V2 plane acceptance", () => {
     const island = await assessFreshPlaneAcceptance(input);
     expect(island.planeRegionBridges[0]!.status).toBe("unknown");
     expect(island.planes.some(p => p.islandPolicy.status === "failed")).toBe(true);
+  });
+  it("assesses explicit regional intent without treating it as complete drilled-copper acceptance", async () => {
+    async function regional(single: boolean, minimumAreaMm2 = 1) {
+      const draft = fourLayerPlaneDraft(), policy = draft.planes.find((p: Raw)=>p.id==="BACK_GND").islandPolicy;
+      policy.minimumAreaMm2 = minimumAreaMm2;
+      if (!single) Object.assign(policy, { requireSingleConnectedComponent: false, referencePlaneId: "GND_PLANE", engineeringBasis: "Synthetic explicit supplemental-region intent." });
+      const compilationBundle = interfaceConstructionBundle(draft), source = interfaceBoard(compilationBundle).trimEnd();
+      const pcbSource = source.slice(0,-1) + [13,17].map((x,i)=>`(via (at ${x} 5) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${U(3+i)}"))`).join("\n") + ")\n";
+      const f = await ercFixture("clean", { compilationBundle, pcbSource, splitSupplemental: true });
+      const vias = f.report.allTracks.filter((v: Raw)=>v.nativeClass==="PCB_VIA").map((v: Raw)=>({ uuid:v.uuid,nativeType:v.nativeType,nativeClass:v.nativeClass,netCode:v.netCode,netName:v.netName,proxyType:"PCB_TRACK" }));
+      for (const zone of f.report.zones) zone.directVias = vias;
+      return { ...f, complete: { ...f.input, nativeChecks: f.nativeChecks }, vias };
+    }
+    const strict = await regional(true);
+    expect(row(await assessFreshPlaneAcceptance(strict.complete), "plane-policy:BACK_GND").status).toBe("fail");
+    const f = await regional(false), result = await assessFreshPlaneAcceptance(f.complete), target = result.planes.find(p=>p.planeId==="BACK_GND")!;
+    expect(target.componentCount).toBe(2); expect(target.nativePolygonAttribution.status).toBe("verified");
+    expect(target.regionalPolicyConditions?.status).toBe("verified"); expect(target.minimumArea.status).toBe("verified");
+    expect(target.minimumArea.componentAreaLowerBounds).toHaveLength(2);
+    expect(target.intendedPlaneConnectivity.scope).toBe("native-region-via-contacts-to-primary-plane");
+    expect(row(result,"plane-policy:BACK_GND").status).toBe("unknown"); expect(result.accepted).toBe(false);
+    const publicReport = summarizePlaneAcceptance(result);
+    expect(publicReport.planes.find(p=>p.planeId==="BACK_GND")!.minimumArea.componentAreaLowerBounds).toHaveLength(2);
+    const secondary = f.report.zones.find((z:Raw)=>z.layers[0].name==="In2.Cu"); secondary.directVias = f.vias.slice(0,1);
+    expect((await assessFreshPlaneAcceptance(f.complete)).planes.find(p=>p.planeId==="BACK_GND")!.regionalPolicyConditions?.status).toBe("unknown");
+    const tooSmall = await regional(false,270);
+    expect(row(await assessFreshPlaneAcceptance(tooSmall.complete),"plane-policy:BACK_GND").status).toBe("fail");
   });
 
   it("requires current-session fill authority after resume and rejects copied branded evidence", async () => {

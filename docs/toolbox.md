@@ -61,6 +61,15 @@ can preserve the last verified save from the recorded live-readback size failure
 in a new allocation. It retains the original quarantine and does not invent a
 successful close for the failed project.
 
+`evleda_revise_plane_regions` creates a separate materialized candidate from a
+ready supplemental-region policy draft and a source closed normally in the same
+connection/profile. It changes only the supplemental component policy and its
+explicit primary reference/rationale. All area floors, native plane settings,
+primary and signal-reference requirements, circuit, placement, construction and
+routing remain exact. Existing geometry and schematic are retained, owned names
+are rebound to the new bundle, and the original allocation remains intact.
+See [the explicit policy and its verification scope](supplemental-plane-policy.md).
+
 The same MCP server now supports host-only CAD attachment, finish and detach. Every CAD callback retains its own binding and queue; stale callbacks never switch to a later project. The lease callback runs after native closure and checkpoint publication. Guidance, the configured analytical calculator, and hash-bound historical preview resources remain separate from the native binding. SDK/real-STDIO tests rediscover tools after attachment/detachment; a particular desktop application's handling still needs installation verification. The legacy explicit-project entrypoint is preserved.
 
 The workspace and V1/V2 model-guide changes passed **32 tests**, source TypeScript checking and independent source review. These tests cover actual public schema/submission dispatch with controlled native bindings; they do not prove destination-native creation or the complete-board workflow. Those software tests are now complemented by the destination-native V2 reports below; earlier source-machine workspace reports remain historical.

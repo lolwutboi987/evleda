@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "evleda.regional-policy-delivery-verification.v1",
+  "recordedAt": "2026-09-20T21:55:11.901Z",
+  "sourceProjectId": "5b5904b7-13e5-4e5a-8dc5-05e0d61b3bea",
+  "targetProjectId": "23542cb1-7244-4564-9d87-c10080909029",
+  "sourceAndTargetNativePinsRechecked": true,
+  "packageCopiesRechecked": 62,
+  "codePinsRechecked": 1012,
+  "installedSkillExact": true,
+  "freshClientToolCount": 18,
+  "nativeLifecycle": "../../designs/rp2350-pico/native-r1-regional/verification/revision-and-close.json",
+  "readOnlyReopen": "../../designs/rp2350-pico/native-r1-regional/verification/read-only-reopen.json",
+  "fullAssessment": "../../designs/rp2350-pico/native-r1-regional/verification/assessment.json",
+  "accepted": false,
+  "scope": "Publication custody and existing completed qualification; no native reauthoring or manufacture authorization."
+}
