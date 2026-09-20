@@ -1,5 +1,11 @@
 # Destination client installation
 
+Latest: **host46 with the same DOC17/v4 profile** is installed after
+[native region-contact qualification](../proofs/native-plane-regions-20260920/README.md).
+The exact current skill is installed, 17 tools are verified in a fresh client,
+and the prior workspace/access/environment/timeout settings are preserved. The
+new report adds observations without revising a saved design's policy.
+
 Latest: **host44 with the same DOC17/v4 profile** is installed after
 [actual native pad-policy qualification](../proofs/native-pad-policy-20260920/README.md).
 The updated repository skill is exact in the installed copy; workspace, access,

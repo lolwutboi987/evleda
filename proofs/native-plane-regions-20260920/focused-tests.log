@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/integration-plane-region-build-46
+
+
+ Test Files  5 passed (5)
+      Tests  119 passed (119)
+   Start at  13:18:16
+   Duration  42.49s (transform 1.57s, setup 0ms, import 4.62s, tests 36.49s, environment 0ms)
+

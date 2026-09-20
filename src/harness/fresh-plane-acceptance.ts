@@ -1,4 +1,6 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
+import { collectPlaneBridgeSource } from "./plane-region-bridge-source.js";
+import { findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
 import { channelMemberNets } from "./pcb-channel-width.js";
 import { assertPcbBoardFeatureInventory } from "./pcb-board-features.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
@@ -138,6 +140,11 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     interfaceEvidence.push(assessment);
   }
   const missing = "A current-session saved native fill witness is required; reapply and save the contract plane before acceptance.";
+  const planeRegionBridges: Array<Fact & { planeId: string; referencePlaneId: string;
+    scope: "qualified-source-native-annulus-contact-to-primary-plane";
+    calculation: ReturnType<typeof findPlaneRegionAnnulusWitnesses> | null }> = bundle.contract.routingConstraints.nets.flatMap(route =>
+      route.topology !== "plane" ? [] : (route.additionalPlaneIds ?? []).map(planeId => ({ planeId, referencePlaneId: route.planeId,
+        scope: "qualified-source-native-annulus-contact-to-primary-plane" as const, ...fact("unknown", missing), calculation: null })));
   const planes: Array<{
     planeId: string; zoneUuid: string | null; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
     nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null; componentCount: number;
@@ -231,7 +238,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         ...(bundle.contract.interfaceRequirements === undefined ? {} : { interfaces: interfaceEvidence }) },
       endpointConnectivityIdentity: endpoint.identity, endpointConnectivity: { status: endpoint.status, nets: endpoint.nets.map(net => ({ net: net.net, status: net.status,
         everyEligiblePhysicalMemberReachable: net.everyEligiblePhysicalMemberReachable })) },
-      authority, sourceScope, nativeInventory, planes, references, rows,
+      authority, sourceScope, nativeInventory, planes, planeRegionBridges, references, rows,
       ...(bundle.contract.interfaceRequirements === undefined ? {} : { interfaces }),
       verificationPlanRowsPassed: rows.filter(row => row.status === "pass").map(row => row.id),
       mandatoryRowsRemaining: rows.filter(row => row.status !== "pass").map(row => row.id),
@@ -421,6 +428,46 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const drc = nativeChecks?.checks.drcClearanceShorts;
     setRow(`plane-clearance:${plane.id}`, drc?.status === "failed" ? fact("failed", ...drc.reasons)
       : fact("unknown", ...(drc?.reasons ?? []), "Effective zone and edge clearance rule interaction needs its complete plane-specific evaluator."));
+  }
+  // Additional observation only: preserve every original single-component,
+  // area, thermal, reference and global continuity requirement unchanged.
+  for (const observation of planeRegionBridges) {
+    try {
+      requireValue(authority.status === "verified" && sourceScope.status === "verified" && nativeInventory.status === "verified"
+        && nativeChecks?.checks.drcClearanceShorts.status === "verified" && contacts !== undefined,
+      "Current complete source/native inventory and clearance checks are required for region bridges.");
+      const target = planes.find(p => p.planeId === observation.planeId)!, reference = planes.find(p => p.planeId === observation.referencePlaneId)!;
+      const targetSpec = bundle.contract.planes.find(p => p.id === target.planeId)!, referenceSpec = bundle.contract.planes.find(p => p.id === reference.planeId)!;
+      requireValue(targetSpec.net === referenceSpec.net && targetSpec.layer !== referenceSpec.layer
+        && target.configuration.status === "verified" && reference.configuration.status === "verified"
+        && reference.intendedPlaneConnectivity.status === "verified" && reference.geometry.components.length === 1,
+      "The primary plane must have one attributed component anchored to complete native endpoint reachability.");
+      const targetNative = contacts!.zones.find(z => z.uuid === target.zoneUuid)!, referenceNative = contacts!.zones.find(z => z.uuid === reference.zoneUuid)!;
+      for (const [plane, nativeZone] of [[target, targetNative], [reference, referenceNative]] as const) {
+        requireValue(plane.geometry.status === "verified" && plane.nativeGeometry?.status === "verified"
+          && same(plane.geometry.components, plane.nativeGeometry.components) && nativeZone !== undefined
+          && nativeZone.netName === targetSpec.net && nativeZone.isFilled && !nativeZone.needRefill && !nativeZone.isRuleArea
+          && nativeZone.layers.length === 1 && nativeZone.layers[0]!.filledSubpolygonCount === plane.geometry.components.length
+          && nativeZone.layers[0]!.subpolygons.length === plane.geometry.components.length
+          && same(nativeZone.layers[0]!.subpolygons.map(p => p.index).sort((a,b)=>a-b), plane.geometry.components.map(p=>p.nativePolygonIndex).sort((a,b)=>a-b)),
+        "Every source/staged/native region needs an exact unique subpolygon attribution.");
+        requireValue(nativeZone.layers[0]!.subpolygons.every(p => p.isIsland === false), "A native island flag prevents a grounded-region witness claim.");
+      }
+      const physical = saved.stage.nativePads.inventory;
+      requireValue(physical !== null, "Complete qualified PAD geometry is required for bore enclosures.");
+      const geometry = collectPlaneBridgeSource(input.pcbSource, physical!);
+      const direct = (zone: typeof targetNative) => new Set(zone.directVias.filter(v => v.netName === targetSpec.net).map(v => v.uuid));
+      const mainVias = direct(referenceNative), targetVias = direct(targetNative);
+      const vias = geometry.vias.filter(v => v.netName === targetSpec.net && mainVias.has(v.uuid) && targetVias.has(v.uuid));
+      const calculation = findPlaneRegionAnnulusWitnesses({ components: target.geometry.components,
+        reference: reference.geometry.components[0]!, vias, boreEnclosures: geometry.boreEnclosures });
+      Object.assign(observation, { ...fact(calculation.allRegionsWitnessed ? "verified" : "unknown",
+        calculation.allRegionsWitnessed
+          ? "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate."
+          : "At least one stored region lacks a supported positive-area through-via contact witness to the primary plane; absence of this witness is not proof of disconnection."), calculation });
+    } catch (error) {
+      Object.assign(observation, { ...fact("unknown", error instanceof Error ? error.message : "Region-bridge prerequisites are unavailable."), calculation: null });
+    }
   }
   for (const route of bundle.contract.routingConstraints.nets) {
     if (route.topology === "plane" || route.referencePath.mode !== "continuous_plane") continue;

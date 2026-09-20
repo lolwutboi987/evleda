@@ -1,0 +1,30 @@
+{
+  "installation": {
+    "schemaVersion": "evleda.destination-client-installation.v5",
+    "recordedAt": "2026-09-20T20:28:51.517Z",
+    "scope": "Existing workspace entry advances host44 to native-qualified host46. DOC17 profile, edit policy, workspace, environment, timeout and unrelated settings remain unchanged. The current repository skill includes the added region-witness observation scope.",
+    "configuration": {
+      "beforeSha256": "23acc834dae621f1bbbd4dc951d48896ae97a795fad95ac74eb9c02526d0cbe1",
+      "afterSha256": "af22065fe8ece52bd1909a4496e0353e4443d3a3ef1bc45293dc80267dd0d331",
+      "unrelatedRawBytesPreserved": true
+    },
+    "skill": {
+      "beforeSha256": "943f7d2f3ee5523608293c164688e52f585091c05e36e7451c455672434ed2fd",
+      "afterSha256": "52c2925315d8b736ef989c7c72f2308ae7f739f6d85af620e3466e7f8441f4b1",
+      "repositoryCopyExact": true
+    },
+    "hostReleaseSha256": "d5ca52006baa240905b90011649c892c3c8d466b2d849e80a9425e54454cc707",
+    "nativeSourceUnchanged": true,
+    "runningDesktopActivation": "not-established"
+  },
+  "freshClient": {
+    "passed": true,
+    "toolCount": 17,
+    "exit": {
+      "code": 0,
+      "signal": null
+    },
+    "scope": "Fresh actual installed Codex app-server reads the real global EvlEDA entry. Other servers/plugins are disabled only for this probe. No task, model turn or native project is created. This is not evidence that an already-running desktop connection reloaded."
+  },
+  "runningDesktopActivation": "not-established"
+}

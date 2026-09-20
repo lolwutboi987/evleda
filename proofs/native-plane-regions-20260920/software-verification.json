@@ -1,0 +1,66 @@
+{
+  "releaseSha256": "d5ca52006baa240905b90011649c892c3c8d466b2d849e80a9425e54454cc707",
+  "tests": {
+    "passed": 119,
+    "files": 5,
+    "scope": "Focused source extraction, contact-disc geometry, complete assessor and public projection tests; not a full suite."
+  },
+  "checks": [
+    {
+      "name": "source-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "ui-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    },
+    {
+      "name": "plane-region-witness-tests",
+      "exitCode": 0
+    }
+  ],
+  "codePins": [
+    {
+      "file": "src/harness/plane-region-annulus-witness.ts",
+      "sha256": "667419467c7d19e9438d879a7edbeabe190be61fda90e2b3073dfe7864bca179"
+    },
+    {
+      "file": "src/harness/plane-region-bridge-source.ts",
+      "sha256": "6c94c56cc4b51d7678d49a1c0330da9ea64e80f55141a9e2653133cbdaf6f06b"
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "4707145cc366a76f1a499b37beb2ff0533fc45bd1d86ec71f78d48f52bb68ccb"
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "51ea26a84882519b2b34d3cef317d30f39bba7862b1ce694c348495cd1c5fe13"
+    },
+    {
+      "file": "tests/unit/plane-region-annulus-witness.test.ts",
+      "sha256": "502c517bed90e8d0e79a88e49eebea3cb58966fb92a59258f89906f14d69c9a4"
+    },
+    {
+      "file": "tests/unit/plane-region-bridge-source.test.ts",
+      "sha256": "ce03346040e23ef5b3b7a38e852d6e0f733dae0337ebcb2555d809b99a81a6d2"
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "4348f9f4f996af154a26fff22cd5cfae2bce516b39ca9861b2d37064e4223264"
+    },
+    {
+      "file": "tests/unit/toolbox-plane-acceptance.test.ts",
+      "sha256": "0917bad87c43ce80b16486884f2a9abf82ae206135ab7d8130e7eefcca9cd1d7"
+    }
+  ],
+  "preservedPredecessors": true,
+  "failedBuild45": "An unchecked test-array access caused a source typecheck failure before any native run; the test annotation was corrected in the separate successful host46 build."
+}

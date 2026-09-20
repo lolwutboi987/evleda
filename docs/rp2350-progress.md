@@ -1,5 +1,13 @@
 # RP2350 continuation: 20 September 2026
 
+The [native region-contact observation](../proofs/native-plane-regions-20260920/README.md)
+now verifies a positive-area via contact between every supplemental In2 region
+and the primary ground plane, with all 171 bore enclosures retained. The PCB is
+unchanged and the original single-component rule still fails. A separate design
+policy revision remains necessary; this observation is not a waiver or a claim
+of full current/return-path qualification. Host46/DOC17 and the updated skill are
+installed, with 119 focused tests and actual native save/close evidence.
+
 The [USB startup screen](../designs/rp2350-pico/usb-startup-screen-20260920/README.md)
 now uses approximate readings of the selected capacitor's actual TDK reference
 curve. It gives about 204 uC to charge C20 to 5 V, so DC-bias loss is not a valid

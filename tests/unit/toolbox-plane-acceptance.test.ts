@@ -158,6 +158,25 @@ function commonFindingFixture() {
 }
 
 describe("public plane acceptance projection and private evidence", () => {
+  it("retains complete region witnesses while withholding private inputs and refusing policy promotion", () => {
+    const base = assessment(), target = { ...structuredClone(base.planes[0]!), planeId: "BACK_GND", zoneUuid: "target-zone" };
+    const bridge = { planeId: "BACK_GND", referencePlaneId: base.planes[0]!.planeId, status: "verified", reasons: ["Scoped geometric contact."],
+      scope: "qualified-source-native-annulus-contact-to-primary-plane", privateSource: "C:/private/input",
+      calculation: { scope: "positive-area-stored-copper-contact-through-qualified-normal-via-annuli", allRegionsWitnessed: true,
+        regions: [{ nativePolygonIndex: 0, status: "witnessed", viaUuid: "synthetic-via", centerNm: { x: 400, y: 400 }, contactDiscRadiusNm: 10,
+          privateSource: "C:/private/via" }], referenceNativePolygonIndex: 0, boreEnclosures: 2, predicateOperations: 20, maximumPredicateOperations: 4000000,
+        globalDrillClippedContinuityClaimed: false, currentCapacityClaimed: false, fabricationAuthorized: false, privateBores: ["C:/private/bores"] } };
+    const input = assessment({ planes: [...base.planes, target], planeRegionBridges: [bridge] });
+    const report = summarizePlaneAcceptance(input);
+    expect(report.planeRegionBridges?.[0]?.calculation?.regions).toEqual([{ nativePolygonIndex: 0, status: "witnessed", viaUuid: "synthetic-via", centerNm: { x: 400, y: 400 }, contactDiscRadiusNm: 10 }]);
+    expect(JSON.stringify(report.planeRegionBridges)).not.toContain("private");
+    expect(report.rows).toEqual(summarizePlaneAcceptance(assessment({ planes: [...base.planes, target] })).rows);
+    expect(report.accepted).toBe(false);
+    const missing = structuredClone(input) as any; missing.planeRegionBridges[0].calculation.regions = [];
+    expect(() => summarizePlaneAcceptance(missing)).toThrow("incomplete");
+    const overclaim = structuredClone(input) as any; overclaim.planeRegionBridges[0].calculation.currentCapacityClaimed = true;
+    expect(() => summarizePlaneAcceptance(overclaim)).toThrow("unsupported authority");
+  });
   it.each(["verified", "failed", "unsupported"] as const)("projects the concise %s ERC fact and coverage while keeping native invocations private", status => {
     const { raw, checks } = nativeFindingFixture(), identity = canonicalIdentity({ erc: status }, "fixture-erc.v1");
     const native = { ...checks, checks: { ...checks.checks, erc: { status, reasons: [status === "unsupported" ? "ERC omitted C:/private/checks" : "Explicit native ERC result"] } },

@@ -26,6 +26,11 @@ Header reference launches, supplemental In2 plane policy and electrical/construc
 qualification remain unresolved. The earlier unmanaged
 [review117 target](four-layer-review-117/README.md) is preserved separately.
 
+The subsequent [host46 region-contact observation](../../proofs/native-plane-regions-20260920/README.md)
+verifies a bore-clear via contact from every supplemental In2 region to the
+primary plane. It preserves the original single-component failure and all
+native source bytes; it is evidence for reviewing a separate policy revision.
+
 The earlier two-layer [ground bridge 60-13](native-ground-bridge-60-13/README.md),
 [ground and USB revision 60-12](native-ground-usb-60-12/README.md),
 [ground-connections snapshot 60-11](native-ground-links-60-11/README.md),

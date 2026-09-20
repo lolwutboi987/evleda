@@ -1,0 +1,132 @@
+{
+  "scope": "Offline algorithm replay over hash-verified prior native observations, not a current-session native assessment or design-policy revision.",
+  "sourcePcbSha256": "7b374f36237dd914d89cc6d676965a3dafe3ec11b47fb35c0d9bf6052ff56f57",
+  "capturedAssessmentSha256": "2ef7e453d381d4e526ac292882e9bc574806ccd21bb298f60a18b45b7e218885",
+  "referencePlaneId": "GND_PLANE",
+  "targetPlaneId": "BACK_GND",
+  "sourcePadCount": 281,
+  "sourceViaCount": 118,
+  "boreCount": 171,
+  "candidateViaCount": 41,
+  "witnesses": {
+    "scope": "positive-area-stored-copper-contact-through-qualified-normal-via-annuli",
+    "allRegionsWitnessed": true,
+    "regions": [
+      {
+        "nativePolygonIndex": 0,
+        "status": "witnessed",
+        "viaUuid": "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+        "centerNm": {
+          "x": 16187500,
+          "y": 46600000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 1,
+        "status": "witnessed",
+        "viaUuid": "12a9b3dc-6154-47d8-a74e-188543653c0e",
+        "centerNm": {
+          "x": 18412500,
+          "y": 37350000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 2,
+        "status": "witnessed",
+        "viaUuid": "7e5658a6-4451-455b-ad7e-3311b063517a",
+        "centerNm": {
+          "x": 12457500,
+          "y": 39500000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 3,
+        "status": "witnessed",
+        "viaUuid": "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+        "centerNm": {
+          "x": 16087500,
+          "y": 38700000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 4,
+        "status": "witnessed",
+        "viaUuid": "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+        "centerNm": {
+          "x": 11362500,
+          "y": 38650000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 5,
+        "status": "witnessed",
+        "viaUuid": "0183904b-58b9-414d-9657-0c38bac9f708",
+        "centerNm": {
+          "x": 15387500,
+          "y": 22650000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 6,
+        "status": "witnessed",
+        "viaUuid": "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+        "centerNm": {
+          "x": 4507500,
+          "y": 30720000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 7,
+        "status": "witnessed",
+        "viaUuid": "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+        "centerNm": {
+          "x": 14737500,
+          "y": 28030000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 8,
+        "status": "witnessed",
+        "viaUuid": "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+        "centerNm": {
+          "x": 5087500,
+          "y": 19970000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 9,
+        "status": "witnessed",
+        "viaUuid": "895798ed-118c-4044-b758-da8dfb25e1a4",
+        "centerNm": {
+          "x": 6387500,
+          "y": 17500000
+        },
+        "contactDiscRadiusNm": 87499
+      }
+    ],
+    "referenceNativePolygonIndex": 0,
+    "boreEnclosures": 171,
+    "predicateOperations": 2562448,
+    "maximumPredicateOperations": 4000000,
+    "globalDrillClippedContinuityClaimed": false,
+    "currentCapacityClaimed": false,
+    "fabricationAuthorized": false
+  },
+  "originalIslandPolicy": {
+    "reasons": [
+      "Single-component or minimum-area island policy is violated."
+    ],
+    "status": "failed"
+  },
+  "freshAuthorityMinted": false,
+  "sourceUnchanged": true
+}

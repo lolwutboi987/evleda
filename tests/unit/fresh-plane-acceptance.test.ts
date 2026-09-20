@@ -185,14 +185,14 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
 
 /** Complete synthetic CLI port result, validated by the actual branded native
  * checks assessor. No native process or authentication predicate is replaced. */
-async function ercFixture(kind: "clean" | "violation" | "ignored" | "missing") {
+async function ercFixture(kind: "clean" | "violation" | "ignored" | "missing", options: NonNullable<Parameters<typeof fixture>[0]> = {}) {
   const project = { board: { design_settings: { rule_severities: {
     ...Object.fromEntries(FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredClearanceShortChecks.map(key => [key, "error"])),
     ...Object.fromEntries(FRESH_PLANE_NATIVE_CHECK_PROFILE.requiredViaManufacturingChecks.map(key => [key, "warning"])), starved_thermal: "error" },
     rules: { min_resolved_spokes: 2, max_error: 0.005 }, drc_exclusions: [] } },
     erc: { rule_severities: { single_global_label: "error", footprint_filter: "error", simulation_model_issue: "error", four_way_junction: "error" } } };
   if (kind === "ignored") project.erc.rule_severities.single_global_label = "ignore";
-  const f = await fixture({ surfaceSignalPads: true, projectSettingsSource: JSON.stringify(project) });
+  const f = await fixture({ surfaceSignalPads: true, ...options, projectSettingsSource: JSON.stringify(project) });
   const projectRoot = "D:\\evleda-offline-pad-fixture", pcbPath = `${projectRoot}\\fixture.kicad_pcb`, schematicPath = `${projectRoot}\\fixture.kicad_sch`;
   const executable: KicadExecutableIdentity = { kind: "kicad-cli", path: "C:\\offline-pinned\\kicad-cli.exe", version: "10.0.3",
     commit: "146a4f2a7585c65bc580427a19b6fe2ec4a3f622", sha256: "1".repeat(64), sizeBytes: 1234,
@@ -571,6 +571,27 @@ describe("pure current-source V2 plane acceptance", () => {
     expect((await assessFreshPlaneAcceptance(f.input)).nativeInventory.status).toBe("failed");
     via.layers = [...enabled, { id: 8, name: "In3.Cu" }];
     expect((await assessFreshPlaneAcceptance(f.input)).nativeInventory.status).toBe("failed");
+  });
+  it("binds supplemental-region witnesses to current fill, matching native via contacts and the primary endpoint anchor", async () => {
+    const compilationBundle = fourLayerPlaneBundle(), source = interfaceBoard(compilationBundle).trimEnd();
+    const pcbSource = source.slice(0, -1) + `(via (at 13 5) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${U(3)}")))\n`;
+    const f = await ercFixture("clean", { compilationBundle, pcbSource }), via = f.report.allTracks.find((v: Raw) => v.nativeClass === "PCB_VIA");
+    const contact = { uuid: via.uuid, nativeType: via.nativeType, nativeClass: via.nativeClass, netCode: via.netCode, netName: via.netName, proxyType: "PCB_TRACK" };
+    for (const zone of f.report.zones) zone.directVias = [contact];
+    const input = { ...f.input, nativeChecks: f.nativeChecks }, result = await assessFreshPlaneAcceptance(input);
+    expect(result.planeRegionBridges).toHaveLength(1);
+    expect(result.planeRegionBridges[0]).toMatchObject({ status: "verified", planeId: "BACK_GND", referencePlaneId: "GND_PLANE",
+      calculation: { allRegionsWitnessed: true, globalDrillClippedContinuityClaimed: false, currentCapacityClaimed: false } });
+    expect(result.accepted).toBe(false);
+    const reopened = await assessFreshPlaneAcceptance({ ...input, savedEvidence: null });
+    expect(reopened.planeRegionBridges[0]).toMatchObject({ status: "unknown", calculation: null });
+    f.report.zones[0].directVias = [];
+    const noCommonContact = await assessFreshPlaneAcceptance(input);
+    expect(noCommonContact.planeRegionBridges[0]).toMatchObject({ status: "unknown", calculation: { allRegionsWitnessed: false } });
+    f.report.zones[0].directVias = [contact]; f.report.zones[1].layers[0].subpolygons[0].isIsland = true;
+    const island = await assessFreshPlaneAcceptance(input);
+    expect(island.planeRegionBridges[0]!.status).toBe("unknown");
+    expect(island.planes.some(p => p.islandPolicy.status === "failed")).toBe(true);
   });
 
   it("requires current-session fill authority after resume and rejects copied branded evidence", async () => {

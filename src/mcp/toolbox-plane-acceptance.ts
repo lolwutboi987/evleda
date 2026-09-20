@@ -277,10 +277,42 @@ function interfaceReports(assessment: FreshPlaneAcceptanceAssessment) {
   });
 }
 
+function regionBridgeReports(assessment: FreshPlaneAcceptanceAssessment) {
+  // Historical reports predate this additional observation.
+  if (assessment.planeRegionBridges === undefined) return undefined;
+  return assessment.planeRegionBridges.map(observation => {
+    const c = observation.calculation, target = assessment.planes.find(p => p.planeId === observation.planeId);
+    if (c !== null) {
+      if (target === undefined || c.globalDrillClippedContinuityClaimed !== false || c.currentCapacityClaimed !== false || c.fabricationAuthorized !== false
+        || c.allRegionsWitnessed !== c.regions.every(r => r.status === "witnessed")
+        || canonicalJson(c.regions.map(r => r.nativePolygonIndex).sort((a,b)=>a-b))
+          !== canonicalJson(target.geometry.components.map(r => r.nativePolygonIndex).sort((a,b)=>a-b)))
+        throw new Error("Plane region witnesses are incomplete or claim unsupported authority.");
+      for (const r of c.regions) {
+        if (r.status === "witnessed" ? r.viaUuid === null || r.centerNm === null || !Number.isSafeInteger(r.contactDiscRadiusNm) || r.contactDiscRadiusNm! <= 0
+          : r.status !== "unproven" || r.viaUuid !== null || r.centerNm !== null || r.contactDiscRadiusNm !== null)
+          throw new Error("Plane region witness fields contradict their status.");
+      }
+    }
+    if (observation.status === "verified" && (c === null || !c.allRegionsWitnessed)) throw new Error("Verified region bridges require every regional witness.");
+    return { planeId: publicText(observation.planeId), referencePlaneId: publicText(observation.referencePlaneId),
+      ...fact(observation), scope: observation.scope, calculation: c === null ? null : {
+        scope: c.scope, allRegionsWitnessed: c.allRegionsWitnessed,
+        regions: c.regions.map(r => ({ nativePolygonIndex: publicNumber(r.nativePolygonIndex), status: r.status,
+          viaUuid: r.viaUuid === null ? null : publicText(r.viaUuid), centerNm: r.centerNm === null ? null
+            : { x: publicNumber(r.centerNm.x), y: publicNumber(r.centerNm.y) }, contactDiscRadiusNm: r.contactDiscRadiusNm === null ? null : publicNumber(r.contactDiscRadiusNm) })),
+        referenceNativePolygonIndex: publicNumber(c.referenceNativePolygonIndex), boreEnclosures: publicNumber(c.boreEnclosures),
+        predicateOperations: publicNumber(c.predicateOperations), maximumPredicateOperations: publicNumber(c.maximumPredicateOperations),
+        globalDrillClippedContinuityClaimed: false, currentCapacityClaimed: false, fabricationAuthorized: false,
+      } };
+  });
+}
+
 /** Closed public projection: raw captures, paths and contour arrays stay private. */
 export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessment) {
   const common = commonSourceChecks(assessment);
   const interfaces = interfaceReports(assessment);
+  const bridges = regionBridgeReports(assessment);
   return {
     schemaVersion: "evleda.toolbox-plane-acceptance.v1" as const,
     assessmentSchemaVersion: assessment.schemaVersion, assessmentIdentity: canonical(assessment.identity),
@@ -311,6 +343,7 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
         nativeDirectVias: [...plane.intendedPlaneConnectivity.nativeDirectVias] },
       islandPolicy: fact(plane.islandPolicy), actualMinimumCopperWidth: fact(plane.actualMinimumCopperWidth),
       thermalPolicy: fact(plane.thermalPolicy), actualThermalWidth: fact(plane.actualThermalWidth) })),
+    ...(bridges === undefined ? {} : { planeRegionBridges: bridges }),
     references: assessment.references.map(reference => ({ net: reference.net, planeId: reference.planeId,
       ...fact(reference), segmentIds: [...reference.segmentIds], marginNm: reference.marginNm,
       geometricStatus: reference.geometricStatus, referenceTerminals: fact(reference.referenceTerminals),
