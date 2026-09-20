@@ -5,9 +5,13 @@ import { createFreshPlaneRules } from "../../src/harness/fresh-plane-rules.js";
 import { seedFreshBoardFeatures } from "../../src/harness/fresh-board-features.js";
 import { canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { unwiredPlaneSeedFixture, unwiredPlaneSeedGeometryDraft } from "./unwired-plane-seed.js";
-export async function placementRevisionFixture() {
+export async function placementRevisionFixture(options: { viaBudgetHeadroom?: boolean } = {}) {
   const f = await unwiredPlaneSeedFixture();
   const draft = unwiredPlaneSeedGeometryDraft(30, 20);
+  if (options.viaBudgetHeadroom) {
+    draft.routingConstraints.viaPolicy.maxTotal = 4;
+    for (const netClass of draft.netClasses) netClass.allowedLayers = ["F.Cu", "B.Cu"];
+  }
   const sourceAllocation = await f.store.allocate({ projectId: randomUUID(), name: "seeded", draft,
     originalPrompt: "Synthetic unwired seed test", draftIdentity: contentIdentity(canonicalJson(draft)) });
   const preparation = await f.prepare(sourceAllocation.outputDir, draft);

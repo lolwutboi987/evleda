@@ -7,6 +7,7 @@ import { readPlaneFreshProjectBaselineHashes, type PlaneFreshProject } from "../
 import { isAuthenticatedPcbPlaneCompilationBundle, type PcbPlaneCompilationBundle } from "../harness/pcb-design-plane-bundle.js";
 import { freezePcbPlaneArtifact } from "../harness/pcb-design-plane-contract.js";
 import { issueFreshPlanePlacementSeed, freshPlanePlacementSeedPlan } from "../harness/fresh-plane-placement-seed.js";
+import type { PlaneRevisionKind } from "../harness/fresh-plane-placement-revision.js";
 import { captureClosedPlaneSeedSnapshot, schematicSeedLineageSchema, type ClosedPlaneSeedSourceContext } from "./toolbox-schematic-seed.js";
 
 const equal = (a: unknown, b: unknown) => canonicalJson(a) === canonicalJson(b);
@@ -14,10 +15,15 @@ const requireValue = (v: unknown, message: string): void => { if (!v) throw new 
 const content = schematicSeedLineageSchema.shape.sourceCheckpointIdentity;
 const nativeIdentities = z.object({ pcb: content, sch: content, pro: content, dru: content }).strict();
 export const placementRevisionLineageSchema = schematicSeedLineageSchema.omit({ schemaVersion: true, sourceSchematicIdentity: true }).extend({
-  schemaVersion: z.literal("evleda.plane-placement-revision-lineage.v1"), name: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/u),
+  schemaVersion: z.enum(["evleda.plane-placement-revision-lineage.v1", "evleda.plane-via-budget-revision-lineage.v1", "evleda.plane-saved-recovery-lineage.v1"]), name: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/u),
   sourceNativeIdentities: nativeIdentities, targetNativeIdentities: nativeIdentities,
   sourcePlanIdentity: schematicSeedLineageSchema.shape.sourceSnapshotIdentity,
-}).strict();
+  recovery: z.object({ evidenceIdentity: schematicSeedLineageSchema.shape.sourceSnapshotIdentity,
+    sourceCheckpointCurrent: z.literal(false), sourceNormalCloseConfirmed: z.literal(false), sourceQuarantineRetained: z.literal(true) }).strict().optional(),
+}).strict().superRefine((value, context) => {
+  if ((value.schemaVersion === "evleda.plane-saved-recovery-lineage.v1") !== (value.recovery !== undefined))
+    context.addIssue({ code: "custom", message: "Recovery lineage must carry its distinct failed-session evidence; normal revision lineage must not." });
+});
 export type PlacementRevisionLineage = z.infer<typeof placementRevisionLineageSchema>;
 export function parsePlacementRevisionLineage(value: unknown): PlacementRevisionLineage {
   const parsed = placementRevisionLineageSchema.parse(value), { identity, ...payload } = parsed;
@@ -55,7 +61,10 @@ export async function qualifyClosedPlanePlacementRevision(input: {
   readonly receipt: ClosedPlanePlacementRevisionSource; readonly sourceProjectId: string; readonly sourceOutputDir: string;
   readonly targetProjectId: string; readonly name: string; readonly targetBundle: PcbPlaneCompilationBundle;
   readonly profile: KicadMcpPinnedFileInput; readonly assertLeaseCurrent: () => Promise<void>;
+  readonly revisionKind?: PlaneRevisionKind;
 }) {
+  requireValue(input.revisionKind === undefined || input.revisionKind === "placement" || input.revisionKind === "via-budgets",
+    "saved-copy recovery is not an ordinary public revision");
   const state = closed.get(input.receipt); requireValue(state !== undefined, "source has no genuine close in this workspace connection");
   const context = state!.context;
   requireValue(input.sourceProjectId !== input.targetProjectId && context.project.outputPath === input.sourceOutputDir
@@ -69,9 +78,11 @@ export async function qualifyClosedPlanePlacementRevision(input: {
     requireValue(Buffer.from(source).equals(bytes), "source must round-trip exact scalar UTF-8"); return source;
   };
   const seed = issueFreshPlanePlacementSeed({ name: input.name, sourceBundle: context.bundle, targetBundle: input.targetBundle,
-    sources: { pcb: sourceText("pcb"), sch: sourceText("sch"), pro: sourceText("pro"), dru: sourceText("dru") }, profile: input.profile, assertCurrent });
+    sources: { pcb: sourceText("pcb"), sch: sourceText("sch"), pro: sourceText("pro"), dru: sourceText("dru") }, profile: input.profile, assertCurrent,
+    ...(input.revisionKind === undefined ? {} : { revisionKind: input.revisionKind }) });
   const plan = freshPlanePlacementSeedPlan(seed);
-  const payload = { schemaVersion: "evleda.plane-placement-revision-lineage.v1" as const, name: input.name,
+  const payload = { schemaVersion: input.revisionKind === "via-budgets" ? "evleda.plane-via-budget-revision-lineage.v1" as const
+    : "evleda.plane-placement-revision-lineage.v1" as const, name: input.name,
     sourceProjectId: input.sourceProjectId, targetProjectId: input.targetProjectId,
     sourceBundleIdentity: context.bundle.identity, targetBundleIdentity: input.targetBundle.identity,
     sourceSnapshotIdentity: captured.identity, sourceCheckpointIdentity: captured.files.checkpoint!.identity,

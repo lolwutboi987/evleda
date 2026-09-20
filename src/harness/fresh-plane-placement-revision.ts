@@ -66,6 +66,45 @@ export function assertPlanePlacementRevisionScope(source: PcbPlaneCompilationBun
   requireValue(!equal(source.contract.placementConstraints, target.contract.placementConstraints), "a placement revision must change placement intent");
 }
 
+export type PlaneRevisionKind = "placement" | "via-budgets";
+/** Saved copies are operator recovery seeds, never ordinary public revisions. */
+export type PlaneSourceSeedKind = PlaneRevisionKind | "saved-copy";
+
+/** A separate engineering revision, never an amendment to a checker or an
+ * existing allocation. Only bounded per-net via-count changes on nets with
+ * no continuous-reference requirement are supported. */
+export function assertPlaneViaBudgetRevisionScope(source: PcbPlaneCompilationBundle, target: PcbPlaneCompilationBundle): void {
+  requireValue(isAuthenticatedPcbPlaneCompilationBundle(source) && isAuthenticatedPcbPlaneCompilationBundle(target),
+    "both bundles must be authenticated");
+  const withoutBudgets = (routing: PcbPlaneCompilationBundle["contract"]["routingConstraints"]
+    | PcbPlaneCompilationBundle["draft"]["routingConstraints"]) => ({
+    ...routing, nets: routing.nets.map(rule => {
+      if (!("maxVias" in rule)) return rule;
+      const { maxVias: _budget, ...rest } = rule; return rest;
+    }),
+  });
+  const contract = ({ identity: _identity, routingConstraints, ...rest }: PcbPlaneCompilationBundle["contract"]) =>
+    ({ ...rest, routingConstraints: withoutBudgets(routingConstraints) });
+  const draft = ({ routingConstraints, ...rest }: PcbPlaneCompilationBundle["draft"]) =>
+    ({ ...rest, routingConstraints: withoutBudgets(routingConstraints) });
+  const library = ({ identity: _identity, contractIdentity: _contract, ...rest }: PcbPlaneCompilationBundle["libraryBinding"]) => rest;
+  requireValue(equal(contract(source.contract), contract(target.contract)) && equal(draft(source.draft), draft(target.draft))
+    && equal(library(source.libraryBinding), library(target.libraryBinding)) && equal(source.selectionPolicy, target.selectionPolicy),
+  "only per-net via-count budgets and original-prompt metadata may differ");
+  let changed = false;
+  for (const [index, before] of source.contract.routingConstraints.nets.entries()) {
+    const after = target.contract.routingConstraints.nets[index]!;
+    if (!("maxVias" in before) || !("maxVias" in after) || before.maxVias === after.maxVias) continue;
+    requireValue(typeof before.maxVias === "number" && typeof after.maxVias === "number"
+      && after.maxVias >= 0 && after.referencePath.mode === "none"
+      && target.contract.routingConstraints.viaPolicy.mode === "bounded"
+      && after.maxVias <= target.contract.routingConstraints.viaPolicy.maxTotal,
+    "via budgets may only change on nets without continuous-reference requirements");
+    changed = true;
+  }
+  requireValue(changed, "a via-budget revision must change at least one per-net budget");
+}
+
 export interface PlanePlacementRevisionSources {
   readonly pcb: string;
   readonly sch: string;
@@ -81,15 +120,27 @@ export function planPlanePlacementRevisionSources(input: {
   readonly sourceBundle: PcbPlaneCompilationBundle;
   readonly targetBundle: PcbPlaneCompilationBundle;
   readonly sources: PlanePlacementRevisionSources;
+  readonly revisionKind?: PlaneSourceSeedKind;
 }) {
   const { sourceBundle: source, targetBundle: target } = input;
-  assertPlanePlacementRevisionScope(source, target);
+  const revisionKind = input.revisionKind ?? "placement";
+  requireValue(revisionKind === "placement" || revisionKind === "via-budgets" || revisionKind === "saved-copy", "unsupported revision kind");
+  if (revisionKind === "saved-copy") requireValue(isAuthenticatedPcbPlaneCompilationBundle(source)
+    && isAuthenticatedPcbPlaneCompilationBundle(target) && equal(source, target), "saved-copy recovery cannot change its authenticated bundle");
+  else if (revisionKind === "via-budgets") assertPlaneViaBudgetRevisionScope(source, target);
+  else assertPlanePlacementRevisionScope(source, target);
   requireValue(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/u.test(input.name), "same safe project stem is required");
   const original = Object.freeze({ pcb: text(input.sources.pcb), sch: text(input.sources.sch),
     pro: text(input.sources.pro), dru: text(input.sources.dru) });
   const oldRules = createFreshPlaneRules(source), newRules = createFreshPlaneRules(target);
   requireValue(original.dru === oldRules.source, "source custom rules are not its canonical owned rules");
   const board = parseFreshPcbSource(original.pcb), tree = parseFreshPcbSourceDocument(original.pcb);
+  if (revisionKind === "via-budgets") {
+    for (const rule of target.contract.routingConstraints.nets) if ("maxVias" in rule) {
+      requireValue(board.vias.filter(via => via.netName === rule.net).length <= rule.maxVias,
+        `existing native via count exceeds revised budget for ${rule.net}`);
+    }
+  }
   requireValue(scalar(one(tree, "version")) === "20260206", "only the characterized KiCad 10 board format is supported");
   const expectedReferences = [...source.contract.components.map(c => c.reference), ...(source.contract.boardFeatures ?? []).map(f => f.reference)].sort();
   requireValue(equal(board.footprints.map(f => f.reference).sort(), expectedReferences), "source needs the complete exact materialized footprint inventory");
@@ -108,6 +159,7 @@ export function planPlanePlacementRevisionSources(input: {
     for (const [index, oldId] of oldIds.entries()) {
       const matches = actualIds.filter(n => scalar(n) === oldId);
       requireValue(matches.length === 1, "source feature lacks one exact constructor-owned UUID");
+      if (oldId === nextIds[index]) continue;
       const atom = matches[0]!.values[0]!;
       edits.push({ start: atom.start, end: atom.end, replacement: JSON.stringify(nextIds[index]), kind: "feature-uuid" });
       uuidMappings.push({ reference: feature.reference, source: oldId, target: nextIds[index]! });
@@ -172,7 +224,9 @@ export function planPlanePlacementRevisionSources(input: {
     .map(entry => ({ ...entry, netclass: classMappings.get(entry.netclass)! }));
   assertExactContractNetClassPatterns(settings.netclass_patterns, classes.authoredPatternsForBindings(newClasses));
   const sources = Object.freeze({ pcb, sch: original.sch, pro: JSON.stringify(project, null, 2) + "\n", dru: newRules.source });
-  const payload = { schemaVersion: "evleda.plane-placement-revision-source-plan.v1" as const, sourceBundleIdentity: source.identity,
+  const payload = { schemaVersion: revisionKind === "saved-copy" ? "evleda.plane-saved-copy-source-plan.v1" as const
+    : revisionKind === "via-budgets" ? "evleda.plane-via-budget-revision-source-plan.v1" as const
+    : "evleda.plane-placement-revision-source-plan.v1" as const, sourceBundleIdentity: source.identity,
     targetBundleIdentity: target.identity, sourceIdentities: Object.fromEntries(Object.entries(original).map(([k, v]) => [k, contentIdentity(v)])),
     targetIdentities: Object.fromEntries(Object.entries(sources).map(([k, v]) => [k, contentIdentity(v)])),
     featureUuidMappings: uuidMappings, zoneNameMappings: zoneMappings,

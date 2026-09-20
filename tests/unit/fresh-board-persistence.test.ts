@@ -57,6 +57,26 @@ function internalSession(fresh: FreshProject, live: string, active = fresh.pcbPa
 }
 
 describe("owned fresh-board source staging", () => {
+  it("stages and rolls back complete source above the former 500 KB limit", async () => {
+    const fresh = await freshBoard("large-owned-source");
+    const before = capturedDisk.toString("utf8") + "\n" + " ".repeat(550_000);
+    const planned = changedBoard(before);
+    expect(Buffer.byteLength(planned)).toBeGreaterThan(500_000);
+    expect(Buffer.byteLength(planned)).toBeLessThan(MAX_FRESH_LIVE_BOARD_BYTES);
+    await writeFile(fresh.pcbPath, before);
+    let live = before;
+    const session = { ...internalSession(fresh, before), readActivePcbSource: async () => live,
+      callTool: async () => { live = before; return { content: [], structuredContent: {
+        result: "Board reverted to last saved state. All unsaved changes have been discarded." } }; } };
+    const persistence = new FreshBoardPersistence(fresh);
+    await persistence.capturePreMutation(session);
+    await persistence.stageOwnedSource(session, planned, before, before);
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(planned);
+    live = planned;
+    await persistence.rollbackToPreMutation(session, { expectedDiskSource: planned, expectedLiveSource: planned });
+    expect(await readFile(fresh.pcbPath, "utf8")).toBe(before);
+  });
+
   it("stages exact planned CRLF bytes, retains the preimage, and makes no native write or reload call", async () => {
     const fresh = await freshBoard("owned-source");
     await writeFile(fresh.pcbPath, capturedDisk);

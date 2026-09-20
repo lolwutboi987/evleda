@@ -103,16 +103,16 @@ describe("authenticated V2 common numerical source checks", () => {
     expect(row(excessPerNet, "vias:GND").status).toBe("fail");
   });
 
-  it("admits 1024 tracks as complete source inventory and retains other common bounds", async () => {
-    const tracks = Array.from({ length: 1024 }, (_, index) => track(1000 + index, `1 ${(1 + index / 100).toFixed(2)}`, `1.05 ${(1 + index / 100).toFixed(2)}`)).join("\n");
+  it("admits 1536 tracks as complete source inventory and retains other common bounds", async () => {
+    const tracks = Array.from({ length: 1536 }, (_, index) => track(1000 + index, `1 ${(1 + index / 100).toFixed(2)}`, `1.05 ${(1 + index / 100).toFixed(2)}`)).join("\n");
     const result = assessFreshPlaneCommonChecks(await fixture({ tracks }));
-    expect(result.sourceInventory).toMatchObject({ complete: true, trackCount: 1024 });
-    expect(FRESH_PLANE_COMMON_CHECKS_LIMITS).toMatchObject({ maximumPcbBytes: 2 * 1024 * 1024, maximumPhysicalPads: 512, maximumSegments: 1024, maximumVias: 256 });
+    expect(result.sourceInventory, JSON.stringify(result.rows.map(row => row.reasons))).toMatchObject({ complete: true, trackCount: 1536 });
+    expect(FRESH_PLANE_COMMON_CHECKS_LIMITS).toMatchObject({ maximumPcbBytes: 2 * 1024 * 1024, maximumPhysicalPads: 512, maximumSegments: 1536, maximumVias: 256 });
   });
 
   it.each(["tracks", "vias"] as const)("rejects common inventory beyond the whole-board %s cap", async kind => {
     const input = await fixture(kind === "tracks"
-      ? { tracks: Array.from({ length: 1025 }, (_, index) => track(1000 + index, `1 ${(1 + index / 100).toFixed(2)}`, `1.05 ${(1 + index / 100).toFixed(2)}`)).join("\n") }
+      ? { tracks: Array.from({ length: 1537 }, (_, index) => track(1000 + index, `1 ${(1 + index / 100).toFixed(2)}`, `1.05 ${(1 + index / 100).toFixed(2)}`)).join("\n") }
       : { vias: Array.from({ length: 257 }, (_, index) => via({ n: 1000 + index, at: `${2 + index % 15} ${2 + Math.floor(index / 15)}` })).join("\n") });
     const result = assessFreshPlaneCommonChecks(input);
     expect(result.sourceInventory.complete).toBe(false);
@@ -198,9 +198,10 @@ describe("authenticated V2 common numerical source checks", () => {
     expect(failed.rows.filter(row => row.kind === "via_policy").every(row => row.status === "fail")).toBe(true);
   });
   it("does not silently remove an extended via modifier or unmodeled copper graphic", async () => {
-    for (const options of [{ vias: via({ extra: "free" }) }, { extraCopper: `(gr_circle (center 15 10) (end 16 10) (stroke (width 0.05) (type default)) (fill none) (layer "F.Cu") (uuid "${id(5)}"))` }]) {
-      const result = assessFreshPlaneCommonChecks(await fixture(options)); expect(result.sourceInventory.complete).toBe(false); expect(result.rows.every(row => row.status === "unknown")).toBe(true);
-    }
+    const result = assessFreshPlaneCommonChecks(await fixture({ vias: via({ extra: "free" }) }));
+    expect(result.sourceInventory.complete).toBe(false); expect(result.rows.every(row => row.status === "unknown")).toBe(true);
+    await expect(fixture({ extraCopper: `(gr_circle (center 15 10) (end 16 10) (stroke (width 0.05) (type default)) (fill none) (layer "F.Cu") (uuid "${id(5)}"))` }))
+      .rejects.toThrow(/Copper gr_circle graphics are outside/);
   });
   it.each([
     ["width one nm below class", track(10, "3 3", "8 3", "0.499999")],

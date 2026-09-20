@@ -3,7 +3,7 @@ import type { CallToolResult } from "@modelcontextprotocol/client";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
 import { parseFreshPcbSource, parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
 import type { KiCadStockFootprintInspection } from "../../src/harness/kicad-library-resolver.js";
-import { collectKicadNativePadObservation, type KicadNativePadObservationExpected } from "../../src/integrations/kicad-native-pad-observation.js";
+import { collectKicadNativePadObservation, KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT, type KicadNativePadObservationExpected } from "../../src/integrations/kicad-native-pad-observation.js";
 
 const id=(index:number)=>`77777777-7777-4777-8777-${String(index).padStart(12,"0")}`;
 export function withNativePadFixtureIds(source:string):string {
@@ -54,7 +54,8 @@ export async function nativePadObservationFixture(source:string,libraryBaseline=
     scopeIdentity:canonicalIdentity({kind:"offline-simulated-native-port"},"evleda.offline-pad-test.v1"),
     physicalFootprints:inspections.map(({reference,inspection})=>({reference,libraryId:inspection.libraryId,sourceIdentity:inspection.sourceIdentity})),
     physicalFootprintResolver:{inspectFootprint(libraryId){return inspections.find(p=>p.inspection.libraryId===libraryId)?.inspection??null;}}};
-  const result:CallToolResult={isError:false,content:[{type:"text",text:JSON.stringify(payload)}],structuredContent:payload};
+  const text=JSON.stringify(payload);
+  const result:CallToolResult={isError:false,content:[{type:"text",text:Buffer.byteLength(text)>1024*1024?KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT:text}],structuredContent:payload};
   const observation=await collectKicadNativePadObservation({async readLivePcbPadSnapshot(){return result;}},expected);
   return {observation,expected,envelope:result};
 }

@@ -13,8 +13,8 @@ import { placementRevisionFixture } from "../helpers/placement-revision-fixture.
 const owned: Awaited<ReturnType<typeof fixture>>[] = [];
 afterEach(async () => { for (const f of owned.splice(0)) { await f.client.close(); await f.workspace.close(); await f.f.cleanup(); } });
 const body = (response: { structuredContent?: unknown }) => response.structuredContent as Record<string, any>;
-async function fixture(access: "read-only" | "edit" = "edit") {
-  const h = await placementRevisionFixture();
+async function fixture(access: "read-only" | "edit" = "edit", viaBudgetHeadroom = false) {
+  const h = await placementRevisionFixture({ viaBudgetHeadroom });
   await writeFile(h.preparation.project.pcbPath, h.input.sources.pcb);
   await writeFile(h.preparation.project.schematicPath, h.input.sources.sch);
   await writeFile(path.join(h.preparation.project.projectPath, "seeded.kicad_pro"), h.input.sources.pro);
@@ -48,6 +48,44 @@ async function fixture(access: "read-only" | "edit" = "edit") {
 }
 
 describe("placement revision through public MCP", () => {
+  it("revises a via budget through its separate public operation and preserves the source", async () => {
+    const f = await fixture("edit", true); owned.push(f);
+    const before = await readFile(f.preparation.project.pcbPath);
+    const draft = structuredClone(f.draft), route = draft.routingConstraints.nets.find(n => n.net === "VOUT");
+    if (!route || !("maxVias" in route)) throw new Error("Missing routed net");
+    route.maxVias = 2;
+    await f.closeSource();
+    const ready = await f.submit(draft); expect(ready.status).toBe("ready");
+    const request = { draftId: ready.draftId, sourceProjectId: f.sourceAllocation.projectId };
+    expect((await f.call("evleda_revise_placement", request)).isError).toBe(true);
+    expect((await f.f.store.list()).total).toBe(1);
+    const opened = await f.call("evleda_revise_via_budgets", request);
+    expect(opened).not.toMatchObject({ isError: true });
+    expect(body(opened)).toMatchObject({ status: "opened", placementRevisionLineage: {
+      schemaVersion: "evleda.plane-via-budget-revision-lineage.v1", sourceProjectId: f.sourceAllocation.projectId } });
+    expect(body(await f.call("evleda_revise_via_budgets", request))).toMatchObject({ status: "already_created", active: true });
+    expect((await f.call("evleda_revise_placement", request)).isError).toBe(true);
+    expect((await f.call("evleda_create_project", { draftId: ready.draftId })).isError).toBe(true);
+    expect(body(await f.call("evleda_close_project", { projectId: ready.draftId })).status).toBe("closed");
+    expect(body(await f.call("evleda_resume_project", { projectId: ready.draftId }))).toMatchObject({ status: "opened", resumed: true });
+    expect(body(await f.call("evleda_close_project", { projectId: ready.draftId })).status).toBe("closed");
+    expect(await readFile(f.preparation.project.pcbPath)).toEqual(before);
+  });
+
+  it("rejects via revisions without a genuine close and rejects mixed placement changes", async () => {
+    const f = await fixture("edit", true); owned.push(f);
+    const draft = structuredClone(f.draft), route = draft.routingConstraints.nets.find(n => n.net === "VOUT");
+    if (!route || !("maxVias" in route)) throw new Error("Missing routed net");
+    route.maxVias = 2;
+    const ready = await f.submit(draft);
+    expect((await f.call("evleda_revise_via_budgets", { draftId: ready.draftId, sourceProjectId: f.sourceAllocation.projectId })).isError).toBe(true);
+    await f.closeSource();
+    draft.placementConstraints[1]!.regionMm.minXmm += .01;
+    const mixed = await f.submit(draft);
+    expect((await f.call("evleda_revise_via_budgets", { draftId: mixed.draftId, sourceProjectId: f.sourceAllocation.projectId })).isError).toBe(true);
+    expect((await f.f.store.list()).total).toBe(1);
+  });
+
   it("retains source files, creates a distinct project, replays creation and resumes with its stored lineage", async () => {
     const f = await fixture(); owned.push(f);
     const before = await readFile(f.preparation.project.pcbPath);

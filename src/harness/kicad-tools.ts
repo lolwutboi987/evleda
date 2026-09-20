@@ -84,7 +84,7 @@ import {
   createPcbDesignCompilationBundleRef,
   type PcbDesignCompilationBundle,
 } from "./pcb-design-compilation-bundle.js";
-import { FreshBoardPersistence, hasQualifiedNativeBoardReply, type FreshBoardSaveAudit } from "./fresh-board-persistence.js";
+import { FreshBoardPersistence, MAX_FRESH_LIVE_BOARD_BYTES, hasQualifiedNativeBoardReply, type FreshBoardSaveAudit } from "./fresh-board-persistence.js";
 import { planFreshFootprintPlacement } from "./fresh-footprint-placement.js";
 import { FRESH_FOOTPRINT_FIELD_TOOL, FRESH_FOOTPRINT_FIELD_SCHEMA, parseFreshFootprintFieldUpdates,
   planFreshFootprintFields, type FreshFootprintFieldsPlan } from "./fresh-footprint-field.js";
@@ -1330,7 +1330,7 @@ function preferredResultText(result: CallToolResult): string {
 async function freshActiveBoardSource(session: KicadHarnessSession, expectedPath: string, observeSource?: (source: string) => void): Promise<string> {
   if (typeof session.readActivePcbSource !== "function") throw new Error("Fresh board authority requires the private raw-source port.");
   const source = await session.readActivePcbSource(expectedPath);
-  if (typeof source !== "string" || source.length === 0 || Buffer.byteLength(source, "utf8") > 500_000
+  if (typeof source !== "string" || source.length === 0 || Buffer.byteLength(source, "utf8") > MAX_FRESH_LIVE_BOARD_BYTES
       || /\[\s*truncated\s*\]|\btruncat(?:ed|ion)\b/iu.test(source)) {
     throw new Error("KiCad live board readback is absent, truncated, or over its host bound.");
   }
@@ -3130,6 +3130,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   readonly tools: readonly HarnessToolDefinition[];
   readonly internal: HarnessInternalToolPort;
   #tail: Promise<void> = Promise.resolve();
+  #readOnlyPreflightRejection: { error: Error; id: string; name: string } | undefined;
   readonly #session: KicadHarnessSession;
   readonly #fallback: HarnessInternalToolPort | undefined;
   readonly #verifyPersistedMutation: ((baseline?: string) => Promise<boolean>) | undefined;
@@ -3276,6 +3277,11 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       execute: async (call) => await this.#executeInternal(call),
       saveAfterMutation: async (call) => await this.#saveAfterMutation(call),
       classifyPendingMutationBatch: async () => await this.#classifyPendingSchematicFileMutationBatch(),
+      consumeReadOnlyPreflightRejection: (call, error) => {
+        const rejection = this.#readOnlyPreflightRejection;
+        this.#readOnlyPreflightRejection = undefined;
+        return rejection !== undefined && rejection.error === error && rejection.id === call.id && rejection.name === call.name;
+      },
     };
   }
 
@@ -3897,6 +3903,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #call(call: HarnessToolCall, providerCallable: boolean, normalize = false): Promise<HarnessToolResult> {
+    this.#readOnlyPreflightRejection = undefined;
     const parsed = harnessToolCallSchema.parse(detachedJson(call, "Harness tool call", MAX_ARGUMENT_BYTES));
     if(this.#schematicFieldPositionRecoveryRequired&&(PROVIDER_MUTATION_TOOL_NAMES.has(parsed.name)||parsed.name==="pcb_save"))throw new Error("SCHEMATIC_FIELD_POSITION_RECOVERY_REQUIRED: close the editing session before further writes/save.");
     if(this.#pendingFreshSchematicFieldPositions!==undefined) {
@@ -4236,10 +4243,13 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const before = await captureFreshPcb(this.#freshProject!);
     const liveBefore = await freshActiveBoardSource(this.#session, this.#freshProject!.pcbPath);
     if (!freshBoardSerializationsEqual(before.source, liveBefore)) throw new Error("Footprint field editing requires matching saved/live preimages; unsaved edits were preserved.");
-    const plan = planFreshFootprintFields(before.source, { updates });
-    const board = this.#freshAuthoringDesignContract.scope.board;
-    if (plan.updates.some(update => update.afterField.visible && (update.afterField.xMm < 0 || update.afterField.yMm < 0
-        || update.afterField.xMm > board.widthMm || update.afterField.yMm > board.heightMm))) throw new Error("Visible footprint field anchors must remain within the declared board.");
+    const plan = this.#planReadOnlyFootprintEdit(call, () => {
+      const planned = planFreshFootprintFields(before.source, { updates });
+      const board = this.#freshAuthoringDesignContract!.scope.board;
+      if (planned.updates.some(update => update.afterField.visible && (update.afterField.xMm < 0 || update.afterField.yMm < 0
+          || update.afterField.xMm > board.widthMm || update.afterField.yMm > board.heightMm))) throw new Error("Visible footprint field anchors must remain within the declared board.");
+      return planned;
+    });
     await this.#physicalPadState(before, []);
     bindKicadPhysicalFootprintLibraries(parseFreshPcbSource(plan.source), { ...this.#physicalExpected(before, []), pcbSource: plan.source });
     return await this.#stageFreshFootprintEdit(call, before, liveBefore, plan);
@@ -4255,10 +4265,21 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const liveBefore = await freshActiveBoardSource(this.#session, this.#freshProject!.pcbPath);
     if (!freshBoardSerializationsEqual(before.source, liveBefore)) throw new Error("Footprint pose batching requires matching saved/live preimages; unsaved edits were preserved.");
     await this.#physicalPadState(before, []);
-    const plan = planFreshFootprintPoses(before.source, { placements }, this.#freshAuthoringDesignContract);
+    const plan = this.#planReadOnlyFootprintEdit(call, () => planFreshFootprintPoses(before.source, { placements }, this.#freshAuthoringDesignContract!));
     bindKicadPhysicalFootprintLibraries(parseFreshPcbSource(plan.source), { ...this.#physicalExpected(before, []), pcbSource: plan.source });
     this.#assertFreshFootprintPlacementWriteAdmission(call.name);
     return await this.#stageFreshFootprintEdit(call, before, liveBefore, plan);
+  }
+
+  #planReadOnlyFootprintEdit<T>(call: HarnessToolCall, planner: () => T): T {
+    // Only synchronous pure planners belong here. Authority checks, source/native
+    // reads, staging, reload, and save errors must retain ordinary quarantine.
+    try { return planner(); }
+    catch (cause) {
+      const error = new Error(cause instanceof Error ? cause.message : "Footprint planning rejected the request.", { cause });
+      this.#readOnlyPreflightRejection = { error, id: call.id, name: call.name };
+      throw error;
+    }
   }
 
   async #stageFreshFootprintEdit(call: HarnessToolCall, before: FreshPcbCapture, liveBefore: string, plan: PendingFreshFootprintPlacement["plan"]): Promise<HarnessToolResult> {

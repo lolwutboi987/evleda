@@ -6,7 +6,7 @@ so larger drafts could compile but could not be carried through the actual
 authoring workflow. A separate 32-via plane-access limit also prevented the
 planned local returns for 40 surface-mount ground-bearing component groups.
 
-V2 now supports a bounded complete inventory of **1,024 tracks and 256 vias**.
+V2 now supports a bounded complete inventory of **1,536 tracks and 256 vias**.
 Projected additions are checked before native mutation. Every retained item stays
 in private selection, mutation and saved-state verification; excess items are
 rejected rather than truncated. V1 keeps its former 96-item limit, and each
@@ -33,17 +33,30 @@ geometry rejection, overflow rejection before Commit, 65 actual parsed via forms
 and unchanged V1/per-call limits. Source typechecking and independent reviews
 passed. These software cases do not establish native routing of a 1,280-item board.
 
-The complete source snapshot in `integration-doc9-build-10` contains 1,077 files;
+The historical source snapshot in `integration-doc9-build-10` contains 1,077 files;
 backend/UI typechecks and the package build passed with DOC9 verification. Snapshot
 source remained unchanged and installed `dist` was not rewritten. Local receipt:
 `destination-verification/rp2350-toolbox-integration-11/checks-result.json`.
 
 Candidate07 was created on an interim checked host, closed normally and reopened
 on build10 with the identical authenticated contract/bundle. Public discovery now
-advertises the paging schema. Actual RP2350 schematic authoring is in progress;
-native PCB import, full routing, ground fill and acceptance remain unfinished.
+advertised the paging schema. That earlier milestone preceded RP2350 PCB import
+and routing; it is not the current board status.
 
-Other resource limits remain explicit: 500,000-byte live-board persistence,
-1 MiB plane-stage input, 2 MiB common-check source, and 512 physical pads for the
-common checker. Enlarged item capacity does not override those bounds. The prior
-failed full suite and all native failure records remain preserved.
+The September 20 RP2350 two-plane operation produced a 533,921-byte staged board
+and exposed the former 500,000-byte live-readback/persistence ceiling. The source
+update shares a 1 MiB ceiling across those two paths, matching the existing
+plane-stage source envelope. The 1,536-track ceiling stays below the analyzer's
+unchanged five-million endpoint-pair work bound. Route-page offsets derive from
+the same track/via limits so every admitted item remains reachable through pages.
+
+The 2 MiB common-check source, private native-message bounds, 512 physical pads,
+256 vias, 32-item pages and per-mutation limits remain independent checks. The
+failed native session remains quarantined; larger software limits do not recover
+it or establish a healthy close. Saved and staged recovery-review copies retain
+all 831 tracks and 109 vias. Native recovery into a separate allocation completed
+open/save/readback and normal checkpoint/close. A subsequent field-rejection
+recovery also preserved that copper and eleven saved placement changes. See
+`proofs/native-saved-board-recovery-20260920/README.md`. The final full-board
+routing, two-plane fill and electrical checks remain unfinished.
+The prior failed full suite and all native failure records remain preserved.

@@ -6,11 +6,13 @@ import path from "node:path";
 import type { CallToolResult } from "@modelcontextprotocol/client";
 
 import { parseFreshPcbSource } from "./fresh-kicad-parser.js";
+import { FRESH_PCB_RESOURCE_LIMITS } from "./fresh-resource-limits.js";
 import { freshBoardComparisonText, freshBoardSerializationsEqual } from "./fresh-board-serialization.js";
 import { assertFreshProjectDirectoryChain, isVerifiedFreshProject, type FreshFilesystemIdentity, type FreshProject } from "./fresh-project.js";
 
-/** This is intentionally below the harness result cap and never reaches a provider. */
-export const MAX_FRESH_LIVE_BOARD_BYTES = 500_000;
+/** Private raw source only: match the bounded 1 MiB plane-stage source envelope.
+ * Public tool results retain their separate, smaller paging/output limits. */
+export const MAX_FRESH_LIVE_BOARD_BYTES = FRESH_PCB_RESOURCE_LIMITS.maximumLiveSourceBytes;
 
 export interface FreshBoardContentIdentity {
   readonly sha256: string;

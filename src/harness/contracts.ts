@@ -363,6 +363,8 @@ export interface HarnessInternalToolPort {
    * the provider and can report only a completed no-governed-effect boundary.
    */
   classifyPendingMutationBatch?(): Promise<HarnessMutationBatchDisposition | undefined>;
+  /** Consumes this host's exact, call-bound rejection from a pure planner before mutation. */
+  consumeReadOnlyPreflightRejection?(call: HarnessToolCall, error: unknown): boolean;
 }
 
 export interface HarnessMutationBatchDisposition {

@@ -291,14 +291,19 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
         catch (error) { closedSeedSources.delete(args.sourceProjectId); throw new AggregateError(primary === undefined ? [error] : [primary, error], "Source currentness could not be confirmed; its lease and any new allocation were retained for review."); }
       }
     })));
-  toolbox.server.registerTool("evleda_revise_placement", {
-    description: "Create and open a separate V2 project from a ready placement-only revision draft and a fully materialized source closed successfully in this connection/profile. The same name is required. Only placement constraints and original-prompt metadata may change; circuit, components, board, stackup, routing limits, planes, interfaces and libraries stay exact. Preserve schematic, functional footprints and existing tracks/vias; rebind owned mounting-feature UUIDs, plane names and netclass names. No component moves occur automatically. Refilling and all affected native checks remain required; no fill freshness or acceptance is copied. Repeating the same draft/source IDs never overwrites an allocation.",
+  for (const revisionKind of ["placement", "via-budgets"] as const) toolbox.server.registerTool(
+    revisionKind === "placement" ? "evleda_revise_placement" : "evleda_revise_via_budgets", {
+    description: revisionKind === "placement"
+      ? "Create and open a separate V2 project from a ready placement-only revision draft and a fully materialized source closed successfully in this connection/profile. The same name is required. Only placement constraints and original-prompt metadata may change; circuit, components, board, stackup, routing limits, planes, interfaces and libraries stay exact. Preserve schematic, functional footprints and existing tracks/vias; rebind owned mounting-feature UUIDs, plane names and netclass names. No component moves occur automatically. Refilling and all affected native checks remain required; no fill freshness or acceptance is copied. Repeating the same draft/source IDs never overwrites an allocation."
+      : "Create and open a separate V2 project from a ready draft that explicitly reallocates per-net via-count budgets, and a materialized source successfully closed in this connection/profile. Same project name required. Only bounded per-net maxVias changes on nets without continuous-reference requirements and original-prompt metadata may differ. A new count cannot be lower than that net's existing native via count. Global via limits, via dimensions, clearances, widths, lengths, turn rules, reference requirements, placement, interfaces, circuit, libraries and stackup stay exact. Existing native geometry and schematic are preserved. Original allocation is retained. Refill and fresh affected checks are required; no acceptance or fill freshness is transferred.",
     inputSchema: z.object({ draftId: ID, sourceProjectId: ID }).strict(), annotations: WRITE,
   }, async args => respond(() => serialize(async () => {
     reconcileNativeState();
     const existing = await store.lookup(args.draftId);
     if (existing !== undefined) {
-      if (existing.placementRevisionLineage?.sourceProjectId !== args.sourceProjectId) throw new Error("Existing allocation has a conflicting placement-revision source; nothing was overwritten.");
+      const expectedLineage = revisionKind === "placement" ? "evleda.plane-placement-revision-lineage.v1" : "evleda.plane-via-budget-revision-lineage.v1";
+      if (existing.placementRevisionLineage?.sourceProjectId !== args.sourceProjectId
+        || existing.placementRevisionLineage.schemaVersion !== expectedLineage) throw new Error("Existing allocation has a conflicting revision kind or source; nothing was overwritten.");
       return { status: "already_created", projectId: existing.projectId,
         active: active?.projectId === existing.projectId && active.phase === "active" && toolbox.getCadState() === "active",
         instruction: "Resume this project if it is not active; do not recreate it." };
@@ -321,7 +326,7 @@ export function createKicadToolboxWorkspace(options: KicadToolboxWorkspaceOption
     try {
       if (lease.assertCurrent === undefined) throw new Error("Placement revision requires current source-lease ownership checks.");
       const qualified = await qualifyClosedPlanePlacementRevision({ receipt, sourceProjectId: source.projectId, sourceOutputDir: source.outputDir,
-        targetProjectId: draft.projectId, name: draft.name, targetBundle: preview.bundle, profile, assertLeaseCurrent: lease.assertCurrent });
+        targetProjectId: draft.projectId, name: draft.name, targetBundle: preview.bundle, profile, assertLeaseCurrent: lease.assertCurrent, revisionKind });
       const allocation = await store.allocate({ ...draft, placementRevisionLineage: qualified.lineage });
       pending.delete(args.draftId);
       if (!allocation.created) return { status: "already_created", projectId: allocation.projectId, active: false };

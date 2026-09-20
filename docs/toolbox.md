@@ -42,6 +42,23 @@ verification follow through the normal native tools. See the
 [placement-revision workflow](placement-revision.md) for its exact scope and
 native qualification evidence.
 
+`evleda_revise_via_budgets` is a separate revision operation for an explicit
+reallocation of per-net via counts. Submit a complete revised draft and use a
+materialized source closed successfully in the same connection/profile. Only
+per-net `maxVias` changes on nets with no continuous-reference requirement are
+supported; a revised count cannot be below existing native usage. The global via budget, via dimensions, clearances, widths, lengths,
+turn rules, reference requirements, interfaces, placement and circuit remain
+bound to their existing values. The operation preserves native geometry in a
+new allocation with distinct revision lineage; it does not edit the source or
+transfer acceptance. Record the engineering reason for the new allowance and
+repeat the affected native checks. Native qualification of this new operation
+is pending; its software tests do not establish a completed PCB.
+
+The separately typed [saved-plane recovery workflow](saved-plane-recovery.md)
+can preserve the last verified save from the recorded live-readback size failure
+in a new allocation. It retains the original quarantine and does not invent a
+successful close for the failed project.
+
 The same MCP server now supports host-only CAD attachment, finish and detach. Every CAD callback retains its own binding and queue; stale callbacks never switch to a later project. The lease callback runs after native closure and checkpoint publication. Guidance, the configured analytical calculator, and hash-bound historical preview resources remain separate from the native binding. SDK/real-STDIO tests rediscover tools after attachment/detachment; a particular desktop application's handling still needs installation verification. The legacy explicit-project entrypoint is preserved.
 
 The workspace and V1/V2 model-guide changes passed **32 tests**, source TypeScript checking and independent source review. These tests cover actual public schema/submission dispatch with controlled native bindings; they do not prove destination-native creation or the complete-board workflow. Those software tests are now complemented by the destination-native V2 reports below; earlier source-machine workspace reports remain historical.

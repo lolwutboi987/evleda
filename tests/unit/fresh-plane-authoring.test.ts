@@ -15,6 +15,7 @@ import { createKicadHarnessTools, KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAME
 import { genericDividerLibraryResolver, createGenericDividerBundleFixture } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { nativePadObservationFixture } from "../helpers/native-pad-observation-fixture.js";
+import { KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT } from "../../src/integrations/kicad-native-pad-observation.js";
 import { normalizeFakeSchematicWriterSource } from "../helpers/normalizing-schematic-writer.js";
 import { parseFreshPcbSource, parseFreshSchematicSource } from "../../src/harness/fresh-kicad-parser.js";
 import { planeCompoundMutationState } from "../../src/mcp/toolbox-plane-results.js";
@@ -77,7 +78,8 @@ async function fixture(options:{initial?:string;physicalSource?:string;compilati
       payload.connectivity=ids.map(id=>{const query=structuredClone(byId.get(id));query.request.header.document=document;if(saveCount>0&&options.nativeDisconnectedOnSave)query.padRecordIndexes=query.padRecordIndexes.filter((index:number)=>payload.padRecords[index].id.value===id);return query;});
       if(saveCount>0&&options.nativeFailureOnSave)payload.boardSourceAfter+='\n';
       if(options.tamperMarkerOnPhysicalRead)await writeFile(project.markerPath,(await readFile(project.markerPath,'utf8'))+'\n','utf8');
-      return {isError:false,content:[{type:'text',text:JSON.stringify(payload)}],structuredContent:payload};
+      const text=JSON.stringify(payload);
+      return {isError:false,content:[{type:'text',text:Buffer.byteLength(text)>1024*1024?KICAD_NATIVE_PAD_SNAPSHOT_COMPACT_TEXT:text}],structuredContent:payload};
     },
     callTool:async(name,args={})=>{
       calls.push(name);let result='ok';
@@ -145,28 +147,43 @@ describe('bounded V2 whole-board route inventory', () => {
     expect(next.items.filter((item: any) => selection.items.some((before: any) => before.id === item.id))).toEqual(selection.items);
   });
 
-  it('pages all 1280 exact items under 32k while retaining one independently reproducible full selection identity', async () => {
-    const f = await fixture({ initial: routedBoard(1024, 256) });
+  it('pages all 1792 exact items under 32k while retaining one independently reproducible full selection identity', async () => {
+    const f = await fixture({ initial: routedBoard(1536, 256) });
     let result = await f.bridge.execute({ id: 'capacity-read', name: 'fresh_get_route_items', arguments: {} });
     const first = JSON.parse(result.content), gathered: any[] = [];
     expect(first).toMatchObject({ schemaVersion: 'evleda.fresh-plane-route-selection-page.v1',
-      selectionSchemaVersion: 'evleda.fresh-plane-route-selection.v1', pagination: { offset: 0, totalItemCount: 1280, returnedItemCount: 32, completeInventoryReturned: false } });
-    for (let pageIndex = 0; pageIndex < 40; pageIndex++) {
+      selectionSchemaVersion: 'evleda.fresh-plane-route-selection.v1', pagination: { offset: 0, totalItemCount: 1792, returnedItemCount: 32, completeInventoryReturned: false } });
+    for (let pageIndex = 0; pageIndex < 56; pageIndex++) {
       expect(result.content.length).toBeLessThanOrEqual(32000);
       const page = JSON.parse(result.content), { pageIdentity, ...pagePayload } = page;
       expect(pageIdentity).toEqual(canonicalIdentity(pagePayload, page.schemaVersion));
       expect(page.identity).toEqual(first.identity); expect(page.pcbContentIdentity).toEqual(first.pcbContentIdentity);
       expect(page.pagination.offset).toBe(gathered.length); gathered.push(...page.items);
-      if (page.pagination.nextPage === null) { expect(pageIndex).toBe(39); break; }
+      if (page.pagination.nextPage === null) { expect(pageIndex).toBe(55); break; }
       result = await f.bridge.execute({ id: `capacity-page-${pageIndex + 1}`, name: 'fresh_get_route_items', arguments: { page: page.pagination.nextPage } });
     }
-    expect(gathered).toHaveLength(1280); expect(new Set(gathered.map(item => item.id)).size).toBe(1280);
-    expect(gathered.filter(item => item.kind === 'track')).toHaveLength(1024);
+    expect(gathered).toHaveLength(1792); expect(new Set(gathered.map(item => item.id)).size).toBe(1792);
+    expect(gathered.filter(item => item.kind === 'track')).toHaveLength(1536);
     expect(gathered.filter(item => item.kind === 'via')).toHaveLength(256);
     const { pagination: _page, pageIdentity: _pageIdentity, selectionSchemaVersion, schemaVersion: _schema, identity, ...fields } = first;
     expect(identity).toEqual(canonicalIdentity({ ...fields, schemaVersion: selectionSchemaVersion, items: gathered }, selectionSchemaVersion));
     expect(f.calls).not.toContain('pcb_begin_commit');
-  }, 20_000);
+  }, 30_000);
+
+  it('reads complete live source above 500 KB while retaining the 1 MiB and UTF-8 byte bounds', async () => {
+    const large = pcb + '\n' + ' '.repeat(550_000);
+    const f = await fixture({ initial: large });
+    const selection = JSON.parse((await f.bridge.execute({ id: 'large-source-read', name: 'fresh_get_route_items', arguments: {} })).content);
+    expect(selection.pcbContentIdentity).toEqual(contentIdentity(large));
+    expect(f.calls).not.toContain('pcb_begin_commit');
+    const unicodeOverflow = pcb.slice(0, -1) + '(property "ByteBoundary" "' + 'é'.repeat(530_000) + '"))';
+    for (const source of [pcb + ' '.repeat(1024 * 1024), unicodeOverflow]) {
+      const overflow = await fixture({ initial: source });
+      await expect(overflow.bridge.execute({ id: 'large-source-reject', name: 'fresh_get_route_items', arguments: {} })).rejects.toThrow(/host bound|string budget|private message bound/);
+      expect(overflow.calls).not.toContain('pcb_begin_commit');
+      expect(await readFile(overflow.project.pcbPath, 'utf8')).toBe(source);
+    }
+  });
 
   it('rejects forged, skipped, replayed and source-drifted continuation pages', async () => {
     const f = await fixture({ initial: routedBoard(256) });
@@ -226,19 +243,19 @@ describe('bounded V2 whole-board route inventory', () => {
     expect(f.calls).not.toContain('pcb_begin_commit');
   });
 
-  it.each([[1025, 0], [0, 257]])('rejects over-capacity readback with %d tracks and %d vias without truncation', async (tracks, vias) => {
+  it.each([[1537, 0], [0, 257]])('rejects over-capacity readback with %d tracks and %d vias without truncation', async (tracks, vias) => {
     const f = await fixture({ initial: routedBoard(tracks, vias) });
     await expect(f.bridge.execute({ id: 'over-capacity', name: 'fresh_get_route_items', arguments: {} })).rejects.toThrow(/whole-board route inventory exceeds/);
     expect(f.calls).not.toContain('pcb_begin_commit');
   });
 
-  it('rejects a projected 1025th track before starting the native transaction', async () => {
-    const f = await fixture({ initial: routedBoard(1024) });
+  it('rejects a projected 1537th track before starting the native transaction', async () => {
+    const f = await fixture({ initial: routedBoard(1536) });
     const first = JSON.parse((await f.bridge.execute({ id: 'full-read', name: 'fresh_get_route_items', arguments: {} })).content);
     await expect(f.bridge.execute({ id: 'overflow-add', name: 'fresh_replace_route_items', arguments: { selectionIdentity: first.identity,
       net: 'GND', deleteItemIds: [], tracks: [{ x1Mm: 2, y1Mm: 1, x2Mm: 3, y2Mm: 1, layer: 'F.Cu' }], vias: [] } })).rejects.toThrow(/whole-board route inventory exceeds/);
     expect(f.calls).not.toContain('pcb_begin_commit');
-    expect(await readFile(f.project.pcbPath, 'utf8')).toBe(routedBoard(1024));
+    expect(await readFile(f.project.pcbPath, 'utf8')).toBe(routedBoard(1536));
   });
 });
 
@@ -347,6 +364,66 @@ describe('atomic V2 footprint field presentation', () => {
     { reference: 'R2', field: 'Reference', visible: false }];
   const edit = { id: 'field-batch', name: 'fresh_set_footprint_fields' as const, arguments: { updates } };
   const save = { id: 'field-save', name: 'pcb_save', arguments: {} };
+
+  it('keeps MCP editable after an out-of-board field rejection and saves a corrected request', async () => {
+    const source = fieldSource().replace('(property "Value" "10k" (at 0 2 0)', '(property "Value" "10k" (at 0 -8.025 0)');
+    const current = await fixture({ initial: source, physicalSource: source });
+    const toolbox = createKicadToolboxMcpServer({ access: 'edit', cad: { tools: current.bridge, assertCurrent: async () => {},
+      captureSources: async () => contentIdentity(await readFile(current.project.pcbPath)).digest, close: async () => {} } });
+    const client = new Client({ name: 'field-preflight-test', version: '1' }), [left, right] = InMemoryTransport.createLinkedPair();
+    await toolbox.server.connect(right); await client.connect(left);
+    try {
+      const invalid = await client.callTool({ name: edit.name, arguments: { updates: [{ reference: 'R1', field: 'Value', layer: 'F.Fab' }] } });
+      expect(invalid.isError).toBe(true);
+      expect(invalid.structuredContent).toMatchObject({ rejectedBeforeMutation: true, noGovernedEffect: true, recoveryRequired: false });
+      expect(current.calls).toEqual([]);
+      expect(await readFile(current.project.pcbPath, 'utf8')).toBe(source);
+      expect((await client.callTool({ name: 'evleda_toolbox_status', arguments: {} })).structuredContent).toMatchObject({ recoveryRequired: false });
+      const correctedArguments = { updates: [...updates, { reference: 'R1', field: 'Value', x_mm: 15, y_mm: .8, layer: 'F.Fab' }] };
+      const corrected = await client.callTool({ name: edit.name, arguments: correctedArguments });
+      expect(corrected.isError, JSON.stringify(corrected.structuredContent)).not.toBe(true);
+      expect(current.calls.filter(name => ['pcb_revert', 'pcb_save'].includes(name))).toEqual(['pcb_revert', 'pcb_save']);
+      expect(await readFile(current.project.pcbPath, 'utf8')).toBe(planFreshFootprintFields(source, correctedArguments).source);
+    } finally { await client.close(); await toolbox.close(); }
+  });
+
+  it.each(['forged-error', 'wrong-id', 'wrong-name', 'another-host', 'replayed', 'next-call'] as const)(
+    'rejects a read-only rejection certificate with %s', async fault => {
+      const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+      const invalid = { ...edit, arguments: { updates: [{ reference: 'R1', field: 'Value', x_mm: 31, y_mm: 8 }] } };
+      const error: unknown = await current.bridge.execute(invalid).catch(value => value);
+      expect(error).toBeInstanceOf(Error);
+      const consume = current.bridge.internal.consumeReadOnlyPreflightRejection!;
+      if (fault === 'replayed') expect(consume(invalid, error)).toBe(true);
+      if (fault === 'next-call') await current.bridge.execute({ id: 'next-read', name: 'fresh_get_route_items', arguments: {} });
+      const caller = fault === 'wrong-id' ? { ...invalid, id: 'other' } : fault === 'wrong-name' ? { ...invalid, name: 'fresh_set_footprint_poses' } : invalid;
+      const candidate = fault === 'forged-error' ? Object.assign(new Error((error as Error).message), { noGovernedEffect: true, rejectedBeforeMutation: true }) : error;
+      const other = fault === 'another-host' ? await fixture({ initial: source, physicalSource: source }) : undefined;
+      expect((other?.bridge.internal.consumeReadOnlyPreflightRejection ?? consume)(caller, candidate)).toBe(false);
+      if (other === undefined) expect(consume(invalid, error)).toBe(false);
+    });
+
+  it('still quarantines an identical error raised during native reload after staging', async () => {
+    const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });
+    const original = current.session.callTool;
+    current.session.callTool = async (name, args) => {
+      const result = await original(name, args);
+      if (name === 'pcb_revert') throw Object.assign(new Error('Visible footprint field anchors must remain within the declared board.'),
+        { noGovernedEffect: true, rejectedBeforeMutation: true });
+      return result;
+    };
+    const toolbox = createKicadToolboxMcpServer({ access: 'edit', cad: { tools: current.bridge, assertCurrent: async () => {},
+      captureSources: async () => contentIdentity(await readFile(current.project.pcbPath)).digest, close: async () => {} } });
+    const client = new Client({ name: 'field-native-failure-test', version: '1' }), [left, right] = InMemoryTransport.createLinkedPair();
+    await toolbox.server.connect(right); await client.connect(left);
+    try {
+      expect((await client.callTool({ name: edit.name, arguments: edit.arguments })).isError).toBe(true);
+      expect((await client.callTool({ name: 'evleda_toolbox_status', arguments: {} })).structuredContent).toMatchObject({ recoveryRequired: true });
+      const calls = current.calls.length;
+      expect((await client.callTool({ name: edit.name, arguments: edit.arguments })).isError).toBe(true);
+      expect(current.calls).toHaveLength(calls);
+    } finally { await client.close(); await toolbox.close(); }
+  });
 
   it('advertises a closed batch schema and commits all fields through one reload/save with complete physical readback', async () => {
     const source = fieldSource(), current = await fixture({ initial: source, physicalSource: source });

@@ -1,7 +1,7 @@
 import path from "node:path";
 import { canonicalJson } from "../core/canonical.js";
 import type { KicadMcpPinnedFileInput } from "../integrations/kicad-mcp-session.js";
-import { planPlanePlacementRevisionSources, type PlanePlacementRevisionSources } from "./fresh-plane-placement-revision.js";
+import { planPlanePlacementRevisionSources, type PlanePlacementRevisionSources, type PlaneSourceSeedKind } from "./fresh-plane-placement-revision.js";
 import type { PcbPlaneCompilationBundle } from "./pcb-design-plane-bundle.js";
 
 export interface FreshPlanePlacementSeed { readonly kind: "qualified-plane-placement-revision" }
@@ -20,8 +20,10 @@ const state = (seed: FreshPlanePlacementSeed): State => {
   const value = seeds.get(seed); requireValue(value !== undefined, "capability was not issued by this host"); return value!;
 };
 
-/** Host-only issuer. The workspace caller must qualify the closed source and
- * hold its verified lease throughout new-project preparation and native open. */
+/** Host-only issuer. Ordinary revisions require a qualified closed source and
+ * its current lease. The separately typed operator recovery path instead binds
+ * a quiescent, quarantined saved snapshot and preserves the original quarantine.
+ * Either caller must enforce currentness throughout preparation and native open. */
 export function issueFreshPlanePlacementSeed(input: {
   readonly name: string;
   readonly sourceBundle: PcbPlaneCompilationBundle;
@@ -29,6 +31,7 @@ export function issueFreshPlanePlacementSeed(input: {
   readonly sources: PlanePlacementRevisionSources;
   readonly profile: KicadMcpPinnedFileInput;
   readonly assertCurrent: () => Promise<void>;
+  readonly revisionKind?: PlaneSourceSeedKind;
 }): FreshPlanePlacementSeed {
   const plan = planPlanePlacementRevisionSources(input), seed: FreshPlanePlacementSeed = Object.freeze({ kind: "qualified-plane-placement-revision" });
   seeds.set(seed, { plan, name: input.name, bundle: canonicalJson(input.targetBundle.identity),

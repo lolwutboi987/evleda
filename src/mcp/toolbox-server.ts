@@ -482,6 +482,10 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
                 return jsonResult({ operation: call.name, result, persistence: saved ?? null, readback: readback ?? null,
                   noGovernedEffect: noEffect, assurance: "Operation and persistence results only; run applicable design checks before declaring the design complete." });
               } catch (error) {
+                if (mutation && dispatched && cad!.tools.internal.consumeReadOnlyPreflightRejection?.(call, error) === true) {
+                  return jsonResult({ error: error instanceof Error ? error.message : String(error),
+                    operation: call.name, rejectedBeforeMutation: true, noGovernedEffect: true, recoveryRequired }, true);
+                }
                 if (mutation && dispatched) recoveryRequired = true;
                 throw error;
               }
