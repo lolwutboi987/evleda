@@ -1,5 +1,46 @@
 # Active PCB-toolbox roadmap
 
+Updated 21 September 2026. The [current status](current-status-and-roadmap.md)
+and [published RP2350 candidate](../designs/rp2350-pico/native-r1-launches/README.md)
+are the delivery entry points. Placement, routing, labels, native save/close and
+fresh read-only reopening are complete. Engineering acceptance remains
+**143 pass, 431 unknown, 0 fail; accepted=false**.
+
+## Work that still changes the delivered product
+
+| Priority | Required outcome | Existing evidence to reuse |
+| --- | --- | --- |
+| Physical return and contact checks | Integrate complete drilled-copper terminal continuity and applicable physical copper/thermal widths without replacing explicit failures or unknowns. | [Host57](../proofs/plane-region-network-20260921/README.md) already verifies regional interiors, intact via-annulus connections and the declared supplemental island policy. Do not repeat that completed regional work. |
+| USB startup | Establish the complete input/output charging and workload sequence, or implement a reviewed circuit revision that preserves USB-powered operation, external VSYS and the EN header. | [Input-control options](research/rp2350-pico/usb-input-control-options.md), the saved circuit and capacitor research. A component's typical ramp or a stand-alone current inequality is not a complete startup result. |
+| Supply and interface suitability | Resolve the actual voltage/current/thermal and return/interface requirements, retaining material assumptions and incomplete paths. | [Saved supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md), current native assessment, saved stackup and the existing pair/reference tools. |
+| Product handoff | Demonstrate the remaining prompt-driven/client workflow and audit the complete original requirements against current artifacts. | [Installed host57](destination-client-installation.md), fresh-client discovery, real native proofs and published source. Distinguish scripted execution, tool discovery, desktop activation and autonomous design. |
+
+The reusable chat toolbox remains the product. Do not turn the demonstration
+into an unlimited redesign or make another calculator, UI, firmware system,
+manufacturing campaign or electromagnetic solver the default critical path.
+Conversely, do not call the board nearly ready while material electrical issues
+remain unresolved. Keep the native candidate and its usable artifacts accessible
+while resolving those issues.
+
+## Execution and verification
+
+New frozen builds and scratch work use D:. Keep the user's other applications
+open. Managed boards, runtime and profiles stay in their established locations.
+Reuse completed checks unless a relevant change or unresolved concern requires
+new evidence. Full software checks can run in the existing portable CI job;
+native qualification still requires the pinned local runtime and a normal close.
+The missing-runtime CI job remains visible and must not be described as passing.
+
+Publish reviewed work to codex/rp2350-pico without changing main. Preserve
+unrelated working changes, failed allocations, old reports and their original
+scope. The [current candidate's managed-workspace reference](../designs/rp2350-pico/native-r1-launches/README.md#managed-workspace-reference)
+identifies the continuation target; historical project IDs below are not current
+resume instructions.
+
+<details>
+<summary>Historical roadmap entries — completed or superseded priorities</summary>
+
+
 Installed host57: [regional geometric networks](../proofs/plane-region-network-20260921/README.md) now verifies connections from all 10 supplemental regions to the primary plane through intact via annuli. All 41 candidate annuli are clear of foreign bores, and the declared island policy is verified. Fresh refill/save, complete report and normal close preserve all six board sources. Full terminal contact, physical-width/current/thermal and USB review remain open; full assessment is still 143 pass, 431 unknown, 0 fail, accepted=false. Build and client evidence reside on D:; the fresh client has 19 tools.
 
 The [host54 native qualification](../proofs/plane-exterior-bores-20260920/README.md) verifies the primary ground plane's connected planar interior after drill subtraction, including exact exterior classification of all four mounting holes. The separate validation copy completed fresh refill/save, full report retrieval and normal close with all six board sources unchanged. The installed [host57 regional-network update](../proofs/plane-region-network-20260921/README.md) additionally verifies the geometric connections through intact via annuli and the declared supplemental island policy; a fresh actual Codex client sees 19 tools. Current managed board **7e129f34-8a45-454c-b8dd-cf06b770ba74** remained closed. Full assessment is **143 pass, 431 unknown, 0 fail; accepted=false**; USB startup, full contact continuity and electrical review remain open.
@@ -208,3 +249,5 @@ No head-to-head comparison against direct Astra use has been run. No superior-qu
 UI and expanded infrastructure remain deferred, not removed. Firmware, ordering, manufacturing-process/release campaigns and physical qualification remain outside the active campaign. Relevant design-for-manufacture constraints and truthful handoff limitations remain in scope.
 
 The full goal is the reusable prompt-to-PCB workflow and requested demonstrations, not merely a running server, a calculator result or a single passing small board.
+
+</details>

@@ -15,6 +15,25 @@ options; it does not select a new component or resolve startup current.
 The [existing startup screen](../../../designs/rp2350-pico/usb-startup-screen-20260920/README.md)
 and complete load/power-mode requirements still apply.
 
+## 21 September follow-up: USB power-path controller is not a drop-in choice
+
+BQ24073/74 offers specified 90–100 mA and 450–500 mA input-current ranges,
+fixed 4.4 V output and manufacturer-described USB inrush control. Its raw input
+capacitance still needs to remain below 10 µF. This is a stronger startup basis
+than a switch's typical slew alone, but it does not settle the complete board.
+
+The selected 500 µA suspend target is not established by the controller's
+active-current specification: the listed maximum is 1.5 mA with CE low. That
+test condition does not supply a guaranteed CE-high current bound. Entering its
+USB suspend mode opens the input-to-output FET; with no battery or external
+source, the board cannot assume it retains power for USB resume. The input-DPM
+threshold also spans 4.35–4.63 V, so the existing 4.4 V low-input case needs
+review. These are integration gaps, not a measured circuit failure.
+
+No controller, battery function, pin reassignment or operating-target change is
+adopted. Preserve external VSYS and the EN header when evaluating the complete
+power-up and resume sequence. Source: [TI SLUS810N, pp.9, 12, 19 and 21–22](https://www.ti.com/lit/ds/symlink/bq24074.pdf).
+
 ## A fixed 100 mA clamp is not a drop-in solution
 
 The existing conservative preconfiguration load screen is 86.714 mA at VBUS.

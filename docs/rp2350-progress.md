@@ -1,4 +1,43 @@
-# RP2350 continuation: 20 September 2026
+# RP2350 progress
+
+Updated 21 September 2026. [The current native candidate](../designs/rp2350-pico/native-r1-launches/README.md)
+contains the completed **22 × 60 mm four-layer layout**, schematic, portable
+libraries, previews, pinout and candidate BOM. All 67 functional nets connect;
+configured ERC/DRC and portable schematic parity are clean. Native save/close
+and fresh read-only reopening are verified. GPIO service strips remain clear,
+and the measured trace turns follow the straight/45° requirement.
+
+[Host57's native assessment](../proofs/plane-region-network-20260921/README.md)
+verifies the primary and supplemental regions' drilled interiors, intact
+via-annulus connections and the declared supplemental island policy. The
+explicit debug-header launch requirements were verified in the earlier
+[launch revision](../proofs/terminal-launch-policy-20260920/README.md).
+Those earlier full-ribbon header failures are historical under their original
+requirements, not unresolved failures of the current declared launch policy.
+
+The full assessment remains **143 pass, 431 unknown, 0 fail; accepted=false**.
+Complete terminal continuity, physical-width/current/thermal suitability and
+other electrical/interface work remain open. The
+[saved supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md)
+also identifies the external-input drop allowance and tight modeled ADC supply
+margin. [USB startup](research/rp2350-pico/usb-input-control-options.md) still needs
+a complete circuit/operating solution. The board has not been physically tested.
+
+The installed release is [host57 / DOC17 / v4](destination-client-installation.md),
+stored on D:, with 19 initial tools verified in a fresh actual Codex client.
+The protected continuation project is **7e129f34-8a45-454c-b8dd-cf06b770ba74**.
+The isolated host57 qualification used **f464e518-2b03-453a-9f9c-a31f7d044d4a** and
+closed normally. An already-running desktop connection is not claimed to have
+reloaded. Work is published on
+[codex/rp2350-pico](https://github.com/lolwutboi987/evleda/tree/codex/rp2350-pico).
+
+See the [active roadmap](active-roadmap.md) for the remaining work. The entries
+below retain earlier results and failures; their runtime versions, project IDs
+and unfinished-layout descriptions do not describe the current candidate.
+
+<details>
+<summary>Historical RP2350 continuation notes — superseded snapshots</summary>
+
 
 Current delivery: [regional-policy R1](../designs/rp2350-pico/native-r1-regional/README.md)
 is published with unchanged physical layout, completed native save/close/reopen,
@@ -162,3 +201,5 @@ now includes real negative/control DRC cases and a stricter disabled-check guard
 The [placement plan](../designs/rp2350-pico/placement-intent.md) ties functional
 groups and orientation to the actual pin map; it remains a proposal needing
 native placement and clearance checks.
+
+</details>

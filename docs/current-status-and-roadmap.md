@@ -1,5 +1,55 @@
 # Current status and roadmap
 
+Updated 21 September 2026. The active product is the **chat-driven KiCad toolbox**.
+The separate application/UI remains preserved and deferred. The requested RP2350
+board has a completed native layout; its **engineering acceptance is incomplete**.
+
+## Current delivery
+
+| Item | Verified state and evidence |
+| --- | --- |
+| Native RP2350 project | [Open the current candidate](../designs/rp2350-pico/native-r1-launches/README.md): 22 × 60 mm, four layers, 62 electrical parts, four mounting bores, 1,099 tracks and 118 vias. Native project, schematic, libraries, previews, pinout and candidate BOM are included. |
+| Routing and service access | All 67 functional nets connect. The candidate retains 887 measured straight/45° turns without violations, both clear GPIO service strips and 42 own-pad inward leads. Configured ERC/DRC and portable schematic parity are clean; the candidate lists the checker exclusions. |
+| Managed workflow | Native authoring/save, normal close and fresh read-only reopening are verified. Continue the protected project **7e129f34-8a45-454c-b8dd-cf06b770ba74** through the qualified workspace; older allocation IDs in the archive are not current resume instructions. |
+| Installed client | [Host57 / DOC17 / v4 profile](destination-client-installation.md), with 19 initial tools observed in a fresh actual Codex client. Host57 is stored on D:; that USB must be mounted. Activation in an already-connected desktop session remains unestablished. |
+| Ground-region geometry | [Host57 native qualification](../proofs/plane-region-network-20260921/README.md) verifies each drilled region's interior and the connections from all 10 supplemental regions to the primary plane through intact via annuli. The declared supplemental island policy is verified. |
+| Full board assessment | **143 pass, 431 unknown, 0 fail; accepted=false.** Regional geometry and native connectivity do not settle complete terminal continuity, copper/thermal widths, current capacity or interface electrical performance. |
+| Software verification | Host57's relevant 198-test scope passed. Full source/UI typechecks and backend compilation passed the separate GitHub portable job on the recorded source commit. The native-dependent CI job still fails for a missing pinned KiCad runtime; this is not an all-green CI or full-suite claim. See the same host57 proof for exact scopes. |
+
+The [supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md)
+uses the actual saved routes, layer thicknesses and declared loads. It identifies
+the external-VSYS input-drop allowance and the ADC supply's small remaining
+modeled voltage margin. It is a conditional electrical screen, not an acceptance
+pass or an installed new toolbox operation.
+
+## Remaining work
+
+1. Resolve complete drilled-copper terminal/return continuity and the applicable
+   physical-width, current, thermal and interface checks using the saved board.
+2. Resolve the complete USB attach/startup circuit, including C20, regulator/output
+   charging, permitted workload, external VSYS and the enable header. The
+   [input-control review](research/rp2350-pico/usb-input-control-options.md) records
+   the evaluated options; no replacement has been adopted.
+3. Close the material electrical issues highlighted in the candidate and
+   supply-route review, and carry relevant results into the reusable toolbox.
+4. Complete the remaining end-to-end prompt-driven/client demonstration and final
+   requirement-by-requirement delivery review. Existing scripted native proofs
+   and fresh-client discovery do not prove unrestricted autonomous design.
+
+Work is published on [codex/rp2350-pico](https://github.com/lolwutboi987/evleda/tree/codex/rp2350-pico).
+The earlier reviewed baseline remains on codex/destination-resume; main retains
+the earlier application. Firmware campaigns, ordering, physical qualification,
+manufacturing release and a separate UI remain outside this active scope.
+
+Use the [active roadmap](active-roadmap.md) for priorities and the
+[toolbox guide](toolbox.md) for current interfaces. Retained older notes below
+describe their own dated snapshots; their “current,” “latest” and “next” wording
+does not supersede the state above.
+
+<details>
+<summary>Historical status entries and earlier evidence — superseded snapshots</summary>
+
+
 The [host54 native qualification](../proofs/plane-exterior-bores-20260920/README.md) verifies the primary ground plane's connected planar interior after drill subtraction, including exact exterior classification of all four mounting holes. The separate validation copy completed fresh refill/save, full report retrieval and normal close with all six board sources unchanged. The installed [host57 regional-network update](../proofs/plane-region-network-20260921/README.md) additionally verifies the geometric connections through intact via annuli and the declared supplemental island policy; a fresh actual Codex client sees 19 tools. Current managed board **7e129f34-8a45-454c-b8dd-cf06b770ba74** remained closed. Full assessment is **143 pass, 431 unknown, 0 fail; accepted=false**; USB startup, full contact continuity and electrical review remain open.
 
 Earlier installed result: [host53 bore-shape and report qualification](../proofs/plane-bore-shapes-20260920/README.md) handles all 171 bores, including 4 connector slots, on the unchanged RP2350 board. Both public refills/saves and normal close preserve all six sources. Large reports return every finding through an immutable public resource. The full assessment is **143 pass, 431 unknown, 0 fail; accepted=false**. A fresh actual Codex app-server verifies19 initial tools. The prior host52 response-size failure is retained separately; USB startup and broader electrical review remain open.
@@ -848,3 +898,5 @@ Separate UI work and expanded infrastructure are deferred, not removed. Firmware
 - [20:12 UTC source archive](D:/Codex-Recovery/evleda-checkpoints/toolbox-calculators-source-20260909-01.tar): **f7740a7fa40b94e222cf78e92a836a7df4d872ecb28052fa184179d527235aff**. These later roadmap edits are outside that capture.
 
 Absolute C:/ and D:/ links identify historical source-machine evidence and may be unavailable on this destination. The latest proof links resolve within the transfer package; none is proof of publication. Source/documentation links are repository-relative.
+
+</details>
