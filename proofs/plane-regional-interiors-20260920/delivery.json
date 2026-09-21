@@ -1,0 +1,52 @@
+{
+  "recordedAt": "2026-09-21T06:03:52.498Z",
+  "host": 56,
+  "runtime": "DOC17",
+  "hostReleaseSha256": "4123da0414a3360739b1dc11160c2adf6b3d934b4318dd703c9b76e065947e6c",
+  "frozenBuildRoot": "D:\\EvlEDA\\builds\\integration-plane-regional-build-56",
+  "clientEvidenceRoot": "D:\\EvlEDA\\runs\\rp2350-region-interiors-56-01",
+  "managedWorkspaceUnmoved": true,
+  "protectedProjectId": "7e129f34-8a45-454c-b8dd-cf06b770ba74",
+  "qualificationProjectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "allSixBoardSourcesUnchanged": true,
+  "normalClose": true,
+  "clientTerminal": {
+    "filename": "000113-terminal-3d4e77f2ac9e37b78877707353dc34b990059dfe3c132d44ef7b49d17c7cc776.json",
+    "sha256": "3d4e77f2ac9e37b78877707353dc34b990059dfe3c132d44ef7b49d17c7cc776",
+    "reason": "operator_close",
+    "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+  },
+  "primaryRegionCount": 1,
+  "supplementalRegionCount": 10,
+  "eachRegionInteriorVerified": true,
+  "boresPerRegion": 171,
+  "interRegionConnectivity": "not_assessed",
+  "fullTerminalContactContinuity": "not_assessed",
+  "remainingRows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "accepted": false,
+  "publicReport": {
+    "file": "public-report.json",
+    "sha256": "1e8bd49319d1bc71adaac6bcc92889df9cec1f51300e39f6744eb94430e383c1",
+    "sizeBytes": 1401556
+  },
+  "newNativeQualificationPerformed": true,
+  "installedReleaseChanged": true,
+  "existingDesktopReloadEstablished": false,
+  "softwareVerification": "verification.json",
+  "overlappingTestRunsNotSummed": true,
+  "scope": "Fresh native per-region drill-interior qualification. No route, placement, circuit, clearance, rule or acceptance change.",
+  "frozenBuildChecks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "frozenBuildManifestSha256": "e6550c75547c5dcf4bbcd0dab1988acff9987d1494d39cb196da1a352c214470"
+}

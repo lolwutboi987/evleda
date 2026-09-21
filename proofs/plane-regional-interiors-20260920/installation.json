@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-09-21T06:01:58.883Z",
+  "backup": "C:/Users/kidch/.codex/backups/evleda-host56-e994efe3-a440-4df0-a1a7-282cec883e83",
+  "hostReleaseSha256": "4123da0414a3360739b1dc11160c2adf6b3d934b4318dd703c9b76e065947e6c",
+  "host": 56,
+  "runtime": "DOC17",
+  "initialToolsExpected": 19,
+  "configuration": {
+    "beforeSha256": "7bb5d18d000d9b2c9798b4d1dd7276091a30ad17212e65aef10af95e608e6e17",
+    "afterSha256": "b7afd752e19fc2e515d6045187f97024e5924c4a6a60b5dbf3d980ad5e720783",
+    "unrelatedRawBytesPreserved": true
+  },
+  "skill": {
+    "sha256": "05d073db9e7caec2c9ff76133ba61bc1afec2b40499261f003e8352db3f75561",
+    "unchanged": true
+  },
+  "nativeSourceUnchanged": true,
+  "nativeEngineChanged": true,
+  "verificationBasis": "Fresh native host56 refill, save, complete per-region assessment and normal close on the isolated copy. All native source bytes unchanged. New host and client evidence reside on the checked USB volume.",
+  "runningDesktopActivation": "not-established"
+}

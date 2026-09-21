@@ -1,6 +1,6 @@
 # Direct KiCad toolbox
 
-The installed [host55/DOC17 build](../proofs/plane-diagnostic-text-20260920/README.md) keeps the single-component topology limitation readable without weakening diagnostic privacy. Its unchanged native engine retains [host54 exterior-bore qualification](../proofs/plane-exterior-bores-20260920/README.md), non-plated and oblong inventory, and full-report resources. Source/native geometry, file identities and all unresolved verdicts remain explicit. [Read the geometry and delivery contract](plane-bore-shapes.md). Earlier host milestones below retain their original scopes.
+The installed [host56/DOC17 build](../proofs/plane-regional-interiors-20260920/README.md) now checks each stored region after drill subtraction, retaining the separate global and electrical limits. It verified all 10 supplemental RP2350 regions on an isolated copy with unchanged board sources. The earlier fixed-message privacy correction is retained. It retains the earlier [host54 exterior-bore qualification](../proofs/plane-exterior-bores-20260920/README.md), non-plated and oblong inventory, and full-report resources. Source/native geometry, file identities and all unresolved verdicts remain explicit. [Read the geometry and delivery contract](plane-bore-shapes.md). Earlier host milestones below retain their original scopes.
 
 The additive toolbox separates source-backed design guidance and existing bound CAD operations from the older application lifecycle. The legacy MCP server, CLI runner, Flux application and historical evidence remain unchanged.
 

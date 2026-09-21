@@ -1,4 +1,26 @@
-# Regional drill-interior observations: source-qualified extension
+# Regional drill-interior observations: native-qualified and installed
+
+Host56 completed fresh native refill, mandatory save/readback, complete report
+retrieval and normal close on the isolated RP2350 validation copy. The primary
+region and **all 10 supplemental regions** have verified connected interiors
+after drill subtraction. Each region retains all 171 bore relations with no
+unresolved local geometry issues. All six board sources are byte-identical.
+All 67 nets connect and configured DRC is clean.
+
+This proves each region's interior, not connectivity between regions or complete
+terminal contacts. The global supplemental topology remains unknown under its
+single-component scope, and full acceptance remains **143 pass, 431 unknown,
+0 fail; accepted=false**. No existing requirement was relaxed or row promoted.
+
+The frozen build and validation-client evidence now reside on the checked D:
+USB volume. Host56 is installed with the unchanged DOC17/v4 profile and PCB skill;
+a fresh actual Codex client discovers 19 tools. Existing desktop reload is not
+established. The current managed board remained closed; only its separate
+validation copy was opened.
+
+See [native summary](native-summary.json), [complete public report](public-report.json),
+[assessment identities](native-assessment.json), [delivery](delivery.json),
+[installation](installation.json) and [fresh client](fresh-client.json).
 
 The checker now applies its existing exact drill predicates separately to every
 supported stored plane component. The public report retains each native polygon
@@ -25,8 +47,9 @@ pass. The initial large-pad test fixture hit its own existing portable-value
 limit; replacing those synthetic pads with vias exercised the intended branch
 without changing any runtime limit.
 
-**Not yet native-qualified or installed.** The production entry remains host55.
-The RP2350's actual 10 supplemental regions have not received this new check.
-[The measured build and native-run budget](disk-budget.json) did not fit the
-available disk space while retaining the established reserve. No frozen build,
-native session, board edit, lease change or evidence deletion was attempted.
+The earlier [source verification](verification.json) and [disk-budget hold](disk-budget.json)
+predate this native run; their pending fields remain historical. After authorized
+USB migration, the frozen build was created on D: and native validation completed
+on the existing isolated copy with the established C: reserve checked beforehand.
+USB startup, complete terminal contact continuity, physical width and current or
+thermal suitability remain open. No board geometry or circuit changed.

@@ -56,7 +56,7 @@ filter. A plane with several stored regions can therefore explain its unknown
 topology without exposing host paths or dropping per-bore findings. This changes
 the explanation only, not geometry, evidence authority or acceptance.
 
-## Regional interiors in source; native qualification pending
+## Native-qualified regional interiors
 
 The [regional-interior extension](../proofs/plane-regional-interiors-20260920/README.md)
 adds `drillTopology.regionalInteriors` to new assessments. After the same complete
@@ -75,4 +75,6 @@ All components share the existing four-million-predicate limit. At most 64
 components and 16,384 component/bore relations are materialized; exceeding either
 bound returns an explicit unknown while retaining the complete source inventory
 and observed component count. Historical reports without the additive field
-remain readable. Installed host55 does not yet include this extension.
+remain readable. Installed host56 qualifies the primary RP2350 region and all 10
+supplemental regions with every bore retained and unchanged board sources. Full
+terminal contact continuity and inter-region electrical acceptance remain separate.
