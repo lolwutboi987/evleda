@@ -5,18 +5,19 @@ import { assessFreshPlaneFilledGeometry, type FreshPlaneFilledComponent } from "
 import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFreshPcbSource, type FreshReferencePointNm } from "./fresh-kicad-parser.js";
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 import { pcbCopperLayerSchema, type PcbCopperLayer } from "./pcb-copper-layers.js";
+import { boreAxisTwiceNm, segmentDistanceRelation, type PlaneBoreGeometry } from "./plane-bore-geometry.js";
 
 type Point = FreshReferencePointNm;
 type Obj = Record<string, unknown>;
 interface Atom { value: string; quoted: boolean }
 interface Form { name: string; atoms: Atom[]; children: Form[] }
 interface Box { minX: number; minY: number; maxX: number; maxY: number }
-interface Bore { uuid: string; kind: "pad" | "via"; netName: string | null; centerNm: Point; diameterNm: number }
+interface Bore extends PlaneBoreGeometry { uuid: string; kind: "pad" | "via"; netName: string | null }
 export interface FreshPlaneDrillBore extends Bore {
-  /** An outward circle enclosure; containment is NOT asserted for the exact-circle basis. */
+  /** An outward bore enclosure; containment is NOT asserted for an exact hole-containment basis. */
   readonly enclosureNm: Readonly<Box> | null;
   readonly classification: "outside_component" | "inside_cached_hole" | "new_interior_void" | "unknown" | "not_classified";
-  readonly classificationBasis: "strict_outward_enclosure" | "exact_circle_inside_cached_hole" | "not_certified";
+  readonly classificationBasis: "strict_outward_enclosure" | "exact_circle_inside_cached_hole" | "exact_capsule_inside_cached_hole" | "not_certified";
   readonly issues: readonly string[];
   readonly geometrySource: "exact-source-and-native-pad" | "exact-saved-through-via";
 }
@@ -148,7 +149,7 @@ function collectBores(source: string, saved: SavedFreshPlaneEvidence) {
         check(!seen.has(child.name), `Repeated source PAD ${child.name}`); seen.add(child.name);
         if (child.name === "property") {
           const marker = scalar(child);
-          check(!marker.quoted && marker.value === "pad_prop_heatsink", "Unsupported source PAD property");
+          check(!marker.quoted && ["pad_prop_heatsink", "pad_prop_mechanical"].includes(marker.value), "Unsupported source PAD property");
         } else {
           check(PAD_FIELDS.has(child.name), "Unsupported source PAD fields or geometry");
           check(child.name === "drill" || child.children.length === 0, `Unsupported source PAD nested ${child.name}`);
@@ -169,10 +170,15 @@ function collectBores(source: string, saved: SavedFreshPlaneEvidence) {
       if (sourceDrill === null) {
         check(pad.atoms[1]?.value === "smd" && raw.type === "PT_SMD" && diameter.x === 0 && diameter.y === 0, "Unsupported drilled/undrilled PAD disposition"); continue;
       }
-      check(pad.atoms[1]?.value === "thru_hole" && raw.type === "PT_PTH" && stack.type === "PST_NORMAL", "Only ordinary circular through-hole PAD bores are supported");
-      check(sourceDrill.atoms.length === 1 && sourceDrill.children.every(child => child.name === "offset"), "Slots or unsupported drill forms require explicit geometry");
-      const size = exact(sourceDrill.atoms[0]!); check(size > 0 && diameter.x === size && diameter.y === size && drill.shape === "DS_CIRCLE"
-        && drill.start_layer === "BL_F_Cu" && drill.end_layer === "BL_B_Cu", "Native/source circular through-drill dimensions or span differ");
+      const mechanical = pad.atoms[1]?.value === "np_thru_hole" && raw.type === "PT_NPTH";
+      check((pad.atoms[1]?.value === "thru_hole" && raw.type === "PT_PTH" || mechanical)
+        && stack.type === "PST_NORMAL" && physical.issues.length === 0, "Only qualified ordinary through-hole PAD bores are supported");
+      if (mechanical) check(physical.role === "mechanical-hole" && known.number === "" && known.netName === null, "NPTH bore must remain a qualified non-electrical feature");
+      const oblong = sourceDrill.atoms.length === 3 && !sourceDrill.atoms[0]!.quoted && sourceDrill.atoms[0]!.value === "oval";
+      check((sourceDrill.atoms.length === 1 || oblong) && sourceDrill.children.every(child => child.name === "offset"), "Unsupported drill form requires explicit geometry");
+      const width = exact(sourceDrill.atoms[oblong ? 1 : 0]!), height = oblong ? exact(sourceDrill.atoms[2]!) : width;
+      check(width > 0 && height > 0 && diameter.x === width && diameter.y === height && drill.shape === (oblong ? "DS_OBLONG" : "DS_CIRCLE")
+        && drill.start_layer === "BL_F_Cu" && drill.end_layer === "BL_B_Cu", "Native/source through-drill dimensions, shape or span differ");
       const offset = field(sourceDrill, "offset", true); if (offset) { const p = sourcePoint(offset); check(p.x === 0 && p.y === 0, "Offset bore/copper projection is unsupported"); }
       for (const layer of array(stack.copper_layers, "native pad templates")) { const p = nativePoint(obj(layer, "native template").offset ?? {}); check(p.x === 0 && p.y === 0, "Nonzero native copper/drill offset is unsupported"); }
       check([0, 90, 180, 270].includes(rotation) && knownFp.layer === "F.Cu", "Unsupported footprint projection for exact circular drill center");
@@ -180,7 +186,18 @@ function collectBores(source: string, saved: SavedFreshPlaneEvidence) {
       const local = rotation === 0 ? relative : rotation === 90 ? { x: relative.y, y: -relative.x } : rotation === 180 ? { x: -relative.x, y: -relative.y } : { x: -relative.y, y: relative.x };
       const centerNm = { x: coordinate(origin.x + local.x), y: coordinate(origin.y + local.y) };
       check(same(centerNm, nativePoint(raw.position)), "Native/source PAD center differs in exact integer nanometres");
-      bores.push({ uuid, kind: "pad", netName: known.netName, centerNm, diameterNm: size });
+      let slot: PlaneBoreGeometry["slot"];
+      if (oblong && width !== height) {
+        const padAt = field(pad, "at")!, padAngle = padAt.atoms.length === 3 ? exact(padAt.atoms[2]!, 0) : 0;
+        const normalized = ((padAngle % 360) + 360) % 360;
+        const nativeAngle = obj(stack.angle ?? {}, "native pad angle"); keys(nativeAngle, ["value_degrees"]);
+        const angleValue = nativeAngle.value_degrees ?? 0;
+        check(typeof angleValue === "number" && Number.isSafeInteger(angleValue) && Math.abs(angleValue) <= MAX_COORD
+          && ((angleValue % 360) + 360) % 360 === normalized && [0, 90, 180, 270].includes(normalized), "Source/native slot orientation must match exactly and be cardinal");
+        const horizontal = (width > height) === (normalized === 0 || normalized === 180);
+        slot = { majorDiameterNm: Math.max(width, height), axis: horizontal ? "x" : "y" };
+      }
+      bores.push({ uuid, kind: "pad", netName: known.netName, centerNm, diameterNm: Math.min(width, height), ...(slot === undefined ? {} : { slot }) });
     }
   }
   check(padCount === rawPads.length, "Source PAD form inventory is incomplete");
@@ -230,10 +247,20 @@ function circleInsideHole(bore: Bore, hole: readonly Point[], step: () => void):
   // hole. It does not relax new-hole separation or permit a copper pinch.
   return true;
 }
+function capsuleInsideHole(bore: Bore, hole: readonly Point[], step: () => void): boolean {
+  const [a, b] = boreAxisTwiceNm(bore), doubled = hole.map(p => ({ x: 2 * p.x, y: 2 * p.y }));
+  if (!inside(a, doubled, step)) return false;
+  for (const edge of edges(doubled)) {
+    step();
+    if (segmentDistanceRelation(a, b, edge.a, edge.b, bore.diameterNm) === "overlap") return false;
+  }
+  return true;
+}
 function classify(bore: Bore, box: Box, component: FreshPlaneFilledComponent, step: () => void): Pick<FreshPlaneDrillBore, "classification" | "classificationBasis"> {
   // Native ERROR_OUTSIDE hole polygons can contain the actual round bore even
   // when its axis-aligned enclosure crosses their oblique polygon edges.
-  if (component.holes.some(hole => circleInsideHole(bore, hole, step))) return { classification: "inside_cached_hole", classificationBasis: "exact_circle_inside_cached_hole" };
+  if (component.holes.some(hole => bore.slot === undefined ? circleInsideHole(bore, hole, step) : capsuleInsideHole(bore, hole, step)))
+    return { classification: "inside_cached_hole", classificationBasis: bore.slot === undefined ? "exact_circle_inside_cached_hole" : "exact_capsule_inside_cached_hole" };
   const rectangle = boxPoints(box), boundaries = [component.outer, ...component.holes];
   for (const ring of boundaries) {
     for (const a of edges(rectangle)) for (const b of edges(ring)) { step(); check(!intersects(a.a, a.b, b.a, b.b), "Bore enclosure intersects or touches a cached boundary or hole"); }
@@ -290,8 +317,9 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
       bores.push({ ...bore, enclosureNm: null, classification: "not_classified", classificationBasis: "not_certified", issues: [],
         geometrySource: bore.kind === "pad" ? "exact-source-and-native-pad" : "exact-saved-through-via" });
       try {
-        const radius = Math.ceil(bore.diameterNm / 2), p = bore.centerNm;
-        const enclosureNm = { minX: coordinate(p.x - radius), minY: coordinate(p.y - radius), maxX: coordinate(p.x + radius), maxY: coordinate(p.y + radius) };
+        const radius = Math.ceil(bore.diameterNm / 2), major = Math.ceil((bore.slot?.majorDiameterNm ?? bore.diameterNm) / 2), p = bore.centerNm;
+        const rx = bore.slot?.axis === "x" ? major : radius, ry = bore.slot?.axis === "y" ? major : radius;
+        const enclosureNm = { minX: coordinate(p.x - rx), minY: coordinate(p.y - ry), maxX: coordinate(p.x + rx), maxY: coordinate(p.y + ry) };
         bores[bores.length - 1] = { ...bores.at(-1)!, enclosureNm };
       } catch (error) { recordIssue(bores.length - 1, error instanceof Error ? error.message : "Bore enclosure is unavailable"); }
     }

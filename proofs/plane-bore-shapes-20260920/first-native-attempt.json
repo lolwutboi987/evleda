@@ -1,0 +1,62 @@
+{
+  "recordedAt": "2026-09-21T01:41:47.000Z",
+  "frozenHost": 52,
+  "installed": false,
+  "projectId": "17b88ed0-adea-4634-a468-8d417dc16c97",
+  "resumeSucceeded": true,
+  "bothRefillsSavedAndSourceVerified": true,
+  "assessmentDelivered": false,
+  "assessmentError": "Complete plane acceptance findings exceed the public response limit; no findings were truncated. The host must inspect the complete assessment.",
+  "fullAssessmentArtifactPublished": false,
+  "reason": "The old public-size check rejected before artifact publication. No numerical result is recovered or inferred from that failed call.",
+  "normalProjectClose": true,
+  "clientTerminal": {
+    "endedAt": "2026-09-21T01:37:04.084Z",
+    "reason": "operator_close",
+    "sdkCloseReturned": true,
+    "nativeCleanup": "workspace_idle_confirmed_before_shutdown",
+    "instruction": "SDK shutdown is best-effort and may escalate termination; it does not prove a native checkpoint, lease release, or design acceptance.",
+    "stderr": {
+      "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\mcp-session-17-bore-shapes\\workspace-client-bc621eb6-c1f5-4828-ba01-4a1316b2f3a2\\host-stderr.log",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "ce2a23241c4d42f787c0434a8d78131b0b9ceecfe38550a2ceecb94f63e1bf3e",
+        "size": 76
+      }
+    },
+    "stderrComplete": true
+  },
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "fa5a4281809148f626bbbc255b34395796398243f9b9603a19d0e839ac56a3a3",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "evidence": {
+    "error": "000061-response-0c525fbc2a38398add6f4880f712c1191e5a5d1e90186321b094e91bd455b88d.json",
+    "close": "000109-response-71e5fcc0523db76793394ba4d37c265edff70bf3465f3bf11867e2bf25fdb231.json",
+    "terminal": "000115-terminal-235785828663db4eea54eefa0063babe0165daea00253194443410f89eff1874.json"
+  },
+  "nextChange": "Complete oversized public projection as a separately hash-checked MCP resource, with a bounded status summary."
+}

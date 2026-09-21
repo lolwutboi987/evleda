@@ -29,8 +29,9 @@ intent revision through the public toolbox, not an edited old report.
 
 ## Remaining engineering review
 
-The full [assessment](verification/assessment.json) remains **incomplete:
-143 pass, 431 unknown, 0 fail; accepted=false**.
+The original [launch-qualified assessment](verification/assessment.json) records
+143 pass, 431 unknown, 0 fail. The [current host53 assessment](../../../proofs/plane-bore-shapes-20260920/native-assessment.json)
+on these same native sources records **143 pass, 431 unknown, 0 fail; accepted=false**.
 Local launch conditions do not prove complete drilled-copper return continuity,
 impedance, cable performance or EMC. Supplemental In2 contact and area conditions
 remain verified. USB startup/inrush, current/thermal suitability and other

@@ -1,0 +1,45 @@
+{
+  "recordedAt": "2026-09-21T01:54:59.830Z",
+  "host": 53,
+  "runtime": "DOC17",
+  "initialTools": 19,
+  "nativeQualificationPending": false,
+  "installedReleaseChanged": true,
+  "nativeBoardChanged": false,
+  "tests": {
+    "passed": 260,
+    "files": 9,
+    "exitCode": 0,
+    "durationSeconds": 82.54,
+    "scope": "Complete bore, plane, filled-geometry and public projection tests, MCP plane/reference/preview resources and immutable resource reader tests. No full-suite claim."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "fullSuiteRun": false,
+  "accepted": false,
+  "remainingRows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "frozenRelease": {
+    "sha256": "2cb14e7de0fa3e731f359958e5ec68369acca6cb910eec42c2ccf1df1b9d0f3c"
+  },
+  "evidence": [
+    "verification-resource.json",
+    "native-summary.json",
+    "native-assessment.json",
+    "installation.json",
+    "fresh-client.json",
+    "public-report.json"
+  ],
+  "scope": "Bore geometry and diagnostics qualified through native public operations and a fresh installed Codex app-server. No task or model turn was created for discovery. Existing desktop reload and complete electrical acceptance are not claimed.",
+  "publicReport": {
+    "file": "public-report.json",
+    "sha256": "14e4d6a348bef81816b40d407642cbe99a4b69ba84e55b5ab3c954faf97093e8",
+    "sizeBytes": 1088925
+  }
+}

@@ -1,5 +1,9 @@
 # Destination client installation
 
+Current: **host53, unchanged DOC17/v4 profile and PCB skill** are installed after [native bore-shape and complete-report qualification](../proofs/plane-bore-shapes-20260920/README.md). All six board sources are unchanged and normal close is verified. A fresh actual Codex app-server sees 19 tools; its discovery probe creates no task/model turn. Configuration outside the existing host path is preserved. Existing desktop activation remains unestablished.
+
+## Preserved installation history
+
 Current: **host50, unchanged DOC17/v4 profile, and exact updated PCB skill** are
 installed after [native terminal-launch revision and read-only reopen](../proofs/terminal-launch-policy-20260920/README.md).
 A fresh actual Codex client verifies 19 initial tools, including

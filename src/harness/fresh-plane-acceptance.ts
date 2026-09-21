@@ -1,5 +1,6 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { collectPlaneBridgeSource } from "./plane-region-bridge-source.js";
+import { boreRibbonRelation } from "./plane-bore-geometry.js";
 import { planReferenceTerminalLaunchStudy, ReferenceTerminalLaunchPlanningError } from "./reference-terminal-launch-study.js";
 import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
 import { channelMemberNets } from "./pcb-channel-width.js";
@@ -86,19 +87,6 @@ function decimal(numerator: bigint, denominator: bigint): string {
 function nativeLayer(name: string) { return `BL_${name.replaceAll(".", "_")}`; }
 function identityFromHelper(value: { readonly sha256: string; readonly sizeBytes: number }): ContentIdentity {
   return { algorithm: "sha256", digest: value.sha256, size: value.sizeBytes };
-}
-
-/** Strict circle/capsule overlap proves a drill void enters the required ribbon.
- * Equality alone remains uncertain: this predicate never rounds tangency inward.
- */
-function boreRibbonRelation(bore:{centerNm:{x:number;y:number};diameterNm:number},segment:{startNm:{x:number;y:number};endNm:{x:number;y:number};widthNm:number},marginNm:number):"overlap"|"tangent"|"separate"{
-  const ax=BigInt(segment.startNm.x),ay=BigInt(segment.startNm.y),dx=BigInt(segment.endNm.x)-ax,dy=BigInt(segment.endNm.y)-ay;
-  const px=BigInt(bore.centerNm.x)-ax,py=BigInt(bore.centerNm.y)-ay,length2=dx*dx+dy*dy,dot=px*dx+py*dy;
-  const radius2=BigInt(segment.widthNm)+2n*BigInt(marginNm)+BigInt(bore.diameterNm),limit=radius2*radius2;
-  const compare=(a:bigint,b:bigint)=>a<b?"overlap" as const:a===b?"tangent" as const:"separate" as const;
-  if(length2===0n||dot<=0n)return compare(4n*(px*px+py*py),limit);
-  if(dot>=length2){const ex=px-dx,ey=py-dy;return compare(4n*(ex*ex+ey*ey),limit);}
-  const cross=dx*py-dy*px;return compare(4n*cross*cross,limit*length2);
 }
 
 /** Pure assessment with an optional host-owned geometric calculation; never opens or mutates CAD. */
@@ -593,7 +581,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     let result: Fact = fact("unknown", "A host-bound reference coverage calculator is unavailable."), geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed" = "not_assessed", calculation: unknown = null;
     if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition or via; no primitive was filtered away.");
     else if (!launchPlanAvailable || launchConditions.status === "failed") result = launchConditions;
-    else if(intersectingBoreUuids.length>0){result=fact("failed","The required reference ribbon intersects a source-verified round drill bore.");geometricStatus="uncovered";}
+    else if(intersectingBoreUuids.length>0){result=fact("failed","The required reference ribbon intersects a source-verified round or oblong drill bore.");geometricStatus="uncovered";}
     else if(tangentBoreUuids.length>0){result=fact("unknown","The required reference ribbon is exactly tangent to a drill bore; boundary contact cannot establish a copper coverage certificate.");geometricStatus="boundary_uncertain";}
     // Missing copper in a current attributed fill is a counterexample even if
     // its global drilled topology or endpoint anchor is not yet proved. Those

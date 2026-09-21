@@ -1,0 +1,502 @@
+{
+  "schemaVersion": "evleda.rp2350-native-bore-shape-qualification.v1",
+  "projectId": "17b88ed0-adea-4634-a468-8d417dc16c97",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "fa5a4281809148f626bbbc255b34395796398243f9b9603a19d0e839ac56a3a3",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "normalClose": true,
+  "nativeDrc": {
+    "coordinateUnits": "mm",
+    "ignoredChecks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard",
+        "severity": null
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via",
+        "severity": null
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries",
+        "severity": null
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch",
+        "severity": null
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch",
+        "severity": null
+      }
+    ],
+    "includedSeverities": [
+      "error",
+      "warning",
+      "exclusion"
+    ],
+    "schematicParity": [],
+    "schematicParityCount": 0,
+    "status": "clean",
+    "unconnectedItems": [],
+    "violationCount": 0,
+    "violations": []
+  },
+  "endpointConnectivity": "connected",
+  "resourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "14e4d6a348bef81816b40d407642cbe99a4b69ba84e55b5ab3c954faf97093e8",
+    "size": 1088925
+  },
+  "planes": [
+    {
+      "planeId": "BACK_GND",
+      "drillStatus": "unknown",
+      "inventory": {
+        "boreCount": 171,
+        "complete": true,
+        "nativePadCount": 281,
+        "sourcePadCount": 281,
+        "sourceViaCount": 118
+      },
+      "slots": [
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 8080000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 8930000,
+            "minX": 15020000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "f5592606-4e9d-4b62-afac-565ec9879275"
+        },
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 3900000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 4600000,
+            "minX": 15020000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "35603db2-7858-452d-90f0-c991ba6d7717"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 8080000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 8930000,
+            "minX": 6380000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "6a8af92a-66ec-4429-b364-6c69de6a7f23"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 3900000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 4600000,
+            "minX": 6380000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "78dd2ee1-deea-4d54-83ce-33895a8fe3a2"
+        }
+      ],
+      "issues": [
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment."
+      ],
+      "classificationCounts": {
+        "not_classified": 171
+      }
+    },
+    {
+      "planeId": "GND_PLANE",
+      "drillStatus": "unknown",
+      "inventory": {
+        "boreCount": 171,
+        "complete": true,
+        "nativePadCount": 281,
+        "sourcePadCount": 281,
+        "sourceViaCount": 118
+      },
+      "slots": [
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 8080000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 8930000,
+            "minX": 15020000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "f5592606-4e9d-4b62-afac-565ec9879275"
+        },
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 3900000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 4600000,
+            "minX": 15020000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "35603db2-7858-452d-90f0-c991ba6d7717"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 8080000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 8930000,
+            "minX": 6380000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "6a8af92a-66ec-4429-b364-6c69de6a7f23"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 3900000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 4600000,
+            "minX": 6380000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "78dd2ee1-deea-4d54-83ce-33895a8fe3a2"
+        }
+      ],
+      "issues": [
+        "Bore 0af98444-8bde-4101-82be-17e2015303d4: Bore enclosure intersects or touches a cached boundary or hole",
+        "Bore 0535cfee-f720-48db-86d5-86490379698b: Bore enclosure intersects or touches a cached boundary or hole",
+        "Bore 21925ba8-3fc8-4f38-84fd-edeb2bec3c77: Bore enclosure intersects or touches a cached boundary or hole",
+        "Bore 8c7cb0cd-f7d4-4847-8b6c-e790f1a7a19f: Bore enclosure intersects or touches a cached boundary or hole"
+      ],
+      "classificationCounts": {
+        "unknown": 4,
+        "inside_cached_hole": 77,
+        "new_interior_void": 46,
+        "outside_component": 44
+      }
+    }
+  ],
+  "remainingRows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "accepted": false,
+  "scope": "Fresh host53/DOC17 public refill/save, assessment and normal close on the unchanged managed board. No new electrical approval."
+}

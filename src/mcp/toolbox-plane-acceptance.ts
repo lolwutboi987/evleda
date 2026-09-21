@@ -203,6 +203,7 @@ const drillTopology = (value: FreshPlaneAcceptanceAssessment["planes"][number]["
   bores: value.bores.map(bore => ({ uuid: publicText(bore.uuid), kind: bore.kind,
     netName: bore.netName === null ? null : publicText(bore.netName),
     centerNm: { x: bore.centerNm.x, y: bore.centerNm.y }, diameterNm: bore.diameterNm,
+    ...(bore.slot === undefined ? {} : { slot: { majorDiameterNm: bore.slot.majorDiameterNm, axis: bore.slot.axis } }),
     enclosureNm: bore.enclosureNm === null ? null : { minX: bore.enclosureNm.minX, minY: bore.enclosureNm.minY,
       maxX: bore.enclosureNm.maxX, maxY: bore.enclosureNm.maxY },
     classification: bore.classification, classificationBasis: bore.classificationBasis, issues: reasons(bore.issues), geometrySource: bore.geometrySource })),
@@ -407,9 +408,9 @@ export async function captureToolboxPlaneAcceptance(outputRoot: string, assessme
   const bytes = Buffer.from(`${canonicalJson(captured)}\n`, "utf8");
   if (bytes.length > MAX_BYTES) throw new Error("Complete plane acceptance evidence exceeds its private artifact bound; no findings were truncated.");
   const report = summarizePlaneAcceptance(captured);
-  if (Buffer.byteLength(JSON.stringify(report), "utf8") > MAX_PUBLIC_REPORT_BYTES) {
-    throw new Error("Complete plane acceptance findings exceed the public response limit; no findings were truncated. The host must inspect the complete assessment.");
-  }
+  const publicBytes = Buffer.from(`${canonicalJson(report)}\n`, "utf8");
+  if (publicBytes.length > MAX_BYTES) throw new Error("Complete plane acceptance projection exceeds its resource bound; no findings were truncated.");
+  const needsResource = publicBytes.length > MAX_PUBLIC_REPORT_BYTES;
   try {
     const root = path.resolve(outputRoot);
     if (!path.isAbsolute(outputRoot)) throw new Error("Plane acceptance output requires the exact host-owned directory.");
@@ -422,33 +423,39 @@ export async function captureToolboxPlaneAcceptance(outputRoot: string, assessme
       if (!current.isDirectory() || current.isSymbolicLink() || current.dev !== before.dev || current.ino !== before.ino
           || await realpath(root) !== root) throw new Error("Plane acceptance evidence directory changed during publication.");
     };
-    const filename = `plane-acceptance-${randomUUID()}.json`, target = path.join(root, filename);
+    const write = async (contents: Buffer, kind: "evidence" | "public") => {
+    const filename = `plane-acceptance-${kind === "public" ? "public-" : ""}${randomUUID()}.json`, target = path.join(root, filename);
     const handle = await open(target, "wx+", 0o600);
     try {
       const opened = await handle.stat({ bigint: true });
       if (!opened.isFile() || opened.nlink !== 1n || opened.size !== 0n) throw new Error("Plane acceptance reservation is not exclusive.");
-      await assertRoot(); await handle.writeFile(bytes); await handle.sync();
+      await assertRoot(); await handle.writeFile(contents); await handle.sync();
       const written = await handle.stat({ bigint: true });
       const physical = await lstat(target, { bigint: true });
       if (!written.isFile() || written.dev !== opened.dev || written.ino !== opened.ino || written.nlink !== 1n
-          || written.size !== BigInt(bytes.length) || !physical.isFile() || physical.isSymbolicLink()
+          || written.size !== BigInt(contents.length) || !physical.isFile() || physical.isSymbolicLink()
           || physical.dev !== written.dev || physical.ino !== written.ino || physical.nlink !== 1n
           || physical.size !== written.size || await realpath(target) !== target) throw new Error("Plane acceptance artifact identity changed.");
-      const readback = Buffer.alloc(bytes.length + 1); let count = 0;
+      const readback = Buffer.alloc(contents.length + 1); let count = 0;
       while (count < readback.length) {
         const part = await handle.read(readback, count, readback.length - count, count);
         if (part.bytesRead === 0) break;
         count += part.bytesRead;
       }
       const settled = await lstat(target, { bigint: true });
-      if (!readback.subarray(0, count).equals(bytes) || !settled.isFile() || settled.isSymbolicLink()
+      if (!readback.subarray(0, count).equals(contents) || !settled.isFile() || settled.isSymbolicLink()
           || settled.dev !== written.dev || settled.ino !== written.ino || settled.nlink !== 1n || settled.size !== written.size
           || settled.mtimeNs !== physical.mtimeNs || settled.ctimeNs !== physical.ctimeNs || await realpath(target) !== target) {
         throw new Error("Plane acceptance readback differs from the complete evidence.");
       }
       await assertRoot();
-      return { report, diagnostic: { filename, identity: contentIdentity(bytes) } };
+      return { path: target, filename, identity: contentIdentity(contents) };
     } finally { await handle.close(); }
+    };
+    const evidence = await write(bytes, "evidence");
+    const publicArtifact = needsResource ? await write(publicBytes, "public") : undefined;
+    return { report, diagnostic: { filename: evidence.filename, identity: evidence.identity },
+      ...(publicArtifact === undefined ? {} : { publicReportArtifact: { path: publicArtifact.path, identity: publicArtifact.identity } }) };
   } catch (cause) {
     // The MCP error surface must not echo OS exceptions containing host paths.
     // Preserve the cause for the host; failed reservations are never erased.
@@ -457,3 +464,17 @@ export async function captureToolboxPlaneAcceptance(outputRoot: string, assessme
 }
 
 export type ToolboxPlaneAcceptanceResult = Awaited<ReturnType<typeof captureToolboxPlaneAcceptance>>;
+
+/** Resource-backed delivery changes representation only. Counts and all unresolved
+ * requirement IDs stay visible; the resource retains every projected finding. */
+export function summarizePlaneAcceptanceResource(report: ToolboxPlaneAcceptanceResult["report"]) {
+  return { schemaVersion: "evleda.toolbox-plane-acceptance-resource-summary.v1",
+    fullReportSchemaVersion: report.schemaVersion, assessmentIdentity: report.assessmentIdentity,
+    family: report.family, status: report.status, bundleIdentity: report.bundleIdentity,
+    sourceIdentities: report.sourceIdentities,
+    rows: { total: report.rows.length, pass: report.rows.filter(row => row.status === "pass").length,
+      fail: report.rows.filter(row => row.status === "fail").length, unknown: report.rows.filter(row => row.status === "unknown").length },
+    verificationPlanRowsPassed: report.verificationPlanRowsPassed, mandatoryRowsRemaining: report.mandatoryRowsRemaining,
+    acceptanceEvaluated: report.acceptanceEvaluated, accepted: report.accepted, fabricationAuthorized: report.fabricationAuthorized,
+    limitations: report.limitations, delivery: "complete-report-resource-required" as const };
+}

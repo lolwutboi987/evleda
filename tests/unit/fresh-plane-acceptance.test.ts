@@ -784,6 +784,23 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(row(result, "reference:VIN").status).toBe("fail"); expect(requests).toHaveLength(0);
   });
 
+  it.each([0, 90])("uses the complete %i-degree slot for reference-gap evidence", async angle => {
+    const original = board({ surfaceSignalPads: true });
+    const ground = parseFreshPcbSource(original).footprints.find(fp => fp.reference === "J1")!.pads.find(pad => pad.number === "3")!.physical.source;
+    const changed = ground.replace("thru_hole circle", "thru_hole oval").replace("(at 0 4)", `(at 0 4 ${angle})`)
+      .replace("(size 1 1)", "(size 0.8 9.4)").replace("(drill 0.4)", "(drill oval 0.4 9)");
+    expect(changed).not.toBe(ground);
+    const f = await fixture({ surfaceSignalPads: true, pcbSource: original.replace(ground, changed) });
+    const requests: ReferenceCoverageRequest[] = [];
+    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });
+    expect(result.planes[0]!.drillTopology.inventory.complete).toBe(true);
+    expect(result.references[0]!.intersectingBoreUuids).toEqual(angle === 0 ? [U(102)] : []);
+    expect(result.references[0]!.geometricStatus).toBe(angle === 0 ? "uncovered" : "covered");
+    expect(row(result, "reference:VIN").status).toBe(angle === 0 ? "fail" : "unknown");
+    expect(requests).toHaveLength(angle === 0 ? 0 : 1);
+    expect(result.accepted).toBe(false);
+  });
+
   it("requires explicit launch intent and complete local conditions while preserving full-reference uncertainty", async () => {
     const options = { surfaceSignalPads: true, launchHeader: true };
     const original = await ercFixture("clean", options);

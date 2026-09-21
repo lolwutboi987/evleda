@@ -6,7 +6,7 @@ import { lstat, readFile } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 
-import { sha256 } from "../core/canonical.js";
+import { canonicalJson, sha256 } from "../core/canonical.js";
 import type { CanonicalIdentity } from "../domain/types.js";
 import { harnessToolDefinitionSchema, harnessToolResultSchema, type HarnessToolCall } from "../harness/contracts.js";
 import { kicadHarnessToolEffect, type KicadHarnessToolName } from "../harness/kicad-tools.js";
@@ -21,6 +21,7 @@ import { snapshotToolboxSavedMicrostripRequest, toolboxSavedMicrostripErrorMessa
 import { snapshotToolboxInterfaceQuery, TOOLBOX_INTERFACE_ERROR, toolboxInterfaceQuerySchema } from "./toolbox-interface.js";
 import { readToolboxReferenceArtifact, type ToolboxReferenceArtifact } from "./toolbox-reference-resource.js";
 import { planeCompoundMutationState } from "./toolbox-plane-results.js";
+import { summarizePlaneAcceptanceResource } from "./toolbox-plane-acceptance.js";
 
 const MAX_ARGUMENT_BYTES = 256 * 1024;
 const MAX_GUIDANCE_BYTES = 1024 * 1024;
@@ -118,6 +119,7 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
   });
   const previewResources = new Map<string, { path: string; sha256: string; size: number }>();
   const referenceResources = new Map<string, ToolboxReferenceArtifact>();
+  const planeAcceptanceResources = new Map<string, ToolboxReferenceArtifact>();
 
   const enqueue = <T>(work: () => Promise<T>): Promise<T> => {
     const pending = tail.then(async () => {
@@ -183,6 +185,20 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
         return { contents: [{ uri: uri.href, mimeType: "application/json", text: await readToolboxReferenceArtifact(artifact) }] };
       });
     referenceResourceRegistered = true;
+  };
+
+  let planeResourceRegistered = false;
+  const ensurePlaneResource = () => {
+    if (planeResourceRegistered) return;
+    server.registerResource("plane-acceptance", new ResourceTemplate("evleda://plane-acceptance/{digest}", { list: undefined }),
+      { mimeType: "application/json", description: "Complete immutable public plane assessment, including every finding. Historical source-bound snapshot; no electrical or manufacturing approval." },
+      async (uri, variables) => {
+        if (typeof variables.digest !== "string" || !/^[a-f0-9]{64}$/u.test(variables.digest)) throw new Error("Invalid plane acceptance resource.");
+        const artifact = planeAcceptanceResources.get(uri.href);
+        if (artifact === undefined) throw new Error("Plane acceptance resource is unavailable or expired; assess the board again.");
+        return { contents: [{ uri: uri.href, mimeType: "application/json", text: await readToolboxReferenceArtifact(artifact) }] };
+      });
+    planeResourceRegistered = true;
   };
 
   server.registerTool("evleda_rule_topics", {
@@ -366,16 +382,31 @@ export function createKicadToolboxMcpServer(options: KicadToolboxServerOptions =
         } catch (error) { return failure(error); }
       });
       if (cad.checkPlaneAcceptance !== undefined) registerTool("evleda_check_plane_acceptance", {
-        description: "Assess the saved host-bound V2 plane against its actual verification rows: current-session fill, intended component contact, island area, native thermal/clearance evidence and complete routed reference coverage. Reports unresolved physical width and other mandatory requirements explicitly. Reapply/save the contract plane after edits or resume to establish a fresh fill witness. This read does not authorize fabrication. No paths, selectors or evidence are accepted from the model.",
+        description: "Assess the saved host-bound V2 plane against its actual verification rows: current-session fill, intended component contact, island area, native thermal/clearance evidence and complete routed reference coverage. Reports unresolved physical width and other mandatory requirements explicitly. Large results return a status summary and fullReportResource; read that immutable resource for every finding. Reapply/save the contract plane after edits or resume to establish a fresh fill witness. This read does not authorize fabrication. No paths, selectors or evidence are accepted from the model.",
         inputSchema: EMPTY, annotations: READ_ANNOTATIONS,
       }, async () => {
         try {
           return await enqueueCad(async () => {
             await cad.assertCurrent(); const before = await cad.captureSources();
             const result = transmissionLine === undefined ? await cad.checkPlaneAcceptance!() : await cad.checkPlaneAcceptance!(transmissionLine);
+            const { publicReportArtifact, ...publicResult } = result;
+            // Verify the complete sanitized artifact against the report before
+            // registering it; caller URIs can never select filesystem paths.
+            const artifact = publicReportArtifact === undefined ? undefined : structuredClone(publicReportArtifact);
+            if (artifact !== undefined) {
+              const contents = await readToolboxReferenceArtifact(artifact);
+              if (canonicalJson(JSON.parse(contents)) !== canonicalJson(result.report)) throw new Error("Plane acceptance public artifact differs from its complete report.");
+            }
             await cad.assertCurrent(); const after = await cad.captureSources();
             if (before !== after) throw new Error("Project changed during plane acceptance inspection; discard this observation.");
-            return jsonResult({ ...result, sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
+            if (artifact === undefined) return jsonResult({ ...publicResult, sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
+            const uri = `evleda://plane-acceptance/${artifact.identity.digest}`;
+            const response = jsonResult({ report: summarizePlaneAcceptanceResource(result.report), diagnostic: result.diagnostic,
+              fullReportResource: uri, fullReportIdentity: artifact.identity,
+              sourceBefore: before, sourceAfter: after, sourceUnchanged: true, recoveryRequired });
+            ensurePlaneResource(); planeAcceptanceResources.set(uri, artifact);
+            while (planeAcceptanceResources.size > 32) planeAcceptanceResources.delete(planeAcceptanceResources.keys().next().value!);
+            return response;
           });
         } catch (error) { return failure(error); }
       });

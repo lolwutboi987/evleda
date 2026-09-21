@@ -158,6 +158,17 @@ function commonFindingFixture() {
 }
 
 describe("public plane acceptance projection and private evidence", () => {
+  it("preserves the slot dimensions and axis while dropping foreign slot properties", async () => {
+    const initial = assessment(), plane = initial.planes[0]!;
+    const raw = assessment({ planes: [{ ...plane, drillTopology: { ...plane.drillTopology,
+      bores: plane.drillTopology.bores.map((bore, i) => i === 0 ? { ...bore,
+        slot: { majorDiameterNm: 1_700_000, axis: "y", privatePath: "C:/private/slot" } } : bore) } }] });
+    const captured = await captureToolboxPlaneAcceptance(await outputRoot(), raw);
+    expect(captured.report.planes[0]!.drillTopology.bores[0]).toMatchObject({ diameterNm: 600_000,
+      slot: { majorDiameterNm: 1_700_000, axis: "y" } });
+    expect(JSON.stringify(captured.report)).not.toContain("privatePath");
+    expect(captured.report.accepted).toBe(false);
+  });
   it("retains complete region witnesses while withholding private inputs and refusing policy promotion", () => {
     const base = assessment(), target = { ...structuredClone(base.planes[0]!), planeId: "BACK_GND", zoneUuid: "target-zone" };
     const bridge = { planeId: "BACK_GND", referencePlaneId: base.planes[0]!.planeId, status: "verified", reasons: ["Scoped geometric contact."],
@@ -351,7 +362,7 @@ describe("public plane acceptance projection and private evidence", () => {
     expect(findings.every(finding => finding.items[0]!.sourceBinding === "unavailable" && finding.items[0]!.owner === null)).toBe(true);
   });
 
-  it("rejects a complete projection above the MCP budget without publishing a truncated or unusable report", async () => {
+  it("retains an oversized complete projection as a separate sanitized public artifact", async () => {
     const root = await outputRoot(), fixture = nativeFindingFixture();
     fixture.report.schematic_parity = Array.from({ length: 1000 }, () => ({ ...fixture.report.schematic_parity[0]!, description: "x".repeat(1200) }));
     fixture.checks.nativeInput.drc.schematicParityCount = 1000;
@@ -359,8 +370,14 @@ describe("public plane acceptance projection and private evidence", () => {
     const raw = assessment({ evidence: { ...fixture.raw.evidence, nativeChecks: fixture.checks } });
     expect(Buffer.byteLength(canonicalJson(raw))).toBeLessThan(16 * 1024 * 1024);
     expect(Buffer.byteLength(JSON.stringify(summarizePlaneAcceptance(raw)))).toBeGreaterThan(1024 * 1024);
-    await expect(captureToolboxPlaneAcceptance(root, raw)).rejects.toThrow(/public response limit; no findings were truncated/);
-    expect(await readdir(root)).toEqual([]);
+    const captured = await captureToolboxPlaneAcceptance(root, raw);
+    expect(captured.publicReportArtifact).toBeDefined();
+    const bytes = await readFile(captured.publicReportArtifact!.path);
+    expect(contentIdentity(bytes)).toEqual(captured.publicReportArtifact!.identity);
+    expect(JSON.parse(bytes.toString())).toEqual(summarizePlaneAcceptance(raw));
+    expect(bytes.toString()).not.toContain("C:/private");
+    expect(JSON.parse(await readFile(path.join(root, captured.diagnostic.filename), "utf8"))).toEqual(raw);
+    expect(await readdir(root)).toHaveLength(2);
   });
 
   it("reports native findings as unavailable without fresh evidence and rejects missing collections or false counts", async () => {

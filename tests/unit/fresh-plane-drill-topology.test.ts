@@ -89,33 +89,9 @@ function rewrite(value: any, transform: (value: any) => any): any {
 }
 async function fixture(source = board([pad()]), outline?: number[][]) {
   const prepared = prepareFreshPlaneMutation({ compilationBundle: bundle, beforePcbSource: source, operation: "create" });
-  const slot = source.includes("(drill oval 1 0.5)"), producerSource = slot ? source.replace("(drill oval 1 0.5)", "(drill 1)") : source;
-  const f = await planeStageObservationFixture({ beforePcbSource: producerSource, mutation: prepared.mutation });
+  const f = await planeStageObservationFixture({ beforePcbSource: source, mutation: prepared.mutation });
   let receipt = structuredClone(f.receipt) as Raw, stagedSource = f.stagedSource;
   let request = f.request, padExpected = f.padExpected;
-  // The existing producer characterizes circular drills only. Adapt its entire
-  // source/identity/native transcript and approved synthetic library together,
-  // so the slot test reaches this assessor with a genuinely validated stage.
-  if (slot) {
-    const sources = [producerSource, f.stagedSource, String(receipt.nativeSourceUnfilled)];
-    const replacements = new Map(sources.map(text => [text, text.replace("(drill 1)", "(drill oval 1 0.5)")]));
-    const identities = new Map(sources.map(text => [contentIdentity(text).digest, contentIdentity(replacements.get(text)!)]));
-    receipt = rewrite(receipt, value => {
-      if (typeof value === "string" && replacements.has(value)) return replacements.get(value);
-      if (value?.algorithm === "sha256" && identities.has(value.digest)) return identities.get(value.digest);
-      if (value?.type === "PT_PTH" && value.pad_stack?.drill) return { ...value, pad_stack: { ...value.pad_stack,
-        drill: { ...value.pad_stack.drill, shape: "DS_OBLONG", diameter: { x_nm: "1000000", y_nm: "500000" } } } };
-      return value;
-    });
-    stagedSource = replacements.get(f.stagedSource)!;
-    request = { ...request, request: { ...request.request, expectedSavedIdentity: contentIdentity(source), expectedLiveIdentity: contentIdentity(source) } };
-    const sourcePads = parseFreshPcbSource(source).footprints[0]!.pads;
-    const inspection = f.padExpected.physicalFootprintResolver!.inspectFootprint("Test:X")!;
-    const sourceIdentity = contentIdentity(sourcePads.map(pad => pad.physical.source).join("\n"));
-    const updated = { ...inspection, sourceIdentity, physicalPads: inspection.physicalPads.map((pad, i) => ({ ...pad, definitionKey: sourcePads[i]!.physical.definitionKey })) };
-    padExpected = { ...padExpected, pcbSource: source, physicalFootprints: padExpected.physicalFootprints!.map(pin => ({ ...pin, sourceIdentity })),
-      physicalFootprintResolver: { inspectFootprint: () => updated } };
-  }
   if (outline) {
     const oldFill = parseFreshPcbReferenceGeometry(stagedSource).zones[0]!.filledPolygons[0]!.source;
     stagedSource = stagedSource.replace(oldFill, `(filled_polygon (layer "B.Cu") (pts ${outline.map(([x, y]) => `(xy ${x} ${y})`).join(" ")}))`);
@@ -141,6 +117,34 @@ function unknown(result: ReturnType<typeof assessFreshPlaneDrillTopology>, issue
 }
 
 describe("drill-aware single-zone interior topology", () => {
+  it("inventories circular NPTH holes as non-electrical voids", async () => {
+    const hole = `(pad "" np_thru_hole circle (at 10 5) (size 1 1) (drill 1) (layers "*.Cu" "*.Mask"))`;
+    const result = assessFreshPlaneDrillTopology(await fixture(board([pad(), hole])));
+    expect(result.status).toBe("verified");
+    expect(result.inventory).toMatchObject({ boreCount: 2, complete: true });
+    expect(result.bores[1]).toMatchObject({ kind: "pad", netName: null, diameterNm: 1_000_000,
+      centerNm: { x: 10_000_000, y: 5_000_000 }, classification: "new_interior_void" });
+    expect(result.terminalContactContinuity).toBe("not_assessed");
+  });
+  it.each([0, 90, 180, 270])("keeps the exact %i-degree slot body and mechanical pad property", async angle => {
+    const slotted = pad("5", "5", "oval 1 0.5", "GND", "(property pad_prop_mechanical)").replace("(at 5 5)", `(at 5 5 ${angle})`);
+    const result = assessFreshPlaneDrillTopology(await fixture(board([slotted])));
+    expect(result.status).toBe("verified");
+    expect(result.bores[0]).toMatchObject({ diameterNm: 500_000,
+      slot: { majorDiameterNm: 1_000_000, axis: angle % 180 === 0 ? "x" : "y" }, classification: "new_interior_void" });
+    expect(result.conservativeAreaLowerBoundTwiceNm2).toBe(String(BigInt(result.cachedAreaTwiceNm2!) - 1_000_000_000_000n));
+  });
+  it("preserves a tight cached hole containing an NPTH capsule, including tangency", async () => {
+    const hole = `(pad "" np_thru_hole oval (at 5 5) (size 1 0.5) (drill oval 1 0.5) (layers "*.Cu" "*.Mask"))`;
+    const chain = [[0.5,0.5],[29.5,0.5],[29.5,19.5],[0.5,19.5],[0.5,5.25],[4.5,5.25],[5.5,5.25],[5.5,4.75],[4.5,4.75],[4.5,5.25],[0.5,5.25]];
+    const result = assessFreshPlaneDrillTopology(await fixture(board([pad("10", "10"), hole]), chain));
+    expect(result.status).toBe("verified");
+    expect(result.bores[1]).toMatchObject({ netName: null, diameterNm: 500_000, slot: { majorDiameterNm: 1_000_000, axis: "x" },
+      classification: "inside_cached_hole", classificationBasis: "exact_capsule_inside_cached_hole" });
+  });
+  it("retains uncertainty when a slot extends across a hole boundary", async () => {
+    unknown(assessFreshPlaneDrillTopology(await fixture(board([pad("3", "5", "oval 1 0.5")]), holeChain)), /intersect|touch/i);
+  });
   it("subtracts an omitted same-net PTH bore conservatively while keeping cached area separate", async () => {
     const input = await fixture(), result = assessFreshPlaneDrillTopology(input);
     expect(result).toMatchObject({ status: "verified", planarInteriorConnected: true, classificationComplete: true, cachedAreaTwiceNm2: "1102000000000000",
@@ -294,8 +298,8 @@ describe("drill-aware single-zone interior topology", () => {
   });
 
   it.each([
-    ["slot", () => board([pad("5", "5", "oval 1 0.5")]), /Slots/i],
     ["offset", () => board([pad("5", "5", "1 (offset 0.1 0)")]), /offset/i],
+    ["noncardinal slot", () => board([pad("5", "5", "oval 1 0.5").replace("(at 5 5)", "(at 5 5 45)")]), /slot orientation/i],
     ["noncardinal footprint", () => board([pad("1", "2")], "", "45", "10 10"), /projection/i],
     ["subnanometre bore", () => board([pad("5", "5", "0.0000014")]), /exactly integer/i],
     ["subnanometre local center", () => board([pad("5.0000004", "5")]), /exactly integer/i],

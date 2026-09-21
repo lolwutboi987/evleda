@@ -1,0 +1,113 @@
+{
+  "recordedAt": "2026-09-21T01:42:36.222Z",
+  "tests": {
+    "passed": 260,
+    "files": 9,
+    "exitCode": 0,
+    "durationSeconds": 82.54,
+    "scope": "Complete bore, plane, filled-geometry and public projection tests, MCP plane/reference/preview resources and immutable resource reader tests. No full-suite claim."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "pins": [
+    {
+      "file": "src/harness/plane-bore-geometry.ts",
+      "sha256": "483ba99f16fb024ad4fc29899ec17853426be62f69c294d8fbf811e3b4e68d77",
+      "sizeBytes": 3107
+    },
+    {
+      "file": "src/harness/fresh-plane-drill-topology.ts",
+      "sha256": "35fdea168a53e543f6b4876334d4a412e0ec440e750212cb1f5e0ee55bc70279",
+      "sizeBytes": 30067
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "fde39e516b008a21e854dde9b06d68720198865d4aa8481941183f11e6889a9c",
+      "sizeBytes": 65612
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "f8d0a0c30d2737f6439132bad4bfb7e0aca54f418f67349f7a98d9c47d1b1467",
+      "sizeBytes": 38403
+    },
+    {
+      "file": "tests/unit/plane-bore-geometry.test.ts",
+      "sha256": "aad19ef2c4815c7f4fe61e5e771bb8ed97f8414b44c67fbe4ed4ec72688f7ef5",
+      "sizeBytes": 2425
+    },
+    {
+      "file": "tests/unit/fresh-plane-drill-topology.test.ts",
+      "sha256": "08d3ab3a9d16194bed26e4859d30fa74fb5492b9cdd13f1d4eb9f8dc0edc28bf",
+      "sizeBytes": 31531
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "695db9d9c3dc5ce6a8f9bb87a4d664d133807d351cc596209bda0baf3b59dafb",
+      "sizeBytes": 79647
+    },
+    {
+      "file": "tests/unit/toolbox-plane-acceptance.test.ts",
+      "sha256": "409ce7bd46c2cf134b2d0b897518eb33dee5e90b14e3dbd280d328fc93744ef2",
+      "sizeBytes": 43360
+    },
+    {
+      "file": "src/integrations/kicad-startup-diagnostic.ts",
+      "sha256": "77c88df88d5c7fc656bff3bfa7a9a19a118550eb20b87de5976a52e621c3f1e5",
+      "sizeBytes": 7775
+    },
+    {
+      "file": "src/integrations/kicad-mcp-session.ts",
+      "sha256": "a966b0c36a89fd27d0fd3cb9e6cb91b0f52a6491b76f589551a1a9033c7b2109",
+      "sizeBytes": 272249
+    },
+    {
+      "file": "tests/integration/kicad-mcp.test.ts",
+      "sha256": "b8c4854b67ef61dbef82565d6493df111e5c241d70d5fd1b9973befd49bff773",
+      "sizeBytes": 239353
+    },
+    {
+      "file": "tests/unit/toolbox-startup-diagnostics.test.ts",
+      "sha256": "81393cdb4310c7368a57174f6be40827beb9b1f7a38ab45b143e3b4d30fa7c96",
+      "sizeBytes": 8730
+    },
+    {
+      "file": "tests/unit/toolbox-native-host.test.ts",
+      "sha256": "c0d96e3fec87bfdb758ac2376f3042a76010739d104de6b412d607aa2ea5f8a1",
+      "sizeBytes": 29803
+    },
+    {
+      "file": "src/mcp/toolbox-server.ts",
+      "sha256": "142d121efb39b02831379b516ffb192c86e455734057a48a99394010b27e89b7",
+      "sizeBytes": 46258
+    },
+    {
+      "file": "tests/mcp/toolbox-plane-acceptance.test.ts",
+      "sha256": "99d82744da7163cf386ce6724d0697c60462d2d13ec85e1bfa420577d8829ff0",
+      "sizeBytes": 7054
+    }
+  ],
+  "inheritedDiagnosticQualification": {
+    "tests": {
+      "command": "node node_modules/vitest/vitest.mjs run tests/integration/kicad-mcp.test.ts tests/unit/toolbox-startup-diagnostics.test.ts tests/unit/toolbox-native-host.test.ts --maxWorkers=1 --testTimeout=60000 --cache=false",
+      "exitCode": 0,
+      "filesPassed": 3,
+      "testsPassed": 217,
+      "durationSeconds": 203.6,
+      "runtime": "Actual configured DOC17 runtime and manifest for filesystem verification; synthetic subprocess fixtures and mocked editor host lifecycle for fault injection.",
+      "log": {
+        "file": "tests.log",
+        "sha256": "532fecf6fdce6b22c85766a506498ec7f68d9223c8a9f486cf8acdf688c90048",
+        "sizeBytes": 260
+      }
+    },
+    "scope": "Separate previously published 217-test run; not added to the new count. Source pins rechecked."
+  },
+  "nativeQualificationPending": true,
+  "installedReleaseChanged": false,
+  "nativeBoardChanged": false,
+  "priorNativeAttempt": "first-native-attempt.json"
+}
