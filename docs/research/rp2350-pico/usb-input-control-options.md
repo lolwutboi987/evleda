@@ -1,5 +1,10 @@
 # USB input control: bounded component screen, 20 September 2026
 
+The subsequent [startup-sequencing review](../../../designs/rp2350-pico/usb-sequencing-review-20260920/README.md)
+evaluates a concrete two-range TPS2141/TPS2151 proposal. Direct PG-to-RT6150-EN
+wiring lacks a guaranteed low-level interface, startup load support and handover
+ordering; it is not an adopted circuit. The existing board remains unchanged.
+
 The published RP2350 board is unchanged. This follow-up narrows the active
 options; it does not select a new component or resolve startup current.
 The [existing startup screen](../../../designs/rp2350-pico/usb-startup-screen-20260920/README.md)

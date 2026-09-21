@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "evleda.rp2350-usb-sequencing-screen-input.v1",
+  "proposal": "Insert a TPS2141/TPS2151 switch before the retained D1, and drive RT6150 EN directly from SW_PG",
+  "sourcePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "sourceSchematicSha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+  "sources": {
+    "switchDatasheet": "https://www.ti.com/lit/gpn/tps2141",
+    "switchRevision": "SLVS399A, January 2002, revised May 2006",
+    "switchPages": [4, 8, 10],
+    "applicationNote": "https://www.ti.com/lit/an/slva129/slva129.pdf?ts=1780289205942",
+    "applicationNoteRevision": "SLVA129, February 2003",
+    "applicationNotePages": [4, 5, 6, 7],
+    "regulatorDatasheet": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf",
+    "regulatorRevision": "DS6150A/B-06, July 2018",
+    "regulatorPages": [4, 5, 10]
+  },
+  "switch": {
+    "rampCurrentLimitMa": { "minimum": 50, "typical": 75, "maximum": 99 },
+    "releaseLowLimitFractionOfInput": { "minimum": 0.91, "typical": 0.93, "maximum": 0.96 },
+    "reenableLowLimitFractionOfInput": { "minimum": 0.76, "typical": 0.79, "maximum": 0.82 },
+    "powerGoodSenseFraction": { "minimum": 0.85, "typical": 0.88, "maximum": 0.90 },
+    "powerGoodHysteresisFraction": { "minimum": 0.02, "typical": 0.025, "maximum": 0.035 },
+    "powerGoodRisingDeglitchMs": { "minimum": null, "typical": 1, "maximum": 2.5 },
+    "powerGoodLowMaximumVAt1Ma": 0.5,
+    "powerGoodOutputKind": "CMOS push-pull, not open drain",
+    "highModeMaximumCurrentMa": 1800
+  },
+  "regulator": {
+    "enableGuaranteedLowMaximumV": 0.4,
+    "enableGuaranteedHighMinimumV": 1.2,
+    "softStartMinimumMs": null,
+    "softStartTypicalMs": 0.65,
+    "softStartMaximumMs": 1,
+    "softStartTestLoadMa": 0
+  },
+  "existingPreconfigurationSettledInputScreenMa": 86.714,
+  "existingPreconfigurationScreenIsStartupWaveform": false,
+  "scope": "Datasheet-envelope compatibility screen for one hypothetical wiring proposal; no component or native-board change and no USB compliance verdict."
+}
