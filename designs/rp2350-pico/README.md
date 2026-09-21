@@ -10,6 +10,19 @@ remains incomplete.
 
 ## Current candidate
 
+The [R3 candidate](native-r3-trace/README.md) removes a redundant 3V3 trace loop
+without moving parts or vias. All 67 functional nets connect, all 62 placement
+checks pass, and 64 of 66 declared trace topologies pass; two crystal-pad shapes
+remain unsupported. Configured ERC/DRC and portable parity are clean. The complete
+assessment has 559 pass, 15 unknown, 0 fail; accepted=false. USB startup and
+other material electrical requirements remain open. Native save, normal close
+and fresh read-only reopening are verified.
+
+The [R2 package](native-r2-spacing/README.md) remains the historical spacing revision.
+The same managed project now holds R3; use its current sources for continuation.
+
+## Preserved launch-aware candidate
+
 The [launch-aware R1 candidate](native-r1-launches/README.md) preserves the physical
 layout and native rules while explicitly separating the two through-hole debug
 approaches from the continuous-reference body. Both local launch rows are now

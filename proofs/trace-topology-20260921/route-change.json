@@ -1,0 +1,26 @@
+{
+  "before": {
+    "algorithm": "sha256",
+    "digest": "b5206f5db12ea972b5fd87f2dc0071065363a6816e834cb38522f661472219e1",
+    "size": 634179
+  },
+  "after": {
+    "algorithm": "sha256",
+    "digest": "b7df91e8b5c00ab0ca06c23c895aad1d2b1b9d6797327a888d00635bb3e1a2bd",
+    "size": 632774
+  },
+  "removedIds": [
+    "05ff719a-de33-4e81-9217-36c5f6538286",
+    "28b11ce6-c08d-47fb-b022-6b3ae6a61fcc",
+    "3a8465a4-6fdd-49b2-bf5d-0824862e31b4",
+    "467b5457-b4ab-4435-bb15-20d9501361b1",
+    "476d4a2f-8c52-415b-ad98-45a54838a415",
+    "5198219c-dc0c-46e7-a756-2ef5f17be7c4",
+    "b69b8c80-2da0-4631-8317-3a36fc2d91b3",
+    "cb1db19b-315a-4f2a-8697-fdc508d8948f",
+    "dfdf7b3a-b69b-4c36-9c61-ac34190c73a1"
+  ],
+  "onlyNineTracksRemoved": true,
+  "allViasAndFootprintsPreserved": true,
+  "remainingTracks": 1089
+}

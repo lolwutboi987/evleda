@@ -16,9 +16,11 @@ import { loadDeepRuleCatalog } from "../../src/harness/deep-rule-catalog.js";
 import { genericDividerLibraryResolver } from "../helpers/generic-divider-bundle.js";
 import { nativePadObservationFixture } from "../helpers/native-pad-observation-fixture.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
+import { assessFreshPlaneTraceTopology } from "../../src/harness/fresh-plane-trace-topology.js";
+import { summarizePlaneTraceTopology } from "../../src/mcp/toolbox-trace-topology.js";
 
 // Constructed source/native-port fixtures only; never a physical KiCad qualification.
-async function fixture(pcbValue = '10k') {
+async function fixture(pcbValue = '10k',routeSegments:readonly string[] = []) {
   const draft = planeDividerDraft();
   const uuid=(i:number)=>`88888888-8888-4888-8888-${String(i).padStart(12,'0')}`;
   const pcb = '(kicad_pcb (version 20260206) (generator "pcbnew") (general (thickness 1.6))'
@@ -26,8 +28,8 @@ async function fixture(pcbValue = '10k') {
     + '(gr_rect (start 0 0) (end 30 20) (stroke (width 0.05) (type default)) (fill none) (layer "Edge.Cuts"))'
     + draft.components.map((c,i)=>`(footprint "${c.footprintLibId}" (uuid "${uuid(i+1)}") (layer "F.Cu") (at ${5+i*8} 5)
       (property "Reference" "${c.reference}") (property "Value" "${c.reference==='R1'?pcbValue:c.value}")
-      ${c.pins.map((pin,j)=>`(pad "${pin.pin}" smd rect (uuid "${uuid((i+1)*100+j)}") (at 0 ${j*2}) (size 1 1) (layers "F.Cu") (net "${pin.assignment.kind==='net'?pin.assignment.net:''}"))`).join('')})`).join('')+')';
-  const native=await nativePadObservationFixture(pcb);
+      ${c.pins.map((pin,j)=>`(pad "${pin.pin}" smd rect (uuid "${uuid((i+1)*100+j)}") (at 0 ${j*2}) (size 1 1) (layers "F.Cu") (net "${pin.assignment.kind==='net'?pin.assignment.net:''}"))`).join('')})`).join('')+routeSegments.join('')+')';
+  const native=await nativePadObservationFixture(pcb,pcb,{retainedPadLayers:true});
   const definitions=new Map<string,string>(), libraries=new Map<string,string>();
   for(const c of draft.components){const leaf=c.symbolLibId.split(':')[1]!;
     const definition=`(symbol "${leaf}" (symbol "${leaf}_1_1" ${c.pins.map((p,i)=>`(pin passive line (at ${i*2.54} 0 90) (length 2.54) (name "P${p.pin}") (number "${p.pin}"))`).join('')}))`;
@@ -109,5 +111,30 @@ describe('current native/source V2 component artifact checks',()=>{
       expect(()=>summarizePlaneArtifactChecks(forged as typeof a,assessment.rows,false)).toThrow();
     }
     const omitted={...body,rows:body.rows.slice(1)};expect(()=>summarizePlaneArtifactChecks({...omitted,identity:canonicalIdentity(omitted,a.schemaVersion)},assessment.rows,false)).toThrow(/inventory/);
+  });
+});
+
+describe('V2 native/source trace-topology integration',()=>{
+  const segment=(i:number,net:string,a:number[],b:number[])=>`(segment (start ${a[0]} ${a[1]}) (end ${b[0]} ${b[1]}) (width 0.25) (layer "F.Cu") (net "${net}") (uuid "77777777-1111-4111-8111-${String(i).padStart(12,'0')}"))`;
+  const good=[segment(1,'VIN',[5,5],[12.9,5]),segment(2,'VOUT',[5,7],[13,7]),segment(3,'VOUT',[13,7],[19,7]),segment(4,'VOUT',[19,7],[21,5])];
+  it('verifies both source topologies but preserves the separate current-native-clearance requirement',async()=>{
+    const f=await fixture('10k',good),topology=assessFreshPlaneTraceTopology({connectivity:f.input.connectivity,nativePads:f.input.nativePads,endpoints:f.acceptance.endpointConnectivity});
+    expect(topology.rows).toHaveLength(2);expect(topology.rows.every(r=>r.status==='pass')).toBe(true);
+    const report=await assessFreshPlaneAcceptance({...f.acceptance,traceTopologyChecks:topology});
+    expect(report.rows.filter(r=>r.kind==='trace_connectivity').every(r=>r.status==='unknown')).toBe(true);
+    const publicReport=summarizePlaneTraceTopology(topology,report.rows,false);expect(publicReport.rows.every(r=>r.sourceStatus==='pass'&&r.status==='unknown')).toBe(true);
+    await expect(assessFreshPlaneAcceptance({...f.acceptance,traceTopologyChecks:structuredClone(topology)})).rejects.toThrow(/unbranded/);
+  });
+  it('keeps a definite authored source cycle failed without a fill or DRC witness',async()=>{
+    const f=await fixture('10k',[segment(1,'VIN',[5,5],[13,5]),segment(5,'VIN',[13,5],[13,6]),segment(6,'VIN',[13,6],[5,6]),segment(7,'VIN',[5,6],[5,5]),...good.slice(1)]);
+    const topology=assessFreshPlaneTraceTopology({connectivity:f.input.connectivity,nativePads:f.input.nativePads,endpoints:f.acceptance.endpointConnectivity});
+    expect(topology.rows.find(r=>r.net==='VIN')?.status).toBe('fail');
+    const report=await assessFreshPlaneAcceptance({...f.acceptance,traceTopologyChecks:topology});expect(report.rows.find(r=>r.id==='trace-net:VIN')?.status).toBe('fail');
+    expect(summarizePlaneTraceTopology(topology,report.rows,false).rows.find(r=>r.net==='VIN')?.status).toBe('fail');
+  });
+  it('rejects omitted net rows and added private metadata in a rehashed projection',async()=>{
+    const f=await fixture('10k',good),t=assessFreshPlaneTraceTopology({connectivity:f.input.connectivity,nativePads:f.input.nativePads,endpoints:f.acceptance.endpointConnectivity}),report=await assessFreshPlaneAcceptance({...f.acceptance,traceTopologyChecks:t});
+    const {identity:_identity,...body}=t;
+    for(const altered of[{...body,rows:body.rows.slice(1)},{...body,privatePath:'C:/private'}])expect(()=>summarizePlaneTraceTopology({...altered,identity:canonicalIdentity(altered,t.schemaVersion)} as typeof t,report.rows,false)).toThrow();
   });
 });

@@ -5,6 +5,7 @@ import { findTerminalCopperPaths, type TerminalCopperPathCalculation } from "./p
 import { proveReferenceCapsuleContainment, type ReferenceCapsuleContainment } from "./reference-capsule-containment.js";
 import { isFreshPlanePlacementAssessment, type FreshPlanePlacementAssessment } from "./fresh-plane-placement-checks.js";
 import { isFreshPlaneArtifactAssessment, type FreshPlaneArtifactAssessment, type FreshPlaneArtifactSourceIdentities } from "./fresh-plane-artifact-checks.js";
+import { isFreshPlaneTraceTopologyAssessment, type FreshPlaneTraceTopologyAssessment } from "./fresh-plane-trace-topology.js";
 import { boreRibbonRelation } from "./plane-bore-geometry.js";
 import { planReferenceTerminalLaunchStudy, ReferenceTerminalLaunchPlanningError } from "./reference-terminal-launch-study.js";
 import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
@@ -31,6 +32,7 @@ import { assessSavedInterface, SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION, type S
 export interface FreshPlaneAcceptanceInput {
   readonly artifactChecks?: readonly FreshPlaneArtifactAssessment[];
   readonly artifactSourceIdentities?: FreshPlaneArtifactSourceIdentities;
+  readonly traceTopologyChecks?: FreshPlaneTraceTopologyAssessment;
   readonly placementChecks?: FreshPlanePlacementAssessment;
   readonly compilationBundle: PcbPlaneCompilationBundle;
   readonly pcbSource: string;
@@ -120,6 +122,16 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     rows[rows.indexOf(row)] = { ...row, status: value.status === "verified" ? "pass" : value.status === "failed" ? "fail" : "unknown", reasons: value.reasons };
   };
   const independentRows = new Set<string>(), artifactGroups = new Set<string>();
+  if(input.traceTopologyChecks!==undefined){
+    const topology=input.traceTopologyChecks;
+    requireValue(isFreshPlaneTraceTopologyAssessment(topology)&&same(topology.bundleIdentity,bundle.identity)&&same(topology.contractIdentity,bundle.contract.identity)
+      &&same(topology.libraryBindingIdentity,bundle.libraryBinding.identity)&&same(topology.verificationPlanIdentity,bundle.verificationPlan.identity)
+      &&same(topology.hostScopeIdentity,endpoint.hostScopeIdentity)&&same(topology.pcbIdentity,identities.pcb)
+      &&same(topology.endpointConnectivityIdentity,endpoint.identity),'trace topology is unbranded or belongs to different current native/source authority');
+    requireValue(same(names(topology.rows.map(r=>r.id)),names(rows.filter(r=>r.kind==='trace_connectivity').map(r=>r.id))),'trace topology must retain every original routed-net row');
+    for(const check of topology.rows){independentRows.add(check.id);setRow(check.id,fact(check.status==='fail'?'failed':'unknown',...check.reasons,
+      'Current qualified native clearances are required before a physical trace-topology row can pass.'));}
+  }
   for (const artifact of input.artifactChecks ?? []) {
     requireValue(isFreshPlaneArtifactAssessment(artifact) && same(artifact.bundleIdentity, bundle.identity)
       && same(artifact.contractIdentity, bundle.contract.identity) && same(artifact.libraryBindingIdentity, bundle.libraryBinding.identity)
@@ -281,6 +293,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity, verificationPlanIdentity: bundle.verificationPlan.identity,
       sourceIdentities: identities, savedEvidenceIdentity: input.savedEvidence?.identity ?? null,
       evidence: { savedFill: input.savedEvidence, endpointConnectivity: endpoint,
+        ...(input.traceTopologyChecks===undefined?{}:{traceTopologyChecks:input.traceTopologyChecks}),
         ...(input.artifactChecks === undefined ? {} : { artifactChecks: input.artifactChecks }),
         ...(input.placementChecks === undefined ? {} : { placementChecks: input.placementChecks }),
         nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null, commonChecks,
@@ -404,6 +417,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     requireValue(isFreshPlaneNativeChecksAssessment(nativeChecks) && same(nativeChecks.bundleIdentity, bundle.identity)
       && same(nativeChecks.savedEvidenceIdentity, saved.identity) && same(nativeChecks.sourceIdentities, identities), "native validation facts are unbranded or stale");
     const drc = nativeChecks.checks.drcClearanceShorts;
+    for(const check of input.traceTopologyChecks?.rows??[])setRow(check.id,fact(check.status==='fail'?'failed':check.status==='pass'&&drc.status==='verified'?'verified':'unknown',
+      ...check.reasons,...drc.reasons,drc.status==='verified'?'Current qualified native clearance/short checks are clean.':'Current qualified native clearance/short checks are not complete and clean.'));
     for (const artifact of input.artifactChecks ?? []) for (const check of artifact.rows.filter(row => row.requiresNativeClearance)) {
       setRow(check.id, fact(check.status === "fail" ? "failed" : check.status === "pass" && drc.status === "verified" ? "verified" : "unknown",
         ...check.reasons, drc.status === "verified" ? "Current qualified native copper, edge and hole-clearance checks are clean."

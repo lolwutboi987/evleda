@@ -1,24 +1,21 @@
 # Active PCB-toolbox roadmap
 
 Updated 21 September 2026. [Current status](current-status-and-roadmap.md) and
-[native R2](../designs/rp2350-pico/native-r2-spacing/README.md) are the delivery
-entry points. The C12–R7 courtyard gap is corrected; all 62 placement rows pass.
-The full assessment remains **495 pass, 79 unknown, 0 fail; accepted=false**.
+[native R3](../designs/rp2350-pico/native-r3-trace/README.md) are the delivery
+entry points. The new topology checker detected and helped remove a redundant
+3V3 loop. All 62 placement rows and 64 routed-net topology rows pass. The full
+assessment remains **559 pass, 15 unknown, 0 fail; accepted=false**.
 
-[Scoped route feedback](../proofs/route-net-feedback-20260921/README.md) now returns the unchanged board's 171 GND items in one call (48.8 observed seconds), while preserving complete private validation. This replaces the need to receive all 39 whole-board pages for a ground-only edit.
+| Remaining outcome | Existing evidence and next work |
+| --- | --- |
+| Exact physical assessment | XIN/XTAL_OUT need support for their live roundrect ratios. Complete the original plane/physical-width/thermal/interface requirements without weakening rules. [Current proof](../proofs/trace-topology-20260921/README.md). |
+| USB startup | Resolve input/output charging and workload sequencing for USB, external VSYS and EN together. [Reviewed options](research/rp2350-pico/usb-input-control-options.md). |
+| Electrical suitability | Close current, voltage, thermal and interface requirements. [Supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md) and native/source interface evidence remain relevant. |
+| Product handoff | Complete prompt-driven/client use and original-requirement review. Installed host63 and native scripted lifecycle do not alone establish general autonomous design. |
 
-## Work that still changes the product
-
-| Priority | Required outcome | Existing evidence |
-| --- | --- | --- |
-| Remaining assessment integration | Complete exact physical trace topology and the remaining original requirements; finish physical width and thermal evaluation separately. | [Host62 artifact checks](../proofs/artifact-checks-20260921/README.md) complete 270 source/native rows. Placement, 19 geometric references and 64 ground-terminal paths remain verified. Reuse these results. |
-| USB startup | Resolve input/output charging and workload sequencing while preserving USB, external VSYS and EN behavior. | [Reviewed options](research/rp2350-pico/usb-input-control-options.md) and the unchanged saved circuit. |
-| Supply/interface suitability | Close current, voltage, thermal, return-path and interface requirements. | [Supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md), saved construction and native/source interface evidence. |
-| Product handoff | Complete the remaining prompt-driven/client use and requirement-by-requirement delivery review. | [Host62 installation](destination-client-installation.md), native lifecycle and fresh actual client discovery. |
-
-The reusable chat toolbox remains the product. Keep the native candidate usable
-and accessible while resolving material electrical limits. A UI, firmware system,
-manufacturing campaign or new solver is not the default critical path.
+The reusable chat toolbox remains the product. Preserve the delivered candidates
+while resolving material gaps. Do not repeat unchanged proof campaigns, add a
+separate UI, or expand into firmware, ordering or physical qualification.
 
 ## Execution and verification
 

@@ -1,0 +1,241 @@
+{
+  "pcbSha256": "c792cd75d446b02db5162b1ed4741d496318da8398b1d5549bdec4c22eec37d9",
+  "nativeVisualStatus": "WARN",
+  "retainedFindings": [
+    {
+      "level": "WARN",
+      "code": "offboard_component",
+      "message": "Footprint J2 extends outside the board outline (at 2.1, 5.9).",
+      "ref": "J2",
+      "position": [
+        2.11,
+        5.87
+      ]
+    },
+    {
+      "level": "WARN",
+      "code": "offboard_component",
+      "message": "Footprint J3 extends outside the board outline (at 19.9, 54.1).",
+      "ref": "J3",
+      "position": [
+        19.89,
+        54.13
+      ]
+    },
+    {
+      "level": "WARN",
+      "code": "offboard_component",
+      "message": "Footprint J4 extends outside the board outline (at 8.5, 57.2).",
+      "ref": "J4",
+      "position": [
+        8.46,
+        57.2
+      ]
+    },
+    {
+      "level": "WARN",
+      "code": "ref_silk_overlap",
+      "message": "Reference designators C12 and Y1 overlap on the silkscreen (~0.9 mm²). Move or hide one so both stay legible.",
+      "ref": "C12"
+    },
+    {
+      "level": "WARN",
+      "code": "ref_silk_overlap",
+      "message": "Reference designators C18 and C19 overlap on the silkscreen (~0.8 mm²). Move or hide one so both stay legible.",
+      "ref": "C18"
+    },
+    {
+      "level": "WARN",
+      "code": "ref_silk_overlap",
+      "message": "Reference designators Q1 and R8 overlap on the silkscreen (~0.7 mm²). Move or hide one so both stay legible.",
+      "ref": "Q1"
+    },
+    {
+      "level": "WARN",
+      "code": "ref_silk_overlap",
+      "message": "Reference designators R13 and R14 overlap on the silkscreen (~0.6 mm²). Move or hide one so both stay legible.",
+      "ref": "R13"
+    },
+    {
+      "level": "INFO",
+      "code": "body_overlap",
+      "message": "Footprints C20 and U2 bodies overlap (~2.4 mm²); confirm courtyard clearance in DRC.",
+      "ref": "C20"
+    },
+    {
+      "level": "INFO",
+      "code": "body_overlap",
+      "message": "Footprints C21 and U2 bodies overlap (~2.5 mm²); confirm courtyard clearance in DRC.",
+      "ref": "C21"
+    },
+    {
+      "level": "INFO",
+      "code": "body_overlap",
+      "message": "Footprints H1 and J2 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.",
+      "ref": "H1"
+    },
+    {
+      "level": "INFO",
+      "code": "body_overlap",
+      "message": "Footprints H4 and J3 bodies overlap (~1.5 mm²); confirm courtyard clearance in DRC.",
+      "ref": "H4"
+    },
+    {
+      "level": "INFO",
+      "code": "body_overlap",
+      "message": "Footprints J4 and L2 bodies overlap (~4.7 mm²); confirm courtyard clearance in DRC.",
+      "ref": "J4"
+    },
+    {
+      "level": "INFO",
+      "code": "body_overlap",
+      "message": "Footprints SW1 and Y1 bodies overlap (~2.0 mm²); confirm courtyard clearance in DRC.",
+      "ref": "SW1"
+    }
+  ],
+  "referenceFieldFacts": [
+    {
+      "reference": "R13",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 16.37,
+        "minY": 23.830000000000002,
+        "maxX": 18.23,
+        "maxY": 24.77
+      }
+    },
+    {
+      "reference": "C12",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 10.34,
+        "minY": 37.11000000000001,
+        "maxX": 11.260000000000002,
+        "maxY": 38.93
+      }
+    },
+    {
+      "reference": "J4",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 6.690000000000001,
+        "minY": 55.43,
+        "maxX": 15.31,
+        "maxY": 58.970000000000006
+      }
+    },
+    {
+      "reference": "C19",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 6.34,
+        "minY": 17.59,
+        "maxX": 7.26,
+        "maxY": 19.41
+      }
+    },
+    {
+      "reference": "Q1",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 15.99,
+        "minY": 26.45,
+        "maxX": 18.29,
+        "maxY": 28.55
+      }
+    },
+    {
+      "reference": "C18",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 5.14,
+        "minY": 17.59,
+        "maxX": 6.06,
+        "maxY": 19.41
+      }
+    },
+    {
+      "reference": "J2",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 1.0099999999999998,
+        "minY": 4.77,
+        "maxX": 3.21,
+        "maxY": 55.23
+      }
+    },
+    {
+      "reference": "R14",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 14.729999999999999,
+        "minY": 22.67,
+        "maxX": 15.67,
+        "maxY": 24.53
+      }
+    },
+    {
+      "reference": "Y1",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 7.5,
+        "minY": 39.05,
+        "maxX": 11.7,
+        "maxY": 42.55
+      }
+    },
+    {
+      "reference": "J3",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 18.79,
+        "minY": 4.770000000000003,
+        "maxX": 20.990000000000002,
+        "maxY": 55.230000000000004
+      }
+    },
+    {
+      "reference": "R8",
+      "layer": "F.Fab",
+      "hidden": true,
+      "courtyardBounds": {
+        "minX": 14.93,
+        "minY": 24.97,
+        "maxX": 15.870000000000001,
+        "maxY": 26.83
+      }
+    }
+  ],
+  "review": {
+    "actualTopAndAssemblyPreviewsInspected": true,
+    "referenceWarningBasis": "The retained checker estimates reference text boxes without checking field visibility or layer. Current saved reference presentation is recorded above.",
+    "bodyWarningBasis": "The retained checker centers width/height at each footprint origin instead of using the translated courtyard boundary. Current authenticated placement checks verify declared court bounds, edge constraints and pair clearances. Header housings and fasteners are still unselected assembly choices.",
+    "scope": "Current top and assembly views inspected. The inner-layer correction is verified separately by exact source readback and native checks; these previews do not display that layer. Native WARN findings remain retained, not relabelled as a machine visual pass.",
+    "silkscreenRevision": "R1 retained on the physical board; R3 names this delivery package.",
+    "sourceContinuity": "All footprint source geometry is byte-equivalent in parsed readback; both current native renders are byte-identical to R2. Reference/courtyard facts therefore remain applicable."
+  },
+  "previews": [
+    {
+      "view": "top",
+      "sha256": "6af1c4f20c2db74fd0263ad5cebeee71fe4d37ab3b4e39e2c4c05394fefedf97",
+      "byteIdenticalToR2": true,
+      "visuallyInspected": true
+    },
+    {
+      "view": "assembly",
+      "sha256": "16d2cdf2ea2389b4766a4ca68de0038b6832f3bc566dff4768264acd0ff9f27a",
+      "byteIdenticalToR2": true,
+      "visuallyInspected": true
+    }
+  ]
+}

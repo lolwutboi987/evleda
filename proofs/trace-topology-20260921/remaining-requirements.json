@@ -1,0 +1,241 @@
+{
+  "counts": {
+    "plane_access": 1,
+    "trace_connectivity": 2,
+    "plane_fill": 2,
+    "plane_clearance": 2,
+    "plane_thermal_islands": 2,
+    "interface_pair_geometry": 1,
+    "interface_termination": 1,
+    "interface_impedance": 1,
+    "erc": 1,
+    "schematic_ink": 1,
+    "visual": 1
+  },
+  "rows": [
+    {
+      "id": "plane-access:GND",
+      "kind": "plane_access",
+      "reasons": [
+        "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "trace-net:XIN",
+      "kind": "trace_connectivity",
+      "reasons": [
+        "Plane trace topology: sub-nanometre roundrect radius is not supported by the complete contact model",
+        "Private diagnostic detail retained in the complete assessment."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "trace-net:XTAL_OUT",
+      "kind": "trace_connectivity",
+      "reasons": [
+        "Plane trace topology: sub-nanometre roundrect radius is not supported by the complete contact model",
+        "Private diagnostic detail retained in the complete assessment."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "plane-fill:BACK_GND",
+      "kind": "plane_fill",
+      "reasons": [
+        "Configured native minimum thickness does not measure actual filled copper width."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "plane-clearance:BACK_GND",
+      "kind": "plane_clearance",
+      "reasons": [
+        "Effective zone and edge clearance rule interaction needs its complete plane-specific evaluator."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "plane-policy:BACK_GND",
+      "kind": "plane_thermal_islands",
+      "reasons": [
+        "This saved and native zone retains its exact declared name, net, layer, boundary and settings within the complete inventory.",
+        "Every native subpolygon matches one stored component; regional via contacts require their separate complete observation.",
+        "Every stored component's complete bore-enclosure-subtracted retained-area lower bound meets the declared floor. This proves area, not post-drill connectivity.",
+        "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate.",
+        "Every retained supplemental interior reaches the connected primary interior through a shared positive-area contact and a normal through-via annulus strictly clear of all foreign bore enclosures. This geometric network does not prove complete terminal contacts, physical widths or current capacity.",
+        "aggregate-native-contact-has-ambiguous-subpolygon-scope",
+        "Complete terminal contacts, physical widths and current suitability remain separate."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "plane-fill:GND_PLANE",
+      "kind": "plane_fill",
+      "reasons": [
+        "Configured native minimum thickness does not measure actual filled copper width."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "plane-clearance:GND_PLANE",
+      "kind": "plane_clearance",
+      "reasons": [
+        "Effective zone and edge clearance rule interaction needs its complete plane-specific evaluator."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "plane-policy:GND_PLANE",
+      "kind": "plane_thermal_islands",
+      "reasons": [
+        "The zone retains one sufficiently large planar interior after supported drill subtraction, native non-island classification and a native endpoint anchor.",
+        "Thermal spoke width is not applicable to the declared solid connection.",
+        "The complete thermal or solid contact row remains unevaluated."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "interface-geometry:USB_FS",
+      "kind": "interface_pair_geometry",
+      "reasons": [
+        "Every selected saved-source primitive is retained in the complete pair assessment.",
+        "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY",
+        "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+        "EVERY_DECLARED_ANCHOR_REACHED",
+        "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS",
+        "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL",
+        "Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated.",
+        "Declared channel anchor U1:52 must contact its exact net graph.",
+        "Declared channel anchor U1:51 must contact its exact net graph.",
+        "Declared channel anchor R1:1 must contact its exact net graph.",
+        "Declared channel anchor R2:1 must contact its exact net graph.",
+        "Declared channel anchor R1:2 must contact its exact net graph.",
+        "Declared channel anchor R2:2 must contact its exact net graph.",
+        "Declared channel anchor U4:1 must contact its exact net graph.",
+        "Declared channel anchor U4:3 must contact its exact net graph.",
+        "Declared channel anchor U4:6 must contact its exact net graph.",
+        "Declared channel anchor U4:4 must contact its exact net graph.",
+        "Declared channel anchor J1:A6 must contact its exact net graph.",
+        "Declared channel anchor J1:A7 must contact its exact net graph.",
+        "Declared channel anchor J1:B6 must contact its exact net graph.",
+        "Declared channel anchor J1:B7 must contact its exact net graph.",
+        "Protection return U4:2 must match its exact declared net.",
+        "Protection return U4:5 must match its exact declared net.",
+        "No termination anchor is declared on this interface side.",
+        "EXACT_TERMINAL_ROUTED_ESCAPE_DISTANCE",
+        "BODY_WIDTH_INTERVAL",
+        "ALL_SIX_NET_OPPOSITE_POLARITY_CAPSULES",
+        "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS",
+        "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH",
+        "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH",
+        "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES",
+        "COMBINED_INPUT_AND_OUTPUT_PCB_ETCH_BUDGET",
+        "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY",
+        "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW",
+        "COMBINED_INPUT_AND_OUTPUT_PCB_SKEW_BUDGET",
+        "COMBINED_INPUT_AND_OUTPUT_UNCOUPLED_PCB_BUDGET",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every explicit reference pad has a current nominal drilled-copper path to the intended plane. This verifies the declared geometric reference requirement, not impedance or EMC.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every explicit reference pad has a current nominal drilled-copper path to the intended plane. This verifies the declared geometric reference requirement, not impedance or EMC.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every explicit reference pad has a current nominal drilled-copper path to the intended plane. This verifies the declared geometric reference requirement, not impedance or EMC.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every explicit reference pad has a current nominal drilled-copper path to the intended plane. This verifies the declared geometric reference requirement, not impedance or EMC.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every explicit reference pad has a current nominal drilled-copper path to the intended plane. This verifies the declared geometric reference requirement, not impedance or EMC.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every complete declared straight-route ribbon plus its exact contract margin is covered by eligible reference copper; all explicit reference terminals are connected.",
+        "Every explicit reference pad has a current nominal drilled-copper path to the intended plane. This verifies the declared geometric reference requirement, not impedance or EMC."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "interface-termination:USB_FS",
+      "kind": "interface_termination",
+      "reasons": [
+        "Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated.",
+        "Declared external termination resistance remains caller-asserted; no observed component resistance or saved resistance-value assessment is available."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "interface-impedance:USB_FS",
+      "kind": "interface_impedance",
+      "reasons": [
+        "Private diagnostic detail retained in the complete assessment.",
+        "FINITE_THICKNESS_APPLICABILITY_UNASSESSED: The empirical finite-thickness correction assumes S is much greater than 2*T. No numeric sufficiency threshold is published here; this assessment does not establish that applicability or physical accuracy.",
+        "Every selected saved-source primitive is retained in the complete pair assessment.",
+        "DECLARED_SOURCE_PAD_NET_MAPPING_ONLY",
+        "ALL_LEAVES_AND_BRANCH_ATTACHMENTS_REQUIRE_DECLARED_PAD_CENTERS",
+        "EVERY_DECLARED_ANCHOR_REACHED",
+        "EVERY_ACYCLIC_TAP_ATTACHMENT_TO_LEAF_LENGTH_INCLUDING_TERMINATION_TAPS",
+        "VIAS_AND_MEMBER_SIGNAL_LAYERS_RETAINED_NO_VERTICAL_LENGTH_OR_UNUSED_BARREL_MODEL",
+        "Observed external termination distance is straight-line planar pad-center separation; routed electrical access length and delay are not evaluated.",
+        "Declared channel anchor U1:52 must contact its exact net graph.",
+        "Declared channel anchor U1:51 must contact its exact net graph.",
+        "Declared channel anchor R1:1 must contact its exact net graph.",
+        "Declared channel anchor R2:1 must contact its exact net graph.",
+        "Declared channel anchor R1:2 must contact its exact net graph.",
+        "Declared channel anchor R2:2 must contact its exact net graph.",
+        "Declared channel anchor U4:1 must contact its exact net graph.",
+        "Declared channel anchor U4:3 must contact its exact net graph.",
+        "Declared channel anchor U4:6 must contact its exact net graph.",
+        "Declared channel anchor U4:4 must contact its exact net graph.",
+        "Declared channel anchor J1:A6 must contact its exact net graph.",
+        "Declared channel anchor J1:A7 must contact its exact net graph.",
+        "Declared channel anchor J1:B6 must contact its exact net graph.",
+        "Declared channel anchor J1:B7 must contact its exact net graph.",
+        "Protection return U4:2 must match its exact declared net.",
+        "Protection return U4:5 must match its exact declared net.",
+        "No termination anchor is declared on this interface side.",
+        "EXACT_TERMINAL_ROUTED_ESCAPE_DISTANCE",
+        "BODY_WIDTH_INTERVAL",
+        "ALL_SIX_NET_OPPOSITE_POLARITY_CAPSULES",
+        "MAXIMUM_GAP_APPLIES_ONLY_TO_UNIQUE_FORWARD_PARALLEL_COUPLED_INTERVALS",
+        "SOURCE_TO_RECEIVER_MAIN_CHAIN_ETCH_LENGTH",
+        "FULL_CHANNEL_COPPER_ONLY_PATH_LENGTH",
+        "CHANNEL_TOTAL_COPPER_BUDGET_INCLUDING_BRANCHES",
+        "COMBINED_INPUT_AND_OUTPUT_PCB_ETCH_BUDGET",
+        "EXACT_ABSOLUTE_MAIN_CHAIN_ETCH_SKEW_NOT_DELAY",
+        "FULL_CHANNEL_COPPER_ONLY_PATH_SKEW",
+        "COMBINED_INPUT_AND_OUTPUT_PCB_SKEW_BUDGET",
+        "COMBINED_INPUT_AND_OUTPUT_UNCOUPLED_PCB_BUDGET",
+        "Every required route interval must have complete applicable model coverage."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "erc",
+      "kind": "erc",
+      "reasons": [
+        "erc-project-has-ignored-checks",
+        "native-erc-has-ignored-checks"
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "schematic_ink",
+      "kind": "schematic_ink",
+      "reasons": [
+        "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+      ],
+      "status": "unknown"
+    },
+    {
+      "id": "visual",
+      "kind": "visual",
+      "reasons": [
+        "This mandatory V2 requirement has no complete evaluator in this bounded plane assessment."
+      ],
+      "status": "unknown"
+    }
+  ],
+  "scope": "Original unresolved requirements, not a count of observed physical defects."
+}

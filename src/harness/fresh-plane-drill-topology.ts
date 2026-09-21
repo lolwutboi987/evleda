@@ -6,6 +6,7 @@ import { parseFreshPcbReferenceGeometry, parseFreshPcbRouteSourceSpans, parseFre
 import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 import { pcbCopperLayerSchema, type PcbCopperLayer } from "./pcb-copper-layers.js";
 import { boreAxisTwiceNm, segmentDistanceRelation, type PlaneBoreGeometry } from "./plane-bore-geometry.js";
+import type { KicadNativePadObservation } from "../integrations/kicad-native-pad-observation.js";
 
 type Point = FreshReferencePointNm;
 type Obj = Record<string, unknown>;
@@ -136,9 +137,15 @@ function id(form: Form): string {
 }
 
 function collectBores(source: string, saved: SavedFreshPlaneEvidence) {
+  return collectQualifiedPcbBores(source, saved.stage.nativePads);
+}
+
+/** Complete geometry extraction only. The caller must authenticate the current
+ * native observation; this helper does not mint fill or native-read authority. */
+export function collectQualifiedPcbBores(source: string, nativePads: Pick<KicadNativePadObservation,"inventory"|"rawSnapshot">) {
   const board = parseFreshPcbSource(source), root = forms(source), routes = parseFreshPcbRouteSourceSpans(source);
-  const inventory = saved.stage.nativePads.inventory; check(inventory !== null, "Complete staged native PAD inventory is unavailable");
-  const rawPads = array(saved.stage.nativePads.rawSnapshot.padRecords, "Native PAD records").map(value => obj(value, "native PAD"));
+  const inventory = nativePads.inventory; check(inventory !== null, "Complete staged native PAD inventory is unavailable");
+  const rawPads = array(nativePads.rawSnapshot.padRecords, "Native PAD records").map(value => obj(value, "native PAD"));
   const nativeById = new Map(rawPads.map(raw => [String(obj(raw.id, "native PAD ID").value), raw]));
   const sourcePads = board.footprints.flatMap(fp => fp.pads), sourceIds = sourcePads.map(p => p.physical.id);
   check(sourceIds.every((id): id is string => id !== null) && nativeById.size === rawPads.length && rawPads.length === sourcePads.length

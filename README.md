@@ -4,11 +4,13 @@ EvlEDA is a local KiCad MCP toolbox and PCB-design skill for agents working in c
 
 Start with the [toolbox guide](docs/toolbox.md), [client setup](docs/toolbox-client-setup.md), and [current status](docs/current-status-and-roadmap.md). The [PCB skill](skills/evleda-pcb/SKILL.md) supplies the engineering workflow; it does not itself supply CAD access.
 
-The [RP2350 R2 candidate](designs/rp2350-pico/native-r2-spacing/README.md)
+The [RP2350 R3 candidate](designs/rp2350-pico/native-r3-trace/README.md)
 includes the routed 22 x 60 mm four-layer board, schematic, portable library,
-previews, pinout and candidate BOM. All 67 nets connect and configured ERC/DRC
-are clean. R2 corrects the crystal-block courtyard gap; all 62 placement checks
-pass. Native save, normal close and fresh read-only reopening are verified.
+previews, pinout and candidate BOM. All 67 nets connect; configured ERC/DRC
+and portable schematic parity are clean. R3 removes a redundant 3V3 trace loop
+without moving parts or vias. The new topology checker verifies 64 routed nets;
+two crystal-net pad shapes remain unsupported. All 62 placement checks pass.
+Native save, normal close and fresh read-only reopening are verified.
 Engineering acceptance remains incomplete, including USB startup and other
 electrical requirements described with the candidate.
 

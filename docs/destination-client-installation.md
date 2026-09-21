@@ -1,8 +1,12 @@
 # Destination client installation
 
-Current: **host62 on D:, unchanged DOC17/v4 profile and updated PCB skill** are installed after [complete-source artifact qualification](../proofs/artifact-checks-20260921/README.md). The full native assessment verifies 495 rows with 79 unknown and no failed rows; accepted remains false. Actual read-only collection and fresh refill/save both preserve all six board sources and close normally. The scoped route reader remains available. A fresh actual Codex client sees 19 initial tools. D: must remain mounted; already-connected desktop activation is unestablished.
+Current: **host63 on D:, unchanged DOC17/v4 profile and matching PCB skill** are installed after [native trace-topology qualification](../proofs/trace-topology-20260921/README.md). The R3 assessment has 559 passed rows, 15 unknown and no failures; accepted remains false. The normal saved-project edit removed nine redundant 3V3 tracks; the earlier R2 package and exact pre-edit snapshot remain preserved. Normal close and fresh read-only reopen verify unchanged final sources and top preview. A fresh actual Codex client sees 19 initial tools. D: must remain mounted; already-connected desktop activation is unestablished.
 
 ## Preserved installation history
+
+Current: **host62 on D:, unchanged DOC17/v4 profile and updated PCB skill** are installed after [complete-source artifact qualification](../proofs/artifact-checks-20260921/README.md). The full native assessment verifies 495 rows with 79 unknown and no failed rows; accepted remains false. Actual read-only collection and fresh refill/save both preserve all six board sources and close normally. The scoped route reader remains available. A fresh actual Codex client sees 19 initial tools. D: must remain mounted; already-connected desktop activation is unestablished.
+
+
 
 Current: **host61 on D:, unchanged DOC17/v4 profile and updated PCB skill** are installed after [native scoped-route qualification](../proofs/route-net-feedback-20260921/README.md). The existing reader can return one exact net while retaining complete private source/native checks. RP2350 GND returns all 171 items in one call (48.8 observed seconds); XTAL_OUT returns all 7 items in one call. The board's six files remain unchanged through read-only resume and normal close. A fresh actual Codex client sees 19 initial tools. D: must remain mounted; already-connected desktop activation is unestablished. Engineering acceptance is unchanged.
 

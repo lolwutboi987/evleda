@@ -1,0 +1,84 @@
+{
+  "projectId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "sameManagedProject": true,
+  "priorCandidate": "../native-r2-spacing",
+  "before": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "b5206f5db12ea972b5fd87f2dc0071065363a6816e834cb38522f661472219e1",
+      "size": 634179
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "9b8a24f7f7a48985831ea6ba53a2c37dc936b1977ecaab4144ba69b14b177938",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "after": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "c792cd75d446b02db5162b1ed4741d496318da8398b1d5549bdec4c22eec37d9",
+      "size": 632423
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "9b8a24f7f7a48985831ea6ba53a2c37dc936b1977ecaab4144ba69b14b177938",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "change": {
+    "before": {
+      "algorithm": "sha256",
+      "digest": "b5206f5db12ea972b5fd87f2dc0071065363a6816e834cb38522f661472219e1",
+      "size": 634179
+    },
+    "after": {
+      "algorithm": "sha256",
+      "digest": "b7df91e8b5c00ab0ca06c23c895aad1d2b1b9d6797327a888d00635bb3e1a2bd",
+      "size": 632774
+    },
+    "removedIds": [
+      "05ff719a-de33-4e81-9217-36c5f6538286",
+      "28b11ce6-c08d-47fb-b022-6b3ae6a61fcc",
+      "3a8465a4-6fdd-49b2-bf5d-0824862e31b4",
+      "467b5457-b4ab-4435-bb15-20d9501361b1",
+      "476d4a2f-8c52-415b-ad98-45a54838a415",
+      "5198219c-dc0c-46e7-a756-2ef5f17be7c4",
+      "b69b8c80-2da0-4631-8317-3a36fc2d91b3",
+      "cb1db19b-315a-4f2a-8697-fdc508d8948f",
+      "dfdf7b3a-b69b-4c36-9c61-ac34190c73a1"
+    ],
+    "onlyNineTracksRemoved": true,
+    "allViasAndFootprintsPreserved": true,
+    "remainingTracks": 1089
+  },
+  "scope": "Nine redundant 3V3 In2.Cu tracks removed through qualified public route replacement. No new copper, component moves, via changes or rule changes. The historical R2 package and exact pre-edit snapshot remain preserved."
+}

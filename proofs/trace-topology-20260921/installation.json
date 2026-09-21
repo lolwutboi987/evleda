@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-09-21T15:17:29.578Z",
+  "host": 63,
+  "runtime": "DOC17",
+  "hostReleaseSha256": "5a1166e7fb5a6a3e6a23f80305a05f5e5894b472298b3e2480e4187ab442a9a2",
+  "backup": "C:/Users/kidch/.codex/backups/evleda-host63-feb8cf51-56dc-4730-916e-5aecbbca03c6",
+  "configuration": {
+    "beforeSha256": "14484d4acbd4294cb53ef52f7159e00f5283af2c90d61bba98be738098f8a286",
+    "afterSha256": "44826852ddc8c4c3e6c35c67359a52c9fdc82e20a7145ff7eb95ed33ff773cdf",
+    "unrelatedRawBytesPreserved": true
+  },
+  "skill": {
+    "beforeSha256": "079171123f7d238ecb7204ff8e0644b06441a89e786b994afe5a1047bfa118a4",
+    "afterSha256": "3ce9cebc78bdb28cc4338b834a7814eb656c20de84aacbfac16a5774cfdc394f",
+    "matchesFrozenSource": true
+  },
+  "postEditSourceStable": true,
+  "readOnlyQualification": true,
+  "freshFillQualification": true,
+  "initialToolsExpected": 19,
+  "runningDesktopActivation": "not-established"
+}

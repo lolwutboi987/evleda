@@ -1,0 +1,22 @@
+{
+  "sourcePass": 63,
+  "sourceFail": 1,
+  "sourceUnknown": 2,
+  "unsupportedNets": [
+    {
+      "net": "XIN",
+      "reasons": [
+        "Plane trace topology: sub-nanometre roundrect radius is not supported by the complete contact model",
+        "Current qualified native clearances are required before a physical trace-topology row can pass."
+      ]
+    },
+    {
+      "net": "XTAL_OUT",
+      "reasons": [
+        "Plane trace topology: sub-nanometre roundrect radius is not supported by the complete contact model",
+        "Current qualified native clearances are required before a physical trace-topology row can pass."
+      ]
+    }
+  ],
+  "scope": "Live native crystal-pad rounding ratios are unsupported. Retain unknown; do not substitute historical geometry replay."
+}

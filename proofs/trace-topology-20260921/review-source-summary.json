@@ -1,0 +1,19 @@
+{
+  "scope": "Unmanaged native review and retained-geometry replay only; not current managed authority.",
+  "counts": {
+    "tracks": 1089,
+    "vias": 118,
+    "footprints": 66,
+    "zones": 2
+  },
+  "measuredTurns": 876,
+  "turnViolations": 0,
+  "genericJunctionNotices": 6,
+  "ownPadLeads": 42,
+  "serviceStripFindings": 0,
+  "sourceTopology": {
+    "nets": 66,
+    "passed": 66
+  },
+  "layoutOrRulesWaived": false
+}

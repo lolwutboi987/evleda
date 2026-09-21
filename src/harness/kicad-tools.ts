@@ -23,6 +23,7 @@ import { materializeChannelTrackWidth } from "./pcb-channel-width.js";
 import { pcbRouteLayerMatchesPreference } from "./pcb-copper-layers.js";
 import { verifyFreshExternalPowerSource, type FreshExternalPowerPlacement, type FreshExternalPowerSourcePlacement, type FreshExternalPowerGroup } from "./fresh-external-power.js";
 import { assessFreshPlaneComponentArtifacts, freshPlaneArtifactNetlistScope, freshPlaneArtifactSourceIdentities, type FreshPlaneArtifactSources } from "./fresh-plane-artifact-checks.js";
+import { assessFreshPlaneTraceTopology } from "./fresh-plane-trace-topology.js";
 
 import {
   harnessToolCallSchema,
@@ -368,7 +369,7 @@ function syncDiagnosticText(text: string | undefined, reason: string): FreshSync
 
 export interface KicadHarnessToolsOptions {
   readonly assessFreshPlaneEvidence?: (input: Pick<FreshPlaneAcceptanceInput,
-    "compilationBundle" | "pcbSource" | "projectSettingsSource" | "rulesSource" | "savedEvidence" | "endpointConnectivity" | "transmissionLine" | "artifactChecks" | "artifactSourceIdentities">
+    "compilationBundle" | "pcbSource" | "projectSettingsSource" | "rulesSource" | "savedEvidence" | "endpointConnectivity" | "transmissionLine" | "artifactChecks" | "artifactSourceIdentities" | "traceTopologyChecks">
     & { readonly pcbPath: string; readonly projectBindingIdentity: CanonicalIdentity; readonly sourceScopeIdentity: CanonicalIdentity }) => Promise<FreshPlaneAcceptanceAssessment>;
   /** Host-private bounded provenance; callback failures never mask the first native fault. */
   readonly observeFreshRouteMutationDiagnostic?:(diagnostic:FreshRouteMutationDiagnostic)=>void|Promise<void>;
@@ -3606,7 +3607,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       const prepared=prepareFreshPlaneConnectivity(input);
       const observation=await collectKicadNativePadObservation({readLivePcbPadSnapshot:ids=>this.#session.readLivePcbPadSnapshot!(ids)},prepared.nativePadExpected);
       const endpointConnectivity=assessFreshPlaneConnectivity({...input,nativePads:observation});
-      let artifactFields: Pick<FreshPlaneAcceptanceInput, "artifactChecks" | "artifactSourceIdentities"> = {};
+      let artifactFields: Pick<FreshPlaneAcceptanceInput, "artifactChecks" | "artifactSourceIdentities" | "traceTopologyChecks"> = {};
       if (collectArtifacts) {
         if (nativeNetlistSource === undefined || nativeTerminalBinding === undefined || compoundSources === undefined) throw new Error("Artifact assessment requires the complete current native export and source guard.");
         const [symbolLibraryTable, footprintLibraryTable] = await Promise.all(["sym-lib-table", "fp-lib-table"].map(name => readFile(path.join(this.#freshProject!.projectPath,name),"utf8")));
@@ -3623,7 +3624,8 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
         const artifact = assessFreshPlaneComponentArtifacts({ connectivity: input, sources, nativePads: observation, nativeNetlistSource, nativeNetlistBinding,
           libraryResolver: this.#freshLibraryResolver!, schematicLibraryResolver: this.#freshSchematicGeometryResolver!,
           ...(compoundSources.auxiliaryConnectivity === undefined ? {} : { auxiliaryConnectivity: compoundSources.auxiliaryConnectivity }) });
-        artifactFields = { artifactChecks: [artifact], artifactSourceIdentities: sourceIdentities };
+        const traceTopologyChecks=assessFreshPlaneTraceTopology({connectivity:input,nativePads:observation,endpoints:endpointConnectivity});
+        artifactFields = { artifactChecks: [artifact], artifactSourceIdentities: sourceIdentities, traceTopologyChecks };
       }
       const result=await operation({compilationBundle:this.#freshPlaneCompilationBundle,pcbPath:this.#freshProject.pcbPath,
         projectBindingIdentity:before.projectBindingIdentity,sourceScopeIdentity:physicalExpected.scopeIdentity,

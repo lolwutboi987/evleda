@@ -19,7 +19,7 @@ const layer = (s: string) => s === "BL_F_Cu" ? "F.Cu" : s === "BL_B_Cu" ? "B.Cu"
 export function collectTerminalCopperSource(input: {
   readonly pcbSource: string; readonly inventory: PadInventory; readonly net: string;
   readonly eligiblePadUuids: readonly string[]; readonly copperLayers: readonly string[];
-  readonly bores: readonly FreshPlaneDrillBore[];
+  readonly bores: readonly Pick<FreshPlaneDrillBore,"uuid">[];
 }): { pads: TerminalCopperPad[]; vias: TerminalCopperVia[]; tracks: TerminalCopperTrack[] } {
   const bridge = collectPlaneBridgeSource(input.pcbSource, input.inventory);
   check(input.bores.length === bridge.boreCount && new Set(input.bores.map(b => b.uuid)).size === input.bores.length

@@ -1,0 +1,85 @@
+{
+  "scope": "Portable delivery-copy qualification. The four design files remain byte-exact; two library tables only receive the recorded URI transformation. This does not establish managed authoring, normal close, electrical acceptance or fabrication approval.",
+  "sourceDirectory": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-rp2350-four-layer-01\\workspace\\projects\\0474c726-1b0c-492b-b376-9c6a06ee9d72\\output\\project",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "9b8a24f7f7a48985831ea6ba53a2c37dc936b1977ecaab4144ba69b14b177938",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "c792cd75d446b02db5162b1ed4741d496318da8398b1d5549bdec4c22eec37d9",
+      "size": 632423
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "portablePins": {
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "9b8a24f7f7a48985831ea6ba53a2c37dc936b1977ecaab4144ba69b14b177938",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "c792cd75d446b02db5162b1ed4741d496318da8398b1d5549bdec4c22eec37d9",
+      "size": 632423
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "dc36fc63e32c2e61884295d427ed76f1e57526c3c9b14f1953c8fde0a10dbbc3",
+      "size": 1947
+    },
+    "sym-lib-table": {
+      "sha256": "2c87f80689f8360eb583a5f858bbe0e1fb78916a0b82753bc2906bbb0125b289",
+      "size": 1197
+    }
+  },
+  "transforms": [
+    {
+      "file": "fp-lib-table",
+      "operation": "Replace only custom-library URI prefix",
+      "before": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4",
+      "after": "${KIPRJMOD}/library",
+      "beforeSha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "afterSha256": "dc36fc63e32c2e61884295d427ed76f1e57526c3c9b14f1953c8fde0a10dbbc3"
+    },
+    {
+      "file": "sym-lib-table",
+      "operation": "Replace only custom-library URI prefix",
+      "before": "C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda/resources/pcb-libraries/rp2350-pico/v4",
+      "after": "${KIPRJMOD}/library",
+      "beforeSha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "afterSha256": "2c87f80689f8360eb583a5f858bbe0e1fb78916a0b82753bc2906bbb0125b289"
+    }
+  ],
+  "checks": [
+    {
+      "kind": "drc",
+      "exitCode": 0
+    },
+    {
+      "kind": "erc",
+      "exitCode": 0
+    }
+  ],
+  "sourceUnchanged": true
+}

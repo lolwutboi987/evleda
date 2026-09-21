@@ -9,6 +9,7 @@ import { sanitizePcbDiagnosticText, summarizeSavedInterface } from "./toolbox-in
 import { summarizeTerminalCopperConnectivity } from "./toolbox-terminal-copper.js";
 import { summarizePlanePlacementChecks } from "./toolbox-placement-checks.js";
 import { summarizePlaneArtifactChecks } from "./toolbox-artifact-checks.js";
+import { summarizePlaneTraceTopology } from "./toolbox-trace-topology.js";
 
 const ASSESSMENT_VERSION = "evleda.fresh-plane-acceptance.v1";
 const MAX_BYTES = 16 * 1024 * 1024;
@@ -461,6 +462,8 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
     nativeChecks: nativeChecks(assessment),
     commonChecks: common?.summary ?? null,
     ...(assessment.evidence.placementChecks === undefined ? {} : { placementChecks: summarizePlanePlacementChecks(assessment.evidence.placementChecks, assessment.rows) }),
+    ...(assessment.evidence.traceTopologyChecks===undefined?{}:{traceTopologyChecks:summarizePlaneTraceTopology(assessment.evidence.traceTopologyChecks,assessment.rows,
+      assessment.savedEvidenceIdentity!==null&&assessment.evidence.nativeChecks?.checks.drcClearanceShorts.status==='verified')}),
     ...(assessment.evidence.artifactChecks === undefined ? {} : { artifactChecks: assessment.evidence.artifactChecks.map(value => summarizePlaneArtifactChecks(value, assessment.rows,
       assessment.savedEvidenceIdentity !== null && assessment.evidence.nativeChecks?.checks.drcClearanceShorts.status === "verified")) }),
     ...(interfaces === undefined ? {} : { interfaces }),

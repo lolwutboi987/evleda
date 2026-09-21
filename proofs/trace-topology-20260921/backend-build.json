@@ -1,0 +1,86 @@
+{
+  "host": 63,
+  "releaseSha256": "5a1166e7fb5a6a3e6a23f80305a05f5e5894b472298b3e2480e4187ab442a9a2",
+  "checks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\trace-topology-01\\host63-build-manifest.json",
+    "sha256": "6f06ea18bf3ba3445cb82162f3f6c2dcf3560d04e58ee475e34c4d605c013829",
+    "sizeBytes": 834374
+  },
+  "sourcePins": [
+    {
+      "file": "src/harness/trace-copper-geometry.ts",
+      "sha256": "2ad0cbcc76a4f74eb8a0f697816a87cc6bd3a41ad35aee1243b9b5b5cb534902",
+      "sizeBytes": 8344
+    },
+    {
+      "file": "src/harness/trace-copper-topology.ts",
+      "sha256": "c23ada16bc307e541d78087a466ccdc0325b5ccc3ef54305f1a9a28373973b81",
+      "sizeBytes": 16732
+    },
+    {
+      "file": "src/harness/fresh-plane-trace-topology.ts",
+      "sha256": "9315c29c98a805e884c197e47c733225dda2ac61837b90474a2829a0059d1c58",
+      "sizeBytes": 6577
+    },
+    {
+      "file": "src/harness/fresh-plane-drill-topology.ts",
+      "sha256": "fca9de1e11880a0490ed56cd1baafc0e09f7ae9fba65f305fc1bec0f67084c9a",
+      "sizeBytes": 35241
+    },
+    {
+      "file": "src/harness/plane-terminal-copper-source.ts",
+      "sha256": "721cfcbeb45bda76b82c166bda5a79dd1bdbfa72590ce21d6ca860867f7536f1",
+      "sizeBytes": 5222
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "490d8ee1c1d0672a57a59e018fd521af108a5b8a672e0faa0f4a4a8c8a33b887",
+      "sizeBytes": 82067
+    },
+    {
+      "file": "src/harness/kicad-tools.ts",
+      "sha256": "a4e64e6e7c84497d5785eea38eaef4b8175b622f0f2a5228632afb49901aa8d3",
+      "sizeBytes": 496192
+    },
+    {
+      "file": "src/mcp/toolbox-trace-topology.ts",
+      "sha256": "49e4bc080fc3239a85e9cb5eb7ddd9e3bf17347e04609aa103123db3ab1e0ed5",
+      "sizeBytes": 9195
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "05d2986401463c10134a4411e6f0b9f8be4f4bc928f675e91f14e924d878e23c",
+      "sizeBytes": 52247
+    },
+    {
+      "file": "tests/unit/trace-copper-topology.test.ts",
+      "sha256": "7c8d0a1278a0e45ffbda19dd29b642d58e931fa477addf27f9735c4cdeee8123",
+      "sizeBytes": 6710
+    },
+    {
+      "file": "tests/unit/fresh-plane-artifact-checks.test.ts",
+      "sha256": "fd4b680a1d34625bfaae193670cc70793ad448842124bd01e206e5197f7d35ad",
+      "sizeBytes": 14643
+    },
+    {
+      "file": "docs/toolbox-trace-topology.md",
+      "sha256": "c1519596612fb7263eafb977315817d393459b3ef77b331f6c84c63fd1f779d6",
+      "sizeBytes": 2335
+    },
+    {
+      "file": "skills/evleda-pcb/SKILL.md",
+      "sha256": "3ce9cebc78bdb28cc4338b834a7814eb656c20de84aacbfac16a5774cfdc394f",
+      "sizeBytes": 46269
+    }
+  ]
+}

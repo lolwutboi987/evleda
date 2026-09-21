@@ -1,0 +1,60 @@
+{
+  "targetId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "sourceId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "sourcePcbIdentity": {
+    "algorithm": "sha256",
+    "digest": "c792cd75d446b02db5162b1ed4741d496318da8398b1d5549bdec4c22eec37d9",
+    "size": 632423
+  },
+  "counts": {
+    "pass": 559,
+    "unknown": 15
+  },
+  "qualified": true,
+  "accepted": false,
+  "tracks": 1089,
+  "vias": 118,
+  "nativeDrc": "clean",
+  "endpointConnectivity": "connected",
+  "normalClose": true,
+  "projectId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "mode": "edit",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "c792cd75d446b02db5162b1ed4741d496318da8398b1d5549bdec4c22eec37d9",
+      "size": 632423
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "9b8a24f7f7a48985831ea6ba53a2c37dc936b1977ecaab4144ba69b14b177938",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "originalRevisionSnapshotPreserved": true,
+  "sameManagedProject": true,
+  "previews": [
+    {
+      "view": "top",
+      "pngSha256": "6af1c4f20c2db74fd0263ad5cebeee71fe4d37ab3b4e39e2c4c05394fefedf97"
+    },
+    {
+      "view": "assembly",
+      "pngSha256": "16d2cdf2ea2389b4766a4ca68de0038b6832f3bc566dff4768264acd0ff9f27a"
+    }
+  ]
+}
