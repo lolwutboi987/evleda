@@ -1,0 +1,66 @@
+{
+  "recordedAt": "2026-09-21T09:15:53.001Z",
+  "pins": [
+    {
+      "file": "src/harness/reference-capsule-containment.ts",
+      "sha256": "ec297345c4f2284a368c16d3a792657c1928d7e9606bcd843797987bf0504bb9",
+      "sizeBytes": 5486
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "7d476e18c46de283792f5a6ba2af8d38f9e7616b5cd5d6a353c2baf693299226",
+      "sizeBytes": 75496
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "1090198ad1d399f71edfab8e9a7a5c2ccd2a754fdf7e71a517119ec58bbc0cc1",
+      "sizeBytes": 51222
+    },
+    {
+      "file": "tests/unit/reference-capsule-containment.test.ts",
+      "sha256": "656b74ee60d391af18d0b2486aba0fa401cb24887cffa7e5b3a88293a2232c85",
+      "sizeBytes": 3879
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "85246b2fb5e5675173be9f79f4ea8984d12a04b9174572122edd5306d853241e",
+      "sizeBytes": 87987
+    }
+  ],
+  "tests": {
+    "files": [
+      "reference-capsule-containment.test.ts",
+      "fresh-plane-acceptance.test.ts",
+      "toolbox-plane-acceptance.test.ts"
+    ],
+    "command": "pnpm exec vitest run [three affected test files] --maxWorkers=1",
+    "exitCode": 0,
+    "passed": 133,
+    "skipped": 0,
+    "log": {
+      "sha256": "4fc8734a8257ce87c12cbed3f7b2307f16aff34d89eeb858f46b7deb2b9a1864",
+      "sizeBytes": 249
+    }
+  },
+  "sourceTypecheck": {
+    "command": "pnpm exec tsc --noEmit -p tsconfig.json",
+    "exitCode": 0,
+    "heapCapMiB": 2048
+  },
+  "uiTypecheck": {
+    "command": "pnpm exec tsc --noEmit -p ui/tsconfig.json",
+    "exitCode": 0,
+    "heapCapMiB": 2048
+  },
+  "memoryBeforeSourceTypecheck": {
+    "headroomBytes": 5201117184,
+    "availableMiB": 5669
+  },
+  "historicalHost58PublicProjectionUnchanged": true,
+  "historicalPublicReportSha256": "5fc62af4397a2c146c013251642ceeb26a5b8cf1486fb2ffc56f12d8f2e07bd8",
+  "fullSuiteRun": false,
+  "nativeQualificationPerformed": false,
+  "installedHostChanged": false,
+  "boardChanged": false,
+  "userApplicationsLeftOpen": true
+}

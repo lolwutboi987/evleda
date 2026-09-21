@@ -307,6 +307,57 @@ const boreCases: Array<{ name: string; route: { start: NmPoint; end: NmPoint }; 
 ];
 
 describe("pure current-source V2 plane acceptance", () => {
+  it.each(["covered", "boundary_uncertain"] as const)("completes a %s reference result only with actual ground-terminal copper paths", async status => {
+    const f = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: true, viaNet: "GND" });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator(status) });
+    const reference = result.references.find(r => r.net === "VIN")!;
+    expect(reference.geometricStatus).toBe(status);
+    expect(reference.resolvedGeometricStatus).toBe("covered");
+    expect(reference.referenceCopperConnectivity!.status).toBe("verified");
+    expect(reference.referenceCopperConnectivity!.physicalPadUuids.length).toBeGreaterThan(0);
+    expect(row(result, "reference:VIN").status).toBe("pass");
+    expect(row(result, "plane-fill:GND_PLANE").status).toBe("unknown");
+    if (status === "boundary_uncertain") {
+      expect(reference.capsuleRefinement!.result).toMatchObject({ allRoutesContained: true, drillsIncluded: false, terminalConnectivityClaimed: false });
+      expect((reference.calculation as Raw).routes[0].status).toBe("boundary_uncertain");
+    } else expect(reference.capsuleRefinement).toBeUndefined();
+    const publicReference = summarizePlaneAcceptance(result).references.find(r => r.net === "VIN")!;
+    expect(publicReference.geometricStatus).toBe(status);
+    expect(publicReference.resolvedGeometricStatus).toBe("covered");
+    expect(publicReference.referenceCopperConnectivity!.status).toBe("verified");
+    expect(result.accepted).toBe(false); expect(result.fabricationAuthorized).toBe(false);
+  });
+  it("preserves exact reference tangency and an original uncovered result after ground paths pass", async () => {
+    const f = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: true, viaNet: "GND",
+      routeNm: { start: [3_000_000, 1_250_000], end: [8_000_000, 1_250_000] } });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator("boundary_uncertain") });
+    const reference = result.references.find(r => r.net === "VIN")!;
+    expect(reference.referenceCopperConnectivity!.status).toBe("verified");
+    expect(reference.capsuleRefinement!.result!.allRoutesContained).toBe(false);
+    expect(reference.capsuleRefinement!.result!.routes[0]!.boundaryRelation).toBe("tangent");
+    expect(reference.resolvedGeometricStatus).toBe("boundary_uncertain"); expect(row(result, "reference:VIN").status).toBe("unknown");
+    expect(summarizePlaneAcceptance(result).references[0]!.resolvedGeometricStatus).toBe("boundary_uncertain");
+    const clear = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: true, viaNet: "GND" });
+    const uncovered = await assessFreshPlaneAcceptance({ ...clear.input, nativeChecks: clear.nativeChecks, referenceCoverage: await calculator("uncovered") });
+    expect(uncovered.references[0]!.referenceCopperConnectivity!.status).toBe("verified");
+    expect(uncovered.references[0]!.capsuleRefinement).toBeUndefined();
+    expect(row(uncovered, "reference:VIN").status).toBe("fail");
+  });
+  it("does not publish a reference success with missing paths or a changed exact-refinement scope", async () => {
+    const f = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: true, viaNet: "GND" });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator("boundary_uncertain") });
+    for (const change of ["pad", "missing-refinement", "route", "margin", "component", "claims", "original-failure"] as const) {
+      const bad: Raw = structuredClone(result), reference = bad.references.find((r: Raw) => r.net === "VIN");
+      if (change === "pad") reference.referenceCopperConnectivity.physicalPadUuids = [U(999)];
+      if (change === "missing-refinement") delete reference.capsuleRefinement;
+      if (change === "route") reference.capsuleRefinement.result.routes = [];
+      if (change === "margin") reference.capsuleRefinement.result.marginNm--;
+      if (change === "component") reference.capsuleRefinement.result.nativePolygonIndex++;
+      if (change === "claims") reference.capsuleRefinement.result.highFrequencyValidityClaimed = true;
+      if (change === "original-failure") reference.geometricStatus = "uncovered";
+      expect(() => summarizePlaneAcceptance(bad as Awaited<ReturnType<typeof assessFreshPlaneAcceptance>>)).toThrow();
+    }
+  });
   it("completes only the plane-net row when every physical terminal has an actual drilled-copper path", async () => {
     const f = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: false }), result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks });
     expect(result.planes[0]!.terminalCopperConnectivity, JSON.stringify(result.planes[0]!.terminalCopperConnectivity?.reasons)).toMatchObject({ status: "verified", calculation: { allTerminalsWitnessed: true } });
@@ -391,14 +442,16 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(summarizePlaneAcceptance(result).rows.find(check => check.id === "interface-construction")!.status).toBe("fail");
   });
 
-  it("requires both current reference ribbons before the complete interface geometry row can pass", async () => {
-    const compilationBundle = interfaceConstructionBundle(), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
+  it("requires both current reference ribbons and ground-terminal copper before the complete interface geometry row can pass", async () => {
+    const compilationBundle = interfaceConstructionBundle(), f = await ercFixture("clean", { compilationBundle, pcbSource: interfaceBoard(compilationBundle), retainedPadLayers: true });
     const missingFill = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
     expect(row(missingFill, "interface-geometry:LINK").status).toBe("unknown");
     const missingCalculator = await assessFreshPlaneAcceptance(f.input);
     expect(row(missingCalculator, "interface-geometry:LINK").status).toBe("unknown");
     const requests: ReferenceCoverageRequest[] = [];
-    const covered = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered", requests) });
+    const onlyNative = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+    expect(row(onlyNative, "interface-geometry:LINK").status).toBe("unknown");
+    const covered = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator("covered", requests) });
     expect(covered.evidence.interfaces![0]!.sourceInventory.reasons).toEqual([]);
     expect(covered.references).toHaveLength(2); expect(requests).toHaveLength(2);
     expect(covered.references.every(reference => reference.status === "verified" && reference.geometricStatus === "covered")).toBe(true);
@@ -406,8 +459,10 @@ describe("pure current-source V2 plane acceptance", () => {
     expect(row(covered, "interface-geometry:LINK").status).toBe("pass");
     expect(row(covered, "interface-termination:LINK").status).toBe("pass");
     expect(covered.rows.map(check => check.id)).toEqual(compilationBundle.verificationPlan.requirements.map(check => check.id));
-    expect(row(covered, "plane-net:GND").status).toBe("unknown");
-    expect(row(covered, "reference:DP").status).toBe("unknown");
+    expect(row(covered, "plane-net:GND").status).toBe("pass");
+    expect(row(covered, "reference:DP").status).toBe("pass");
+    expect(row(covered, "reference:DN").status).toBe("pass");
+    expect(summarizePlaneAcceptance(covered).interfaces![0]!.acceptance.referenceCoverage.status).toBe("verified");
     expect(covered.accepted).toBe(false); expect(covered.fabricationAuthorized).toBe(false);
     const uncovered = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("uncovered") });
     expect(row(uncovered, "interface-geometry:LINK").status).toBe("fail");
@@ -429,8 +484,8 @@ describe("pure current-source V2 plane acceptance", () => {
     const draft = interfaceConstructionDraft(), pair = draft.interfaceRequirements.interfaces[0];
     for (const [side, componentReference] of [["source", "J1"], ["receiver", "J2"]] as const)
       pair.terminations[side] = { kind: "integrated", componentReference, positivePin: "1", negativePin: "2", source: pair.source };
-    const compilationBundle = interfaceConstructionBundle(draft), f = await fixture({ compilationBundle, pcbSource: interfaceBoard(compilationBundle) });
-    const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+    const compilationBundle = interfaceConstructionBundle(draft), f = await ercFixture("clean", { compilationBundle, pcbSource: interfaceBoard(compilationBundle), retainedPadLayers: true });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator("covered") });
     expect(result.evidence.interfaces![0]!.geometry!.terminationAnchors).toEqual([]);
     expect(row(result, "interface-topology:LINK").status).toBe("pass");
     expect(row(result, "interface-termination:LINK").status).toBe("pass");
@@ -455,8 +510,8 @@ describe("pure current-source V2 plane acceptance", () => {
         resistanceOhms: 100, maximumDistanceToEndpointMm: 0.5, source: pair.source };
       const compilationBundle = interfaceConstructionBundle(draft);
       const pcbSource = interfaceBoard(compilationBundle).replace("(at 13 3)", `(at ${terminationXmm} 3)`);
-      const f = await fixture({ compilationBundle, pcbSource });
-      const result = await assessFreshPlaneAcceptance({ ...f.input, referenceCoverage: await calculator("covered") });
+      const f = await ercFixture("clean", { compilationBundle, pcbSource, retainedPadLayers: true });
+      const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator("covered") });
       const saved = result.evidence.interfaces![0]!, projected = summarizePlaneAcceptance(result);
       expect(saved.terminations.resistanceVerification).toBe("caller_assertion_only");
       expect(saved.terminations.assertedResistanceOhms).toEqual([{ side: "receiver", value: 100 }]);

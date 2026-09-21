@@ -2,6 +2,7 @@ import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canon
 import { collectPlaneBridgeSource } from "./plane-region-bridge-source.js";
 import { collectTerminalCopperSource } from "./plane-terminal-copper-source.js";
 import { findTerminalCopperPaths, type TerminalCopperPathCalculation } from "./plane-terminal-copper-paths.js";
+import { proveReferenceCapsuleContainment, type ReferenceCapsuleContainment } from "./reference-capsule-containment.js";
 import { boreRibbonRelation } from "./plane-bore-geometry.js";
 import { planReferenceTerminalLaunchStudy, ReferenceTerminalLaunchPlanningError } from "./reference-terminal-launch-study.js";
 import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
@@ -152,6 +153,9 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
   const references: Array<{ net: string; planeId: string; status: Status; reasons: readonly string[]; segmentIds: readonly string[];
     marginNm: number; geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed";
     referenceTerminals: Fact; intersectingBoreUuids:readonly string[];tangentBoreUuids:readonly string[];calculation: unknown;
+    referenceCopperConnectivity?: Fact & { physicalPadUuids: readonly string[] };
+    resolvedGeometricStatus?: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed";
+    capsuleRefinement?: { result: ReferenceCapsuleContainment | null; reasons: readonly string[] };
     terminalLaunches?: readonly (Fact & { requirementId: string; geometry: ReturnType<typeof planReferenceTerminalLaunchStudy>["launches"][number] | null; foreignBoreUuids: readonly string[] })[] }> = [];
   let authority = fact("unknown", missing), sourceScope = fact("unknown", missing), nativeInventory = fact("unknown", "Current authenticated native contacts are unavailable.");
   let commonChecks: FreshPlaneCommonChecksAssessment | null = null;
@@ -201,8 +205,12 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         if (observed.length !== 1) return fact("unknown", `Current saved-fill reference coverage is unavailable for interface member ${net}.`);
         const reference = observed[0]!; referenceRowIds.push(`reference:${net}`);
         if (reference.status === "failed" || reference.geometricStatus === "uncovered") return fact("failed", ...reference.reasons);
-        return reference.status === "verified" && reference.geometricStatus === "covered" && authority.status === "verified"
-          ? fact("verified", ...reference.reasons) : fact("unknown", ...reference.reasons);
+        const completeRow = rows.find(row => row.id === `reference:${net}`);
+        if (completeRow?.status === "fail") return fact("failed", ...completeRow.reasons);
+        return reference.status === "verified" && (reference.resolvedGeometricStatus ?? reference.geometricStatus) === "covered"
+          && completeRow?.status === "pass" && authority.status === "verified"
+          ? fact("verified", ...reference.reasons, ...completeRow.reasons)
+          : fact("unknown", ...reference.reasons, "The complete geometric reference row, including its physical ground-terminal paths, has not passed.");
       })), planeId: pair.routing.referencePlaneId, memberNets, referenceRowIds };
       const sourceGeometry = allFacts([topology, ...(["width", "minimumGap", "coupledGap", "length", "skew", "uncoupled"] as const).map(geometryCheck)]);
       const pairGeometry = allFacts([sourceGeometry, referenceCoverage]);
@@ -563,10 +571,23 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const net = endpoint.nets.find(net => net.net === route.net);
     const planeNet = bundle.contract.planes.find(p => p.id === ref.planeId)!.net, ground = endpoint.nets.find(net => net.net === planeNet);
     const terminalsOk = net?.status === "connected" && net.everyEligiblePhysicalMemberReachable && plane.intendedPlaneConnectivity.status === "verified"
-      && ref.terminalReferences.every(terminal => net.endpoints.some(endpoint => endpoint.reference === terminal.signalEndpoint.reference && endpoint.pin === terminal.signalEndpoint.pin)
-        && ground?.endpoints.some(endpoint => endpoint.reference === terminal.referenceEndpoint.reference && endpoint.pin === terminal.referenceEndpoint.pin && endpoint.eligiblePhysicalPadUuids.length === endpoint.physicalPadUuids.length));
+      && ref.terminalReferences.every(terminal => net.endpoints.some(endpoint => endpoint.reference === terminal.signalEndpoint.reference && endpoint.pin === terminal.signalEndpoint.pin
+          && endpoint.eligiblePhysicalPadUuids.length > 0 && endpoint.eligiblePhysicalPadUuids.length === endpoint.physicalPadUuids.length)
+        && ground?.endpoints.some(endpoint => endpoint.reference === terminal.referenceEndpoint.reference && endpoint.pin === terminal.referenceEndpoint.pin
+          && endpoint.eligiblePhysicalPadUuids.length > 0 && endpoint.eligiblePhysicalPadUuids.length === endpoint.physicalPadUuids.length));
     const referenceTerminals = terminalsOk ? fact("verified", "Each explicit signal and reference terminal is current and reaches its required native net or intended plane component.")
       : fact("unknown", "Every declared signal and reference physical terminal must be eligible, connected and bound to the intended plane.");
+    const referencePadUuids = [...new Set(ref.terminalReferences.flatMap(terminal => ground?.endpoints.find(endpoint =>
+      endpoint.reference === terminal.referenceEndpoint.reference && endpoint.pin === terminal.referenceEndpoint.pin)?.eligiblePhysicalPadUuids ?? []))].sort();
+    const copper = plane.terminalCopperConnectivity;
+    const referenceCopperVerified = terminalsOk && referencePadUuids.length > 0 && copper?.net === planeNet
+      && copper.status === "verified" && copper.calculation?.allTerminalsWitnessed === true
+      && referencePadUuids.every(uuid => copper.calculation!.terminals.filter(t => t.padUuid === uuid && t.status === "witnessed"
+        && t.path.at(-1)?.startsWith(`plane:${plane.planeId}:`)).length === 1);
+    const referenceCopperConnectivity = { ...fact(referenceCopperVerified ? "verified" : "unknown", referenceCopperVerified
+      ? "Every declared reference pad has a current positive-width nominal drilled-copper path to this exact intended plane."
+      : "Every declared reference pad requires a current positive-width drilled-copper path to this exact intended plane; native reachability alone cannot supply it."),
+      physicalPadUuids: referencePadUuids };
     let bodySegments = segments, launchPlanAvailable = ref.terminalLaunches === undefined;
     const launchResults: NonNullable<(typeof references)[number]["terminalLaunches"]>[number][] = (ref.terminalLaunches ?? []).map(launch => ({
       ...fact("unknown", "Current source/native terminal geometry and local return evidence are required."),
@@ -634,6 +655,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const intersectingBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>bodySegments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="overlap")).map(bore=>bore.uuid):[];
     const tangentBoreUuids=boreInventoryComplete?plane.drillTopology.bores.filter(bore=>bodySegments.some(segment=>boreRibbonRelation(bore,segment,marginNm)==="tangent")).map(bore=>bore.uuid):[];
     let result: Fact = fact("unknown", "A host-bound reference coverage calculator is unavailable."), geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed" = "not_assessed", calculation: unknown = null;
+    let resolvedGeometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed" | undefined, capsuleRefinement: (typeof references)[number]["capsuleRefinement"];
     if (segments.length === 0 || segments.some(segment => segment.layer !== ref.signalLayer) || board.vias.some(via => via.netName === route.net)) result = fact("failed", "The referenced net has missing segments, an unexpected signal layer or a forbidden transition or via; no primitive was filtered away.");
     else if (!launchPlanAvailable || launchConditions.status === "failed") result = launchConditions;
     else if(intersectingBoreUuids.length>0){result=fact("failed","The required reference ribbon intersects a source-verified round or oblong drill bore.");geometricStatus="uncovered";}
@@ -653,7 +675,17 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       captured.routes.forEach((route, index) => requireValue(["covered", "uncovered", "boundary_uncertain"].includes(route.status)
         && route.routeIndex === index && route.certificate === (route.status === "covered" ? "exact_outer_envelope_containment" : route.status === "uncovered" ? "exact_inner_envelope_outside_witness" : "no_exact_certificate"), "reference helper supplied inconsistent geometric certificates"));
       geometricStatus = captured.routes.some(route => route.status === "uncovered") ? "uncovered" : captured.routes.some(route => route.status === "boundary_uncertain") ? "boundary_uncertain" : "covered";
-      result = geometricStatus === "uncovered" ? fact("failed", "A complete selected signal ribbon has an exact witness outside the declared stored plane fill.") : geometricStatus === "boundary_uncertain" ? fact("unknown", "Geometric boundary uncertainty cannot pass reference coverage.")
+      resolvedGeometricStatus = geometricStatus;
+      if (geometricStatus === "boundary_uncertain" && boreInventoryComplete) {
+        try {
+          const exact = proveReferenceCapsuleContainment({ component, segments: bodySegments, marginNm });
+          capsuleRefinement = { result: exact, reasons: [exact.allRoutesContained
+            ? "Exact round-ended capsule separation from every stored outer and hole boundary resolves the conservative envelope uncertainty at the unchanged margin."
+            : "The exact strict-containment check does not resolve the original geometric uncertainty."] };
+          if (exact.allRoutesContained) resolvedGeometricStatus = "covered";
+        } catch (error) { capsuleRefinement = { result: null, reasons: [error instanceof Error ? error.message : "Exact capsule containment is unavailable."] }; }
+      }
+      result = resolvedGeometricStatus === "uncovered" ? fact("failed", "A complete selected signal ribbon has an exact witness outside the declared stored plane fill.") : resolvedGeometricStatus === "boundary_uncertain" ? fact("unknown", "Geometric boundary uncertainty cannot pass reference coverage.")
         : launchConditions.status !== "verified" ? launchConditions
         : plane.intendedPlaneConnectivity.status !== "verified" || plane.islandPolicy.status !== "verified" || plane.drillTopology.status !== "verified"
           ? fact("unknown", "The stored-fill ribbons are geometrically covered, but complete drill-aware topology, island policy and intended-plane connectivity remain unverified.")
@@ -663,9 +695,12 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         routes: captured.routes.map(route => ({ segmentId: segments[route.routeIndex]!.uuid, status: route.status, certificate: route.certificate })) };
     }
     references.push({ net: route.net, planeId: ref.planeId, ...result, segmentIds: segments.map(segment => segment.uuid), marginNm, geometricStatus, referenceTerminals,intersectingBoreUuids,tangentBoreUuids,calculation,
+      referenceCopperConnectivity, resolvedGeometricStatus: resolvedGeometricStatus ?? geometricStatus,
+      ...(capsuleRefinement === undefined ? {} : { capsuleRefinement }),
       ...(ref.terminalLaunches === undefined ? {} : { terminalLaunches: launchResults }) });
-    setRow(`reference:${route.net}`,result.status==="verified"?fact("unknown",...result.reasons,
-      "The geometric ribbon is covered, but complete drill-aware reference-terminal contact continuity remains unverified."):result);
+    setRow(`reference:${route.net}`, result.status === "verified" ? referenceCopperConnectivity.status === "verified"
+      ? fact("verified", ...result.reasons, "Every explicit reference pad has a current nominal drilled-copper path to the intended plane. This verifies the declared geometric reference requirement, not impedance or EMC.")
+      : fact("unknown", ...result.reasons, "The geometric ribbon is covered, but complete drill-aware reference-terminal contact continuity remains unverified.") : result);
   }
   return finish();
 }

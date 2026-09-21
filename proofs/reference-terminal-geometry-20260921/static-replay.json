@@ -1,0 +1,72 @@
+{
+  "historicalAssessmentIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "150e577d4ca909d45cf7bd7e900cebcb7653857ab0873c2098b6c525153869b8",
+    "schemaVersion": "evleda.fresh-plane-acceptance.v1"
+  },
+  "sourcePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "originalGeometryStatus": "boundary_uncertain",
+  "newNativeQualificationPerformed": false,
+  "result": {
+    "scope": "strict-capsule-containment-in-validated-stored-component",
+    "allRoutesContained": true,
+    "nativePolygonIndex": 0,
+    "marginNm": 250000,
+    "routes": [
+      {
+        "segmentId": "0eab1d17-fef6-4ec0-9e4a-c140ee38db79",
+        "status": "strictly-contained",
+        "reason": "strict-boundary-separation",
+        "blockingRingIndex": null,
+        "blockingEdgeIndex": null,
+        "boundaryRelation": null
+      },
+      {
+        "segmentId": "10ab56c5-f5a8-4bd6-b301-fb63be4f71f2",
+        "status": "strictly-contained",
+        "reason": "strict-boundary-separation",
+        "blockingRingIndex": null,
+        "blockingEdgeIndex": null,
+        "boundaryRelation": null
+      },
+      {
+        "segmentId": "29f43598-72da-4ce0-a096-1a9b1f301281",
+        "status": "strictly-contained",
+        "reason": "strict-boundary-separation",
+        "blockingRingIndex": null,
+        "blockingEdgeIndex": null,
+        "boundaryRelation": null
+      },
+      {
+        "segmentId": "2df821f6-29a2-43d5-8330-62a0ef80cf3f",
+        "status": "strictly-contained",
+        "reason": "strict-boundary-separation",
+        "blockingRingIndex": null,
+        "blockingEdgeIndex": null,
+        "boundaryRelation": null
+      },
+      {
+        "segmentId": "7666bdac-adae-46e9-8d2f-37fce1c82cda",
+        "status": "strictly-contained",
+        "reason": "strict-boundary-separation",
+        "blockingRingIndex": null,
+        "blockingEdgeIndex": null,
+        "boundaryRelation": null
+      },
+      {
+        "segmentId": "cb44adfa-757d-4135-978c-6fc0c28ee76d",
+        "status": "strictly-contained",
+        "reason": "strict-boundary-separation",
+        "blockingRingIndex": null,
+        "blockingEdgeIndex": null,
+        "boundaryRelation": null
+      }
+    ],
+    "predicateOperations": 38664,
+    "maximumPredicateOperations": 4000000,
+    "drillsIncluded": false,
+    "terminalConnectivityClaimed": false,
+    "highFrequencyValidityClaimed": false
+  }
+}

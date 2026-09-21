@@ -272,9 +272,12 @@ function interfaceReports(assessment: FreshPlaneAcceptanceAssessment) {
     }
     const reference = check.referenceCoverage, requirements = saved.referenceRequirements;
     const currentReferences = requirements.memberNets.map(net => assessment.references.filter(item => item.net === net && item.planeId === requirements.planeId));
-    const referenceStatus = currentReferences.some(items => items.length === 1 && (items[0]!.status === "failed" || items[0]!.geometricStatus === "uncovered")) ? "failed"
+    const completeReferenceRow = (r: FreshPlaneAcceptanceAssessment["references"][number]) => assessment.rows.find(row => row.id === `reference:${r.net}`);
+    const referenceStatus = currentReferences.some(items => items.length === 1 && (items[0]!.status === "failed" || items[0]!.geometricStatus === "uncovered"
+      || items[0]!.referenceCopperConnectivity !== undefined && completeReferenceRow(items[0]!)?.status === "fail")) ? "failed"
       : assessment.savedEvidenceIdentity !== null && assessment.authority.status === "verified" && currentReferences.length > 0
-        && currentReferences.every(items => items.length === 1 && items[0]!.status === "verified" && items[0]!.geometricStatus === "covered") ? "verified" : "unknown";
+        && currentReferences.every(items => items.length === 1 && items[0]!.status === "verified" && (items[0]!.resolvedGeometricStatus ?? items[0]!.geometricStatus) === "covered"
+          && (items[0]!.referenceCopperConnectivity === undefined || completeReferenceRow(items[0]!)?.status === "pass")) ? "verified" : "unknown";
     if (reference.planeId !== requirements.planeId || canonicalJson(reference.memberNets) !== canonicalJson(requirements.memberNets)
         || reference.status !== referenceStatus || canonicalJson(reference.referenceRowIds)
           !== canonicalJson(currentReferences.flatMap(items => items.length === 1 ? [`reference:${items[0]!.net}`] : []))) {
@@ -379,6 +382,61 @@ function regionBridgeReports(assessment: FreshPlaneAcceptanceAssessment) {
   });
 }
 
+function referenceCopperReport(assessment: FreshPlaneAcceptanceAssessment, reference: FreshPlaneAcceptanceAssessment["references"][number]) {
+  const value = reference.referenceCopperConnectivity!;
+  const physicalPadUuids = value.physicalPadUuids.map(publicText);
+  if (new Set(physicalPadUuids).size !== physicalPadUuids.length) throw new Error("Reference copper projection has duplicate physical pads.");
+  if (value.status === "verified") {
+    const plane = assessment.planes.find(p => p.planeId === reference.planeId), copper = plane?.terminalCopperConnectivity;
+    if (physicalPadUuids.length === 0 || reference.referenceTerminals.status !== "verified" || copper?.status !== "verified"
+      || copper.calculation?.allTerminalsWitnessed !== true || !physicalPadUuids.every(uuid => copper.calculation!.terminals.some(t =>
+        t.padUuid === uuid && t.status === "witnessed" && t.path.at(-1)?.startsWith(`plane:${reference.planeId}:`))))
+      throw new Error("Verified reference pads require the matching complete primary-plane copper witnesses.");
+  }
+  return { ...fact(value), physicalPadUuids };
+}
+function resolvedReferenceGeometry(reference: FreshPlaneAcceptanceAssessment["references"][number]) {
+  const value = reference.resolvedGeometricStatus!;
+  if (!["covered", "uncovered", "boundary_uncertain", "not_assessed"].includes(value)
+    || value !== reference.geometricStatus && !(reference.geometricStatus === "boundary_uncertain" && value === "covered" && reference.capsuleRefinement?.result?.allRoutesContained === true))
+    throw new Error("Resolved reference geometry has no matching exact refinement.");
+  return value;
+}
+function capsuleRefinementReport(assessment: FreshPlaneAcceptanceAssessment, reference: FreshPlaneAcceptanceAssessment["references"][number]) {
+  const value = reference.capsuleRefinement!, result = value.result;
+  if (reference.geometricStatus !== "boundary_uncertain") throw new Error("Exact refinement cannot replace a definite coverage result.");
+  if (result === null) {
+    if (reference.resolvedGeometricStatus !== "boundary_uncertain") throw new Error("Missing capsule result cannot resolve uncertainty.");
+    return { result: null, reasons: reasons(value.reasons) };
+  }
+  if (result.scope !== "strict-capsule-containment-in-validated-stored-component" || result.drillsIncluded !== false
+    || result.terminalConnectivityClaimed !== false || result.highFrequencyValidityClaimed !== false
+    || result.marginNm !== reference.marginNm || result.maximumPredicateOperations !== 4_000_000
+    || !Number.isSafeInteger(result.predicateOperations) || result.predicateOperations < 0 || result.predicateOperations > result.maximumPredicateOperations
+    || !Number.isSafeInteger(result.nativePolygonIndex) || result.nativePolygonIndex < 0 || result.routes.length !== reference.segmentIds.length
+    || new Set(result.routes.map(r => r.segmentId)).size !== result.routes.length || !result.routes.every(r => reference.segmentIds.includes(r.segmentId)))
+    throw new Error("Exact capsule projection has inconsistent scope, work or route inventory.");
+  const plane = assessment.planes.find(p => p.planeId === reference.planeId);
+  if (plane?.geometry.status !== "verified" || plane.nativePolygonAttribution.status !== "verified" || plane.geometry.components.length !== 1
+    || result.nativePolygonIndex !== plane.geometry.components[0]!.nativePolygonIndex) throw new Error("Capsule refinement belongs to a different or unsupported plane component.");
+  const routes = result.routes.map(r => {
+    if (!["strictly-contained", "unproven"].includes(r.status)) throw new Error("Unknown capsule route status.");
+    if (r.status === "strictly-contained" ? r.reason !== "strict-boundary-separation" || r.blockingRingIndex !== null || r.blockingEdgeIndex !== null || r.boundaryRelation !== null
+      : r.reason === "start-outside-interior" ? r.blockingRingIndex !== null || r.blockingEdgeIndex !== null || r.boundaryRelation !== null
+        : r.reason !== "boundary-tangent-or-crossing" || !Number.isSafeInteger(r.blockingRingIndex) || r.blockingRingIndex! < 0
+          || !Number.isSafeInteger(r.blockingEdgeIndex) || r.blockingEdgeIndex! < 0 || !["overlap", "tangent"].includes(r.boundaryRelation!))
+      throw new Error("Capsule boundary witness differs from its reported status.");
+    return { segmentId: publicText(r.segmentId), status: r.status, reason: r.reason,
+      blockingRingIndex: r.blockingRingIndex, blockingEdgeIndex: r.blockingEdgeIndex, boundaryRelation: r.boundaryRelation };
+  });
+  const all = routes.length > 0 && routes.every(r => r.status === "strictly-contained");
+  if (result.allRoutesContained !== all || reference.resolvedGeometricStatus !== (all ? "covered" : "boundary_uncertain"))
+    throw new Error("Exact capsule result and resolved geometry status differ.");
+  return { reasons: reasons(value.reasons), result: { scope: result.scope, allRoutesContained: all, nativePolygonIndex: result.nativePolygonIndex,
+    marginNm: result.marginNm, routes, predicateOperations: result.predicateOperations, maximumPredicateOperations: result.maximumPredicateOperations,
+    drillsIncluded: false, terminalConnectivityClaimed: false, highFrequencyValidityClaimed: false } };
+}
+
 /** Closed public projection: raw captures, paths and contour arrays stay private. */
 export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessment) {
   const common = commonSourceChecks(assessment);
@@ -430,6 +488,9 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
     references: assessment.references.map(reference => ({ net: reference.net, planeId: reference.planeId,
       ...fact(reference), segmentIds: [...reference.segmentIds], marginNm: reference.marginNm,
       geometricStatus: reference.geometricStatus, referenceTerminals: fact(reference.referenceTerminals),
+      ...(reference.referenceCopperConnectivity === undefined ? {} : { referenceCopperConnectivity: referenceCopperReport(assessment, reference) }),
+      ...(reference.resolvedGeometricStatus === undefined ? {} : { resolvedGeometricStatus: resolvedReferenceGeometry(reference) }),
+      ...(reference.capsuleRefinement === undefined ? {} : { capsuleRefinement: capsuleRefinementReport(assessment, reference) }),
       intersectingBoreUuids: reference.intersectingBoreUuids.map(publicText),tangentBoreUuids:reference.tangentBoreUuids.map(publicText),
       ...(reference.terminalLaunches === undefined ? {} : { terminalLaunches: reference.terminalLaunches.map(launch => {
         const g = launch.geometry, point = (p: { x: number; y: number }) => ({ x: publicNumber(p.x), y: publicNumber(p.y) });

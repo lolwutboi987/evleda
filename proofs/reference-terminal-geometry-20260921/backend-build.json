@@ -1,0 +1,18 @@
+{
+  "host": 59,
+  "releaseSha256": "ae6aafa7a2e863a6b0e8bd4d9bcd0dc99231bd5bab9b04c2c6625b1f00f90189",
+  "manifestSha256": "c0a7cc897c44c6dc56dce57a6dbe911f3c23e8af1e3fc3c267678257341ab8da",
+  "checks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "heapCapMiB": 2048,
+  "nativeQualificationPerformed": false,
+  "installedReleaseChanged": false
+}
