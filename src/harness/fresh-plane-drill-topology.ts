@@ -17,7 +17,8 @@ export interface FreshPlaneDrillBore extends Bore {
   /** An outward bore enclosure; containment is NOT asserted for an exact hole-containment basis. */
   readonly enclosureNm: Readonly<Box> | null;
   readonly classification: "outside_component" | "inside_cached_hole" | "new_interior_void" | "unknown" | "not_classified";
-  readonly classificationBasis: "strict_outward_enclosure" | "exact_circle_inside_cached_hole" | "exact_capsule_inside_cached_hole" | "not_certified";
+  readonly classificationBasis: "strict_outward_enclosure" | "exact_circle_inside_cached_hole" | "exact_capsule_inside_cached_hole"
+    | "exact_circle_outside_component" | "exact_capsule_outside_component" | "not_certified";
   readonly issues: readonly string[];
   readonly geometrySource: "exact-source-and-native-pad" | "exact-saved-through-via";
 }
@@ -256,11 +257,25 @@ function capsuleInsideHole(bore: Bore, hole: readonly Point[], step: () => void)
   }
   return true;
 }
+function boreOutsideComponent(bore: Bore, outer: readonly Point[], step: () => void): boolean {
+  const [a, b] = boreAxisTwiceNm(bore), doubled = outer.map(p => ({ x: 2 * p.x, y: 2 * p.y }));
+  if (inside(a, doubled, step)) return false;
+  for (const edge of edges(doubled)) {
+    step();
+    if (segmentDistanceRelation(a, b, edge.a, edge.b, bore.diameterNm) !== "separate") return false;
+  }
+  // A connected closed bore, with one point outside the simple outer ring and
+  // strictly separated from its entire boundary, cannot enter its interior.
+  // Checking the whole boundary also rejects a bore surrounding the component.
+  return true;
+}
 function classify(bore: Bore, box: Box, component: FreshPlaneFilledComponent, step: () => void): Pick<FreshPlaneDrillBore, "classification" | "classificationBasis"> {
   // Native ERROR_OUTSIDE hole polygons can contain the actual round bore even
   // when its axis-aligned enclosure crosses their oblique polygon edges.
   if (component.holes.some(hole => bore.slot === undefined ? circleInsideHole(bore, hole, step) : capsuleInsideHole(bore, hole, step)))
     return { classification: "inside_cached_hole", classificationBasis: bore.slot === undefined ? "exact_circle_inside_cached_hole" : "exact_capsule_inside_cached_hole" };
+  if (boreOutsideComponent(bore, component.outer, step)) return { classification: "outside_component",
+    classificationBasis: bore.slot === undefined ? "exact_circle_outside_component" : "exact_capsule_outside_component" };
   const rectangle = boxPoints(box), boundaries = [component.outer, ...component.holes];
   for (const ring of boundaries) {
     for (const a of edges(rectangle)) for (const b of edges(ring)) { step(); check(!intersects(a.a, a.b, b.a, b.b), "Bore enclosure intersects or touches a cached boundary or hole"); }

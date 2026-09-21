@@ -1,0 +1,58 @@
+{
+  "scope": "Static replay of the hash-verified historical native geometry against the unchanged PCB; does not restore current-session fill authority.",
+  "sourcePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "priorAssessmentIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "3c8ccd41ea8c32a73d94fd79907261efd1975fffc3b2d361ff16b2a288c04a62",
+    "schemaVersion": "evleda.fresh-plane-acceptance.v1"
+  },
+  "priorDiagnosticIdentity": {
+    "algorithm": "sha256",
+    "digest": "0c9dd7c21dbdefff1e431cfcb115912a039de7f90a0b385430d7465c00e98e88",
+    "size": 9124630
+  },
+  "newNativeQualificationPerformed": false,
+  "results": [
+    {
+      "uuid": "0af98444-8bde-4101-82be-17e2015303d4",
+      "centerNm": {
+        "x": 18470000,
+        "y": 2000000
+      },
+      "diameterNm": 2100000,
+      "centerOutside": true,
+      "strictlySeparatedFromEveryOuterEdge": true
+    },
+    {
+      "uuid": "0535cfee-f720-48db-86d5-86490379698b",
+      "centerNm": {
+        "x": 3530000,
+        "y": 58000000
+      },
+      "diameterNm": 2100000,
+      "centerOutside": true,
+      "strictlySeparatedFromEveryOuterEdge": true
+    },
+    {
+      "uuid": "21925ba8-3fc8-4f38-84fd-edeb2bec3c77",
+      "centerNm": {
+        "x": 3530000,
+        "y": 2000000
+      },
+      "diameterNm": 2100000,
+      "centerOutside": true,
+      "strictlySeparatedFromEveryOuterEdge": true
+    },
+    {
+      "uuid": "8c7cb0cd-f7d4-4847-8b6c-e790f1a7a19f",
+      "centerNm": {
+        "x": 18470000,
+        "y": 58000000
+      },
+      "diameterNm": 2100000,
+      "centerOutside": true,
+      "strictlySeparatedFromEveryOuterEdge": true
+    }
+  ]
+}

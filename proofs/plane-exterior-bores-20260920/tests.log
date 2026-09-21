@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/kidch/Documents/EvlEDA-Transfer-2026-09-09/evleda
+
+
+ Test Files  5 passed (5)
+      Tests  229 passed (229)
+   Start at  19:04:17
+   Duration  83.49s (transform 1.43s, setup 0ms, import 2.71s, tests 79.68s, environment 0ms)
+

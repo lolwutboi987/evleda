@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-09-21T02:07:02.710Z",
+  "tests": {
+    "passed": 229,
+    "files": 5,
+    "exitCode": 0,
+    "durationSeconds": 83.49,
+    "scope": "Complete drill topology, bore geometry, plane assessment/projection and filled-geometry files; no full-suite claim."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "pins": [
+    {
+      "file": "src/harness/fresh-plane-drill-topology.ts",
+      "sha256": "78fc8c0bdcd3ec58b895b7083c5281cf669f59892f70f281e1a8d53d9ac2b4e2",
+      "sizeBytes": 31015
+    },
+    {
+      "file": "tests/unit/fresh-plane-drill-topology.test.ts",
+      "sha256": "c8dc5e1f9ea07aabd496361aa79fb59995ee1ac387a925f0bf7e030009078e6a",
+      "sizeBytes": 33846
+    }
+  ],
+  "nativeQualificationPending": true,
+  "installedReleaseChanged": false,
+  "nativeBoardChanged": false
+}

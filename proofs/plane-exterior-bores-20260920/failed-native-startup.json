@@ -1,0 +1,109 @@
+{
+  "recordedAt": "2026-09-21T02:27:32.439Z",
+  "host": 54,
+  "installed": false,
+  "projectId": "17b88ed0-adea-4634-a468-8d417dc16c97",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "fa5a4281809148f626bbbc255b34395796398243f9b9603a19d0e839ac56a3a3",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "geometryQualificationExecuted": false,
+  "primary": {
+    "filename": "startup-diagnostic-primary-failure-f57228e3-3d63-4ae2-807b-061aaaf2d30d.json",
+    "sha256": "74f06e82f2dc90cb1149004c6d0464781a6070d9afd616af4ec72a1447742f0e",
+    "sizeBytes": 477,
+    "record": {
+      "cleanup": [
+        {
+          "cause": null,
+          "stage": "toolbox-session-cleanup",
+          "status": "confirmed"
+        }
+      ],
+      "failure": {
+        "cause": {
+          "category": "kicad-verification-deadline"
+        },
+        "stage": "mcp-catalog",
+        "stderr": null
+      },
+      "identity": {
+        "algorithm": "sha256",
+        "canonicalizationVersion": "evleda-c14n-json-v1",
+        "digest": "d01c9717c300c6b79393921554bb77f8a20b295b6cf423cc5485f603d0ac5548",
+        "schemaVersion": "evleda.toolbox-startup-diagnostic.v1"
+      },
+      "phase": "primary-failure",
+      "schemaVersion": "evleda.toolbox-startup-diagnostic.v1"
+    }
+  },
+  "cleanup": {
+    "filename": "startup-diagnostic-cleanup-finished-8f7d9536-028a-43d8-b1fc-7e4aa1791f37.json",
+    "sha256": "76b6a6791c2ec41e542d878cdaf8e8085bc3103ba4e0a4448a8a6b4cc3d5a432",
+    "sizeBytes": 562,
+    "record": {
+      "cleanup": [
+        {
+          "cause": null,
+          "stage": "toolbox-session-cleanup",
+          "status": "confirmed"
+        },
+        {
+          "cause": {
+            "category": "native-error"
+          },
+          "stage": "host-cleanup",
+          "status": "unconfirmed"
+        }
+      ],
+      "failure": {
+        "cause": {
+          "category": "kicad-verification-deadline"
+        },
+        "stage": "mcp-catalog",
+        "stderr": null
+      },
+      "identity": {
+        "algorithm": "sha256",
+        "canonicalizationVersion": "evleda-c14n-json-v1",
+        "digest": "b0d435c5bd1e6008046b3f81626caf5ed62d62953dc3a3b71e59541db5fb1a0a",
+        "schemaVersion": "evleda.toolbox-startup-diagnostic.v1"
+      },
+      "phase": "cleanup-finished",
+      "schemaVersion": "evleda.toolbox-startup-diagnostic.v1"
+    }
+  },
+  "cleanupConfirmed": false,
+  "leaseRetained": {
+    "sha256": "a1dd7cffe45aede37bba6df3fa26253d36a31cbd517e7be490b813285497592c",
+    "sizeBytes": 95
+  },
+  "publicWorkspaceState": {
+    "nativeState": "absent",
+    "phase": "needs-review"
+  },
+  "scope": "Startup failed before the checker ran. No cause is attributed to the geometry change or storage. Process absence is not cleanup proof. The lease, checkpoint and IPC remain retained. Baseline restoration is a separate operation."
+}

@@ -1,0 +1,13 @@
+{
+  "initialFixedThresholdAttempt": "Stopped before target creation at the old 700 MiB heuristic; no native session was started.",
+  "measuredBudgets": [
+    {
+      "availableBytes": 690372608,
+      "priorBuildBytes": 124915293,
+      "reserveBytes": 268435456,
+      "requiredBytes": 518266042,
+      "basis": "Two complete125MB build copies plus256MiB reserve. Prior native qualification touched28.5MB of project data. No runtime integrity guard changes and no retained files removed."
+    }
+  ],
+  "retainedFilesRemoved": false
+}

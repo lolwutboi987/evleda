@@ -247,6 +247,41 @@ describe("drill-aware single-zone interior topology", () => {
     expect(result.conservativeAreaLowerBoundTwiceNm2).toBe(result.cachedAreaTwiceNm2);
   });
 
+  it("certifies a circle outside an oblique component despite its overlapping rectangular enclosure", async () => {
+    const triangle = [[0.5,0.5],[29.5,0.5],[29.5,19.5]];
+    const result = assessFreshPlaneDrillTopology(await fixture(board([pad("5", "5", "2")]), triangle));
+    expect(result.status).toBe("verified");
+    expect(result.bores[0]).toMatchObject({ classification: "outside_component", classificationBasis: "exact_circle_outside_component",
+      enclosureNm: { minX: 4_000_000, minY: 4_000_000, maxX: 6_000_000, maxY: 6_000_000 } });
+    expect(result.conservativeAreaLowerBoundTwiceNm2).toBe(result.cachedAreaTwiceNm2);
+  });
+
+  it("certifies the complete exterior slot without using only its centre circle", async () => {
+    const triangle = [[0.5,0.5],[9.5,0.5],[0.5,9.5]];
+    const hole = '(pad "" np_thru_hole oval (at 5.5 5.75) (size 2 1) (drill oval 2 1) (layers "*.Cu" "*.Mask"))';
+    const result = assessFreshPlaneDrillTopology(await fixture(board([smd, hole]), triangle));
+    expect(result.status).toBe("verified");
+    expect(result.bores[0]).toMatchObject({ classification: "outside_component", classificationBasis: "exact_capsule_outside_component" });
+    expect(result.conservativeAreaLowerBoundTwiceNm2).toBe(result.cachedAreaTwiceNm2);
+    // The centre circle is still outside; the left round end now enters copper.
+    unknown(assessFreshPlaneDrillTopology(await fixture(board([smd, hole.replace("5.5 5.75", "5.5 5.5")]), triangle)), /intersect|touch/i);
+  });
+
+  it.each([
+    ["one nm separated", "5.999999", true],
+    ["exact tangent", "6", false],
+    ["one nm intrusion", "6.000001", false],
+  ] as const)("uses exact endpoint distance for an exterior bore: %s", async (_label, y, separate) => {
+    const rectangle = [[10,10],[29.5,10],[29.5,19.5],[10,19.5]];
+    // The closest boundary point is (10,10); offsets (3,4) give exact radius5 tangency.
+    const hole = `(pad "" np_thru_hole circle (at 7 ${y}) (size 10 10) (drill 10) (layers "*.Cu" "*.Mask"))`;
+    const result = assessFreshPlaneDrillTopology(await fixture(board([smd, hole]), rectangle));
+    if (separate) {
+      expect(result.status).toBe("verified");
+      expect(result.bores[0]!.classificationBasis).toBe("exact_circle_outside_component");
+    } else unknown(result, /intersect|touch/i);
+  });
+
   it("allows exact circle tangency only within an already excluded cached hole", async () => {
     const result = assessFreshPlaneDrillTopology(await fixture(board([pad("5", "5", "4")]), holeChain));
     expect(result.status).toBe("verified");

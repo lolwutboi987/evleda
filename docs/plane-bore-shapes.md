@@ -22,6 +22,14 @@ already excluded hole. Otherwise, conservative outward rectangles must remain
 strictly separated from existing boundaries and other new holes before the
 single plane interior can be certified. Ambiguous intersections remain unknown.
 
+An exterior circle or cardinal slot can also receive
+`exact_circle_outside_component` or `exact_capsule_outside_component`. The
+checker requires one point of the bore outside the simple outer ring and exact,
+strict separation of the complete bore from every boundary segment. This handles
+mounting-hole notches whose rectangular bounds overlap copper even though the
+actual hole is clear. Exterior tangency and intrusion remain unverified; the
+check uses no geometric tolerance and cannot ignore a bore surrounding a component.
+
 Reference ribbons use exact capsule-to-capsule distance: a route near a slot end
 can expose missing copper even when the centre circle is clear. An oversized
 enclosing disk is not used to declare a false gap. Exact tangency remains unknown.

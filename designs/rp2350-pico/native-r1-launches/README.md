@@ -52,10 +52,12 @@ physical tests, firmware, board ordering and manufacturing release were not perf
 
 ## Managed workspace reference
 
-Continue managed work with project **17b88ed0-adea-4634-a468-8d417dc16c97**. A later,
-uninstalled runtime-scheduling experiment failed startup on the prior allocation;
-its lease and failure evidence remain retained. The published host50/DOC17
-workflow recreated this exact candidate from its healthy ancestor and closed it
-normally. [All six native files match](verification/managed-restoration.json).
-The portable files and historical design assessment above are unchanged; no live
-fill or acceptance authority is transferred to the new session.
+Continue managed work with project **7e129f34-8a45-454c-b8dd-cf06b770ba74**. The installed
+host53 workflow [restored this exact candidate](../../../proofs/plane-exterior-bores-20260920/managed-restoration.json)
+through the existing public revision operation and closed it normally. All six
+native files match the published candidate. The failed startup and interrupted
+allocations remain preserved with their leases. No old live fill or electrical
+acceptance authority transfers to the new allocation.
+
+The [earlier host50 restoration](verification/managed-restoration.json) remains
+historical evidence. The portable native files are unchanged.
