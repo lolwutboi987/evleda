@@ -1,0 +1,4817 @@
+{
+  "schemaVersion": "evleda.terminal-copper-static-replay.v1",
+  "sourcePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "historicalAssessmentIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "f00be9d1fedd8519192ee9a542e46e1f5f7126763a803841f2993653c6f8304a",
+    "schemaVersion": "evleda.fresh-plane-acceptance.v1"
+  },
+  "historicalDiagnosticIdentity": {
+    "algorithm": "sha256",
+    "digest": "3632115de48fa392b5e1a141bc23189b033844ff5e37de018835c4e496f28475",
+    "size": 9413517
+  },
+  "geometryInputs": {
+    "physicalPads": 64,
+    "throughVias": 41,
+    "tracks": 131,
+    "bores": 171,
+    "primaryPlaneRegions": 1,
+    "boardBoundsNm": {
+      "minX": 0,
+      "minY": 0,
+      "maxX": 22000000,
+      "maxY": 60000000
+    }
+  },
+  "scope": "Pure source geometry and closed public projection replay over hash-verified host57 data. No new native or fill authority; no historical verdict rewritten.",
+  "newNativeQualificationPerformed": false,
+  "boardChanged": false,
+  "calculation": {
+    "scope": "positive-width-copper-paths-to-connected-drilled-plane-interiors",
+    "allTerminalsWitnessed": true,
+    "terminals": [
+      {
+        "padUuid": "a9ea4f07-0796-4e47-95ba-099e5c1e4c49",
+        "reference": "C10",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:a9ea4f07-0796-4e47-95ba-099e5c1e4c49",
+          "port:F.Cu:17120000,29532500",
+          "port:F.Cu:16980000,29622500",
+          "via:8d3806d2-7356-4bc6-a218-183e5b189f96",
+          "port:In1.Cu:17167500,29810000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "485fdf18-d1b9-41d8-a182-81026f1be6bb",
+        "reference": "C11",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:485fdf18-d1b9-41d8-a182-81026f1be6bb",
+          "port:F.Cu:4430000,31732500",
+          "port:F.Cu:4400000,31825000",
+          "port:F.Cu:4320000,32012500",
+          "via:707cba30-4192-4239-a71a-e4b94f348f45",
+          "port:In1.Cu:4507500,32200000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "36130c40-acdf-4b2f-b389-11b8a8562dff",
+        "reference": "C12",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:36130c40-acdf-4b2f-b389-11b8a8562dff",
+          "port:F.Cu:11032500,38710000",
+          "port:F.Cu:11150000,38650000",
+          "port:F.Cu:11362500,38650000",
+          "via:e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+          "port:In1.Cu:11737500,38650000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "cab6748f-6925-4f6c-87a0-ce4082175fc2",
+        "reference": "C13",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:cab6748f-6925-4f6c-87a0-ce4082175fc2",
+          "port:F.Cu:16590000,32812500",
+          "port:F.Cu:16625000,32925000",
+          "port:F.Cu:16587500,33050000",
+          "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+          "port:In1.Cu:16887500,33200000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "ee901197-d25d-43e9-bad3-b673d2a3bc73",
+        "reference": "C14",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:ee901197-d25d-43e9-bad3-b673d2a3bc73",
+          "port:F.Cu:8450000,25710000",
+          "port:F.Cu:8450000,25557500",
+          "via:f8adabc9-8b10-4dd0-b871-a037512f882c",
+          "port:In1.Cu:8637500,25370000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "0a964142-1cf2-499a-9955-5a6aa2c182b2",
+        "reference": "C15",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:0a964142-1cf2-499a-9955-5a6aa2c182b2",
+          "port:F.Cu:5067500,20160000",
+          "via:53683e37-8cf7-4b40-93a2-5d13aac012a8",
+          "port:In1.Cu:5087500,19970000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "696de407-b6d0-43f2-b1cd-54865ca0647f",
+        "reference": "C16",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:696de407-b6d0-43f2-b1cd-54865ca0647f",
+          "port:F.Cu:16770000,30552500",
+          "port:F.Cu:16600000,30620000",
+          "port:F.Cu:16600000,30712500",
+          "via:cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+          "port:In1.Cu:16787500,30900000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "20d0f563-9e66-4266-8ff3-119ce4059a70",
+        "reference": "C17",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:20d0f563-9e66-4266-8ff3-119ce4059a70",
+          "port:F.Cu:17120000,31217500",
+          "port:F.Cu:16840000,30552500",
+          "port:F.Cu:16770000,30552500",
+          "port:F.Cu:16600000,30620000",
+          "port:F.Cu:16600000,30712500",
+          "via:cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+          "port:In1.Cu:16787500,30900000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "c8ba9e23-0ac3-40a7-b518-e68972e5e4c4",
+        "reference": "C18",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:c8ba9e23-0ac3-40a7-b518-e68972e5e4c4",
+          "port:F.Cu:5832500,17810000",
+          "port:F.Cu:6050000,17612500",
+          "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+          "port:In1.Cu:6387500,17500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "8ee4a807-ded0-415a-ac94-26a73610cd39",
+        "reference": "C19",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:8ee4a807-ded0-415a-ac94-26a73610cd39",
+          "port:F.Cu:6567500,17810000",
+          "port:F.Cu:6350000,17612500",
+          "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+          "port:In1.Cu:6387500,17500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "f0d5fd9c-81b4-477c-a917-b99268834678",
+        "reference": "C1",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:f0d5fd9c-81b4-477c-a917-b99268834678",
+          "port:F.Cu:13832500,27130000",
+          "port:F.Cu:13962500,26920000",
+          "via:e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+          "port:In1.Cu:14337500,26920000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "981f0293-619c-44f5-bceb-88224ad00494",
+        "reference": "C20",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:981f0293-619c-44f5-bceb-88224ad00494",
+          "port:F.Cu:14000000,45897500",
+          "port:F.Cu:14000000,45687500",
+          "via:d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "port:In1.Cu:14187500,45500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "605cf88e-fe33-499e-82d5-4d96c7c044f3",
+        "reference": "C21",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:605cf88e-fe33-499e-82d5-4d96c7c044f3",
+          "port:F.Cu:7000000,46852500",
+          "port:F.Cu:7000000,47042500",
+          "via:0c0d17c6-67e0-420a-a456-6acf146a74ac",
+          "port:In1.Cu:7187500,47230000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "8f6b3951-4170-4494-80d9-85be904da86f",
+        "reference": "C22",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:8f6b3951-4170-4494-80d9-85be904da86f",
+          "port:F.Cu:11690000,45727500",
+          "via:0c9d98b6-26bb-43c3-8371-801254431694",
+          "port:In1.Cu:12087500,45750000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "851f9712-5a1d-48eb-916e-76a1a37446c8",
+        "reference": "C23",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:851f9712-5a1d-48eb-916e-76a1a37446c8",
+          "port:F.Cu:16960000,25732500",
+          "port:F.Cu:16820000,26012500",
+          "via:f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+          "port:In1.Cu:17007500,26200000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "583d40cc-69e7-4423-a4bf-b9947b95a636",
+        "reference": "C24",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:583d40cc-69e7-4423-a4bf-b9947b95a636",
+          "port:F.Cu:5800000,42920000",
+          "port:F.Cu:5687500,42920000",
+          "via:50359f17-a88f-4224-a877-156f55a32121",
+          "port:In1.Cu:5687500,42920000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "370cfe52-21a2-4ca3-9e7e-d747c96f9e0c",
+        "reference": "C25",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:370cfe52-21a2-4ca3-9e7e-d747c96f9e0c",
+          "port:F.Cu:12037500,41440000",
+          "via:5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+          "port:In1.Cu:12087500,41650000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "f700d5a2-6798-4e25-8eab-211b4a3c4d5f",
+        "reference": "C26",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:f700d5a2-6798-4e25-8eab-211b4a3c4d5f",
+          "port:F.Cu:14610000,11550000",
+          "via:5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+          "port:In1.Cu:15037500,11550000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "5ddb7570-71ef-4460-858f-11a2ab455e95",
+        "reference": "C2",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:5ddb7570-71ef-4460-858f-11a2ab455e95",
+          "port:F.Cu:14000000,24710000",
+          "port:F.Cu:14000000,24557500",
+          "via:68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+          "port:In1.Cu:14187500,24370000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "7762ba7f-be7e-4448-8921-0ddcc42f5058",
+        "reference": "C3",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:7762ba7f-be7e-4448-8921-0ddcc42f5058",
+          "port:F.Cu:14775000,28125000",
+          "via:8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "port:In1.Cu:14737500,28030000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "a26c5467-3ef7-4a02-ac0c-f6f7f5a6d254",
+        "reference": "C4",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:a26c5467-3ef7-4a02-ac0c-f6f7f5a6d254",
+          "port:F.Cu:12270000,39240000",
+          "via:7e5658a6-4451-455b-ad7e-3311b063517a",
+          "port:In1.Cu:12457500,39500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "0651164c-4a8b-4273-9c1d-178581a6a663",
+        "reference": "C5",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:0651164c-4a8b-4273-9c1d-178581a6a663",
+          "port:F.Cu:4360000,30432500",
+          "port:F.Cu:4320000,30532500",
+          "via:46371e16-6d0d-40e6-9975-3c75e51cec0d",
+          "port:In1.Cu:4507500,30720000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "bf7c1b4d-8e32-4132-b627-470732c6d7ed",
+        "reference": "C6",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:bf7c1b4d-8e32-4132-b627-470732c6d7ed",
+          "port:F.Cu:4420000,33767500",
+          "port:F.Cu:4325000,33425000",
+          "port:F.Cu:4320000,33337500",
+          "via:463c9f0b-7400-4471-be23-08925f31fbac",
+          "port:In1.Cu:4507500,33150000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "a94ee526-bf97-4e9d-9b5f-d79536aa6ee8",
+        "reference": "C7",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:a94ee526-bf97-4e9d-9b5f-d79536aa6ee8",
+          "port:F.Cu:7670000,37572500",
+          "port:F.Cu:7550000,37460000",
+          "port:F.Cu:7462500,37510000",
+          "via:7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+          "port:In1.Cu:7537500,37660000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "8bd1cfdb-173d-4df8-8394-914948fd3eed",
+        "reference": "C8",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:8bd1cfdb-173d-4df8-8394-914948fd3eed",
+          "port:F.Cu:15732500,38310000",
+          "port:F.Cu:15787500,38550000",
+          "via:6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "port:In1.Cu:16087500,38700000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "56be1d7d-0131-48d9-826b-a785ab1f933f",
+        "reference": "C9",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:56be1d7d-0131-48d9-826b-a785ab1f933f",
+          "port:F.Cu:16625000,33525000",
+          "port:F.Cu:16700000,33387500",
+          "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+          "port:In1.Cu:16887500,33200000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "4111f727-116c-4af4-a0dd-034fa2af680d",
+        "reference": "D2",
+        "pin": "1",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:4111f727-116c-4af4-a0dd-034fa2af680d",
+          "port:F.Cu:6540625,45156250",
+          "port:F.Cu:7000000,45587500",
+          "port:F.Cu:7000000,46027500",
+          "pad:605cf88e-fe33-499e-82d5-4d96c7c044f3",
+          "port:F.Cu:7000000,46852500",
+          "port:F.Cu:7000000,47042500",
+          "via:0c0d17c6-67e0-420a-a456-6acf146a74ac",
+          "port:In1.Cu:7187500,47230000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+        "reference": "J1",
+        "pin": "A1",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+          "port:F.Cu:14200000,9086250",
+          "port:F.Cu:14200000,9400000",
+          "port:F.Cu:14287500,9450000",
+          "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+          "port:In1.Cu:14587500,9600000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "202e60a7-76af-4458-b990-25ff72340931",
+        "reference": "J1",
+        "pin": "A12",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:202e60a7-76af-4458-b990-25ff72340931",
+          "port:F.Cu:7800000,9086250",
+          "port:F.Cu:7762500,9350000",
+          "via:668ab035-7651-4112-81d6-735bc6cc3999",
+          "port:In1.Cu:7837500,9500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "9186e189-4f60-4225-9538-5b0db14606e6",
+        "reference": "J1",
+        "pin": "B1",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:9186e189-4f60-4225-9538-5b0db14606e6",
+          "port:F.Cu:7800000,9086250",
+          "port:F.Cu:7762500,9350000",
+          "via:668ab035-7651-4112-81d6-735bc6cc3999",
+          "port:In1.Cu:7837500,9500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+        "reference": "J1",
+        "pin": "B12",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+          "port:F.Cu:14200000,9086250",
+          "port:F.Cu:14200000,9400000",
+          "port:F.Cu:14287500,9450000",
+          "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+          "port:In1.Cu:14587500,9600000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "f5592606-4e9d-4b62-afac-565ec9879275",
+        "reference": "J1",
+        "pin": "SH",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:f5592606-4e9d-4b62-afac-565ec9879275",
+          "port:In1.Cu:14945000,7292500",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "35603db2-7858-452d-90f0-c991ba6d7717",
+        "reference": "J1",
+        "pin": "SH",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:35603db2-7858-452d-90f0-c991ba6d7717",
+          "port:In1.Cu:14945000,3225000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "6a8af92a-66ec-4429-b364-6c69de6a7f23",
+        "reference": "J1",
+        "pin": "SH",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:6a8af92a-66ec-4429-b364-6c69de6a7f23",
+          "port:In1.Cu:6305000,7292500",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+        "reference": "J1",
+        "pin": "SH",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+          "port:In1.Cu:6305000,3225000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "872ffa24-5366-4994-a978-d983df50eb18",
+        "reference": "J2",
+        "pin": "13",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:872ffa24-5366-4994-a978-d983df50eb18",
+          "port:In1.Cu:2747500,36350000",
+          "port:In1.Cu:3610000,36350000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "26a265db-f05e-4617-b50b-b7e0338b52e0",
+        "reference": "J2",
+        "pin": "18",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:26a265db-f05e-4617-b50b-b7e0338b52e0",
+          "port:In1.Cu:2747500,49050000",
+          "port:In1.Cu:3610000,49050000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "d0276374-3891-42f9-ad15-e65de7ecaec5",
+        "reference": "J2",
+        "pin": "3",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:d0276374-3891-42f9-ad15-e65de7ecaec5",
+          "port:In1.Cu:2747500,10950000",
+          "port:In1.Cu:3610000,10950000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+        "reference": "J2",
+        "pin": "8",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+          "port:In1.Cu:2747500,23650000",
+          "port:In1.Cu:3610000,23650000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+        "reference": "J3",
+        "pin": "13",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+          "port:In1.Cu:19252500,23650000",
+          "port:In1.Cu:18390000,23650000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+        "reference": "J3",
+        "pin": "18",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+          "port:In1.Cu:19252500,10950000",
+          "port:In1.Cu:18390000,10950000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c",
+        "reference": "J3",
+        "pin": "3",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c",
+          "port:In1.Cu:19252500,49050000",
+          "port:In1.Cu:18390000,49050000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "018aed7a-2e26-4630-a51e-fb3619ec0d40",
+        "reference": "J3",
+        "pin": "8",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:018aed7a-2e26-4630-a51e-fb3619ec0d40",
+          "port:In1.Cu:19252500,36350000",
+          "port:In1.Cu:18390000,36350000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+        "reference": "J4",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+          "port:In1.Cu:10362500,56775000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "ea00f833-6cda-4986-a55f-829784abb36d",
+        "reference": "R10",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:ea00f833-6cda-4986-a55f-829784abb36d",
+          "port:F.Cu:15240000,50787500",
+          "port:F.Cu:15300000,50652500",
+          "via:e72cddfc-1b57-4224-bac0-caccb4a71d09",
+          "port:In1.Cu:15637500,50540000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "8a2bb837-afe1-4d77-b13e-1124b1142b3d",
+        "reference": "R12",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:8a2bb837-afe1-4d77-b13e-1124b1142b3d",
+          "port:F.Cu:17057500,18490000",
+          "port:F.Cu:16912500,18750000",
+          "via:feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+          "port:In1.Cu:16987500,18900000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "a86ed61d-268d-49df-b24c-1c59a1a367f2",
+        "reference": "R14",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+          "port:F.Cu:15200000,22887500",
+          "via:0183904b-58b9-414d-9657-0c38bac9f708",
+          "port:In1.Cu:15387500,22650000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "ae4e1791-b2fe-4c9c-8738-33b281cc4b79",
+        "reference": "R15",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:ae4e1791-b2fe-4c9c-8738-33b281cc4b79",
+          "port:F.Cu:18225000,37105000",
+          "via:12a9b3dc-6154-47d8-a74e-188543653c0e",
+          "port:In1.Cu:18412500,37350000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "cd537160-999a-4e73-ac84-7f09276efa9c",
+        "reference": "R3",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:cd537160-999a-4e73-ac84-7f09276efa9c",
+          "port:F.Cu:14245000,10110000",
+          "port:F.Cu:14287500,9750000",
+          "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+          "port:In1.Cu:14587500,9600000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "f0f8cbd1-6138-412e-bdb5-ae7e339237e1",
+        "reference": "R4",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:f0f8cbd1-6138-412e-bdb5-ae7e339237e1",
+          "port:F.Cu:7625000,10110000",
+          "port:F.Cu:7490000,9950000",
+          "port:F.Cu:7650000,9790000",
+          "port:F.Cu:7650000,9687500",
+          "via:668ab035-7651-4112-81d6-735bc6cc3999",
+          "port:In1.Cu:7837500,9500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "b37fe542-d1ff-48c2-898f-4168fbd9c24e",
+        "reference": "SW1",
+        "pin": "1",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:b37fe542-d1ff-48c2-898f-4168fbd9c24e",
+          "port:F.Cu:4668750,41575000",
+          "port:F.Cu:5337500,41575000",
+          "via:2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+          "port:In1.Cu:5712500,41575000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "162616ba-3514-468e-a144-aaecbdcb1e8b",
+        "reference": "SW1",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:162616ba-3514-468e-a144-aaecbdcb1e8b",
+          "port:F.Cu:4181250,37031250",
+          "port:F.Cu:3610000,36350000",
+          "port:F.Cu:2747500,36350000",
+          "pad:872ffa24-5366-4994-a978-d983df50eb18",
+          "port:In1.Cu:2747500,36350000",
+          "port:In1.Cu:3610000,36350000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "d69f8553-1047-4037-9d74-ce0b0a3a4030",
+        "reference": "SW2",
+        "pin": "1",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:d69f8553-1047-4037-9d74-ce0b0a3a4030",
+          "port:F.Cu:12668750,22168750",
+          "port:F.Cu:13940000,23490000",
+          "port:F.Cu:14800000,23490000",
+          "port:F.Cu:14960000,23292500",
+          "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+          "port:F.Cu:15200000,22887500",
+          "via:0183904b-58b9-414d-9657-0c38bac9f708",
+          "port:In1.Cu:15387500,22650000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "d4f756c5-0eed-4a61-9ade-78490a59da53",
+        "reference": "SW2",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:d4f756c5-0eed-4a61-9ade-78490a59da53",
+          "port:F.Cu:12425000,18018750",
+          "port:F.Cu:12425000,21381250",
+          "pad:d69f8553-1047-4037-9d74-ce0b0a3a4030",
+          "port:F.Cu:12668750,22168750",
+          "port:F.Cu:13940000,23490000",
+          "port:F.Cu:14800000,23490000",
+          "port:F.Cu:14960000,23292500",
+          "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+          "port:F.Cu:15200000,22887500",
+          "via:0183904b-58b9-414d-9657-0c38bac9f708",
+          "port:In1.Cu:15387500,22650000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "d32b7f09-4f42-4011-98a9-4d2e7440bddb",
+        "reference": "U1",
+        "pin": "47",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:d32b7f09-4f42-4011-98a9-4d2e7440bddb",
+          "port:F.Cu:12875000,29350000",
+          "port:F.Cu:12800000,29537500",
+          "via:7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+          "port:In1.Cu:12987500,29725000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "b05fc6e5-9159-4e47-9a0a-c56d58bbaaf2",
+        "reference": "U1",
+        "pin": "61",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:b05fc6e5-9159-4e47-9a0a-c56d58bbaaf2",
+          "port:F.Cu:11152500,33065000",
+          "via:9ab1435a-daaf-495d-8feb-deaf0149a45c",
+          "port:In1.Cu:11152500,33065000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+        "reference": "U2",
+        "pin": "11",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+          "port:F.Cu:10500000,49050000",
+          "port:F.Cu:10387500,49506250",
+          "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+          "port:F.Cu:10612500,50143750",
+          "port:F.Cu:10500000,51262500",
+          "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+          "port:In1.Cu:10687500,51450000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+        "reference": "U2",
+        "pin": "3",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+          "port:F.Cu:10612500,50143750",
+          "port:F.Cu:10500000,51262500",
+          "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+          "port:In1.Cu:10687500,51450000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "11bc718c-2ff5-4912-ba6a-acdece4b4d99",
+        "reference": "U2",
+        "pin": "9",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:11bc718c-2ff5-4912-ba6a-acdece4b4d99",
+          "port:F.Cu:10112500,47693750",
+          "port:F.Cu:10000000,48150000",
+          "pad:46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+          "port:F.Cu:10500000,49050000",
+          "port:F.Cu:10387500,49506250",
+          "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+          "port:F.Cu:10612500,50143750",
+          "port:F.Cu:10500000,51262500",
+          "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+          "port:In1.Cu:10687500,51450000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "d578d2a9-de22-4fc9-baa7-d8c77cd25b54",
+        "reference": "U3",
+        "pin": "4",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:d578d2a9-de22-4fc9-baa7-d8c77cd25b54",
+          "port:F.Cu:6862500,25087500",
+          "port:F.Cu:6725000,24675000",
+          "port:F.Cu:6050000,24075000",
+          "pad:ac41bd44-7950-44b4-9772-34756dc1c247",
+          "port:F.Cu:6050000,23925000",
+          "port:F.Cu:6050000,23787500",
+          "via:95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+          "port:In1.Cu:6237500,23600000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "ac41bd44-7950-44b4-9772-34756dc1c247",
+        "reference": "U3",
+        "pin": "9",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:ac41bd44-7950-44b4-9772-34756dc1c247",
+          "port:F.Cu:6050000,23925000",
+          "port:F.Cu:6050000,23787500",
+          "via:95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+          "port:In1.Cu:6237500,23600000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "8bdfbf17-64f6-46df-a2f8-9d69ba26990d",
+        "reference": "U4",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:8bdfbf17-64f6-46df-a2f8-9d69ba26990d",
+          "port:F.Cu:10850000,12550000",
+          "port:F.Cu:10412500,12150000",
+          "via:0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+          "port:In1.Cu:10487500,12000000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "3802e23c-c89c-4faa-8189-082ce17acee9",
+        "reference": "Y1",
+        "pin": "2",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:3802e23c-c89c-4faa-8189-082ce17acee9",
+          "port:F.Cu:10700000,42100000",
+          "port:F.Cu:10700000,42312500",
+          "via:660c6b12-c207-47ec-a352-523fdf294042",
+          "port:In1.Cu:10887500,42500000",
+          "plane:GND_PLANE:0"
+        ]
+      },
+      {
+        "padUuid": "a71c9c8c-1023-48cd-bc2a-033c69df22a2",
+        "reference": "Y1",
+        "pin": "4",
+        "status": "witnessed",
+        "reason": "A positive-width nominal copper path reaches the qualified target plane interior.",
+        "path": [
+          "pad:a71c9c8c-1023-48cd-bc2a-033c69df22a2",
+          "port:F.Cu:8500000,39450000",
+          "port:F.Cu:8312500,39150000",
+          "via:2138f519-c783-46f8-aa38-3baacff98d43",
+          "port:In1.Cu:8387500,39000000",
+          "plane:GND_PLANE:0"
+        ]
+      }
+    ],
+    "primitiveInteriors": [
+      {
+        "id": "pad:a9ea4f07-0796-4e47-95ba-099e5c1e4c49",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:485fdf18-d1b9-41d8-a182-81026f1be6bb",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:36130c40-acdf-4b2f-b389-11b8a8562dff",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:cab6748f-6925-4f6c-87a0-ce4082175fc2",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:ee901197-d25d-43e9-bad3-b673d2a3bc73",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:0a964142-1cf2-499a-9955-5a6aa2c182b2",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:696de407-b6d0-43f2-b1cd-54865ca0647f",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:20d0f563-9e66-4266-8ff3-119ce4059a70",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:c8ba9e23-0ac3-40a7-b518-e68972e5e4c4",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:8ee4a807-ded0-415a-ac94-26a73610cd39",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:f0d5fd9c-81b4-477c-a917-b99268834678",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:981f0293-619c-44f5-bceb-88224ad00494",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:605cf88e-fe33-499e-82d5-4d96c7c044f3",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:8f6b3951-4170-4494-80d9-85be904da86f",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:851f9712-5a1d-48eb-916e-76a1a37446c8",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:583d40cc-69e7-4423-a4bf-b9947b95a636",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:370cfe52-21a2-4ca3-9e7e-d747c96f9e0c",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:f700d5a2-6798-4e25-8eab-211b4a3c4d5f",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:5ddb7570-71ef-4460-858f-11a2ab455e95",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:7762ba7f-be7e-4448-8921-0ddcc42f5058",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:a26c5467-3ef7-4a02-ac0c-f6f7f5a6d254",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:0651164c-4a8b-4273-9c1d-178581a6a663",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:bf7c1b4d-8e32-4132-b627-470732c6d7ed",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:a94ee526-bf97-4e9d-9b5f-d79536aa6ee8",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:8bd1cfdb-173d-4df8-8394-914948fd3eed",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:56be1d7d-0131-48d9-826b-a785ab1f933f",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:4111f727-116c-4af4-a0dd-034fa2af680d",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:202e60a7-76af-4458-b990-25ff72340931",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:9186e189-4f60-4225-9538-5b0db14606e6",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:f5592606-4e9d-4b62-afac-565ec9879275",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:35603db2-7858-452d-90f0-c991ba6d7717",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:6a8af92a-66ec-4429-b364-6c69de6a7f23",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:872ffa24-5366-4994-a978-d983df50eb18",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:26a265db-f05e-4617-b50b-b7e0338b52e0",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:d0276374-3891-42f9-ad15-e65de7ecaec5",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:018aed7a-2e26-4630-a51e-fb3619ec0d40",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:ea00f833-6cda-4986-a55f-829784abb36d",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:8a2bb837-afe1-4d77-b13e-1124b1142b3d",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:ae4e1791-b2fe-4c9c-8738-33b281cc4b79",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:cd537160-999a-4e73-ac84-7f09276efa9c",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:f0f8cbd1-6138-412e-bdb5-ae7e339237e1",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:b37fe542-d1ff-48c2-898f-4168fbd9c24e",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:162616ba-3514-468e-a144-aaecbdcb1e8b",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:d69f8553-1047-4037-9d74-ce0b0a3a4030",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:d4f756c5-0eed-4a61-9ade-78490a59da53",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:d32b7f09-4f42-4011-98a9-4d2e7440bddb",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:b05fc6e5-9159-4e47-9a0a-c56d58bbaaf2",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:11bc718c-2ff5-4912-ba6a-acdece4b4d99",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:d578d2a9-de22-4fc9-baa7-d8c77cd25b54",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:ac41bd44-7950-44b4-9772-34756dc1c247",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:8bdfbf17-64f6-46df-a2f8-9d69ba26990d",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:3802e23c-c89c-4faa-8189-082ce17acee9",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "pad:a71c9c8c-1023-48cd-bc2a-033c69df22a2",
+        "status": "verified",
+        "reason": "Convex pad copper inside the board with strictly internal disjoint bores; every other bore strictly exterior."
+      },
+      {
+        "id": "via:0183904b-58b9-414d-9657-0c38bac9f708",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:0c0d17c6-67e0-420a-a456-6acf146a74ac",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:0c9d98b6-26bb-43c3-8371-801254431694",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:12a9b3dc-6154-47d8-a74e-188543653c0e",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:2138f519-c783-46f8-aa38-3baacff98d43",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:46371e16-6d0d-40e6-9975-3c75e51cec0d",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:463c9f0b-7400-4471-be23-08925f31fbac",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:50359f17-a88f-4224-a877-156f55a32121",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:53683e37-8cf7-4b40-93a2-5d13aac012a8",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:660c6b12-c207-47ec-a352-523fdf294042",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:668ab035-7651-4112-81d6-735bc6cc3999",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:707cba30-4192-4239-a71a-e4b94f348f45",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:7e5658a6-4451-455b-ad7e-3311b063517a",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:8d3806d2-7356-4bc6-a218-183e5b189f96",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:9ab1435a-daaf-495d-8feb-deaf0149a45c",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:c72f99ad-b035-4092-beda-5958d96107b5",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:d168baf9-49fb-4a16-a958-8ac5f994381d",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:e4f5ebb6-f345-4129-8ff9-e129714c0258",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:e72cddfc-1b57-4224-bac0-caccb4a71d09",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:f8adabc9-8b10-4dd0-b871-a037512f882c",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      },
+      {
+        "id": "via:feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+        "status": "verified",
+        "reason": "Normal annulus and barrel inside the board; every foreign bore strictly outside the outer copper disk."
+      }
+    ],
+    "witnessPorts": [
+      {
+        "id": "port:F.Cu:17120000,29532500",
+        "centerNm": {
+          "x": 17120000,
+          "y": 29532500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 9999
+      },
+      {
+        "id": "port:F.Cu:4430000,31732500",
+        "centerNm": {
+          "x": 4430000,
+          "y": 31732500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 46157
+      },
+      {
+        "id": "port:F.Cu:11032500,38710000",
+        "centerNm": {
+          "x": 11032500,
+          "y": 38710000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 18066
+      },
+      {
+        "id": "port:F.Cu:16590000,32812500",
+        "centerNm": {
+          "x": 16590000,
+          "y": 32812500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 17782
+      },
+      {
+        "id": "port:F.Cu:8450000,25710000",
+        "centerNm": {
+          "x": 8450000,
+          "y": 25710000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 69999
+      },
+      {
+        "id": "port:F.Cu:5067500,20160000",
+        "centerNm": {
+          "x": 5067500,
+          "y": 20160000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 21708
+      },
+      {
+        "id": "port:F.Cu:16770000,30552500",
+        "centerNm": {
+          "x": 16770000,
+          "y": 30552500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 46157
+      },
+      {
+        "id": "port:F.Cu:16840000,30552500",
+        "centerNm": {
+          "x": 16840000,
+          "y": 30552500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 9999
+      },
+      {
+        "id": "port:F.Cu:17120000,31217500",
+        "centerNm": {
+          "x": 17120000,
+          "y": 31217500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 9999
+      },
+      {
+        "id": "port:F.Cu:5832500,17810000",
+        "centerNm": {
+          "x": 5832500,
+          "y": 17810000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 46157
+      },
+      {
+        "id": "port:F.Cu:6567500,17810000",
+        "centerNm": {
+          "x": 6567500,
+          "y": 17810000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 46157
+      },
+      {
+        "id": "port:F.Cu:13832500,27130000",
+        "centerNm": {
+          "x": 13832500,
+          "y": 27130000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 19782
+      },
+      {
+        "id": "port:F.Cu:14000000,45897500",
+        "centerNm": {
+          "x": 14000000,
+          "y": 45897500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:F.Cu:7000000,46027500",
+        "centerNm": {
+          "x": 7000000,
+          "y": 46027500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:F.Cu:7000000,46852500",
+        "centerNm": {
+          "x": 7000000,
+          "y": 46852500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:F.Cu:11690000,45727500",
+        "centerNm": {
+          "x": 11690000,
+          "y": 45727500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 46157
+      },
+      {
+        "id": "port:F.Cu:16960000,25732500",
+        "centerNm": {
+          "x": 16960000,
+          "y": 25732500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 9999
+      },
+      {
+        "id": "port:F.Cu:5800000,42920000",
+        "centerNm": {
+          "x": 5800000,
+          "y": 42920000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 69999
+      },
+      {
+        "id": "port:F.Cu:12037500,41440000",
+        "centerNm": {
+          "x": 12037500,
+          "y": 41440000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 23988
+      },
+      {
+        "id": "port:F.Cu:14610000,11550000",
+        "centerNm": {
+          "x": 14610000,
+          "y": 11550000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 34999
+      },
+      {
+        "id": "port:F.Cu:14000000,24710000",
+        "centerNm": {
+          "x": 14000000,
+          "y": 24710000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 69999
+      },
+      {
+        "id": "port:F.Cu:14775000,28125000",
+        "centerNm": {
+          "x": 14775000,
+          "y": 28125000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 15648
+      },
+      {
+        "id": "port:F.Cu:12270000,39240000",
+        "centerNm": {
+          "x": 12270000,
+          "y": 39240000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 14999
+      },
+      {
+        "id": "port:F.Cu:4360000,30432500",
+        "centerNm": {
+          "x": 4360000,
+          "y": 30432500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 49220
+      },
+      {
+        "id": "port:F.Cu:4420000,33767500",
+        "centerNm": {
+          "x": 4420000,
+          "y": 33767500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 54999
+      },
+      {
+        "id": "port:F.Cu:7670000,37572500",
+        "centerNm": {
+          "x": 7670000,
+          "y": 37572500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 5928
+      },
+      {
+        "id": "port:F.Cu:15732500,38310000",
+        "centerNm": {
+          "x": 15732500,
+          "y": 38310000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 46157
+      },
+      {
+        "id": "port:F.Cu:16625000,33525000",
+        "centerNm": {
+          "x": 16625000,
+          "y": 33525000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 1506
+      },
+      {
+        "id": "port:F.Cu:6540625,45156250",
+        "centerNm": {
+          "x": 6540625,
+          "y": 45156250
+        },
+        "layer": "F.Cu",
+        "radiusNm": 70550
+      },
+      {
+        "id": "port:F.Cu:14200000,9086250",
+        "centerNm": {
+          "x": 14200000,
+          "y": 9086250
+        },
+        "layer": "F.Cu",
+        "radiusNm": 143749
+      },
+      {
+        "id": "port:F.Cu:7800000,9086250",
+        "centerNm": {
+          "x": 7800000,
+          "y": 9086250
+        },
+        "layer": "F.Cu",
+        "radiusNm": 143749
+      },
+      {
+        "id": "port:In1.Cu:14945000,7292500",
+        "centerNm": {
+          "x": 14945000,
+          "y": 7292500
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 56116
+      },
+      {
+        "id": "port:In1.Cu:14945000,3225000",
+        "centerNm": {
+          "x": 14945000,
+          "y": 3225000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 34972
+      },
+      {
+        "id": "port:In1.Cu:6305000,7292500",
+        "centerNm": {
+          "x": 6305000,
+          "y": 7292500
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 56116
+      },
+      {
+        "id": "port:In1.Cu:6305000,3225000",
+        "centerNm": {
+          "x": 6305000,
+          "y": 3225000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 34972
+      },
+      {
+        "id": "port:F.Cu:2747500,36350000",
+        "centerNm": {
+          "x": 2747500,
+          "y": 36350000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:2747500,36350000",
+        "centerNm": {
+          "x": 2747500,
+          "y": 36350000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:2747500,49050000",
+        "centerNm": {
+          "x": 2747500,
+          "y": 49050000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:2747500,10950000",
+        "centerNm": {
+          "x": 2747500,
+          "y": 10950000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:2747500,23650000",
+        "centerNm": {
+          "x": 2747500,
+          "y": 23650000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:19252500,23650000",
+        "centerNm": {
+          "x": 19252500,
+          "y": 23650000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:19252500,10950000",
+        "centerNm": {
+          "x": 19252500,
+          "y": 10950000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:19252500,49050000",
+        "centerNm": {
+          "x": 19252500,
+          "y": 49050000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:19252500,36350000",
+        "centerNm": {
+          "x": 19252500,
+          "y": 36350000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 137499
+      },
+      {
+        "id": "port:In1.Cu:10362500,56775000",
+        "centerNm": {
+          "x": 10362500,
+          "y": 56775000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 83819
+      },
+      {
+        "id": "port:F.Cu:15240000,50787500",
+        "centerNm": {
+          "x": 15240000,
+          "y": 50787500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 47928
+      },
+      {
+        "id": "port:F.Cu:17057500,18490000",
+        "centerNm": {
+          "x": 17057500,
+          "y": 18490000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 42165
+      },
+      {
+        "id": "port:F.Cu:14960000,23292500",
+        "centerNm": {
+          "x": 14960000,
+          "y": 23292500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 47928
+      },
+      {
+        "id": "port:F.Cu:15200000,22887500",
+        "centerNm": {
+          "x": 15200000,
+          "y": 22887500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 37499
+      },
+      {
+        "id": "port:F.Cu:18225000,37105000",
+        "centerNm": {
+          "x": 18225000,
+          "y": 37105000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 9699
+      },
+      {
+        "id": "port:F.Cu:14245000,10110000",
+        "centerNm": {
+          "x": 14245000,
+          "y": 10110000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 14999
+      },
+      {
+        "id": "port:F.Cu:7625000,10110000",
+        "centerNm": {
+          "x": 7625000,
+          "y": 10110000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 14999
+      },
+      {
+        "id": "port:F.Cu:4668750,41575000",
+        "centerNm": {
+          "x": 4668750,
+          "y": 41575000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 81249
+      },
+      {
+        "id": "port:F.Cu:4181250,37031250",
+        "centerNm": {
+          "x": 4181250,
+          "y": 37031250
+        },
+        "layer": "F.Cu",
+        "radiusNm": 72217
+      },
+      {
+        "id": "port:F.Cu:12425000,21381250",
+        "centerNm": {
+          "x": 12425000,
+          "y": 21381250
+        },
+        "layer": "F.Cu",
+        "radiusNm": 131249
+      },
+      {
+        "id": "port:F.Cu:12668750,22168750",
+        "centerNm": {
+          "x": 12668750,
+          "y": 22168750
+        },
+        "layer": "F.Cu",
+        "radiusNm": 81249
+      },
+      {
+        "id": "port:F.Cu:12425000,18018750",
+        "centerNm": {
+          "x": 12425000,
+          "y": 18018750
+        },
+        "layer": "F.Cu",
+        "radiusNm": 131249
+      },
+      {
+        "id": "port:F.Cu:12875000,29350000",
+        "centerNm": {
+          "x": 12875000,
+          "y": 29350000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 24999
+      },
+      {
+        "id": "port:F.Cu:11152500,33065000",
+        "centerNm": {
+          "x": 11152500,
+          "y": 33065000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:10000000,48150000",
+        "centerNm": {
+          "x": 10000000,
+          "y": 48150000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:10500000,49050000",
+        "centerNm": {
+          "x": 10500000,
+          "y": 49050000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:10387500,49506250",
+        "centerNm": {
+          "x": 10387500,
+          "y": 49506250
+        },
+        "layer": "F.Cu",
+        "radiusNm": 37499
+      },
+      {
+        "id": "port:F.Cu:10612500,50143750",
+        "centerNm": {
+          "x": 10612500,
+          "y": 50143750
+        },
+        "layer": "F.Cu",
+        "radiusNm": 37499
+      },
+      {
+        "id": "port:F.Cu:10112500,47693750",
+        "centerNm": {
+          "x": 10112500,
+          "y": 47693750
+        },
+        "layer": "F.Cu",
+        "radiusNm": 37499
+      },
+      {
+        "id": "port:F.Cu:6862500,25087500",
+        "centerNm": {
+          "x": 6862500,
+          "y": 25087500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 12499
+      },
+      {
+        "id": "port:F.Cu:6050000,23925000",
+        "centerNm": {
+          "x": 6050000,
+          "y": 23925000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 24999
+      },
+      {
+        "id": "port:F.Cu:6050000,24075000",
+        "centerNm": {
+          "x": 6050000,
+          "y": 24075000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 24999
+      },
+      {
+        "id": "port:F.Cu:10850000,12550000",
+        "centerNm": {
+          "x": 10850000,
+          "y": 12550000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 74999
+      },
+      {
+        "id": "port:F.Cu:10700000,42100000",
+        "centerNm": {
+          "x": 10700000,
+          "y": 42100000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:8500000,39450000",
+        "centerNm": {
+          "x": 8500000,
+          "y": 39450000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 99999
+      },
+      {
+        "id": "port:In1.Cu:15387500,22650000",
+        "centerNm": {
+          "x": 15387500,
+          "y": 22650000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:7187500,47230000",
+        "centerNm": {
+          "x": 7187500,
+          "y": 47230000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:7000000,47042500",
+        "centerNm": {
+          "x": 7000000,
+          "y": 47042500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:12087500,45750000",
+        "centerNm": {
+          "x": 12087500,
+          "y": 45750000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:10487500,12000000",
+        "centerNm": {
+          "x": 10487500,
+          "y": 12000000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:10412500,12150000",
+        "centerNm": {
+          "x": 10412500,
+          "y": 12150000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:18412500,37350000",
+        "centerNm": {
+          "x": 18412500,
+          "y": 37350000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:8387500,39000000",
+        "centerNm": {
+          "x": 8387500,
+          "y": 39000000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:8312500,39150000",
+        "centerNm": {
+          "x": 8312500,
+          "y": 39150000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 37499
+      },
+      {
+        "id": "port:In1.Cu:5712500,41575000",
+        "centerNm": {
+          "x": 5712500,
+          "y": 41575000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:5337500,41575000",
+        "centerNm": {
+          "x": 5337500,
+          "y": 41575000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:14587500,9600000",
+        "centerNm": {
+          "x": 14587500,
+          "y": 9600000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:14287500,9750000",
+        "centerNm": {
+          "x": 14287500,
+          "y": 9750000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 35094
+      },
+      {
+        "id": "port:F.Cu:14287500,9450000",
+        "centerNm": {
+          "x": 14287500,
+          "y": 9450000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 49220
+      },
+      {
+        "id": "port:In1.Cu:4507500,30720000",
+        "centerNm": {
+          "x": 4507500,
+          "y": 30720000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:4320000,30532500",
+        "centerNm": {
+          "x": 4320000,
+          "y": 30532500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 15998
+      },
+      {
+        "id": "port:In1.Cu:4507500,33150000",
+        "centerNm": {
+          "x": 4507500,
+          "y": 33150000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:4320000,33337500",
+        "centerNm": {
+          "x": 4320000,
+          "y": 33337500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 15998
+      },
+      {
+        "id": "port:F.Cu:5687500,42920000",
+        "centerNm": {
+          "x": 5687500,
+          "y": 42920000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:5687500,42920000",
+        "centerNm": {
+          "x": 5687500,
+          "y": 42920000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:5087500,19970000",
+        "centerNm": {
+          "x": 5087500,
+          "y": 19970000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:12087500,41650000",
+        "centerNm": {
+          "x": 12087500,
+          "y": 41650000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:15037500,11550000",
+        "centerNm": {
+          "x": 15037500,
+          "y": 11550000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:10887500,42500000",
+        "centerNm": {
+          "x": 10887500,
+          "y": 42500000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:10700000,42312500",
+        "centerNm": {
+          "x": 10700000,
+          "y": 42312500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:7837500,9500000",
+        "centerNm": {
+          "x": 7837500,
+          "y": 9500000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:7650000,9687500",
+        "centerNm": {
+          "x": 7650000,
+          "y": 9687500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 47499
+      },
+      {
+        "id": "port:F.Cu:7762500,9350000",
+        "centerNm": {
+          "x": 7762500,
+          "y": 9350000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:14187500,24370000",
+        "centerNm": {
+          "x": 14187500,
+          "y": 24370000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:14000000,24557500",
+        "centerNm": {
+          "x": 14000000,
+          "y": 24557500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:16087500,38700000",
+        "centerNm": {
+          "x": 16087500,
+          "y": 38700000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:15787500,38550000",
+        "centerNm": {
+          "x": 15787500,
+          "y": 38550000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 35094
+      },
+      {
+        "id": "port:In1.Cu:4507500,32200000",
+        "centerNm": {
+          "x": 4507500,
+          "y": 32200000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:4320000,32012500",
+        "centerNm": {
+          "x": 4320000,
+          "y": 32012500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 15998
+      },
+      {
+        "id": "port:In1.Cu:10687500,51450000",
+        "centerNm": {
+          "x": 10687500,
+          "y": 51450000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:10500000,51262500",
+        "centerNm": {
+          "x": 10500000,
+          "y": 51262500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:12457500,39500000",
+        "centerNm": {
+          "x": 12457500,
+          "y": 39500000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:7537500,37660000",
+        "centerNm": {
+          "x": 7537500,
+          "y": 37660000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:7462500,37510000",
+        "centerNm": {
+          "x": 7462500,
+          "y": 37510000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 49220
+      },
+      {
+        "id": "port:In1.Cu:12987500,29725000",
+        "centerNm": {
+          "x": 12987500,
+          "y": 29725000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:12800000,29537500",
+        "centerNm": {
+          "x": 12800000,
+          "y": 29537500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:6387500,17500000",
+        "centerNm": {
+          "x": 6387500,
+          "y": 17500000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:6350000,17612500",
+        "centerNm": {
+          "x": 6350000,
+          "y": 17612500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 35094
+      },
+      {
+        "id": "port:F.Cu:6050000,17612500",
+        "centerNm": {
+          "x": 6050000,
+          "y": 17612500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 35094
+      },
+      {
+        "id": "port:In1.Cu:17167500,29810000",
+        "centerNm": {
+          "x": 17167500,
+          "y": 29810000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:16980000,29622500",
+        "centerNm": {
+          "x": 16980000,
+          "y": 29622500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:14737500,28030000",
+        "centerNm": {
+          "x": 14737500,
+          "y": 28030000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:6237500,23600000",
+        "centerNm": {
+          "x": 6237500,
+          "y": 23600000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:6050000,23787500",
+        "centerNm": {
+          "x": 6050000,
+          "y": 23787500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:11152500,33065000",
+        "centerNm": {
+          "x": 11152500,
+          "y": 33065000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:16887500,33200000",
+        "centerNm": {
+          "x": 16887500,
+          "y": 33200000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:16700000,33387500",
+        "centerNm": {
+          "x": 16700000,
+          "y": 33387500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 14790
+      },
+      {
+        "id": "port:F.Cu:16587500,33050000",
+        "centerNm": {
+          "x": 16587500,
+          "y": 33050000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 19495
+      },
+      {
+        "id": "port:In1.Cu:16787500,30900000",
+        "centerNm": {
+          "x": 16787500,
+          "y": 30900000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:16600000,30712500",
+        "centerNm": {
+          "x": 16600000,
+          "y": 30712500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 57499
+      },
+      {
+        "id": "port:In1.Cu:14187500,45500000",
+        "centerNm": {
+          "x": 14187500,
+          "y": 45500000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:14000000,45687500",
+        "centerNm": {
+          "x": 14000000,
+          "y": 45687500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:14337500,26920000",
+        "centerNm": {
+          "x": 14337500,
+          "y": 26920000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:13962500,26920000",
+        "centerNm": {
+          "x": 13962500,
+          "y": 26920000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 15998
+      },
+      {
+        "id": "port:In1.Cu:11737500,38650000",
+        "centerNm": {
+          "x": 11737500,
+          "y": 38650000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:11362500,38650000",
+        "centerNm": {
+          "x": 11362500,
+          "y": 38650000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:15637500,50540000",
+        "centerNm": {
+          "x": 15637500,
+          "y": 50540000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:15300000,50652500",
+        "centerNm": {
+          "x": 15300000,
+          "y": 50652500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:17007500,26200000",
+        "centerNm": {
+          "x": 17007500,
+          "y": 26200000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:16820000,26012500",
+        "centerNm": {
+          "x": 16820000,
+          "y": 26012500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:8637500,25370000",
+        "centerNm": {
+          "x": 8637500,
+          "y": 25370000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:8450000,25557500",
+        "centerNm": {
+          "x": 8450000,
+          "y": 25557500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:16987500,18900000",
+        "centerNm": {
+          "x": 16987500,
+          "y": 18900000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:F.Cu:16912500,18750000",
+        "centerNm": {
+          "x": 16912500,
+          "y": 18750000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 87499
+      },
+      {
+        "id": "port:In1.Cu:3610000,36350000",
+        "centerNm": {
+          "x": 3610000,
+          "y": 36350000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:In1.Cu:3610000,10950000",
+        "centerNm": {
+          "x": 3610000,
+          "y": 10950000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:In1.Cu:18390000,49050000",
+        "centerNm": {
+          "x": 18390000,
+          "y": 49050000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:In1.Cu:3610000,49050000",
+        "centerNm": {
+          "x": 3610000,
+          "y": 49050000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:In1.Cu:18390000,36350000",
+        "centerNm": {
+          "x": 18390000,
+          "y": 36350000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:In1.Cu:3610000,23650000",
+        "centerNm": {
+          "x": 3610000,
+          "y": 23650000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:In1.Cu:18390000,23650000",
+        "centerNm": {
+          "x": 18390000,
+          "y": 23650000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:In1.Cu:18390000,10950000",
+        "centerNm": {
+          "x": 18390000,
+          "y": 10950000
+        },
+        "layer": "In1.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:11150000,38650000",
+        "centerNm": {
+          "x": 11150000,
+          "y": 38650000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:16600000,30620000",
+        "centerNm": {
+          "x": 16600000,
+          "y": 30620000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:16625000,32925000",
+        "centerNm": {
+          "x": 16625000,
+          "y": 32925000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 43932
+      },
+      {
+        "id": "port:F.Cu:14200000,9400000",
+        "centerNm": {
+          "x": 14200000,
+          "y": 9400000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:7000000,45587500",
+        "centerNm": {
+          "x": 7000000,
+          "y": 45587500
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:3610000,36350000",
+        "centerNm": {
+          "x": 3610000,
+          "y": 36350000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:7490000,9950000",
+        "centerNm": {
+          "x": 7490000,
+          "y": 9950000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:13940000,23490000",
+        "centerNm": {
+          "x": 13940000,
+          "y": 23490000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:14800000,23490000",
+        "centerNm": {
+          "x": 14800000,
+          "y": 23490000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:6725000,24675000",
+        "centerNm": {
+          "x": 6725000,
+          "y": 24675000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:7650000,9790000",
+        "centerNm": {
+          "x": 7650000,
+          "y": 9790000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:4325000,33425000",
+        "centerNm": {
+          "x": 4325000,
+          "y": 33425000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 43932
+      },
+      {
+        "id": "port:F.Cu:4400000,31825000",
+        "centerNm": {
+          "x": 4400000,
+          "y": 31825000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      },
+      {
+        "id": "port:F.Cu:7550000,37460000",
+        "centerNm": {
+          "x": 7550000,
+          "y": 37460000
+        },
+        "layer": "F.Cu",
+        "radiusNm": 149999
+      }
+    ],
+    "witnessLinks": [
+      {
+        "from": "pad:a9ea4f07-0796-4e47-95ba-099e5c1e4c49",
+        "to": "port:F.Cu:17120000,29532500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:a9ea4f07-0796-4e47-95ba-099e5c1e4c49",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:485fdf18-d1b9-41d8-a182-81026f1be6bb",
+        "to": "port:F.Cu:4430000,31732500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:485fdf18-d1b9-41d8-a182-81026f1be6bb",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:36130c40-acdf-4b2f-b389-11b8a8562dff",
+        "to": "port:F.Cu:11032500,38710000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:36130c40-acdf-4b2f-b389-11b8a8562dff",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:cab6748f-6925-4f6c-87a0-ce4082175fc2",
+        "to": "port:F.Cu:16590000,32812500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:cab6748f-6925-4f6c-87a0-ce4082175fc2",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:ee901197-d25d-43e9-bad3-b673d2a3bc73",
+        "to": "port:F.Cu:8450000,25710000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:ee901197-d25d-43e9-bad3-b673d2a3bc73",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:0a964142-1cf2-499a-9955-5a6aa2c182b2",
+        "to": "port:F.Cu:5067500,20160000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:0a964142-1cf2-499a-9955-5a6aa2c182b2",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:696de407-b6d0-43f2-b1cd-54865ca0647f",
+        "to": "port:F.Cu:16770000,30552500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:696de407-b6d0-43f2-b1cd-54865ca0647f",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:20d0f563-9e66-4266-8ff3-119ce4059a70",
+        "to": "port:F.Cu:17120000,31217500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:20d0f563-9e66-4266-8ff3-119ce4059a70",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:c8ba9e23-0ac3-40a7-b518-e68972e5e4c4",
+        "to": "port:F.Cu:5832500,17810000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:c8ba9e23-0ac3-40a7-b518-e68972e5e4c4",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:8ee4a807-ded0-415a-ac94-26a73610cd39",
+        "to": "port:F.Cu:6567500,17810000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:8ee4a807-ded0-415a-ac94-26a73610cd39",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:f0d5fd9c-81b4-477c-a917-b99268834678",
+        "to": "port:F.Cu:13832500,27130000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:f0d5fd9c-81b4-477c-a917-b99268834678",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:981f0293-619c-44f5-bceb-88224ad00494",
+        "to": "port:F.Cu:14000000,45897500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:981f0293-619c-44f5-bceb-88224ad00494",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:605cf88e-fe33-499e-82d5-4d96c7c044f3",
+        "to": "port:F.Cu:7000000,46027500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:605cf88e-fe33-499e-82d5-4d96c7c044f3",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:605cf88e-fe33-499e-82d5-4d96c7c044f3",
+        "to": "port:F.Cu:7000000,46852500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:605cf88e-fe33-499e-82d5-4d96c7c044f3",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:8f6b3951-4170-4494-80d9-85be904da86f",
+        "to": "port:F.Cu:11690000,45727500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:8f6b3951-4170-4494-80d9-85be904da86f",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:851f9712-5a1d-48eb-916e-76a1a37446c8",
+        "to": "port:F.Cu:16960000,25732500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:851f9712-5a1d-48eb-916e-76a1a37446c8",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:583d40cc-69e7-4423-a4bf-b9947b95a636",
+        "to": "port:F.Cu:5800000,42920000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:583d40cc-69e7-4423-a4bf-b9947b95a636",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:370cfe52-21a2-4ca3-9e7e-d747c96f9e0c",
+        "to": "port:F.Cu:12037500,41440000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:370cfe52-21a2-4ca3-9e7e-d747c96f9e0c",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:f700d5a2-6798-4e25-8eab-211b4a3c4d5f",
+        "to": "port:F.Cu:14610000,11550000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:f700d5a2-6798-4e25-8eab-211b4a3c4d5f",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:5ddb7570-71ef-4460-858f-11a2ab455e95",
+        "to": "port:F.Cu:14000000,24710000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:5ddb7570-71ef-4460-858f-11a2ab455e95",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:7762ba7f-be7e-4448-8921-0ddcc42f5058",
+        "to": "port:F.Cu:14775000,28125000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:7762ba7f-be7e-4448-8921-0ddcc42f5058",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:a26c5467-3ef7-4a02-ac0c-f6f7f5a6d254",
+        "to": "port:F.Cu:12270000,39240000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:a26c5467-3ef7-4a02-ac0c-f6f7f5a6d254",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:0651164c-4a8b-4273-9c1d-178581a6a663",
+        "to": "port:F.Cu:4360000,30432500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:0651164c-4a8b-4273-9c1d-178581a6a663",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:bf7c1b4d-8e32-4132-b627-470732c6d7ed",
+        "to": "port:F.Cu:4420000,33767500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:bf7c1b4d-8e32-4132-b627-470732c6d7ed",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:a94ee526-bf97-4e9d-9b5f-d79536aa6ee8",
+        "to": "port:F.Cu:7670000,37572500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:a94ee526-bf97-4e9d-9b5f-d79536aa6ee8",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:8bd1cfdb-173d-4df8-8394-914948fd3eed",
+        "to": "port:F.Cu:15732500,38310000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:8bd1cfdb-173d-4df8-8394-914948fd3eed",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:56be1d7d-0131-48d9-826b-a785ab1f933f",
+        "to": "port:F.Cu:16625000,33525000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:56be1d7d-0131-48d9-826b-a785ab1f933f",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:4111f727-116c-4af4-a0dd-034fa2af680d",
+        "to": "port:F.Cu:6540625,45156250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:4111f727-116c-4af4-a0dd-034fa2af680d",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+        "to": "port:F.Cu:14200000,9086250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:6e3ebec7-83a3-4d91-8905-4b765cecbe9a",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:202e60a7-76af-4458-b990-25ff72340931",
+        "to": "port:F.Cu:7800000,9086250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:202e60a7-76af-4458-b990-25ff72340931",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:9186e189-4f60-4225-9538-5b0db14606e6",
+        "to": "port:F.Cu:7800000,9086250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:9186e189-4f60-4225-9538-5b0db14606e6",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+        "to": "port:F.Cu:14200000,9086250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:4cb58fa9-1918-4541-89bb-74fe8b7edf8b",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:f5592606-4e9d-4b62-afac-565ec9879275",
+        "to": "port:In1.Cu:14945000,7292500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:f5592606-4e9d-4b62-afac-565ec9879275",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:35603db2-7858-452d-90f0-c991ba6d7717",
+        "to": "port:In1.Cu:14945000,3225000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:35603db2-7858-452d-90f0-c991ba6d7717",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:6a8af92a-66ec-4429-b364-6c69de6a7f23",
+        "to": "port:In1.Cu:6305000,7292500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:6a8af92a-66ec-4429-b364-6c69de6a7f23",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+        "to": "port:In1.Cu:6305000,3225000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:78dd2ee1-deea-4d54-83ce-33895a8fe3a2",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:872ffa24-5366-4994-a978-d983df50eb18",
+        "to": "port:F.Cu:2747500,36350000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:872ffa24-5366-4994-a978-d983df50eb18",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:872ffa24-5366-4994-a978-d983df50eb18",
+        "to": "port:In1.Cu:2747500,36350000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:872ffa24-5366-4994-a978-d983df50eb18",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:26a265db-f05e-4617-b50b-b7e0338b52e0",
+        "to": "port:In1.Cu:2747500,49050000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:26a265db-f05e-4617-b50b-b7e0338b52e0",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:d0276374-3891-42f9-ad15-e65de7ecaec5",
+        "to": "port:In1.Cu:2747500,10950000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:d0276374-3891-42f9-ad15-e65de7ecaec5",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+        "to": "port:In1.Cu:2747500,23650000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:ae5c787a-f60f-4026-8a2e-a249c9b4725e",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+        "to": "port:In1.Cu:19252500,23650000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:dac8c6ad-17a4-4eb7-9c86-2c4c267c1399",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+        "to": "port:In1.Cu:19252500,10950000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:0e30cad3-de71-4c5d-ba61-4ba2fb32f930",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c",
+        "to": "port:In1.Cu:19252500,49050000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:018aed7a-2e26-4630-a51e-fb3619ec0d40",
+        "to": "port:In1.Cu:19252500,36350000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:018aed7a-2e26-4630-a51e-fb3619ec0d40",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+        "to": "port:In1.Cu:10362500,56775000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:7a3133ed-e1ae-46c4-ad82-32c38dfd9c51",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:ea00f833-6cda-4986-a55f-829784abb36d",
+        "to": "port:F.Cu:15240000,50787500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:ea00f833-6cda-4986-a55f-829784abb36d",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:8a2bb837-afe1-4d77-b13e-1124b1142b3d",
+        "to": "port:F.Cu:17057500,18490000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:8a2bb837-afe1-4d77-b13e-1124b1142b3d",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+        "to": "port:F.Cu:14960000,23292500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+        "to": "port:F.Cu:15200000,22887500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:a86ed61d-268d-49df-b24c-1c59a1a367f2",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:ae4e1791-b2fe-4c9c-8738-33b281cc4b79",
+        "to": "port:F.Cu:18225000,37105000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:ae4e1791-b2fe-4c9c-8738-33b281cc4b79",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:cd537160-999a-4e73-ac84-7f09276efa9c",
+        "to": "port:F.Cu:14245000,10110000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:cd537160-999a-4e73-ac84-7f09276efa9c",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:f0f8cbd1-6138-412e-bdb5-ae7e339237e1",
+        "to": "port:F.Cu:7625000,10110000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:f0f8cbd1-6138-412e-bdb5-ae7e339237e1",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:b37fe542-d1ff-48c2-898f-4168fbd9c24e",
+        "to": "port:F.Cu:4668750,41575000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:b37fe542-d1ff-48c2-898f-4168fbd9c24e",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:162616ba-3514-468e-a144-aaecbdcb1e8b",
+        "to": "port:F.Cu:4181250,37031250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:162616ba-3514-468e-a144-aaecbdcb1e8b",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:d69f8553-1047-4037-9d74-ce0b0a3a4030",
+        "to": "port:F.Cu:12425000,21381250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:d69f8553-1047-4037-9d74-ce0b0a3a4030",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:d69f8553-1047-4037-9d74-ce0b0a3a4030",
+        "to": "port:F.Cu:12668750,22168750",
+        "kind": "connected-interior",
+        "primitiveId": "pad:d69f8553-1047-4037-9d74-ce0b0a3a4030",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:d4f756c5-0eed-4a61-9ade-78490a59da53",
+        "to": "port:F.Cu:12425000,18018750",
+        "kind": "connected-interior",
+        "primitiveId": "pad:d4f756c5-0eed-4a61-9ade-78490a59da53",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:d32b7f09-4f42-4011-98a9-4d2e7440bddb",
+        "to": "port:F.Cu:12875000,29350000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:d32b7f09-4f42-4011-98a9-4d2e7440bddb",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:b05fc6e5-9159-4e47-9a0a-c56d58bbaaf2",
+        "to": "port:F.Cu:11152500,33065000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:b05fc6e5-9159-4e47-9a0a-c56d58bbaaf2",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+        "to": "port:F.Cu:10000000,48150000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+        "to": "port:F.Cu:10500000,49050000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:46950ad7-7786-4b3d-8e0d-2e1f9a353802",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+        "to": "port:F.Cu:10387500,49506250",
+        "kind": "connected-interior",
+        "primitiveId": "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+        "to": "port:F.Cu:10612500,50143750",
+        "kind": "connected-interior",
+        "primitiveId": "pad:bd535c3b-02d8-4d9c-9f7f-73a3f2033410",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:11bc718c-2ff5-4912-ba6a-acdece4b4d99",
+        "to": "port:F.Cu:10112500,47693750",
+        "kind": "connected-interior",
+        "primitiveId": "pad:11bc718c-2ff5-4912-ba6a-acdece4b4d99",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:d578d2a9-de22-4fc9-baa7-d8c77cd25b54",
+        "to": "port:F.Cu:6862500,25087500",
+        "kind": "connected-interior",
+        "primitiveId": "pad:d578d2a9-de22-4fc9-baa7-d8c77cd25b54",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:ac41bd44-7950-44b4-9772-34756dc1c247",
+        "to": "port:F.Cu:6050000,23925000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:ac41bd44-7950-44b4-9772-34756dc1c247",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:ac41bd44-7950-44b4-9772-34756dc1c247",
+        "to": "port:F.Cu:6050000,24075000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:ac41bd44-7950-44b4-9772-34756dc1c247",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:8bdfbf17-64f6-46df-a2f8-9d69ba26990d",
+        "to": "port:F.Cu:10850000,12550000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:8bdfbf17-64f6-46df-a2f8-9d69ba26990d",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:3802e23c-c89c-4faa-8189-082ce17acee9",
+        "to": "port:F.Cu:10700000,42100000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:3802e23c-c89c-4faa-8189-082ce17acee9",
+        "radiusNm": null
+      },
+      {
+        "from": "pad:a71c9c8c-1023-48cd-bc2a-033c69df22a2",
+        "to": "port:F.Cu:8500000,39450000",
+        "kind": "connected-interior",
+        "primitiveId": "pad:a71c9c8c-1023-48cd-bc2a-033c69df22a2",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0183904b-58b9-414d-9657-0c38bac9f708",
+        "to": "port:F.Cu:15200000,22887500",
+        "kind": "connected-interior",
+        "primitiveId": "via:0183904b-58b9-414d-9657-0c38bac9f708",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0183904b-58b9-414d-9657-0c38bac9f708",
+        "to": "port:In1.Cu:15387500,22650000",
+        "kind": "connected-interior",
+        "primitiveId": "via:0183904b-58b9-414d-9657-0c38bac9f708",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0c0d17c6-67e0-420a-a456-6acf146a74ac",
+        "to": "port:In1.Cu:7187500,47230000",
+        "kind": "connected-interior",
+        "primitiveId": "via:0c0d17c6-67e0-420a-a456-6acf146a74ac",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0c0d17c6-67e0-420a-a456-6acf146a74ac",
+        "to": "port:F.Cu:7000000,47042500",
+        "kind": "connected-interior",
+        "primitiveId": "via:0c0d17c6-67e0-420a-a456-6acf146a74ac",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0c9d98b6-26bb-43c3-8371-801254431694",
+        "to": "port:F.Cu:11690000,45727500",
+        "kind": "connected-interior",
+        "primitiveId": "via:0c9d98b6-26bb-43c3-8371-801254431694",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0c9d98b6-26bb-43c3-8371-801254431694",
+        "to": "port:In1.Cu:12087500,45750000",
+        "kind": "connected-interior",
+        "primitiveId": "via:0c9d98b6-26bb-43c3-8371-801254431694",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+        "to": "port:In1.Cu:10487500,12000000",
+        "kind": "connected-interior",
+        "primitiveId": "via:0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+        "radiusNm": null
+      },
+      {
+        "from": "via:0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+        "to": "port:F.Cu:10412500,12150000",
+        "kind": "connected-interior",
+        "primitiveId": "via:0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+        "radiusNm": null
+      },
+      {
+        "from": "via:12a9b3dc-6154-47d8-a74e-188543653c0e",
+        "to": "port:In1.Cu:18412500,37350000",
+        "kind": "connected-interior",
+        "primitiveId": "via:12a9b3dc-6154-47d8-a74e-188543653c0e",
+        "radiusNm": null
+      },
+      {
+        "from": "via:12a9b3dc-6154-47d8-a74e-188543653c0e",
+        "to": "port:F.Cu:18225000,37105000",
+        "kind": "connected-interior",
+        "primitiveId": "via:12a9b3dc-6154-47d8-a74e-188543653c0e",
+        "radiusNm": null
+      },
+      {
+        "from": "via:2138f519-c783-46f8-aa38-3baacff98d43",
+        "to": "port:In1.Cu:8387500,39000000",
+        "kind": "connected-interior",
+        "primitiveId": "via:2138f519-c783-46f8-aa38-3baacff98d43",
+        "radiusNm": null
+      },
+      {
+        "from": "via:2138f519-c783-46f8-aa38-3baacff98d43",
+        "to": "port:F.Cu:8312500,39150000",
+        "kind": "connected-interior",
+        "primitiveId": "via:2138f519-c783-46f8-aa38-3baacff98d43",
+        "radiusNm": null
+      },
+      {
+        "from": "via:2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+        "to": "port:In1.Cu:5712500,41575000",
+        "kind": "connected-interior",
+        "primitiveId": "via:2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+        "radiusNm": null
+      },
+      {
+        "from": "via:2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+        "to": "port:F.Cu:5337500,41575000",
+        "kind": "connected-interior",
+        "primitiveId": "via:2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+        "radiusNm": null
+      },
+      {
+        "from": "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+        "to": "port:In1.Cu:14587500,9600000",
+        "kind": "connected-interior",
+        "primitiveId": "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+        "radiusNm": null
+      },
+      {
+        "from": "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+        "to": "port:F.Cu:14287500,9750000",
+        "kind": "connected-interior",
+        "primitiveId": "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+        "radiusNm": null
+      },
+      {
+        "from": "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+        "to": "port:F.Cu:14287500,9450000",
+        "kind": "connected-interior",
+        "primitiveId": "via:4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+        "radiusNm": null
+      },
+      {
+        "from": "via:46371e16-6d0d-40e6-9975-3c75e51cec0d",
+        "to": "port:In1.Cu:4507500,30720000",
+        "kind": "connected-interior",
+        "primitiveId": "via:46371e16-6d0d-40e6-9975-3c75e51cec0d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:46371e16-6d0d-40e6-9975-3c75e51cec0d",
+        "to": "port:F.Cu:4320000,30532500",
+        "kind": "connected-interior",
+        "primitiveId": "via:46371e16-6d0d-40e6-9975-3c75e51cec0d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:463c9f0b-7400-4471-be23-08925f31fbac",
+        "to": "port:In1.Cu:4507500,33150000",
+        "kind": "connected-interior",
+        "primitiveId": "via:463c9f0b-7400-4471-be23-08925f31fbac",
+        "radiusNm": null
+      },
+      {
+        "from": "via:463c9f0b-7400-4471-be23-08925f31fbac",
+        "to": "port:F.Cu:4320000,33337500",
+        "kind": "connected-interior",
+        "primitiveId": "via:463c9f0b-7400-4471-be23-08925f31fbac",
+        "radiusNm": null
+      },
+      {
+        "from": "via:50359f17-a88f-4224-a877-156f55a32121",
+        "to": "port:F.Cu:5687500,42920000",
+        "kind": "connected-interior",
+        "primitiveId": "via:50359f17-a88f-4224-a877-156f55a32121",
+        "radiusNm": null
+      },
+      {
+        "from": "via:50359f17-a88f-4224-a877-156f55a32121",
+        "to": "port:In1.Cu:5687500,42920000",
+        "kind": "connected-interior",
+        "primitiveId": "via:50359f17-a88f-4224-a877-156f55a32121",
+        "radiusNm": null
+      },
+      {
+        "from": "via:53683e37-8cf7-4b40-93a2-5d13aac012a8",
+        "to": "port:F.Cu:5067500,20160000",
+        "kind": "connected-interior",
+        "primitiveId": "via:53683e37-8cf7-4b40-93a2-5d13aac012a8",
+        "radiusNm": null
+      },
+      {
+        "from": "via:53683e37-8cf7-4b40-93a2-5d13aac012a8",
+        "to": "port:In1.Cu:5087500,19970000",
+        "kind": "connected-interior",
+        "primitiveId": "via:53683e37-8cf7-4b40-93a2-5d13aac012a8",
+        "radiusNm": null
+      },
+      {
+        "from": "via:5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+        "to": "port:F.Cu:12037500,41440000",
+        "kind": "connected-interior",
+        "primitiveId": "via:5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+        "radiusNm": null
+      },
+      {
+        "from": "via:5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+        "to": "port:In1.Cu:12087500,41650000",
+        "kind": "connected-interior",
+        "primitiveId": "via:5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+        "radiusNm": null
+      },
+      {
+        "from": "via:5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+        "to": "port:F.Cu:14610000,11550000",
+        "kind": "connected-interior",
+        "primitiveId": "via:5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+        "radiusNm": null
+      },
+      {
+        "from": "via:5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+        "to": "port:In1.Cu:15037500,11550000",
+        "kind": "connected-interior",
+        "primitiveId": "via:5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+        "radiusNm": null
+      },
+      {
+        "from": "via:660c6b12-c207-47ec-a352-523fdf294042",
+        "to": "port:In1.Cu:10887500,42500000",
+        "kind": "connected-interior",
+        "primitiveId": "via:660c6b12-c207-47ec-a352-523fdf294042",
+        "radiusNm": null
+      },
+      {
+        "from": "via:660c6b12-c207-47ec-a352-523fdf294042",
+        "to": "port:F.Cu:10700000,42312500",
+        "kind": "connected-interior",
+        "primitiveId": "via:660c6b12-c207-47ec-a352-523fdf294042",
+        "radiusNm": null
+      },
+      {
+        "from": "via:668ab035-7651-4112-81d6-735bc6cc3999",
+        "to": "port:In1.Cu:7837500,9500000",
+        "kind": "connected-interior",
+        "primitiveId": "via:668ab035-7651-4112-81d6-735bc6cc3999",
+        "radiusNm": null
+      },
+      {
+        "from": "via:668ab035-7651-4112-81d6-735bc6cc3999",
+        "to": "port:F.Cu:7650000,9687500",
+        "kind": "connected-interior",
+        "primitiveId": "via:668ab035-7651-4112-81d6-735bc6cc3999",
+        "radiusNm": null
+      },
+      {
+        "from": "via:668ab035-7651-4112-81d6-735bc6cc3999",
+        "to": "port:F.Cu:7762500,9350000",
+        "kind": "connected-interior",
+        "primitiveId": "via:668ab035-7651-4112-81d6-735bc6cc3999",
+        "radiusNm": null
+      },
+      {
+        "from": "via:68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+        "to": "port:In1.Cu:14187500,24370000",
+        "kind": "connected-interior",
+        "primitiveId": "via:68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+        "radiusNm": null
+      },
+      {
+        "from": "via:68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+        "to": "port:F.Cu:14000000,24557500",
+        "kind": "connected-interior",
+        "primitiveId": "via:68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+        "radiusNm": null
+      },
+      {
+        "from": "via:6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+        "to": "port:In1.Cu:16087500,38700000",
+        "kind": "connected-interior",
+        "primitiveId": "via:6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+        "to": "port:F.Cu:15787500,38550000",
+        "kind": "connected-interior",
+        "primitiveId": "via:6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:707cba30-4192-4239-a71a-e4b94f348f45",
+        "to": "port:In1.Cu:4507500,32200000",
+        "kind": "connected-interior",
+        "primitiveId": "via:707cba30-4192-4239-a71a-e4b94f348f45",
+        "radiusNm": null
+      },
+      {
+        "from": "via:707cba30-4192-4239-a71a-e4b94f348f45",
+        "to": "port:F.Cu:4320000,32012500",
+        "kind": "connected-interior",
+        "primitiveId": "via:707cba30-4192-4239-a71a-e4b94f348f45",
+        "radiusNm": null
+      },
+      {
+        "from": "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+        "to": "port:In1.Cu:10687500,51450000",
+        "kind": "connected-interior",
+        "primitiveId": "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+        "radiusNm": null
+      },
+      {
+        "from": "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+        "to": "port:F.Cu:10500000,51262500",
+        "kind": "connected-interior",
+        "primitiveId": "via:76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+        "radiusNm": null
+      },
+      {
+        "from": "via:7e5658a6-4451-455b-ad7e-3311b063517a",
+        "to": "port:F.Cu:12270000,39240000",
+        "kind": "connected-interior",
+        "primitiveId": "via:7e5658a6-4451-455b-ad7e-3311b063517a",
+        "radiusNm": null
+      },
+      {
+        "from": "via:7e5658a6-4451-455b-ad7e-3311b063517a",
+        "to": "port:In1.Cu:12457500,39500000",
+        "kind": "connected-interior",
+        "primitiveId": "via:7e5658a6-4451-455b-ad7e-3311b063517a",
+        "radiusNm": null
+      },
+      {
+        "from": "via:7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+        "to": "port:In1.Cu:7537500,37660000",
+        "kind": "connected-interior",
+        "primitiveId": "via:7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+        "to": "port:F.Cu:7462500,37510000",
+        "kind": "connected-interior",
+        "primitiveId": "via:7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+        "to": "port:In1.Cu:12987500,29725000",
+        "kind": "connected-interior",
+        "primitiveId": "via:7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+        "radiusNm": null
+      },
+      {
+        "from": "via:7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+        "to": "port:F.Cu:12800000,29537500",
+        "kind": "connected-interior",
+        "primitiveId": "via:7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+        "radiusNm": null
+      },
+      {
+        "from": "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+        "to": "port:In1.Cu:6387500,17500000",
+        "kind": "connected-interior",
+        "primitiveId": "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+        "radiusNm": null
+      },
+      {
+        "from": "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+        "to": "port:F.Cu:6350000,17612500",
+        "kind": "connected-interior",
+        "primitiveId": "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+        "radiusNm": null
+      },
+      {
+        "from": "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+        "to": "port:F.Cu:6050000,17612500",
+        "kind": "connected-interior",
+        "primitiveId": "via:895798ed-118c-4044-b758-da8dfb25e1a4",
+        "radiusNm": null
+      },
+      {
+        "from": "via:8d3806d2-7356-4bc6-a218-183e5b189f96",
+        "to": "port:In1.Cu:17167500,29810000",
+        "kind": "connected-interior",
+        "primitiveId": "via:8d3806d2-7356-4bc6-a218-183e5b189f96",
+        "radiusNm": null
+      },
+      {
+        "from": "via:8d3806d2-7356-4bc6-a218-183e5b189f96",
+        "to": "port:F.Cu:16980000,29622500",
+        "kind": "connected-interior",
+        "primitiveId": "via:8d3806d2-7356-4bc6-a218-183e5b189f96",
+        "radiusNm": null
+      },
+      {
+        "from": "via:8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+        "to": "port:In1.Cu:14737500,28030000",
+        "kind": "connected-interior",
+        "primitiveId": "via:8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+        "radiusNm": null
+      },
+      {
+        "from": "via:8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+        "to": "port:F.Cu:14775000,28125000",
+        "kind": "connected-interior",
+        "primitiveId": "via:8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+        "radiusNm": null
+      },
+      {
+        "from": "via:95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+        "to": "port:In1.Cu:6237500,23600000",
+        "kind": "connected-interior",
+        "primitiveId": "via:95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+        "radiusNm": null
+      },
+      {
+        "from": "via:95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+        "to": "port:F.Cu:6050000,23787500",
+        "kind": "connected-interior",
+        "primitiveId": "via:95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+        "radiusNm": null
+      },
+      {
+        "from": "via:9ab1435a-daaf-495d-8feb-deaf0149a45c",
+        "to": "port:F.Cu:11152500,33065000",
+        "kind": "connected-interior",
+        "primitiveId": "via:9ab1435a-daaf-495d-8feb-deaf0149a45c",
+        "radiusNm": null
+      },
+      {
+        "from": "via:9ab1435a-daaf-495d-8feb-deaf0149a45c",
+        "to": "port:In1.Cu:11152500,33065000",
+        "kind": "connected-interior",
+        "primitiveId": "via:9ab1435a-daaf-495d-8feb-deaf0149a45c",
+        "radiusNm": null
+      },
+      {
+        "from": "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+        "to": "port:In1.Cu:16887500,33200000",
+        "kind": "connected-interior",
+        "primitiveId": "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+        "radiusNm": null
+      },
+      {
+        "from": "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+        "to": "port:F.Cu:16700000,33387500",
+        "kind": "connected-interior",
+        "primitiveId": "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+        "radiusNm": null
+      },
+      {
+        "from": "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+        "to": "port:F.Cu:16587500,33050000",
+        "kind": "connected-interior",
+        "primitiveId": "via:a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+        "radiusNm": null
+      },
+      {
+        "from": "via:cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+        "to": "port:In1.Cu:16787500,30900000",
+        "kind": "connected-interior",
+        "primitiveId": "via:cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+        "radiusNm": null
+      },
+      {
+        "from": "via:cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+        "to": "port:F.Cu:16600000,30712500",
+        "kind": "connected-interior",
+        "primitiveId": "via:cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+        "radiusNm": null
+      },
+      {
+        "from": "via:d168baf9-49fb-4a16-a958-8ac5f994381d",
+        "to": "port:In1.Cu:14187500,45500000",
+        "kind": "connected-interior",
+        "primitiveId": "via:d168baf9-49fb-4a16-a958-8ac5f994381d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:d168baf9-49fb-4a16-a958-8ac5f994381d",
+        "to": "port:F.Cu:14000000,45687500",
+        "kind": "connected-interior",
+        "primitiveId": "via:d168baf9-49fb-4a16-a958-8ac5f994381d",
+        "radiusNm": null
+      },
+      {
+        "from": "via:e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+        "to": "port:In1.Cu:14337500,26920000",
+        "kind": "connected-interior",
+        "primitiveId": "via:e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+        "radiusNm": null
+      },
+      {
+        "from": "via:e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+        "to": "port:F.Cu:13962500,26920000",
+        "kind": "connected-interior",
+        "primitiveId": "via:e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+        "radiusNm": null
+      },
+      {
+        "from": "via:e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+        "to": "port:In1.Cu:11737500,38650000",
+        "kind": "connected-interior",
+        "primitiveId": "via:e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+        "radiusNm": null
+      },
+      {
+        "from": "via:e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+        "to": "port:F.Cu:11362500,38650000",
+        "kind": "connected-interior",
+        "primitiveId": "via:e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+        "radiusNm": null
+      },
+      {
+        "from": "via:e72cddfc-1b57-4224-bac0-caccb4a71d09",
+        "to": "port:In1.Cu:15637500,50540000",
+        "kind": "connected-interior",
+        "primitiveId": "via:e72cddfc-1b57-4224-bac0-caccb4a71d09",
+        "radiusNm": null
+      },
+      {
+        "from": "via:e72cddfc-1b57-4224-bac0-caccb4a71d09",
+        "to": "port:F.Cu:15300000,50652500",
+        "kind": "connected-interior",
+        "primitiveId": "via:e72cddfc-1b57-4224-bac0-caccb4a71d09",
+        "radiusNm": null
+      },
+      {
+        "from": "via:f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+        "to": "port:In1.Cu:17007500,26200000",
+        "kind": "connected-interior",
+        "primitiveId": "via:f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+        "radiusNm": null
+      },
+      {
+        "from": "via:f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+        "to": "port:F.Cu:16820000,26012500",
+        "kind": "connected-interior",
+        "primitiveId": "via:f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+        "radiusNm": null
+      },
+      {
+        "from": "via:f8adabc9-8b10-4dd0-b871-a037512f882c",
+        "to": "port:In1.Cu:8637500,25370000",
+        "kind": "connected-interior",
+        "primitiveId": "via:f8adabc9-8b10-4dd0-b871-a037512f882c",
+        "radiusNm": null
+      },
+      {
+        "from": "via:f8adabc9-8b10-4dd0-b871-a037512f882c",
+        "to": "port:F.Cu:8450000,25557500",
+        "kind": "connected-interior",
+        "primitiveId": "via:f8adabc9-8b10-4dd0-b871-a037512f882c",
+        "radiusNm": null
+      },
+      {
+        "from": "via:feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+        "to": "port:In1.Cu:16987500,18900000",
+        "kind": "connected-interior",
+        "primitiveId": "via:feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+        "radiusNm": null
+      },
+      {
+        "from": "via:feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+        "to": "port:F.Cu:16912500,18750000",
+        "kind": "connected-interior",
+        "primitiveId": "via:feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:14945000,7292500",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:14945000,3225000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:6305000,7292500",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:6305000,3225000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:10362500,56775000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:15387500,22650000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:7187500,47230000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:12087500,45750000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:10487500,12000000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:18412500,37350000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:8387500,39000000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:5712500,41575000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:14587500,9600000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:4507500,30720000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:4507500,33150000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:5687500,42920000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:5087500,19970000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:12087500,41650000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:15037500,11550000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:10887500,42500000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:7837500,9500000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:14187500,24370000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:16087500,38700000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:4507500,32200000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:10687500,51450000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:12457500,39500000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:7537500,37660000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:12987500,29725000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:6387500,17500000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:17167500,29810000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:14737500,28030000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:6237500,23600000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:11152500,33065000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:16887500,33200000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:16787500,30900000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:14187500,45500000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:14337500,26920000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:11737500,38650000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:15637500,50540000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:17007500,26200000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:8637500,25370000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:16987500,18900000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:3610000,36350000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:3610000,10950000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:18390000,49050000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:3610000,49050000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:18390000,36350000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:3610000,23650000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:18390000,23650000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "plane:GND_PLANE:0",
+        "to": "port:In1.Cu:18390000,10950000",
+        "kind": "connected-interior",
+        "primitiveId": "plane:GND_PLANE:0",
+        "radiusNm": null
+      },
+      {
+        "from": "port:F.Cu:13832500,27130000",
+        "to": "port:F.Cu:13962500,26920000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:019cdf7e-e9f7-4d6f-a581-8d9b9e3f67d9",
+        "radiusNm": 19999
+      },
+      {
+        "from": "port:F.Cu:17120000,31217500",
+        "to": "port:F.Cu:16840000,30552500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:03adc205-d2fd-44f7-a761-c6dd304d1bbe",
+        "radiusNm": 9999
+      },
+      {
+        "from": "port:F.Cu:7800000,9086250",
+        "to": "port:F.Cu:7762500,9350000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:046db837-19c8-4493-b3a5-acfe785a2f95",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:11032500,38710000",
+        "to": "port:F.Cu:11150000,38650000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:0fd00f37-bc52-4042-8e17-c5e0a2b887d3",
+        "radiusNm": 18066
+      },
+      {
+        "from": "port:F.Cu:11150000,38650000",
+        "to": "port:F.Cu:11362500,38650000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:0fd00f37-bc52-4042-8e17-c5e0a2b887d3",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:16600000,30620000",
+        "to": "port:F.Cu:16600000,30712500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:1958c703-71f7-49e4-86ff-01e876574c30",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:7000000,46852500",
+        "to": "port:F.Cu:7000000,47042500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:1b0af56c-8e99-4cda-a07f-f8eab3023239",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:17120000,29532500",
+        "to": "port:F.Cu:16980000,29622500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:2f471068-3b9d-4f48-b236-bec7de001fe7",
+        "radiusNm": 9999
+      },
+      {
+        "from": "port:F.Cu:10850000,12550000",
+        "to": "port:F.Cu:10412500,12150000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:342f4da7-e825-4124-a239-181789519de1",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:6540625,45156250",
+        "to": "port:F.Cu:7000000,45587500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:35fcc11d-03f3-488d-ba75-13af91f7b9b5",
+        "radiusNm": 130111
+      },
+      {
+        "from": "port:F.Cu:14000000,24710000",
+        "to": "port:F.Cu:14000000,24557500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:3c205398-620b-422d-88b9-cde34f502230",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:17057500,18490000",
+        "to": "port:F.Cu:16912500,18750000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:3dee1da7-abf7-4341-af31-ca3f9d06ac9e",
+        "radiusNm": 42165
+      },
+      {
+        "from": "port:F.Cu:15240000,50787500",
+        "to": "port:F.Cu:15300000,50652500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:4992b2d2-7a3b-44cc-9419-d12098cd6957",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:12875000,29350000",
+        "to": "port:F.Cu:12800000,29537500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:4cd9e341-2527-4bcd-b0c2-58cda9da54e6",
+        "radiusNm": 74999
+      },
+      {
+        "from": "port:F.Cu:16840000,30552500",
+        "to": "port:F.Cu:16770000,30552500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:4d57bec5-5e80-4271-95fd-f0286f7d9728",
+        "radiusNm": 28023
+      },
+      {
+        "from": "port:F.Cu:16770000,30552500",
+        "to": "port:F.Cu:16600000,30620000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:4d57bec5-5e80-4271-95fd-f0286f7d9728",
+        "radiusNm": 77520
+      },
+      {
+        "from": "port:F.Cu:2747500,36350000",
+        "to": "port:F.Cu:3610000,36350000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:550d26dd-a01d-475c-9298-8129acbdbbf2",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:F.Cu:4668750,41575000",
+        "to": "port:F.Cu:5337500,41575000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:5a09beab-8062-42e5-ba8b-4444b8625f45",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:7625000,10110000",
+        "to": "port:F.Cu:7490000,9950000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:6054bc34-4ece-4536-8b10-9167fffe6048",
+        "radiusNm": 14999
+      },
+      {
+        "from": "port:F.Cu:13940000,23490000",
+        "to": "port:F.Cu:14800000,23490000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:606a2ccc-d082-4a48-ba60-3d438299c7b0",
+        "radiusNm": 149999
+      },
+      {
+        "from": "port:F.Cu:3610000,36350000",
+        "to": "port:F.Cu:4181250,37031250",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:611ee6e3-4fad-4f6c-8557-892dd5712373",
+        "radiusNm": 72217
+      },
+      {
+        "from": "port:F.Cu:6725000,24675000",
+        "to": "port:F.Cu:6050000,24075000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:62d25868-a2d6-4d55-b466-1425a19851cf",
+        "radiusNm": 96965
+      },
+      {
+        "from": "port:F.Cu:10700000,42100000",
+        "to": "port:F.Cu:10700000,42312500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:68d17ecb-8ac6-42ed-a3a4-6735921c6d4a",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:7490000,9950000",
+        "to": "port:F.Cu:7650000,9790000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:6af18118-37e8-4663-af41-53b60a6fd298",
+        "radiusNm": 149999
+      },
+      {
+        "from": "port:F.Cu:7650000,9790000",
+        "to": "port:F.Cu:7650000,9687500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:6af18118-37e8-4663-af41-53b60a6fd298",
+        "radiusNm": 47499
+      },
+      {
+        "from": "port:F.Cu:14000000,45897500",
+        "to": "port:F.Cu:14000000,45687500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:6e1385b0-913d-4bbe-b54b-17f741c9a858",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:4360000,30432500",
+        "to": "port:F.Cu:4320000,30532500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:6e342f7b-e4cc-444d-8278-85aea53c56e9",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:14200000,9086250",
+        "to": "port:F.Cu:14200000,9400000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:7232da8e-1c7f-47cd-9be9-ce4971a303bd",
+        "radiusNm": 149999
+      },
+      {
+        "from": "port:F.Cu:14200000,9400000",
+        "to": "port:F.Cu:14287500,9450000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:7232da8e-1c7f-47cd-9be9-ce4971a303bd",
+        "radiusNm": 49220
+      },
+      {
+        "from": "port:F.Cu:4420000,33767500",
+        "to": "port:F.Cu:4325000,33425000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:7a40c173-01b6-4145-870b-299a6348bab3",
+        "radiusNm": 54999
+      },
+      {
+        "from": "port:F.Cu:15732500,38310000",
+        "to": "port:F.Cu:15787500,38550000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:80495bdb-a3bc-4c4e-be43-a4c4758db499",
+        "radiusNm": 35094
+      },
+      {
+        "from": "port:F.Cu:10612500,50143750",
+        "to": "port:F.Cu:10500000,51262500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:8a1c5e6b-db1d-47c6-b75a-c4e482ee1521",
+        "radiusNm": 37499
+      },
+      {
+        "from": "port:F.Cu:12668750,22168750",
+        "to": "port:F.Cu:13940000,23490000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:8db6c2e1-13d9-4443-b292-919b025030d1",
+        "radiusNm": 114643
+      },
+      {
+        "from": "port:F.Cu:4430000,31732500",
+        "to": "port:F.Cu:4400000,31825000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:93180e8f-d023-4d21-b849-08c8240cd003",
+        "radiusNm": 52755
+      },
+      {
+        "from": "port:F.Cu:4400000,31825000",
+        "to": "port:F.Cu:4320000,32012500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:93180e8f-d023-4d21-b849-08c8240cd003",
+        "radiusNm": 69999
+      },
+      {
+        "from": "port:F.Cu:4325000,33425000",
+        "to": "port:F.Cu:4320000,33337500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:944ece60-c9b1-48b0-b6d8-00eecb0af99f",
+        "radiusNm": 84591
+      },
+      {
+        "from": "port:F.Cu:16625000,33525000",
+        "to": "port:F.Cu:16700000,33387500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:95f8d34a-8097-4a04-add6-5c69bda7291e",
+        "radiusNm": 74999
+      },
+      {
+        "from": "port:F.Cu:6050000,23925000",
+        "to": "port:F.Cu:6050000,23787500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:967c50e0-d37c-40c2-9e66-f5c91b8f1d3a",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:6862500,25087500",
+        "to": "port:F.Cu:6725000,24675000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:9697b04e-3c0f-466d-96d5-230d21c37d10",
+        "radiusNm": 12499
+      },
+      {
+        "from": "port:F.Cu:10112500,47693750",
+        "to": "port:F.Cu:10000000,48150000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:99a3e198-3393-4fc1-98a3-fd5ec105fd02",
+        "radiusNm": 37499
+      },
+      {
+        "from": "port:F.Cu:6567500,17810000",
+        "to": "port:F.Cu:6350000,17612500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:a144608b-1f03-4631-98f0-7662091cfb04",
+        "radiusNm": 35094
+      },
+      {
+        "from": "port:F.Cu:8500000,39450000",
+        "to": "port:F.Cu:8312500,39150000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:a36fe58a-8c47-40f2-b202-c3c22610de02",
+        "radiusNm": 70449
+      },
+      {
+        "from": "port:F.Cu:12425000,21381250",
+        "to": "port:F.Cu:12425000,18018750",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:a518ef97-4b6d-419d-ba99-1d5ab37a1175",
+        "radiusNm": 149999
+      },
+      {
+        "from": "port:F.Cu:10500000,49050000",
+        "to": "port:F.Cu:10387500,49506250",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:a6c742a3-819e-4101-982a-9b6d25676d10",
+        "radiusNm": 37499
+      },
+      {
+        "from": "port:F.Cu:5832500,17810000",
+        "to": "port:F.Cu:6050000,17612500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:acd329fa-9592-4472-93e2-929c39483344",
+        "radiusNm": 35094
+      },
+      {
+        "from": "port:F.Cu:7670000,37572500",
+        "to": "port:F.Cu:7550000,37460000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:b15712fb-e8d4-4b4f-8ec9-dc39eecc1bbb",
+        "radiusNm": 37499
+      },
+      {
+        "from": "port:F.Cu:8450000,25710000",
+        "to": "port:F.Cu:8450000,25557500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:b5add64e-421a-44e3-bf62-85e91c98ecf8",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:7000000,45587500",
+        "to": "port:F.Cu:7000000,46027500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:b68ed126-3616-475c-a5e4-0b1b0883c861",
+        "radiusNm": 149999
+      },
+      {
+        "from": "port:F.Cu:16590000,32812500",
+        "to": "port:F.Cu:16625000,32925000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:cfed79e5-52ae-4f58-9655-5169126d85a2",
+        "radiusNm": 32180
+      },
+      {
+        "from": "port:F.Cu:16625000,32925000",
+        "to": "port:F.Cu:16587500,33050000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:cfed79e5-52ae-4f58-9655-5169126d85a2",
+        "radiusNm": 35094
+      },
+      {
+        "from": "port:F.Cu:14800000,23490000",
+        "to": "port:F.Cu:14960000,23292500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:d9a577e9-5fc6-43b2-b34d-1596dde56d58",
+        "radiusNm": 123482
+      },
+      {
+        "from": "port:F.Cu:16960000,25732500",
+        "to": "port:F.Cu:16820000,26012500",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:dba8b9d1-3cd7-4e46-a54a-42e4a6f8468e",
+        "radiusNm": 9999
+      },
+      {
+        "from": "port:F.Cu:5800000,42920000",
+        "to": "port:F.Cu:5687500,42920000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:e89b6211-f349-4083-97eb-b85c37557307",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:F.Cu:14245000,10110000",
+        "to": "port:F.Cu:14287500,9750000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:e9170fa6-b0e5-4de5-a2b8-5698ab0ccda0",
+        "radiusNm": 35094
+      },
+      {
+        "from": "port:F.Cu:7550000,37460000",
+        "to": "port:F.Cu:7462500,37510000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:ec974f15-6f64-461f-8968-1ebec7df47a5",
+        "radiusNm": 87499
+      },
+      {
+        "from": "port:In1.Cu:2747500,10950000",
+        "to": "port:In1.Cu:3610000,10950000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:591def7d-de7d-4386-b5b5-cf1f9c045059",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:In1.Cu:19252500,49050000",
+        "to": "port:In1.Cu:18390000,49050000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:61d2942a-f67f-4480-9084-e8836e206f52",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:In1.Cu:2747500,36350000",
+        "to": "port:In1.Cu:3610000,36350000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:689bb7a4-27ec-4259-819c-33a9baeda5d1",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:In1.Cu:2747500,49050000",
+        "to": "port:In1.Cu:3610000,49050000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:6a487890-d56c-455d-9dd0-055c8b373cdd",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:In1.Cu:19252500,36350000",
+        "to": "port:In1.Cu:18390000,36350000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:6e558d66-aaac-4903-904c-121abe22ad9f",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:In1.Cu:2747500,23650000",
+        "to": "port:In1.Cu:3610000,23650000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:a34648a6-8efa-4b1e-a86a-05e15499b23d",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:In1.Cu:19252500,23650000",
+        "to": "port:In1.Cu:18390000,23650000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:c2772d6f-5944-4625-b22b-682d763e10bb",
+        "radiusNm": 137499
+      },
+      {
+        "from": "port:In1.Cu:19252500,10950000",
+        "to": "port:In1.Cu:18390000,10950000",
+        "kind": "clear-track-capsule",
+        "primitiveId": "track:dcf635b7-e0e5-4cc7-a3ec-fe9c2e2e47e4",
+        "radiusNm": 137499
+      }
+    ],
+    "predicateOperations": 2889009,
+    "currentCapacityClaimed": false,
+    "fabricationAuthorized": false
+  }
+}

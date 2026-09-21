@@ -41,7 +41,7 @@ const inventory = (raws: Raw[]) => raws.map(raw => {
     fillCounts: { layerCount: Object.keys(filledPolygons).length, polygonCount: polys.length, typedHoleCount: polys.reduce((n, p) => n + (p.holes?.length ?? 0), 0), outlineNodeCount: polys.reduce((n, p) => n + p.outline.nodes.length, 0) } };
 });
 
-export async function planeStageObservationFixture(input: { beforePcbSource: string; mutation?: PlaneRectangleMutation; request?: KicadPlaneStageInput; zoneId?: string; beforeZoneProtos?: readonly Raw[]; boardPath?: string;
+export async function planeStageObservationFixture(input: { beforePcbSource: string; mutation?: PlaneRectangleMutation; request?: KicadPlaneStageInput; zoneId?: string; beforeZoneProtos?: readonly Raw[]; boardPath?: string; retainedPadLayers?: boolean;
   filledContoursNm?: readonly (readonly (readonly [number, number])[])[] }) {
   const before = input.beforePcbSource, m = input.request?.request.mutation ?? input.mutation, old = structuredClone(input.beforeZoneProtos ?? []) as Raw[];
   if (!m) throw new Error("Synthetic fixture requires a mutation");
@@ -64,7 +64,7 @@ export async function planeStageObservationFixture(input: { beforePcbSource: str
   const filled = baseline.map(raw => { const next = structuredClone(raw); next.filled = true;
     if (raw.id.value === uuid) next.filled_polygons = [{ layer: next.layers[0], shapes: { polygons: input.filledContoursNm === undefined ? structuredClone(next.outline.polygons)
       : input.filledContoursNm.map(ring=>({outline:{closed:true,nodes:ring.map(([x,y])=>({point:{x_nm:String(x),y_nm:String(y)}}))}})) } }]; return next; });
-  const pads = await nativePadObservationFixture(stagedSource, before), snapshot: Raw = structuredClone(pads.observation.rawSnapshot);
+  const pads = await nativePadObservationFixture(stagedSource, before, input), snapshot: Raw = structuredClone(pads.observation.rawSnapshot);
   const boardPath = input.request?.board_file ?? input.boardPath ?? pads.expected.pcbPath, document = { type: "DOCTYPE_PCB", board_filename: path.win32.basename(boardPath), project: { name: path.win32.basename(boardPath, ".kicad_pcb"), path: path.win32.dirname(boardPath) } };
   // Rebind only known document fields, never perform a recursive string rewrite.
   snapshot.documentBefore = document; snapshot.documentAfter = document; snapshot.enabledLayers.request.board = document;

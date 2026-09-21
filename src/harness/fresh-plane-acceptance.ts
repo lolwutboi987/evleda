@@ -1,5 +1,7 @@
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../core/canonical.js";
 import { collectPlaneBridgeSource } from "./plane-region-bridge-source.js";
+import { collectTerminalCopperSource } from "./plane-terminal-copper-source.js";
+import { findTerminalCopperPaths, type TerminalCopperPathCalculation } from "./plane-terminal-copper-paths.js";
 import { boreRibbonRelation } from "./plane-bore-geometry.js";
 import { planReferenceTerminalLaunchStudy, ReferenceTerminalLaunchPlanningError } from "./reference-terminal-launch-study.js";
 import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
@@ -145,6 +147,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     intendedPlaneConnectivity: Fact & { scope:"native-pad-reachability-to-stored-zone-component" | "native-region-via-contacts-to-primary-plane";directEligiblePadAnchors: readonly string[]; nativeDirectVias: readonly string[] };
     regionalPolicyConditions?: Fact & { referencePlaneId: string; engineeringBasis: string };
     islandPolicy: Fact; actualMinimumCopperWidth: Fact; thermalPolicy: Fact; actualThermalWidth: Fact;
+    terminalCopperConnectivity?: Fact & { net: string; calculation: TerminalCopperPathCalculation | null };
   }> = [];
   const references: Array<{ net: string; planeId: string; status: Status; reasons: readonly string[]; segmentIds: readonly string[];
     marginNm: number; geometricStatus: "covered" | "uncovered" | "boundary_uncertain" | "not_assessed";
@@ -239,7 +242,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       acceptanceEvaluated: true as const, accepted: false as const, fabricationAuthorized: false as const,
       limitations: { overallAcceptance: "requires-every-mandatory-V2-row-and-independent-general-gates" as const,
         physicalThermalWidth: "not-measured" as const, actualMinimumCopperWidth: "not-measured" as const,
-        terminalContactContinuity:"native-model-only-not-drill-clipped-global-copper" as const,
+        terminalContactContinuity: planes.some(p => p.terminalCopperConnectivity?.status === "verified")
+          ? "per-plane-source-native-geometric-witnesses-where-reported" as const : "native-model-only-not-drill-clipped-global-copper" as const,
         highFrequencyElectricalValidity: "not-established" as const,
         impedance: bundle.contract.interfaceRequirements === undefined ? "not-evaluated" as const : "interface-analytical-model-only-not-measured" as const,
         currentSourceGuards: "required-of-owning-host-before-and-after-assessment" as const } };
@@ -430,6 +434,42 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const drc = nativeChecks?.checks.drcClearanceShorts;
     setRow(`plane-clearance:${plane.id}`, drc?.status === "failed" ? fact("failed", ...drc.reasons)
       : fact("unknown", ...(drc?.reasons ?? []), "Effective zone and edge clearance rule interaction needs its complete plane-specific evaluator."));
+  }
+  // Terminal connectivity is evaluated once for each declared primary plane,
+  // after every zone's original facts are retained. Supplemental-zone ordering
+  // must not overwrite a completed primary net check or an explicit failure.
+  for (const route of bundle.contract.routingConstraints.nets) {
+    if (route.topology !== "plane") continue;
+    const plane = planes.find(p => p.planeId === route.planeId)!;
+    plane.terminalCopperConnectivity = { ...fact("unknown", "Complete current source, native terminal geometry and a connected drilled primary plane are required."), net: route.net, calculation: null };
+    try {
+      requireValue(authority.status === "verified" && sourceScope.status === "verified" && nativeInventory.status === "verified"
+        && nativeChecks?.checks.drcClearanceShorts.status === "verified", "Current authenticated geometry and native clearance checks are required for terminal copper paths.");
+      requireValue(plane.configuration.status === "verified" && plane.nativePolygonAttribution.status === "verified"
+        && plane.intendedPlaneConnectivity.status === "verified" && plane.geometry.status === "verified" && plane.geometry.components.length === 1
+        && plane.drillTopology.status === "verified" && plane.drillTopology.planarInteriorConnected === true
+        && plane.drillTopology.inventory.complete && plane.drillTopology.bores.length === plane.drillTopology.inventory.boreCount,
+      "A current matching single primary region, connected drilled interior and native all-terminal anchor are required.");
+      requireValue(commonChecks.rows.find(r => r.id === "board:outline")?.status === "pass"
+        && commonChecks.rows.find(r => r.id === `vias:${route.net}`)?.status === "pass", "Exact outline and declared via geometry checks are required for terminal copper paths.");
+      const physical = saved.stage.nativePads.inventory, net = endpoint.nets.find(n => n.net === route.net)!;
+      requireValue(physical !== null && net.status === "connected" && net.everyEligiblePhysicalMemberReachable,
+        "Complete eligible physical terminals must retain native connectivity.");
+      const copper = collectTerminalCopperSource({ pcbSource: input.pcbSource, inventory: physical!, net: route.net,
+        eligiblePadUuids: net.endpoints.flatMap(e => e.eligiblePhysicalPadUuids), copperLayers: bundle.contract.scope.board.copperLayers, bores: plane.drillTopology.bores });
+      const declaration = bundle.contract.planes.find(p => p.id === plane.planeId)!;
+      const calculation = findTerminalCopperPaths({ ...copper, bores: plane.drillTopology.bores,
+        boardBoundsNm: { minX: 0, minY: 0, maxX: Math.round(bundle.contract.scope.board.widthMm * 1e6), maxY: Math.round(bundle.contract.scope.board.heightMm * 1e6) },
+        planes: [{ id: plane.planeId, layer: declaration.layer, component: plane.geometry.components[0]! }], targetPlaneId: plane.planeId });
+      plane.terminalCopperConnectivity = { ...fact(calculation.allTerminalsWitnessed ? "verified" : "unknown",
+        calculation.allTerminalsWitnessed
+          ? "Every eligible physical terminal has a positive-width nominal copper path through supported drilled pads, track capsules and intact barrels to the intended primary plane. Current capacity and manufacturing performance remain separate."
+          : "At least one physical terminal lacks a complete supported geometric path; native reachability alone does not fill the gap."), net: route.net, calculation };
+      if (calculation.allTerminalsWitnessed && rows.find(r => r.id === `plane-net:${route.net}`)?.status !== "fail")
+        setRow(`plane-net:${route.net}`, plane.terminalCopperConnectivity);
+    } catch (error) {
+      plane.terminalCopperConnectivity = { ...fact("unknown", error instanceof Error ? error.message : "Terminal copper geometry is unsupported."), net: route.net, calculation: null };
+    }
   }
   // Additional observation only: preserve every original single-component,
   // area, thermal, reference and global continuity requirement unchanged.

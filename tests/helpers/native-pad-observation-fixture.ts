@@ -16,7 +16,7 @@ export function withNativePadFixtureIds(source:string):string {
   return result;
 }
 
-export async function nativePadObservationFixture(source:string,libraryBaseline=source){
+export async function nativePadObservationFixture(source:string,libraryBaseline=source,options:{retainedPadLayers?:boolean}={}){
   const board=parseFreshPcbSource(source),baseline=parseFreshPcbSource(libraryBaseline);
   const document={type:"DOCTYPE_PCB",board_filename:"fixture.kicad_pcb",project:{name:"fixture",path:"D:\\evleda-offline-pad-fixture"}};
   const sourceCopperLayers=parseFreshPcbStackup(source).boardCopperLayerOrder;
@@ -25,6 +25,7 @@ export async function nativePadObservationFixture(source:string,libraryBaseline=
   const rawPads=board.footprints.flatMap(fp=>fp.pads.map(p=>({id:{value:p.physical.id!},...(p.number?{number:p.number}:{}),net:p.netName?{name:p.netName}:{},
     type:p.physical.padType==="thru_hole"?"PT_PTH":p.physical.padType==="np_thru_hole"?"PT_NPTH":"PT_SMD",position:{x_nm:String(Math.round(p.at.x*1e6)),y_nm:String(Math.round(p.at.y*1e6))},
     pad_stack:{type:"PST_NORMAL",layers:p.layers.flatMap(layer),angle:{value_degrees:p.physical.rotationDeg},
+      ...(options.retainedPadLayers?{unconnected_layer_removal:"ULR_KEEP"}:{}),
       drill:{start_layer:"BL_F_Cu",end_layer:"BL_B_Cu",diameter:p.physical.drill?{x_nm:String(Math.round(p.physical.drill.sizeMm.x*1e6)),y_nm:String(Math.round(p.physical.drill.sizeMm.y*1e6))}:{},shape:p.physical.drill?.shape==="oval"?"DS_OBLONG":"DS_CIRCLE"},
       copper_layers:[{layer:"BL_F_Cu",shape:p.physical.shape==="circle"?"PSS_CIRCLE":p.physical.shape==="oval"?"PSS_OVAL":p.physical.shape==="roundrect"?"PSS_ROUNDRECT":"PSS_RECTANGLE",
         size:{x_nm:String(Math.round(p.physical.sizeMm!.x*1e6)),y_nm:String(Math.round(p.physical.sizeMm!.y*1e6))},

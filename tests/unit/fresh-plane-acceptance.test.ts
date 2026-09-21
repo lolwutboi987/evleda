@@ -102,18 +102,18 @@ function interfaceBoard(compilationBundle: FreshPlaneAcceptanceInput["compilatio
     (segment (start 3 4) (end 8 4) (width ${widthMm}) (layer "F.Cu") (net "DN") (uuid "${U(2)}")))\n`;
 }
 async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?: number; disconnectedGround?: boolean; filledWidthMm?: number; projectSettingsSource?: string;
-  compilationBundle?: FreshPlaneAcceptanceInput["compilationBundle"]; pcbSource?: string; splitSupplemental?: boolean } = {}) {
+  compilationBundle?: FreshPlaneAcceptanceInput["compilationBundle"]; pcbSource?: string; splitSupplemental?: boolean; retainedPadLayers?: boolean } = {}) {
   const compilationBundle = options.compilationBundle ?? bundle(options.minimumAreaMm2), before = options.pcbSource ?? board(options);
   let prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: before, planeId: compilationBundle.contract.planes[0]!.id, operation: "create" });
   const split = (id: string) => options.splitSupplemental && id === "BACK_GND" ? { filledContoursNm: [
     [[500000,500000],[14500000,500000],[14500000,19500000],[500000,19500000]],
     [[15500000,500000],[29500000,500000],[29500000,19500000],[15500000,19500000]],
   ] as const } : {};
-  let stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation, ...split(compilationBundle.contract.planes[0]!.id) });
+  let stageFixture = await planeStageObservationFixture({ beforePcbSource: before, mutation: prepared.mutation, ...(options.retainedPadLayers ? { retainedPadLayers: true } : {}), ...split(compilationBundle.contract.planes[0]!.id) });
   for (const plane of compilationBundle.contract.planes.slice(1)) {
     prepared = prepareFreshPlaneMutation({ compilationBundle, beforePcbSource: stageFixture.stagedSource, planeId: plane.id, operation: "create" });
     stageFixture = await planeStageObservationFixture({ beforePcbSource: stageFixture.stagedSource, mutation: prepared.mutation,
-      beforeZoneProtos: [stageFixture.stagedZoneProto], zoneId: U(900), ...split(plane.id) });
+      beforeZoneProtos: [stageFixture.stagedZoneProto], zoneId: U(900), ...(options.retainedPadLayers ? { retainedPadLayers: true } : {}), ...split(plane.id) });
   }
   if (options.filledWidthMm !== undefined) {
     // Change only the synthetic native fill result. Zone settings/outline and
@@ -129,7 +129,7 @@ async function fixture(options: Parameters<typeof board>[0] & { minimumAreaMm2?:
     (stageFixture.stagedZoneProto as Raw).filled_polygons[0].shapes.polygons[0].outline.nodes = points.map(([a, b]) => ({ point: { x_nm: String(a! * 1e6), y_nm: String(b! * 1e6) } }));
   }
   const stage = validateFreshPlaneStageObservation(stageFixture.receipt, { ...stageFixture, prepared });
-  const pcbSource = stageFixture.stagedSource, native = await nativePadObservationFixture(pcbSource);
+  const pcbSource = stageFixture.stagedSource, native = await nativePadObservationFixture(pcbSource, pcbSource, options);
   const scope = canonicalIdentity({ current: "synthetic-owned-scope" }, "evleda.synthetic-plane-test-scope.v1");
   const endpointInput = { compilationBundle, pcbPath: native.expected.pcbPath, pcbSource, scopeIdentity: scope,
     physicalFootprints: native.expected.physicalFootprints!, physicalFootprintResolver: native.expected.physicalFootprintResolver! };
@@ -307,6 +307,33 @@ const boreCases: Array<{ name: string; route: { start: NmPoint; end: NmPoint }; 
 ];
 
 describe("pure current-source V2 plane acceptance", () => {
+  it("completes only the plane-net row when every physical terminal has an actual drilled-copper path", async () => {
+    const f = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: false }), result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks });
+    expect(result.planes[0]!.terminalCopperConnectivity, JSON.stringify(result.planes[0]!.terminalCopperConnectivity?.reasons)).toMatchObject({ status: "verified", calculation: { allTerminalsWitnessed: true } });
+    expect(row(result, "plane-net:GND").status).toBe("pass");
+    expect(row(result, "plane-fill:GND_PLANE").status).toBe("unknown");
+    expect(row(result, "plane-policy:GND_PLANE").status).toBe("unknown");
+    expect(result.accepted).toBe(false);
+    const report = summarizePlaneAcceptance(result);
+    expect(report.planes[0]!.terminalCopperConnectivity!.calculation!.terminals).toHaveLength(2);
+    expect(report.limitations.terminalContactContinuity).toBe("per-plane-source-native-geometric-witnesses-where-reported");
+  });
+  it("does not substitute native reachability for a missing surface-terminal copper path", async () => {
+    const f = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: true }), result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks });
+    expect(result.planes[0]!.intendedPlaneConnectivity.status).toBe("verified");
+    expect(result.planes[0]!.terminalCopperConnectivity, JSON.stringify(result.planes[0]!.terminalCopperConnectivity?.reasons)).toMatchObject({ status: "unknown", calculation: { allTerminalsWitnessed: false } });
+    expect(row(result, "plane-net:GND").status).toBe("unknown");
+    expect(result.planes[0]!.terminalCopperConnectivity!.calculation!.terminals.some(t => t.status === "unproven")).toBe(true);
+  });
+  it("does not erase a disconnected-native-net failure or manufacture paths without fresh fill", async () => {
+    const f = await ercFixture("clean", { retainedPadLayers: true, disconnectedGround: true, surfaceSignalPads: false });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks });
+    expect(row(result, "plane-net:GND").status).toBe("fail");
+    expect(result.planes[0]!.terminalCopperConnectivity!.calculation).toBeNull();
+    const reopened = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null });
+    expect(reopened.planes).toEqual([]);
+    expect(row(reopened, "plane-net:GND").status).toBe("unknown");
+  });
   it("retains four channel reference requirements and source-series anchors while physical termination remains unknown", async () => {
     const compilationBundle = usbChannelBundle();
     let source = usbChannelPcb();

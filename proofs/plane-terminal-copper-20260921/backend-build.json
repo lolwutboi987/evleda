@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evleda.terminal-copper-backend-build.v1",
+  "host": 58,
+  "buildStorage": "D:",
+  "releaseSha256": "0764a037299f9c90686ddbe5c915849978cef9b3c1cd90eb1eaf6c53ca64022b",
+  "manifestSha256": "e635cad55b1b305dce78f4d4d83325ed0fc44446498cebb42bcd2663c9741770",
+  "manifestFileCount": 2703,
+  "checks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "heapCapMiB": 2048,
+  "nativeQualificationPerformed": false,
+  "installedReleaseChanged": false
+}

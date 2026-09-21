@@ -1,0 +1,100 @@
+{
+  "recordedAt": "2026-09-21T08:25:10.903Z",
+  "pins": [
+    {
+      "file": "src/harness/plane-terminal-copper-paths.ts",
+      "sha256": "1e3c5042f4c1f28871944f5c41da47ffc47e3aee3e15fbf205b518a15026e700",
+      "sizeBytes": 19860
+    },
+    {
+      "file": "src/harness/plane-terminal-copper-source.ts",
+      "sha256": "54ea1654522faae64350616939703a9e192ea36bb7eb390e62e8aaa7ab8ebb7c",
+      "sizeBytes": 5209
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "da2e3752f44d6873f8b87120d15fe6a678d465a1bfbecdaee81153cd3a891395",
+      "sizeBytes": 71796
+    },
+    {
+      "file": "src/mcp/toolbox-terminal-copper.ts",
+      "sha256": "e5bc8880d1aed3fe55f36e6eb4622c71f6e45e92f66b77388d6efef23cb96e59",
+      "sizeBytes": 6369
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "19d812c743df8526febc1877dde36cf52d254bce48bae89b727296f44e2b3662",
+      "sizeBytes": 45129
+    },
+    {
+      "file": "tests/unit/plane-terminal-copper-paths.test.ts",
+      "sha256": "f587a217fdae38f7924984ccd189bb4d2b328d93ca84f9e47a0a075033f42e70",
+      "sizeBytes": 8545
+    },
+    {
+      "file": "tests/unit/plane-terminal-copper-source.test.ts",
+      "sha256": "ee1ca93fcd8eba05c3499611102ba41e09616bfe23ef55fa62548075faecb6fe",
+      "sizeBytes": 2304
+    },
+    {
+      "file": "tests/unit/toolbox-terminal-copper.test.ts",
+      "sha256": "281bbf4fe3ebdde26432f91b313a4ba5d3f7dfd886eae33bb34cc4757f10c8a3",
+      "sizeBytes": 3439
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "f04e740354f88edd54f3c02738163672ccea99425f5b1a0d596f933068f8b827",
+      "sizeBytes": 82839
+    },
+    {
+      "file": "tests/helpers/native-pad-observation-fixture.ts",
+      "sha256": "1f8aa991c0191d723728d49270f7194d734e0851fdf307d487cc9f59b296df2c",
+      "sizeBytes": 7612
+    },
+    {
+      "file": "tests/helpers/plane-stage-observation-fixture.ts",
+      "sha256": "36751000f8b623b26e34125f6201e0faa90be53cf2e3e924b6d36b0c7c289b86",
+      "sizeBytes": 14252
+    }
+  ],
+  "tests": {
+    "command": "pnpm exec vitest run [seven named affected files] --maxWorkers=1",
+    "files": [
+      "plane-terminal-copper-paths.test.ts",
+      "plane-terminal-copper-source.test.ts",
+      "toolbox-terminal-copper.test.ts",
+      "fresh-plane-acceptance.test.ts",
+      "toolbox-plane-acceptance.test.ts",
+      "kicad-native-pad-observation.test.ts",
+      "fresh-plane-stage-observation.test.ts"
+    ],
+    "exitCode": 0,
+    "passed": 235,
+    "skipped": 2,
+    "log": {
+      "sha256": "68e948834a0436aed9029c801eb2b015b855cb4d4dfb042d33c7721768bae38a",
+      "sizeBytes": 261
+    }
+  },
+  "sourceTypecheck": {
+    "command": "pnpm exec tsc --noEmit -p tsconfig.json",
+    "exitCode": 0,
+    "heapCapMiB": 2048,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "uiTypecheck": {
+    "command": "pnpm exec tsc --noEmit -p ui/tsconfig.json",
+    "exitCode": 0,
+    "heapCapMiB": 2048,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "memoryBeforeSourceTypecheck": {
+    "headroomBytes": 4727476224,
+    "availableMiB": 5042
+  },
+  "fullSuiteRun": false,
+  "nativeQualificationPerformed": false,
+  "installedHostChanged": false,
+  "boardChanged": false,
+  "userApplicationsLeftOpen": true
+}

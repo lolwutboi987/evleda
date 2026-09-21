@@ -6,6 +6,7 @@ import { hardenPortableValue } from "../core/portable-artifact.js";
 import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import type { FreshPlaneAcceptanceAssessment } from "../harness/fresh-plane-acceptance.js";
 import { sanitizePcbDiagnosticText, summarizeSavedInterface } from "./toolbox-interface-report.js";
+import { summarizeTerminalCopperConnectivity } from "./toolbox-terminal-copper.js";
 
 const ASSESSMENT_VERSION = "evleda.fresh-plane-acceptance.v1";
 const MAX_BYTES = 16 * 1024 * 1024;
@@ -421,6 +422,8 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
       intendedPlaneConnectivity: { ...fact(plane.intendedPlaneConnectivity), scope: plane.intendedPlaneConnectivity.scope,
         directEligiblePadAnchors: [...plane.intendedPlaneConnectivity.directEligiblePadAnchors],
         nativeDirectVias: [...plane.intendedPlaneConnectivity.nativeDirectVias] },
+      ...(plane.terminalCopperConnectivity === undefined ? {} : { terminalCopperConnectivity: summarizeTerminalCopperConnectivity(
+        plane.terminalCopperConnectivity, assessment.evidence.endpointConnectivity.nets.find(n => n.net === plane.terminalCopperConnectivity!.net)?.endpoints.flatMap(e => e.eligiblePhysicalPadUuids) ?? [], plane.planeId) }),
       islandPolicy: fact(plane.islandPolicy), actualMinimumCopperWidth: fact(plane.actualMinimumCopperWidth),
       thermalPolicy: fact(plane.thermalPolicy), actualThermalWidth: fact(plane.actualThermalWidth) })),
     ...(bridges === undefined ? {} : { planeRegionBridges: bridges }),
