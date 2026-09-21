@@ -131,9 +131,11 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
   const missing = "A current-session saved native fill witness is required; reapply and save the contract plane before acceptance.";
   const planeRegionBridges: Array<Fact & { planeId: string; referencePlaneId: string;
     scope: "qualified-source-native-annulus-contact-to-primary-plane";
+    geometricRegionConnectivity: Fact;
     calculation: ReturnType<typeof findPlaneRegionAnnulusWitnesses> | null }> = bundle.contract.routingConstraints.nets.flatMap(route =>
       route.topology !== "plane" ? [] : (route.additionalPlaneIds ?? []).map(planeId => ({ planeId, referencePlaneId: route.planeId,
-        scope: "qualified-source-native-annulus-contact-to-primary-plane" as const, ...fact("unknown", missing), calculation: null })));
+        scope: "qualified-source-native-annulus-contact-to-primary-plane" as const, ...fact("unknown", missing),
+        geometricRegionConnectivity: fact("unknown", missing), calculation: null })));
   const planes: Array<{
     planeId: string; zoneUuid: string | null; configuration: Fact; geometry: ReturnType<typeof assessFreshPlaneFilledGeometry>;
     nativeGeometry: ReturnType<typeof assessFreshPlaneFilledGeometry> | null; componentCount: number;
@@ -465,6 +467,18 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         calculation.allRegionsWitnessed
           ? "Each stored region has a strictly bore-clear copper disc shared with a direct-contact normal through-via and the endpoint-anchored primary plane. Global drill-clipped continuity, width and current suitability remain separate."
           : "At least one stored region lacks a supported positive-area through-via contact witness to the primary plane; absence of this witness is not proof of disconnection."), calculation });
+      const regional = target.drillTopology.regionalInteriors;
+      const completeInteriors = regional?.status === "verified" && regional.observedComponentCount === target.geometry.components.length
+        && regional.components.length === target.geometry.components.length
+        && same(regional.components.map(c => c.nativePolygonIndex).sort((a,b)=>a-b), target.geometry.components.map(c => c.nativePolygonIndex).sort((a,b)=>a-b))
+        && regional.components.every(c => c.status === "verified" && c.planarInteriorConnected === true && c.classificationComplete);
+      const networkProven = reference.drillTopology.status === "verified" && reference.drillTopology.planarInteriorConnected === true
+        && completeInteriors && calculation.boreClearAnnuli.allRegionsWitnessed
+        && commonChecks.rows.find(r => r.id === "board:outline")?.status === "pass"
+        && commonChecks.rows.find(r => r.id === `vias:${targetSpec.net}`)?.status === "pass";
+      observation.geometricRegionConnectivity = networkProven
+        ? fact("verified", "Every retained supplemental interior reaches the connected primary interior through a shared positive-area contact and a normal through-via annulus strictly clear of all foreign bore enclosures. This geometric network does not prove complete terminal contacts, physical widths or current capacity.")
+        : fact("unknown", "Connected drill-subtracted interiors, the exact declared board outline, qualified via dimensions and edge containment, and a complete bore-clear through-via annulus for every region are required; local contact patches alone are insufficient.");
       if (!targetSpec.islandPolicy.requireSingleConnectedComponent) {
         requireValue(targetSpec.islandPolicy.referencePlaneId === observation.referencePlaneId, "Regional policy reference differs from the qualified primary plane.");
         try {
@@ -480,7 +494,8 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
         }
       }
     } catch (error) {
-      Object.assign(observation, { ...fact("unknown", error instanceof Error ? error.message : "Region-bridge prerequisites are unavailable."), calculation: null });
+      const unavailable = fact("unknown", error instanceof Error ? error.message : "Region-bridge prerequisites are unavailable.");
+      Object.assign(observation, { ...unavailable, geometricRegionConnectivity: unavailable, calculation: null });
     }
   }
   for (const target of planes) {
@@ -495,10 +510,10 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       ...target.intendedPlaneConnectivity, ...fact("verified", "Every stored supplemental region has a qualified native/source via contact to the endpoint-anchored primary plane; global drill-clipped continuity remains independent."),
       scope: "native-region-via-contacts-to-primary-plane" };
     target.islandPolicy = target.islandPolicy.status === "failed" ? target.islandPolicy : conditions.status === "failed" ? conditions
-      : fact("unknown", ...conditions.reasons, "Complete drill-clipped region continuity is not established by local contact discs and retained-area bounds.");
+      : allFacts([conditions, bridge?.geometricRegionConnectivity ?? fact("unknown", "The geometric network between retained regions remains unproved.")]);
     setRow(`plane-policy:${target.planeId}`, target.islandPolicy.status === "failed" || target.thermalPolicy.status === "failed"
       ? fact("failed", ...target.islandPolicy.reasons, ...target.thermalPolicy.reasons)
-      : fact("unknown", ...target.islandPolicy.reasons, ...target.thermalPolicy.reasons, "Full contact and global continuity acceptance remain separate."));
+      : fact("unknown", ...target.islandPolicy.reasons, ...target.thermalPolicy.reasons, "Complete terminal contacts, physical widths and current suitability remain separate."));
   }
   for (const route of bundle.contract.routingConstraints.nets) {
     if (route.topology === "plane" || route.referencePath.mode !== "continuous_plane") continue;

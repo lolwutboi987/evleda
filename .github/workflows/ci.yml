@@ -13,6 +13,36 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  portable-types:
+    name: Full typechecks and backend compilation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+    steps:
+      - name: Check out the exact revision without persisting credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install pinned pnpm and Node.js from the frozen lockfile
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          version: 11.19.0
+          runtime: node@24.19.0
+          cache: false
+          require-lockfile: true
+
+      - name: Check all source and UI types
+        run: pnpm run typecheck
+
+      - name: Compile the complete backend
+        run: pnpm exec tsc -p tsconfig.build.json
+
+      - name: Verify compilation did not emit beside source files
+        run: node scripts/verify-no-source-adjacent-emits.mjs
+
   software:
     name: Typecheck, test, build, and verify
     runs-on: ubuntu-24.04

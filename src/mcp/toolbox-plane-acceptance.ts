@@ -308,25 +308,69 @@ function regionBridgeReports(assessment: FreshPlaneAcceptanceAssessment) {
   if (assessment.planeRegionBridges === undefined) return undefined;
   return assessment.planeRegionBridges.map(observation => {
     const c = observation.calculation, target = assessment.planes.find(p => p.planeId === observation.planeId);
-    if (c !== null) {
-      if (target === undefined || c.globalDrillClippedContinuityClaimed !== false || c.currentCapacityClaimed !== false || c.fabricationAuthorized !== false
-        || c.allRegionsWitnessed !== c.regions.every(r => r.status === "witnessed")
-        || canonicalJson(c.regions.map(r => r.nativePolygonIndex).sort((a,b)=>a-b))
+    const reference = assessment.planes.find(p => p.planeId === observation.referencePlaneId);
+    const validateRegions = (regions: NonNullable<typeof c>["regions"], allWitnessed: boolean) => {
+      if (target === undefined || target.geometry.components.length === 0 || allWitnessed !== regions.every(r => r.status === "witnessed")
+        || canonicalJson(regions.map(r => r.nativePolygonIndex).sort((a,b)=>a-b))
           !== canonicalJson(target.geometry.components.map(r => r.nativePolygonIndex).sort((a,b)=>a-b)))
         throw new Error("Plane region witnesses are incomplete or claim unsupported authority.");
-      for (const r of c.regions) {
+      for (const r of regions) {
         if (r.status === "witnessed" ? r.viaUuid === null || r.centerNm === null || !Number.isSafeInteger(r.contactDiscRadiusNm) || r.contactDiscRadiusNm! <= 0
           : r.status !== "unproven" || r.viaUuid !== null || r.centerNm !== null || r.contactDiscRadiusNm !== null)
           throw new Error("Plane region witness fields contradict their status.");
       }
+    };
+    const projectRegions = (regions: NonNullable<typeof c>["regions"]) => regions.map(r => ({ nativePolygonIndex: publicNumber(r.nativePolygonIndex), status: r.status,
+      viaUuid: r.viaUuid === null ? null : publicText(r.viaUuid), centerNm: r.centerNm === null ? null
+        : { x: publicNumber(r.centerNm.x), y: publicNumber(r.centerNm.y) }, contactDiscRadiusNm: r.contactDiscRadiusNm === null ? null : publicNumber(r.contactDiscRadiusNm) }));
+    if (c !== null) {
+      if (target === undefined || c.globalDrillClippedContinuityClaimed !== false || c.currentCapacityClaimed !== false || c.fabricationAuthorized !== false)
+        throw new Error("Plane region witnesses are incomplete or claim unsupported authority.");
+      validateRegions(c.regions, c.allRegionsWitnessed);
+      const intact = c.boreClearAnnuli;
+      if (intact !== undefined) {
+        validateRegions(intact.regions, intact.allRegionsWitnessed);
+        const bores = target.drillTopology.bores;
+        const exactBoresComplete = target.drillTopology.inventory.complete;
+        if (intact.scope !== "strict-outer-via-disk-separation-from-every-foreign-bore-enclosure"
+          || !Number.isSafeInteger(c.boreEnclosures) || c.boreEnclosures < 0 || c.boreEnclosures > 4096
+          || (exactBoresComplete && c.boreEnclosures !== bores.length)
+          || new Set(intact.annuli.map(a => a.viaUuid)).size !== intact.annuli.length)
+          throw new Error("Complete source-bound annulus bore inventory is required.");
+        for (const a of intact.annuli) {
+          if ((exactBoresComplete && !bores.some(b => b.kind === "via" && b.uuid === a.viaUuid))
+            || !Number.isSafeInteger(a.checkedForeignBores) || a.checkedForeignBores < 0 || a.checkedForeignBores > c.boreEnclosures - 1
+            || (a.status === "verified" ? a.blockingBoreUuid !== null || a.checkedForeignBores !== c.boreEnclosures - 1
+              : a.status !== "unproven" || a.checkedForeignBores === 0 || typeof a.blockingBoreUuid !== "string" || a.blockingBoreUuid === a.viaUuid
+                || (exactBoresComplete && !bores.some(b => b.uuid === a.blockingBoreUuid))))
+            throw new Error("Annulus bore-clearance fields contradict their complete inventory.");
+        }
+        for (const r of intact.regions) if (r.status === "witnessed" && !intact.annuli.some(a => a.viaUuid === r.viaUuid && a.status === "verified"))
+          throw new Error("An intact regional witness requires a verified complete annulus.");
+      }
     }
     if (observation.status === "verified" && (c === null || !c.allRegionsWitnessed)) throw new Error("Verified region bridges require every regional witness.");
+    const regional = target?.drillTopology.regionalInteriors;
+    if (observation.geometricRegionConnectivity?.status === "verified" && (observation.status !== "verified" || !c?.boreClearAnnuli?.allRegionsWitnessed
+      || reference?.drillTopology.status !== "verified" || reference.drillTopology.planarInteriorConnected !== true || reference.geometry.components.length !== 1
+      || c.referenceNativePolygonIndex !== reference.geometry.components[0]!.nativePolygonIndex || !target?.drillTopology.inventory.complete
+      || regional?.status !== "verified" || regional.observedComponentCount !== target.geometry.components.length
+      || canonicalJson(regional.components.map(r => r.nativePolygonIndex).sort((a,b)=>a-b)) !== canonicalJson(target.geometry.components.map(r => r.nativePolygonIndex).sort((a,b)=>a-b))
+      || regional.components.some(r => r.status !== "verified" || r.planarInteriorConnected !== true || !r.classificationComplete
+        || canonicalJson(r.bores.map(b => b.uuid).sort()) !== canonicalJson(target.drillTopology.bores.map(b => b.uuid).sort())
+        || r.bores.some(b => b.classification === "unknown" || b.classification === "not_classified" || b.classificationBasis === "not_certified" || b.issues.length > 0))))
+      throw new Error("Verified geometric region connectivity requires matching connected interiors and intact annulus witnesses.");
     return { planeId: publicText(observation.planeId), referencePlaneId: publicText(observation.referencePlaneId),
-      ...fact(observation), scope: observation.scope, calculation: c === null ? null : {
+      ...fact(observation), scope: observation.scope,
+      ...(observation.geometricRegionConnectivity === undefined ? {} : { geometricRegionConnectivity: fact(observation.geometricRegionConnectivity) }),
+      calculation: c === null ? null : {
         scope: c.scope, allRegionsWitnessed: c.allRegionsWitnessed,
-        regions: c.regions.map(r => ({ nativePolygonIndex: publicNumber(r.nativePolygonIndex), status: r.status,
-          viaUuid: r.viaUuid === null ? null : publicText(r.viaUuid), centerNm: r.centerNm === null ? null
-            : { x: publicNumber(r.centerNm.x), y: publicNumber(r.centerNm.y) }, contactDiscRadiusNm: r.contactDiscRadiusNm === null ? null : publicNumber(r.contactDiscRadiusNm) })),
+        regions: projectRegions(c.regions),
+        ...(c.boreClearAnnuli === undefined ? {} : { boreClearAnnuli: { scope: c.boreClearAnnuli.scope,
+          allRegionsWitnessed: c.boreClearAnnuli.allRegionsWitnessed, regions: projectRegions(c.boreClearAnnuli.regions),
+          annuli: c.boreClearAnnuli.annuli.map(a => ({ viaUuid: publicText(a.viaUuid), status: a.status,
+            blockingBoreUuid: a.blockingBoreUuid === null ? null : publicText(a.blockingBoreUuid), checkedForeignBores: publicNumber(a.checkedForeignBores) })),
+        } }),
         referenceNativePolygonIndex: publicNumber(c.referenceNativePolygonIndex), boreEnclosures: publicNumber(c.boreEnclosures),
         predicateOperations: publicNumber(c.predicateOperations), maximumPredicateOperations: publicNumber(c.maximumPredicateOperations),
         globalDrillClippedContinuityClaimed: false, currentCapacityClaimed: false, fabricationAuthorized: false,

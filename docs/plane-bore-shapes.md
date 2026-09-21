@@ -78,3 +78,22 @@ and observed component count. Historical reports without the additive field
 remain readable. Installed host56 qualifies the primary RP2350 region and all 10
 supplemental regions with every bore retained and unchanged board sources. Full
 terminal contact continuity and inter-region electrical acceptance remain separate.
+
+## Intact via annuli and the regional connection model
+
+The source extension adds `planeRegionBridges.calculation.boreClearAnnuli`.
+It preserves the existing local contact discs, then separately checks strict
+separation of each candidate via's entire outer disk from every foreign bore
+enclosure. Tangency remains unproven. A blocked candidate retains the first
+blocking bore and its examined count; an alternative intact via may witness the
+same region. Verified candidates must account for every foreign bore.
+
+`geometricRegionConnectivity` additionally requires current, matching native
+contacts, verified drill-subtracted interiors on both planes, the complete
+declared rectangular outline, and qualified via dimensions and edge containment.
+It can establish the declared supplemental island-policy fact without promoting
+the complete plane-policy row, terminal connectivity, current capacity or
+manufacturing acceptance. Historical reports without these fields remain readable.
+
+This source extension is not installed in host56 and still needs native
+qualification. Its saved-data replay is historical geometry evidence only.

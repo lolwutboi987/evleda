@@ -21,6 +21,24 @@ export interface PlaneRegionAnnulusWitness {
   readonly centerNm: Point | null;
   readonly contactDiscRadiusNm: number | null;
 }
+export interface PlaneRegionAnnulusCalculation {
+  readonly scope: "positive-area-stored-copper-contact-through-qualified-normal-via-annuli";
+  readonly allRegionsWitnessed: boolean;
+  readonly regions: readonly PlaneRegionAnnulusWitness[];
+  readonly boreClearAnnuli: Readonly<{
+    scope: "strict-outer-via-disk-separation-from-every-foreign-bore-enclosure";
+    annuli: readonly Readonly<{ viaUuid: string; status: "verified" | "unproven"; blockingBoreUuid: string | null; checkedForeignBores: number }>[];
+    regions: readonly PlaneRegionAnnulusWitness[];
+    allRegionsWitnessed: boolean;
+  }>;
+  readonly referenceNativePolygonIndex: number;
+  readonly boreEnclosures: number;
+  readonly predicateOperations: number;
+  readonly maximumPredicateOperations: number;
+  readonly globalDrillClippedContinuityClaimed: false;
+  readonly currentCapacityClaimed: false;
+  readonly fabricationAuthorized: false;
+}
 const MAX_COORD = 2_000_000_000, MAX_VERTICES = 8192, MAX_ITEMS = 4096, MAX_WORK = 4_000_000;
 const check = (condition: unknown, message: string): void => { if (!condition) throw new Error(`Plane region witness: ${message}`); };
 const coordinate = (n: number) => check(Number.isSafeInteger(n) && Math.abs(n) <= MAX_COORD, "coordinate bound");
@@ -52,7 +70,7 @@ export function findPlaneRegionAnnulusWitnesses(input: {
   readonly reference: FreshPlaneFilledComponent;
   readonly vias: readonly PlaneBridgeVia[];
   readonly boreEnclosures: readonly PlaneBridgeBore[];
-}) {
+}): PlaneRegionAnnulusCalculation {
   check(input.components.length > 0 && input.components.length <= 128, "component count");
   check(input.vias.length <= MAX_ITEMS && input.boreEnclosures.length <= MAX_ITEMS, "item count");
   check(new Set(input.components.map(c => c.nativePolygonIndex)).size === input.components.length, "duplicate component index");
@@ -99,6 +117,22 @@ export function findPlaneRegionAnnulusWitnesses(input: {
     return nearest === null ? null : floorSqrt(nearest.n / nearest.d);
   };
   const min = (a: bigint, b: bigint) => a < b ? a : b;
+  // A local contact patch does not certify the rest of its via annulus. This
+  // conservative certificate excludes every foreign bore from the whole disk.
+  const annuli = input.vias.map(via => {
+    let blockingBoreUuid: string | null = null, checkedForeignBores = 0;
+    for (const bore of input.boreEnclosures) {
+      if (bore.uuid === via.uuid) continue;
+      step(); checkedForeignBores++;
+      const sumDiameters = BigInt(via.diameterNm) + BigInt(bore.enclosingDiameterNm);
+      if (4n * squared(via.centerNm, bore.centerNm) <= sumDiameters * sumDiameters) {
+        blockingBoreUuid = bore.uuid; break;
+      }
+    }
+    return { viaUuid: via.uuid, status: blockingBoreUuid === null ? "verified" as const : "unproven" as const,
+      blockingBoreUuid, checkedForeignBores };
+  });
+  const intactAnnuli = new Set(annuli.filter(a => a.status === "verified").map(a => a.viaUuid));
   const prepared = input.vias.flatMap(via => {
     const r = Math.floor((via.diameterNm + via.drillNm) / 4), a = Math.floor(3 * r / 5), b = Math.floor(4 * r / 5);
     const offsets = [[r, 0], [-r, 0], [0, r], [0, -r], [a, b], [a, -b], [-a, b], [-a, -b], [b, a], [b, -a], [-b, a], [-b, -a]];
@@ -116,17 +150,26 @@ export function findPlaneRegionAnnulusWitnesses(input: {
       return [{ viaUuid: via.uuid, centerNm, radius }];
     });
   });
-  const regions: PlaneRegionAnnulusWitness[] = input.components.map(component => {
-    let best: { viaUuid: string; centerNm: Point; contactDiscRadiusNm: number } | null = null;
-    for (const candidate of prepared) { const targetClearance = clearance(candidate.centerNm, component); if (targetClearance === null) continue;
+  const pairs = input.components.map(component => {
+    type Candidate = { viaUuid: string; centerNm: Point; contactDiscRadiusNm: number };
+    let best: Candidate | null = null, bestIntact: Candidate | null = null;
+    for (const candidate of prepared) {
+      const targetClearance = clearance(candidate.centerNm, component); if (targetClearance === null) continue;
       const radius = Number(min(candidate.radius, targetClearance) - 1n); // Strict positive separation, including exact tangency.
       if (radius > 0 && (best === null || radius > best.contactDiscRadiusNm)) best = { viaUuid: candidate.viaUuid, centerNm: candidate.centerNm, contactDiscRadiusNm: radius };
+      if (radius > 0 && intactAnnuli.has(candidate.viaUuid) && (bestIntact === null || radius > bestIntact.contactDiscRadiusNm))
+        bestIntact = { viaUuid: candidate.viaUuid, centerNm: candidate.centerNm, contactDiscRadiusNm: radius };
     }
-    return { nativePolygonIndex: component.nativePolygonIndex, status: best === null ? "unproven" : "witnessed",
-      viaUuid: best?.viaUuid ?? null, centerNm: best?.centerNm ?? null, contactDiscRadiusNm: best?.contactDiscRadiusNm ?? null };
+    const witness = (value: Candidate | null): PlaneRegionAnnulusWitness => ({ nativePolygonIndex: component.nativePolygonIndex,
+      status: value === null ? "unproven" : "witnessed", viaUuid: value?.viaUuid ?? null, centerNm: value?.centerNm ?? null,
+      contactDiscRadiusNm: value?.contactDiscRadiusNm ?? null });
+    return { local: witness(best), intact: witness(bestIntact) };
   });
+  const regions = pairs.map(p => p.local), intactRegions = pairs.map(p => p.intact);
   return { scope: "positive-area-stored-copper-contact-through-qualified-normal-via-annuli" as const,
     allRegionsWitnessed: regions.every(r => r.status === "witnessed"), regions,
+    boreClearAnnuli: { scope: "strict-outer-via-disk-separation-from-every-foreign-bore-enclosure" as const,
+      annuli, regions: intactRegions, allRegionsWitnessed: intactRegions.every(r => r.status === "witnessed") },
     referenceNativePolygonIndex: input.reference.nativePolygonIndex, boreEnclosures: input.boreEnclosures.length,
     predicateOperations: work, maximumPredicateOperations: MAX_WORK, globalDrillClippedContinuityClaimed: false as const,
     currentCapacityClaimed: false as const, fabricationAuthorized: false as const };

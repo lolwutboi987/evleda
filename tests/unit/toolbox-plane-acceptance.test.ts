@@ -188,6 +188,41 @@ describe("public plane acceptance projection and private evidence", () => {
     const overclaim = structuredClone(input) as any; overclaim.planeRegionBridges[0].calculation.currentCapacityClaimed = true;
     expect(() => summarizePlaneAcceptance(overclaim)).toThrow("unsupported authority");
   });
+  it("requires complete intact-annulus and interior evidence for the separate geometric network fact", () => {
+    const base = assessment(), target = { ...structuredClone(base.planes[0]!), planeId: "BACK_GND", zoneUuid: "target-zone" } as any;
+    target.drillTopology.regionalInteriors = { status: "verified", issues: [], observedComponentCount: 1,
+      components: [{ nativePolygonIndex: 0, status: "verified", issues: [], planarInteriorConnected: true,
+        classificationComplete: true, cachedAreaTwiceNm2: "1000000", conservativeAreaLowerBoundTwiceNm2: "900000",
+        bores: target.drillTopology.bores.map((b: any) => ({ uuid: b.uuid, classification: b.classification, classificationBasis: b.classificationBasis, issues: [] })) }],
+      interRegionConnectivity: "not_assessed", maximumComponents: 64, maximumBoreRelations: 16384 };
+    const witness = { nativePolygonIndex: 0, status: "witnessed", viaUuid: "via-bore", centerNm: { x: 400, y: 400 }, contactDiscRadiusNm: 10 };
+    const bridge = { planeId: "BACK_GND", referencePlaneId: base.planes[0]!.planeId, status: "verified", reasons: ["Local contacts"],
+      scope: "qualified-source-native-annulus-contact-to-primary-plane", geometricRegionConnectivity: { status: "verified", reasons: ["Connected geometric regions"] },
+      calculation: { scope: "positive-area-stored-copper-contact-through-qualified-normal-via-annuli", allRegionsWitnessed: true, regions: [witness],
+        boreClearAnnuli: { scope: "strict-outer-via-disk-separation-from-every-foreign-bore-enclosure", allRegionsWitnessed: true, regions: [witness],
+          annuli: [{ viaUuid: "via-bore", status: "verified", blockingBoreUuid: null, checkedForeignBores: 2, privatePath: "C:/private/source" }] },
+        referenceNativePolygonIndex: 0, boreEnclosures: 3, predicateOperations: 20, maximumPredicateOperations: 4000000,
+        globalDrillClippedContinuityClaimed: false, currentCapacityClaimed: false, fabricationAuthorized: false } };
+    const input = assessment({ planes: [...base.planes, target], planeRegionBridges: [bridge] });
+    const report = summarizePlaneAcceptance(input);
+    expect(report.planeRegionBridges![0]!.geometricRegionConnectivity!.status).toBe("verified");
+    expect(report.planeRegionBridges![0]!.calculation!.boreClearAnnuli!.regions).toEqual([witness]);
+    expect(JSON.stringify(report)).not.toContain("privatePath"); expect(report.accepted).toBe(false); expect(report.rows).toEqual(base.rows);
+    for (const change of [
+      (x: any) => { x.planeRegionBridges[0].calculation.boreClearAnnuli.annuli[0].checkedForeignBores = 1; },
+      (x: any) => { x.planeRegionBridges[0].calculation.boreClearAnnuli.annuli[0].blockingBoreUuid = "pad-bore"; },
+      (x: any) => { x.planeRegionBridges[0].calculation.boreClearAnnuli.regions[0].viaUuid = "pad-bore"; },
+      (x: any) => { x.planeRegionBridges[0].calculation.boreClearAnnuli.regions = []; },
+      (x: any) => { x.planes[0].drillTopology.status = "unknown"; },
+      (x: any) => { x.planes[1].drillTopology.regionalInteriors.components = []; },
+      (x: any) => { x.planes[1].drillTopology.regionalInteriors.components[0].bores.pop(); },
+    ]) { const altered = structuredClone(input); change(altered); expect(() => summarizePlaneAcceptance(altered)).toThrow(); }
+    const independent = structuredClone(input) as any;
+    independent.planes[1].drillTopology.inventory.complete = false; independent.planes[1].drillTopology.bores = [];
+    independent.planeRegionBridges[0].geometricRegionConnectivity = { status: "unknown", reasons: ["Exact regional inventory unavailable"] };
+    expect(summarizePlaneAcceptance(independent).planeRegionBridges![0]!.calculation!.boreClearAnnuli!.allRegionsWitnessed).toBe(true);
+  });
+
   it.each(["verified", "failed", "unsupported"] as const)("projects the concise %s ERC fact and coverage while keeping native invocations private", status => {
     const { raw, checks } = nativeFindingFixture(), identity = canonicalIdentity({ erc: status }, "fixture-erc.v1");
     const native = { ...checks, checks: { ...checks.checks, erc: { status, reasons: [status === "unsupported" ? "ERC omitted C:/private/checks" : "Explicit native ERC result"] } },
@@ -533,7 +568,9 @@ describe("public plane acceptance projection and private evidence", () => {
     const root = await outputRoot(), real = path.join(root, "real"), alias = path.join(root, "alias"), file = path.join(root, "file");
     await mkdir(real); await writeFile(file, "retained");
     await symlink(real, alias, process.platform === "win32" ? "junction" : "dir");
-    for (const target of [path.relative(process.cwd(), real), path.join(root, "missing"), file, alias]) {
+    // path.relative becomes absolute across Windows drives; this case must
+    // remain genuinely relative when test temporary storage moves to USB.
+    for (const target of [path.basename(real), path.join(root, "missing"), file, alias]) {
       const error = await captureToolboxPlaneAcceptance(target, assessment()).catch(error => error as Error);
       expect(error).toBeInstanceOf(Error);
       expect((error as Error).message).toBe("Plane acceptance private evidence publication failed; the host must inspect retained state.");

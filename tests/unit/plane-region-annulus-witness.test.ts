@@ -51,6 +51,29 @@ describe("positive-area annulus contacts for separated plane regions", () => {
     const result = findPlaneRegionAnnulusWitnesses(input);
     expect(result.allRegionsWitnessed).toBe(false); expect(result.regions[1]!.status).toBe("unproven");
   });
+  it("separates a surviving local patch from an annulus touched by a foreign bore", () => {
+    const input = fixture();
+    input.boreEnclosures.push({ uuid: "tangent", centerNm: { x: 2325000, y: 2000000 }, enclosingDiameterNm: 100000 });
+    const result = findPlaneRegionAnnulusWitnesses(input);
+    expect(result.regions[0]!.status).toBe("witnessed");
+    expect(result.boreClearAnnuli.annuli[0]).toMatchObject({ viaUuid: "left", status: "unproven", blockingBoreUuid: "tangent" });
+    expect(result.boreClearAnnuli.regions[0]!.status).toBe("unproven");
+    expect(result.boreClearAnnuli.regions[1]!.status).toBe("witnessed");
+    expect(result.boreClearAnnuli.allRegionsWitnessed).toBe(false);
+    input.boreEnclosures.at(-1)!.centerNm.x++;
+    const separated = findPlaneRegionAnnulusWitnesses(input);
+    expect(separated.boreClearAnnuli.annuli[0]).toMatchObject({ status: "verified", blockingBoreUuid: null, checkedForeignBores: 2 });
+    expect(separated.boreClearAnnuli.allRegionsWitnessed).toBe(true);
+  });
+  it("finds an alternative intact via rather than discarding a region with one obstructed annulus", () => {
+    const input = fixture(), alternative = via("alternative", 3000000, 2000000);
+    input.vias.push(alternative); input.boreEnclosures.push({ uuid: alternative.uuid, centerNm: alternative.centerNm, enclosingDiameterNm: alternative.drillNm });
+    input.boreEnclosures.push({ uuid: "foreign", centerNm: { x: 2300000, y: 2000000 }, enclosingDiameterNm: 100000 });
+    const result = findPlaneRegionAnnulusWitnesses(input);
+    expect(result.boreClearAnnuli.annuli.find(a => a.viaUuid === "left")!.status).toBe("unproven");
+    expect(result.boreClearAnnuli.regions[0]).toMatchObject({ status: "witnessed", viaUuid: "alternative" });
+    expect(result.boreClearAnnuli.allRegionsWitnessed).toBe(true);
+  });
   it("does not bridge a hole in the primary plane", () => {
     const input = fixture(); input.reference = { ...input.reference, holes: [rectangle(0, 1000000, 1000000, 3000000, 3000000).outer] };
     expect(findPlaneRegionAnnulusWitnesses(input).regions[0]!.status).toBe("unproven");
