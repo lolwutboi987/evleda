@@ -1,0 +1,101 @@
+{
+  "recordedAt": "2026-09-21T07:02:54.237Z",
+  "sourceCommit": "fb752a6b30c9b360cd1524667a32f7a32e45298a",
+  "pins": [
+    {
+      "file": ".github/workflows/ci.yml",
+      "sha256": "2c5f84d069045e52839a9f2d9135c7ac58ec0c6433d3a8021dc7468eb3cec6a2",
+      "sizeBytes": 1922
+    },
+    {
+      "file": "src/harness/plane-region-annulus-witness.ts",
+      "sha256": "b740f5951c6717752575b8fa514fdb88d07255065fa890b4a35e3246ea470893",
+      "sizeBytes": 15643
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "7be2fa619018931f73cb8dcaa826357cf8d7a3554000458bfca3b8d01ebcdf09",
+      "sizeBytes": 67438
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "e336a536b6c4ba646267e45b606dc0cbd75f53ed27e38365f5f582af9b881d23",
+      "sizeBytes": 44689
+    },
+    {
+      "file": "tests/unit/plane-region-annulus-witness.test.ts",
+      "sha256": "ae4fb086cc166cee48761e361df0be0f82ee2dda4000bf62cf5499b0114af775",
+      "sizeBytes": 7686
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "3f8fed978fe54c8769f5ff82d378576e0f8a5e18b7fadf2d5a10e030f1ae9589",
+      "sizeBytes": 80145
+    },
+    {
+      "file": "tests/unit/toolbox-plane-acceptance.test.ts",
+      "sha256": "30e01bda8e221df9fe15b220f92bceaeb48dcd8d66f863c56ef35c749f8b53c6",
+      "sizeBytes": 51956
+    }
+  ],
+  "tests": {
+    "passed": 198,
+    "files": 4,
+    "exitCode": 0,
+    "durationSeconds": 75.74,
+    "temporaryStorage": "D:"
+  },
+  "typecheckAndBackend": {
+    "provider": "GitHub Actions",
+    "runId": 35570334514,
+    "jobId": 106240444784,
+    "url": "https://github.com/lolwutboi987/evleda/actions/runs/35570334514/job/106240444784",
+    "status": "completed",
+    "conclusion": "success",
+    "steps": [
+      {
+        "name": "Check all source and UI types",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-09-21T06:52:46Z",
+        "completed_at": "2026-09-21T06:53:09Z"
+      },
+      {
+        "name": "Compile the complete backend",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-09-21T06:53:09Z",
+        "completed_at": "2026-09-21T06:53:23Z"
+      },
+      {
+        "name": "Verify compilation did not emit beside source files",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-09-21T06:53:23Z",
+        "completed_at": "2026-09-21T06:53:24Z"
+      }
+    ]
+  },
+  "fullWorkflow": {
+    "status": "completed",
+    "conclusion": "failure",
+    "nativeDependentJobConclusion": "failure",
+    "nativeFailureTitle": "Native KiCad runtime not provisioned",
+    "nativeGateRetained": true
+  },
+  "localCompilerAttempts": {
+    "heapLimitMiB": [
+      1024,
+      1536
+    ],
+    "exitCode": 134,
+    "cause": "V8 heap limit",
+    "twoGiBAttemptStarted": false
+  },
+  "newNativeQualificationPerformed": false,
+  "installedHostUnchanged": 56,
+  "boardChanged": false
+}

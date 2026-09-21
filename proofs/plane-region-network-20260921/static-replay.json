@@ -1,0 +1,498 @@
+{
+  "schemaVersion": "evleda.region-annulus-network-static-replay.v1",
+  "recordedAt": "2026-09-21T06:29:35.124Z",
+  "scope": "New pure geometry calculation against hash-verified historical host56 native data and unchanged PCB. No saved-fill authority is minted or reused as current, and no new native or acceptance claim is made.",
+  "historicalAssessmentIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "d894a793d1999a37272696d4f412eacf88c5af434564afc948c0cb994f42db51",
+    "schemaVersion": "evleda.fresh-plane-acceptance.v1"
+  },
+  "historicalDiagnosticIdentity": {
+    "algorithm": "sha256",
+    "digest": "fbe20e14c43daa5cb7137e4c7743adcbb414193039d14add9ec14877b8de6da9",
+    "size": 9406028
+  },
+  "sourcePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "nativeQualificationPerformed": false,
+  "currentFillAuthority": false,
+  "boardChanged": false,
+  "accepted": false,
+  "completeBoreEnclosures": 171,
+  "qualifiedHistoricalCommonVias": 41,
+  "localContactObservationsUnchanged": true,
+  "primaryInteriorPreviouslyVerified": true,
+  "supplementalInteriorsPreviouslyVerified": 10,
+  "result": {
+    "scope": "positive-area-stored-copper-contact-through-qualified-normal-via-annuli",
+    "allRegionsWitnessed": true,
+    "regions": [
+      {
+        "nativePolygonIndex": 0,
+        "status": "witnessed",
+        "viaUuid": "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+        "centerNm": {
+          "x": 16187500,
+          "y": 46600000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 1,
+        "status": "witnessed",
+        "viaUuid": "12a9b3dc-6154-47d8-a74e-188543653c0e",
+        "centerNm": {
+          "x": 18412500,
+          "y": 37350000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 2,
+        "status": "witnessed",
+        "viaUuid": "7e5658a6-4451-455b-ad7e-3311b063517a",
+        "centerNm": {
+          "x": 12457500,
+          "y": 39500000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 3,
+        "status": "witnessed",
+        "viaUuid": "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+        "centerNm": {
+          "x": 16087500,
+          "y": 38700000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 4,
+        "status": "witnessed",
+        "viaUuid": "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+        "centerNm": {
+          "x": 11362500,
+          "y": 38650000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 5,
+        "status": "witnessed",
+        "viaUuid": "0183904b-58b9-414d-9657-0c38bac9f708",
+        "centerNm": {
+          "x": 15387500,
+          "y": 22650000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 6,
+        "status": "witnessed",
+        "viaUuid": "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+        "centerNm": {
+          "x": 4507500,
+          "y": 30720000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 7,
+        "status": "witnessed",
+        "viaUuid": "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+        "centerNm": {
+          "x": 14737500,
+          "y": 28030000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 8,
+        "status": "witnessed",
+        "viaUuid": "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+        "centerNm": {
+          "x": 5087500,
+          "y": 19970000
+        },
+        "contactDiscRadiusNm": 87499
+      },
+      {
+        "nativePolygonIndex": 9,
+        "status": "witnessed",
+        "viaUuid": "895798ed-118c-4044-b758-da8dfb25e1a4",
+        "centerNm": {
+          "x": 6387500,
+          "y": 17500000
+        },
+        "contactDiscRadiusNm": 87499
+      }
+    ],
+    "boreClearAnnuli": {
+      "scope": "strict-outer-via-disk-separation-from-every-foreign-bore-enclosure",
+      "annuli": [
+        {
+          "viaUuid": "0183904b-58b9-414d-9657-0c38bac9f708",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "0c0d17c6-67e0-420a-a456-6acf146a74ac",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "0c9d98b6-26bb-43c3-8371-801254431694",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "12a9b3dc-6154-47d8-a74e-188543653c0e",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "2138f519-c783-46f8-aa38-3baacff98d43",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "463c9f0b-7400-4471-be23-08925f31fbac",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "50359f17-a88f-4224-a877-156f55a32121",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "660c6b12-c207-47ec-a352-523fdf294042",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "668ab035-7651-4112-81d6-735bc6cc3999",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "707cba30-4192-4239-a71a-e4b94f348f45",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "7e5658a6-4451-455b-ad7e-3311b063517a",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "895798ed-118c-4044-b758-da8dfb25e1a4",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "8d3806d2-7356-4bc6-a218-183e5b189f96",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "9ab1435a-daaf-495d-8feb-deaf0149a45c",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "c72f99ad-b035-4092-beda-5958d96107b5",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "d168baf9-49fb-4a16-a958-8ac5f994381d",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "e4f5ebb6-f345-4129-8ff9-e129714c0258",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "e72cddfc-1b57-4224-bac0-caccb4a71d09",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "f8adabc9-8b10-4dd0-b871-a037512f882c",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        },
+        {
+          "viaUuid": "feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+          "status": "verified",
+          "blockingBoreUuid": null,
+          "checkedForeignBores": 170
+        }
+      ],
+      "regions": [
+        {
+          "nativePolygonIndex": 0,
+          "status": "witnessed",
+          "viaUuid": "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+          "centerNm": {
+            "x": 16187500,
+            "y": 46600000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 1,
+          "status": "witnessed",
+          "viaUuid": "12a9b3dc-6154-47d8-a74e-188543653c0e",
+          "centerNm": {
+            "x": 18412500,
+            "y": 37350000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 2,
+          "status": "witnessed",
+          "viaUuid": "7e5658a6-4451-455b-ad7e-3311b063517a",
+          "centerNm": {
+            "x": 12457500,
+            "y": 39500000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 3,
+          "status": "witnessed",
+          "viaUuid": "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+          "centerNm": {
+            "x": 16087500,
+            "y": 38700000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 4,
+          "status": "witnessed",
+          "viaUuid": "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+          "centerNm": {
+            "x": 11362500,
+            "y": 38650000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 5,
+          "status": "witnessed",
+          "viaUuid": "0183904b-58b9-414d-9657-0c38bac9f708",
+          "centerNm": {
+            "x": 15387500,
+            "y": 22650000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 6,
+          "status": "witnessed",
+          "viaUuid": "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+          "centerNm": {
+            "x": 4507500,
+            "y": 30720000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 7,
+          "status": "witnessed",
+          "viaUuid": "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+          "centerNm": {
+            "x": 14737500,
+            "y": 28030000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 8,
+          "status": "witnessed",
+          "viaUuid": "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+          "centerNm": {
+            "x": 5087500,
+            "y": 19970000
+          },
+          "contactDiscRadiusNm": 87499
+        },
+        {
+          "nativePolygonIndex": 9,
+          "status": "witnessed",
+          "viaUuid": "895798ed-118c-4044-b758-da8dfb25e1a4",
+          "centerNm": {
+            "x": 6387500,
+            "y": 17500000
+          },
+          "contactDiscRadiusNm": 87499
+        }
+      ],
+      "allRegionsWitnessed": true
+    },
+    "referenceNativePolygonIndex": 0,
+    "boreEnclosures": 171,
+    "predicateOperations": 2569418,
+    "maximumPredicateOperations": 4000000,
+    "globalDrillClippedContinuityClaimed": false,
+    "currentCapacityClaimed": false,
+    "fabricationAuthorized": false
+  },
+  "additionalHistoricalPrerequisites": {
+    "declaredRectangleVerified": true,
+    "viaDimensionsAndEdgeContainmentVerified": true
+  },
+  "currentNativeAuthority": false
+}

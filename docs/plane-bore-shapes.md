@@ -96,4 +96,5 @@ the complete plane-policy row, terminal connectivity, current capacity or
 manufacturing acceptance. Historical reports without these fields remain readable.
 
 This source extension is not installed in host56 and still needs native
-qualification. Its saved-data replay is historical geometry evidence only.
+qualification. Its [saved-data replay and software verification](../proofs/plane-region-network-20260921/README.md)
+are historical geometry and source-check evidence only.
