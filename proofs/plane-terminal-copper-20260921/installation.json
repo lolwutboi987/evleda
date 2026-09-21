@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-09-21T08:38:11.902Z",
+  "backup": "C:/Users/kidch/.codex/backups/evleda-host58-41b18c6e-8b88-4c53-97b6-b5244635eac2",
+  "hostReleaseSha256": "0764a037299f9c90686ddbe5c915849978cef9b3c1cd90eb1eaf6c53ca64022b",
+  "host": 58,
+  "runtime": "DOC17",
+  "initialToolsExpected": 19,
+  "configuration": {
+    "beforeSha256": "8a5fbc512ffd7dcc9fbd17ead6bf4168ab8821b819abe7855fda7ee4a528d636",
+    "afterSha256": "3829659ce9fa4d4db819b4efecd21121e7d07f94e64f1684b17839d3ef4482bd",
+    "unrelatedRawBytesPreserved": true
+  },
+  "skill": {
+    "sha256": "05d073db9e7caec2c9ff76133ba61bc1afec2b40499261f003e8352db3f75561",
+    "unchanged": true
+  },
+  "nativeSourceUnchanged": true,
+  "nativeEngineChanged": true,
+  "verificationBasis": "Fresh native host58 refill, save, all64 physical ground terminal copper paths and normal close on the isolated copy. All board sources unchanged.235 affected tests/two existing skips, full source/UI typechecks and frozen backend compilation pass. No full-suite or physical-performance claim.",
+  "runningDesktopActivation": "not-established"
+}

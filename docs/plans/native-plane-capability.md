@@ -1,5 +1,11 @@
 # Native copper-plane capability handoff
 
+Current delivery: [host58 terminal-copper qualification](../../proofs/plane-terminal-copper-20260921/README.md) verifies nominal paths from all 64 physical RP2350 ground pads to the primary plane after drilling, completing plane-net:GND. Regional interior/annulus checks remain verified. Full acceptance is incomplete:144 pass,430 unknown,0 fail. Current interfaces and remaining work are in the [active roadmap](../active-roadmap.md).
+
+## Historical handoff and earlier qualification states
+
+The entries below retain their original dated scope. Their unfinished startup, workspace and terminal-contact statements are superseded by the current evidence above.
+
 **Destination implementation update:** [The new public V2 plane evaluator](../destination-plane-acceptance.md) now composes qualified saved-fill witnesses, exact filled topology/area, native direct contacts, scoped thermal/DRC checks and complete reference ribbons. Its isolated saved-board reader passed through the production profile, with 430 focused tests/two skips and passing typechecks/build. The full public fixture failed during MCP catalog startup before authoring, so native end-to-end acceptance remains unverified. The preserved failure/recovery, source identities and remaining physical-width/other mandatory gaps are recorded there. Earlier milestones below retain their original scope.
 
 Updated after **destination V2 workspace verification**, retaining the **2026-09-09 COMPLETE-ALL-NETS handoff** separately. The latest DOC5/profile07 demonstration completed eight tracks/one via, contract-plane refill/save, VIN/GND/VOUT physical-pad reachability, configured ERC/DRC and six-file same-bundle read-only reopen. The previously unwired endpoint module is public and source-bound. **Intended-plane contact, fill freshness from endpoint queries, thermal/minimum-spoke, single-plane-component/island policy, cross-net-short absence, HF/impedance and ampacity acceptance remain unproven.** Earlier partial and failed proofs remain historical evidence. Workspace V2 discovery and native create/author/close/resume/read-only restart are now verified on the destination using a separate intentionally unrouted fixture. Signal-layer changes, unlike reference nets and differential-pair validation remain outside this bounded B.Cu-GND/F.Cu-reference slice.

@@ -1,10 +1,21 @@
 # Geometric paths from physical terminals to the primary plane
 
-Source qualification is complete. The new evaluator finds a positive-width
-nominal copper path from each of the RP2350 candidate's **64 physical ground
-pads** to its verified primary ground region. This is a replay of preserved
-host57 evidence; **fresh native qualification and installation are pending**.
-The board and installed host57 have not changed at this checkpoint.
+**Native-qualified and installed in host58 on D:.** The public assessment
+verifies a positive-width nominal copper path from each of the RP2350
+candidate's **64 physical ground pads** to the primary ground region, after a
+fresh native refill and mandatory save/readback. The original `plane-net:GND`
+requirement now passes. The full result is **144 pass, 430 unknown, 0 fail;
+accepted=false**.
+
+The isolated project closed normally and all six native sources stayed exact;
+the protected main board stayed closed and unchanged. All 67 functional nets
+remain connected and configured DRC is clean. Host58 retains DOC17, the v4
+profile and the existing skill. A fresh actual Codex client sees 19 initial
+tools; existing desktop connections are not claimed to have reloaded.
+
+See the [native summary](native-summary.json), [complete public report](public-report.json),
+[assessment](native-assessment.json), [delivery](delivery.json),
+[installation](installation.json) and [fresh client](fresh-client.json).
 
 The reusable implementation is part of the existing plane assessment, rather
 than a separate candidate calculator. When current authenticated source, fill,
@@ -58,14 +69,22 @@ paths, missing fresh fill and preservation of explicit failures. Full source
 and UI typechecks passed locally with a 2 GiB heap cap; user applications stayed
 open. This is not a full-suite claim.
 
+The frozen backend compiled successfully on D: with the same 2 GiB heap cap.
+The [separate GitHub typecheck/backend job](https://github.com/lolwutboi987/evleda/actions/runs/35578478523/job/106265613265)
+also passed on source commit `05f14b8b16c39e5b91beb56b5cfb8fcc8af456cf`.
+[The complete CI workflow](github-verification.json) remains failed because
+the unchanged native-dependent job lacks its separately provisioned pinned
+KiCad runtime. That check was not skipped or relabeled as passing.
+
 [The saved-data replay](static-replay.json) binds the unchanged PCB SHA-256
 `1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da`
 and the exact historical diagnostic. It includes 64 pads, 41 ground vias,
 131 ground tracks and all 171 board bores. All 64 paths are witnessed within
 2,889,009 charged operations. The closed projection retains 161 contact discs
 and 262 links used by those paths. The smallest retained disc radius is
-1,506 nm; that illustrates why a geometric connection is **not** an ampacity
-or fabrication-tolerance result.
+1,506 nm. These radii are conservative contact witnesses; actual minimum
+copper widths remain unmeasured. Geometric connectivity does not establish
+ampacity or fabrication-tolerance suitability.
 
 The proof describes nominal saved copper. It does not certify manufactured
 plating, copper thickness, current distribution, voltage drop, temperature rise,

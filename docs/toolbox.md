@@ -189,6 +189,18 @@ The bounded assessment covers:
 - Source-bound configured native clearance/short checks and thermal-rule applicability/overrides. A qualified minimum-resolved-spokes result is a native DRC lower bound under the checked rules, not a measured physical spoke count or width.
 - Complete declared straight-route reference coverage, with actual layer/transition constraints, contract margin and explicit terminals. Strict round-bore overlap is a definite failure; exact tangency is `boundary_uncertain`. A complete bore inventory can preserve a local ribbon failure even when another bore leaves global topology unknown. Geometrically covered routes still leave the full reference row unknown when physical terminal continuity is unproved.
 
+For a declared primary plane, `planes[].terminalCopperConnectivity` adds the
+complete physical-terminal path result. It uses current native pad geometry,
+saved tracks/vias, the complete round/slot drill inventory and a verified
+connected plane interior. Every positive path retains contact discs and the
+pad, track, barrel and plane links it uses. Unsupported shapes, missing layer
+or barrel facts, board-edge clipping, tangency and missing paths remain
+unproven. Only a complete current result can pass the original plane-net row;
+an explicit failure is preserved. This is implemented in installed host58 and
+[native-qualified on all 64 physical RP2350 ground pads](../proofs/plane-terminal-copper-20260921/README.md).
+The observation establishes nominal geometric connectivity. Its contact-disc
+radii are conservative witnesses; they do not measure minimum copper width.
+
 **Actual minimum filled-copper width and physical thermal-spoke width remain unmeasured.** A declared solid connection can make spoke width inapplicable; configuration and clean DRC do not measure copper dimensions. The current evaluator always reports `accepted: false` and `fabricationAuthorized: false`; `acceptanceEvaluated: true` means only these scoped facts were evaluated. Remaining mandatory rows, general electrical suitability, HF/impedance, ampacity and manufacturing approval are not inferred.
 
 The public `nativeChecks` section retains every DRC violation, unconnected item and schematic-parity finding, with safe descriptions, severities, ignored-check keys and source-bound UUID-to-reference/pad mappings where available. Declared thermal-spoke lower bounds retain their proof status separately from unmeasured physical counts and widths. Native invocation paths and raw captures remain private. Common source-derived outline/via/trace numerical checks and the qualified ERC producer now feed the existing V2 rows. `nativeChecks.checks.erc` retains the producer result; `nativeErcIdentity` and `ercSourceSetIdentity` bind its report and source set. `ercCoverage` exposes ignored-check keys/descriptions, project/report exclusion counts, unexcluded violation and sheet counts, and pin-map applicability/identity. Unexcluded native violations fail; default ignored checks, exclusions, non-default pin-map uncertainty or unavailable evidence leave the ERC row unknown even if the native report is clean. The tool neither unignores checks nor waives coverage gaps. Scoped software verification has passed; no new native execution of this ERC integration is claimed.

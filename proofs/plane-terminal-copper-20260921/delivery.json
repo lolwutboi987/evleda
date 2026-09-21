@@ -1,0 +1,56 @@
+{
+  "recordedAt": "2026-09-21T08:39:19.126Z",
+  "host": 58,
+  "runtime": "DOC17",
+  "hostReleaseSha256": "0764a037299f9c90686ddbe5c915849978cef9b3c1cd90eb1eaf6c53ca64022b",
+  "frozenBuildRoot": "D:\\EvlEDA\\builds\\integration-terminal-copper-build-58",
+  "clientEvidenceRoot": "D:/EvlEDA/runs/rp2350-terminal-copper-58-01",
+  "managedWorkspaceUnmoved": true,
+  "protectedProjectId": "7e129f34-8a45-454c-b8dd-cf06b770ba74",
+  "qualificationProjectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "allSixBoardSourcesUnchanged": true,
+  "normalClose": true,
+  "clientTerminal": {
+    "filename": "000113-terminal-7700c54c7e9105a7856ad66b03ba56e8c29cead4be7eebedf0c56200cee08de0.json",
+    "sha256": "7700c54c7e9105a7856ad66b03ba56e8c29cead4be7eebedf0c56200cee08de0",
+    "reason": "operator_close",
+    "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+  },
+  "primaryRegionCount": 1,
+  "supplementalRegionCount": 10,
+  "eachRegionInteriorVerified": true,
+  "boresPerRegion": 171,
+  "geometricInterRegionConnectivity": "verified-through-intact-normal-via-annuli",
+  "intactCommonVias": 41,
+  "declaredSupplementalIslandPolicy": "verified",
+  "groundTerminalCopperConnectivity": {
+    "status": "verified",
+    "physicalPads": 64,
+    "scope": "nominal-source-native-positive-width-paths-to-primary-plane",
+    "currentCapacityClaimed": false
+  },
+  "remainingRows": {
+    "pass": 144,
+    "unknown": 430
+  },
+  "accepted": false,
+  "publicReport": {
+    "file": "public-report.json",
+    "sha256": "5fc62af4397a2c146c013251642ceeb26a5b8cf1486fb2ffc56f12d8f2e07bd8",
+    "sizeBytes": 1518835
+  },
+  "newNativeQualificationPerformed": true,
+  "installedReleaseChanged": true,
+  "existingDesktopReloadEstablished": false,
+  "softwareVerification": "verification.json",
+  "overlappingTestRunsNotSummed": true,
+  "scope": "Fresh native qualification verifies nominal drilled-copper paths from all64 physical ground pads to the primary plane and completes the original plane-net:GND row. Physical-width/current/thermal/interface and overall acceptance remain separate. No board or rule changes.",
+  "feederCleanup": {
+    "processId": 53256,
+    "identityChecked": true,
+    "stoppedAfterOwnedServerExit": true,
+    "ownedServerPid": 50332,
+    "launcherSessionExitCode": 1,
+    "nativeAndClientNormalCloseVerifiedSeparately": true
+  }
+}

@@ -11,10 +11,10 @@ board has a completed native layout; its **engineering acceptance is incomplete*
 | Native RP2350 project | [Open the current candidate](../designs/rp2350-pico/native-r1-launches/README.md): 22 × 60 mm, four layers, 62 electrical parts, four mounting bores, 1,099 tracks and 118 vias. Native project, schematic, libraries, previews, pinout and candidate BOM are included. |
 | Routing and service access | All 67 functional nets connect. The candidate retains 887 measured straight/45° turns without violations, both clear GPIO service strips and 42 own-pad inward leads. Configured ERC/DRC and portable schematic parity are clean; the candidate lists the checker exclusions. |
 | Managed workflow | Native authoring/save, normal close and fresh read-only reopening are verified. Continue the protected project **7e129f34-8a45-454c-b8dd-cf06b770ba74** through the qualified workspace; older allocation IDs in the archive are not current resume instructions. |
-| Installed client | [Host57 / DOC17 / v4 profile](destination-client-installation.md), with 19 initial tools observed in a fresh actual Codex client. Host57 is stored on D:; that USB must be mounted. Activation in an already-connected desktop session remains unestablished. |
+| Installed client | [Host58 / DOC17 / v4 profile](destination-client-installation.md), with 19 initial tools observed in a fresh actual Codex client. Host58 is stored on D:; that USB must be mounted. Activation in an already-connected desktop session remains unestablished. |
 | Ground-region geometry | [Host57 native qualification](../proofs/plane-region-network-20260921/README.md) verifies each drilled region's interior and the connections from all 10 supplemental regions to the primary plane through intact via annuli. The declared supplemental island policy is verified. |
-| Full board assessment | **143 pass, 431 unknown, 0 fail; accepted=false.** Regional geometry and native connectivity do not settle complete terminal continuity, copper/thermal widths, current capacity or interface electrical performance. |
-| Software verification | Host57's relevant 198-test scope passed. Full source/UI typechecks and backend compilation passed the separate GitHub portable job on the recorded source commit. The native-dependent CI job still fails for a missing pinned KiCad runtime; this is not an all-green CI or full-suite claim. See the same host57 proof for exact scopes. |
+| Full board assessment | **144 pass, 430 unknown, 0 fail; accepted=false.** Nominal drilled-copper paths from all 64 physical GND pads to the primary plane are verified. Copper/thermal widths, current capacity and interface electrical performance remain open. |
+| Software verification | Host58's relevant 235-test scope passed with two existing skips. Full source/UI typechecks and backend compilation passed the separate GitHub portable job on the recorded source commit. The native-dependent CI job still fails for a missing pinned KiCad runtime; this is not an all-green CI or full-suite claim. See [host58 terminal paths](../proofs/plane-terminal-copper-20260921/README.md) for exact scopes. |
 
 The [supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md)
 uses the actual saved routes, layer thicknesses and declared loads. It identifies
@@ -24,8 +24,8 @@ pass or an installed new toolbox operation.
 
 ## Remaining work
 
-1. Resolve complete drilled-copper terminal/return continuity and the applicable
-   physical-width, current, thermal and interface checks using the saved board.
+1. Carry the verified nominal GND terminal paths into the applicable reference
+   checks, and finish physical-width, current, thermal and interface evaluation.
 2. Resolve the complete USB attach/startup circuit, including C20, regulator/output
    charging, permitted workload, external VSYS and the enable header. The
    [input-control review](research/rp2350-pico/usb-input-control-options.md) records

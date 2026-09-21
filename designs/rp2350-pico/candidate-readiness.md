@@ -1,14 +1,17 @@
 # RP2350 candidate progress
 
-Current, 20 September 2026: [R1 with explicit debug-terminal launches](native-r1-launches/README.md) contains the fully
+Current, 21 September 2026: [R1 with explicit debug-terminal launches](native-r1-launches/README.md) contains the fully
 routed 22 x 60 mm four-layer candidate with saved fills, labels, normal close and
 fresh read-only reopen verified. All 67 functional nets are connected and
 configured ERC/DRC are clean. Supplemental-region contacts and area bounds are
 verified. Both declared debug-header launch conditions and the primary plane's
 connected planar interior after drill subtraction are now verified. The
 [earlier header approach findings](../../proofs/reference-gap-reporting-20260920/README.md)
-remain historical under their original full-ribbon requirements. USB startup,
-complete terminal contact continuity and broader electrical review remain open.
+remain historical under their original full-ribbon requirements.
+[Host58](../../proofs/plane-terminal-copper-20260921/README.md) also verifies nominal
+drilled-copper paths from all 64 physical GND pads to the primary plane.
+USB startup, physical widths, current/thermal suitability and other
+interface/electrical checks remain open.
 The draft and native-startup descriptions below are historical.
 
 ## Historical early candidate state

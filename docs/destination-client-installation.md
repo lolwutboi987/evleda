@@ -1,8 +1,13 @@
 # Destination client installation
 
-Current: **host57 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native regional-network qualification](../proofs/plane-region-network-20260921/README.md). The USB must be mounted for new toolbox connections; managed boards, profiles and the KiCad runtime remain on C:. All six board sources are unchanged and normal close is verified. A fresh actual Codex app-server sees 19 tools; its discovery probe creates no task/model turn. Configuration outside the existing host path is preserved. Existing desktop activation remains unestablished.
+Current: **host58 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native terminal-copper qualification](../proofs/plane-terminal-copper-20260921/README.md). All 64 physical GND terminal paths to the primary plane are verified; the full assessment remains incomplete. The USB must be mounted for new toolbox connections. Managed boards, profiles and runtime remain on C:. Native close and all six unchanged sources are verified, and a fresh actual Codex client sees 19 tools without creating a task or native project. Existing desktop activation remains unestablished.
 
 ## Preserved installation history
+
+
+Current: **host57 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native regional-network qualification](../proofs/plane-region-network-20260921/README.md). The USB must be mounted for new toolbox connections; managed boards, profiles and the KiCad runtime remain on C:. All six board sources are unchanged and normal close is verified. A fresh actual Codex app-server sees 19 tools; its discovery probe creates no task/model turn. Configuration outside the existing host path is preserved. Existing desktop activation remains unestablished.
+
+
 
 Current: **host50, unchanged DOC17/v4 profile, and exact updated PCB skill** are
 installed after [native terminal-launch revision and read-only reopen](../proofs/terminal-launch-policy-20260920/README.md).
