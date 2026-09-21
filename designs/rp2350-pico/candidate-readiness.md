@@ -10,6 +10,8 @@ connected planar interior after drill subtraction are now verified. The
 remain historical under their original full-ribbon requirements.
 [Host58](../../proofs/plane-terminal-copper-20260921/README.md) also verifies nominal
 drilled-copper paths from all 64 physical GND pads to the primary plane.
+[Host59](../../proofs/reference-terminal-geometry-20260921/README.md) additionally
+verifies all 19 declared geometric reference rows at their unchanged margins.
 USB startup, physical widths, current/thermal suitability and other
 interface/electrical checks remain open.
 The draft and native-startup descriptions below are historical.

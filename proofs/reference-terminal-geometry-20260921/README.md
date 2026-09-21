@@ -1,7 +1,21 @@
 # Reference coverage joined to physical ground-terminal paths
 
-Source qualification is complete; fresh native qualification and installation
-are pending. The installed release remains host58 at this checkpoint.
+**Native-qualified and installed in host59 on D:.** All **19 declared geometric
+reference rows** now pass on the unchanged RP2350 candidate. This covers the
+QSPI, USB, debug and crystal routes with their existing margins and explicit
+debug-header launch requirements. The full result is **163 pass, 411 unknown,
+0 fail; accepted=false**.
+
+Fresh native refill/save, complete public-report retrieval and normal close
+passed. Both the protected board and isolated qualification copy retain all
+six source files unchanged. All 67 functional nets remain connected and
+configured DRC is clean. DOC17, the v4 profile and PCB skill are unchanged;
+a fresh actual Codex client discovers 19 initial tools. Existing desktop
+connections are not claimed to have reloaded.
+
+See [native summary](native-summary.json), [complete public report](public-report.json),
+[assessment](native-assessment.json), [delivery](delivery.json),
+[installation](installation.json) and [fresh client discovery](fresh-client.json).
 
 The plane assessment now requires the verified ground-pad copper paths when
 completing a declared reference-path row. Interface geometry also requires its
@@ -50,3 +64,10 @@ findings, half-nanometre radii, holes, concave boundaries and malformed public
 refinements. Full source and UI typechecks pass with a 2 GiB heap cap. The exact
 historical host58 public projection still reproduces unchanged. This is not a
 full-suite claim, and the replay does not recreate native fill authority.
+
+The frozen backend build passed on D: with the same 2 GiB heap cap. The
+[GitHub typecheck/backend job](https://github.com/lolwutboi987/evleda/actions/runs/35582742651/job/106279080984)
+also passed for source commit `a3cb7daeb069a85ee80962d3b976b16b14df1cfd`.
+The [complete CI workflow](github-verification.json) still fails because the
+separate native-dependent job lacks its pinned KiCad runtime; that check was
+not skipped or relabeled as passing. User applications stayed open.

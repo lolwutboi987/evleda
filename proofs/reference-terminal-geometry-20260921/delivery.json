@@ -1,0 +1,62 @@
+{
+  "recordedAt": "2026-09-21T09:34:34.231Z",
+  "host": 59,
+  "runtime": "DOC17",
+  "hostReleaseSha256": "ae6aafa7a2e863a6b0e8bd4d9bcd0dc99231bd5bab9b04c2c6625b1f00f90189",
+  "frozenBuildRoot": "D:\\EvlEDA\\builds\\integration-reference-terminal-build-59",
+  "clientEvidenceRoot": "D:/EvlEDA/runs/rp2350-reference-terminal-59-01",
+  "managedWorkspaceUnmoved": true,
+  "protectedProjectId": "7e129f34-8a45-454c-b8dd-cf06b770ba74",
+  "qualificationProjectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "allSixBoardSourcesUnchanged": true,
+  "normalClose": true,
+  "clientTerminal": {
+    "filename": "000113-terminal-e6ad30d41ffd16d7a0f7554f1fcd4af6b3c51e6557753efa02cf3446a51b2400.json",
+    "sha256": "e6ad30d41ffd16d7a0f7554f1fcd4af6b3c51e6557753efa02cf3446a51b2400",
+    "reason": "operator_close",
+    "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+  },
+  "primaryRegionCount": 1,
+  "supplementalRegionCount": 10,
+  "eachRegionInteriorVerified": true,
+  "boresPerRegion": 171,
+  "geometricInterRegionConnectivity": "verified-through-intact-normal-via-annuli",
+  "intactCommonVias": 41,
+  "declaredSupplementalIslandPolicy": "verified",
+  "groundTerminalCopperConnectivity": {
+    "status": "verified",
+    "physicalPads": 64,
+    "scope": "nominal-source-native-positive-width-paths-to-primary-plane",
+    "currentCapacityClaimed": false
+  },
+  "referenceGeometry": {
+    "passed": 19,
+    "originalSwdioStatus": "boundary_uncertain",
+    "resolvedSwdioStatus": "covered",
+    "unchangedMarginNm": 250000
+  },
+  "remainingRows": {
+    "pass": 163,
+    "unknown": 411
+  },
+  "accepted": false,
+  "publicReport": {
+    "file": "public-report.json",
+    "sha256": "1182898e8ad45524cdacd7ef2620db419b1540c14a2029a1b9c283bf9b32fd6a",
+    "sizeBytes": 1534129
+  },
+  "newNativeQualificationPerformed": true,
+  "installedReleaseChanged": true,
+  "existingDesktopReloadEstablished": false,
+  "softwareVerification": "verification.json",
+  "overlappingTestRunsNotSummed": true,
+  "scope": "Fresh native qualification completes all19 declared geometric reference rows with verified physical ground-terminal copper paths and unchanged margins. Exact SWDIO capsule containment is retained beside the original uncertain helper observation. Physical-width/current/thermal/impedance/EMC and overall acceptance remain separate. No board or rule changes.",
+  "feederCleanup": {
+    "processId": 71896,
+    "identityChecked": true,
+    "stoppedAfterOwnedServerExit": true,
+    "ownedServerPid": 67840,
+    "launcherSessionExitCode": 1,
+    "nativeAndClientNormalCloseVerifiedSeparately": true
+  }
+}

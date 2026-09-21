@@ -201,6 +201,16 @@ an explicit failure is preserved. This is implemented in installed host58 and
 The observation establishes nominal geometric connectivity. Its contact-disc
 radii are conservative witnesses; they do not measure minimum copper width.
 
+Installed host59 also joins those ground-terminal witnesses to each declared
+reference requirement. `referenceCopperConnectivity` retains the required
+physical reference-pad UUIDs. A reference row passes only with their verified
+paths, current fill/topology, complete geometric coverage and any required
+launch conditions. Interface geometry requires its complete reference rows.
+For a conservative helper result of `boundary_uncertain`, `capsuleRefinement`
+can separately certify exact round-ended containment at the unchanged margin.
+The original `geometricStatus` remains visible beside `resolvedGeometricStatus`;
+definite uncovered results are preserved. See the [19-route native qualification](../proofs/reference-terminal-geometry-20260921/README.md).
+
 **Actual minimum filled-copper width and physical thermal-spoke width remain unmeasured.** A declared solid connection can make spoke width inapplicable; configuration and clean DRC do not measure copper dimensions. The current evaluator always reports `accepted: false` and `fabricationAuthorized: false`; `acceptanceEvaluated: true` means only these scoped facts were evaluated. Remaining mandatory rows, general electrical suitability, HF/impedance, ampacity and manufacturing approval are not inferred.
 
 The public `nativeChecks` section retains every DRC violation, unconnected item and schematic-parity finding, with safe descriptions, severities, ignored-check keys and source-bound UUID-to-reference/pad mappings where available. Declared thermal-spoke lower bounds retain their proof status separately from unmeasured physical counts and widths. Native invocation paths and raw captures remain private. Common source-derived outline/via/trace numerical checks and the qualified ERC producer now feed the existing V2 rows. `nativeChecks.checks.erc` retains the producer result; `nativeErcIdentity` and `ercSourceSetIdentity` bind its report and source set. `ercCoverage` exposes ignored-check keys/descriptions, project/report exclusion counts, unexcluded violation and sheet counts, and pin-map applicability/identity. Unexcluded native violations fail; default ignored checks, exclusions, non-default pin-map uncertainty or unavailable evidence leave the ERC row unknown even if the native report is clean. The tool neither unignores checks nor waives coverage gaps. Scoped software verification has passed; no new native execution of this ERC integration is claimed.

@@ -4,16 +4,16 @@ Updated 21 September 2026. The [current status](current-status-and-roadmap.md)
 and [published RP2350 candidate](../designs/rp2350-pico/native-r1-launches/README.md)
 are the delivery entry points. Placement, routing, labels, native save/close and
 fresh read-only reopening are complete. Engineering acceptance remains
-**144 pass, 430 unknown, 0 fail; accepted=false**.
+**163 pass, 411 unknown, 0 fail; accepted=false**.
 
 ## Work that still changes the delivered product
 
 | Priority | Required outcome | Existing evidence to reuse |
 | --- | --- | --- |
-| Physical return and contact checks | Carry verified nominal GND terminal paths into the applicable reference checks and finish physical copper/thermal width evaluation without replacing explicit failures or unknowns. | [Host58](../proofs/plane-terminal-copper-20260921/README.md) verifies all 64 physical GND terminal paths to the primary plane; host57 already established regional interiors and connections. Reuse both results. |
+| Remaining assessment integration | Bind the remaining schematic/library/PCB/placement/trace facts to their original rows using actual current evidence; complete physical width and thermal evaluation separately. | [Host59](../proofs/reference-terminal-geometry-20260921/README.md) completes all 19 geometric reference rows; host58 establishes all 64 GND terminal paths and host57 establishes regional interiors/connections. Reuse these results. |
 | USB startup | Establish the complete input/output charging and workload sequence, or implement a reviewed circuit revision that preserves USB-powered operation, external VSYS and the EN header. | [Input-control options](research/rp2350-pico/usb-input-control-options.md), the saved circuit and capacitor research. A component's typical ramp or a stand-alone current inequality is not a complete startup result. |
 | Supply and interface suitability | Resolve the actual voltage/current/thermal and return/interface requirements, retaining material assumptions and incomplete paths. | [Saved supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md), current native assessment, saved stackup and the existing pair/reference tools. |
-| Product handoff | Demonstrate the remaining prompt-driven/client workflow and audit the complete original requirements against current artifacts. | [Installed host58](destination-client-installation.md), fresh-client discovery, real native proofs and published source. Distinguish scripted execution, tool discovery, desktop activation and autonomous design. |
+| Product handoff | Demonstrate the remaining prompt-driven/client workflow and audit the complete original requirements against current artifacts. | [Installed host59](destination-client-installation.md), fresh-client discovery, real native proofs and published source. Distinguish scripted execution, tool discovery, desktop activation and autonomous design. |
 
 The reusable chat toolbox remains the product. Do not turn the demonstration
 into an unlimited redesign or make another calculator, UI, firmware system,

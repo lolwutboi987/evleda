@@ -15,7 +15,7 @@ explicit debug-header launch requirements were verified in the earlier
 Those earlier full-ribbon header failures are historical under their original
 requirements, not unresolved failures of the current declared launch policy.
 
-The full assessment remains **144 pass, 430 unknown, 0 fail; accepted=false**.
+The full assessment remains **163 pass, 411 unknown, 0 fail; accepted=false**.
 The [host58 assessment](../proofs/plane-terminal-copper-20260921/README.md) now
 verifies nominal drilled-copper paths from all 64 physical GND pads to the
 primary plane. Physical-width/current/thermal suitability and other
@@ -25,10 +25,10 @@ also identifies the external-input drop allowance and tight modeled ADC supply
 margin. [USB startup](research/rp2350-pico/usb-input-control-options.md) still needs
 a complete circuit/operating solution. The board has not been physically tested.
 
-The installed release is [host58 / DOC17 / v4](destination-client-installation.md),
+The installed release is [host59 / DOC17 / v4](destination-client-installation.md),
 stored on D:, with 19 initial tools verified in a fresh actual Codex client.
 The protected continuation project is **7e129f34-8a45-454c-b8dd-cf06b770ba74**.
-The isolated host58 qualification used **f464e518-2b03-453a-9f9c-a31f7d044d4a** and
+The isolated host59 qualification used **f464e518-2b03-453a-9f9c-a31f7d044d4a** and
 closed normally. An already-running desktop connection is not claimed to have
 reloaded. Work is published on
 [codex/rp2350-pico](https://github.com/lolwutboi987/evleda/tree/codex/rp2350-pico).

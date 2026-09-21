@@ -30,15 +30,18 @@ intent revision through the public toolbox, not an edited old report.
 ## Remaining engineering review
 
 The original [launch-qualified assessment](verification/assessment.json) records
-143 pass, 431 unknown, 0 fail. The [current host58 assessment](../../../proofs/plane-terminal-copper-20260921/native-assessment.json)
-on these same native sources records **144 pass, 430 unknown, 0 fail; accepted=false**.
+143 pass, 431 unknown, 0 fail. The [current host59 assessment](../../../proofs/reference-terminal-geometry-20260921/native-assessment.json)
+on these same native sources records **163 pass, 411 unknown, 0 fail; accepted=false**.
 The primary plane's connected planar interior after drill subtraction is now
 verified, including strict exterior separation of all four mounting bores. Each
 of the 10 supplemental regions also has a verified interior after drilling;
 its geometric connection to the primary plane through intact via annuli is
 now verified, as is the declared supplemental island policy. Host58 additionally
 verifies nominal drilled-copper paths from every physical GND terminal to the
-primary plane. Physical-width, current, thermal and interface acceptance remain separate.
+primary plane. Host59 also completes all 19 declared geometric reference rows,
+with unchanged margins and the exact SWDIO containment proof retained beside
+its original uncertainty. Physical-width, current, thermal and interface
+electrical acceptance remain separate.
 Local launch conditions do not prove complete drilled-copper return continuity,
 impedance, cable performance or EMC. Supplemental In2 contact and area conditions
 remain verified. USB startup/inrush, current/thermal suitability and other

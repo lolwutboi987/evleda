@@ -15,8 +15,8 @@ layout and native rules while explicitly separating the two through-hole debug
 approaches from the continuous-reference body. Both local launch rows are now
 native-verified at unchanged body margins. Native save/close and fresh read-only
 reopen are complete; all 67 nets connect and configured checks are clean.
-The full assessment remains incomplete: 144 pass, 430 unknown, 0 fail; accepted=false.
-[Host58](../../proofs/plane-terminal-copper-20260921/README.md) also verifies nominal drilled-copper paths from all 64 physical GND pads to the primary plane. USB startup and broader electrical review remain open.
+The full assessment remains incomplete: 163 pass, 411 unknown, 0 fail; accepted=false.
+[Host58](../../proofs/plane-terminal-copper-20260921/README.md) also verifies nominal drilled-copper paths from all 64 physical GND pads to the primary plane. [Host59](../../proofs/reference-terminal-geometry-20260921/README.md) completes all 19 declared geometric reference rows at unchanged margins. USB startup and broader electrical review remain open.
 
 ## Preserved regional-policy candidate
 

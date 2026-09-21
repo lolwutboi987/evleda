@@ -1,8 +1,13 @@
 # Destination client installation
 
-Current: **host58 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native terminal-copper qualification](../proofs/plane-terminal-copper-20260921/README.md). All 64 physical GND terminal paths to the primary plane are verified; the full assessment remains incomplete. The USB must be mounted for new toolbox connections. Managed boards, profiles and runtime remain on C:. Native close and all six unchanged sources are verified, and a fresh actual Codex client sees 19 tools without creating a task or native project. Existing desktop activation remains unestablished.
+Current: **host59 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [native reference qualification](../proofs/reference-terminal-geometry-20260921/README.md). All 19 geometric reference rows pass with current ground-terminal paths and unchanged margins. The full assessment remains incomplete. A fresh actual Codex client sees 19 tools without creating a task or native project. Board files are unchanged and normal close is verified. D: must be mounted for new connections; existing desktop reload remains unestablished.
 
 ## Preserved installation history
+
+
+Current: **host58 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native terminal-copper qualification](../proofs/plane-terminal-copper-20260921/README.md). All 64 physical GND terminal paths to the primary plane are verified; the full assessment remains incomplete. The USB must be mounted for new toolbox connections. Managed boards, profiles and runtime remain on C:. Native close and all six unchanged sources are verified, and a fresh actual Codex client sees 19 tools without creating a task or native project. Existing desktop activation remains unestablished.
+
+
 
 
 Current: **host57 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native regional-network qualification](../proofs/plane-region-network-20260921/README.md). The USB must be mounted for new toolbox connections; managed boards, profiles and the KiCad runtime remain on C:. All six board sources are unchanged and normal close is verified. A fresh actual Codex app-server sees 19 tools; its discovery probe creates no task/model turn. Configuration outside the existing host path is preserved. Existing desktop activation remains unestablished.
