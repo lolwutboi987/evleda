@@ -10,7 +10,7 @@ import { performance } from "node:perf_hooks";
 import type { Stream } from "node:stream";
 import { finished } from "node:stream/promises";
 import { bindKicadStartupEvidence, captureKicadStartupFailure, registerKicadStartupError,
-  registeredKicadStartupCategory, withKicadStartupCleanup, type KicadStartupStage } from "./kicad-startup-diagnostic.js";
+  registeredKicadStartupCategory, withKicadStartupCleanup, bindKicadStartupGuard, withKicadStartupGuard, type KicadStartupStage } from "./kicad-startup-diagnostic.js";
 
 import { canonicalIdentity, canonicalJson, constantTimeDigestEqual, contentIdentity } from "../core/canonical.js";
 import { parsePortableJsonBytes } from "../core/portable-artifact.js";
@@ -686,10 +686,10 @@ async function assertCanonicalAncestorChain(
       );
     } catch (error) {
       if (error instanceof KicadMcpRuntimeVerificationDeadlineError) throw error;
-      throw new KicadMcpSessionError(`${label} ancestor chain is unavailable.`);
+      throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} ancestor chain is unavailable.`), "ancestor-path", error);
     }
     if (metadata.isSymbolicLink() || !sameCanonicalPath(cursor, canonical)) {
-      throw new KicadMcpSessionError(`${label} ancestor chain contains an alias or reparse point.`);
+      throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} ancestor chain contains an alias or reparse point.`), "ancestor-alias");
     }
   }
 }
@@ -3181,7 +3181,7 @@ async function captureRegularFileIdentity(
     if (!sameCanonicalPath(canonicalPath, filePath)) throw new Error("ancestor alias");
   } catch (error) {
     if (error instanceof KicadMcpRuntimeVerificationDeadlineError) throw error;
-    throw new KicadMcpSessionError(`${label} is not a regular non-link file.`);
+    throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} is not a regular non-link file.`), "file-path", error);
   }
   const handle = await withinInspectionDeadline(
     async () => await open(canonicalPath, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0)),
@@ -3194,7 +3194,7 @@ async function captureRegularFileIdentity(
       async () => await handle.stat({ bigint: true }), deadline, `${label}:descriptor-stat-before`,
     );
     if (!before.isFile() || before.size < 0n || before.size > BigInt(maximumBytes)) {
-      throw new KicadMcpSessionError(`${label} is outside its byte bound.`);
+      throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} is outside its byte bound.`), "file-byte-bound");
     }
     const hash = createHash("sha256");
     const readAbort = new AbortController();
@@ -3226,9 +3226,9 @@ async function captureRegularFileIdentity(
       async () => await lstat(canonicalPath, { bigint: true }), deadline, `${label}:path-stat-after`,
     );
     const witness = witnessFor(before);
-    if (witness.linkCount !== 1) throw new KicadMcpSessionError(`${label} must have exactly one filesystem link.`);
+    if (witness.linkCount !== 1) throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} must have exactly one filesystem link.`), "file-link-count");
     if (!sameWitness(witness, witnessFor(after)) || !sameWitness(witness, witnessFor(pathAfter))) {
-      throw new KicadMcpSessionError(`${label} changed during identity capture.`);
+      throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} changed during identity capture.`), "file-read-drift");
     }
     return Object.freeze({ path: canonicalPath, sha256: hash.digest("hex"), sizeBytes: witness.sizeBytes, filesystem: Object.freeze(witness) });
   } finally {
@@ -3265,7 +3265,7 @@ async function captureRegularFileBytes(
     if (!sameCanonicalPath(canonicalPath, filePath)) throw new Error("ancestor alias");
   } catch (error) {
     if (error instanceof KicadMcpRuntimeVerificationDeadlineError) throw error;
-    throw new KicadMcpSessionError(`${label} is not a canonical regular non-link file.`);
+    throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} is not a canonical regular non-link file.`), "file-path", error);
   }
   const handle = await withinInspectionDeadline(
     async () => await open(canonicalPath, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0)),
@@ -3278,7 +3278,7 @@ async function captureRegularFileBytes(
       async () => await handle.stat({ bigint: true }), deadline, `${label}:descriptor-stat-before`,
     );
     if (!before.isFile() || before.size < 0n || before.size > BigInt(maximumBytes)) {
-      throw new KicadMcpSessionError(`${label} is outside its byte bound.`);
+      throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} is outside its byte bound.`), "file-byte-bound");
     }
     const chunks: Buffer[] = [];
     const hash = createHash("sha256");
@@ -3292,7 +3292,7 @@ async function captureRegularFileBytes(
           if (deadline !== undefined) assertInspectionDeadline(deadline);
           const chunk = Buffer.from(chunkValue as Buffer);
           seen += chunk.byteLength;
-          if (seen > maximumBytes) throw new KicadMcpSessionError(`${label} exceeded its byte bound while being read.`);
+          if (seen > maximumBytes) throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} exceeded its byte bound while being read.`), "file-byte-bound");
           chunks.push(chunk);
           hash.update(chunk);
         }
@@ -3316,9 +3316,9 @@ async function captureRegularFileBytes(
       async () => await lstat(canonicalPath, { bigint: true }), deadline, `${label}:path-stat-after`,
     );
     const witness = witnessFor(before);
-    if (witness.linkCount !== 1) throw new KicadMcpSessionError(`${label} must have exactly one filesystem link.`);
+    if (witness.linkCount !== 1) throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} must have exactly one filesystem link.`), "file-link-count");
     if (seen !== witness.sizeBytes || !sameWitness(witness, witnessFor(after)) || !sameWitness(witness, witnessFor(pathAfter))) {
-      throw new KicadMcpSessionError(`${label} changed during descriptor-bound capture.`);
+      throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} changed during descriptor-bound capture.`), "file-read-drift");
     }
     return Object.freeze({
       bytes: Buffer.concat(chunks, seen),
@@ -3343,11 +3343,11 @@ async function capturePinnedBytes(
   const physical = captured.physical;
   if (physical.sizeBytes !== input.contentIdentity.size
       || !constantTimeDigestEqual(physical.sha256, input.contentIdentity.digest)) {
-    throw new KicadMcpSessionError(`${label} does not match its expected content identity.`);
+    throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} does not match its expected content identity.`), "pinned-file-content");
   }
   const capturedContentIdentity = contentIdentity(captured.bytes);
   if (deadline !== undefined) assertInspectionDeadline(deadline);
-  if (!sameContentPin(capturedContentIdentity, input.contentIdentity)) throw new KicadMcpSessionError(`${label} bytes do not match their content identity.`);
+  if (!sameContentPin(capturedContentIdentity, input.contentIdentity)) throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} bytes do not match their content identity.`), "pinned-file-content");
   return captured;
 }
 
@@ -3377,11 +3377,11 @@ async function bindInspectionDirectory(
       mode: value.mode.toString(10), linkCount: Number(value.nlink),
     });
     if (canonicalJson(stableWitness(metadata)) !== canonicalJson(stableWitness(after)) || metadata.nlink !== 1n) {
-      throw new Error("directory witness changed or has multiple links");
+      throw bindKicadStartupGuard(new Error("directory witness changed or has multiple links"), "directory-read-drift");
     }
   } catch (error) {
     if (error instanceof KicadMcpRuntimeVerificationDeadlineError) throw error;
-    throw new KicadMcpSessionError(`${label} is not an ordinary directory.`);
+    throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} is not an ordinary directory.`), "directory-binding", error);
   }
   return Object.freeze({
     path: canonicalPath,
@@ -3399,7 +3399,7 @@ async function assertInspectionDirectory(
   deadline?: InspectionDeadline,
 ): Promise<void> {
   const actual = await bindInspectionDirectory(expected.path, label, deadline);
-  if (canonicalJson(actual) !== canonicalJson(expected)) throw new KicadMcpSessionError(`${label} physical identity changed.`);
+  if (canonicalJson(actual) !== canonicalJson(expected)) throw bindKicadStartupGuard(new KicadMcpSessionError(`${label} physical identity changed.`), "directory-binding-changed");
 }
 
 const inspectionLockedFile = (value: unknown, label: string, published = false): InspectionLockedFile => {
@@ -3730,7 +3730,7 @@ async function verifyInspectionRuntimeTree(
         async () => await lstat(directory, { bigint: true }), walkDeadline, "KiCad MCP runtime directory:mode-stat",
       );
       const mode = Number(BigInt(directoryMetadata.mode) & 0o777n);
-      if (mode !== job.expected.mode) throw new KicadMcpSessionError("KiCad MCP runtime directory mode differs from its manifest.");
+      if (mode !== job.expected.mode) throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime directory mode differs from its manifest."), "runtime-directory-manifest");
       physicalDirectories.set(job.relative, physical);
       actualDirectories.push({ path: job.relative, mode });
     }
@@ -3740,20 +3740,20 @@ async function verifyInspectionRuntimeTree(
     assertInspectionDeadline(walkDeadline);
     for (const entry of entries) {
       const candidate = path.join(directory, entry.name);
-      if (entry.isSymbolicLink()) throw new KicadMcpSessionError("KiCad MCP runtime contains a link or reparse point.");
+      if (entry.isSymbolicLink()) throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime contains a link or reparse point."), "runtime-link");
       const relative = path.relative(root.path, candidate).split(path.sep).join("/");
       safeRuntimeRelativePath(relative, "KiCad MCP runtime entry");
       if (entry.isDirectory()) {
         const expected = directoriesByPath.get(relative);
-        if (expected === undefined) throw new KicadMcpSessionError("KiCad MCP runtime contains an extra directory.");
+        if (expected === undefined) throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime contains an extra directory."), "runtime-extra-directory");
         if (++scheduledDirectories > manifest.directories.length) throw new KicadMcpSessionError("KiCad MCP runtime directory worklist exceeds its manifest bound.");
         pending.push({ candidate, relative, expected });
       } else if (entry.isFile()) {
         const expected = filesByPath.get(relative);
-        if (expected === undefined) throw new KicadMcpSessionError("KiCad MCP runtime contains an extra file.");
+        if (expected === undefined) throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime contains an extra file."), "runtime-extra-file");
         if (fileJobs.length >= manifest.files.length) throw new KicadMcpSessionError("KiCad MCP runtime file worklist exceeds its manifest bound.");
         fileJobs.push({ candidate, relative, expected });
-      } else throw new KicadMcpSessionError("KiCad MCP runtime contains an unsupported filesystem entry.");
+      } else throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime contains an unsupported filesystem entry."), "runtime-entry-kind");
     }
     } catch (error) { failWalk(error); }
   };
@@ -3777,7 +3777,7 @@ async function verifyInspectionRuntimeTree(
         const physical = await captureRegularFileIdentity(candidate, "KiCad MCP runtime file", MAX_PINNED_EXECUTABLE_BYTES, walkDeadline);
         const mode = Number(BigInt(physical.filesystem.mode) & 0o777n);
         if (physical.sizeBytes !== expected.sizeBytes || physical.sha256 !== expected.sha256 || mode !== expected.mode) {
-          throw new KicadMcpSessionError("KiCad MCP runtime file differs from its manifest.");
+          throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime file differs from its manifest."), "runtime-file-manifest");
         }
         physicalFiles.set(relative, physical);
         actualFiles.push({ path: relative, sizeBytes: physical.sizeBytes, sha256: physical.sha256, mode });
@@ -3796,14 +3796,14 @@ async function verifyInspectionRuntimeTree(
   assertInspectionDeadline(activeDeadline);
   if (actualFiles.length !== manifest.files.length || actualDirectories.length !== manifest.directories.length
       || canonicalJson(canonicalIdentity({ directories: actualDirectories, files: actualFiles }, KICAD_MCP_INSPECTION_RUNTIME_TREE_SCHEMA_VERSION)) !== canonicalJson(manifest.summary.treeIdentity)) {
-    throw new KicadMcpSessionError("KiCad MCP runtime tree is missing manifest entries or has a different aggregate identity.");
+    throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime tree is missing manifest entries or has a different aggregate identity."), "runtime-tree-manifest");
   }
   const verified = Object.freeze({ root, physicalFiles, physicalDirectories });
   if (expectedPhysical !== undefined) {
     if (canonicalJson(root) !== canonicalJson(expectedPhysical.root)
         || [...physicalFiles].some(([relative, identity]) => canonicalJson(identity) !== canonicalJson(expectedPhysical.physicalFiles.get(relative)))
         || [...physicalDirectories].some(([relative, identity]) => canonicalJson(identity) !== canonicalJson(expectedPhysical.physicalDirectories.get(relative)))) {
-      throw new KicadMcpSessionError("KiCad MCP runtime physical witnesses changed after verification.");
+      throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime physical witnesses changed after verification."), "runtime-physical-witness");
     }
   }
   assertInspectionDeadline(activeDeadline);
@@ -4094,18 +4094,18 @@ export async function createKicadMcpRuntimeBridge(
     if (poisoned) throw new KicadMcpTerminationUncertainError("KiCad MCP inspection bridge is poisoned after uncertain teardown or authority drift.");
     try {
       assertInspectionDeadline(deadline);
-      const currentLock = await capturePinnedBytes(lockInput, "KiCad MCP sidecar lock", 256 * 1024, deadline);
-      if (canonicalJson(currentLock.physical) !== canonicalJson(lockCapture.physical)) throw new KicadMcpSessionError("KiCad MCP sidecar lock physical identity changed.");
+      const currentLock = await withKicadStartupGuard("sidecar-lock", () => capturePinnedBytes(lockInput, "KiCad MCP sidecar lock", 256 * 1024, deadline));
+      if (canonicalJson(currentLock.physical) !== canonicalJson(lockCapture.physical)) throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP sidecar lock physical identity changed."), "sidecar-lock-identity");
       assertInspectionDeadline(deadline);
-      const currentManifest = await capturePinnedBytes(manifestInput, "KiCad MCP inspection runtime manifest", 8 * 1024 * 1024, deadline);
-      if (canonicalJson(currentManifest.physical) !== canonicalJson(manifestCapture.physical)) throw new KicadMcpSessionError("KiCad MCP runtime manifest physical identity changed.");
+      const currentManifest = await withKicadStartupGuard("runtime-manifest", () => capturePinnedBytes(manifestInput, "KiCad MCP inspection runtime manifest", 8 * 1024 * 1024, deadline));
+      if (canonicalJson(currentManifest.physical) !== canonicalJson(manifestCapture.physical)) throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad MCP runtime manifest physical identity changed."), "runtime-manifest-identity");
       assertInspectionDeadline(deadline);
-      await verifyInspectionRuntimeTree(runtimeTree.root.path, manifest, runtimeTree, deadline);
+      await withKicadStartupGuard("runtime-tree", () => verifyInspectionRuntimeTree(runtimeTree.root.path, manifest, runtimeTree, deadline));
       await Promise.all([
-        assertExecutableIdentity(kicadCli, "KiCad CLI executable", deadline),
-        assertExecutableIdentity(processTreeTerminator, "KiCad MCP process-tree terminator", deadline),
-        assertInspectionDirectory(runtimeParent, "KiCad MCP private runtime parent", deadline),
-        assertInspectionDirectory(ipcSocketParent, "KiCad MCP IPC socket parent", deadline),
+        withKicadStartupGuard("cli-executable", () => assertExecutableIdentity(kicadCli, "KiCad CLI executable", deadline)),
+        withKicadStartupGuard("tree-terminator", () => assertExecutableIdentity(processTreeTerminator, "KiCad MCP process-tree terminator", deadline)),
+        withKicadStartupGuard("runtime-parent", () => assertInspectionDirectory(runtimeParent, "KiCad MCP private runtime parent", deadline)),
+        withKicadStartupGuard("ipc-parent", () => assertInspectionDirectory(ipcSocketParent, "KiCad MCP IPC socket parent", deadline)),
       ]);
       // The checkpoint AbortSignal is shared across this whole verification.
       // Keep the fixed four-item base batch concurrent, then verify the bounded
@@ -4113,7 +4113,7 @@ export async function createKicadMcpRuntimeBridge(
       // AbortSignal listener warning threshold.
       for (const [index, root] of protectedRoots.entries()) {
         assertInspectionDeadline(deadline);
-        await assertInspectionDirectory(root, `KiCad MCP protected root ${index + 1}`, deadline);
+        await withKicadStartupGuard("protected-root", () => assertInspectionDirectory(root, `KiCad MCP protected root ${index + 1}`, deadline));
       }
       assertInspectionDeadline(deadline);
       if (poisoned) throw new KicadMcpTerminationUncertainError("KiCad MCP runtime was poisoned by a concurrent uncertain verification.");
@@ -4132,7 +4132,7 @@ export async function createKicadMcpRuntimeBridge(
       await withinInspectionDeadline(
         async () => await lstat(socketPath), deadline, "KiCad MCP IPC socket collision stat",
       );
-      throw new KicadMcpSessionError("KiCad IPC socket path collides with an existing filesystem entry.");
+      throw bindKicadStartupGuard(new KicadMcpSessionError("KiCad IPC socket path collides with an existing filesystem entry."), "ipc-socket-path");
     } catch (error) {
       if (error instanceof KicadMcpRuntimeVerificationDeadlineError) throw error;
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
@@ -4162,13 +4162,13 @@ export async function createKicadMcpRuntimeBridge(
   ): Promise<KicadMcpInspectionIpcSocketStatus> => {
     const state = stateForSocket(binding, runBindingIdentity);
     await Promise.all([
-      assertInspectionDirectory(ipcSocketParent, "KiCad MCP IPC socket parent", deadline),
-      assertInspectionDirectory(state.directory, "KiCad MCP IPC socket allocation", deadline),
-      assertInspectionDirectory(state.listenerDirectory, "KiCad MCP editor listener directory", deadline),
-      assertInspectionDirectory(state.configDirectory, "KiCad MCP editor config directory", deadline),
-      assertInspectionDirectory(state.versionConfigDirectory, "KiCad MCP editor version config directory", deadline),
-      assertInspectionDirectory(state.cacheDirectory, "KiCad MCP editor cache directory", deadline),
-      assertSocketPathAbsent(state.socketPath, deadline),
+      withKicadStartupGuard("ipc-parent", () => assertInspectionDirectory(ipcSocketParent, "KiCad MCP IPC socket parent", deadline)),
+      withKicadStartupGuard("ipc-allocation", () => assertInspectionDirectory(state.directory, "KiCad MCP IPC socket allocation", deadline)),
+      withKicadStartupGuard("ipc-listener", () => assertInspectionDirectory(state.listenerDirectory, "KiCad MCP editor listener directory", deadline)),
+      withKicadStartupGuard("ipc-config", () => assertInspectionDirectory(state.configDirectory, "KiCad MCP editor config directory", deadline)),
+      withKicadStartupGuard("ipc-version-config", () => assertInspectionDirectory(state.versionConfigDirectory, "KiCad MCP editor version config directory", deadline)),
+      withKicadStartupGuard("ipc-cache", () => assertInspectionDirectory(state.cacheDirectory, "KiCad MCP editor cache directory", deadline)),
+      withKicadStartupGuard("ipc-socket-path", () => assertSocketPathAbsent(state.socketPath, deadline)),
     ]);
     if (binding.endpoint !== `ipc://${state.socketPath}`) {
       throw new KicadMcpAuthorizationError("KiCad IPC socket endpoint changed after allocation.");
@@ -4983,9 +4983,9 @@ export async function createKicadMcpRuntimeBridge(
         && canonicalJson(requiredTools) !== canonicalJson([...KICAD_MCP_INSPECTION_TOOL_ALLOWLIST].sort())) {
       throw new KicadMcpAuthorizationError("KiCad MCP read-only authority must bind the exact inspection tool set.");
     }
-    const expectedRoots = await bindAuthorityRoots(request.roots, deadline);
+    const expectedRoots = await withKicadStartupGuard("authority-roots", () => bindAuthorityRoots(request.roots, deadline));
     await assertMutationAuthority(deadline, "before-session-runtime-allocation");
-    const allocation = await allocateSessionRuntime(state, deadline);
+    const allocation = await withKicadStartupGuard("session-runtime-allocation", () => allocateSessionRuntime(state, deadline));
     try { assertInspectionDeadline(deadline); }
     catch (error) {
       const cleanupDeadline = createInspectionDeadline(undefined, input.runtimeVerificationHooksForTesting);
@@ -5055,7 +5055,7 @@ export async function createKicadMcpRuntimeBridge(
         });
       },
     });
-    try { await assertMutationAuthority(deadline, "before-session-authority-return"); }
+    try { await withKicadStartupGuard("session-authority-return", () => assertMutationAuthority(deadline, "before-session-authority-return")); }
     catch (error) {
       const cleanupDeadline = createInspectionDeadline(undefined, input.runtimeVerificationHooksForTesting);
       try {

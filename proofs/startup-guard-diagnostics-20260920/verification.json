@@ -1,0 +1,68 @@
+{
+  "recordedAt": "2026-09-21T01:01:31.799Z",
+  "baseCommit": "28ca8b824ac98788ced627b88acebc453769a57e",
+  "sourceAndTestFiles": [
+    {
+      "file": "src/integrations/kicad-startup-diagnostic.ts",
+      "sha256": "77c88df88d5c7fc656bff3bfa7a9a19a118550eb20b87de5976a52e621c3f1e5",
+      "sizeBytes": 7775
+    },
+    {
+      "file": "src/integrations/kicad-mcp-session.ts",
+      "sha256": "a966b0c36a89fd27d0fd3cb9e6cb91b0f52a6491b76f589551a1a9033c7b2109",
+      "sizeBytes": 272249
+    },
+    {
+      "file": "tests/integration/kicad-mcp.test.ts",
+      "sha256": "b8c4854b67ef61dbef82565d6493df111e5c241d70d5fd1b9973befd49bff773",
+      "sizeBytes": 239353
+    },
+    {
+      "file": "tests/unit/toolbox-startup-diagnostics.test.ts",
+      "sha256": "81393cdb4310c7368a57174f6be40827beb9b1f7a38ab45b143e3b4d30fa7c96",
+      "sizeBytes": 8730
+    },
+    {
+      "file": "tests/unit/toolbox-native-host.test.ts",
+      "sha256": "c0d96e3fec87bfdb758ac2376f3042a76010739d104de6b412d607aa2ea5f8a1",
+      "sizeBytes": 29803
+    }
+  ],
+  "tests": {
+    "command": "node node_modules/vitest/vitest.mjs run tests/integration/kicad-mcp.test.ts tests/unit/toolbox-startup-diagnostics.test.ts tests/unit/toolbox-native-host.test.ts --maxWorkers=1 --testTimeout=60000 --cache=false",
+    "exitCode": 0,
+    "filesPassed": 3,
+    "testsPassed": 217,
+    "durationSeconds": 203.6,
+    "runtime": "Actual configured DOC17 runtime and manifest for filesystem verification; synthetic subprocess fixtures and mocked editor host lifecycle for fault injection.",
+    "log": {
+      "file": "tests.log",
+      "sha256": "532fecf6fdce6b22c85766a506498ec7f68d9223c8a9f486cf8acdf688c90048",
+      "sizeBytes": 260
+    }
+  },
+  "checks": [
+    {
+      "command": "node node_modules/typescript/bin/tsc --noEmit -p tsconfig.json",
+      "exitCode": 0
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p tsconfig.build.json",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-no-source-adjacent-emits.mjs",
+      "exitCode": 0,
+      "configuredSources": 681
+    }
+  ],
+  "limits": {
+    "fullSuiteRun": false,
+    "realEditorQualificationRun": false,
+    "installedReleaseChanged": false,
+    "historicalFailureCauseRecovered": false,
+    "nativeBoardSourcesChanged": false,
+    "baselineRuntimeReaderLimit": 4,
+    "diagnosticGuardLimit": 4
+  }
+}

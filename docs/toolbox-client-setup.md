@@ -36,6 +36,8 @@ The client workflow is:
 
 One native project may be active per connection. Uncertain startup/finalization retains its allocation and lease for host review; it is not a signal to remove `.toolbox-lease.json` or `.toolbox-admission.json`. Pending, uncreated drafts are in memory and can be removed with `evleda_discard_draft`; this does not delete files. After a server restart, resubmit an uncreated draft. Created projects are persisted and listed separately.
 
+Startup failure artifacts retain the first stage and cause separately from cleanup. In builds with guard diagnostics, `failure.cause.guards` optionally identifies the checks that rejected startup, ordered from the innermost failure to its surrounding operation. For example, `["directory-binding-changed", "ipc-listener"]` identifies replacement of the bound listener directory, while `["runtime-file-manifest", "runtime-tree"]` identifies a runtime file that differs from its manifest. These are fixed host identifiers, capped at four; messages, paths, stacks, native tokens and arbitrary error properties are never copied into this field. Untagged failures keep the existing category/code report. Guard identifiers locate a rejected check; they do not establish why the external state changed or authorize recovery. Older diagnostic files cannot recover identifiers that were never recorded.
+
 The SDK client rediscovered tools over actual STDIO after attachment/detachment. A particular application's handling of tool-list changes still needs to be checked during installation; do not claim app deployment merely from these protocol tests. Existing project-copy startup continues to use the explicit-project command below.
 
 ## Existing explicit-project native startup

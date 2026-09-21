@@ -13,7 +13,7 @@ vi.mock("../../src/flux/pcb-editor-launcher.js", () => ({ launchFluxPcbEditor: s
 vi.mock("../../src/mcp/toolbox-session.js", () => ({ openKicadToolboxSession: seams.open }));
 vi.mock("../../src/harness/kicad-tools.js", () => ({ KICAD_HARNESS_TOOL_NAMES: ["pcb_save", "kicad_set_project"] }));
 import { openKicadToolboxNativeHost } from "../../src/mcp/toolbox-native-host.js";
-import { bindKicadStartupEvidence, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
+import { bindKicadStartupEvidence, bindKicadStartupGuard, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import { KicadMcpTerminationUncertainError } from "../../src/integrations/kicad-mcp-session.js";
 import { writeToolboxStartupDiagnostic } from "../../src/mcp/toolbox-startup-diagnostics.js";
 import type { FreshSchematicFieldCloseOutcome } from "../../src/harness/fresh-schematic-field-diagnostics.js";
@@ -161,6 +161,22 @@ describe("native toolbox host composition", () => {
     expect(JSON.parse(await readFile(path.join(f.input.prepared.outputPath, artifact.filename), "utf8")).failure).toEqual(primary.failure);
     expect(inspect(error, { depth: 8 })).not.toMatch(/sk-primary|sk-cleanup|private wrapper/);
     expect(f.runtime.releaseIpcSocket).not.toHaveBeenCalled();
+  });
+
+  it("publishes authority guard identifiers without exposing the original error prose", async () => {
+    const f = await fixture();
+    const primary = bindKicadStartupGuard(bindKicadStartupGuard(new Error("sk-private-runtime-path"), "directory-binding-changed"), "ipc-listener");
+    f.runtime.bindSession.mockRejectedValue(primary);
+    const error = await openKicadToolboxNativeHost(f.input, f.dependencies).catch(value => value);
+    expect(error.cause.failure).toEqual({ stage: "session-authority", cause: { category: "native-error", guards: ["directory-binding-changed", "ipc-listener"] }, stderr: null });
+    for (const artifact of [error.cause.diagnostics.primary, error.cause.diagnostics.final]) {
+      const bytes = await readFile(path.join(f.input.prepared.outputPath, artifact.filename), "utf8");
+      expect(JSON.parse(bytes).failure).toEqual(error.cause.failure);
+      expect(bytes).not.toContain("sk-private");
+    }
+    expect(inspect(error, { depth: 8 })).not.toContain("sk-private");
+    expect(seams.open).not.toHaveBeenCalled();
+    expect(f.runtime.releaseIpcSocket).toHaveBeenCalledOnce();
   });
 
   it("keeps the primary stage when diagnostic publication fails without invoking foreign getters", async () => {

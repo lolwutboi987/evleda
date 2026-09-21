@@ -15,7 +15,7 @@ import externalPowerFlagConnectivityTool from "../fixtures/kicad-mcp-external-po
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import * as canonical from "../../src/core/canonical.js";
 import { canonicalIdentity, canonicalJson, contentIdentity } from "../../src/core/canonical.js";
-import { bindKicadStartupEvidence, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
+import { bindKicadStartupEvidence, captureKicadStartupCause, captureKicadStartupFailure } from "../../src/integrations/kicad-startup-diagnostic.js";
 import type { BoundedProcessRunner } from "../../src/integrations/bounded-process.js";
 import { resolveRuntimeCheckPaths, verifyRuntime } from "../../scripts/verify-kicad-inspection-runtime.mjs";
 import { projectNativeCheckReport } from "../../src/harness/kicad-native-check-report.js";
@@ -1228,7 +1228,10 @@ describe("KiCad MCP subprocess session", () => {
     )).rejects.toThrow(/another run/iu);
     const collisionPath = ipcSocket.endpoint.slice("ipc://".length);
     await writeFile(collisionPath, "collision", "utf8");
-    await expect(bridge.assertIpcSocket(ipcSocket, runBindingIdentity)).rejects.toThrow(/collides/iu);
+    const collision = await bridge.assertIpcSocket(ipcSocket, runBindingIdentity).catch(error => error);
+    expect(collision).toBeInstanceOf(KicadMcpSessionError);
+    expect(collision.message).toMatch(/collides/iu);
+    expect(captureKicadStartupCause(collision).guards).toEqual(["ipc-socket-path"]);
     await rm(collisionPath, { force: true });
     const connected = await bridge.connect({
       workspaceRoot: fixture.workspace,
@@ -1450,7 +1453,10 @@ describe("KiCad MCP subprocess session", () => {
     changed[0] = changed[0]! ^ 1;
     await writeFile(changedFile, changed);
     expect((await lstat(changedFile)).size).toBe(before.length);
-    await expect(probe.bridge.assertCurrent()).rejects.toThrow(/runtime file.*manifest/iu);
+    const drift = await probe.bridge.assertCurrent().catch(error => error);
+    expect(drift).toBeInstanceOf(KicadMcpSessionError);
+    expect(drift.message).toMatch(/runtime file.*manifest/iu);
+    expect(captureKicadStartupCause(drift).guards).toEqual(["runtime-file-manifest", "runtime-tree"]);
     await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
     expect(probe.state.launches).toBe(0);
   });
@@ -1507,7 +1513,10 @@ describe("KiCad MCP subprocess session", () => {
       const finalRoot = protectedRoots.at(-1)!;
       await rename(finalRoot, `${finalRoot}-original`);
       await mkdir(finalRoot);
-      await expect(assertCurrent()).rejects.toThrow(`KiCad MCP protected root ${rootCount} physical identity changed.`);
+      const drift = await assertCurrent().catch(error => error);
+      expect(drift).toBeInstanceOf(KicadMcpSessionError);
+      expect(drift.message).toBe(`KiCad MCP protected root ${rootCount} physical identity changed.`);
+      expect(captureKicadStartupCause(drift).guards).toEqual(["directory-binding-changed", "protected-root"]);
       await expect(bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
       await new Promise<void>((resolve) => setImmediate(resolve));
       expect(peakAbortListeners).toBeGreaterThan(0);
@@ -1577,6 +1586,23 @@ describe("KiCad MCP subprocess session", () => {
     await expect(value.context.prepareLaunch()).rejects.toThrow(/identity changed|ordinary directory|config changed|cache changed/iu);
   });
 
+  it("identifies a replaced listener directory during session authority binding", async () => {
+    const value = await editorAllocationFixture();
+    const listener = path.join(value.context.tempRoot, "kicad");
+    await rename(listener, `${listener}-original`);
+    await mkdir(listener);
+    const error = await value.bridge.bindSession({
+      ipcSocket: value.socket, runBindingIdentity: value.runBindingIdentity,
+      mode: "readonly", requiredTools: KICAD_MCP_INSPECTION_TOOL_ALLOWLIST,
+      roots: { workspaceRoot: value.workspace, projectRoot: value.project, outputRoot: value.outputRoot },
+    }).catch(error => error);
+    expect(error).toBeInstanceOf(KicadMcpSessionError);
+    expect(captureKicadStartupCause(error).guards).toEqual(["directory-binding-changed", "ipc-listener"]);
+    expect(await readdir(value.runtimeParentRoot)).toEqual([]);
+    expect((await lstat(listener)).isDirectory()).toBe(true);
+    expect((await lstat(`${listener}-original`)).isDirectory()).toBe(true);
+  });
+
   it("retains an editor allocation containing a junction and never removes its outside target", async () => {
     const value = await editorAllocationFixture();
     const outside = path.join(value.workspace, "outside-cleanup-target");
@@ -1618,7 +1644,10 @@ describe("KiCad MCP subprocess session", () => {
     await rename(fixture.bundlePython, replacement);
     await rename(parked, fixture.bundlePython);
     await rm(replacement, { force: true });
-    await expect(bridge.assertCurrent()).rejects.toThrow(/witnesses changed/iu);
+    const drift = await bridge.assertCurrent().catch(error => error);
+    expect(drift).toBeInstanceOf(KicadMcpSessionError);
+    expect(drift.message).toMatch(/witnesses changed/iu);
+    expect(captureKicadStartupCause(drift).guards).toEqual(["runtime-physical-witness", "runtime-tree"]);
   });
 
   it("single-flights concurrent uncertain closes and retains the private runtime exactly once", async () => {

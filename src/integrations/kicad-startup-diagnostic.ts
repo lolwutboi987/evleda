@@ -12,6 +12,18 @@ export type KicadStartupStage =
   | "host-cleanup" | "diagnostic-write";
 export type KicadStartupCategory = "kicad-session" | "kicad-authorization" | "kicad-output" | "kicad-output-limit"
   | "kicad-termination-uncertain" | "kicad-verification-deadline";
+const STARTUP_GUARDS = [
+  "ancestor-path", "ancestor-alias", "file-path", "file-byte-bound", "file-link-count", "file-read-drift",
+  "directory-binding", "directory-read-drift", "directory-binding-changed", "pinned-file-content",
+  "runtime-link", "runtime-extra-directory", "runtime-extra-file", "runtime-entry-kind", "runtime-file-manifest", "runtime-directory-manifest",
+  "runtime-tree-manifest", "runtime-physical-witness", "sidecar-lock", "sidecar-lock-identity",
+  "runtime-manifest", "runtime-manifest-identity", "runtime-tree", "cli-executable", "tree-terminator",
+  "runtime-parent", "ipc-parent", "protected-root", "ipc-allocation", "ipc-listener", "ipc-config",
+  "ipc-version-config", "ipc-cache", "ipc-socket-path", "authority-roots", "session-runtime-allocation",
+  "session-authority-return",
+] as const;
+export type KicadStartupGuard = typeof STARTUP_GUARDS[number];
+const allowedGuards = new Set<string>(STARTUP_GUARDS);
 export type KicadEditorReadinessStage = "connection" | "version" | "ping" | "document";
 export type KicadEditorReadinessCode = "DEADLINE" | "EDITOR_EXITED" | "WRONG_DOCUMENT" | "NATIVE_FAILURE" | "INVALID_ENDPOINT" | "VERSION_MISMATCH" | "CANCELLED";
 export interface KicadEditorReadinessFailure {
@@ -28,6 +40,7 @@ export interface KicadStartupCause {
   readonly errno?: number;
   readonly exitCode?: number;
   readonly editorReadiness?: KicadEditorReadinessFailure;
+  readonly guards?: readonly KicadStartupGuard[];
 }
 export interface KicadStartupStderr {
   readonly category: "empty" | "present" | "limit_exceeded";
@@ -42,10 +55,26 @@ export interface KicadStartupEvidence {
 // These maps are process-private. Foreign objects never become public causes.
 const categories = new WeakMap<object, KicadStartupCategory>();
 const evidence = new WeakMap<object, KicadStartupEvidence>();
+const guards = new WeakMap<object, readonly KicadStartupGuard[]>();
 const objectKey = (value: unknown): value is object => value !== null && (typeof value === "object" || typeof value === "function");
 export function registerKicadStartupError(error: Error, category: KicadStartupCategory): void { categories.set(error, category); }
 export function registeredKicadStartupCategory(error: unknown): KicadStartupCategory | undefined {
   return objectKey(error) ? categories.get(error) : undefined;
+}
+/** Host-selected static identifiers only. Never reads messages, paths, stacks,
+ * causes or spoofable guard properties. The original thrown value is retained. */
+export function bindKicadStartupGuard<T>(error: T, guard: KicadStartupGuard, origin?: unknown): T {
+  if (!allowedGuards.has(guard) || !objectKey(error) || types.isProxy(error) || !types.isNativeError(error)) return error;
+  const original = origin === undefined ? error : origin;
+  const prior = objectKey(original) && !types.isProxy(original) && types.isNativeError(original) ? guards.get(original) ?? [] : [];
+  const own = guards.get(error) ?? [];
+  // Match the diagnostic artifact's four-element array bound, retaining the
+  // innermost failure identifiers before any outer context.
+  guards.set(error, Object.freeze([...new Set([...prior, ...own, guard])].slice(0, 4)));
+  return error;
+}
+export async function withKicadStartupGuard<T>(guard: KicadStartupGuard, operation: () => Promise<T>): Promise<T> {
+  try { return await operation(); } catch (error) { throw bindKicadStartupGuard(error, guard); }
 }
 const OS_CODES = new Set(["ENOENT", "EACCES", "EPERM", "EPIPE", "ECONNRESET", "ECONNREFUSED", "ETIMEDOUT", "ENOTDIR", "EISDIR", "ENOSPC", "EIO", "EINVAL", "ENOTSUP", "EBUSY", "EEXIST", "ABORT_ERR"]);
 const numericCode = (value: unknown): value is number => typeof value === "number" && Number.isSafeInteger(value) && value >= -2_147_483_648 && value <= 2_147_483_647;
@@ -58,10 +87,11 @@ export function captureKicadStartupCause(error: unknown): KicadStartupCause {
     const descriptor = Object.getOwnPropertyDescriptor(error, key);
     return descriptor !== undefined && Object.hasOwn(descriptor, "value") ? descriptor.value : undefined;
   };
-  const code = data("code"), errno = data("errno"), exitCode = data("exitCode");
+  const code = data("code"), errno = data("errno"), exitCode = data("exitCode"), guarded = guards.get(error);
   return Object.freeze({ category: registered ?? "native-error",
     ...(numericCode(code) || typeof code === "string" && OS_CODES.has(code) ? { code } : {}),
-    ...(numericCode(errno) ? { errno } : {}), ...(numericCode(exitCode) ? { exitCode } : {}) });
+    ...(numericCode(errno) ? { errno } : {}), ...(numericCode(exitCode) ? { exitCode } : {}),
+    ...(guarded === undefined ? {} : { guards: Object.freeze([...guarded]) }) });
 }
 
 export function captureKicadStartupFailure(error: unknown, stage: KicadStartupStage, stderr?: KicadStartupStderr): KicadStartupEvidence {
