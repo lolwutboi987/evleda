@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-09-21T07:26:46.030Z",
+  "backup": "C:/Users/kidch/.codex/backups/evleda-host57-23b5d75d-f8c0-4f95-8bb3-534830910a6c",
+  "hostReleaseSha256": "cf7d2b722ce21246022afa762ccf6bdea9f026eb7df44c8b378bad39db367ecc",
+  "host": 57,
+  "runtime": "DOC17",
+  "initialToolsExpected": 19,
+  "configuration": {
+    "beforeSha256": "b7afd752e19fc2e515d6045187f97024e5924c4a6a60b5dbf3d980ad5e720783",
+    "afterSha256": "8a5fbc512ffd7dcc9fbd17ead6bf4168ab8821b819abe7855fda7ee4a528d636",
+    "unrelatedRawBytesPreserved": true
+  },
+  "skill": {
+    "sha256": "05d073db9e7caec2c9ff76133ba61bc1afec2b40499261f003e8352db3f75561",
+    "unchanged": true
+  },
+  "nativeSourceUnchanged": true,
+  "nativeEngineChanged": true,
+  "verificationBasis": "Fresh native host57 refill, save, intact-annulus geometric network assessment and normal close on the isolated copy. All board sources unchanged. Full typechecks and backend compilation also pass in the recorded portable GitHub job; the native-dependent hosted job still lacks its runtime.",
+  "runningDesktopActivation": "not-established"
+}

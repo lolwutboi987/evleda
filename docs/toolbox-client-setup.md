@@ -2,9 +2,9 @@
 
 The recommended [workspace configuration example](../examples/toolbox-workspace.config.toml) connects once and lets the client submit drafts, answer clarifications, create and resume projects over MCP. The older [explicit-project example](../examples/toolbox-mcp.config.toml) remains available. Both are disabled examples, not installed client settings. Replace placeholders with host-approved values before enabling the intended configuration.
 
-The global `evleda_workspace` entry now uses **frozen host56 on the D: USB drive, DOC17 and the v4
+The global `evleda_workspace` entry now uses **frozen host57 on the D: USB drive, DOC17 and the v4
 approved library profile**, plus an exact copy of the current PCB skill.
-[Native regional-interior qualification and fresh client discovery](../proofs/plane-regional-interiors-20260920/README.md)
+[Native regional-network qualification and fresh client discovery](../proofs/plane-region-network-20260921/README.md)
 verify **19 initial tools in a fresh actual Codex client**, including the
 explicit supplemental-plane and terminal-launch revision operations. The stock catalog is retained.
 The client wait is 1,800 seconds; native bounds, edit policy, workspace and

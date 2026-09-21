@@ -1,0 +1,31 @@
+{
+  "scope": "Fresh actual installed Codex app-server reads the real global EvlEDA entry. Other servers/plugins are disabled only for this probe. No task, model turn or native project is created. This is not evidence that an already-running desktop connection reloaded.",
+  "passed": true,
+  "toolCount": 19,
+  "toolNames": [
+    "evleda_close_project",
+    "evleda_create_project",
+    "evleda_design_schema",
+    "evleda_discard_draft",
+    "evleda_find_rules",
+    "evleda_inspect_library",
+    "evleda_list_projects",
+    "evleda_read_guide",
+    "evleda_resume_project",
+    "evleda_revise_placement",
+    "evleda_revise_plane_regions",
+    "evleda_revise_terminal_launches",
+    "evleda_revise_via_budgets",
+    "evleda_rule_topics",
+    "evleda_search_library",
+    "evleda_submit_design",
+    "evleda_toolbox_status",
+    "evleda_transmission_line",
+    "evleda_workspace_status"
+  ],
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "fullPrivateRecordSha256": "05012916efad69bdc8cea7b62233f757daef190b04f556a7b0a1b6b07cad142b"
+}

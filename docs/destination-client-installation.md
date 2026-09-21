@@ -1,6 +1,6 @@
 # Destination client installation
 
-Current: **host56 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native regional-interior qualification](../proofs/plane-regional-interiors-20260920/README.md). The USB must be mounted for new toolbox connections; managed boards, profiles and the KiCad runtime remain on C:. All six board sources are unchanged and normal close is verified. A fresh actual Codex app-server sees 19 tools; its discovery probe creates no task/model turn. Configuration outside the existing host path is preserved. Existing desktop activation remains unestablished.
+Current: **host57 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native regional-network qualification](../proofs/plane-region-network-20260921/README.md). The USB must be mounted for new toolbox connections; managed boards, profiles and the KiCad runtime remain on C:. All six board sources are unchanged and normal close is verified. A fresh actual Codex app-server sees 19 tools; its discovery probe creates no task/model turn. Configuration outside the existing host path is preserved. Existing desktop activation remains unestablished.
 
 ## Preserved installation history
 

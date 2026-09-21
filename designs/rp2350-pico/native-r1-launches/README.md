@@ -30,12 +30,14 @@ intent revision through the public toolbox, not an edited old report.
 ## Remaining engineering review
 
 The original [launch-qualified assessment](verification/assessment.json) records
-143 pass, 431 unknown, 0 fail. The [current host56 assessment](../../../proofs/plane-regional-interiors-20260920/native-assessment.json)
+143 pass, 431 unknown, 0 fail. The [current host57 assessment](../../../proofs/plane-region-network-20260921/native-assessment.json)
 on these same native sources records **143 pass, 431 unknown, 0 fail; accepted=false**.
 The primary plane's connected planar interior after drill subtraction is now
 verified, including strict exterior separation of all four mounting bores. Each
 of the 10 supplemental regions also has a verified interior after drilling;
-this does not establish full terminal or inter-region electrical continuity.
+its geometric connection to the primary plane through intact via annuli is
+now verified, as is the declared supplemental island policy. Full terminal,
+physical-width and current acceptance remain separate.
 Local launch conditions do not prove complete drilled-copper return continuity,
 impedance, cable performance or EMC. Supplemental In2 contact and area conditions
 remain verified. USB startup/inrush, current/thermal suitability and other

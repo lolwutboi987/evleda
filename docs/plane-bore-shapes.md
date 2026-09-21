@@ -95,6 +95,8 @@ It can establish the declared supplemental island-policy fact without promoting
 the complete plane-policy row, terminal connectivity, current capacity or
 manufacturing acceptance. Historical reports without these fields remain readable.
 
-This source extension is not installed in host56 and still needs native
-qualification. Its [saved-data replay and software verification](../proofs/plane-region-network-20260921/README.md)
-are historical geometry and source-check evidence only.
+Installed host57 now has [fresh native qualification](../proofs/plane-region-network-20260921/README.md)
+for this geometric network on all 10 supplemental RP2350 regions and 41 common
+ground vias, with unchanged board sources. The earlier saved-data replay and
+software checks remain separate evidence; full terminal and electrical acceptance
+are not implied by the qualified island-policy fact.

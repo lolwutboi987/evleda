@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-09-21T07:27:27.704Z",
+  "host": 57,
+  "runtime": "DOC17",
+  "hostReleaseSha256": "cf7d2b722ce21246022afa762ccf6bdea9f026eb7df44c8b378bad39db367ecc",
+  "frozenBuildRoot": "D:\\EvlEDA\\builds\\integration-plane-network-build-57",
+  "clientEvidenceRoot": "D:\\EvlEDA\\runs\\rp2350-region-network-57-01",
+  "managedWorkspaceUnmoved": true,
+  "protectedProjectId": "7e129f34-8a45-454c-b8dd-cf06b770ba74",
+  "qualificationProjectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "allSixBoardSourcesUnchanged": true,
+  "normalClose": true,
+  "clientTerminal": {
+    "filename": "000113-terminal-5683302a9347b05af030051652d867d66657c0defbba3ce3274fe533b71cd5de.json",
+    "sha256": "5683302a9347b05af030051652d867d66657c0defbba3ce3274fe533b71cd5de",
+    "reason": "operator_close",
+    "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+  },
+  "primaryRegionCount": 1,
+  "supplementalRegionCount": 10,
+  "eachRegionInteriorVerified": true,
+  "boresPerRegion": 171,
+  "geometricInterRegionConnectivity": "verified-through-intact-normal-via-annuli",
+  "intactCommonVias": 41,
+  "declaredSupplementalIslandPolicy": "verified",
+  "fullTerminalContactContinuity": "not_assessed",
+  "remainingRows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "accepted": false,
+  "publicReport": {
+    "file": "public-report.json",
+    "sha256": "0fa5b960242ffea557fe6499b9f90bf32f742ee12eb8d503de0c6e8ace4a297f",
+    "sizeBytes": 1409046
+  },
+  "newNativeQualificationPerformed": true,
+  "installedReleaseChanged": true,
+  "existingDesktopReloadEstablished": false,
+  "softwareVerification": "verification.json",
+  "overlappingTestRunsNotSummed": true,
+  "scope": "Fresh native geometric network qualification using connected region interiors and intact via annuli. Declared supplemental island-policy fact verified; complete terminal, physical-width, current and manufacturing acceptance remain separate. No board or rule changes.",
+  "frozenBuildChecks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "frozenBuildManifestSha256": "afed321fc2bbe86569d0d87e5fdae814deb969acb4bc12da17e7a53288e54a79",
+  "backendMemoryBudget": {
+    "headroom": 4717080576,
+    "availableMiB": 3795
+  },
+  "backendHeapCapMiB": 2048,
+  "userApplicationsLeftOpen": true
+}
