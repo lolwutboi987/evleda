@@ -1,6 +1,6 @@
 # Destination client installation
 
-Current: **host59 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [native reference qualification](../proofs/reference-terminal-geometry-20260921/README.md). All 19 geometric reference rows pass with current ground-terminal paths and unchanged margins. The full assessment remains incomplete. A fresh actual Codex client sees 19 tools without creating a task or native project. Board files are unchanged and normal close is verified. D: must be mounted for new connections; existing desktop reload remains unestablished.
+Current: **host60 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [managed spacing correction and fresh read-only reopen](../proofs/placement-spacing-20260921/README.md). All 62 placement rows pass on R2, alongside the 19 geometric reference rows and 64 nominal ground-terminal paths. A fresh actual Codex client sees 19 tools. D: must be mounted; already-connected desktop activation remains unestablished. Engineering acceptance remains incomplete.
 
 ## Preserved installation history
 

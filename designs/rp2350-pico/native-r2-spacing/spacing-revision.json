@@ -1,0 +1,46 @@
+{
+  "sourceProjectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "targetProjectId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "bundleIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "e733cb1012a4c8bae5c73899881c0f06aea69a70a1f06ec5cb46293ffc371cf8",
+    "schemaVersion": "evleda.pcb-design-compilation-bundle.v2"
+  },
+  "change": {
+    "reference": "R7",
+    "before": {
+      "xMm": 9.39,
+      "yMm": 38.48
+    },
+    "after": {
+      "xMm": 9.29,
+      "yMm": 38.48
+    },
+    "rotationDeg": 180,
+    "regionMinimumXmm": {
+      "before": 9.35,
+      "after": 9.25
+    },
+    "groundVia": {
+      "before": {
+        "xMm": 8.2,
+        "yMm": 39
+      },
+      "after": {
+        "xMm": 8.2,
+        "yMm": 39.15
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2
+    },
+    "removedStubMm": 0.15
+  },
+  "courtyardGapMm": {
+    "before": 0.02,
+    "required": 0.1,
+    "after": 0.12
+  },
+  "canonicalRulesUnchanged": true,
+  "allSignalTracksPreserved": true
+}

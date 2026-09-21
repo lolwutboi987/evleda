@@ -1,41 +1,31 @@
 # RP2350 progress
 
-Updated 21 September 2026. [The current native candidate](../designs/rp2350-pico/native-r1-launches/README.md)
-contains the completed **22 × 60 mm four-layer layout**, schematic, portable
-libraries, previews, pinout and candidate BOM. All 67 functional nets connect;
-configured ERC/DRC and portable schematic parity are clean. Native save/close
-and fresh read-only reopening are verified. GPIO service strips remain clear,
-and the measured trace turns follow the straight/45° requirement.
+Updated 21 September 2026. [Native R2](../designs/rp2350-pico/native-r2-spacing/README.md)
+contains the 22 × 60 mm four-layer layout, schematic, portable libraries,
+previews, pinout and candidate BOM. All 67 functional nets connect, configured
+ERC/DRC and portable schematic parity are clean, and native save/close plus
+fresh read-only reopening are verified.
 
-[Host57's native assessment](../proofs/plane-region-network-20260921/README.md)
-verifies the primary and supplemental regions' drilled interiors, intact
-via-annulus connections and the declared supplemental island policy. The
-explicit debug-header launch requirements were verified in the earlier
-[launch revision](../proofs/terminal-launch-policy-20260920/README.md).
-Those earlier full-ribbon header failures are historical under their original
-requirements, not unresolved failures of the current declared launch policy.
+The C12–R7 courtyard gap is corrected from 0.02 mm to 0.12 mm against the unchanged
+0.10 mm requirement. A 0.10 mm resistor move and 0.15 mm ground-via move preserve
+all signal tracks and clearance rules. All 62 placement checks now pass.
+Both GPIO service strips remain clear, with 42 own-pad inward leads; measured
+trace turns retain the straight/45° requirement.
 
-The full assessment remains **163 pass, 411 unknown, 0 fail; accepted=false**.
-The [host58 assessment](../proofs/plane-terminal-copper-20260921/README.md) now
-verifies nominal drilled-copper paths from all 64 physical GND pads to the
-primary plane. Physical-width/current/thermal suitability and other
-electrical/interface work remain open. The
-[saved supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md)
-also identifies the external-input drop allowance and tight modeled ADC supply
-margin. [USB startup](research/rp2350-pico/usb-input-control-options.md) still needs
-a complete circuit/operating solution. The board has not been physically tested.
+The [host60 assessment](../proofs/placement-spacing-20260921/public-report.json) records **225 pass,
+349 unknown, 0 fail; accepted=false**. All 19 geometric reference rows and nominal
+drilled-copper paths from 64 ground pads pass. Electrical acceptance remains open,
+including USB startup, supply margins, current, thermal and interface performance.
+The board has not been physically tested.
 
-The installed release is [host59 / DOC17 / v4](destination-client-installation.md),
-stored on D:, with 19 initial tools verified in a fresh actual Codex client.
-The protected continuation project is **7e129f34-8a45-454c-b8dd-cf06b770ba74**.
-The isolated host59 qualification used **f464e518-2b03-453a-9f9c-a31f7d044d4a** and
-closed normally. An already-running desktop connection is not claimed to have
-reloaded. Work is published on
+[Host60 / DOC17 / v4](destination-client-installation.md) is installed on D:,
+with 19 tools verified in a fresh actual Codex client. Continue managed project
+**0474c726-1b0c-492b-b376-9c6a06ee9d72**; prior projects remain preserved. Already-connected
+desktop activation remains unestablished. Work is published on
 [codex/rp2350-pico](https://github.com/lolwutboi987/evleda/tree/codex/rp2350-pico).
 
-See the [active roadmap](active-roadmap.md) for the remaining work. The entries
-below retain earlier results and failures; their runtime versions, project IDs
-and unfinished-layout descriptions do not describe the current candidate.
+See the [active roadmap](active-roadmap.md). Entries below retain their original
+dates, project IDs and limitations.
 
 <details>
 <summary>Historical RP2350 continuation notes — superseded snapshots</summary>

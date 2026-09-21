@@ -1,0 +1,78 @@
+{
+  "recordedAt": "2026-09-21T11:50:05.943Z",
+  "host": 60,
+  "runtime": "DOC17",
+  "releaseSha256": "6547a24b434b8d8a581aff284762fc55c520011b5ca52271c4cd0ed458227d29",
+  "frozenBuildRoot": "D:/EvlEDA/builds/integration-placement-checks-build-60",
+  "targetProjectId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "parentProjectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "parentPreserved": true,
+  "normalClose": true,
+  "readOnlyReopen": true,
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "b5206f5db12ea972b5fd87f2dc0071065363a6816e834cb38522f661472219e1",
+      "size": 634179
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "9b8a24f7f7a48985831ea6ba53a2c37dc936b1977ecaab4144ba69b14b177938",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "clientTerminals": [
+    {
+      "run": "D:/EvlEDA/runs/rp2350-spacing-60-01",
+      "filename": "000351-terminal-65fb14c65cab7e6adee3e21b89cbec13a39819ffbe5858f52e5e26b9f15891b3.json",
+      "sha256": "65fb14c65cab7e6adee3e21b89cbec13a39819ffbe5858f52e5e26b9f15891b3",
+      "reason": "operator_close",
+      "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+    },
+    {
+      "run": "D:/EvlEDA/runs/rp2350-spacing-60-readonly-01",
+      "filename": "000080-terminal-027f1168bdb0b72aaf5048fca584d9446450e43004d3edbf6a43521e20531b9b.json",
+      "sha256": "027f1168bdb0b72aaf5048fca584d9446450e43004d3edbf6a43521e20531b9b",
+      "reason": "operator_close",
+      "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+    }
+  ],
+  "placementPassed": 62,
+  "geometricReferencesPassed": 19,
+  "physicalGroundPadsWitnessed": 64,
+  "counts": {
+    "pass": 225,
+    "unknown": 349
+  },
+  "accepted": false,
+  "publicReport": {
+    "sha256": "ebbb4415bfac69bff8b607201f359267087dbea4aa99d846d55bdaf2a7c52452",
+    "sizeBytes": 2161482
+  },
+  "existingDesktopReloadEstablished": false,
+  "softwareVerification": "verification.json",
+  "scope": "Managed spacing correction and current-source qualification, with fresh read-only placement verification. Electrical acceptance remains incomplete.",
+  "readOnlyReport": {
+    "file": "read-only-public-report.json",
+    "sha256": "81ee8ea5d043b1de6bc8e3a26694129b71bac12209968ee3425eeeee198819db",
+    "sizeBytes": 1395625,
+    "counts": {
+      "unknown": 510,
+      "pass": 64
+    }
+  }
+}

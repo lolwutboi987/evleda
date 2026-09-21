@@ -1,0 +1,1041 @@
+{
+  "format": "rp2350-pico-component-selection-v1",
+  "reviewedAt": "2026-09-17",
+  "status": "conditional engineering candidates; not circuit edits or procurement release",
+  "circuitBinding": {
+    "path": "circuit-inputs.json",
+    "sha256": "ec7187cda1608ace6f8ba88749341241b97082c2787f5d0a8fe73ad0c99778f2",
+    "componentCount": 62,
+    "netCount": 65,
+    "noConnectCount": 2,
+    "connectivityModified": false
+  },
+  "scope": {
+    "selectedRefCount": 49,
+    "untouchedRefs": [
+      "U1",
+      "U2",
+      "U3",
+      "U4",
+      "J1",
+      "J2",
+      "J3",
+      "J4",
+      "Q1",
+      "D1",
+      "SW1",
+      "SW2",
+      "Y1"
+    ],
+    "allOriginalRefsPreserved": true,
+    "nativeProjectCreated": false,
+    "nativeAcceptance": false,
+    "procurementAuthorized": false
+  },
+  "sources": {
+    "K": {
+      "title": "Raspberry Pi RP2350A Minimal R4-S1 native schematic",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip",
+      "retainedPath": "../rp2350-reference-inputs-01/raspberry-pi/RPI-RP2350A-MINIMAL_R4-S1.kicad_sch",
+      "sha256": "b3d882e4a193d693a1d08dcd8f05d93dfc2e4aefd0218714d4459480f68ee9df",
+      "evidence": "Exact manufacturer_pn properties inspected for 4.7uF, 100nF, 15pF and 27ohm/33ohm/1kohm/10kohm parts; not a vendor worst-case guarantee."
+    },
+    "R": {
+      "title": "Richtek RT6150A/B DS6150A/B-06",
+      "url": "https://www.richtek.com/assets/product_file/RT6150A=RT6150B/DS6150AB-06.pdf",
+      "pages": "4, 7, 10-11",
+      "retainedPath": "../rp2350-reference-inputs-01/power/RT6150AB-06.txt"
+    },
+    "D": {
+      "title": "RP2350 datasheet",
+      "url": "https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008373-DS-2-rp2350-datasheet.pdf",
+      "pages": "448-456",
+      "evidence": "Core capacitor electrical and layout requirements retained in circuit-inputs."
+    },
+    "P": {
+      "title": "Pico 2 datasheet",
+      "url": "https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf",
+      "pages": "20",
+      "evidence": "47uF/6.3V/X5R/0805 value/package reference; bulk capacitor and RT inductor MPNs not specified."
+    },
+    "COIL": {
+      "title": "Coilcraft XFL4020",
+      "url": "https://www.coilcraft.com/getmedia/50632d43-da1b-4cdb-8ab4-3029cab51df3/xfl4020.pdf",
+      "revision": "Document 745-1/2/3, 2026-03-10",
+      "pages": "1-3",
+      "evidence": "25C electrical table, non-guaranteed thermal-rise data, land dimensions and winding mark."
+    },
+    "BULK": {
+      "title": "TDK C3225X5R1A476M250AC",
+      "url": "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X5R1A476M250AC",
+      "evidence": "Production status, 47uF 20% 10V X5R, body/land ranges. Graph values not retrieved; TDK labels graphs reference-only."
+    },
+    "BULK_CURVE": {
+      "title": "TDK bulk capacitor characterization sheet",
+      "url": "https://product.tdk.com/en/system/files/dam/doc/product/capacitor/ceramic/mlcc/charasheet/c3225x5r1a476m250ac_200213.pdf",
+      "evidence": "Search-indexed manufacturer sheet; direct fetch returned 403 / unavailable. No curve points accepted as evidence."
+    },
+    "M47": {
+      "title": "Murata GRM155R60J475ME47D",
+      "url": "https://www.murata.com/en-us/products/productdetail?partno=GRM155R60J475ME47D",
+      "evidence": "Current URL redirects to dynamic Murata PIM; electrical values and full MPN read from official Raspberry Pi native reference K. Biased capacitance, ESR and ESL not independently established."
+    },
+    "M100": {
+      "title": "Murata GRM155R71E104KE14 family",
+      "url": "https://www.murata.com/ja-jp/products/productdetail?partno=GRM155R71E104KE14%23",
+      "evidence": "Manufacturer indexed page confirms 100nF 10% 25V X7R 1.0x0.5x0.5mm and D packaging code."
+    },
+    "M15": {
+      "title": "Murata GRM1555C1H150JA01D",
+      "url": "https://www.murata.com/en-us/products/productdetail?partno=GRM1555C1H150JA01D",
+      "evidence": "Exact MPN and nominal specifications from official native reference K; direct current part page blocked."
+    },
+    "T1": {
+      "title": "TDK C1005X7R1H102K050BA",
+      "url": "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C1005X7R1H102K050BA",
+      "evidence": "Manufacturer production status; 1nF 10% 50V X7R 0402. 25V C1005X7R1E102K050BA is NRND, hence choose 50V."
+    },
+    "LED": {
+      "title": "Kingbright APT1608CGCK",
+      "url": "https://www.kingbrightusa.com/images/catalog/SPEC/APT1608CGCK.pdf",
+      "revision": "DSAA6059 V.22B 2023-04-07",
+      "pages": "1-3",
+      "evidence": "570nm green 0603; VF and brightness specified at 20mA, not the actual few-mA board current."
+    },
+    "A": {
+      "title": "Abracon AOTA-B201610S3R3-101-T",
+      "url": "https://abracon.com/datasheets/AOTA-B201610S3R3-101-T.pdf",
+      "evidence": "Carry existing exact-MPN and marked-end choice from circuit-inputs; do not replace with unmarked generic inductor."
+    },
+    "YR1": {
+      "title": "Yageo RC0402FR-0727RL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-0727RL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR2": {
+      "title": "Yageo RC0402FR-075K1L",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-075K1L",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR3": {
+      "title": "Yageo RC0402FR-071KL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-071KL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR4": {
+      "title": "Yageo RC0402FR-0710KL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-0710KL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR5": {
+      "title": "Yageo RC0402FR-0733RL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-0733RL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR6": {
+      "title": "Yageo RC0402FR-07100KL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-07100KL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR7": {
+      "title": "Yageo RC0402FR-075K6L",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-075K6L",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR8": {
+      "title": "Yageo RC0402FR-07200RL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-07200RL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR9": {
+      "title": "Yageo RC0402FR-071RL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-071RL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR10": {
+      "title": "Yageo RC0402FR-07470RL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-07470RL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    },
+    "YR11": {
+      "title": "Yageo RC0402FR-07100RL",
+      "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0402FR-07100RL",
+      "evidence": "Exact manufacturer part sheet inspected: value, 1%, 0402, 0.063W at70C, 50V working-voltage ceiling."
+    }
+  },
+  "selections": [
+    {
+      "refs": [
+        "R1",
+        "R2"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-0727RL",
+      "role": "resistor",
+      "valueOhm": 27,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "K",
+        "YR1"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R3",
+        "R4"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-075K1L",
+      "role": "resistor",
+      "valueOhm": 5100,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "YR2"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R5",
+        "R7"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-071KL",
+      "role": "resistor",
+      "valueOhm": 1000,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "K",
+        "YR3"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R6",
+        "R12"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-0710KL",
+      "role": "resistor",
+      "valueOhm": 10000,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "K",
+        "YR4"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R8"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-0733RL",
+      "role": "resistor",
+      "valueOhm": 33,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "K",
+        "YR5"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R9",
+        "R10",
+        "R13",
+        "R14",
+        "R15"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-07100KL",
+      "role": "resistor",
+      "valueOhm": 100000,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "YR6"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R11"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-075K6L",
+      "role": "resistor",
+      "valueOhm": 5600,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "YR7"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R16"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-07200RL",
+      "role": "resistor",
+      "valueOhm": 200,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "YR8"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R17"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-071RL",
+      "role": "resistor",
+      "valueOhm": 1,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "YR9"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 200,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R18"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-07470RL",
+      "role": "resistor",
+      "valueOhm": 470,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "YR10"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "R19",
+        "R20"
+      ],
+      "manufacturer": "Yageo",
+      "mpn": "RC0402FR-07100RL",
+      "role": "resistor",
+      "valueOhm": 100,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Resistor_SMD:R_0402_1005Metric",
+      "sourceIds": [
+        "YR11"
+      ],
+      "ratings": {
+        "tolerancePercent": 1,
+        "catalogPowerWAt70C": 0.063,
+        "conservativePowerBasisW": 0.0625,
+        "workingVoltageCeilingV": 50,
+        "tcrPpmPerC": 100,
+        "temperatureRangeC": [
+          -55,
+          155
+        ]
+      },
+      "selectionStatus": "candidate; exact nominal part verified",
+      "conditionIds": [
+        "RESISTOR_DERATING",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C17",
+        "C19"
+      ],
+      "manufacturer": "Murata",
+      "mpn": "GRM155R60J475ME47D",
+      "role": "4.7uF core/bulk capacitors",
+      "capacitanceF": 0.0000047,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Capacitor_SMD:C_0402_1005Metric",
+      "sourceIds": [
+        "K",
+        "M47",
+        "D",
+        "P"
+      ],
+      "ratings": {
+        "voltageV": 6.3,
+        "tolerancePercent": 20,
+        "dielectric": "X5R",
+        "temperatureRangeC": [
+          -55,
+          85
+        ],
+        "guaranteedEffectiveCapacitanceF": null,
+        "guaranteedMaximumEsrOhm": null,
+        "guaranteedMaximumEslH": null
+      },
+      "selectionStatus": "reference MPN retained; in-circuit electrical margins open",
+      "conditionIds": [
+        "CORE_CAPACITANCE",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "C5",
+        "C6",
+        "C7",
+        "C8",
+        "C9",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "C18",
+        "C22",
+        "C26"
+      ],
+      "manufacturer": "Murata",
+      "mpn": "GRM155R71E104KE14D",
+      "role": "local 100nF decoupling",
+      "capacitanceF": 1e-7,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Capacitor_SMD:C_0402_1005Metric",
+      "sourceIds": [
+        "K",
+        "M100"
+      ],
+      "ratings": {
+        "voltageV": 25,
+        "tolerancePercent": 10,
+        "dielectric": "X7R",
+        "temperatureRangeC": [
+          -55,
+          125
+        ],
+        "guaranteedEffectiveCapacitanceF": null
+      },
+      "selectionStatus": "reference MPN retained",
+      "conditionIds": [
+        "SMALL_CAPS",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "C20",
+        "C21"
+      ],
+      "manufacturer": "TDK",
+      "mpn": "C3225X5R1A476M250AC",
+      "role": "RT6150 input/output bulk",
+      "capacitanceF": 0.000047,
+      "package": "1210 / 3225 metric; maximum body3.65x2.85x2.85mm",
+      "footprintCandidate": "Capacitor_SMD:C_1210_3225Metric",
+      "sourceIds": [
+        "BULK",
+        "BULK_CURVE",
+        "R",
+        "P"
+      ],
+      "ratings": {
+        "voltageV": 10,
+        "tolerancePercent": 20,
+        "dielectric": "X5R",
+        "temperatureRangeC": [
+          -55,
+          85
+        ],
+        "guaranteedEffectiveCapacitanceF": null
+      },
+      "selectionStatus": "conditional candidate; enlarged from0805 reference for voltage headroom",
+      "conditionIds": [
+        "BULK_CAPACITANCE",
+        "BULK_LANDS",
+        "SUPPLY_TRANSIENTS"
+      ]
+    },
+    {
+      "refs": [
+        "C23"
+      ],
+      "manufacturer": "TDK",
+      "mpn": "C1005X7R1H102K050BA",
+      "role": "VSYS divider filter",
+      "capacitanceF": 1e-9,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Capacitor_SMD:C_0402_1005Metric",
+      "sourceIds": [
+        "T1"
+      ],
+      "ratings": {
+        "voltageV": 50,
+        "tolerancePercent": 10,
+        "dielectric": "X7R",
+        "temperatureRangeC": [
+          -55,
+          125
+        ],
+        "guaranteedEffectiveCapacitanceF": null
+      },
+      "selectionStatus": "candidate;50V replaces proposed25V rating without net/value change",
+      "conditionIds": [
+        "SMALL_CAPS",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "C24",
+        "C25"
+      ],
+      "manufacturer": "Murata",
+      "mpn": "GRM1555C1H150JA01D",
+      "role": "crystal load",
+      "capacitanceF": 1.5e-11,
+      "package": "0402 / 1005 metric",
+      "footprintCandidate": "Capacitor_SMD:C_0402_1005Metric",
+      "sourceIds": [
+        "K",
+        "M15"
+      ],
+      "ratings": {
+        "voltageV": 50,
+        "tolerancePercent": 5,
+        "dielectric": "C0G"
+      },
+      "selectionStatus": "reference MPN retained",
+      "conditionIds": [
+        "CRYSTAL_LOAD",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "L1"
+      ],
+      "manufacturer": "Abracon",
+      "mpn": "AOTA-B201610S3R3-101-T",
+      "role": "RP2350 core inductor",
+      "inductanceH": 0.0000033,
+      "package": "2016 metric; marked end",
+      "footprintCandidate": "EvlEDA_Pico2350:AOTA-B201610S3R3-101-T_RaspberryPi_Minimal",
+      "sourceIds": [
+        "K",
+        "A",
+        "D"
+      ],
+      "selectionStatus": "carry existing selection unchanged",
+      "pinMapping": {
+        "1": "1V1 / marked end",
+        "2": "CORE_LX"
+      },
+      "conditionIds": [
+        "CORE_CAPACITANCE"
+      ]
+    },
+    {
+      "refs": [
+        "L2"
+      ],
+      "manufacturer": "Coilcraft",
+      "mpn": "XFL4020-222MEC",
+      "role": "RT6150 buck-boost inductor",
+      "inductanceH": 0.0000022,
+      "package": "4.0+/-0.3mm square;2.10mm maximum height",
+      "footprintCandidate": "Inductor_SMD:L_Coilcraft_XxL4020",
+      "sourceIds": [
+        "COIL",
+        "R"
+      ],
+      "ratings": {
+        "tolerancePercent": 20,
+        "maximumDcrOhmAt25C": 0.0235,
+        "srfTypicalHz": 38000000,
+        "inductanceTest": {
+          "frequencyHz": 1000000,
+          "voltageVrms": 0.1,
+          "dcCurrentA": 0
+        },
+        "publishedIsatAAt25C": {
+          "drop10Percent": 3.1,
+          "drop20Percent": 3.5,
+          "drop30Percent": 3.7
+        },
+        "referenceOnlyIrmsAAt25CAmbient": {
+          "rise20C": 6,
+          "rise40C": 8
+        },
+        "maximumPartTemperatureC": 165,
+        "guaranteedPeakFaultCurrentMarginA": null,
+        "guaranteedMinimumHotInductanceH": null
+      },
+      "selectionStatus": "candidate with substantial25C rolloff margin; hot/fault limits unresolved",
+      "pinMapping": {
+        "1": "RT_LX1",
+        "2": "RT_LX2"
+      },
+      "conditionIds": [
+        "L2_CURRENT",
+        "FOOTPRINT_REVIEW"
+      ]
+    },
+    {
+      "refs": [
+        "D2"
+      ],
+      "manufacturer": "Kingbright",
+      "mpn": "APT1608CGCK",
+      "role": "green GPIO25 indicator",
+      "package": "0603 /1608 metric;0.75mm nominal height",
+      "footprintCandidate": "LED_SMD:LED_0603_1608Metric",
+      "sourceIds": [
+        "LED"
+      ],
+      "ratings": {
+        "dominantWavelengthTypicalNm": 570,
+        "forwardVoltageAt20mATypicalV": 2.1,
+        "forwardVoltageAt20mAMaximumV": 2.5,
+        "luminousIntensityAt20mAMinimumMcd": 20,
+        "luminousIntensityAt20mATypicalMcd": 50,
+        "dcForwardCurrentAbsoluteMaximumAAt25C": 0.03,
+        "powerAbsoluteMaximumWAt25C": 0.075,
+        "temperatureRangeC": [
+          -40,
+          85
+        ],
+        "guaranteedMinimumBrightnessInBoardMcd": null
+      },
+      "selectionStatus": "candidate with existing470ohm resistor; brightness must be checked",
+      "pinMapping": {
+        "1": "K / GND",
+        "2": "A / LED_A"
+      },
+      "conditionIds": [
+        "LED_CURRENT_BRIGHTNESS",
+        "FOOTPRINT_REVIEW"
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "id": "L2_CURRENT",
+      "status": "open",
+      "required": "Bound load, input current, startup/short-circuit peak current, hot inductance, frequency, thermal and AC loss. RT6150 specifies minimum1.6A current limit atVIN3.6V and no maximum; it is not a fault-current ceiling.",
+      "evidenceClass": "published25C table plus analytical screening; not all-temperature guarantee"
+    },
+    {
+      "id": "BULK_CAPACITANCE",
+      "status": "open",
+      "required": "Establish effective C20 atVSYS5.5V and C21 at3.3Vnom/3.6Vrail ceiling, including tolerance, temperature, aging, frequency and ripple. Require at least10uF as preliminary Richtek screen; transient/stability validation still needed. TDK graphs are not guaranteed limits and numeric curve data was unavailable.",
+      "minimumScreenF": 0.00001,
+      "guaranteedMinimumF": null
+    },
+    {
+      "id": "BULK_LANDS",
+      "status": "open",
+      "required": "Resolve stock1210 land mismatch: stock inner gap1.80mm and pad width2.70mm versus TDK PA2.00-2.40mm/PC1.90-2.50mm. Review assembly/paste and maximum body size2.85mm height; use a separately reviewed local land pattern if required.",
+      "nativeApproved": false
+    },
+    {
+      "id": "CORE_CAPACITANCE",
+      "status": "open",
+      "required": "Preserve reference parts and layout. C1 CIN requirement>=4.7uF, ESR<=50mohm; C2 COUT4.7uF+/-20%, ESR<=250mohm, ESL<=6nH. Nominal reference BOM evidence is not a guaranteed bias/aging/ESR/ESL proof. Do not increase C2 or substitute dielectric/package casually."
+    },
+    {
+      "id": "SMALL_CAPS",
+      "status": "conditional",
+      "required": "Retain each supply-pin association. Nominal100nF or1nF and voltage headroom do not establish minimum biased capacitance or assembled HF impedance; trace/via returns remain layout checks."
+    },
+    {
+      "id": "CRYSTAL_LOAD",
+      "status": "open",
+      "required": "Retain two15pF C0G and1kohm damping with ABM8-272-T3. Nominal series contribution7.5pF leaves about2.5pF stray for10pF crystal load; final parasitics/startup/drive not proven by BOM."
+    },
+    {
+      "id": "RESISTOR_DERATING",
+      "status": "conditional",
+      "required": "Use0.0625W conservatively for the0.063W catalog family; apply hot derating and min(50V,sqrt(Pallowed*R)). Strict63.000mW acceptance would require clarification or a higher-power part. Header/ADC and debug contention/shorts are not normal-load guarantees; pulse limits require separate assessment."
+    },
+    {
+      "id": "LED_CURRENT_BRIGHTNESS",
+      "status": "open",
+      "required": "470ohm retained. 3.3V/2.1V constant-drop estimate2.55mA is only illustrative because2.1V is specified at20mA. GPIO VOH, drive setting, VF distribution and temperature determine real current.20mA brightness minima cannot be scaled into guaranteed few-mA brightness."
+    },
+    {
+      "id": "SUPPLY_TRANSIENTS",
+      "status": "open",
+      "required": "10V capacitors improve component voltage headroom but do not clamp VSYS. RT6150VIN operating limit5.5V/absolute maximum6V,3V3 rail upper limit3.6V, USB inrush/source entitlement and overshoot remain independent conditions."
+    },
+    {
+      "id": "FOOTPRINT_REVIEW",
+      "status": "open",
+      "required": "Installed stock IDs and pad geometry inspected only. Candidate footprints need admitted library-source bindings, actual package/polarity review, assembly review and native checks. No native project or acceptance result created."
+    }
+  ],
+  "screening": {
+    "l2": {
+      "minimumFrequencyHz": 800000,
+      "assumedInductanceH": 0.000001584,
+      "inductanceBasis": "2.2uH*0.8 initial tolerance*0.9 assumed DC-bias retention; not guaranteed hot minimum",
+      "buckRippleAppAtVin5_5V": 1.0416666666666667,
+      "boostRippleAppAtVin1_8V": 0.6456611570247933,
+      "illustrativeLowInput": {
+        "vinV": 1.8,
+        "ioutA": 0.3,
+        "efficiencyAssumed": 0.8,
+        "averageInductorCurrentA": 0.6874999999999999,
+        "peakInductorCurrentA": 1.0103305785123966
+      },
+      "limits": "Steady-state idealized screening only.300mA is total illustrative load, not an external-current promise. Does not cover mode transition, low-efficiency operation, startup or faults."
+    },
+    "bulk": {
+      "combinedBiasAgingRetentionNeededFor10uF": 0.31289111389236546,
+      "basis": "47uF*0.8 tolerance*0.85 temperature*kbias*kaging >=10uF. Independence is a screening approximation, not a guaranteed combined-temperature/bias model.",
+      "inputDcFractionOfRatingAt5_5V": 0.55,
+      "outputDcFractionOfRatingAt3_6V": 0.36
+    },
+    "led": {
+      "illustrativeCurrentA": 0.0025531914893617016,
+      "shortedLedCurrentBoundAAt3_6V": 0.007736943907156673,
+      "shortedLedResistorPowerWAt3_6V": 0.027852998065764023,
+      "limits": "Bounds assume resistor remains within1% at the evaluated condition; add TCR at temperature. GPIO output performance and LED thermal derating remain separate."
+    }
+  },
+  "verification": {
+    "checks": [
+      "JSON parse and all49 selected refs uniquely match source inventory",
+      "No new refs,nets or changed passive values",
+      "Exact resistor MPN sheets and retained official-reference MPNs inspected",
+      "Five installed stock footprint files inspected and source fingerprints recorded",
+      "Input JSON/Markdown SHA256 unchanged"
+    ],
+    "gaps": [
+      "No guaranteed DC-bias capacitance data",
+      "No native symbol/footprint admission or board",
+      "No electrical transient, thermal, SI, EMI or physical testing",
+      "No purchase availability promise"
+    ]
+  },
+  "footprintObservations": [
+    {
+      "id": "Resistor_SMD:R_0402_1005Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+      "sha256": "6ed88b70926af431471c0ccaf6a55485f8cedab01cce4d1d4f3298a6cb6cef2c",
+      "pads": [
+        {
+          "number": "1",
+          "atMm": [
+            -0.51,
+            0
+          ],
+          "sizeMm": [
+            0.54,
+            0.64
+          ]
+        },
+        {
+          "number": "2",
+          "atMm": [
+            0.51,
+            0
+          ],
+          "sizeMm": [
+            0.54,
+            0.64
+          ]
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "id": "Capacitor_SMD:C_0402_1005Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_0402_1005Metric.kicad_mod",
+      "sha256": "3d8a1dc70b71dbc3a5786560f7f9d0cabe99f1182653b072cde5046e4e3f6fc4",
+      "pads": [
+        {
+          "number": "1",
+          "atMm": [
+            -0.48,
+            0
+          ],
+          "sizeMm": [
+            0.56,
+            0.62
+          ]
+        },
+        {
+          "number": "2",
+          "atMm": [
+            0.48,
+            0
+          ],
+          "sizeMm": [
+            0.56,
+            0.62
+          ]
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "id": "Capacitor_SMD:C_1210_3225Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Capacitor_SMD.pretty/C_1210_3225Metric.kicad_mod",
+      "sha256": "c0c3dbbbe623e957a8ee6c0a36f432e06b10ff8bd79fc785bd13dea723a1f20c",
+      "pads": [
+        {
+          "number": "1",
+          "atMm": [
+            -1.475,
+            0
+          ],
+          "sizeMm": [
+            1.15,
+            2.7
+          ]
+        },
+        {
+          "number": "2",
+          "atMm": [
+            1.475,
+            0
+          ],
+          "sizeMm": [
+            1.15,
+            2.7
+          ]
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "id": "Inductor_SMD:L_Coilcraft_XxL4020",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/Inductor_SMD.pretty/L_Coilcraft_XxL4020.kicad_mod",
+      "sha256": "c48f06636ae872e4f51d3c4bf68bf228a7e41fdb196232505decc71bab3d55b3",
+      "pads": [
+        {
+          "number": "1",
+          "atMm": [
+            -1.185,
+            0
+          ],
+          "sizeMm": [
+            0.98,
+            3.4
+          ]
+        },
+        {
+          "number": "2",
+          "atMm": [
+            1.185,
+            0
+          ],
+          "sizeMm": [
+            0.98,
+            3.4
+          ]
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "id": "LED_SMD:LED_0603_1608Metric",
+      "path": "C:/Program Files/KiCad/10.0/share/kicad/footprints/LED_SMD.pretty/LED_0603_1608Metric.kicad_mod",
+      "sha256": "923edc26771553cc36919e187c64d599da73e11c1f4f3e52c80b86512036faff",
+      "pads": [
+        {
+          "number": "1",
+          "atMm": [
+            -0.7875,
+            0
+          ],
+          "sizeMm": [
+            0.875,
+            0.95
+          ]
+        },
+        {
+          "number": "2",
+          "atMm": [
+            0.7875,
+            0
+          ],
+          "sizeMm": [
+            0.875,
+            0.95
+          ]
+        }
+      ],
+      "accepted": false
+    }
+  ]
+}

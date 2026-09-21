@@ -1,0 +1,9 @@
+# Raspberry Pi Minimal reference extraction
+
+Source: [RP2350A Minimal KiCad ZIP](https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-010328-CA-1-RP2350A%20Minimal%20KiCAD.zip), R4-S1 public, PCB dated 2026-07-03. Source archive/PCB identities are in `source-identities.json`; original PDF/native design files are outside this repository. Its MIT license and original disclaimer are preserved in `NOTICE.md`.
+
+Native L1 is `RPI_COMPILED:abracon_aota-b201610s3r3-101-t`, at (102,92.8) mm, rotation zero. U1 is (100,100) mm. L1's pads are 1 at (-0.7,0), size (0.7,1.7), net +1V1; 2 at (+0.7,0), same size, net /VREG_LX. F.Fab body spans (-1,-0.8) to (+1,+0.8), with an inner rectangle x=+/-0.4. F.Fab marked dot is (-0.7,+0.55), radius0.1; F.SilkS dot is (-1.4,+0.7), radius0.15. Courtyard spans x=+/-1.1, y=+/-0.9, line width0.01.
+
+`AOTA-B201610S3R3-101-T_RaspberryPi_Minimal` retains these copper, body, courtyard and mark dimensions. It strips placement/net/UUID/project paths, embedded 3D data and source-specific supply metadata, and gives the footprint a unique EvlEDA namespace. Reference text is generic. MIT-covered geometric material also informs the marked body graphics of the `Abracon_Recommended` variant; its copper lands are independently transcribed from Abracon.
+
+[Hardware design with RP2350](https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008280-DS-2-hardware-design-with-rp2350.pdf), Release3, printed pp.5-7, explains the core-inductor orientation dependence and identifies the custom marked part. Local group geometry, quiet feedback routing, LX copper restrictions and current return must be reviewed at board level; a correct footprint alone does not establish those properties. The compact Minimal courtyard is retained as reference geometry, not enlarged to imply an independently qualified process.

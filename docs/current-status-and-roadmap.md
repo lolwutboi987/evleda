@@ -1,51 +1,44 @@
 # Current status and roadmap
 
 Updated 21 September 2026. The active product is the **chat-driven KiCad toolbox**.
-The separate application/UI remains preserved and deferred. The requested RP2350
-board has a completed native layout; its **engineering acceptance is incomplete**.
+The separate application/UI remains preserved and deferred. The RP2350 native
+layout is available; **engineering acceptance remains incomplete**.
 
 ## Current delivery
 
 | Item | Verified state and evidence |
 | --- | --- |
-| Native RP2350 project | [Open the current candidate](../designs/rp2350-pico/native-r1-launches/README.md): 22 × 60 mm, four layers, 62 electrical parts, four mounting bores, 1,099 tracks and 118 vias. Native project, schematic, libraries, previews, pinout and candidate BOM are included. |
-| Routing and service access | All 67 functional nets connect. The candidate retains 887 measured straight/45° turns without violations, both clear GPIO service strips and 42 own-pad inward leads. Configured ERC/DRC and portable schematic parity are clean; the candidate lists the checker exclusions. |
-| Managed workflow | Native authoring/save, normal close and fresh read-only reopening are verified. Continue the protected project **7e129f34-8a45-454c-b8dd-cf06b770ba74** through the qualified workspace; older allocation IDs in the archive are not current resume instructions. |
-| Installed client | [Host59 / DOC17 / v4 profile](destination-client-installation.md), with 19 initial tools observed in a fresh actual Codex client. Host59 is stored on D:; that USB must be mounted. Activation in an already-connected desktop session remains unestablished. |
-| Ground-region geometry | [Host57 native qualification](../proofs/plane-region-network-20260921/README.md) verifies each drilled region's interior and the connections from all 10 supplemental regions to the primary plane through intact via annuli. The declared supplemental island policy is verified. |
-| Full board assessment | **163 pass, 411 unknown, 0 fail; accepted=false.** Nominal paths from all 64 physical GND pads and all 19 declared geometric reference checks are verified. Copper/thermal widths, current capacity and interface electrical performance remain open. Unknown rows also include unfinished integration of schematic, library, PCB, placement and trace checks; they are not a count of observed board defects. |
-| Software verification | Host59's relevant 133-test scope passed. Full source/UI typechecks and backend compilation passed the separate GitHub portable job on the recorded source commit. The native-dependent CI job still fails for a missing pinned KiCad runtime; this is not an all-green CI or full-suite claim. See [host59 reference qualification](../proofs/reference-terminal-geometry-20260921/README.md) for exact scopes. |
+| Native RP2350 project | [Open R2](../designs/rp2350-pico/native-r2-spacing/README.md): 22 × 60 mm, four layers, 62 electrical parts, four mounting bores, 1,098 tracks and 118 vias. Native project, schematic, libraries, previews, pinout and candidate BOM are included. |
+| Placement correction | The new checker found C12–R7's 0.02 mm gap against the required 0.10 mm. R7 and a nearby GND via move slightly, producing 0.12 mm without changing signal tracks or clearance requirements. All 62 placement rows pass. |
+| Routing and GPIO access | All 67 nets connect. 886 measured straight/45° turns have zero violations; both GPIO service strips remain clear with 42 own-pad inward leads. Configured native ERC/DRC and strict portable parity are clean; retained reports list exclusions. |
+| Managed workflow | Native save, normal close and fresh read-only reopening are verified. Continue project **0474c726-1b0c-492b-b376-9c6a06ee9d72**. Parent and older failed allocations remain preserved. Read-only placement checks pass without inventing fresh-fill authority. |
+| Installed client | [Host60 / DOC17 / v4 profile](destination-client-installation.md), with 19 tools verified in a fresh actual Codex client. The host is on D:, which must remain mounted. Already-connected desktop activation is unestablished. |
+| Full assessment | **225 pass, 349 unknown, 0 fail; accepted=false.** All 62 placements, 19 geometric reference rows and nominal paths from 64 physical GND pads pass. Unknown rows include unfinished checker integration and material electrical requirements. |
+| Software verification | [160 affected tests](../proofs/placement-spacing-20260921/verification.json), full source/UI typechecks and frozen backend compilation pass. The recorded GitHub portable job passes; native-dependent CI fails for an unavailable pinned KiCad runtime. No full-suite or all-green CI claim. |
 
+The [placement proof](../proofs/placement-spacing-20260921/README.md) retains the failed original gap,
+review proposal, current native result, read-only reopen and client installation.
 The [supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md)
-uses the actual saved routes, layer thicknesses and declared loads. It identifies
-the external-VSYS input-drop allowance and the ADC supply's small remaining
-modeled voltage margin. It is a conditional electrical screen, not an acceptance
-pass or an installed new toolbox operation.
+retains external-VSYS drop and ADC voltage-margin concerns.
 
 ## Remaining work
 
-1. Integrate the remaining schematic, library, PCB-component, placement and
-   trace checks using current authenticated evidence, and finish the applicable
-   physical-width, current, thermal and interface evaluation.
-2. Resolve the complete USB attach/startup circuit, including C20, regulator/output
-   charging, permitted workload, external VSYS and the enable header. The
-   [input-control review](research/rp2350-pico/usb-input-control-options.md) records
-   the evaluated options; no replacement has been adopted.
-3. Close the material electrical issues highlighted in the candidate and
-   supply-route review, and carry relevant results into the reusable toolbox.
-4. Complete the remaining end-to-end prompt-driven/client demonstration and final
-   requirement-by-requirement delivery review. Existing scripted native proofs
-   and fresh-client discovery do not prove unrestricted autonomous design.
+1. Integrate remaining schematic/library/PCB/trace checks against their original
+   requirements. Complete physical-width, current, thermal and interface evaluation.
+2. Resolve the complete USB attach/startup circuit and workload sequence, preserving
+   USB power, external VSYS and the EN header. Existing part screens are not a
+   coordinated startup solution.
+3. Address native route-inventory latency: this board requires 39 sequential
+   pages, each repeating complete validation. Preserve source and native freshness
+   while reducing repeated work; the current frozen host remains qualified as run.
+4. Complete the remaining prompt-driven/client demonstration and final original-
+   requirement review. Tool discovery and scripted native proofs have distinct scopes.
 
-Work is published on [codex/rp2350-pico](https://github.com/lolwutboi987/evleda/tree/codex/rp2350-pico).
-The earlier reviewed baseline remains on codex/destination-resume; main retains
-the earlier application. Firmware campaigns, ordering, physical qualification,
-manufacturing release and a separate UI remain outside this active scope.
+Published work is on [codex/rp2350-pico](https://github.com/lolwutboi987/evleda/tree/codex/rp2350-pico).
+Main retains the earlier application. Firmware, ordering, physical qualification,
+manufacturing release and a separate UI remain outside this scope.
 
-Use the [active roadmap](active-roadmap.md) for priorities and the
-[toolbox guide](toolbox.md) for current interfaces. Retained older notes below
-describe their own dated snapshots; their “current,” “latest” and “next” wording
-does not supersede the state above.
+Earlier entries below retain their own dated claims and do not supersede this state.
 
 <details>
 <summary>Historical status entries and earlier evidence — superseded snapshots</summary>

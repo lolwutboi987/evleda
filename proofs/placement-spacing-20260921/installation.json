@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-09-21T11:49:31.910Z",
+  "backup": "C:/Users/kidch/.codex/backups/evleda-host60-d9d51755-0a96-462a-a353-6826d717c752",
+  "hostReleaseSha256": "6547a24b434b8d8a581aff284762fc55c520011b5ca52271c4cd0ed458227d29",
+  "host": 60,
+  "runtime": "DOC17",
+  "initialToolsExpected": 19,
+  "configuration": {
+    "beforeSha256": "3c3f44c4d22be64b8c426bc2b8b33aa181b17bf6c4f801e7c7a9dd5bb90b305c",
+    "afterSha256": "f146c724b62cda5a236cd12043c64b70d5dffc5a3e49cdcc297735cd794f4ad1",
+    "unrelatedRawBytesPreserved": true
+  },
+  "skill": {
+    "sha256": "05d073db9e7caec2c9ff76133ba61bc1afec2b40499261f003e8352db3f75561",
+    "unchanged": true
+  },
+  "nativeSourceUnchanged": false,
+  "nativeEngineChanged": true,
+  "verificationBasis": "Host60 applies the checked R7 and GND-via spacing correction in a separate managed revision, verifies all62 placements and all19 geometric reference rows, and completes native save/normal close plus fresh read-only reopen.160 affected tests, source/UI typechecks and frozen backend compilation pass. No full-suite or electrical acceptance claim.",
+  "runningDesktopActivation": "not-established"
+}

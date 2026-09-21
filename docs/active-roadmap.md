@@ -1,41 +1,33 @@
 # Active PCB-toolbox roadmap
 
-Updated 21 September 2026. The [current status](current-status-and-roadmap.md)
-and [published RP2350 candidate](../designs/rp2350-pico/native-r1-launches/README.md)
-are the delivery entry points. Placement, routing, labels, native save/close and
-fresh read-only reopening are complete. Engineering acceptance remains
-**163 pass, 411 unknown, 0 fail; accepted=false**.
+Updated 21 September 2026. [Current status](current-status-and-roadmap.md) and
+[native R2](../designs/rp2350-pico/native-r2-spacing/README.md) are the delivery
+entry points. The C12–R7 courtyard gap is corrected; all 62 placement rows pass.
+The full assessment remains **225 pass, 349 unknown, 0 fail; accepted=false**.
 
-## Work that still changes the delivered product
+## Work that still changes the product
 
-| Priority | Required outcome | Existing evidence to reuse |
+| Priority | Required outcome | Existing evidence |
 | --- | --- | --- |
-| Remaining assessment integration | Bind the remaining schematic/library/PCB/placement/trace facts to their original rows using actual current evidence; complete physical width and thermal evaluation separately. | [Host59](../proofs/reference-terminal-geometry-20260921/README.md) completes all 19 geometric reference rows; host58 establishes all 64 GND terminal paths and host57 establishes regional interiors/connections. Reuse these results. |
-| USB startup | Establish the complete input/output charging and workload sequence, or implement a reviewed circuit revision that preserves USB-powered operation, external VSYS and the EN header. | [Input-control options](research/rp2350-pico/usb-input-control-options.md), the saved circuit and capacitor research. A component's typical ramp or a stand-alone current inequality is not a complete startup result. |
-| Supply and interface suitability | Resolve the actual voltage/current/thermal and return/interface requirements, retaining material assumptions and incomplete paths. | [Saved supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md), current native assessment, saved stackup and the existing pair/reference tools. |
-| Product handoff | Demonstrate the remaining prompt-driven/client workflow and audit the complete original requirements against current artifacts. | [Installed host59](destination-client-installation.md), fresh-client discovery, real native proofs and published source. Distinguish scripted execution, tool discovery, desktop activation and autonomous design. |
+| Remaining assessment integration | Bind current schematic, library, PCB and trace facts to their original requirements; finish physical width and thermal evaluation separately. | [Host60 placement proof](../proofs/placement-spacing-20260921/README.md), all 19 geometric reference rows and 64 ground-terminal paths. Reuse these results. |
+| Native latency | Reduce repeated complete validation across route-selection pages without bypassing current source/native checks. | The 1,217-item original inventory needs 39 pages; the active correction retains that full sequence. |
+| USB startup | Resolve input/output charging and workload sequencing while preserving USB, external VSYS and EN behavior. | [Reviewed options](research/rp2350-pico/usb-input-control-options.md) and the unchanged saved circuit. |
+| Supply/interface suitability | Close current, voltage, thermal, return-path and interface requirements. | [Supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md), saved construction and native/source interface evidence. |
+| Product handoff | Complete the remaining prompt-driven/client use and requirement-by-requirement delivery review. | [Host60 installation](destination-client-installation.md), native lifecycle and fresh actual client discovery. |
 
-The reusable chat toolbox remains the product. Do not turn the demonstration
-into an unlimited redesign or make another calculator, UI, firmware system,
-manufacturing campaign or electromagnetic solver the default critical path.
-Conversely, do not call the board nearly ready while material electrical issues
-remain unresolved. Keep the native candidate and its usable artifacts accessible
-while resolving those issues.
+The reusable chat toolbox remains the product. Keep the native candidate usable
+and accessible while resolving material electrical limits. A UI, firmware system,
+manufacturing campaign or new solver is not the default critical path.
 
 ## Execution and verification
 
-New frozen builds and scratch work use D:. Keep the user's other applications
-open. Managed boards, runtime and profiles stay in their established locations.
-Reuse completed checks unless a relevant change or unresolved concern requires
-new evidence. Full software checks can run in the existing portable CI job;
-native qualification still requires the pinned local runtime and a normal close.
-The missing-runtime CI job remains visible and must not be described as passing.
+Keep the user's applications open. New frozen builds and scratch work use D:;
+managed boards, runtime and profiles remain in their established locations.
+Reuse completed checks unless a relevant change requires new evidence. Preserve
+the missing-runtime CI failure and all historical failed allocations.
 
-Publish reviewed work to codex/rp2350-pico without changing main. Preserve
-unrelated working changes, failed allocations, old reports and their original
-scope. The [current candidate's managed-workspace reference](../designs/rp2350-pico/native-r1-launches/README.md#managed-workspace-reference)
-identifies the continuation target; historical project IDs below are not current
-resume instructions.
+Publish only to codex/rp2350-pico, without force or a main merge. Current managed
+project: **0474c726-1b0c-492b-b376-9c6a06ee9d72**. Old project IDs below are historical.
 
 <details>
 <summary>Historical roadmap entries — completed or superseded priorities</summary>

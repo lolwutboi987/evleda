@@ -1,0 +1,15 @@
+{
+  "scope": "Fresh native schematic export of the new portable regional-policy project; source schematic is byte-identical to native R1.",
+  "sourceSchematicSha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+  "svgSha256": "8af3a56996efcba067925636d04f3c1d39fb5a63d3f70ce378f9054eeee9f679",
+  "pngSha256": "cc430d3e09f436f7a55e909bbde26d59211b57990fd4bab097e7b7a01b91fce6",
+  "samePngAsNativeR1": false,
+  "width": 10478,
+  "height": 7409,
+  "display": {
+    "file": "schematic-display.png",
+    "sha256": "d50e7b3a192449eb3a9a9011d6a6a7ffbc62cfc45372fde0c3b5e2af0870082c",
+    "width": 4200,
+    "height": 2970
+  }
+}

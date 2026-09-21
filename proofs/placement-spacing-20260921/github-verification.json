@@ -1,0 +1,91 @@
+{
+  "sourceCommit": "f3df0474619ce82dcd4f7ba1c971c8472080875f",
+  "runId": 35590572404,
+  "portable": {
+    "id": 106303778352,
+    "name": "Full typechecks and backend compilation",
+    "conclusion": "success",
+    "url": "https://github.com/lolwutboi987/evleda/actions/runs/35590572404/job/106303778352",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check out the exact revision without persisting credentials",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned pnpm and Node.js from the frozen lockfile",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check all source and UI types",
+        "conclusion": "success"
+      },
+      {
+        "name": "Compile the complete backend",
+        "conclusion": "success"
+      },
+      {
+        "name": "Verify compilation did not emit beside source files",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Install pinned pnpm and Node.js from the frozen lockfile",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Check out the exact revision without persisting credentials",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "nativeDependent": {
+    "id": 106303777984,
+    "name": "Typecheck, test, build, and verify",
+    "conclusion": "failure",
+    "url": "https://github.com/lolwutboi987/evleda/actions/runs/35590572404/job/106303777984",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check out the exact revision without persisting credentials",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned pnpm and Node.js from the frozen lockfile",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run the complete local software verification",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Post Install pinned pnpm and Node.js from the frozen lockfile",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Check out the exact revision without persisting credentials",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "nativeFailure": [
+    {
+      "title": "Native KiCad runtime not provisioned",
+      "message": "This verification requires the separately installed, pinned KiCad runtime and its matching manifest. The checkout alone is insufficient. See docs/destination-setup.md for setup and both runtime environment overrides. Verification was not skipped."
+    }
+  ],
+  "fullWorkflowPassed": false
+}

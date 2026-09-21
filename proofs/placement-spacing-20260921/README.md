@@ -6,8 +6,7 @@ Configured native DRC was clean because a non-overlapping courtyard does not
 establish that additional declared gap. The [baseline result](baseline-source-placement.json)
 retains failures for both components and passes the other 60 placements.
 
-Managed correction and native qualification are in progress. Installed host59
-and the original board remain the current delivered baseline at this checkpoint.
+The managed correction is now saved in [native R2](../../designs/rp2350-pico/native-r2-spacing/README.md), with native DRC, connectivity, all 62 placement checks, normal close and fresh read-only reopening verified. Host60 is installed and a fresh actual Codex client sees 19 tools. Full assessment is **225 pass, 349 unknown, 0 fail; accepted=false**.
 
 ## Reviewed correction
 
@@ -22,7 +21,7 @@ This preserves the crystal block's placement intent while giving C12–R7 a
 The [unmanaged review copy](proposal-source-placement.json) passes all 62
 placement checks; its [native DRC](proposal-native-drc.json) has zero violations,
 unconnected items and schematic-parity issues with the existing exclusions.
-That review copy is not a substitute for managed authoring and verification.
+The later managed revision independently repeats the checks on its own saved source; see [delivery](delivery.json) and the [complete public report](public-report.json).
 
 ## Reusable check
 
@@ -51,3 +50,7 @@ frozen backend build pass. This is not a full-suite or manufacturing claim.
 The three unsuccessful initial move studies remain preserved privately on D:;
 their copper violations were not waived. USB startup and other electrical
 review remain open.
+
+The [fresh read-only report](read-only-public-report.json) separately records **64 pass, 510 unknown, 0 fail**: all 62 placement rows remain verified without current-session fill authority. The earlier edit-session assessment is retained with its own source and fill scope.
+
+The original route inventory took [35.3 minutes across 39 pages](route-read-latency.json) on this host. Scoped route feedback is a planned performance improvement, not a shipped filter.

@@ -1,6 +1,6 @@
 # Native copper-plane capability handoff
 
-Current delivery: [host58 terminal-copper qualification](../../proofs/plane-terminal-copper-20260921/README.md) verifies nominal paths from all 64 physical RP2350 ground pads to the primary plane after drilling, completing plane-net:GND. Regional interior/annulus checks remain verified. The subsequent [host59 qualification](../../proofs/reference-terminal-geometry-20260921/README.md) completes all 19 declared geometric reference rows with unchanged margins. Full acceptance is incomplete:163 pass,411 unknown,0 fail. Current interfaces and remaining work are in the [active roadmap](../active-roadmap.md).
+Current delivery: [host60 spacing qualification](../../proofs/placement-spacing-20260921/README.md) verifies all 62 placement rows after the C12–R7 correction. Nominal paths from all 64 GND pads, regional interiors/annuli and all 19 geometric reference rows remain verified. Native save/close and fresh read-only reopening pass. Full acceptance remains incomplete:225 pass,349 unknown,0 fail. Use the [active roadmap](../active-roadmap.md) for remaining work.
 
 ## Historical handoff and earlier qualification states
 
