@@ -36,8 +36,8 @@ and their pad/via attribution. All 19 declared geometric reference rows and
 nominal drilled-copper paths from all 64 physical GND pads to the primary plane
 pass. Existing debug-terminal launch conditions and margins remain unchanged.
 
-The [complete native assessment](../../../proofs/placement-spacing-20260921/public-report.json)
-records **225 pass, 349 unknown, 0 fail; accepted=false**. Unknowns include
+The original [host60 native assessment](../../../proofs/placement-spacing-20260921/public-report.json)
+records **225 pass, 349 unknown, 0 fail; accepted=false**. The newer [host62 assessment](../../../proofs/artifact-checks-20260921/fresh-fill-report.json) on these unchanged native files records **495 pass, 79 unknown, 0 fail; accepted=false** after integrating 270 source/native artifact requirements. Unknowns include
 unfinished assessment integration plus electrical and construction requirements;
 they are not a count of observed defects. USB attach/startup/inrush, current,
 voltage drop, physical copper/thermal widths and interface performance remain

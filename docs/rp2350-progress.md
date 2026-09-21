@@ -12,15 +12,15 @@ all signal tracks and clearance rules. All 62 placement checks now pass.
 Both GPIO service strips remain clear, with 42 own-pad inward leads; measured
 trace turns retain the straight/45° requirement.
 
-The [host60 assessment](../proofs/placement-spacing-20260921/public-report.json) records **225 pass,
-349 unknown, 0 fail; accepted=false**. All 19 geometric reference rows and nominal
+The [host62 assessment](../proofs/artifact-checks-20260921/fresh-fill-report.json) records **495 pass,
+79 unknown, 0 fail; accepted=false**. All 19 geometric reference rows and nominal
 drilled-copper paths from 64 ground pads pass. Electrical acceptance remains open,
 including USB startup, supply margins, current, thermal and interface performance.
-The board has not been physically tested.
+The new artifact assessment verifies 270 original library, schematic, PCB, net-class and mounting-feature rows. Read-only reopening preserves independent source facts; qualified native clearances are still required for the complete mounting-feature result. The board has not been physically tested.
 
 The [host61 scoped reader](../proofs/route-net-feedback-20260921/README.md) returns the unchanged board's 171 ground items in one call (48.8 observed seconds). Every returned item matches the saved source, and all six files remain unchanged after native read-only close.
 
-[Host61 / DOC17 / v4](destination-client-installation.md) is installed on D:,
+[Host62 / DOC17 / v4](destination-client-installation.md) is installed on D:,
 with 19 tools verified in a fresh actual Codex client. Continue managed project
 **0474c726-1b0c-492b-b376-9c6a06ee9d72**; prior projects remain preserved. Already-connected
 desktop activation remains unestablished. Work is published on

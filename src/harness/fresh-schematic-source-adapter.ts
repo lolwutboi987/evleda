@@ -75,13 +75,13 @@ function pinKey(pin: FreshSchematicTerminalPinGeometry): string {
  * No caller-provided local coordinates, pin inventory, or source hash alone is
  * treated as proof. Native provenance of livePins remains the host's obligation.
  */
-export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSourceAdapterInput, budget?: FreshSchematicWorkBudget) {
+type SourceLibraryInput = Omit<FreshSchematicSourceAdapterInput, "livePins" | "strokeStyleEvidence">;
+function sourceLibraryGeometry(input: SourceLibraryInput, requireNativeAuxiliary = true) {
   const contract = createFreshConnectivityContract(input.contract, input.externalPowerBinding, input.derivedPowerBinding);
   const auxiliary = powerAnnotationBindingOf(input) === undefined ? undefined : verifyFreshExternalPowerSource(contract, input.schematicSource, { allowAbsent: true, ...(input.auxiliaryConnectivity === undefined ? {} : { groups: input.auxiliaryConnectivity }) });
-  if (auxiliary !== undefined && auxiliary.references.length > 0 && input.auxiliaryConnectivity === undefined) throw new FreshKicadParseError("Auxiliary source projection requires complete trusted native connectivity first.");
+  if (requireNativeAuxiliary && auxiliary !== undefined && auxiliary.references.length > 0 && input.auxiliaryConnectivity === undefined) throw new FreshKicadParseError("Auxiliary source projection requires complete trusted native connectivity first.");
   const placed = parseFreshSchematicTerminalGeometrySource(input.schematicSource, input.expectedSourceIdentity, auxiliary?.references)
     .filter(component => !auxiliary?.references.includes(component.reference));
-  if (input.strokeStyleEvidence !== undefined) assertFreshSchematicStrokeStyleEvidence(input.strokeStyleEvidence, input.expectedSourceIdentity);
   const expected = new Map(contract.components.map((component) => [component.reference, component.symbolLibId]));
   // Both supported contracts explicitly permit only single-unit components (unit 1).
   if (placed.length !== expected.size || placed.some((component) => expected.get(component.reference) !== component.symbolLibId || component.unit !== 1)) {
@@ -106,11 +106,32 @@ export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSou
     if (component.pins.length !== selected.length || component.pins.some((pin) => stockPins.get(pin.number) !== pinKey(pin))) {
       throw new FreshKicadParseError(`Source terminal ${component.reference}: selected embedded pins differ from exact approved library geometry.`);
     }
+    const stockBody = selectFreshSymbolBodyGeometry(stock, component.unit, component.bodyStyle);
+    const embeddedBody = selectFreshSymbolBodyGeometry(component.embeddedGeometry, component.unit, component.bodyStyle);
+    if (stockBody.length !== embeddedBody.length || stockBody.some((graphic, index) => {
+      const actual = embeddedBody[index]!;
+      return graphic.kind !== actual.kind || graphic.tokenIdentity.digest !== actual.tokenIdentity.digest || graphic.tokenIdentity.size !== actual.tokenIdentity.size;
+    })) throw new FreshKicadParseError(`Source terminal ${component.reference}: selected embedded graphics differ from exact approved library graphics.`);
     return Object.freeze({ reference: component.reference, symbolLibId: component.symbolLibId, symbolUuid: component.symbolUuid,
       unit: component.unit, bodyStyle: component.bodyStyle, bodyStyleOrigin: component.bodyStyleOrigin,
       schematicSourceIdentity: component.sourceIdentity, embeddedDefinitionIdentity: component.embeddedDefinitionIdentity,
       librarySourceIdentity: stock.sourceIdentity, libraryDefinitionIdentity: stock.definitionIdentity });
   });
+  return { contract, placed, sourceBindings };
+}
+
+/** Saved symbol definitions only. No synthetic live-pin readback or render claim. */
+export function verifyFreshSchematicSourceLibraries(input: SourceLibraryInput) {
+  // Excluding exact source-verified annotation definitions is sufficient for a
+  // library-definition comparison. This does not verify their electrical groups.
+  const { sourceBindings } = sourceLibraryGeometry(input, false);
+  return Object.freeze({ schematicSourceIdentity: input.expectedSourceIdentity, sourceBindings: Object.freeze(sourceBindings),
+    scope: "exact-saved-selected-symbol-pin-and-graphic-definitions" as const, nativeLivePinPositionsCompared: false as const, renderedReadabilityEvaluated: false as const });
+}
+
+export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSourceAdapterInput, budget?: FreshSchematicWorkBudget) {
+  const { contract, placed, sourceBindings } = sourceLibraryGeometry(input);
+  if (input.strokeStyleEvidence !== undefined) assertFreshSchematicStrokeStyleEvidence(input.strokeStyleEvidence, input.expectedSourceIdentity);
   const components: readonly FreshSchematicSourceComponent[] = Object.freeze(placed.map((component) => Object.freeze({
     reference: component.reference, symbolLibId: component.symbolLibId, unit: component.unit,
     sourceIdentity: component.sourceIdentity, placement: component.placement,
@@ -123,12 +144,7 @@ export function buildFreshSchematicSourceTerminalGroups(input: FreshSchematicSou
   const livePins = Object.freeze(input.livePins.map((pin) => Object.freeze({ ...pin, at: Object.freeze({ ...pin.at }) })));
   const terminalInput = Object.freeze({ contractIdentity: contract.sourceContractIdentity, components, assignments, livePins });
   const sourceBodyGeometry = placed.map((component, index) => {
-    const stock = selectFreshSymbolBodyGeometry(approved.get(component.symbolLibId)!, component.unit, component.bodyStyle);
     const embedded = selectFreshSymbolBodyGeometry(component.embeddedGeometry, component.unit, component.bodyStyle);
-    if (stock.length !== embedded.length || stock.some((graphic, position) => {
-      const actual = embedded[position]!;
-      return graphic.kind !== actual.kind || graphic.tokenIdentity.digest !== actual.tokenIdentity.digest || graphic.tokenIdentity.size !== actual.tokenIdentity.size;
-    })) throw new FreshKicadParseError(`Source terminal ${component.reference}: selected embedded graphics differ from exact approved library graphics.`);
     const effective = input.strokeStyleEvidence === undefined ? embedded : applyFreshSchematicStrokeStyle(embedded, input.strokeStyleEvidence, input.expectedSourceIdentity);
     const unsupportedKinds = [...new Set(effective.flatMap((graphic) => graphic.unsupportedReason === null ? [] : [graphic.unsupportedReason]))].sort();
     const graphicBounds = effective.map((graphic, index) => {

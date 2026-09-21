@@ -4,6 +4,7 @@ import { collectTerminalCopperSource } from "./plane-terminal-copper-source.js";
 import { findTerminalCopperPaths, type TerminalCopperPathCalculation } from "./plane-terminal-copper-paths.js";
 import { proveReferenceCapsuleContainment, type ReferenceCapsuleContainment } from "./reference-capsule-containment.js";
 import { isFreshPlanePlacementAssessment, type FreshPlanePlacementAssessment } from "./fresh-plane-placement-checks.js";
+import { isFreshPlaneArtifactAssessment, type FreshPlaneArtifactAssessment, type FreshPlaneArtifactSourceIdentities } from "./fresh-plane-artifact-checks.js";
 import { boreRibbonRelation } from "./plane-bore-geometry.js";
 import { planReferenceTerminalLaunchStudy, ReferenceTerminalLaunchPlanningError } from "./reference-terminal-launch-study.js";
 import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
@@ -28,6 +29,8 @@ import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 import { assessSavedInterface, SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION, type SavedInterfaceAssessment } from "./saved-interface-assessment.js";
 
 export interface FreshPlaneAcceptanceInput {
+  readonly artifactChecks?: readonly FreshPlaneArtifactAssessment[];
+  readonly artifactSourceIdentities?: FreshPlaneArtifactSourceIdentities;
   readonly placementChecks?: FreshPlanePlacementAssessment;
   readonly compilationBundle: PcbPlaneCompilationBundle;
   readonly pcbSource: string;
@@ -98,7 +101,9 @@ function identityFromHelper(value: { readonly sha256: string; readonly sizeBytes
 export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceInput) {
   // Snapshot host input references before the optional awaited calculator. The
   // branded evidence/bundle objects are immutable, and source inputs are strings.
-  const input = Object.freeze({ ...supplied });
+  const input = Object.freeze({ ...supplied,
+    ...(supplied.artifactChecks === undefined ? {} : { artifactChecks: Object.freeze([...supplied.artifactChecks]) }),
+    ...(supplied.artifactSourceIdentities === undefined ? {} : { artifactSourceIdentities: freezePcbPlaneArtifact(structuredClone(supplied.artifactSourceIdentities)) }) });
   const bundle = input.compilationBundle;
   requireValue(isAuthenticatedPcbPlaneCompilationBundle(bundle), "an authenticated actual V2 compilation bundle is required");
   const identities = { pcb: contentIdentity(input.pcbSource), project: contentIdentity(input.projectSettingsSource), rules: contentIdentity(input.rulesSource) };
@@ -114,6 +119,27 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const row = rows.find(row => row.id === id); requireValue(row !== undefined, `unknown V2 verification row ${id}`);
     rows[rows.indexOf(row)] = { ...row, status: value.status === "verified" ? "pass" : value.status === "failed" ? "fail" : "unknown", reasons: value.reasons };
   };
+  const independentRows = new Set<string>(), artifactGroups = new Set<string>();
+  for (const artifact of input.artifactChecks ?? []) {
+    requireValue(isFreshPlaneArtifactAssessment(artifact) && same(artifact.bundleIdentity, bundle.identity)
+      && same(artifact.contractIdentity, bundle.contract.identity) && same(artifact.libraryBindingIdentity, bundle.libraryBinding.identity)
+      && same(artifact.verificationPlanIdentity, bundle.verificationPlan.identity) && same(artifact.hostScopeIdentity, endpoint.hostScopeIdentity),
+    "artifact assessment is unbranded or belongs to different V2/native authority");
+    requireValue(input.artifactSourceIdentities !== undefined && same(artifact.sourceIdentities, input.artifactSourceIdentities)
+      && same(artifact.sourceIdentities.pcb, identities.pcb) && same(artifact.sourceIdentities.project, identities.project)
+      && same(artifact.sourceIdentities.rules, identities.rules), "artifact assessment is not bound to the complete current source inventory");
+    requireValue(!artifactGroups.has(artifact.group), "duplicate artifact assessment group"); artifactGroups.add(artifact.group);
+    const expected = rows.filter(row => artifact.group === "netclasses" ? row.id.startsWith("netclass:")
+      : row.kind === "library" || row.kind === "schematic" || row.kind === "pcb_component");
+    requireValue(same(names(artifact.rows.map(row => row.id)), names(expected.map(row => row.id))), "artifact assessment omits or adds original requirement rows");
+    for (const check of artifact.rows) {
+      requireValue(rows.some(row => row.id === check.id && row.kind === check.kind)
+        && check.requiresNativeClearance === check.id.startsWith("board-feature:"), "artifact row kind or native-clearance requirement differs");
+      independentRows.add(check.id);
+      setRow(check.id, fact(check.status === "fail" ? "failed" : check.status === "unknown" || check.requiresNativeClearance ? "unknown" : "verified",
+        ...check.reasons, ...(check.requiresNativeClearance ? ["Current qualified native hole/clearance checks are additionally required."] : [])));
+    }
+  }
   if (input.placementChecks !== undefined) {
     const placement = input.placementChecks;
     requireValue(isFreshPlanePlacementAssessment(placement) && same(placement.bundleIdentity, bundle.identity)
@@ -122,6 +148,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     "placement assessment is unbranded or belongs to a different source or V2 authority");
     requireValue(same(placement.rows.map(r => r.id).sort(), rows.filter(r => r.kind === "placement").map(r => r.id).sort()), "placement assessment must retain every original row");
     for (const check of placement.rows) {
+      independentRows.add(check.id);
       const index = rows.findIndex(r => r.id === check.id);
       requireValue(index >= 0 && rows[index]!.kind === "placement", "placement check does not match an original V2 row");
       rows[index] = { ...rows[index]!, status: check.status, reasons: check.reasons };
@@ -254,6 +281,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity, verificationPlanIdentity: bundle.verificationPlan.identity,
       sourceIdentities: identities, savedEvidenceIdentity: input.savedEvidence?.identity ?? null,
       evidence: { savedFill: input.savedEvidence, endpointConnectivity: endpoint,
+        ...(input.artifactChecks === undefined ? {} : { artifactChecks: input.artifactChecks }),
         ...(input.placementChecks === undefined ? {} : { placementChecks: input.placementChecks }),
         nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null, commonChecks,
         ...(bundle.contract.interfaceRequirements === undefined ? {} : { interfaces: interfaceEvidence }) },
@@ -287,7 +315,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     }
   }
   if (input.savedEvidence === null) {
-    for (const row of rows) if (row.kind !== "placement" || input.placementChecks === undefined) setRow(row.id, fact("unknown", missing));
+    for (const row of rows) if (!independentRows.has(row.id)) setRow(row.id, fact("unknown", missing));
     return finish();
   }
   const saved = input.savedEvidence;
@@ -376,6 +404,11 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     requireValue(isFreshPlaneNativeChecksAssessment(nativeChecks) && same(nativeChecks.bundleIdentity, bundle.identity)
       && same(nativeChecks.savedEvidenceIdentity, saved.identity) && same(nativeChecks.sourceIdentities, identities), "native validation facts are unbranded or stale");
     const drc = nativeChecks.checks.drcClearanceShorts;
+    for (const artifact of input.artifactChecks ?? []) for (const check of artifact.rows.filter(row => row.requiresNativeClearance)) {
+      setRow(check.id, fact(check.status === "fail" ? "failed" : check.status === "pass" && drc.status === "verified" ? "verified" : "unknown",
+        ...check.reasons, drc.status === "verified" ? "Current qualified native copper, edge and hole-clearance checks are clean."
+          : "The required current native clearance/hole check is not clean or complete.", ...drc.reasons));
+    }
     setRow("drc", fact(drc.status === "verified" ? "verified" : drc.status === "failed" ? "failed" : "unknown", ...drc.reasons));
     if (bundle.contract.nativeRuleMode !== undefined) setRow("native-numeric-rules",
       fact(drc.status === "verified" ? "verified" : drc.status === "failed" ? "failed" : "unknown",

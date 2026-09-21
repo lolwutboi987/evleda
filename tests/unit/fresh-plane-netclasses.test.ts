@@ -22,6 +22,8 @@ import { interfaceConstructionBundle } from "../helpers/interface-construction-b
 import { fourLayerPlaneBundle } from "../helpers/four-layer-plane-bundle.js";
 import { parseFreshPcbSource, parseFreshPcbStackup } from "../../src/harness/fresh-kicad-parser.js";
 import type { PcbReadOnlyLibraryResolver } from "../../src/harness/pcb-design-compiler.js";
+import { collectFreshPlaneNetClassArtifacts, freshPlaneArtifactSourceIdentities, type FreshPlaneArtifactSources } from "../../src/harness/fresh-plane-artifact-checks.js";
+import { summarizePlaneArtifactChecks } from "../../src/mcp/toolbox-artifact-checks.js";
 
 const roots: string[] = [];
 afterEach(async () => { vi.unstubAllEnvs(); await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))); });
@@ -51,6 +53,30 @@ const rehash = <T extends { schemaVersion: string; identity: unknown }>(value: T
 async function editProject(file: string, edit: (value: any) => void) {
   const value = JSON.parse(await readFile(file, "utf8")); edit(value); await writeFile(file, JSON.stringify(value));
 }
+
+async function artifactSources(f: Awaited<ReturnType<typeof fixture>>): Promise<FreshPlaneArtifactSources> {
+  const values=await Promise.all([f.project.pcbPath,f.project.schematicPath,f.proPath,f.druPath,path.join(f.project.projectPath,'sym-lib-table'),path.join(f.project.projectPath,'fp-lib-table')].map(file=>readFile(file,'utf8')));
+  return {pcb:values[0]!,schematic:values[1]!,project:values[2]!,rules:values[3]!,symbolLibraryTable:values[4]!,footprintLibraryTable:values[5]!};
+}
+describe('fresh V2 net-class assessment evidence',()=>{
+  it('rechecks source semantics and reports every original class without claiming zone clearance or ampacity',async()=>{
+    const f=await fixture();await materializeFreshPlaneNetClasses(f.options);const authority=await readFreshPlaneNetClassSemanticAuthority(f.options),sources=await artifactSources(f);
+    const report=await collectFreshPlaneNetClassArtifacts({authority,options:f.options,hostScopeIdentity:canonicalIdentity({fixture:'class-artifacts'},'evleda.test-scope.v1'),expectedSources:freshPlaneArtifactSourceIdentities(sources)});
+    expect(report.rows).toHaveLength(f.compilationBundle.contract.netClasses.length);expect(report.rows.every(r=>r.status==='pass')).toBe(true);
+    expect(report.netClasses.flatMap(c=>c.assignedNets).sort()).toEqual(f.compilationBundle.contract.nets.map(n=>n.name).sort());
+    expect(report).toMatchObject({accepted:false,electricalSuitabilityEvaluated:false,fabricationAuthorized:false});
+    expect(await artifactSources(f)).toEqual(sources);
+    const rows=f.compilationBundle.verificationPlan.requirements.map(r=>({...r,status:report.rows.find(p=>p.id===r.id)?.status??'unknown',reasons:[]}));
+    expect(summarizePlaneArtifactChecks(report,rows,false).netClasses).toHaveLength(report.netClasses.length);
+  });
+  it('refuses stale six-file snapshots and changed class settings instead of trusting the earlier receipt',async()=>{
+    const f=await fixture();await materializeFreshPlaneNetClasses(f.options);const authority=await readFreshPlaneNetClassSemanticAuthority(f.options),sources=await artifactSources(f);
+    const args={authority,options:f.options,hostScopeIdentity:canonicalIdentity({fixture:'class-drift'},'evleda.test-scope.v1'),expectedSources:freshPlaneArtifactSourceIdentities(sources)};
+    await writeFile(f.project.schematicPath,sources.schematic+'\n');await expect(collectFreshPlaneNetClassArtifacts(args)).rejects.toThrow(/sources drifted/);
+    await writeFile(f.project.schematicPath,sources.schematic);await editProject(f.proPath,p=>{p.net_settings.classes.find((c:{name:string})=>c.name===authority.netClasses[0]!.name).clearance+=0.01;});
+    await expect(collectFreshPlaneNetClassArtifacts({...args,expectedSources:freshPlaneArtifactSourceIdentities(await artifactSources(f))})).rejects.toThrow();
+  });
+});
 
 const noConnectName = "native isolated terminal J1 / exact arbitrary name";
 const standardNoConnectName = "unconnected-(J1-Pin_4-Pad4)";

@@ -1,0 +1,82 @@
+{
+  "host": 62,
+  "releaseSha256": "e2878dee3d27a17823879b705de65ae7d47485b10243fd66b8d85e59713c52ea",
+  "checks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\artifact-checks-01\\host62-build-manifest.json",
+    "sha256": "21e19f7847d901ebeb3d9c9b82e9e53e14537bdce0036c5612ac2f2c6b4958a7",
+    "sizeBytes": 830656
+  },
+  "sourcePins": [
+    {
+      "file": "src/harness/fresh-plane-artifact-checks.ts",
+      "sha256": "32a4f3b05cde60083c11f40fc022431469561aa5998eeca54a8b859f78495ea3",
+      "sizeBytes": 19533
+    },
+    {
+      "file": "src/harness/fresh-schematic-source-adapter.ts",
+      "sha256": "152b328819ed713531734ae0a97178cacb4e804599ea91ae4dbbf11b4f53e3e0",
+      "sizeBytes": 16852
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "e7132b0bbbf4d0886361c99c61435fd00b882135eedb94ec3ae62736c5ad34d5",
+      "sizeBytes": 80262
+    },
+    {
+      "file": "src/harness/kicad-tools.ts",
+      "sha256": "3641174f8a632f03c7acbe106f50096d33169307a076d6149a5db77ead1ed047",
+      "sizeBytes": 495901
+    },
+    {
+      "file": "src/mcp/toolbox-artifact-checks.ts",
+      "sha256": "0d6470929968be5c2d28cbb9edaee87c58439e8652c1395f9baa4ead53bf2daf",
+      "sizeBytes": 8489
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "484a6acfbd0f765a8a6168db4191523c7657b141e53247b8847dc2dcd9152399",
+      "sizeBytes": 51872
+    },
+    {
+      "file": "src/mcp/toolbox-plane-session.ts",
+      "sha256": "8f16b39d9d387e59f844cc379edc35a699669e5e3e2d916c5ea43f928a7dd3f1",
+      "sizeBytes": 17098
+    },
+    {
+      "file": "tests/unit/fresh-plane-artifact-checks.test.ts",
+      "sha256": "f15c1bce46d7d3ce697d2e97807b80e0411db62b93cc5a3262d0f412d403d843",
+      "sizeBytes": 11559
+    },
+    {
+      "file": "tests/unit/fresh-schematic-source-adapter.test.ts",
+      "sha256": "05fb2485a2b33b560ed643828acbbbfd41c4ac19f51a9b48dab1910226d29f86",
+      "sizeBytes": 20150
+    },
+    {
+      "file": "tests/unit/fresh-plane-netclasses.test.ts",
+      "sha256": "ce3d0aa8f6b7fb5f52ffb11035b0a8b2c03a3acb49a2490c71b07f74f105a9cf",
+      "sizeBytes": 41423
+    },
+    {
+      "file": "docs/toolbox-artifact-checks.md",
+      "sha256": "d418aaa3ff34fd1937326a7d33acb5c851f184f8efe04012a39362e842addfb4",
+      "sizeBytes": 2436
+    },
+    {
+      "file": "skills/evleda-pcb/SKILL.md",
+      "sha256": "079171123f7d238ecb7204ff8e0644b06441a89e786b994afe5a1047bfa118a4",
+      "sizeBytes": 45431
+    }
+  ],
+  "predecessorPreserved": true
+}

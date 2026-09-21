@@ -21,7 +21,8 @@ import { assertPcbExternalPowerBindingCurrent } from "./pcb-external-power.js";
 import { assertPcbDerivedPowerBindingCurrent, powerAnnotationBindingOf } from "./pcb-derived-power.js";
 import { materializeChannelTrackWidth } from "./pcb-channel-width.js";
 import { pcbRouteLayerMatchesPreference } from "./pcb-copper-layers.js";
-import { verifyFreshExternalPowerSource, type FreshExternalPowerPlacement, type FreshExternalPowerSourcePlacement } from "./fresh-external-power.js";
+import { verifyFreshExternalPowerSource, type FreshExternalPowerPlacement, type FreshExternalPowerSourcePlacement, type FreshExternalPowerGroup } from "./fresh-external-power.js";
+import { assessFreshPlaneComponentArtifacts, freshPlaneArtifactNetlistScope, freshPlaneArtifactSourceIdentities, type FreshPlaneArtifactSources } from "./fresh-plane-artifact-checks.js";
 
 import {
   harnessToolCallSchema,
@@ -367,7 +368,7 @@ function syncDiagnosticText(text: string | undefined, reason: string): FreshSync
 
 export interface KicadHarnessToolsOptions {
   readonly assessFreshPlaneEvidence?: (input: Pick<FreshPlaneAcceptanceInput,
-    "compilationBundle" | "pcbSource" | "projectSettingsSource" | "rulesSource" | "savedEvidence" | "endpointConnectivity" | "transmissionLine">
+    "compilationBundle" | "pcbSource" | "projectSettingsSource" | "rulesSource" | "savedEvidence" | "endpointConnectivity" | "transmissionLine" | "artifactChecks" | "artifactSourceIdentities">
     & { readonly pcbPath: string; readonly projectBindingIdentity: CanonicalIdentity; readonly sourceScopeIdentity: CanonicalIdentity }) => Promise<FreshPlaneAcceptanceAssessment>;
   /** Host-private bounded provenance; callback failures never mask the first native fault. */
   readonly observeFreshRouteMutationDiagnostic?:(diagnostic:FreshRouteMutationDiagnostic)=>void|Promise<void>;
@@ -3294,17 +3295,18 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     };
   }
 
-  async #assertFreshCompoundAuthority(): Promise<void> {
+  async #assertFreshCompoundAuthority(): Promise<Readonly<{ schematicSource: string; auxiliaryConnectivity?: readonly FreshExternalPowerGroup[] }> | undefined> {
     this.#assertLibrarySources();
     if(this.#freshProject?.workflowKind==="plane"){
       assertPlaneCompilationBinding(this.#freshProject,this.#freshConnectivityContract,this.#freshPlaneDesignContract,this.#freshPlaneCompilationBundle);
       await this.#freshProject.assertMarkerCurrent();
       const schematicSource = await readFile(this.#freshProject.schematicPath,"utf8");
       assertFreshGenericSchematicSource(parseFreshSchematicSource(schematicSource));
-      if (this.#freshConnectivityContract !== undefined && powerAnnotationBindingOf(this.#freshConnectivityContract) !== undefined) await this.#qualifiedPowerSource(this.#freshConnectivityContract, schematicSource, true);
+      const auxiliary = this.#freshConnectivityContract !== undefined && powerAnnotationBindingOf(this.#freshConnectivityContract) !== undefined
+        ? await this.#qualifiedPowerSource(this.#freshConnectivityContract, schematicSource, true) : undefined;
       assertPlaneCompilationBinding(this.#freshProject,this.#freshConnectivityContract,this.#freshPlaneDesignContract,this.#freshPlaneCompilationBundle);
       this.#assertLibrarySources();
-      return;
+      return Object.freeze({ schematicSource, ...(auxiliary?.nativeGroups === undefined ? {} : { auxiliaryConnectivity: auxiliary.nativeGroups }) });
     }
     if (this.#freshProject?.workflowKind !== "generic") return;
     assertGenericCompilationBinding(
@@ -3432,9 +3434,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     validateCurrentFreshNativeTerminalBinding(authority.binding,this.#freshConnectivityContract!.identity,this.#nativeTerminalScope(current));
   }
 
-  async #currentNativeTerminalBinding(capture:FreshPcbCapture):Promise<FreshNativeTerminalBinding|undefined>{
+  async #currentNativeTerminalBinding(capture:FreshPcbCapture, observeSource?: (source: string) => void):Promise<FreshNativeTerminalBinding|undefined>{
     const contract=this.#freshConnectivityContract!;
-    if(contract.noConnects.length===0)return undefined;
+    if(contract.noConnects.length===0&&observeSource===undefined)return undefined;
     if(this.#captureFreshNativeNetlist===undefined)throw new Error("Intentional NC physical reads require current complete native netlist parity.");
     this.#assertPhysicalLibrarySources();
     const before=await captureKicadNativeSourceHashes(this.#freshProject!.projectPath);
@@ -3450,7 +3452,9 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       expectedSavedPcbIdentity:capture.contentIdentity,observedSavedPcbIdentity:current.contentIdentity,
       expectedMarkerIdentity:capture.freshMarkerContentIdentity,observedMarkerBeforeIdentity:markerBefore,observedMarkerAfterIdentity:current.freshMarkerContentIdentity};
     if(difference.changedSourceCount!==0||difference.markerBeforeChanged||difference.savedPcbChanged||difference.markerAfterChanged)throw new Error("Native NC source/marker binding changed during complete netlist export.",{cause:{phase:"fresh-native-terminal-export",...difference}});
-    return createFreshNativeTerminalBinding(contract,source,this.#nativeTerminalScope(capture));
+    const binding = createFreshNativeTerminalBinding(contract,source,this.#nativeTerminalScope(capture));
+    observeSource?.(source);
+    return binding;
   }
 
   async #exactContractPadPositions(project:FreshProject,contract:FreshConnectivityContract,board:FreshParsedPcb,physicalMode=false):Promise<readonly FreshContractPadPosition[]>{
@@ -3564,7 +3568,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
           throw new Error("Endpoint connectivity requires settled saved state; pending or uncertain schematic/PCB mutations must be resolved first.");
         }
       };
-      assertSavedRead();await this.#assertFreshCompoundAuthority();this.#assertPhysicalLibrarySources();
+      assertSavedRead();const compoundSources = await this.#assertFreshCompoundAuthority();this.#assertPhysicalLibrarySources();
       // The acceptance callback also consumes native ERC/DRC and library-table
       // evidence. Keep their complete native source set inside this same read
       // operation, including changes after those subprocesses finish.
@@ -3592,17 +3596,39 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
           projectSettingsIdentity:contentIdentity(settingsBefore),rulesIdentity:contentIdentity(rulesBefore)});
       };
       assertFillEvidenceCurrent();
-      const nativeTerminalBinding=await this.#currentNativeTerminalBinding(before);
+      const collectArtifacts = requireFillEvidence && compoundSources !== undefined && this.#freshPlaneCompilationBundle.libraryBinding.sourceSelection !== undefined
+        && this.#freshLibraryResolver !== undefined && this.#freshSchematicGeometryResolver !== undefined && this.#captureFreshNativeNetlist !== undefined;
+      let nativeNetlistSource: string | undefined;
+      const nativeTerminalBinding=await this.#currentNativeTerminalBinding(before, collectArtifacts ? source => { nativeNetlistSource = source; } : undefined);
       const input={compilationBundle:this.#freshPlaneCompilationBundle,pcbPath:this.#freshProject.pcbPath,pcbSource:before.source,
         ...(nativeTerminalBinding===undefined?{}:{nativeTerminalBinding}),
         scopeIdentity:physicalExpected.scopeIdentity,physicalFootprints:this.#freshPhysicalFootprintSourcePins,physicalFootprintResolver:this.#freshPhysicalFootprintResolver};
       const prepared=prepareFreshPlaneConnectivity(input);
       const observation=await collectKicadNativePadObservation({readLivePcbPadSnapshot:ids=>this.#session.readLivePcbPadSnapshot!(ids)},prepared.nativePadExpected);
       const endpointConnectivity=assessFreshPlaneConnectivity({...input,nativePads:observation});
+      let artifactFields: Pick<FreshPlaneAcceptanceInput, "artifactChecks" | "artifactSourceIdentities"> = {};
+      if (collectArtifacts) {
+        if (nativeNetlistSource === undefined || nativeTerminalBinding === undefined || compoundSources === undefined) throw new Error("Artifact assessment requires the complete current native export and source guard.");
+        const [symbolLibraryTable, footprintLibraryTable] = await Promise.all(["sym-lib-table", "fp-lib-table"].map(name => readFile(path.join(this.#freshProject!.projectPath,name),"utf8")));
+        const sources: FreshPlaneArtifactSources = { pcb: before.source, schematic: compoundSources.schematicSource,
+          project: new TextDecoder("utf-8",{fatal:true}).decode(settingsBefore), rules: new TextDecoder("utf-8",{fatal:true}).decode(rulesBefore),
+          symbolLibraryTable: symbolLibraryTable!, footprintLibraryTable: footprintLibraryTable! };
+        const sourceIdentities = freshPlaneArtifactSourceIdentities(sources);
+        for (const [key, filename] of [["pcb",`${this.#freshProject.name}.kicad_pcb`],["schematic",`${this.#freshProject.name}.kicad_sch`],
+          ["project",`${this.#freshProject.name}.kicad_pro`],["rules",`${this.#freshProject.name}.kicad_dru`],["symbolLibraryTable","sym-lib-table"],["footprintLibraryTable","fp-lib-table"]] as const) {
+          if (sourceIdentities[key].digest !== nativeSourcesBefore[filename]) throw new Error("Artifact source snapshot differs from the complete native read guard.");
+        }
+        const nativeNetlistBinding = createFreshNativeTerminalBinding(this.#freshConnectivityContract!, nativeNetlistSource,
+          freshPlaneArtifactNetlistScope(this.#freshPlaneCompilationBundle, physicalExpected.scopeIdentity, sources));
+        const artifact = assessFreshPlaneComponentArtifacts({ connectivity: input, sources, nativePads: observation, nativeNetlistSource, nativeNetlistBinding,
+          libraryResolver: this.#freshLibraryResolver!, schematicLibraryResolver: this.#freshSchematicGeometryResolver!,
+          ...(compoundSources.auxiliaryConnectivity === undefined ? {} : { auxiliaryConnectivity: compoundSources.auxiliaryConnectivity }) });
+        artifactFields = { artifactChecks: [artifact], artifactSourceIdentities: sourceIdentities };
+      }
       const result=await operation({compilationBundle:this.#freshPlaneCompilationBundle,pcbPath:this.#freshProject.pcbPath,
         projectBindingIdentity:before.projectBindingIdentity,sourceScopeIdentity:physicalExpected.scopeIdentity,
         pcbSource:before.source,projectSettingsSource:new TextDecoder("utf-8",{fatal:true}).decode(settingsBefore),
-        rulesSource:new TextDecoder("utf-8",{fatal:true}).decode(rulesBefore),savedEvidence:this.#savedFreshPlaneEvidence??null,endpointConnectivity});
+        rulesSource:new TextDecoder("utf-8",{fatal:true}).decode(rulesBefore),savedEvidence:this.#savedFreshPlaneEvidence??null,endpointConnectivity,...artifactFields});
       const liveAfter=await freshActiveBoardSource(this.#session,this.#freshProject.pcbPath);
       if(!freshBoardSerializationsEqual(before.source,liveAfter))throw new Error("Native PCB changed during endpoint connectivity observation.");
       await this.#assertFreshCompoundAuthority();this.#assertPhysicalLibrarySources();assertSavedRead();
@@ -3654,16 +3680,17 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
 
   async #qualifiedPowerSource(contract: FreshConnectivityContract, schematic: string, allowAbsent = false,
     placements?: readonly FreshExternalPowerPlacement[]) {
-    if (powerAnnotationBindingOf(contract) === undefined) return { references: [] as readonly string[], sourcePlacements: [] as readonly FreshExternalPowerSourcePlacement[], physicalSymbols: parseFreshSchematicSource(schematic).symbols, groups: undefined };
+    if (powerAnnotationBindingOf(contract) === undefined) return { references: [] as readonly string[], sourcePlacements: [] as readonly FreshExternalPowerSourcePlacement[], physicalSymbols: parseFreshSchematicSource(schematic).symbols, groups: undefined, nativeGroups: undefined };
     const sourceOnly = verifyFreshExternalPowerSource(contract, schematic, { allowAbsent, ...(placements === undefined ? {} : { placements }) });
-    if (sourceOnly.references.length === 0) return sourceOnly;
+    if (sourceOnly.references.length === 0) return { ...sourceOnly, nativeGroups: undefined };
     if (this.#session.supportsExternalPowerFlagConnectivity?.() !== true) throw new Error("EXTERNAL_POWER_CONNECTIVITY_CAPABILITY_UNAVAILABLE: the native graph producer is not qualified for complete separate PWR_FLAG pin connectivity.");
     const raw = await this.#callSourceBoundTool("sch_get_connectivity_graph", {});
     if (raw.isError === true) throw new Error("Native external power connectivity read failed.", { cause: nativeReplyCause("sch_get_connectivity_graph", raw) });
-    const result = verifyFreshExternalPowerSource(contract, schematic, { allowAbsent, groups: parseFreshConnectivityGroups(preferredResultText(raw)), ...(placements === undefined ? {} : { placements }) });
+    const nativeGroups = parseFreshConnectivityGroups(preferredResultText(raw));
+    const result = verifyFreshExternalPowerSource(contract, schematic, { allowAbsent, groups: nativeGroups, ...(placements === undefined ? {} : { placements }) });
     if (await readFile(this.#freshProject!.schematicPath, "utf8") !== schematic) throw new Error("Schematic source changed across external power inventory verification.");
     this.#assertLibrarySources();
-    return result;
+    return Object.freeze({ ...result, nativeGroups });
   }
 
   async #readFreshPlacementSnapshot(contract: FreshConnectivityContract, work = createFreshSchematicPlanningWork()): Promise<FreshPlacementSnapshot> {

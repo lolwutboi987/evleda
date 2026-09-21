@@ -9,7 +9,7 @@ import {
   selectFreshSymbolTerminalGeometryPins,
   type FreshSymbolTerminalGeometry,
 } from "../../src/harness/fresh-kicad-parser.js";
-import { buildFreshSchematicSourceTerminalGroups } from "../../src/harness/fresh-schematic-source-adapter.js";
+import { buildFreshSchematicSourceTerminalGroups, verifyFreshSchematicSourceLibraries } from "../../src/harness/fresh-schematic-source-adapter.js";
 import { closePcbDesignIntentDraft } from "../../src/harness/pcb-design-contract.js";
 import { KiCad10StockLibraryResolver } from "../../src/harness/kicad-library-resolver.js";
 import type { FreshSchematicCardinalAngle } from "../../src/harness/fresh-schematic-terminal-groups.js";
@@ -69,6 +69,15 @@ function adapterInput(libraryId: string, rotation = 0) {
 }
 
 describe("bounded exact-source schematic terminal adapter", () => {
+  it("compares complete saved definitions without inventing native live pins or a render verdict", () => {
+    const { livePins: _livePins, ...input } = adapterInput(fixture.definitions[0]!.libraryId);
+    const result = verifyFreshSchematicSourceLibraries(input);
+    expect(result.sourceBindings).toHaveLength(1);
+    expect(result).toMatchObject({ nativeLivePinPositionsCompared: false, renderedReadabilityEvaluated: false });
+    const changed = input.schematicSource.replace('(pin power_in', '(pin passive');
+    expect(changed).not.toBe(input.schematicSource);
+    expect(() => verifyFreshSchematicSourceLibraries({ ...input, schematicSource: changed, expectedSourceIdentity: contentIdentity(changed) })).toThrow(/embedded pins differ/);
+  });
   it("pins original raw stock bytes and marks synthetic/native evidence limits", () => {
     expect(contentIdentity(stockSource)).toEqual({ algorithm: "sha256", size: 64675, digest: "c9f0fe21e8a46d7503537322833345ba4299a2e6d0e7c018a8a4a4457f563191" });
     expect(fixture.provenance).toMatchObject({ nativeExecution: false, liveGeometryIncluded: false });

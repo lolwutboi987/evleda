@@ -1,6 +1,6 @@
 # Native copper-plane capability handoff
 
-Current delivery: [host60 spacing qualification](../../proofs/placement-spacing-20260921/README.md) verifies all 62 placement rows after the C12–R7 correction. Nominal paths from all 64 GND pads, regional interiors/annuli and all 19 geometric reference rows remain verified. Native save/close and fresh read-only reopening pass. Full acceptance remains incomplete:225 pass,349 unknown,0 fail. Use the [active roadmap](../active-roadmap.md) for remaining work.
+Current delivery: [host62 artifact qualification](../../proofs/artifact-checks-20260921/README.md) verifies 270 previously unassessed original source/native requirements alongside the existing placement, ground and reference evidence. Both actual read-only collection and a fresh refill/save close normally without changing the board. Full assessment remains incomplete:495 pass,79 unknown,0 fail. Current remaining work is in the [active roadmap](../active-roadmap.md).
 
 ## Historical handoff and earlier qualification states
 

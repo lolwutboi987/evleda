@@ -1,0 +1,1721 @@
+{
+  "projectId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "mode": "read-only",
+  "normalClose": true,
+  "sourceUnchanged": true,
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "b5206f5db12ea972b5fd87f2dc0071065363a6816e834cb38522f661472219e1",
+      "size": 634179
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "9b8a24f7f7a48985831ea6ba53a2c37dc936b1977ecaab4144ba69b14b177938",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "releaseSha256": "e2878dee3d27a17823879b705de65ae7d47485b10243fd66b8d85e59713c52ea",
+  "counts": {
+    "unknown": 244,
+    "pass": 330
+  },
+  "qualified": true,
+  "accepted": false,
+  "artifactResults": [
+    {
+      "id": "library:C1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C10",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C10",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C10",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C11",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C11",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C11",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C12",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C12",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C12",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C13",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C13",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C13",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C14",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C14",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C14",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C15",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C15",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C15",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C16",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C16",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C16",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C17",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C17",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C17",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C18",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C18",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C18",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C19",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C19",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C19",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C2",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C2",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C20",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C20",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C20",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C21",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C21",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C21",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C22",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C22",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C22",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C23",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C23",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C23",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C24",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C24",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C24",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C25",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C25",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C25",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C26",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C26",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C26",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C3",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C3",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C3",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C4",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C4",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C4",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C5",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C5",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C5",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C6",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C6",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C6",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C7",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C7",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C7",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C8",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C8",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C8",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:C9",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:C9",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:C9",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:D1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:D1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:D1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:D2",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:D2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:D2",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:J1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:J1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:J1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:J2",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:J2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:J2",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:J3",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:J3",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:J3",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:J4",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:J4",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:J4",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:L1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:L1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:L1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:L2",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:L2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:L2",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:Q1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:Q1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:Q1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R10",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R10",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R10",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R11",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R11",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R11",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R12",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R12",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R12",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R13",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R13",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R13",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R14",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R14",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R14",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R15",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R15",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R15",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R16",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R16",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R16",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R17",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R17",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R17",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R18",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R18",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R18",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R19",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R19",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R19",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R2",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R2",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R20",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R20",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R20",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R3",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R3",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R3",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R4",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R4",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R4",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R5",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R5",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R5",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R6",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R6",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R6",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R7",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R7",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R7",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R8",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R8",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R8",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:R9",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:R9",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:R9",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:SW1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:SW1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:SW1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:SW2",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:SW2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:SW2",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:U1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:U1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:U1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:U2",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:U2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:U2",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:U3",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:U3",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:U3",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:U4",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:U4",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:U4",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "library:Y1",
+      "kind": "library",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic:Y1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "pcb:Y1",
+      "kind": "pcb_component",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "board-feature:H1",
+      "kind": "pcb_component",
+      "status": "unknown",
+      "expected": "unknown"
+    },
+    {
+      "id": "board-feature:H2",
+      "kind": "pcb_component",
+      "status": "unknown",
+      "expected": "unknown"
+    },
+    {
+      "id": "board-feature:H3",
+      "kind": "pcb_component",
+      "status": "unknown",
+      "expected": "unknown"
+    },
+    {
+      "id": "board-feature:H4",
+      "kind": "pcb_component",
+      "status": "unknown",
+      "expected": "unknown"
+    },
+    {
+      "id": "schematic-net:1V1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:3V3",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:3V3_EN",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:ADC_AVDD",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:ADC_VREF",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:BOOT_SW",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:CORE_LX",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GND",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO0",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO10",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO11",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO12",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO13",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO14",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO15",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO16",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO17",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO18",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO19",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO20",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO21",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO22",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO23_SMPS_PS",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO24_VBUS_SENSE",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO25_LED",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO26",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO27",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO28",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO29_VSYS_SENSE",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO3",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO4",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO5",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO6",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO7",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO8",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:GPIO9",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:LED_A",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:QSPI_CS",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:QSPI_SCLK",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:QSPI_SD0",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:QSPI_SD1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:QSPI_SD2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:QSPI_SD3",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:RT_LX1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:RT_LX2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:RUN",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:SWCLK_HDR",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:SWCLK_MCU",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:SWDIO_HDR",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:SWDIO_MCU",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_CC1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_CC2",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_DM_ESD",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_DM_MCU",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_DM_PORT",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_DP_ESD",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_DP_MCU",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:USB_DP_PORT",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:VBUS",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:VREG_AVDD",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:VSYS",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:VSYS_DIV",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:XIN",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:XOUT_MCU",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "schematic-net:XTAL_OUT",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "derived-power:ADC_AVDD_FILTER",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "derived-power:CORE_1V1",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "derived-power:VREG_AVDD_FILTER",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "derived-power:VSYS_DIODE_PENDING",
+      "kind": "schematic",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:GROUND",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:POWER",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:POWER_FINE",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:POWER_FINE_015",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:QSPI_FINE",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:SIGNAL",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:SWITCH",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:SWITCH_FINE",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    },
+    {
+      "id": "netclass:USB_FS",
+      "kind": "netclass_configuration",
+      "status": "pass",
+      "expected": "pass"
+    }
+  ],
+  "artifactGroups": [
+    {
+      "group": "components",
+      "rowCount": 261,
+      "sourceCounts": {
+        "pass": 261
+      },
+      "componentCount": 62,
+      "netClassCount": 0,
+      "evidence": {
+        "derivedPowerPathCount": 4,
+        "nativeNetlistBindingIdentity": {
+          "algorithm": "sha256",
+          "canonicalizationVersion": "evleda-c14n-json-v1",
+          "digest": "0766eec79b6c00702c7aa24a0d4619ab6d2c3e0dffff1282209d7bf68684e364",
+          "schemaVersion": "evleda.fresh-native-terminal-binding.v1"
+        },
+        "nativePadObservationIdentity": {
+          "algorithm": "sha256",
+          "digest": "f6b4b69a113865ec318cf5f87eeb7db048f6da7d0afc65645757d2467a72eecc",
+          "size": 1954882
+        },
+        "netClassAuthorityIdentity": null,
+        "powerAnnotationCount": 6,
+        "schematicLibraryGeometryIdentity": {
+          "algorithm": "sha256",
+          "canonicalizationVersion": "evleda-c14n-json-v1",
+          "digest": "bedf8f5790fe09e172fcc3deb8f83dda8449ceb0ca2f3db5cd1b1f313043269f",
+          "schemaVersion": "evleda.fresh-schematic-source-libraries.v1"
+        }
+      }
+    },
+    {
+      "group": "netclasses",
+      "rowCount": 9,
+      "sourceCounts": {
+        "pass": 9
+      },
+      "componentCount": 0,
+      "netClassCount": 9,
+      "evidence": {
+        "derivedPowerPathCount": 0,
+        "nativeNetlistBindingIdentity": null,
+        "nativePadObservationIdentity": null,
+        "netClassAuthorityIdentity": {
+          "algorithm": "sha256",
+          "canonicalizationVersion": "evleda-c14n-json-v1",
+          "digest": "d77d513b7bd12e41af6dc87e63eb9c7b1e20f0e09d139307596c065a96d68163",
+          "schemaVersion": "evleda.fresh-plane-netclass-semantic-authority.v1"
+        },
+        "powerAnnotationCount": 0,
+        "schematicLibraryGeometryIdentity": null
+      }
+    }
+  ],
+  "placementPassed": 62,
+  "referenceRowsPassed": 0,
+  "nativeDrc": null,
+  "endpointConnectivity": "connected",
+  "scope": "Current complete-source artifact checks with no fill authority; board-feature rows require additional native clearances."
+}
