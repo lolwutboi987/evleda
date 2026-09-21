@@ -1,9 +1,10 @@
 # Destination client installation
 
-Current: **host60 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [managed spacing correction and fresh read-only reopen](../proofs/placement-spacing-20260921/README.md). All 62 placement rows pass on R2, alongside the 19 geometric reference rows and 64 nominal ground-terminal paths. A fresh actual Codex client sees 19 tools. D: must be mounted; already-connected desktop activation remains unestablished. Engineering acceptance remains incomplete.
+Current: **host61 on D:, unchanged DOC17/v4 profile and updated PCB skill** are installed after [native scoped-route qualification](../proofs/route-net-feedback-20260921/README.md). The existing reader can return one exact net while retaining complete private source/native checks. RP2350 GND returns all 171 items in one call (48.8 observed seconds); XTAL_OUT returns all 7 items in one call. The board's six files remain unchanged through read-only resume and normal close. A fresh actual Codex client sees 19 initial tools. D: must remain mounted; already-connected desktop activation is unestablished. Engineering acceptance is unchanged.
 
 ## Preserved installation history
 
+Current: **host60 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [managed spacing correction and fresh read-only reopen](../proofs/placement-spacing-20260921/README.md). All 62 placement rows pass on R2, alongside the 19 geometric reference rows and 64 nominal ground-terminal paths. A fresh actual Codex client sees 19 tools. D: must be mounted; already-connected desktop activation remains unestablished. Engineering acceptance remains incomplete.
 
 Current: **host58 on D:, unchanged DOC17/v4 profile and PCB skill** are installed after [fresh native terminal-copper qualification](../proofs/plane-terminal-copper-20260921/README.md). All 64 physical GND terminal paths to the primary plane are verified; the full assessment remains incomplete. The USB must be mounted for new toolbox connections. Managed boards, profiles and runtime remain on C:. Native close and all six unchanged sources are verified, and a fresh actual Codex client sees 19 tools without creating a task or native project. Existing desktop activation remains unestablished.
 

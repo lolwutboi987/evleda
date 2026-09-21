@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "evleda.fresh-plane-route-selection-page.v1",
+  "contractIdentity": {
+    "algorithm": "sha256",
+    "digest": "74d29c7e2cfd2eab21d91ea1507a948c4a66906c16f889c543bcfc4e3d03186f",
+    "schemaVersion": "evleda.fresh-connectivity-contract.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "sourceContractIdentity": {
+    "algorithm": "sha256",
+    "digest": "8b09fabeeefb64f1aef69c0c428d84c46c74141dc9e81f96182aaed79ad67126",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "planeProjectBindingIdentity": {
+    "algorithm": "sha256",
+    "digest": "eec77d23c1cc4e8e7549bdb3152b8924ce366709d2f553411021106a4c900777",
+    "schemaVersion": "evleda.pcb-agent-plane-fresh-binding.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "freshMarkerContentIdentity": {
+    "algorithm": "sha256",
+    "digest": "d10d9601fa72fc3cf1517feb8fbcef48b685096d0d75ab090cf8331dcbc17de1",
+    "size": 5786
+  },
+  "pcbContentIdentity": {
+    "algorithm": "sha256",
+    "digest": "b5206f5db12ea972b5fd87f2dc0071065363a6816e834cb38522f661472219e1",
+    "size": 634179
+  },
+  "items": [
+    {
+      "kind": "track",
+      "id": "00094f2a-fb3e-4ea9-a391-2cf75235cb03",
+      "net": "BOOT_SW",
+      "start": {
+        "xMm": 4.1,
+        "yMm": 29.1
+      },
+      "end": {
+        "xMm": 3.6,
+        "yMm": 29.6
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "004578b9-97df-497e-a191-f00ce656b9ae",
+      "net": "VBUS",
+      "start": {
+        "xMm": 13.5,
+        "yMm": 11.49
+      },
+      "end": {
+        "xMm": 13.04,
+        "yMm": 11.95
+      },
+      "widthMm": 0.3,
+      "layer": "B.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "006084e5-0284-4b7d-aa35-44e6cbd6060e",
+      "net": "1V1",
+      "start": {
+        "xMm": 14.525,
+        "yMm": 25.7
+      },
+      "end": {
+        "xMm": 14.6,
+        "yMm": 25.775
+      },
+      "widthMm": 0.3,
+      "layer": "B.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "00798378-bb78-448b-b091-3ea6d8ad9d61",
+      "net": "USB_DP_ESD",
+      "start": {
+        "xMm": 9.9,
+        "yMm": 13.1375
+      },
+      "end": {
+        "xMm": 9.375,
+        "yMm": 13.6625
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "00a0b820-7d08-4e52-9e04-04abcef3a8be",
+      "net": "GPIO2",
+      "start": {
+        "xMm": 5.45,
+        "yMm": 14.15
+      },
+      "end": {
+        "xMm": 5.1,
+        "yMm": 13.8
+      },
+      "widthMm": 0.2,
+      "layer": "In2.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "0183904b-58b9-414d-9657-0c38bac9f708",
+      "net": "GND",
+      "at": {
+        "xMm": 15.2,
+        "yMm": 22.65
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "019cdf7e-e9f7-4d6f-a581-8d9b9e3f67d9",
+      "net": "GND",
+      "start": {
+        "xMm": 13.825,
+        "yMm": 27
+      },
+      "end": {
+        "xMm": 14.07,
+        "yMm": 27
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "019ffac6-24b0-4b15-a518-069b8d8d860c",
+      "net": "USB_DP_ESD",
+      "start": {
+        "xMm": 9,
+        "yMm": 19.3
+      },
+      "end": {
+        "xMm": 9,
+        "yMm": 19.4
+      },
+      "widthMm": 0.38,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "01bc7b3e-44be-405e-80fd-6112baabaf66",
+      "net": "3V3",
+      "start": {
+        "xMm": 14.85,
+        "yMm": 37.74
+      },
+      "end": {
+        "xMm": 15.1,
+        "yMm": 37.49
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "01fa6045-7ff0-419c-b666-a1eee87d9596",
+      "net": "GPIO29_VSYS_SENSE",
+      "start": {
+        "xMm": 13.425,
+        "yMm": 30.5
+      },
+      "end": {
+        "xMm": 13.075,
+        "yMm": 30.85
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "02194eac-8969-4e10-ace0-f7e23bfd333e",
+      "net": "GPIO23_SMPS_PS",
+      "start": {
+        "xMm": 13.25,
+        "yMm": 51.15
+      },
+      "end": {
+        "xMm": 13.25,
+        "yMm": 48.65
+      },
+      "widthMm": 0.2,
+      "layer": "B.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "021f37fd-5295-4a6c-866d-0243ef33a6f1",
+      "net": "GPIO29_VSYS_SENSE",
+      "start": {
+        "xMm": 17.2,
+        "yMm": 28.175
+      },
+      "end": {
+        "xMm": 17.975,
+        "yMm": 28.95
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "023df930-cb1d-4f83-ad39-1083b776ec17",
+      "net": "GPIO23_SMPS_PS",
+      "start": {
+        "xMm": 13.7,
+        "yMm": 47.4
+      },
+      "end": {
+        "xMm": 16.3,
+        "yMm": 47.4
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "024504e2-5676-4d2a-a34d-c569b97b0f37",
+      "net": "1V1",
+      "start": {
+        "xMm": 14,
+        "yMm": 25.88
+      },
+      "end": {
+        "xMm": 14.145,
+        "yMm": 25.88
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "0269e750-2e5b-4e1f-9d6a-4ab756d54e79",
+      "net": "USB_DM_PORT",
+      "start": {
+        "xMm": 11.8,
+        "yMm": 10.6
+      },
+      "end": {
+        "xMm": 11.8,
+        "yMm": 10.8625
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "027004e3-fa86-4154-a8ff-b2d78be10f36",
+      "net": "3V3",
+      "start": {
+        "xMm": 18.2,
+        "yMm": 15.84
+      },
+      "end": {
+        "xMm": 18.2,
+        "yMm": 15.1
+      },
+      "widthMm": 0.3,
+      "layer": "B.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "0272b3f8-9414-4a19-b742-fb2ecc3713ec",
+      "net": "GND",
+      "start": {
+        "xMm": 12.27,
+        "yMm": 41.23
+      },
+      "end": {
+        "xMm": 12.27,
+        "yMm": 41.48
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "029a9239-945c-44a1-acca-63572825458d",
+      "net": "GND",
+      "start": {
+        "xMm": 15.06,
+        "yMm": 28.28
+      },
+      "end": {
+        "xMm": 14.905,
+        "yMm": 28.125
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "02a1bd44-3c44-4187-bd73-36c463e30890",
+      "net": "GPIO14",
+      "at": {
+        "xMm": 8.4,
+        "yMm": 36.65
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "02bf1fa1-2149-4f39-b80d-501c58c137f3",
+      "net": "USB_DM_PORT",
+      "start": {
+        "xMm": 11.75,
+        "yMm": 8.035
+      },
+      "end": {
+        "xMm": 11.47,
+        "yMm": 7.755
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "03078f38-1acd-42ed-919c-5be7733023b9",
+      "net": "RUN",
+      "start": {
+        "xMm": 17.3,
+        "yMm": 34.3
+      },
+      "end": {
+        "xMm": 17.5,
+        "yMm": 34.1
+      },
+      "widthMm": 0.2,
+      "layer": "In2.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "03169d4f-c156-4aac-9cd0-9082ada492ff",
+      "net": "GPIO0",
+      "start": {
+        "xMm": 4.8,
+        "yMm": 6.2
+      },
+      "end": {
+        "xMm": 4.9,
+        "yMm": 6.1
+      },
+      "widthMm": 0.2,
+      "layer": "In2.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "034c04d1-272b-4dae-bed3-468e43693737",
+      "net": "3V3",
+      "start": {
+        "xMm": 9.5,
+        "yMm": 29.9
+      },
+      "end": {
+        "xMm": 11,
+        "yMm": 28.4
+      },
+      "widthMm": 0.3,
+      "layer": "B.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "035fe344-e1c2-4b68-8a69-26bd1392af3d",
+      "net": "SWDIO_HDR",
+      "start": {
+        "xMm": 7.7,
+        "yMm": 55.8
+      },
+      "end": {
+        "xMm": 12.14,
+        "yMm": 55.8
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "037939c8-fc97-43b4-a443-77cd336e7048",
+      "net": "3V3_EN",
+      "start": {
+        "xMm": 11,
+        "yMm": 38.85
+      },
+      "end": {
+        "xMm": 11,
+        "yMm": 36.35
+      },
+      "widthMm": 0.2,
+      "layer": "In2.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "0396bcf4-5a74-495b-9053-20e34a7808d5",
+      "net": "ADC_VREF",
+      "start": {
+        "xMm": 17.55,
+        "yMm": 31.9
+      },
+      "end": {
+        "xMm": 17.55,
+        "yMm": 26
+      },
+      "widthMm": 0.2,
+      "layer": "B.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "03a98ada-7fb3-4841-900d-437053da1087",
+      "net": "QSPI_SCLK",
+      "start": {
+        "xMm": 9.2,
+        "yMm": 28.8
+      },
+      "end": {
+        "xMm": 9.2,
+        "yMm": 28.525
+      },
+      "widthMm": 0.15,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "03adc205-d2fd-44f7-a761-c6dd304d1bbe",
+      "net": "GND",
+      "start": {
+        "xMm": 16.98,
+        "yMm": 31.45
+      },
+      "end": {
+        "xMm": 16.98,
+        "yMm": 30.32
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "03b3b583-d9a7-4017-bc00-915473f8a440",
+      "net": "GPIO1",
+      "start": {
+        "xMm": 2.11,
+        "yMm": 8.41
+      },
+      "end": {
+        "xMm": 3.56,
+        "yMm": 8.41
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "03f7963c-0af5-4410-8ea4-e87fae0ab970",
+      "net": "GPIO15",
+      "start": {
+        "xMm": 7.55,
+        "yMm": 36.2
+      },
+      "end": {
+        "xMm": 4.1,
+        "yMm": 39.65
+      },
+      "widthMm": 0.2,
+      "layer": "B.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "046db837-19c8-4493-b3a5-acfe785a2f95",
+      "net": "GND",
+      "start": {
+        "xMm": 7.8,
+        "yMm": 8.655
+      },
+      "end": {
+        "xMm": 7.8,
+        "yMm": 9.35
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "0493381f-36ac-4776-b549-61f1670dec51",
+      "net": "GPIO4",
+      "start": {
+        "xMm": 4.35,
+        "yMm": 19.35
+      },
+      "end": {
+        "xMm": 4.9,
+        "yMm": 18.8
+      },
+      "widthMm": 0.2,
+      "layer": "B.Cu"
+    }
+  ],
+  "completion": "not_evaluated",
+  "connection": "not_evaluated",
+  "notEvaluated": [
+    "plane_contact",
+    "clearance",
+    "reference_coverage",
+    "completed_route_topology"
+  ],
+  "identity": {
+    "algorithm": "sha256",
+    "digest": "6b34b9a840256d2dec5553afa5bbb52de0d4dc470fd41f60d3bfc16c7c35acf6",
+    "schemaVersion": "evleda.fresh-plane-route-selection.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "selectionSchemaVersion": "evleda.fresh-plane-route-selection.v1",
+  "pagination": {
+    "offset": 0,
+    "totalItemCount": 1216,
+    "returnedItemCount": 32,
+    "completeInventoryReturned": false,
+    "nextPage": {
+      "selectionIdentity": {
+        "algorithm": "sha256",
+        "digest": "6b34b9a840256d2dec5553afa5bbb52de0d4dc470fd41f60d3bfc16c7c35acf6",
+        "schemaVersion": "evleda.fresh-plane-route-selection.v1",
+        "canonicalizationVersion": "evleda-c14n-json-v1"
+      },
+      "offset": 32
+    }
+  },
+  "pageIdentity": {
+    "algorithm": "sha256",
+    "digest": "cc3c58b3d01bbaa3f012c095de7289f7876d9c79706f1b28cb0c96d72d7e009f",
+    "schemaVersion": "evleda.fresh-plane-route-selection-page.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  }
+}

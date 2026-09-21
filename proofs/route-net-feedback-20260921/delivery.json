@@ -1,0 +1,41 @@
+{
+  "recordedAt": "2026-09-21T12:21:52.404Z",
+  "host": 61,
+  "runtime": "DOC17",
+  "frozenBuildRoot": "D:\\EvlEDA\\builds\\integration-route-net-feedback-build-61",
+  "releaseSha256": "cf28cbc9e6b0b7c2fa0de186b94ba562c0cf66088598f049daf6ab19371cd342",
+  "projectId": "0474c726-1b0c-492b-b376-9c6a06ee9d72",
+  "allSixBoardSourcesUnchanged": true,
+  "normalClose": true,
+  "readOnlyNativeQualification": true,
+  "wholeBoardItems": 1216,
+  "groundItems": 171,
+  "groundTracks": 130,
+  "groundVias": 41,
+  "omittedItems": 1045,
+  "groundPages": 1,
+  "groundReadMs": 48765,
+  "smallNet": "XTAL_OUT",
+  "smallNetItems": 7,
+  "smallNetPages": 1,
+  "fullIdentityReproducedFromSavedInventory": true,
+  "fullBoardPublicPagesConsumed": false,
+  "historicalRead": {
+    "source": "../placement-spacing-20260921/route-read-latency.json",
+    "items": 1217,
+    "pages": 39,
+    "retainedIntervalsMs": 2117088.3623046875,
+    "comparison": "Previous full-board read before the one-stub spacing correction. Different query/source snapshot and timing boundaries; this is not a controlled same-source speed benchmark."
+  },
+  "clientTerminal": {
+    "file": "000077-terminal-f151af2e1544db54315c18384028c8550257bb0d537139ff875a171a66b83bb3.json",
+    "sha256": "f151af2e1544db54315c18384028c8550257bb0d537139ff875a171a66b83bb3",
+    "reason": "operator_close",
+    "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+  },
+  "freshClientInitialTools": 19,
+  "existingDesktopActivation": "not-established",
+  "softwareVerification": "verification.json",
+  "mutationQualification": "Simulated native-port/MCP tests, including save and omitted-route preservation; native qualification here is read-only.",
+  "boardEngineeringAcceptanceChanged": false
+}

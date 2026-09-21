@@ -41,6 +41,7 @@ import { captureKicadNativeSourceHashes } from "../integrations/kicad-cli.js";
 import {
   FRESH_INCREMENTAL_INPUT_SCHEMAS,
   FRESH_PLANE_ROUTE_PAGE_SIZE,
+  FRESH_PLANE_ROUTE_QUERY_SCHEMA_VERSION,
   FRESH_PLANE_ROUTE_READ_INPUT_SCHEMA,
   parseFreshPlaneRouteReadArguments,
   assertFreshProjectDirectoryChain,
@@ -3090,7 +3091,7 @@ export function projectKicadHarnessToolDefinitions(
         ? FRESH_INCREMENTAL_INPUT_SCHEMAS[name as keyof typeof FRESH_INCREMENTAL_INPUT_SCHEMAS]
         : inputSchemaFor(tool!),
     });
-    definitions.push(freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?{...definition,description:"Read the complete source-bound V2 track/via inventory. Start with empty arguments. Large replies contain 32-item pages: pass pagination.nextPage as the next call's page until it is null. Each page rechecks the same complete source; drift rejects. identity always binds the full private selection and authorizes bounded fresh_replace_route_items edits; pageIdentity binds only that returned page. Routing completion and clearance remain unevaluated."}:name==="fresh_apply_contract_plane"?{...definition,description:"Apply and refill one exact declared V2 plane using only its optional planeId. The host derives every setting and native UUID; arbitrary geometry is not accepted. Complete stage/source/physical inventory is validated before mandatory native save. DC connectivity, reference coverage, thermal and island-area acceptance remain unevaluated."}:definition);
+    definitions.push(freshProject?.workflowKind==="plane"&&name==="fresh_get_route_items"?{...definition,description:"Read source-bound V2 tracks/vias. Start with empty arguments for the full board or net for one exact contract net. Every read validates the complete private inventory. Scoped replies identify omitted items and restrict the next route edit to that net. Continue large replies with the exact pagination.nextPage as page until null; do not also send net. identity binds the full private selection for edits; queryIdentity binds the net filter and pageIdentity binds returned feedback. Drift, skipped/replayed cursors and changed queries reject. Routing completion and clearance remain unevaluated."}:name==="fresh_apply_contract_plane"?{...definition,description:"Apply and refill one exact declared V2 plane using only its optional planeId. The host derives every setting and native UUID; arbitrary geometry is not accepted. Complete stage/source/physical inventory is validated before mandatory native save. DC connectivity, reference coverage, thermal and island-area acceptance remain unevaluated."}:definition);
   }
   return Object.freeze(definitions);
 }
@@ -3187,6 +3188,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   #pendingFreshPlacementRecommendation: PendingFreshPlacementRecommendation | undefined;
   #pendingFreshPlacementCommit: PendingFreshPlacementCommit | undefined;
   #pendingFreshRouteSelection: AuthoringRouteSelection | undefined;
+  #pendingFreshRouteQuery: Readonly<{ net: string; identity: CanonicalIdentity }> | undefined;
   #nextFreshRoutePageOffset: number | undefined;
   #planeRecoveryRequired = false;
   #savedFreshPlaneEvidence: SavedFreshPlaneEvidence | undefined;
@@ -3849,6 +3851,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (text !== undefined) this.#footprintPlacementRecoveryRequired = true;
     this.#pendingFreshBoardPostSave = undefined;
     this.#pendingFreshRouteSelection = undefined;
+    this.#pendingFreshRouteQuery = undefined;
     this.#pendingPersistedMutationBaseline = undefined;
     try {
       const known = text === undefined ? undefined : await this.#knownBoardMutationState(text.beforeCapture, text.expectedAfter);
@@ -4364,7 +4367,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     catch{/* Diagnostic publication cannot replace the first fault or prevent guarded recovery. */}
     finally{if(deadline!==undefined)clearTimeout(deadline);}
     this.#footprintPlacementRecoveryRequired=true;
-    this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;
+    this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;this.#pendingFreshRouteQuery=undefined;
     this.#pendingPersistedMutationBaseline=undefined;this.#pendingSchematicFileMutationBatch=undefined;
     let recovery="restored-known-preimage",recoveryFailure="";
     try{
@@ -4499,15 +4502,21 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   }
 
   async #freshGetRouteItems(call: HarnessToolCall): Promise<HarnessToolResult> {
-    const page = this.#freshPlaneDesignContract === undefined
+    const request = this.#freshPlaneDesignContract === undefined
       ? (parseFreshIncrementalArguments(call.name, call.arguments), undefined)
-      : parseFreshPlaneRouteReadArguments(call.arguments).page;
+      : parseFreshPlaneRouteReadArguments(call.arguments);
+    const page = request?.page;
     if (page !== undefined && (this.#pendingFreshRouteSelection === undefined
         || page.offset !== this.#nextFreshRoutePageOffset
-        || canonicalJson(page.selectionIdentity) !== canonicalJson(this.#pendingFreshRouteSelection.identity))) {
+        || canonicalJson(page.selectionIdentity) !== canonicalJson(this.#pendingFreshRouteSelection.identity)
+        || canonicalJson(page.queryIdentity ?? null) !== canonicalJson(this.#pendingFreshRouteQuery?.identity ?? null))) {
       throw new Error("Plane route page does not continue the previous exact selection and next offset.");
     }
     const contract = this.#freshConnectivityContract!;
+    const selectedNet = page === undefined ? request?.net : this.#pendingFreshRouteQuery?.net;
+    if (selectedNet !== undefined && !contract.nets.some(net => net.name === selectedNet)) {
+      throw new Error("Plane route feedback net is not an exact host-contract net.");
+    }
     const first = await captureFreshPcb(this.#freshProject!);
     await this.#exactContractPadPositions(this.#freshProject!, contract, first.parsed,this.#freshPhysicalFootprintResolver!==undefined);
     await this.#physicalPadState(first,[]);
@@ -4522,9 +4531,40 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     if (page !== undefined && canonicalJson(firstSelection.identity) !== canonicalJson(page.selectionIdentity)) {
       throw new Error("Plane route source or complete inventory changed between pages.");
     }
+    // Filtering changes feedback only. The complete independently rebound
+    // selection remains the authority for source preservation and global budgets.
+    if (selectedNet !== undefined) {
+      if (firstSelection.schemaVersion !== FRESH_PLANE_ROUTE_SELECTION_SCHEMA_VERSION) throw new Error("Scoped route feedback requires the genuine V2 selection.");
+      const selected = firstSelection.items.filter(item => item.net === selectedNet);
+      const queryIdentity = canonicalIdentity({ selectionIdentity: firstSelection.identity, net: selectedNet }, FRESH_PLANE_ROUTE_QUERY_SCHEMA_VERSION);
+      const schemaVersion = "evleda.fresh-plane-route-net-feedback.v1" as const;
+      const scope = { net: selectedNet, fullItemCount: firstSelection.items.length, selectedItemCount: selected.length,
+        omittedItemCount: firstSelection.items.length - selected.length, completeBoardFeedback: false as const };
+      const common = { ...firstSelection, schemaVersion, selectionSchemaVersion: firstSelection.schemaVersion, queryIdentity, scope };
+      const complete = { ...common, items: selected, completeSelectedNetReturned: true };
+      const completeContent = JSON.stringify({ ...complete, pageIdentity: canonicalIdentity(complete, schemaVersion) });
+      let content: string, nextOffset: number | undefined;
+      if (page === undefined && completeContent.length <= MAX_RESULT_BYTES) content = completeContent;
+      else {
+        const offset = page?.offset ?? 0;
+        if (offset >= selected.length) throw new Error("Plane route page offset is outside the selected net inventory.");
+        const items = selected.slice(offset, offset + FRESH_PLANE_ROUTE_PAGE_SIZE);
+        nextOffset = offset + items.length < selected.length ? offset + items.length : undefined;
+        const payload = { ...common, items, completeSelectedNetReturned: false,
+          pagination: { offset, totalItemCount: selected.length, returnedItemCount: items.length, completeInventoryReturned: false,
+            nextPage: nextOffset === undefined ? null : { selectionIdentity: firstSelection.identity, queryIdentity, offset: nextOffset } } };
+        content = JSON.stringify({ ...payload, pageIdentity: canonicalIdentity(payload, schemaVersion) });
+      }
+      const result = harnessToolResultSchema.parse({ toolCallId: call.id, content });
+      this.#pendingFreshRouteSelection = firstSelection;
+      this.#pendingFreshRouteQuery = Object.freeze({ net: selectedNet, identity: queryIdentity });
+      this.#nextFreshRoutePageOffset = nextOffset;
+      return result;
+    }
     const completeJson = JSON.stringify(firstSelection);
     if (page === undefined && completeJson.length <= MAX_RESULT_BYTES) {
       this.#pendingFreshRouteSelection = firstSelection;
+      this.#pendingFreshRouteQuery = undefined;
       this.#nextFreshRoutePageOffset = undefined;
       return harnessToolResultSchema.parse({ toolCallId: call.id, content: completeJson });
     }
@@ -4540,6 +4580,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
     const result = harnessToolResultSchema.parse({ toolCallId: call.id,
       content: JSON.stringify({ ...payload, pageIdentity: canonicalIdentity(payload, FRESH_PLANE_ROUTE_PAGE_SCHEMA_VERSION) }) });
     this.#pendingFreshRouteSelection = firstSelection;
+    this.#pendingFreshRouteQuery = undefined;
     this.#nextFreshRoutePageOffset = nextOffset;
     return result;
   }
@@ -4569,10 +4610,15 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       tracks:nativeTracks.map(track=>({x1Mm:routeNativeNmToMm(track.x1Nm),y1Mm:routeNativeNmToMm(track.y1Nm),x2Mm:routeNativeNmToMm(track.x2Nm),y2Mm:routeNativeNmToMm(track.y2Nm),layer:track.layer,widthMm:routeNativeNmToMm(track.widthNm)})),
       vias:nativeVias.map(via=>({xMm:routeNativeNmToMm(via.xNm),yMm:routeNativeNmToMm(via.yNm)}))};
     const pending = this.#pendingFreshRouteSelection;
+    const pendingQuery = this.#pendingFreshRouteQuery;
     this.#pendingFreshRouteSelection = undefined;
+    this.#pendingFreshRouteQuery = undefined;
     this.#nextFreshRoutePageOffset = undefined;
     if (pending === undefined || canonicalJson(argumentsValue.selectionIdentity) !== canonicalJson(pending.identity)) {
       throw new Error("Route replacement selection identity is missing, stale, replayed, or does not match the last host readback.");
+    }
+    if (pendingQuery !== undefined && argumentsValue.net !== pendingQuery.net) {
+      throw new Error("Route replacement net differs from the last scoped route feedback. Read that exact net or the full inventory first.");
     }
     const net = design.nets.find((entry) => entry.name === argumentsValue.net);
     const route = design.routingConstraints.nets.find((entry) => entry.net === argumentsValue.net);
@@ -5119,7 +5165,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
       cleanup.push({operation:transactionStarted&&!transactionPushed&&!cleanup.some(item=>item.operation==="pcb_drop_commit")?"drop-or-state-fence":"rollback-or-state-fence",status:"failed-or-unproven",message:(fault instanceof Error?fault.message:String(fault)).replace(/\s+/gu," ").slice(0,1000)});
       recovery="preserved-state-recovery-required";
     }
-    this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;this.#pendingPersistedMutationBaseline=undefined;
+    this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;this.#pendingFreshRouteQuery=undefined;this.#pendingPersistedMutationBaseline=undefined;
     await publish("recovery-finished");
     const last=this.#freshRouteMutationDiagnostics.at(-1)!;
     const first=primary[0]??{name:"UnknownError",message:"Unknown native failure"};
@@ -5132,7 +5178,7 @@ class SerializedKicadHarnessTools implements KicadHarnessTools {
   async #planeApplyFailure(call:HarnessToolCall,before:FreshPcbCapture,observation:ReturnType<typeof validateFreshPlaneStageObservation>|undefined,stage:string,error:unknown):Promise<HarnessToolResult>{
     this.#savedFreshPlaneEvidence=undefined;
     this.#planeRecoveryRequired=true;
-    this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;
+    this.#pendingFreshBoardPostSave=undefined;this.#pendingFreshRouteSelection=undefined;this.#pendingFreshRouteQuery=undefined;
     this.#pendingPersistedMutationBaseline=undefined;this.#pendingSchematicFileMutationBatch=undefined;
     const diagnostic = createFreshPlaneFailureDiagnostic({ failureId: randomUUID(), phase: "primary-failure", toolCallId: call.id,
       stage, beforePcbContentIdentity: before.contentIdentity,

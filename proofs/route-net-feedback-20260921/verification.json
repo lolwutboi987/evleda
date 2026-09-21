@@ -1,0 +1,65 @@
+{
+  "recordedAt": "2026-09-21T12:13:02.271Z",
+  "baseCommit": "ac0806e0b1bf34ea52d7b2e4641b557ee5e9d0d8",
+  "pins": [
+    {
+      "file": "src/harness/fresh-project.ts",
+      "sha256": "5d7ca82a81d1a0f97aa49e10bb328b0334ccf9992722063303ce6dfe988987ff",
+      "sizeBytes": 165668
+    },
+    {
+      "file": "src/harness/kicad-tools.ts",
+      "sha256": "40cf629ac2ee34edfe0c0ab5bc83e5a1a1da82ba16127e30a8c7a97b0efb3854",
+      "sizeBytes": 492316
+    },
+    {
+      "file": "tests/unit/fresh-plane-authoring.test.ts",
+      "sha256": "aba56973a64744d91f04942f08dc5c158c36ca311a8acd4b29f6d26ffc702cb3",
+      "sizeBytes": 108700
+    },
+    {
+      "file": "tests/unit/fresh-board-authoring.test.ts",
+      "sha256": "8364ca9bf9a9a23456ad9dc7661ba7dfcb6fa884da3f9f8eeb9909f69af3896c",
+      "sizeBytes": 85131
+    },
+    {
+      "file": "docs/toolbox-full-board-routing-capacity.md",
+      "sha256": "9a8064fb6336689b411c6c9dce6899d4f669abd13fe14ff8dc0a134f83703109",
+      "sizeBytes": 6436
+    },
+    {
+      "file": "skills/evleda-pcb/SKILL.md",
+      "sha256": "30afb610b13851c695902b03684b5eaad7d08d2231bf8eda5226e3ba099995bc",
+      "sizeBytes": 44628
+    }
+  ],
+  "tests": {
+    "files": [
+      "tests/unit/fresh-plane-authoring.test.ts",
+      "tests/unit/fresh-board-authoring.test.ts"
+    ],
+    "exitCode": 0,
+    "passed": 175,
+    "skipped": 0,
+    "log": {
+      "sha256": "e884cd3b0dcd63d6030c61c0a84726f376f9d403a26810e3f469f24aabf64bf3",
+      "sizeBytes": 612
+    }
+  },
+  "sourceTypecheck": {
+    "exitCode": 0,
+    "heapCapMiB": 2048
+  },
+  "uiTypecheck": {
+    "exitCode": 0,
+    "heapCapMiB": 2048
+  },
+  "memoryPreflightSample": {
+    "HeadroomBytes": 6305374208,
+    "AvailableMiB": 5957
+  },
+  "fullSuiteRun": false,
+  "userApplicationsLeftOpen": true,
+  "nativeQualificationPerformed": false,
+  "installedHostChanged": false
+}

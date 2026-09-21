@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "evleda.fresh-plane-route-net-feedback.v1",
+  "contractIdentity": {
+    "algorithm": "sha256",
+    "digest": "74d29c7e2cfd2eab21d91ea1507a948c4a66906c16f889c543bcfc4e3d03186f",
+    "schemaVersion": "evleda.fresh-connectivity-contract.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "sourceContractIdentity": {
+    "algorithm": "sha256",
+    "digest": "8b09fabeeefb64f1aef69c0c428d84c46c74141dc9e81f96182aaed79ad67126",
+    "schemaVersion": "evleda.pcb-design-contract.v2",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "planeProjectBindingIdentity": {
+    "algorithm": "sha256",
+    "digest": "eec77d23c1cc4e8e7549bdb3152b8924ce366709d2f553411021106a4c900777",
+    "schemaVersion": "evleda.pcb-agent-plane-fresh-binding.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "freshMarkerContentIdentity": {
+    "algorithm": "sha256",
+    "digest": "d10d9601fa72fc3cf1517feb8fbcef48b685096d0d75ab090cf8331dcbc17de1",
+    "size": 5786
+  },
+  "pcbContentIdentity": {
+    "algorithm": "sha256",
+    "digest": "b5206f5db12ea972b5fd87f2dc0071065363a6816e834cb38522f661472219e1",
+    "size": 634179
+  },
+  "items": [
+    {
+      "kind": "track",
+      "id": "3edf615c-9fd3-45ea-a867-4412a66c4d7d",
+      "net": "XTAL_OUT",
+      "start": {
+        "xMm": 10.41,
+        "yMm": 39.66
+      },
+      "end": {
+        "xMm": 10.7,
+        "yMm": 39.95
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "4af1fc49-38f5-4231-abaa-82dea2d78155",
+      "net": "XTAL_OUT",
+      "start": {
+        "xMm": 10.85,
+        "yMm": 39.95
+      },
+      "end": {
+        "xMm": 11.17,
+        "yMm": 40.27
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "5dfc69c0-3196-4308-abdc-6e51f6ed1097",
+      "net": "XTAL_OUT",
+      "start": {
+        "xMm": 11.17,
+        "yMm": 40.27
+      },
+      "end": {
+        "xMm": 12.27,
+        "yMm": 40.27
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "7f6f6acf-99b8-4dc3-9c40-52320280b3b2",
+      "net": "XTAL_OUT",
+      "start": {
+        "xMm": 10.7,
+        "yMm": 39.95
+      },
+      "end": {
+        "xMm": 10.85,
+        "yMm": 39.95
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "cd832368-4922-417d-a30c-6715b45e984d",
+      "net": "XTAL_OUT",
+      "start": {
+        "xMm": 10.07,
+        "yMm": 39.66
+      },
+      "end": {
+        "xMm": 10.41,
+        "yMm": 39.66
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "e1a87550-f10e-470d-991d-bbd0b6f8483e",
+      "net": "XTAL_OUT",
+      "start": {
+        "xMm": 8.99,
+        "yMm": 38.48
+      },
+      "end": {
+        "xMm": 8.99,
+        "yMm": 38.58
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "f579ed09-a6f5-45a9-a543-2b4df6660104",
+      "net": "XTAL_OUT",
+      "start": {
+        "xMm": 8.99,
+        "yMm": 38.58
+      },
+      "end": {
+        "xMm": 10.07,
+        "yMm": 39.66
+      },
+      "widthMm": 0.2,
+      "layer": "F.Cu"
+    }
+  ],
+  "completion": "not_evaluated",
+  "connection": "not_evaluated",
+  "notEvaluated": [
+    "plane_contact",
+    "clearance",
+    "reference_coverage",
+    "completed_route_topology"
+  ],
+  "identity": {
+    "algorithm": "sha256",
+    "digest": "6b34b9a840256d2dec5553afa5bbb52de0d4dc470fd41f60d3bfc16c7c35acf6",
+    "schemaVersion": "evleda.fresh-plane-route-selection.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "selectionSchemaVersion": "evleda.fresh-plane-route-selection.v1",
+  "queryIdentity": {
+    "algorithm": "sha256",
+    "digest": "7701e0c1f1adcdcb020adb0fa955995c2102e45cde3356e532059458b67b3680",
+    "schemaVersion": "evleda.fresh-plane-route-query.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "scope": {
+    "net": "XTAL_OUT",
+    "fullItemCount": 1216,
+    "selectedItemCount": 7,
+    "omittedItemCount": 1209,
+    "completeBoardFeedback": false
+  },
+  "completeSelectedNetReturned": true,
+  "pageIdentity": {
+    "algorithm": "sha256",
+    "digest": "0f7f921e6db68408ba8cf6536881383aa16ef55f1ccfd72f344f7db522239b69",
+    "schemaVersion": "evleda.fresh-plane-route-net-feedback.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  }
+}

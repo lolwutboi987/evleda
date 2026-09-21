@@ -1,0 +1,2587 @@
+{
+  "items": [
+    {
+      "kind": "via",
+      "id": "0183904b-58b9-414d-9657-0c38bac9f708",
+      "net": "GND",
+      "at": {
+        "xMm": 15.2,
+        "yMm": 22.65
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "019cdf7e-e9f7-4d6f-a581-8d9b9e3f67d9",
+      "net": "GND",
+      "start": {
+        "xMm": 13.825,
+        "yMm": 27
+      },
+      "end": {
+        "xMm": 14.07,
+        "yMm": 27
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "0272b3f8-9414-4a19-b742-fb2ecc3713ec",
+      "net": "GND",
+      "start": {
+        "xMm": 12.27,
+        "yMm": 41.23
+      },
+      "end": {
+        "xMm": 12.27,
+        "yMm": 41.48
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "029a9239-945c-44a1-acca-63572825458d",
+      "net": "GND",
+      "start": {
+        "xMm": 15.06,
+        "yMm": 28.28
+      },
+      "end": {
+        "xMm": 14.905,
+        "yMm": 28.125
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "03adc205-d2fd-44f7-a761-c6dd304d1bbe",
+      "net": "GND",
+      "start": {
+        "xMm": 16.98,
+        "yMm": 31.45
+      },
+      "end": {
+        "xMm": 16.98,
+        "yMm": 30.32
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "046db837-19c8-4493-b3a5-acfe785a2f95",
+      "net": "GND",
+      "start": {
+        "xMm": 7.8,
+        "yMm": 8.655
+      },
+      "end": {
+        "xMm": 7.8,
+        "yMm": 9.35
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "054214b8-4806-4009-b054-03736a754f73",
+      "net": "GND",
+      "start": {
+        "xMm": 15.9,
+        "yMm": 38.7
+      },
+      "end": {
+        "xMm": 15.6,
+        "yMm": 39
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "05f02455-a0fc-40f6-9aee-46bb422689d5",
+      "net": "GND",
+      "start": {
+        "xMm": 17.26,
+        "yMm": 18.25
+      },
+      "end": {
+        "xMm": 17.26,
+        "yMm": 18.44
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "081835ea-01d1-421f-a79d-fc04692e2db2",
+      "net": "GND",
+      "start": {
+        "xMm": 15.6,
+        "yMm": 45.4
+      },
+      "end": {
+        "xMm": 14.55,
+        "yMm": 46.45
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "09c06a4a-c976-4eb4-bd9b-370e2cefd80c",
+      "net": "GND",
+      "at": {
+        "xMm": 16,
+        "yMm": 46.6
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "0c0d17c6-67e0-420a-a456-6acf146a74ac",
+      "net": "GND",
+      "at": {
+        "xMm": 7,
+        "yMm": 47.23
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "0c3909c1-ed0c-4d31-9b48-aa0f89ec2b9b",
+      "net": "GND",
+      "start": {
+        "xMm": 14.11,
+        "yMm": 10.35
+      },
+      "end": {
+        "xMm": 14.11,
+        "yMm": 10.09
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "0c9d98b6-26bb-43c3-8371-801254431694",
+      "net": "GND",
+      "at": {
+        "xMm": 11.9,
+        "yMm": 45.75
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "0cd3bc1b-2e9c-41b9-b77e-75c3bcab238b",
+      "net": "GND",
+      "at": {
+        "xMm": 10.3,
+        "yMm": 12
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "0fa60bc1-9373-451c-a4d8-0e182642b993",
+      "net": "GND",
+      "start": {
+        "xMm": 4.4,
+        "yMm": 30.525
+      },
+      "end": {
+        "xMm": 4.4,
+        "yMm": 30.64
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "0fd00f37-bc52-4042-8e17-c5e0a2b887d3",
+      "net": "GND",
+      "start": {
+        "xMm": 11.15,
+        "yMm": 38.65
+      },
+      "end": {
+        "xMm": 11.55,
+        "yMm": 38.65
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "12a9b3dc-6154-47d8-a74e-188543653c0e",
+      "net": "GND",
+      "at": {
+        "xMm": 18.225,
+        "yMm": 37.35
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "1958c703-71f7-49e4-86ff-01e876574c30",
+      "net": "GND",
+      "start": {
+        "xMm": 16.6,
+        "yMm": 30.62
+      },
+      "end": {
+        "xMm": 16.6,
+        "yMm": 30.9
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "1b0af56c-8e99-4cda-a07f-f8eab3023239",
+      "net": "GND",
+      "start": {
+        "xMm": 7,
+        "yMm": 46.44
+      },
+      "end": {
+        "xMm": 7,
+        "yMm": 47.23
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "1caeab9a-ddc8-472e-b5f7-1b9547781976",
+      "net": "GND",
+      "start": {
+        "xMm": 16.7,
+        "yMm": 33
+      },
+      "end": {
+        "xMm": 16.7,
+        "yMm": 33.2
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "1cc62325-54bb-47d3-b80c-295b106eed9f",
+      "net": "GND",
+      "start": {
+        "xMm": 11.69,
+        "yMm": 45.96
+      },
+      "end": {
+        "xMm": 11.9,
+        "yMm": 45.75
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "1de4083a-7bab-4d23-8722-9d1af655495d",
+      "net": "GND",
+      "start": {
+        "xMm": 14.2,
+        "yMm": 9.4
+      },
+      "end": {
+        "xMm": 14.4,
+        "yMm": 9.6
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "20c58e09-0a13-4015-800a-945b3f1fa777",
+      "net": "GND",
+      "start": {
+        "xMm": 18.225,
+        "yMm": 37.105
+      },
+      "end": {
+        "xMm": 18.225,
+        "yMm": 37.35
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "22bd8e50-48ce-4237-bf02-02b3eff8737a",
+      "net": "GND",
+      "start": {
+        "xMm": 4.4,
+        "yMm": 33.23
+      },
+      "end": {
+        "xMm": 4.32,
+        "yMm": 33.15
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "2362ad76-628e-4cb0-b454-4ef9d1dcdbdc",
+      "net": "GND",
+      "start": {
+        "xMm": 14.7,
+        "yMm": 51.3
+      },
+      "end": {
+        "xMm": 14,
+        "yMm": 52
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "24920e1e-e4d2-4eab-bc47-413d6e98ecbf",
+      "net": "GND",
+      "start": {
+        "xMm": 4.4,
+        "yMm": 32.12
+      },
+      "end": {
+        "xMm": 4.32,
+        "yMm": 32.2
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "27ce4df9-01d9-4e07-b733-7bfffcf584d4",
+      "net": "GND",
+      "start": {
+        "xMm": 14.14,
+        "yMm": 46.45
+      },
+      "end": {
+        "xMm": 14,
+        "yMm": 46.31
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "28579801-01f1-4915-9e9f-601b628f37cc",
+      "net": "GND",
+      "start": {
+        "xMm": 10.85,
+        "yMm": 13.1375
+      },
+      "end": {
+        "xMm": 10.85,
+        "yMm": 12.55
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "2b8f7bc8-9d82-4571-a03d-29a797d10912",
+      "net": "GND",
+      "start": {
+        "xMm": 7.8,
+        "yMm": 9.35
+      },
+      "end": {
+        "xMm": 7.65,
+        "yMm": 9.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "2e687bb5-49b4-452a-a866-33fffe9c179a",
+      "net": "GND",
+      "start": {
+        "xMm": 4.42,
+        "yMm": 34
+      },
+      "end": {
+        "xMm": 4.325,
+        "yMm": 33.905
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "2f471068-3b9d-4f48-b236-bec7de001fe7",
+      "net": "GND",
+      "start": {
+        "xMm": 16.98,
+        "yMm": 29.3
+      },
+      "end": {
+        "xMm": 16.98,
+        "yMm": 29.81
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "2fbaa9ef-0d0c-4ef7-9675-2531635bef92",
+      "net": "GND",
+      "at": {
+        "xMm": 5.525,
+        "yMm": 41.575
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "342f4da7-e825-4124-a239-181789519de1",
+      "net": "GND",
+      "start": {
+        "xMm": 10.85,
+        "yMm": 12.55
+      },
+      "end": {
+        "xMm": 10.3,
+        "yMm": 12
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "35fcc11d-03f3-488d-ba75-13af91f7b9b5",
+      "net": "GND",
+      "start": {
+        "xMm": 6.2125,
+        "yMm": 44.8
+      },
+      "end": {
+        "xMm": 7,
+        "yMm": 45.5875
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "3afa76ea-a13c-4004-a2c1-af1f21e09711",
+      "net": "GND",
+      "start": {
+        "xMm": 11.48,
+        "yMm": 45.96
+      },
+      "end": {
+        "xMm": 11.69,
+        "yMm": 45.96
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "3c205398-620b-422d-88b9-cde34f502230",
+      "net": "GND",
+      "start": {
+        "xMm": 14,
+        "yMm": 24.92
+      },
+      "end": {
+        "xMm": 14,
+        "yMm": 24.37
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "3dee1da7-abf7-4341-af31-ca3f9d06ac9e",
+      "net": "GND",
+      "start": {
+        "xMm": 17.26,
+        "yMm": 18.44
+      },
+      "end": {
+        "xMm": 16.8,
+        "yMm": 18.9
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "4127cde6-4fd1-4037-8c8b-6371b8d3ba32",
+      "net": "GND",
+      "at": {
+        "xMm": 14.4,
+        "yMm": 9.6
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "46371e16-6d0d-40e6-9975-3c75e51cec0d",
+      "net": "GND",
+      "at": {
+        "xMm": 4.32,
+        "yMm": 30.72
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "463c9f0b-7400-4471-be23-08925f31fbac",
+      "net": "GND",
+      "at": {
+        "xMm": 4.32,
+        "yMm": 33.15
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "47097dc6-8dc0-4d06-b50e-a83681fc24dd",
+      "net": "GND",
+      "start": {
+        "xMm": 4.22,
+        "yMm": 31.5
+      },
+      "end": {
+        "xMm": 4.22,
+        "yMm": 31.645
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "4992b2d2-7a3b-44cc-9419-d12098cd6957",
+      "net": "GND",
+      "start": {
+        "xMm": 15,
+        "yMm": 50.99
+      },
+      "end": {
+        "xMm": 15.45,
+        "yMm": 50.54
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "4bf34dfe-d625-4a47-b28c-84cf280d317c",
+      "net": "GND",
+      "start": {
+        "xMm": 11,
+        "yMm": 38.5
+      },
+      "end": {
+        "xMm": 11.15,
+        "yMm": 38.65
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "4cd9e341-2527-4bcd-b0c2-58cda9da54e6",
+      "net": "GND",
+      "start": {
+        "xMm": 12.8,
+        "yMm": 29.05
+      },
+      "end": {
+        "xMm": 12.8,
+        "yMm": 29.725
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "4d57bec5-5e80-4271-95fd-f0286f7d9728",
+      "net": "GND",
+      "start": {
+        "xMm": 16.9,
+        "yMm": 30.32
+      },
+      "end": {
+        "xMm": 16.6,
+        "yMm": 30.62
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "4e1defb8-4033-4a68-9615-39071d0d0977",
+      "net": "GND",
+      "start": {
+        "xMm": 15,
+        "yMm": 51.1
+      },
+      "end": {
+        "xMm": 14.8,
+        "yMm": 51.3
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "50359f17-a88f-4224-a877-156f55a32121",
+      "net": "GND",
+      "at": {
+        "xMm": 5.5,
+        "yMm": 42.92
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "53683e37-8cf7-4b40-93a2-5d13aac012a8",
+      "net": "GND",
+      "at": {
+        "xMm": 4.9,
+        "yMm": 19.97
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "54994cc0-8ebb-4e13-89de-810a70cfc1bd",
+      "net": "GND",
+      "start": {
+        "xMm": 15.2,
+        "yMm": 23.09
+      },
+      "end": {
+        "xMm": 15.2,
+        "yMm": 22.65
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "550d26dd-a01d-475c-9298-8129acbdbbf2",
+      "net": "GND",
+      "start": {
+        "xMm": 2.11,
+        "yMm": 36.35
+      },
+      "end": {
+        "xMm": 3.61,
+        "yMm": 36.35
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "57a04e83-a611-4bb9-bb54-030e93841a9b",
+      "net": "GND",
+      "start": {
+        "xMm": 12.27,
+        "yMm": 41.48
+      },
+      "end": {
+        "xMm": 12.1,
+        "yMm": 41.65
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "57d78ef1-50a2-43c6-8d93-4e906eb83994",
+      "net": "GND",
+      "start": {
+        "xMm": 4.22,
+        "yMm": 30.2
+      },
+      "end": {
+        "xMm": 4.22,
+        "yMm": 30.345
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "5864eb4b-b9dd-4dbb-af52-0dc81557d865",
+      "net": "GND",
+      "at": {
+        "xMm": 11.9,
+        "yMm": 41.65
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "591def7d-de7d-4386-b5b5-cf1f9c045059",
+      "net": "GND",
+      "start": {
+        "xMm": 2.11,
+        "yMm": 10.95
+      },
+      "end": {
+        "xMm": 3.61,
+        "yMm": 10.95
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "5a09beab-8062-42e5-ba8b-4444b8625f45",
+      "net": "GND",
+      "start": {
+        "xMm": 4.425,
+        "yMm": 41.575
+      },
+      "end": {
+        "xMm": 5.525,
+        "yMm": 41.575
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "5c97f774-b859-4c3f-8508-2ef8c38e0cb1",
+      "net": "GND",
+      "at": {
+        "xMm": 14.85,
+        "yMm": 11.55
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "6054bc34-4ece-4536-8b10-9167fffe6048",
+      "net": "GND",
+      "start": {
+        "xMm": 7.49,
+        "yMm": 10.35
+      },
+      "end": {
+        "xMm": 7.49,
+        "yMm": 9.95
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "606a2ccc-d082-4a48-ba60-3d438299c7b0",
+      "net": "GND",
+      "start": {
+        "xMm": 13.94,
+        "yMm": 23.49
+      },
+      "end": {
+        "xMm": 14.8,
+        "yMm": 23.49
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "611ee6e3-4fad-4f6c-8557-892dd5712373",
+      "net": "GND",
+      "start": {
+        "xMm": 3.61,
+        "yMm": 36.35
+      },
+      "end": {
+        "xMm": 4.425,
+        "yMm": 37.165
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "618b230f-f6ce-456a-a4a9-987ee26f4fa2",
+      "net": "GND",
+      "start": {
+        "xMm": 4.425,
+        "yMm": 37.165
+      },
+      "end": {
+        "xMm": 4.425,
+        "yMm": 37.425
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "61d2942a-f67f-4480-9084-e8836e206f52",
+      "net": "GND",
+      "start": {
+        "xMm": 19.89,
+        "yMm": 49.05
+      },
+      "end": {
+        "xMm": 18.39,
+        "yMm": 49.05
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "62d25868-a2d6-4d55-b466-1425a19851cf",
+      "net": "GND",
+      "start": {
+        "xMm": 6.725,
+        "yMm": 24.675
+      },
+      "end": {
+        "xMm": 6.05,
+        "yMm": 24
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "660c6b12-c207-47ec-a352-523fdf294042",
+      "net": "GND",
+      "at": {
+        "xMm": 10.7,
+        "yMm": 42.5
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "668ab035-7651-4112-81d6-735bc6cc3999",
+      "net": "GND",
+      "at": {
+        "xMm": 7.65,
+        "yMm": 9.5
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "67088068-3433-4dc7-a21a-bf44d1dcff54",
+      "net": "GND",
+      "start": {
+        "xMm": 10.85,
+        "yMm": 54.8
+      },
+      "end": {
+        "xMm": 10.85,
+        "yMm": 52.05
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "689bb7a4-27ec-4259-819c-33a9baeda5d1",
+      "net": "GND",
+      "start": {
+        "xMm": 2.11,
+        "yMm": 36.35
+      },
+      "end": {
+        "xMm": 3.61,
+        "yMm": 36.35
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "68d17ecb-8ac6-42ed-a3a4-6735921c6d4a",
+      "net": "GND",
+      "start": {
+        "xMm": 10.7,
+        "yMm": 41.65
+      },
+      "end": {
+        "xMm": 10.7,
+        "yMm": 42.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "68fc014a-398d-4dee-bdbe-5e91bbbbaa78",
+      "net": "GND",
+      "at": {
+        "xMm": 14,
+        "yMm": 24.37
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "6a289167-451f-4b2f-919d-b07bfc983aea",
+      "net": "GND",
+      "at": {
+        "xMm": 8.2,
+        "yMm": 39.15
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "6a487890-d56c-455d-9dd0-055c8b373cdd",
+      "net": "GND",
+      "start": {
+        "xMm": 2.11,
+        "yMm": 49.05
+      },
+      "end": {
+        "xMm": 3.61,
+        "yMm": 49.05
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "6a6d299b-ef7f-4036-9b5f-6b376118c54d",
+      "net": "GND",
+      "at": {
+        "xMm": 15.9,
+        "yMm": 38.7
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "6af18118-37e8-4663-af41-53b60a6fd298",
+      "net": "GND",
+      "start": {
+        "xMm": 7.49,
+        "yMm": 9.95
+      },
+      "end": {
+        "xMm": 7.65,
+        "yMm": 9.79
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "6b3dfaab-4980-4433-bc07-5d9614eae78e",
+      "net": "GND",
+      "start": {
+        "xMm": 5.3,
+        "yMm": 20.37
+      },
+      "end": {
+        "xMm": 4.9,
+        "yMm": 19.97
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "6b8c1128-b6a6-4638-a9fd-b98315c68f3d",
+      "net": "GND",
+      "start": {
+        "xMm": 16.73,
+        "yMm": 33.81
+      },
+      "end": {
+        "xMm": 16.73,
+        "yMm": 33.63
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "6d6ac4f5-03f6-4266-b450-47219e15fa37",
+      "net": "GND",
+      "start": {
+        "xMm": 4.4,
+        "yMm": 30.64
+      },
+      "end": {
+        "xMm": 4.32,
+        "yMm": 30.72
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "6e1385b0-913d-4bbe-b54b-17f741c9a858",
+      "net": "GND",
+      "start": {
+        "xMm": 14,
+        "yMm": 46.31
+      },
+      "end": {
+        "xMm": 14,
+        "yMm": 45.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "6e342f7b-e4cc-444d-8278-85aea53c56e9",
+      "net": "GND",
+      "start": {
+        "xMm": 4.22,
+        "yMm": 30.345
+      },
+      "end": {
+        "xMm": 4.4,
+        "yMm": 30.525
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "6e558d66-aaac-4903-904c-121abe22ad9f",
+      "net": "GND",
+      "start": {
+        "xMm": 19.89,
+        "yMm": 36.35
+      },
+      "end": {
+        "xMm": 18.39,
+        "yMm": 36.35
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "6e8cbe33-b952-49e6-86c2-e64201aa9af6",
+      "net": "GND",
+      "start": {
+        "xMm": 5.6,
+        "yMm": 18.02
+      },
+      "end": {
+        "xMm": 5.6,
+        "yMm": 17.9
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "707cba30-4192-4239-a71a-e4b94f348f45",
+      "net": "GND",
+      "at": {
+        "xMm": 4.32,
+        "yMm": 32.2
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "7232da8e-1c7f-47cd-9be9-ce4971a303bd",
+      "net": "GND",
+      "start": {
+        "xMm": 14.2,
+        "yMm": 8.655
+      },
+      "end": {
+        "xMm": 14.2,
+        "yMm": 9.4
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "76403016-0b3c-4e97-ab7a-14b302f9c7a6",
+      "net": "GND",
+      "at": {
+        "xMm": 10.5,
+        "yMm": 51.45
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "777e07f0-1275-464b-ac8e-180f176806f0",
+      "net": "GND",
+      "start": {
+        "xMm": 15.6,
+        "yMm": 39
+      },
+      "end": {
+        "xMm": 15.6,
+        "yMm": 45.4
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "792a586a-c69b-48ba-8fa3-b637b3773c71",
+      "net": "GND",
+      "start": {
+        "xMm": 15,
+        "yMm": 50.99
+      },
+      "end": {
+        "xMm": 15,
+        "yMm": 51.1
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "7a40c173-01b6-4145-870b-299a6348bab3",
+      "net": "GND",
+      "start": {
+        "xMm": 4.325,
+        "yMm": 33.905
+      },
+      "end": {
+        "xMm": 4.325,
+        "yMm": 33.425
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "7e5658a6-4451-455b-ad7e-3311b063517a",
+      "net": "GND",
+      "at": {
+        "xMm": 12.27,
+        "yMm": 39.5
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "7e7a067f-bdf4-4625-adb7-225f4c8f825d",
+      "net": "GND",
+      "at": {
+        "xMm": 7.35,
+        "yMm": 37.66
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "7edea97a-6540-44d8-9d2c-b5cfaf336d69",
+      "net": "GND",
+      "at": {
+        "xMm": 12.8,
+        "yMm": 29.725
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "80495bdb-a3bc-4c4e-be43-a4c4758db499",
+      "net": "GND",
+      "start": {
+        "xMm": 15.5,
+        "yMm": 38.1
+      },
+      "end": {
+        "xMm": 15.9,
+        "yMm": 38.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "82d9971b-aa8c-4002-99a8-54987bd0f76f",
+      "net": "GND",
+      "start": {
+        "xMm": 14.4,
+        "yMm": 9.8
+      },
+      "end": {
+        "xMm": 14.4,
+        "yMm": 9.6
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "895798ed-118c-4044-b758-da8dfb25e1a4",
+      "net": "GND",
+      "at": {
+        "xMm": 6.2,
+        "yMm": 17.5
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "8a1c5e6b-db1d-47c6-b75a-c4e482ee1521",
+      "net": "GND",
+      "start": {
+        "xMm": 10.5,
+        "yMm": 49.825
+      },
+      "end": {
+        "xMm": 10.5,
+        "yMm": 51.45
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "8a239557-6af0-4c9c-bee3-4da0719583a1",
+      "net": "GND",
+      "start": {
+        "xMm": 16.73,
+        "yMm": 32.58
+      },
+      "end": {
+        "xMm": 16.625,
+        "yMm": 32.685
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "8d3806d2-7356-4bc6-a218-183e5b189f96",
+      "net": "GND",
+      "at": {
+        "xMm": 16.98,
+        "yMm": 29.81
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "8db6c2e1-13d9-4443-b292-919b025030d1",
+      "net": "GND",
+      "start": {
+        "xMm": 12.425,
+        "yMm": 21.975
+      },
+      "end": {
+        "xMm": 13.94,
+        "yMm": 23.49
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "8e156f34-087b-4f6b-908a-9646b4f9d0e7",
+      "net": "GND",
+      "at": {
+        "xMm": 14.55,
+        "yMm": 28.03
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "91590dfd-204f-4d0b-84d7-dfc3c3721b9c",
+      "net": "GND",
+      "start": {
+        "xMm": 13.6,
+        "yMm": 26.92
+      },
+      "end": {
+        "xMm": 13.745,
+        "yMm": 26.92
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "93180e8f-d023-4d21-b849-08c8240cd003",
+      "net": "GND",
+      "start": {
+        "xMm": 4.4,
+        "yMm": 31.825
+      },
+      "end": {
+        "xMm": 4.4,
+        "yMm": 32.12
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "944ece60-c9b1-48b0-b6d8-00eecb0af99f",
+      "net": "GND",
+      "start": {
+        "xMm": 4.325,
+        "yMm": 33.425
+      },
+      "end": {
+        "xMm": 4.4,
+        "yMm": 33.35
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "95f8d34a-8097-4a04-add6-5c69bda7291e",
+      "net": "GND",
+      "start": {
+        "xMm": 16.625,
+        "yMm": 33.525
+      },
+      "end": {
+        "xMm": 16.625,
+        "yMm": 33.275
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "95fafc6a-ef1c-4427-9afd-d8e109f90b73",
+      "net": "GND",
+      "at": {
+        "xMm": 6.05,
+        "yMm": 23.6
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "967c50e0-d37c-40c2-9e66-f5c91b8f1d3a",
+      "net": "GND",
+      "start": {
+        "xMm": 6.05,
+        "yMm": 24
+      },
+      "end": {
+        "xMm": 6.05,
+        "yMm": 23.6
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "9697b04e-3c0f-466d-96d5-230d21c37d10",
+      "net": "GND",
+      "start": {
+        "xMm": 6.725,
+        "yMm": 25.35
+      },
+      "end": {
+        "xMm": 6.725,
+        "yMm": 24.675
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "99961eb5-722b-4fd8-b344-19c8dc7bf0e3",
+      "net": "GND",
+      "start": {
+        "xMm": 6.8,
+        "yMm": 18.02
+      },
+      "end": {
+        "xMm": 6.8,
+        "yMm": 17.9
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "99a3e198-3393-4fc1-98a3-fd5ec105fd02",
+      "net": "GND",
+      "start": {
+        "xMm": 10,
+        "yMm": 47.375
+      },
+      "end": {
+        "xMm": 10,
+        "yMm": 48.6
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "9ab1435a-daaf-495d-8feb-deaf0149a45c",
+      "net": "GND",
+      "at": {
+        "xMm": 10.965,
+        "yMm": 33.065
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "9cd74659-79f7-44ec-b63b-718c00357ac6",
+      "net": "GND",
+      "start": {
+        "xMm": 11.1,
+        "yMm": 55.05
+      },
+      "end": {
+        "xMm": 10.85,
+        "yMm": 54.8
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "9e575d27-82d2-484d-a78b-419974e61a3d",
+      "net": "GND",
+      "start": {
+        "xMm": 14,
+        "yMm": 52
+      },
+      "end": {
+        "xMm": 14,
+        "yMm": 53.35
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "9f5e7982-9904-4766-b616-de1d80077809",
+      "net": "GND",
+      "start": {
+        "xMm": 14.8,
+        "yMm": 51.3
+      },
+      "end": {
+        "xMm": 14.7,
+        "yMm": 51.3
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "a00e3991-f5e6-424a-a4c7-fd0e91ab41a3",
+      "net": "GND",
+      "at": {
+        "xMm": 16.7,
+        "yMm": 33.2
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "a144608b-1f03-4631-98f0-7662091cfb04",
+      "net": "GND",
+      "start": {
+        "xMm": 6.8,
+        "yMm": 17.9
+      },
+      "end": {
+        "xMm": 6.4,
+        "yMm": 17.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "a1fb7a21-ae47-43c0-99cf-4d37a64d5e32",
+      "net": "GND",
+      "at": {
+        "xMm": 10.7,
+        "yMm": 30.5
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "a284e2e7-f7f6-4b7c-8579-c006b89696d0",
+      "net": "GND",
+      "start": {
+        "xMm": 16.625,
+        "yMm": 33.275
+      },
+      "end": {
+        "xMm": 16.7,
+        "yMm": 33.2
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "a34648a6-8efa-4b1e-a86a-05e15499b23d",
+      "net": "GND",
+      "start": {
+        "xMm": 2.11,
+        "yMm": 23.65
+      },
+      "end": {
+        "xMm": 3.61,
+        "yMm": 23.65
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "a36fe58a-8c47-40f2-b202-c3c22610de02",
+      "net": "GND",
+      "start": {
+        "xMm": 8.5,
+        "yMm": 39.45
+      },
+      "end": {
+        "xMm": 8.2,
+        "yMm": 39.15
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "a518ef97-4b6d-419d-ba99-1d5ab37a1175",
+      "net": "GND",
+      "start": {
+        "xMm": 12.425,
+        "yMm": 21.775
+      },
+      "end": {
+        "xMm": 12.425,
+        "yMm": 17.625
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "a64ca2d9-8340-4ea4-affc-35eaacb8c8a0",
+      "net": "GND",
+      "start": {
+        "xMm": 16,
+        "yMm": 46.6
+      },
+      "end": {
+        "xMm": 16.3,
+        "yMm": 46.6
+      },
+      "widthMm": 0.6,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "a6c742a3-819e-4101-982a-9b6d25676d10",
+      "net": "GND",
+      "start": {
+        "xMm": 10.5,
+        "yMm": 48.6
+      },
+      "end": {
+        "xMm": 10.5,
+        "yMm": 49.825
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "a97c10f3-714c-47e3-98bd-e51d529a1cd7",
+      "net": "GND",
+      "start": {
+        "xMm": 6.8,
+        "yMm": 25.425
+      },
+      "end": {
+        "xMm": 6.725,
+        "yMm": 25.35
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "ab219904-cb97-412b-be36-2126dbe61efb",
+      "net": "GND",
+      "start": {
+        "xMm": 14.55,
+        "yMm": 46.45
+      },
+      "end": {
+        "xMm": 14.14,
+        "yMm": 46.45
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "acc3ea8d-be09-411b-bd2a-e27b84140b9c",
+      "net": "GND",
+      "start": {
+        "xMm": 14,
+        "yMm": 53.35
+      },
+      "end": {
+        "xMm": 12.3,
+        "yMm": 55.05
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "acd329fa-9592-4472-93e2-929c39483344",
+      "net": "GND",
+      "start": {
+        "xMm": 5.6,
+        "yMm": 17.9
+      },
+      "end": {
+        "xMm": 6,
+        "yMm": 17.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "ae70375e-349b-40a6-b7fa-69d2d08f3fc6",
+      "net": "GND",
+      "start": {
+        "xMm": 17.98,
+        "yMm": 36.86
+      },
+      "end": {
+        "xMm": 18.225,
+        "yMm": 37.105
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "afcbb9ed-57ce-4d63-a84c-a552f6f581fb",
+      "net": "GND",
+      "start": {
+        "xMm": 16.3,
+        "yMm": 46.6
+      },
+      "end": {
+        "xMm": 17.4,
+        "yMm": 47.7
+      },
+      "widthMm": 0.6,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "b15712fb-e8d4-4b4f-8ec9-dc39eecc1bbb",
+      "net": "GND",
+      "start": {
+        "xMm": 7.76,
+        "yMm": 37.46
+      },
+      "end": {
+        "xMm": 7.55,
+        "yMm": 37.46
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "b5add64e-421a-44e3-bf62-85e91c98ecf8",
+      "net": "GND",
+      "start": {
+        "xMm": 8.45,
+        "yMm": 25.92
+      },
+      "end": {
+        "xMm": 8.45,
+        "yMm": 25.37
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "b68ed126-3616-475c-a5e4-0b1b0883c861",
+      "net": "GND",
+      "start": {
+        "xMm": 7,
+        "yMm": 45.5875
+      },
+      "end": {
+        "xMm": 7,
+        "yMm": 46.44
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "bde13966-0d0e-4b4f-b1bf-944ef500bb97",
+      "net": "GND",
+      "start": {
+        "xMm": 10.85,
+        "yMm": 52.05
+      },
+      "end": {
+        "xMm": 10.5,
+        "yMm": 51.7
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "c14808ab-e83d-40b6-908e-562d4622cb35",
+      "net": "GND",
+      "start": {
+        "xMm": 14.775,
+        "yMm": 28.125
+      },
+      "end": {
+        "xMm": 14.68,
+        "yMm": 28.03
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "c2772d6f-5944-4625-b22b-682d763e10bb",
+      "net": "GND",
+      "start": {
+        "xMm": 19.89,
+        "yMm": 23.65
+      },
+      "end": {
+        "xMm": 18.39,
+        "yMm": 23.65
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "c6b802dc-7aea-46c5-ba15-2008b8086643",
+      "net": "GND",
+      "start": {
+        "xMm": 8.5,
+        "yMm": 39.95
+      },
+      "end": {
+        "xMm": 8.5,
+        "yMm": 39.45
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "c72f99ad-b035-4092-beda-5958d96107b5",
+      "net": "GND",
+      "at": {
+        "xMm": 9.835,
+        "yMm": 31.935
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "caf2b609-0773-4875-82e9-965a2e927cff",
+      "net": "GND",
+      "start": {
+        "xMm": 12.3,
+        "yMm": 55.05
+      },
+      "end": {
+        "xMm": 11.1,
+        "yMm": 55.05
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "cdab2bc7-8145-4a4e-a84c-e9817f6fc106",
+      "net": "GND",
+      "at": {
+        "xMm": 16.6,
+        "yMm": 30.9
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "ce9d4abc-2fb6-4dc8-8000-bbb928145e5d",
+      "net": "GND",
+      "start": {
+        "xMm": 4.22,
+        "yMm": 31.645
+      },
+      "end": {
+        "xMm": 4.4,
+        "yMm": 31.825
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "cfed79e5-52ae-4f58-9655-5169126d85a2",
+      "net": "GND",
+      "start": {
+        "xMm": 16.625,
+        "yMm": 32.925
+      },
+      "end": {
+        "xMm": 16.7,
+        "yMm": 33
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "d168baf9-49fb-4a16-a958-8ac5f994381d",
+      "net": "GND",
+      "at": {
+        "xMm": 14,
+        "yMm": 45.5
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "d2ed1036-084a-4809-8b98-40c1941352ff",
+      "net": "GND",
+      "start": {
+        "xMm": 10.5,
+        "yMm": 51.7
+      },
+      "end": {
+        "xMm": 10.5,
+        "yMm": 51.45
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "d4f36bee-0b3b-426e-a335-56534d68de2e",
+      "net": "GND",
+      "start": {
+        "xMm": 6,
+        "yMm": 17.5
+      },
+      "end": {
+        "xMm": 6.2,
+        "yMm": 17.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "d64db0a1-59ef-4baa-9f3d-c0dc52e320f4",
+      "net": "GND",
+      "start": {
+        "xMm": 4.4,
+        "yMm": 33.35
+      },
+      "end": {
+        "xMm": 4.4,
+        "yMm": 33.23
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "d9a577e9-5fc6-43b2-b34d-1596dde56d58",
+      "net": "GND",
+      "start": {
+        "xMm": 14.8,
+        "yMm": 23.49
+      },
+      "end": {
+        "xMm": 15.2,
+        "yMm": 23.09
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "daad916a-8271-40b4-a84c-9837ec26fce7",
+      "net": "GND",
+      "start": {
+        "xMm": 14.905,
+        "yMm": 28.125
+      },
+      "end": {
+        "xMm": 14.775,
+        "yMm": 28.125
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "dad393d3-d12e-4956-8237-75d0c252b3f6",
+      "net": "GND",
+      "start": {
+        "xMm": 12.425,
+        "yMm": 21.775
+      },
+      "end": {
+        "xMm": 12.425,
+        "yMm": 21.975
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "dba8b9d1-3cd7-4e46-a54a-42e4a6f8468e",
+      "net": "GND",
+      "start": {
+        "xMm": 16.82,
+        "yMm": 25.5
+      },
+      "end": {
+        "xMm": 16.82,
+        "yMm": 26.2
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "dbef059b-1ce2-4ddb-886e-fd2387be296c",
+      "net": "GND",
+      "start": {
+        "xMm": 10.7,
+        "yMm": 30.5
+      },
+      "end": {
+        "xMm": 10.7,
+        "yMm": 31.15
+      },
+      "widthMm": 0.6,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "dc09d38e-9b7d-46d3-8672-9e1c438ccf04",
+      "net": "GND",
+      "start": {
+        "xMm": 4.9,
+        "yMm": 18.72
+      },
+      "end": {
+        "xMm": 4.9,
+        "yMm": 19.97
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "dcf635b7-e0e5-4cc7-a3ec-fe9c2e2e47e4",
+      "net": "GND",
+      "start": {
+        "xMm": 19.89,
+        "yMm": 10.95
+      },
+      "end": {
+        "xMm": 18.39,
+        "yMm": 10.95
+      },
+      "widthMm": 0.3,
+      "layer": "In1.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "e1aa43c1-0d29-4be8-85b1-a8ac984ba581",
+      "net": "GND",
+      "start": {
+        "xMm": 14.4,
+        "yMm": 11.55
+      },
+      "end": {
+        "xMm": 14.85,
+        "yMm": 11.55
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "e265c8a3-e492-4f20-a2e4-702fb49a1ab9",
+      "net": "GND",
+      "at": {
+        "xMm": 14.15,
+        "yMm": 26.92
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "e3a36d3b-d5e7-4848-9ca1-1a3c19c57ba6",
+      "net": "GND",
+      "at": {
+        "xMm": 11.55,
+        "yMm": 38.65
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "e3dc166c-a783-4133-92c5-c429108ba21d",
+      "net": "GND",
+      "start": {
+        "xMm": 12.27,
+        "yMm": 38.88
+      },
+      "end": {
+        "xMm": 12.27,
+        "yMm": 39.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "e4f5ebb6-f345-4129-8ff9-e129714c0258",
+      "net": "GND",
+      "at": {
+        "xMm": 17.4,
+        "yMm": 47.7
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "via",
+      "id": "e72cddfc-1b57-4224-bac0-caccb4a71d09",
+      "net": "GND",
+      "at": {
+        "xMm": 15.45,
+        "yMm": 50.54
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "e89b6211-f349-4083-97eb-b85c37557307",
+      "net": "GND",
+      "start": {
+        "xMm": 6.01,
+        "yMm": 42.92
+      },
+      "end": {
+        "xMm": 5.5,
+        "yMm": 42.92
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "e9170fa6-b0e5-4de5-a2b8-5698ab0ccda0",
+      "net": "GND",
+      "start": {
+        "xMm": 14.11,
+        "yMm": 10.09
+      },
+      "end": {
+        "xMm": 14.4,
+        "yMm": 9.8
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "e97fa04b-f989-4458-b25f-99722e828682",
+      "net": "GND",
+      "start": {
+        "xMm": 16.73,
+        "yMm": 33.63
+      },
+      "end": {
+        "xMm": 16.625,
+        "yMm": 33.525
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "e9d5ab86-841e-434f-839d-83f2860689d9",
+      "net": "GND",
+      "start": {
+        "xMm": 15.32,
+        "yMm": 8.08
+      },
+      "end": {
+        "xMm": 15.32,
+        "yMm": 3.9
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "ec974f15-6f64-461f-8968-1ebec7df47a5",
+      "net": "GND",
+      "start": {
+        "xMm": 7.55,
+        "yMm": 37.46
+      },
+      "end": {
+        "xMm": 7.35,
+        "yMm": 37.66
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "f0d3eff4-44f8-4c0c-b3bc-a838f0994b86",
+      "net": "GND",
+      "start": {
+        "xMm": 12.1,
+        "yMm": 41.65
+      },
+      "end": {
+        "xMm": 11.9,
+        "yMm": 41.65
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "f19ffecc-8604-44ee-8de0-9e9aca830303",
+      "net": "GND",
+      "start": {
+        "xMm": 5.6,
+        "yMm": 18.02
+      },
+      "end": {
+        "xMm": 4.9,
+        "yMm": 18.72
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "f29499ec-2ae5-4a20-97f9-f34ad7b8bac5",
+      "net": "GND",
+      "at": {
+        "xMm": 16.82,
+        "yMm": 26.2
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "f5e05a4f-9db9-4cd7-8fdf-eb38036b4534",
+      "net": "GND",
+      "start": {
+        "xMm": 6.4,
+        "yMm": 17.5
+      },
+      "end": {
+        "xMm": 6.2,
+        "yMm": 17.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "f7268620-f71e-432e-8210-1c0316ab2016",
+      "net": "GND",
+      "start": {
+        "xMm": 14.68,
+        "yMm": 28.03
+      },
+      "end": {
+        "xMm": 14.55,
+        "yMm": 28.03
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "f89c8f0d-9131-4a35-a8d8-1cb474ac01df",
+      "net": "GND",
+      "start": {
+        "xMm": 7.65,
+        "yMm": 9.79
+      },
+      "end": {
+        "xMm": 7.65,
+        "yMm": 9.5
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "f8adabc9-8b10-4dd0-b871-a037512f882c",
+      "net": "GND",
+      "at": {
+        "xMm": 8.45,
+        "yMm": 25.37
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "kind": "track",
+      "id": "fa728cba-3201-451c-85f8-1abfedba0a11",
+      "net": "GND",
+      "start": {
+        "xMm": 16.625,
+        "yMm": 32.685
+      },
+      "end": {
+        "xMm": 16.625,
+        "yMm": 32.925
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "faa792d0-11ac-4ce6-a243-5410675356bf",
+      "net": "GND",
+      "start": {
+        "xMm": 7.88,
+        "yMm": 37.34
+      },
+      "end": {
+        "xMm": 7.76,
+        "yMm": 37.46
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "fc46e169-63ed-4db4-93a4-31a5dc84d097",
+      "net": "GND",
+      "start": {
+        "xMm": 15.9,
+        "yMm": 38.5
+      },
+      "end": {
+        "xMm": 15.9,
+        "yMm": 38.7
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "fc8396b7-b945-4f8d-bb6d-adde95482c74",
+      "net": "GND",
+      "start": {
+        "xMm": 13.745,
+        "yMm": 26.92
+      },
+      "end": {
+        "xMm": 13.825,
+        "yMm": 27
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "track",
+      "id": "fdd263c1-5567-4b56-ba45-b98a90a96b48",
+      "net": "GND",
+      "start": {
+        "xMm": 14.07,
+        "yMm": 27
+      },
+      "end": {
+        "xMm": 14.15,
+        "yMm": 26.92
+      },
+      "widthMm": 0.3,
+      "layer": "F.Cu"
+    },
+    {
+      "kind": "via",
+      "id": "feb6c0b8-7b77-4cf1-a451-7923d0aff393",
+      "net": "GND",
+      "at": {
+        "xMm": 16.8,
+        "yMm": 18.9
+      },
+      "diameterMm": 0.55,
+      "drillMm": 0.2,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    }
+  ],
+  "queryIdentity": {
+    "algorithm": "sha256",
+    "digest": "d0a1c7b914f3b15aaf4980c221f544246dd8d83cca7472e2f65a40ea8a7dc513",
+    "schemaVersion": "evleda.fresh-plane-route-query.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "fullSelectionIdentity": {
+    "algorithm": "sha256",
+    "digest": "6b34b9a840256d2dec5553afa5bbb52de0d4dc470fd41f60d3bfc16c7c35acf6",
+    "schemaVersion": "evleda.fresh-plane-route-selection.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "pages": 1,
+  "intervalsMs": [
+    48765
+  ],
+  "sumIntervalsMs": 48765,
+  "allExpectedItemsMatched": true
+}

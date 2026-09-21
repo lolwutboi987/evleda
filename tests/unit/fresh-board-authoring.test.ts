@@ -421,6 +421,7 @@ describe("fresh generic board authoring compounds", () => {
     expect(read.items).toHaveLength(96); expect(read.schemaVersion).toBe("evleda.fresh-route-selection.v1");
     expect(current.bridge.tools.find(tool => tool.name === "fresh_get_route_items")!.inputSchema).toMatchObject({ additionalProperties: false, properties: {} });
     await expect(current.bridge.execute({ id: "v1-page", name: "fresh_get_route_items", arguments: { page: { offset: 32, selectionIdentity: read.identity } } })).rejects.toThrow();
+    await expect(current.bridge.execute({ id: "v1-net", name: "fresh_get_route_items", arguments: { net: "VIN" } })).rejects.toThrow();
     const excessive = await authoringFixture(populatedBoard([...tracks, { ...tracks[0]!, id: "77777777-7777-4777-8777-999999999999" }]));
     await expect(excessive.bridge.execute({ id: "v1-over", name: "fresh_get_route_items", arguments: {} })).rejects.toThrow(/exceeds 96 items/);
   });

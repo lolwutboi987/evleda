@@ -1,0 +1,52 @@
+{
+  "host": 61,
+  "releaseSha256": "cf28cbc9e6b0b7c2fa0de186b94ba562c0cf66088598f049daf6ab19371cd342",
+  "checks": [
+    {
+      "name": "backend-build",
+      "exitCode": 0
+    },
+    {
+      "name": "native-helper-package",
+      "exitCode": 0
+    }
+  ],
+  "manifest": {
+    "path": "C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\destination-verification\\route-net-feedback-01\\host61-build-manifest.json",
+    "sha256": "b4871879ba995aabc02cb35d90749e9563cfb655c3c376211e934df448e13f69",
+    "sizeBytes": 835256
+  },
+  "sourcePins": [
+    {
+      "file": "src/harness/fresh-project.ts",
+      "sha256": "5d7ca82a81d1a0f97aa49e10bb328b0334ccf9992722063303ce6dfe988987ff",
+      "sizeBytes": 165668
+    },
+    {
+      "file": "src/harness/kicad-tools.ts",
+      "sha256": "40cf629ac2ee34edfe0c0ab5bc83e5a1a1da82ba16127e30a8c7a97b0efb3854",
+      "sizeBytes": 492316
+    },
+    {
+      "file": "tests/unit/fresh-plane-authoring.test.ts",
+      "sha256": "aba56973a64744d91f04942f08dc5c158c36ca311a8acd4b29f6d26ffc702cb3",
+      "sizeBytes": 108700
+    },
+    {
+      "file": "tests/unit/fresh-board-authoring.test.ts",
+      "sha256": "8364ca9bf9a9a23456ad9dc7661ba7dfcb6fa884da3f9f8eeb9909f69af3896c",
+      "sizeBytes": 85131
+    },
+    {
+      "file": "docs/toolbox-full-board-routing-capacity.md",
+      "sha256": "9a8064fb6336689b411c6c9dce6899d4f669abd13fe14ff8dc0a134f83703109",
+      "sizeBytes": 6436
+    },
+    {
+      "file": "skills/evleda-pcb/SKILL.md",
+      "sha256": "30afb610b13851c695902b03684b5eaad7d08d2231bf8eda5226e3ba099995bc",
+      "sizeBytes": 44628
+    }
+  ],
+  "oldHostPreserved": true
+}

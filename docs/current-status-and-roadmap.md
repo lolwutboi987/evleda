@@ -12,9 +12,10 @@ layout is available; **engineering acceptance remains incomplete**.
 | Placement correction | The new checker found C12–R7's 0.02 mm gap against the required 0.10 mm. R7 and a nearby GND via move slightly, producing 0.12 mm without changing signal tracks or clearance requirements. All 62 placement rows pass. |
 | Routing and GPIO access | All 67 nets connect. 886 measured straight/45° turns have zero violations; both GPIO service strips remain clear with 42 own-pad inward leads. Configured native ERC/DRC and strict portable parity are clean; retained reports list exclusions. |
 | Managed workflow | Native save, normal close and fresh read-only reopening are verified. Continue project **0474c726-1b0c-492b-b376-9c6a06ee9d72**. Parent and older failed allocations remain preserved. Read-only placement checks pass without inventing fresh-fill authority. |
-| Installed client | [Host60 / DOC17 / v4 profile](destination-client-installation.md), with 19 tools verified in a fresh actual Codex client. The host is on D:, which must remain mounted. Already-connected desktop activation is unestablished. |
+| Installed client | [Host61 / DOC17 / v4 profile](destination-client-installation.md), with 19 tools verified in a fresh actual Codex client and an updated PCB skill. Host61 is on D:, which must remain mounted. Already-connected desktop activation is unestablished. |
+| Scoped route feedback | [Host61](../proofs/route-net-feedback-20260921/README.md) returns all 171 GND items in one call (48.8 observed seconds), with 1,045 other-net items explicitly omitted. Full private validation and edit preservation remain intact. Small nets can return in one call. |
 | Full assessment | **225 pass, 349 unknown, 0 fail; accepted=false.** All 62 placements, 19 geometric reference rows and nominal paths from 64 physical GND pads pass. Unknown rows include unfinished checker integration and material electrical requirements. |
-| Software verification | [160 affected tests](../proofs/placement-spacing-20260921/verification.json), full source/UI typechecks and frozen backend compilation pass. The recorded GitHub portable job passes; native-dependent CI fails for an unavailable pinned KiCad runtime. No full-suite or all-green CI claim. |
+| Software verification | Host61: [175 affected tests](../proofs/route-net-feedback-20260921/README.md), full source/UI typechecks and frozen backend compilation pass; actual native read-only scoped queries preserve the board. Native-dependent CI still needs the pinned runtime. No full-suite or all-green CI claim. |
 
 The [placement proof](../proofs/placement-spacing-20260921/README.md) retains the failed original gap,
 review proposal, current native result, read-only reopen and client installation.
@@ -28,10 +29,7 @@ retains external-VSYS drop and ADC voltage-margin concerns.
 2. Resolve the complete USB attach/startup circuit and workload sequence, preserving
    USB power, external VSYS and the EN header. Existing part screens are not a
    coordinated startup solution.
-3. Address native route-inventory latency: this board requires 39 sequential
-   pages, each repeating complete validation. Preserve source and native freshness
-   while reducing repeated work; the current frozen host remains qualified as run.
-4. Complete the remaining prompt-driven/client demonstration and final original-
+3. Complete the remaining prompt-driven/client demonstration and final original-
    requirement review. Tool discovery and scripted native proofs have distinct scopes.
 
 Published work is on [codex/rp2350-pico](https://github.com/lolwutboi987/evleda/tree/codex/rp2350-pico).

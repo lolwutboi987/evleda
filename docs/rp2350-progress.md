@@ -18,7 +18,9 @@ drilled-copper paths from 64 ground pads pass. Electrical acceptance remains ope
 including USB startup, supply margins, current, thermal and interface performance.
 The board has not been physically tested.
 
-[Host60 / DOC17 / v4](destination-client-installation.md) is installed on D:,
+The [host61 scoped reader](../proofs/route-net-feedback-20260921/README.md) returns the unchanged board's 171 ground items in one call (48.8 observed seconds). Every returned item matches the saved source, and all six files remain unchanged after native read-only close.
+
+[Host61 / DOC17 / v4](destination-client-installation.md) is installed on D:,
 with 19 tools verified in a fresh actual Codex client. Continue managed project
 **0474c726-1b0c-492b-b376-9c6a06ee9d72**; prior projects remain preserved. Already-connected
 desktop activation remains unestablished. Work is published on

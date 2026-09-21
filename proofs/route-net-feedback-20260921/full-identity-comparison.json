@@ -1,0 +1,12 @@
+{
+  "identity": {
+    "algorithm": "sha256",
+    "digest": "6b34b9a840256d2dec5553afa5bbb52de0d4dc470fd41f60d3bfc16c7c35acf6",
+    "schemaVersion": "evleda.fresh-plane-route-selection.v1",
+    "canonicalizationVersion": "evleda-c14n-json-v1"
+  },
+  "totalItemCount": 1216,
+  "firstPageMatched": true,
+  "fullIdentityReproducedFromSavedInventory": true,
+  "fullPublicPagesConsumed": false
+}

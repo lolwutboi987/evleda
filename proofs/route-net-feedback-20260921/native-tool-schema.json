@@ -1,0 +1,95 @@
+{
+  "name": "fresh_get_route_items",
+  "description": "Read source-bound V2 tracks/vias. Start with empty arguments for the full board or net for one exact contract net. Every read validates the complete private inventory. Scoped replies identify omitted items and restrict the next route edit to that net. Continue large replies with the exact pagination.nextPage as page until null; do not also send net. identity binds the full private selection for edits; queryIdentity binds the net filter and pageIdentity binds returned feedback. Drift, skipped/replayed cursors and changed queries reject. Routing completion and clearance remain unevaluated.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "net": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[A-Za-z0-9+-][A-Za-z0-9_.+-]{0,63}$"
+      },
+      "page": {
+        "type": "object",
+        "properties": {
+          "selectionIdentity": {
+            "type": "object",
+            "properties": {
+              "algorithm": {
+                "type": "string",
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "schemaVersion": {
+                "type": "string",
+                "const": "evleda.fresh-plane-route-selection.v1"
+              },
+              "canonicalizationVersion": {
+                "type": "string",
+                "const": "evleda-c14n-json-v1"
+              }
+            },
+            "required": [
+              "algorithm",
+              "digest",
+              "schemaVersion",
+              "canonicalizationVersion"
+            ],
+            "additionalProperties": false
+          },
+          "queryIdentity": {
+            "type": "object",
+            "properties": {
+              "algorithm": {
+                "type": "string",
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "schemaVersion": {
+                "type": "string",
+                "const": "evleda.fresh-plane-route-query.v1"
+              },
+              "canonicalizationVersion": {
+                "type": "string",
+                "const": "evleda-c14n-json-v1"
+              }
+            },
+            "required": [
+              "algorithm",
+              "digest",
+              "schemaVersion",
+              "canonicalizationVersion"
+            ],
+            "additionalProperties": false
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 32,
+            "maximum": 1760,
+            "multipleOf": 32
+          }
+        },
+        "required": [
+          "selectionIdentity",
+          "offset"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "additionalProperties": false
+  },
+  "annotations": {
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "idempotentHint": true,
+    "openWorldHint": false
+  }
+}

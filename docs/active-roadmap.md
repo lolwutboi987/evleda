@@ -5,15 +5,16 @@ Updated 21 September 2026. [Current status](current-status-and-roadmap.md) and
 entry points. The C12–R7 courtyard gap is corrected; all 62 placement rows pass.
 The full assessment remains **225 pass, 349 unknown, 0 fail; accepted=false**.
 
+[Scoped route feedback](../proofs/route-net-feedback-20260921/README.md) now returns the unchanged board's 171 GND items in one call (48.8 observed seconds), while preserving complete private validation. This replaces the need to receive all 39 whole-board pages for a ground-only edit.
+
 ## Work that still changes the product
 
 | Priority | Required outcome | Existing evidence |
 | --- | --- | --- |
 | Remaining assessment integration | Bind current schematic, library, PCB and trace facts to their original requirements; finish physical width and thermal evaluation separately. | [Host60 placement proof](../proofs/placement-spacing-20260921/README.md), all 19 geometric reference rows and 64 ground-terminal paths. Reuse these results. |
-| Native latency | Reduce repeated complete validation across route-selection pages without bypassing current source/native checks. | The 1,217-item original inventory needs 39 pages; the active correction retains that full sequence. |
 | USB startup | Resolve input/output charging and workload sequencing while preserving USB, external VSYS and EN behavior. | [Reviewed options](research/rp2350-pico/usb-input-control-options.md) and the unchanged saved circuit. |
 | Supply/interface suitability | Close current, voltage, thermal, return-path and interface requirements. | [Supply-route review](../designs/rp2350-pico/power-path-review-20260921/README.md), saved construction and native/source interface evidence. |
-| Product handoff | Complete the remaining prompt-driven/client use and requirement-by-requirement delivery review. | [Host60 installation](destination-client-installation.md), native lifecycle and fresh actual client discovery. |
+| Product handoff | Complete the remaining prompt-driven/client use and requirement-by-requirement delivery review. | [Host61 installation](destination-client-installation.md), native lifecycle and fresh actual client discovery. |
 
 The reusable chat toolbox remains the product. Keep the native candidate usable
 and accessible while resolving material electrical limits. A UI, firmware system,

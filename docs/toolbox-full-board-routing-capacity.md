@@ -25,6 +25,37 @@ Sequential continuations must match the current source and exact next offset.
 Small existing replies remain unchanged. The skill and live tool description
 explain the page protocol and recovery after a lost response.
 
+## Read one net without returning unrelated routes
+
+When the advertised V2 schema includes `net`, start with `{ "net": "GND" }`
+to receive that exact contract net. Empty arguments keep the original full-board
+behavior; V1 still accepts only empty arguments. The host validates the complete
+source/native/library inventory before filtering feedback. This does not bypass
+whole-board capacity, source preservation or global via budgets.
+
+Filtered replies use `evleda.fresh-plane-route-net-feedback.v1`. Their `scope`
+records the selected net, full/selected/omitted item counts and
+`completeBoardFeedback: false`. `identity` still binds the full private route
+selection and is the identity supplied to `fresh_replace_route_items`.
+`queryIdentity` binds that selection and net; `pageIdentity` binds the returned
+feedback. Neither of those latter identities can replace the full selection
+identity in an edit.
+
+A small or empty selected net returns `completeSelectedNetReturned: true`.
+Larger selections retain 32-item pages. Follow the exact `pagination.nextPage`
+as the next call's `page`, without also supplying `net`, until it is null.
+Collect every page to obtain the complete selected-net feedback. A page's false
+completeness flag describes that individual response. Changed queries, missing
+query identities, skipped/replayed continuations and source drift reject.
+After a lost response, restart with the same `net`; after drift, review the new
+source-bound selection before editing.
+
+A filtered selection restricts the next route mutation to that net. Read a
+different exact net or start a full-board read before editing another net.
+Every mutation still verifies the entire current private selection and preserves
+omitted routes. Scoped feedback does not establish clearance, completed routing,
+plane contact or electrical suitability.
+
 Only V2 plane-access `maxVias` expands to 0–64, including nullable drafts. Trace
 routes and V1 retain their 32-via limits. Per-net maxima must still sum to no more
 than the declared global budget; numerical via dimensions, annular ring, layers,

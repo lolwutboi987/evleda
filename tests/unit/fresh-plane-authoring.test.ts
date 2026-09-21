@@ -12,6 +12,7 @@ import { createPcbPlaneCompilationBundle, createPcbPlaneCompilationBundleRef } f
 import { preparePlaneFreshProject, type PlaneFreshProject } from "../../src/harness/fresh-project.js";
 import { createFreshConnectivityContract } from "../../src/harness/fresh-connectivity-contract.js";
 import { createKicadHarnessTools, KICAD_GENERIC_FRESH_SIDECAR_REQUIRED_TOOL_NAMES, type KicadHarnessSession, type KicadHarnessToolsOptions } from "../../src/harness/kicad-tools.js";
+import type { HarnessToolCall } from "../../src/harness/contracts.js";
 import { genericDividerLibraryResolver, createGenericDividerBundleFixture } from "../helpers/generic-divider-bundle.js";
 import { planeDividerDraft } from "../helpers/plane-divider-draft.js";
 import { nativePadObservationFixture } from "../helpers/native-pad-observation-fixture.js";
@@ -132,6 +133,122 @@ describe('bounded V2 whole-board route inventory', () => {
   const routedBoard = (tracks: number, vias = 0) => pcb.slice(0, -1)
     + Array.from({ length: tracks }, (_, index) => `\n(segment (start 1 ${(1 + index / 100).toFixed(2)}) (end 1.05 ${(1 + index / 100).toFixed(2)}) (width 0.5) (layer "F.Cu") (net "GND") (uuid "${fixtureUuid(20000 + index)}"))`).join('')
     + Array.from({ length: vias }, (_, index) => `\n(via (at ${(20 + index % 10 / 10).toFixed(1)} ${(2 + Math.floor(index / 10) / 10).toFixed(1)}) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "GND") (uuid "${fixtureUuid(30000 + index)}"))`).join('') + '\n)';
+
+  const mixedBoard = () => routedBoard(200).slice(0, -1)
+    + `\n(segment (start 3 18) (end 4 18) (width 0.5) (layer "F.Cu") (net "VIN") (uuid "${fixtureUuid(40000)}"))\n)`;
+  const readRoutes = async (f: Awaited<ReturnType<typeof fixture>>, id: string, args: HarnessToolCall["arguments"]) =>
+    JSON.parse((await f.bridge.execute({ id, name: 'fresh_get_route_items', arguments: args })).content);
+
+  it('returns complete small or empty net feedback with the unchanged full selection identity and explicit omissions', async () => {
+    const f = await fixture({ initial: mixedBoard() });
+    const full = await readRoutes(f, 'full', {}), vin = await readRoutes(f, 'vin', { net: 'VIN' });
+    expect(vin).toMatchObject({ schemaVersion: 'evleda.fresh-plane-route-net-feedback.v1', identity: full.identity,
+      scope: { net: 'VIN', fullItemCount: 201, selectedItemCount: 1, omittedItemCount: 200, completeBoardFeedback: false },
+      completeSelectedNetReturned: true, items: [{ id: fixtureUuid(40000), net: 'VIN' }] });
+    expect(vin.pagination).toBeUndefined();
+    const { pageIdentity, ...payload } = vin;
+    expect(pageIdentity).toEqual(canonicalIdentity(payload, vin.schemaVersion));
+    expect(vin.queryIdentity).toEqual(canonicalIdentity({ selectionIdentity: full.identity, net: 'VIN' }, 'evleda.fresh-plane-route-query.v1'));
+    const empty = await readRoutes(f, 'vout', { net: 'VOUT' });
+    expect(empty).toMatchObject({ identity: full.identity, items: [], completeSelectedNetReturned: true,
+      scope: { net: 'VOUT', fullItemCount: 201, selectedItemCount: 0, omittedItemCount: 201, completeBoardFeedback: false } });
+    expect(empty.queryIdentity).not.toEqual(vin.queryIdentity); expect(empty.pagination).toBeUndefined();
+    expect(f.physicalReads()).toBe(3); expect(f.calls).not.toContain('pcb_begin_commit');
+    expect(await readFile(f.project.pcbPath, 'utf8')).toBe(mixedBoard());
+  });
+
+  it('pages the entire selected net and rejects changed query, missing query, skipped and replayed cursors', async () => {
+    const f = await fixture({ initial: mixedBoard() }), first = await readRoutes(f, 'gnd', { net: 'GND' });
+    expect(first.scope).toEqual({ net: 'GND', fullItemCount: 201, selectedItemCount: 200, omittedItemCount: 1, completeBoardFeedback: false });
+    expect(first.items).toHaveLength(32); expect(first.completeSelectedNetReturned).toBe(false);
+    const next = first.pagination.nextPage, { queryIdentity: _query, ...missingQuery } = next;
+    for (const page of [missingQuery, { ...next, offset: 64 }, { ...next, queryIdentity: { ...next.queryIdentity, digest: '0'.repeat(64) } }]) {
+      await expect(readRoutes(f, 'bad-query', { page })).rejects.toThrow(/previous exact selection/);
+    }
+    await expect(readRoutes(f, 'mixed-input', { net: 'GND', page: next })).rejects.toThrow(/do not combine/);
+    const gathered = [...first.items]; let current = first, count = 1;
+    while (current.pagination.nextPage !== null) {
+      current = await readRoutes(f, 'gnd-page-' + count++, { page: current.pagination.nextPage });
+      const { pageIdentity, ...payload } = current;
+      expect(pageIdentity).toEqual(canonicalIdentity(payload, current.schemaVersion));
+      expect(JSON.stringify(current).length).toBeLessThanOrEqual(32000);
+      expect(current.identity).toEqual(first.identity); expect(current.queryIdentity).toEqual(first.queryIdentity);
+      gathered.push(...current.items);
+    }
+    expect(count).toBe(7); expect(gathered).toHaveLength(200);
+    expect(gathered.map((item: any) => item.id).sort()).toEqual(Array.from({ length: 200 }, (_, i) => fixtureUuid(20000 + i)).sort());
+    expect(gathered.every((item: any) => item.net === 'GND')).toBe(true);
+    await expect(readRoutes(f, 'replay', { page: next })).rejects.toThrow(/previous exact selection/);
+    await readRoutes(f, 'switch-net', { net: 'VIN' });
+    await expect(readRoutes(f, 'old-net', { page: next })).rejects.toThrow(/previous exact selection/);
+    const unfiltered = await readRoutes(f, 'restart-all', {});
+    expect(unfiltered.queryIdentity).toBeUndefined(); expect(unfiltered.scope).toBeUndefined();
+    expect(unfiltered.identity).toEqual(first.identity);
+  });
+
+  it('rejects an unknown net and source drift on an omitted net without beginning a mutation', async () => {
+    const f = await fixture({ initial: mixedBoard() });
+    await expect(readRoutes(f, 'unknown-net', { net: 'NOT_DECLARED' })).rejects.toThrow(/exact host-contract net/);
+    expect(f.physicalReads()).toBe(0);
+    const first = await readRoutes(f, 'gnd-start', { net: 'GND' });
+    await f.replaceOwnedSource(mixedBoard().replace('(end 4 18)', '(end 4.1 18)'));
+    await expect(readRoutes(f, 'drifted-other-net', { page: first.pagination.nextPage })).rejects.toThrow(/changed between pages/);
+    expect(f.calls).not.toContain('pcb_begin_commit');
+  });
+
+  it('restricts scoped mutations to the selected net and saves a valid edit while preserving every omitted route', async () => {
+    const f = await fixture({ initial: mixedBoard() }), before = parseFreshPcbSource(mixedBoard());
+    const first = await readRoutes(f, 'scope-vin', { net: 'VIN' });
+    for (const selectionIdentity of [first.queryIdentity, first.pageIdentity]) {
+      await expect(f.bridge.execute({ id: 'feedback-is-not-authority', name: 'fresh_replace_route_items', arguments: {
+        selectionIdentity, net: 'VIN', deleteItemIds: [fixtureUuid(40000)], tracks: [], vias: [],
+      } })).rejects.toThrow();
+    }
+    await expect(f.bridge.execute({ id: 'wrong-net-edit', name: 'fresh_replace_route_items', arguments: {
+      selectionIdentity: first.identity, net: 'GND', deleteItemIds: [fixtureUuid(20000)], tracks: [], vias: [],
+    } })).rejects.toThrow(/differs from the last scoped/);
+    expect(f.calls).not.toContain('pcb_begin_commit'); expect(await readFile(f.project.pcbPath, 'utf8')).toBe(mixedBoard());
+    const selected = await readRoutes(f, 'vin-again', { net: 'VIN' });
+    const edit = { id: 'scoped-edit', name: 'fresh_replace_route_items' as const, arguments: {
+      selectionIdentity: selected.identity, net: 'VIN', deleteItemIds: [fixtureUuid(40000)],
+      tracks: [{ x1Mm: 3, y1Mm: 18, x2Mm: 4.03125, y2Mm: 18, layer: 'F.Cu' }], vias: [],
+    } };
+    expect(JSON.parse((await f.bridge.execute(edit)).content)).toMatchObject({ mutationValidity: 'verified', addedTrackCount: 1 });
+    expect((await f.bridge.internal.saveAfterMutation({ id: 'scoped-save', name: 'pcb_save', arguments: {} })).isError).not.toBe(true);
+    const after = parseFreshPcbSource(await readFile(f.project.pcbPath, 'utf8'));
+    expect(after.segments.filter(t => t.netName !== 'VIN')).toEqual(before.segments.filter(t => t.netName !== 'VIN'));
+    await expect(f.bridge.execute(edit)).rejects.toThrow(/missing, stale, replayed/);
+  });
+
+  it('counts omitted vias against the global budget and does not hide whole-board capacity overflow', async () => {
+    let source = routedBoard(0, 2);
+    for (let i = 0; i < 2; i++) source = source.replace(`(net "GND") (uuid "${fixtureUuid(30000 + i)}")`, `(net "VIN") (uuid "${fixtureUuid(30000 + i)}")`);
+    const f = await fixture({ initial: source }), selected = await readRoutes(f, 'gnd-empty', { net: 'GND' });
+    expect(selected.items).toHaveLength(0); expect(selected.scope.omittedItemCount).toBe(2);
+    await expect(f.bridge.execute({ id: 'global-budget', name: 'fresh_replace_route_items', arguments: {
+      selectionIdentity: selected.identity, net: 'GND', deleteItemIds: [], tracks: [], vias: [{ xMm: 10, yMm: 10 }],
+    } })).rejects.toThrow(/global or per-net contract bound/);
+    expect(f.calls).not.toContain('pcb_begin_commit');
+    const overflow = await fixture({ initial: routedBoard(1537) });
+    await expect(readRoutes(overflow, 'hidden-overflow', { net: 'VIN' })).rejects.toThrow(/whole-board route inventory exceeds/);
+  });
+
+  it('exposes scoped read feedback through the public read-only MCP without altering the board', async () => {
+    const f = await fixture({ initial: mixedBoard() });
+    const toolbox = createKicadToolboxMcpServer({ access: 'read-only', cad: { tools: f.bridge, assertCurrent: async () => {},
+      captureSources: async () => contentIdentity(await readFile(f.project.pcbPath)).digest, close: async () => {} } });
+    const client = new Client({ name: 'net-feedback-test', version: '1' }), [left, right] = InMemoryTransport.createLinkedPair();
+    await toolbox.server.connect(right); await client.connect(left);
+    try {
+      const definition = (await client.listTools()).tools.find(t => t.name === 'fresh_get_route_items')!;
+      expect(definition.inputSchema.properties).toHaveProperty('net'); expect(definition.annotations?.readOnlyHint).toBe(true);
+      const result = await client.callTool({ name: 'fresh_get_route_items', arguments: { net: 'VIN' } });
+      expect(result.isError).not.toBe(true);
+      const data = result.structuredContent as any, feedback = JSON.parse(data.result.content);
+      expect(feedback.scope).toMatchObject({ net: 'VIN', selectedItemCount: 1, omittedItemCount: 200 });
+      expect(f.calls).not.toContain('pcb_begin_commit'); expect(await readFile(f.project.pcbPath, 'utf8')).toBe(mixedBoard());
+    } finally { await client.close(); await toolbox.server.close(); }
+  });
 
   it('reads and incrementally saves more than 96 retained routes without changing small reply shape', async () => {
     const f = await fixture({ initial: routedBoard(107) });

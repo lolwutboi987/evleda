@@ -80,12 +80,19 @@ const freshRouteSelectionIdentity = z.object({
   canonicalizationVersion: z.literal("evleda-c14n-json-v1"),
 }).strict();
 export const FRESH_PLANE_ROUTE_PAGE_SIZE = FRESH_PCB_RESOURCE_LIMITS.routePageSize;
-const freshPlaneRouteReadArguments = z.object({ page: z.object({
-  selectionIdentity: freshRouteSelectionIdentity.extend({ schemaVersion: z.literal("evleda.fresh-plane-route-selection.v1") }).strict(),
-  offset: z.number().int().min(FRESH_PLANE_ROUTE_PAGE_SIZE)
-    .max(FRESH_PCB_RESOURCE_LIMITS.maximumSegments + FRESH_PCB_RESOURCE_LIMITS.maximumVias - FRESH_PLANE_ROUTE_PAGE_SIZE)
-    .multipleOf(FRESH_PLANE_ROUTE_PAGE_SIZE),
-}).strict().optional() }).strict();
+export const FRESH_PLANE_ROUTE_QUERY_SCHEMA_VERSION = "evleda.fresh-plane-route-query.v1" as const;
+const freshPlaneRouteReadArguments = z.object({
+  net: z.string().min(1).max(64).regex(/^[A-Za-z0-9+-][A-Za-z0-9_.+-]{0,63}$/u).optional(),
+  page: z.object({
+    selectionIdentity: freshRouteSelectionIdentity.extend({ schemaVersion: z.literal("evleda.fresh-plane-route-selection.v1") }).strict(),
+    queryIdentity: freshRouteSelectionIdentity.extend({ schemaVersion: z.literal(FRESH_PLANE_ROUTE_QUERY_SCHEMA_VERSION) }).strict().optional(),
+    offset: z.number().int().min(FRESH_PLANE_ROUTE_PAGE_SIZE)
+      .max(FRESH_PCB_RESOURCE_LIMITS.maximumSegments + FRESH_PCB_RESOURCE_LIMITS.maximumVias - FRESH_PLANE_ROUTE_PAGE_SIZE)
+      .multipleOf(FRESH_PLANE_ROUTE_PAGE_SIZE),
+  }).strict().optional(),
+}).strict().superRefine((value, context) => {
+  if (value.net !== undefined && value.page !== undefined) context.addIssue({ code: "custom", message: "Start with net or continue with the exact returned page; do not combine them." });
+});
 /** V2-only continuation; the original V1 empty-argument schema is unchanged. */
 export const FRESH_PLANE_ROUTE_READ_INPUT_SCHEMA = Object.freeze(z.toJSONSchema(freshPlaneRouteReadArguments));
 export const parseFreshPlaneRouteReadArguments = (value: unknown) => freshPlaneRouteReadArguments.parse(value);
