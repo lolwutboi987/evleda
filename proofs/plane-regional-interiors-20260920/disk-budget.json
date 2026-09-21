@@ -1,0 +1,15 @@
+{
+  "recordedAt": "2026-09-21T04:10:46.896Z",
+  "availableBytes": 619794432,
+  "priorBuildBytes": 124929480,
+  "estimatedNewBuildBytes": 125978056,
+  "peakBuildBudgetBytes": 520391568,
+  "reserveBytes": 536870912,
+  "nativeWriteBudgetBytes": 33554432,
+  "requiredBytes": 696403400,
+  "fits": false,
+  "basis": "Measured predecessor build plus 1 MiB source-growth allowance; retain two-copy build budgeting and 512 MiB native reserve with 32 MiB native writes. Native qualification is sequential after the build.",
+  "frozenBuildCreated": false,
+  "nativeSessionStarted": false,
+  "retainedFilesDeleted": false
+}

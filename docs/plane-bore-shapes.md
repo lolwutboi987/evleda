@@ -55,3 +55,24 @@ message translation. All other diagnostic text retains the existing privacy
 filter. A plane with several stored regions can therefore explain its unknown
 topology without exposing host paths or dropping per-bore findings. This changes
 the explanation only, not geometry, evidence authority or acceptance.
+
+## Regional interiors in source; native qualification pending
+
+The [regional-interior extension](../proofs/plane-regional-interiors-20260920/README.md)
+adds `drillTopology.regionalInteriors` to new assessments. After the same complete
+saved/native geometry and bore checks, it applies the exact existing predicates
+to every stored component. Each result preserves its native polygon index,
+every bore classification and issue, and a conservative retained-area lower
+bound only when that component's interior is proved connected after drilling.
+
+The original top-level result still requires one component. Separate verified
+interiors do not establish connectivity between regions or terminal contacts;
+`interRegionConnectivity` remains `not_assessed`. A local unknown does not erase
+an independent component's result, and no existing failed or unknown verification
+row is promoted by this additional observation.
+
+All components share the existing four-million-predicate limit. At most 64
+components and 16,384 component/bore relations are materialized; exceeding either
+bound returns an explicit unknown while retaining the complete source inventory
+and observed component count. Historical reports without the additive field
+remain readable. Installed host55 does not yet include this extension.

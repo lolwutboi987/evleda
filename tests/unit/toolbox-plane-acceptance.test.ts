@@ -335,6 +335,29 @@ describe("public plane acceptance projection and private evidence", () => {
     expect(JSON.stringify(report)).not.toMatch(/C:\/private|SECRET|invented-id/);
   });
 
+  it("publishes every regional bore relation without promoting global connectivity or leaking regional diagnostics", () => {
+    const initial = assessment(), { identity: _identity, ...body } = drillFixture();
+    const component = { nativePolygonIndex: 7, status: "verified", issues: [], planarInteriorConnected: true,
+      cachedAreaTwiceNm2: "2000000000000000", conservativeAreaLowerBoundTwiceNm2: "1999280000000000", classificationComplete: true,
+      bores: body.bores.map(bore => ({ uuid: bore.uuid, classification: bore.classification, classificationBasis: bore.classificationBasis, issues: [] })) };
+    const uncertain = { ...component, nativePolygonIndex: 3, status: "unknown", issues: ["C:/private/region"],
+      planarInteriorConnected: null, conservativeAreaLowerBoundTwiceNm2: null, classificationComplete: false,
+      bores: component.bores.map(bore => ({ ...bore, classification: "unknown", classificationBasis: "not_certified", issues: ["/private/bore"] })) };
+    const drill = { ...body, status: "unknown", planarInteriorConnected: null, conservativeAreaLowerBoundTwiceNm2: null,
+      regionalInteriors: { status: "unknown", issues: ["Regional source /private/board"], observedComponentCount: 2,
+        components: [component, uncertain], interRegionConnectivity: "not_assessed", maximumComponents: 64, maximumBoreRelations: 16384 } };
+    const raw = assessment({ planes: [{ ...initial.planes[0]!, drillTopology: { ...drill, identity: canonicalIdentity(drill, body.schemaVersion) } }] });
+    const projected = summarizePlaneAcceptance(raw), topology = projected.planes[0]!.drillTopology;
+    expect(topology).toMatchObject({ status: "unknown", planarInteriorConnected: null, conservativeAreaLowerBoundTwiceNm2: null });
+    expect(topology.regionalInteriors).toMatchObject({ status: "unknown", observedComponentCount: 2, interRegionConnectivity: "not_assessed",
+      maximumComponents: 64, maximumBoreRelations: 16384 });
+    expect(topology.regionalInteriors!.components[0]).toEqual(component);
+    expect(topology.regionalInteriors!.components[1]).toMatchObject({ nativePolygonIndex: 3, status: "unknown", planarInteriorConnected: null });
+    expect(topology.regionalInteriors!.components.map(c => c.bores.map(b => b.uuid))).toEqual([body.bores.map(b => b.uuid), body.bores.map(b => b.uuid)]);
+    expect(JSON.stringify(topology.regionalInteriors)).not.toContain("/private");
+    expect(projected.rows).toEqual(raw.rows); expect(projected.accepted).toBe(false);
+  });
+
   it("retains complete actionable native findings and source-bound owners without exposing CLI internals", () => {
     const { raw, report } = nativeFindingFixture(), projected = summarizePlaneAcceptance(raw);
     expect(projected.nativeChecks).toMatchObject({ status: "failed", drc: { status: "violations", violationCount: 5,

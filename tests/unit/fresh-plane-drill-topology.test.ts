@@ -87,21 +87,23 @@ function rewrite(value: any, transform: (value: any) => any): any {
   if (value !== null && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, rewrite(child, transform)]));
   return value;
 }
-async function fixture(source = board([pad()]), outline?: number[][]) {
+async function fixture(source = board([pad()]), outline?: number[][], additionalOutlines: number[][][] = []) {
   const prepared = prepareFreshPlaneMutation({ compilationBundle: bundle, beforePcbSource: source, operation: "create" });
   const f = await planeStageObservationFixture({ beforePcbSource: source, mutation: prepared.mutation });
   let receipt = structuredClone(f.receipt) as Raw, stagedSource = f.stagedSource;
   let request = f.request, padExpected = f.padExpected;
   if (outline) {
     const oldFill = parseFreshPcbReferenceGeometry(stagedSource).zones[0]!.filledPolygons[0]!.source;
-    stagedSource = stagedSource.replace(oldFill, `(filled_polygon (layer "B.Cu") (pts ${outline.map(([x, y]) => `(xy ${x} ${y})`).join(" ")}))`);
-    const polygon = { outline: { closed: true, nodes: outline.map(([x, y]) => ({ point: { x_nm: String(Math.round(x! * 1e6)), y_nm: String(Math.round(y! * 1e6)) } })) } };
+    const outlines = [outline, ...additionalOutlines];
+    stagedSource = stagedSource.replace(oldFill, outlines.map(points => `(filled_polygon (layer "B.Cu") (pts ${points.map(([x, y]) => `(xy ${x} ${y})`).join(" ")}))`).join("\n"));
+    const polygons = outlines.map(points => ({ outline: { closed: true, nodes: points.map(([x, y]) => ({ point: { x_nm: String(Math.round(x! * 1e6)), y_nm: String(Math.round(y! * 1e6)) } })) } }));
     receipt = rewrite(receipt, value => {
       if (value === f.stagedSource) return stagedSource;
-      if (value?.type === "ZT_COPPER" && value.filled === true) return { ...value, filled_polygons: [{ layer: "BL_B_Cu", shapes: { polygons: [polygon] } }] };
+      if (value?.type === "ZT_COPPER" && value.filled === true) return { ...value, filled_polygons: [{ layer: "BL_B_Cu", shapes: { polygons } }] };
       return value;
     });
-    const z = receipt.zonesStaged[0]; z.filledPolygons = { BL_B_Cu: [polygon] }; z.fillCounts.outlineNodeCount = outline.length;
+    const z = receipt.zonesStaged[0]; z.filledPolygons = { BL_B_Cu: polygons };
+    z.fillCounts.outlineNodeCount = outlines.reduce((n, points) => n + points.length, 0); z.fillCounts.polygonCount = polygons.length;
     receipt.identities.nativeSourceStaged = contentIdentity(stagedSource);
   }
   const stage = validateFreshPlaneStageObservation(receipt, { request, padExpected, prepared });
@@ -117,6 +119,61 @@ function unknown(result: ReturnType<typeof assessFreshPlaneDrillTopology>, issue
 }
 
 describe("drill-aware single-zone interior topology", () => {
+  it("checks every bore against each separate region without claiming inter-region connectivity", async () => {
+    const input = await fixture(board([pad()], via("22 5")), [[0.5, 0.5], [10, 0.5], [10, 19.5], [0.5, 19.5]],
+      [[[15, 0.5], [29.5, 0.5], [29.5, 19.5], [15, 19.5]]]);
+    const result = assessFreshPlaneDrillTopology(input);
+    unknown(result, /one exact/i);
+    expect(result.regionalInteriors).toMatchObject({ status: "verified", observedComponentCount: 2, issues: [], interRegionConnectivity: "not_assessed" });
+    const regions = result.regionalInteriors!.components;
+    expect(regions.map(c => c.nativePolygonIndex)).toEqual([0, 1]);
+    expect(regions.map(c => c.bores.map(b => b.classification))).toEqual([
+      ["new_interior_void", "outside_component"], ["outside_component", "new_interior_void"]]);
+    for (const region of regions) {
+      expect(region).toMatchObject({ status: "verified", planarInteriorConnected: true, classificationComplete: true });
+      expect(region.bores.map(b => b.uuid)).toEqual(result.bores.map(b => b.uuid));
+      expect(BigInt(region.conservativeAreaLowerBoundTwiceNm2!)).toBeLessThan(BigInt(region.cachedAreaTwiceNm2));
+    }
+    expect(result.classificationComplete).toBe(false); expect(result.physicalConnectivity).toBe("not_assessed");
+  });
+
+  it("retains a local bore intersection and independent region results", async () => {
+    const result = assessFreshPlaneDrillTopology(await fixture(board([pad("10", "5")]),
+      [[0.5, 0.5], [10, 0.5], [10, 19.5], [0.5, 19.5]], [[[15, 0.5], [29.5, 0.5], [29.5, 19.5], [15, 19.5]]]));
+    expect(result.regionalInteriors).toMatchObject({ status: "unknown", observedComponentCount: 2, interRegionConnectivity: "not_assessed" });
+    const regions = result.regionalInteriors!.components;
+    expect(regions[0]).toMatchObject({ status: "unknown", planarInteriorConnected: null, conservativeAreaLowerBoundTwiceNm2: null,
+      classificationComplete: false, bores: [{ classification: "unknown" }] });
+    expect(regions[1]).toMatchObject({ status: "verified", planarInteriorConnected: true, classificationComplete: true,
+      bores: [{ classification: "outside_component" }] });
+    expect(result.regionalInteriors!.issues.join(" ")).toMatch(/Component 0: Bore/);
+  });
+
+  it("retains inventory and observed region count when the regional result bound is exceeded", async () => {
+    const outlines = Array.from({ length: 65 }, (_, i) => {
+      const x = 1 + 2 * (i % 13), y = 1 + 3 * Math.floor(i / 13);
+      return [[x, y], [x + 1, y], [x + 1, y + 1], [x, y + 1]];
+    });
+    const result = assessFreshPlaneDrillTopology(await fixture(board([smd]), outlines[0], outlines.slice(1)));
+    expect(result.inventory).toMatchObject({ complete: true, sourcePadCount: 1, boreCount: 0 });
+    expect(result.regionalInteriors).toMatchObject({ status: "unknown", observedComponentCount: 65, components: [],
+      interRegionConnectivity: "not_assessed", maximumComponents: 64, maximumBoreRelations: 16384 });
+    expect(result.regionalInteriors!.issues.join(" ")).toMatch(/bound/); unknown(result);
+  });
+
+  it("bounds the component-by-bore result size independently of either inventory limit", async () => {
+    const outlines = Array.from({ length: 64 }, (_, i) => {
+      const x = 1 + 2 * (i % 13), y = 1 + 3 * Math.floor(i / 13);
+      return [[x, y], [x + 1, y], [x + 1, y + 1], [x, y + 1]];
+    });
+    const routes = Array.from({ length: 257 }, (_, i) => via("5 5", "0.3", "", `33333333-3333-4333-8333-${i.toString(16).padStart(12, "0")}`)).join(" ");
+    const result = assessFreshPlaneDrillTopology(await fixture(board([smd], routes), outlines[0], outlines.slice(1)));
+    expect(result.inventory).toMatchObject({ complete: true, sourcePadCount: 1, sourceViaCount: 257, boreCount: 257 });
+    expect(result.bores).toHaveLength(257);
+    expect(result.regionalInteriors).toMatchObject({ status: "unknown", observedComponentCount: 64, components: [],
+      maximumComponents: 64, maximumBoreRelations: 16384, interRegionConnectivity: "not_assessed" });
+    expect(result.regionalInteriors!.issues.join(" ")).toMatch(/bore-relation bound/); unknown(result);
+  });
   it("inventories circular NPTH holes as non-electrical voids", async () => {
     const hole = `(pad "" np_thru_hole circle (at 10 5) (size 1 1) (drill 1) (layers "*.Cu" "*.Mask"))`;
     const result = assessFreshPlaneDrillTopology(await fixture(board([pad(), hole])));

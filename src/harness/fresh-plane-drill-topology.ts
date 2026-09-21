@@ -38,12 +38,32 @@ export interface FreshPlaneDrillTopologyAssessment {
   readonly bores: readonly FreshPlaneDrillBore[];
   /** Every inventoried bore has a certified spatial relation; separate from raw inventory completeness. */
   readonly classificationComplete: boolean;
+  /** Per-region geometry only; never a claim that separate regions connect. */
+  readonly regionalInteriors?: Readonly<{
+    status: "verified" | "unknown";
+    issues: readonly string[];
+    observedComponentCount: number;
+    components: readonly FreshPlaneDrillComponentInterior[];
+    interRegionConnectivity: "not_assessed";
+    maximumComponents: 64;
+    maximumBoreRelations: 16384;
+  }>;
   readonly inventory: Readonly<{ sourcePadCount: number; nativePadCount: number; sourceViaCount: number; boreCount: number; complete: boolean }>;
   readonly physicalConnectivity: "not_assessed";
   readonly actualMinimumCopperWidth: "not_assessed";
   readonly terminalContactContinuity: "not_assessed";
   readonly bounds: Readonly<{ predicateOperations: number; maximumBores: 4096; maximumPredicateOperations: 4000000 }>;
   readonly identity: CanonicalIdentity;
+}
+export interface FreshPlaneDrillComponentInterior {
+  readonly nativePolygonIndex: number;
+  readonly status: "verified" | "unknown";
+  readonly issues: readonly string[];
+  readonly planarInteriorConnected: true | null;
+  readonly cachedAreaTwiceNm2: string;
+  readonly conservativeAreaLowerBoundTwiceNm2: string | null;
+  readonly classificationComplete: boolean;
+  readonly bores: readonly Pick<FreshPlaneDrillBore, "uuid" | "classification" | "classificationBasis" | "issues">[];
 }
 const MAX_COORD = 2_000_000_000, MAX_BORES = 4096, MAX_WORK = 4_000_000;
 const PAD_FIELDS = new Set(["at", "size", "drill", "layers", "net", "uuid", "tstamp", "roundrect_rratio", "pinfunction", "pintype",
@@ -288,8 +308,9 @@ function classify(bore: Bore, box: Box, component: FreshPlaneFilledComponent, st
   return { classification, classificationBasis: "strict_outward_enclosure" };
 }
 
-/** Proves only preservation of the single zone interior after boring. It neither
- * adds PAD/track/barrel copper nor establishes terminal contacts or width. The
+/** Preserves the original single-component result and separately reports each
+ * region's interior after boring. It does not join separate regions, add
+ * PAD/track/barrel copper, or establish terminal contacts or width. The
  * owning host must independently keep the saved witness/session/settings current.
  */
 export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: SavedFreshPlaneEvidence; readonly pcbSource: string; readonly layer: PcbCopperLayer;
@@ -298,6 +319,7 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
   let witness: CanonicalIdentity | null = null, sourceIdentity: ContentIdentity | null = null, geometryIdentity: CanonicalIdentity | null = null, zoneUuid: string | null = null;
   let cachedArea: string | null = null, lower: string | null = null, operations = 0, classificationComplete = false;
   let inventory = { sourcePadCount: 0, nativePadCount: 0, sourceViaCount: 0, boreCount: 0, complete: false };
+  let regionalInteriors: FreshPlaneDrillTopologyAssessment["regionalInteriors"];
   const bores: FreshPlaneDrillBore[] = [];
   const issues: string[] = [];
   const recordIssue = (index: number, issue: string, classification: "unknown" | "not_classified" = "unknown") => {
@@ -312,11 +334,55 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
       planarInteriorConnected: issues.length ? null : true as const, cachedAreaTwiceNm2: cachedArea, conservativeAreaLowerBoundTwiceNm2: issues.length ? null : lower,
       areaMeaning: "stored-zone-fill-and-conservative-drill-subtracted-lower-bound" as const, bores, inventory,
       classificationComplete,
+      ...(regionalInteriors === undefined ? {} : { regionalInteriors }),
       physicalConnectivity: "not_assessed" as const, actualMinimumCopperWidth: "not_assessed" as const, terminalContactContinuity: "not_assessed" as const,
       bounds: { predicateOperations: operations, maximumBores: 4096 as const, maximumPredicateOperations: 4000000 as const } };
     return freezePcbPlaneArtifact({ ...body, identity: canonicalIdentity(body, body.schemaVersion) });
   };
   const step = () => check(++operations <= MAX_WORK, "Drill topology predicate work bound exhausted");
+  const componentInterior = (component: FreshPlaneFilledComponent) => {
+    const componentBores = bores.map(bore => ({ ...bore, issues: [...bore.issues] }));
+    const componentIssues = componentBores.flatMap(bore => bore.issues.map(issue => `Bore ${bore.uuid}: ${issue}`));
+    const issue = (index: number, message: string, classification: "unknown" | "not_classified" = "unknown") => {
+      const bore = componentBores[index]!;
+      if (bore.issues.includes(message)) return;
+      componentBores[index] = { ...bore, classification, classificationBasis: "not_certified", issues: [...bore.issues, message] };
+      componentIssues.push(`Bore ${bore.uuid}: ${message}`);
+    };
+    for (let index = 0; index < componentBores.length; index++) {
+      const bore = componentBores[index]!;
+      if (bore.enclosureNm === null) continue;
+      if (operations > MAX_WORK) { issue(index, "Drill topology predicate work bound exhausted", "not_classified"); continue; }
+      try { componentBores[index] = { ...bore, ...classify(bore, bore.enclosureNm, component, step) }; }
+      catch (error) { issue(index, error instanceof Error ? error.message : "Unsupported bore classification"); }
+    }
+    const newVoids = componentBores.flatMap((bore, index) => bore.classification === "new_interior_void" ? [{ index, box: bore.enclosureNm! }] : []);
+    let componentLower: string | null = null;
+    try {
+      check(operations <= MAX_WORK, "Drill topology predicate work bound exhausted");
+      for (let i = 0; i < newVoids.length; i++) for (let j = 0; j < i; j++) {
+        const a = newVoids[i]!, b = newVoids[j]!;
+        step();
+        if (!(a.box.maxX < b.box.minX || b.box.maxX < a.box.minX || a.box.maxY < b.box.minY || b.box.maxY < a.box.minY)) {
+          issue(a.index, "New bore enclosures touch, overlap, or merge");
+          issue(b.index, "New bore enclosures touch, overlap, or merge");
+        }
+      }
+      if (componentIssues.length === 0) {
+        const removedArea = newVoids.reduce((sum, { box }) => sum + 2n * BigInt(box.maxX - box.minX) * BigInt(box.maxY - box.minY), 0n);
+        const retained = BigInt(component.areaTwiceNm2) - removedArea;
+        check(retained > 0n, "Conservative retained area is nonpositive"); componentLower = String(retained);
+      }
+    } catch (error) { componentIssues.push(error instanceof Error ? error.message : "Component drill topology is unavailable"); }
+    const result: FreshPlaneDrillComponentInterior = {
+      nativePolygonIndex: component.nativePolygonIndex, status: componentIssues.length ? "unknown" : "verified",
+      issues: [...new Set(componentIssues)], planarInteriorConnected: componentIssues.length ? null : true,
+      cachedAreaTwiceNm2: component.areaTwiceNm2, conservativeAreaLowerBoundTwiceNm2: componentIssues.length ? null : componentLower,
+      classificationComplete: componentBores.every(bore => bore.classification !== "unknown" && bore.classification !== "not_classified"),
+      bores: componentBores.map(bore => ({ uuid: bore.uuid, classification: bore.classification, classificationBasis: bore.classificationBasis, issues: bore.issues })),
+    };
+    return { result, componentBores };
+  };
   try {
     check(isSavedFreshPlaneEvidence(savedEvidence), "A genuine current-session saved plane witness is required");
     const saved = savedEvidence; witness = saved.identity;
@@ -344,31 +410,19 @@ export function assessFreshPlaneDrillTopology(input: { readonly savedEvidence: S
     check(zones.length === 1 && natives.length === 1, "Target source/native zone inventory is ambiguous");
     const geometry = assessFreshPlaneFilledGeometry({ savedZone: zones[0]!, nativeZone: natives[0]!.raw, layer });
     geometryIdentity = geometry.sourceGeometryIdentity;
-    check(geometry.status === "verified" && geometry.geometryEquivalent && geometry.components.length === 1, "One exact normalized source/native filled component is required");
-    const component = geometry.components[0]!; cachedArea = component.areaTwiceNm2;
-    for (let index = 0; index < bores.length; index++) {
-      const bore = bores[index]!;
-      if (bore.enclosureNm === null) continue;
-      if (operations > MAX_WORK) { recordIssue(index, "Drill topology predicate work bound exhausted", "not_classified"); continue; }
-      try { bores[index] = { ...bore, ...classify(bore, bore.enclosureNm, component, step) }; }
-      catch (error) { recordIssue(index, error instanceof Error ? error.message : "Unsupported bore classification"); }
-    }
-    const newVoids = bores.flatMap((bore, index) => bore.classification === "new_interior_void" ? [{ index, box: bore.enclosureNm! }] : []);
-    if (operations > MAX_WORK) return finish();
-    for (let i = 0; i < newVoids.length; i++) for (let j = 0; j < i; j++) {
-      const a = newVoids[i]!, b = newVoids[j]!;
-      step();
-      if (!(a.box.maxX < b.box.minX || b.box.maxX < a.box.minX || a.box.maxY < b.box.minY || b.box.maxY < a.box.minY)) {
-        // Preserve an explicit issue for every involved bore, without emitting
-        // a quadratic list of equivalent pairwise diagnostic strings.
-        recordIssue(a.index, "New bore enclosures touch, overlap, or merge");
-        recordIssue(b.index, "New bore enclosures touch, overlap, or merge");
-      }
-    }
-    classificationComplete = bores.every(bore => bore.classification !== "unknown" && bore.classification !== "not_classified");
-    if (issues.length) return finish();
-    const removedArea = newVoids.reduce((sum, { box }) => sum + 2n * BigInt(box.maxX - box.minX) * BigInt(box.maxY - box.minY), 0n);
-    const lowerArea = BigInt(cachedArea) - removedArea; check(lowerArea > 0n, "Conservative retained area is nonpositive"); lower = String(lowerArea);
+    check(geometry.status === "verified" && geometry.geometryEquivalent && geometry.components.length > 0, "One exact normalized source/native filled component is required");
+    const withinRegionBounds = geometry.components.length <= 64 && geometry.components.length * bores.length <= 16384;
+    const results = withinRegionBounds ? geometry.components.map(componentInterior) : [];
+    const regionIssues = withinRegionBounds ? results.flatMap(({ result }) => result.issues.map(issue => `Component ${result.nativePolygonIndex}: ${issue}`))
+      : ["Regional drill topology exceeds its component or bore-relation bound; the complete source inventory remains retained."];
+    regionalInteriors = { status: regionIssues.length ? "unknown" : "verified", issues: regionIssues,
+      observedComponentCount: geometry.components.length, components: results.map(({ result }) => result),
+      interRegionConnectivity: "not_assessed", maximumComponents: 64, maximumBoreRelations: 16384 };
+    check(geometry.components.length === 1, "One exact normalized source/native filled component is required");
+    check(results.length === 1, "Regional drill topology bounds prevent component assessment");
+    const only = results[0]!; bores.splice(0, bores.length, ...only.componentBores);
+    cachedArea = only.result.cachedAreaTwiceNm2; lower = only.result.conservativeAreaLowerBoundTwiceNm2;
+    classificationComplete = only.result.classificationComplete; issues.push(...only.result.issues);
     // Strictly interior disjoint boxes contain every newly removed disk. Each
     // actual bore is therefore a disjoint interior hole; subtraction preserves
     // the simple outer-minus-holes component's connected open interior.
