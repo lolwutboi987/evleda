@@ -1,0 +1,1461 @@
+{
+  "schemaVersion": "evleda.rp2350-native-bore-shape-qualification.v1",
+  "projectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "sourcePins": {
+    "rp2350-pico-4layer.kicad_pcb": {
+      "sha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+      "size": 634325
+    },
+    "rp2350-pico-4layer.kicad_sch": {
+      "sha256": "dc684a4d8f070e2ba80f8373c61f4a91807c7b8f042cfcf4b382dd87b78386cb",
+      "size": 222011
+    },
+    "rp2350-pico-4layer.kicad_pro": {
+      "sha256": "fa5a4281809148f626bbbc255b34395796398243f9b9603a19d0e839ac56a3a3",
+      "size": 21286
+    },
+    "rp2350-pico-4layer.kicad_dru": {
+      "sha256": "f45d12f1ec8cee83fd81ec385bdb21e6b2317e83be028a00fcda7fa034419ee9",
+      "size": 14788
+    },
+    "fp-lib-table": {
+      "sha256": "80b5971aedbf6c277829d16a9dc6be0f20044cb421f6de33aa5d89eee342f461",
+      "size": 2025
+    },
+    "sym-lib-table": {
+      "sha256": "0ac275cfe94aaaba6e3b29c63ad41bdde338ccb8a8f66a39a0630311157f0cde",
+      "size": 1275
+    }
+  },
+  "sourceUnchanged": true,
+  "normalClose": true,
+  "nativeDrc": {
+    "coordinateUnits": "mm",
+    "ignoredChecks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard",
+        "severity": null
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via",
+        "severity": null
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries",
+        "severity": null
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch",
+        "severity": null
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch",
+        "severity": null
+      }
+    ],
+    "includedSeverities": [
+      "error",
+      "warning",
+      "exclusion"
+    ],
+    "schematicParity": [],
+    "schematicParityCount": 0,
+    "status": "clean",
+    "unconnectedItems": [],
+    "violationCount": 0,
+    "violations": []
+  },
+  "endpointConnectivity": "connected",
+  "resourceIdentity": {
+    "algorithm": "sha256",
+    "digest": "ef597925d92e323cd3d53ee9d359e026cdc370b1b8fe28021b5579650310c42b",
+    "size": 1091735
+  },
+  "planes": [
+    {
+      "planeId": "BACK_GND",
+      "drillStatus": "unknown",
+      "planarInteriorConnected": null,
+      "inventory": {
+        "boreCount": 171,
+        "complete": true,
+        "nativePadCount": 281,
+        "sourcePadCount": 281,
+        "sourceViaCount": 118
+      },
+      "exteriorBores": [],
+      "slots": [
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 8080000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 8930000,
+            "minX": 15020000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "f5592606-4e9d-4b62-afac-565ec9879275"
+        },
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 3900000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 4600000,
+            "minX": 15020000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "35603db2-7858-452d-90f0-c991ba6d7717"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 8080000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 8930000,
+            "minX": 6380000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "6a8af92a-66ec-4429-b364-6c69de6a7f23"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 3900000
+          },
+          "classification": "not_classified",
+          "classificationBasis": "not_certified",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 4600000,
+            "minX": 6380000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [
+            "Private diagnostic detail retained in the complete assessment."
+          ],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "78dd2ee1-deea-4d54-83ce-33895a8fe3a2"
+        }
+      ],
+      "issues": [
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment.",
+        "Private diagnostic detail retained in the complete assessment."
+      ],
+      "classificationCounts": {
+        "not_classified": 171
+      }
+    },
+    {
+      "planeId": "GND_PLANE",
+      "drillStatus": "verified",
+      "planarInteriorConnected": true,
+      "inventory": {
+        "boreCount": 171,
+        "complete": true,
+        "nativePadCount": 281,
+        "sourcePadCount": 281,
+        "sourceViaCount": 118
+      },
+      "exteriorBores": [
+        {
+          "centerNm": {
+            "x": 18470000,
+            "y": 2000000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 2100000,
+          "enclosureNm": {
+            "maxX": 19520000,
+            "maxY": 3050000,
+            "minX": 17420000,
+            "minY": 950000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": null,
+          "uuid": "0af98444-8bde-4101-82be-17e2015303d4"
+        },
+        {
+          "centerNm": {
+            "x": 3530000,
+            "y": 58000000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 2100000,
+          "enclosureNm": {
+            "maxX": 4580000,
+            "maxY": 59050000,
+            "minX": 2480000,
+            "minY": 56950000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": null,
+          "uuid": "0535cfee-f720-48db-86d5-86490379698b"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 5870000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 6370000,
+            "minX": 1610000,
+            "minY": 5370000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO0",
+          "uuid": "204547c1-19f7-4fcd-8ef9-72212ee4edfd"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 8410000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 8910000,
+            "minX": 1610000,
+            "minY": 7910000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO1",
+          "uuid": "9245b3f6-ee5c-4d29-bb4f-bc1f8e3e9aa5"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 10950000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 11450000,
+            "minX": 1610000,
+            "minY": 10450000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "d0276374-3891-42f9-ad15-e65de7ecaec5"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 13490000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 13990000,
+            "minX": 1610000,
+            "minY": 12990000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO2",
+          "uuid": "c0fe23d9-4526-48f3-9ff0-8b259215e669"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 16030000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 16530000,
+            "minX": 1610000,
+            "minY": 15530000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO3",
+          "uuid": "5e3287af-f7b5-432a-8cd8-79cd1d0b3723"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 18570000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 19070000,
+            "minX": 1610000,
+            "minY": 18070000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO4",
+          "uuid": "5d406616-d4be-4a86-ab8f-4468f8070912"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 21110000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 21610000,
+            "minX": 1610000,
+            "minY": 20610000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO5",
+          "uuid": "9ce43311-0595-4d2e-9331-0a7fb8e98ae7"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 23650000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 24150000,
+            "minX": 1610000,
+            "minY": 23150000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "ae5c787a-f60f-4026-8a2e-a249c9b4725e"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 26190000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 26690000,
+            "minX": 1610000,
+            "minY": 25690000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO6",
+          "uuid": "d21ac2f5-a683-40b4-be1d-51638222bc83"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 28730000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 29230000,
+            "minX": 1610000,
+            "minY": 28230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO7",
+          "uuid": "717d8d33-4769-4609-a6e0-758f0c8c630d"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 31270000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 31770000,
+            "minX": 1610000,
+            "minY": 30770000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO8",
+          "uuid": "2a99fc13-935d-4277-b87d-82d204480053"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 33810000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 34310000,
+            "minX": 1610000,
+            "minY": 33310000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO9",
+          "uuid": "4303e5bb-92e0-4c8a-b69d-29f6b0d3a175"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 36350000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 36850000,
+            "minX": 1610000,
+            "minY": 35850000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "872ffa24-5366-4994-a978-d983df50eb18"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 38890000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 39390000,
+            "minX": 1610000,
+            "minY": 38390000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO10",
+          "uuid": "2bdabe75-ff98-43fd-9db6-72dcfc98c7cf"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 41430000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 41930000,
+            "minX": 1610000,
+            "minY": 40930000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO11",
+          "uuid": "46abf8cd-67f9-49c2-b823-8d1b6fb2249c"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 43970000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 44470000,
+            "minX": 1610000,
+            "minY": 43470000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO12",
+          "uuid": "810fae64-2b9b-4b9e-815c-57a12958e155"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 46510000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 47010000,
+            "minX": 1610000,
+            "minY": 46010000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO13",
+          "uuid": "75ccdd10-892f-46f6-974d-f915d99499cc"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 49050000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 49550000,
+            "minX": 1610000,
+            "minY": 48550000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "26a265db-f05e-4617-b50b-b7e0338b52e0"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 51590000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 52090000,
+            "minX": 1610000,
+            "minY": 51090000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO14",
+          "uuid": "14413800-1e6e-411d-8bf6-5abe54c6cda5"
+        },
+        {
+          "centerNm": {
+            "x": 2110000,
+            "y": 54130000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 2610000,
+            "maxY": 54630000,
+            "minX": 1610000,
+            "minY": 53630000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO15",
+          "uuid": "d630eb27-e6a1-4e79-baee-ddabafc110d2"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 54130000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 54630000,
+            "minX": 19390000,
+            "minY": 53630000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO16",
+          "uuid": "51490097-5736-40c8-9e63-c01533133d6a"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 51590000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 52090000,
+            "minX": 19390000,
+            "minY": 51090000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO17",
+          "uuid": "d603d2c7-6110-4a2c-bd23-5a0e7303d018"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 49050000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 49550000,
+            "minX": 19390000,
+            "minY": 48550000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "f9100850-2fcf-4b42-b1cf-c65bfc3ebd3c"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 46510000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 47010000,
+            "minX": 19390000,
+            "minY": 46010000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO18",
+          "uuid": "27f9b9b8-6db0-4edf-a8be-68c9e6a4f6ed"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 43970000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 44470000,
+            "minX": 19390000,
+            "minY": 43470000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO19",
+          "uuid": "6e07e2dd-691b-41d1-a406-ee80549c69ca"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 41430000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 41930000,
+            "minX": 19390000,
+            "minY": 40930000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO20",
+          "uuid": "ab4c0b27-0d66-4cea-a568-0e54800616b6"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 38890000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 39390000,
+            "minX": 19390000,
+            "minY": 38390000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO21",
+          "uuid": "92376d37-88bc-4f9b-b030-d08cc93b0ade"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 36350000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 36850000,
+            "minX": 19390000,
+            "minY": 35850000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "018aed7a-2e26-4630-a51e-fb3619ec0d40"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 33810000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 34310000,
+            "minX": 19390000,
+            "minY": 33310000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO22",
+          "uuid": "7d2a86e4-c029-40a5-b764-b171d7354523"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 31270000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 31770000,
+            "minX": 19390000,
+            "minY": 30770000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "RUN",
+          "uuid": "70e587a6-906a-4b7c-b9d4-89bebeb0968f"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 28730000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 29230000,
+            "minX": 19390000,
+            "minY": 28230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO26",
+          "uuid": "c06aa989-8532-49a6-88e1-a29207876991"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 26190000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 26690000,
+            "minX": 19390000,
+            "minY": 25690000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO27",
+          "uuid": "6185e480-eebf-4094-90d2-6d276abb0cff"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 23650000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 24150000,
+            "minX": 19390000,
+            "minY": 23150000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "dac8c6ad-17a4-4eb7-9c86-2c4c267c1399"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 21110000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 21610000,
+            "minX": 19390000,
+            "minY": 20610000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GPIO28",
+          "uuid": "c58cd565-b160-4564-888e-31b7ac7d18e5"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 18570000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 19070000,
+            "minX": 19390000,
+            "minY": 18070000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "ADC_VREF",
+          "uuid": "849d5331-291a-4b58-bcc4-13a31ed6ff82"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 16030000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 16530000,
+            "minX": 19390000,
+            "minY": 15530000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "3V3",
+          "uuid": "f7f86646-f640-4a48-a45b-a8c6bb3fb3f9"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 13490000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 13990000,
+            "minX": 19390000,
+            "minY": 12990000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "3V3_EN",
+          "uuid": "4770292e-7ec4-4359-82e3-85cd5f87d035"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 10950000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 11450000,
+            "minX": 19390000,
+            "minY": 10450000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "uuid": "0e30cad3-de71-4c5d-ba61-4ba2fb32f930"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 8410000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 8910000,
+            "minX": 19390000,
+            "minY": 7910000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "VSYS",
+          "uuid": "422b69d6-4841-4479-870e-d018cf9efe17"
+        },
+        {
+          "centerNm": {
+            "x": 19890000,
+            "y": 5870000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 1000000,
+          "enclosureNm": {
+            "maxX": 20390000,
+            "maxY": 6370000,
+            "minX": 19390000,
+            "minY": 5370000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "VBUS",
+          "uuid": "0abc9d90-9cef-4e44-8969-e0dea6ffd66f"
+        },
+        {
+          "centerNm": {
+            "x": 3530000,
+            "y": 2000000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 2100000,
+          "enclosureNm": {
+            "maxX": 4580000,
+            "maxY": 3050000,
+            "minX": 2480000,
+            "minY": 950000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": null,
+          "uuid": "21925ba8-3fc8-4f38-84fd-edeb2bec3c77"
+        },
+        {
+          "centerNm": {
+            "x": 18470000,
+            "y": 58000000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 2100000,
+          "enclosureNm": {
+            "maxX": 19520000,
+            "maxY": 59050000,
+            "minX": 17420000,
+            "minY": 56950000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": null,
+          "uuid": "8c7cb0cd-f7d4-4847-8b6c-e790f1a7a19f"
+        },
+        {
+          "centerNm": {
+            "x": 3750000,
+            "y": 38500000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 200000,
+          "enclosureNm": {
+            "maxX": 3850000,
+            "maxY": 38600000,
+            "minX": 3650000,
+            "minY": 38400000
+          },
+          "geometrySource": "exact-saved-through-via",
+          "issues": [],
+          "kind": "via",
+          "netName": "GPIO10",
+          "uuid": "d7e0f3c0-e01a-489b-a291-5635a55cb2d0"
+        },
+        {
+          "centerNm": {
+            "x": 3750000,
+            "y": 46900000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 200000,
+          "enclosureNm": {
+            "maxX": 3850000,
+            "maxY": 47000000,
+            "minX": 3650000,
+            "minY": 46800000
+          },
+          "geometrySource": "exact-saved-through-via",
+          "issues": [],
+          "kind": "via",
+          "netName": "GPIO13",
+          "uuid": "773bf4bc-065f-4dd1-8847-2439c1cf03f4"
+        },
+        {
+          "centerNm": {
+            "x": 3750000,
+            "y": 51200000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 200000,
+          "enclosureNm": {
+            "maxX": 3850000,
+            "maxY": 51300000,
+            "minX": 3650000,
+            "minY": 51100000
+          },
+          "geometrySource": "exact-saved-through-via",
+          "issues": [],
+          "kind": "via",
+          "netName": "GPIO14",
+          "uuid": "76373ac2-bd1a-4adb-ace5-43c1ef0d2193"
+        },
+        {
+          "centerNm": {
+            "x": 3750000,
+            "y": 48400000
+          },
+          "classification": "outside_component",
+          "classificationBasis": "exact_circle_outside_component",
+          "diameterNm": 200000,
+          "enclosureNm": {
+            "maxX": 3850000,
+            "maxY": 48500000,
+            "minX": 3650000,
+            "minY": 48300000
+          },
+          "geometrySource": "exact-saved-through-via",
+          "issues": [],
+          "kind": "via",
+          "netName": "GPIO15",
+          "uuid": "6dbc793a-fe3b-4dbb-8bd9-aae4487d213e"
+        }
+      ],
+      "slots": [
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 8080000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 8930000,
+            "minX": 15020000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "f5592606-4e9d-4b62-afac-565ec9879275"
+        },
+        {
+          "centerNm": {
+            "x": 15320000,
+            "y": 3900000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 15620000,
+            "maxY": 4600000,
+            "minX": 15020000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "35603db2-7858-452d-90f0-c991ba6d7717"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 8080000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 8930000,
+            "minX": 6380000,
+            "minY": 7230000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1700000
+          },
+          "uuid": "6a8af92a-66ec-4429-b364-6c69de6a7f23"
+        },
+        {
+          "centerNm": {
+            "x": 6680000,
+            "y": 3900000
+          },
+          "classification": "new_interior_void",
+          "classificationBasis": "strict_outward_enclosure",
+          "diameterNm": 600000,
+          "enclosureNm": {
+            "maxX": 6980000,
+            "maxY": 4600000,
+            "minX": 6380000,
+            "minY": 3200000
+          },
+          "geometrySource": "exact-source-and-native-pad",
+          "issues": [],
+          "kind": "pad",
+          "netName": "GND",
+          "slot": {
+            "axis": "y",
+            "majorDiameterNm": 1400000
+          },
+          "uuid": "78dd2ee1-deea-4d54-83ce-33895a8fe3a2"
+        }
+      ],
+      "issues": [],
+      "classificationCounts": {
+        "outside_component": 48,
+        "inside_cached_hole": 77,
+        "new_interior_void": 46
+      }
+    }
+  ],
+  "remainingRows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "accepted": false,
+  "scope": "Fresh host54/DOC17 uses one GND_PLANE update with the qualified full-board zoneUnfillAll/zoneFillAll epoch, save/readback, complete two-plane assessment and normal close. No source or electrical approval change."
+}

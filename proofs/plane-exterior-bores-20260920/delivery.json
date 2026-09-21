@@ -1,0 +1,38 @@
+{
+  "recordedAt": "2026-09-21T03:48:48.919Z",
+  "host": 54,
+  "runtime": "DOC17",
+  "initialTools": 19,
+  "nativeQualificationPending": false,
+  "installedReleaseChanged": true,
+  "nativeBoardChanged": false,
+  "tests": {
+    "passed": 229,
+    "files": 5,
+    "exitCode": 0,
+    "durationSeconds": 83.49,
+    "scope": "Complete drill topology, bore geometry, plane assessment/projection and filled-geometry files; no full-suite claim."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "fullSuiteRun": false,
+  "accepted": false,
+  "remainingRows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "primaryPlanarInteriorConnected": true,
+  "primaryTopologyIssues": [],
+  "publicReport": {
+    "file": "public-report.json",
+    "sha256": "ef597925d92e323cd3d53ee9d359e026cdc370b1b8fe28021b5579650310c42b",
+    "sizeBytes": 1091735
+  },
+  "frozenReleaseSha256": "c29e0689299a3d3cbef87d66e2cfffdf4eaf05cc0e5ae641d7c2338266d3e912",
+  "freshFillScope": "One GND_PLANE update executes and validates the existing full-board zoneUnfillAll/zoneFillAll epoch for both planes before save/readback.",
+  "scope": "Exact exterior-bore geometry qualification. Planar connected interior is distinct from full terminal/barrel continuity, physical widths, thermal/current suitability and electrical approval."
+}

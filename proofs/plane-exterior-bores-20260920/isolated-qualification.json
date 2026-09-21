@@ -1,0 +1,49 @@
+{
+  "recordedAt": "2026-09-21T03:50:20.088Z",
+  "protectedProjectId": "7e129f34-8a45-454c-b8dd-cf06b770ba74",
+  "qualificationProjectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+  "publicRevisionUsed": "evleda_revise_terminal_launches",
+  "checkedSources": [
+    {
+      "projectId": "7e129f34-8a45-454c-b8dd-cf06b770ba74",
+      "allSixPublishedSourcesExact": true,
+      "leaseAbsentAfterAcknowledgedNormalClose": true
+    },
+    {
+      "projectId": "f464e518-2b03-453a-9f9c-a31f7d044d4a",
+      "allSixPublishedSourcesExact": true,
+      "leaseAbsentAfterAcknowledgedNormalClose": true
+    }
+  ],
+  "failedAllocationsPreserved": [
+    {
+      "projectId": "17b88ed0-adea-4634-a468-8d417dc16c97",
+      "leaseAndAllSixSourcesUnchanged": true,
+      "originalRecord": "failed-native-startup.json"
+    },
+    {
+      "projectId": "93dc7084-7c4d-4932-a622-73a673199411",
+      "leaseAndAllSixSourcesUnchanged": true,
+      "originalRecord": "interrupted-restoration.json"
+    }
+  ],
+  "terminals": [
+    {
+      "session": "mcp-session-22-isolated-qualification-copy",
+      "filename": "000193-terminal-5fc9309589c0858f16a50b2aada523dc0bf95c2984619bdcef6f418f5f83c807.json",
+      "sha256": "5fc9309589c0858f16a50b2aada523dc0bf95c2984619bdcef6f418f5f83c807",
+      "reason": "operator_close",
+      "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+    },
+    {
+      "session": "mcp-session-23-isolated-exterior-bores",
+      "filename": "000113-terminal-928ac7a2c9d9d7b54bbd0564783dade2d82ab7f075c93342771e830f38d32a51.json",
+      "sha256": "928ac7a2c9d9d7b54bbd0564783dade2d82ab7f075c93342771e830f38d32a51",
+      "reason": "operator_close",
+      "nativeCleanup": "workspace_idle_confirmed_before_shutdown"
+    }
+  ],
+  "protectedProjectOpenedDuringThisQualification": false,
+  "nativeSourceChanged": false,
+  "oldFillAuthorityTransferred": false
+}

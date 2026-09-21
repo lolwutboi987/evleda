@@ -1,0 +1,19 @@
+{
+  "recordedAt": "2026-09-21T03:48:30.653Z",
+  "backup": "C:/Users/kidch/.codex/backups/evleda-host54-82eb87ad-65ec-4dca-b567-093ed3184bf7",
+  "hostReleaseSha256": "c29e0689299a3d3cbef87d66e2cfffdf4eaf05cc0e5ae641d7c2338266d3e912",
+  "host": 54,
+  "runtime": "DOC17",
+  "initialToolsExpected": 19,
+  "configuration": {
+    "beforeSha256": "961c987f84ac7d9611a3e39e6ba4fbc4c6c47a2983bd170d743fc79b0339b649",
+    "afterSha256": "8ff4beb537cb206107f31a8be26eeb052931c2a08b0db9f2e2f56f0c131941da",
+    "unrelatedRawBytesPreserved": true
+  },
+  "skill": {
+    "sha256": "05d073db9e7caec2c9ff76133ba61bc1afec2b40499261f003e8352db3f75561",
+    "unchanged": true
+  },
+  "nativeSourceUnchanged": true,
+  "runningDesktopActivation": "not-established"
+}

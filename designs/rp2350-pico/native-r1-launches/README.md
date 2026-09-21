@@ -30,8 +30,10 @@ intent revision through the public toolbox, not an edited old report.
 ## Remaining engineering review
 
 The original [launch-qualified assessment](verification/assessment.json) records
-143 pass, 431 unknown, 0 fail. The [current host53 assessment](../../../proofs/plane-bore-shapes-20260920/native-assessment.json)
+143 pass, 431 unknown, 0 fail. The [current host54 assessment](../../../proofs/plane-exterior-bores-20260920/native-assessment.json)
 on these same native sources records **143 pass, 431 unknown, 0 fail; accepted=false**.
+The primary plane's connected planar interior after drill subtraction is now
+verified, including strict exterior separation of all four mounting bores.
 Local launch conditions do not prove complete drilled-copper return continuity,
 impedance, cable performance or EMC. Supplemental In2 contact and area conditions
 remain verified. USB startup/inrush, current/thermal suitability and other
@@ -52,7 +54,7 @@ physical tests, firmware, board ordering and manufacturing release were not perf
 
 ## Managed workspace reference
 
-Continue managed work with project **7e129f34-8a45-454c-b8dd-cf06b770ba74**. The installed
+Continue managed work with project **7e129f34-8a45-454c-b8dd-cf06b770ba74**. The earlier
 host53 workflow [restored this exact candidate](../../../proofs/plane-exterior-bores-20260920/managed-restoration.json)
 through the existing public revision operation and closed it normally. All six
 native files match the published candidate. The failed startup and interrupted
