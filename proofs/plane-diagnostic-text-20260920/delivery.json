@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-09-21T03:59:11.566Z",
+  "host": 55,
+  "runtime": "DOC17",
+  "hostReleaseSha256": "37fe20b6482cb6ca46b677e09685732cbbda9f28f60102015f91cd8597ececeb",
+  "installation": {
+    "recordedAt": "2026-09-21T03:58:29.417Z",
+    "backup": "C:/Users/kidch/.codex/backups/evleda-host55-cbc583b9-008e-4a5d-a466-4e9607742a52",
+    "hostReleaseSha256": "37fe20b6482cb6ca46b677e09685732cbbda9f28f60102015f91cd8597ececeb",
+    "host": 55,
+    "runtime": "DOC17",
+    "initialToolsExpected": 19,
+    "configuration": {
+      "beforeSha256": "8ff4beb537cb206107f31a8be26eeb052931c2a08b0db9f2e2f56f0c131941da",
+      "afterSha256": "64b0b8b157fa49f65f111f683ef5f319a223f578778cc0f0aa9051589f69f449",
+      "unrelatedRawBytesPreserved": true
+    },
+    "skill": {
+      "sha256": "05d073db9e7caec2c9ff76133ba61bc1afec2b40499261f003e8352db3f75561",
+      "unchanged": true
+    },
+    "nativeSourceUnchanged": true,
+    "nativeEngineChanged": false,
+    "verificationBasis": "Native-qualified host54 with only deterministic public diagnostic projection and its test changed; source and compiled historical-report replays match exactly.",
+    "runningDesktopActivation": "not-established"
+  },
+  "sourceAndCompiledHistoricalProjectionVerified": true,
+  "newNativeObservation": false,
+  "nativeEngineChanged": false,
+  "nativeQualificationReusedFrom": "../plane-exterior-bores-20260920/README.md",
+  "allOtherCodePinsMatchQualifiedHost54": true,
+  "boardChanged": false,
+  "accepted": false,
+  "scope": "Public diagnostic translation only; no new fill authority or electrical acceptance."
+}

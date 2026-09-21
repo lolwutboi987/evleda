@@ -1,0 +1,43 @@
+{
+  "recordedAt": "2026-09-21T03:57:26.347Z",
+  "tests": {
+    "passed": 54,
+    "files": 2,
+    "exitCode": 0,
+    "durationSeconds": 1.44,
+    "scope": "Complete plane and interface public-report test files, including privacy and resource delivery."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "pins": [
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "6722985267df721a85893bc6736617e347053433791e6b61957e8dd455de8450",
+      "sizeBytes": 39300
+    },
+    {
+      "file": "tests/unit/toolbox-plane-acceptance.test.ts",
+      "sha256": "19d4b73be3c5570b5df486360c0a678a8fe2be3a9a01a56937d19fdcc3e07ec8",
+      "sizeBytes": 45570
+    }
+  ],
+  "nativeEngineChanged": false,
+  "fullSuiteRun": false,
+  "backendCompilation": {
+    "name": "backend-build",
+    "exitCode": 0
+  },
+  "helperPackaging": {
+    "name": "native-helper-package",
+    "exitCode": 0
+  },
+  "compiledReplay": {
+    "frozenHost": 55,
+    "hostReleaseSha256": "37fe20b6482cb6ca46b677e09685732cbbda9f28f60102015f91cd8597ececeb",
+    "sourceAndCompiledProjectionByteIdentical": true,
+    "reportSha256": "518c6e586a66fbeee5b96d9ff324563c30318f6e0096e0f12c8f16b1edc07129",
+    "nativeEngineChanged": false,
+    "newNativeObservation": false
+  }
+}

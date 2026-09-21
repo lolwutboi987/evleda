@@ -310,6 +310,31 @@ describe("public plane acceptance projection and private evidence", () => {
     expect(JSON.stringify(projected)).not.toContain("C:/private");
   });
 
+  it("explains the fixed single-component drill limitation while preserving every verdict and private detail filter", () => {
+    const initial = assessment(), { identity: _identity, ...body } = drillFixture();
+    const internal = "One exact normalized source/native filled component is required";
+    const readable = "Drill topology requires one matching filled copper component in the saved board and native observation.";
+    const privateDetail = "Private diagnostic detail retained in the complete assessment.";
+    const unsafe = [`${internal}: C:/private/board`, `prefix ${internal}`, `${internal} (kicad_pcb SECRET)`,
+      `Bore C:/private/board: ${internal}`, `Bore invented-id: ${internal}`];
+    const incomplete = { ...body, status: "unknown", classificationComplete: false, planarInteriorConnected: null,
+      conservativeAreaLowerBoundTwiceNm2: null,
+      issues: [internal, `Bore ${body.bores[0]!.uuid}: ${internal}`, ...unsafe],
+      bores: body.bores.map(bore => ({ ...bore, classification: "not_classified", classificationBasis: "not_certified",
+        issues: [internal, ...unsafe] })) };
+    const raw = assessment({ planes: [{ ...initial.planes[0]!,
+      drillTopology: { ...incomplete, identity: canonicalIdentity(incomplete, body.schemaVersion) } }] });
+    const report = summarizePlaneAcceptance(raw), projected = report.planes[0]!.drillTopology;
+    expect(projected.issues).toEqual([readable, `Bore ${body.bores[0]!.uuid}: ${readable}`, ...unsafe.map(() => privateDetail)]);
+    expect(projected.bores).toHaveLength(body.bores.length);
+    for (const bore of projected.bores) expect(bore).toMatchObject({ classification: "not_classified", classificationBasis: "not_certified",
+      issues: [readable, ...unsafe.map(() => privateDetail)] });
+    expect(projected).toMatchObject({ status: "unknown", classificationComplete: false, planarInteriorConnected: null,
+      conservativeAreaLowerBoundTwiceNm2: null, inventory: { complete: true, boreCount: 3 }, identity: raw.planes[0]!.drillTopology.identity });
+    expect(report.rows).toEqual(raw.rows); expect(report.accepted).toBe(false);
+    expect(JSON.stringify(report)).not.toMatch(/C:\/private|SECRET|invented-id/);
+  });
+
   it("retains complete actionable native findings and source-bound owners without exposing CLI internals", () => {
     const { raw, report } = nativeFindingFixture(), projected = summarizePlaneAcceptance(raw);
     expect(projected.nativeChecks).toMatchObject({ status: "failed", drc: { status: "violations", violationCount: 5,

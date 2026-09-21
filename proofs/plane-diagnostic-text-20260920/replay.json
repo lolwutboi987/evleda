@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evleda.plane-diagnostic-text-replay.v1",
+  "recordedAt": "2026-09-21T03:56:52.759Z",
+  "scope": "Pure public projection of the hash-verified historical host54 native assessment. No new native observation, fill authority, acceptance or board change.",
+  "historicalAssessmentIdentity": {
+    "algorithm": "sha256",
+    "canonicalizationVersion": "evleda-c14n-json-v1",
+    "digest": "660c14013b9c72c8ec77cc6590c8351c0883acf31b38677ba113ec462189b86f",
+    "schemaVersion": "evleda.fresh-plane-acceptance.v1"
+  },
+  "historicalPrivateArtifactIdentity": {
+    "algorithm": "sha256",
+    "digest": "d21aa0ee16d97ca6d8f7af97dd003274e101f3c5d96a947b836814706464f996",
+    "size": 9117622
+  },
+  "historicalPublicArtifactSha256": "f4ae5bdbdd9dacbc25365f0272f98869528a9d9c750719c75087de7367af7056",
+  "reprojectedPublicReport": {
+    "sha256": "518c6e586a66fbeee5b96d9ff324563c30318f6e0096e0f12c8f16b1edc07129",
+    "sizeBytes": 1113151
+  },
+  "diagnosticStringsClarified": 343,
+  "allOtherReportFieldsIdentical": true,
+  "allBoresAndFindingsRetained": true,
+  "affectedPlane": "BACK_GND",
+  "primaryPlaneUnchanged": true,
+  "affectedPlaneStoredComponentCount": 10,
+  "remainingRows": {
+    "pass": 143,
+    "unknown": 431
+  },
+  "accepted": false,
+  "nativeRunPerformed": false,
+  "excerpt": [
+    "Drill topology requires one matching filled copper component in the saved board and native observation.",
+    "Bore 0af98444-8bde-4101-82be-17e2015303d4: Drill topology requires one matching filled copper component in the saved board and native observation."
+  ]
+}

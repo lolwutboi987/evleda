@@ -48,3 +48,10 @@ No array or finding is truncated. Small results retain the existing inline schem
 The last 32 resources remain available in the same MCP connection after normal project close, subject to
 unchanged file identity/content; they represent historical snapshots. Private
 native evidence remains a separate artifact and is not served by that resource.
+
+The [host55 report update](../proofs/plane-diagnostic-text-20260920/README.md)
+keeps the single-component topology limitation readable through an exact fixed
+message translation. All other diagnostic text retains the existing privacy
+filter. A plane with several stored regions can therefore explain its unknown
+topology without exposing host paths or dropping per-bore findings. This changes
+the explanation only, not geometry, evidence authority or acceptance.

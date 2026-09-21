@@ -190,8 +190,18 @@ function nativeChecks(assessment: FreshPlaneAcceptanceAssessment) {
   };
 }
 
-const drillTopology = (value: FreshPlaneAcceptanceAssessment["planes"][number]["drillTopology"]) => ({
-  schemaVersion: value.schemaVersion, identity: canonical(value.identity), status: value.status, issues: reasons(value.issues),
+const SINGLE_COMPONENT_DRILL_REASON = "One exact normalized source/native filled component is required";
+const PUBLIC_SINGLE_COMPONENT_DRILL_REASON = "Drill topology requires one matching filled copper component in the saved board and native observation.";
+function drillTopology(value: FreshPlaneAcceptanceAssessment["planes"][number]["drillTopology"]) {
+  // Translate only complete host-authored diagnostics. The slash in this fixed
+  // phrase is not a host path; arbitrary prefixes, suffixes and native text must
+  // still pass through the existing privacy filter without exceptions.
+  const translations = new Map([[SINGLE_COMPONENT_DRILL_REASON, PUBLIC_SINGLE_COMPONENT_DRILL_REASON]]);
+  for (const bore of value.bores) translations.set(`Bore ${bore.uuid}: ${SINGLE_COMPONENT_DRILL_REASON}`,
+    `Bore ${publicText(bore.uuid)}: ${PUBLIC_SINGLE_COMPONENT_DRILL_REASON}`);
+  const issue = (message: string) => translations.get(message) ?? sanitizePcbDiagnosticText(message);
+  return {
+  schemaVersion: value.schemaVersion, identity: canonical(value.identity), status: value.status, issues: value.issues.map(issue),
   savedEvidenceIdentity: value.savedEvidenceIdentity === null ? null : canonical(value.savedEvidenceIdentity),
   savedPcbIdentity: value.savedPcbIdentity === null ? null : content(value.savedPcbIdentity),
   cachedGeometryIdentity: value.cachedGeometryIdentity === null ? null : canonical(value.cachedGeometryIdentity),
@@ -206,14 +216,15 @@ const drillTopology = (value: FreshPlaneAcceptanceAssessment["planes"][number]["
     ...(bore.slot === undefined ? {} : { slot: { majorDiameterNm: bore.slot.majorDiameterNm, axis: bore.slot.axis } }),
     enclosureNm: bore.enclosureNm === null ? null : { minX: bore.enclosureNm.minX, minY: bore.enclosureNm.minY,
       maxX: bore.enclosureNm.maxX, maxY: bore.enclosureNm.maxY },
-    classification: bore.classification, classificationBasis: bore.classificationBasis, issues: reasons(bore.issues), geometrySource: bore.geometrySource })),
+    classification: bore.classification, classificationBasis: bore.classificationBasis, issues: bore.issues.map(issue), geometrySource: bore.geometrySource })),
   inventory: { sourcePadCount: value.inventory.sourcePadCount, nativePadCount: value.inventory.nativePadCount,
     sourceViaCount: value.inventory.sourceViaCount, boreCount: value.inventory.boreCount, complete: value.inventory.complete },
   physicalConnectivity: value.physicalConnectivity, actualMinimumCopperWidth: value.actualMinimumCopperWidth,
   terminalContactContinuity: value.terminalContactContinuity,
   bounds: { predicateOperations: value.bounds.predicateOperations, maximumBores: value.bounds.maximumBores,
     maximumPredicateOperations: value.bounds.maximumPredicateOperations },
-});
+  };
+}
 
 /** Interface source evidence remains useful without a current native fill.
  * Its separate coverage fact records whether a current fill was available. */

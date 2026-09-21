@@ -1,6 +1,6 @@
 # Direct KiCad toolbox
 
-The installed [host54/DOC17 build](../proofs/plane-exterior-bores-20260920/README.md) adds native-qualified exact exterior-bore classification to the existing non-plated/oblong inventory and full-report resources. Source/native geometry, file identities and all unresolved verdicts remain explicit. [Read the geometry and delivery contract](plane-bore-shapes.md). Earlier host milestones below retain their original scopes.
+The installed [host55/DOC17 build](../proofs/plane-diagnostic-text-20260920/README.md) keeps the single-component topology limitation readable without weakening diagnostic privacy. Its unchanged native engine retains [host54 exterior-bore qualification](../proofs/plane-exterior-bores-20260920/README.md), non-plated and oblong inventory, and full-report resources. Source/native geometry, file identities and all unresolved verdicts remain explicit. [Read the geometry and delivery contract](plane-bore-shapes.md). Earlier host milestones below retain their original scopes.
 
 The additive toolbox separates source-backed design guidance and existing bound CAD operations from the older application lifecycle. The legacy MCP server, CLI runner, Flux application and historical evidence remain unchanged.
 
