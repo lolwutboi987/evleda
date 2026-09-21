@@ -1,5 +1,11 @@
 # Active PCB-toolbox roadmap
 
+**Prototype handoff selected, 21 September 2026.** See the
+[R3 handoff](../designs/rp2350-pico/PROTOTYPE-HANDOFF.md). The owner chose to leave
+USB inrush for hardware validation. The remaining items below are retained
+engineering/capability backlog, not automatic work for this completed handoff.
+No one-day performance benchmark or full electrical acceptance is claimed.
+
 Updated 21 September 2026. [Current status](current-status-and-roadmap.md) and
 [native R3](../designs/rp2350-pico/native-r3-trace/README.md) are the delivery
 entry points. The new topology checker detected and helped remove a redundant

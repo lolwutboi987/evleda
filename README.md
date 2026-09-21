@@ -4,6 +4,10 @@ EvlEDA is a local KiCad MCP toolbox and PCB-design skill for agents working in c
 
 Start with the [toolbox guide](docs/toolbox.md), [client setup](docs/toolbox-client-setup.md), and [current status](docs/current-status-and-roadmap.md). The [PCB skill](skills/evleda-pcb/SKILL.md) supplies the engineering workflow; it does not itself supply CAD access.
 
+The [RP2350 prototype handoff](designs/rp2350-pico/PROTOTYPE-HANDOFF.md) includes
+a complete KiCad ZIP. R3 is the owner-selected deliverable; USB inrush remains
+explicitly deferred to hardware validation. This is not a manufacturing release.
+
 The [RP2350 R3 candidate](designs/rp2350-pico/native-r3-trace/README.md)
 includes the routed 22 x 60 mm four-layer board, schematic, portable library,
 previews, pinout and candidate BOM. All 67 nets connect; configured ERC/DRC

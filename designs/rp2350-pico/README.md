@@ -10,6 +10,10 @@ remains incomplete.
 
 ## Current candidate
 
+**R3 is the selected prototype handoff.** [Download and handoff notes](PROTOTYPE-HANDOFF.md)
+record the owner's decision to defer USB inrush to hardware validation. The native
+files and engineering results remain unchanged; electrical acceptance is not implied.
+
 The [R3 candidate](native-r3-trace/README.md) removes a redundant 3V3 trace loop
 without moving parts or vias. All 67 functional nets connect, all 62 placement
 checks pass, and 64 of 66 declared trace topologies pass; two crystal-pad shapes

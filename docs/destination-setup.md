@@ -2,7 +2,17 @@
 
 The September 9 transfer was restored at `C:\Users\kidch\Documents\EvlEDA-Transfer-2026-09-09`. Work from its `evleda` repository. The old OneDrive checkout is a separate copy.
 
-## Active destination profile
+## Current installation
+
+The prototype handoff uses **host63 / DOC17 / v4**. Read the
+[current installation record](destination-client-installation.md) and
+[R3 handoff](../designs/rp2350-pico/PROTOTYPE-HANDOFF.md).
+The host build is on D:, which must stay mounted. The profile is
+`../working-profiles/toolbox-native-doc17-rp2350-v4-01.json`, 16,672 bytes,
+SHA-256 `b015aeba97d61d93a104f2c3ad2db8f87ee25ef6c31e68ea7adcfaf544c98c30`.
+The earlier setup commands below are historical and do not select the current profile.
+
+## Historical DOC6 destination profile
 
 The current installed global workspace uses [catalog profile02](../../working-profiles/toolbox-native-doc6-stock-catalog-destination-02.json): **16,260 bytes**, SHA-256 `b723a4f5a2a8b2aa5eee9131df22a9e5c2fc1c13eb2e70718ae29ff4acd7cfcc`. It binds `C:\EvlEDA-DOC6-20260910`, the DOC6 manifest and private sessions/IPC under `C:\EvlEDA-Native-20260910`. Its stock policy approves 222 symbol/155 footprint namespaces and opts into the bounded 30/30/60-second connection policy; omitted-policy profiles retain their original behavior. See [catalog policy and native02 evidence](toolbox-stock-catalog.md).
 

@@ -4,6 +4,11 @@ Updated 21 September 2026. The active product is the **chat-driven KiCad toolbox
 The separate application/UI remains preserved and deferred. The RP2350 native
 layout is available; **engineering acceptance remains incomplete**.
 
+The owner has selected [R3 for prototype handoff](../designs/rp2350-pico/PROTOTYPE-HANDOFF.md),
+with USB inrush explicitly left for hardware validation. The items below remain
+documented limitations/backlog; they do not trigger another board or tooling revision
+as part of this handoff. The original assessment results remain unchanged.
+
 ## Current delivery
 
 | Item | Verified state and evidence |
@@ -22,7 +27,7 @@ native finding and corrected result. Earlier [placement](../proofs/placement-spa
 and [artifact](../proofs/artifact-checks-20260921/README.md) proofs keep their own
 source revisions. The scoped route reader remains available for individual nets.
 
-## Remaining work
+## Deferred engineering and capability work
 
 1. Resolve the unsupported crystal-pad topology cases and remaining original
    physical-width, plane, thermal, interface and presentation requirements.
