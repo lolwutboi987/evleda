@@ -22,6 +22,7 @@ import { planeStageObservationFixture } from "../helpers/plane-stage-observation
 import { createPlaneContactsFixture } from "../helpers/kicad-plane-contacts-fixture.js";
 import { isFreshPlaneCommonChecksAssessment } from "../../src/harness/fresh-plane-common-checks.js";
 import { captureToolboxPlaneAcceptance, summarizePlaneAcceptance } from "../../src/mcp/toolbox-plane-acceptance.js";
+import { assessFreshPlanePlacement } from "../../src/harness/fresh-plane-placement-checks.js";
 import { assessFreshPlaneNativeChecks, FRESH_PLANE_NATIVE_CHECK_PROFILE } from "../../src/harness/fresh-plane-native-checks.js";
 import type { KicadCheckResult, KicadExecutableIdentity } from "../../src/integrations/kicad-cli.js";
 import { createInterfaceConstructionBoardSeed } from "../../src/harness/interface-construction-seed.js";
@@ -307,6 +308,17 @@ const boreCases: Array<{ name: string; route: { start: NmPoint; end: NmPoint }; 
 ];
 
 describe("pure current-source V2 plane acceptance", () => {
+  it("retains source placement failures without requiring a new plane fill", async () => {
+    const f = await fixture({ routeNm: { start: [100_000,3_000_000], end: [8_000_000,3_000_000] } });
+    const placementChecks = assessFreshPlanePlacement({ compilationBundle: f.input.compilationBundle, pcbSource: f.input.pcbSource, libraryResolver: genericDividerLibraryResolver });
+    const result = await assessFreshPlaneAcceptance({ ...f.input, savedEvidence: null, placementChecks });
+    expect(row(result,"placement:J1").status).toBe("fail");
+    expect(summarizePlaneAcceptance(result).placementChecks!.rows.find(r=>r.reference==="J1")!.status).toBe("fail");
+    expect(result.planes).toEqual([]); expect(result.accepted).toBe(false);
+    await expect(assessFreshPlaneAcceptance({ ...f.input, placementChecks: structuredClone(placementChecks) })).rejects.toThrow(/unbranded/);
+    const stale = assessFreshPlanePlacement({ compilationBundle: f.input.compilationBundle, pcbSource: f.input.pcbSource+"\n", libraryResolver: genericDividerLibraryResolver });
+    await expect(assessFreshPlaneAcceptance({ ...f.input, placementChecks: stale })).rejects.toThrow(/different source/);
+  });
   it.each(["covered", "boundary_uncertain"] as const)("completes a %s reference result only with actual ground-terminal copper paths", async status => {
     const f = await ercFixture("clean", { retainedPadLayers: true, surfaceSignalPads: true, viaNet: "GND" });
     const result = await assessFreshPlaneAcceptance({ ...f.input, nativeChecks: f.nativeChecks, referenceCoverage: await calculator(status) });

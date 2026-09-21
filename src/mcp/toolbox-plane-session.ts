@@ -1,4 +1,5 @@
 import path from "node:path";
+import { assessFreshPlanePlacement } from "../harness/fresh-plane-placement-checks.js";
 import { randomUUID } from "node:crypto";
 import { canonicalJson, contentIdentity } from "../core/canonical.js";
 import { types } from "node:util";
@@ -106,7 +107,8 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
       freshLibraryResolver: resolver,
       assessFreshPlaneEvidence: async context => {
         assertSources();
-        if(context.savedEvidence===null)return assessFreshPlaneAcceptance(context);
+        const placementChecks = assessFreshPlanePlacement({ compilationBundle: bundle, pcbSource: context.pcbSource, libraryResolver: resolver });
+        if(context.savedEvidence===null)return assessFreshPlaneAcceptance({ ...context, placementChecks });
         await verifyFreshPlaneNetClassSemanticAuthority(preparation.netClassSemanticAuthority,
           {project,compilationBundle:bundle,kicad:preparation.kicadIdentity,captureNativeNetlist:captures.captureNativeNetlist,assertLibrarySources:assertSources,boardFeatureState:preparation.boardFeatureState});
         const expectedSourceHashes=await captureKicadNativeSourceHashes(project.projectPath);
@@ -124,7 +126,7 @@ export async function openKicadToolboxPlaneSession(input: KicadToolboxPlaneSessi
             rulesPath:project.rulesPath,rulesSource:context.rulesSource},expectedSourceHashes,expectedExecutable:preparation.kicadIdentity,
           nativeChecks:checks,...(nativeContacts===undefined?{}:{contacts:nativeContacts})});
         assertSources();
-        return assessFreshPlaneAcceptance({...context,nativeChecks,...(nativeContacts===undefined?{}:{nativeContacts}),
+        return assessFreshPlaneAcceptance({...context,placementChecks,nativeChecks,...(nativeContacts===undefined?{}:{nativeContacts}),
           ...(input.referenceCoverage===undefined?{}:{referenceCoverage:input.referenceCoverage})});
       },
       freshSchematicGeometryResolver: libraries, freshPhysicalFootprintResolver: libraries, freshPhysicalFootprintSourcePins: physicalPins,

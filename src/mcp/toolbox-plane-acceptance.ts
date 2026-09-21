@@ -7,6 +7,7 @@ import type { CanonicalIdentity, ContentIdentity } from "../domain/types.js";
 import type { FreshPlaneAcceptanceAssessment } from "../harness/fresh-plane-acceptance.js";
 import { sanitizePcbDiagnosticText, summarizeSavedInterface } from "./toolbox-interface-report.js";
 import { summarizeTerminalCopperConnectivity } from "./toolbox-terminal-copper.js";
+import { summarizePlanePlacementChecks } from "./toolbox-placement-checks.js";
 
 const ASSESSMENT_VERSION = "evleda.fresh-plane-acceptance.v1";
 const MAX_BYTES = 16 * 1024 * 1024;
@@ -458,6 +459,7 @@ export function summarizePlaneAcceptance(assessment: FreshPlaneAcceptanceAssessm
     authority: fact(assessment.authority), sourceScope: fact(assessment.sourceScope), nativeInventory: fact(assessment.nativeInventory),
     nativeChecks: nativeChecks(assessment),
     commonChecks: common?.summary ?? null,
+    ...(assessment.evidence.placementChecks === undefined ? {} : { placementChecks: summarizePlanePlacementChecks(assessment.evidence.placementChecks, assessment.rows) }),
     ...(interfaces === undefined ? {} : { interfaces }),
     planes: assessment.planes.map(plane => ({ planeId: plane.planeId, zoneUuid: plane.zoneUuid,
       configuration: fact(plane.configuration), geometry: geometry(plane.geometry),

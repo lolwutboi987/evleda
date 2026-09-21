@@ -1,0 +1,72 @@
+{
+  "recordedAt": "2026-09-21T10:36:24.074Z",
+  "pins": [
+    {
+      "file": "src/harness/fresh-plane-placement-checks.ts",
+      "sha256": "c04eaa2201431f6a896c0252810d3a627cf100c224978f033072629926b06fcb",
+      "sizeBytes": 17095
+    },
+    {
+      "file": "src/harness/fresh-plane-acceptance.ts",
+      "sha256": "5ab3be6121f03fce8451f4bf2ff46ff2821536380282976273526fe298170817",
+      "sizeBytes": 76924
+    },
+    {
+      "file": "src/mcp/toolbox-placement-checks.ts",
+      "sha256": "0f9ffb6b06a21558b224cedb426e396b1d1877e0ef04718ea41fb01cdc56d979",
+      "sizeBytes": 6345
+    },
+    {
+      "file": "src/mcp/toolbox-plane-acceptance.ts",
+      "sha256": "976a752cb578604e5d0ff30df67f54d850bd5b45fc5f8e09b7c7de61e2dc6db6",
+      "sizeBytes": 51473
+    },
+    {
+      "file": "src/mcp/toolbox-plane-session.ts",
+      "sha256": "9a236396329792c946b7f150f1edb0edfe5842008adf194975300173e27d74d2",
+      "sizeBytes": 16273
+    },
+    {
+      "file": "tests/unit/fresh-plane-placement-checks.test.ts",
+      "sha256": "5195207d4e95df153958fe209031dd5e83323e346810e0096f934538ea11874b",
+      "sizeBytes": 8119
+    },
+    {
+      "file": "tests/unit/fresh-plane-acceptance.test.ts",
+      "sha256": "5ac7a1827a6d5a23358de02a8fc008a3acea3ed529327e0f77bdb90b12be5d3a",
+      "sizeBytes": 89266
+    }
+  ],
+  "tests": {
+    "files": [
+      "fresh-plane-placement-checks.test.ts",
+      "fresh-plane-acceptance.test.ts",
+      "toolbox-plane-acceptance.test.ts",
+      "toolbox-plane-session.test.ts",
+      "toolbox-plane-shared-capture.test.ts"
+    ],
+    "exitCode": 0,
+    "passed": 160,
+    "skipped": 0,
+    "log": {
+      "sha256": "e597cc42b60324a404a7d6bac78654f37564bfd6a4417fc1d33e6f32d43946c1",
+      "sizeBytes": 249
+    }
+  },
+  "sourceTypecheck": {
+    "exitCode": 0,
+    "heapCapMiB": 2048
+  },
+  "uiTypecheck": {
+    "exitCode": 0,
+    "heapCapMiB": 2048
+  },
+  "memoryBeforeSourceTypecheck": {
+    "headroomBytes": 5389889536,
+    "availableMiB": 4680
+  },
+  "nativeQualificationPerformed": false,
+  "installedHostChanged": false,
+  "userApplicationsLeftOpen": true,
+  "fullSuiteRun": false
+}

@@ -1,0 +1,46 @@
+{
+  "scope": "Unmanaged review copy only; managed authoring remains pending.",
+  "baselinePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "proposalPcbSha256": "5e3be439edd12b5637e54c025e92c33ccc7afcceb3f1016a2439131a626e102f",
+  "placement": {
+    "reference": "R7",
+    "before": {
+      "xMm": 9.39,
+      "yMm": 38.48,
+      "rotationDeg": 180
+    },
+    "after": {
+      "xMm": 9.29,
+      "yMm": 38.48,
+      "rotationDeg": 180
+    },
+    "regionRevision": {
+      "minXmmBefore": 9.35,
+      "minXmmAfter": 9.25
+    },
+    "minimumCourtyardClearanceMm": 0.1,
+    "courtyardGapMmBefore": 0.02,
+    "courtyardGapMmAfter": 0.12
+  },
+  "routing": {
+    "net": "GND",
+    "viaUuid": "2138f519-c783-46f8-aa38-3baacff98d43",
+    "before": {
+      "xMm": 8.2,
+      "yMm": 39
+    },
+    "after": {
+      "xMm": 8.2,
+      "yMm": 39.15
+    },
+    "diameterMm": 0.55,
+    "drillMm": 0.2,
+    "removedStubUuid": "d8d47cdc-5de0-4d87-a7d8-18801b5a5fa7",
+    "removedStubLengthMm": 0.15,
+    "signalTracksChanged": false
+  },
+  "nativeDrc": "clean-with-existing-exclusions",
+  "unconnectedItems": 0,
+  "schematicParityIssues": 0,
+  "managedBoardChanged": false
+}

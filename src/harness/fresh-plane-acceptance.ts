@@ -3,6 +3,7 @@ import { collectPlaneBridgeSource } from "./plane-region-bridge-source.js";
 import { collectTerminalCopperSource } from "./plane-terminal-copper-source.js";
 import { findTerminalCopperPaths, type TerminalCopperPathCalculation } from "./plane-terminal-copper-paths.js";
 import { proveReferenceCapsuleContainment, type ReferenceCapsuleContainment } from "./reference-capsule-containment.js";
+import { isFreshPlanePlacementAssessment, type FreshPlanePlacementAssessment } from "./fresh-plane-placement-checks.js";
 import { boreRibbonRelation } from "./plane-bore-geometry.js";
 import { planReferenceTerminalLaunchStudy, ReferenceTerminalLaunchPlanningError } from "./reference-terminal-launch-study.js";
 import { boundRetainedPlaneRegionAreas, findPlaneRegionAnnulusWitnesses } from "./plane-region-annulus-witness.js";
@@ -27,6 +28,7 @@ import { freezePcbPlaneArtifact } from "./pcb-design-plane-contract.js";
 import { assessSavedInterface, SAVED_INTERFACE_ASSESSMENT_SCHEMA_VERSION, type SavedInterfaceAssessment } from "./saved-interface-assessment.js";
 
 export interface FreshPlaneAcceptanceInput {
+  readonly placementChecks?: FreshPlanePlacementAssessment;
   readonly compilationBundle: PcbPlaneCompilationBundle;
   readonly pcbSource: string;
   readonly projectSettingsSource: string;
@@ -112,6 +114,19 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
     const row = rows.find(row => row.id === id); requireValue(row !== undefined, `unknown V2 verification row ${id}`);
     rows[rows.indexOf(row)] = { ...row, status: value.status === "verified" ? "pass" : value.status === "failed" ? "fail" : "unknown", reasons: value.reasons };
   };
+  if (input.placementChecks !== undefined) {
+    const placement = input.placementChecks;
+    requireValue(isFreshPlanePlacementAssessment(placement) && same(placement.bundleIdentity, bundle.identity)
+      && same(placement.contractIdentity, bundle.contract.identity) && same(placement.verificationPlanIdentity, bundle.verificationPlan.identity)
+      && same(placement.pcbIdentity, identities.pcb) && same(placement.libraryBindingIdentity, bundle.libraryBinding.identity),
+    "placement assessment is unbranded or belongs to a different source or V2 authority");
+    requireValue(same(placement.rows.map(r => r.id).sort(), rows.filter(r => r.kind === "placement").map(r => r.id).sort()), "placement assessment must retain every original row");
+    for (const check of placement.rows) {
+      const index = rows.findIndex(r => r.id === check.id);
+      requireValue(index >= 0 && rows[index]!.kind === "placement", "placement check does not match an original V2 row");
+      rows[index] = { ...rows[index]!, status: check.status, reasons: check.reasons };
+    }
+  }
   const setInterfaceRow = (id: string, kind: Row["kind"], value: Fact) => {
     requireValue(rows.filter(row => row.id === id && row.kind === kind).length === 1, "interface evidence does not match an original V2 verification row");
     setRow(id, value);
@@ -239,6 +254,7 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       bundleIdentity: bundle.identity, contractIdentity: bundle.contract.identity, verificationPlanIdentity: bundle.verificationPlan.identity,
       sourceIdentities: identities, savedEvidenceIdentity: input.savedEvidence?.identity ?? null,
       evidence: { savedFill: input.savedEvidence, endpointConnectivity: endpoint,
+        ...(input.placementChecks === undefined ? {} : { placementChecks: input.placementChecks }),
         nativeContacts: input.nativeContacts ?? null, nativeChecks: input.nativeChecks ?? null, commonChecks,
         ...(bundle.contract.interfaceRequirements === undefined ? {} : { interfaces: interfaceEvidence }) },
       endpointConnectivityIdentity: endpoint.identity, endpointConnectivity: { status: endpoint.status, nets: endpoint.nets.map(net => ({ net: net.net, status: net.status,
@@ -270,7 +286,10 @@ export async function assessFreshPlaneAcceptance(supplied: FreshPlaneAcceptanceI
       return finish();
     }
   }
-  if (input.savedEvidence === null) { for (const row of rows) setRow(row.id, fact("unknown", missing)); return finish(); }
+  if (input.savedEvidence === null) {
+    for (const row of rows) if (row.kind !== "placement" || input.placementChecks === undefined) setRow(row.id, fact("unknown", missing));
+    return finish();
+  }
   const saved = input.savedEvidence;
   requireValue(isSavedFreshPlaneEvidence(saved), "serialized or copied fill evidence has no current-session authority");
   requireValue(same(saved.bundleIdentity, bundle.identity) && same(saved.contractIdentity, bundle.contract.identity)
