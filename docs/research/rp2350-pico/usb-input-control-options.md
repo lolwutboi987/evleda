@@ -1,5 +1,10 @@
 # USB input control: bounded component screen, 20 September 2026
 
+The [smaller reference-class capacitor comparison](../../../designs/rp2350-pico/usb-reference-capacitor-20260920/README.md)
+adds observed TDK 0805/6.3 V data. Its nominal charge is lower than the current
+1210/10 V part, but no complete startup fix or Raspberry Pi production MPN is
+established. It does not supersede the coordinated-startup requirement below.
+
 The subsequent [startup-sequencing review](../../../designs/rp2350-pico/usb-sequencing-review-20260920/README.md)
 evaluates a concrete two-range TPS2141/TPS2151 proposal. Direct PG-to-RT6150-EN
 wiring lacks a guaranteed low-level interface, startup load support and handover

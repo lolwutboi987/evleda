@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "evleda.rp2350-reference-capacitor-screen.v1",
+  "inputsSha256": "3a2b45c8990a5dafb66d31b82b883bb347e17183bbf9547fd136e3f6ab94cfac",
+  "existingCurveInputsSha256": "51af1c1f3bd6495bcbccd8109a67f515670a53e3970bd9690c110291482c5a08",
+  "sourcePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "cases": [
+    {
+      "voltageV": 3.6,
+      "existing": {
+        "chargeUc": 158.05,
+        "energyUj": 272.15
+      },
+      "candidate": {
+        "chargeUc": 115.21000000000001,
+        "energyUj": 175.8606666666667
+      },
+      "candidateGraphReadingOnlyChargeUncertaintyUc": 5.4,
+      "nominalChargeReductionPercent": 27.105346409364127
+    },
+    {
+      "voltageV": 4.4,
+      "existing": {
+        "chargeUc": 185.65,
+        "energyUj": 382.33666666666676
+      },
+      "candidate": {
+        "chargeUc": 128.57,
+        "energyUj": 229.10866666666672
+      },
+      "candidateGraphReadingOnlyChargeUncertaintyUc": 6.6000000000000005,
+      "nominalChargeReductionPercent": 30.746027471047675
+    },
+    {
+      "voltageV": 4.7,
+      "existing": {
+        "chargeUc": 195.175,
+        "energyUj": 425.6641666666668
+      },
+      "candidate": {
+        "chargeUc": 132.9425,
+        "energyUj": 248.99566666666675
+      },
+      "candidateGraphReadingOnlyChargeUncertaintyUc": 7.050000000000001,
+      "nominalChargeReductionPercent": 31.885487383117717
+    },
+    {
+      "voltageV": 5,
+      "existing": {
+        "chargeUc": 204.25,
+        "energyUj": 469.6666666666667
+      },
+      "candidate": {
+        "chargeUc": 137,
+        "energyUj": 268.6666666666667
+      },
+      "candidateGraphReadingOnlyChargeUncertaintyUc": 7.5,
+      "nominalChargeReductionPercent": 32.92533659730722
+    },
+    {
+      "voltageV": 5.5,
+      "existing": {
+        "chargeUc": 218.5,
+        "energyUj": 544.4375
+      },
+      "candidate": {
+        "chargeUc": 143.1875,
+        "energyUj": 301.125
+      },
+      "candidateGraphReadingOnlyChargeUncertaintyUc": 8.25,
+      "nominalChargeReductionPercent": 34.46796338672768
+    }
+  ],
+  "outputCapacitorOnly": {
+    "voltageV": 3.3,
+    "existing": {
+      "chargeUc": 146.875,
+      "energyUj": 233.60749999999996
+    },
+    "candidate": {
+      "chargeUc": 109.35249999999999,
+      "energyUj": 155.66466666666668
+    },
+    "inputEnergyEquivalentChargeExamples": [
+      {
+        "inputVoltageV": 3.6,
+        "candidateLosslessChargeUc": 43.24018518518519,
+        "candidateChargeUcAtAssumedEfficiency": 61.771693121693126
+      },
+      {
+        "inputVoltageV": 4.4,
+        "candidateLosslessChargeUc": 35.37833333333333,
+        "candidateChargeUcAtAssumedEfficiency": 50.54047619047619
+      },
+      {
+        "inputVoltageV": 4.7,
+        "candidateLosslessChargeUc": 33.12014184397163,
+        "candidateChargeUcAtAssumedEfficiency": 47.3144883485309
+      },
+      {
+        "inputVoltageV": 5,
+        "candidateLosslessChargeUc": 31.132933333333334,
+        "candidateChargeUcAtAssumedEfficiency": 44.47561904761905
+      },
+      {
+        "inputVoltageV": 5.5,
+        "candidateLosslessChargeUc": 28.302666666666667,
+        "candidateChargeUcAtAssumedEfficiency": 40.43238095238096
+      }
+    ]
+  },
+  "scope": "Nominal capacitor comparison only. Total charge and stored energy are not USB above-threshold region charge or a complete converter startup waveform.",
+  "referenceMpnIdentified": false,
+  "wholeStartupAssessed": false,
+  "actualWaveformKnown": false,
+  "guaranteedCapacitanceEnvelopeKnown": false,
+  "nativeSourceChanged": false,
+  "decision": "A smaller reference-class47uF part reduces nominal charging demand but does not establish a complete startup fix. No substitution is adopted."
+}

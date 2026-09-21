@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "evleda.rp2350-reference-capacitor-screen.v1",
+  "sourcePcbSha256": "1409f3775ebec294987b2b9fdcd984b8cf4ab7e8884700fa1c91250847ff62da",
+  "existingPart": "C3225X5R1A476M250AC",
+  "candidatePart": "C2012X5R0J476M125AC",
+  "candidateRole": "Candidate matching the Pico 2 reference's nominal47uF,6.3V,X5R,0805 class; not an identified Raspberry Pi production MPN",
+  "sourceUrl": "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C2012X5R0J476M125AC",
+  "characterizationSheetUrl": "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/charasheet/c2012x5r0j476m125ac.pdf",
+  "referenceBoardSource": "https://pip-assets.raspberrypi.com/categories/1005-raspberry-pi-pico-2/documents/RP-008299-DS-3-pico-2-datasheet.pdf",
+  "observation": "TDK public product page DC Bias Characteristic graph visually inspected in the browser. Linear axes DC/V and Capacitance(Nom.)/F. These are approximate graph readings, not downloaded CSV data. TDK labels graphs reference-only and not guaranteed. The direct characterization PDF request returned403; the CSV button did not yield a retrievable file.",
+  "curveUf": [[0,47],[1,38.5],[2,30],[3,22],[4,16.5],[5,13],[6,10.5],[6.3,9.7]],
+  "readingUncertaintyUf": 1.5,
+  "integrationAssumption": "Treat the plotted capacitance as differential capacitance for one quasistatic charging branch and interpolate linearly. Frequency, hysteresis, aging and a joint production/tolerance/temperature envelope remain unqualified.",
+  "voltagesV": [3.6,4.4,4.7,5,5.5],
+  "outputVoltageV": 3.3,
+  "efficiencySensitivityOnly": 0.7,
+  "referenceMpnIdentified": false,
+  "componentOrNativeSourceChanged": false
+}
