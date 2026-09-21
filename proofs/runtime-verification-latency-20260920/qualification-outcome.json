@@ -1,0 +1,46 @@
+{
+  "status": "rejected-not-installed",
+  "recordedAt": "2026-09-21T00:36:27.023Z",
+  "failedProjectId": "7b09bbe4-280a-4e07-a608-08b0780cf3c8",
+  "failedSession": "mcp-session-15-latency-readonly",
+  "replyIdentity": {
+    "sha256": "3754bf90cbd8a4778b0f5afcce2ef85f67576058a88ef776c363b78e00990426",
+    "size": 2013
+  },
+  "failureStage": "session-authority",
+  "failureCategory": "kicad-session",
+  "cleanup": "unconfirmed",
+  "specificGuardCause": "not-retained-in-categorical-diagnostic",
+  "editorReachedReadiness": true,
+  "sourceFilesUnchanged": true,
+  "failedAllocationAndLeaseRetained": true,
+  "schedulingChangeReverted": true,
+  "installedRuntimeUnchanged": "host50/DOC17",
+  "causalAttributionToScheduling": "unproven",
+  "healthyAncestorReopenedUnderBaseline": true,
+  "managedCopyRestoration": "completed-through-existing-public-revision",
+  "rollback": {
+    "recordedAt": "2026-09-21T00:29:02.841Z",
+    "optimizationAdopted": false,
+    "reason": "Native qualification returned session-authority failure with unconfirmed cleanup. The retained categorical record lacks the specific guard cause; no causal attribution or installation is claimed.",
+    "nativeSourcesUnchanged": true,
+    "failedManagedProjectId": "7b09bbe4-280a-4e07-a608-08b0780cf3c8",
+    "retainedFailedSession": "mcp-session-15-latency-readonly",
+    "before": {
+      "src/integrations/kicad-mcp-session.ts": "42659d48a6a4bf3b5c9e20c5a37175e0b66771f9f44a8d7357f9b679bfaf6768",
+      "tests/integration/kicad-mcp.test.ts": "4b975795447aa1a95ff0baf4d68b4f0676703f32a4c34e164cbd2956f17d7ddf"
+    },
+    "restored": [
+      {
+        "file": "src/integrations/kicad-mcp-session.ts",
+        "sha256": "46e9ed1c087cf81784dbcde7f0c6249dae6e3c7e418b0a4c015b70937e540f2c"
+      },
+      {
+        "file": "tests/integration/kicad-mcp.test.ts",
+        "sha256": "77b151a644436bf3de67271360e8bac700e0634a1a77d9d942d9565aa46abd47"
+      }
+    ],
+    "installedRuntime": "unchanged host50"
+  },
+  "restoredProjectId": "17b88ed0-adea-4634-a468-8d417dc16c97"
+}

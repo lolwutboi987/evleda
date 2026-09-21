@@ -48,3 +48,13 @@ footprint_filter. DRC ignores missing_courtyard, track_not_centered_on_via,
 tuning_profile_track_geometries, footprint_filters_mismatch and footprint_type_mismatch.
 Header housings and fasteners remain assembly choices. This is a review candidate;
 physical tests, firmware, board ordering and manufacturing release were not performed.
+
+## Managed workspace reference
+
+Continue managed work with project **17b88ed0-adea-4634-a468-8d417dc16c97**. A later,
+uninstalled runtime-scheduling experiment failed startup on the prior allocation;
+its lease and failure evidence remain retained. The published host50/DOC17
+workflow recreated this exact candidate from its healthy ancestor and closed it
+normally. [All six native files match](verification/managed-restoration.json).
+The portable files and historical design assessment above are unchanged; no live
+fill or acceptance authority is transferred to the new session.

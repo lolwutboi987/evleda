@@ -1,0 +1,149 @@
+{
+  "recordedAt": "2026-09-21T00:04:22.268Z",
+  "runtimeFiles": 8469,
+  "times": [
+    {
+      "name": "read-native-profile",
+      "ms": 7.446300000000065
+    },
+    {
+      "name": "construct-runtime-bridge",
+      "ms": 7175.3529
+    },
+    {
+      "name": "assert-runtime-current-1",
+      "ms": 7432.212600000001
+    },
+    {
+      "name": "assert-runtime-current-2",
+      "ms": 7413.782500000001
+    },
+    {
+      "name": "assert-runtime-current-3",
+      "ms": 7257.535199999998
+    }
+  ],
+  "operations": [
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-source-resume",
+      "name": "evleda_resume_project",
+      "retainedFileIntervalMs": 154615.14184570312,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-source-close",
+      "name": "evleda_close_project",
+      "retainedFileIntervalMs": 57047.016357421875,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-submit",
+      "name": "evleda_submit_design",
+      "retainedFileIntervalMs": 20222.62890625,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-create",
+      "name": "evleda_revise_terminal_launches",
+      "retainedFileIntervalMs": 243686.75048828125,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-fill-GND_PLANE",
+      "name": "fresh_apply_contract_plane",
+      "retainedFileIntervalMs": 151363.62133789062,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-fill-BACK_GND",
+      "name": "fresh_apply_contract_plane",
+      "retainedFileIntervalMs": 152909.5205078125,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-assessment",
+      "name": "evleda_check_plane_acceptance",
+      "retainedFileIntervalMs": 116117.34912109375,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-top",
+      "name": "evleda_render_board",
+      "retainedFileIntervalMs": 30932.85302734375,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-assembly",
+      "name": "evleda_render_board",
+      "retainedFileIntervalMs": 32289.50390625,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-target-close",
+      "name": "evleda_close_project",
+      "retainedFileIntervalMs": 65507.161865234375,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-resume",
+      "name": "evleda_resume_project",
+      "retainedFileIntervalMs": 153792.35083007812,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-status",
+      "name": "evleda_toolbox_status",
+      "retainedFileIntervalMs": 9483.670654296875,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-endpoints",
+      "name": "evleda_check_endpoint_connectivity",
+      "retainedFileIntervalMs": 65127.587890625,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-validation",
+      "name": "evleda_validate_design",
+      "retainedFileIntervalMs": 152078.36401367188,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-close",
+      "name": "evleda_close_project",
+      "retainedFileIntervalMs": 61466.7177734375,
+      "disposition": "response",
+      "isError": false
+    }
+  ],
+  "scope": "Read-only runtime/profile verification benchmark, no CAD editor or project allocation. Retained-file intervals approximate completed prior operator-call latency; they are not per-function instrumentation."
+}

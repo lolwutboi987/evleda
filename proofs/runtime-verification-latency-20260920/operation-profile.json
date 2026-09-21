@@ -1,0 +1,563 @@
+{
+  "recordedAt": "2026-09-21T00:02:09.312Z",
+  "runtimeFiles": 8469,
+  "times": [
+    {
+      "name": "read-native-profile",
+      "ms": 10.801100000000133
+    },
+    {
+      "name": "construct-runtime-bridge",
+      "ms": 11219.5978
+    },
+    {
+      "name": "assert-runtime-current-1",
+      "ms": 14320.5357
+    }
+  ],
+  "operations": [
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-source-resume",
+      "name": "evleda_resume_project",
+      "retainedFileIntervalMs": 154615.14184570312,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-source-close",
+      "name": "evleda_close_project",
+      "retainedFileIntervalMs": 57047.016357421875,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-submit",
+      "name": "evleda_submit_design",
+      "retainedFileIntervalMs": 20222.62890625,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-create",
+      "name": "evleda_revise_terminal_launches",
+      "retainedFileIntervalMs": 243686.75048828125,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-fill-GND_PLANE",
+      "name": "fresh_apply_contract_plane",
+      "retainedFileIntervalMs": 151363.62133789062,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-fill-BACK_GND",
+      "name": "fresh_apply_contract_plane",
+      "retainedFileIntervalMs": 152909.5205078125,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-assessment",
+      "name": "evleda_check_plane_acceptance",
+      "retainedFileIntervalMs": 116117.34912109375,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-top",
+      "name": "evleda_render_board",
+      "retainedFileIntervalMs": 30932.85302734375,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-assembly",
+      "name": "evleda_render_board",
+      "retainedFileIntervalMs": 32289.50390625,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-13-terminal-policy",
+      "id": "launch149-target-close",
+      "name": "evleda_close_project",
+      "retainedFileIntervalMs": 65507.161865234375,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-resume",
+      "name": "evleda_resume_project",
+      "retainedFileIntervalMs": 153792.35083007812,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-status",
+      "name": "evleda_toolbox_status",
+      "retainedFileIntervalMs": 9483.670654296875,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-endpoints",
+      "name": "evleda_check_endpoint_connectivity",
+      "retainedFileIntervalMs": 65127.587890625,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-validation",
+      "name": "evleda_validate_design",
+      "retainedFileIntervalMs": 152078.36401367188,
+      "disposition": "response",
+      "isError": false
+    },
+    {
+      "session": "mcp-session-14-terminal-readonly",
+      "id": "launch150-close",
+      "name": "evleda_close_project",
+      "retainedFileIntervalMs": 61466.7177734375,
+      "disposition": "response",
+      "isError": false
+    }
+  ],
+  "operationTotals": [
+    {
+      "label": "KiCad MCP runtime file:ancestor-realpath",
+      "count": 58261,
+      "totalMs": 17306.417700000093
+    },
+    {
+      "label": "KiCad MCP runtime file:ancestor-stat",
+      "count": 58261,
+      "totalMs": 9481.778800000093
+    },
+    {
+      "label": "KiCad MCP runtime file:stream-read",
+      "count": 8469,
+      "totalMs": 7068.417000000109
+    },
+    {
+      "label": "KiCad MCP runtime file:open",
+      "count": 8469,
+      "totalMs": 6647.770099999832
+    },
+    {
+      "label": "KiCad MCP runtime file:realpath",
+      "count": 8469,
+      "totalMs": 2577.4798999999784
+    },
+    {
+      "label": "KiCad MCP runtime directory:ancestor-realpath",
+      "count": 7530,
+      "totalMs": 1950.1036000000695
+    },
+    {
+      "label": "KiCad MCP runtime file:path-stat-after",
+      "count": 8469,
+      "totalMs": 1665.2664000001296
+    },
+    {
+      "label": "KiCad MCP runtime file:path-stat",
+      "count": 8469,
+      "totalMs": 1364.0839999999953
+    },
+    {
+      "label": "KiCad MCP runtime file:descriptor-stat-before",
+      "count": 8469,
+      "totalMs": 980.8087999998752
+    },
+    {
+      "label": "KiCad MCP runtime directory:ancestor-stat",
+      "count": 7530,
+      "totalMs": 934.2124000000622
+    },
+    {
+      "label": "KiCad MCP runtime file:descriptor-stat-after",
+      "count": 8469,
+      "totalMs": 851.7133999999387
+    },
+    {
+      "label": "KiCad MCP runtime file:close",
+      "count": 8469,
+      "totalMs": 840.0505999998568
+    },
+    {
+      "label": "KiCad MCP runtime directory:directory-realpath",
+      "count": 1159,
+      "totalMs": 250.57389999998668
+    },
+    {
+      "label": "KiCad MCP runtime:readdir",
+      "count": 1160,
+      "totalMs": 229.90149999999994
+    },
+    {
+      "label": "KiCad MCP runtime directory:directory-stat-after",
+      "count": 1159,
+      "totalMs": 149.21679999999287
+    },
+    {
+      "label": "KiCad MCP runtime directory:mode-stat",
+      "count": 1159,
+      "totalMs": 136.9726999999948
+    },
+    {
+      "label": "KiCad MCP runtime directory:directory-stat-before",
+      "count": 1159,
+      "totalMs": 129.45979999998963
+    },
+    {
+      "label": "KiCad MCP runtime file:stream-settle",
+      "count": 8469,
+      "totalMs": 53.946300000116025
+    },
+    {
+      "label": "KiCad CLI executable:ancestor-stat",
+      "count": 5,
+      "totalMs": 10.724400000002788
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:path-stat-after",
+      "count": 1,
+      "totalMs": 7.513299999998708
+    },
+    {
+      "label": "KiCad CLI executable:stream-read",
+      "count": 1,
+      "totalMs": 5.3378000000011525
+    },
+    {
+      "label": "KiCad CLI executable:path-stat",
+      "count": 1,
+      "totalMs": 4.380700000001525
+    },
+    {
+      "label": "KiCad CLI executable:ancestor-realpath",
+      "count": 5,
+      "totalMs": 3.200799999998708
+    },
+    {
+      "label": "KiCad CLI executable:open",
+      "count": 1,
+      "totalMs": 2.9200000000018917
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:stream-read",
+      "count": 1,
+      "totalMs": 2.6736999999993714
+    },
+    {
+      "label": "KiCad MCP sidecar lock:ancestor-realpath",
+      "count": 7,
+      "totalMs": 1.9288000000015018
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:stream-read",
+      "count": 1,
+      "totalMs": 1.8839000000007218
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:executable-access",
+      "count": 1,
+      "totalMs": 1.3637000000016997
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:ancestor-realpath",
+      "count": 6,
+      "totalMs": 1.328799999999319
+    },
+    {
+      "label": "KiCad MCP sidecar lock:ancestor-stat",
+      "count": 7,
+      "totalMs": 1.2022000000015396
+    },
+    {
+      "label": "KiCad CLI executable:realpath",
+      "count": 1,
+      "totalMs": 0.9536999999982072
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:ancestor-stat",
+      "count": 6,
+      "totalMs": 0.7891000000017812
+    },
+    {
+      "label": "KiCad MCP protected root 1:ancestor-realpath",
+      "count": 4,
+      "totalMs": 0.7775999999939813
+    },
+    {
+      "label": "KiCad MCP sidecar lock:open",
+      "count": 1,
+      "totalMs": 0.7581000000009226
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:ancestor-realpath",
+      "count": 2,
+      "totalMs": 0.6252999999996973
+    },
+    {
+      "label": "KiCad MCP protected root 1:ancestor-stat",
+      "count": 4,
+      "totalMs": 0.6133999999947264
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:open",
+      "count": 1,
+      "totalMs": 0.5691999999999098
+    },
+    {
+      "label": "KiCad MCP private runtime parent:ancestor-realpath",
+      "count": 2,
+      "totalMs": 0.5296000000016647
+    },
+    {
+      "label": "KiCad MCP IPC socket parent:ancestor-realpath",
+      "count": 2,
+      "totalMs": 0.5067999999992026
+    },
+    {
+      "label": "KiCad MCP inspection runtime root:ancestor-realpath",
+      "count": 1,
+      "totalMs": 0.36339999999836436
+    },
+    {
+      "label": "KiCad MCP private runtime parent:ancestor-stat",
+      "count": 2,
+      "totalMs": 0.34100000000034925
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:ancestor-stat",
+      "count": 2,
+      "totalMs": 0.28659999999945285
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:realpath",
+      "count": 1,
+      "totalMs": 0.2551999999996042
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:realpath",
+      "count": 1,
+      "totalMs": 0.2506999999986874
+    },
+    {
+      "label": "KiCad MCP IPC socket parent:ancestor-stat",
+      "count": 2,
+      "totalMs": 0.23979999999937718
+    },
+    {
+      "label": "KiCad MCP sidecar lock:stream-read",
+      "count": 1,
+      "totalMs": 0.2264000000013766
+    },
+    {
+      "label": "KiCad MCP private runtime parent:directory-stat-before",
+      "count": 1,
+      "totalMs": 0.22409999999945285
+    },
+    {
+      "label": "KiCad MCP IPC socket parent:directory-realpath",
+      "count": 1,
+      "totalMs": 0.2175999999999476
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:close",
+      "count": 1,
+      "totalMs": 0.21459999999933643
+    },
+    {
+      "label": "KiCad MCP private runtime parent:directory-realpath",
+      "count": 1,
+      "totalMs": 0.20540000000255532
+    },
+    {
+      "label": "KiCad MCP sidecar lock:realpath",
+      "count": 1,
+      "totalMs": 0.17990000000099826
+    },
+    {
+      "label": "KiCad MCP inspection runtime root:ancestor-stat",
+      "count": 1,
+      "totalMs": 0.17640000000028522
+    },
+    {
+      "label": "KiCad MCP inspection runtime root:directory-realpath",
+      "count": 1,
+      "totalMs": 0.16010000000096625
+    },
+    {
+      "label": "KiCad CLI executable:executable-access",
+      "count": 1,
+      "totalMs": 0.15599999999903957
+    },
+    {
+      "label": "KiCad CLI executable:path-stat-after",
+      "count": 1,
+      "totalMs": 0.14930000000094878
+    },
+    {
+      "label": "KiCad MCP sidecar lock:path-stat-after",
+      "count": 1,
+      "totalMs": 0.1437999999998283
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:path-stat-after",
+      "count": 1,
+      "totalMs": 0.13250000000152795
+    },
+    {
+      "label": "KiCad CLI executable:descriptor-stat-before",
+      "count": 1,
+      "totalMs": 0.12739999999757856
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:open",
+      "count": 1,
+      "totalMs": 0.12589999999909196
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:path-stat",
+      "count": 1,
+      "totalMs": 0.11850000000049477
+    },
+    {
+      "label": "KiCad MCP protected root 1:directory-realpath",
+      "count": 1,
+      "totalMs": 0.11520000000018626
+    },
+    {
+      "label": "KiCad MCP sidecar lock:path-stat",
+      "count": 1,
+      "totalMs": 0.10210000000006403
+    },
+    {
+      "label": "KiCad MCP IPC socket parent:directory-stat-before",
+      "count": 1,
+      "totalMs": 0.10210000000006403
+    },
+    {
+      "label": "KiCad MCP inspection runtime root:directory-stat-before",
+      "count": 1,
+      "totalMs": 0.10120000000097207
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:path-stat",
+      "count": 1,
+      "totalMs": 0.09999999999854481
+    },
+    {
+      "label": "KiCad MCP IPC socket parent:directory-stat-after",
+      "count": 1,
+      "totalMs": 0.09990000000107102
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:descriptor-stat-before",
+      "count": 1,
+      "totalMs": 0.06849999999940337
+    },
+    {
+      "label": "KiCad MCP protected root 1:directory-stat-before",
+      "count": 1,
+      "totalMs": 0.06699999999909778
+    },
+    {
+      "label": "KiCad CLI executable:descriptor-stat-after",
+      "count": 1,
+      "totalMs": 0.06559999999808497
+    },
+    {
+      "label": "KiCad MCP sidecar lock:stream-settle",
+      "count": 1,
+      "totalMs": 0.06309999999939464
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:descriptor-stat-after",
+      "count": 1,
+      "totalMs": 0.06069999999999709
+    },
+    {
+      "label": "KiCad MCP private runtime parent:directory-stat-after",
+      "count": 1,
+      "totalMs": 0.0591999999996915
+    },
+    {
+      "label": "KiCad MCP sidecar lock:descriptor-stat-after",
+      "count": 1,
+      "totalMs": 0.058699999999589636
+    },
+    {
+      "label": "KiCad MCP protected root 1:directory-stat-after",
+      "count": 1,
+      "totalMs": 0.05800000000090222
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:descriptor-stat-before",
+      "count": 1,
+      "totalMs": 0.05760000000009313
+    },
+    {
+      "label": "KiCad MCP sidecar lock:descriptor-stat-before",
+      "count": 1,
+      "totalMs": 0.055099999999583815
+    },
+    {
+      "label": "KiCad MCP inspection runtime root:directory-stat-after",
+      "count": 1,
+      "totalMs": 0.05400000000008731
+    },
+    {
+      "label": "KiCad MCP sidecar lock:close",
+      "count": 1,
+      "totalMs": 0.05049999999937427
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:close",
+      "count": 1,
+      "totalMs": 0.04979999999886786
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:descriptor-stat-after",
+      "count": 1,
+      "totalMs": 0.04550000000017462
+    },
+    {
+      "label": "KiCad CLI executable:close",
+      "count": 1,
+      "totalMs": 0.028200000000651926
+    },
+    {
+      "label": "KiCad CLI executable:stream-settle",
+      "count": 1,
+      "totalMs": 0.019199999998818384
+    },
+    {
+      "label": "KiCad MCP inspection runtime manifest:stream-settle",
+      "count": 1,
+      "totalMs": 0.01659999999901629
+    },
+    {
+      "label": "KiCad MCP process-tree terminator:stream-settle",
+      "count": 1,
+      "totalMs": 0.010999999998603016
+    }
+  ],
+  "scope": "Read-only runtime/profile verification benchmark, no CAD editor or project allocation. Retained-file intervals approximate completed prior operator-call latency; they are not per-function instrumentation."
+}

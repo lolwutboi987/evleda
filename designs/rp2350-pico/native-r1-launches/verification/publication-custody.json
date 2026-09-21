@@ -378,8 +378,17 @@
     {
       "destination": "README.md",
       "source": null,
-      "sha256": "ada0d643b83f15ae56edff7bcd655af3bb709a9bc39265a447cff91dad3df1c0",
-      "size": 3073
+      "sha256": "9af74fa57a4b2819e71d4f34bce93cfc5596d61403f2c7054fd163abf200f532",
+      "size": 3653,
+      "originalDeliverySha256": "ada0d643b83f15ae56edff7bcd655af3bb709a9bc39265a447cff91dad3df1c0",
+      "originalDeliverySize": 3073,
+      "transformation": "Append the managed-project restoration note; original design documentation and all native files remain unchanged."
+    },
+    {
+      "destination": "verification/managed-restoration.json",
+      "source": "public source-preserving baseline restoration",
+      "sha256": "928026e01f6f19f4874dd9ef8fa21a7c7b8f3965dd2c211e775bed04dc05bb22",
+      "size": 1969
     }
   ],
   "scope": "Portable separately declared terminal-launch candidate; no managed authority or fabrication approval transfers."

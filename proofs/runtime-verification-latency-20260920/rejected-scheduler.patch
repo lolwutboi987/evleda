@@ -1,0 +1,232 @@
+diff --git "a/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\integrations\\kicad-mcp-session.ts" "b/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-runtime-latency-build-51\\src\\integrations\\kicad-mcp-session.ts"
+index 30dd764..a0ca1a9 100644
+--- "a/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\src\\integrations\\kicad-mcp-session.ts"
++++ "b/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-runtime-latency-build-51\\src\\integrations\\kicad-mcp-session.ts"
+@@ -3695,6 +3695,10 @@ interface VerifiedInspectionRuntimeTree {
+   readonly physicalDirectories: ReadonlyMap<string, BoundInspectionDirectory>;
+ }
+ 
++/** Host-owned fixed bound; eight walk-local listeners remain below the default
++ * AbortSignal warning threshold. No file, ancestor or identity check is cached. */
++export const KICAD_MCP_RUNTIME_VERIFICATION_CONCURRENCY = 8;
++
+ async function verifyInspectionRuntimeTree(
+   rootPath: string,
+   manifest: ParsedInspectionRuntimeManifest,
+@@ -3757,14 +3761,14 @@ async function verifyInspectionRuntimeTree(
+     }
+     } catch (error) { failWalk(error); }
+   };
+-  // Validate at most four independent directories at once. Each job still
++  // Validate a bounded set of independent directories at once. Each job still
+   // performs its complete ancestor/binding/mode/readdir sequence before children.
+   while (pending.length > 0 && !failed) {
+     assertInspectionDeadline(walkDeadline);
+-    await Promise.allSettled(pending.splice(-4).map(inspectDirectory));
++    await Promise.allSettled(pending.splice(-KICAD_MCP_RUNTIME_VERIFICATION_CONCURRENCY).map(inspectDirectory));
+   }
+   if (failed) throw firstFailure;
+-  // One call-local queue keeps the existing four readers occupied even when
++  // One call-local queue keeps the bounded readers occupied even when
+   // directories contain only one file. No ancestor/content/witness check is cached.
+   let nextFile = 0;
+   const readFiles = async (): Promise<void> => {
+@@ -3788,7 +3792,7 @@ async function verifyInspectionRuntimeTree(
+   };
+   // Every worker settles under the same deadline; existing stream abort and
+   // late-handle disposal remain inside captureRegularFileIdentity.
+-  await Promise.allSettled(Array.from({ length: Math.min(4, fileJobs.length) }, readFiles));
++  await Promise.allSettled(Array.from({ length: Math.min(KICAD_MCP_RUNTIME_VERIFICATION_CONCURRENCY, fileJobs.length) }, readFiles));
+   if (failed) throw firstFailure;
+   assertInspectionDeadline(activeDeadline);
+   actualFiles.sort((left, right) => left.path.localeCompare(right.path, "en-US"));
+
+diff --git "a/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\integration\\kicad-mcp.test.ts" "b/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-runtime-latency-build-51\\tests\\integration\\kicad-mcp.test.ts"
+index f2043d3..2609b34 100644
+--- "a/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\evleda\\tests\\integration\\kicad-mcp.test.ts"
++++ "b/C:\\Users\\kidch\\Documents\\EvlEDA-Transfer-2026-09-09\\integration-runtime-latency-build-51\\tests\\integration\\kicad-mcp.test.ts"
+@@ -731,7 +731,7 @@ async function connectionBudgetFixture(connectionDeadlinePolicy?: "bounded-phase
+ async function runtimeSchedulerFixture(gateTarget: "files" | "directories" = "files") {
+   const fixture = await syntheticInspectionBridgeFixture(8, true);
+   const expectedDirectoryCount = fixture.additionalFiles.length + 2;
+-  const gates = Array.from({ length: 4 }, () => {
++  const gates = Array.from({ length: 8 }, () => {
+     let release!: () => void;
+     const promise = new Promise<void>((resolve) => { release = resolve; });
+     return { promise, release };
+@@ -1267,22 +1267,22 @@ describe("KiCad MCP subprocess session", () => {
+     expect(await readdir(fixture.ipcSocketParentRoot)).toEqual([]);
+   });
+ 
+-  it("uses four global runtime file workers across sparse directories and reads each manifest file once", async () => {
++  it("uses eight global runtime file workers across sparse directories and reads each manifest file once", async () => {
+     const probe = await runtimeSchedulerFixture();
+     probe.state.armed = true;
+     const checking = probe.bridge.assertCurrent({ deadlineAtMs: performance.now() + 5_000 });
+     // Handle rejection immediately even if a broken scheduler never reaches the barrier.
+     const outcome = checking.then(() => ({ error: undefined }), (error: unknown) => ({ error }));
+     try {
+-      expect(await waitForCondition(() => probe.state.reads === 4, 1_000)).toBe(true);
+-      expect(probe.state.opens).toBe(4);
+-      expect(probe.state.activeHandles).toBe(4);
++      expect(await waitForCondition(() => probe.state.reads === 8, 1_000)).toBe(true);
++      expect(probe.state.opens).toBe(8);
++      expect(probe.state.activeHandles).toBe(8);
+       expect(probe.state.completedReads).toBe(0);
+       // The old directory-at-a-time walk cannot fill this barrier: the root
+       // contains only two files. Releasing one worker must replenish globally.
+       probe.gates[0]!.release();
+-      expect(await waitForCondition(() => probe.state.reads > 4, 1_000)).toBe(true);
+-      expect(probe.state.peakHandles).toBe(4);
++      expect(await waitForCondition(() => probe.state.reads > 8, 1_000)).toBe(true);
++      expect(probe.state.peakHandles).toBe(8);
+       probe.releaseAll();
+       expect((await outcome).error).toBeUndefined();
+       const expectedCount = probe.fixture.expectedClosure.fileCount;
+@@ -1295,7 +1295,7 @@ describe("KiCad MCP subprocess session", () => {
+       // opened descriptor must have a settled close, regardless of re-entry.
+       expect(probe.handles.every((handle) => handle.closeCalls >= 1 && handle.closeSettled)).toBe(true);
+       expect(probe.state.activeHandles).toBe(0);
+-      expect(probe.state.peakHandles).toBe(4);
++      expect(probe.state.peakHandles).toBe(8);
+       expect(probe.state.launches).toBe(0);
+     } finally {
+       probe.releaseAll();
+@@ -1303,15 +1303,15 @@ describe("KiCad MCP subprocess session", () => {
+     }
+   });
+ 
+-  it("validates four runtime directories concurrently before hashing every manifest file", async () => {
++  it("validates eight runtime directories concurrently before hashing every manifest file", async () => {
+     const probe = await runtimeSchedulerFixture("directories"); probe.state.armed = true;
+     const outcome = probe.bridge.assertCurrent().then(() => ({ error: undefined }), (error: unknown) => ({ error }));
+     try {
+-      expect(await waitForCondition(() => probe.state.directoryStarts === 4, 1_000)).toBe(true);
+-      expect(probe.state.directoryPeak).toBe(4); expect(probe.state.directoryCompleted).toBe(0); expect(probe.state.opens).toBe(0);
++      expect(await waitForCondition(() => probe.state.directoryStarts === 8, 1_000)).toBe(true);
++      expect(probe.state.directoryPeak).toBe(8); expect(probe.state.directoryCompleted).toBe(0); expect(probe.state.opens).toBe(0);
+       probe.releaseAll(); expect((await outcome).error).toBeUndefined();
+       expect(probe.state.directoryStarts).toBe(10); expect(probe.state.directoryCompleted).toBe(10);
+-      expect(probe.state.directorySettled).toBe(10); expect(probe.state.directoryActive).toBe(0); expect(probe.state.directoryPeak).toBe(4);
++      expect(probe.state.directorySettled).toBe(10); expect(probe.state.directoryActive).toBe(0); expect(probe.state.directoryPeak).toBe(8);
+       expect(probe.state.opens).toBe(probe.fixture.expectedClosure.fileCount);
+       expect(probe.state.completedReads).toBe(probe.fixture.expectedClosure.fileCount);
+       expect(probe.handles.every(handle => handle.closeSettled)).toBe(true); expect(probe.state.launches).toBe(0);
+@@ -1323,35 +1323,35 @@ describe("KiCad MCP subprocess session", () => {
+     probe.state.firstDirectoryError = first; probe.state.armed = true; let settled = false;
+     const outcome = probe.bridge.assertCurrent().then(() => ({ error: undefined }), (error: unknown) => ({ error })).finally(() => { settled = true; });
+     try {
+-      expect(await waitForCondition(() => probe.state.directoryStarts === 4, 1_000)).toBe(true);
++      expect(await waitForCondition(() => probe.state.directoryStarts === 8, 1_000)).toBe(true);
+       probe.gates[0]!.release(); expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+-      expect((await outcome).error).toBe(first); expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0);
++      expect((await outcome).error).toBe(first); expect(probe.state.directoryStarts).toBe(8); expect(probe.state.opens).toBe(0);
+       await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+       expect(probe.state.launches).toBe(0);
+     } finally {
+       probe.releaseAll(); await outcome;
+-      expect(await waitForCondition(() => probe.state.directorySettled === 4, 1_000)).toBe(true);
++      expect(await waitForCondition(() => probe.state.directorySettled === 8, 1_000)).toBe(true);
+     }
+-    expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0);
++    expect(probe.state.directoryStarts).toBe(8); expect(probe.state.opens).toBe(0);
+   });
+ 
+-  it.each(["external abort", "absolute deadline"] as const)("bounds four held runtime directories on %s", async cancellation => {
++  it.each(["external abort", "absolute deadline"] as const)("bounds eight held runtime directories on %s", async cancellation => {
+     const probe = await runtimeSchedulerFixture("directories"), controller = new AbortController();
+     probe.state.armed = true; probe.state.deadlineMs = cancellation === "absolute deadline" ? 500 : 5_000;
+     let settled = false; const started = performance.now();
+     const outcome = probe.bridge.assertCurrent({ signal: controller.signal }).then(() => ({ error: undefined }), (error: unknown) => ({ error })).finally(() => { settled = true; });
+     try {
+-      expect(await waitForCondition(() => probe.state.directoryStarts === 4, 1_000)).toBe(true);
++      expect(await waitForCondition(() => probe.state.directoryStarts === 8, 1_000)).toBe(true);
+       if (cancellation === "external abort") controller.abort();
+       expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+       expect((await outcome).error).toMatchObject({ name: "KicadMcpRuntimeVerificationDeadlineError", reason: cancellation === "external abort" ? "aborted" : "deadline" });
+       expect(performance.now() - started).toBeLessThan(1_500);
+-      expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0); expect(probe.state.launches).toBe(0);
++      expect(probe.state.directoryStarts).toBe(8); expect(probe.state.opens).toBe(0); expect(probe.state.launches).toBe(0);
+     } finally {
+       probe.releaseAll(); await outcome;
+-      expect(await waitForCondition(() => probe.state.directorySettled === 4, 1_000)).toBe(true);
++      expect(await waitForCondition(() => probe.state.directorySettled === 8, 1_000)).toBe(true);
+     }
+-    expect(probe.state.directoryStarts).toBe(4); expect(probe.state.opens).toBe(0);
++    expect(probe.state.directoryStarts).toBe(8); expect(probe.state.opens).toBe(0);
+   });
+ 
+   it.each(["extra directory", "directory link"] as const)("rejects a runtime %s before any file worker starts", async kind => {
+@@ -1376,18 +1376,18 @@ describe("KiCad MCP subprocess session", () => {
+     const outcome = checking.then(() => ({ error: undefined }), (error: unknown) => ({ error }))
+       .finally(() => { settled = true; });
+     try {
+-      expect(await waitForCondition(() => probe.state.reads === 4, 1_000)).toBe(true);
++      expect(await waitForCondition(() => probe.state.reads === 8, 1_000)).toBe(true);
+       const failedAt = performance.now();
+       probe.gates[0]!.release();
+       expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+       expect((await outcome).error).toBe(firstError);
+       expect(performance.now() - failedAt).toBeLessThan(1_000);
+-      // The other three hook gates remain held while actual handles close.
++      // The other seven hook gates remain held while actual handles close.
+       expect(await waitForCondition(() => probe.handles.every((handle) => handle.closeSettled), 500)).toBe(true);
+       expect(probe.state.settledReads).toBe(1);
+-      expect(probe.state.opens).toBe(4);
+-      expect(probe.state.reads).toBe(4);
+-      expect(probe.handles).toHaveLength(4);
++      expect(probe.state.opens).toBe(8);
++      expect(probe.state.reads).toBe(8);
++      expect(probe.handles).toHaveLength(8);
+       expect(probe.handles.every((handle) => handle.closeCalls >= 1)).toBe(true);
+       expect(probe.state.activeHandles).toBe(0);
+       await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+@@ -1398,12 +1398,12 @@ describe("KiCad MCP subprocess session", () => {
+       lateReadsSettled = await waitForCondition(() => probe.state.settledReads === probe.state.reads, 1_000);
+     }
+     expect(lateReadsSettled).toBe(true);
+-    expect(probe.state.opens).toBe(4);
+-    expect(probe.state.reads).toBe(4);
++    expect(probe.state.opens).toBe(8);
++    expect(probe.state.reads).toBe(8);
+     expect(probe.state.launches).toBe(0);
+   });
+ 
+-  it.each(["external abort", "absolute deadline"] as const)("bounds four held global runtime streams on %s without admitting queued files", async (cancellation) => {
++  it.each(["external abort", "absolute deadline"] as const)("bounds eight held global runtime streams on %s without admitting queued files", async (cancellation) => {
+     const probe = await runtimeSchedulerFixture();
+     const controller = new AbortController();
+     probe.state.armed = true;
+@@ -1415,7 +1415,7 @@ describe("KiCad MCP subprocess session", () => {
+     const outcome = checking.then(() => ({ error: undefined }), (error: unknown) => ({ error }))
+       .finally(() => { settled = true; });
+     try {
+-      expect(await waitForCondition(() => probe.state.reads === 4, 1_000)).toBe(true);
++      expect(await waitForCondition(() => probe.state.reads === 8, 1_000)).toBe(true);
+       if (cancellation === "external abort") controller.abort();
+       expect(await waitForCondition(() => settled, 1_000)).toBe(true);
+       expect((await outcome).error).toMatchObject({
+@@ -1424,9 +1424,9 @@ describe("KiCad MCP subprocess session", () => {
+       });
+       expect(performance.now() - started).toBeLessThan(1_500);
+       expect(await waitForCondition(() => probe.handles.every((handle) => handle.closeSettled), 500)).toBe(true);
+-      expect(probe.handles).toHaveLength(4);
+-      expect(probe.state.opens).toBe(4);
+-      expect(probe.state.reads).toBe(4);
++      expect(probe.handles).toHaveLength(8);
++      expect(probe.state.opens).toBe(8);
++      expect(probe.state.reads).toBe(8);
+       expect(probe.state.settledReads).toBe(0);
+       expect(probe.state.activeHandles).toBe(0);
+       await expect(probe.bridge.assertCurrent()).rejects.toBeInstanceOf(KicadMcpTerminationUncertainError);
+@@ -1437,8 +1437,8 @@ describe("KiCad MCP subprocess session", () => {
+       lateReadsSettled = await waitForCondition(() => probe.state.settledReads === probe.state.reads, 1_000);
+     }
+     expect(lateReadsSettled).toBe(true);
+-    expect(probe.state.opens).toBe(4);
+-    expect(probe.state.reads).toBe(4);
++    expect(probe.state.opens).toBe(8);
++    expect(probe.state.reads).toBe(8);
+     expect(probe.state.launches).toBe(0);
+   });
+ 

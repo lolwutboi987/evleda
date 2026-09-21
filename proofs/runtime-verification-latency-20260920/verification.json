@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evleda.runtime-verification-latency.v1",
+  "recordedAt": "2026-09-21T00:13:09.394Z",
+  "tests": {
+    "passed": 204,
+    "files": 2,
+    "exitCode": 0,
+    "durationSeconds": 190.85,
+    "scope": "Complete kicad-mcp subprocess/runtime guard integration and native profile tests against configured DOC17; not a full repository suite."
+  },
+  "sourceTypecheck": {
+    "exitCode": 0
+  },
+  "backendCompilation": {
+    "exitCode": 0
+  },
+  "pins": [
+    {
+      "file": "src/integrations/kicad-mcp-session.ts",
+      "sha256": "42659d48a6a4bf3b5c9e20c5a37175e0b66771f9f44a8d7357f9b679bfaf6768"
+    },
+    {
+      "file": "tests/integration/kicad-mcp.test.ts",
+      "sha256": "4b975795447aa1a95ff0baf4d68b4f0676703f32a4c34e164cbd2956f17d7ddf"
+    }
+  ],
+  "benchmark": {
+    "runtimeFiles": 8469,
+    "oldWorkers": 4,
+    "newWorkers": 8,
+    "baselineMs": [
+      10214.7473,
+      10040.798299999999,
+      10804.070200000002
+    ],
+    "optimizedMs": [
+      7432.212600000001,
+      7413.782500000001,
+      7257.535199999998
+    ],
+    "baselineMeanMs": 10353.205266666666,
+    "optimizedMeanMs": 7367.8434333333325,
+    "reductionPercent": 28.835145797263863,
+    "scope": "Three uninstrumented currentness checks per configuration on this host. Every file/ancestor/content/witness check remains; no result caching or deadline change. Hardware/load/cache effects limit generalization."
+  },
+  "nativeWorkflowBenchmark": "pending",
+  "nativeRuntimeTreeOrBoardModified": false
+}
